@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "organica"
+version = "0.1.0"
+description = "A developmental machine intelligence organism that grows understanding from experience, sleep, curiosity, and experimentation."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []   # Zero external dependencies — pure Python standard library
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
