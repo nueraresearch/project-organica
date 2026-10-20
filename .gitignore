@@ -1,0 +1,10 @@
+*.db
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+organica/__pycache__/
+tests/__pycache__/
+*.egg-info/
+dist/
+build/

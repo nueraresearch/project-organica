@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-10-20T16:19:11Z",
+  "phase": "F",
+  "title": "Cross-Domain Developmental Emergence Validation",
+  "result": "PASS",
+  "domains": [
+    {
+      "domain": "Developer Workflow",
+      "description": "Software CI/CD: failure \u2192 modified \u2192 passed",
+      "event_count": 313,
+      "cycles_to_g2_composite": 2,
+      "cycle3": {
+        "concepts": 1,
+        "processes": 10,
+        "workflow_concepts": 10,
+        "hypotheses": 11,
+        "theories": 1,
+        "questions": 1,
+        "dreams": 8,
+        "investigations": 5,
+        "experiments": 5
+      },
+      "peak_question_uncertainty": 0.9957,
+      "peak_experiment_priority": 1.4935,
+      "lineage_integrity_pct": 100.0,
+      "total_sleep_runtime_ms": 1006.3
+    },
+    {
+      "domain": "Bug Tracking Lifecycle",
+      "description": "Issue triage \u2192 engineer \u2192 commit \u2192 verify \u2192 close",
+      "event_count": 259,
+      "cycles_to_g2_composite": 2,
+      "cycle3": {
+        "concepts": 1,
+        "processes": 3,
+        "workflow_concepts": 3,
+        "hypotheses": 7,
+        "theories": 0,
+        "questions": 0,
+        "dreams": 8,
+        "investigations": 5,
+        "experiments": 5
+      },
+      "peak_question_uncertainty": 0.0,
+      "peak_experiment_priority": 0.8906,
+      "lineage_integrity_pct": 100.0,
+      "total_sleep_runtime_ms": 875.8
+    },
+    {
+      "domain": "Synthetic Ecological Foraging",
+      "description": "Organism \u2192 forage \u2192 consume \u2192 replenish cycle",
+      "event_count": 258,
+      "cycles_to_g2_composite": 2,
+      "cycle3": {
+        "concepts": 1,
+        "processes": 4,
+        "workflow_concepts": 4,
+        "hypotheses": 5,
+        "theories": 0,
+        "questions": 0,
+        "dreams": 8,
+        "investigations": 5,
+        "experiments": 5
+      },
+      "peak_question_uncertainty": 0.0,
+      "peak_experiment_priority": 0.8906,
+      "lineage_integrity_pct": 100.0,
+      "total_sleep_runtime_ms": 859.0
+    },
+    {
+      "domain": "Autonomous Robot Kinematics",
+      "description": "Drive \u2192 detect obstacle \u2192 turn \u2192 clear path",
+      "event_count": 249,
+      "cycles_to_g2_composite": 2,
+      "cycle3": {
+        "concepts": 0,
+        "processes": 4,
+        "workflow_concepts": 4,
+        "hypotheses": 5,
+        "theories": 0,
+        "questions": 0,
+        "dreams": 5,
+        "investigations": 5,
+        "experiments": 5
+      },
+      "peak_question_uncertainty": 0.0,
+      "peak_experiment_priority": 0.8906,
+      "lineage_integrity_pct": 100.0,
+      "total_sleep_runtime_ms": 813.3
+    }
+  ]
+}
