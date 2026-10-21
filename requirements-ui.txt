@@ -1,0 +1,12 @@
+# Project Organica -- optional UI dependencies
+#
+# Only needed for the Streamlit dashboard:
+#
+#     pip install -r requirements-ui.txt
+#     streamlit run dashboard_ui.py
+#
+# The core organism, the sleep pipeline, the benchmarks, the audits and the
+# 90-day study daemon do NOT need any of this.
+
+streamlit>=1.30
+requests>=2.31

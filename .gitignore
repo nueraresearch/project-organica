@@ -8,3 +8,24 @@ tests/__pycache__/
 *.egg-info/
 dist/
 build/
+
+# Unbounded run artifacts. The daemon appends to organica.log forever and
+# the console mirror grows with it; neither belongs in version control.
+# The longitudinal study's actual data lives in snapshots/, which IS tracked
+# (including snapshots/event_journal.log, which is data, not a run artifact).
+organica.log
+console.log
+continuous_run.log
+logs/
+
+# Archived run artifacts (e.g. memory.db.run1_20261020, 898MB of run-1
+# evidence). Kept on disk, never committed.
+*.db.*
+memory.db.run*
+
+# Transient daemon control file
+INTERVAL
+
+# Disposable working area for examples and demos. The examples write here
+# so they can never touch the live study database.
+.scratch/

@@ -1,0 +1,61 @@
+{
+  "window_hours": 168,
+  "window_start": "2026-10-14T14:55:29.108001Z",
+  "window_end": "2026-10-21T14:55:29.108001Z",
+  "window_anchor": "now",
+  "window_cycles": 1158,
+  "cycles_in_window": 1158,
+  "aggregated": {
+    "composites_created": 31305,
+    "candidates_strengthened": 1089424,
+    "candidates_pruned": 1747465,
+    "total_cycles": 1158,
+    "successful_cycles": 5,
+    "failed_cycles": 0,
+    "unknown_status_cycles": 1153,
+    "success_rate_pct": 0.43,
+    "avg_duration_ms": 64.7,
+    "max_consecutive_errors": 0,
+    "avg_composites_per_cycle": 27.03,
+    "latest_snapshot": {
+      "concepts": 4,
+      "predictions": 20,
+      "loops": 15,
+      "hypotheses": 4,
+      "theories": 0,
+      "questions": 0,
+      "dreams": 8,
+      "investigations": 5,
+      "experiments": 5,
+      "total_composites": 142,
+      "cycle": 4,
+      "timestamp": "2026-10-21T05:30:32Z"
+    }
+  },
+  "largest_births": 23,
+  "largest_deaths": 10,
+  "births_by_population": {
+    "concepts": 0,
+    "predictions": 10,
+    "loops": 14,
+    "hypotheses": 192,
+    "theories": 0,
+    "questions": 0,
+    "dreams": 425,
+    "investigations": 161,
+    "experiments": 161
+  },
+  "deaths_by_population": {
+    "concepts": 2,
+    "predictions": 0,
+    "loops": 0,
+    "hypotheses": 188,
+    "theories": 0,
+    "questions": 0,
+    "dreams": 417,
+    "investigations": 156,
+    "experiments": 156
+  },
+  "top_theories": [],
+  "top_questions": []
+}

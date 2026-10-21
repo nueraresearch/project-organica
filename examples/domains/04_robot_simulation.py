@@ -6,6 +6,18 @@ Expected emergence:
 """
 
 from pathlib import Path
+import sys
+from pathlib import Path
+
+# Allow running this file directly from a fresh clone, with no install:
+# walk up until we find the repository root, then make it importable.
+_REPO_ROOT = Path(__file__).resolve()
+while not (_REPO_ROOT / "pyproject.toml").exists() and _REPO_ROOT != _REPO_ROOT.parent:
+    _REPO_ROOT = _REPO_ROOT.parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+from organica.paths import scratch_db
 from organica import MemoryService, SleepService
 
 def run():
@@ -13,7 +25,7 @@ def run():
     print("Reproduction Domain 4: Autonomous Robotic Kinematics")
     print("=" * 60)
     
-    db_path = Path("robot_domain.db")
+    db_path = scratch_db("robot_domain.db")
     if db_path.exists():
         db_path.unlink()
         

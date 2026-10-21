@@ -1,0 +1,11 @@
+# Project Organica -- optional HTTP API dependencies
+#
+# Only needed for the Inception API:
+#
+#     pip install -r requirements-api.txt
+#     python inception_api.py
+#
+# The core organism, the sleep pipeline, the benchmarks, the audits and the
+# 90-day study daemon do NOT need any of this.
+
+flask>=3.0

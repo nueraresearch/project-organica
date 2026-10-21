@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software or the findings it produces, please cite it as below."
+title: "Project Organica: A Developmental Machine Intelligence"
+abstract: >-
+  Project Organica is an experimental architecture for machine intelligence that
+  grows its cognitive structures from a raw experience stream through repeated
+  sleep/consolidation cycles, rather than loading pre-trained weights. Concepts,
+  loops, workflows, hypotheses, theories, questions, dreams, investigations and
+  experiments are synthesised structurally from the layer below, under six
+  inviolable design laws governing upward induction, verified structural
+  provenance, cognitive isolation, grounded dreaming, epistemic attention, and
+  natural selection.
+type: software
+version: 0.5.0
+date-released: "2026-10-21"
+license: Apache-2.0
+repository-code: "https://github.com/nueraresearch/project-organica"
+url: "https://github.com/nueraresearch/project-organica"
+keywords:
+  - developmental machine intelligence
+  - artificial general intelligence
+  - continual learning
+  - computational cognitive science
+  - emergent structure
+  - self-organising systems
+authors:
+  - family-names: Beebe
+    given-names: Jeremy Blain Thompson
+    orcid: "https://orcid.org/0009-0009-2394-9714"
+    affiliation: "Nuera RDL"
+    email: "jeremy@nueraresearch.com"

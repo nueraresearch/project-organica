@@ -69,43 +69,41 @@ except Exception as exc:
     raise
 
 # ---------------------------------------------------------------------------
-# Domain event streams (four realistic domains that grow richer over time)
+# Domain event streams
 # ---------------------------------------------------------------------------
-DOMAIN_EVENTS = [
-    # Developer workflow
-    ("function called with arguments", "event"),
-    ("test passed after code modification", "event"),
-    ("auth failure on login attempt", "event"),
-    ("session expired triggering re-auth", "event"),
-    ("build pipeline triggered on push", "event"),
-    ("tests passed all suites green", "event"),
-    ("deployment succeeded to staging", "event"),
-    ("auth session renewed successfully", "event"),
-    ("pull request merged into main branch", "event"),
-    ("code review approved by reviewer", "event"),
-    ("test failed due to assertion error", "event"),
-    ("hotfix branch created for critical bug", "event"),
-    # Bug tracking
-    ("issue reported in production system", "event"),
-    ("issue assigned to developer team", "event"),
-    ("fix committed to feature branch", "event"),
-    ("regression test added for fix", "event"),
-    ("issue closed after verification", "event"),
-    ("duplicate issue linked to original", "event"),
-    # Synthetic ecology
-    ("resource consumed by organism", "event"),
-    ("organism reproduced successfully", "event"),
-    ("resource depleted triggering migration", "event"),
-    ("predator prey interaction observed", "event"),
-    ("population stabilised after peak", "event"),
-    # Robot simulation
-    ("sensor reading acquired from environment", "event"),
-    ("action planned based on sensor data", "event"),
-    ("action executed by actuator", "event"),
-    ("collision detected requiring replanning", "event"),
-    ("goal reached after navigation sequence", "event"),
-    ("battery low triggering return to dock", "event"),
-]
+# DESIGN NOTE (Phase G, 2026-10-21)
+#
+# The previous stream rotated through 30 unrelated events ("function called
+# with arguments", "auth failure on login attempt", ...). A diagnostic
+# (benchmarks/g5_gap_diagnostic.py) proved that stream can NEVER reach
+# Generation 5: Layer 5 coalesces theories from hypotheses that share a
+# subject and carry COMPETING expectations, and in a rotating stream every
+# subject keeps exactly one successor. Measured result: 0 theories and 0
+# questions across 670 logged cycles, with zero contradictions anywhere --
+# so Shannon entropy stayed at 0 and the EIG attention economy (Law V)
+# never engaged either. A 90-day study of that stream would have recorded
+# a flat G4 line.
+#
+# The replacement stream below was selected empirically by
+# benchmarks/stream_sweep.py, which scored four candidates on G5
+# sustainment, question uncertainty, and experiment priority. The winner
+# keeps the SAME branch point subject ("developer executed test suite" and
+# "engineer committed patch") leading to BOTH a positive and a negative
+# outcome, so support and contradiction both accumulate and uncertainty
+# stays non-zero.
+#
+# Adding the ecology and robot domains made matters WORSE (G5 sustainment
+# 0.70 -> 0.57): extra workflow structures crowd the hypothesis set, and
+# Layer 4's 15-hypothesis cap then truncates away the competing
+# expectation that Layer 5 needs. That crowding effect is documented in
+# research-journal/phase_g_findings_20261021.md and is a candidate
+# architecture amendment for the Phase A unfreeze.
+#
+# The stream itself lives in organica/streams.py so that the daemon and
+# `build.py` share exactly one definition of it.
+# ---------------------------------------------------------------------------
+from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
+
 
 # ---------------------------------------------------------------------------
 # Bootstrap: create persistent memory + service
@@ -113,9 +111,9 @@ DOMAIN_EVENTS = [
 memory = MemoryService()
 sleep_service = SleepService(memory)
 
-# Seed the memory once with ALL domain events before the first cycle
-for text, etype in DOMAIN_EVENTS:
-    memory.store(text, event_type=etype, source="seed:bootstrap")
+# Seed the memory once with ALL study events before the first cycle
+for text in STUDY_STREAM:
+    memory.store(text, event_type="event", source="seed:bootstrap")
 
 log.info(
     "Organica continuous runner started. MAX_CYCLES=%s, interval=%ss",
@@ -128,42 +126,96 @@ log.info(
 # ---------------------------------------------------------------------------
 cycle_count = 0
 total_composites = 0
+consecutive_errors = 0
 
 while True:
     cycle_start = time.time()
 
-    # Inject a rotating slice of domain events each cycle to keep signal fresh
-    slice_start = (cycle_count * 4) % len(DOMAIN_EVENTS)
-    for text, etype in DOMAIN_EVENTS[slice_start:slice_start + 4]:
-        memory.store(text, event_type=etype, source=f"cycle:{cycle_count}")
+    # Inject a rotating slice of experience events each cycle so the graph
+    # keeps evolving. The slice size and stride are the validated
+    # parameters from benchmarks/stream_sweep.py.
+    slice_start = (cycle_count * EVENTS_PER_CYCLE) % len(STUDY_STREAM)
+    for text in STUDY_STREAM[slice_start:slice_start + EVENTS_PER_CYCLE]:
+        memory.store(text, event_type="event", source=f"cycle:{cycle_count}")
+
+    status = "success"
+    error_msg = None
 
     try:
         report = sleep_service.run_sleep_cycle()
 
         total_composites += report.composites_created
+        consecutive_errors = 0
+
+        cycle_duration_ms = int((time.time() - cycle_start) * 1000)
+
+        # Bound the substrate. The organism's working memory is the newest
+        # 4,000 sleep events and the retention window (20,000 candidates) is
+        # comfortably larger, so this changes no cognition -- it only stops
+        # the candidate table growing without limit. Measured: 942MB after
+        # ~500 cycles, projecting to ~210GB over a 90-day run at a 30s
+        # interval.
+        pruned_rows = memory.prune_sleep_candidates()
+
+        # Snapshot hypothesis details for lifecycle tracking
+        hypothesis_snapshot = [
+            {
+                "id": getattr(h, "id", None),
+                "subject": getattr(h, "subject", None),
+                "confidence": round(getattr(h, "confidence", 0), 4),
+                "support_count": getattr(h, "support_count", 0),
+                "contradiction_count": getattr(h, "contradiction_count", 0),
+                "generation": getattr(h, "generation", 0),
+            }
+            for h in report.hypotheses
+        ]
+
+        # Tally dream categories for richer observation
+        dream_categories: dict = {}
+        for d in report.dreams:
+            cat = getattr(d, "dream_category", "unknown")
+            dream_categories[cat] = dream_categories.get(cat, 0) + 1
 
         summary = {
             "cycle": cycle_count,
             "sleep_cycle": report.cycle,
             "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "status": status,
+            "duration_ms": cycle_duration_ms,
+            "consecutive_errors": consecutive_errors,
             "concepts": len(report.concepts),
             "predictions": len(report.predictions),
             "loops": len(report.loops),
             "hypotheses": len(report.hypotheses),
+            "hypothesis_snapshot": hypothesis_snapshot,
             "theories": len(report.theories),
             "questions": len(report.questions),
             "dreams": len(report.dreams),
+            "dream_categories": dream_categories,
             "investigations": len(report.investigations),
             "experiments": len(report.experiments),
             "composites_created": report.composites_created,
             "total_composites": total_composites,
             "candidates_strengthened": report.candidates_strengthened,
             "candidates_pruned": report.candidates_pruned,
+            "substrate_rows_pruned": pruned_rows,
         }
         log.info("Cycle %s: %s", cycle_count, json.dumps(summary))
 
     except Exception as exc:
-        log.exception("Error during sleep cycle %s: %s", cycle_count, exc)
+        consecutive_errors += 1
+        error_msg = str(exc)
+        cycle_duration_ms = int((time.time() - cycle_start) * 1000)
+        error_summary = {
+            "cycle": cycle_count,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "status": "failed",
+            "duration_ms": cycle_duration_ms,
+            "consecutive_errors": consecutive_errors,
+            "error": error_msg,
+        }
+        log.error("Cycle %s FAILED: %s", cycle_count, json.dumps(error_summary))
+        log.exception("Traceback for cycle %s:", cycle_count)
 
     cycle_count += 1
 

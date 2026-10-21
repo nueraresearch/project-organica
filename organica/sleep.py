@@ -364,9 +364,13 @@ class SleepService:
         anomalies    = self._build_anomalies(temporal, freqs)
 
         # ---- Natural Selection: Reinforcement, Decay & Pruning ----
-        strengthened, decayed, pruned = self._natural_selection(
-            prior, concepts, phrases, loops, predictions,
-        )
+        # Batched: this stores every decayed survivor individually, and one
+        # disk sync per candidate dominated the cycle (1,023 commits = 3.0s
+        # of a 4.5s cycle when profiled against the live substrate).
+        with self.memory.batch():
+            strengthened, decayed, pruned = self._natural_selection(
+                prior, concepts, phrases, loops, predictions,
+            )
 
         # ---- Layer 2: Composites ----
         stable_prior = [c for c in prior
@@ -473,7 +477,8 @@ class SleepService:
             candidates_pruned=pruned,
             composites_created=composites_created,
         )
-        self._store_candidates(report)
+        with self.memory.batch():
+            self._store_candidates(report)
         return report
 
     # ==================================================================
@@ -794,17 +799,16 @@ class SleepService:
         return candidates
 
     def _count_prior_cycles(self, prior: list[dict]) -> int:
-        meta_events = self.memory.recent(n=500, event_type="sleep")
-        cycle_count = 0
-        for e in meta_events:
-            if e.source == "sleep:meta":
-                try:
-                    d = json.loads(e.content)
-                    if d.get("type") == "_sleep_meta":
-                        cycle_count = max(cycle_count, d.get("cycle", 0))
-                except (json.JSONDecodeError, ValueError):
-                    pass
-        return cycle_count
+        """Return the highest sleep-cycle number recorded so far.
+
+        The counter is kept in its own `sleep_cycles` table. It used to be
+        recovered by scanning the most recent 500 sleep events for a
+        `_sleep_meta` marker, which silently returned 0 once the candidate
+        population exceeded 500 rows per cycle -- resetting the cycle
+        counter to 1 in the middle of a run and corrupting the time axis of
+        every longitudinal measurement derived from it.
+        """
+        return self.memory.latest_sleep_cycle()
 
     # ==================================================================
     # Tag scoring (internal)
@@ -1670,6 +1674,8 @@ class SleepService:
                         "composites_created": report.composites_created}),
             event_type="sleep", source="sleep:meta",
         )
+        # Record the cycle number in the authoritative monotonic counter.
+        self.memory.record_sleep_cycle(report.cycle, report.ran_at)
 
         for c in report.concepts:
             self._store_single_candidate(asdict(c))

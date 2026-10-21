@@ -1,0 +1,24 @@
+# Project Organica -- dependencies
+#
+# The CORE of Project Organica has ZERO runtime dependencies. The
+# organism, the sleep pipeline, the benchmarks, the audits and the
+# 90-day study daemon all run on the Python standard library alone.
+#
+#     pip install -r requirements.txt
+#
+# installs NOTHING. That is deliberate: the whole point of the project is
+# that intelligence is not bolted on as a pre-trained dependency.
+#
+# The optional extras below enable the user interface and the HTTP API.
+# They are NOT needed to build an organism, run the study, or run the
+# test suite.
+#
+# Install just the extras you want:
+#
+#     pip install -r requirements-ui.txt     # Streamlit dashboard
+#     pip install -r requirements-api.txt    # Flask Inception API
+#     pip install -e ".[dev]"                # pytest, for the test suite
+#
+# ---------------------------------------------------------------------------
+
+# --- Core: nothing. Intentionally empty. -----------------------------------

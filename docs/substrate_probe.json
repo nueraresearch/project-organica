@@ -1,0 +1,68 @@
+{
+  "db_path": "C:\\Users\\monte\\anti\\project-organica\\memory.db",
+  "size_bytes": 942067712,
+  "row_counts": {
+    "events": 1654637,
+    "cooccurrences": 149,
+    "precedes": 3077
+  },
+  "event_split": {
+    "event": 4556,
+    "sleep": 1650081
+  },
+  "page_accounting": {
+    "page_size": 4096,
+    "page_count": 229997,
+    "freelist_count": 0,
+    "live_bytes": 942067712,
+    "free_bytes": 0,
+    "free_pct_of_file": 0.0
+  },
+  "read_cost_ms": {
+    "tag_frequencies__FULL_TABLE_SCAN": 4826.27,
+    "recent_4000_sleep": 13.33,
+    "recent_4000_any": 11.21,
+    "load_cooccurrences": 1.29,
+    "load_temporal": 6.14
+  },
+  "total_per_cycle_read_ms": 4858.24,
+  "candidate_type_sample": {
+    "_sleep_meta": 16,
+    "concept_candidate": 9524,
+    "phrase_candidate": 5586,
+    "loop_candidate": 3604,
+    "prediction_candidate": 583,
+    "anomaly": 150,
+    "meta_concept": 158,
+    "process_candidate": 11,
+    "workflow_concept": 11,
+    "hypothesis": 105,
+    "dream": 112,
+    "investigation": 70,
+    "experiment": 70
+  },
+  "candidate_rows_sampled": 20000,
+  "total_sleep_rows": 1650081,
+  "indexes": [
+    {
+      "name": "sqlite_autoindex_events_1",
+      "table": "events",
+      "sql": null
+    },
+    {
+      "name": "sqlite_autoindex_cooccurrences_1",
+      "table": "cooccurrences",
+      "sql": null
+    },
+    {
+      "name": "sqlite_autoindex_precedes_1",
+      "table": "precedes",
+      "sql": null
+    },
+    {
+      "name": "idx_time",
+      "table": "events",
+      "sql": "CREATE INDEX idx_time ON events(time)"
+    }
+  ]
+}

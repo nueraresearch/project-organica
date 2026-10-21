@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-10-21T17:29:03Z",
+  "phase": "G",
+  "title": "Law II Lineage Audit (resolution to Generation 0)",
+  "method": "Walked every candidate's parent_ids to a Layer 1 anchor, then checked that anchor's grounding tags appear in a Generation 0 experience event. Unverifiable and ungrounded are reported separately rather than conflated.",
+  "result": {
+    "db": "C:\\Users\\monte\\anti\\project-organica\\memory.db",
+    "g0_experience_events": 2344,
+    "g0_distinct_tags": 29,
+    "candidates_in_store": 177,
+    "candidates_requiring_lineage": 138,
+    "grounded": 138,
+    "unverifiable_evicted": 0,
+    "ungrounded_no_g0_tags": 0,
+    "no_parents_at_all": 0,
+    "grounded_pct": 100.0,
+    "unverifiable_pct": 0.0,
+    "ungrounded_pct": 0.0,
+    "sample_failures": []
+  }
+}

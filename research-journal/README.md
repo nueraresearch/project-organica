@@ -16,6 +16,7 @@ This directory preserves the complete development history of Project Organica â€
 | `sleep_v5_investigation_agenda.md` | Sleep V5 output: EIG-ranked investigation agenda. |
 | `sleep_v6_experiments.md` | Sleep V6 output: active experiment candidates and priority scores. |
 | `the_organica_challenge.md` | The Organica Challenge and Adversarial Killer Test specification. |
+| `phase_g_findings_20261021.md` | Phase G audit: the G5 gap, substrate scaling, the cycle-counter reset, and the substrate corrections made before the 90-day study was relaunched. |
 
 ## Why This Matters
 

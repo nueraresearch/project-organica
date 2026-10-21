@@ -1,0 +1,14 @@
+{
+  "window_days": 7,
+  "window_hours": 168,
+  "window_start": "2026-10-14T14:55:29.162552Z",
+  "window_end": "2026-10-21T14:55:29.162552Z",
+  "window_anchor": "now",
+  "cycles_in_window": 1158,
+  "observed_days": 0.4412,
+  "new_theories_per_day": 0.0,
+  "new_questions_per_day": 0.0,
+  "new_dreams_per_day": 18.1332,
+  "new_experiments_per_day": 11.3332,
+  "new_hypotheses_per_day": 9.0666
+}

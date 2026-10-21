@@ -1,0 +1,285 @@
+{
+  "cycle": 4,
+  "timestamp": "2026-10-21T05:30:32Z",
+  "belief_population": {
+    "concepts": 4,
+    "predictions": 20,
+    "loops": 15,
+    "hypotheses": 4,
+    "theories": 0,
+    "questions": 0,
+    "dreams": 8,
+    "investigations": 5,
+    "experiments": 5
+  },
+  "hypothesis_lifecycle": {
+    "total_births": 196,
+    "total_deaths": 188,
+    "peak_count": 11,
+    "peak_cycle": 5,
+    "tracked_hypotheses": 4,
+    "event_count": 147,
+    "recent_events": [
+      {
+        "cycle": 949,
+        "type": "death",
+        "delta": -1,
+        "count": 3
+      },
+      {
+        "cycle": 959,
+        "type": "birth",
+        "delta": 5,
+        "count": 8
+      },
+      {
+        "cycle": 4,
+        "type": "death",
+        "delta": -5,
+        "count": 3
+      },
+      {
+        "cycle": 18,
+        "type": "birth",
+        "delta": 5,
+        "count": 8
+      },
+      {
+        "cycle": 33,
+        "type": "death",
+        "delta": -5,
+        "count": 3
+      },
+      {
+        "cycle": 46,
+        "type": "birth",
+        "delta": 5,
+        "count": 8
+      },
+      {
+        "cycle": 62,
+        "type": "death",
+        "delta": -5,
+        "count": 3
+      },
+      {
+        "cycle": 75,
+        "type": "birth",
+        "delta": 5,
+        "count": 8
+      },
+      {
+        "cycle": 89,
+        "type": "birth",
+        "delta": 1,
+        "count": 9
+      },
+      {
+        "cycle": 90,
+        "type": "death",
+        "delta": -5,
+        "count": 4
+      },
+      {
+        "cycle": 103,
+        "type": "birth",
+        "delta": 3,
+        "count": 7
+      },
+      {
+        "cycle": 120,
+        "type": "death",
+        "delta": -3,
+        "count": 4
+      },
+      {
+        "cycle": 133,
+        "type": "birth",
+        "delta": 3,
+        "count": 7
+      },
+      {
+        "cycle": 145,
+        "type": "death",
+        "delta": -3,
+        "count": 4
+      },
+      {
+        "cycle": 160,
+        "type": "birth",
+        "delta": 3,
+        "count": 7
+      },
+      {
+        "cycle": 166,
+        "type": "death",
+        "delta": -3,
+        "count": 4
+      },
+      {
+        "cycle": 0,
+        "type": "birth",
+        "id": "hyp_da5a2803"
+      },
+      {
+        "cycle": 0,
+        "type": "birth",
+        "id": "hyp_e0068372"
+      },
+      {
+        "cycle": 0,
+        "type": "birth",
+        "id": "hyp_4a90a123"
+      },
+      {
+        "cycle": 0,
+        "type": "birth",
+        "id": "hyp_524bf273"
+      }
+    ],
+    "hypothesis_histories": {
+      "hyp_524bf273": [
+        {
+          "cycle": 0,
+          "confidence": 0.4961,
+          "support_count": 13,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 1,
+          "confidence": 0.6058,
+          "support_count": 13,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 2,
+          "confidence": 0.7082,
+          "support_count": 13,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 3,
+          "confidence": 0.8629,
+          "support_count": 13,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 4,
+          "confidence": 0.9115,
+          "support_count": 13,
+          "contradiction_count": 0
+        }
+      ],
+      "hyp_e0068372": [
+        {
+          "cycle": 0,
+          "confidence": 1.0,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 1,
+          "confidence": 1.0,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 2,
+          "confidence": 1.0,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 3,
+          "confidence": 1.0,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 4,
+          "confidence": 1.0,
+          "support_count": 5,
+          "contradiction_count": 0
+        }
+      ],
+      "hyp_4a90a123": [
+        {
+          "cycle": 0,
+          "confidence": 0.4329,
+          "support_count": 8,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 1,
+          "confidence": 0.5155,
+          "support_count": 8,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 2,
+          "confidence": 0.6066,
+          "support_count": 8,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 3,
+          "confidence": 0.7803,
+          "support_count": 8,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 4,
+          "confidence": 0.8477,
+          "support_count": 8,
+          "contradiction_count": 0
+        }
+      ],
+      "hyp_da5a2803": [
+        {
+          "cycle": 0,
+          "confidence": 0.3869,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 1,
+          "confidence": 0.4387,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 2,
+          "confidence": 0.504,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 3,
+          "confidence": 0.6644,
+          "support_count": 5,
+          "contradiction_count": 0
+        },
+        {
+          "cycle": 4,
+          "confidence": 0.7444,
+          "support_count": 5,
+          "contradiction_count": 0
+        }
+      ]
+    }
+  },
+  "population_counts": {
+    "concepts": 1158,
+    "predictions": 1158,
+    "loops": 1158,
+    "hypotheses": 1157,
+    "theories": 0,
+    "questions": 0,
+    "dreams": 1157,
+    "investigations": 1157,
+    "experiments": 1157
+  },
+  "dream_distribution": {
+    "analogy": 30
+  }
+}
