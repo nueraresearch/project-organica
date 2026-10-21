@@ -86,6 +86,33 @@ project-organica/
 git clone https://github.com/nueraresearch/project-organica.git
 cd project-organica
 
+# (optional) Install dependencies – Flask for the Inception API, Streamlit for the UI
+pip install -r requirements.txt  # ensure flask, streamlit, requests are listed
+
+# 1️⃣ Start the continuous Organica daemon (already running as a background task)
+#    If it stopped, you can relaunch it:
+python run_continuous.py &
+
+# 2️⃣ Launch the Inception API (exposes health metrics and accepts injection payloads)
+python inception_api.py &
+
+# 3️⃣ Open the Health Dashboard & Inception Control UI
+streamlit run dashboard_ui.py
+```
+
+The UI shows the latest health metrics and provides a sidebar where you can:
+- Select a predefined *seed* (e.g., Auth Failure, Contradictory Belief, Dream Trigger).
+- Paste a custom JSON payload.
+- Send the payload to the Inception endpoint (`/inception`).
+
+Snapshots of the current metrics can be saved via the **Create JSON snapshot** button.
+
+
+```bash
+# Clone the repository
+git clone https://github.com/nueraresearch/project-organica.git
+cd project-organica
+
 # Run Sleep V5 (Curiosity & Investigation Agenda)
 python examples/v4_curiosity_dreams_eig.py
 ```
