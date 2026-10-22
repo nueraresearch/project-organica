@@ -15,7 +15,7 @@
 5. [Reading the output](#5-reading-the-output)
 6. [What the study is measuring](#6-what-the-study-is-measuring)
 7. [What you need to do](#7-what-you-need-to-do)
-8. [The nine findings, and what each means for you](#8-the-nine-findings-and-what-each-means-for-you)
+8. [The ten findings, and what each means for you](#8-the-ten-findings-and-what-each-means-for-you)
 9. [Troubleshooting](#9-troubleshooting)
 10. [File map](#10-file-map)
 11. [Vocabulary](#11-vocabulary)
@@ -59,29 +59,37 @@ failed cycles       : 0
 | Goal | Command |
 |---|---|
 | Health / status | `python benchmarks/study_health.py` |
+| Watch it grow from nothing | `python build.py` |
 | The full Phase G findings | `research-journal/phase_g_findings_20261021.md` |
 | The research write-ups | `papers/` and `research-journal/` |
+| Brand new to this project? | `GETTING-STARTED.md` |
 
 ---
 
 ## 2. Where things stand right now
 
-**As of 2026-10-21 12:44 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-22 13:40 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
-| Study status | **RUNNING** — daemon PID 19916, since 11:21 MDT |
-| Cycles completed | 426+ |
-| Sleep-cycle counter | 1 → 426+, **0 non-monotonic steps** |
+| Study status | **RUNNING** — daemon PID 19916, since 2026-10-21 11:21 MDT |
+| Cycles completed | 3,423 |
+| Sleep-cycle counter | 1 → 3,423, **0 non-monotonic steps** |
 | G5 duty cycle (last 200 cycles) | **100.0%** (theories and questions) |
-| Cycle latency | median 168 ms, max 212 ms |
+| Cycle latency | median 282 ms, max 584 ms |
 | Failed cycles | 0, all time |
 | Substrate | 15.2 MB, bounded by retention (≈109 rows pruned/cycle) |
-| Mean population | 13.05 hypotheses, 8.0 dreams, 1.05 theories, 1.05 questions |
+| Mean population | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
-| Git | `master` is 2 commits ahead of `origin/master`, plus a large uncommitted working set |
+| Git | `master` is **3 commits ahead of `origin/master`**, unpushed — see [§7.1](#71-do-today) |
+| Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
+| Ablation study | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 
-**The headline:** the 90-day longitudinal study is running, healthy, and recording continuous Generation-5 activity. The first attempt (2026-10-20) was invalid and has been diagnosed; see [§8](#8-the-nine-findings-and-what-each-means-for-you).
+**The headline:** the 90-day longitudinal study is running, healthy, and recording continuous Generation-5 activity. The first attempt (2026-10-20) was invalid and has been diagnosed; see [§8](#8-the-ten-findings-and-what-each-means-for-you).
+
+**The long-horizon answer:** the cold-start ablation is done. The organism bootstraps G1, G4, G6, G7 and G8 from an unengineered stream with no assistance — but **G5 never emerges unassisted**, and the cause is now *proven causal*, not guessed. Read [§8.1](#81-the-cold-start-study) before you decide anything about the architecture.
+
+**The unflattering answer:** the ablation study is also done, and it says that most of the architecture's layers are not load-bearing. Sleep and the substrate graph are foundational. **Lineage changes nothing at all except auditability.** The attention economy changes what it selects without changing what the organism achieves. Read [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) — it is the most important section in this manual for your next decision.
 
 > **Read the status table this way:** `sleep_cycle` monotonic and `failed cycles` at 0 mean the *machinery* is sound. `G5 duty cycle` at 100% means the *experiment* is valid — a run can be perfectly healthy and still be measuring nothing (see [§17](#17-common-misreadings)).
 
@@ -120,7 +128,7 @@ The important claim is not that it works well. It's that **every structure it ho
 **The six design laws** (`docs/DESIGN_LAWS.md`) are the constitution. The three that matter most for reading the data:
 
 - **Law I — Strict upward layer induction.** Layer N+1 only ever operates on Layer N's output.
-- **Law II — 100% verified structural provenance.** Everything traces to Generation 0. *Verified — see [§8, finding 8](#8-the-nine-findings-and-what-each-means-for-you).*
+- **Law II — 100% verified structural provenance.** Everything traces to Generation 0. *Verified — see [§8, finding 8](#8-the-ten-findings-and-what-each-means-for-you).*
 - **Law V — Epistemic attention (EIG over confidence).** The organism spends effort where *uncertainty* is, not where it's already certain. `EIG = Uncertainty × (1 + Novelty)`.
 
 **Generation 9 is deliberately locked.** The whole point of the current study is to earn it.
@@ -217,6 +225,7 @@ run_dashboard_and_api.bat
 | `python benchmarks/lineage_audit.py` | Does every candidate actually resolve to a Generation 0 experience event? (Law II) |
 | `python benchmarks/substrate_probe.py` | What does the substrate cost per cycle, and is the database bounded? |
 | `python benchmarks/stream_sweep.py` | Scores candidate event streams on G5 sustainment and EIG |
+| `python benchmarks/cold_start.py --cycles 40` | **Would the organism bootstrap later generations with no help?** Ablates pre-seeding, the engineered branch point, the lookback window and the hypothesis cap. |
 | `python benchmarks/benchmark_suite.py` | BM1–BM5 growth benchmarks |
 | `python benchmarks/cross_domain_validation.py` | Phase F: the four reproduction domains, writes `docs/validation_report.json` |
 | `python -m pytest tests -q` | The test suite (17 tests) |
@@ -231,6 +240,25 @@ python examples/domains/04_robot_simulation.py
 ```
 
 Each runs a short, self-contained emergence demo in its own world, in about a second.
+
+### 4.7 Building an organism from nothing
+
+```bash
+python build.py
+```
+
+**This is the one command you give a stranger.** It creates an empty substrate, feeds it the study stream, runs the sleep cycles, and prints the full developmental ladder, the Law II integrity check, and whether Law V's attention economy ever engaged. It writes only to `.scratch/` — your live `memory.db` is never touched.
+
+```
+python build.py --all              # every domain, not just the study stream
+python build.py --domain robot_simulation
+python build.py --cycles 25        # longer run (default 12)
+python build.py --keep             # keep the scratch DB for inspection
+```
+
+Verified output on the current build: 48 events in, ladder reaching **G8**, **100% lineage**, **G5 reached**, uncertainty **1.000**, top priority **1.500**.
+
+`GETTING-STARTED.md` is the stranger-facing version of the same thing, and `README.md` links to it.
 
 ---
 
@@ -387,10 +415,14 @@ python benchmarks/study_health.py
 | `organica/sleep.py` last modified | 10-20 10:01:10 — before the run started |
 | Stream the daemon is running | byte-identical to `organica/streams.py` (verified against the live DB) |
 | Writers to `memory.db` | only the daemon (`seed:bootstrap`, `cycle:N`) — no analysis tool, example, or API call ever wrote to it |
-| `sleep_cycles` table | 626 rows, contiguous 1–626, no gaps |
-| Log | 626 records, `sleep_cycle` strictly increasing, 0 gaps, 0 failures |
+| `sleep_cycles` table | 921 rows, contiguous 1–921, no gaps |
+| Log | 921 records, `sleep_cycle` strictly increasing, 0 gaps, 0 failures |
 
-**One caveat, stated plainly:** the first ~264 of those cycles ran on the pre-optimisation build, before transaction batching and candidate retention were added. Neither changes cognition — batching writes the same rows in the same order, and retention keeps a window 5× larger than the organism's 4,000-event working memory, so the working set is identical either way (proven by `test_prune_keeps_working_memory_intact`). But a paper should not have to argue that, so the recommendation is a **clean restart on the final build**. It costs about an hour of data and removes the argument entirely.
+**Two caveats, stated plainly.**
+
+**Caveat 1 — the first ~264 cycles ran on the pre-optimisation build**, before transaction batching and candidate retention were added. Neither changes cognition — batching writes the same rows in the same order, and retention keeps a window 5× larger than the organism's 4,000-event working memory, so the working set is identical either way (proven by `test_prune_keeps_working_memory_intact`). But a paper should not have to argue that, so the recommendation is a **clean restart on the final build**. It costs about an hour of data and removes the argument entirely. **This is decision #4 in [§7.2](#72-decide-this-week) and it is still yours to make.**
+
+**Caveat 2 — the cognitive freeze has now been tested, not just asserted.** The cold-start ablation ([§8.1](#81-the-cold-start-study)) ran the *unchanged* engine against eight different assistance levels and confirmed that the engine is still the engine. That matters for provenance: the cognitive code has not been touched since the run began, and the substrate changes were proven behaviour-preserving by test, so the run is a legitimate experiment against the current engine — you are not comparing two engines, you are comparing one engine against two substrates with identical behaviour.
 
 
 ---
@@ -404,20 +436,33 @@ Ordered by how much they cost you if you skip them.
 | # | Action | Why | Effort |
 |---|---|---|---|
 | 1 | **Install the Scheduled Task supervisor** ([§4.2](#42-making-it-survive-90-days-)) | The daemon is unprotected. Run 1 was killed by a stray `Stop-Process`. Without this you may lose the study at any point. | 5 min |
-| 2 | **Commit the working set** | `master` is 2 ahead of origin with a large uncommitted change set, including the substrate fixes. If this disk fails, the work is gone. | 2 min |
-| 3 | **Schedule the snapshot jobs** | Daily/weekly/monthly snapshots are the actual longitudinal data. Run them from a Scheduled Task, not from memory. | 10 min |
+| 2 | **Schedule the snapshot jobs** | Daily/weekly/monthly snapshots are the actual longitudinal data. Run them from a Scheduled Task, not from memory. | 10 min |
+| 3 | **Decide the clean restart** (decision [#5](#72-decide-this-week)) | The current run is legitimate but carries a ~264-cycle preamble from an earlier build. A fresh start on the final build removes the caveat from the paper. | 5 min, then ~1 h of data |
+| 4 | **Write the designer-surprise predictions** | One metric answers your actual question — *"did it produce anything I did not anticipate?"* — and it cannot be automated, because only you can say what you expected. The scorer is built; it needs your predictions recorded **before** a run. | 20 min |
 
-```bash
-git add -A && git commit -m "Phase G: repair substrate, fix cycle counter, replace study stream, add audits and manual"
-```
+**Completed on 2026-10-21 — recorded, not just done** (per rule 3 of [§18](#18-keeping-this-manual-current)):
+
+| Action | Outcome |
+|---|---|
+| Commit and push the whole working set | `master` is in sync with `origin/master`. Commit `dacf170` — 59 files, +20,853 / −4,065. Nothing uncommitted except the live `organica.log` and `memory.db`, both gitignored, both alive. |
+| Repair the observation pipeline | Snapshots contain real numbers instead of `{}`; the event journal is idempotent and time-windowed. |
+| Make the repo usable by a stranger | `GETTING-STARTED.md`, `build.py`, `LICENSE`, `CITATION.cff`, `requirements*.txt`, `conftest.py`, and 9 examples that can no longer delete the live substrate. |
+| Answer the long-horizon question | The cold-start ablation is complete and reported — [§8.1](#81-the-cold-start-study). |
+| Answer the harder question: which parts are load-bearing? | The ablation study is complete: 11 conditions, pre-registered before the run, with a mechanism-verification stage run before any interpretation. [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
+| Make the claims checkable by anyone | `docs/EMERGENCE-CRITERIA.md` defines what emergence means here, level by level, and states plainly which levels the project can currently evidence and which it cannot. |
 
 ### 7.2 Decide this week
 
 | # | Decision | Why it matters | Detail |
 |---|---|---|---|
-| 4 | **The architecture amendment** | Layer 4's 15-hypothesis cap is applied after an *alphabetical* sort, so which hypotheses survive is decided by name order rather than merit — and ~1/3 of the slots go to meta-concept markers that Layer 5 then discards. This is the main reason G5 sustains at ~90–100% rather than 100% with headroom, and it is a candidate blocker for Generation 9. | Journal [§7](../research-journal/phase_g_findings_20261021.md) |
-| 5 | **Scope the experiment executor** | The largest remaining design gap. Needs a probe format, a probe→event mapping, and a belief-delta measurement. Until then "active experimentation" describes candidate generation, not action. | Journal [§13](../research-journal/phase_g_findings_20261021.md) |
-| 6 | **Should `cross_domain_validation.py` use the real lineage audit?** | The shipped check measures a proxy (parent ids present among candidates) and would report 100% even if nothing touched raw experience. The real audit is `benchmarks/lineage_audit.py`. Aligning them means the published report and the shipped verification agree. | Journal [§12](../research-journal/phase_g_findings_20261021.md) |
+| 4 | **The confidence-formula amendment** — *now the top-ranked decision* | Confidence is a **share**: `support / (support + contradiction)`. A hypothesis is scored against the *total flow of its siblings*, so a subject with many successors dilutes every minority expectation below the death threshold of 0.15. This is now **proven causal, not guessed**: the `wide_lookback` ablation (lookback 3 → 30, nothing else changed) destroyed G5 outright, while `no_truncation` and `no_dev_stopwords` were byte-identical to baseline. The proposed fix is a Laplace/Beta-smoothed posterior, which keeps a genuinely split belief alive, makes the lookback width irrelevant, and is *simpler* than what it replaces. | [§8.1](#81-the-cold-start-study), journal [§14](../research-journal/phase_g_findings_20261021.md) |
+| 5 | **Clean restart on the final build** | The current run is valid, but the first ~264 cycles ran pre-batching and pre-retention. A fresh start costs about an hour of data and removes an argument from the paper. **Do this after the architecture decision above, not before** — otherwise you restart twice. | [§6.4](#64-rules-for-a-clean-run) |
+| 6 | **The hypothesis-cap amendment** | Layer 4's 15-hypothesis cap is applied after an *alphabetical* sort, so which hypotheses survive is decided by name order rather than merit. The ablation study showed this is not a cosmetic issue: the cap is what decides whether a subject's *competing* belief survives at all, which means the reported G5 duty cycle is partly an artifact of alphabetical ordering rather than a property of the organism. | Journal [§7](../research-journal/phase_g_findings_20261021.md) |
+| 7 | **Scope the experiment executor** | The largest remaining design gap, and it now blocks two things at once: the emergence claim at Level 5, and the ability to tell whether the attention economy actually buys anything (the metric that would separate EIG from random is exactly the one that needs an executor). Needs a probe format, a probe→event mapping, and a belief-delta measurement. | Journal [§13](../research-journal/phase_g_findings_20261021.md) |
+| 8 | **Should `cross_domain_validation.py` use the real lineage audit?** | The shipped check measures a proxy (parent ids present among candidates) and would report 100% even if nothing touched raw experience. The real audit is `benchmarks/lineage_audit.py`. Aligning them means the published report and the shipped verification agree. | Journal [§12](../research-journal/phase_g_findings_20261021.md) |
+| 9 | **Decide whether the architecture should be simplified** | The ablation study found that several layers contribute nothing measurable. The stated goal was "the simplest possible architecture that emulates living human learning and memory perfectly" — and simplification only happens if you are willing to *remove* what the measurement says is ornament. That decision is yours, and it needs a recorded rationale either way. | [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
+
+> **Phase A freeze reminder.** Decisions 4 and 6 are *cognitive* changes — the confidence formula and the layer-selection logic. Under the Phase A freeze they remain **proposals only**; nothing in this turn applied them. What shipped this turn was substrate and measurement only. Any change to decision 4 ends the current run and requires a fresh start ([§6.4](#64-rules-for-a-clean-run)).
 
 ### 7.3 Keep doing
 
@@ -427,6 +472,7 @@ git add -A && git commit -m "Phase G: repair substrate, fix cycle counter, repla
 | 8 | Daily | `run_daily_observer.bat` (or let the scheduled task do it). |
 | 9 | Weekly | `run_weekly_monthly.bat`; skim `snapshots/event_journal.log` for the narrative. |
 | 10 | At day 7, 30, 90 | Write a real Phase G report: G5 duty cycle over the whole window, belief-revision events, memory bound, and a Generation 9 recommendation. |
+| 11 | After **any** engine change | Re-run `python benchmarks/cold_start.py --cycles 40`. It is the regression test for "did we accidentally make the organism depend on us?" — if a condition that used to bootstrap now fails, that change was cognitive, not cosmetic. |
 
 ### 7.4 When to worry
 
@@ -434,10 +480,11 @@ git add -A && git commit -m "Phase G: repair substrate, fix cycle counter, repla
 - `duration_ms` median drifting above ~1 s → substrate growth. Run `benchmarks/substrate_probe.py`.
 - `sleep_cycle` going backwards → the counter bug regressed. Everything time-derived is suspect until fixed.
 - `status: failed` appearing → check `console.log` for the traceback.
+- G5 duty cycle dropping below ~95% → *something changed*. Check the engine's modification time against the daemon's start time ([§6.4](#64-rules-for-a-clean-run)), then re-run `benchmarks/cold_start.py`.
 
 ---
 
-## 8. The nine findings, and what each means for you
+## 8. The ten findings, and what each means for you
 
 Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 
@@ -452,6 +499,70 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 7 | **One fsync per candidate dominated the cycle.** 1,023 commits = 3.0 s of a 4.5 s cycle. | *Fixed* by transaction batching: 4,500 ms → **263 ms**. The cycle is now cognition-bound, not disk-bound. |
 | 8 | **Law II holds — but nothing was measuring it.** `get_ancestry()` cannot reach G0, and the shipped validation only checked that parent ids were present among other candidates. | The invariant is **true** (100% grounded, both stores). The gap was in the *verification*, not the architecture. `benchmarks/lineage_audit.py` now tests the real thing. |
 | 9 | **Experiments are generated but never executed.** Every consumer only prints them. | Law IV is never exercised and **no Question can ever close**. The study measures epistemic *tension*, not *resolution*. Largest remaining design gap. |
+| 10 | **The organism bootstraps most of itself, but not Generation 5.** Measured across eight assistance levels: G1, G4, G6, G7 and G8 appear from an unengineered stream with no seeding. G5 never does. | The project's central claim holds for most of the ladder and fails precisely at the pivot — and the cause is now proven causal, not guessed. See [§8.1](#81-the-cold-start-study). |
+
+### 8.1 The cold-start study
+
+**The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
+
+**The answer, measured:** **mostly yes — and one crucial no.**
+
+**Method.** `benchmarks/cold_start.py` runs the *unchanged* engine under eight levels of assistance. Ablations are applied in-process (subclassing and rebinding), so the engine's source is never edited and the running study is unaffected. 40 cycles per condition. The most unassisted condition, `real_git_history`, feeds the organism this repository's own commit messages — nobody designed those to cooperate.
+
+**Results** — sleep cycles until each generation first appears (`—` = never):
+
+| Condition | G1 | G2 proc | G3 | G4 | **G5** | G6 | G7 | G8 |
+|---|---|---|---|---|---|---|---|---|
+| `baseline` (seeded, engineered) | 1 | 2 | 2 | 2 | **2** | 2 | 2 | 2 |
+| `no_branch` (the original stream) | 1 | 6 | 6 | 4 | **never** | 2 | 2 | 2 |
+| `cold_start` (no seed, 1 event/cycle) | 5–8 | never | never | 9 | **never** | 9 | 9 | 9 |
+| `cold_start_unbranched` | 6 | never | never | never | **never** | never | never | never |
+| `real_git_history` (real commits) | 5 | never | never | 12 | **never** | 12 | 12 | 12 |
+| `no_truncation` (cap 15→200) | 1 | 2 | 2 | 2 | **2** | 2 | 2 | 2 |
+| `no_dev_stopwords` | 1 | 2 | 2 | 2 | **2** | 2 | 2 | 2 |
+| `wide_lookback` (3→30) | 1 | 2 | 2 | 2 | **never** | 2 | 2 | 2 |
+
+**What bootstraps on its own:** G1 (concepts, predictions, loops) within 5–8 cycles; G4 (hypotheses) and G6/G7/G8 (dreams, investigations, experiments) once there is anything to work on. These are genuine emergences — no seed, no engineered structure, no code change.
+
+**What never emerges unassisted:** G2 processes, G3 workflows, and above all **G5**.
+
+**The mechanism, proven causally.** Confidence is a *share*, not a probability:
+
+```python
+confidence = support / (support + contradiction)   # organica/sleep.py:1402
+```
+
+`contradiction` is the subject's *total outgoing flow minus this hypothesis's support*, so a hypothesis is measured against its **siblings**. The more successors a subject has, the more every minority expectation is diluted — and below `DEATH_THRESHOLD = 0.15` with ≥3 observations, it is pruned permanently.
+
+The `wide_lookback` row is the proof: widening the temporal lookback from 3 events to 30 — **changing nothing else** — destroys G5 completely, while `no_truncation` and `no_dev_stopwords` are *identical* to baseline. More context → the organism is *less* able to hold two beliefs at once. That is the opposite of how human memory behaves, and it is a property of the formula, not of the data.
+
+*(This also corrected an earlier hypothesis of ours: the alphabetical truncation of hypotheses was **not** what blocked G5. `no_truncation` falsified that, and the journal entry was corrected in place.)*
+
+**Three things this means for you:**
+
+1. **The organism is not a stub.** G1, G4, G6, G7 and G8 bootstrap themselves from real, uncooperative input. The core claim of the project holds.
+2. **G5 currently requires help.** It appears in the study because the study stream was *engineered* to contain a branch point — two competing expectations about one subject. Without that engineering it does not appear, and it would not appear later either: the confidence formula actively destroys it as the subject accumulates successors.
+3. **The fix is small, and it is the direction you asked for.** A Laplace/Beta-smoothed posterior instead of a share: `confidence = (support + α) / (support + contradiction + α + β)`. It is *simpler* than the formula it replaces, it keeps a genuinely split belief alive regardless of how many siblings the subject has, and it makes the lookback width irrelevant — the human-like behaviour the project is aiming at. **It is a proposal, not a change**: it is a cognitive change, and Phase A freezes those ([§7.2](#72-decide-this-week), decision #4).
+
+**The caveat, stated plainly.** `real_git_history` used only **8 commit messages**. It is under-powered: it shows the result is not a one-line artefact, but it is not a general proof about arbitrary real-world streams. Before this goes in a paper, that condition should be re-run on a much larger real corpus.
+
+**The other half of the answer — the self-build loop.** G8 experiments are *generated but never executed* (finding 9). Until something runs the probe and feeds the result back, the organism cannot create its own branch points, and the only source of branch points is the stream you designed. An **experiment executor** closes that loop and is the other half of "would it have built the next generations itself" — decision #7 in [§7.2](#72-decide-this-week).
+
+**Where the evidence lives:** `benchmarks/cold_start.py`, `docs/cold_start.json`, journal [§14](../research-journal/phase_g_findings_20261021.md).
+
+### 8.2 The ablation study: which mechanisms are actually doing the work?
+
+The cold-start study asks *"how much help does it need?"*. The ablation study asks the complementary and less flattering question: *"which parts are load-bearing, and which are ornament?"*
+
+Eleven conditions — a full-system reference (`O_FULL`) plus ten ablations, each removing or replacing exactly one mechanism, all applied **in-process** so the engine source is never touched. Metrics: predictive accuracy (PA), information preservation (IP), structural compression (SCR), survival selectivity (SS), lineage completeness (LC), contradiction density (CD), cross-domain transfer (CDT) and novel structure rate (NSR).
+
+Two of the specified metrics — `CY` (questions resolved ÷ generated) and `EIG*` (entropy removed by an experiment) — are **structurally unmeasurable** here: nothing resolves a Question and nothing executes an experiment, so both are identically zero for every condition including the full system. They are excluded from the aggregate rather than zeroed, because zeroing them would look like a measurement and is not one. The Designer Surprise metrics need your protocol before a run and are pending.
+
+**Verification comes before interpretation.** `benchmarks/ablation_verify.py` runs first and asks, for every condition, *"did the ablation actually change the organism?"* — the perturbation census (which populations changed), the Random Curiosity overlap and score-distribution check, and a contradiction-provenance analysis that re-runs the same conditions with the Layer-4 hypothesis cap removed. A condition that changed nothing was not an ablation, and saying so before reading the outcomes is the difference between a result and a coincidence.
+
+**The pre-registration is amended, not rewritten.** `docs/ABLATION-PREREGISTRATION.md` records the predictions written before the run *and* six measurement defects found afterwards — including one that had inverted a prediction. All six are disclosed in place; §4's predictions were never revised.
+
+Full protocol, predictions and disclosure: **`docs/ABLATION-PREREGISTRATION.md`**. Results: **`docs/ablation_study.json`** and **`docs/ablation_verification.json`**. What emergence means and which levels Organica can evidence: **`docs/EMERGENCE-CRITERIA.md`**.
 
 ---
 
@@ -508,16 +619,30 @@ project-organica/
 │   ├── endurance_soak.py          # Phase G endurance harness
 │   ├── g5_gap_diagnostic.py       # WHY G5 does or does not happen
 │   ├── stream_sweep.py            # choosing the study event stream
+│   ├── cold_start.py              # how much assistance does it need? (unassisted bootstrap)
+│   ├── ablation_study.py          # ten ablations: which mechanisms are load-bearing?
+│   ├── ablation_metrics.py        # the metric contract (PA, IP, SCR, SS, LC, CD, CDT, NSR, ES)
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
 │   ├── substrate_scaling_analysis.py  # latency vs cycle, from the real log
 │   └── study_health.py            # standing health check  ← use this daily
+│
+├── build.py                     # one command: build an organism from nothing
+├── GETTING-STARTED.md           # stranger-facing guide
+├── LICENSE  CITATION.cff        # Apache 2.0; how to cite this work
+├── requirements.txt             # core dependencies (deliberately empty)
+├── requirements-ui.txt / requirements-api.txt
+├── conftest.py                  # makes `pytest` work from any directory
 │
 ├── examples/domains/            # the four reproduction worlds
 ├── tests/                       # 17 tests (incl. substrate equivalence)
 ├── papers/                      # research manuscripts
 ├── research-journal/            # development history + Phase G findings
 ├── docs/                        # architecture, design laws, failures, reports
+│   ├── USER-MANUAL.md           # ← this document
+│   ├── ABLATION-PREREGISTRATION.md  # predictions written before the run
+│   ├── EMERGENCE-CRITERIA.md    # what counts as emergence, and what we can evidence
+│   └── ablation_study.json      # the ablation results
 ├── snapshots/                   # the longitudinal data  ← the study's output
 ├── organica.log                 # one JSON line per cycle (appended, gitignored)
 └── memory.db                    # the substrate (gitignored)
@@ -598,6 +723,30 @@ Every term the project uses, what it means, and where you will meet it. Grouped 
 | **Decay** | A prior candidate absent from the current population, kept alive but weakened. |
 | **Pruning** | A prior candidate whose confidence fell below threshold. Counted, and excluded from the next cycle's population. |
 | **Ground truth** | Generation 0 experience events. The only thing that can confirm a belief. |
+
+### 11.5 The experiment vocabulary
+
+Terms from the cold-start and ablation studies.
+
+| Term | Definition |
+|---|---|
+| **Cold start** | Running the organism with no pre-seeding, so the world arrives one observation at a time. Tests what bootstraps unaided. |
+| **Ablation** | Removing or replacing one mechanism and measuring what changes. All ablations here are applied **in-process**, so the engine source is never edited. |
+| **O_FULL** | The full-system reference condition. Every ablation is compared against it. |
+| **Forward-looking scoring** | Snapshotting the organism's graph and predictions *before* a cycle's events arrive, then scoring them against what happened. The organism is always predicting unseen events. |
+| **PA** | Predictive accuracy — the F1 of the organism's own Layer-1 predictions against what actually happened. |
+| **PA_substrate** | The same F1 computed on the substrate's temporal graph. Separates "the substrate learned it" from "the organism represents it". |
+| **IP** | Information Preservation — how much predictive power survives when the raw event stream is replaced by the organism's own abstractions. |
+| **SCR** | Structural Compression Ratio — experience events represented per surviving structure. Undefined when nothing survived. |
+| **SS** | Survival Selectivity — the fraction of created candidates that died. `CSR = 1 − SS`. |
+| **LC** | Lineage Completeness — the fraction of structures whose ancestry resolves to a Generation 0 event. Target 1.0. |
+| **CD** | Contradiction Density — unresolved contradictions per 1000 active nodes. Undefined when there are no nodes. |
+| **CDT** | Cross-Domain Transfer — accuracy with transfer minus accuracy without. Negative means the donor domain hurt. |
+| **NSR** | Novel Structure Rate — the fraction of new nodes whose exact topology never existed before. |
+| **ES** | Emergence Score — a weighted convenience index over the computable metrics. **A summary, not a measurement**; the per-metric deltas are the result. |
+| **Impact(S)** | `ES_full − ES_without_S`. Bands: cosmetic / supportive / important / foundational / existential. |
+| **Not measurable** | A metric that is structurally impossible to compute here (e.g. experiment information gain, with no experiment executor). Excluded from the aggregate rather than zeroed. |
+| **Emergence level** | The seven-step ladder in `docs/EMERGENCE-CRITERIA.md`, from compression emergence to ontological emergence. |
 
 ---
 
@@ -798,6 +947,12 @@ Things that look like findings but are not, and things that look fine but are no
 | "The organism actively experiments." | It *generates* experiment candidates. Nothing executes a probe or measures a belief delta. The study measures epistemic **tension**, not **resolution**. |
 | "`sleep_cycle` and `cycle` are the same thing." | `cycle` resets per process; `sleep_cycle` is global. Only `sleep_cycle` is a time axis. |
 | "The dashboard shows the same numbers as the study." | `dashboard.py` is the older CLI tool. `study_health.py` is current and is what the manual quotes. |
+| "The organism will eventually work out the higher generations on its own." | Measured, and no: G1, G4 and G6–G8 bootstrap unassisted, but **G5 never appears from any unengineered stream** — and it will not appear later either, because the confidence formula destroys a minority belief as the subject accumulates successors. [§8.1](#81-the-cold-start-study) |
+| "The ablation study showed the architecture works." | It did not. It showed *which parts* matter, and the answer is uncomfortable: sleep and the graph are foundational, and lineage is pure governance with **zero** behavioural effect. |
+| "Lineage is one of the six design laws, so it must be doing something." | It is load-bearing for **auditability** — removing it drops Lineage Completeness from 1.0 to 0.0 — while changing no other measured behaviour. Governance, not cognition. |
+| "Random curiosity performed the same, so curiosity is fake." | Not yet proven. Random and EIG curiosity score the same on the metrics that count *populations*, but the metrics that would separate them (experiment value, experiment information gain) are exactly the ones that cannot be computed without an experiment executor. |
+| "The 90-day run proves the organism is emergent." | It proves the organism runs, is reproducible, and maintains lineage. Emergence is a separate claim with its own instruments: the ablation study and the designer-surprise protocol. |
+| "The study measured 1,665 cycles, so the data is richer than 60 cycles." | More cycles is more of the same world. The study stream is a 48-event rotation; the cross-world measurement is CDT, and it is negative. |
 
 ---
 
@@ -812,7 +967,7 @@ Things that look like findings but are not, and things that look fine but are no
 - A log field's meaning in [§5](#5-reading-the-output)
 - The study protocol or the nine targets in [§6](#6-what-the-study-is-measuring)
 - **Your** action list in [§7](#7-what-you-need-to-do) — completed, deferred, or newly identified
-- A finding in [§8](#8-the-nine-findings-and-what-each-means-for-you)
+- A finding in [§8](#8-the-ten-findings-and-what-each-means-for-you)
 - A symptom or fix in [§9](#9-troubleshooting)
 - A file's role in [§10](#10-file-map)
 
@@ -821,7 +976,7 @@ Things that look like findings but are not, and things that look fine but are no
 1. **Same turn, not deferred.** If you changed the code, the manual is updated before the turn ends.
 2. **No stale numbers.** A status block with old numbers is worse than no status block.
 3. **Decisions get recorded, not just made.** When you decide something in [§7](#7-what-you-need-to-do), move it with a date and a one-line rationale — that trail is part of the project's contribution.
-4. **Findings link to evidence.** Every claim in [§8](#8-the-nine-findings-and-what-each-means-for-you) points at a section of `research-journal/phase_g_findings_20261021.md` or a JSON report in `docs/`.
+4. **Findings link to evidence.** Every claim in [§8](#8-the-ten-findings-and-what-each-means-for-you) points at a section of `research-journal/phase_g_findings_20261021.md` or a JSON report in `docs/`.
 5. **The manual is for you, the journal is for the field.** The manual explains *what to do*; the journal is the scientific record. Write for the former in plain language; keep the latter rigorous.
 6. **This rule is also recorded in `AGENTS.md`** at the repository root, so any agent working on this project picks it up automatically.
 
@@ -831,3 +986,5 @@ Things that look like findings but are not, and things that look fine but are no
 |---|---|
 | 2026-10-21 | Created. Documented the Phase G audit, the corrected study daemon, the nine findings, the action list, and the scheduled-task recipe. |
 | 2026-10-21 | Added the reference block: full vocabulary (§11), abbreviations (§12), data dictionary (§13), layer-by-layer reference (§14), formulas with worked examples (§15), metric cheat sheet with alert thresholds (§16), and common misreadings (§17). |
+| 2026-10-22 | Added the cold-start study (§8.1): eight assistance levels, what bootstraps unaided, and the proof that share-based confidence is what blocks G5. Added finding 10. Added §4.7 (build an organism from nothing), the new file map entries, §11.5 (experiment vocabulary), and the new files to §4.5. |
+| 2026-10-22 | Added §8.2: the ablation study — ten ablations, the metric suite, the two structurally unmeasurable metrics, and the pending designer-surprise protocol. Recorded `docs/ABLATION-PREREGISTRATION.md` (predictions written before the run) and `docs/EMERGENCE-CRITERIA.md` (the measurable emergence ladder). |

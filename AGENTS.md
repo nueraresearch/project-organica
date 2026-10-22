@@ -7,9 +7,11 @@ This file is the standing brief for any agent (or person) working on this reposi
 Project Organica is a research codebase for a *developmental* machine intelligence: a program that grows cognitive structures from a raw event stream through repeated sleep/consolidation cycles, rather than loading pre-trained weights. The full architecture, the nine emergence targets, the six design laws, and the current state of the 90-day longitudinal study are documented in:
 
 - **`docs/USER-MANUAL.md`** — the owner's manual. Start here. It covers what the project is, how to run everything, how to read the telemetry, the action list, and troubleshooting.
-- `research-journal/phase_g_findings_20261021.md` — the Phase G audit (nine findings, with evidence).
+- `research-journal/phase_g_findings_20261021.md` — the Phase G audit (ten findings, with evidence).
 - `CHALLENGE.md` — the nine emergence targets and the integrity constraint.
 - `docs/DESIGN_LAWS.md` — the six inviolable laws.
+- `docs/ABLATION-PREREGISTRATION.md` — the ablation study's predictions, written **before** the run. Do not edit §4 to match a result; amend and disclose instead.
+- `docs/EMERGENCE-CRITERIA.md` — what counts as emergence here, and which levels the project can currently evidence.
 
 ## Standing rule — keep the manual current
 
@@ -63,6 +65,10 @@ python -m pytest tests -q                 # 17 tests, must be green
 python benchmarks/study_health.py          # study must stay healthy
 python benchmarks/lineage_audit.py         # Law II must stay at 100% grounded
 python benchmarks/g5_gap_diagnostic.py --cycles 10   # G5 must remain reachable
+python benchmarks/cold_start.py --cycles 40          # unassisted bootstrap
+python benchmarks/ablation_study.py --cycles 300     # the ablation suite (~25 min)
 ```
 
 The study daemon may be running against `memory.db`. Prefer read-only inspection, or work on a copy, so you do not disturb a multi-week run.
+
+**Ablations are applied in-process.** `benchmarks/ablation_study.py` subclasses `SleepService` / `MemoryService` and overrides methods; it never edits `organica/sleep.py` or `organica/memory.py`. Keep it that way — it is what lets the live study stay auditable while the ablations run.

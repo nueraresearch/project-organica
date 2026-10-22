@@ -71,7 +71,10 @@ from ablation_metrics import (  # noqa: E402
     compare,
     compute_all,
     edges_implied_by_structures,
+    f1,
+    prediction_counts,
     predictive_f1,
+    structure_tags,
 )
 from lineage_audit import audit as lineage_audit  # noqa: E402
 
@@ -96,9 +99,46 @@ GENERATIONS = [
     ("G8 experiments", "experiments"),
 ]
 
-TRAIN_EVENTS = 32          # ingested; the remaining events are held out
+TRAIN_EVENTS = 32          # legacy: unused, the split is forward-looking now
 EVENTS_PER_CYCLE = 8
+HOLD_CYCLES = 10          # the last N cycles are scored as forward-looking predictions
 DOMAIN_DIR = REPO_ROOT / "examples" / "domains"
+
+
+def snapshot_structures(report) -> list[dict]:
+    """The candidate dicts alive in a cycle's population.
+
+    This is the organism's current set of structures -- not everything
+    the candidate store still holds, which includes long-decayed
+    historical versions of things that are no longer alive.
+    """
+    out: list[dict] = []
+    for _label, attr in GENERATIONS:
+        for cand in getattr(report, attr):
+            out.append(asdict(cand))
+    return out
+
+
+# ===========================================================================
+# Held-out protocol: forward-looking, not back-looking
+# ===========================================================================
+# The organism is run on the FULL study stream with exactly the daemon's
+# ingestion pattern -- 8 events per cycle, rotating -- so the ablation
+# measures the same organism the 90-day study is running.
+#
+# Scoring is forward-looking. Before a cycle's events are ingested, the
+# substrate's graph and the organism's current Layer-1 predictions are
+# snapshotted. The cycle's 8 events are then ingested and the snapshot is
+# scored against what actually happened. The organism is therefore always
+# predicting events it has not yet seen.
+#
+# An earlier version held out a fixed slice of the stream. That was
+# rejected: the study stream is two domains in sequence, so any fixed
+# slice is either within-domain (and the held-out event instances are
+# textually identical to training ones) or, by accident, cross-domain.
+# The forward-looking protocol avoids both problems and keeps the
+# stimulus identical to the live study's.
+
 
 
 # ===========================================================================
@@ -172,31 +212,54 @@ class NoFalsificationService(SleepService):
     No refutation, no extinction, no belief revision. Prior candidates are
     never decayed and never pruned, and the death threshold is disabled so
     the hypothesis layer cannot cull a belief either.
+
+    Reinforcement is KEPT. The first version of this ablation removed the
+    whole of ``_natural_selection``, which took the reinforcement boost
+    with it -- and with nothing boosting confidences, every candidate
+    decayed to nothing and the organism ended up *smaller* than the full
+    system rather than larger. That measures "no selection at all", not
+    "no extinction". This version keeps reinforcement and removes only
+    decay and pruning, which is what the prediction describes.
     """
 
     DEATH_THRESHOLD = -1.0
 
     def _natural_selection(self, prior, concepts, phrases, loops, predictions):
-        """Selection without decay or extinction.
-
-        Every prior candidate survives at constant confidence. This is the
-        "runaway belief growth" condition: nothing can ever die.
-        """
         strengthened = 0
+        current_keys: set[str] = set()
+        for c in concepts:
+            current_keys.add(f"concept:{'|'.join(c.members)}")
+        for p in phrases:
+            current_keys.add(f"phrase:{'|'.join(p.members)}")
+        for l in loops:
+            current_keys.add(f"loop:{'|'.join(l.path)}")
+        for p in predictions:
+            current_keys.add(f"prediction:{p.source}|{p.target}")
+
         for prior_c in prior:
             key = self._candidate_key(prior_c)
             if not key:
                 continue
-            if key in {
-                f"concept:{'|'.join(c.members)}" for c in concepts
-            } | {
-                f"phrase:{'|'.join(p.members)}" for p in phrases
-            } | {
-                f"loop:{'|'.join(l.path)}" for l in loops
-            } | {
-                f"prediction:{p.source}|{p.target}" for p in predictions
-            }:
+            prior_conf = prior_c.get("confidence", prior_c.get("strength", 0))
+            prior_gen = prior_c.get("generation", 1)
+            prior_obs = prior_c.get("evidence", {}).get("observations", 0)
+
+            if key in current_keys:
                 strengthened += 1
+                self._reinforce_current(
+                    key, prior_conf, prior_gen, prior_obs,
+                    concepts, phrases, loops, predictions,
+                )
+            else:
+                # No decay, no extinction: re-stored at its current
+                # confidence, forever. Nothing can die.
+                kept = dict(prior_c)
+                kept["generation"] = prior_gen + 1
+                evidence = dict(kept.get("evidence", {}))
+                evidence["no_extinction"] = True
+                kept["evidence"] = evidence
+                self._store_single_candidate(kept)
+
         return strengthened, 0, 0
 
 
@@ -312,10 +375,18 @@ class RandomCuriosityService(SleepService):
         self._rng = rng or random.Random(0)
 
     def _rank_investigations(self, questions, dreams):
-        investigations = super()._rank_investigations(questions, dreams)
+        # Get the FULL ranked candidate list (the engine caps it at
+        # MAX_INVESTIGATIONS), then shuffle it and re-cap. Shuffling
+        # after the cap would be a no-op: the same five candidates would
+        # be selected, only reordered -- which would test nothing.
+        original = self.MAX_INVESTIGATIONS
+        self.MAX_INVESTIGATIONS = 1000
+        try:
+            investigations = super()._rank_investigations(questions, dreams)
+        finally:
+            self.MAX_INVESTIGATIONS = original
         self._rng.shuffle(investigations)
-        # Keep the same cap: random *ordering*, not random population.
-        return investigations[:self.MAX_INVESTIGATIONS]
+        return investigations[:original]
 
 
 class RandomSleepService(SleepService):
@@ -542,9 +613,6 @@ def run_condition(code: str, name: str, description: str, sleep_cls, mem_cls,
         db.unlink()
     mem = mem_cls(db)
 
-    train = stream[:TRAIN_EVENTS]
-    held_out = stream[TRAIN_EVENTS:]
-
     created_ids: dict[str, set[str]] = defaultdict(set)
     seen_signatures: set[str] = set()
     novel_nodes = 0
@@ -557,16 +625,68 @@ def run_condition(code: str, name: str, description: str, sleep_cls, mem_cls,
             sleep = sleep_cls(mem)
 
         last_report = None
-        last_ingested = train[-1]
+        last_event_text = None
+        counts = {"pred": [0.0, 0.0, 0.0], "graph": [0.0, 0.0, 0.0], "comp": [0.0, 0.0, 0.0]}
+        scored_cycles = 0
+        # Contradiction history. Generation 5 oscillates (journal finding 6),
+        # so a single-cycle snapshot of contradictions is exactly the kind of
+        # reading the project warns against. The density is measured over the
+        # whole run instead.
+        contradiction_history: list[dict] = []
+
         for cycle in range(cycles):
-            start = (cycle * EVENTS_PER_CYCLE) % len(train)
-            chunk = [train[(start + k) % len(train)] for k in range(EVENTS_PER_CYCLE)]
+            start = (cycle * EVENTS_PER_CYCLE) % len(stream)
+            chunk = [stream[(start + k) % len(stream)] for k in range(EVENTS_PER_CYCLE)]
+
+            # Snapshot what the organism knows BEFORE these events arrive.
+            snapshot = None
+            if last_report is not None and cycle >= cycles - HOLD_CYCLES:
+                snap_pred: dict[str, set[str]] = defaultdict(set)
+                for p in last_report.predictions:
+                    snap_pred[p.source].add(p.target)
+                snap_graph: dict[str, set[str]] = defaultdict(set)
+                for a, b in mem._conn.execute(
+                    "SELECT tag_from, tag_to FROM precedes WHERE count >= ?",
+                    (PREDICTION_MIN_COUNT,),
+                ).fetchall():
+                    snap_graph[a].add(b)
+                snap_comp = edges_implied_by_structures(snapshot_structures(last_report))
+                snapshot = (snap_pred, snap_graph, snap_comp)
+
             for text in chunk:
                 mem.store(text, event_type="event", source=f"cycle:{cycle}")
-            last_ingested = chunk[-1]
 
             report = sleep.run_sleep_cycle()
+
+            if snapshot is not None:
+                seq = ([last_event_text] if last_event_text is not None else []) + chunk
+                ctx = [_extract_tags(e) for e in seq[:-1]]
+                obs = [_extract_tags(e) for e in seq[1:]]
+                for key, edge_map in zip(("pred", "graph", "comp"), snapshot):
+                    c = prediction_counts(edge_map, ctx, obs)
+                    counts[key][0] += c[0]
+                    counts[key][1] += c[1]
+                    counts[key][2] += c[2]
+                scored_cycles += 1
+
             last_report = report
+            last_event_text = chunk[-1]
+
+            # ---- contradiction accounting, per cycle -------------------
+            competing: dict[str, set[str]] = defaultdict(set)
+            for h in report.hypotheses:
+                if h.expectation != "high_structural_significance":
+                    competing[h.subject].add(h.expectation)
+            competing_subjects = sum(1 for v in competing.values() if len(v) >= 2)
+            cycle_population = sum(len(getattr(report, attr)) for _label, attr in GENERATIONS)
+            contradiction_history.append({
+                "cycle": cycle,
+                "competing_subjects": competing_subjects,
+                "population": cycle_population,
+                "hypotheses": len(report.hypotheses),
+                "theories": len(report.theories),
+                "questions": len(report.questions),
+            })
 
             for label, attr in GENERATIONS:
                 for cand in getattr(report, attr):
@@ -580,71 +700,80 @@ def run_condition(code: str, name: str, description: str, sleep_cls, mem_cls,
                             seen_signatures.add(sig)
                             novel_nodes += 1
 
-        # ---- the substrate's graph ------------------------------------
-        rows = mem._conn.execute(
-            "SELECT tag_from, tag_to FROM precedes WHERE count >= ?",
-            (PREDICTION_MIN_COUNT,),
-        ).fetchall()
-        graph_edges: dict[str, set[str]] = defaultdict(set)
-        for a, b in rows:
-            graph_edges[a].add(b)
-
-        # ---- the organism's own predictions (final cycle) --------------
-        pred_edges: dict[str, set[str]] = defaultdict(set)
-        for p in last_report.predictions:
-            pred_edges[p.source].add(p.target)
-
-        # ---- held-out replay ------------------------------------------
-        # The context for the first held-out event is the last event the
-        # organism actually experienced, not a slice index.
-        sequence = [last_ingested] + held_out
-        pa_substrate = replay(dict(graph_edges), sequence)
-        pa_organism = replay(dict(pred_edges), sequence)
+        pa_organism = f1(*counts["pred"])
+        pa_substrate = f1(*counts["graph"])
+        pa_compressed = f1(*counts["comp"])
 
         # ---- surviving structures -------------------------------------
-        stored = mem._conn.execute(
-            "SELECT content FROM events WHERE event_type='sleep' AND source != 'sleep:meta'"
-        ).fetchall()
-        structures_by_id: dict[str, dict] = {}
-        for (content,) in stored:
-            try:
-                obj = json.loads(content)
-            except (json.JSONDecodeError, TypeError):
-                continue
-            if isinstance(obj, dict) and "id" in obj:
-                structures_by_id[obj["id"]] = obj
-        structures = list(structures_by_id.values())
+        # "Surviving" means alive in the final cycle's population -- not
+        # everything the candidate store still holds, which includes
+        # long-decayed historical versions.
+        populations = {label: len(getattr(last_report, attr)) for label, attr in GENERATIONS}
+        n_surviving = sum(populations.values())
+        surviving_structures = snapshot_structures(last_report)
 
-        compressed_edges = edges_implied_by_structures(structures)
-        pa_compressed = replay(compressed_edges, sequence)
+        # ---- experience coverage --------------------------------------
+        # How much of the experience stream do the surviving structures
+        # actually represent? An event is covered when every one of its
+        # tags appears in some surviving structure. This is the numerator
+        # of SCR, and it is what stops "destroy your own structures" from
+        # scoring as excellent compression.
+        struct_tags = structure_tags(surviving_structures)
+        distinct_event_tags = {
+            tuple(t for t in (row[0] or "").split(",") if t)
+            for row in mem._conn.execute(
+                "SELECT DISTINCT tags FROM events WHERE event_type != 'sleep'"
+            ).fetchall()
+        }
+        distinct_event_tags.discard(())
+        covered = sum(1 for tags in distinct_event_tags if set(tags) <= struct_tags)
+        n_experience_distinct = len(distinct_event_tags)
+        n_experience_instances = mem._conn.execute(
+            "SELECT COUNT(*) FROM events WHERE event_type != 'sleep'"
+        ).fetchone()[0]
 
         # ---- contradictions -------------------------------------------
-        competing: dict[str, set[str]] = defaultdict(set)
-        for h in last_report.hypotheses:
-            if h.expectation != "high_structural_significance":
-                competing[h.subject].add(h.expectation)
-        contradictions = sum(1 for v in competing.values() if len(v) >= 2)
+        # Density is measured over the whole run, not read off the final
+        # cycle. A single cycle is a sample of an oscillating quantity.
+        usable = [h for h in contradiction_history if h["population"] > 0]
+        if usable:
+            densities = [(h["competing_subjects"] / h["population"]) * 1000.0
+                         for h in usable]
+            cd_mean = sum(densities) / len(densities)
+            cd_duty = sum(1 for h in usable if h["competing_subjects"] > 0) / len(usable)
+            cd_mean_subjects = (sum(h["competing_subjects"] for h in usable) / len(usable))
+        else:
+            cd_mean = None
+            cd_duty = None
+            cd_mean_subjects = None
+        final_competing = contradiction_history[-1]["competing_subjects"] if contradiction_history else 0
 
         # ---- lineage ---------------------------------------------------
         audit = lineage_audit(db)
 
         observations = {
-            "n_experience_events": mem.count(),
-            "n_surviving_structures": len(structures),
+            "n_experience_events": n_experience_distinct,
+            "n_experience_event_instances": n_experience_instances,
+            "covered_events": covered,
+            "n_surviving_structures": n_surviving,
             "created": {label: len(ids) for label, ids in created_ids.items()},
-            "survived": {label: len(getattr(last_report, attr)) for label, attr in GENERATIONS},
+            "survived": populations,
             "pa": pa_organism,
             "pa_substrate": pa_substrate,
             "pa_compressed": pa_compressed,
-            "contradictions": contradictions,
-            "active_nodes": len(structures),
+            "scored_cycles": scored_cycles,
+            "contradictions": final_competing,
+            "contradiction_history": contradiction_history,
+            "cd_mean_density": cd_mean,
+            "cd_duty_cycle": cd_duty,
+            "cd_mean_competing_subjects": cd_mean_subjects,
+            "active_nodes": n_surviving,
             "novel_nodes": novel_nodes,
             "all_new_nodes": all_new_nodes,
             "grounded": audit["grounded"],
             "resolvable": audit["candidates_requiring_lineage"],
         }
 
-        populations = {label: len(getattr(last_report, attr)) for label, attr in GENERATIONS}
         return {
             "condition": code,
             "name": name,
@@ -747,8 +876,10 @@ def main() -> int:
     print("=" * 100)
     print("ORGANICA ABLATION STUDY -- which mechanisms are doing the work?")
     print("=" * 100)
-    print(f"  stimulus     : study stream ({len(STUDY_STREAM)} events)")
-    print(f"  train / held : {TRAIN_EVENTS} / {len(STUDY_STREAM) - TRAIN_EVENTS} events")
+    print(f"  stimulus     : study stream ({len(STUDY_STREAM)} events), "
+          f"{EVENTS_PER_CYCLE}/cycle, same ingestion as the live daemon")
+    print(f"  scoring      : forward-looking -- the last {HOLD_CYCLES} cycles are "
+          f"scored against events the organism had not yet seen")
     print(f"  cycles       : {args.cycles} per condition")
     print("  engine       : untouched (all ablations applied in-process)")
     print()
@@ -833,9 +964,11 @@ def main() -> int:
         "title": "Organica Ablation Study",
         "preregistration": "docs/ABLATION-PREREGISTRATION.md",
         "protocol": {
-            "stimulus": "organica/streams.py STUDY_STREAM",
-            "train_events": TRAIN_EVENTS,
-            "held_out_events": len(STUDY_STREAM) - TRAIN_EVENTS,
+            "stimulus": "organica/streams.py STUDY_STREAM (full, 48 events)",
+            "ingestion": f"{EVENTS_PER_CYCLE} events per cycle, rotating -- "
+                         "identical to the live daemon",
+            "scoring": f"forward-looking: the last {HOLD_CYCLES} cycles are scored "
+                       "against events the organism had not yet seen",
             "events_per_cycle": EVENTS_PER_CYCLE,
             "cycles": args.cycles,
             "engine_modified": False,

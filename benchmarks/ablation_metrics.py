@@ -135,10 +135,10 @@ def set_f1(predicted: Iterable, truth: Iterable) -> float:
     return f1(tp, fp, fn)
 
 
-def predictive_f1(edge_map: dict[str, set[str]],
-                  contexts: Sequence[Sequence[str]],
-                  observed: Sequence[Sequence[str]]) -> float:
-    """Next-tag prediction F1, scored over a replayed event sequence.
+def prediction_counts(edge_map: dict[str, set[str]],
+                      contexts: Sequence[Sequence[str]],
+                      observed: Sequence[Sequence[str]]) -> tuple[float, float, float]:
+    """TP / FP / FN for next-tag prediction over a replayed event sequence.
 
     ``edge_map`` maps a context tag to the set of tags predicted to follow
     it. For each (context_event, next_event) pair in the replayed sequence:
@@ -149,6 +149,9 @@ def predictive_f1(edge_map: dict[str, set[str]],
 
     This is the standard set-prediction formulation of "did the organism
     predict what actually happened, and did it miss what did happen".
+
+    Counts are returned rather than a score so that several held-out
+    blocks can be pooled before the F1 is taken.
     """
     tp = fp = fn = 0.0
     for ctx_tags, obs_tags in zip(contexts, observed):
@@ -158,6 +161,14 @@ def predictive_f1(edge_map: dict[str, set[str]],
             tp += len(predicted & obs)
             fp += len(predicted - obs)
             fn += len(obs - predicted)
+    return tp, fp, fn
+
+
+def predictive_f1(edge_map: dict[str, set[str]],
+                  contexts: Sequence[Sequence[str]],
+                  observed: Sequence[Sequence[str]]) -> float:
+    """F1 of next-tag prediction over one replayed sequence."""
+    tp, fp, fn = prediction_counts(edge_map, contexts, observed)
     return f1(tp, fp, fn)
 
 
@@ -174,8 +185,16 @@ def ip_score(pa_full: float | None, pa_compressed: float | None) -> float | None
     return max(0.0, min(1.0, pa_compressed / pa_full))
 
 
-def scr_score(n_experience_events: int, n_surviving_structures: int) -> float | None:
-    """Structural Compression Ratio = experience events / surviving structures.
+def scr_score(covered_events: int, n_surviving_structures: int) -> float | None:
+    """Structural Compression Ratio = covered experience events / surviving structures.
+
+    The numerator is **experience coverage** -- the number of experience
+    events represented by the surviving structures -- not the raw event
+    count. This matters: with a raw event count, a system that destroys
+    its own structures scores a *better* compression ratio, because fewer
+    structures always means a bigger ratio. Coverage removes that
+    incentive, because structures that do not represent anything score
+    nothing.
 
     Undefined when nothing survived: there is no representation to
     compare the event stream against, and reporting "infinite" would
@@ -183,7 +202,7 @@ def scr_score(n_experience_events: int, n_surviving_structures: int) -> float | 
     """
     if n_surviving_structures <= 0:
         return None
-    return n_experience_events / n_surviving_structures
+    return covered_events / n_surviving_structures
 
 
 def ss_score(created: int, survived: int) -> float | None:
@@ -326,6 +345,46 @@ def edges_implied_by_structures(candidates: Iterable[dict]) -> dict[str, set[str
     return edges
 
 
+def structure_tags(candidates: Iterable[dict]) -> set[str]:
+    """Every tag mentioned by a surviving structure.
+
+    Used to measure how much of the experience stream the organism's own
+    abstractions actually represent.
+    """
+    tags: set[str] = set()
+
+    def add_all(seq) -> None:
+        for v in (seq or []):
+            if v:
+                tags.add(str(v))
+
+    for c in candidates:
+        ctype = c.get("type", "")
+        if ctype in ("concept_candidate", "phrase_candidate"):
+            add_all(c.get("members"))
+        elif ctype == "loop_candidate":
+            add_all(c.get("path"))
+        elif ctype == "prediction_candidate":
+            add_all([c.get("source"), c.get("target")])
+        elif ctype == "hypothesis":
+            add_all([c.get("subject"), c.get("expectation")])
+        elif ctype == "process_candidate":
+            add_all(c.get("cycle"))
+        elif ctype == "workflow_concept":
+            add_all(c.get("components"))
+        elif ctype == "dream":
+            add_all(c.get("path_or_context"))
+        elif ctype == "meta_concept":
+            add_all([c.get("anchor_tag")])
+        elif ctype == "theory":
+            add_all([c.get("subject")])
+            add_all(c.get("evidence", {}).get("expectations"))
+        elif ctype == "question":
+            add_all([c.get("subject")])
+            add_all(c.get("competing_expectations"))
+    return tags
+
+
 # ---------------------------------------------------------------------------
 # Aggregate
 # ---------------------------------------------------------------------------
@@ -411,8 +470,12 @@ def compute_all(observations: dict) -> dict:
 
     # --- SCR ------------------------------------------------------------
     metrics["scr"] = scr_score(
-        observations.get("n_experience_events", 0),
+        observations.get("covered_events", 0),
         observations.get("n_surviving_structures", 0),
+    )
+    metrics["coverage_ratio"] = (
+        observations.get("covered_events", 0) / observations["n_experience_events"]
+        if observations.get("n_experience_events") else None
     )
 
     # --- SS -------------------------------------------------------------
@@ -436,10 +499,20 @@ def compute_all(observations: dict) -> dict:
     )
 
     # --- CD -------------------------------------------------------------
-    metrics["cd"] = cd_score(
-        observations.get("contradictions", 0),
-        observations.get("active_nodes", 0),
-    )
+    # Measured over the whole run, not read off the final cycle. Generation
+    # 5 oscillates (journal finding 6), so a single-cycle snapshot of
+    # contradictions is a sample of a fluctuating quantity rather than a
+    # property of the system.
+    cd_mean = observations.get("cd_mean_density")
+    if cd_mean is None:
+        metrics["cd"] = cd_score(
+            observations.get("contradictions", 0),
+            observations.get("active_nodes", 0),
+        )
+    else:
+        metrics["cd"] = cd_mean
+    metrics["cd_duty_cycle"] = observations.get("cd_duty_cycle")
+    metrics["cd_mean_competing_subjects"] = observations.get("cd_mean_competing_subjects")
 
     # --- CDT ------------------------------------------------------------
     metrics["cdt"] = cdt_score(

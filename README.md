@@ -30,6 +30,10 @@ $$\text{Memory First} \longrightarrow \text{Experience} \longrightarrow \text{Sl
 
 Organica begins dumb, minimal, and lightweight. It contains **zero pre-trained neural networks and zero hard-coded natural language rules**. It is designed like a digital infant: an organism whose cognitive capabilities emerge through repeated cycles of waking experience, graph consolidation during sleep, hypothesis formation, structural curiosity, and active experimentation.
 
+**What is built in, stated precisely.** The developmental machinery is specified in advance — the ladder itself, the lexical atom (words of four or more characters, minus a stopword list), co-occurrence and temporal edge construction, the extinction threshold, the Expected-Information-Gain attention rule, the dream categories. None of that is learned. What is *not* built in is any knowledge: no grammar, no vocabulary, no domain content, no pretrained weights. The claim is **"no pretrained knowledge and no domain-specific cognitive content; the mechanisms of development are specified, and knowledge structures emerge within them."** It is the same position developmental psychology takes about human infants: enormous built-in machinery, and essentially all of the *content* learned.
+
+The honest limits of that claim are documented, measured, and kept current in [`docs/EMERGENCE-CRITERIA.md`](docs/EMERGENCE-CRITERIA.md) — including the one place where the organism currently needs help.
+
 ---
 
 ## Core principles

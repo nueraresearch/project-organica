@@ -26,6 +26,13 @@ Plus a substrate projection that makes the study infeasible as designed:
 
 All four defects are now fixed and covered by tests. The study has been relaunched.
 
+**Addendum (2026-10-22).** Two further studies were run against the corrected build, both answering questions the 90-day study cannot:
+
+- **§14 — the cold-start question.** *Would Generation 1 have built out the generations above it with no assistance and no code changes?* Answered empirically: G1, G4 and G6–G8 bootstrap unassisted; **G5 never does**, and the cause is proven causal rather than guessed.
+- **§17 — the ablation study.** *Which mechanisms are actually doing the work?* Eleven conditions, pre-registered before the run, with a mechanism-verification stage run before any interpretation. The answer is uncomfortable and useful: sleep and the graph are foundational, **lineage is pure governance with zero behavioural effect**, and the attention economy changes what it selects without changing what the organism achieves.
+
+Both studies are also summarised in `docs/USER-MANUAL.md` §8.1 and §8.2.
+
 ---
 
 ## 1. State reconstruction (what was actually there)
@@ -386,7 +393,7 @@ This is the project's long-horizon question, and the 90-day study **cannot** ans
 
 `benchmarks/cold_start.py` removes these one at a time and records when each generation first appears. It never edits the engine — ablations are applied in-process by subclassing or rebinding module attributes.
 
-### 16.1 Results — cycles until each generation first appears (`-` = never)
+### 14.1 Results — cycles until each generation first appears (`-` = never)
 
 | condition | G1 conc | G1 loops | G1 pred | G2 meta | G2 proc | G3 wf | G4 hyp | **G5 th** | **G5 q** | G6 dr | G7 inv | G8 exp |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -401,7 +408,7 @@ This is the project's long-horizon question, and the 90-day study **cannot** ans
 
 40 cycles per condition. Full telemetry in `docs/cold_start.json`.
 
-### 16.2 The answer
+### 14.2 The answer
 
 **Partly yes — and the part that fails is specific.**
 
@@ -412,7 +419,7 @@ This is the project's long-horizon question, and the 90-day study **cannot** ans
 
 So the honest summary is: **the ladder mostly builds itself from nothing, except the generation that makes the project interesting.** G5 is the one rung that needs a cooperative stimulus.
 
-### 16.3 The mechanism, confirmed causally
+### 14.3 The mechanism, confirmed causally
 
 Confidence is a hypothesis's **share** of its subject's outgoing flow:
 
@@ -426,11 +433,11 @@ The `wide_lookback` ablation proves this causally. Widening the temporal window 
 
 This also maps onto the working-memory literature: the architecture's competence at G5 depends on a **narrow** temporal window. That is a fragility, and it is measurable.
 
-### 16.4 A correction to §7
+### 14.4 A correction to §7
 
 §7 proposed that Layer 4's alphabetical truncation was "the main reason G5 sustains at ~90–100% rather than 100% with headroom." **The `no_truncation` ablation contradicts that.** Raising the hypothesis cap from 15 to 200 changes *nothing* — G5 still appears at cycle 2 with the same populations. Truncation affects how many competitors *survive* a G5 state (and therefore the duty cycle), but it is **not** what blocks G5 from emerging at all. The §7 amendment stands as a duty-cycle improvement, not as a G5 unblocker, and is reclassified accordingly.
 
-### 16.5 What this implies for the architecture
+### 14.5 What this implies for the architecture
 
 Two findings point the same way, and both argue for **simplification** rather than more layers:
 

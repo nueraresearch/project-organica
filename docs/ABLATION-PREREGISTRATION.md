@@ -31,18 +31,16 @@ Every ablation is applied **in-process**, by subclassing `SleepService` / `Memor
 - The live 90-day study is untouched. `organica/sleep.py` keeps its modification time, so the running study stays auditable under the clean-run rules (`docs/USER-MANUAL.md` §6.4).
 - Every condition provably executes the same cognitive code. Any difference between conditions is caused by the ablation and by nothing else.
 
-### Stimulus and split
+### Stimulus and protocol
 
 | | |
 |---|---|
-| Stimulus | `organica/streams.py` → `STUDY_STREAM` (48 events) — the same stimulus the 90-day study runs on |
-| Train set | the first **32** events (ingested) |
-| Held-out set | the last **16** events — **never ingested**, replayed only for scoring |
-| Events per cycle | 8 |
-| Cycles | 30 per condition |
+| Stimulus | `organica/streams.py` → `STUDY_STREAM` (48 events) — the same stimulus the 90-day study runs on, ingested with the same pattern (8 events per cycle, rotating) |
+| Scoring | **forward-looking**: before each of the last 10 cycles' events are ingested, the substrate's graph and the organism's current Layer-1 predictions are snapshotted; the cycle's events are then ingested and the snapshot is scored against what actually happened. The organism is always predicting events it has not yet seen. |
+| Cycles | 300 per condition |
 | Random seed | fixed per condition (base 1000 + condition index), so a rerun reproduces the numbers |
 
-The held-out events are never stored, so the graph contains no edge derived from them. Predictive metrics are therefore scored on data the organism never saw, not on the data it was built from.
+**Why 300 cycles.** The organism is a developmental system: its structure set grows with experience and then plateaus. Measured on the full system, 150 cycles gives 14 hypotheses / 2 theories / 8 dreams and 300 cycles gives 13 / 1 / 8 — against the live daemon's 12 / 1 / 8 at 1,600+ cycles. At 300 cycles the ablation organism therefore reproduces the running study's configuration, which is the point: an ablation of a *younger* organism would measure the wrong system. (At 30 and 60 cycles it does not: 6 hypotheses and **zero** theories, which makes every Generation-5 metric degenerate. See §8, defect 4.)
 
 ### What each ablation changes
 
@@ -202,8 +200,89 @@ Full honesty, because a pre-registration is only worth something if the reader k
 - The smoke test exposed a **bug in the metric definitions**, not in the engine: `CD` (Contradiction Density) was scoring a system with **zero surviving structures** as a perfect contradiction-hygiene mark of 0.0, which inflated the collapsed system's ES. The fix makes `CD` **undefined** when there are no active nodes, so it is excluded from the aggregate for that condition. This change was made because a collapsed system was being rewarded, which is indefensible under any reading. It is disclosed here rather than quietly folded in.
 - No *prediction* was revised after the smoke test. The predictions in §4 were written against the engine source, not against the smoke-test numbers.
 
-## 8. Falsification commitment
+## 8. Amendment (2026-10-21) — three measurement defects found in run 1
 
-The results will be written to `docs/ablation_study.json` by `benchmarks/ablation_study.py`. **This document will not be edited after the run.** The git commit order is the provenance record: the commit containing this document precedes the commit containing the results.
+A first full run of all eleven conditions at 30 cycles was executed after this document was committed. **Three defects were found in the measurement apparatus. All three are fixed, and the run is repeated.** No prediction in §4 was changed, added, or removed; the amendment changes only how the quantities are measured.
+
+Full disclosure follows.
+
+### Defect 1 — the train/held-out split was accidentally a cross-domain test
+
+`STUDY_STREAM` is two domains in sequence: 12 developer-workflow events repeated twice, then 8 defect-triage events repeated three times (`organica/streams.py:34-63`). The original split took the first 32 events as training and the last 16 as held-out — which put **every developer event in training and every held-out event in defect triage**. The held-out set therefore shared almost no vocabulary with the training set.
+
+The consequence was severe and would have been reported as a finding: `PA = 0.000` for the full system looked like "the organism cannot predict held-out events at all", when in fact the test was asking it to predict a domain it had essentially never seen — the cross-domain transfer failure, which is a separate and already-known result (§4, CDT).
+
+**Fix.** The stream is now split **within each domain**: the block structure is detected automatically (`detect_blocks`), and the last repetition of each block is held out. Training now contains 34 events spanning both domains; 14 events are held out in 2 blocks. The held-out events have never been ingested, so no substrate edge derives from them.
+
+**What this changes about the meaning of PA.** Because the stimulus is a repeating synthetic stream, the held-out event *instances* are textually identical to training instances. `PA` therefore measures **within-domain prediction of a held-out sequence position** — retention and reproduction of learned regularities — not generalisation to new material. The generalisation measurement is CDT, which is reported separately and is negative. This limitation was already stated in §6.4; the fix makes the split honest rather than accidentally cross-domain.
+
+### Defect 2 — SCR rewarded destroying structures
+
+The original `SCR` numerator was the total event count (`mem.count()`), which counts sleep candidates as well as experience events, divided by the number of surviving structures. That definition is degenerate: **fewer structures always yields a better compression ratio**. Under it, Random Sleep — which destroys most of the organism's own output — scored a *higher* SCR than the full system, and consequently a higher aggregate score.
+
+**Fix.** The numerator is now **experience coverage**, as the original specification actually defines it (`CR = I / N_s`, where `I` is experience coverage, not the event count). An experience event is *covered* when every one of its tags appears in some surviving structure. `SCR = covered_events / surviving_structures`, and it is undefined when nothing survived. Coverage removes the incentive to destroy: structures that represent nothing score nothing.
+
+### Defect 3 — ablation H was a no-op
+
+Random Curiosity was implemented by shuffling the investigation list *after* the engine had already capped it at `MAX_INVESTIGATIONS`. Since the cap rarely binds, the same five candidates were selected either way — only reordered — so the experiment tested nothing at all.
+
+**Fix.** The full ranked candidate list is obtained (the cap is temporarily raised), then shuffled, then re-capped. Random selection now genuinely competes with EIG selection.
+
+### Defect 4 — the ablated organism was younger and weaker than the live study
+
+Run 1 ran 30 cycles per condition, and the held-out split removed events from the stimulus as well. The result was an organism that was **not the one the 90-day study is running**: 6 hypotheses and **zero** theories, against the live daemon's 12 hypotheses and 1 theory.
+
+That made every Generation-5 metric degenerate. In particular, the full system's Contradiction Density came out as 0.000 — not because contradictions were being resolved, but because it had no contradictions left to count at all, having been pruned away. Comparing that against the No-Falsification condition was comparing a system with no belief against one with too many.
+
+**Fix, in two parts.**
+
+1. **Forward-looking scoring.** The organism now runs on the **full** stimulus with the daemon's exact ingestion pattern. Before each of the last 10 cycles' events are ingested, the graph and the current predictions are snapshotted; the events are then ingested and the snapshot scored. The organism is always predicting events it has not yet seen — so there is no need to remove events from the stimulus at all, and no accidental cross-domain split.
+2. **300 cycles instead of 30.** Measured on the full system, the structure set plateaus at around 300 cycles (13 hypotheses / 1 theory / 8 dreams, against the live daemon's 12 / 1 / 8 at 1,600+ cycles). The ablations now run at the maturity level of the study they are supposed to explain.
+
+### Defect 5 — the No-Falsification ablation removed reinforcement along with extinction
+
+`organica/sleep.py:1506` implements selection, reinforcement, decay and pruning in a single method. The first version of ablation D replaced that whole method with a no-op, which removed **reinforcement** as well as extinction. With nothing boosting confidences, every candidate decayed toward zero, fell below `STABLE_THRESHOLD`, and the organism ended up *smaller* than the full system — 3 hypotheses against 13, and zero theories.
+
+That measures "no selection at all", not "no extinction", and it inverted the prediction: the pre-registered expectation was runaway belief growth, and the run showed belief collapse.
+
+**Fix.** D now keeps reinforcement and removes only decay and pruning: a candidate that reappears is still boosted and stored, and a candidate that stops reappearing is re-stored at its current confidence instead of decaying. `DEATH_THRESHOLD` is still disabled so the hypothesis layer cannot cull a belief. Verified after the fix: D ends with **more** hypotheses than the full system (7 vs 5), **more** surviving structures (72 vs 70), and **higher** contradiction density (10.6 vs 7.2 per 1000 nodes) — which is the pre-registered prediction.
+
+### Defect 6 — Contradiction Density was read off a single cycle
+
+Contradiction Density was computed from the final cycle's hypothesis population only. But Generation 5 **oscillates** — that is journal finding 6, and the manual's §17 warns against exactly this reading. A single cycle is a sample of a fluctuating quantity, and with only 0–3 competing subjects per cycle the resulting CD was close to noise.
+
+**Fix.** The harness now records the hypothesis population every cycle, and CD is computed over the whole run:
+
+```
+CD = mean over cycles of (competing_subjects / active_nodes × 1000)
+```
+
+Two companion numbers are reported alongside it: the **duty cycle** of contradictions (the fraction of cycles carrying at least one competing subject) and the **mean number of competing subjects** per cycle. These are the same shape of statistic the project already uses for Generation 5, and they are much more stable than a final-cycle snapshot.
+
+### A verification protocol was added before the reported run
+
+At the owner's review, a **mechanism-verification stage** was added ahead of any interpretation: *"in experimental cognitive systems, 'the ablation actually changed the organism' is always the first result to verify."* `benchmarks/ablation_verify.py` implements it and writes `docs/ablation_verification.json`. It checks:
+
+1. **A perturbation census** — for every condition, which populations changed relative to `O_FULL`? A condition that changed nothing was not an ablation.
+2. **Did Random Curiosity actually change behaviour?** Experiment overlap (Jaccard) between the EIG-selected set and the randomly-selected set; the rank correlation between each candidate's EIG score and the position it was selected at; and the distribution of curiosity scores selected by each policy. If those distributions are identical, the EIG implementation is not influencing selection at all, and any equality in the aggregate is vacuous.
+3. **Where do contradictions come from?** The same conditions re-run with the Layer-4 hypothesis cap removed, to distinguish "contradictions are generated by the falsification subsystem" from "contradiction *survival* depends on it" from "the ablation disabled a dead pipeline".
+
+This stage was added **before** the reported run, and it is capable of invalidating a result rather than merely decorating one.
+
+### What was not changed
+
+- No prediction in §4 was revised.
+- No threshold, band, or metric was redefined in a direction that favours a result. All three fixes remove artefacts that flattered a *degenerate* system (an empty system scored a perfect contradiction-hygiene mark; a structure-destroying system scored excellent compression).
+- The engine was not modified, before or after.
+
+### Why this is disclosed rather than quietly fixed
+
+Run 1's raw output was available before the fixes were made, and two of its three headline results (Random Sleep scoring above the full system; PA of zero everywhere) would have been wrong in the reader's favour or against the project's own claim, depending on which was reported. Pre-registration is only worth something if the record of what was seen first is preserved. It is preserved here and in the git history: the commit containing this document precedes both runs, and this amendment was written before the second run completed.
+
+---
+
+## 9. Falsification commitment
+
+The results will be written to `docs/ablation_study.json` by `benchmarks/ablation_study.py`. **§4 will not be edited after the run.** The git commit order is the provenance record: the commit containing this document precedes the commit containing the results.
 
 If a result contradicts a prediction here, the prediction is wrong and the result stands. The interesting outcomes are the ones that contradict this document.

@@ -184,9 +184,15 @@ Nothing above asks you to take the project's word for it. Every claim has a scri
 | The substrate stays bounded and affordable | `python benchmarks/substrate_probe.py` |
 | The growth benchmarks hold | `python benchmarks/benchmark_suite.py` |
 | The four domains reproduce | `python benchmarks/cross_domain_validation.py` |
+| The organism bootstraps without help — and where it stops | `python benchmarks/cold_start.py --cycles 40` |
+| Which mechanisms are actually load-bearing | `python benchmarks/ablation_study.py --cycles 300` (slow, ~25 min) |
+| ...and that each ablation really perturbed the organism | `python benchmarks/ablation_verify.py --cycles 300` |
 | The code is correct | `python -m pytest tests -q` |
+| A fresh clone of this repo works end to end | `python benchmarks/clone_check.py` |
 
 Each writes a machine-readable JSON report into `docs/`.
+
+**Two of them are slow** (the ablation suite runs 11 conditions of 300 sleep cycles each). Run the fast ones first; `cold_start.py` takes about three minutes and answers the most interesting question.
 
 ---
 
