@@ -562,6 +562,28 @@ Two of the specified metrics — `CY` (questions resolved ÷ generated) and `EIG
 
 **The pre-registration is amended, not rewritten.** `docs/ABLATION-PREREGISTRATION.md` records the predictions written before the run *and* six measurement defects found afterwards — including one that had inverted a prediction. All six are disclosed in place; §4's predictions were never revised.
 
+**What the study found.** Nine findings, in plain words. Full evidence and reasoning: journal [§17](../research-journal/phase_g_findings_20261021.md).
+
+| # | Finding | What it means for you |
+|---|---|---|
+| 1 | **Sleep and the graph are the architecture.** Removing either one produces **zero** structures of any kind. | The two foundations are real and load-bearing. |
+| 2 | **Nothing leaks in.** With the graph edges removed, not one concept, loop or hypothesis emerges. | The contamination check passes cleanly. This is the most reassuring result in the study. |
+| 3 | **Lineage is governance, not cognition.** Stripping every parent link changes *nothing* measurable except Lineage Completeness (1.000 → 0.000). | Law II is what makes the other claims checkable. It is not a cognitive mechanism, and the design documents should stop implying otherwise. |
+| 4 | **Curiosity does not drive belief formation — it drives action on belief.** Removing it *raises* hypotheses (13→15), theories (1→3) and contradictions (12.2→17.7); only investigations and experiments vanish. | The belief layer never consults the curiosity layer. Curiosity is an output channel. |
+| 5 | **Removing falsification does not cause runaway belief growth — it freezes the organism.** Hypotheses fall 13→7, theories to zero, contradictions collapse from 61% of cycles to 5%. | Our pre-registered prediction was wrong, and the real result is better: forgetting is load-bearing for holding a *current* view. Stale beliefs crowd out live ones. |
+| 6 | **Dreams are structurally load-bearing for everything above Layer 5** — yet score "cosmetic". Removing them leaves 6 hypotheses, no theories, no questions, no investigations, no experiments. | The aggregate score is blind to population size. This is why the population table is part of the result. |
+| 7 | **Removing the hypothesis layer produces MORE theories and LESS provenance** — 6 theories instead of 1, with lineage dropping to 0.641. | A system without lineage can produce more and prove less. |
+| 8 | **Questions are not the gateway to inquiry. Dreams are.** Remove Questions and investigations and experiments carry on unchanged, because Layer 7 draws on dreams as well. | **Our pre-registered prediction was falsified.** Questions are not load-bearing for inquiry. |
+| 9 | **Random curiosity performs identically to EIG curiosity** on every metric that can currently be measured — identical predictive accuracy, slightly higher aggregate, smaller organism. | **But the metric that would separate them cannot be computed without an experiment executor.** This is a blind spot with a known cause, not a null result. |
+
+**Two of our predictions were falsified by the run** — #5 and #8. Both are recorded as such in the pre-registration rather than quietly restated. That is the point of writing predictions down first.
+
+**A blind spot worth knowing about:** the aggregate `ES` score does not count structures. Condition #6 removed most of the organism and still scored −3.0 ("cosmetic"). Read the per-metric deltas and the population table together; treat `ES` as a convenience index over six of the eight computable metrics.
+
+**One number to carry away:** cross-domain transfer is **−0.486** across 12 domain pairs, with a mean shared vocabulary of **0.17 tags**. Organica cannot carry knowledge from one domain to another, because its substrate is lexical co-occurrence and there is no representation above the tag that could cross a vocabulary boundary. That is the sharpest evidence that the current architecture is a knowledge-compression engine rather than a general learner — and it is exactly where the next architectural work belongs.
+
+**The single highest-value next step** is the **experiment executor**. It unblocks four things at once: it makes EIG testable against random curiosity (#9), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. Everything else in the remedy list is downstream of it.
+
 Full protocol, predictions and disclosure: **`docs/ABLATION-PREREGISTRATION.md`**. Results: **`docs/ablation_study.json`** and **`docs/ablation_verification.json`**. What emergence means and which levels Organica can evidence: **`docs/EMERGENCE-CRITERIA.md`**.
 
 ---

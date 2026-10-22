@@ -518,4 +518,184 @@ python benchmarks/g5_gap_diagnostic.py --cycles 10
 ```
 
 The daemon writes one JSON summary per cycle to `organica.log`. The fields that matter for this study are `theories`, `questions`, `contradiction_total`, `duration_ms` and `substrate_rows_pruned`.
+---
 
+## 17. The ablation study — which mechanisms are doing the work?
+
+> *"The biggest risk for Organica isn't 'it doesn't work'. The biggest risk is: it appears to work because one hidden subsystem is doing all the real cognitive work."*
+
+### 17.1 Why this study, and why it is not the same as §14
+
+§14 asked *how much assistance does the organism need?* This asks the complementary and less flattering question: **of the mechanisms that are present, which ones are actually load-bearing?** A project whose stated goal is "the simplest possible architecture that emulates living human learning and memory perfectly" cannot answer that by asserting that every layer matters. The only way to find the ornament is to remove things and measure.
+
+It is also the direct answer to the owner's fear that the project might be "too easy" — that it appears to work because one hidden subsystem is doing the work, or because the organism merely reflects the designer's assumptions back at them.
+
+### 17.2 Method
+
+Eleven conditions: a full-system reference (`O_FULL`) and ten ablations, each removing or replacing exactly one mechanism.
+
+| ID | Ablation | What changes |
+|---|---|---|
+| **A** | No Sleep | all consolidation, synthesis and dream generation disabled |
+| **B** | No Lineage | every candidate stored with `parent_ids` stripped |
+| **C** | No Curiosity | EIG ranking and investigation prioritisation disabled (Layers 7–8) |
+| **D** | No Falsification | no decay, no extinction, no belief revision; death threshold disabled |
+| **E** | No Dreams | completion, analogy, mutation and conditional dreams disabled |
+| **F** | No Hypothesis Layer | Generation 4 bypassed; Theories/Questions built directly from Workflows |
+| **G** | No Questions | Question creation disabled, Theories kept |
+| **H** | Random Curiosity | EIG ranking replaced by a random ordering of the same candidates |
+| **I** | Random Sleep | every layer's output replaced by random structures of the same count |
+| **J** | Memory Without Structure | raw events stored; no co-occurrence, no temporal edges |
+
+Every ablation is applied **in-process** by subclassing `SleepService` / `MemoryService`. The engine source is never edited, so the running 90-day study is untouched and every condition provably executes the same cognitive code.
+
+**Stimulus and protocol.** The full study stream, ingested 8 events per cycle in the same rotation as the daemon, for **300 cycles** per condition — the maturity level at which the ablation organism's structure set matches the live study's (13 hypotheses, 1 theory, 8 dreams against the daemon's 13 / 1 / 8 at 3,400+ cycles).
+
+**Scoring is forward-looking.** Before each of the last 10 cycles' events are ingested, the substrate graph and the organism's current Layer-1 predictions are snapshotted; the events are then ingested and the snapshot scored against what actually happened. The organism is always predicting events it has not yet seen.
+
+**Pre-registration.** Predictions for all ten ablations were written down and committed *before* the run (`docs/ABLATION-PREREGISTRATION.md`). Six measurement defects were found afterwards and are disclosed in place; **no prediction was revised**. Two specified metrics — `CY` (questions resolved ÷ generated) and `EIG*` (entropy removed by an experiment) — are structurally unmeasurable here, because nothing resolves a Question and nothing executes an experiment. They are excluded from the aggregate rather than zeroed.
+
+### 17.3 The full system, for reference
+
+| PA | PA_sub | IP | SCR | SS | LC | CD | NSR |
+|---|---|---|---|---|---|---|---|
+| 0.191 | 0.377 | 0.488 | 0.018 | 0.520 | 1.000 | 12.228 | 0.874 |
+
+109 surviving structures; 13 hypotheses, 1 theory, 1 question, 8 dreams, 5 investigations, 5 experiments — **identical to the live daemon's population**.
+
+### 17.4 Results
+
+Per-metric deltas (full system minus ablated). This table, not the aggregate, is the result:
+
+| cond | PA | PA_sub | IP | SCR | SS | LC | CD | NSR |
+|---|---|---|---|---|---|---|---|---|
+| A | 0.191 | -0.058 | 0.488 | n/a | n/a | n/a | n/a | n/a |
+| B | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | **1.000** | 0.000 | 0.000 |
+| C | 0.000 | -0.001 | 0.009 | -0.010 | 0.170 | 0.000 | -5.431 | 0.057 |
+| D | 0.000 | -0.044 | 0.049 | 0.004 | -0.156 | 0.000 | 10.819 | -0.050 |
+| E | 0.000 | -0.024 | 0.023 | 0.002 | -0.181 | 0.000 | 8.196 | 0.007 |
+| F | 0.000 | -0.013 | -0.005 | -0.001 | 0.070 | **0.359** | 12.228 | 0.019 |
+| G | 0.000 | 0.001 | -0.003 | 0.009 | 0.031 | 0.000 | -1.859 | 0.013 |
+| H | 0.000 | -0.018 | 0.021 | 0.004 | -0.189 | 0.000 | 1.265 | 0.026 |
+| I | **0.188** | -0.028 | **0.425** | -0.032 | -0.478 | 0.006 | -3.436 | 0.336 |
+| J | 0.191 | 0.377 | n/a | n/a | n/a | n/a | n/a | n/a |
+
+Aggregate impact (`ES_full − ES_ablated`):
+
+| cond | ablation | ES full | ES ablated | impact | band |
+|---|---|---|---|---|---|
+| A | No Sleep | 49.102 | 0.000 | 49.102 | foundational |
+| B | No Lineage | 49.102 | 49.102 | 0.000 | cosmetic |
+| C | No Curiosity | 49.102 | 44.635 | 4.467 | cosmetic |
+| D | No Falsification | 49.102 | 52.209 | -3.108 | cosmetic |
+| E | No Dreams | 49.102 | 52.104 | -3.002 | cosmetic |
+| F | No Hypothesis Layer | 49.102 | 48.750 | 0.352 | cosmetic |
+| G | No Questions | 49.102 | 48.292 | 0.809 | cosmetic |
+| H | Random Curiosity | 49.102 | 51.410 | -2.308 | cosmetic |
+| I | Random Sleep | 49.102 | 34.282 | 14.819 | supportive |
+| J | Memory Without Structure | 49.102 | 0.000 | 49.102 | foundational |
+
+Final-cycle populations — **the table that actually discriminates**, because the aggregate does not count structures:
+
+| cond | G4 hypotheses | G5 theories | G5 questions | G6 dreams | G7 investigations | G8 experiments |
+|---|---|---|---|---|---|---|
+| O_FULL | 13 | 1 | 1 | 8 | 5 | 5 |
+| A | 0 | 0 | 0 | 0 | 0 | 0 |
+| B | 13 | 1 | 1 | 8 | 5 | 5 |
+| C | 15 | **3** | **3** | 8 | 0 | 0 |
+| D | 7 | 0 | 0 | 3 | 3 | 3 |
+| E | 6 | 0 | 0 | 0 | 0 | 0 |
+| F | 0 | **6** | **6** | 8 | 5 | 5 |
+| G | 13 | 1 | **0** | 8 | **5** | **5** |
+| H | 5 | 0 | 0 | 3 | 3 | 3 |
+| I | 15 | 1 | 1 | 0 | 1 | 0 |
+| J | 0 | 0 | 0 | 0 | 0 | 0 |
+
+Cross-domain transfer: **CDT = −0.486** over 12 domain pairs, mean shared vocabulary **0.17 tags**.
+
+### 17.5 A blind spot in the aggregate, stated before the findings
+
+**The ES aggregate does not count structures.** A condition that destroys half the organism's population can score "cosmetic" on ES, because no ES term counts hypotheses, theories, dreams, investigations or experiments.
+
+Conditions **E** (No Dreams) and **G** (No Questions) are exactly this case: E ends with 6 hypotheses instead of 13 and no dreams, no theories, no questions, no investigations and no experiments; G ends with zero questions. Both score near-zero ES impact — and both are plainly not cosmetic. **The population table is part of the primary result, and the aggregate is a convenience index over six of the eight available metrics.** The per-generation survival selectivity in `docs/ablation_study.json` is the third leg.
+
+A second, narrower caveat: **Contradiction Density counts subjects carrying two or more competing expectations among the *surviving hypotheses*.** When an ablation changes the size of the hypothesis population, CD changes mechanically. CD is therefore only comparable between conditions whose hypothesis layer is comparable — `O_FULL` versus `B` and `G` — and should not be read across `D`, `E` or `F`, where the hypothesis population itself has been removed or frozen.
+
+### 17.6 Findings
+
+**Finding A — Sleep and the graph are the architecture; the rest is a policy on top of it.**
+
+`A` (No Sleep) and `J` (Memory Without Structure) are the only two conditions that reach the "foundational" band, and both reach it by collapsing to **zero structures**. The instructive part is what does *not* collapse: `A`'s substrate predictive accuracy is 0.435 against the full system's 0.377 — the graph learned the regularities *better* without sleep, because sleep adds competing structures to the same graph. Sleep is not where the learning happens. **Sleep is where the learning becomes a representation.**
+
+`J` is the contamination check and it comes out clean: with no co-occurrence and no temporal edges, **not one structure of any kind emerges** — not a concept, not a loop, not a hypothesis. Nothing leaks in from anywhere else. That is the single most reassuring result in this study.
+
+**Finding B — Lineage is governance, not cognition. Every other metric is exactly unchanged.**
+
+`B` (No Lineage) produces deltas of **0.000** on PA, PA_substrate, IP, SCR, SS, CD and NSR, and identical populations (13 / 1 / 1 / 8 / 5 / 5). The *only* thing that changes is Lineage Completeness, from 1.000 to 0.000.
+
+So Law II — "every structure traces back to raw experience" — is **load-bearing for auditability and completely inert for behaviour**. That is a genuinely useful result and it is not what the design implies: it is listed as a principle, and one might reasonably read that as a claim that the architecture depends on it. It does not. The honest formulation is that lineage is a *governance layer*, and a valuable one — it is what makes claims 3 through 8 checkable at all — but it should not be counted among the cognitive mechanisms when arguing that the architecture does something.
+
+**Finding C — Curiosity does not drive belief formation. It drives action on belief.**
+
+`C` (No Curiosity) removes Layers 7 and 8 entirely. The result is the opposite of what the "attention economy" framing predicts: hypotheses go **up** (13 → 15), theories **up** (1 → 3), questions **up** (1 → 3), and contradiction density goes **up** (12.2 → 17.7 per 1000 nodes, with the contradiction duty cycle rising from 61% to 65%). What disappears is only the two top layers: 0 investigations, 0 experiments.
+
+So removing curiosity does not make the organism less curious — it makes it **more** uncertain and less able to do anything about it. Curiosity in this architecture is an *output* channel, not an input to belief formation. The belief layer does not consult it.
+
+**Finding D — Removing falsification does not produce runaway belief growth. It produces a frozen organism. The pre-registered prediction was falsified.**
+
+`D` was predicted to show runaway belief growth, graph bloat, theory inflation and accumulating contradictions. The measured result is the opposite in every respect: hypotheses **fall** from 13 to 7, theories and questions go to **zero**, surviving structures fall from 109 to 72, and contradiction density falls from 12.2 to 1.4 — with the contradiction duty cycle collapsing from 61% of cycles to 5%.
+
+The mechanism is legible once you see it. With nothing ever dying, every stale candidate is re-stored forever; the candidate store fills with immortal-but-irrelevant beliefs; and because working memory is the newest 4,000 sleep events, those immortals **crowd out the current structures**. The organism does not accumulate beliefs — it stops replacing them.
+
+That is a real architectural consequence and it is a *better* finding than the prediction: it says forgetting is not merely a cleanup mechanism, it is load-bearing for the ability to hold a *current* view. It also carries a caveat that must be stated: this ablation conflates "no extinction" with "no forgetting", because the substrate's bounded working memory is what does the crowding. An organism with unbounded memory would accumulate instead. The pre-registered prediction was wrong; the measurement stands.
+
+**Finding E — Dreams are structurally load-bearing for everything above Layer 5, and the aggregate score cannot see it.**
+
+`E` (No Dreams) ends with 6 hypotheses instead of 13, zero theories, zero questions, zero investigations and zero experiments — the whole upper ladder is gone. Yet its ES impact is −3.002, i.e. "cosmetic". This is Finding 5's blind spot in its purest form: **an ablation can remove the majority of the organism and score as harmless.**
+
+The mechanism is that Layer 7 builds investigations from Questions *and* Dreams. Remove dreams and the only remaining source of investigation is the Question layer — and `E` shows that Questions alone do not carry it. Dreams are not decoration on top of the architecture; they are one of the two things feeding the attention economy.
+
+**Finding F — Removing the hypothesis layer produces MORE theories and LESS provenance.**
+
+`F` (No Hypothesis Layer) bypasses Generation 4 and builds Theories and Questions directly from Workflow components. The result is **6 theories and 6 questions** against the full system's 1 and 1 — six times as many — while Lineage Completeness falls from 1.000 to **0.641**, because workflow-derived theories have no parent chain to Generation 0.
+
+This is the clearest illustration in the study of what Law II buys: it constrains *which* structures are allowed to exist, and it does so without helping any structure be better. A system without lineage produces more theories and can prove less about any of them. Note also that CD is 0.000 for `F` — a definitional artifact, since F has no hypotheses for contradictions to live in, not evidence of epistemic cleanliness.
+
+**Finding G — Questions are not the gateway to inquiry. Dreams are.**
+
+`G` (No Questions) was predicted to take investigations and experiments to zero along with the Questions. **It did not.** Questions go to 0; hypotheses (13), theories (1), dreams (8), investigations (5) and experiments (5) all survive unchanged.
+
+The reason is Layer 7's inputs: investigations are built from Questions **and** Dreams, and with 8 dreams still alive the curiosity pipeline still has fuel. So the pre-registered prediction was falsified, and the finding is sharper than the prediction: **Questions are not load-bearing for inquiry in this architecture.** The copy in the ablation framework — "if experiments still emerge, questions may be unnecessary" — turns out to be correct as stated.
+
+**Finding H — Random sleep keeps the volume and destroys the signal.**
+
+`I` (Random Sleep) produces the same node counts as the full system but with random content: PA falls from 0.191 to **0.003**, and Information Preservation from 0.488 to **0.063**. The organism is still producing structures; it has simply stopped representing anything. Survival selectivity goes to 0.998 (everything dies every cycle, because nothing recurs) and novelty to 0.538 (random topologies are almost always new).
+
+This is the positive control the study needed: **the sleep pipeline is not a formatting step.** Same volume, no information.
+
+**Finding I — Random curiosity performs the same as EIG curiosity on every metric that can currently be measured.**
+
+`H` produces **identical predictive accuracy** (PA delta 0.000), a slightly *higher* aggregate score, and a *smaller* organism (5 hypotheses, 0 theories, 3 dreams, 3 investigations, 3 experiments against 13 / 1 / 8 / 5 / 5). On the metrics that exist, choosing investigations at random is indistinguishable from choosing them by Expected Information Gain.
+
+**But the metric that would separate them does not exist.** The metrics that could distinguish a good curiosity policy from a random one are exactly the three that are unmeasurable without an experiment executor: experiment value (entropy removed), experiment information gain, and curiosity yield (questions actually resolved). This is not a null result — it is a **blind spot with a known cause**, and it points at the same gap as Finding 9 and §13.
+
+### 17.7 Remedies
+
+In priority order. Every item below is a **proposal**; Phase A freezes cognitive changes, and none of these has been applied.
+
+| # | Remedy | Why | Kind |
+|---|---|---|---|
+| 1 | **Build the experiment executor** (probe format → probe→event mapping → belief-delta measurement) | It is the single change that unblocks the most: it makes EIG testable against random curiosity (Finding I), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. | New capability |
+| 2 | **Replace share-based confidence with a posterior** (`(support + α)/(support + contradiction + α + β)`) | Independently established by §14's `wide_lookback` ablation. It is simpler than what it replaces, keeps a split belief alive regardless of sibling count, and makes the lookback width irrelevant. | Cognitive — needs a recorded decision |
+| 3 | **Stop truncating hypotheses alphabetically** | The cap decides which beliefs survive by name order, and §17.6 Finding D shows the population is what carries the system. Merit-based selection is the obvious fix; it is a cognitive change. | Cognitive — needs a recorded decision |
+| 4 | **Reconsider the hypothesis cap itself** | `MAX_HYPOTHESES = 15` was chosen when the layer had a different population. 15 slots against 13–15 live hypotheses means the cap binds constantly, and the ablation shows how much rides on which beliefs make the cut. | Cognitive — needs a recorded decision |
+| 5 | **Give the aggregate a population term, or stop using it** | Finding E is the argument: an ablation removed the whole upper ladder and scored −3. The per-metric table plus the population table is the honest summary. | Measurement |
+| 6 | **Record Law II as governance, not cognition** | Finding B. The design documents list lineage among the principles in a way that implies behavioural importance it does not have. | Documentation |
+| 7 | **Run the ablation suite again after any cognitive change** | It is now the regression test for "did we accidentally make the organism depend on us, or stop depending on something it used to need?" | Process |
+
+### 17.8 What would falsify this section
+
+- If the verification stage shows that a condition labelled "cosmetic" never actually perturbed the organism, its finding is void.
+- If Random Curiosity turns out to have selected the *same* investigations as EIG (Jaccard ≈ 1), then Finding I is untested rather than true.
+- If the contradictions in `D` turn out to be suppressed by the bounded working memory rather than by the removal of extinction, then Finding D's mechanism is wrong even though its measurement stands.
+- If `E`'s collapse is caused by something other than dreams — for instance by the removal of stored dream candidates changing the working-memory composition — then Finding E's mechanism is wrong.
