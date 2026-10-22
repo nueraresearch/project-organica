@@ -699,3 +699,73 @@ In priority order. Every item below is a **proposal**; Phase A freezes cognitive
 - If Random Curiosity turns out to have selected the *same* investigations as EIG (Jaccard ≈ 1), then Finding I is untested rather than true.
 - If the contradictions in `D` turn out to be suppressed by the bounded working memory rather than by the removal of extinction, then Finding D's mechanism is wrong even though its measurement stands.
 - If `E`'s collapse is caused by something other than dreams — for instance by the removal of stored dream candidates changing the working-memory composition — then Finding E's mechanism is wrong.
+---
+
+## 18. Does feeling come before thinking? A proposal for a valuation layer
+
+*Raised 2026-10-22 by the owner. This section is a **proposal**, not an applied change. Nothing here has been implemented, and Phase A freezes cognitive changes.*
+
+### 18.1 The question
+
+> *"Feeling comes before thinking, right?"*
+
+The short answer for Organica is: **the signals already do, the drives do not.** That distinction is worth a page, because it is the difference between "this project needs a new layer" and "this project needs to finish a layer it already started."
+
+### 18.2 What is already there
+
+The intuition that Organica is missing a valuation layer is understandable but, on inspection, half wrong. Organica already computes value signals, and it already computes them **upstream of the structures they gate**:
+
+| Signal | Computed at | Gates |
+|---|---|---|
+| `support`, `contradiction` | Layer 4, from the temporal graph | hypothesis admission |
+| `confidence` = support/(support+contradiction) | Layer 4 | the hypothesis's own survival |
+| `uncertainty` = entropy × maturity | Layer 5 | Question admission |
+| `expected_information_gain` | Layer 7 | investigation and experiment ranking |
+| dream `novelty` | Layer 6 | dream diversity |
+| reinforcement vs. decay | `_natural_selection` | structure survival |
+
+**Law V is already the valuation law**: *"Cognitive importance is governed by Expected Information Gain, not probability."* That is a salience rule. And the dataflow is already **valuation → belief**: a hypothesis cannot be formed without a confidence, a question without an uncertainty, an investigation without an EIG. So the proposed reordering — valuation, then hypothesis, then theory — is not a new pipeline. It is the pipeline that exists, with the valuation computation distributed across Layers 4–8 instead of named as a layer.
+
+### 18.3 What is genuinely missing
+
+Three things, and the ablation study names the third.
+
+**(a) Valence.** Every signal above is *interestingness*. They are all positive scalars. There is no aversive signal anywhere in the system: nothing hurts, no belief is costly, no outcome is unpleasant. Human feeling carries valence, and the aversive side is what drives avoidance, cost-sensitive action, and most of what we would call caring. Organica can want to *know*; it cannot want to *avoid*. Note that the code already contains the shape of this — `priority = EIG / cost`, with probe 1.0, dream 0.8, mutation/conditional 1.2 — but those costs are **constants**, not **consequences**. The denominator exists; the pain does not.
+
+**(b) Persistence.** The counts accumulate; the *valuation* does not. Attention is re-derived from the graph every cycle rather than integrated over time. There is no carried-over tension, no growing interest, no "I have been puzzling at this for twelve cycles." The consequence is already visible in the telemetry: the Generation-5 duty cycle **oscillates** (journal finding 6) rather than trending, because nothing accumulates. A drive, in the technical sense, is a state variable that integrates over time; Organica has none.
+
+**(c) An appetite for disconfirmation.** This is the one the No-Falsification ablation exposed, and it is the most interesting. In Organica, contradiction is **derived from** the graph — `contradiction = total_flow − support` — so contradiction is *recorded, never sought*. Curiosity requires a split belief to **already exist**. There is no drive that says "go find a reason this might be wrong."
+
+Copilot's framing of this is exactly right: *if support grows and contradictions stay at zero, what causes the system to doubt anything?* The measured answer is **nothing**.
+
+### 18.4 The corroboration from the other side
+
+The cold-start study (§14) says the same thing from the opposite direction. With a real, unengineered stimulus — this repository's own commit history — the organism **never generates its own competing expectations**. G5 never emerges. It *inherits* the branch point from the stimulus; it never *manufactures* one.
+
+An organism with an endogenous appetite for disconfirmation would manufacture one. That is a falsifiable difference, and the current answer is no.
+
+### 18.5 The proposal
+
+Not "add a valuation layer". Three concrete steps, in this order.
+
+1. **Name and isolate what exists.** Make the valuation computation one explicit layer whose output is a small, inspectable state — surprise, tension, novelty, coherence — instead of being recomputed ad hoc inside Layers 4–8. This is mostly a *refactor*, and mostly a clarification of Law V. It makes the ordering auditable, which is the actual point.
+2. **Give the organism an executor.** It already has a probe format, an EIG score, and a cost table. What it lacks is a way to *act*. This is where valence comes from naturally: an executed probe that leaves a belief unmoved, or refutes one, is an aversive experience with a real cost attached. Until then, any valuation layer would be a second unauditable cognitive mechanism stacked on the first, and this session's own discipline forbids that.
+3. **Add the disconfirmation appetite.** A drive term that seeks *unresolved tension* specifically, not merely high uncertainty. This is the missing third leg, and it is the one that would let the organism generate its own branch points.
+
+### 18.6 The tests it must pass
+
+A proposal that cannot fail is a belief, not an architecture. This one gets the same treatment the confidence formula got: a pre-registered prediction and an instrument that can fail.
+
+| # | Prediction | Instrument | Current |
+|---|---|---|---|
+| V1 | With an appetite for disconfirmation, the organism generates its own competing expectations from an unengineered stream | `benchmarks/cold_start.py`, condition `real_git_history` | **Fails** — G5 never appears |
+| V2 | Tension accumulates across cycles rather than oscillating | the G5 duty cycle over a long run | **Fails** — the duty cycle oscillates, it does not trend |
+| V3 | Curiosity is *caused* by disconfirmation rather than merely correlated with it | `benchmarks/ablation_study.py`, condition `C` (No Curiosity) | **Unresolved** — removing curiosity *raises* contradiction density, which is consistent with an appetite existing but not being consulted |
+
+**V3 is the sharpest of the three.** Finding C of the ablation study showed that removing curiosity *increases* hypotheses (13→15), theories (1→3) and contradictions (12.2→17.7), while only the two output layers disappear. That is the signature of a system that *has* tension and cannot act on it — which is what an appetite that is never consulted would look like. It is consistent with the hypothesis; it does not establish it.
+
+### 18.7 A note on the word
+
+"Feeling" is a loaded word, and the risk to this project is sliding into anthropomorphic claims that the measurements cannot support. The discipline should be: build **value signals** — measurable scalars with valence, persistence, and a direction — and do not claim the organism *feels* anything. `docs/EMERGENCE-CRITERIA.md` already draws that line; this section is inside it.
+
+The defensible framing is the one the project already uses for humans: an infant arrives with substantial built-in machinery and learns essentially all of the *content*. Organica would arrive with a valuation apparatus — the machinery for deciding what matters — and learn all of the content. What it does not have is what a person has: a body, stakes, and something at stake. That is worth stating plainly, because it is both the honest limit of the comparison and the clearest statement of what an experiment executor would change.
