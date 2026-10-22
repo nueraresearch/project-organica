@@ -613,7 +613,70 @@ Final-cycle populations — **the table that actually discriminates**, because t
 
 Cross-domain transfer: **CDT = −0.486** over 12 domain pairs, mean shared vocabulary **0.17 tags**.
 
-### 17.5 A blind spot in the aggregate, stated before the findings
+### 17.5 Mechanism verification
+
+Run before any outcome was interpreted (`benchmarks/ablation_verify.py`, results in `docs/ablation_verification.json`). An ablation result is only meaningful if the perturbation actually happened.
+
+#### Perturbation census
+
+Every condition changed the organism. `B` (No Lineage) is the deliberate exception: it is a provenance ablation, so *no* population changing is the result, not a failed perturbation.
+
+| cond | perturbation |
+|---|---|
+| A | confirmed — every Layer-1 population → 0 |
+| B | confirmed (provenance-only: behaviour unchanged is the result) |
+| C | confirmed — hypotheses 13→15, theories 1→3, investigations 5→0 |
+| D | confirmed — processes 10→0, workflows 10→0, hypotheses 13→7, theories 1→0 |
+| E | confirmed — processes 10→0, workflows 10→0, hypotheses 13→6 |
+| F | confirmed — hypotheses 13→0, theories 1→6, questions 1→6 |
+| G | confirmed — questions 1→0 |
+| H | confirmed — processes 10→0, workflows 10→0, hypotheses 13→5, theories 1→0 |
+| I | confirmed — processes 10→0, workflows 10→0, hypotheses 13→15 |
+| J | confirmed — every Layer-1 population → 0 |
+
+#### Did Random Curiosity actually change behaviour?
+
+**Yes, and the comparison is far from vacuous.**
+
+| | EIG policy | Random policy |
+|---|---|---|
+| final-selection Jaccard | **0.111** (9 selections, 1 shared) | |
+| top-k precision (selected items that are in the top-k by EIG) | **1.000** | 0.584 |
+| mean curiosity score of what was selected | **0.990** | 0.863 |
+| mean curiosity score of the candidate pool | 0.911 | 0.868 |
+| fraction of selections in the top decile | **0.475** | 0.271 |
+| rank correlation (score vs. selection position) | −0.162 | +0.098 |
+
+Two things follow, and they point in opposite directions.
+
+**The EIG implementation works.** Its `top-k precision` is **1.000**: every single time it selected five investigations, they were the five highest-curiosity candidates available. Random managed 0.584. The ranking function is doing exactly what it was written to do, and the order it produces is genuinely driven by curiosity (rho = −0.162, negative because a higher score means an earlier position) while random selection shows no ordering effect at all (+0.098).
+
+**And it buys nothing measurable.** With a selection that is *provably* better — top-decile hit rate 48% versus 27% — the organism's predictive accuracy was **identical** (PA delta 0.000), the aggregate score was marginally *higher* for random, and the resulting organism was smaller. So the honest statement is not "the attention economy does not work." It is: **the attention economy works perfectly as a ranking function and produces no measurable downstream benefit.** That is a sharper and more interesting claim than either "EIG is broken" or "EIG is fake," and it points at the same place as everything else: the two layers above curiosity produce candidates that nothing consumes.
+
+#### Where do contradictions come from?
+
+The full system generates contradiction counts in the **thousands**: the largest `contradiction_count` ever observed on a single hypothesis is **6,391** in `O_FULL`, against 425 in `D` and 554 in `D` uncapped.
+
+| run | subjects carrying ≥2 competing expectations (mean) | (max) |
+|---|---|---|
+| `O_FULL`, cap 15 | 1.373 | 4 |
+| `O_FULL`, cap removed | 1.373 | 4 |
+| `D`, cap 15 | 0.157 | 4 |
+| `D`, cap removed | 0.273 | 6 |
+
+This resolves the question the No-Falsification result raised, and the answer is neither of the two obvious ones.
+
+- **Possibility A is false.** Contradiction generation does *not* come from the falsification subsystem. `contradiction_count` is computed directly from the temporal graph in `_form_and_test_hypotheses` — `max(0, total_flow − support)` — with no falsification gate anywhere near it. The full system's contradiction counts are enormous.
+- **Possibility B is false.** No pipeline was disabled by accident. The path from the graph to the contradiction count is a single arithmetic expression with no conditional on any ablation flag.
+- **Possibility C is true, and the mechanism is now identified.** Contradiction *generation* is entirely independent of falsification; what No-Falsification suppresses is contradiction *survival* — and it does so through a path that has nothing to do with falsification at all.
+
+The mechanism is Layer 4's alphabetical truncation. In `D`'s final population, **every** surviving hypothesis is a `high_structural_significance` marker — subjects like `developer`, `engineer`, `executed`, `modified`, `report`, `session`, `suite` — all of which sort early alphabetically. With `MAX_HYPOTHESES = 15` and the hypothesis list sorted by subject, those markers fill the budget and crowd out the genuine subject→expectation pairs, which are the ones that carry the contradiction counts. Removing the cap nearly doubles the competing-subject count in `D` (0.157 → 0.273), confirming the cap is the binding constraint there.
+
+Note the nuance: for `O_FULL` the cap is **not** binding — uncapped gives the identical 1.373 — so competing beliefs genuinely coexist in the full system. The cap is a *latent* suppressor that becomes active precisely when the population shifts, which is why it went unnoticed until now.
+
+**The consequence is worth stating plainly: the system's reported contradiction density, and by extension its Generation-5 duty cycle, are partly artifacts of alphabetical ordering.** Which beliefs are allowed to disagree with each other is currently decided by how their subject names sort. That is a real defect, it is now demonstrated rather than hypothesised, and it raises journal §7's proposal from "candidate defect" to "the most consequential cognitive defect found so far" — because it decides which beliefs survive, and §17.6 Finding D shows how much rides on that.
+
+### 17.6 A blind spot in the aggregate, stated before the findings
 
 **The ES aggregate does not count structures.** A condition that destroys half the organism's population can score "cosmetic" on ES, because no ES term counts hypotheses, theories, dreams, investigations or experiments.
 
@@ -621,7 +684,7 @@ Conditions **E** (No Dreams) and **G** (No Questions) are exactly this case: E e
 
 A second, narrower caveat: **Contradiction Density counts subjects carrying two or more competing expectations among the *surviving hypotheses*.** When an ablation changes the size of the hypothesis population, CD changes mechanically. CD is therefore only comparable between conditions whose hypothesis layer is comparable — `O_FULL` versus `B` and `G` — and should not be read across `D`, `E` or `F`, where the hypothesis population itself has been removed or frozen.
 
-### 17.6 Findings
+### 17.7 Findings
 
 **Finding A — Sleep and the graph are the architecture; the rest is a policy on top of it.**
 
@@ -646,6 +709,8 @@ So removing curiosity does not make the organism less curious — it makes it **
 `D` was predicted to show runaway belief growth, graph bloat, theory inflation and accumulating contradictions. The measured result is the opposite in every respect: hypotheses **fall** from 13 to 7, theories and questions go to **zero**, surviving structures fall from 109 to 72, and contradiction density falls from 12.2 to 1.4 — with the contradiction duty cycle collapsing from 61% of cycles to 5%.
 
 The mechanism is legible once you see it. With nothing ever dying, every stale candidate is re-stored forever; the candidate store fills with immortal-but-irrelevant beliefs; and because working memory is the newest 4,000 sleep events, those immortals **crowd out the current structures**. The organism does not accumulate beliefs — it stops replacing them.
+
+The mechanism verification (§17.5) pins down a second, independent cause: the contradiction collapse is **not** caused by removing extinction at all. The full system generates contradiction counts in the thousands (max 6,391 on a single hypothesis); `D`'s suppression of them comes from Layer 4's alphabetical truncation filling the 15-slot budget with `high_structural_significance` markers, crowding out the genuine subject→expectation pairs that carry the counts. Removing the cap nearly doubles `D`'s competing-subject count (0.157 → 0.273). So two separate mechanisms are in play — the frozen belief population, and the cap — and both reduce the *measured* tension.
 
 That is a real architectural consequence and it is a *better* finding than the prediction: it says forgetting is not merely a cleanup mechanism, it is load-bearing for the ability to hold a *current* view. It also carries a caveat that must be stated: this ablation conflates "no extinction" with "no forgetting", because the substrate's bounded working memory is what does the crowding. An organism with unbounded memory would accumulate instead. The pre-registered prediction was wrong; the measurement stands.
 
@@ -673,13 +738,27 @@ The reason is Layer 7's inputs: investigations are built from Questions **and** 
 
 This is the positive control the study needed: **the sleep pipeline is not a formatting step.** Same volume, no information.
 
-**Finding I — Random curiosity performs the same as EIG curiosity on every metric that can currently be measured.**
+**Finding I — Random curiosity performs the same as EIG curiosity on every metric that can currently be measured — and the verification shows the comparison is real.**
 
-`H` produces **identical predictive accuracy** (PA delta 0.000), a slightly *higher* aggregate score, and a *smaller* organism (5 hypotheses, 0 theories, 3 dreams, 3 investigations, 3 experiments against 13 / 1 / 8 / 5 / 5). On the metrics that exist, choosing investigations at random is indistinguishable from choosing them by Expected Information Gain.
+`H` produces **identical predictive accuracy** (PA delta 0.000), a slightly *higher* aggregate score, and a *smaller* organism (5 hypotheses, 0 theories, 3 dreams, 3 investigations, 3 experiments against 13 / 1 / 8 / 5 / 5).
 
-**But the metric that would separate them does not exist.** The metrics that could distinguish a good curiosity policy from a random one are exactly the three that are unmeasurable without an experiment executor: experiment value (entropy removed), experiment information gain, and curiosity yield (questions actually resolved). This is not a null result — it is a **blind spot with a known cause**, and it points at the same gap as Finding 9 and §13.
+The verification stage confirms this is not a vacuous comparison. The two policies overlap on only **1 of 9** final selections (Jaccard 0.111), and the EIG policy's `top-k precision` is **1.000** — every time it selected five investigations, they were the five highest-curiosity candidates available, against random's 0.584, with a top-decile hit rate of 48% against 27%.
 
-### 17.7 Remedies
+So the EIG implementation is **not broken**. It is a perfect ranker. It selects demonstrably better candidates than random, and the organism's predictive accuracy is unchanged. The reason is that the layers above curiosity produce *candidates* that nothing consumes — and the metrics that would expose that (`CY`, `EIG*`, experiment value) are exactly the three that cannot be computed without an experiment executor. This is not a null result. It is a **blind spot with a known cause**, and it points at the same gap as Finding 9 and §13.
+
+**Finding J — Which beliefs are allowed to disagree is currently decided by alphabetical order. This is the most consequential defect found.**
+
+The verification's contradiction analysis turned up something that had been suspected since journal §7 and is now *demonstrated*. Layer 4 truncates to `MAX_HYPOTHESES = 15` **after sorting the hypothesis list by subject name**. That means:
+
+1. `high_structural_significance` markers — whose subjects are ordinary words like `developer`, `engineer`, `executed`, `report` — sort early and **fill the budget**, crowding out the genuine subject→expectation pairs.
+2. The pairs that get crowded out are precisely the ones that carry contradiction counts.
+3. So **the system's measured contradiction density, and by extension its Generation-5 duty cycle, depend partly on how subject names sort.**
+
+For `O_FULL` the cap is not binding — uncapped gives the identical 1.373 competing subjects — so competing beliefs genuinely coexist in the healthy system. The cap is a *latent* suppressor that becomes active exactly when the population shifts, which is why it survived every earlier test and why it only surfaced once an ablation was designed to look for it.
+
+This matters more than any other finding here, because §17.7 Finding D shows how much rides on it: which beliefs survive *is* the system. A controller that decides what to keep by sorting strings is not making a decision about merit. The fix is small — sort by evidence rather than by name — but it is a **cognitive change** and therefore frozen under Phase A.
+
+### 17.8 Remedies
 
 In priority order. Every item below is a **proposal**; Phase A freezes cognitive changes, and none of these has been applied.
 
@@ -687,13 +766,13 @@ In priority order. Every item below is a **proposal**; Phase A freezes cognitive
 |---|---|---|---|
 | 1 | **Build the experiment executor** (probe format → probe→event mapping → belief-delta measurement) | It is the single change that unblocks the most: it makes EIG testable against random curiosity (Finding I), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. | New capability |
 | 2 | **Replace share-based confidence with a posterior** (`(support + α)/(support + contradiction + α + β)`) | Independently established by §14's `wide_lookback` ablation. It is simpler than what it replaces, keeps a split belief alive regardless of sibling count, and makes the lookback width irrelevant. | Cognitive — needs a recorded decision |
-| 3 | **Stop truncating hypotheses alphabetically** | The cap decides which beliefs survive by name order, and §17.6 Finding D shows the population is what carries the system. Merit-based selection is the obvious fix; it is a cognitive change. | Cognitive — needs a recorded decision |
-| 4 | **Reconsider the hypothesis cap itself** | `MAX_HYPOTHESES = 15` was chosen when the layer had a different population. 15 slots against 13–15 live hypotheses means the cap binds constantly, and the ablation shows how much rides on which beliefs make the cut. | Cognitive — needs a recorded decision |
+| 3 | **Stop truncating hypotheses alphabetically — now demonstrated, not hypothesised** | Finding J. The 15-slot budget is filled in subject-name order, so `high_structural_significance` markers crowd out the genuine belief pairs and suppress measured contradiction density. Which beliefs survive is currently decided by how strings sort. Sort by evidence (support, then contradiction-adjusted confidence) instead. | Cognitive — needs a recorded decision |
+| 4 | **Reconsider the hypothesis cap itself** | `MAX_HYPOTHESES = 15` was chosen when the layer had a different population. 15 slots against 13–15 live hypotheses means the cap binds constantly, and the ablation shows how much rides on which beliefs make the cut. Note that removing the cap is *not* the same as fixing the sort order: the sort is the defect, the cap is a separate budget question. | Cognitive — needs a recorded decision |
 | 5 | **Give the aggregate a population term, or stop using it** | Finding E is the argument: an ablation removed the whole upper ladder and scored −3. The per-metric table plus the population table is the honest summary. | Measurement |
 | 6 | **Record Law II as governance, not cognition** | Finding B. The design documents list lineage among the principles in a way that implies behavioural importance it does not have. | Documentation |
 | 7 | **Run the ablation suite again after any cognitive change** | It is now the regression test for "did we accidentally make the organism depend on us, or stop depending on something it used to need?" | Process |
 
-### 17.8 What would falsify this section
+### 17.9 What would falsify this section
 
 - If the verification stage shows that a condition labelled "cosmetic" never actually perturbed the organism, its finding is void.
 - If Random Curiosity turns out to have selected the *same* investigations as EIG (Jaccard ≈ 1), then Finding I is untested rather than true.

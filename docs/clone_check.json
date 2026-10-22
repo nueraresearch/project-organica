@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-10-22T20:42:36Z",
+  "remote": "https://github.com/nueraresearch/project-organica.git",
+  "branch": "master",
+  "checks": [
+    {
+      "step": "clone",
+      "ok": true,
+      "seconds": 1.4,
+      "detail": ""
+    },
+    {
+      "step": "import_organica",
+      "ok": true,
+      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_xymx16py\\project-organica\\organica\\__init__.py"
+    },
+    {
+      "step": "core_dependencies",
+      "ok": true,
+      "detail": "requirements.txt lists: nothing"
+    },
+    {
+      "step": "pytest",
+      "ok": true,
+      "seconds": 91.1,
+      "detail": "17 passed in 89.63s (0:01:29)"
+    },
+    {
+      "step": "build_py",
+      "ok": true,
+      "seconds": 1.4,
+      "detail": "        Gen 0  Experience events      1197  ######################################## |         experience events retained (never evicted):             1197 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 1.500 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  15   theories  3   questions  3   dreams  8   experiments  5"
+    },
+    {
+      "step": "examples",
+      "ok": true,
+      "detail": "9/9 examples exited 0"
+    },
+    {
+      "step": "study_health",
+      "ok": true,
+      "detail": "NO CYCLES PARSED - the daemon has not written a cycle summary yet"
+    },
+    {
+      "step": "live_study_untouched",
+      "ok": true,
+      "detail": "live substrate rows 52001 -> 52028 (must not shrink); the clone's scratch dir is inside the clone"
+    }
+  ],
+  "examples": [
+    {
+      "script": "examples\\01_sleep_consolidation.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\02_composition_lineage.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\03_selection_workflows.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\04_falsification_hypotheses.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\05_curiosity_investigation_agenda.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\domains\\01_developer_workflow.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\domains\\02_bug_tracking.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\domains\\03_synthetic_ecology.py",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "script": "examples\\domains\\04_robot_simulation.py",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 8,
+  "total": 8
+}

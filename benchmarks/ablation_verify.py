@@ -272,22 +272,39 @@ def curiosity_effectiveness(full: dict, random_cond: dict) -> dict:
 
 
 def _verdict_h(f_an: dict, r_an: dict, jac: float) -> str:
-    """State plainly whether the Random Curiosity ablation perturbed anything."""
+    """State plainly whether the Random Curiosity ablation perturbed anything.
+
+    Note the sign convention: the correlation is between a candidate's EIG
+    score and the POSITION it was selected at, so a policy that follows
+    EIG produces a NEGATIVE correlation (high score, early position).
+    """
     bits = []
     corr = f_an.get("rank_correlation_score_vs_selection")
-    if corr is not None and corr > 0.5:
-        bits.append(f"EIG ranking tracks its own selection order (rho={corr})")
+    r_corr = r_an.get("rank_correlation_score_vs_selection")
+    if corr is not None and corr < -0.05:
+        bits.append(f"EIG ranking drives selection order (rho={corr}; negative = "
+                    f"higher score selected earlier)")
     else:
-        bits.append(f"EIG ranking does NOT track selection order (rho={corr})")
+        bits.append(f"EIG ranking does NOT drive selection order (rho={corr})")
+    if r_corr is not None:
+        bits.append(f"random policy rho={r_corr}, i.e. no ordering effect")
     m_f = f_an.get("mean_score_selected")
     m_r = r_an.get("mean_score_selected")
+    a_f = f_an.get("mean_score_all_candidates")
+    a_r = r_an.get("mean_score_all_candidates")
     if m_f is not None and m_r is not None:
-        bits.append(f"EIG selected mean score {m_f} vs random {m_r}")
+        bits.append(f"EIG selected mean curiosity score {m_f} vs random {m_r} "
+                    f"(candidate pool means {a_f} / {a_r})")
+    t_f = f_an.get("fraction_selected_in_top_decile")
+    t_r = r_an.get("fraction_selected_in_top_decile")
+    if t_f is not None and t_r is not None:
+        bits.append(f"top-decile hit rate {t_f} (EIG) vs {t_r} (random)")
     bits.append(f"final-selection Jaccard {jac}")
     if jac >= 0.95:
         return ("PERTURBATION FAILED: the two policies chose essentially the same "
                 "experiments, so any equality in the aggregate is vacuous. " + "; ".join(bits))
-    return ("Perturbation confirmed: the policies chose different investigations. " + "; ".join(bits))
+    return ("Perturbation confirmed: the policies chose substantially different "
+            "investigations. " + "; ".join(bits))
 
 
 # ===========================================================================
