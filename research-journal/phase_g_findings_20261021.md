@@ -1574,3 +1574,181 @@ Three consequences, stated plainly:
   *also* a smaller claim than "the organism is supply-limited". It is
   still true that the world gives the organism one competing subject; it is
   no longer true that a better stimulus could have fixed that by itself.
+
+---
+
+## 22. Did the substrate fix change the scientific meaning of V1?
+
+### 22.1 The question
+
+The scope correction in §21.8 changed the substrate that produced the V1
+ablation study. Every V1 conclusion was measured on the old substrate. So
+the question is not "did the numbers move" — they had to — but:
+
+> **Do the V1 conclusions still hold, and does any of them now mean
+> something different?**
+
+This is a separate question from §21, and a harder one, because a number
+that moves is not a finding that moved. The method here is:
+
+0. **Naming.** §21 says "the V2 campaign" for what is now the *Ablation Study 2
+   Tier-1 matrix*, and "Organica 2" for the planned successor architecture.
+   Those are different things from the package version (0.6.0, SemVer 2), and
+   the three namespaces are tabulated in `CHANGELOG.md` and the user manual
+   §11.6. §21's wording is left as it was written; this section uses the
+   current names.
+
+1. Re-run **all eleven V1 conditions verbatim** on the fixed substrate
+   (`benchmarks/ablation_study.py --cycles 300`, the same harness, the same
+   seeds) → `docs/ablation_study_postfix.json`.
+2. Re-run the **exact density census** on the fixed substrate
+   (`benchmarks/mbsd_census.py`) → `docs/mbsd_census_postfix.json`.
+3. Compare **each condition's delta against the O_FULL reference arm**,
+   computed on the old substrate and again on the new one. Every V1
+   conclusion is a comparison between conditions, and all eleven conditions
+   ran on one substrate, so the comparison is the thing to compare.
+4. Audit the **interpretations** separately from the measurements
+   (`benchmarks/v1_impact.py` → `docs/v1_impact.json`).
+
+### 22.2 The metric-level verdict tally
+
+`benchmarks/v1_impact.py` → `docs/v1_impact.json` compares every condition's
+**delta against the O_FULL reference arm**, on the old substrate and on the
+new one, for all twelve comparable scalars. Every V1 conclusion is a
+comparison between conditions, and all eleven conditions ran on one
+substrate, so the comparison is the thing to compare.
+
+| Verdict | Count |
+|---|---:|
+| **REVERSED** | **21** |
+| CHANGED MAGNITUDE | 36 |
+| unchanged (both zero) | 21 |
+| SURVIVED | 14 |
+| GONE (was not, now zero) | 4 |
+| NEW (was zero, now not) | 1 |
+
+**Twenty-one reversals.** Most are in the small metrics (`scr` — the
+structural-clarity rate, `ip` — prediction precision, `nsr` — novelty
+saturation ratio), where a sign flip is a small absolute change and means
+little on its own. The ones that carry meaning are concentrated in **D**,
+**I**, **C**, **G** and **H**, and they are the reason this section exists.
+
+One methodological note, because it would otherwise be a silent error: the
+harness reports `n/a` for lineage completeness when a condition has no
+lineage at all, and for cross-domain transfer outside the reference arm.
+Those metrics are **not measurable**, not zero, and the comparison excludes
+them rather than zeroing them — the same defect class as the scope issue
+this section documents, caught in the tool written to document it.
+
+### 22.3 The belief-level comparison
+
+| Cond | Intervention | subjects ≥2 (pre) | subjects ≥2 (post) | belief pool max (pre) | belief pool max (post) | verdict |
+|---|---|---:|---:|---:|---:|---|
+| **O_FULL** | reference | 1.39 / **3** | 1.00 / **1** | 8 | 6 | changed magnitude |
+| A | No Sleep | — | — | — | — | unchanged (Layer 4 bypassed) |
+| **B** | No Lineage | 1.39 / **3** | 1.00 / **1** | 8 | 6 | **unchanged — still identical to O_FULL** |
+| C | No Curiosity | 1.91 / **3** | 2.00 / **2** | 8 | 7 | changed magnitude |
+| **D** | **No Falsification** | **0.00 / 0** | **6.00 / 6** | **0** | **18** | **REVERSED** |
+| E | No Dreams | 0.07 / 1 | 0.81 / 2 | 6 | 7 | changed magnitude |
+| F | No Hypothesis Layer | — | — | — | — | unchanged (Layer 4 bypassed) |
+| G | No Questions | 1.49 / 3 | 1.00 / 1 | 8 | 5 | changed magnitude |
+| H | Random Curiosity | 1.95 / 2 | 1.00 / 1 | 7 | 5 | changed magnitude |
+| **I** | **Random Sleep** | **0.00 / 0** | **0.28 / 2** | **0** | **11** | **REVERSED (partially)** |
+| J | Memory Without Structure | 0.00 / 0 | 0.00 / 0 | 0 | 0 | unchanged — still zero |
+
+**D is the headline.** Pre-fix, No Falsification produced *nothing*: zero
+beliefs, zero competing subjects, MBSD 0.000, and the V1 report read that
+as *the organism freezes rather than bloats*. Post-fix it produces **18
+beliefs over 6 subjects, every subject competing, MBSD 1.000 and a
+retention pressure of 1.20** — and it is the **only** V1 condition that
+clears the launch gates on the study stream.
+
+The pre-fix zeros were not a property of removing falsification. They were
+a property of the instrument.
+
+### 22.4 The interpretation audit
+
+The measurements are one thing; what the project *believed* because of them
+is another. The second list is the one that matters, and it is short.
+
+| # | Interpretation | Verdict |
+|---|---|---|
+| I1 | No Sleep is foundational | **SURVIVED** |
+| I2 | Memory Without Structure is foundational | **SURVIVED** |
+| I3 | No Lineage is the control | **SURVIVED** — still byte-identical to O_FULL |
+| **I4** | **"No Falsification freezes the organism"** | **RETRACTED** |
+| I5 | Dreams carry the upper ladder | **SURVIVED (direction), RECALIBRATED (magnitude)** |
+| I6 | EIG is the only producer of investigations/experiments, and removing it helps | **SURVIVED** |
+| I7 | Questions are not the gateway — dreams are | **SURVIVED** |
+| I8 | EIG is a perfect ranker that buys nothing measurable | **SURVIVED as a V1 finding; the question it poses is now OPEN** |
+| **I9** | **"The organism is supply-limited, not selection-limited"** | **RETRACTED as a general statement** |
+| **I10** | **"`MAX_HYPOTHESES` is INERT"** | **RETRACTED as a general statement** (still true of the study stream) |
+| I11 | More vocabulary makes it worse | **SURVIVED** |
+
+**I4 — the retraction.** The V1 report said No Falsification "freezes rather
+than bloats; contradiction duty 61% → 5%". Post-fix, the same condition
+produces the **strongest belief supply in the entire study**: 18 beliefs,
+6 of 6 subjects competing, MBSD 1.000, pressure 1.20. The interpretation is
+withdrawn, and the reason is recorded rather than quietly overwritten: the
+pre-fix zeros were produced by the scope defect, not by the intervention.
+
+**I9 and I10 — the two retractions that matter most.** Both are statements
+about the *architecture* that were really statements about the *stimulus*.
+"The organism is supply-limited, not selection-limited" was true of the
+study stream on the pre-fix substrate, and it is the reason the branch
+stimulus was built. It is not a property of the architecture: on the branch
+stimulus the pool reaches 18 against a cap of 15, the cap binds, and the
+retention policy changes the retained competing-subject count (7
+pre-retention, 5–6 post-retention). Selection is now measurable.
+
+"`MAX_HYPOTHESES` is INERT" is the same mistake in a different place: an
+instrument property, scoped to a stimulus, reported as an architecture
+property. It is still true *of the study stream* and it is false of the
+branch stimulus, and the honest statement is the scoped one.
+
+**This is the pattern that keeps recurring, and it is worth naming
+explicitly.** Three separate findings in this project — the contradiction
+archive reading `null`, the workflow measurement reading the wrong
+attribute, the r=4 "phase transition", and now the scope defect — all had
+the same shape: *an instrument property was reported as a property of the
+organism*. The distinguishing feature of the organism is that it is now
+being checked for that failure mode before each experiment, rather than
+after.
+
+### 22.5 What did **not** change
+
+* **Every within-V1 comparison.** All eleven conditions ran on one
+  substrate before and one after. A comparison between two conditions on
+  the same substrate is exactly the kind of claim that survives a change to
+  the shared substrate, and §22.2's delta table confirms it.
+* **The layer orderings.** Sleep → foundational. Memory → foundational.
+  Dreams → upper ladder. Questions → not the gateway. Curiosity →
+  investigations and experiments. These are structural, not statistical.
+* **The G1–G4 perturbation ladder**, and with it the methodology that found
+  every defect in this section.
+* **The ranking facts about EIG** (Jaccard 0.111 against the EIG ranking,
+  top-k precision 1.000 against 0.584 random). Those are properties of the
+  ranking code and are not touched by a frequency estimate.
+* **The plateau.** The study stream still converges and still holds one
+  theory and one question.
+* **The 90-day single-arm conclusion.** It remains a flat line.
+
+### 22.6 What this means for the campaign
+
+The Ablation Study 2 Tier-1 matrix runs on the **fixed** substrate, with the
+branch stimulus, with the five gates closed and verified. Three consequences
+follow from §22.4:
+
+1. **The campaign is not a re-run of V1.** It is the first experiment in the
+   project in which the retention policy *can* matter, because the belief
+   cap binds. That is the P1 arm's whole point, and it was unmeasurable
+   until now.
+2. **No Falsification is no longer a candidate colony.** Its pre-fix
+   behaviour was an artifact. The six V2 colonies are unchanged from the
+   pre-registration, and D is not one of them — but the reason D was
+   dropped from the V2 list (it looked like a collapse) is now known to be
+   wrong, and that is recorded rather than quietly fixed.
+3. **Every V2 result is a measurement on a substrate whose scope has been
+   verified.** The counter that normalises every edge count is scoped to
+   the same population the edge counts are drawn from, and a regression
+   test asserts it.

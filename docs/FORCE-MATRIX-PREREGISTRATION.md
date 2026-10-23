@@ -455,7 +455,7 @@ that the result table says what it can and cannot support.
 
 ### 9.1 Which metrics can move at all
 
-`benchmarks/metric_sensitivity.py` → `docs/metric_sensitivity.json`. Six
+`benchmarks/metric_sensitivity.py` → `docs/metric_sensitivity_pilot.json`. Six
 colonies, 300 cycles, `lattice_L1`, one seed.
 `sensitivity(metric) = max − min` across the six colonies.
 

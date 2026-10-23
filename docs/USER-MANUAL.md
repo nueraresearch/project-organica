@@ -626,7 +626,7 @@ The same verification also answered the question finding #5 raised about contrad
 
 **The single highest-value next step** is the **experiment executor**. It unblocks four things at once: it makes EIG testable against random curiosity (#9), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. Everything else in the remedy list is downstream of it.
 
-Full protocol, predictions and disclosure: **`docs/ABLATION-PREREGISTRATION.md`**. Results: **`docs/ablation_study.json`** and **`docs/ablation_verification.json`**. What emergence means and which levels Organica can evidence: **`docs/EMERGENCE-CRITERIA.md`**.
+Full protocol, predictions and disclosure: **`docs/ABLATION-PREREGISTRATION.md`**. Results: **`docs/ablation_study.json`** and **`docs/ablation_verification.json`**, re-run on the fixed substrate as **`docs/ablation_study_postfix.json`**, and compared before/after in **`docs/v1_impact.json`** (the audit that classifies each V1 conclusion as survived / changed magnitude / reversed, and each *interpretation* as survived or **retracted**). What emergence means and which levels Organica can evidence: **`docs/EMERGENCE-CRITERIA.md`**.
 
 ### 8.3 The instrumentation audit: where the pressure really is
 
@@ -956,12 +956,15 @@ project-organica/
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
 │   ├── ORGANICA-V2-DESIGN-NOTES.md  # planning only: what survived, what failed, what is inert
 │   ├── ablation_study.json      # the ablation results
+│   ├── ablation_study_postfix.json  # ...re-run on the fixed substrate
+│   ├── v1_impact.json           # V1 before vs after, incl. the RETRACTED interpretations
 │   ├── gate_validation.json     # is the gate a predictor or a definition?
 │   ├── mbsd_census.json         # exact gate density across all 11 V1 conditions
 │   ├── mbsd_census_postfix.json # ...and the same census on the fixed substrate
 │   ├── gate_check.json          # the launch-gate re-run that closed the gates
 │   ├── freq_scope_probe.json    # the scope defect, isolated
-│   ├── metric_sensitivity.json  # which of M1–M9 can actually move across colonies
+│   ├── metric_sensitivity.json  # the audit on the full 3,000-cycle matrix
+│   ├── metric_sensitivity_pilot.json  # ...and on the 300-cycle pilot
 │   ├── seed_noise.json          # the within-process seed floor (measured: 0)
 │   ├── process_noise.json       # the process-level floor (the one that binds)
 │   └── force_matrix_pilot.json  # the Tier-1 pilot campaign results

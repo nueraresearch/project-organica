@@ -1,0 +1,1290 @@
+{
+  "pre_artifact": "docs\\ablation_study.json",
+  "post_artifact": "docs\\ablation_study_postfix.json",
+  "tally": {
+    "CHANGED MAGNITUDE": 36,
+    "SURVIVED": 14,
+    "unchanged (both zero)": 21,
+    "REVERSED": 21,
+    "GONE (was not, now zero)": 4,
+    "NEW (was zero, now not)": 1
+  },
+  "census_comparison": [
+    {
+      "condition": "A",
+      "note": "Layer 4 bypassed by design",
+      "pre": null,
+      "post": null,
+      "verdict": "UNCHANGED (bypassed)"
+    },
+    {
+      "condition": "B",
+      "pre": {
+        "subjects_mean": 3.53,
+        "subjects_ge2_mean": 1.39,
+        "subjects_ge2_max": 3,
+        "mbsd_density": 0.392,
+        "belief_pool_mean": 4.92,
+        "belief_pool_max": 8,
+        "retention_pressure_mean": 0.328
+      },
+      "post": {
+        "subjects_mean": 5.0,
+        "subjects_ge2_mean": 1.0,
+        "subjects_ge2_max": 1,
+        "mbsd_density": 0.2,
+        "belief_pool_mean": 6.0,
+        "belief_pool_max": 6,
+        "retention_pressure_mean": 0.4
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": true,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "condition": "C",
+      "pre": {
+        "subjects_mean": 3.47,
+        "subjects_ge2_mean": 1.91,
+        "subjects_ge2_max": 3,
+        "mbsd_density": 0.55,
+        "belief_pool_mean": 5.37,
+        "belief_pool_max": 8,
+        "retention_pressure_mean": 0.358
+      },
+      "post": {
+        "subjects_mean": 5.0,
+        "subjects_ge2_mean": 2.0,
+        "subjects_ge2_max": 2,
+        "mbsd_density": 0.4,
+        "belief_pool_mean": 7.0,
+        "belief_pool_max": 7,
+        "retention_pressure_mean": 0.467
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": true,
+        "G_MBD_density_ge050": true,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "condition": "D",
+      "pre": {
+        "subjects_mean": 0.0,
+        "subjects_ge2_mean": 0.0,
+        "subjects_ge2_max": 0,
+        "mbsd_density": 0.0,
+        "belief_pool_mean": 0.0,
+        "belief_pool_max": 0,
+        "retention_pressure_mean": 0.0
+      },
+      "post": {
+        "subjects_mean": 6.0,
+        "subjects_ge2_mean": 6.0,
+        "subjects_ge2_max": 6,
+        "mbsd_density": 1.0,
+        "belief_pool_mean": 18.0,
+        "belief_pool_max": 18,
+        "retention_pressure_mean": 1.2
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": true,
+        "G_MBD_density_ge050": true,
+        "G_P1": true
+      },
+      "verdict": "REVERSED (was zero, now non-zero)"
+    },
+    {
+      "condition": "E",
+      "pre": {
+        "subjects_mean": 4.27,
+        "subjects_ge2_mean": 0.07,
+        "subjects_ge2_max": 1,
+        "mbsd_density": 0.016,
+        "belief_pool_mean": 4.33,
+        "belief_pool_max": 6,
+        "retention_pressure_mean": 0.289
+      },
+      "post": {
+        "subjects_mean": 4.99,
+        "subjects_ge2_mean": 0.81,
+        "subjects_ge2_max": 2,
+        "mbsd_density": 0.163,
+        "belief_pool_mean": 5.8,
+        "belief_pool_max": 7,
+        "retention_pressure_mean": 0.387
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "condition": "F",
+      "note": "Layer 4 bypassed by design",
+      "pre": null,
+      "post": null,
+      "verdict": "UNCHANGED (bypassed)"
+    },
+    {
+      "condition": "G",
+      "pre": {
+        "subjects_mean": 5.0,
+        "subjects_ge2_mean": 1.49,
+        "subjects_ge2_max": 3,
+        "mbsd_density": 0.299,
+        "belief_pool_mean": 6.49,
+        "belief_pool_max": 8,
+        "retention_pressure_mean": 0.433
+      },
+      "post": {
+        "subjects_mean": 4.0,
+        "subjects_ge2_mean": 1.0,
+        "subjects_ge2_max": 1,
+        "mbsd_density": 0.25,
+        "belief_pool_mean": 5.0,
+        "belief_pool_max": 5,
+        "retention_pressure_mean": 0.333
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": true,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "condition": "H",
+      "pre": {
+        "subjects_mean": 5.0,
+        "subjects_ge2_mean": 1.95,
+        "subjects_ge2_max": 2,
+        "mbsd_density": 0.389,
+        "belief_pool_mean": 6.95,
+        "belief_pool_max": 7,
+        "retention_pressure_mean": 0.463
+      },
+      "post": {
+        "subjects_mean": 4.0,
+        "subjects_ge2_mean": 1.0,
+        "subjects_ge2_max": 1,
+        "mbsd_density": 0.25,
+        "belief_pool_mean": 5.0,
+        "belief_pool_max": 5,
+        "retention_pressure_mean": 0.333
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "condition": "I",
+      "pre": {
+        "subjects_mean": 0.0,
+        "subjects_ge2_mean": 0.0,
+        "subjects_ge2_max": 0,
+        "mbsd_density": 0.0,
+        "belief_pool_mean": 0.0,
+        "belief_pool_max": 0,
+        "retention_pressure_mean": 0.0
+      },
+      "post": {
+        "subjects_mean": 3.67,
+        "subjects_ge2_mean": 0.28,
+        "subjects_ge2_max": 2,
+        "mbsd_density": 0.076,
+        "belief_pool_mean": 3.95,
+        "belief_pool_max": 11,
+        "retention_pressure_mean": 0.263
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "REVERSED (was zero, now non-zero)"
+    },
+    {
+      "condition": "J",
+      "pre": {
+        "subjects_mean": 0.0,
+        "subjects_ge2_mean": 0.0,
+        "subjects_ge2_max": 0,
+        "mbsd_density": 0.0,
+        "belief_pool_mean": 0.0,
+        "belief_pool_max": 0,
+        "retention_pressure_mean": 0.0
+      },
+      "post": {
+        "subjects_mean": 0.0,
+        "subjects_ge2_mean": 0.0,
+        "subjects_ge2_max": 0,
+        "mbsd_density": 0.0,
+        "belief_pool_mean": 0.0,
+        "belief_pool_max": 0,
+        "retention_pressure_mean": 0.0
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "UNCHANGED (both zero)"
+    },
+    {
+      "condition": "O_FULL",
+      "pre": {
+        "subjects_mean": 3.53,
+        "subjects_ge2_mean": 1.39,
+        "subjects_ge2_max": 3,
+        "mbsd_density": 0.392,
+        "belief_pool_mean": 4.92,
+        "belief_pool_max": 8,
+        "retention_pressure_mean": 0.328
+      },
+      "post": {
+        "subjects_mean": 5.0,
+        "subjects_ge2_mean": 1.0,
+        "subjects_ge2_max": 1,
+        "mbsd_density": 0.2,
+        "belief_pool_mean": 6.0,
+        "belief_pool_max": 6,
+        "retention_pressure_mean": 0.4
+      },
+      "pre_gate": {
+        "G_MBD_abs_ge3": true,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "post_gate": {
+        "G_MBD_abs_ge3": false,
+        "G_MBD_density_ge050": false,
+        "G_P1": false
+      },
+      "verdict": "CHANGED MAGNITUDE"
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "I1",
+      "interpretation": "No Sleep is foundational: without sleep every developmental structure goes to zero.",
+      "verdict": "SURVIVED",
+      "post_evidence": "A post-fix: theories=0, questions=0, hypotheses=0, dreams=0",
+      "reason": "Sleep bypasses every downstream layer by construction; no change in the frequency estimate can resurrect them."
+    },
+    {
+      "id": "I2",
+      "interpretation": "Memory Without Structure is foundational: without a structured substrate nothing develops.",
+      "verdict": "SURVIVED",
+      "post_evidence": "J post-fix: theories=0, hypotheses=0, dreams=0",
+      "reason": "The substrate is removed outright; the scope fix cannot affect a condition that never builds a graph."
+    },
+    {
+      "id": "I3",
+      "interpretation": "No Lineage is the control: populations are identical to the reference arm and only the lineage metric moves.",
+      "verdict": "SURVIVED",
+      "post_evidence": "B post-fix populations equal O_FULL post-fix: beliefs=6 vs 6, subjects>=2 max=1 vs 1",
+      "reason": "Lineage removal strips parent_ids and cannot change which beliefs are produced."
+    },
+    {
+      "id": "I4",
+      "interpretation": "No Falsification FREEZES the organism rather than bloating it: contradiction duty collapses and it produces almost nothing.",
+      "verdict": "RETRACTED",
+      "post_evidence": "D post-fix: belief pool 18.0/18, subjects>=2 mean/max 6.0/6, MBSD=1.0, retention pressure=1.2 (pre-fix: all zeros)",
+      "reason": "The pre-fix zeros were produced by the scope defect, not by removing falsification. Post-fix, No Falsification is the BEST-SUPPLIED condition in the entire study -- 18 beliefs, every subject competing, MBSD 1.000 -- and it is the only V1 condition that passes the launch gates on the study stream. The interpretation 'falsification prevents freeze' is withdrawn; the pre-fix evidence for it was an instrumentation artifact."
+    },
+    {
+      "id": "I5",
+      "interpretation": "Dreams carry the upper ladder: removing them collapses processes and workflows to zero.",
+      "verdict": "SURVIVED (direction), RECALIBRATED (magnitude)",
+      "post_evidence": "E post-fix: subjects 4.99, subjects>=2 0.81/2, MBSD 0.163 (pre-fix: 0.07/1, MBSD 0.016)",
+      "reason": "E still has almost no subject competition post-fix, so the qualitative claim holds. But the pre-fix magnitude (0.07 subjects with >=2 beliefs) was itself inflated by the defect, and the post-fix figure is higher, so the claim is stated with a different number."
+    },
+    {
+      "id": "I6",
+      "interpretation": "EIG is the only producer of investigations and experiments, and removing it RAISES theories, hypotheses and questions while the two output layers go to zero -- it passes G4, but in the wrong direction.",
+      "verdict": "SURVIVED",
+      "post_evidence": "C post-fix: theories=2, questions=2, hypotheses=14, investigations=0, experiments=0",
+      "reason": "The intervention removes layers 7 and 8 outright; the direction of the effect is structural."
+    },
+    {
+      "id": "I7",
+      "interpretation": "Questions are not the gateway -- dreams are: removing questions leaves investigations and experiments alive.",
+      "verdict": "SURVIVED",
+      "post_evidence": "G post-fix: questions=0, investigations=5, experiments=5",
+      "reason": "The layer ordering is unchanged by the frequency scope."
+    },
+    {
+      "id": "I8",
+      "interpretation": "Random curiosity is genuinely different selection (Jaccard 0.111 vs EIG) and still buys no developmental gain -- EIG is a perfect ranker that buys nothing measurable.",
+      "verdict": "SURVIVED (as a V1 finding); the question it poses is now OPEN",
+      "post_evidence": "The selection-side facts (Jaccard overlap, top-k precision) are properties of the ranking code, not of the frequency estimate, so they are unaffected. Whether the *developmental* outcome is still flat is exactly what the V2 campaign measures, on a substrate where the belief cap binds.",
+      "reason": "A perfect selector over a starved candidate pool cannot matter. Post-fix the pool is no longer starved on the branch stimulus, so the V1 conclusion is not evidence against EIG; it is evidence that the pool was empty."
+    },
+    {
+      "id": "I9",
+      "interpretation": "The organism is SUPPLY-limited, not selection-limited: the scarce resource is competing expectations about the same subject, not vocabulary.",
+      "verdict": "RETRACTED AS A GENERAL STATEMENT",
+      "post_evidence": "On the branch stimulus the pool is 18 beliefs over 7 competing subjects against a cap of 15, and the retention policy changes the retained competing-subject count (7 pre-retention, 5-6 post-retention). Selection is now measurable and the cap binds.",
+      "reason": "The claim was true of the study stream on the pre-fix substrate and is the reason the branch stimulus was built. It is not a property of the architecture, and stating it as one would have been the same mistake as the r=4 boundary: reading a property of the instrument as a property of the system."
+    },
+    {
+      "id": "I10",
+      "interpretation": "MAX_HYPOTHESES is INERT: the belief cap never binds, so the retention policy cannot matter.",
+      "verdict": "RETRACTED AS A GENERAL STATEMENT (still true of the study stream)",
+      "post_evidence": "Study stream post-fix: belief pool max 6 against a cap of 15 -- still under, so still inert THERE. Branch stimulus: 18 beliefs against a cap of 15 -- the cap binds and the policy changes the retained population.",
+      "reason": "An instrument property, scoped to a stimulus, reported as an architecture property."
+    },
+    {
+      "id": "I11",
+      "interpretation": "More vocabulary makes it worse: 42 world tags gave 1 theory and 97 gave 0.",
+      "verdict": "SURVIVED",
+      "post_evidence": "The stimulus sweep is a comparison between two stimuli on one substrate, so its differential is unaffected by a change to the frequency estimate; the absolute theory counts move, the ordering does not.",
+      "reason": "A within-substrate comparison, which is the kind that survives a substrate change."
+    }
+  ],
+  "deltas": [
+    {
+      "condition": "A",
+      "name": "No Sleep",
+      "metrics": {
+        "coverage_ratio": {
+          "pre_delta": -0.153846,
+          "post_delta": -0.076923,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "es": {
+          "pre_delta": -49.101571,
+          "post_delta": -48.315143,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "ip": {
+          "pre_delta": -0.487952,
+          "post_delta": -0.462901,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "pa": {
+          "pre_delta": -0.19096,
+          "post_delta": -0.19096,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.05815,
+          "post_delta": 0.038957,
+          "pre_value": 0.43511943189154295,
+          "post_value": 0.43511943189154295,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "B",
+      "name": "No Lineage",
+      "metrics": {
+        "cd": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 12.228257017708872,
+          "post_value": 9.551956241918763,
+          "verdict": "unchanged (both zero)"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.6133333333333333,
+          "post_value": 0.99,
+          "verdict": "unchanged (both zero)"
+        },
+        "coverage_ratio": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.15384615384615385,
+          "post_value": 0.07692307692307693,
+          "verdict": "unchanged (both zero)"
+        },
+        "es": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 49.10157101997996,
+          "post_value": 48.315143322802285,
+          "verdict": "unchanged (both zero)"
+        },
+        "ip": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.48795215637703254,
+          "post_value": 0.4629013107902736,
+          "verdict": "unchanged (both zero)"
+        },
+        "lc": {
+          "pre_delta": -1.0,
+          "post_delta": -1.0,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "nsr": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.8737864077669902,
+          "post_value": 0.8550185873605948,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.3769695184803416,
+          "post_value": 0.3961621788919839,
+          "verdict": "unchanged (both zero)"
+        },
+        "scr": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.01834862385321101,
+          "post_value": 0.009174311926605505,
+          "verdict": "unchanged (both zero)"
+        },
+        "ss": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.5196000000000001,
+          "post_value": 0.5153769230769231,
+          "verdict": "unchanged (both zero)"
+        }
+      }
+    },
+    {
+      "condition": "C",
+      "name": "No Curiosity",
+      "metrics": {
+        "cd": {
+          "pre_delta": 5.431403,
+          "post_delta": 10.272256,
+          "pre_value": 17.659660354550674,
+          "post_value": 19.824212494372233,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": 0.04,
+          "post_delta": 0.006667,
+          "pre_value": 0.6533333333333333,
+          "post_value": 0.9966666666666667,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "coverage_ratio": {
+          "pre_delta": 0.076923,
+          "post_delta": 0.076923,
+          "pre_value": 0.23076923076923078,
+          "post_value": 0.15384615384615385,
+          "verdict": "SURVIVED"
+        },
+        "es": {
+          "pre_delta": -4.466651,
+          "post_delta": -3.007883,
+          "pre_value": 44.63491980465951,
+          "post_value": 45.307260762497926,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ip": {
+          "pre_delta": -0.009257,
+          "post_delta": -0.021312,
+          "pre_value": 0.47869524841355826,
+          "post_value": 0.4415895159251769,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "lc": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 1.0,
+          "post_value": 1.0,
+          "verdict": "unchanged (both zero)"
+        },
+        "nsr": {
+          "pre_delta": -0.056666,
+          "post_delta": 0.024378,
+          "pre_value": 0.8171206225680934,
+          "post_value": 0.8793969849246231,
+          "verdict": "REVERSED"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.001322,
+          "post_delta": 0.0137,
+          "pre_value": 0.3782918667248654,
+          "post_value": 0.4098623118796029,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "scr": {
+          "pre_delta": 0.010223,
+          "post_delta": 0.010434,
+          "pre_value": 0.02857142857142857,
+          "post_value": 0.0196078431372549,
+          "verdict": "SURVIVED"
+        },
+        "ss": {
+          "pre_delta": -0.170291,
+          "post_delta": -0.121522,
+          "pre_value": 0.3493090909090909,
+          "post_value": 0.39385454545454546,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "D",
+      "name": "No Falsification",
+      "metrics": {
+        "cd": {
+          "pre_delta": -10.818724,
+          "post_delta": 22.726453,
+          "pre_value": 1.4095335157724318,
+          "post_value": 32.27840878589986,
+          "verdict": "REVERSED"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": -0.566667,
+          "post_delta": 0.006667,
+          "pre_value": 0.04666666666666667,
+          "post_value": 0.9966666666666667,
+          "verdict": "REVERSED"
+        },
+        "coverage_ratio": {
+          "pre_delta": -0.076923,
+          "post_delta": 0.0,
+          "pre_value": 0.07692307692307693,
+          "post_value": 0.07692307692307693,
+          "verdict": "GONE (was not, now zero)"
+        },
+        "es": {
+          "pre_delta": 3.107769,
+          "post_delta": -2.34057,
+          "pre_value": 52.20933992573353,
+          "post_value": 45.97457358989695,
+          "verdict": "REVERSED"
+        },
+        "ip": {
+          "pre_delta": -0.048838,
+          "post_delta": -0.001235,
+          "pre_value": 0.4391142853682268,
+          "post_value": 0.4616665448818506,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "lc": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 1.0,
+          "post_value": 1.0,
+          "verdict": "unchanged (both zero)"
+        },
+        "nsr": {
+          "pre_delta": 0.049637,
+          "post_delta": 0.036873,
+          "pre_value": 0.9234234234234234,
+          "post_value": 0.8918918918918919,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.044066,
+          "post_delta": 0.007533,
+          "pre_value": 0.42103511399567317,
+          "post_value": 0.4036955840901973,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "scr": {
+          "pre_delta": -0.00446,
+          "post_delta": -0.00111,
+          "pre_value": 0.013888888888888888,
+          "post_value": 0.008064516129032258,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ss": {
+          "pre_delta": 0.155992,
+          "post_delta": -0.061823,
+          "pre_value": 0.6755923076923077,
+          "post_value": 0.4535538461538462,
+          "verdict": "REVERSED"
+        }
+      }
+    },
+    {
+      "condition": "E",
+      "name": "No Dreams",
+      "metrics": {
+        "cd": {
+          "pre_delta": -8.195737,
+          "post_delta": -4.910304,
+          "pre_value": 4.032519970348476,
+          "post_value": 4.641652494624105,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": -0.426667,
+          "post_delta": -0.663333,
+          "pre_value": 0.18666666666666668,
+          "post_value": 0.32666666666666666,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "coverage_ratio": {
+          "pre_delta": -0.076923,
+          "post_delta": 0.0,
+          "pre_value": 0.07692307692307693,
+          "post_value": 0.07692307692307693,
+          "verdict": "GONE (was not, now zero)"
+        },
+        "es": {
+          "pre_delta": 3.002493,
+          "post_delta": 1.160479,
+          "pre_value": 52.1040635319634,
+          "post_value": 49.475622320424755,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ip": {
+          "pre_delta": -0.023263,
+          "post_delta": 0.00436,
+          "pre_value": 0.4646891204801797,
+          "post_value": 0.46726171475995915,
+          "verdict": "REVERSED"
+        },
+        "lc": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 1.0,
+          "post_value": 1.0,
+          "verdict": "unchanged (both zero)"
+        },
+        "nsr": {
+          "pre_delta": -0.007476,
+          "post_delta": -0.01927,
+          "pre_value": 0.8663101604278075,
+          "post_value": 0.8357487922705314,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.023658,
+          "post_delta": -0.00049,
+          "pre_value": 0.40062794348508635,
+          "post_value": 0.3956723338485317,
+          "verdict": "REVERSED"
+        },
+        "scr": {
+          "pre_delta": -0.00222,
+          "post_delta": 0.002189,
+          "pre_value": 0.016129032258064516,
+          "post_value": 0.011363636363636364,
+          "verdict": "REVERSED"
+        },
+        "ss": {
+          "pre_delta": 0.181542,
+          "post_delta": 0.057806,
+          "pre_value": 0.7011416666666667,
+          "post_value": 0.5731833333333333,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "F",
+      "name": "No Hypothesis Layer",
+      "metrics": {
+        "cd": {
+          "pre_delta": -12.228257,
+          "post_delta": -9.551956,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": -0.613333,
+          "post_delta": -0.99,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "coverage_ratio": {
+          "pre_delta": 0.0,
+          "post_delta": 0.076923,
+          "pre_value": 0.15384615384615385,
+          "post_value": 0.15384615384615385,
+          "verdict": "NEW (was zero, now not)"
+        },
+        "es": {
+          "pre_delta": -0.351597,
+          "post_delta": -1.145767,
+          "pre_value": 48.749973720692275,
+          "post_value": 47.169376376487094,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ip": {
+          "pre_delta": 0.004568,
+          "post_delta": 0.00191,
+          "pre_value": 0.49252007032908707,
+          "post_value": 0.4648115464400428,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "lc": {
+          "pre_delta": -0.358974,
+          "post_delta": -0.651515,
+          "pre_value": 0.6410256410256411,
+          "post_value": 0.3484848484848485,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "nsr": {
+          "pre_delta": -0.018614,
+          "post_delta": 0.024789,
+          "pre_value": 0.8551724137931035,
+          "post_value": 0.8798076923076923,
+          "verdict": "REVERSED"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.013155,
+          "post_delta": 0.011546,
+          "pre_value": 0.3901249619018592,
+          "post_value": 0.40770823379519033,
+          "verdict": "SURVIVED"
+        },
+        "scr": {
+          "pre_delta": 0.000519,
+          "post_delta": 0.009694,
+          "pre_value": 0.018867924528301886,
+          "post_value": 0.018867924528301886,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ss": {
+          "pre_delta": -0.070475,
+          "post_delta": -0.14416,
+          "pre_value": 0.449125,
+          "post_value": 0.3712166666666667,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "G",
+      "name": "No Questions",
+      "metrics": {
+        "cd": {
+          "pre_delta": 1.858664,
+          "post_delta": 5.048162,
+          "pre_value": 14.086921345481857,
+          "post_value": 14.600118659209063,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": 0.083333,
+          "post_delta": 0.006667,
+          "pre_value": 0.6966666666666667,
+          "post_value": 0.9966666666666667,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "coverage_ratio": {
+          "pre_delta": -0.076923,
+          "post_delta": 0.076923,
+          "pre_value": 0.07692307692307693,
+          "post_value": 0.15384615384615385,
+          "verdict": "REVERSED"
+        },
+        "es": {
+          "pre_delta": -0.809286,
+          "post_delta": -1.241991,
+          "pre_value": 48.292285489258795,
+          "post_value": 47.07315257197212,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ip": {
+          "pre_delta": 0.002699,
+          "post_delta": -0.003618,
+          "pre_value": 0.4906513959718584,
+          "post_value": 0.4592829014227642,
+          "verdict": "REVERSED"
+        },
+        "lc": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 1.0,
+          "post_value": 1.0,
+          "verdict": "unchanged (both zero)"
+        },
+        "nsr": {
+          "pre_delta": -0.012588,
+          "post_delta": 0.005151,
+          "pre_value": 0.861198738170347,
+          "post_value": 0.8601694915254238,
+          "verdict": "REVERSED"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": -0.001119,
+          "post_delta": 0.004338,
+          "pre_value": 0.3758505863616621,
+          "post_value": 0.4005006257822278,
+          "verdict": "REVERSED"
+        },
+        "scr": {
+          "pre_delta": -0.009089,
+          "post_delta": 0.009517,
+          "pre_value": 0.009259259259259259,
+          "post_value": 0.018691588785046728,
+          "verdict": "REVERSED"
+        },
+        "ss": {
+          "pre_delta": -0.030725,
+          "post_delta": -0.049002,
+          "pre_value": 0.488875,
+          "post_value": 0.466375,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "H",
+      "name": "Random Curiosity",
+      "metrics": {
+        "cd": {
+          "pre_delta": -1.26532,
+          "post_delta": 1.407224,
+          "pre_value": 10.962936889460874,
+          "post_value": 10.959180367009498,
+          "verdict": "REVERSED"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": 0.143333,
+          "post_delta": -0.003333,
+          "pre_value": 0.7566666666666667,
+          "post_value": 0.9866666666666667,
+          "verdict": "REVERSED"
+        },
+        "coverage_ratio": {
+          "pre_delta": -0.076923,
+          "post_delta": 0.0,
+          "pre_value": 0.07692307692307693,
+          "post_value": 0.07692307692307693,
+          "verdict": "GONE (was not, now zero)"
+        },
+        "es": {
+          "pre_delta": 2.308474,
+          "post_delta": -0.589049,
+          "pre_value": 51.410044950043435,
+          "post_value": 47.72609439971507,
+          "verdict": "REVERSED"
+        },
+        "ip": {
+          "pre_delta": -0.020513,
+          "post_delta": 0.002507,
+          "pre_value": 0.46743940990516336,
+          "post_value": 0.46540851380445797,
+          "verdict": "REVERSED"
+        },
+        "lc": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 1.0,
+          "post_value": 1.0,
+          "verdict": "unchanged (both zero)"
+        },
+        "nsr": {
+          "pre_delta": -0.025572,
+          "post_delta": -0.035291,
+          "pre_value": 0.8482142857142857,
+          "post_value": 0.8197278911564626,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "pa": {
+          "pre_delta": 0.0,
+          "post_delta": 0.0,
+          "pre_value": 0.19096045197740114,
+          "post_value": 0.19096045197740114,
+          "verdict": "unchanged (both zero)"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.017981,
+          "post_delta": -0.002134,
+          "pre_value": 0.39495040577096485,
+          "post_value": 0.39402801292904416,
+          "verdict": "REVERSED"
+        },
+        "scr": {
+          "pre_delta": -0.004063,
+          "post_delta": 8.5e-05,
+          "pre_value": 0.014285714285714285,
+          "post_value": 0.009259259259259259,
+          "verdict": "REVERSED"
+        },
+        "ss": {
+          "pre_delta": 0.188523,
+          "post_delta": 0.003223,
+          "pre_value": 0.708123076923077,
+          "post_value": 0.5186,
+          "verdict": "CHANGED MAGNITUDE"
+        }
+      }
+    },
+    {
+      "condition": "I",
+      "name": "Random Sleep",
+      "metrics": {
+        "cd": {
+          "pre_delta": 3.435503,
+          "post_delta": 25.615417,
+          "pre_value": 15.663760428597843,
+          "post_value": 35.16737368193136,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "cd_duty_cycle": {
+          "pre_delta": 0.223333,
+          "post_delta": 0.003333,
+          "pre_value": 0.8366666666666667,
+          "post_value": 0.9933333333333333,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "coverage_ratio": {
+          "pre_delta": 0.153846,
+          "post_delta": 0.923077,
+          "pre_value": 0.3076923076923077,
+          "post_value": 1.0,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "es": {
+          "pre_delta": -14.819436,
+          "post_delta": -8.887394,
+          "pre_value": 34.28213524889622,
+          "post_value": 39.427749219585024,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ip": {
+          "pre_delta": -0.425101,
+          "post_delta": -0.111177,
+          "pre_value": 0.06285136347155697,
+          "post_value": 0.3517240413425791,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "lc": {
+          "pre_delta": -0.006139,
+          "post_delta": 0.0,
+          "pre_value": 0.9938611876722626,
+          "post_value": 1.0,
+          "verdict": "GONE (was not, now zero)"
+        },
+        "nsr": {
+          "pre_delta": -0.335962,
+          "post_delta": -0.40159,
+          "pre_value": 0.5378240302743614,
+          "post_value": 0.45342874525596083,
+          "verdict": "SURVIVED"
+        },
+        "pa": {
+          "pre_delta": -0.188317,
+          "post_delta": -0.159059,
+          "pre_value": 0.0026437541308658294,
+          "post_value": 0.03190184049079755,
+          "verdict": "SURVIVED"
+        },
+        "pa_substrate": {
+          "pre_delta": 0.028058,
+          "post_delta": -0.053983,
+          "pre_value": 0.40502793296089384,
+          "post_value": 0.3421791273284001,
+          "verdict": "REVERSED"
+        },
+        "scr": {
+          "pre_delta": 0.031651,
+          "post_delta": 0.10587,
+          "pre_value": 0.05,
+          "post_value": 0.11504424778761062,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "ss": {
+          "pre_delta": 0.478258,
+          "post_delta": 0.481306,
+          "pre_value": 0.9978583333333333,
+          "post_value": 0.9966833333333334,
+          "verdict": "SURVIVED"
+        }
+      }
+    },
+    {
+      "condition": "J",
+      "name": "Memory Without Structure",
+      "metrics": {
+        "coverage_ratio": {
+          "pre_delta": -0.153846,
+          "post_delta": -0.076923,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "CHANGED MAGNITUDE"
+        },
+        "es": {
+          "pre_delta": -49.101571,
+          "post_delta": -48.315143,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "pa": {
+          "pre_delta": -0.19096,
+          "post_delta": -0.19096,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        },
+        "pa_substrate": {
+          "pre_delta": -0.37697,
+          "post_delta": -0.396162,
+          "pre_value": 0.0,
+          "post_value": 0.0,
+          "verdict": "SURVIVED"
+        }
+      }
+    }
+  ],
+  "reference_arm": [
+    {
+      "metric": "cd",
+      "pre": 12.228257017708872,
+      "post": 9.551956241918763,
+      "verdict": "SURVIVED"
+    },
+    {
+      "metric": "cd_duty_cycle",
+      "pre": 0.6133333333333333,
+      "post": 0.99,
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "metric": "cdt",
+      "pre": -0.4863,
+      "post": -0.4863,
+      "verdict": "unchanged"
+    },
+    {
+      "metric": "coverage_ratio",
+      "pre": 0.15384615384615385,
+      "post": 0.07692307692307693,
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "metric": "es",
+      "pre": 49.10157101997996,
+      "post": 48.315143322802285,
+      "verdict": "SURVIVED"
+    },
+    {
+      "metric": "ip",
+      "pre": 0.48795215637703254,
+      "post": 0.4629013107902736,
+      "verdict": "SURVIVED"
+    },
+    {
+      "metric": "lc",
+      "pre": 1.0,
+      "post": 1.0,
+      "verdict": "unchanged"
+    },
+    {
+      "metric": "nsr",
+      "pre": 0.8737864077669902,
+      "post": 0.8550185873605948,
+      "verdict": "SURVIVED"
+    },
+    {
+      "metric": "pa",
+      "pre": 0.19096045197740114,
+      "post": 0.19096045197740114,
+      "verdict": "unchanged"
+    },
+    {
+      "metric": "pa_substrate",
+      "pre": 0.3769695184803416,
+      "post": 0.3961621788919839,
+      "verdict": "SURVIVED"
+    },
+    {
+      "metric": "scr",
+      "pre": 0.01834862385321101,
+      "post": 0.009174311926605505,
+      "verdict": "CHANGED MAGNITUDE"
+    },
+    {
+      "metric": "ss",
+      "pre": 0.5196000000000001,
+      "post": 0.5153769230769231,
+      "verdict": "SURVIVED"
+    }
+  ],
+  "reference_populations": [
+    {
+      "population": "G1 concepts",
+      "pre": 2,
+      "post": 2,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G1 loops",
+      "pre": 15,
+      "post": 15,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G1 predictions",
+      "pre": 20,
+      "post": 20,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G1 anomalies",
+      "pre": 10,
+      "post": 10,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G2 meta-concepts",
+      "pre": 9,
+      "post": 9,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G2 processes",
+      "pre": 10,
+      "post": 10,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G3 workflows",
+      "pre": 10,
+      "post": 10,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G4 hypotheses",
+      "pre": 13,
+      "post": 13,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G5 theories",
+      "pre": 1,
+      "post": 1,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G5 questions",
+      "pre": 1,
+      "post": 1,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G6 dreams",
+      "pre": 8,
+      "post": 8,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G7 investigations",
+      "pre": 5,
+      "post": 5,
+      "verdict": "unchanged"
+    },
+    {
+      "population": "G8 experiments",
+      "pre": 5,
+      "post": 5,
+      "verdict": "unchanged"
+    }
+  ]
+}

@@ -278,10 +278,24 @@ def audit_interpretations(pre: dict, post: dict, pre_census: dict, post_census: 
 
 
 def flat_metrics(cond: dict) -> dict:
+    """The comparable scalars of one condition.
+
+    A metric can be present but `None` -- the harness reports "n/a" for
+    lineage completeness when there is no lineage at all, and for
+    cross-domain transfer outside the reference arm. Those are **not
+    measurable**, not zero, so they are excluded from the comparison rather
+    than zeroed. Zeroing them would silently turn "this condition has no
+    lineage" into "this condition has zero lineage completeness", which is
+    the same class of error as the scope defect this whole audit exists to
+    document.
+    """
     out = {}
     for key in SCALARS:
         if key in cond.get("metrics", {}):
-            out[key] = cond["metrics"][key]
+            value = cond["metrics"][key]
+            if value is None:
+                continue
+            out[key] = value
     return out
 
 
