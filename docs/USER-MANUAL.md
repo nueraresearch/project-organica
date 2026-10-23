@@ -68,27 +68,37 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 12:05 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 15:05 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
 | Study status | **RUNNING** — daemon PID 29524, relaunched 2026-10-23 11:49 MDT on the **fixed** build (the substrate correction described in [§8.4](#84-the-counter-that-was-measuring-the-wrong-population)). |
 | Build in effect | `retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15 freq_scope=world` — written to the log at every startup, so the log says which configuration produced which cycles. |
-| Cycles completed | **4,434** sleep cycles (the longest single-arm record the project has) |
-| Sleep-cycle counter | 1 → 4,434, **0 non-monotonic steps**, 0 failed cycles. The counter survived the restart *and* the substrate change, because it lives in the database, not in the process. |
-| Cycle latency | median 299 ms, max 1,037 ms |
+| Cycles completed | **4,753** sleep cycles (the longest single-arm record the project has) |
+| Sleep-cycle counter | 1 → 4,753, **0 non-monotonic steps**, 0 failed cycles. The counter survived the restart *and* the substrate change, because it lives in the database, not in the process. |
+| Cycle latency | median 614 ms (up from ~294 ms — the matrix campaign was competing for CPU), max 1,905 ms |
 | Substrate | ~25 MB, bounded by retention (109 rows pruned/cycle) |
 | Tag vocabulary | **29 tags, 0 schema tags.** Before the fix it was 63 tags, 60.6% of them the organism's own JSON field names. |
 | Mean population (last 200 cycles) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
 | Archived run | `logs/organica_prefix_20261022.log` (7.97 MB) + per-cycle series in `docs/prefix_run_series.json` (3,725 cycles) |
-| Git | `master` pushed and in sync at `e492d41` (Milestone M0.5); a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
+| **Tier-1 matrix** | **COMPLETE** — 6 colonies × 3,000 cycles = 18,000 colony-cycles. Results in [`docs/FORCE-MATRIX-RESULTS.md`](FORCE-MATRIX-RESULTS.md); journal §23. |
+| **V1 before/after** | **COMPLETE** — 21 reversals, and three interpretations **retracted**. `docs/v1_impact.json`; journal §22. |
+| Git | `master` pushed and in sync; a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
 | Mechanism closure (M0.5) | **complete** — see [§8.4](#84-the-counter-that-was-measuring-the-wrong-population). The gate is validated, the launch gates are closed, and the substrate defect that caused the collapse is fixed. |
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
 | Gate board | `docs/GATE-BOARD.md` — what is demonstrated, what is assumed, what is blocked |
+
+**The third headline, and it changed the plan again on 2026-10-23: the matrix ran, and what it measured was not what it was named.** Six colonies, 3,000 cycles each, and **every arm reaches its complete structural configuration on cycle 1** — 18 pre-retention beliefs, 7 competing subjects, 15 retained beliefs — and holds it for 2,999 cycles while mean support grows **+10,776%**. Structure flat, evidence growing by three orders of magnitude.
+
+**And the reason is environmental, not architectural: the stimulus repeats every 9 cycles.** `lattice_L1` is 9 distinct events over 7 distinct words; the organism sees the same world 333 times. Every colony discovered **zero** new items in its final 100 cycles, and the whole inventory is 74 items. **M5 ("development velocity") was not a velocity** — it was a finite inventory divided by the run length, which is why it read 24.667 over 300 cycles and 2.467 over 3,000 while the underlying count stayed at 74.
+
+The five pre-registered predictions came back **2 SUPPORTED and 3 REVERSED** — removing contradiction or question creation *raises* development velocity, and selecting the lowest-EIG experiment develops *more* than selecting the highest-EIG one. The verdicts are direction-aware; a naive "did it move?" test would have reported five confirmations.
+
+**This produced a falsifiable hypothesis, H24: the plateau is constrained by environmental information content, not by an inability to reorganise.** It is not yet tested. The next experiment is a **world-complexity ladder**, not an architecture change. Read [`docs/FORCE-MATRIX-RESULTS.md`](FORCE-MATRIX-RESULTS.md) §11 and journal §23.10 before running anything.
 
 **The headline, and it changed the plan:** the 90-day run **plateaued at cycle 261 — 7% of the way in.** Every population series has standard deviation **0.000000** and slope **0.0 per 1,000 cycles** over the last 931 cycles. The organism reached a fixed point and then sat still for 3,464 cycles. A single arm with a flat line describes nothing and identifies nothing; **only contrasts can.** The comparative matrix replaces the 90-day single arm as the primary experiment, and the daemon becomes a *monitor*, not a gate.
 
@@ -952,7 +962,8 @@ project-organica/
 │   ├── USER-MANUAL.md           # ← this document
 │   ├── ABLATION-PREREGISTRATION.md  # predictions written before the run
 │   ├── EMERGENCE-CRITERIA.md    # what counts as emergence, and what we can evidence
-│   ├── FORCE-MATRIX-PREREGISTRATION.md  # V2: frozen M1–M9 + the four launch gates
+│   ├── FORCE-MATRIX-PREREGISTRATION.md  # Ablation Study 2: frozen M1–M9 + the launch gates
+│   ├── FORCE-MATRIX-RESULTS.md   # the Tier-1 matrix results and what they can/cannot answer
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
 │   ├── ORGANICA-V2-DESIGN-NOTES.md  # planning only: what survived, what failed, what is inert
@@ -968,8 +979,13 @@ project-organica/
 │   ├── metric_sensitivity.json  # the audit on the full 3,000-cycle matrix
 │   ├── metric_sensitivity_pilot.json  # ...and on the 300-cycle pilot
 │   ├── seed_noise.json          # the within-process seed floor (measured: 0)
-│   ├── process_noise.json       # the process-level floor (the one that binds)
-│   └── force_matrix_pilot.json  # the Tier-1 pilot campaign results
+│   ├── process_noise.json       # the process-level floor at 300 cycles
+│   ├── process_noise_3000.json  # ...and at 3,000 cycles, the scale that binds
+│   ├── discovery.json           # the inventory breakdown and the discovery curves
+│   ├── force_matrix.json        # the Tier-1 campaign results (3,000 cycles x 6 colonies)
+│   ├── force_matrix_pilot.json  # the Tier-1 pilot campaign results (300 cycles)
+│   ├── figure_tier1_matrix.svg  # the campaign figure
+│   └── figure_discovery.svg     # the cumulative-discovery figure
 ├── snapshots/                   # the longitudinal data  ← the study's output
 ├── organica.log                 # one JSON line per cycle (appended, gitignored)
 └── memory.db                    # the substrate (gitignored)
@@ -1357,3 +1373,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | **Daemon relaunched** on the new build (PID 32328, 06:28 MDT) and `run_continuous.py` now writes a **build marker** at every startup, so an append-only log spanning several builds says which configuration produced which cycles. Counter continued 3,725 → 3,730 with 0 non-monotonic steps and 0 failures across the restart. |
 | 2026-10-23 | **Milestone M0.5 — mechanism closure, and a substrate correction.** The proposed gate was **validated** against the 11 V1 conditions and came back *structural*, not predictive: `theories == min(competing_subjects, MAX_THEORIES)` holds in 100% of cycles in 9 of 11 conditions, so the gate is restated as a count and a fifth gate (**G-SUS**, sustained rather than peaked) was added. The exact density census over all 11 conditions is in `docs/mbsd_census.json` — **no existing condition sustains more than 1.95 competing subjects on average, and only 4 of 9 ever reach 3.** The branch stimulus then cleared every gate *on peaks only*, and a repeat-count boundary appeared (4 worked, 6 and 10 collapsed). **The boundary was an artifact**: `tag_counts` was maintained over *all* events while the graphs it normalises are world-only, so the Layer-1 survival filter compared a world edge count against a polluted denominator. Fixed in `organica/memory.py` (counter now world-scoped, with a `meta` scope marker so an old database rebuilds exactly once). After the fix the branch stimulus holds **18 beliefs and 7 competing subjects with 100% of tail cycles passing every gate**, and the apparent phase transition disappears — r=4, 6 and 10 now behave identically. Added `benchmarks/gate_check.py`, `benchmarks/freq_scope_probe.py`, `benchmarks/branch_sweep2.py`, `benchmarks/branch_diag2.py`, `benchmarks/mbsd_census.py`, `benchmarks/gate_validation.py`, `organica/branch_streams.py`; added `tests/test_substrate_equivalence.py` scope-consistency regression test (36/36 tests pass). **Added §8.4.** **Corrected facts sheet D8b in place** — the claim that the pollution was "not the cause of anything" was wrong. Gate definitions frozen in `docs/FORCE-MATRIX-PREREGISTRATION.md` §1 (measured on the pre-retention pool, so they do not depend on the arm under test). Journal §21. |
 | 2026-10-23 | **Versioning, and the campaign tooling.** The package version is now **0.6.0** under **Semantic Versioning 2.0.0**, declared once in `organica/__init__.py` and asserted against `pyproject.toml` and `CITATION.cff` by the new `tests/test_versioning.py` (the three previously disagreed: 0.1.0 vs 0.5.0). The project is **not** at "v1" or "v2" as a release — it is pre-1.0, with the **architecture generation** at *Organica 1* and the **research campaign** at *Ablation Study 2*. Added **§11.6** (the three version namespaces) and `CHANGELOG.md`; 0.6.0 is the first release to carry a git tag. Added `benchmarks/force_matrix.py` (six-colony campaign runner with G1 code-path verification and per-colony parallelism), `benchmarks/metric_sensitivity.py` (which of M1–M9 can actually move), `benchmarks/seed_noise.py` and `benchmarks/process_noise.py` (the two noise floors), `benchmarks/v1_impact.py` (V1 before/after, with a RETRACTED category for interpretations), and `benchmarks/figure_campaign.py` (dependency-free SVG). The six-colony **pilot** ran at 300 cycles: 6/6 colonies, G1 verified distinct, and the **sensitivity audit** reports **5 of 9 metrics able to move** (M1, M6, M8 insensitive; M9 structurally zero). `benchmarks/seed_noise.py` measured the **within-process** seed floor as exactly **0.00**; because the campaign runs each colony in its own process, the binding floor is the **process-level** one, measured by `benchmarks/process_noise.py --sweep`. **42/42 tests pass.** |
+| 2026-10-23 | **Ablation Study 2 — the Tier-1 matrix ran, and it changed the plan again.** Six colonies × 3,000 cycles = **18,000 colony-cycles** (`docs/force_matrix.json`), launched by the new `benchmarks/run_matrix.py`, which runs the G1 verification once and pins **`PYTHONHASHSEED=0` in all six colony processes** so the hash order is common-mode across arms. **The structure is decided on cycle 1**: every arm reaches 18 pre-retention beliefs, 7 competing subjects and 15 retained beliefs and holds them for 2,999 cycles while mean support grows **+10,776%**. **M5 was not a velocity** — it is a finite inventory ÷ run length (74 items over both 300 and 3,000 cycles; the rate fell 24.667 → 2.467 because the numerator stopped growing), and every arm discovered **zero** new items in its final 100 cycles. **The confound: the stimulus repeats every 9 cycles** (9 distinct events, 7 words, 333 repetitions), so the plateau is consistent with *the organism exhausted the environment*, not with an inability to develop. **The five pre-registered predictions: 2 SUPPORTED, 3 REVERSED, 0 UNSUPPORTED, 0 NOT INTERPRETABLE** — the verdicts are direction-aware, so removing contradiction or questions reads as REVERSED rather than as a confirmation. The **noise floor is one new item**, measured at the 3,000-cycle scale (`docs/process_noise_3000.json`). Two colony names are corrected in place: `NO_CONTRADICTIONS` removes contradiction's *weight in confidence*, not contradictions. Added `benchmarks/verdicts.py`, `benchmarks/discovery_report.py`, `benchmarks/run_matrix.py`; added **`docs/FORCE-MATRIX-RESULTS.md`**, `docs/discovery.json`, `docs/figure_discovery.svg`, `docs/figure_tier1_matrix.svg`, `docs/verdicts.json`; added facts sheet §I (matrix results) and **§J (H24)**; updated `docs/ORGANICA-V2-DESIGN-NOTES.md` §7–§10 with the matrix's answers and the new stimulus requirement. Journal §23. |

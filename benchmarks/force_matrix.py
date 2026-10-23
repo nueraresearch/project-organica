@@ -281,6 +281,25 @@ def compute_metrics(rows: list[dict], svc: Instrumented) -> dict:
         "distinct_dreams_ever": len(seen_d),
         "distinct_experiments_ever": len(seen_e),
         "last_100_new_total": sum(new_per_cycle[-100:]) if new_per_cycle else 0,
+        # The rate above is not a rate: it is a finite inventory divided by
+        # the run length. The inventory itself is the interpretable number,
+        # and its per-category breakdown says WHAT was discovered.
+        "inventory_total": sum(new_per_cycle),
+        "inventory_per_category": {
+            "beliefs": len(seen_b),
+            "questions": len(seen_q),
+            "dreams": len(seen_d),
+            "experiments": len(seen_e),
+            "theories": len({i for r in rows for t in (r.get("theories") or [])
+                             for i in _item_ids(t)}),
+            "investigations": len({i for r in rows
+                                   for t in (r.get("investigations") or [])
+                                   for i in _item_ids(t)}),
+        },
+        "last_100_new_rate_note": (
+            "0 means the organism discovered nothing new in the final 100 "
+            "cycles. In a world that repeats, that is the repertoire being "
+            "exhausted, not development slowing."),
     }
 
     # M6 -- lineage depth.
@@ -402,6 +421,7 @@ def capture_cycle(svc) -> dict:
     r["theories"] = getattr(svc, "_last_theories", [])
     r["questions"] = getattr(svc, "_last_questions", [])
     r["dreams"] = getattr(svc, "_last_dreams", [])
+    r["investigations"] = getattr(svc, "_last_investigations", [])
     r["experiments"] = getattr(svc, "_last_experiments", [])
     return r
 
@@ -497,6 +517,81 @@ def _series(rows: list[dict]) -> dict:
         # The salience scores the two retention policies choose between,
         # pooled over the last 100 cycles.
         "salience_flat": [v for r in rows[-100:] for v in r.get("salience", [])],
+        "discovery": _discovery(rows),
+    }
+
+
+def _item_ids(obj) -> list:
+    """The ids of one cycle's items of a kind, whether they are objects or
+    dicts. The engine's candidates are objects; some rows carry dicts."""
+    if obj is None:
+        return []
+    if isinstance(obj, dict):
+        i = obj.get("id")
+        return [i] if i is not None else []
+    i = getattr(obj, "id", None)
+    return [i] if i is not None else []
+
+
+def _discovery(rows: list[dict]) -> dict:
+    """The cumulative-discovery history, by category.
+
+    M5 ("development velocity") is `new items per 100 cycles`, a RATE over the
+    whole run. When the organism discovers a finite repertoire early and then
+    stops, the rate falls with the run length while the inventory stays the
+    same -- the rate stops measuring a rate. The rate alone cannot tell that
+    apart from slow development, so the discovery history is recorded
+    directly: how many NEW items of each kind appear in each cycle, and the
+    running total of distinct items ever seen.
+
+    Categories: beliefs (Layer 4), questions (Layer 5), theories (Layer 5),
+    dreams (Layer 6), investigations (Layer 7), experiments (Layer 8).
+    """
+    kinds = ("beliefs", "questions", "theories", "dreams", "investigations",
+             "experiments")
+    # The four kinds M5 counts. Theories and investigations are DERIVED from
+    # beliefs and experiments, so summing all six would double-count.
+    m5_kinds = ("beliefs", "questions", "dreams", "experiments")
+
+    seen = {k: set() for k in kinds}
+    new_per_cycle = {k: [] for k in kinds}
+    cumulative = {k: [] for k in kinds}
+
+    def ids_of(r, key):
+        if key == "beliefs":
+            out = []
+            for b in r.get("beliefs", []):
+                out.extend(_item_ids(b))
+            return out
+        out = []
+        for obj in r.get(key) or []:
+            out.extend(_item_ids(obj))
+        return out
+
+    for r in rows:
+        for key in kinds:
+            fresh = [i for i in ids_of(r, key) if i not in seen[key]]
+            seen[key].update(fresh)
+            new_per_cycle[key].append(len(fresh))
+            cumulative[key].append(len(seen[key]))
+
+    return {
+        "new_per_cycle": new_per_cycle,
+        "cumulative": cumulative,
+        "totals": {k: len(v) for k, v in seen.items()},
+        "cycle_new_total": [sum(new_per_cycle[k][i] for k in kinds)
+                            for i in range(len(rows))],
+        "cycle_cumulative_total": [
+            sum(cumulative[k][i] for k in kinds) for i in range(len(rows))],
+        "m5_cycle_new_total": [sum(new_per_cycle[k][i] for k in m5_kinds)
+                               for i in range(len(rows))],
+        "m5_cycle_cumulative_total": [
+            sum(cumulative[k][i] for k in m5_kinds) for i in range(len(rows))],
+        "note": ("cumulative[k][i] is the number of DISTINCT items of kind k "
+                 "discovered by the end of cycle i. A curve that flattens is a "
+                 "repertoire being exhausted, not development slowing. "
+                 "m5_* counts only the four kinds M5 counts, so "
+                 "m5_cycle_cumulative_total ends at M5's inventory_total."),
     }
 
 

@@ -95,24 +95,73 @@ plan.
 | The matrix runner instantiated the instrument instead of the colony subclass | the G1 code-path check | **FULL and SALIENCE would have been identical**, and the campaign would have measured nothing |
 | The first G-SUS implementation used a subject count as a proxy for the theory cap | reading the gate table | A design was wrongly failed |
 
-## 7. The open architectural questions — to be settled by measurement, not opinion
+## 7. The open architectural questions — and what the Tier-1 matrix answered
 
-These are the questions the six-colony matrix exists to answer. Until it
-runs, they are questions.
+The matrix ran on 2026-10-23: six colonies, 3,000 cycles each, 18,000
+colony-cycles. Full results in
+[`FORCE-MATRIX-RESULTS.md`](FORCE-MATRIX-RESULTS.md). These were the
+questions the matrix existed to answer.
 
 1. **How much does the retention policy matter relative to contradiction,
-   dreams, questions and curiosity?** For the first time there is a causal
-   signal available: the cap binds, and the interventions execute.
-2. **Is contradiction developmental fuel or bookkeeping?** No experiment has
-   isolated it on a substrate where the organism is not starved.
+   dreams, questions and curiosity?** **Answered, and smaller than the metric
+   spread suggested.** All six arms reach the *same* structural fixed point
+   on cycle 1 — 18 pre-retention beliefs, 7 competing subjects, 15 retained
+   beliefs — and hold it for 2,999 cycles. The retention policy changes
+   *which* beliefs persist and how many items are discovered before
+   saturation (44 to 112 across the arms); it does not change the
+   attractor.
+2. **Is contradiction developmental fuel or bookkeeping?** **Answered: not
+   fuel, on this substrate.** With contradiction's weight in the confidence
+   formula removed, development velocity goes *up* (2.467 → 2.633) and
+   contradiction survival falls (0.9375 → 0.750). The removal helps.
+   *(Caveat: the colony zeroes contradiction's influence, not contradiction
+   itself — see the results document §6.)*
 3. **Does dreaming contribute to trajectory, or only to the upper ladder's
-   population?**
-4. **Does curiosity require explicit unresolved questions?**
-5. **Does EIG remain orthogonal when the candidate pool is not empty?**
-6. **Can a Question ever close?** This is blocked on the experiment
+   population?** **Answered: it contributes to both, and more than the
+   population column suggests.** Removing dreams drops the development rate
+   to the lowest in the campaign (1.467 against 2.467) and removes 30 items
+   from the whole inventory, not just the 11 dreams.
+4. **Does curiosity require explicit unresolved questions?** **Answered: no,
+   on this substrate.** Removing question creation *raises* development
+   velocity (2.467 → 3.733) and leaves the fixed point unchanged. It costs
+   the question layer and nothing else.
+5. **Does EIG remain orthogonal when the candidate pool is not empty?** **No.**
+   Selecting the lowest-EIG experiment develops *more* per 100 cycles
+   (2.833) than selecting the highest-EIG one (2.467). EIG selection is not
+   orthogonal on this substrate; it is counterproductive.
+6. **Can a Question ever close?** **Still blocked** on the experiment
    executor, which is an architecture decision, not a measurement.
 
-## 8. What V2 should *not* do
+**And one question the matrix raised that it could not answer:** is
+stabilisation the desired outcome, or evidence of a bottleneck? See §10.
+
+## 8. What the matrix changed about the plan
+
+**The stimulus, not the architecture, is the binding constraint on the next
+experiment.**
+
+The Tier-1 stimulus (`lattice_L1`) contains **9 distinct events** and the
+organism's experience **repeats every 9 cycles**. Every colony discovered
+**zero new items in its final 100 cycles**, and the full inventory is 44 to
+112 items. A repertoire cannot grow in a world that does not change, so the
+campaign cannot distinguish *"the organism found everything the world
+contains and held it"* from *"the organism cannot restructure once it has
+stabilised"*. On this stimulus both hypotheses predict identical numbers.
+
+A second, quieter problem: **M5 ("development velocity") is not a rate.**
+It is `new items per 100 cycles` over the whole run, so it divides a finite
+inventory by the run length. The FULL arm recorded 74 new items over 300
+cycles and the same 74 over 3,000; the "velocity" fell from 24.667 to 2.467
+because the numerator stopped growing. The metric was measuring the
+exhaustion of a repertoire and calling it development.
+
+**The next experiment therefore needs a world that does not repeat, and a
+development metric defined over a fixed prefix window.** That is a change to
+the experimental design, not to the engine, and it follows the rule the
+project has kept throughout: learn what V1 can teach before changing what
+V1 is.
+
+## 9. What V2 should *not* do
 
 * **Not replace the architecture.** V1 has not been shown to fail. It has
   been shown to be *unmeasured* in the places that mattered.
@@ -130,10 +179,12 @@ runs, they are questions.
   `cy` — these are results with causes, and they are reported with the
   cause attached.
 
-## 9. The one-sentence version
+## 10. The one-sentence version
 
 > V1 established that the architecture works and that most of the
-> apparent limits were the instrument's; V2 should therefore be designed
-> around **supply, scope consistency and honest nulls**, and should
-> finally answer the retention question on a stimulus where the answer can
-> be different from "no difference".
+> apparent limits were the instrument's; the Tier-1 matrix established that
+> the **next** limit is the **stimulus's** — a closed, repeating world in
+> which every arm converges on cycle 1 and then only accumulates evidence —
+> so V2's first requirement is a world that does not repeat, and its second
+> is a development metric that measures discovery rather than the
+> exhaustion of a repertoire.

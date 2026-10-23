@@ -116,7 +116,8 @@ def main() -> None:
     ap.add_argument("--matrix", default=str(REPO / "docs" / "force_matrix.json"))
     ap.add_argument("--sensitivity",
                     default=str(REPO / "docs" / "metric_sensitivity.json"))
-    ap.add_argument("--noise", default=str(REPO / "docs" / "process_noise.json"))
+    ap.add_argument("--noise",
+                    default=str(REPO / "docs" / "process_noise_3000.json"))
     ap.add_argument("--out", default=str(REPO / "docs" / "verdicts.json"))
     args = ap.parse_args()
 
@@ -130,13 +131,30 @@ def main() -> None:
     ref_name = "FULL" if "FULL" in rows else next(iter(rows))
 
     # The measured noise floor per metric, from the process-level sweep.
+    # Every floor is READ from the measurement, including the zeros: "this
+    # field was measured and did not vary" is not the same as "no floor was
+    # established", and the difference is recorded.
+    NOISE_FIELD = {
+        "M1": "M1_theory_duty_cycle.whole_run",
+        "M2": "M2_question_duty_cycle.whole_run",
+        "M3": "M3_contradiction_density.mean",
+        "M4": "M4_contradiction_survival.rate",
+        "M5": "M5_development_velocity.new_per_100_cycles",
+        "M6": "M6_lineage_depth.max_generation",
+        "M7": "M7_mean_hypothesis_lifetime.mean",
+        "M8": "M8_population_stability.beliefs",
+        "M9": "M9_cognitive_revolutions.revolutions",
+    }
+    measured = {t.get("field"): t.get("spread", 0.0) or 0.0
+                for t in noise.get("table", [])}
     floor = {}
-    for t in noise.get("table", []):
-        field = t.get("field", "")
-        if field.startswith("M5_"):
-            floor["M5"] = t.get("spread", 0.0) or 0.0
-    for key in ("M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9"):
-        floor.setdefault(key, 0.0)
+    for key, field in NOISE_FIELD.items():
+        if field in measured:
+            floor[key] = measured[field]
+        else:
+            floor[key] = None      # not measured -> cannot judge
+    measured_at = noise.get("cycles")
+    measured_colony = noise.get("colony")
 
     sensitivity = {t["metric"]: t for t in sens.get("table", [])}
 
@@ -172,10 +190,17 @@ def main() -> None:
             delta = col_v - ref_v
             s = sensitivity.get(metric, {})
             can_move = s.get("verdict") == "SENSITIVE"
-            fl = floor.get(metric, 0.0)
-            exceeds = abs(delta) > fl
+            fl = floor.get(metric)
+            if fl is None:
+                exceeds = False
+                floor_state = "no noise floor measured"
+            else:
+                exceeds = abs(delta) > fl
+                floor_state = fl
             if not can_move:
                 verdict = "metric cannot move"
+            elif fl is None:
+                verdict = "no noise floor measured"
             elif not exceeds:
                 verdict = "delta within the noise floor"
             else:
@@ -188,7 +213,7 @@ def main() -> None:
                 "colony_value": col_v,
                 "delta": round(delta, 6),
                 "metric_can_move": can_move,
-                "noise_floor": fl,
+                "noise_floor": floor_state,
                 "exceeds_noise": exceeds,
                 "verdict": verdict,
             })
@@ -301,6 +326,13 @@ def main() -> None:
         "stimulus": doc.get("stimulus"),
         "reference_arm": ref_name,
         "noise_floor": floor,
+        "noise_measured_at": {
+            "cycles": measured_at,
+            "colony": measured_colony,
+            "note": ("the floor is measured at the scale of the run it judges. "
+                     "M5 is a rate, so its floor scales with run length; the "
+                     "scale-invariant form is the item count."),
+        },
         "results": results,
         "buckets": buckets,
     }, indent=2), encoding="utf-8")

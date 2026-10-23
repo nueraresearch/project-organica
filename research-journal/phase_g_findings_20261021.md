@@ -1752,3 +1752,260 @@ follow from §22.4:
    verified.** The counter that normalises every edge count is scoped to
    the same population the edge counts are drawn from, and a regression
    test asserts it.
+
+---
+
+## 23. Ablation Study 2 — the Tier-1 matrix, and what it actually measured
+
+### 23.1 The question this section answers
+
+§21 closed the launch gates. §22 asked whether the substrate fix changed the
+scientific meaning of V1. This section reports the matrix itself: six
+colonies, 3,000 cycles each, 18,000 colony-cycles, the first experiment in
+the project run under a protocol whose metrics, gates, noise floor and
+sensitivity were all fixed in advance.
+
+The full artifact is `docs/force_matrix.json`; the results document is
+[`docs/FORCE-MATRIX-RESULTS.md`](../docs/FORCE-MATRIX-RESULTS.md).
+
+### 23.2 The run
+
+| | |
+|---|---|
+| Colonies | FULL, SALIENCE, NO_CONTRADICTIONS, NO_QUESTIONS, NO_DREAMS, ANTI_EIG |
+| Cycles | 3,000 per colony |
+| Stimulus | `lattice_L1` — three disjoint triangles |
+| Seed | 20261023, one per colony |
+| `PYTHONHASHSEED` | **0 in all six processes** — see §23.7 |
+| Wall clock | 1,814 s for all six in parallel |
+| G1 | all six code paths verified distinct *before* the run |
+
+### 23.3 The headline: the structure is decided on cycle 1
+
+Every colony reaches its **complete** structural configuration on the first
+cycle and does not change it again for 2,999 cycles:
+
+| Colony | pre-retention beliefs | competing subjects | retained beliefs | theories |
+|---|---:|---:|---:|---:|
+| FULL | 18 | 7 | 15 | 5 |
+| SALIENCE | 18 | 7 | 15 | 5 |
+| NO_CONTRADICTIONS | 18 | 7 | 15 | 5 |
+| NO_QUESTIONS | 18 | 7 | 15 | 4–5 |
+| NO_DREAMS | 18 | 7 | 15 | 4–5 |
+| ANTI_EIG | 18 | 7 | 15 | 4–5 |
+
+The steady state is **identical across all six arms** — 18 beliefs over 7
+competing subjects, exactly the configuration the launch gates were built to
+detect. And the evidence keeps growing the whole time:
+
+> FULL: mean support **101.2 → 11,006.2** over the run. **+10,776%.**
+
+**Structure flat, evidence growing by three orders of magnitude.** That is
+the campaign's central measurement, and it is the sharpest form of the
+question that has been open since the Phase G plateau: *is the organism
+still developing, or has it reached a fixed equilibrium that merely
+accumulates evidence?* On this substrate, with this stimulus, it is the
+second.
+
+### 23.4 M5 is not a rate, and the name was wrong
+
+M5 ("development velocity") is `new items per 100 cycles`. Over 300 cycles
+the FULL arm recorded **74** new items. Over 3,000 cycles it recorded **74**.
+The rate fell from 24.667 to 2.467 because the **numerator stopped growing**
+while the denominator grew tenfold.
+
+> M5 was dividing a finite inventory by the run length. It was not measuring
+> a velocity.
+
+The inventory, broken down by category, is a much richer story than the
+rate:
+
+| Colony | beliefs | questions | dreams | experiments | **inventory** | rate /100 cyc | new in last 100 cyc |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| FULL | 16 | 11 | 36 | 11 | **74** | 2.467 | **0** |
+| SALIENCE | 18 | 13 | 31 | 16 | **78** | 2.600 | **0** |
+| NO_CONTRADICTIONS | 20 | 12 | 31 | 16 | **79** | 2.633 | **0** |
+| NO_QUESTIONS | 18 | 0 | 49 | 45 | **112** | 3.733 | **0** |
+| NO_DREAMS | 18 | 13 | 0 | 13 | **44** | 1.467 | **0** |
+| ANTI_EIG | 18 | 13 | 38 | 16 | **85** | 2.833 | **0** |
+
+**Every colony discovered zero new items in its final 100 cycles.** Dreams
+are the largest single category in five of six arms (36 of 74 in FULL), and
+removing dreams does not merely remove the 11 dreams — it removes **30
+items from the whole inventory** (44 against 74), because dreams are built
+from beliefs.
+
+### 23.5 The confound: the stimulus repeats every 9 cycles
+
+`lattice_L1` contains **9 distinct event strings** over **7 distinct
+words**, and the organism's experience **repeats every 9 cycles** — it sees
+the same world 333 times in 3,000 cycles.
+
+**A repertoire cannot grow in a world that does not change.** The flat tail
+is therefore a fact about the *stimulus* as much as about the organism, and
+the campaign cannot distinguish:
+
+- *"the organism found everything the world contains and then held it"*, from
+- *"the organism cannot reorganise once it has stabilised"*.
+
+Both hypotheses predict identical numbers on this stimulus. The stimulus
+was built to clear the launch gates, and it does — but a **closed, periodic
+world cannot test developmental depth**, because it offers nothing to
+reorganise toward. This is the most important thing the campaign
+established, and it is a **stimulus** finding, not an architecture finding.
+
+### 23.6 Two colonies whose names overstate their interventions
+
+Disclosed because both change how the table must be read, and because both
+were found by reading the engine rather than by looking at the numbers.
+
+**`NO_CONTRADICTIONS` does not remove contradictions.**
+`CONTRADICTION_SCALE` multiplies the contradiction term *in the confidence
+formula* (`organica/sleep.py:1489`). The engine deliberately keeps the raw
+count so that "a metric built on them still measures the world when
+`CONTRADICTION_SCALE` is not 1.0", and M3 reads `raw_contradiction`. So
+**M3 is near-invariant for this colony by construction** (15,951.86 against
+15,938.80) — the metric working correctly, not a null. The honest name is
+*contradiction not weighted in confidence*. The effect is visible where it
+should be: M4 contradiction survival falls 0.9375 → 0.7500.
+
+**`NO_DREAMS` removes 30 items from the inventory, not 11.** Its dreams count
+is 0 by construction, but the dreams that *would* have been built from its
+beliefs are gone too: inventory 44 against FULL's 74, and the lowest
+development rate in the campaign.
+
+### 23.7 The noise floor, and the reason the campaign pins the hash seed
+
+The within-process seed floor is **exactly 0.00** — the engine is
+deterministic given (stimulus, seed). The process-level floor is not: CPython
+randomises string hashing per process unless `PYTHONHASHSEED` is pinned, and
+the engine's candidate construction walks collections whose order depends on
+a string hash. Measured across six processes at the same seed, **one field
+moves: M5, by exactly one new item.**
+
+That is why the campaign runs through `benchmarks/run_matrix.py`, which
+launches the six colonies with the **same** `PYTHONHASHSEED=0`, so the hash
+order is a fixed environmental condition applied identically to every arm
+rather than an independent draw per arm. Left unpinned, hash noise would
+have entered the only comparison the campaign makes.
+
+### 23.8 M7: the retention result, and its fragility
+
+M7 is the metric the campaign existed to make measurable, and it moves
+enormously — **212 cycles under alphabetical retention against 2,990 under
+salience**. Before the substrate correction it was provably uninformative,
+because the belief cap did not bind.
+
+But the mean rests on a handful of observations, and this is disclosed
+rather than buried:
+
+| Colony | mean lifetime | beliefs that **died** | censored (alive at the end) |
+|---|---:|---:|---:|
+| FULL | 212.0 | **1** | 15 |
+| SALIENCE | 2,989.667 | **3** | 15 |
+| NO_CONTRADICTIONS | 1,790.4 | 5 | 15 |
+| NO_QUESTIONS | 2,978.333 | 3 | 15 |
+| NO_DREAMS | 2,989.333 | 3 | 15 |
+| ANTI_EIG | 2,986.0 | 2 | 16 |
+
+**FULL's 212-cycle mean is the mean of exactly one belief.** The robust
+finding underneath is simpler: **in every arm, 15 or 16 of the beliefs never
+die at all.** The retention policy changes *which* beliefs persist, not how
+long they last — there are almost no deaths to time.
+
+### 23.9 The verdicts
+
+The five pre-registered predictions, with the noise floor applied. The floor
+is the **3,000-cycle** measurement: the within-process seed floor is exactly
+0.00, and the process-level floor moves exactly one field — M5 — by exactly
+**one new item**, which at 3,000 cycles is a rate spread of **0.033**.
+
+| # | Prediction | Verdict | Why |
+|---|---|---|---|
+| **P1** | Retention policy affects development | **SUPPORTED** | 4 of 9 metrics moved beyond the floor: M3 (+34.14), M4 (−0.104), M5 (+0.133), M7 (**+2,777.667**) |
+| **P2** | Contradiction is developmental fuel | **REVERSED** | M5 **rises** by 0.166 when contradiction's weight is removed |
+| **P3** | Curiosity needs explicit questions | **REVERSED** | M5 **rises** by 1.266 when question creation is removed |
+| **P4** | Dreams contribute to trajectory | **SUPPORTED** | M5 **falls** by 1.000 when dreams are removed |
+| **P5** | EIG is orthogonal to development | **REVERSED** | Selecting the **lowest**-EIG experiment develops 0.366 **more** per 100 cycles than the highest-EIG one |
+
+**SUPPORTED 2 · UNSUPPORTED 0 · REVERSED 3 · NOT INTERPRETABLE 0**
+
+**The verdicts are direction-aware, and that is the whole difference.** A
+naive "did the metric move?" test would have scored all five predictions
+SUPPORTED and reported a clean sweep of confirmations. Three are the
+*opposite* of what was predicted: contradiction and explicit questions are
+not developmental fuel and not prerequisites, and EIG selection is not
+merely orthogonal — on this substrate it is **counterproductive**. The
+direction check is in `benchmarks/verdicts.py`.
+
+And "not interpretable" is empty. That is a result, not luck: the
+sensitivity audit and the noise-floor measurement, both done **before** the
+run, are what made every one of the five predictions decidable.
+
+### 23.10 H24 — the hypothesis this produced
+
+> **H24. Organica's apparent developmental plateau is primarily constrained
+> by environmental information content rather than by architectural inability
+> to reorganise.**
+
+Stated as a falsifiable hypothesis, with the evidence on both sides recorded,
+before the experiment that tests it is run.
+
+**Evidence FOR H24:** the inventory saturates (74 items in the FULL arm,
+zero new items in the final 100 cycles of every arm); the world repeats
+every 9 cycles; evidence grows +10,776% while structure does not move; the
+plateau arrives *after* the world is exhausted; and all six arms converge to
+the same attractor despite six different interventions.
+
+**Evidence AGAINST H24:** none — because **H24 has not been tested.** Every
+measurement above is consistent with H24 *and* with its opposite. A human
+placed in nine experiences repeated forever would also converge, and that is
+not a defect.
+
+**What would falsify it:** a larger, non-repeating world still produces ~74
+distinct structures, the same plateau and the same attractor.
+
+**The experiment that decides it** is a **world-complexity ladder** — the same
+organism, the same engine, the same metrics, against worlds of increasing
+information content:
+
+| Rung | World | Predicted inventory if H24 holds |
+|---|---|---|
+| 0 *(done)* | `lattice_L1` — 9 events, period 9 | **74** (measured) |
+| 1 | medium expanding world — new events keep arriving | ≫ 74 |
+| 2 | large expanding world | ≫ rung 1 |
+| 3 | open-ended world — never repeats | unbounded growth, no plateau |
+
+Measured at every rung: **inventory growth, the cumulative discovery curve,
+MBSD, theories, questions, cognitive revolutions.**
+
+| If the inventory goes | Then |
+|---|---|
+| 74 → 300 → 1,200 → 5,000 | The plateau was an **environmental artefact**. What this project found is a developmental system trapped inside a toy universe. |
+| 74 → 74 → 74 → 74 | The plateau is **architectural**, and the architecture — not the environment — is the ceiling. |
+
+This is a **stimulus** experiment. Nothing about the engine changes, so the
+project's standing rule holds: finish learning what V1 can teach before
+changing the architecture.
+
+### 23.11 What this means
+
+**The campaign can answer:** the organism reaches a complete, unchanging
+structural state on cycle 1 in every arm and then accumulates evidence for
+2,999 cycles; the retention policy is measurable at all and changes which
+beliefs persist; 5 of 9 metrics can discriminate between arms and the other
+4 are permanently saturated or structurally zero; the noise floor is one
+item.
+
+**The campaign cannot answer:** which colony develops faster (M5 does not
+measure development velocity); whether the organism is developmentally
+reorganising or accumulating evidence (the world repeats every 9 cycles);
+whether the plateau is an architectural ceiling (it may be a closed world's
+complete repertoire).
+
+**The sharpest question left behind is not about the architecture:**
+
+> Is stabilisation the desired outcome, or evidence of a bottleneck?
+
+and answering it needs a stimulus that does not repeat — which is a change
+to the experimental design, not to the engine.

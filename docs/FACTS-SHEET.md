@@ -238,3 +238,55 @@ waiting for enough input to become visible.
 5. **Most "important" parameters do not participate in any decision.** 8 of 14 are INERT — including the two that were the subject of the whole campaign (§D3). A parameter that never changes an output should not be given a row in an experiment plan.
 6. **Our own instrumentation had a defect that would have produced a false result.** The archived contradiction series stored `null` for all 3,725 cycles (reads as "zero contradiction"; true value 400,550), and the audit initially reported the workflow layer as dead because it read the report field `workflows` instead of `workflow_concepts`. Both were caught by checking a measurement against the substrate it claims to describe, and both are disclosed here rather than quietly fixed. (E1, and §D3 note)
 7. **"9-tag world" needs refining.** The temporal world is 42 tags; only ~9 reach the composition layers — and that is a *consequence* of the Layer-1 caps, because meta-concepts are composed only from candidates that survived them. The narrow world is downstream of the over-truncation, not an independent fact about the stimulus.
+
+---
+
+## I. The Tier-1 matrix — MEASURED (2026-10-23)
+
+Protocol: 6 colonies × 3,000 cycles = **18,000 colony-cycles**, `lattice_L1`
+stimulus, seed 20261023, `PYTHONHASHSEED=0` in all six processes.
+
+| # | Fact | Evidence |
+|---|------|----------|
+| **I1** | **The structure is decided on cycle 1.** Every colony reaches 18 pre-retention beliefs, 7 competing subjects and 15 retained beliefs on the first cycle and holds that configuration for 2,999 cycles. All six arms converge to the **same** attractor despite six different interventions. | `docs/force_matrix.json` → `series` |
+| **I2** | **Evidence grows by three orders of magnitude while structure does not move.** Mean support 101.2 → 11,006.2 in the reference arm, **+10,776%**. | same |
+| **I3** | **M5 ("development velocity") is not a rate.** It is `new items ÷ run length`. The reference arm discovered **74** items over 300 cycles and **74** over 3,000; the "velocity" fell from 24.667 to 2.467 because the numerator stopped growing. Every colony discovered **zero** new items in its final 100 cycles. | `docs/discovery.json` |
+| **I4** | **The stimulus repeats every 9 cycles.** `lattice_L1` is 9 distinct events over 7 distinct words; the organism sees the same world 333 times. A repertoire cannot grow in a world that does not change. | `benchmarks/discovery_report.py` → `stimulus_facts` |
+| **I5** | **The inventory, broken down:** FULL 74 (16 beliefs, 11 questions, 36 dreams, 11 experiments) · SALIENCE 78 · NO_CONTRADICTIONS 79 · NO_QUESTIONS 112 · NO_DREAMS 44 · ANTI_EIG 85. Removing dreams removes **30** items, not 11, because dreams are built from beliefs. | `docs/discovery.json` |
+| **I6** | **5 of 9 metrics can discriminate between arms.** M1, M6 and M8 are **saturated** (a theory in 2,999 of 3,000 cycles; generation 7 everywhere; equal population stability). M9 is **structurally zero**. The full-run audit returns the same verdict as the 300-cycle pilot. | `docs/metric_sensitivity.json` |
+| **I7** | **The measured noise floor is one item.** Within one process the seed floor is exactly 0.00; across six processes at the same seed, **one** field moves — M5 — by exactly one new item (rate spread 0.033 at 3,000 cycles). Every other field is bit-identical. | `docs/process_noise_3000.json` |
+| **I8** | **The five pre-registered predictions: 2 SUPPORTED, 3 REVERSED, 0 UNSUPPORTED, 0 NOT INTERPRETABLE.** P1 retention (SUPPORTED) · P2 contradiction-is-fuel (**REVERSED**) · P3 curiosity-needs-questions (**REVERSED**) · P4 dreams-contribute (SUPPORTED) · P5 EIG-orthogonal (**REVERSED**). Removing contradiction or questions *raises* development velocity; selecting the lowest-EIG experiment develops *more* than selecting the highest-EIG one. | `docs/verdicts.json` |
+| **I9** | **`NO_CONTRADICTIONS` does not remove contradictions.** `CONTRADICTION_SCALE` multiplies the contradiction term in the *confidence formula*. M3 reads the raw count by design, so M3 is near-invariant for this colony **by construction**. The honest name is *contradiction not weighted in confidence*. | `organica/sleep.py:1489`; `benchmarks/force_matrix.py:230` |
+| **I10** | **M7's spread is fragile and is reported as such.** The reference arm's 212-cycle mean rests on **one** observed belief death (15 of 16 censored); the salience arm's 2,989.667 rests on three. The robust finding is that 15–16 of the beliefs never die in any arm. | `docs/force_matrix.json` → `M7_mean_hypothesis_lifetime` |
+
+> **I1, I2 and I4 together are the most consequential pair on this sheet.**
+> The organism reached a fixed equilibrium on cycle 1 and accumulated evidence
+> for 2,999 more cycles — but in a nine-event world. The plateau is
+> consistent with *the organism exhausted the environment*, and that is not
+> the same statement as *the organism cannot develop*. Every metric defined
+> only on population counts is blind to that difference.
+
+## J. H24 — the hypothesis the matrix produced — NOT YET TESTED
+
+> **H24. Organica's apparent developmental plateau is primarily constrained
+> by environmental information content rather than by architectural inability
+> to reorganise.**
+
+**Evidence for:** I3 (inventory saturates, zero new items in the final 100
+cycles) · I4 (the world repeats every 9 cycles) · I2 (evidence grows while
+structure does not move) · I1 (all six arms converge to one attractor).
+
+**Evidence against: none — because H24 has not been tested.** I1–I10 are all
+consistent with H24 *and* with its opposite. A human placed in nine
+experiences repeated forever would also converge, and that is not a defect.
+
+**What would falsify it:** a larger, non-repeating world still produces ~74
+distinct structures, the same plateau, and the same attractor.
+
+**The experiment:** a world-complexity ladder — small finite (done, 74
+items) → medium expanding → large expanding → open-ended — measuring
+inventory growth, the cumulative discovery curve, MBSD, theories, questions
+and cognitive revolutions. If the inventory goes 74 → 300 → 1,200 → 5,000,
+the plateau was environmental; if it stays 74, the plateau is architectural.
+
+Full statement: `docs/FORCE-MATRIX-RESULTS.md` §11; journal §23.10.

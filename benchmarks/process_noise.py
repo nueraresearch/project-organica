@@ -63,7 +63,7 @@ def run_once(colony: str, cycles: int, seed: int) -> dict:
     from organica.paths import temp_db
     from organica.streams import EVENTS_PER_CYCLE
     from benchmarks.force_matrix import (
-        capture_cycle, colony_class, compute_metrics)
+        _series, capture_cycle, colony_class, compute_metrics)
 
     lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
     events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
@@ -98,30 +98,54 @@ def run_once(colony: str, cycles: int, seed: int) -> dict:
             record[f"pop.{key}"] = metrics["_populations"][key]
         except Exception:
             record[f"pop.{key}"] = None
+
+    # The discovery curve, so the floor can be read against the shape of the
+    # curve and not only its endpoint.
+    try:
+        disc = _series(svc.rows).get("discovery", {})
+        record["m5_inventory_total"] = metrics[
+            "M5_development_velocity"]["inventory_total"]
+        record["m5_inventory_per_category"] = metrics[
+            "M5_development_velocity"]["inventory_per_category"]
+        record["discovery_cumulative_m5"] = disc.get(
+            "m5_cycle_cumulative_total", [])
+    except Exception:
+        pass
     return record
 
 
 def sweep(cycles: int, colony: str, seed: int, hash_seeds: list[str],
-          out: Path) -> None:
+          out: Path, parallel: bool = True) -> None:
     """Run the SAME (colony, seed) in separate processes, each with a
     different PYTHONHASHSEED, and report the spread of every field."""
     import subprocess
 
-    records = []
-    for hs in hash_seeds:
+    def one(hs: str) -> dict:
         env = dict(os.environ)
         env["PYTHONHASHSEED"] = hs
         cmd = [sys.executable, str(REPO / "benchmarks" / "process_noise.py"),
                "--cycles", str(cycles), "--colony", colony, "--seed", str(seed)]
-        print(f"  running with PYTHONHASHSEED={hs} ...", flush=True)
         proc = subprocess.run(cmd, cwd=str(REPO), env=env,
                               capture_output=True, text=True)
         if proc.returncode != 0:
             print(proc.stdout[-2000:])
             print(proc.stderr[-4000:])
             raise SystemExit(f"run failed for PYTHONHASHSEED={hs}")
-        rec = json.loads(proc.stdout.strip().splitlines()[-1])
-        records.append(rec)
+        return json.loads(proc.stdout.strip().splitlines()[-1])
+
+    records = []
+    if parallel and len(hash_seeds) > 1:
+        from concurrent.futures import ThreadPoolExecutor
+        print(f"  {len(hash_seeds)} processes in parallel "
+              f"({cycles} cycles each) ...", flush=True)
+        with ThreadPoolExecutor(max_workers=len(hash_seeds)) as pool:
+            for rec in pool.map(one, hash_seeds):
+                records.append(rec)
+                print(f"  PYTHONHASHSEED={rec['py_hash_seed']} done", flush=True)
+    else:
+        for hs in hash_seeds:
+            print(f"  running with PYTHONHASHSEED={hs} ...", flush=True)
+            records.append(one(hs))
 
     fields = [k for k in records[0] if k != "py_hash_seed"]
     table = []
@@ -155,6 +179,28 @@ def sweep(cycles: int, colony: str, seed: int, hash_seeds: list[str],
     print()
     print(f"  {len(varying)} of {len(table)} fields vary between processes.")
 
+    # The scale-invariant form of the floor. M5 is a RATE (new items per
+    # 100 cycles), so its numeric spread shrinks as the run gets longer even
+    # when the underlying count does not. The count is the honest bound, and
+    # it is what a delta must be compared against at any run length.
+    m5 = next((t for t in table
+               if t["field"] == "M5_development_velocity.new_per_100_cycles"),
+              None)
+    items = None
+    if m5 and m5["varies"]:
+        counts = [v * cycles / 100.0 for v in m5["values"]]
+        items = {
+            "new_items_per_run": [round(c, 4) for c in counts],
+            "item_spread": round(max(counts) - min(counts), 4),
+            "rate_spread": m5["spread"],
+            "note": ("M5 is a rate. The item count is the scale-invariant "
+                     "form of the floor and is the number a delta must beat."),
+        }
+        print()
+        print("  M5 in WHOLE NEW ITEMS over the run (scale-invariant):")
+        print(f"    {items['new_items_per_run']}  item spread = "
+              f"{items['item_spread']}")
+
     out.write_text(json.dumps({
         "colony": colony,
         "cycles": cycles,
@@ -163,6 +209,7 @@ def sweep(cycles: int, colony: str, seed: int, hash_seeds: list[str],
         "records": records,
         "table": table,
         "varying_fields": [t["field"] for t in varying],
+        "m5_in_items": items,
     }, indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
@@ -177,11 +224,13 @@ def main() -> None:
                          "different PYTHONHASHSEED and report the spread")
     ap.add_argument("--hash-seeds", nargs="*",
                     default=["0", "1", "2", "3", "4", "5"])
+    ap.add_argument("--no-parallel", action="store_true",
+                    help="run the processes one at a time")
     ap.add_argument("--out", default=str(REPO / "docs" / "process_noise.json"))
     args = ap.parse_args()
     if args.sweep:
         sweep(args.cycles, args.colony, args.seed, args.hash_seeds,
-              Path(args.out))
+              Path(args.out), parallel=not args.no_parallel)
     else:
         print(json.dumps(run_once(args.colony, args.cycles, args.seed)))
 

@@ -1,0 +1,378 @@
+{
+  "matrix_artifact": "C:\\Users\\monte\\anti\\project-organica\\docs\\force_matrix.json",
+  "cycles": 3000,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "reference_arm": "FULL",
+  "noise_floor": {
+    "M1": 0.0,
+    "M2": 0.0,
+    "M3": 0.0,
+    "M4": 0.0,
+    "M5": 0.03299999999999992,
+    "M6": 0.0,
+    "M7": 0.0,
+    "M8": 0.0,
+    "M9": 0.0
+  },
+  "noise_measured_at": {
+    "cycles": 3000,
+    "colony": "FULL",
+    "note": "the floor is measured at the scale of the run it judges. M5 is a rate, so its floor scales with run length; the scale-invariant form is the item count."
+  },
+  "results": [
+    {
+      "id": "P1",
+      "claim": "Retention policy affects development",
+      "colony": "SALIENCE",
+      "expect": "differs",
+      "effect_metric": null,
+      "falsified_if": "FULL and SALIENCE agree on every M1-M9 metric",
+      "verdict": "SUPPORTED",
+      "reason": "4 of 9 metrics moved beyond the noise floor (M3, M4, M5, M7)",
+      "metrics_moved": [
+        "M3",
+        "M4",
+        "M5",
+        "M7"
+      ],
+      "detail": [
+        {
+          "metric": "M1",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M2",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "delta within the noise floor"
+        },
+        {
+          "metric": "M3",
+          "reference_value": 15938.8033,
+          "colony_value": 15972.94,
+          "delta": 34.1367,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M4",
+          "reference_value": 0.9375,
+          "colony_value": 0.8333,
+          "delta": -0.1042,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M5",
+          "reference_value": 2.467,
+          "colony_value": 2.6,
+          "delta": 0.133,
+          "metric_can_move": true,
+          "noise_floor": 0.03299999999999992,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M6",
+          "reference_value": 7,
+          "colony_value": 7,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M7",
+          "reference_value": 212.0,
+          "colony_value": 2989.667,
+          "delta": 2777.667,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M8",
+          "reference_value": 0.9817,
+          "colony_value": 0.9817,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M9",
+          "reference_value": 0,
+          "colony_value": 0,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "claim": "Contradiction is developmental fuel",
+      "colony": "NO_CONTRADICTIONS",
+      "expect": "harm",
+      "effect_metric": "M5",
+      "falsified_if": "NO_CONTRADICTIONS matches FULL on M1, M5, M6",
+      "verdict": "REVERSED",
+      "reason": "M5 RISES by 0.166 when the mechanism is removed -- the opposite of the prediction",
+      "metrics_moved": [
+        "M5"
+      ],
+      "detail": [
+        {
+          "metric": "M1",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M5",
+          "reference_value": 2.467,
+          "colony_value": 2.633,
+          "delta": 0.166,
+          "metric_can_move": true,
+          "noise_floor": 0.03299999999999992,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M6",
+          "reference_value": 7,
+          "colony_value": 7,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "claim": "Curiosity needs explicit questions",
+      "colony": "NO_QUESTIONS",
+      "expect": "harm",
+      "effect_metric": "M5",
+      "falsified_if": "NO_QUESTIONS collapses M1 and M5",
+      "verdict": "REVERSED",
+      "reason": "M5 RISES by 1.266 when the mechanism is removed -- the opposite of the prediction",
+      "metrics_moved": [
+        "M5"
+      ],
+      "detail": [
+        {
+          "metric": "M1",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M5",
+          "reference_value": 2.467,
+          "colony_value": 3.733,
+          "delta": 1.266,
+          "metric_can_move": true,
+          "noise_floor": 0.03299999999999992,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "claim": "Dreams contribute to trajectory",
+      "colony": "NO_DREAMS",
+      "expect": "harm",
+      "effect_metric": "M5",
+      "falsified_if": "NO_DREAMS leaves M1/M5/M6 unchanged",
+      "verdict": "SUPPORTED",
+      "reason": "M5 falls by 1.0 when the mechanism is removed -- the predicted harm is present",
+      "metrics_moved": [
+        "M5"
+      ],
+      "detail": [
+        {
+          "metric": "M1",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M5",
+          "reference_value": 2.467,
+          "colony_value": 1.467,
+          "delta": -1.0,
+          "metric_can_move": true,
+          "noise_floor": 0.03299999999999992,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M6",
+          "reference_value": 7,
+          "colony_value": 7,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        }
+      ]
+    },
+    {
+      "id": "P5",
+      "claim": "EIG is orthogonal to development",
+      "colony": "ANTI_EIG",
+      "expect": "orthogonal",
+      "effect_metric": "M5",
+      "falsified_if": "ANTI_EIG matches FULL on M1-M9",
+      "verdict": "REVERSED",
+      "reason": "selecting the LOWEST-EIG experiment develops 0.366 MORE per 100 cycles than selecting the highest-EIG one -- EIG selection is not orthogonal, it is counterproductive",
+      "metrics_moved": [
+        "M3",
+        "M4",
+        "M5",
+        "M7"
+      ],
+      "detail": [
+        {
+          "metric": "M1",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M2",
+          "reference_value": 0.9996666666666667,
+          "colony_value": 0.9996666666666667,
+          "delta": 0.0,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "delta within the noise floor"
+        },
+        {
+          "metric": "M3",
+          "reference_value": 15938.8033,
+          "colony_value": 16028.4197,
+          "delta": 89.6164,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M4",
+          "reference_value": 0.9375,
+          "colony_value": 0.8333,
+          "delta": -0.1042,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M5",
+          "reference_value": 2.467,
+          "colony_value": 2.833,
+          "delta": 0.366,
+          "metric_can_move": true,
+          "noise_floor": 0.03299999999999992,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M6",
+          "reference_value": 7,
+          "colony_value": 7,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M7",
+          "reference_value": 212.0,
+          "colony_value": 2986.0,
+          "delta": 2774.0,
+          "metric_can_move": true,
+          "noise_floor": 0.0,
+          "exceeds_noise": true,
+          "verdict": "moved"
+        },
+        {
+          "metric": "M8",
+          "reference_value": 0.9817,
+          "colony_value": 0.9817,
+          "delta": 0.0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        },
+        {
+          "metric": "M9",
+          "reference_value": 0,
+          "colony_value": 0,
+          "delta": 0,
+          "metric_can_move": false,
+          "noise_floor": 0.0,
+          "exceeds_noise": false,
+          "verdict": "metric cannot move"
+        }
+      ]
+    }
+  ],
+  "buckets": {
+    "SUPPORTED": [
+      "P1",
+      "P4"
+    ],
+    "UNSUPPORTED": [],
+    "REVERSED": [
+      "P2",
+      "P3",
+      "P5"
+    ],
+    "NOT INTERPRETABLE": []
+  }
+}

@@ -142,10 +142,10 @@ def main() -> None:
     svg = Svg(1240, 900)
     svg.text(30, 34, "Organica Ablation Study 2 — Tier-1 matrix", size=19, weight="bold")
     svg.text(30, 55,
-             "alphabetical (before) vs salience (after) retention, on the branch stimulus that closed the launch gates",
+             "the reference arm (alphabetical retention) against the salience-retention arm, on the lattice_L1 stimulus that closed the launch gates",
              size=12, fill="#555")
     svg.text(30, 72,
-             f"{cycles} cycles per colony · one fixed seed per colony · substrate: tag counter scoped to world events",
+             f"{cycles} cycles per colony · one fixed seed per colony · PYTHONHASHSEED pinned to 0 in every colony process · substrate: tag counter scoped to world events",
              size=11, fill="#777")
 
     # ---- Panel A: theory population over time -------------------------------
