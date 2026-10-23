@@ -121,6 +121,27 @@ log.info(
     get_interval(),
 )
 
+# BUILD MARKER.
+#
+# The log is append-only and can span several builds. Without a marker
+# there is no way to tell which cycles came from which configuration --
+# and on 2026-10-22 that was exactly the problem: the run was stopped so
+# the retention-policy change could land, and a reader had no way to see
+# where the old build ended. Every startup now records the configuration
+# that produced the cycles that follow it.
+log.info(
+    "BUILD retention=%s caps(hyp=%s,pred=%s,proc=%s,meta=%s,wf=%s) "
+    "contradiction_scale=%s markers=%s",
+    SleepService.HYPOTHESIS_RETENTION,
+    SleepService.MAX_HYPOTHESES,
+    SleepService.MAX_PREDICTIONS,
+    SleepService.MAX_PROCESSES,
+    SleepService.MAX_META_CONCEPTS,
+    SleepService.MAX_WORKFLOWS,
+    SleepService.CONTRADICTION_SCALE,
+    SleepService.MAX_STRUCTURAL_MARKERS,
+)
+
 # ---------------------------------------------------------------------------
 # Main loop
 # ---------------------------------------------------------------------------

@@ -68,19 +68,21 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 05:05 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 06:31 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
-| Study status | **STOPPED** — paused on 2026-10-22 19:00 MDT so the architecture change could land without a file-vs-process mismatch. Relaunch is pending. |
-| Cycles completed | **3,725** sleep cycles (the longest single-arm record the project has) |
-| Sleep-cycle counter | 1 → 3,725, **0 non-monotonic steps** |
+| Study status | **RUNNING** — daemon PID 32328, relaunched 2026-10-23 06:28 MDT on the new build. It was **stopped** on 2026-10-22 19:00 MDT so the retention change could land without a file-vs-process mismatch. |
+| Build in effect | `retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15` — written to the log at every startup, so the log now says which configuration produced which cycles. |
+| Cycles completed | **3,730** sleep cycles (the longest single-arm record the project has) |
+| Sleep-cycle counter | 1 → 3,730, **0 non-monotonic steps** (the counter survived the restart, because it lives in the database, not in the process) |
 | Failed cycles | 0, all time |
-| Substrate | 23.7 MB, bounded by retention (≈109 rows pruned/cycle) |
-| Mean population (last 25% of the run) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
+| Cycle latency | median 270 ms, max 408 ms |
+| Substrate | ~24 MB, bounded by retention (109 rows pruned/cycle) |
+| Mean population (last 200 cycles) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
 | Archived run | `logs/organica_prefix_20261022.log` (7.97 MB) + per-cycle series in `docs/prefix_run_series.json` (3,725 cycles) |
-| Git | working tree has the V1.5 changes uncommitted at the time of writing; `master` was in sync with `origin/master` at `d83a30f` |
+| Git | `master` pushed and in sync at `267ede3`; a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
@@ -283,6 +285,18 @@ Every cycle appends one line to `organica.log`:
 ```
 2026-10-21 11:31:00,123 INFO Cycle 42: {"cycle": 42, "sleep_cycle": 285, "timestamp": "2026-10-21T17:31:00Z", "status": "success", ...}
 ```
+
+**Every daemon start also writes a build marker** immediately before the
+first cycle:
+
+```
+2026-10-23 06:28:26,882 INFO BUILD retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15
+```
+
+The log is append-only and can span several builds, so without this marker
+there is no way to tell which configuration produced which cycles. It was
+added on 2026-10-23, when the run was stopped for the retention change and
+a reader would otherwise have had no way to see where the old build ended.
 
 | Field | Meaning | Watch for |
 |---|---|---|
@@ -1169,3 +1183,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-22 | Added the mechanism-verification stage (`benchmarks/ablation_verify.py`): perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Recorded findings #10 (the alphabetical truncation decides which beliefs survive) and #5's corrected mechanism. Added `benchmarks/clone_check.py` and its 8/8 fresh-clone result. Added §7.2 decision #10, the valuation-layer proposal, and journal §18. |
 | 2026-10-23 | **Phase V1.5 — the instrumentation audit.** Stopped the daemon at 3,725 sleep cycles and archived the run (`logs/organica_prefix_20261022.log` + `docs/prefix_run_series.json`). Added `benchmarks/development_probe.py`, `benchmarks/instrumentation_audit.py` and `benchmarks/archive_run.py`; added `docs/FACTS-SHEET.md` and `docs/GATE-BOARD.md`; added `tests/test_retention_policy.py` (18 tests). Added **§8.3**. Added §7.2 decisions #11 and #12. **Corrected finding #10** and superseded decision #6: the hypothesis cap does not bind, `MAX_HYPOTHESES` is INERT, and the alphabetical rule was not the cause of the No-Falsification collapse. Refreshed §2. Journal §19 added. |
 | 2026-10-23 | **Engine change (owner-authorised, 2026-10-22).** The hypothesis retention rule changed from an inline alphabetical sort to a named, unit-free **salience** policy with a separate allowance for inert structural markers, plus a `CONTRADICTION_SCALE` hook. Also extracted six hard-coded layer caps to named constants. Verified behaviour-preserving: 35/35 tests pass and the cap census is unchanged (pool max 8, mean 5.31, cap binds 0/600). **Measured effect on behaviour today: none** — the cap does not bind, so this is a correctness fix, not a behavioural one. |
+| 2026-10-23 | **Daemon relaunched** on the new build (PID 32328, 06:28 MDT) and `run_continuous.py` now writes a **build marker** at every startup, so an append-only log spanning several builds says which configuration produced which cycles. Counter continued 3,725 → 3,730 with 0 non-monotonic steps and 0 failures across the restart. |
