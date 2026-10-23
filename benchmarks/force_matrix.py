@@ -128,11 +128,18 @@ class Instrumented(SleepService):
 
     def _retain_hypotheses(self, beliefs, info, temporal):
         pre = Counter(h.subject for h in beliefs)
+        # The salience scores are recorded for EVERY arm, not just the
+        # salience arm, so the before/after figure can show what the two
+        # policies are choosing between rather than only what one of them
+        # chose. `_salience` is a pure function of (beliefs, info, temporal).
+        scores = self._salience(beliefs, info, temporal)
         kept = super()._retain_hypotheses(beliefs, info, temporal)
         post = Counter(h.subject for h in kept)
         self.rows.append({
             "pre_beliefs": len(beliefs),
             "pre_ge2": sum(1 for c in pre.values() if c >= 2),
+            "salience": [round(scores[h.id], 4) for h in beliefs
+                         if h.id in scores],
             "beliefs": [{
                 "id": h.id,
                 "subject": h.subject,
@@ -443,6 +450,7 @@ def run_colony(name: str, events: list[str], cycles: int, seed: int) -> dict:
     elapsed = time.time() - t0
 
     metrics = compute_metrics(svc.rows, svc)
+    series = _series(svc.rows)
     mem.close()
     db.unlink(missing_ok=True)
     return {
@@ -452,6 +460,43 @@ def run_colony(name: str, events: list[str], cycles: int, seed: int) -> dict:
         "cycles": cycles,
         "seconds": round(elapsed, 1),
         "metrics": metrics,
+        "series": series,
+    }
+
+
+def _series(rows: list[dict]) -> dict:
+    """The per-cycle traces the before/after figure is drawn from.
+
+    Kept as plain lists so the figure can be regenerated from the
+    committed artifact without re-running the campaign.
+    """
+    def col(fn):
+        return [fn(r) for r in rows]
+
+    def cd(r):
+        bs = r["beliefs"]
+        if not bs:
+            return None
+        return round(sum(b["raw_contradiction"] for b in bs) / len(bs), 3)
+
+    return {
+        "theories": col(lambda r: r.get("theory_count", 0)),
+        "questions": col(lambda r: r.get("question_count", 0)),
+        "dreams": col(lambda r: r.get("dream_count", 0)),
+        "experiments": col(lambda r: r.get("experiment_count", 0)),
+        "beliefs": col(lambda r: len(r["beliefs"])),
+        "pre_beliefs": col(lambda r: r["pre_beliefs"]),
+        "pre_subjects_ge2": col(lambda r: r["pre_ge2"]),
+        "contradiction_density": col(cd),
+        "mean_confidence": col(lambda r: (
+            round(sum(b["confidence"] for b in r["beliefs"]) / len(r["beliefs"]), 4)
+            if r["beliefs"] else None)),
+        "mean_support": col(lambda r: (
+            round(sum(b["support"] for b in r["beliefs"]) / len(r["beliefs"]), 2)
+            if r["beliefs"] else None)),
+        # The salience scores the two retention policies choose between,
+        # pooled over the last 100 cycles.
+        "salience_flat": [v for r in rows[-100:] for v in r.get("salience", [])],
     }
 
 
@@ -527,20 +572,56 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     return checks
 
 
+def merge(parts: list[Path], out_path: Path) -> None:
+    """Merge per-colony artifacts into the combined campaign artifact.
+
+    The six colonies are independent, so the campaign runs them as six
+    processes and merges the results. Every colony gets the same seed and
+    the same stimulus, and the merge preserves the canonical order.
+    """
+    rows = []
+    for part in parts:
+        if not part.exists():
+            print(f"  missing: {part}")
+            continue
+        doc = json.loads(part.read_text(encoding="utf-8"))
+        rows.extend(doc.get("rows", []))
+    order = list(COLONIES)
+    rows.sort(key=lambda r: order.index(r["colony"]) if r["colony"] in order else 99)
+    out_path.write_text(json.dumps({
+        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "cycles": rows[0]["cycles"] if rows else None,
+        "seed": rows[0]["seed"] if rows else None,
+        "stimulus": "lattice_L1 (three disjoint triangles)",
+        "merged_from": [p.name for p in parts],
+        "rows": rows,
+    }, indent=2), encoding="utf-8")
+    print(f"merged {len(rows)} colonies into {out_path}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=3000)
     ap.add_argument("--seed", type=int, default=20261023)
     ap.add_argument("--colonies", nargs="*", default=list(COLONIES))
     ap.add_argument("--verify-only", action="store_true")
+    ap.add_argument("--no-verify", action="store_true",
+                    help="skip the G1 code-path check (it is run once per "
+                         "campaign, not once per colony process)")
+    ap.add_argument("--merge", nargs="*", default=None,
+                    help="merge per-colony artifacts into --out")
     ap.add_argument("--out", default=str(REPO / "docs" / "force_matrix.json"))
     args = ap.parse_args()
+
+    if args.merge is not None:
+        merge([Path(p) for p in args.merge], Path(args.out))
+        return
 
     lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
     events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
 
     print("G1 code-path verification:")
-    checks = verify_colonies(events)
+    checks = verify_colonies(events) if not args.no_verify else []
     if args.verify_only:
         return
 
