@@ -1,0 +1,378 @@
+{
+  "colony": "FULL",
+  "cycles": 300,
+  "seed": 20261023,
+  "hash_seeds": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "records": [
+    {
+      "py_hash_seed": "0",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 24.667,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    },
+    {
+      "py_hash_seed": "1",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 24.667,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    },
+    {
+      "py_hash_seed": "2",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 24.667,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    },
+    {
+      "py_hash_seed": "3",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 25.0,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    },
+    {
+      "py_hash_seed": "4",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 24.667,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    },
+    {
+      "py_hash_seed": "5",
+      "M1_theory_duty_cycle.whole_run": 0.9966666666666667,
+      "M2_question_duty_cycle.whole_run": 0.9966666666666667,
+      "M3_contradiction_density.mean": 1816.9933,
+      "M3_contradiction_density.median": 1830.9333,
+      "M3_contradiction_density.p95": 3230.3333,
+      "M4_contradiction_survival.rate": 0.9375,
+      "M5_development_velocity.new_per_100_cycles": 25.0,
+      "M6_lineage_depth.max_generation": 7,
+      "M7_mean_hypothesis_lifetime.mean": 212.0,
+      "M8_population_stability.beliefs": 0.9422,
+      "M9_cognitive_revolutions.revolutions": 0,
+      "pop.theories_mean": 5.1,
+      "pop.questions_mean": 5.1,
+      "pop.dreams_mean": 7.89,
+      "pop.experiments_mean": 4.983,
+      "pop.pre_beliefs_mean": 17.707,
+      "pop.pre_ge2_mean": 6.86
+    }
+  ],
+  "table": [
+    {
+      "field": "M1_theory_duty_cycle.whole_run",
+      "values": [
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M2_question_duty_cycle.whole_run",
+      "values": [
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M3_contradiction_density.mean",
+      "values": [
+        1816.9933,
+        1816.9933,
+        1816.9933,
+        1816.9933,
+        1816.9933,
+        1816.9933
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M3_contradiction_density.median",
+      "values": [
+        1830.9333,
+        1830.9333,
+        1830.9333,
+        1830.9333,
+        1830.9333,
+        1830.9333
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M3_contradiction_density.p95",
+      "values": [
+        3230.3333,
+        3230.3333,
+        3230.3333,
+        3230.3333,
+        3230.3333,
+        3230.3333
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M4_contradiction_survival.rate",
+      "values": [
+        0.9375,
+        0.9375,
+        0.9375,
+        0.9375,
+        0.9375,
+        0.9375
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M5_development_velocity.new_per_100_cycles",
+      "values": [
+        24.667,
+        24.667,
+        24.667,
+        25.0,
+        24.667,
+        25.0
+      ],
+      "spread": 0.3329999999999984,
+      "relative_spread": 0.013439,
+      "varies": true
+    },
+    {
+      "field": "M6_lineage_depth.max_generation",
+      "values": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "spread": 0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M7_mean_hypothesis_lifetime.mean",
+      "values": [
+        212.0,
+        212.0,
+        212.0,
+        212.0,
+        212.0,
+        212.0
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M8_population_stability.beliefs",
+      "values": [
+        0.9422,
+        0.9422,
+        0.9422,
+        0.9422,
+        0.9422,
+        0.9422
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "M9_cognitive_revolutions.revolutions",
+      "values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "spread": 0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.theories_mean",
+      "values": [
+        5.1,
+        5.1,
+        5.1,
+        5.1,
+        5.1,
+        5.1
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.questions_mean",
+      "values": [
+        5.1,
+        5.1,
+        5.1,
+        5.1,
+        5.1,
+        5.1
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.dreams_mean",
+      "values": [
+        7.89,
+        7.89,
+        7.89,
+        7.89,
+        7.89,
+        7.89
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.experiments_mean",
+      "values": [
+        4.983,
+        4.983,
+        4.983,
+        4.983,
+        4.983,
+        4.983
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.pre_beliefs_mean",
+      "values": [
+        17.707,
+        17.707,
+        17.707,
+        17.707,
+        17.707,
+        17.707
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    },
+    {
+      "field": "pop.pre_ge2_mean",
+      "values": [
+        6.86,
+        6.86,
+        6.86,
+        6.86,
+        6.86,
+        6.86
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "varies": false
+    }
+  ],
+  "varying_fields": [
+    "M5_development_velocity.new_per_100_cycles"
+  ]
+}

@@ -620,7 +620,8 @@ def main() -> None:
     lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
     events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
 
-    print("G1 code-path verification:")
+    if not args.no_verify:
+        print("G1 code-path verification:")
     checks = verify_colonies(events) if not args.no_verify else []
     if args.verify_only:
         return

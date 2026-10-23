@@ -443,3 +443,111 @@ and its theory population at 5.
 
 **The campaign is now unblocked. §1–§7 stand as frozen.**
 
+---
+
+## 9. Sensitivity audit and the noise floor *(added after the freeze — the frozen text above is unchanged)*
+
+§2 froze nine metrics. A frozen metric is not the same as a metric that can
+move, and the rule in §4 — "per-metric deltas smaller than seed noise are
+reported as *not interpretable*" — is only usable if the noise is measured
+rather than guessed. Two audits were run before the 3,000-cycle campaign so
+that the result table says what it can and cannot support.
+
+### 9.1 Which metrics can move at all
+
+`benchmarks/metric_sensitivity.py` → `docs/metric_sensitivity.json`. Six
+colonies, 300 cycles, `lattice_L1`, one seed.
+`sensitivity(metric) = max − min` across the six colonies.
+
+| Metric | Name | Spread | Relative | Verdict |
+|---|---|---:|---:|---|
+| M1 | Theory duty cycle | 0.0000 | 0.0% | **insensitive** |
+| M2 | Question duty cycle | 0.9967 | 100.0% | **sensitive** |
+| M3 | Contradiction density | 275.71 | 15.1% | **sensitive** |
+| M4 | Contradiction survival | 0.1875 | 20.0% | **sensitive** |
+| M5 | Development velocity | 14.666 | 50.0% | **sensitive** |
+| M6 | Lineage depth | 0 | 0.0% | **insensitive** |
+| M7 | Mean hypothesis lifetime | 111.53 | 38.4% | **sensitive** |
+| M8 | Population stability | 0.0000 | 0.0% | **insensitive** |
+| M9 | Cognitive revolutions | 0 | 0.0% | **structurally zero** |
+
+**Five of nine can move. Three cannot. One is structurally zero.**
+
+The three that cannot move are not broken; they are **saturated**, and the
+distinction matters for how the results are read:
+
+- **M1 (theory duty cycle)** — 0.9967 in *every* colony. A theory is present
+  in 299 of 300 cycles in every arm, including `NO_QUESTIONS`. The metric
+  asks *whether a theory exists*, and after the substrate fix one always
+  does. There is nothing for it to distinguish. The **population mean**
+  (`theories_mean`: 5.10 for FULL, 4.91 for SALIENCE) carries the signal the
+  duty cycle lost, and both are reported.
+- **M6 (lineage depth)** — 7 in every colony. The lineage reaches generation 7
+  in all six arms. Insensitivity here is a **positive** result: it says the
+  interventions do not change how deep the lineage goes.
+- **M8 (population stability)** — 0.9422 in every colony. The belief
+  population is equally stable in every arm. Insensitivity here means the
+  interventions **do not destabilise** the population, which is itself
+  informative and is reported as such rather than as a null.
+- **M9 (cognitive revolutions)** — 0 in every colony, *structurally*: a
+  revolution needs a dominant theory demoted by more than 50% and replaced
+  within 50 cycles, and no arm demotes a dominant theory. §3 already
+  anticipated this: "0 across all arms is itself a finding and is reported as
+  one."
+
+**This audit was run at 300 cycles. The campaign is 3,000.** It will be re-run
+against the full artifact, and both verdicts reported.
+
+### 9.2 The noise floor, measured two ways
+
+**Within one process.** `benchmarks/seed_noise.py` → `docs/seed_noise.json`.
+Three seeds, the same colony, the same stimulus. The spread is **exactly
+0.00** for all nine metrics and all six populations. The engine is
+deterministic given (stimulus, seed) inside a process.
+
+**Between processes.** That is not the floor that binds, because the campaign
+runs each colony in its own process. CPython randomises string hashing per
+process unless `PYTHONHASHSEED` is pinned, and the engine's candidate
+construction walks collections whose iteration order depends on a string
+hash. `benchmarks/process_noise.py --sweep` → `docs/process_noise.json`
+runs the **same** colony at the **same** seed in **six** processes with
+`PYTHONHASHSEED` 0–5:
+
+> **16 of 17 fields are bit-identical across all six processes.**
+> **One field varies: M5, development velocity** — values 24.667 / 24.667 /
+> 24.667 / 25.000 / 24.667 / 25.000, **spread 0.333, relative 1.34%**.
+
+M5 counts *newly created* items per 100 cycles, and it is the one metric
+sensitive to the order in which candidates are enumerated: a different hash
+order flips whether one particular candidate is counted as new. No
+population moves at all — `theories_mean` is 5.1 in all six processes,
+`pre_beliefs_mean` is 17.707 in all six.
+
+### 9.3 The protocol decision this forces
+
+The pilot ran its six colonies as six separate processes. Unpinned, that gave
+each colony a **different** hash order — so hash noise would have entered the
+*between-colony* comparison, which is the only comparison this campaign
+makes. That is a measurement artifact masquerading as a colony difference.
+
+The campaign therefore runs through **`benchmarks/run_matrix.py`**, which:
+
+1. runs the **G1 code-path verification once**, before any colony;
+2. launches the six colonies in parallel as six processes, **all with the same
+   `PYTHONHASHSEED=0`**, so the hash order is a fixed environmental condition
+   applied identically to every arm rather than an independent draw per arm;
+3. merges the six parts into one artifact and records the **provenance** —
+   the hash seed used, the git commit, the branch, and the wall clock.
+
+Pinning also makes the whole campaign **reproducible**: re-running
+`run_matrix.py` on the same commit reproduces the artifact exactly.
+
+The alternative — one process running all six colonies serially — would also
+have made the hash order common-mode, but would have serialised six
+20-minute colonies into two hours.
+
+**Both floors are recorded here, and the smaller one is not the one that
+binds.** A delta must beat **0.333 new-per-100-cycles on M5** to be
+interpretable, and is interpretable outright on M2, M3, M4, M7 and on every
+population mean.
+

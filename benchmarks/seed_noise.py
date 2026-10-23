@@ -1,5 +1,5 @@
 """
-Seed-noise floor.
+Seed-noise floor (within one process).
 
 The pre-registration commits to one seed per colony and to the rule that
 "per-metric deltas smaller than seed noise are reported as *not
@@ -7,8 +7,25 @@ interpretable*, not as findings". That rule is only usable if the noise
 is measured rather than guessed.
 
 This runs the SAME colony several times with different seeds and reports,
-for every metric, the spread across seeds. A campaign delta smaller than
-that spread is not a finding.
+for every metric, the spread across seeds.
+
+**Measured result: the spread is exactly 0.00 for every metric and every
+population.** The engine is deterministic given (stimulus, seed) *within a
+process*.
+
+**That is not the noise floor of the campaign, and this script does not
+measure it.** The campaign runs each colony in its own process
+(`force_matrix.py --merge`), and CPython randomises string hashing per
+process unless `PYTHONHASHSEED` is pinned. A quantity invariant to the seed
+inside one process can still vary between processes. The pilot matrix
+recorded FULL M5 = 24.667; this script, in a different process, with the
+*same* seed (20261023), records M5 = 25.0 — a real difference between two
+processes at the same seed.
+
+The process-level floor is measured by `benchmarks/process_noise.py --sweep`,
+which runs the same seed in several processes with different
+`PYTHONHASHSEED` values and writes `docs/process_noise.json`. **Use that
+number to judge a campaign delta**, not this one.
 
 Usage:
     python benchmarks/seed_noise.py --cycles 300
@@ -116,9 +133,14 @@ def main() -> None:
 
     print()
     print("=" * 78)
-    print(f"SEED-NOISE FLOOR -- {args.colony}, {args.cycles} cycles, "
-          f"seeds {args.seeds}")
+    print(f"SEED-NOISE FLOOR (within one process) -- {args.colony}, "
+          f"{args.cycles} cycles, seeds {args.seeds}")
     print("=" * 78)
+    print("  NOTE: this is the WITHIN-PROCESS floor. The campaign runs each")
+    print("  colony in its own process, so the bound that matters is the")
+    print("  PROCESS-LEVEL floor: benchmarks/process_noise.py --sweep")
+    print("  -> docs/process_noise.json")
+    print()
     for t in table:
         print(f"  {t['metric']:<4} {t['name']:<26} values={t['values']} "
               f"spread={t['spread']:.6g} rel={t['relative_spread']}")

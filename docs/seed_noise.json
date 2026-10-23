@@ -1,0 +1,172 @@
+{
+  "colony": "FULL",
+  "cycles": 300,
+  "seeds": [
+    20261023,
+    20261024,
+    20261025
+  ],
+  "metrics": [
+    {
+      "metric": "M1",
+      "name": "theory duty cycle",
+      "values": [
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M2",
+      "name": "question duty cycle",
+      "values": [
+        0.9966666666666667,
+        0.9966666666666667,
+        0.9966666666666667
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M3",
+      "name": "contradiction density",
+      "values": [
+        1816.9933,
+        1816.9933,
+        1816.9933
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M4",
+      "name": "contradiction survival",
+      "values": [
+        0.9375,
+        0.9375,
+        0.9375
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M5",
+      "name": "development velocity",
+      "values": [
+        25.0,
+        25.0,
+        25.0
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M6",
+      "name": "lineage depth",
+      "values": [
+        7,
+        7,
+        7
+      ],
+      "spread": 0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M7",
+      "name": "mean belief lifetime",
+      "values": [
+        212.0,
+        212.0,
+        212.0
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M8",
+      "name": "population stability",
+      "values": [
+        0.9422,
+        0.9422,
+        0.9422
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "metric": "M9",
+      "name": "cognitive revolutions",
+      "values": [
+        0,
+        0,
+        0
+      ],
+      "spread": 0,
+      "relative_spread": 0.0
+    }
+  ],
+  "populations": [
+    {
+      "population": "theories",
+      "values": [
+        5.1,
+        5.1,
+        5.1
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "population": "questions",
+      "values": [
+        5.1,
+        5.1,
+        5.1
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "population": "dreams",
+      "values": [
+        7.89,
+        7.89,
+        7.89
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "population": "experiments",
+      "values": [
+        4.983,
+        4.983,
+        4.983
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "population": "pre_beliefs",
+      "values": [
+        17.707,
+        17.707,
+        17.707
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    },
+    {
+      "population": "pre_ge2",
+      "values": [
+        6.86,
+        6.86,
+        6.86
+      ],
+      "spread": 0.0,
+      "relative_spread": 0.0
+    }
+  ]
+}

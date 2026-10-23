@@ -140,7 +140,7 @@ def main() -> None:
     cycles = doc.get("cycles") or 0
 
     svg = Svg(1240, 900)
-    svg.text(30, 34, "Organica Ablation Matrix V2 — before/after", size=19, weight="bold")
+    svg.text(30, 34, "Organica Ablation Study 2 — Tier-1 matrix", size=19, weight="bold")
     svg.text(30, 55,
              "alphabetical (before) vs salience (after) retention, on the branch stimulus that closed the launch gates",
              size=12, fill="#555")
@@ -152,6 +152,14 @@ def main() -> None:
     px, py, pw, ph = panel(svg, 30, 92, 580, 360,
                            "A · Theory population over time")
     arms = [c for c in ("FULL", "SALIENCE") if c in rows]
+    missing = [c for c in arms if "series" not in rows[c]]
+    if missing:
+        raise SystemExit(
+            f"no per-cycle 'series' in {missing}. The artifact predates the "
+            f"per-cycle series capture (force_matrix.py writes 'series' for "
+            f"every colony). The 300-cycle pilot artifact "
+            f"(docs/force_matrix_pilot.json) has no series; the figure needs "
+            f"a run made with the current runner.")
     theo = {c: rows[c]["series"]["theories"] for c in arms}
     ymax = max(max(v) for v in theo.values()) if theo else 8
     ymax = max(ymax, 1)
