@@ -68,32 +68,36 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 06:31 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 12:05 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
-| Study status | **RUNNING** — daemon PID 32328, relaunched 2026-10-23 06:28 MDT on the new build. It was **stopped** on 2026-10-22 19:00 MDT so the retention change could land without a file-vs-process mismatch. |
-| Build in effect | `retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15` — written to the log at every startup, so the log now says which configuration produced which cycles. |
-| Cycles completed | **3,730** sleep cycles (the longest single-arm record the project has) |
-| Sleep-cycle counter | 1 → 3,730, **0 non-monotonic steps** (the counter survived the restart, because it lives in the database, not in the process) |
-| Failed cycles | 0, all time |
-| Cycle latency | median 270 ms, max 408 ms |
-| Substrate | ~24 MB, bounded by retention (109 rows pruned/cycle) |
+| Study status | **RUNNING** — daemon PID 29524, relaunched 2026-10-23 11:49 MDT on the **fixed** build (the substrate correction described in [§8.4](#84-the-counter-that-was-measuring-the-wrong-population)). |
+| Build in effect | `retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15 freq_scope=world` — written to the log at every startup, so the log says which configuration produced which cycles. |
+| Cycles completed | **4,434** sleep cycles (the longest single-arm record the project has) |
+| Sleep-cycle counter | 1 → 4,434, **0 non-monotonic steps**, 0 failed cycles. The counter survived the restart *and* the substrate change, because it lives in the database, not in the process. |
+| Cycle latency | median 299 ms, max 1,037 ms |
+| Substrate | ~25 MB, bounded by retention (109 rows pruned/cycle) |
+| Tag vocabulary | **29 tags, 0 schema tags.** Before the fix it was 63 tags, 60.6% of them the organism's own JSON field names. |
 | Mean population (last 200 cycles) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
 | Archived run | `logs/organica_prefix_20261022.log` (7.97 MB) + per-cycle series in `docs/prefix_run_series.json` (3,725 cycles) |
-| Git | `master` pushed and in sync at `267ede3`; a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
+| Git | `master` pushed and in sync at `e492d41` (Milestone M0.5); a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
+| Mechanism closure (M0.5) | **complete** — see [§8.4](#84-the-counter-that-was-measuring-the-wrong-population). The gate is validated, the launch gates are closed, and the substrate defect that caused the collapse is fixed. |
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
 | Gate board | `docs/GATE-BOARD.md` — what is demonstrated, what is assumed, what is blocked |
 
 **The headline, and it changed the plan:** the 90-day run **plateaued at cycle 261 — 7% of the way in.** Every population series has standard deviation **0.000000** and slope **0.0 per 1,000 cycles** over the last 931 cycles. The organism reached a fixed point and then sat still for 3,464 cycles. A single arm with a flat line describes nothing and identifies nothing; **only contrasts can.** The comparative matrix replaces the 90-day single arm as the primary experiment, and the daemon becomes a *monitor*, not a gate.
 
-**The second headline:** the Tier-1 experiment as originally specified — *Full vs Salience retention* — **would have measured nothing.** The Layer-4 belief pool reaches a maximum of **8** against a cap of **15**, and the cap binds in **0 of 600** cold cycles. Raising the cap 15 → 30 → 60 produces byte-identical populations. Because nothing is ever truncated, "alphabetical" and "salience" choose the **same beliefs** every time. The retention policy is a real defect (it is decided by sorting strings) but it is currently **inert**.
+**The second headline, and it changed again on 2026-10-23:** the Tier-1 experiment as originally specified — *Full vs Salience retention* — **would have measured nothing**, because the Layer-4 belief pool reached a maximum of **8** against a cap of **15** and the cap bound in **0 of 600** cold cycles. Two things have changed since that was written:
 
-**Where the pressure actually is:** at Layer 1, not Layer 4. The organism generates **936 loops, 621 predictions and 309 anomalies** and keeps 15, 20 and 10 of them — retention pressure of **61×, 30× and 29×** — while Layer 4 receives **5–8 beliefs for 15 slots** (pressure **0.35**). **The organism is starved, not selective.** Read [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) before you run anything else.
+1. **The belief pool was being starved by a measurement defect**, not by the world. The tag-frequency counter was scoped to *all* events while the graph it normalises was scoped to *world* events. Fixed. See [§8.4](#84-the-counter-that-was-measuring-the-wrong-population).
+2. **On the study stream the pool is still short** — 5.17 beliefs mean, 6 max, against a cap of 15 — so the retention policy is still inert *there*. **On the branch-structured stimulus it is not**: the pool reaches **18**, the cap binds, and alphabetical and salience retention produce **different** populations (5 theories / 5 questions vs 4 / 4). The comparison is finally measurable.
+
+**Where the pressure actually is:** at Layer 1, not Layer 4. The organism generates **936 loops, 621 predictions and 309 anomalies** and keeps 15, 20 and 10 of them — retention pressure of **61×, 30× and 29×** — while Layer 4 received **5–8 beliefs for 15 slots** (pressure **0.35**) on the study stream. **The organism was starved, not selective** — and it was starved by its own instrumentation. Read [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) and [§8.4](#84-the-counter-that-was-measuring-the-wrong-population) before you run anything else.
 
 **The long-horizon answer is unchanged:** the cold-start ablation is done. The organism bootstraps G1, G4, G6, G7 and G8 from an unengineered stream with no assistance — but **G5 never emerges unassisted**, and the cause is *proven causal*, not guessed. Read [§8.1](#81-the-cold-start-study).
 
