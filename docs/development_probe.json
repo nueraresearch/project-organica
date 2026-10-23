@@ -1,0 +1,291 @@
+{
+  "generated_at": "2026-10-23T02:36:50Z",
+  "note": "Organica development probe: cap census, budget insensitivity, plateau analysis, vocabulary audit.",
+  "cap_census": {
+    "cycles": 600,
+    "budget": 15,
+    "seconds": 152.2,
+    "pool_max": 8,
+    "pool_mean": 5.31,
+    "pool_histogram": {
+      "0": 34,
+      "4": 1,
+      "5": 299,
+      "6": 199,
+      "7": 41,
+      "8": 26
+    },
+    "marker_mean": 6.93,
+    "cycles_cap_binds": 0,
+    "cycles_policies_differ_membership": 0,
+    "cycles_policies_differ_order": 566,
+    "max_subjects_ge2": 3,
+    "mean_theories": 1.102,
+    "mean_questions": 1.102,
+    "max_theories": 3,
+    "max_questions": 3
+  },
+  "budget_insensitivity": {
+    "skipped": true
+  },
+  "plateau": {
+    "cycles": 3725,
+    "series": {
+      "hypotheses": {
+        "final": 13,
+        "converged_at_cycle": 1677,
+        "last_50pct": {
+          "mean": 13.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 13.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 13.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      },
+      "theories": {
+        "final": 1,
+        "converged_at_cycle": 261,
+        "last_50pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      },
+      "questions": {
+        "final": 1,
+        "converged_at_cycle": 261,
+        "last_50pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 1.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      },
+      "dreams": {
+        "final": 8,
+        "converged_at_cycle": 162,
+        "last_50pct": {
+          "mean": 8.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 8.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 8.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      },
+      "investigations": {
+        "final": 5,
+        "converged_at_cycle": 82,
+        "last_50pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      },
+      "experiments": {
+        "final": 5,
+        "converged_at_cycle": 82,
+        "last_50pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_25pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        },
+        "last_10pct": {
+          "mean": 5.0,
+          "stdev": 0.0,
+          "slope_per_1000_cycles": 0.0,
+          "distinct_values": 1
+        }
+      }
+    },
+    "contradiction": {
+      "archived_key_present_but_null": true,
+      "rederived_final": 400550,
+      "rederived_max": 400550,
+      "rederived_at_cycles": {
+        "100": 0,
+        "500": 53463,
+        "1000": 90229,
+        "2000": 213951,
+        "3000": 322067,
+        "3724": 400550
+      },
+      "support_final": 78647,
+      "last_25pct_distinct": 932
+    }
+  },
+  "vocabulary": {
+    "distinct_tags": 63,
+    "total_tag_occurrences": 4361339,
+    "schema_artefact_occurrences": 2641105,
+    "schema_artefact_pct": 60.6,
+    "top_tags": [
+      {
+        "tag": "type",
+        "count": 548902,
+        "kind": "schema"
+      },
+      {
+        "tag": "generation",
+        "count": 545177,
+        "kind": "schema"
+      },
+      {
+        "tag": "evidence",
+        "count": 412335,
+        "kind": "schema"
+      },
+      {
+        "tag": "strength",
+        "count": 308771,
+        "kind": "schema"
+      },
+      {
+        "tag": "developer",
+        "count": 262374,
+        "kind": "world"
+      },
+      {
+        "tag": "suite",
+        "count": 231126,
+        "kind": "world"
+      },
+      {
+        "tag": "path",
+        "count": 189650,
+        "kind": "schema"
+      },
+      {
+        "tag": "session",
+        "count": 166447,
+        "kind": "world"
+      },
+      {
+        "tag": "modified",
+        "count": 158290,
+        "kind": "world"
+      },
+      {
+        "tag": "confidence",
+        "count": 143153,
+        "kind": "schema"
+      },
+      {
+        "tag": "subject",
+        "count": 121564,
+        "kind": "schema"
+      },
+      {
+        "tag": "source",
+        "count": 82491,
+        "kind": "schema"
+      },
+      {
+        "tag": "target",
+        "count": 82491,
+        "kind": "schema"
+      },
+      {
+        "tag": "router",
+        "count": 69074,
+        "kind": "world"
+      },
+      {
+        "tag": "engineer",
+        "count": 66893,
+        "kind": "world"
+      },
+      {
+        "tag": "executed",
+        "count": 63814,
+        "kind": "world"
+      },
+      {
+        "tag": "true",
+        "count": 63098,
+        "kind": "world"
+      },
+      {
+        "tag": "report",
+        "count": 60140,
+        "kind": "world"
+      },
+      {
+        "tag": "dream",
+        "count": 59255,
+        "kind": "schema"
+      },
+      {
+        "tag": "strengthened",
+        "count": 49555,
+        "kind": "world"
+      }
+    ]
+  }
+}

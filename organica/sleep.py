@@ -33,6 +33,7 @@ Design rules:
 import hashlib
 import json
 import math
+import random
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field, asdict
@@ -339,8 +340,94 @@ class SleepService:
     MAX_INVESTIGATIONS      = 5
     MAX_EXPERIMENTS         = 5
 
+    # ------------------------------------------------------------------
+    # Per-layer output caps.
+    #
+    # These used to be inline literals. They are named here for one
+    # reason: a cap is invisible until you measure the pool it truncates,
+    # and you cannot measure a pool you cannot reconfigure. The
+    # instrumentation audit (benchmarks/instrumentation_audit.py) varies
+    # these to find out whether a layer's retention decision can ever
+    # matter, and records the pre-cap pool size for each.
+    #
+    # Naming them changes no behaviour -- the values are the ones that
+    # were there before.
+    # ------------------------------------------------------------------
+    MAX_LOOPS               = 15
+    MAX_PREDICTIONS         = 20
+    MAX_ANOMALIES           = 10
+    MAX_META_CONCEPTS       = 15
+    MAX_PROCESSES           = 10
+    MAX_WORKFLOWS           = 10
+
+    # A workflow is only composed when at least this many of its cycle's
+    # tags are meta-concept anchors.
+    WORKFLOW_MIN_MATCHED_METAS = 2
+
+    # ==================================================================
+    # Hypothesis retention (Layer 4)
+    # ==================================================================
+    # Which candidate beliefs survive into the active hypothesis set --
+    # and therefore which beliefs Layer 5 can actually reason over.
+    #
+    # This used to be a sort by subject name, so a belief survived
+    # because its subject happened to sort early. In this project the
+    # common subjects (developer, engineer, executed, modified, report,
+    # session, suite) are both frequent AND alphabetically early, so the
+    # old rule was a popularity rule wearing a name-based disguise.
+    #
+    # It is now an explicit policy, so the choice can be measured rather
+    # than assumed. See research-journal section 19.
+    #
+    #   "alphabetical"  legacy: sort by (subject, -confidence)
+    #   "confidence"    most confident first
+    #   "contradiction" most contradicting evidence first (RAW COUNT --
+    #                   this ranks by subject popularity, because the raw
+    #                   count is the subject's total outgoing flow and so
+    #                   grows with how often the subject occurs)
+    #   "tension"       most contested first, as a SHARE of the subject's
+    #                   total outgoing flow
+    #   "salience"      the composite score (default)
+    #   "stochastic"    weighted lottery proportional to salience
+    HYPOTHESIS_RETENTION = "salience"
+
+    # Every policy name the retention layer accepts. Kept beside the
+    # default so that a typo is caught immediately instead of silently
+    # falling through to the composite score.
+    VALID_RETENTION_POLICIES = (
+        "alphabetical",   # legacy: sort by (subject, -confidence)
+        "confidence",     # most confident first
+        "contradiction",  # most contradicting evidence first (RAW COUNT)
+        "tension",        # most contested first, as a SHARE of flow
+        "salience",       # the composite score (default)
+        "stochastic",     # weighted lottery proportional to salience
+    )
+
+    # Weights over the salience components, in the order
+    # (tension, curiosity, novelty, revision). Equal by default: no tuned
+    # constants, and every component can be ablated on its own.
+    SALIENCE_WEIGHTS = (0.25, 0.25, 0.25, 0.25)
+
+    # Multiplier on the contradiction term. 1.0 is the unmodified system.
+    # The ablation matrix scales this to ask whether contradiction is
+    # developmental fuel or bookkeeping noise.
+    CONTRADICTION_SCALE = 1.0
+
+    # Structural markers -- hypotheses whose expectation is
+    # "high_structural_significance" -- are never beliefs: Layer 5
+    # discards them on sight (see _form_theories_and_questions). They
+    # are kept for the record, but they must not consume the belief
+    # budget, because a slot they occupy is a slot Layer 5 cannot use.
+    MAX_STRUCTURAL_MARKERS = 15
+
+    # Seed for the stochastic retention policy, so a rerun reproduces
+    # the same draw.
+    RANDOM_SEED = 0
+
     def __init__(self, memory: MemoryService):
         self.memory = memory
+        # Seeded so the stochastic retention policy is reproducible.
+        self._rng = random.Random(self.RANDOM_SEED)
 
     # ==================================================================
     # Public API
@@ -1047,7 +1134,7 @@ class SleepService:
                                 ))
 
         loops.sort(key=lambda l: l.strength, reverse=True)
-        return loops[:15]
+        return loops[:self.MAX_LOOPS]
 
     def _build_predictions(self, temporal, freqs) -> list[PredictionCandidate]:
         candidates = []
@@ -1070,7 +1157,7 @@ class SleepService:
                         },
                     ))
         candidates.sort(key=lambda p: p.evidence["temporal_count"], reverse=True)
-        return candidates[:20]
+        return candidates[:self.MAX_PREDICTIONS]
 
     def _build_anomalies(self, temporal, freqs) -> list[AnomalyCandidate]:
         anomalies = []
@@ -1096,7 +1183,7 @@ class SleepService:
                         },
                     ))
         anomalies.sort(key=lambda a: a.evidence["dominance_ratio"], reverse=True)
-        return anomalies[:10]
+        return anomalies[:self.MAX_ANOMALIES]
 
     # ==================================================================
     # Layer 2: Structural Composition (V1)
@@ -1163,7 +1250,7 @@ class SleepService:
                 ))
 
         candidates.sort(key=lambda m: m.related_candidates, reverse=True)
-        return candidates[:15]
+        return candidates[:self.MAX_META_CONCEPTS]
 
     def _compose_processes(self, stable_prior: list[dict]) -> list[ProcessCandidate]:
         preds: dict[str, dict[str, dict]] = {}
@@ -1265,7 +1352,7 @@ class SleepService:
                             ))
 
         candidates.sort(key=lambda p: p.strength, reverse=True)
-        return candidates[:10]
+        return candidates[:self.MAX_PROCESSES]
 
     # ==================================================================
     # Layer 3: High-Order Synthesis (Sleep V2)
@@ -1286,7 +1373,7 @@ class SleepService:
         for proc in processes:
             matched_metas = [meta_by_anchor[t] for t in proc.cycle if t in meta_by_anchor]
 
-            if len(matched_metas) >= 2:
+            if len(matched_metas) >= self.WORKFLOW_MIN_MATCHED_METAS:
                 parent_ids = [proc.id] + [m.id for m in matched_metas]
                 cycle_str = "_".join(proc.cycle)
                 name = f"workflow_{cycle_str}"
@@ -1310,7 +1397,7 @@ class SleepService:
                 ))
 
         workflows.sort(key=lambda w: w.confidence, reverse=True)
-        return workflows[:10]
+        return workflows[:self.MAX_WORKFLOWS]
 
     # ==================================================================
     # Layer 4: Falsifiable Hypotheses (Sleep V3)
@@ -1393,7 +1480,13 @@ class SleepService:
             targets = temporal.get(sub, {})
             support = targets.get(exp, 0)
             total_flow = sum(targets.values())
-            contradiction = max(0, total_flow - support)
+            raw_contradiction = max(0, total_flow - support)
+            # The contradiction scale is 1.0 in the unmodified system. The
+            # ablation matrix moves it to ask whether contradiction acts as
+            # developmental fuel or as bookkeeping noise. The RAW value is
+            # kept alongside the scaled one so that a metric can still
+            # measure the world rather than the axis.
+            contradiction = raw_contradiction * self.CONTRADICTION_SCALE
 
             prior_h = prior_hyps.get(hid)
             prior_conf = prior_h.get("confidence") if prior_h else None
@@ -1412,13 +1505,166 @@ class SleepService:
             hyp.evidence = {
                 "support_count": support,
                 "contradiction_count": contradiction,
+                "raw_contradiction_count": raw_contradiction,
+                "total_flow": total_flow,
                 "prior_confidence": prior_conf,
                 "revision_delta": round(conf - prior_conf, 4) if prior_conf is not None else 0.0,
             }
             results.append(hyp)
 
-        results.sort(key=lambda h: (h.subject, -h.confidence))
-        return results[:self.MAX_HYPOTHESES]
+        # ---- retention -------------------------------------------------
+        # Structural markers are not beliefs -- Layer 5 discards them -- so
+        # they are kept in their own allowance and cannot consume the
+        # belief budget. The remaining budget goes to real beliefs, ranked
+        # by the configured policy.
+        markers = [h for h in results
+                   if h.expectation == "high_structural_significance"]
+        beliefs = [h for h in results
+                   if h.expectation != "high_structural_significance"]
+
+        info = self._belief_info(beliefs, prior_hyps, temporal)
+        kept = self._retain_hypotheses(beliefs, info, temporal)
+        kept_markers = self._retain_markers(markers, info)
+        return kept + kept_markers
+
+    # ==================================================================
+    # Hypothesis retention
+    # ==================================================================
+
+    def _belief_info(self, beliefs, prior_hyps, temporal) -> dict:
+        """Per-candidate quantities the retention policy needs.
+
+        These are computed from the UNSCALED contradiction, so a metric
+        built on them still measures the world when CONTRADICTION_SCALE
+        is not 1.0.
+        """
+        info = {}
+        for h in beliefs:
+            raw = h.evidence.get("raw_contradiction_count",
+                                 h.contradiction_count)
+            total = h.support_count + raw
+            tension = (raw / total) if total > 0 else 0.0
+            prior_h = prior_hyps.get(h.id)
+            prior_conf = prior_h.get("confidence") if prior_h else None
+            revision = abs(h.confidence - prior_conf) if prior_conf is not None else 0.0
+            info[h.id] = {
+                "support": h.support_count,
+                "raw_contradiction": raw,
+                "tension": tension,
+                "novelty": 0.0 if prior_h else 1.0,
+                "revision": revision,
+            }
+        return info
+
+    def _subject_entropy(self, subject: str, temporal) -> float:
+        """Normalised Shannon entropy of a subject's outgoing flow.
+
+        How undetermined the subject is: 0 when all of the subject's
+        outgoing evidence points one way, 1 when it is spread evenly.
+        This is the "curiosity" component of salience -- the same idea as
+        the uncertainty Layer 5 computes, but available one layer earlier,
+        where retention has to be decided.
+        """
+        counts = [c for c in temporal.get(subject, {}).values() if c > 0]
+        if len(counts) < 2:
+            return 0.0
+        total = sum(counts)
+        h = 0.0
+        for c in counts:
+            q = c / total
+            h -= q * math.log2(q)
+        return h / math.log2(len(counts))
+
+    def _salience(self, beliefs, info, temporal) -> dict:
+        """The composite salience score, one value per belief.
+
+        Every component is unit-free and in [0, 1], so the weights are
+        meaningful and no component can swamp the others:
+
+          tension   how contested this expectation is, as a share of the
+                    subject's outgoing flow. NOTE: the raw contradiction
+                    COUNT is not contestation -- it is the subject's
+                    popularity -- so the share is used here.
+          curiosity how undetermined the subject is (normalised entropy).
+          novelty   1 if this belief has never been held before.
+          revision  how much this belief's confidence just moved.
+        """
+        w_tension, w_curiosity, w_novelty, w_revision = self.SALIENCE_WEIGHTS
+        scores = {}
+        for h in beliefs:
+            i = info[h.id]
+            scores[h.id] = (
+                w_tension * i["tension"]
+                + w_curiosity * self._subject_entropy(h.subject, temporal)
+                + w_novelty * i["novelty"]
+                + w_revision * i["revision"]
+            )
+        return scores
+
+    def _retain_markers(self, markers, info) -> list:
+        """Keep the inert structural markers, out of the belief budget.
+
+        They are recorded for provenance but they are never beliefs, so
+        they get their own allowance rather than competing for the slots
+        Layer 5 actually reads.
+        """
+        markers = sorted(markers, key=lambda h: (-h.confidence, h.subject))
+        return markers[:self.MAX_STRUCTURAL_MARKERS]
+
+    def _retain_hypotheses(self, beliefs, info, temporal) -> list:
+        """Apply the retention policy to the candidate beliefs."""
+        policy = self.HYPOTHESIS_RETENTION
+        # Validate before doing any work, so a typo in the policy name is
+        # always a loud error rather than something that depends on
+        # whether the pool happened to be empty.
+        if policy not in self.VALID_RETENTION_POLICIES:
+            raise ValueError(f"unknown HYPOTHESIS_RETENTION policy: {policy!r}")
+
+        if not beliefs:
+            return []
+
+        if policy == "alphabetical":
+            ranked = sorted(beliefs, key=lambda h: (h.subject, -h.confidence))
+            return ranked[:self.MAX_HYPOTHESES]
+        if policy == "confidence":
+            ranked = sorted(beliefs, key=lambda h: (-h.confidence, h.subject))
+            return ranked[:self.MAX_HYPOTHESES]
+        if policy == "contradiction":
+            ranked = sorted(beliefs, key=lambda h: (-h.contradiction_count, h.subject))
+            return ranked[:self.MAX_HYPOTHESES]
+        if policy == "tension":
+            ranked = sorted(beliefs, key=lambda h: (-info[h.id]["tension"], h.subject))
+            return ranked[:self.MAX_HYPOTHESES]
+
+        scores = self._salience(beliefs, info, temporal)
+
+        if policy == "salience":
+            ranked = sorted(beliefs, key=lambda h: (-scores[h.id], h.subject))
+            return ranked[:self.MAX_HYPOTHESES]
+        if policy == "stochastic":
+            return self._stochastic_retain(beliefs, scores)
+
+        raise ValueError(f"unknown HYPOTHESIS_RETENTION policy: {policy!r}")
+
+    def _stochastic_retain(self, beliefs, scores) -> list:
+        """A weighted lottery: draw without replacement, proportional to salience."""
+        pool = list(beliefs)
+        weights = [max(0.0, scores[h.id]) + 1e-9 for h in pool]
+        chosen = []
+        while pool and len(chosen) < self.MAX_HYPOTHESES:
+            total = sum(weights)
+            if total <= 0:
+                chosen.extend(pool[:self.MAX_HYPOTHESES - len(chosen)])
+                break
+            pick = self._rng.random() * total
+            acc = 0.0
+            for i, w in enumerate(weights):
+                acc += w
+                if acc >= pick:
+                    chosen.append(pool.pop(i))
+                    weights.pop(i)
+                    break
+        return chosen
 
     # ==================================================================
     # Layer 5: Theories & Questions / Curiosity (Sleep V4)

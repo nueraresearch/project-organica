@@ -1,0 +1,2047 @@
+{
+  "generated_at": "2026-10-23T05:20:00Z",
+  "title": "Organica Phase V1.5 Instrumentation Audit",
+  "note": "Observation only; the engine is never modified. Three parts: Audit 1 parameter influence map, Audit 2 pre-cap candidate pools and retention pressure, Audit 3 effective world size. Plus the funnel sweep that tests whether widening Layer 1 can make the hypothesis cap bind.",
+  "retention_pressure_definition": "retention_pressure = pre_cap_pool_size / cap. <1.0 no pressure, 1-2 weak, 2-5 useful, >5 strong. Gate G-P1 requires pressure > 1.0 on the retained object for a retention experiment to be informative.",
+  "audit1_parameter_influence": {
+    "PREDICTION_MIN_COUNT": {
+      "baseline_value": 5,
+      "variant_value": 3,
+      "verdict": "POOL_ONLY",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {
+          "predictions": [
+            621.0,
+            641.0
+          ]
+        },
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 641.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "META_CONCEPT_MIN_REFS": {
+      "baseline_value": 3,
+      "variant_value": 2,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "CONCEPT_MIN_DEGREE": {
+      "baseline_value": 4,
+      "variant_value": 2,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "CONCEPT_MIN_REACH": {
+      "baseline_value": 4,
+      "variant_value": 2,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "PHRASE_MIN_CLUSTERING": {
+      "baseline_value": 0.7,
+      "variant_value": 0.5,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "LOOP_MIN_STRENGTH": {
+      "baseline_value": 5,
+      "variant_value": 2,
+      "verdict": "POOL_ONLY",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {
+          "loops": [
+            936.0,
+            1092.0
+          ]
+        },
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 1092.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "STABLE_THRESHOLD": {
+      "baseline_value": 0.3,
+      "variant_value": 0.2,
+      "verdict": "DECISIVE",
+      "diff": {
+        "changed_population": {
+          "hypotheses": [
+            12.05,
+            13.0
+          ]
+        },
+        "changed_pre_cap_pool": {
+          "anomalies": [
+            304.77,
+            300.77
+          ],
+          "loops": [
+            936.0,
+            1005.0
+          ],
+          "predictions": [
+            621.0,
+            638.0
+          ],
+          "hypotheses": [
+            5.05,
+            6.0
+          ]
+        },
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 13.0,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 300.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 6.0,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 1005.0,
+          "meta_concepts": 9.0,
+          "predictions": 638.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "DEATH_THRESHOLD": {
+      "baseline_value": 0.15,
+      "variant_value": 0.25,
+      "verdict": "DECISIVE",
+      "diff": {
+        "changed_population": {
+          "hypotheses": [
+            12.05,
+            7.0
+          ],
+          "theories": [
+            1.0,
+            0.0
+          ],
+          "questions": [
+            1.0,
+            0.0
+          ],
+          "dreams": [
+            8.0,
+            6.0
+          ]
+        },
+        "changed_pre_cap_pool": {
+          "anomalies": [
+            304.77,
+            295.77
+          ],
+          "questions": [
+            1.0,
+            0.0
+          ],
+          "loops": [
+            936.0,
+            1051.0
+          ],
+          "investigations": [
+            9.0,
+            6.0
+          ],
+          "theories": [
+            1.0,
+            0.0
+          ],
+          "dreams": [
+            8.0,
+            6.0
+          ],
+          "predictions": [
+            621.0,
+            604.0
+          ],
+          "hypotheses": [
+            5.05,
+            0.0
+          ]
+        },
+        "world_tags": [
+          42.0,
+          41.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 7.0,
+          "theories": 0.0,
+          "questions": 0.0,
+          "dreams": 6.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 295.77,
+          "dreams": 6.0,
+          "experiments": 5.0,
+          "hypotheses": 0.0,
+          "hypothesis_markers": 7.0,
+          "investigations": 6.0,
+          "loops": 1051.0,
+          "meta_concepts": 9.0,
+          "predictions": 604.0,
+          "processes": 13.0,
+          "questions": 0.0,
+          "theories": 0.0,
+          "workflows": 10.0
+        },
+        "world_tags": 41.0
+      }
+    },
+    "MAX_HYPOTHESES": {
+      "baseline_value": 15,
+      "variant_value": 40,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "MAX_WORKFLOWS": {
+      "baseline_value": 10,
+      "variant_value": 25,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "MAX_PROCESSES": {
+      "baseline_value": 10,
+      "variant_value": 25,
+      "verdict": "DECISIVE",
+      "diff": {
+        "changed_population": {
+          "processes": [
+            10.0,
+            13.0
+          ],
+          "hypotheses": [
+            12.05,
+            13.0
+          ]
+        },
+        "changed_pre_cap_pool": {
+          "anomalies": [
+            304.77,
+            309.17
+          ],
+          "loops": [
+            936.0,
+            1035.0
+          ],
+          "workflows": [
+            10.0,
+            13.0
+          ],
+          "predictions": [
+            621.0,
+            647.0
+          ],
+          "hypotheses": [
+            5.05,
+            6.0
+          ]
+        },
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 13.0,
+          "workflows": 10.0,
+          "hypotheses": 13.0,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 309.17,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 6.0,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 1035.0,
+          "meta_concepts": 9.0,
+          "predictions": 647.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 13.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "MAX_META_CONCEPTS": {
+      "baseline_value": 15,
+      "variant_value": 30,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    },
+    "MAX_PREDICTIONS": {
+      "baseline_value": 20,
+      "variant_value": 40,
+      "verdict": "DECISIVE",
+      "diff": {
+        "changed_population": {
+          "predictions": [
+            20.0,
+            40.0
+          ],
+          "processes": [
+            10.0,
+            8.78
+          ],
+          "workflows": [
+            10.0,
+            8.78
+          ],
+          "hypotheses": [
+            12.05,
+            15.34
+          ],
+          "theories": [
+            1.0,
+            1.23
+          ],
+          "questions": [
+            1.0,
+            1.23
+          ],
+          "dreams": [
+            8.0,
+            7.82
+          ]
+        },
+        "changed_pre_cap_pool": {
+          "anomalies": [
+            304.77,
+            340.75
+          ],
+          "questions": [
+            1.0,
+            1.23
+          ],
+          "loops": [
+            936.0,
+            1353.12
+          ],
+          "workflows": [
+            10.0,
+            8.78
+          ],
+          "processes": [
+            13.0,
+            13.13
+          ],
+          "investigations": [
+            9.0,
+            9.05
+          ],
+          "theories": [
+            1.0,
+            1.23
+          ],
+          "dreams": [
+            8.0,
+            9.45
+          ],
+          "hypothesis_markers": [
+            7.0,
+            8.83
+          ],
+          "predictions": [
+            621.0,
+            679.92
+          ],
+          "hypotheses": [
+            5.05,
+            6.51
+          ]
+        },
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 40.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 8.78,
+          "workflows": 8.78,
+          "hypotheses": 15.34,
+          "theories": 1.23,
+          "questions": 1.23,
+          "dreams": 7.82,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 340.75,
+          "dreams": 9.45,
+          "experiments": 5.0,
+          "hypotheses": 6.51,
+          "hypothesis_markers": 8.83,
+          "investigations": 9.05,
+          "loops": 1353.12,
+          "meta_concepts": 9.0,
+          "predictions": 679.92,
+          "processes": 13.13,
+          "questions": 1.23,
+          "theories": 1.23,
+          "workflows": 8.78
+        },
+        "world_tags": 42.0
+      }
+    },
+    "WORKFLOW_MIN_MATCHED_METAS": {
+      "baseline_value": 2,
+      "variant_value": 1,
+      "verdict": "INERT",
+      "diff": {
+        "changed_population": {},
+        "changed_pre_cap_pool": {},
+        "world_tags": [
+          42.0,
+          42.0
+        ]
+      },
+      "fingerprint": {
+        "pop": {
+          "concepts": 2.0,
+          "phrases": 0.0,
+          "loops": 15.0,
+          "predictions": 20.0,
+          "anomalies": 10.0,
+          "meta_concepts": 9.0,
+          "processes": 10.0,
+          "workflows": 10.0,
+          "hypotheses": 12.05,
+          "theories": 1.0,
+          "questions": 1.0,
+          "dreams": 8.0,
+          "investigations": 5.0,
+          "experiments": 5.0
+        },
+        "pre_cap": {
+          "anomalies": 304.77,
+          "dreams": 8.0,
+          "experiments": 5.0,
+          "hypotheses": 5.05,
+          "hypothesis_markers": 7.0,
+          "investigations": 9.0,
+          "loops": 936.0,
+          "meta_concepts": 9.0,
+          "predictions": 621.0,
+          "processes": 13.0,
+          "questions": 1.0,
+          "theories": 1.0,
+          "workflows": 10.0
+        },
+        "world_tags": 42.0
+      }
+    }
+  },
+  "baseline_fingerprint": {
+    "pop": {
+      "concepts": 2.0,
+      "phrases": 0.0,
+      "loops": 15.0,
+      "predictions": 20.0,
+      "anomalies": 10.0,
+      "meta_concepts": 9.0,
+      "processes": 10.0,
+      "workflows": 10.0,
+      "hypotheses": 12.05,
+      "theories": 1.0,
+      "questions": 1.0,
+      "dreams": 8.0,
+      "investigations": 5.0,
+      "experiments": 5.0
+    },
+    "pre_cap": {
+      "anomalies": 304.77,
+      "dreams": 8.0,
+      "experiments": 5.0,
+      "hypotheses": 5.05,
+      "hypothesis_markers": 7.0,
+      "investigations": 9.0,
+      "loops": 936.0,
+      "meta_concepts": 9.0,
+      "predictions": 621.0,
+      "processes": 13.0,
+      "questions": 1.0,
+      "theories": 1.0,
+      "workflows": 10.0
+    },
+    "world_tags": 42.0
+  },
+  "audit2_pre_cap_pools": {
+    "loops": {
+      "mean": 916.33,
+      "median": 936.0,
+      "p95": 936,
+      "max": 936,
+      "min": 662,
+      "cap": 15,
+      "pressure_mean": 61.089,
+      "pressure_p95": 62.4,
+      "pressure_max": 62.4,
+      "cap_binds_p95": true
+    },
+    "predictions": {
+      "mean": 597.543,
+      "median": 621.0,
+      "p95": 621,
+      "max": 621,
+      "min": 307,
+      "cap": 20,
+      "pressure_mean": 29.877,
+      "pressure_p95": 31.05,
+      "pressure_max": 31.05,
+      "cap_binds_p95": true
+    },
+    "anomalies": {
+      "mean": 292.493,
+      "median": 302.0,
+      "p95": 309,
+      "max": 309,
+      "min": 89,
+      "cap": 10,
+      "pressure_mean": 29.249,
+      "pressure_p95": 30.9,
+      "pressure_max": 30.9,
+      "cap_binds_p95": true
+    },
+    "meta_concepts": {
+      "mean": 8.967,
+      "median": 9.0,
+      "p95": 9,
+      "max": 9,
+      "min": 0,
+      "cap": 15,
+      "pressure_mean": 0.598,
+      "pressure_p95": 0.6,
+      "pressure_max": 0.6,
+      "cap_binds_p95": false
+    },
+    "processes": {
+      "mean": 11.812,
+      "median": 13.0,
+      "p95": 13,
+      "max": 13,
+      "min": 0,
+      "cap": 10,
+      "pressure_mean": 1.181,
+      "pressure_p95": 1.3,
+      "pressure_max": 1.3,
+      "cap_binds_p95": true
+    },
+    "workflows": {
+      "mean": 9.09,
+      "median": 10.0,
+      "p95": 10,
+      "max": 10,
+      "min": 0,
+      "cap": 10,
+      "pressure_mean": 0.909,
+      "pressure_p95": 1.0,
+      "pressure_max": 1.0,
+      "cap_binds_p95": false
+    },
+    "theories": {
+      "mean": 1.153,
+      "median": 1.0,
+      "p95": 3,
+      "max": 3,
+      "min": 0,
+      "cap": 8,
+      "pressure_mean": 0.144,
+      "pressure_p95": 0.375,
+      "pressure_max": 0.375,
+      "cap_binds_p95": false
+    },
+    "questions": {
+      "mean": 1.153,
+      "median": 1.0,
+      "p95": 3,
+      "max": 3,
+      "min": 0,
+      "cap": 6,
+      "pressure_mean": 0.192,
+      "pressure_p95": 0.5,
+      "pressure_max": 0.5,
+      "cap_binds_p95": false
+    },
+    "dreams": {
+      "mean": 8.32,
+      "median": 8.0,
+      "p95": 12,
+      "max": 21,
+      "min": 0,
+      "cap": 8,
+      "pressure_mean": 1.04,
+      "pressure_p95": 1.5,
+      "pressure_max": 2.625,
+      "cap_binds_p95": true
+    },
+    "investigations": {
+      "mean": 8.848,
+      "median": 9.0,
+      "p95": 11,
+      "max": 11,
+      "min": 0,
+      "cap": 5,
+      "pressure_mean": 1.77,
+      "pressure_p95": 2.2,
+      "pressure_max": 2.2,
+      "cap_binds_p95": true
+    },
+    "experiments": {
+      "mean": 4.91,
+      "median": 5.0,
+      "p95": 5,
+      "max": 5,
+      "min": 0,
+      "cap": 5,
+      "pressure_mean": 0.982,
+      "pressure_p95": 1.0,
+      "pressure_max": 1.0,
+      "cap_binds_p95": false
+    },
+    "hypotheses": {
+      "mean": 5.47,
+      "median": 6.0,
+      "p95": 8,
+      "max": 8,
+      "min": 0,
+      "cap": 15,
+      "pressure_mean": 0.365,
+      "pressure_p95": 0.533,
+      "pressure_max": 0.533,
+      "cap_binds_p95": false
+    },
+    "hypothesis_markers": {
+      "mean": 6.897,
+      "median": 7.0,
+      "p95": 7,
+      "max": 7,
+      "min": 0,
+      "cap": 15,
+      "note": "inert structural markers; Layer 5 discards them, so they are not beliefs and their pressure is not selection pressure"
+    },
+    "_population_means": {
+      "concepts": 2.0,
+      "phrases": 0.0,
+      "loops": 15.0,
+      "predictions": 20.0,
+      "anomalies": 10.0,
+      "meta_concepts": 9.0,
+      "processes": 10.0,
+      "workflows": 10.0,
+      "hypotheses": 12.05,
+      "theories": 1.0,
+      "questions": 1.0,
+      "dreams": 8.0,
+      "investigations": 5.0,
+      "experiments": 5.0
+    }
+  },
+  "audit3_world_size_study": {
+    "world_tags": {
+      "mean": 41.847,
+      "median": 42.0,
+      "p95": 42,
+      "max": 42,
+      "min": 29
+    },
+    "world_edges": {
+      "mean": 89389.74,
+      "median": 89390.0,
+      "p95": 167435,
+      "max": 176112,
+      "min": 2613
+    },
+    "world_entropy": {
+      "mean": 5.062,
+      "median": 5.063,
+      "p95": 5.094,
+      "max": 5.0985,
+      "min": 4.7029
+    },
+    "world_top10_share": {
+      "mean": 0.441,
+      "median": 0.44,
+      "p95": 0.4517,
+      "max": 0.5392,
+      "min": 0.4266
+    }
+  },
+  "audit3_stimulus_sweep": {
+    "study": {
+      "events": 48,
+      "world_size": {
+        "world_tags": {
+          "mean": 41.847,
+          "median": 42.0,
+          "p95": 42,
+          "max": 42,
+          "min": 29
+        },
+        "world_edges": {
+          "mean": 89389.74,
+          "median": 89390.0,
+          "p95": 167435,
+          "max": 176112,
+          "min": 2613
+        },
+        "world_entropy": {
+          "mean": 5.062,
+          "median": 5.063,
+          "p95": 5.094,
+          "max": 5.0985,
+          "min": 4.7029
+        },
+        "world_top10_share": {
+          "mean": 0.441,
+          "median": 0.44,
+          "p95": 0.4517,
+          "max": 0.5392,
+          "min": 0.4266
+        }
+      },
+      "retention_pressure": {
+        "loops": {
+          "cap": 15,
+          "pool_mean": 916.33,
+          "pool_p95": 936,
+          "pool_max": 936,
+          "pressure_mean": 61.089,
+          "pressure_p95": 62.4,
+          "pressure_max": 62.4
+        },
+        "predictions": {
+          "cap": 20,
+          "pool_mean": 597.543,
+          "pool_p95": 621,
+          "pool_max": 621,
+          "pressure_mean": 29.877,
+          "pressure_p95": 31.05,
+          "pressure_max": 31.05
+        },
+        "anomalies": {
+          "cap": 10,
+          "pool_mean": 292.493,
+          "pool_p95": 309,
+          "pool_max": 309,
+          "pressure_mean": 29.249,
+          "pressure_p95": 30.9,
+          "pressure_max": 30.9
+        },
+        "meta_concepts": {
+          "cap": 15,
+          "pool_mean": 8.967,
+          "pool_p95": 9,
+          "pool_max": 9,
+          "pressure_mean": 0.598,
+          "pressure_p95": 0.6,
+          "pressure_max": 0.6
+        },
+        "processes": {
+          "cap": 10,
+          "pool_mean": 11.812,
+          "pool_p95": 13,
+          "pool_max": 13,
+          "pressure_mean": 1.181,
+          "pressure_p95": 1.3,
+          "pressure_max": 1.3
+        },
+        "workflows": {
+          "cap": 10,
+          "pool_mean": 9.09,
+          "pool_p95": 10,
+          "pool_max": 10,
+          "pressure_mean": 0.909,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "theories": {
+          "cap": 8,
+          "pool_mean": 1.153,
+          "pool_p95": 3,
+          "pool_max": 3,
+          "pressure_mean": 0.144,
+          "pressure_p95": 0.375,
+          "pressure_max": 0.375
+        },
+        "questions": {
+          "cap": 6,
+          "pool_mean": 1.153,
+          "pool_p95": 3,
+          "pool_max": 3,
+          "pressure_mean": 0.192,
+          "pressure_p95": 0.5,
+          "pressure_max": 0.5
+        },
+        "dreams": {
+          "cap": 8,
+          "pool_mean": 8.32,
+          "pool_p95": 12,
+          "pool_max": 21,
+          "pressure_mean": 1.04,
+          "pressure_p95": 1.5,
+          "pressure_max": 2.625
+        },
+        "investigations": {
+          "cap": 5,
+          "pool_mean": 8.848,
+          "pool_p95": 11,
+          "pool_max": 11,
+          "pressure_mean": 1.77,
+          "pressure_p95": 2.2,
+          "pressure_max": 2.2
+        },
+        "experiments": {
+          "cap": 5,
+          "pool_mean": 4.91,
+          "pool_p95": 5,
+          "pool_max": 5,
+          "pressure_mean": 0.982,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "hypotheses": {
+          "cap": 15,
+          "pool_mean": 5.47,
+          "pool_p95": 8,
+          "pool_max": 8,
+          "pressure_mean": 0.365,
+          "pressure_p95": 0.533,
+          "pressure_max": 0.533
+        }
+      },
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 20.0,
+        "anomalies": 10.0,
+        "meta_concepts": 9.0,
+        "processes": 10.0,
+        "workflows": 10.0,
+        "hypotheses": 12.05,
+        "theories": 1.0,
+        "questions": 1.0,
+        "dreams": 8.0,
+        "investigations": 5.0,
+        "experiments": 5.0
+      }
+    },
+    "domains_x2": {
+      "events": 148,
+      "world_size": {
+        "world_tags": {
+          "mean": 57.785,
+          "median": 58.0,
+          "p95": 58,
+          "max": 58,
+          "min": 45
+        },
+        "world_edges": {
+          "mean": 101857.042,
+          "median": 101880.5,
+          "p95": 186242,
+          "max": 195471,
+          "min": 8213
+        },
+        "world_entropy": {
+          "mean": 5.449,
+          "median": 5.455,
+          "p95": 5.4638,
+          "max": 5.4666,
+          "min": 5.1954
+        },
+        "world_top10_share": {
+          "mean": 0.408,
+          "median": 0.404,
+          "p95": 0.4317,
+          "max": 0.4781,
+          "min": 0.3987
+        }
+      },
+      "retention_pressure": {
+        "loops": {
+          "cap": 15,
+          "pool_mean": 2461.383,
+          "pool_p95": 2772,
+          "pool_max": 2777,
+          "pressure_mean": 164.092,
+          "pressure_p95": 184.8,
+          "pressure_max": 185.133
+        },
+        "predictions": {
+          "cap": 20,
+          "pool_mean": 1174.62,
+          "pool_p95": 1287,
+          "pool_max": 1288,
+          "pressure_mean": 58.731,
+          "pressure_p95": 64.35,
+          "pressure_max": 64.4
+        },
+        "anomalies": {
+          "cap": 10,
+          "pool_mean": 793.03,
+          "pool_p95": 858,
+          "pool_max": 865,
+          "pressure_mean": 79.303,
+          "pressure_p95": 85.8,
+          "pressure_max": 86.5
+        },
+        "meta_concepts": {
+          "cap": 15,
+          "pool_mean": 8.293,
+          "pool_p95": 9,
+          "pool_max": 9,
+          "pressure_mean": 0.553,
+          "pressure_p95": 0.6,
+          "pressure_max": 0.6
+        },
+        "processes": {
+          "cap": 10,
+          "pool_mean": 5.56,
+          "pool_p95": 13,
+          "pool_max": 13,
+          "pressure_mean": 0.556,
+          "pressure_p95": 1.3,
+          "pressure_max": 1.3
+        },
+        "workflows": {
+          "cap": 10,
+          "pool_mean": 4.982,
+          "pool_p95": 10,
+          "pool_max": 10,
+          "pressure_mean": 0.498,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "theories": {
+          "cap": 8,
+          "pool_mean": 0.598,
+          "pool_p95": 1,
+          "pool_max": 3,
+          "pressure_mean": 0.075,
+          "pressure_p95": 0.125,
+          "pressure_max": 0.375
+        },
+        "questions": {
+          "cap": 6,
+          "pool_mean": 0.598,
+          "pool_p95": 1,
+          "pool_max": 3,
+          "pressure_mean": 0.1,
+          "pressure_p95": 0.167,
+          "pressure_max": 0.5
+        },
+        "dreams": {
+          "cap": 8,
+          "pool_mean": 7.867,
+          "pool_p95": 17,
+          "pool_max": 25,
+          "pressure_mean": 0.983,
+          "pressure_p95": 2.125,
+          "pressure_max": 3.125
+        },
+        "investigations": {
+          "cap": 5,
+          "pool_mean": 6.96,
+          "pool_p95": 9,
+          "pool_max": 11,
+          "pressure_mean": 1.392,
+          "pressure_p95": 1.8,
+          "pressure_max": 2.2
+        },
+        "experiments": {
+          "cap": 5,
+          "pool_mean": 4.607,
+          "pool_p95": 5,
+          "pool_max": 5,
+          "pressure_mean": 0.921,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "hypotheses": {
+          "cap": 15,
+          "pool_mean": 2.365,
+          "pool_p95": 5,
+          "pool_max": 7,
+          "pressure_mean": 0.158,
+          "pressure_p95": 0.333,
+          "pressure_max": 0.467
+        }
+      },
+      "population_means": {
+        "concepts": 1.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 20.0,
+        "anomalies": 10.0,
+        "meta_concepts": 8.8,
+        "processes": 6.4,
+        "workflows": 6.4,
+        "hypotheses": 8.9,
+        "theories": 0.56,
+        "questions": 0.56,
+        "dreams": 6.79,
+        "investigations": 4.74,
+        "experiments": 4.74
+      }
+    },
+    "domains_x4": {
+      "events": 238,
+      "world_size": {
+        "world_tags": {
+          "mean": 96.782,
+          "median": 97.0,
+          "p95": 97,
+          "max": 97,
+          "min": 85
+        },
+        "world_edges": {
+          "mean": 116994.708,
+          "median": 117069.5,
+          "p95": 209902,
+          "max": 219510,
+          "min": 14405
+        },
+        "world_entropy": {
+          "mean": 6.261,
+          "median": 6.261,
+          "p95": 6.2827,
+          "max": 6.3004,
+          "min": 6.1839
+        },
+        "world_top10_share": {
+          "mean": 0.283,
+          "median": 0.282,
+          "p95": 0.293,
+          "max": 0.3213,
+          "min": 0.2645
+        }
+      },
+      "retention_pressure": {
+        "loops": {
+          "cap": 15,
+          "pool_mean": 4425.095,
+          "pool_p95": 5013,
+          "pool_max": 5014,
+          "pressure_mean": 295.006,
+          "pressure_p95": 334.2,
+          "pressure_max": 334.267
+        },
+        "predictions": {
+          "cap": 20,
+          "pool_mean": 2178.923,
+          "pool_p95": 2485,
+          "pool_max": 2493,
+          "pressure_mean": 108.946,
+          "pressure_p95": 124.25,
+          "pressure_max": 124.65
+        },
+        "anomalies": {
+          "cap": 10,
+          "pool_mean": 1553.753,
+          "pool_p95": 1748,
+          "pool_max": 1771,
+          "pressure_mean": 155.375,
+          "pressure_p95": 174.8,
+          "pressure_max": 177.1
+        },
+        "meta_concepts": {
+          "cap": 15,
+          "pool_mean": 8.89,
+          "pool_p95": 11,
+          "pool_max": 11,
+          "pressure_mean": 0.593,
+          "pressure_p95": 0.733,
+          "pressure_max": 0.733
+        },
+        "processes": {
+          "cap": 10,
+          "pool_mean": 6.065,
+          "pool_p95": 11,
+          "pool_max": 13,
+          "pressure_mean": 0.607,
+          "pressure_p95": 1.1,
+          "pressure_max": 1.3
+        },
+        "workflows": {
+          "cap": 10,
+          "pool_mean": 5.765,
+          "pool_p95": 10,
+          "pool_max": 10,
+          "pressure_mean": 0.577,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "theories": {
+          "cap": 8,
+          "pool_mean": 0.077,
+          "pool_p95": 1,
+          "pool_max": 1,
+          "pressure_mean": 0.01,
+          "pressure_p95": 0.125,
+          "pressure_max": 0.125
+        },
+        "questions": {
+          "cap": 6,
+          "pool_mean": 0.077,
+          "pool_p95": 1,
+          "pool_max": 1,
+          "pressure_mean": 0.013,
+          "pressure_p95": 0.167,
+          "pressure_max": 0.167
+        },
+        "dreams": {
+          "cap": 8,
+          "pool_mean": 29.175,
+          "pool_p95": 73,
+          "pool_max": 78,
+          "pressure_mean": 3.647,
+          "pressure_p95": 9.125,
+          "pressure_max": 9.75
+        },
+        "investigations": {
+          "cap": 5,
+          "pool_mean": 7.652,
+          "pool_p95": 9,
+          "pool_max": 9,
+          "pressure_mean": 1.53,
+          "pressure_p95": 1.8,
+          "pressure_max": 1.8
+        },
+        "experiments": {
+          "cap": 5,
+          "pool_mean": 4.985,
+          "pool_p95": 5,
+          "pool_max": 5,
+          "pressure_mean": 0.997,
+          "pressure_p95": 1.0,
+          "pressure_max": 1.0
+        },
+        "hypotheses": {
+          "cap": 15,
+          "pool_mean": 1.41,
+          "pool_p95": 4,
+          "pool_max": 5,
+          "pressure_mean": 0.094,
+          "pressure_p95": 0.267,
+          "pressure_max": 0.333
+        }
+      },
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 20.0,
+        "anomalies": 10.0,
+        "meta_concepts": 8.56,
+        "processes": 6.1,
+        "workflows": 6.1,
+        "hypotheses": 7.11,
+        "theories": 0.0,
+        "questions": 0.0,
+        "dreams": 7.52,
+        "investigations": 4.99,
+        "experiments": 4.99
+      }
+    }
+  },
+  "funnel_sweep_MAX_PREDICTIONS": {
+    "20": {
+      "layer1_candidates": {
+        "loops_pool_mean": 916.33,
+        "predictions_pool_mean": 597.543,
+        "anomalies_pool_mean": 292.493
+      },
+      "layer1_pressure": {
+        "loops": 61.089,
+        "predictions": 29.877,
+        "anomalies": 29.249
+      },
+      "funnel_widths": {
+        "meta_anchors": 9.0,
+        "process_tags": 6.0,
+        "workflow_tags": 6.0,
+        "belief_pairs": 5.05
+      },
+      "belief_pool_mean": 5.47,
+      "hypothesis_pressure_mean": 0.365,
+      "hypothesis_pressure_p95": 0.533,
+      "hypothesis_cap_binds_p95": false,
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 20.0,
+        "anomalies": 10.0,
+        "meta_concepts": 9.0,
+        "processes": 10.0,
+        "workflows": 10.0,
+        "hypotheses": 12.05,
+        "theories": 1.0,
+        "questions": 1.0,
+        "dreams": 8.0,
+        "investigations": 5.0,
+        "experiments": 5.0
+      }
+    },
+    "40": {
+      "layer1_candidates": {
+        "loops_pool_mean": 1203.46,
+        "predictions_pool_mean": 635.71,
+        "anomalies_pool_mean": 323.188
+      },
+      "layer1_pressure": {
+        "loops": 80.231,
+        "predictions": 31.786,
+        "anomalies": 32.319
+      },
+      "funnel_widths": {
+        "meta_anchors": 9.0,
+        "process_tags": 7.67,
+        "workflow_tags": 7.67,
+        "belief_pairs": 6.51
+      },
+      "belief_pool_mean": 5.185,
+      "hypothesis_pressure_mean": 0.346,
+      "hypothesis_pressure_p95": 0.6,
+      "hypothesis_cap_binds_p95": false,
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 40.0,
+        "anomalies": 10.0,
+        "meta_concepts": 9.0,
+        "processes": 8.78,
+        "workflows": 8.78,
+        "hypotheses": 15.34,
+        "theories": 1.23,
+        "questions": 1.23,
+        "dreams": 7.82,
+        "investigations": 5.0,
+        "experiments": 5.0
+      }
+    },
+    "80": {
+      "layer1_candidates": {
+        "loops_pool_mean": 1344.625,
+        "predictions_pool_mean": 670.925,
+        "anomalies_pool_mean": 367.652
+      },
+      "layer1_pressure": {
+        "loops": 89.642,
+        "predictions": 33.546,
+        "anomalies": 36.765
+      },
+      "funnel_widths": {
+        "meta_anchors": 12.59,
+        "process_tags": 7.25,
+        "workflow_tags": 7.25,
+        "belief_pairs": 8.69
+      },
+      "belief_pool_mean": 7.713,
+      "hypothesis_pressure_mean": 0.514,
+      "hypothesis_pressure_p95": 0.867,
+      "hypothesis_cap_binds_p95": false,
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 80.0,
+        "anomalies": 10.0,
+        "meta_concepts": 12.59,
+        "processes": 8.9,
+        "workflows": 8.9,
+        "hypotheses": 21.01,
+        "theories": 1.28,
+        "questions": 1.28,
+        "dreams": 7.24,
+        "investigations": 5.0,
+        "experiments": 5.0
+      }
+    },
+    "160": {
+      "layer1_candidates": {
+        "loops_pool_mean": 1192.22,
+        "predictions_pool_mean": 616.148,
+        "anomalies_pool_mean": 327.663
+      },
+      "layer1_pressure": {
+        "loops": 79.481,
+        "predictions": 30.807,
+        "anomalies": 32.766
+      },
+      "funnel_widths": {
+        "meta_anchors": 10.0,
+        "process_tags": 0.22,
+        "workflow_tags": 0.22,
+        "belief_pairs": 0.0
+      },
+      "belief_pool_mean": 0.743,
+      "hypothesis_pressure_mean": 0.05,
+      "hypothesis_pressure_p95": 0.333,
+      "hypothesis_cap_binds_p95": false,
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 160.0,
+        "anomalies": 10.0,
+        "meta_concepts": 10.0,
+        "processes": 0.11,
+        "workflows": 0.11,
+        "hypotheses": 2.94,
+        "theories": 0.0,
+        "questions": 0.0,
+        "dreams": 7.68,
+        "investigations": 4.95,
+        "experiments": 4.95
+      }
+    },
+    "320": {
+      "layer1_candidates": {
+        "loops_pool_mean": 1231.675,
+        "predictions_pool_mean": 636.308,
+        "anomalies_pool_mean": 370.88
+      },
+      "layer1_pressure": {
+        "loops": 82.112,
+        "predictions": 31.815,
+        "anomalies": 37.088
+      },
+      "funnel_widths": {
+        "meta_anchors": 10.6,
+        "process_tags": 2.9,
+        "workflow_tags": 2.43,
+        "belief_pairs": 1.82
+      },
+      "belief_pool_mean": 1.712,
+      "hypothesis_pressure_mean": 0.114,
+      "hypothesis_pressure_p95": 0.467,
+      "hypothesis_cap_binds_p95": false,
+      "population_means": {
+        "concepts": 2.0,
+        "phrases": 0.0,
+        "loops": 15.0,
+        "predictions": 320.0,
+        "anomalies": 10.0,
+        "meta_concepts": 10.6,
+        "processes": 3.5,
+        "workflows": 2.91,
+        "hypotheses": 10.05,
+        "theories": 0.0,
+        "questions": 0.0,
+        "dreams": 7.56,
+        "investigations": 4.96,
+        "experiments": 4.96
+      }
+    }
+  },
+  "development_probe": {
+    "cap_census": {
+      "cycles": 600,
+      "budget": 15,
+      "seconds": 152.2,
+      "pool_max": 8,
+      "pool_mean": 5.31,
+      "pool_histogram": {
+        "0": 34,
+        "4": 1,
+        "5": 299,
+        "6": 199,
+        "7": 41,
+        "8": 26
+      },
+      "marker_mean": 6.93,
+      "cycles_cap_binds": 0,
+      "cycles_policies_differ_membership": 0,
+      "cycles_policies_differ_order": 566,
+      "max_subjects_ge2": 3,
+      "mean_theories": 1.102,
+      "mean_questions": 1.102,
+      "max_theories": 3,
+      "max_questions": 3
+    },
+    "budget_insensitivity": {
+      "skipped": true
+    },
+    "plateau": {
+      "cycles": 3725,
+      "series": {
+        "hypotheses": {
+          "final": 13,
+          "converged_at_cycle": 1677,
+          "last_50pct": {
+            "mean": 13.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 13.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 13.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        },
+        "theories": {
+          "final": 1,
+          "converged_at_cycle": 261,
+          "last_50pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        },
+        "questions": {
+          "final": 1,
+          "converged_at_cycle": 261,
+          "last_50pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        },
+        "dreams": {
+          "final": 8,
+          "converged_at_cycle": 162,
+          "last_50pct": {
+            "mean": 8.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 8.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 8.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        },
+        "investigations": {
+          "final": 5,
+          "converged_at_cycle": 82,
+          "last_50pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        },
+        "experiments": {
+          "final": 5,
+          "converged_at_cycle": 82,
+          "last_50pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_25pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          },
+          "last_10pct": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "slope_per_1000_cycles": 0.0,
+            "distinct_values": 1
+          }
+        }
+      },
+      "contradiction": {
+        "archived_key_present_but_null": true,
+        "rederived_final": 400550,
+        "rederived_max": 400550,
+        "rederived_at_cycles": {
+          "100": 0,
+          "500": 53463,
+          "1000": 90229,
+          "2000": 213951,
+          "3000": 322067,
+          "3724": 400550
+        },
+        "support_final": 78647,
+        "last_25pct_distinct": 932
+      }
+    },
+    "vocabulary": {
+      "distinct_tags": 63,
+      "total_tag_occurrences": 4361339,
+      "schema_artefact_occurrences": 2641105,
+      "schema_artefact_pct": 60.6,
+      "top_tags": [
+        {
+          "tag": "type",
+          "count": 548902,
+          "kind": "schema"
+        },
+        {
+          "tag": "generation",
+          "count": 545177,
+          "kind": "schema"
+        },
+        {
+          "tag": "evidence",
+          "count": 412335,
+          "kind": "schema"
+        },
+        {
+          "tag": "strength",
+          "count": 308771,
+          "kind": "schema"
+        },
+        {
+          "tag": "developer",
+          "count": 262374,
+          "kind": "world"
+        },
+        {
+          "tag": "suite",
+          "count": 231126,
+          "kind": "world"
+        },
+        {
+          "tag": "path",
+          "count": 189650,
+          "kind": "schema"
+        },
+        {
+          "tag": "session",
+          "count": 166447,
+          "kind": "world"
+        },
+        {
+          "tag": "modified",
+          "count": 158290,
+          "kind": "world"
+        },
+        {
+          "tag": "confidence",
+          "count": 143153,
+          "kind": "schema"
+        },
+        {
+          "tag": "subject",
+          "count": 121564,
+          "kind": "schema"
+        },
+        {
+          "tag": "source",
+          "count": 82491,
+          "kind": "schema"
+        },
+        {
+          "tag": "target",
+          "count": 82491,
+          "kind": "schema"
+        },
+        {
+          "tag": "router",
+          "count": 69074,
+          "kind": "world"
+        },
+        {
+          "tag": "engineer",
+          "count": 66893,
+          "kind": "world"
+        },
+        {
+          "tag": "executed",
+          "count": 63814,
+          "kind": "world"
+        },
+        {
+          "tag": "true",
+          "count": 63098,
+          "kind": "world"
+        },
+        {
+          "tag": "report",
+          "count": 60140,
+          "kind": "world"
+        },
+        {
+          "tag": "dream",
+          "count": 59255,
+          "kind": "schema"
+        },
+        {
+          "tag": "strengthened",
+          "count": 49555,
+          "kind": "world"
+        }
+      ]
+    }
+  }
+}

@@ -15,7 +15,7 @@
 5. [Reading the output](#5-reading-the-output)
 6. [What the study is measuring](#6-what-the-study-is-measuring)
 7. [What you need to do](#7-what-you-need-to-do)
-8. [The ten findings, and what each means for you](#8-the-ten-findings-and-what-each-means-for-you)
+8. [The ten findings, and what each means for you](#8-the-findings-and-what-each-means-for-you)
 9. [Troubleshooting](#9-troubleshooting)
 10. [File map](#10-file-map)
 11. [Vocabulary](#11-vocabulary)
@@ -68,30 +68,36 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-22 13:40 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 05:05 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
-| Study status | **RUNNING** — daemon PID 19916, since 2026-10-21 11:21 MDT |
-| Cycles completed | 3,423 |
-| Sleep-cycle counter | 1 → 3,423, **0 non-monotonic steps** |
-| G5 duty cycle (last 200 cycles) | **100.0%** (theories and questions) |
-| Cycle latency | median 282 ms, max 584 ms |
+| Study status | **STOPPED** — paused on 2026-10-22 19:00 MDT so the architecture change could land without a file-vs-process mismatch. Relaunch is pending. |
+| Cycles completed | **3,725** sleep cycles (the longest single-arm record the project has) |
+| Sleep-cycle counter | 1 → 3,725, **0 non-monotonic steps** |
 | Failed cycles | 0, all time |
-| Substrate | 15.2 MB, bounded by retention (≈109 rows pruned/cycle) |
-| Mean population | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions |
+| Substrate | 23.7 MB, bounded by retention (≈109 rows pruned/cycle) |
+| Mean population (last 25% of the run) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
-| Git | `master` is **pushed and in sync** with `origin/master`; clean working tree. A fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`). |
+| Archived run | `logs/organica_prefix_20261022.log` (7.97 MB) + per-cycle series in `docs/prefix_run_series.json` (3,725 cycles) |
+| Git | working tree has the V1.5 changes uncommitted at the time of writing; `master` was in sync with `origin/master` at `d83a30f` |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
-| Ablation study | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
+| Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
+| Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
+| Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
+| Gate board | `docs/GATE-BOARD.md` — what is demonstrated, what is assumed, what is blocked |
 
-**The headline:** the 90-day longitudinal study is running, healthy, and recording continuous Generation-5 activity. The first attempt (2026-10-20) was invalid and has been diagnosed; see [§8](#8-the-ten-findings-and-what-each-means-for-you).
+**The headline, and it changed the plan:** the 90-day run **plateaued at cycle 261 — 7% of the way in.** Every population series has standard deviation **0.000000** and slope **0.0 per 1,000 cycles** over the last 931 cycles. The organism reached a fixed point and then sat still for 3,464 cycles. A single arm with a flat line describes nothing and identifies nothing; **only contrasts can.** The comparative matrix replaces the 90-day single arm as the primary experiment, and the daemon becomes a *monitor*, not a gate.
 
-**The long-horizon answer:** the cold-start ablation is done. The organism bootstraps G1, G4, G6, G7 and G8 from an unengineered stream with no assistance — but **G5 never emerges unassisted**, and the cause is now *proven causal*, not guessed. Read [§8.1](#81-the-cold-start-study) before you decide anything about the architecture.
+**The second headline:** the Tier-1 experiment as originally specified — *Full vs Salience retention* — **would have measured nothing.** The Layer-4 belief pool reaches a maximum of **8** against a cap of **15**, and the cap binds in **0 of 600** cold cycles. Raising the cap 15 → 30 → 60 produces byte-identical populations. Because nothing is ever truncated, "alphabetical" and "salience" choose the **same beliefs** every time. The retention policy is a real defect (it is decided by sorting strings) but it is currently **inert**.
 
-**The unflattering answer:** the ablation study is also done, and it says that most of the architecture's layers are not load-bearing. Sleep and the substrate graph are foundational. **Lineage changes nothing at all except auditability.** The attention economy changes what it selects without changing what the organism achieves. Read [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) — it is the most important section in this manual for your next decision.
+**Where the pressure actually is:** at Layer 1, not Layer 4. The organism generates **936 loops, 621 predictions and 309 anomalies** and keeps 15, 20 and 10 of them — retention pressure of **61×, 30× and 29×** — while Layer 4 receives **5–8 beliefs for 15 slots** (pressure **0.35**). **The organism is starved, not selective.** Read [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) before you run anything else.
 
-> **Read the status table this way:** `sleep_cycle` monotonic and `failed cycles` at 0 mean the *machinery* is sound. `G5 duty cycle` at 100% means the *experiment* is valid — a run can be perfectly healthy and still be measuring nothing (see [§17](#17-common-misreadings)).
+**The long-horizon answer is unchanged:** the cold-start ablation is done. The organism bootstraps G1, G4, G6, G7 and G8 from an unengineered stream with no assistance — but **G5 never emerges unassisted**, and the cause is *proven causal*, not guessed. Read [§8.1](#81-the-cold-start-study).
+
+**The unflattering answer is unchanged:** the ablation study says most of the architecture's layers are not load-bearing. Sleep and the substrate graph are foundational. **Lineage changes nothing at all except auditability.** The attention economy changes what it selects without changing what the organism achieves. Read [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work).
+
+> **Read the status table this way:** `sleep_cycle` monotonic and `failed cycles` at 0 mean the *machinery* is sound. A population that is *exactly* constant means the *experiment* has converged — a run can be perfectly healthy and still be measuring nothing (see [§17](#17-common-misreadings)).
 
 ---
 
@@ -128,7 +134,7 @@ The important claim is not that it works well. It's that **every structure it ho
 **The six design laws** (`docs/DESIGN_LAWS.md`) are the constitution. The three that matter most for reading the data:
 
 - **Law I — Strict upward layer induction.** Layer N+1 only ever operates on Layer N's output.
-- **Law II — 100% verified structural provenance.** Everything traces to Generation 0. *Verified — see [§8, finding 8](#8-the-ten-findings-and-what-each-means-for-you).*
+- **Law II — 100% verified structural provenance.** Everything traces to Generation 0. *Verified — see [§8, finding 8](#8-the-findings-and-what-each-means-for-you).*
 - **Law V — Epistemic attention (EIG over confidence).** The organism spends effort where *uncertainty* is, not where it's already certain. `EIG = Uncertainty × (1 + Novelty)`.
 
 **Generation 9 is deliberately locked.** The whole point of the current study is to earn it.
@@ -229,9 +235,12 @@ run_dashboard_and_api.bat
 | `python benchmarks/ablation_study.py --cycles 300` | **Which parts of the architecture are actually load-bearing?** Ten ablations plus a full-system reference, scored forward-looking. |
 | `python benchmarks/ablation_verify.py --cycles 300` | **Did each ablation actually change the organism?** Perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Run this *before* reading any outcome. |
 | `python benchmarks/clone_check.py` | Clones the public repo into a temp directory and checks a stranger can run it: import, tests, `build.py`, all 9 examples, and that the live study is untouched. |
+| `python benchmarks/development_probe.py --cycles 600` | **Is the machinery sound, and is the run still moving?** Cap-binding census, budget-insensitivity check, plateau analysis of the archived run, vocabulary audit. Writes `docs/development_probe.json`. |
+| `python benchmarks/instrumentation_audit.py --cycles 400` | **Is the observation channel saturated?** Pre-truncation candidate pools and retention pressure per layer, a 14-parameter influence map, and effective world size. Writes `docs/instrumentation_audit.json`. |
+| `python benchmarks/archive_run.py --log organica.log` | Snapshots the daemon log into a per-cycle series (`docs/prefix_run_series.json`), re-deriving contradiction totals from the hypothesis snapshot. |
 | `python benchmarks/benchmark_suite.py` | BM1–BM5 growth benchmarks |
 | `python benchmarks/cross_domain_validation.py` | Phase F: the four reproduction domains, writes `docs/validation_report.json` |
-| `python -m pytest tests -q` | The test suite (17 tests) |
+| `python -m pytest tests -q` | The test suite (35 tests) |
 
 ### 4.6 The four reproduction domains
 
@@ -460,11 +469,13 @@ Ordered by how much they cost you if you skip them.
 |---|---|---|---|
 | 4 | **The confidence-formula amendment** — *now the top-ranked decision* | Confidence is a **share**: `support / (support + contradiction)`. A hypothesis is scored against the *total flow of its siblings*, so a subject with many successors dilutes every minority expectation below the death threshold of 0.15. This is now **proven causal, not guessed**: the `wide_lookback` ablation (lookback 3 → 30, nothing else changed) destroyed G5 outright, while `no_truncation` and `no_dev_stopwords` were byte-identical to baseline. The proposed fix is a Laplace/Beta-smoothed posterior, which keeps a genuinely split belief alive, makes the lookback width irrelevant, and is *simpler* than what it replaces. | [§8.1](#81-the-cold-start-study), journal [§14](../research-journal/phase_g_findings_20261021.md) |
 | 5 | **Clean restart on the final build** | The current run is valid, but the first ~264 cycles ran pre-batching and pre-retention. A fresh start costs about an hour of data and removes an argument from the paper. **Do this after the architecture decision above, not before** — otherwise you restart twice. | [§6.4](#64-rules-for-a-clean-run) |
-| 6 | **The hypothesis-cap amendment** | Layer 4's 15-hypothesis cap is applied after an *alphabetical* sort, so which hypotheses survive is decided by name order rather than merit. The ablation study **demonstrated** this rather than merely suspecting it: the cap fills with `high_structural_significance` markers that crowd out the genuine belief pairs carrying contradiction counts, which makes the reported contradiction density and G5 duty cycle partly an artifact of string ordering. Fix the *sort* (rank by evidence, not by name); the cap budget is a separate question. | Journal [§7](../research-journal/phase_g_findings_20261021.md), [§17](../research-journal/phase_g_findings_20261021.md) |
+| 6 | ~~**The hypothesis-cap amendment**~~ — **superseded 2026-10-23** | The reasoning was wrong. The cap was believed to bind constantly; measured, it binds in **0 of 600** cycles and `MAX_HYPOTHESES` is **INERT**. The *sort* was still wrong and has been fixed (see decision 11), but the sort is a correctness fix, not a behavioural one. The cap is **not** the constraint. | Journal [§17](../research-journal/phase_g_findings_20261021.md), [§19](../research-journal/phase_g_findings_20261021.md) |
 | 7 | **Scope the experiment executor** | The largest remaining design gap, and it now blocks two things at once: the emergence claim at Level 5, and the ability to tell whether the attention economy actually buys anything (the metric that would separate EIG from random is exactly the one that needs an executor). Needs a probe format, a probe→event mapping, and a belief-delta measurement. | Journal [§13](../research-journal/phase_g_findings_20261021.md) |
 | 8 | **Should `cross_domain_validation.py` use the real lineage audit?** | The shipped check measures a proxy (parent ids present among candidates) and would report 100% even if nothing touched raw experience. The real audit is `benchmarks/lineage_audit.py`. Aligning them means the published report and the shipped verification agree. | Journal [§12](../research-journal/phase_g_findings_20261021.md) |
 | 9 | **Decide whether the architecture should be simplified** | The ablation study found that several layers contribute nothing measurable. The stated goal was "the simplest possible architecture that emulates living human learning and memory perfectly" — and simplification only happens if you are willing to *remove* what the measurement says is ornament. That decision is yours, and it needs a recorded rationale either way. | [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | 10 | **The valuation layer — a proposal, not a change** | *"Feeling comes before thinking."* Organica already computes value signals (confidence, uncertainty, EIG, novelty) and already computes them upstream of the beliefs they gate — that is Law V, and it is a salience rule. What it lacks is **valence** (no aversive signal: nothing is costly), **persistence** (attention is re-derived every cycle rather than integrated — which is why the G5 duty cycle oscillates instead of trending), and an **appetite for disconfirmation** (contradiction is *derived from* the graph, so it is recorded, never sought). The proposal is to make the valuation layer explicit and give it those three properties — but **after** the experiment executor, because a drive cannot be measured without behaviour to measure, and because the executor is where valence naturally comes from. | Journal [§18](../research-journal/phase_g_findings_20261021.md) |
+| **11** | **The stimulus must carry more independent branch points** — *new, 2026-10-23, and now the top blocker* | The Tier-1 matrix is **gated**: gate G-P1 requires retention pressure > 1.0, and the belief pool reaches only 5.3–7.7 against a cap of 15 (pressure 0.35–0.51) at every setting tested. The belief pool is bounded by the number of distinct *reciprocal* structures reaching Layer 4, and a process only forms from a reciprocal prediction pair. Measured: widening the world makes things **worse** (belief pool 5.47 → 1.41, theories → 0), and widening the budget does nothing. What is needed is a stimulus with **more independent branch points** — subjects with competing successors — so the belief pool can exceed 15 and a retention policy can have something to choose between. This is a stimulus-design decision, not an architecture one. | [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is), journal [§19](../research-journal/phase_g_findings_20261021.md) |
+| **12** | **The 90-day horizon** — *new, 2026-10-23* | The run plateaued at cycle 261 with **zero** variance for 3,464 cycles. The 90-day single arm is replaced by the comparative matrix as the primary experiment, and the daemon becomes a **monitor** rather than a gate. A clean restart (decision 5) is still worth doing, but it is no longer urgent: the matrix is what produces the next evidence, and it runs cold by design. | [§2](#2-where-things-stand-right-now), journal [§19](../research-journal/phase_g_findings_20261021.md) |
 
 > **Phase A freeze reminder.** Decisions 4 and 6 are *cognitive* changes — the confidence formula and the layer-selection logic. Under the Phase A freeze they remain **proposals only**; nothing in this turn applied them. What shipped this turn was substrate and measurement only. Any change to decision 4 ends the current run and requires a fresh start ([§6.4](#64-rules-for-a-clean-run)).
 
@@ -488,7 +499,7 @@ Ordered by how much they cost you if you skip them.
 
 ---
 
-## 8. The ten findings, and what each means for you
+## 8. The findings, and what each means for you
 
 Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 
@@ -579,13 +590,15 @@ Two of the specified metrics — `CY` (questions resolved ÷ generated) and `EIG
 | 7 | **Removing the hypothesis layer produces MORE theories and LESS provenance** — 6 theories instead of 1, with lineage dropping to 0.641. | A system without lineage can produce more and prove less. |
 | 8 | **Questions are not the gateway to inquiry. Dreams are.** Remove Questions and investigations and experiments carry on unchanged, because Layer 7 draws on dreams as well. | **Our pre-registered prediction was falsified.** Questions are not load-bearing for inquiry. |
 | 9 | **Random curiosity performs identically to EIG curiosity** on every metric that can currently be measured — identical predictive accuracy, slightly higher aggregate, smaller organism. | **But the metric that would separate them cannot be computed without an experiment executor.** This is a blind spot with a known cause, not a null result. |
-| 10 | **Which beliefs are allowed to disagree is currently decided by alphabetical order.** Layer 4's 15-hypothesis cap is applied *after* sorting by subject name, so `high_structural_significance` markers (subjects like `developer`, `engineer`, `report`) fill the budget and crowd out the genuine belief pairs that carry contradiction. | **The most consequential defect found.** The reported contradiction density and G5 duty cycle depend partly on how subject names sort. It is latent in the healthy system (uncapped, competing subjects are identical) and becomes active the moment the population shifts — which is why it survived every earlier test. |
+| 10 | **Which beliefs are allowed to disagree is decided by alphabetical order.** Layer 4's 15-hypothesis cap is applied *after* sorting by subject name, so `high_structural_significance` markers (subjects like `developer`, `engineer`, `report`) fill the budget and crowd out the genuine belief pairs that carry contradiction. | **Corrected 2026-10-23 — the rule is wrong but currently inert, and it was not the cause of Finding D.** See [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is). The sort is still a defect worth fixing: deciding what to keep by sorting strings is not deciding by merit. |
 
 **The verification stage confirms these are real perturbations, not vacuous comparisons.** Every condition changed the organism. For Random Curiosity specifically: the two policies overlapped on only **1 of 9** final selections (Jaccard 0.111), and EIG's *top-k precision* was **1.000** — it picked the five highest-curiosity candidates **every single time**, against random's 0.584, with a top-decile hit rate of 48% against 27%.
 
 That matters for how finding #9 should be read. **The EIG implementation is not broken — it is a perfect ranker.** It selects demonstrably better candidates than random and the organism's predictive accuracy does not move, because the layers above curiosity produce candidates that nothing consumes. "The attention economy works perfectly and buys nothing measurable" is a sharper claim than "it doesn't work", and it says exactly where to look next.
 
-The same verification also answered the question finding #5 raised about contradictions, and it produced finding #10: the full system generates contradiction counts in the **thousands** (up to 6,391 on a single hypothesis), so contradiction *generation* has nothing to do with falsification. What the No-Falsification condition suppresses is contradiction *survival* — and the cause is Layer 4's alphabetical truncation, not the removal of extinction.
+The same verification also answered the question finding #5 raised about contradictions, and it produced finding #10: the full system generates contradiction counts in the **thousands** (up to 6,391 on a single hypothesis), so contradiction *generation* has nothing to do with falsification. What the No-Falsification condition suppresses is contradiction *survival*.
+
+> **Correction to the paragraph above (2026-10-23).** It previously ended "…and the cause is Layer 4's alphabetical truncation, not the removal of extinction." **That was wrong.** The verification census shows `D` had `G2 processes` = 0 **and** `G3 workflows` = 0. Hypotheses are built only from workflows, processes and meta-concepts, so `D`'s all-marker population is fully explained by the destroyed Layer-2/3 layers — no truncation was involved. The alphabetical rule is a real defect, but the cap binds in **0 of 600** cold cycles, so the rule currently changes nothing at all. See [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is).
 
 **Two of our predictions were falsified by the run** — #5 and #8. Both are recorded as such in the pre-registration rather than quietly restated. That is the point of writing predictions down first.
 
@@ -596,6 +609,128 @@ The same verification also answered the question finding #5 raised about contrad
 **The single highest-value next step** is the **experiment executor**. It unblocks four things at once: it makes EIG testable against random curiosity (#9), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. Everything else in the remedy list is downstream of it.
 
 Full protocol, predictions and disclosure: **`docs/ABLATION-PREREGISTRATION.md`**. Results: **`docs/ablation_study.json`** and **`docs/ablation_verification.json`**. What emergence means and which levels Organica can evidence: **`docs/EMERGENCE-CRITERIA.md`**.
+
+### 8.3 The instrumentation audit: where the pressure really is
+
+The ablation campaign produced **byte-identical results for five very
+different upstream threshold settings.** That has two possible causes and
+they demand opposite responses:
+
+* (a) the parameter genuinely does not matter, or
+* (b) **the observation channel is saturated** — the parameter changes the
+  candidate pool, but the layer's output cap discards the change before it
+  can be seen.
+
+(b) is far more likely, and it would have made a whole matrix of
+experiments measure bottlenecks instead of cognition. So before running
+the Tier-1 matrix, the machinery itself was measured.
+`benchmarks/instrumentation_audit.py`, 400 cycles per arm, observation only
+— the engine is subclassed, never edited.
+
+#### Retention pressure: `pool_size / cap`
+
+`< 1.0` no pressure · `1–2` weak · `2–5` useful · `> 5` strong.
+
+| Layer | cap | pool mean | p95 | pressure mean | pressure p95 | |
+|---|---:|---:|---:|---:|---:|---|
+| loops | 15 | 936 | 936 | **61.1** | **62.4** | hard over-truncation |
+| predictions | 20 | 598 | 621 | **29.9** | **31.1** | hard over-truncation |
+| anomalies | 10 | 292 | 309 | **29.2** | **30.9** | hard over-truncation |
+| investigations | 5 | 8.8 | 11 | 1.77 | 2.20 | useful |
+| processes | 10 | 11.8 | 13 | 1.18 | 1.30 | weak |
+| dreams | 8 | 8.3 | 12 | 1.04 | 1.50 | borderline |
+| experiments | 5 | 4.9 | 5 | 0.98 | 1.00 | none |
+| workflows | 10 | 9.1 | 10 | 0.91 | 1.00 | none |
+| meta_concepts | 15 | 9.0 | 9 | 0.60 | 0.60 | none |
+| **hypotheses** | 15 | **5.3** | 8 | **0.35** | 0.53 | **none** |
+| questions | 6 | 1.2 | 3 | 0.19 | 0.50 | none |
+| theories | 8 | 1.2 | 3 | 0.14 | 0.38 | none |
+
+**The organism is starved, not selective.** Layer 1 throws away ~99% of its
+own candidates; Layer 4 has 5–8 beliefs for 15 slots. The caps are
+mismatched.
+
+#### The funnel, measured end to end
+
+```
+  936 loops ─┐
+  621 predictions ─┼─ capped by count/strength (popularity rules) ─┐
+  309 anomalies ─┘                                                 │
+                                                                   ▼
+                                    12 processes ── capped ──▶ 10 workflows ──▶
+                                                                   5-8 beliefs ──▶
+                                                                   1 theory ──▶
+                                                                   1 question
+```
+
+Every arrow is a cap, and **every cap retains by a popularity rule** — raw
+temporal count for predictions, strength for loops, dominance ratio for
+anomalies. The alphabetical hypothesis rule is the same family of defect,
+three layers downstream, and it is invisible only because there is nothing
+left to choose between.
+
+#### The parameter influence map — 8 of 14 knobs do nothing
+
+| Verdict | Parameters |
+|---|---|
+| **DECISIVE** (changed final outputs) | `DEATH_THRESHOLD` · `STABLE_THRESHOLD` · `MAX_PROCESSES` · `MAX_PREDICTIONS` |
+| **POOL_ONLY** (changed the pool; the cap hid it) | `PREDICTION_MIN_COUNT` · `LOOP_MIN_STRENGTH` |
+| **INERT** (changed nothing at any level) | `MAX_HYPOTHESES` · `MAX_WORKFLOWS` · `MAX_META_CONCEPTS` · `WORKFLOW_MIN_MATCHED_METAS` · `META_CONCEPT_MIN_REFS` · `CONCEPT_MIN_DEGREE` · `CONCEPT_MIN_REACH` · `PHRASE_MIN_CLUSTERING` |
+
+`MAX_HYPOTHESES` — **the parameter the whole P1 experiment was built
+around — is INERT.** Raising it 15 → 40 changes nothing at any level. A
+parameter that never changes an output should not have a row in an
+experiment plan.
+
+#### The effective world
+
+The temporal world is **42 tags** (mean 41.8, median 42), with a top-10
+tag share of 0.44 — but only **~9 tags reach the composition layers**, and
+that is a *consequence* of the Layer-1 caps: meta-concepts are composed
+only from candidates that survived them. The narrow world is downstream of
+the over-truncation, not an independent fact about the stimulus.
+
+#### The G1–G4 perturbation ladder
+
+```
+G1  the ablation perturbed the code path
+G2  the ablation perturbed the candidate pools
+G3  the ablation perturbed the final outputs
+G4  the ablation perturbed the developmental metrics
+```
+
+| Cond | Intervention | G1 | G2 | G3 | G4 | Reading |
+|---|---|:--:|:--:|:--:|:--:|---|
+| A | No Sleep | ✅ | ✅ | ✅ | ✅ | foundational — everything to zero |
+| **B** | **No Lineage** | ✅ | ✅ | **❌** | ❌ | **the control.** Populations *identical*; the only metric that moved is the one measuring the thing that was removed. Every cognitive delta is exactly 0.000 |
+| C | No Curiosity | ✅ | ✅ | ✅ | ✅ | passes G4, but **in the wrong direction** — removing EIG raises theories 1→3 and kills both output layers |
+| D | No Falsification | ✅ | ✅ | ✅ | ✅ | freezes rather than bloats |
+| E | No Dreams | ✅ | ✅ | ✅ | ✅ | collapses processes and workflows to zero |
+| F | No Hypothesis Layer | ✅ | ✅ | ✅ | ✅ | 6 theories instead of 1 |
+| G | No Questions | ✅ | ✅ | ✅ | ✅ | the gateway is dreams, not questions |
+| H | Random Curiosity | ✅ | ✅ | ✅ | ✅ | Jaccard 0.111 vs EIG — different selection, no developmental gain |
+| I | Random Sleep | ✅ | ✅ | ✅ | ✅ | random *structure* recovers most of the aggregate |
+| J | Memory Without Structure | ✅ | ✅ | ✅ | ✅ | foundational — everything to zero |
+
+**Read the EIG row carefully.** EIG passes all four rungs, so "no
+measurable gain" is **not** a measurement artifact — it is a real finding.
+EIG is a perfect ranker (top-k precision 1.000 vs random 0.584) that buys
+nothing, and removing it makes the organism look *better* on every
+structural metric. A perfect selector over a **starved** candidate pool
+cannot matter: there is nothing for selection to choose between.
+
+#### What changed because of this
+
+The owner had proposed Tier-1 Priority #1 as *Full vs Salience retention*.
+**That experiment is degenerate on the current build** — retention pressure
+on the hypothesis layer is 0.35, so both colonies would be identical. The
+audit replaced it with a gate: **G-P1 — retention pressure must exceed 1.0
+on the object being retained before a retention experiment means
+anything.**
+
+Tool: `benchmarks/instrumentation_audit.py`. Results:
+**`docs/instrumentation_audit.json`**. Gate board: **`docs/GATE-BOARD.md`**.
+Facts with provenance: **`docs/FACTS-SHEET.md`**.
 
 ---
 
@@ -655,6 +790,10 @@ project-organica/
 │   ├── cold_start.py              # how much assistance does it need? (unassisted bootstrap)
 │   ├── ablation_study.py          # ten ablations: which mechanisms are load-bearing?
 │   ├── ablation_metrics.py        # the metric contract (PA, IP, SCR, SS, LC, CD, CDT, NSR, ES)
+│   ├── ablation_verify.py         # perturbation census: did each ablation actually change anything?
+│   ├── development_probe.py       # is the machinery sound? cap census, plateau, vocabulary
+│   ├── instrumentation_audit.py   # is the observation channel saturated? pre-cap pools, pressure
+│   ├── archive_run.py             # snapshot the daemon log into a per-cycle series
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
 │   ├── substrate_scaling_analysis.py  # latency vs cycle, from the real log
@@ -668,7 +807,7 @@ project-organica/
 ├── conftest.py                  # makes `pytest` work from any directory
 │
 ├── examples/domains/            # the four reproduction worlds
-├── tests/                       # 17 tests (incl. substrate equivalence)
+├── tests/                       # 35 tests (incl. substrate equivalence, retention policy)
 ├── papers/                      # research manuscripts
 ├── research-journal/            # development history + Phase G findings
 ├── docs/                        # architecture, design laws, failures, reports
@@ -986,6 +1125,12 @@ Things that look like findings but are not, and things that look fine but are no
 | "Random curiosity performed the same, so curiosity is fake." | Not yet proven. Random and EIG curiosity score the same on the metrics that count *populations*, but the metrics that would separate them (experiment value, experiment information gain) are exactly the ones that cannot be computed without an experiment executor. |
 | "The 90-day run proves the organism is emergent." | It proves the organism runs, is reproducible, and maintains lineage. Emergence is a separate claim with its own instruments: the ablation study and the designer-surprise protocol. |
 | "The study measured 1,665 cycles, so the data is richer than 60 cycles." | More cycles is more of the same world. The study stream is a 48-event rotation; the cross-world measurement is CDT, and it is negative. |
+| "The 3,725-cycle run is rich longitudinal data." | It is 3,725 cycles of the *same* number. Every population series has **stdev 0.000000** over the last 931 cycles. The organism converged at cycle 261 and did not move again. More cycles is not more data when the line is flat. [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
+| "The hypothesis cap decides which beliefs survive, so it must matter." | It **does not bind**. The belief pool maxes at 8 against a cap of 15, in 0 of 600 cold cycles; raising it to 60 changes nothing. `MAX_HYPOTHESES` is INERT. |
+| "The retention rule sorts by name, so it must be distorting the results." | It is a real defect and currently **inert** — nothing is truncated, so alphabetical and salience choose the same beliefs. It also was **not** the cause of the No-Falsification collapse; that had zero processes *and* zero workflows. [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
+| "The organism is complexity-limited by its environment — give it a richer world." | **Measured false.** Going from 42 to 97 world tags *lowered* the belief pool from 5.47 to 1.41 and took theories to **zero**. A richer world makes it worse. What it needs is more *branch structure*, not more words. |
+| "Raising the budget will give the organism room to develop." | Raising `MAX_HYPOTHESES` changes nothing at all. Raising `MAX_PREDICTIONS` widens the belief pool to 7.71 at best, and **destroys** the organism past 160 (theories to zero). The budget is not the constraint. |
+| "If an ablation changed no metric, it did nothing." | Use the G1-G4 ladder. **No Lineage** passes G1 and G2 and fails G3: the populations are identical and only the lineage metric moved. That is what "governance, not cognition" looks like. |
 
 ---
 
@@ -1000,7 +1145,7 @@ Things that look like findings but are not, and things that look fine but are no
 - A log field's meaning in [§5](#5-reading-the-output)
 - The study protocol or the nine targets in [§6](#6-what-the-study-is-measuring)
 - **Your** action list in [§7](#7-what-you-need-to-do) — completed, deferred, or newly identified
-- A finding in [§8](#8-the-ten-findings-and-what-each-means-for-you)
+- A finding in [§8](#8-the-findings-and-what-each-means-for-you)
 - A symptom or fix in [§9](#9-troubleshooting)
 - A file's role in [§10](#10-file-map)
 
@@ -1009,7 +1154,7 @@ Things that look like findings but are not, and things that look fine but are no
 1. **Same turn, not deferred.** If you changed the code, the manual is updated before the turn ends.
 2. **No stale numbers.** A status block with old numbers is worse than no status block.
 3. **Decisions get recorded, not just made.** When you decide something in [§7](#7-what-you-need-to-do), move it with a date and a one-line rationale — that trail is part of the project's contribution.
-4. **Findings link to evidence.** Every claim in [§8](#8-the-ten-findings-and-what-each-means-for-you) points at a section of `research-journal/phase_g_findings_20261021.md` or a JSON report in `docs/`.
+4. **Findings link to evidence.** Every claim in [§8](#8-the-findings-and-what-each-means-for-you) points at a section of `research-journal/phase_g_findings_20261021.md` or a JSON report in `docs/`.
 5. **The manual is for you, the journal is for the field.** The manual explains *what to do*; the journal is the scientific record. Write for the former in plain language; keep the latter rigorous.
 6. **This rule is also recorded in `AGENTS.md`** at the repository root, so any agent working on this project picks it up automatically.
 
@@ -1022,3 +1167,5 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-22 | Added the cold-start study (§8.1): eight assistance levels, what bootstraps unaided, and the proof that share-based confidence is what blocks G5. Added finding 10. Added §4.7 (build an organism from nothing), the new file map entries, §11.5 (experiment vocabulary), and the new files to §4.5. |
 | 2026-10-22 | Added §8.2: the ablation study — ten ablations, the metric suite, the two structurally unmeasurable metrics, and the pending designer-surprise protocol. Recorded `docs/ABLATION-PREREGISTRATION.md` (predictions written before the run) and `docs/EMERGENCE-CRITERIA.md` (the measurable emergence ladder). |
 | 2026-10-22 | Added the mechanism-verification stage (`benchmarks/ablation_verify.py`): perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Recorded findings #10 (the alphabetical truncation decides which beliefs survive) and #5's corrected mechanism. Added `benchmarks/clone_check.py` and its 8/8 fresh-clone result. Added §7.2 decision #10, the valuation-layer proposal, and journal §18. |
+| 2026-10-23 | **Phase V1.5 — the instrumentation audit.** Stopped the daemon at 3,725 sleep cycles and archived the run (`logs/organica_prefix_20261022.log` + `docs/prefix_run_series.json`). Added `benchmarks/development_probe.py`, `benchmarks/instrumentation_audit.py` and `benchmarks/archive_run.py`; added `docs/FACTS-SHEET.md` and `docs/GATE-BOARD.md`; added `tests/test_retention_policy.py` (18 tests). Added **§8.3**. Added §7.2 decisions #11 and #12. **Corrected finding #10** and superseded decision #6: the hypothesis cap does not bind, `MAX_HYPOTHESES` is INERT, and the alphabetical rule was not the cause of the No-Falsification collapse. Refreshed §2. Journal §19 added. |
+| 2026-10-23 | **Engine change (owner-authorised, 2026-10-22).** The hypothesis retention rule changed from an inline alphabetical sort to a named, unit-free **salience** policy with a separate allowance for inert structural markers, plus a `CONTRADICTION_SCALE` hook. Also extracted six hard-coded layer caps to named constants. Verified behaviour-preserving: 35/35 tests pass and the cap census is unchanged (pool max 8, mean 5.31, cap binds 0/600). **Measured effect on behaviour today: none** — the cap does not bind, so this is a correctness fix, not a behavioural one. |

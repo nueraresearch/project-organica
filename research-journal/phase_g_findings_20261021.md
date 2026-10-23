@@ -748,6 +748,49 @@ So the EIG implementation is **not broken**. It is a perfect ranker. It selects 
 
 **Finding J — Which beliefs are allowed to disagree is currently decided by alphabetical order. This is the most consequential defect found.**
 
+> **CORRECTION (2026-10-23, after the Phase V1.5 instrumentation audit).**
+> The alphabetical rule is a **real defect** — a name-based rule that is
+> frequency-correlated in this project, because the common subjects
+> (`developer`, `engineer`, `executed`, `modified`, `report`, `session`,
+> `suite`) are both frequent *and* alphabetically early. A controller that
+> decides what to keep by sorting strings is not making a decision about
+> merit. That much stands.
+>
+> **But two claims made here were wrong, and both are retracted:**
+>
+> 1. **The cap does not bind, so the sort currently changes nothing.**
+>    Measured over 600 cold cycles: the Layer-4 belief pool reaches a
+>    maximum of **8** against `MAX_HYPOTHESES = 15`, and the cap binds in
+>    **0 of 600** cycles. Raising the cap 15 → 30 → 60 produces
+>    byte-identical populations. Because nothing is ever truncated,
+>    "alphabetical" and "salience" select the **same membership** in every
+>    one of those cycles (they differ only in *order*, and Layer 5
+>    re-sorts by support count). The parameter influence map classifies
+>    `MAX_HYPOTHESES` as **INERT**. The alphabetical rule is therefore a
+>    **latent** defect, not an active force — and it was not "demonstrated",
+>    it was *measured to have no effect*.
+> 2. **The sort was not the cause of Finding D's contradiction collapse.**
+>    The verification census shows that in `D` (No Falsification) both
+>    `G2 processes` and `G3 workflows` were **0**. Hypotheses are built
+>    only from workflows, processes and meta-concepts, so `D`'s
+>    all-marker population is fully explained by the destruction of the
+>    Layer-2/3 layers — no truncation was involved. The attribution to
+>    alphabetical crowding was wrong.
+>
+> What replaces the original claim: **the organism is starved, not
+> selective.** The instrumentation audit (§19) measures retention pressure
+> per layer and finds 29–61× at Layer 1 (936 loops, 621 predictions, 309
+> anomalies competing for 15–20 slots, every one of them retained by a
+> *popularity* rule) against **0.35** at Layer 4 (5–8 beliefs for 15
+> slots). The evidence is discarded at the top and found wanting at the
+> bottom. The alphabetical hypothesis rule is the same family of defect as
+> the Layer-1 popularity rules, three layers downstream, and it is
+> invisible only because there is nothing left to choose between.
+>
+> The fix is unchanged and still worth making — sort by evidence rather
+> than by name — but it is a **correctness** fix to a rule that is
+> currently inert, not a fix for Finding D.
+
 The verification's contradiction analysis turned up something that had been suspected since journal §7 and is now *demonstrated*. Layer 4 truncates to `MAX_HYPOTHESES = 15` **after sorting the hypothesis list by subject name**. That means:
 
 1. `high_structural_significance` markers — whose subjects are ordinary words like `developer`, `engineer`, `executed`, `report` — sort early and **fill the budget**, crowding out the genuine subject→expectation pairs.
@@ -766,8 +809,8 @@ In priority order. Every item below is a **proposal**; Phase A freezes cognitive
 |---|---|---|---|
 | 1 | **Build the experiment executor** (probe format → probe→event mapping → belief-delta measurement) | It is the single change that unblocks the most: it makes EIG testable against random curiosity (Finding I), it makes `CY` and `EIG*` measurable so the aggregate stops being blind, it lets a Question actually close, and it is the missing half of the self-build loop. | New capability |
 | 2 | **Replace share-based confidence with a posterior** (`(support + α)/(support + contradiction + α + β)`) | Independently established by §14's `wide_lookback` ablation. It is simpler than what it replaces, keeps a split belief alive regardless of sibling count, and makes the lookback width irrelevant. | Cognitive — needs a recorded decision |
-| 3 | **Stop truncating hypotheses alphabetically — now demonstrated, not hypothesised** | Finding J. The 15-slot budget is filled in subject-name order, so `high_structural_significance` markers crowd out the genuine belief pairs and suppress measured contradiction density. Which beliefs survive is currently decided by how strings sort. Sort by evidence (support, then contradiction-adjusted confidence) instead. | Cognitive — needs a recorded decision |
-| 4 | **Reconsider the hypothesis cap itself** | `MAX_HYPOTHESES = 15` was chosen when the layer had a different population. 15 slots against 13–15 live hypotheses means the cap binds constantly, and the ablation shows how much rides on which beliefs make the cut. Note that removing the cap is *not* the same as fixing the sort order: the sort is the defect, the cap is a separate budget question. | Cognitive — needs a recorded decision |
+| 3 | **Stop truncating hypotheses alphabetically — a real defect, but measured to be currently inert** | Finding J, as corrected. The rule is name-based and frequency-correlated, so it is wrong in principle. But the cap binds in 0 of 600 cycles, so the sort currently changes nothing — and it was **not** the cause of Finding D. Sort by evidence (a unit-free salience composite) instead, and treat it as a correctness fix, not as the fix for D. | Cognitive — authorised by the owner 2026-10-22, applied 2026-10-23 |
+| 4 | **The hypothesis cap is not the constraint — upstream belief supply is** | This remedy was written on the belief that "15 slots against 13–15 live hypotheses means the cap binds constantly". That is **wrong**: `MAX_HYPOTHESES` is INERT (0/600 cycles; raising it 15→60 changes nothing). The real constraint is upstream: Layer 1 discards ~99% of its candidates (pressure 29–61×) and Layer 4 receives 5–8 beliefs. Re-target this remedy at the funnel, not the cap. | Cognitive — needs a recorded decision |
 | 5 | **Give the aggregate a population term, or stop using it** | Finding E is the argument: an ablation removed the whole upper ladder and scored −3. The per-metric table plus the population table is the honest summary. | Measurement |
 | 6 | **Record Law II as governance, not cognition** | Finding B. The design documents list lineage among the principles in a way that implies behavioural importance it does not have. | Documentation |
 | 7 | **Run the ablation suite again after any cognitive change** | It is now the regression test for "did we accidentally make the organism depend on us, or stop depending on something it used to need?" | Process |
@@ -848,3 +891,161 @@ A proposal that cannot fail is a belief, not an architecture. This one gets the 
 "Feeling" is a loaded word, and the risk to this project is sliding into anthropomorphic claims that the measurements cannot support. The discipline should be: build **value signals** — measurable scalars with valence, persistence, and a direction — and do not claim the organism *feels* anything. `docs/EMERGENCE-CRITERIA.md` already draws that line; this section is inside it.
 
 The defensible framing is the one the project already uses for humans: an infant arrives with substantial built-in machinery and learns essentially all of the *content*. Organica would arrive with a valuation apparatus — the machinery for deciding what matters — and learn all of the content. What it does not have is what a person has: a body, stakes, and something at stake. That is worth stating plainly, because it is both the honest limit of the comparison and the clearest statement of what an experiment executor would change.
+
+
+## 19. Phase V1.5 — the instrumentation audit: where the pressure really is
+
+### 19.1 Why this section exists
+
+The Tier-1 campaign was specified as: *Full (alphabetical retention) vs Salience retention vs No-Contradictions vs No-Questions vs No-Dreams vs Anti-EIG, 3,000 cycles each.* The organising hypothesis was that **the retention policy is a hidden evolutionary force**.
+
+Before running it, five very different upstream threshold settings were tried against a 400-cycle baseline. **Every one produced byte-identical results.** Two explanations are possible and they demand opposite responses:
+
+* (a) the parameters genuinely do not matter, or
+* (b) **the observation channel is saturated** — the parameter changes the candidate pool, but a layer's output cap discards the change before it can be seen.
+
+(b) is far more likely. A whole matrix would have measured bottlenecks instead of cognition. So the machinery was measured first. This section is that measurement. It is a **measurement study, not an ablation study**: the engine is subclassed, never edited.
+
+### 19.2 Finding 11 — the live run plateaued; the 90-day horizon buys nothing
+
+The longitudinal run was stopped at 3,725 sleep cycles so the architecture change could land without a file-vs-process mismatch, and its per-cycle series was archived (`docs/prefix_run_series.json`).
+
+| Series | Converged at cycle | Last 25% (931 cycles) stdev | Slope per 1,000 cycles | Distinct values |
+|---|---:|---:|---:|---:|
+| theories | 261 | **0.000000** | 0.0 | 1 |
+| questions | 261 | **0.000000** | 0.0 | 1 |
+| dreams | 162 | **0.000000** | 0.0 | 1 |
+| investigations | 82 | **0.000000** | 0.0 | 1 |
+| experiments | 82 | **0.000000** | 0.0 | 1 |
+| hypotheses | 1,677 | **0.000000** | 0.0 | 1 |
+
+**The organism reached a fixed point and then sat still for 3,464 cycles.** A single arm with a flat line describes nothing and identifies nothing; only contrasts can. The comparative matrix therefore replaces the 90-day single arm as the primary experiment, and the daemon becomes a *monitor* rather than a gate.
+
+But the flat population hides a non-flat substrate. Over the same period, the summed contradiction across the retained hypotheses rose **0 to 400,550** (support 78,647), because confidence is a *share*: `support / (support + contradiction)` settles at about 0.16-0.17 for every subject even as its absolute evidence grows by orders of magnitude. **The organism did not stop accumulating evidence; it stopped converting it.** Every developmental metric in this project is defined on counts, so that divergence is currently invisible to the metric suite.
+
+### 19.3 Finding 12 — the retention policy is inert, and the cap never binds
+
+Measured over 600 cold cycles:
+
+* the Layer-4 **belief** pool reaches a maximum of **8** against `MAX_HYPOTHESES = 15`; the cap binds in **0 of 600** cycles;
+* raising the cap 15 to 30 to 60 gives **byte-identical** populations (6 beliefs, 5 subjects, 1 subject with 2 or more beliefs);
+* because nothing is truncated, "alphabetical" and "salience" select the **same membership** in every cycle — they differ only in *order*, and Layer 5 re-sorts by support count.
+
+`MAX_HYPOTHESES` is classified **INERT** in the parameter influence map. **The P1 experiment as specified would have compared two identical colonies.**
+
+This corrects Finding J (17.7). The alphabetical rule remains a real defect — it decides by sorting strings, and in this project the frequent subjects are also alphabetically early, so it is a popularity rule in disguise — but it is currently a *latent* defect with **zero** causal effect, and it was **not** the cause of Finding D's collapse (D's processes *and* workflows were both 0, so its marker-only population is explained by the destroyed Layer-2/3 layers).
+
+### 19.4 Finding 13 — the organism is starved, not selective
+
+For every capped layer, the candidate pool **before** truncation was measured, and `retention_pressure = pool_size / cap` computed. 400 cycles, cold start, study stream.
+
+| Layer | cap | pool mean | p95 | pressure mean | pressure p95 |
+|---|---:|---:|---:|---:|---:|
+| loops | 15 | 936 | 936 | **61.1** | **62.4** |
+| predictions | 20 | 598 | 621 | **29.9** | **31.1** |
+| anomalies | 10 | 292 | 309 | **29.2** | **30.9** |
+| investigations | 5 | 8.8 | 11 | 1.77 | 2.20 |
+| processes | 10 | 11.8 | 13 | 1.18 | 1.30 |
+| dreams | 8 | 8.3 | 12 | 1.04 | 1.50 |
+| experiments | 5 | 4.9 | 5 | 0.98 | 1.00 |
+| workflows | 10 | 9.1 | 10 | 0.91 | 1.00 |
+| meta_concepts | 15 | 9.0 | 9 | 0.60 | 0.60 |
+| **hypotheses** | 15 | **5.3** | 8 | **0.35** | 0.53 |
+| questions | 6 | 1.2 | 3 | 0.19 | 0.50 |
+| theories | 8 | 1.2 | 3 | 0.14 | 0.38 |
+
+**Layer 1 discards about 99% of its own candidates; Layer 4 has 5-8 beliefs for 15 slots.** Every over-truncated layer retains by a **popularity** rule — raw temporal count for predictions, strength for loops, dominance ratio for anomalies. The alphabetical hypothesis rule is the same family of defect three layers downstream, and it is invisible only because there is nothing left to choose between.
+
+The measured funnel:
+
+```
+  936 loops -------------+
+  621 predictions --------+-- capped by count/strength (popularity rules) --+
+  309 anomalies ----------+                                                |
+                                                                          v
+                                    12 processes -- capped --> 10 workflows --+
+                                                                           |
+                                                                           v
+                                                                    5-8 beliefs --> 1 theory --> 1 question
+```
+
+### 19.5 Finding 14 — eight of fourteen parameters do nothing
+
+| Verdict | Parameters |
+|---|---|
+| **DECISIVE** | `DEATH_THRESHOLD` · `STABLE_THRESHOLD` · `MAX_PROCESSES` · `MAX_PREDICTIONS` |
+| **POOL_ONLY** | `PREDICTION_MIN_COUNT` · `LOOP_MIN_STRENGTH` |
+| **INERT** | `MAX_HYPOTHESES` · `MAX_WORKFLOWS` · `MAX_META_CONCEPTS` · `WORKFLOW_MIN_MATCHED_METAS` · `META_CONCEPT_MIN_REFS` · `CONCEPT_MIN_DEGREE` · `CONCEPT_MIN_REACH` · `PHRASE_MIN_CLUSTERING` |
+
+Two of the POOL_ONLY cases are the smoking gun for (b): `PREDICTION_MIN_COUNT` 5 to 3 changed the prediction pool (621 to 641) and changed **nothing** downstream, because the top 20 by temporal count are the same 20.
+
+### 19.6 Finding 15 — a richer world makes the organism WORSE
+
+The leading hypothesis was that Organica is *complexity-limited by its environment*: a 9-tag world cannot differentiate, so a 50- or 100-tag world should widen every pool. **Measured, it does the opposite.**
+
+| Stimulus | events | world tags | world entropy | belief pool | pressure | processes | workflows | theories |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| study stream | 48 | 41.8 | 5.06 | **5.47** | 0.365 | 10.0 | 10.0 | **1.00** |
+| + 2 domains | 148 | 57.8 | 5.45 | 2.37 | 0.158 | 6.4 | 6.4 | 0.56 |
+| + 4 domains | 238 | 96.8 | 6.26 | **1.41** | 0.094 | 6.1 | 6.1 | **0.00** |
+
+More world tags, higher entropy, and 2.8 times more Layer-1 candidates — and the belief pool **collapses** and the theory count falls to **zero**. Layer-1 pressure rises from 61x to 295x.
+
+### 19.7 Finding 16 — there is a narrow optimum, and it is in the middle
+
+Widening the prediction cap (the one Layer-1 cap that is DECISIVE) traces the whole curve:
+
+| `MAX_PREDICTIONS` | belief pairs | belief pool | pressure | processes | workflows | hypotheses | theories |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 20 (baseline) | 5.05 | 5.47 | 0.365 | 10.0 | 10.0 | 12.05 | 1.00 |
+| 40 | 6.51 | 5.18 | 0.346 | 8.78 | 8.78 | 15.34 | 1.23 |
+| **80** | **8.69** | **7.71** | **0.514** | 8.9 | 8.9 | 21.01 | 1.28 |
+| 160 | 0.00 | 0.74 | 0.050 | **0.11** | 0.11 | 2.94 | **0.00** |
+| 320 | 1.82 | 1.71 | 0.114 | 3.5 | 2.91 | 10.05 | **0.00** |
+
+Widening Layer 1 **does** widen the belief pool, up to a point (5.47 to 7.71, +41% at cap 80). Beyond that the organism **breaks**: at cap 160 the process and workflow layers collapse to 0.11 and every theory disappears.
+
+**And even at the optimum, retention pressure is 0.514 — still below 1.0. Gate G-P1 fails at every configuration tested.**
+
+### 19.8 What actually controls the developmental trajectory
+
+Findings 15 and 16 point at the same mechanism, and it is not the one that was assumed.
+
+A process is only formed from a **reciprocal** prediction pair (`a->b` *and* `b->a`), and a 3-cycle requires `a->b->c->a`. The study stream was deliberately built with **branch points** — one subject leading to both a positive and a negative outcome — which is exactly what makes reciprocal pairs exist. The domain corpora are larger but not branch-structured in the same way, so they contribute mostly one-way pairs.
+
+So the binding constraint is neither world *size* nor any single cap. It is **the number of distinct reciprocal structures the stimulus contains, expressed through a narrow optimum**:
+
+* too few branch points -> 5-8 beliefs, 1 theory;
+* more candidate diversity without more reciprocal structure -> the composition layers' type-diversity gates stop qualifying, processes and workflows collapse, 0 theories.
+
+This also explains Finding 11 (the plateau) and Finding 12 (inert retention) with one mechanism: the organism is a **filter**, not a chooser. It has a stable fixed point at one theory because one subject ("session") is the only one with 2 or more competing beliefs, and nothing in the current stimulus disturbs that.
+
+**The measurable consequence for the next campaign:** the belief pool must exceed 15 for a retention experiment to mean anything, and the belief pool is bounded by the number of distinct reciprocal structures reaching Layer 4 — currently about 8. Reaching 15 requires a **stimulus with more independent branch points**, not a wider world, not a bigger budget, and not a different retention rule.
+
+### 19.9 What this section does to the plan
+
+| Was planned | Now | Why |
+|---|---|---|
+| Run the 6-colony Tier-1 matrix | **Gated** behind G-P1 | With pressure 0.35-0.51, `FULL` and `SALIENCE_RETENTION` would be the same colony |
+| Replace alphabetical retention | **Done** (2026-10-23) | The rule was wrong; it is now a named, unit-free salience policy with its own allowance for inert markers. Measured effect on current behaviour: **none** — the cap does not bind — so it is a correctness fix, not a behavioural one |
+| Extend the 90-day run | **Replaced** by the matrix; the daemon becomes a monitor | 3,464 cycles of zero variance (19.2) |
+| Enlarge the world | **Refuted as a strategy** | A richer world made the organism worse (19.6) |
+| Enlarge the budget | **Refuted as a strategy** | `MAX_HYPOTHESES` is INERT (19.5) |
+
+### 19.10 Disclosure — two defects in our own instrumentation
+
+Both were found by checking a measurement against the substrate it claims to describe, and both are disclosed here rather than quietly fixed.
+
+1. **The archived contradiction series was `null`, not zero.** The archive script copied `rec["contradiction_total"]` from each daemon log record, but `run_continuous.py` never writes that key. All 3,725 archived values were `null`, which reads as "zero contradiction everywhere"; the true final value is **400,550**. The archive is now a committed tool (`benchmarks/archive_run.py`) that re-derives the totals from the hypothesis snapshot, which *is* in the record.
+2. **The first audit reported the workflow layer as dead.** It read the report attribute `workflows` instead of `workflow_concepts`, so a working layer measured 0. The audit now uses an explicit name-to-attribute mapping, and a test asserts that no inline cap literals remain in the layer builders.
+
+### 19.11 Artefacts
+
+| Artefact | Contents |
+|---|---|
+| `benchmarks/development_probe.py` -> `docs/development_probe.json` | Cap-binding census, budget insensitivity, plateau analysis, vocabulary audit |
+| `benchmarks/instrumentation_audit.py` -> `docs/instrumentation_audit.json` | Pre-cap pools and retention pressure, 14-parameter influence map, effective world size, funnel sweep |
+| `benchmarks/archive_run.py` -> `docs/prefix_run_series.json` | The "before" series, with contradiction totals re-derived |
+| `docs/FACTS-SHEET.md` | Every measured claim with its provenance, separated from assumptions |
+| `docs/GATE-BOARD.md` | Gate status, the G-P1 gate, the G1-G4 perturbation ladder, the decision backlog |
+| `tests/test_retention_policy.py` | 18 tests pinning the retention semantics, the marker allowance, the unit-free tension term and the contradiction-scale hook |
