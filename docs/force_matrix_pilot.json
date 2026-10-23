@@ -1,0 +1,472 @@
+{
+  "generated_at": "2026-10-23T18:57:44Z",
+  "cycles": 300,
+  "seed": 20261023,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "g1_verification": [
+    {
+      "colony": "FULL",
+      "retention_policy": "alphabetical",
+      "contradiction_scale": 1.0,
+      "questions": 5,
+      "dreams": 7,
+      "experiments": 5,
+      "beliefs": 18,
+      "theories": 5
+    },
+    {
+      "colony": "SALIENCE",
+      "retention_policy": "salience",
+      "contradiction_scale": 1.0,
+      "questions": 4,
+      "dreams": 7,
+      "experiments": 5,
+      "beliefs": 18,
+      "theories": 4
+    },
+    {
+      "colony": "NO_CONTRADICTIONS",
+      "retention_policy": "salience",
+      "contradiction_scale": 0.0,
+      "questions": 4,
+      "dreams": 7,
+      "experiments": 5,
+      "beliefs": 18,
+      "theories": 4
+    },
+    {
+      "colony": "NO_QUESTIONS",
+      "retention_policy": "salience",
+      "contradiction_scale": 1.0,
+      "questions": 0,
+      "dreams": 6,
+      "experiments": 5,
+      "beliefs": 18,
+      "theories": 4
+    },
+    {
+      "colony": "NO_DREAMS",
+      "retention_policy": "salience",
+      "contradiction_scale": 1.0,
+      "questions": 4,
+      "dreams": 0,
+      "experiments": 4,
+      "beliefs": 18,
+      "theories": 4
+    },
+    {
+      "colony": "ANTI_EIG",
+      "retention_policy": "salience",
+      "contradiction_scale": 1.0,
+      "questions": 5,
+      "dreams": 7,
+      "experiments": 5,
+      "beliefs": 18,
+      "theories": 5
+    }
+  ],
+  "rows": [
+    {
+      "colony": "FULL",
+      "description": "reference arm, alphabetical retention",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 123.2,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M3_contradiction_density": {
+          "mean": 1816.9933,
+          "median": 1830.9333,
+          "p95": 3230.3333,
+          "max": 3388.2,
+          "share_mean": 0.737
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 16,
+          "survived_to_end": 15,
+          "rate": 0.9375
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 24.667,
+          "distinct_beliefs_ever": 16,
+          "distinct_questions_ever": 11,
+          "distinct_dreams_ever": 36,
+          "distinct_experiments_ever": 11,
+          "last_100_new_total": 3
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 212.0,
+          "observed": 1,
+          "censored": 15,
+          "total_beliefs": 16
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.9145,
+          "questions": 0.9145,
+          "dreams": 0.9324
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 30,
+          "demotions_without_replacement": 30
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 5.1,
+          "questions_mean": 5.1,
+          "dreams_mean": 7.89,
+          "investigations_mean": 4.983,
+          "experiments_mean": 4.983,
+          "pre_beliefs_mean": 17.707,
+          "pre_ge2_mean": 6.86
+        }
+      }
+    },
+    {
+      "colony": "SALIENCE",
+      "description": "salience retention",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 95.6,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M3_contradiction_density": {
+          "mean": 1823.3365,
+          "median": 1827.4667,
+          "p95": 3231.2667,
+          "max": 3389.4,
+          "share_mean": 0.7405
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 18,
+          "survived_to_end": 15,
+          "rate": 0.8333
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 26.0,
+          "distinct_beliefs_ever": 18,
+          "distinct_questions_ever": 13,
+          "distinct_dreams_ever": 31,
+          "distinct_experiments_ever": 16,
+          "last_100_new_total": 5
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 281.0,
+          "observed": 3,
+          "censored": 15,
+          "total_beliefs": 18
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.9215,
+          "questions": 0.9215,
+          "dreams": 0.9213
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 60,
+          "demotions_without_replacement": 60
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 4.91,
+          "questions_mean": 4.91,
+          "dreams_mean": 7.753,
+          "investigations_mean": 4.983,
+          "experiments_mean": 4.983,
+          "pre_beliefs_mean": 17.84,
+          "pre_ge2_mean": 6.927
+        }
+      }
+    },
+    {
+      "colony": "NO_CONTRADICTIONS",
+      "description": "CONTRADICTION_SCALE = 0",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 119.6,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M3_contradiction_density": {
+          "mean": 1809.239,
+          "median": 1768.3333,
+          "p95": 3226.4667,
+          "max": 3384.2,
+          "share_mean": 0.7402
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 20,
+          "survived_to_end": 15,
+          "rate": 0.75
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 26.333,
+          "distinct_beliefs_ever": 20,
+          "distinct_questions_ever": 12,
+          "distinct_dreams_ever": 31,
+          "distinct_experiments_ever": 16,
+          "last_100_new_total": 2
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 178.8,
+          "observed": 5,
+          "censored": 15,
+          "total_beliefs": 20
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.9091,
+          "questions": 0.9091,
+          "dreams": 0.9222
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 95,
+          "demotions_without_replacement": 95
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 4.867,
+          "questions_mean": 4.867,
+          "dreams_mean": 7.767,
+          "investigations_mean": 4.983,
+          "experiments_mean": 4.983,
+          "pre_beliefs_mean": 17.753,
+          "pre_ge2_mean": 6.86
+        }
+      }
+    },
+    {
+      "colony": "NO_QUESTIONS",
+      "description": "question creation disabled",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 175.1,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.0,
+          "last_2000": 0.0
+        },
+        "M3_contradiction_density": {
+          "mean": 1554.2415,
+          "median": 1564.0,
+          "p95": 2702.0667,
+          "max": 3016.3333,
+          "share_mean": 0.7257
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 18,
+          "survived_to_end": 15,
+          "rate": 0.8333
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 29.333,
+          "distinct_beliefs_ever": 18,
+          "distinct_questions_ever": 0,
+          "distinct_dreams_ever": 37,
+          "distinct_experiments_ever": 33,
+          "last_100_new_total": 12
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 290.333,
+          "observed": 3,
+          "censored": 15,
+          "total_beliefs": 18
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.9062,
+          "questions": null,
+          "dreams": 0.8962
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 136,
+          "demotions_without_replacement": 136
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 4.833,
+          "questions_mean": 0.0,
+          "dreams_mean": 5.987,
+          "investigations_mean": 4.983,
+          "experiments_mean": 4.983,
+          "pre_beliefs_mean": 16.927,
+          "pre_ge2_mean": 6.47
+        }
+      }
+    },
+    {
+      "colony": "NO_DREAMS",
+      "description": "dream generation disabled",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 125.4,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M3_contradiction_density": {
+          "mean": 1829.9561,
+          "median": 1836.9333,
+          "p95": 3240.7333,
+          "max": 3398.8667,
+          "share_mean": 0.7407
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 18,
+          "survived_to_end": 15,
+          "rate": 0.8333
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 14.667,
+          "distinct_beliefs_ever": 18,
+          "distinct_questions_ever": 13,
+          "distinct_dreams_ever": 0,
+          "distinct_experiments_ever": 13,
+          "last_100_new_total": 0
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 289.333,
+          "observed": 3,
+          "censored": 15,
+          "total_beliefs": 18
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.9136,
+          "questions": 0.9136,
+          "dreams": null
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 96,
+          "demotions_without_replacement": 96
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 4.873,
+          "questions_mean": 4.873,
+          "dreams_mean": 0.0,
+          "investigations_mean": 4.873,
+          "experiments_mean": 4.873,
+          "pre_beliefs_mean": 17.84,
+          "pre_ge2_mean": 6.927
+        }
+      }
+    },
+    {
+      "colony": "ANTI_EIG",
+      "description": "experiments selected by lowest EIG",
+      "seed": 20261023,
+      "cycles": 300,
+      "seconds": 143.3,
+      "metrics": {
+        "M1_theory_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M2_question_duty_cycle": {
+          "whole_run": 0.9966666666666667,
+          "last_2000": 0.9966666666666667
+        },
+        "M3_contradiction_density": {
+          "mean": 1823.856,
+          "median": 1814.5333,
+          "p95": 3242.8,
+          "max": 3389.8667,
+          "share_mean": 0.7424
+        },
+        "M4_contradiction_survival": {
+          "ever_contradicting": 18,
+          "survived_to_end": 15,
+          "rate": 0.8333
+        },
+        "M5_development_velocity": {
+          "new_per_100_cycles": 28.0,
+          "distinct_beliefs_ever": 18,
+          "distinct_questions_ever": 13,
+          "distinct_dreams_ever": 37,
+          "distinct_experiments_ever": 16,
+          "last_100_new_total": 3
+        },
+        "M6_lineage_depth": {
+          "max_generation": 7
+        },
+        "M7_mean_hypothesis_lifetime": {
+          "mean": 283.667,
+          "observed": 3,
+          "censored": 15,
+          "total_beliefs": 18
+        },
+        "M8_population_stability": {
+          "beliefs": 0.9422,
+          "theories": 0.8699,
+          "questions": 0.8699,
+          "dreams": 0.9245
+        },
+        "M9_cognitive_revolutions": {
+          "revolutions": 0,
+          "demotions": 76,
+          "demotions_without_replacement": 76
+        },
+        "_populations": {
+          "beliefs_mean": 14.95,
+          "theories_mean": 4.587,
+          "questions_mean": 4.587,
+          "dreams_mean": 7.8,
+          "investigations_mean": 4.983,
+          "experiments_mean": 4.983,
+          "pre_beliefs_mean": 17.713,
+          "pre_ge2_mean": 6.863
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,12 @@
 # Organica V2 — Design Notes
 
+> **Which "V2"?** This file is about the **architecture generation**
+> *Organica 2* — the planned successor to the frozen eight-layer engine that
+> runs today (*Organica 1*). It is **not** the package version (0.6.0, SemVer
+> 2) and **not** the second research campaign (*Ablation Study 2*, whose
+> pre-registration is `docs/FORCE-MATRIX-PREREGISTRATION.md`). The three
+> namespaces are tabulated in `CHANGELOG.md` and `docs/USER-MANUAL.md` §11.6.
+
 **Status: PLANNING ONLY. Nothing here is built, and nothing here is a
 decision.** This file records what the measurements of V1 and V1.5 have
 established, so that V2 can be designed from evidence rather than from

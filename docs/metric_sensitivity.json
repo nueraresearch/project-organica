@@ -1,0 +1,142 @@
+{
+  "matrix_artifact": "docs\\force_matrix_pilot.json",
+  "cycles": 300,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "table": [
+    {
+      "metric": "M1",
+      "name": "Theory duty cycle",
+      "values": {
+        "FULL": 0.9966666666666667,
+        "SALIENCE": 0.9966666666666667,
+        "NO_CONTRADICTIONS": 0.9966666666666667,
+        "NO_QUESTIONS": 0.9966666666666667,
+        "NO_DREAMS": 0.9966666666666667,
+        "ANTI_EIG": 0.9966666666666667
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE"
+    },
+    {
+      "metric": "M2",
+      "name": "Question duty cycle",
+      "values": {
+        "FULL": 0.9966666666666667,
+        "SALIENCE": 0.9966666666666667,
+        "NO_CONTRADICTIONS": 0.9966666666666667,
+        "NO_QUESTIONS": 0.0,
+        "NO_DREAMS": 0.9966666666666667,
+        "ANTI_EIG": 0.9966666666666667
+      },
+      "spread": 0.9966666666666667,
+      "relative_spread": 1.0,
+      "verdict": "SENSITIVE"
+    },
+    {
+      "metric": "M3",
+      "name": "Contradiction density (mean)",
+      "values": {
+        "FULL": 1816.9933,
+        "SALIENCE": 1823.3365,
+        "NO_CONTRADICTIONS": 1809.239,
+        "NO_QUESTIONS": 1554.2415,
+        "NO_DREAMS": 1829.9561,
+        "ANTI_EIG": 1823.856
+      },
+      "spread": 275.7146,
+      "relative_spread": 0.1507,
+      "verdict": "SENSITIVE"
+    },
+    {
+      "metric": "M4",
+      "name": "Contradiction survival",
+      "values": {
+        "FULL": 0.9375,
+        "SALIENCE": 0.8333,
+        "NO_CONTRADICTIONS": 0.75,
+        "NO_QUESTIONS": 0.8333,
+        "NO_DREAMS": 0.8333,
+        "ANTI_EIG": 0.8333
+      },
+      "spread": 0.1875,
+      "relative_spread": 0.2,
+      "verdict": "SENSITIVE"
+    },
+    {
+      "metric": "M5",
+      "name": "Development velocity (new/100 cycles)",
+      "values": {
+        "FULL": 24.667,
+        "SALIENCE": 26.0,
+        "NO_CONTRADICTIONS": 26.333,
+        "NO_QUESTIONS": 29.333,
+        "NO_DREAMS": 14.667,
+        "ANTI_EIG": 28.0
+      },
+      "spread": 14.665999999999999,
+      "relative_spread": 0.5,
+      "verdict": "SENSITIVE"
+    },
+    {
+      "metric": "M6",
+      "name": "Lineage depth (max generation)",
+      "values": {
+        "FULL": 7,
+        "SALIENCE": 7,
+        "NO_CONTRADICTIONS": 7,
+        "NO_QUESTIONS": 7,
+        "NO_DREAMS": 7,
+        "ANTI_EIG": 7
+      },
+      "spread": 0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE"
+    },
+    {
+      "metric": "M7",
+      "name": "Mean hypothesis lifetime",
+      "values": {
+        "FULL": 212.0,
+        "SALIENCE": 281.0,
+        "NO_CONTRADICTIONS": 178.8,
+        "NO_QUESTIONS": 290.333,
+        "NO_DREAMS": 289.333,
+        "ANTI_EIG": 283.667
+      },
+      "spread": 111.53300000000002,
+      "relative_spread": 0.3842,
+      "verdict": "SENSITIVE"
+    },
+    {
+      "metric": "M8",
+      "name": "Population stability (beliefs)",
+      "values": {
+        "FULL": 0.9422,
+        "SALIENCE": 0.9422,
+        "NO_CONTRADICTIONS": 0.9422,
+        "NO_QUESTIONS": 0.9422,
+        "NO_DREAMS": 0.9422,
+        "ANTI_EIG": 0.9422
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE"
+    },
+    {
+      "metric": "M9",
+      "name": "Cognitive revolutions",
+      "values": {
+        "FULL": 0,
+        "SALIENCE": 0,
+        "NO_CONTRADICTIONS": 0,
+        "NO_QUESTIONS": 0,
+        "NO_DREAMS": 0,
+        "ANTI_EIG": 0
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "STRUCTURALLY ZERO"
+    }
+  ]
+}

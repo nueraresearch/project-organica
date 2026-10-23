@@ -1,4 +1,10 @@
-# Ablation Matrix V2 — Pre-registration
+# Ablation Study 2 — Tier-1 Matrix Pre-registration
+
+> **Which "V2"?** This file was formerly titled *Ablation Matrix V2*. It is
+> the second **research campaign** — *Ablation Study 2* — and it is not the
+> package version (0.6.0, SemVer 2) and not the **architecture generation**
+> (*Organica 2*, planned — see `docs/ORGANICA-V2-DESIGN-NOTES.md`). The three
+> namespaces are tabulated in `CHANGELOG.md` and `docs/USER-MANUAL.md` §11.6.
 
 **Status: FROZEN. 2026-10-23 07:20 MDT.** This file is committed *before* the
 V2 campaign runs. The metric definitions below, the gate definitions, the

@@ -923,6 +923,12 @@ project-organica/
 │   ├── branch_sweep2.py           # lattice sweep: gates + sustainment + the prediction window
 │   ├── branch_diag2.py            # why does a stimulus die? edge survival, one layer at a time
 │   ├── freq_scope_probe.py        # is the tag-frequency scope the collapse mechanism?
+│   ├── gate_check.py              # the official launch-gate re-run
+│   ├── force_matrix.py            # the six-colony Tier-1 campaign + G1 verification
+│   ├── metric_sensitivity.py      # can each metric actually move across colonies?
+│   ├── seed_noise.py              # the noise floor a delta must beat to be a finding
+│   ├── v1_impact.py               # V1 before vs after the scope fix, incl. interpretations
+│   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
 │   ├── substrate_scaling_analysis.py  # latency vs cycle, from the real log
@@ -946,9 +952,16 @@ project-organica/
 │   ├── FORCE-MATRIX-PREREGISTRATION.md  # V2: frozen M1–M9 + the four launch gates
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
+│   ├── ORGANICA-V2-DESIGN-NOTES.md  # planning only: what survived, what failed, what is inert
 │   ├── ablation_study.json      # the ablation results
 │   ├── gate_validation.json     # is the gate a predictor or a definition?
-│   └── mbsd_census.json         # exact gate density across all 11 V1 conditions
+│   ├── mbsd_census.json         # exact gate density across all 11 V1 conditions
+│   ├── mbsd_census_postfix.json # ...and the same census on the fixed substrate
+│   ├── gate_check.json          # the launch-gate re-run that closed the gates
+│   ├── freq_scope_probe.json    # the scope defect, isolated
+│   ├── metric_sensitivity.json  # which of M1–M9 can actually move across colonies
+│   ├── seed_noise.json          # the noise floor a delta must beat
+│   └── force_matrix_pilot.json  # the Tier-1 pilot campaign results
 ├── snapshots/                   # the longitudinal data  ← the study's output
 ├── organica.log                 # one JSON line per cycle (appended, gitignored)
 └── memory.db                    # the substrate (gitignored)
@@ -1053,6 +1066,31 @@ Terms from the cold-start and ablation studies.
 | **Impact(S)** | `ES_full − ES_without_S`. Bands: cosmetic / supportive / important / foundational / existential. |
 | **Not measurable** | A metric that is structurally impossible to compute here (e.g. experiment information gain, with no experiment executor). Excluded from the aggregate rather than zeroed. |
 | **Emergence level** | The seven-step ladder in `docs/EMERGENCE-CRITERIA.md`, from compression emergence to ontological emergence. |
+
+### 11.6 The three version namespaces
+
+This project uses "v1" and "v2" in three different senses. They are
+deliberately distinct, and mixing them up is a documentation bug, not a
+matter of taste.
+
+| Namespace | Form | What it means | Where it lives |
+|---|---|---|---|
+| **Package version** | `0.x.y` | the released, installable, citable artifact. **Semantic Versioning 2.0.0.** The project is **pre-1.0**, so the public API is *not* declared stable and the MINOR/PATCH numbers carry the meaning instead. | `organica/__version__` (the single source of truth), `pyproject.toml`, `CITATION.cff` |
+| **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. **Organica 1** is the frozen engine that runs today. **Organica 2** is the planned successor — planning only, in [`docs/ORGANICA-V2-DESIGN-NOTES.md`](docs/ORGANICA-V2-DESIGN-NOTES.md). | `docs/ORGANICA-V2-DESIGN-NOTES.md` |
+| **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. **Ablation Study 1** is the eleven-condition ablation study (`docs/ablation_study.json`). **Ablation Study 2** is the six-colony Tier-1 matrix (`docs/FORCE-MATRIX-PREREGISTRATION.md`). | `docs/FORCE-MATRIX-PREREGISTRATION.md` |
+
+**So: no, the project is not at "v1" or "v2" as a release.** It is at
+**0.6.0**, pre-1.0, with the architecture at *Organica 1* and the second
+research campaign in flight.
+
+`tests/test_versioning.py` asserts that the three version declarations
+never drift apart, that the version is valid SemVer 2, that it is
+pre-1.0, that it has a git tag, and that it has a changelog entry. The
+three declarations disagreed once already — `pyproject.toml` said 0.1.0
+while `CITATION.cff` said 0.5.0 — and a reader who cited one and
+installed the other had no way to tell.
+
+Releases are tagged `v<version>` and recorded in [`CHANGELOG.md`](../CHANGELOG.md).
 
 ---
 

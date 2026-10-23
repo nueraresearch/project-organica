@@ -150,9 +150,9 @@ project-organica/
 
 ## Current state
 
-The architecture is **frozen at v1.0** while a 90-day longitudinal study runs. Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is underway.
+**Package version 0.6.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen while the comparative research campaign runs. Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete, and the Phase-H work — the instrumentation audit, the gate validation and the substrate correction — is in [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
 
-The last full audit — and the nine findings that came out of it, including two that invalidated the first attempt at the study — is in [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
+> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.6.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 
