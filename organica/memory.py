@@ -30,6 +30,19 @@ DB_PATH = Path(__file__).parent.parent / "memory.db"
 # cycle -> roughly 210GB over a 90-day run at a 30s interval).
 DEFAULT_SLEEP_RETENTION = 20000
 
+# The scope the incremental tag-frequency counter is built with. The
+# counter is the denominator of the Layer-1 edge strength
+# (`ratio = count / source_freq`), and the co-occurrence and temporal
+# graphs it normalises are built from world events only. Counting the
+# organism's own sleep payloads in the denominator while the numerator
+# stays world-only made the two sides of that ratio measure different
+# populations; the measured consequence was that a branch stimulus
+# collapsed to 4 surviving edges, 0 processes and 0 beliefs (research
+# journal §21). The value is recorded in the `meta` table so a scope
+# change rebuilds the counter exactly once instead of mixing two
+# populations in one table.
+TAG_COUNTS_SCOPE = "world"
+
 
 @dataclass
 class Event:
@@ -115,6 +128,17 @@ class MemoryService:
         """)
         self._conn.execute("CREATE INDEX IF NOT EXISTS idx_time ON events(time)")
 
+        # A tiny key/value table for substrate bookkeeping that has to
+        # survive across restarts. It records which SCOPE the incremental
+        # counters were built with, so a change of scope can rebuild them
+        # exactly once instead of silently mixing two populations.
+        self._conn.execute("""
+            CREATE TABLE IF NOT EXISTS meta (
+                key   TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            )
+        """)
+
         # --- Substrate accounting tables (Phase G endurance) -------------
         # `tag_counts` replaces a full-table scan of `events` with an
         # O(1) read. The scan it replaces cost 4.8s per sleep cycle at
@@ -156,13 +180,31 @@ class MemoryService:
         Only runs when the accounting tables are empty but `events` is not,
         i.e. exactly once for a database created before these tables
         existed. Afterwards both tables are maintained incrementally.
+
+        It also runs once more when the SCOPE of the counters has changed.
+        The counter is scoped to world events, matching the graphs it
+        normalises; a database written by an older build holds all-events
+        counts, and mixing the two would make the ratio meaningless. The
+        `meta` table records the scope the counters were built with, so
+        the rebuild happens exactly once rather than on every start.
         """
+        scope_row = self._conn.execute(
+            "SELECT value FROM meta WHERE key = 'tag_counts_scope'").fetchone()
+        scope = scope_row[0] if scope_row else None
+        if scope != TAG_COUNTS_SCOPE:
+            self._conn.execute("DELETE FROM tag_counts")
+            self._conn.execute(
+                "INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)",
+                ("tag_counts_scope", TAG_COUNTS_SCOPE))
+
         has_events = self._conn.execute("SELECT COUNT(*) FROM events").fetchone()[0]
         if not has_events:
+            self._conn.commit()
             return
 
         if self._conn.execute("SELECT COUNT(*) FROM tag_counts").fetchone()[0] == 0:
-            rows = self._conn.execute("SELECT tags FROM events").fetchall()
+            rows = self._conn.execute(
+                "SELECT tags FROM events WHERE event_type != 'sleep'").fetchall()
             counts: Counter = Counter()
             for (tags_str,) in rows:
                 for tag in (tags_str or "").split(","):
@@ -219,17 +261,38 @@ class MemoryService:
         if event_type != "sleep":
             self._record_cooccurrences(event.tags)
             self._record_temporal_edges(event.tags)
-        # Maintain the incremental tag-frequency counter. This mirrors
-        # exactly what a full `SELECT tags FROM events` scan would count
-        # (including tags contributed by sleep payloads), but in O(1)
-        # amortised time instead of O(total rows) per sleep cycle.
-        self._record_tag_counts(event.tags)
+            # The tag-frequency counter is maintained in the SAME scope as
+            # the graph, and that is load-bearing rather than cosmetic.
+            # The counter is the denominator of the Layer-1 edge strength:
+            #
+            #     ratio    = count / max(source_freq, 1)
+            #     strength = min(1.0, ratio)
+            #
+            # and a prediction candidate only reaches `stable_prior` when
+            # its strength clears STABLE_THRESHOLD. The numerator (`count`)
+            # is a world-graph edge count. If the denominator also counted
+            # the organism's own sleep payloads, the two sides of the ratio
+            # would measure different populations, and the survival filter
+            # would silently discard the world's own structure in favour
+            # of whatever the organism happened to say about itself. That
+            # defect was measured: it collapsed a branch stimulus to 4
+            # surviving edges, 0 processes and 0 beliefs (research journal
+            # §21). The counter and the graph it normalises now share a
+            # scope.
+            self._record_tag_counts(event.tags)
         if not self._batching:
             self._conn.commit()
         return event
 
     def _record_tag_counts(self, tags: list[str]):
-        """Increment the persistent tag-frequency counters."""
+        """Increment the persistent tag-frequency counters.
+
+        Scoped to WORLD events, matching the co-occurrence and temporal
+        graphs. The counter mirrors exactly what a full
+        `SELECT tags FROM events` scan over world events would count, but
+        in O(1) amortised time instead of O(total rows) per sleep cycle.
+        See the scope note in `store()`.
+        """
         if not tags:
             return
         self._conn.executemany(
@@ -351,9 +414,16 @@ class MemoryService:
         """Return tag frequencies.
 
         Reads the incrementally maintained `tag_counts` table instead of
-        scanning the whole `events` table. The result is identical to the
-        historical full scan (verified in tests/test_substrate_equivalence.py);
-        only the cost profile changed, from O(total rows) to O(distinct tags).
+        scanning the whole `events` table. The result is identical to a
+        full scan over WORLD events (verified in
+        tests/test_substrate_equivalence.py); only the cost profile
+        changed, from O(total rows) to O(distinct tags).
+
+        The scope matters. This counter is the denominator of the Layer-1
+        edge strength, and the co-occurrence and temporal graphs are built
+        from world events only, so the counter must be scoped the same way
+        or the ratio measures two different populations. Sleep payloads
+        are stored but are not part of the world the organism perceives.
         """
         rows = self._conn.execute("SELECT tag, count FROM tag_counts").fetchall()
         return Counter({tag: count for tag, count in rows})

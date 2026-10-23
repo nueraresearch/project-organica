@@ -62,7 +62,7 @@ def get_interval():
 # ---------------------------------------------------------------------------
 sys.path.insert(0, str(Path(__file__).parent))
 try:
-    from organica.memory import MemoryService
+    from organica.memory import MemoryService, TAG_COUNTS_SCOPE
     from organica.sleep import SleepService
 except Exception as exc:
     log.error("Failed to import Organica modules: %s", exc)
@@ -131,7 +131,7 @@ log.info(
 # that produced the cycles that follow it.
 log.info(
     "BUILD retention=%s caps(hyp=%s,pred=%s,proc=%s,meta=%s,wf=%s) "
-    "contradiction_scale=%s markers=%s",
+    "contradiction_scale=%s markers=%s freq_scope=%s",
     SleepService.HYPOTHESIS_RETENTION,
     SleepService.MAX_HYPOTHESES,
     SleepService.MAX_PREDICTIONS,
@@ -140,6 +140,7 @@ log.info(
     SleepService.MAX_WORKFLOWS,
     SleepService.CONTRADICTION_SCALE,
     SleepService.MAX_STRUCTURAL_MARKERS,
+    TAG_COUNTS_SCOPE,
 )
 
 # ---------------------------------------------------------------------------

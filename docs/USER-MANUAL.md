@@ -748,6 +748,109 @@ Facts with provenance: **`docs/FACTS-SHEET.md`**.
 
 ---
 
+### 8.4 The counter that was measuring the wrong population
+
+This is the finding that changed the plan twice, so it is worth reading in
+full if you only read one section.
+
+**What the audit found.** Retention pressure on the belief layer was 0.35:
+the belief pool held 5–8 beliefs against a cap of 15, so the cap never
+bound and the `FULL` / `SALIENCE` arms would have been identical colonies.
+A branch-structured stimulus was designed to supply enough competing beliefs
+to make the cap bind.
+
+**What the stimulus run found.** The branch stimulus passed every gate *on
+peaks* — 7 competing subjects, a belief pool of 17, pressure 1.13 — but its
+*mean* belief count was 2.97 and **55% of tail cycles produced no beliefs at
+all**. A repeat count of 4 worked; 6 and 10 collapsed. That looked like a
+phase transition, and the instinct was to treat it as a boundary condition.
+
+**What the mechanism probe found.** The collapse was a **measurement defect**,
+not a property of the stimulus.
+
+`MemoryService.store()` builds the co-occurrence and temporal graphs from
+world events only:
+
+```python
+if event_type != "sleep":
+    self._record_cooccurrences(event.tags)
+    self._record_temporal_edges(event.tags)
+```
+
+But the tag-frequency counter was maintained for **every** stored event,
+including the organism's own sleep payloads — and that counter is the
+**denominator** of the Layer-1 edge strength:
+
+```
+ratio    = count / max(source_freq, 1)      # count     = world edge count
+strength = min(1.0, ratio)                   # source_freq = ALL events
+```
+
+So the numerator and the denominator measured **different populations**. A
+prediction candidate only survives into `stable_prior` when its strength
+clears `STABLE_THRESHOLD = 0.3`, so the filter was silently discarding the
+world's own structure in favour of whatever the organism happened to say
+about itself.
+
+Measured, on one tag in the branch stimulus:
+
+```
+count   src        tgt       source_freq  ratio  survived
+   930       alpha       bravo    21516  0.043  no
+   306       delta       alpha     1901  0.161  YES
+   115     experiment       alpha     2378  0.049  YES
+```
+
+With only **4 distinct surviving edges** — two of them the organism's own
+schema tags — there was no reciprocal pair, so **0 processes, 0 workflows,
+0 beliefs**.
+
+**The fix.** The counter is now scoped to world events, like the graph it
+normalises. A `meta` table records the scope the counters were built with,
+so a database written by an older build rebuilds its counter exactly once
+instead of mixing two populations in one table.
+
+**What it changed.**
+
+| | before | after |
+|---|---:|---:|
+| branch stimulus — belief pool (mean) | 5.43, intermittent | **18.00, constant** |
+| branch stimulus — competing subjects (mean) | 1.72, intermittent | **7.00, constant** |
+| branch stimulus — tail cycles passing every gate | 27% | **100%** |
+| study stream — belief pool (mean) | 6.83 | 5.17 |
+| study stream — competing subjects (mean) | 1.83 | 0.97 |
+
+**The study stream got slightly worse, and that is the important part.** The
+pollution had been suppressing edges *selectively*, leaving a concentrated
+set — and a concentrated set is exactly what produces a high-share subject
+and therefore a theory. The study stream's "exactly one competing subject"
+was partly an artifact of the defect.
+
+**Two disclosures follow.**
+
+1. **The V1 ablation results were produced on the broken scope.** Every
+   condition ran on the same substrate, so the *comparisons* stand, but the
+   absolute densities are not comparable to post-fix numbers. No V1
+   conclusion is retracted, because every one of them is a comparison.
+2. **The live run has a discontinuity** where it was restarted on the fixed
+   build. The build marker in `organica.log` records which configuration
+   produced which cycles, and the sleep cycle at the restart is in the
+   revision log below.
+
+**The generalisable lesson.** A stimulus parameter that flips a result
+between "works" and "collapses" is a statement about the *instrument*, not
+a boundary condition of the system under study. The parameter was
+interacting with a mis-scoped denominator, and the interaction looked
+exactly like a phase transition because the denominator's pollution grows
+with the organism's output, which grows with the stimulus.
+
+Tools: `benchmarks/freq_scope_probe.py` → **`docs/freq_scope_probe.json`**;
+`benchmarks/gate_check.py` → **`docs/gate_check.json`**;
+`benchmarks/branch_diag2.py` for the layer-by-layer edge trace.
+Journal: §21.
+
+---
+
 ## 9. Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -781,7 +884,9 @@ project-organica/
 ├── organica/
 │   ├── memory.py              # SQLite substrate: events, co-occurrence, temporal
 │   │                          #   graphs, tag counts, cycle counter, retention
-│   └── sleep.py               # the 8-layer sleep pipeline (68 KB — the core)
+│   ├── sleep.py               # the 8-layer sleep pipeline (68 KB — the core)
+│   ├── streams.py             # the study event stream + the four reproduction domains
+│   └── branch_streams.py      # branch-structured stimuli (triangle lattices) for the V2 gates
 │
 ├── run_continuous.py           # the study daemon
 ├── start_organica.bat          # daemon launcher (appends, never truncates)
@@ -808,6 +913,12 @@ project-organica/
 │   ├── development_probe.py       # is the machinery sound? cap census, plateau, vocabulary
 │   ├── instrumentation_audit.py   # is the observation channel saturated? pre-cap pools, pressure
 │   ├── archive_run.py             # snapshot the daemon log into a per-cycle series
+│   ├── gate_validation.py         # does the proposed gate predict theory formation? (V1 data)
+│   ├── mbsd_census.py             # exact gate density, with its denominator, over all 11 conditions
+│   ├── branch_sweep.py            # first branch-stimulus sweep (superseded by branch_sweep2)
+│   ├── branch_sweep2.py           # lattice sweep: gates + sustainment + the prediction window
+│   ├── branch_diag2.py            # why does a stimulus die? edge survival, one layer at a time
+│   ├── freq_scope_probe.py        # is the tag-frequency scope the collapse mechanism?
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
 │   ├── substrate_scaling_analysis.py  # latency vs cycle, from the real log
@@ -828,7 +939,12 @@ project-organica/
 │   ├── USER-MANUAL.md           # ← this document
 │   ├── ABLATION-PREREGISTRATION.md  # predictions written before the run
 │   ├── EMERGENCE-CRITERIA.md    # what counts as emergence, and what we can evidence
-│   └── ablation_study.json      # the ablation results
+│   ├── FORCE-MATRIX-PREREGISTRATION.md  # V2: frozen M1–M9 + the four launch gates
+│   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
+│   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
+│   ├── ablation_study.json      # the ablation results
+│   ├── gate_validation.json     # is the gate a predictor or a definition?
+│   └── mbsd_census.json         # exact gate density across all 11 V1 conditions
 ├── snapshots/                   # the longitudinal data  ← the study's output
 ├── organica.log                 # one JSON line per cycle (appended, gitignored)
 └── memory.db                    # the substrate (gitignored)
@@ -1144,6 +1260,8 @@ Things that look like findings but are not, and things that look fine but are no
 | "The retention rule sorts by name, so it must be distorting the results." | It is a real defect and currently **inert** — nothing is truncated, so alphabetical and salience choose the same beliefs. It also was **not** the cause of the No-Falsification collapse; that had zero processes *and* zero workflows. [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
 | "The organism is complexity-limited by its environment — give it a richer world." | **Measured false.** Going from 42 to 97 world tags *lowered* the belief pool from 5.47 to 1.41 and took theories to **zero**. A richer world makes it worse. What it needs is more *branch structure*, not more words. |
 | "Raising the budget will give the organism room to develop." | Raising `MAX_HYPOTHESES` changes nothing at all. Raising `MAX_PREDICTIONS` widens the belief pool to 7.71 at best, and **destroys** the organism past 160 (theories to zero). The budget is not the constraint. |
+| "The branch stimulus worked at r=4 and collapsed at r=6, so r=4 is the right setting." | **There was no boundary.** The apparent phase transition was the tag-frequency counter measuring a different population from the graph it normalises. With the counter corrected, r=4, r=6 and r=10 all give the *same* result: 18 beliefs, 7 competing subjects, 100% of tail cycles passing every gate. [§8.4](#84-the-counter-that-was-measuring-the-wrong-population) |
+| "The organism's own output doesn't reach the cognition layers, so its schema tags are harmless." | The *graph* was world-only, but the *frequency counter* was not — and that counter is the denominator of the Layer-1 survival filter. The effect was to discard the world's own edges. [§8.4](#84-the-counter-that-was-measuring-the-wrong-population) |
 | "If an ablation changed no metric, it did nothing." | Use the G1-G4 ladder. **No Lineage** passes G1 and G2 and fails G3: the populations are identical and only the lineage metric moved. That is what "governance, not cognition" looks like. |
 
 ---
@@ -1184,3 +1302,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | **Phase V1.5 — the instrumentation audit.** Stopped the daemon at 3,725 sleep cycles and archived the run (`logs/organica_prefix_20261022.log` + `docs/prefix_run_series.json`). Added `benchmarks/development_probe.py`, `benchmarks/instrumentation_audit.py` and `benchmarks/archive_run.py`; added `docs/FACTS-SHEET.md` and `docs/GATE-BOARD.md`; added `tests/test_retention_policy.py` (18 tests). Added **§8.3**. Added §7.2 decisions #11 and #12. **Corrected finding #10** and superseded decision #6: the hypothesis cap does not bind, `MAX_HYPOTHESES` is INERT, and the alphabetical rule was not the cause of the No-Falsification collapse. Refreshed §2. Journal §19 added. |
 | 2026-10-23 | **Engine change (owner-authorised, 2026-10-22).** The hypothesis retention rule changed from an inline alphabetical sort to a named, unit-free **salience** policy with a separate allowance for inert structural markers, plus a `CONTRADICTION_SCALE` hook. Also extracted six hard-coded layer caps to named constants. Verified behaviour-preserving: 35/35 tests pass and the cap census is unchanged (pool max 8, mean 5.31, cap binds 0/600). **Measured effect on behaviour today: none** — the cap does not bind, so this is a correctness fix, not a behavioural one. |
 | 2026-10-23 | **Daemon relaunched** on the new build (PID 32328, 06:28 MDT) and `run_continuous.py` now writes a **build marker** at every startup, so an append-only log spanning several builds says which configuration produced which cycles. Counter continued 3,725 → 3,730 with 0 non-monotonic steps and 0 failures across the restart. |
+| 2026-10-23 | **Milestone M0.5 — mechanism closure, and a substrate correction.** The proposed gate was **validated** against the 11 V1 conditions and came back *structural*, not predictive: `theories == min(competing_subjects, MAX_THEORIES)` holds in 100% of cycles in 9 of 11 conditions, so the gate is restated as a count and a fifth gate (**G-SUS**, sustained rather than peaked) was added. The exact density census over all 11 conditions is in `docs/mbsd_census.json` — **no existing condition sustains more than 1.95 competing subjects on average, and only 4 of 9 ever reach 3.** The branch stimulus then cleared every gate *on peaks only*, and a repeat-count boundary appeared (4 worked, 6 and 10 collapsed). **The boundary was an artifact**: `tag_counts` was maintained over *all* events while the graphs it normalises are world-only, so the Layer-1 survival filter compared a world edge count against a polluted denominator. Fixed in `organica/memory.py` (counter now world-scoped, with a `meta` scope marker so an old database rebuilds exactly once). After the fix the branch stimulus holds **18 beliefs and 7 competing subjects with 100% of tail cycles passing every gate**, and the apparent phase transition disappears — r=4, 6 and 10 now behave identically. Added `benchmarks/gate_check.py`, `benchmarks/freq_scope_probe.py`, `benchmarks/branch_sweep2.py`, `benchmarks/branch_diag2.py`, `benchmarks/mbsd_census.py`, `benchmarks/gate_validation.py`, `organica/branch_streams.py`; added `tests/test_substrate_equivalence.py` scope-consistency regression test (36/36 tests pass). **Added §8.4.** **Corrected facts sheet D8b in place** — the claim that the pollution was "not the cause of anything" was wrong. Gate definitions frozen in `docs/FORCE-MATRIX-PREREGISTRATION.md` §1 (measured on the pre-retention pool, so they do not depend on the arm under test). Journal §21. |

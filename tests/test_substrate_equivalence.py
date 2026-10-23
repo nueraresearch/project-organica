@@ -3,12 +3,20 @@ tests/test_substrate_equivalence.py
 ------------------------------------------------------------------
 Phase G: prove the substrate changes are behaviour-preserving.
 
-Three substrate changes were made so the 90-day longitudinal study can
+Four substrate changes were made so the 90-day longitudinal study can
 actually run:
 
   1. `tag_frequencies()` now reads an incrementally maintained
      `tag_counts` table instead of scanning the whole `events` table.
-     The RESULT must be identical to the historical full scan.
+     The RESULT must be identical to a full scan over WORLD events.
+
+  1a. The counter's SCOPE was corrected. It previously counted the
+     organism's own sleep payloads as well, while the co-occurrence and
+     temporal graphs it normalises are world-only. The Layer-1 survival
+     filter therefore compared a world edge count against a polluted
+     denominator, which discarded the world's own structure (research
+     journal §21). The scope-consistency test below is the regression
+     test.
 
   2. The monotonic sleep-cycle counter moved from "scan the last 500 sleep
      events for a `_sleep_meta` marker" to a dedicated `sleep_cycles`
@@ -40,8 +48,20 @@ from organica.sleep import SleepService  # noqa: E402
 
 
 def legacy_full_scan_counts(conn) -> dict:
-    """The ORIGINAL tag-frequency implementation, reproduced verbatim."""
-    rows = conn.execute("SELECT tags FROM events").fetchall()
+    """The ORIGINAL tag-frequency implementation, reproduced verbatim.
+
+    Scoped to WORLD events, which is what the counter means now. The
+    counter is the denominator of the Layer-1 edge strength
+    (`ratio = count / source_freq`), and the co-occurrence and temporal
+    graphs it normalises are built from world events only. Counting the
+    organism's own sleep payloads in the denominator while the numerator
+    stays world-only made the two sides of that ratio measure different
+    populations; the measured consequence was that a branch stimulus
+    collapsed to 4 surviving edges, 0 processes and 0 beliefs (research
+    journal §21).
+    """
+    rows = conn.execute(
+        "SELECT tags FROM events WHERE event_type != 'sleep'").fetchall()
     counter: dict = {}
     for (tags_str,) in rows:
         for tag in (tags_str or "").split(","):
@@ -57,7 +77,9 @@ def test_tag_frequencies_matches_legacy_full_scan(tmp_path):
     mem = MemoryService(tmp_path / "eq.db")
     for text in ["alpha beta gamma", "beta delta", "alpha alpha epsilon"]:
         mem.store(text, event_type="event", source="test")
-    # sleep payloads contribute tags too -- the legacy scan counted them
+    # Sleep payloads are stored, but they are not part of the world the
+    # organism perceives, so they contribute to neither the graph nor the
+    # frequency counter that normalises it.
     mem.store(json.dumps({"type": "concept_candidate", "members": ["alpha", "beta"],
                           "confidence": 0.9}), event_type="sleep", source="sleep:concept_candidate")
     mem.store(json.dumps({"type": "loop_candidate", "path": ["gamma", "delta"]}),
@@ -69,6 +91,41 @@ def test_tag_frequencies_matches_legacy_full_scan(tmp_path):
     assert current == legacy, (
         f"tag_frequencies diverged from the legacy full scan.\n"
         f"legacy : {legacy}\ncurrent: {current}"
+    )
+    mem.close()
+
+
+def test_tag_frequency_scope_matches_graph_scope(tmp_path):
+    """The counter that normalises an edge count must see the same
+    population the edge count was drawn from.
+
+    This is the regression test for the scope defect that collapsed the
+    branch stimulus: the temporal graph was world-only while the
+    frequency counter included the organism's own sleep payloads, so the
+    Layer-1 survival filter discarded the world's structure (research
+    journal §21).
+    """
+    mem = MemoryService(tmp_path / "scope.db")
+    mem.store("alpha bravo charlie", event_type="event", source="test")
+    before_freqs = dict(mem.tag_frequencies())
+    before_graph = mem.temporal_edges(min_count=1)
+
+    mem.store(json.dumps({"type": "hypothesis_candidate", "subject": "alpha",
+                          "expectation": "bravo", "generation": 3}),
+              event_type="sleep", source="sleep:hypothesis_candidate")
+    mem.store(json.dumps({"type": "workflow_concept",
+                          "components": ["alpha", "bravo", "charlie"]}),
+              event_type="sleep", source="sleep:workflow_concept")
+
+    after_freqs = dict(mem.tag_frequencies())
+    after_graph = mem.temporal_edges(min_count=1)
+
+    assert after_freqs == before_freqs, (
+        "a sleep payload changed the tag-frequency counter; the counter "
+        "must share the scope of the graph it normalises."
+    )
+    assert after_graph == before_graph, (
+        "a sleep payload changed the temporal graph."
     )
     mem.close()
 

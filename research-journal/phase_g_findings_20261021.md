@@ -1049,3 +1049,528 @@ Both were found by checking a measurement against the substrate it claims to des
 | `docs/FACTS-SHEET.md` | Every measured claim with its provenance, separated from assumptions |
 | `docs/GATE-BOARD.md` | Gate status, the G-P1 gate, the G1-G4 perturbation ladder, the decision backlog |
 | `tests/test_retention_policy.py` | 18 tests pinning the retention semantics, the marker allowance, the unit-free tension term and the contradiction-scale hook |
+
+
+## 20. Validating the gate before designing the stimulus
+
+### 20.1 Why this section exists
+
+§19 established that the Tier-1 campaign cannot be run on the current
+stimulus: retention pressure on the hypothesis layer is 0.35, so the
+`FULL` and `SALIENCE_RETENTION` arms would be the same colony. The
+proposed way out was to replace the stimulus with one carrying more
+*branch structure* — more subjects with competing successors.
+
+The proposed gate for that stimulus was **Multi-Belief Subject Density**:
+
+```
+MBSD = (subjects holding >= 2 active beliefs) / (all belief subjects)
+```
+
+with the binding criterion being an absolute count of >= 3 competing
+subjects. That gate was a **hypothesis**, and a hypothesis is not worth
+building a stimulus on. The cheapest available test was against data that
+already existed: the 11 V1 ablation conditions.
+
+The V1 harness already recorded, per cycle, `competing_subjects` (the
+number of subjects holding >= 2 distinct expectations) alongside the
+theory count, in `docs/ablation_study.json` →
+`observations.contradiction_history`. **No new run was needed to compute
+the numerator.**
+
+### 20.2 Finding 17 — the theory count is not *predicted* by subject competition; it *is* subject competition
+
+| Condition | mean competing subjects | max | final theories | identity holds | r(cycle) |
+|---|---:|---:|---:|---:|---:|
+| O_FULL Full system | 1.37 | 4 | 1 | **100.0%** | 1.000 |
+| A No Sleep | 0.00 | 0 | 0 | 100.0% | n/a |
+| B No Lineage | 1.37 | 4 | 1 | 100.0% | 1.000 |
+| C No Curiosity | 1.83 | 4 | 3 | 100.0% | 1.000 |
+| D No Falsification | 0.16 | 4 | 0 | 100.0% | 1.000 |
+| E No Dreams | 0.38 | 4 | 0 | 100.0% | 1.000 |
+| **F No Hypothesis Layer** | **0.00** | **0** | **6** | **18.0%** | n/a |
+| G No Questions | 1.56 | 4 | 1 | 100.0% | 1.000 |
+| H Random Curiosity | 1.21 | 4 | 0 | 100.0% | 1.000 |
+| I Random Sleep | 1.41 | 4 | 1 | 99.7% | 0.998 |
+| J Memory Without Structure | 0.00 | 0 | 0 | 100.0% | n/a |
+
+**The identity `theories == min(competing_subjects, MAX_THEORIES)` holds in
+100% of cycles in 9 of the 11 conditions.** The two exceptions are the two
+conditions that are *designed* to break it:
+
+* **F (No Hypothesis Layer)** bypasses Generation 4 entirely and builds
+  theories and questions straight from workflow components. It produces
+  **6 theories with 0 competing subjects**, and the identity holds in only
+  18% of its cycles. This is not a failure of the identity — it is the
+  proof of the *mediation claim*: theories are formed from subject
+  competition, and F shows the competition can be bypassed.
+* **I (Random Sleep)** randomises every layer, so it breaks the identity
+  in 0.3% of cycles.
+
+**The cross-condition correlation is much weaker than the within-cycle
+identity**, and it is worth being precise about why:
+
+```
+corr(mean competing subjects, final theories)   =  0.017   (all 11)
+                                                =  0.775   (excluding F)
+```
+
+The final-cycle snapshot is a noisy statistic for a quantity the project
+already knows oscillates (journal finding 6), and F is a designed
+exception that inverts the relationship. The per-cycle identity is the
+result that generalises; the final-cycle correlation is not.
+
+### 20.3 What this does to the proposed gate
+
+**The gate is validated — but in a stronger form than proposed, and the
+form changes.**
+
+The numerator of MBSD is not a *predictor* of theory formation. It **is**
+the mechanism. Layer 5 does nothing except coalesce, one theory per
+subject holding two or more competing beliefs. Consequently:
+
+1. **The density ratio adds no information beyond the absolute count.**
+   The ratio is a function of two counts the mechanism already ties
+   together, and the absolute count is what Layer 5 actually consumes. The
+   gate is therefore stated as a **count**, and the density is retained
+   only as a reported statistic.
+2. **A second cap was found, in the same family as the first.**
+   `MAX_THEORIES = 8` caps theory capacity at 8. A stimulus producing more
+   than 8 competing subjects would push the surplus *invisible* to M1, M8
+   and M9 — **the same measurement blind spot as the hypothesis cap, one
+   layer up**. The gate therefore carries a fourth condition, **G-EXP**:
+   the theory population must never reach the cap.
+3. **The design target follows from the measurement, not from taste.**
+   The stimulus must produce **5–7 competing subjects**:
+   * at least 3, because that is the proposed bar and the minimum for a
+     theory ecology worth comparing;
+   * at most 7, because `MAX_THEORIES = 8` and an unsaturated theory layer
+     is required for M8 and M9 to be able to see anything move;
+   * with 2–3 beliefs each, giving a belief pool of roughly 12–24, which
+     can cross the 15-slot hypothesis cap and satisfy G-P1.
+
+So the target is not "more tags" and not "more volume". It is
+**5–7 subjects, each with 2–3 competing successors, distributed so that
+the belief pool exceeds 15.**
+
+### 20.4 The honest caveat on all of this
+
+Everything above is measured on **one stimulus** — the 48-event study
+stream — and on ablations of it. A branch-structured stimulus is
+*engineered*, in the same way the current study stream is engineered
+(§14 and §2.1 of this journal both record that the original stream was
+replaced precisely because it was too narrow to exercise the architecture).
+Results on an engineered stimulus are evidence that the **architecture
+can** support the behaviour, not that it does so **unassisted**. The
+unassisted question is a separate experiment, and §14's cold-start design
+is the instrument for it.
+
+The gates below are therefore stated as *preconditions for the campaign to
+be informative*, not as claims about the organism.
+
+### 20.5 Artefacts
+
+| Artefact | Contents |
+|---|---|
+| `benchmarks/gate_validation.py` -> `docs/gate_validation.json` | The identity test, the cross-condition correlation, and the high-theory check, from the V1 artifact |
+| `benchmarks/mbsd_census.py` -> `docs/mbsd_census.json` | The exact MBSD density (with the denominator) for all 11 conditions, re-running the V1 condition classes verbatim |
+| `docs/FORCE-MATRIX-PREREGISTRATION.md` | The frozen metric contract and the four gates, committed before the campaign |
+
+---
+
+## 21. Milestone M0.5 — mechanism closure
+
+### 21.1 What the milestone asked for
+
+Five items, in the owner's words:
+
+1. Complete the MBSD census.
+2. Determine whether MBSD is a **predictor** or a **definition**.
+3. Explain the r=4 / r=6 / r=10 collapse boundary. *"Don't ship 'r=4' because it
+   works. Explain why 'r=4' works."*
+4. Extract the surviving edge topology from the study stream.
+5. Replicate that topology intentionally in the branch stimulus.
+
+Items 1, 2 and 4 are closed below. Item 3 and item 5 depend on a single
+mechanism that had to be found first, and it was.
+
+### 21.2 Item 1 — the census is complete (11 of 11 conditions)
+
+`benchmarks/mbsd_census.py` → `docs/mbsd_census.json`. Every V1 condition
+class was re-run **verbatim** for 300 cycles with an instrument that records
+the belief pool *before* retention, so the density has a real denominator
+instead of a missing one.
+
+| Cond | Intervention | subjects mean/max | subjects ≥2 mean/max | MBSD | belief pool mean/max | pressure | ≥3 abs | ≥0.50 dens |
+|------|--------------|---|---|---:|---|---|:--:|:--:|
+| **O_FULL** | reference | 3.53 / 5 | 1.39 / **3** | 0.392 | 4.92 / 8 | 0.33 | ✅ | ❌ |
+| A | No Sleep | — | — | — | — | — | — | — |
+| B | No Lineage | 3.53 / 5 | 1.39 / **3** | 0.392 | 4.92 / 8 | 0.33 | ✅ | ❌ |
+| C | No Curiosity | 3.47 / 5 | 1.91 / **3** | **0.550** | 5.37 / 8 | 0.36 | ✅ | ✅ |
+| D | No Falsification | 0 / 0 | 0 / 0 | 0.000 | 0 / 0 | 0.00 | ❌ | ❌ |
+| E | No Dreams | 4.27 / 5 | 0.07 / 1 | 0.016 | 4.33 / 6 | 0.29 | ❌ | ❌ |
+| F | No Hypothesis Layer | — | — | — | — | — | — | — |
+| G | No Questions | 5.00 / 5 | 1.49 / **3** | 0.299 | 6.49 / 8 | 0.43 | ✅ | ❌ |
+| H | Random Curiosity | 5.00 / 5 | 1.95 / 2 | 0.389 | 6.95 / 7 | 0.46 | ❌ | ❌ |
+| I | Random Sleep | 0 / 0 | 0 / 0 | 0.000 | 0 / 0 | 0.00 | ❌ | ❌ |
+| J | Memory Without Structure | 0 / 0 | 0 / 0 | 0.000 | 0 / 0 | 0.00 | ❌ | ❌ |
+
+*A and F bypass Layer 4 by design, so there is no belief pool and MBSD is
+undefined; F's 6 theories come from a different route entirely.*
+
+What the census adds on top of §20:
+
+1. **The gate has never been met, even as a peak, in a way that would make a
+   campaign meaningful.** The ≥3-subject form is touched by 4 of the 9
+   measurable conditions; the **≥5** form is met by **none**. Mean competing
+   subjects never exceeds **1.95**.
+2. **C (No Curiosity) is the only condition that reaches density ≥ 0.50.**
+   Removing curiosity *raises* belief density — the same direction as V1's C
+   row, now visible at the density level.
+3. **B (No Lineage) reproduces O_FULL exactly** on every belief metric. The V1
+   control holds at the density level too.
+4. **E (No Dreams) has the most subjects and almost no competition** (4.27
+   subjects, 0.07 with ≥2). Dreams are load-bearing for *competition*, not for
+   subject count.
+5. **H (Random Curiosity) has the highest mean (1.95) but never reaches 3.** A
+   better mean does not mean the gate is close.
+6. **D, I and J produce no beliefs at all** in 300 cycles.
+
+### 21.3 Item 2 — the answer is **Case B: MBSD is structural, not predictive**
+
+The milestone's two cases were:
+
+* **Case A** — more competing subjects *causes* more theories, because the
+  architecture develops richer belief structures.
+* **Case B** — workflow composition *produces* competing subjects, which
+  *produces* the theory count, so the theory count is mathematically
+  determined by the same structure.
+
+**The measurement says Case B, and it says it as an identity rather than a
+correlation.** `theories == min(competing_subjects, MAX_THEORIES)` holds in
+**100% of cycles in 9 of the 11 conditions**, 99.7% in Random Sleep, and 18.0%
+in No-Hypothesis-Layer — the one condition that bypasses Layer 4 by design
+and builds 6 theories with **zero** competing subjects.
+
+Two consequences, and they are not the same kind of consequence:
+
+1. **The density ratio is not a developmental metric.** It is a restatement of
+   the count, and the count is the mechanism's input, not its output. A gate
+   built on a ratio that is definitionally tied to its numerator adds no
+   information.
+2. **The interesting scientific question moves.** It is no longer "does more
+   competition cause more theory?" — that is settled by arithmetic. It is
+   **"what makes a subject hold more than one expectation at all?"** That is a
+   question about the substrate, not about the metric.
+
+This is the same shape as the V1.5 audit result: the hypothesis ("EIG is a
+developmental force") died, and a sharper, smaller question replaced it
+("EIG ranks perfectly and buys nothing measurable — because selection is not
+the binding constraint").
+
+### 21.4 Item 4 — the surviving edge topology of the only stimulus that works
+
+The branch stimulus collapsed; the study stream does not. So the study
+stream's surviving topology was extracted directly
+(`benchmarks/branch_diag2.py`, 60 cycles, `docs/`-adjacent scratch artifact).
+
+**Study stream — 20 distinct surviving prediction pairs** (the window is
+*full* at the cap of 20, so the study stream is not window-limited):
+
+```
+developer -> suite   325   strength 0.555      suite    -> developer  304   0.589
+session  -> developer 174  0.555               modified -> developer 154  0.305
+developer-> executed  150  0.552               executed -> suite    146   0.494
+session  -> developer 146  0.304               developer-> modified 143   0.302
+suite    -> report    140  0.319               report   -> suite    136   0.491
+session  -> suite     138  0.304               executed -> developer 135  0.479
+developer-> session   137  0.302               suite    -> executed 134   0.318
+developer-> report    131  0.302               modified -> suite    133   0.304
+report   -> developer 126  0.477               developer-> suite    125   0.317
+suite    -> modified  125  0.317               suite    -> session   125   0.317
++ defect->engineer, regression->engineer (the two defect-corpus tags)
+```
+
+**Every surviving edge has strength in the band 0.30 – 0.78.** That band is
+the whole story: `STABLE_THRESHOLD = 0.3` is the floor, and the working
+edges sit just above it.
+
+From that window the engine produced **10 processes** — 6 two-cycles and 4
+**three-cycles**:
+
+```
+['suite','modified','developer']   ['suite','session','developer']
+['suite','executed','developer']   ['suite','report','developer']
+```
+
+and **10 workflows**, four of them three-component:
+
+```
+['developer','executed','suite']   ['developer','report','suite']
+['developer','session','suite']     ['developer','modified','suite']
+```
+
+**The four three-component workflows all share the pair {developer, suite}.**
+That pair is the *only* high-share reciprocal structure in the study stream,
+and it is what produces every multi-belief subject the organism has. The
+seven resulting beliefs are:
+
+```
+developer -> suite      suite -> developer      report -> developer
+report   -> suite       session-> developer     session-> suite
+modified -> developer
+```
+
+**This is the topology to replicate.** Not "more tags". A small set of tags
+whose outgoing flow is *split*, each split holding ≥ 15% of the source's
+outgoing flow, with the reciprocals landing on one or two hub tags.
+
+### 21.5 The mechanism — two filters, and one of them is mis-scoped
+
+Reading the engine produced a single causal chain, and it is short:
+
+```
+temporal edge (world)  →  Layer 1 prediction candidate
+                        →  strength = min(1, count / source_freq)
+                        →  survives to stable_prior only if strength >= 0.3
+                        →  Layer 2 process (2-cycle or 3-cycle)
+                        →  Layer 3 workflow (process with >= 2 meta anchors)
+                        →  Layer 4 belief (ordered pair of workflow components)
+                        →  belief kept only if support/total_outgoing_flow >= 0.15
+                        →  Layer 5 theory (one per subject holding >= 2 beliefs)
+```
+
+Two filters decide whether a subject ever holds more than one belief, and
+they are **not scoped the same way**:
+
+* **Filter 1 (Layer 1 → stable_prior)** uses `source_freq` from
+  `MemoryService.tag_frequencies()`.
+* **Filter 2 (Layer 4, belief death)** uses `total_flow` from the **temporal
+  graph** — world events only.
+
+And `MemoryService.store()` builds the graph from world events only, while
+the frequency counter is maintained for **every** stored event:
+
+```python
+# Only build graph edges from external experience, not internal
+# sleep output.  Sleep candidates are stored but don't pollute the
+# co-occurrence / temporal graphs.
+if event_type != "sleep":
+    self._record_cooccurrences(event.tags)
+    self._record_temporal_edges(event.tags)
+# Maintain the incremental tag-frequency counter. This mirrors
+# exactly what a full `SELECT tags FROM events` scan would count
+# (including tags contributed by sleep payloads), but in O(1)
+# amortised time instead of O(total rows) per sleep cycle.
+self._record_tag_counts(event.tags)
+```
+
+**So the numerator of the strength ratio is world-only and its denominator
+includes the organism's own output.** The counter is a correct
+*count of tag occurrences*; it is the wrong *normaliser* for a world-graph
+ratio.
+
+This is the same contamination the facts sheet measured at **60.6%** of tag
+occurrences being the organism's own JSON field names (§D8), and it is
+decision-backlog **row 8** — *"Is the organism's own output polluting its
+input?"* — which had been carried as an open question. It is now a measured
+mechanism with a located cause.
+
+#### 21.5.1 What it does to the branch stimulus, measured
+
+The lattice stimulus died at the first filter, and the diagnostic shows
+exactly how. For the tag `alpha` (the shared hub of the lattice):
+
+```
+count   src        tgt       source_freq  ratio  survived
+   930       alpha       bravo    21516  0.043  no
+   877       bravo       alpha    84767  0.010  no
+   331     charlie       alpha   100516  0.003  no
+   312       alpha     charlie    21516  0.015  no
+   306       delta       alpha     1901  0.161  YES
+   299       delta       bravo     1901  0.157  YES
+   116      subject       bravo     1461  0.079  YES
+   115     experiment       alpha     2378  0.049  YES
+```
+
+`alpha` occurs 21,516 times in the substrate; `developer` in the study stream
+occurs 585. The lattice's edges therefore have ratios of 0.003 – 0.16,
+**all below the 0.3 survival floor**, and the window collapsed to **4
+distinct pairs** — two of which were the organism's own field names
+(`subject -> bravo`, `experiment -> alpha`).
+
+With four surviving pairs there was no reciprocal pair, so:
+
+```
+processes: 0
+workflows: 0
+beliefs:   0
+```
+
+**The collapse was not a stimulus-design failure. It was a denominator
+failure.** The stimulus's edges were ranked first by count (they were the
+top of the temporal graph, 930 vs 118) and then destroyed by the survival
+filter, because the filter's denominator included the organism's own output.
+
+### 21.6 Item 3 — the r=4 / r=6 / r=10 boundary, explained
+
+The first branch generator passed all four gates at r=4 and collapsed at r=6
+and r=10. The reason is **not** a phase transition in the stimulus, and
+this is the one place where the working hypothesis was wrong and the
+measurement overruled it.
+
+The first explanation attempted was an edge-budget story: a longer stream
+produces more distinct edges, the prediction window holds 20, so the
+structural edges get displaced and the supply starves. That explanation
+was **tested and refuted**. The probe re-ran all three repeat counts with
+the frequency scope corrected, and every one of them works:
+
+| stimulus | scope = all (before) | scope = world (after) |
+|---|---|---|
+| `branch_r4` | win 5.65/21 · bel 5.43/19 · ge2 1.72/7 · **sus 0.27** · zero 0.55 | win 20/20 · bel **18.00/18** · ge2 **7.00/7** · **sus 1.00** · zero **0.00** |
+| `branch_r6` | win 2.90/6 · bel 0.60/18 · ge2 0.12/7 · **sus 0.02** · zero 0.83 | win 21/21 · bel **17.95/18** · ge2 **7.00/7** · **sus 1.00** · zero **0.00** |
+| `branch_r10` | win 4.57/21 · bel 5.00/19 · ge2 1.98/8 · **sus 0.28** · zero 0.72 | win 20.5/21 · bel **18.13/19** · ge2 7.13/8 · **sus 1.00** · zero **0.00** |
+
+*(`win` = distinct surviving prediction edges · `bel` = belief pool mean/max ·
+`ge2` = subjects holding ≥ 2 beliefs mean/max · `sus` = fraction of tail
+cycles in which every gate holds simultaneously · `zero` = fraction of tail
+cycles with no beliefs at all.)*
+
+**There was no boundary.** r=4, r=6 and r=10 produce *the same* result once
+the denominator is correct: a full prediction window, a belief pool of 18,
+seven competing subjects, and **100%** of tail cycles passing every gate
+simultaneously. What r changed, under the broken scope, was only how badly
+the pollution happened to suppress the edges — and the difference between
+"works" and "collapses" was a property of the *measurement*, not of the
+stimulus.
+
+**The generalisable lesson is the one the milestone was reaching for.**
+A stimulus parameter that flips a result between "works" and "collapses"
+is not a boundary condition of the system under study; it is a statement
+about the instrument. The parameter was interacting with a mis-scoped
+denominator, and the interaction looked exactly like a phase transition
+because the denominator's pollution grows with the organism's output, which
+grows with the stimulus. The owner's instruction — *"don't ship 'r=4'
+because it works; explain why 'r=4' works"* — is what forced this to be
+measured rather than adopted, and the measurement removed the parameter
+from the design entirely.
+
+**The correction was made to the substrate, not to the stimulus**
+(`organica/memory.py`), and it is disclosed in §21.8.
+
+### 21.7 Item 5 — the branch stimulus, designed from the surviving topology
+
+The design rule that falls out of §21.4 and §21.5, stated as constraints
+rather than as a parameter:
+
+1. **Every subject's outgoing flow must be split**, with ≥ 2 targets each
+   holding ≥ 15% of that flow (the Layer-4 death threshold) — and ideally
+   ≥ 30%, so the belief is not marginal.
+2. **The structural edges must all fit inside the prediction window** —
+   the window is 20 slots, so the stimulus should produce well under 20
+   *distinct* structural edges, not hundreds.
+3. **The split must be reciprocal**, because a 2-cycle or 3-cycle is the only
+   thing the process builder accepts, and a 3-cycle is the only thing that
+   yields a subject with more than one expectation.
+4. **The denominator must be the world's**, not the organism's.
+
+Constraint 3 is the one that is easiest to get wrong and the one the first
+generator got wrong: a workflow's components are the tags of a **3-cycle**,
+and a 3-cycle gives its three subjects exactly two beliefs each. So the
+unit of competing expectation is a triangle, and the stimulus must be built
+out of triangles — which is what `organica/branch_streams.py` now does.
+
+**Three disjoint triangles give exactly the derived target**, and the
+measurement matched the arithmetic prediction to the unit:
+
+```
+3 triangles x 3 tags            = 9 tags, 7 subjects after overlap
+3 triangles x 6 ordered pairs   = 18 distinct (subject, expectation) pairs
+7 subjects x >= 2 beliefs each  = 7 competing subjects
+18 / MAX_HYPOTHESES (15)        = 1.20 retention pressure
+7 theories                      < MAX_THEORIES (8)  ->  G-EXP holds
+```
+
+Measured on the corrected substrate: **18.00 beliefs, 7.00 competing
+subjects, 5 theories, 100% of tail cycles passing every gate
+simultaneously.** The prediction was derived from the mechanism before the
+run and it held.
+
+Two lattice designs pass every gate (`L1` — 7 subjects, `L3` — 6 subjects);
+two do not (`L2`/`L4` — the belief pool reaches only 14, below the 15 that
+G-P1 needs). The failures are informative: the shared-hub lattices produce
+*more* competing subjects per triangle but *fewer* total beliefs, because
+the hub's edges carry the flow. The disjoint lattice wins on the quantity
+that actually matters.
+
+### 21.8 The correction, and what it changes
+
+**The fix.** `MemoryService.store()` now maintains the tag-frequency counter
+inside the same `event_type != "sleep"` branch that builds the
+co-occurrence and temporal graphs:
+
+```python
+if event_type != "sleep":
+    self._record_cooccurrences(event.tags)
+    self._record_temporal_edges(event.tags)
+    self._record_tag_counts(event.tags)
+```
+
+A `meta` table records the scope the counters were built with, so a
+database written by an older build rebuilds its counter **exactly once**
+instead of mixing two populations in one table. `tests/test_substrate_equivalence.py`
+gains a scope-consistency regression test: *a sleep payload must change
+neither the temporal graph nor the frequency counter that normalises it.*
+
+**This is a behaviour change and it is disclosed here.**
+
+| | before | after |
+|---|---:|---:|
+| study stream, belief pool mean | 6.83 | 5.97 |
+| study stream, competing subjects mean | 1.83 | **0.97** |
+| study stream, theories mean | 1.42 | 1.11 |
+| branch stimulus, belief pool mean | 5.43 (intermittent) | **18.00 (constant)** |
+| branch stimulus, competing subjects mean | 1.72 (intermittent) | **7.00 (constant)** |
+
+**The study stream gets slightly worse, and that is the important part.**
+Under the broken scope, the pollution suppressed edges *selectively* — it
+removed the low-share edges and left a concentrated set, and a
+concentrated set is exactly what produces a high-share subject and a
+theory. The study stream's "1 theory, 1 competing subject" was partly an
+**artifact of the defect**. It is still 1 theory and 1 question; the
+headline does not change, but the number is no longer a fact about the
+world.
+
+Three consequences, stated plainly:
+
+1. **The V1 ablation results were produced on the broken scope.** The V1
+   population table, the 11-condition census, and the MBSD validation all
+   carry this. They are internally consistent — every condition ran on the
+   same substrate — so the *comparisons* stand, but the absolute
+   densities are not directly comparable to post-fix numbers. No V1
+   conclusion in this journal is retracted, because every one of them is a
+   comparison, and the comparisons are unaffected.
+2. **The live 90-day run has a discontinuity.** It is running the
+   pre-fix build. The restart at the fix is recorded in the log by the
+   build marker, and the sleep cycle at which it happened is recorded in
+   the manual's revision log.
+3. **The fix is applied identically to all six V2 colonies**, so the
+   campaign's internal comparisons are unaffected by it. It is not a
+   confound *within* the campaign; it is a change of substrate *before* the
+   campaign, which is what a pre-registration is for.
+
+### 21.9 What this milestone did not settle
+
+* **The unassisted question is untouched.** Every stimulus here is
+  engineered. Whether the organism finds branch structure in the world
+  without being handed it is still §14's cold-start question and needs its
+  own instrument.
+* **The retention policy is still unmeasured as a developmental force.** The
+  gates now pass on the branch stimulus, which is the *precondition*; the
+  question of whether `FULL` and `SALIENCE` differ on M1–M9 is the
+  campaign's question and has not been run.
+* **The cause of the original supply limitation is now a substrate scope
+  mismatch, not the stimulus.** That is a satisfying answer and it is
+  *also* a smaller claim than "the organism is supply-limited". It is
+  still true that the world gives the organism one competing subject; it is
+  no longer true that a better stimulus could have fixed that by itself.
