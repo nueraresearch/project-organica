@@ -930,6 +930,7 @@ project-organica/
 │   ├── seed_noise.py              # the within-process seed floor
 │   ├── process_noise.py           # the process-level floor a delta must actually beat
 │   ├── v1_impact.py               # V1 before vs after the scope fix, incl. interpretations
+│   ├── verdicts.py                # every pre-registered prediction, forced into a bucket
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
@@ -958,6 +959,7 @@ project-organica/
 │   ├── ablation_study.json      # the ablation results
 │   ├── ablation_study_postfix.json  # ...re-run on the fixed substrate
 │   ├── v1_impact.json           # V1 before vs after, incl. the RETRACTED interpretations
+│   ├── verdicts.json             # the five pre-registered predictions, bucketed
 │   ├── gate_validation.json     # is the gate a predictor or a definition?
 │   ├── mbsd_census.json         # exact gate density across all 11 V1 conditions
 │   ├── mbsd_census_postfix.json # ...and the same census on the fixed substrate
