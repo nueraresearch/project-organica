@@ -53,6 +53,9 @@ all 90 cycles. The seed is the only source of stochastic variation. These
 are replications within two specified synthetic generator families, not
 independent real-world environments.
 
+Launch the campaign with `PYTHONHASHSEED=0` so process-level hash iteration is
+common across systems and worlds; record the value in the output artifact.
+
 ## Models and information parity
 
 All systems receive the same ordered event stream. They start without prior
