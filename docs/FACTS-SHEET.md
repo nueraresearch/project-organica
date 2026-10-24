@@ -526,4 +526,44 @@ records and internal cycle counts: `docs/regime_shift_results.json`; frozen
 protocol: `docs/REGIME-SHIFT-PREREGISTRATION.md`; runner:
 `benchmarks/regime_shift.py`.
 
+## R. Phase J Gradual Post-Shift Adaptation — MEASURED (2026-10-23)
+
+The frozen campaign ran 20 paired shifted and stationary-control worlds in
+each of two generator families (80 worlds total), with PYTHONHASHSEED=0.
+The event-level next-tag NLL was measured online during cycles 30–79. The
+primary shift-specific measure is each model's mean NLL in the shifted world
+minus its paired stationary-control mean; positive baseline-minus-Organica
+differences favor Organica. Lower NLL is better.
+
+| Generator family | Model | Shifted NLL | Control NLL | Adaptation cost |
+|---|---|---:|---:|---:|
+| Cause-mixture ramp | Organica | 6.441 | 3.944 | 2.497 |
+|  | First-order Markov | 1.234 | 1.056 | 0.178 |
+|  | Decayed association | 1.221 | 1.098 | 0.122 |
+| Mapping-mixture ramp | Organica | 7.702 | 4.975 | 2.727 |
+|  | First-order Markov | 1.350 | 0.908 | 0.442 |
+|  | Decayed association | 1.207 | 0.931 | 0.276 |
+
+Baseline-minus-Organica adaptation-cost differences were **−2.319** nats/event
+for Markov (97.5% interval [−2.798, −1.865]) and **−2.375** for decayed
+association ([−2.853, −1.920]) in cause-mixture worlds. In mapping-mixture
+worlds they were **−2.285** ([−2.700, −1.854]) and **−2.451**
+([−2.865, −2.022]), respectively. All four intervals favor the baselines.
+
+The final-stable non-inferiority guard also failed: Organica's NLL exceeded
+Markov by **4.478** nats/event ([3.944, 4.989]) and decayed association by
+**4.500** ([3.967, 5.011]) in cause-mixture worlds; corresponding mapping
+gaps were **3.617** ([3.018, 4.169]) and **3.796** ([3.199, 4.348]). The
+preregistered primary rule was not met in either family. The result gives no
+evidence that Organica adapts with less predictive error on these tasks.
+
+These are replications within two specified synthetic gradual-transition
+families, not a sample of natural environments. The adaptation cost is
+paired to a stationary control and the final-stage guard checks absolute
+shifted-world performance; neither isolates a particular cognitive layer.
+The self-referenced settling-time measure is descriptive only. Full per-world
+loss curves: docs/post_shift_adaptation_results.json; protocol:
+docs/PHASE-J-ADAPTATION-PREREGISTRATION.md; runner:
+benchmarks/post_shift_adaptation.py.
+
 

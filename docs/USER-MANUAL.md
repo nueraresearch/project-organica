@@ -67,7 +67,7 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 20:27 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 22:13 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
@@ -85,7 +85,8 @@ failed cycles       : 0
 | **V1 before/after** | **COMPLETE** — 21 reversals, and three interpretations **retracted**. `docs/v1_impact.json`; journal §22. |
 | **Phase H external-validity campaign** | **COMPLETE** — ten seeds, fixed held-out curriculum, three latent-cause difficulty levels; simple baselines lead overall. Full intervals in `docs/phase_h_results.json`; journal §28. |
 | **Phase I regime-shift benchmark** | **COMPLETE** — 20 shifted and 20 stationary worlds per family. Primary success rule not met: cause-mixture comparisons inconclusive; Markov and decayed controls exceeded the 10% false-alarm gate in mapping-swap (15%). Results: `docs/regime_shift_results.json`; journal §29. |
-| Git | Phase H work is prepared on branch `phase-h-external-validity`; package remains pre-1.0. |
+| **Phase J gradual-adaptation benchmark** | **COMPLETE** — 20 paired shifted/control seeds in each of two gradual-transition families (80 worlds total). Organica's preregistered adaptation-cost advantage and final-stable non-inferiority gates both failed in both families; Markov and decayed association had much lower NLL. Results: `docs/post_shift_adaptation_results.json`; journal §30. |
+| Git | Phase I PR #3 is merged; Phase J work is on branch `phase-j-post-shift-adaptation`; package remains pre-1.0. |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
@@ -263,6 +264,7 @@ run_dashboard_and_api.bat
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/ground_truth_recovery.py` | Recovers known same-cause feature pairs from 200 training cycles and scores Organica and graph baselines; writes `docs/ground_truth_recovery.json`. Pilot only; one seed. |
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/phase_h_campaign.py --seeds 10` | Runs the preregistered ten-seed prediction and clean/overlap/stress structure-recovery league; writes `docs/phase_h_results.json` with per-seed scores and bootstrap intervals. Default three workers. |
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/regime_shift.py --workers 3` | Runs Phase I: 20 shifted and 20 stationary-control worlds per family; writes per-world alarms, delays, and paired summaries to `docs/regime_shift_results.json`. |
+| PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/post_shift_adaptation.py --workers 3` | Runs Phase J: 20 paired shifted/control seeds per gradual-transition family; writes per-world NLL, adaptation costs, final-stable comparisons, and settling summaries to `docs/post_shift_adaptation_results.json`. |
 | `python benchmarks/ablation_study.py --cycles 300` | **Which parts of the architecture are actually load-bearing?** Ten ablations plus a full-system reference, scored forward-looking. |
 | `python benchmarks/ablation_verify.py --cycles 300` | **Did each ablation actually change the organism?** Perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Run this *before* reading any outcome. |
 | `python benchmarks/clone_check.py` | Clones the public repo into a temp directory and checks a stranger can run it: import, tests, `build.py`, all 9 examples, and that the live study is untouched. |
@@ -494,9 +496,9 @@ Ordered by how much they cost you if you skip them.
 | 2 | **If resuming: install the Scheduled Task supervisor** ([§4.2](#42-making-it-survive-90-days-)) | Configure restart behavior only after the owner authorizes collection again. | Deferred |
 | 3 | **If resuming: schedule the snapshot jobs and decide on a clean restart** | Resolve whether the preserved 5,396-cycle database is compatible with the V1.0.0 engine before choosing continuation or a new run. | Deferred |
 | 4 | **Write the designer-surprise predictions** | One metric answers your actual question — *"did it produce anything I did not anticipate?"* — and it cannot be automated, because only you can say what you expected. The scorer is built; it needs your predictions recorded **before** a run. | 20 min |
-| 5 | **Decide whether to recalibrate and replicate the Phase I detector** | The preregistered 3-SD detector stayed under the false-alarm gate for cause-mixture worlds, but Markov and decayed association each alarmed in 3/20 mapping-swap stationary controls. Do not tune the completed result; any recalibration requires a new frozen protocol. | Decision after review |
-| 6 | **Use structure-recovery results to design the next benchmark** | Co-occurrence beat Organica in clean, overlapping, and stress worlds; Organica's relative score declined as difficulty increased. This scores pairwise association, not intervention knowledge or held-out regime prediction. | Results complete |
-| 7 | **If Phase I remains inconclusive, broaden task discovery** | Consider novelty assimilation, anomaly localization, long-horizon dependency recovery, and transfer across related worlds; freeze each protocol before evaluation. | After detector review |
+| 5 | **Do not recalibrate the completed Phase I detector** | The 3-SD detector met the false-alarm gate for cause-mixture worlds, but Markov and decayed association each alarmed in 3/20 mapping-swap controls. Threshold tuning would change the completed protocol; Phase J tests a distinct adaptation question. | Resolved 2026-10-23 |
+| 6 | **Use structure-recovery results to choose the next benchmark** | Completed: co-occurrence beat Organica in clean, overlapping, and stress worlds; the result motivated an external task focused on adapting after gradual environmental change. | Complete |
+| 7 | **Use the Phase J result to guide V1.0.0 review** | The frozen benchmark found substantially higher Organica NLL and no adaptation-cost advantage over either baseline in either gradual-transition family. Do not infer usefulness from internal structure counts. | Results complete; see journal §30 |
 | 8 | **Only after a stable advantage, run targeted layer ablations** | Identify which mechanisms explain any task-specific advantage over the strongest simple baseline. | Later |
 
 **Completed on 2026-10-21 — recorded, not just done** (per rule 3 of [§18](#18-keeping-this-manual-current)):
@@ -968,6 +970,7 @@ project-organica/
 │   ├── ground_truth_recovery.py   # score recovered structure against hidden-cause pair ground truth
 │   ├── phase_h_campaign.py        # ten-seed prediction/recovery league with bootstrap intervals
 │   ├── regime_shift.py            # Phase I online surprise-based regime-shift detector and paired campaign
+│   ├── post_shift_adaptation.py   # Phase J gradual-transition adaptation benchmark and paired campaign
 │   ├── hub_degree_probe.py        # the Layer-1 survival threshold against hub degree
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
@@ -994,6 +997,8 @@ project-organica/
 │   ├── FORCE-MATRIX-RESULTS.md   # the Tier-1 matrix results and what they can/cannot answer
 │   ├── PHASE-H-PREREGISTRATION.md # frozen external-validity protocol, seeds, conditions, and decision rules
 │   ├── REGIME-SHIFT-PREREGISTRATION.md # frozen Phase I generator, detector, baselines, and decision rules
+│   ├── PHASE-J-ADAPTATION-PREREGISTRATION.md # frozen Phase J gradual-world schedules, metrics, and decision rules
+│   ├── post_shift_adaptation_results.json # Phase J 80-world NLL, adaptation-cost, and settling results
 │   ├── phase_h_results.json       # ten-seed external-validity campaign and paired difficulty trends
 │   ├── regime_shift_results.json  # Phase I 80-world detection-delay campaign and control false alarms
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
@@ -1418,3 +1423,5 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | **Preregistered Phase I regime-shift detection** before implementation or outcome generation: two synthetic generator families, one Markov and one decayed-association baseline, per-world surprise thresholds, shifted/control seed pairs, and a paired restricted-delay success rule. The live study remains paused. |
 | 2026-10-23 | Before any Phase I outcome generation, amended the preregistration to use 97.5% paired intervals with a Bonferroni adjustment across the two generator-family opportunities for a primary claim, score all next-tag transitions so cause-mixture prevalence changes are observable, and pin `PYTHONHASHSEED=0`. |
 | 2026-10-23 | Completed Phase I without engine changes: 20 shifted and 20 stationary-control worlds in each of two generator families. The primary success rule was not met; cause-mixture comparisons were inconclusive and mapping-swap baselines exceeded the control false-alarm gate. Recorded results in `docs/regime_shift_results.json` and journal §29. |
+| 2026-10-23 | **Preregistered Phase J gradual post-shift adaptation before implementation or outcome generation.** Defined two gradual-transition world families, 20 paired seed-varied shifted/control worlds, shift-specific predictive-loss and final-performance gates, and descriptive settling time. The live study remains paused; the cognitive engine is frozen. |
+| 2026-10-23 | **Completed Phase J** on 80 paired shifted/control worlds without engine changes. Organica failed both primary gates in both families; the two simple baselines had much lower predictive NLL. Recorded all per-world curves and paired intervals in `docs/post_shift_adaptation_results.json`; journal §30. |

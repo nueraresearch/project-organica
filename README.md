@@ -150,6 +150,9 @@ $env:PYTHONHASHSEED='0'; python benchmarks/ground_truth_recovery.py
 
 # Phase H: ten-seed prediction and three-level structure-recovery league
 $env:PYTHONHASHSEED='0'; python benchmarks/phase_h_campaign.py --seeds 10
+
+# Phase J: gradual post-shift adaptation (pre-registered; writes 80 worlds)
+$env:PYTHONHASHSEED='0'; python benchmarks/post_shift_adaptation.py --workers 3
 ```
 
 The campaign is **pre-registered**: the metric definitions, the gate
@@ -180,6 +183,19 @@ win. The full protocol and per-world results are in
 [`docs/REGIME-SHIFT-PREREGISTRATION.md`](docs/REGIME-SHIFT-PREREGISTRATION.md)
 and [`docs/regime_shift_results.json`](docs/regime_shift_results.json); the
 live study remains paused pending stable V1.0.0.
+
+**Phase J tested gradual post-shift adaptation** across 20 paired seeds in
+each of two synthetic families (80 shifted/control worlds total), with the
+protocol frozen before implementation and outcome generation. Organica did
+not meet either its adaptation-cost criterion or its final-stable
+non-inferiority guard in either family. Its mean NLL was substantially higher
+than both first-order Markov and 20-cycle decayed association during the
+transition and final stable period. This is evidence about these two
+synthetic generators and this scoring setup; it does not establish that the
+architecture cannot help on other tasks. See
+[`docs/PHASE-J-ADAPTATION-PREREGISTRATION.md`](docs/PHASE-J-ADAPTATION-PREREGISTRATION.md),
+[`docs/post_shift_adaptation_results.json`](docs/post_shift_adaptation_results.json),
+and journal §30. The live study remains paused.
 
 ### Explore it interactively
 
@@ -304,7 +320,7 @@ performance. →
 
 **Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule: cause-mixture results were inconclusive, and the simple baselines exceeded the false-alarm gate in mapping-swap controls. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–29.
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–30.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -316,9 +332,9 @@ Phases A–E (architecture, reproduction pack, growth benchmarks, five research 
 developmental in the strong sense, or that its structures improve prediction
 or recover latent structure better than simple alternatives. Tier-1's
 repeating stimulus saturates quickly; richer curricula increase inventory,
-but Phase H's simple baselines lead on the tested usefulness tasks. Phase I
-did not demonstrate an Organica advantage in regime-shift detection; one
-family's baseline comparison failed the preregistered false-alarm gate. The
+but simple baselines lead on the tested prediction, structure-recovery, and
+gradual-adaptation tasks. Phase I did not demonstrate a winner under its
+preregistered detection rule. These are controlled synthetic tasks; the
 prediction task still needs input-world replication, and the recovery task
 does not measure causal intervention knowledge.
 
