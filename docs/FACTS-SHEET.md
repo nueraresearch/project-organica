@@ -488,4 +488,42 @@ does not identify which cognitive layer contributes to any advantage.
 Protocol and full per-seed results: `docs/PHASE-H-PREREGISTRATION.md` and
 `docs/phase_h_results.json`; runner: `benchmarks/phase_h_campaign.py`.
 
+---
+
+## Q. Phase I Regime-Shift Detection — MEASURED (2026-10-23)
+
+The frozen campaign ran 20 seed-paired shifted and stationary-control worlds
+in each of two generator families, with `PYTHONHASHSEED=0`. Organica, a
+first-order Markov model, and recency-decayed transition association were
+scored by predictive surprise. Alarm thresholds were set within each world
+from cycles 20–59; a detection required two consecutive five-cycle windows
+above the mean-plus-three-SD threshold. Lower restricted delay is better;
+misses count as 31 cycles. Paired delay intervals are 97.5% percentile
+bootstrap intervals, adjusted for the two family opportunities.
+
+| Generator family | Organica delay | Markov delay | Decayed delay | Control false-alarm rates (Organica / Markov / decayed) |
+|---|---:|---:|---:|---:|
+| Cause-mixture switch | 2.55 | 2.80 | 4.25 | 0% / 5% / 0% |
+| Mapping-swap | 2.65 | 1.25 | 1.20 | 0% / 15% / 15% |
+
+In cause-mixture worlds, Organica's paired advantage over Markov was only
+0.25 cycles (97.5% interval [−0.25, 0.75]); its 1.70-cycle advantage over
+decayed association had interval [−0.05, 5.75]. Neither comparison met the
+preregistered effect-size and interval rule. In mapping-swap worlds, the
+baselines detected faster on average: baseline-minus-Organica delay was
+−1.40 cycles for Markov (97.5% interval [−1.900, −0.949]) and −1.45 for
+decayed association ([−1.950, −0.950]). However, both exceeded the 10%
+stationary false-alarm limit (3/20 controls each); that family cannot
+establish a valid baseline comparison under the frozen rule. The primary
+success criterion was not met in either family.
+
+The campaign does not demonstrate a comparative advantage for Organica on
+this detector. It also does not establish that the baseline alarms would
+remain excessive under a detector calibrated from independent stationary
+worlds. Any calibration redesign must be preregistered as a new evaluation;
+these thresholds were not tuned after observing this result. Full per-world
+records and internal cycle counts: `docs/regime_shift_results.json`; frozen
+protocol: `docs/REGIME-SHIFT-PREREGISTRATION.md`; runner:
+`benchmarks/regime_shift.py`.
+
 

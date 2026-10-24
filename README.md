@@ -170,6 +170,17 @@ protocol and full per-seed intervals in
 [`docs/PHASE-H-PREREGISTRATION.md`](docs/PHASE-H-PREREGISTRATION.md),
 [`docs/phase_h_results.json`](docs/phase_h_results.json), and journal §28.
 
+**Phase I then tested online regime-shift detection** on 20 seed-paired shifted
+and stationary worlds in each of two generator families. The primary success
+rule was not met: Organica's advantage over both baselines was inconclusive in
+the cause-mixture family, while the Markov and decayed baselines exceeded the
+10% stationary-control false-alarm limit in the mapping-swap family. The
+mapping-swap delay comparison therefore does not count as a valid baseline
+win. The full protocol and per-world results are in
+[`docs/REGIME-SHIFT-PREREGISTRATION.md`](docs/REGIME-SHIFT-PREREGISTRATION.md)
+and [`docs/regime_shift_results.json`](docs/regime_shift_results.json); the
+live study remains paused pending stable V1.0.0.
+
 ### Explore it interactively
 
 ```bash
@@ -293,7 +304,7 @@ performance. →
 
 **Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H's multi-seed prediction and structure-recovery campaign is complete; its results favor simple baselines overall and identify clear limitations for the next evaluation. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–28.
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule: cause-mixture results were inconclusive, and the simple baselines exceeded the false-alarm gate in mapping-swap controls. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–29.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -305,9 +316,11 @@ Phases A–E (architecture, reproduction pack, growth benchmarks, five research 
 developmental in the strong sense, or that its structures improve prediction
 or recover latent structure better than simple alternatives. Tier-1's
 repeating stimulus saturates quickly; richer curricula increase inventory,
-but Phase H's simple baselines lead on the tested usefulness tasks. The
-prediction result still needs input-world replication, and the recovery task
-does not measure held-out regime prediction or causal intervention knowledge.
+but Phase H's simple baselines lead on the tested usefulness tasks. Phase I
+did not demonstrate an Organica advantage in regime-shift detection; one
+family's baseline comparison failed the preregistered false-alarm gate. The
+prediction task still needs input-world replication, and the recovery task
+does not measure causal intervention knowledge.
 
 ---
 
