@@ -38,11 +38,12 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import random
 import statistics
 import sys
 import time
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -256,6 +257,11 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
     finally:
         mem.close()
         db.unlink(missing_ok=True)
+        # temp_db creates a directory per call; leave nothing behind.
+        try:
+            db.parent.rmdir()
+        except OSError:
+            pass
 
 
 # ==================================================================
@@ -658,32 +664,87 @@ def _normalise_record(r: dict) -> dict:
 
 def run_campaign(families: list[str], seeds: list[int], workers: int,
                  scale: int = 1, out_path: Path | None = None,
-                 resume: bool = False) -> dict:
+                 resume: bool = False,
+                 checkpoint_path: Path | None = None) -> dict:
     jobs = [(f, s, scale) for f in families for s in seeds]
     started = time.time()
     records: list[dict] = []
 
-    if resume and out_path is not None and out_path.exists():
+    if checkpoint_path is None and out_path is not None:
+        checkpoint_path = out_path.with_suffix(".ndjson")
+
+    def checkpoint(rec: dict) -> None:
+        """Append one line per completed seed and flush it.
+
+        This is the live recording: an append-only trail of the run that
+        cannot be truncated by a kill and that a human can read while the
+        campaign is still going.
+        """
+        if checkpoint_path is None:
+            return
         try:
-            prior = json.loads(out_path.read_text(encoding="utf-8"))
+            checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(checkpoint_path, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(rec) + "\n")
+                fh.flush()
+                os.fsync(fh.fileno())
+        except Exception:
+            pass
+
+    if not resume and checkpoint_path is not None and checkpoint_path.exists():
+        # A fresh run starts a fresh recording. The JSON is the artefact;
+        # the NDJSON is the live trail of this run.
+        try:
+            checkpoint_path.unlink()
+        except OSError:
+            pass
+
+    if resume and out_path is not None:
+        prior = None
+        if out_path.exists():
+            try:
+                prior = json.loads(out_path.read_text(encoding="utf-8"))
+            except Exception as exc:
+                print(f"  the results file could not be read ({exc}); "
+                      f"falling back to the checkpoint log")
+                prior = None
+        if prior is not None:
             records = [_normalise_record(r) for r in prior.get("records", [])]
             if not records:
                 records = [_normalise_record(r)
                            for r in prior.get("per_model_detail", [])]
+        elif checkpoint_path is not None and checkpoint_path.exists():
+            # The results file is gone but the live recording survived.
+            records = []
+            for line in checkpoint_path.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(_normalise_record(json.loads(line)))
+                except Exception:
+                    continue
+            print(f"  rebuilt {len(records)} record(s) from the checkpoint log")
+        if records:
             done = {(r["family"], r["seed"]) for r in records}
             jobs = [j for j in jobs if (j[0], j[1]) not in done]
             print(f"  resuming: {len(records)} seed(s) already done, "
                   f"{len(jobs)} to go")
-        except Exception as exc:  # a partial file must never be fatal
-            print(f"  resume failed ({exc}); starting from scratch")
-            records = []
+        else:
             jobs = [(f, s, scale) for f in families for s in seeds]
 
     def flush(complete: bool = False) -> None:
         """Write the per-seed results as they arrive.
 
-        A campaign that is killed by a time limit must not lose the seeds it
-        already finished. The partial file is marked incomplete.
+        Two things, because a long campaign must never lose progress:
+
+        * the results file is written **atomically** -- to a temporary file
+          and then renamed -- so a kill during the write cannot truncate it;
+        * an append-only NDJSON **checkpoint** is written and flushed after
+          every seed, so there is a live, human-readable record of the run
+          that survives even if the results file is lost.
+
+        The partial file is marked incomplete.
         """
         if out_path is None:
             return
@@ -721,12 +782,22 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
         payload["confirmed_families"] = [
             f for f, s in payload["summaries"].items() if s["verdict"] == "SUPPORTED"]
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+        tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        os.replace(tmp, out_path)
 
     if workers > 1:
+        # as_completed, not pool.map. pool.map yields in SUBMISSION order, so
+        # a single slow first job blocks every checkpoint until it finishes --
+        # and if the run is killed before that, every completed seed is lost.
+        # as_completed yields each result the moment it is done, which is the
+        # only behaviour that makes a long campaign safe to stop and resume.
         with ProcessPoolExecutor(max_workers=workers) as pool:
-            for rec in pool.map(_run_one, jobs):
+            futures = {pool.submit(_run_one, job): job for job in jobs}
+            for fut in as_completed(futures):
+                rec = fut.result()
                 records.append(rec)
+                checkpoint(rec)
                 flush()
                 print(f"  {rec['family']} seed {rec['seed']}: "
                       f"organica={rec['organica']} "
@@ -736,6 +807,7 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
         for job in jobs:
             rec = _run_one(job)
             records.append(rec)
+            checkpoint(rec)
             flush()
             print(f"  {rec['family']} seed {rec['seed']}: "
                   f"organica={rec['organica']} "
