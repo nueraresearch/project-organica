@@ -84,6 +84,7 @@ failed cycles       : 0
 | **Tier-1 matrix** | **COMPLETE** — 6 colonies × 3,000 cycles = 18,000 colony-cycles. Results in [`docs/FORCE-MATRIX-RESULTS.md`](FORCE-MATRIX-RESULTS.md); journal §23. |
 | **V1 before/after** | **COMPLETE** — 21 reversals, and three interpretations **retracted**. `docs/v1_impact.json`; journal §22. |
 | **Phase H external-validity campaign** | **COMPLETE** — ten seeds, fixed held-out curriculum, three latent-cause difficulty levels; simple baselines lead overall. Full intervals in `docs/phase_h_results.json`; journal §28. |
+| **Phase I regime-shift benchmark** | **PREREGISTERED** — two generator families, Markov and recency-decayed baselines, fixed alarm rule, 20 seed-paired shifted/control worlds per family. The evaluator is not yet implemented or run. Protocol: `docs/REGIME-SHIFT-PREREGISTRATION.md`. |
 | Git | Phase H work is prepared on branch `phase-h-external-validity`; package remains pre-1.0. |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
@@ -492,9 +493,9 @@ Ordered by how much they cost you if you skip them.
 | 2 | **If resuming: install the Scheduled Task supervisor** ([§4.2](#42-making-it-survive-90-days-)) | Configure restart behavior only after the owner authorizes collection again. | Deferred |
 | 3 | **If resuming: schedule the snapshot jobs and decide on a clean restart** | Resolve whether the preserved 5,396-cycle database is compatible with the V1.0.0 engine before choosing continuation or a new run. | Deferred |
 | 4 | **Write the designer-surprise predictions** | One metric answers your actual question — *"did it produce anything I did not anticipate?"* — and it cannot be automated, because only you can say what you expected. The scorer is built; it needs your predictions recorded **before** a run. | 20 min |
-| 5 | **Extend prediction to seed-varied worlds and regime shifts** | In the completed Phase H prediction league, the ten runs repeated one fixed stream: Markov F1 0.504 and decayed association 0.485 both exceeded Organica 0.413. Their zero-width intervals are not world-level uncertainty. | Next benchmark preregistration |
+| 5 | **Implement and run the preregistered Phase I regime-shift benchmark** | The frozen protocol varies change patterns across cause-mixture and mapping-swap generators; compares Organica, Markov, and decayed association on detection delay at a fixed per-world alarm rule. | Underway; see `docs/REGIME-SHIFT-PREREGISTRATION.md` |
 | 6 | **Use structure-recovery results to design the next benchmark** | Co-occurrence beat Organica in clean, overlapping, and stress worlds; Organica's relative score declined as difficulty increased. This scores pairwise association, not intervention knowledge or held-out regime prediction. | Results complete |
-| 7 | **Test whether Organica adds value on held-out regime prediction** | Vary worlds across seeds, include shared causes and decoys, and keep a separate regime-shift test set. Freeze metric definitions and decision thresholds before runs. | Next |
+| 7 | **If Phase I is inconclusive, broaden task discovery** | Consider novelty assimilation, anomaly localization, long-horizon dependency recovery, and transfer across related worlds; freeze each protocol before evaluation. | After Phase I |
 | 8 | **Only after a stable advantage, run targeted layer ablations** | Identify which mechanisms explain any task-specific advantage over the strongest simple baseline. | Later |
 
 **Completed on 2026-10-21 — recorded, not just done** (per rule 3 of [§18](#18-keeping-this-manual-current)):
@@ -965,6 +966,7 @@ project-organica/
 │   ├── heldout_prediction.py      # Organica vs Markov and decayed association on held-out events
 │   ├── ground_truth_recovery.py   # score recovered structure against hidden-cause pair ground truth
 │   ├── phase_h_campaign.py        # ten-seed prediction/recovery league with bootstrap intervals
+│   ├── regime_shift.py            # Phase I online regime-shift detection benchmark (pending implementation)
 │   ├── hub_degree_probe.py        # the Layer-1 survival threshold against hub degree
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
@@ -990,6 +992,7 @@ project-organica/
 │   ├── FORCE-MATRIX-PREREGISTRATION.md  # Ablation Study 2: frozen M1–M9 + the launch gates
 │   ├── FORCE-MATRIX-RESULTS.md   # the Tier-1 matrix results and what they can/cannot answer
 │   ├── PHASE-H-PREREGISTRATION.md # frozen external-validity protocol, seeds, conditions, and decision rules
+│   ├── REGIME-SHIFT-PREREGISTRATION.md # frozen Phase I generator, detector, baselines, and decision rules
 │   ├── phase_h_results.json       # ten-seed external-validity campaign and paired difficulty trends
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
@@ -1410,3 +1413,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | Preregistered Phase H before its multi-seed run: ten seeds, fixed hash seed, prediction and structure-recovery leagues, and three controlled noise/overlap/decoy levels. Added `benchmarks/phase_h_campaign.py`; the campaign leaves the cognitive engine unchanged. Journal §26. |
 | 2026-10-23 | **Paused live study collection at owner direction** after continuous-run cycle 1032 (global cycle 5396), preserving the database and log until a stable V1.0.0 is ready and reviewed. Updated the status dashboard, restart guidance, and deferred study actions. Journal §27. |
 | 2026-10-23 | **Completed Phase H external-validity campaign** across ten seeds. Recorded fixed-stream prediction scores, recovery intervals, and paired difficulty trends; clarified that H1 seeds did not resample the input stream. Updated next actions toward seed-varied prediction and regime-shift evaluation. Journal §28. |
+| 2026-10-23 | **Preregistered Phase I regime-shift detection** before implementation or outcome generation: two synthetic generator families, one Markov and one decayed-association baseline, per-world surprise thresholds, shifted/control seed pairs, and a paired restricted-delay success rule. The live study remains paused. |
