@@ -232,6 +232,70 @@ def scaffold_stream(core_triangles: list, total_cycles: int,
     assert len(stream) == total_cycles * events_per_cycle
     return stream
 
+
+def burst_stream(core_triangles: list, total_cycles: int = 300,
+                 burst_every: int = 30, burst_len: int = 8,
+                 events_per_cycle: int = 8) -> list:
+    """Build a burst assimilation event stream.
+
+    A stable core scaffold runs continuously. Every `burst_every` cycles, a
+    fresh novelty triangle is introduced and reinforced with a concentrated
+    `burst_len` window (emitting 2 full 3-cycles = 6 novel events per cycle),
+    enabling it to clear PREDICTION_MIN_COUNT=5 and STABLE_THRESHOLD=0.3.
+    Once the burst concludes, all established novelty triangles rotate alongside
+    the core (3 novel events + 5 core events per cycle), sustaining recurrence.
+    """
+    core_evs = triangle_events(core_triangles)
+    n_core = len(core_evs)
+    n_novel = total_cycles // burst_every + 1
+    novel = novelty_triangles(n_novel)
+
+    stream: list[str] = []
+    core_ptr = 0
+    pool: list = []
+    pool_ptr = 0
+    next_novel = 0
+
+    for cycle in range(total_cycles):
+        if cycle > 0 and cycle % burst_every == 0:
+            pool.append(novel[next_novel])
+            next_novel += 1
+
+        in_burst = False
+        active_novelty = None
+        if pool:
+            k = cycle // burst_every
+            if k >= 1 and (cycle - k * burst_every) < burst_len and k <= len(pool):
+                in_burst = True
+                active_novelty = pool[k - 1]
+
+        cycle_evs: list[str] = []
+        if in_burst:
+            tri_evs = triangle_events([active_novelty])
+            cycle_evs.extend(tri_evs * 2)
+            for _ in range(events_per_cycle - len(cycle_evs)):
+                cycle_evs.append(core_evs[core_ptr % n_core])
+                core_ptr += 1
+        elif pool:
+            all_est_evs = triangle_events(pool)
+            for _ in range(3):
+                cycle_evs.append(all_est_evs[pool_ptr % len(all_est_evs)])
+                pool_ptr += 1
+            for _ in range(events_per_cycle - len(cycle_evs)):
+                cycle_evs.append(core_evs[core_ptr % n_core])
+                core_ptr += 1
+        else:
+            for _ in range(events_per_cycle):
+                cycle_evs.append(core_evs[core_ptr % n_core])
+                core_ptr += 1
+
+        assert len(cycle_evs) == events_per_cycle
+        stream.extend(cycle_evs)
+
+    assert len(stream) == total_cycles * events_per_cycle
+    return stream
+
+
 def scale_designs() -> dict:
     """The rungs of the ladder.
 
@@ -308,6 +372,15 @@ def scale_designs() -> dict:
             "mode": "scaffold",
             "core_triangles": list(_CORE),
             "novelty_every": 5,
+        },
+        # ── Burst Assimilation rungs ──────────────────────────────────────
+        "rung_burst_30": {
+            "name": "rung_burst_30",
+            "description": "3-triangle core + novelty burst every 30 cycles (8c burst)",
+            "mode": "burst",
+            "core_triangles": list(_CORE),
+            "burst_every": 30,
+            "burst_len": 8,
         },
     }
 

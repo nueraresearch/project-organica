@@ -2009,3 +2009,79 @@ complete repertoire).
 
 and answering it needs a stimulus that does not repeat — which is a change
 to the experimental design, not to the engine.
+
+## §24 — The 1,200-cycle burst horizon and the next evaluation question
+
+**Run record.** On 2026-10-23, the core baseline and `_burst_30` curriculum
+were each run for 1,200 cycles with `seed=20261023` and the existing FULL
+engine. Each run used its own temporary database. The baseline inventory was
+91; the burst inventory was 128. The burst arm added 8 items between cycles
+601 and 1200 and 2 in its final 100 cycles. Its cumulative curve moved from
+120 at cycle 600 to 128 at cycle 1200. The earlier 600-cycle artifact recorded
+119, so the one-item difference at the matched horizon is consistent with
+the measured process-level enumeration noise; the later +8 is the substantive
+within-run change.
+
+**Reading.** This extends the curriculum-dependent inventory beyond 119, but
+falls short of the preregistered 140+ progressive-expansion band. Discovery
+continues at a low rate and is slowing; neither unbounded expansion nor a
+stable attractor is established. The 1,200-cycle extension itself was
+exploratory, using the 600-cycle protocol and its thresholds rather than a
+separate preregistration. Full per-cycle data: `docs/scale_horizon_1200.json`.
+
+**Runner correction.** The burst generator first introduces novelty at cycle
+30, then 60, and so on; a 1,200-cycle horizon includes 39 introductions and a
+600-cycle horizon includes 19. The runner previously reported 40 and 20,
+respectively, because it divided the horizon by 30 without accounting for
+cycle zero. This affected novelty metadata and assimilation-efficiency
+denominators, not the streams or inventory counts. Corrected counts are
+recorded in the 600-cycle, 1,200-cycle, and scaffold pilot artifacts.
+
+**Next research question.** The next priority is external usefulness: a frozen
+train/test prediction benchmark comparing Organica with a first-order Markov
+model and a recency-decayed temporal-association baseline. It will score the
+same held-out events with precision, recall, F1, Brier score and log loss.
+The pilot implementation is `benchmarks/heldout_prediction.py`; its output is
+`docs/heldout_prediction.json`. A known-ground-truth world and recovery scores
+remain a later instrument, not a result of this prediction pilot.
+
+**First pilot result.** Train on cycles 1–200 and score cycles 201–300 after
+freezing all models. On known training tags, the first-order tag Markov model
+leads Organica's Generation-1 prediction candidates: F1 **0.504 vs 0.413**,
+precision **0.684 vs 0.350**, and recall **0.399 vs 0.503**. Its log loss is
+**0.182 vs 0.775**. Including the nine test-only tags, F1 is **0.417 vs
+0.363** and log loss **0.335 vs 0.816**. The recency-decayed temporal
+association model has precision **0.704**, recall **0.370**, and known-tag F1
+**0.485** at the fixed 0.5 threshold.
+
+This is a **single-seed pilot**, not an uncertainty estimate. The tested
+curriculum is synthetic, the 0.5 threshold was fixed rather than tuned, and
+Organica's candidate strengths are not calibrated probabilities; its Brier
+and log-loss values are therefore descriptive. On this task, the simple
+Markov baseline is stronger than Organica on F1 and log loss. That is a useful
+negative result and motivates a multi-seed evaluation plus a separate
+known-ground-truth recovery task before drawing broader conclusions.
+
+## §25 — Known-cause recovery pilot
+
+`organica/ground_truth_worlds.py` generates events from two hidden causes,
+switches which cause is dominant every 100 cycles, and includes 10% random
+noise events from a separate feature vocabulary. The generator returns cause
+and regime labels separately; the benchmark ingests event text only. The gold
+target is the 12 undirected feature pairs that share a latent cause. It is a
+pairwise association target, not an intervention-based causal claim.
+
+On seed `20261023`, Organica trained on cycles 1–200 (1,600 events) recovered
+all 12 gold pairs, but added 10 false-positive pairs: precision **0.545**,
+recall **1.000**, F1 **0.706**. The same-event co-occurrence baseline also
+recovered all 12 and added 6 false positives (F1 **0.800**). The temporal
+transition graph recovered all 12 but added 138 false positives (F1 **0.148**).
+The simple co-occurrence model is the strongest structural-recovery baseline
+in this pilot; Organica's surviving abstractions did not improve recovery.
+
+This generator has cleanly separated feature families, one seed, and an
+arbitrary minimum edge count of 5. The last 100 cycles are not ingested, and
+the score does not test whether the system predicts regime changes or selects
+useful interventions. The artifact is `docs/ground_truth_recovery.json`.
+Next: sweep noise rates and feature overlap, vary seeds, report uncertainty,
+and score both structural recovery and held-out regime prediction.

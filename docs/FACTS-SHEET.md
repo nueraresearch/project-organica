@@ -379,7 +379,58 @@ every 30 cycles with an 8-cycle concentrated burst, then sustained alongside cor
 
 ## M-H. Open Research Questions on Burst Assimilation
 
-1. **Does the attractor keep moving at longer horizons?** (Test: 600-cycle and 1,200-cycle burst assimilation: does inventory stabilize at ~113, or does it step up toward 140–180+?).
+1. **Does the attractor keep moving at longer horizons?** The 1,200-cycle extension reached 128, below the preregistered 140+ expansion band, and added 2 items in its last 100 cycles. This is continued but slowing discovery, not a settled attractor. See `docs/scale_horizon_1200.json` and journal §24.
 2. **Does earlier assimilated structure serve as developmental substrate for later novelty?**
+
+---
+
+## N. Held-Out Prediction Pilot — MEASURED (2026-10-23)
+
+Protocol: Organica and two tag-transition baselines trained on the same
+bootstrap scaffold plus burst curriculum cycles 1–200, then frozen and scored
+on cycles 201–300. The 0.5 F1 threshold and 50-cycle half-life were fixed in
+the benchmark code before the pilot was run. Results are from one seed and do
+not estimate run-to-run uncertainty.
+
+| Model | Known-tag F1 | Known-tag log loss | All-tag F1 | All-tag log loss |
+|---|---:|---:|---:|---:|
+| Organica G1 predictions | 0.413 | 0.775 | 0.363 | 0.816 |
+| First-order tag Markov | **0.504** | **0.182** | **0.417** | 0.335 |
+| Recency-decayed temporal association | 0.485 | 0.184 | 0.399 | **0.334** |
+
+**N1.** On this synthetic task, both simple baselines exceed Organica's G1
+predictions in F1; Markov also has substantially lower log loss on known tags.
+Organica has higher recall but lower precision at the common 0.5 threshold.
+The decayed model is a one-step tag-transition graph with a 50-cycle
+exponential half-life, not a separate cognitive architecture.
+
+**N2.** The held-out window includes nine test-only tags (402 tag occurrences).
+Known-tag scores and scores including those novel labels are reported
+separately in `docs/heldout_prediction.json`. Organica's G1 strengths are not
+calibrated probabilities, so its Brier and log-loss values are descriptive.
+This pilot does not measure recovery of latent causes and is not a multi-seed
+comparison.
+
+---
+
+## O. Known-Cause Recovery Pilot — MEASURED (2026-10-23)
+
+The generator emits only feature pairs, not cause or regime labels. The scorer
+uses hidden labels to define 12 gold same-cause feature pairs. Two regimes
+alternate every 100 cycles, and 10% of events are random pairs from a separate
+noise vocabulary. Training used cycles 1–200; cycles 201–300 were not ingested.
+
+| Model | True pairs | False pairs | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|
+| Organica surviving structures | 12 | 10 | 0.545 | 1.000 | 0.706 |
+| Same-event co-occurrence | 12 | 6 | **0.667** | 1.000 | **0.800** |
+| Temporal transition graph | 12 | 138 | 0.080 | 1.000 | 0.148 |
+
+On this single-seed pilot, same-event co-occurrence is the strongest
+structural-recovery model. The generator uses cleanly separated feature
+families, and pairwise association recovery does not demonstrate causal
+intervention knowledge. Full protocol and limits: `docs/ground_truth_recovery.json`;
+implementation: `organica/ground_truth_worlds.py` and
+`benchmarks/ground_truth_recovery.py`.
 
 
