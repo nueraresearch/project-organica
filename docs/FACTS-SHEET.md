@@ -433,4 +433,59 @@ intervention knowledge. Full protocol and limits: `docs/ground_truth_recovery.js
 implementation: `organica/ground_truth_worlds.py` and
 `benchmarks/ground_truth_recovery.py`.
 
+---
+
+## P. Phase H External-Validity Campaign — MEASURED (2026-10-23)
+
+Ten seeds (20261023–20261032) ran with `PYTHONHASHSEED=0`. Prediction uses
+the same deterministic curriculum on all seeds, so its ten scores are
+identical and its intervals are degenerate; this is a fixed-stream repeat, not
+ten sampled input worlds. Recovery varies the world and Organica's seeded sleep
+RNG. Intervals are deterministic 10,000-resample percentile bootstrap
+intervals over per-seed results.
+
+### Held-out next-event prediction
+
+Train cycles 1–200, freeze, test cycles 201–300; fixed 0.5 F1 threshold.
+
+| Model | Known-tag F1 | 95% bootstrap interval |
+|---|---:|---:|
+| Organica G1 | 0.4126 | [0.4126, 0.4126] |
+| First-order Markov | **0.5040** | [0.5040, 0.5040] |
+| Recency-decayed association | 0.4851 | [0.4851, 0.4851] |
+
+The Markov-minus-Organica paired F1 difference is **+0.091**; the
+decayed-association difference is **+0.072**. Both intervals are degenerate
+because the stream and all resulting scores repeat exactly. These results
+confirm the pilot result on this one curriculum; they do not estimate
+variation across input worlds.
+
+### Known-cause structure recovery
+
+Organica's surviving structures are compared with same-event co-occurrence and
+the temporal transition graph. Results are F1 mean and 95% bootstrap interval:
+
+| World | Organica | Same-event co-occurrence | Temporal graph |
+|---|---:|---:|---:|
+| Clean (10% noise) | 0.7041 [0.6835, 0.7250] | **0.8000 [0.8000, 0.8000]** | 0.1482 [0.1481, 0.1484] |
+| Overlapping (20% noise, 2 shared tags, 10% decoys) | 0.5469 [0.5150, 0.5764] | **0.7642 [0.7632, 0.7662]** | 0.2199 [0.2162, 0.2234] |
+| Stress (30% noise, 3 shared tags, 25% decoys) | 0.1091 [0.0991, 0.1226] | **0.7959 [0.7959, 0.7959]** | 0.2803 [0.2792, 0.2812] |
+
+Co-occurrence outperforms Organica in all three conditions. Organica
+outperforms the temporal graph in clean and overlapping worlds, but loses to
+it in the stress world. Its relative F1 position worsens from clean to
+overlap by **0.121** (95% interval [−0.167, −0.077]) and from clean to stress
+by **0.591** ([−0.607, −0.576]) versus co-occurrence; the corresponding shifts
+versus the temporal graph are **−0.229** ([−0.273, −0.187]) and **−0.727**
+([−0.743, −0.712]). This does not support the hypothesis that the current
+structural machinery becomes more useful as these worlds get harder.
+
+**Limits.** The prediction seeds do not vary the input stream. The recovery
+scenarios are controlled synthetic stress cases, not a sample of natural
+worlds. Recovery scores undirected pairwise same-cause association, not
+causal intervention knowledge or held-out regime prediction. The campaign
+does not identify which cognitive layer contributes to any advantage.
+Protocol and full per-seed results: `docs/PHASE-H-PREREGISTRATION.md` and
+`docs/phase_h_results.json`; runner: `benchmarks/phase_h_campaign.py`.
+
 

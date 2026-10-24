@@ -46,14 +46,20 @@ def _score(predicted: set[tuple[str, str]], gold: set[tuple[str, str]]) -> dict:
     }
 
 
-def run(seed: int = 20261023) -> dict:
-    world = generate_cause_world(seed=seed)
+def run(seed: int = 20261023, *, noise_rate: float = 0.10,
+        overlap_features: int = 0,
+        false_correlation_rate: float = 0.0) -> dict:
+    world = generate_cause_world(
+        seed=seed, noise_rate=noise_rate, overlap_features=overlap_features,
+        false_correlation_rate=false_correlation_rate)
     cut = TRAIN_CYCLES * EVENTS_PER_CYCLE
     train = world["events"][:cut]
     db = temp_db("ground_truth_recovery.db")
     db.unlink(missing_ok=True)
     mem = MemoryService(db_path=str(db))
     svc = SleepService(mem)
+    if hasattr(svc, "_rng"):
+        svc._rng.seed(seed)
     report = None
     try:
         for cycle in range(TRAIN_CYCLES):
@@ -88,6 +94,9 @@ def run(seed: int = 20261023) -> dict:
             "test_cycles_not_ingested": world["config"]["cycles"] - TRAIN_CYCLES,
             "events_per_cycle": EVENTS_PER_CYCLE,
             "seed": seed,
+            "noise_rate": noise_rate,
+            "overlap_features": overlap_features,
+            "false_correlation_rate": false_correlation_rate,
             "hidden_cause_and_regime_labels_ingested": False,
             "pair_threshold": MIN_EDGE_COUNT,
             "recovery_target": "undirected same-latent-cause pairs among the observable cause features",
@@ -116,9 +125,14 @@ def run(seed: int = 20261023) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=20261023)
+    parser.add_argument("--noise-rate", type=float, default=0.10)
+    parser.add_argument("--overlap-features", type=int, default=0)
+    parser.add_argument("--false-correlation-rate", type=float, default=0.0)
     parser.add_argument("--out", default=str(REPO / "docs" / "ground_truth_recovery.json"))
     args = parser.parse_args()
-    result = run(args.seed)
+    result = run(args.seed, noise_rate=args.noise_rate,
+                 overlap_features=args.overlap_features,
+                 false_correlation_rate=args.false_correlation_rate)
     output = Path(args.out)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2), encoding="utf-8")

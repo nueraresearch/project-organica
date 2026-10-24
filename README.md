@@ -93,6 +93,11 @@ python examples/domains/01_developer_workflow.py
 
 ### Run the 90-day longitudinal study
 
+**Paused as of 2026-10-23:** the live daemon stopped after continuous-run
+cycle 1032 (global sleep cycle 5396) pending a stable V1.0.0 build and review.
+Do not restart it until that review; the current database and append-only log
+are preserved.
+
 ```bash
 start_organica.bat                  # Windows
 python run_continuous.py            # macOS / Linux
@@ -142,22 +147,28 @@ $env:PYTHONHASHSEED='0'; python benchmarks/heldout_prediction.py
 
 # Known-cause structure recovery pilot
 $env:PYTHONHASHSEED='0'; python benchmarks/ground_truth_recovery.py
+
+# Phase H: ten-seed prediction and three-level structure-recovery league
+$env:PYTHONHASHSEED='0'; python benchmarks/phase_h_campaign.py --seeds 10
 ```
 
 The campaign is **pre-registered**: the metric definitions, the gate
 definitions, the sensitivity audit and the noise floor were all fixed and
 committed *before* the run. → [`docs/FORCE-MATRIX-PREREGISTRATION.md`](docs/FORCE-MATRIX-PREREGISTRATION.md)
 
-The held-out prediction script is a **single-seed pilot**, not yet a
-preregistered multi-run evaluation. Its first result favors the tag-level
-Markov baseline over Organica on this synthetic curriculum; see the output
-artifact and journal §24 before interpreting it.
-
-The known-cause recovery pilot also favors a simple same-event co-occurrence
-graph over Organica's surviving structures (F1 0.800 vs 0.706). Its feature
-families are deliberately clean, so the result is a benchmark shakedown, not
-evidence about real-world causal discovery. See the generator, result artifact,
-and journal §25.
+**Phase H completed ten-seed evaluation** without changing the cognitive
+engine. Markov (known-tag F1 0.504) and recency-decayed association (0.485)
+outscored Organica (0.413) on the held-out task, but its deterministic stream
+was identical across seeds; the degenerate intervals do not estimate
+input-world uncertainty. In the structure league, same-event co-occurrence
+outscored Organica in clean, overlapping, and stress worlds (F1 0.800, 0.764,
+0.796 vs 0.704, 0.547, 0.109). Organica beat the temporal graph in clean and
+overlapping worlds but lost in stress. Its relative recovery position
+worsened as difficulty increased. These controlled synthetic results do not
+establish natural-world or causal-intervention performance. See the frozen
+protocol and full per-seed intervals in
+[`docs/PHASE-H-PREREGISTRATION.md`](docs/PHASE-H-PREREGISTRATION.md),
+[`docs/phase_h_results.json`](docs/phase_h_results.json), and journal §28.
 
 ### Explore it interactively
 
@@ -263,16 +274,18 @@ worlds reduced inventory; scaffolded and reinforced novelty raised it. The
 exploratory 1,200-cycle burst horizon reached 128 items against a 91-item core
 baseline, but discovery slowed to two items in the final 100 cycles. This
 supports curriculum-dependent structure formation, while the longer-term
-ceiling remains unresolved. The first usefulness pilots now compare frozen
-Organica predictions and recovered structures with simple baselines. On the
-single-seed held-out task, Markov leads Organica in known-tag F1 (0.504 vs
-0.413) and log loss (0.182 vs 0.775); on known-cause pair recovery, same-event
-co-occurrence leads in F1 (0.800 vs 0.706). These pilots do not establish
-general performance: both need multi-seed and harder-world evaluation. →
+ceiling remains unresolved. The ten-seed usefulness campaign found Markov
+leading Organica on known-tag F1 (0.504 vs 0.413), although every prediction
+score repeated on the same deterministic curriculum. Across three
+known-cause worlds, same-event co-occurrence led Organica in F1 (0.800, 0.764,
+0.796 vs 0.704, 0.547, 0.109), while Organica beat the temporal graph only in
+the clean and overlapping worlds. Its relative recovery position worsened in
+the harder worlds. These controlled results do not establish natural-world
+performance. →
 [world-scale record](docs/WORLD-SCALE-PREREGISTRATION.md),
 [prediction results](docs/heldout_prediction.json),
-[recovery results](docs/ground_truth_recovery.json),
-[journal §§24–25](research-journal/phase_g_findings_20261021.md)
+[Phase H results](docs/phase_h_results.json),
+[journal §§24–28](research-journal/phase_g_findings_20261021.md)
 
 ---
 
@@ -280,7 +293,7 @@ general performance: both need multi-seed and harder-world evaluation. →
 
 **Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete. The current evaluation record includes the instrumentation audit, gate validation, substrate correction, V1 before/after audit, Tier-1 matrix, extended burst horizon, and first held-out prediction and known-cause recovery pilots. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H's multi-seed prediction and structure-recovery campaign is complete; its results favor simple baselines overall and identify clear limitations for the next evaluation. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–28.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -292,9 +305,9 @@ Phases A–E (architecture, reproduction pack, growth benchmarks, five research 
 developmental in the strong sense, or that its structures improve prediction
 or recover latent structure better than simple alternatives. Tier-1's
 repeating stimulus saturates quickly; richer curricula increase inventory,
-but the first predictive and recovery pilots favor simpler baselines. H24
-captures the curriculum question; external usefulness now needs replicated,
-harder evaluations.
+but Phase H's simple baselines lead on the tested usefulness tasks. The
+prediction result still needs input-world replication, and the recovery task
+does not measure held-out regime prediction or causal intervention knowledge.
 
 ---
 
