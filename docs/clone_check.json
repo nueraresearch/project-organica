@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-23T12:32:54Z",
+  "generated_at": "2026-10-24T17:05:19Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 1.7,
+      "seconds": 3.0,
       "detail": ""
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_8_mrc78j\\project-organica\\organica\\__init__.py"
+      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone__h5ai02w\\project-organica\\organica\\__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -22,13 +22,13 @@
     {
       "step": "pytest",
       "ok": true,
-      "seconds": 71.4,
-      "detail": "35 passed in 70.01s (0:01:10)"
+      "seconds": 72.0,
+      "detail": "42 passed in 70.01s (0:01:10)"
     },
     {
       "step": "build_py",
       "ok": true,
-      "seconds": 1.5,
+      "seconds": 1.8,
       "detail": "        Gen 0  Experience events      1228  ######################################## |         experience events retained (never evicted):             1228 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 1.500 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  15   theories  3   questions  3   dreams  8   experiments  5"
     },
     {
@@ -44,7 +44,7 @@
     {
       "step": "live_study_untouched",
       "ok": true,
-      "detail": "live substrate rows 53732 -> 53750 (must not shrink); the clone's scratch dir is inside the clone"
+      "detail": "live substrate rows 68756 -> 68756 (must not shrink); the clone's scratch dir is inside the clone"
     }
   ],
   "examples": [
