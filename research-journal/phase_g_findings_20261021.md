@@ -2247,3 +2247,66 @@ across real environments. The detector uses predictive surprise and does not
 isolate the causal contribution of contradiction or belief-revision layers.
 Per-world alarms, thresholds, delays, and secondary internal counts are in
 `docs/regime_shift_results.json`; the corresponding fact-sheet entry is §Q.
+
+## §30 — Phase J: gradual post-shift adaptation
+
+### Preregistration and campaign
+
+The Phase J protocol was committed before implementation or outcome
+generation in docs/PHASE-J-ADAPTATION-PREREGISTRATION.md. It specified two
+gradual-transition synthetic generator families, 20 seed-paired shifted and
+stationary-control worlds per family, three online prediction systems, a
+shift-specific adaptation-cost comparison, a final-stable performance guard,
+and 97.5% paired bootstrap intervals. The live study remained paused, all
+campaign databases were temporary, and no cognitive-engine file changed.
+
+The campaign completed all **80 worlds** across seeds 20270101–20270120 with
+PYTHONHASHSEED=0 and three workers. Full per-cycle NLL, internal-count
+series, and summaries are in docs/post_shift_adaptation_results.json.
+
+### Results
+
+Mean NLL per predicted event over the gradual-transition and post-transition
+window (cycles 30–79), stationary controls over the same cycles, and their
+difference:
+
+| Family | Model | Shifted NLL | Control NLL | Adaptation cost |
+|---|---|---:|---:|---:|
+| Cause-mixture ramp | Organica | 6.441 | 3.944 | 2.497 |
+|  | First-order Markov | 1.234 | 1.056 | 0.178 |
+|  | Decayed association | 1.221 | 1.098 | 0.122 |
+| Mapping-mixture ramp | Organica | 7.702 | 4.975 | 2.727 |
+|  | First-order Markov | 1.350 | 0.908 | 0.442 |
+|  | Decayed association | 1.207 | 0.931 | 0.276 |
+
+Baseline adaptation cost minus Organica adaptation cost was −2.319 nats/event
+for Markov (97.5% interval [−2.798, −1.865]) and −2.375 for decayed
+association ([−2.853, −1.920]) in the cause-mixture family. In the
+mapping-mixture family, these differences were −2.285 ([−2.700, −1.854]) and
+−2.451 ([−2.865, −2.022]). Negative values favor the baselines.
+
+The final-stable NLL guard also failed. Organica NLL minus baseline NLL over
+cycles 60–79 was +4.478 against Markov ([3.944, 4.989]) and +4.500 against
+decayed association ([3.967, 5.011]) in cause-mixture worlds; mapping-mixture
+gaps were +3.617 ([3.018, 4.169]) and +3.796 ([3.199, 4.348]). Neither
+family met either primary gate. The measured outcome is clear for these task
+instances: the simple predictive baselines had much lower error, and the
+benchmark provides no evidence that Organica's additional structure improved
+adaptation.
+
+### Interpretation and limits
+
+Organica's NLL was already much higher in stationary controls, and remained
+much higher during and after the transition. The paired adaptation-cost
+endpoint controls for each model's stationary level, while the final-stage
+guard prevents a lower shift penalty from being called useful if shifted-world
+accuracy remains substantially worse. Both comparisons favor the simple
+baselines. This evaluates online next-event NLL in two synthetic gradual
+transitions; it does not prove that the architecture cannot help on another
+task, establish natural-world performance, or identify which cognitive layer
+caused the result. The self-referenced settling-time summaries are exploratory
+and are not used in the primary decision.
+
+Protocol and runner: docs/PHASE-J-ADAPTATION-PREREGISTRATION.md and
+benchmarks/post_shift_adaptation.py; full results:
+docs/post_shift_adaptation_results.json; fact-sheet entry: §R.
