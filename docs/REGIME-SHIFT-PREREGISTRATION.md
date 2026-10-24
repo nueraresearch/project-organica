@@ -16,9 +16,11 @@ false alarms low in a stationary control?
 The primary hypothesis is deliberately task-specific: in at least one of two
 predefined generator families, Organica will reduce restricted detection
 delay by at least **2 cycles** versus **each** baseline, with both paired
-95% confidence intervals for baseline-minus-Organica delay wholly above zero
-and with each model's empirical stationary-control false-alarm rate at or
-below **10%**. A failure to meet this rule is not evidence that the
+97.5% confidence intervals for baseline-minus-Organica delay wholly above
+zero and with each model's empirical stationary-control false-alarm rate at
+or below **10%**. The 97.5% intervals apply a Bonferroni adjustment for the
+two generator-family opportunities to meet the primary claim. A failure to
+meet this rule is not evidence that the
 architecture has no comparative advantage on other tasks.
 
 ## Synthetic worlds
@@ -93,7 +95,7 @@ alarm is any alarm during cycles 60–89; report the fraction of control worlds
 with a false alarm.
 
 Report for every family and model: detection fraction within 30 cycles,
-restricted mean delay and paired 95% percentile-bootstrap intervals for
+restricted mean delay and paired 97.5% percentile-bootstrap intervals for
 `baseline delay − Organica delay`, plus stationary-control false-alarm rate.
 Use 10,000 paired resamples of the 20 seeds with bootstrap RNG seed `20261023`.
 
