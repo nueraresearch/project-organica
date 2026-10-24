@@ -11,8 +11,11 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.7.0
-date-released: "2026-10-23"
+version: 0.8.0
+# 0.8.0 is cut on master and NOT yet published; 0.7.0 is the latest release.
+# This date is the day the version was cut -- update it on the day 0.8.0 is
+# actually tagged, or cite 0.7.0 instead.
+date-released: "2026-10-24"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"
 url: "https://github.com/nueraresearch/project-organica"

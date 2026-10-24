@@ -110,6 +110,10 @@ questions the matrix existed to answer.
    *which* beliefs persist and how many items are discovered before
    saturation (44 to 112 across the arms); it does not change the
    attractor.
+   *(Corrected 2026-10-24, journal §31: the retained belief count is exactly
+   15 in every cycle, but the pre-retention pool is modal rather than
+   constant — 98.1–99.5% of cycles for five arms, 75.9% for `NO_QUESTIONS`.
+   The attractor conclusion is unaffected.)*
 2. **Is contradiction developmental fuel or bookkeeping?** **Answered: not
    fuel, on this substrate.** With contradiction's weight in the confidence
    formula removed, development velocity goes *up* (2.467 → 2.633) and

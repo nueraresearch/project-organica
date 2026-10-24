@@ -2310,3 +2310,84 @@ and are not used in the primary decision.
 Protocol and runner: docs/PHASE-J-ADAPTATION-PREREGISTRATION.md and
 benchmarks/post_shift_adaptation.py; full results:
 docs/post_shift_adaptation_results.json; fact-sheet entry: §R.
+
+## §31 — Correction: the structural plateau is dominant, not perfect
+
+**Why this section exists.** Regenerating the Tier-1 campaign artifact on
+2026-10-24 — `docs/force_matrix.json` re-assembled from the campaign's own
+per-colony part files so that it carries the per-cycle discovery series —
+meant checking every published claim against the regenerated file rather than
+assuming it had survived. One did not.
+
+**What was claimed.** §23.3 stated:
+
+> Every colony reaches its **complete** structural configuration on the first
+> cycle and does not change it again for 2,999 cycles
+
+and gave the table *18 pre-retention beliefs / 7 competing subjects / 15
+retained beliefs* for all six colonies. §23.3's own table already listed
+"4–5" theories for four of the arms, so some non-constancy was being
+recorded; the sentence above nonetheless asserted that the configuration was
+unchanged.
+
+**What the data actually shows.** Measured cycle by cycle from
+`docs/force_matrix.json` → `series`:
+
+| Colony | cycles at 18 beliefs / 7 subjects | of the tail half | last excursion | pool values seen |
+|---|---:|---:|---:|---|
+| FULL | 2,964 / 2,999 (98.8%) | 100% | cycle 212 | 18, 16 |
+| SALIENCE | 2,984 / 2,999 (99.5%) | 100% | cycle 221 | 18, 16 |
+| NO_CONTRADICTIONS | 2,957 / 2,999 (98.6%) | 100% | cycle 163 | 18, 16, **20** |
+| **NO_QUESTIONS** | **2,277 / 2,999 (75.9%)** | **95.1%** | **cycle 2,738** | 18, 16 |
+| NO_DREAMS | 2,984 / 2,999 (99.5%) | 100% | cycle 185 | 18, 16 |
+| ANTI_EIG | 2,943 / 2,999 (98.1%) | 100% | cycle 539 | 18, 16 |
+
+The excursions are brief. In the five arms other than NO_QUESTIONS they last
+1–17 cycles, there are 15 to 56 of them, and all of them are over by cycle
+539. The **retained** belief count is genuinely exact: 15 in every one of the
+2,999 cycles of every colony.
+
+These are real per-cycle substrate states, not a recording artifact:
+`pre_beliefs` is the number of belief candidates the substrate produced before
+retention (`len(beliefs)` in `benchmarks/force_matrix.py`), and
+`pre_subjects_ge2` counts the subjects holding at least two of them.
+
+**Nothing else changes.** The excursions never break a launch gate. G-P1 and
+G-SUP require the belief pool to *exceed* `MAX_HYPOTHESES` (15), and 16 does.
+Re-verified from the regenerated artifact, cycle by cycle:
+
+| Gate | Requirement | Result |
+|---|---|---|
+| G-CS | ≥ 3 subjects hold ≥ 2 beliefs | **100% of cycles, all six colonies** |
+| G-P1 / G-SUP | belief pool > 15 | **100% of cycles, all six colonies** |
+| G-EXP | theories < 8 | **100% of cycles, all six colonies** |
+| G-SUS | all three hold in ≥ 60% of the tail half | **100% in all six colonies** |
+
+So the gate story, the measured noise floor, the five verdicts, the inventory
+totals and the +10,776% support growth all stand exactly as published.
+
+**The correction, stated plainly.** "Structure flat, evidence growing" is true
+of the *typical* arm and needs qualification for one. Five of the six arms
+settle on cycle 1 and hold 18/7 for 98–99.5% of the run and for 100% of the
+tail half. **NO_QUESTIONS does not**: it sits at 16/6 for 722 of its 2,999
+cycles (24%), with excursions continuing as late as cycle 2,738.
+
+**Why the exception is the interesting part.** NO_QUESTIONS is also the arm that
+discovers the most — 112 items, 95% of them by cycle 977 and 99% by cycle
+2,167, against 267 cycles for FULL and 22 for NO_DREAMS — and the only arm
+still finding new items deep into the run. The five arms whose structure stops
+moving are the five that stop discovering; the one arm that kept discovering
+kept moving. That is one arm in one run, so it is a correlation and not a
+cause. But it points the same way as H24: the plateau looks like the organism
+having exhausted the environment, not the organism having refused to
+reorganise.
+
+**What was done.** §23.3 is left as written, because it is the record of what
+was believed on 2026-10-23. The claim is corrected in place in
+`docs/FORCE-MATRIX-RESULTS.md` §2, `docs/FACTS-SHEET.md` §I1 with the
+measurement in a new §S, `README.md`, `CHANGELOG.md` (in 0.8.0, with a pointer
+at the 0.7.0 entry), `docs/ORGANICA-V2-DESIGN-NOTES.md`,
+`docs/WORLD-SCALE-PREREGISTRATION.md` and the owner manual. Every correction
+points back here. The measurement is reproducible from the artifact alone:
+`docs/force_matrix.json` → `series` → `pre_beliefs`, `pre_subjects_ge2`,
+`beliefs`.

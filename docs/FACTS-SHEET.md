@@ -248,7 +248,7 @@ stimulus, seed 20261023, `PYTHONHASHSEED=0` in all six processes.
 
 | # | Fact | Evidence |
 |---|------|----------|
-| **I1** | **The structure is decided on cycle 1.** Every colony reaches 18 pre-retention beliefs, 7 competing subjects and 15 retained beliefs on the first cycle and holds that configuration for 2,999 cycles. All six arms converge to the **same** attractor despite six different interventions. | `docs/force_matrix.json` → `series` |
+| **I1** | **The structure is decided on cycle 1.** Every colony reaches 18 pre-retention beliefs, 7 competing subjects and 15 retained beliefs on the first cycle, and all six arms converge to the **same** attractor despite six different interventions. **Corrected 2026-10-24 (journal §31, measured in §S):** the *retained* belief count is exactly 15 in all 2,999 cycles of every colony, but the pre-retention pool dips to 16/6 and returns — in 98.1–99.5% of cycles for five arms and only **75.9%** for `NO_QUESTIONS`. "Holds that configuration for 2,999 cycles" was an overstatement. | `docs/force_matrix.json` → `series` |
 | **I2** | **Evidence grows by three orders of magnitude while structure does not move.** Mean support 101.2 → 11,006.2 in the reference arm, **+10,776%**. | same |
 | **I3** | **M5 ("development velocity") is not a rate.** It is `new items ÷ run length`. The reference arm discovered **74** items over 300 cycles and **74** over 3,000; the "velocity" fell from 24.667 to 2.467 because the numerator stopped growing. Every colony discovered **zero** new items in its final 100 cycles. | `docs/discovery.json` |
 | **I4** | **The stimulus repeats every 9 cycles.** `lattice_L1` is 9 distinct events over 7 distinct words; the organism sees the same world 333 times. A repertoire cannot grow in a world that does not change. | `benchmarks/discovery_report.py` → `stimulus_facts` |
@@ -566,4 +566,54 @@ loss curves: docs/post_shift_adaptation_results.json; protocol:
 docs/PHASE-J-ADAPTATION-PREREGISTRATION.md; runner:
 benchmarks/post_shift_adaptation.py.
 
+---
 
+## S. Correction to I1 — how flat the structure actually is — MEASURED (2026-10-24)
+
+**Why this exists.** The Tier-1 artifact was regenerated on 2026-10-24 from the
+campaign's own per-colony part files so that it carries the per-cycle discovery
+series. That meant checking every published claim against the regenerated file
+rather than assuming it had survived. I1's phrase *"holds that configuration
+for 2,999 cycles"* did not survive. Journal §31 is the record; this is the
+measurement.
+
+**The measurement.** Cycle by cycle from `docs/force_matrix.json` → `series`:
+
+| Colony | cycles at 18 beliefs / 7 subjects | of the tail half | last excursion | pool values seen |
+|---|---:|---:|---:|---|
+| FULL | 2,964 / 2,999 (98.8%) | 100% | cycle 212 | 18, 16 |
+| SALIENCE | 2,984 / 2,999 (99.5%) | 100% | cycle 221 | 18, 16 |
+| NO_CONTRADICTIONS | 2,957 / 2,999 (98.6%) | 100% | cycle 163 | 18, 16, **20** |
+| **NO_QUESTIONS** | **2,277 / 2,999 (75.9%)** | **95.1%** | **cycle 2,738** | 18, 16 |
+| NO_DREAMS | 2,984 / 2,999 (99.5%) | 100% | cycle 185 | 18, 16 |
+| ANTI_EIG | 2,943 / 2,999 (98.1%) | 100% | cycle 539 | 18, 16 |
+
+**S1** | **The retained belief count is exactly constant.** 15 in every one of the
+2,999 cycles of every colony, with no exception. | `docs/force_matrix.json` → `series.beliefs`
+
+**S2** | **The pre-retention pool is modal, not constant.** It dips to 16 beliefs
+over 6 competing subjects and returns. The excursions are brief — 1–17 cycles
+long in five arms, 15 to 56 of them, all over by cycle 539 — and are real
+substrate states, not a recording artifact: `pre_beliefs` is the count of
+belief candidates produced before retention. | same
+
+**S3** | **`NO_QUESTIONS` is the exception.** It is at 16/6 for 722 of its 2,999
+cycles (24%), with excursions as late as cycle 2,738 — and it is also the arm
+that discovers the most (112 items; 95% of them by cycle 977, 99% by cycle
+2,167). The five arms whose structure stops moving are the five that stop
+discovering; the one arm that kept discovering kept moving. One arm in one run:
+a correlation, not a cause. | `docs/discovery.json` → `discovery_curves`
+
+**S4** | **No launch gate is affected.** G-CS, G-P1, G-SUP and G-EXP hold in
+**100% of cycles** in all six colonies, and G-SUS is **100%** in every tail
+half, re-verified cycle by cycle from the regenerated artifact. G-P1/G-SUP
+require the pool to *exceed* 15, and 16 does. The verdicts, the noise floor,
+the inventory totals and the +10,776% support growth stand as published. | `docs/force_matrix.json` → `series`
+
+**S5** | **The corrected claim.** "Structure flat, evidence growing" is true of
+the *typical* arm and needs qualification for one: five arms settle on cycle 1
+and hold 18/7 for 98–99.5% of the run and 100% of the tail half; `NO_QUESTIONS`
+does not. | —
+
+Reproduce from the artifact alone: `docs/force_matrix.json` → `series` →
+`pre_beliefs`, `pre_subjects_ge2`, `beliefs`.

@@ -30,6 +30,17 @@ complete structural configuration on cycle 1 and then accumulated evidence for
 environment, and that the organism's apparent ceiling is the world's ceiling,
 not the architecture's.
 
+> **Annotation (2026-10-24, journal §31).** The premise above says every arm
+> reached its "complete structural configuration on cycle 1". That is right
+> about the retained belief count, which is exactly 15 in every cycle of every
+> colony, and slightly overstated about the pre-retention pool, which is the
+> *modal* configuration rather than a constant one: 98.1–99.5% of cycles for
+> five arms, 75.9% for `NO_QUESTIONS`. The annotation is recorded here
+> rather than by editing the premise, because this is a preregistration and
+> the premise was committed before the ladder ran. H24 is unaffected in
+> direction — and, if anything, the exception supports it: the one arm that
+> kept discovering was also the one that kept moving.
+
 **What would falsify it:** a larger, non-repeating world still produces ~74
 distinct structures, the same plateau, and the same attractor.
 

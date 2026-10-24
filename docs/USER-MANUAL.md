@@ -86,7 +86,7 @@ failed cycles       : 0
 | **Phase H external-validity campaign** | **COMPLETE** — ten seeds, fixed held-out curriculum, three latent-cause difficulty levels; simple baselines lead overall. Full intervals in `docs/phase_h_results.json`; journal §28. |
 | **Phase I regime-shift benchmark** | **COMPLETE** — 20 shifted and 20 stationary worlds per family. Primary success rule not met: cause-mixture comparisons inconclusive; Markov and decayed controls exceeded the 10% false-alarm gate in mapping-swap (15%). Results: `docs/regime_shift_results.json`; journal §29. |
 | **Phase J gradual-adaptation benchmark** | **COMPLETE** — 20 paired shifted/control seeds in each of two gradual-transition families (80 worlds total). Organica's preregistered adaptation-cost advantage and final-stable non-inferiority gates both failed in both families; Markov and decayed association had much lower NLL. Results: `docs/post_shift_adaptation_results.json`; journal §30. |
-| Git | Phase I PR #3 is merged; Phase J work is on branch `phase-j-post-shift-adaptation`; package remains pre-1.0. |
+| Git | All four overnight PRs are merged and `master` is level with `origin/master`. The three feature branches (`phase-h-external-validity`, `phase-i-regime-shift`, `phase-j-post-shift-adaptation`) have had their remotes deleted and are gone locally. Package version **0.8.0**, not yet tagged; **0.7.0 is the latest tag and the latest release**. |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
@@ -94,7 +94,7 @@ failed cycles       : 0
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
 | Gate board | `docs/GATE-BOARD.md` — what is demonstrated, what is assumed, what is blocked |
 
-**The third headline, and it changed the plan again on 2026-10-23: the matrix ran, and what it measured was not what it was named.** Six colonies, 3,000 cycles each, and **every arm reaches its complete structural configuration on cycle 1** — 18 pre-retention beliefs, 7 competing subjects, 15 retained beliefs — and holds it for 2,999 cycles while mean support grows **+10,776%**. Structure flat, evidence growing by three orders of magnitude.
+**The third headline, and it changed the plan again on 2026-10-23: the matrix ran, and what it measured was not what it was named.** Six colonies, 3,000 cycles each, and **every arm reaches its complete structural configuration on cycle 1** — 18 pre-retention beliefs, 7 competing subjects, 15 retained beliefs — and essentially holds it for 2,999 cycles while mean support grows **+10,776%**. Structure flat, evidence growing by three orders of magnitude. *(Corrected 2026-10-24, journal §31: the retained belief count is exactly 15 in every cycle of every colony, but the pre-retention pool is the *modal* configuration rather than a constant one — 98.1–99.5% of cycles for five arms, 75.9% for `NO_QUESTIONS`, whose excursions run as late as cycle 2,738. No launch gate is affected.)*
 
 **And the reason is environmental, not architectural: the stimulus repeats every 9 cycles.** `lattice_L1` is 9 distinct events over 7 distinct words; the organism sees the same world 333 times. Every colony discovered **zero** new items in its final 100 cycles, and the whole inventory is 74 items. **M5 ("development velocity") was not a velocity** — it was a finite inventory divided by the run length, which is why it read 24.667 over 300 cycles and 2.467 over 3,000 while the underlying count stayed at 74.
 
@@ -972,6 +972,7 @@ project-organica/
 │   ├── regime_shift.py            # Phase I online surprise-based regime-shift detector and paired campaign
 │   ├── post_shift_adaptation.py   # Phase J gradual-transition adaptation benchmark and paired campaign
 │   ├── hub_degree_probe.py        # the Layer-1 survival threshold against hub degree
+│   ├── run_horizon_600.py         # the burst curriculum carried to a 600-cycle horizon
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
 │   ├── substrate_probe.py         # live substrate cost + page accounting
@@ -986,7 +987,7 @@ project-organica/
 ├── conftest.py                  # makes `pytest` work from any directory
 │
 ├── examples/domains/            # the four reproduction worlds
-├── tests/                       # 35 tests (incl. substrate equivalence, retention policy)
+├── tests/                       # 42 tests (incl. substrate equivalence, retention policy, versioning)
 ├── papers/                      # research manuscripts
 ├── research-journal/            # development history + Phase G findings
 ├── docs/                        # architecture, design laws, failures, reports
@@ -1021,6 +1022,15 @@ project-organica/
 │   ├── discovery.json           # the inventory breakdown and the discovery curves
 │   ├── force_matrix.json        # the Tier-1 campaign results (3,000 cycles x 6 colonies)
 │   ├── force_matrix_pilot.json  # the Tier-1 pilot campaign results (300 cycles)
+│   ├── WORLD-SCALE-PREREGISTRATION.md # H24: the world-complexity ladder and the burst curriculum
+│   ├── scale_ladder.json         # the H24 ladder rungs and their gate/sustainment readings
+│   ├── scale_ladder_scaffold.json # the 300-cycle scaffold ladder (91 baseline vs 94/93/95)
+│   ├── scale_horizon_600.json    # the burst curriculum at 600 cycles (91 baseline vs 119 burst)
+│   ├── scale_horizon_1200.json   # ...and at 1,200 cycles (91 baseline vs 128 burst)
+│   ├── heldout_prediction.json   # the held-out prediction pilot vs Markov and decayed baselines
+│   ├── ground_truth_recovery.json # structure recovery against hidden-cause pair ground truth
+│   ├── hub_degree_probe.json     # survival ratio against hub degree (3 optimal, 12 collapses)
+│   ├── clone_check.json          # the last fresh-clone check, check by check
 │   ├── figure_tier1_matrix.svg  # the campaign figure
 │   └── figure_discovery.svg     # the cumulative-discovery figure
 ├── snapshots/                   # the longitudinal data  ← the study's output
@@ -1136,22 +1146,31 @@ matter of taste.
 
 | Namespace | Form | What it means | Where it lives |
 |---|---|---|---|
-| **Package version** | `0.x.y` | the released, installable, citable artifact. **Semantic Versioning 2.0.0.** The project is **pre-1.0**, so the public API is *not* declared stable and the MINOR/PATCH numbers carry the meaning instead. | `organica/__version__` (the single source of truth), `pyproject.toml`, `CITATION.cff` |
+| **Package version** | `0.x.y` | the released, installable, citable artifact. **Semantic Versioning 2.0.0.** The project is **pre-1.0**, so the public API is *not* declared stable and the MINOR/PATCH numbers carry the meaning instead. | `organica.__version__` (the single source of truth), `pyproject.toml`, `CITATION.cff` |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. **Organica 1** is the frozen engine that runs today. **Organica 2** is the planned successor — planning only, in [`docs/ORGANICA-V2-DESIGN-NOTES.md`](docs/ORGANICA-V2-DESIGN-NOTES.md). | `docs/ORGANICA-V2-DESIGN-NOTES.md` |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. **Ablation Study 1** is the eleven-condition ablation study (`docs/ablation_study.json`). **Ablation Study 2** is the six-colony Tier-1 matrix (`docs/FORCE-MATRIX-PREREGISTRATION.md`). | `docs/FORCE-MATRIX-PREREGISTRATION.md` |
 
-**So: no, the project is not at "v1" or "v2" as a release.** It is at
-**0.7.0**, pre-1.0, with the architecture at *Organica 1* and the second
+**So: no, the project is not at "v1" or "v2" as a release.** It is
+**0.8.0**, pre-1.0, with the architecture at *Organica 1* and the second
 research campaign in flight.
 
 `tests/test_versioning.py` asserts that the three version declarations
 never drift apart, that the version is valid SemVer 2, that it is
-pre-1.0, that it has a git tag, and that it has a changelog entry. The
-three declarations disagreed once already — `pyproject.toml` said 0.1.0
-while `CITATION.cff` said 0.5.0 — and a reader who cited one and
-installed the other had no way to tell.
+pre-1.0, that it has a changelog entry, and that **the version describes
+this commit**. The three declarations disagreed once already —
+`pyproject.toml` said 0.1.0 while `CITATION.cff` said 0.5.0 — and a
+reader who cited one and installed the other had no way to tell.
 
 Releases are tagged `v<version>` and recorded in [`CHANGELOG.md`](../CHANGELOG.md).
+
+**Bumping the version is not optional after a release.** Master drifted
+past the `v0.7.0` tag while still declaring `0.7.0`, so the version named
+a release that master was not, and anyone installing from master got a
+different artifact under the same number. The rule is now enforced: *if
+a tag `v<version>` exists, it must point at the current commit*. A
+version whose changelog heading is marked **`(unreleased)`** is allowed to
+have no tag yet, because there is nothing to check out yet — that is the
+normal state of `master` between releases. See AGENTS.md rule 10.
 
 ---
 
@@ -1425,3 +1444,8 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | Completed Phase I without engine changes: 20 shifted and 20 stationary-control worlds in each of two generator families. The primary success rule was not met; cause-mixture comparisons were inconclusive and mapping-swap baselines exceeded the control false-alarm gate. Recorded results in `docs/regime_shift_results.json` and journal §29. |
 | 2026-10-23 | **Preregistered Phase J gradual post-shift adaptation before implementation or outcome generation.** Defined two gradual-transition world families, 20 paired seed-varied shifted/control worlds, shift-specific predictive-loss and final-performance gates, and descriptive settling time. The live study remains paused; the cognitive engine is frozen. |
 | 2026-10-23 | **Completed Phase J** on 80 paired shifted/control worlds without engine changes. Organica failed both primary gates in both families; the two simple baselines had much lower predictive NLL. Recorded all per-world curves and paired intervals in `docs/post_shift_adaptation_results.json`; journal §30. |
+| 2026-10-24 | **The fresh-clone check was failing, and the repository was fine.** `benchmarks/clone_check.py` clones with `--depth 1`, which fetches only the tags pointing at the commit it fetched — so a release tag on an ancestor commit is absent locally — and `test_a_git_tag_exists_for_the_version` asserted against that empty tag list. The test was wrong, not the repo: the witness for "can a stranger check this version out" is the **remote**, not the local tag list. The check now consults `git ls-remote` when the checkout is shallow, and a full checkout with no tag still fails exactly as before. Reproduced the failure in a shallow clone before fixing it. |
+| 2026-10-24 | **Release 0.7.0 published, and the package version moved to 0.8.0.** The `v0.7.0` tag existed but had no release page, so the link in `CHANGELOG.md` was a 404; the page now exists and the tag it points at (the complete 0.7.0 changelog) is unchanged. Separately, master had drifted **13 commits past the `v0.7.0` tag while still declaring 0.7.0**, so the version number named a release that master was not and anyone installing from master got a different artifact under the same number. The version is now **0.8.0** in all three declarations (`organica/__init__.py`, `pyproject.toml`, `CITATION.cff`) with a changelog entry marked `(unreleased)`. `tests/test_versioning.py` now enforces the invariant: **if a tag `v<version>` exists, it must point at the current commit**; an `(unreleased)` version is allowed to have no tag, because there is nothing to check out yet. The guard was proved to fire by reconstructing the lying-version state in a throwaway clone. New rule 10 in AGENTS.md. |
+| 2026-10-24 | **The Tier-1 campaign artifact was regenerated, and the two missing artifacts now exist.** `docs/discovery.json` and `docs/figure_discovery.svg` were referenced by `CHANGELOG.md` and the facts sheet but had never been produced, because the published `docs/force_matrix.json` was assembled *before* the discovery instrumentation was added and so carried no `series.discovery` for `benchmarks/discovery_report.py` to read. The campaign was re-run on the current build and the artifact reassembled from the run's own per-colony part files. **Every shared metric and every other series is bit-identical to the published artifact**, so this is a re-issue of the same result with the discovery history attached, not a new result. The six colonies ran in two batches (five in parallel, then the slowest alone, because the first batch was interrupted); the batching is recorded in the artifact's provenance and is a wall-clock fact, not a scientific one. |
+| 2026-10-24 | **A correction to the campaign's headline claim.** Regenerating the Tier-1 artifact (see the row above) meant checking every published claim against the regenerated file rather than assuming it had survived, and one did not. Journal §23.3 said every colony "does not change it again for 2,999 cycles". Measured cycle by cycle: the **retained** belief count is exactly **15 in every cycle of every colony**, but the **pre-retention pool is modal, not constant** — it dips to 16 beliefs over 6 competing subjects and returns, in 2,964/2,999 cycles (98.8%) for FULL, 99.5% for SALIENCE and NO_DREAMS, 98.6% for NO_CONTRADICTIONS, 98.1% for ANTI_EIG, and only **2,277/2,999 (75.9%) for `NO_QUESTIONS`**, whose excursions run as late as cycle 2,738. The excursions are 1–17 cycles long in the other five arms and all end by cycle 539. **No launch gate is affected** — G-CS, G-P1, G-SUP and G-EXP hold in 100% of cycles in all six colonies and G-SUS is 100% in every tail half, re-verified from the regenerated artifact; G-P1/G-SUP need the pool to exceed 15 and 16 does. The verdicts, the noise floor, the inventory totals and the +10,776% support growth are unchanged. The exception is the interesting part: `NO_QUESTIONS` is also the arm that discovers the most (112 items, 95% by cycle 977) and the only one still finding new items deep into the run — the arms that stopped discovering are the arms that stopped moving, which points the same way as H24. Corrected in place in `docs/FORCE-MATRIX-RESULTS.md` §2, `docs/FACTS-SHEET.md` §I1 with the measurement in a new **§S**, `README.md`, `CHANGELOG.md` (0.8.0, with a pointer at the 0.7.0 entry), `docs/ORGANICA-V2-DESIGN-NOTES.md` and `docs/WORLD-SCALE-PREREGISTRATION.md`. Journal §31. |
+| 2026-10-24 | **Repository hygiene.** The local `master` branch had never actually been advanced past the overnight merges — a fast-forward had landed on a since-deleted PR branch instead, leaving `master` 13 commits behind its remote while the working tree looked current, which is what made `git rev-list --left-right --count origin/master...master` report a divergence that `git rev-parse` contradicted. `master` is now level with `origin/master`, and the three orphaned feature branches are deleted. `AGENTS.md` updated: the research journal is at **§1–§30**, not §1–§23; the Phase H/I/J preregistrations are listed as frozen-before-the-run documents; and the new benchmark commands are listed. The pre-G9 master plan's Phase A deliverables list `docs/generations/GEN_0.md`…`GEN_8.md`, which were never produced as separate files — the generation specifications live in `docs/architecture.md` and the manual's layer tables, and an amendment in the plan records this rather than leaving a dangling reference. A sweep of all 502 repo-relative paths referenced across the 45 markdown files now resolves, apart from the two artifacts this turn produced. |

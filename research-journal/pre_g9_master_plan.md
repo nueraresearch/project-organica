@@ -52,9 +52,17 @@
 ### Phase A: Architecture Freeze (v1.0)
 - **Goal**: Lock cognitive primitives. Ensure no ad-hoc additions.
 - **Deliverables**:
-  - `docs/ARCHITECTURE.md` (Formal invariants, topological thresholds, data contracts).
+  - `docs/architecture.md` (Formal invariants, topological thresholds, data contracts).
   - Detailed per-generation specifications (`docs/generations/GEN_0.md` through `GEN_8.md`).
   - `docs/DESIGN_LAWS.md` (The 6 inviolable laws: induction, lineage, isolation, dreaming, EIG, selection).
+
+> **Amendment (2026-10-24) — the per-generation files were never produced as
+> separate documents.** The nine generation specifications live inside
+> `docs/architecture.md` and in the layer tables of `docs/USER-MANUAL.md`;
+> `docs/generations/GEN_0.md` … `GEN_8.md` do not exist. The deliverable was
+> met by a different route, not skipped. The reference above is left in
+> place so the original plan stays readable, and this note is the record of
+> what actually happened.
 
 ### Phase B: Reproduction Pack (`examples/domains/`)
 - **Goal**: Empower independent researchers to reproduce emergent phenomena in < 60 seconds without deep learning hardware.

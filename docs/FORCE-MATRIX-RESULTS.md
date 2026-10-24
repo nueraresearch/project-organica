@@ -12,6 +12,20 @@ Artifacts: `docs/force_matrix.json` (the campaign),
 `docs/discovery.json` and `docs/figure_discovery.svg` (the discovery curves),
 `docs/figure_tier1_matrix.svg` (the population figure).
 
+**Provenance note (2026-10-24).** `docs/force_matrix.json` was regenerated from
+the campaign's own per-colony part files so that it carries the per-cycle
+discovery series as well as the metrics. The previously published artifact had
+been assembled before that instrumentation existed, which is why
+`docs/discovery.json` and `docs/figure_discovery.svg` had never been produced.
+**Every metric and every other series is bit-identical to the previously
+published artifact**, so no result in this document changes. The regenerated
+artifact also records that the six colonies were run in two batches — five in
+parallel, then the slowest alone, because the first batch was interrupted.
+That is a wall-clock fact and not a scientific one: each colony is an
+independent process with its own temporary substrate, the same seed and the
+same pinned `PYTHONHASHSEED`. The wall-clock row below describes the
+original single-batch run.
+
 ---
 
 ## 1. The run
@@ -31,7 +45,7 @@ Artifacts: `docs/force_matrix.json` (the campaign),
 ## 2. The headline: the structure is decided on cycle 1
 
 Every colony reaches its **complete** structural configuration on the first
-cycle and never changes it again for 2,999 cycles:
+cycle and essentially never changes it again for 2,999 cycles:
 
 | Colony | pre-retention beliefs | competing subjects | retained beliefs | theories | questions |
 |---|---:|---:|---:|---:|---:|
@@ -41,6 +55,17 @@ cycle and never changes it again for 2,999 cycles:
 | NO_QUESTIONS | 18 | 7 | 15 | 4–5 | 0 |
 | NO_DREAMS | 18 | 7 | 15 | 4–5 | 4–5 |
 | ANTI_EIG | 18 | 7 | 15 | 4–5 | 4–5 |
+
+> **Corrected 2026-10-24 — journal §31.** The table above is the *modal*
+> configuration, not a constant one. The **retained belief count is exactly 15
+> in every cycle of every colony**, but the pre-retention pool dips to 16
+> beliefs over 6 competing subjects and returns, in 98.1–99.5% of cycles for
+> five arms and in only **75.9% of cycles for `NO_QUESTIONS`**, whose
+> excursions run as late as cycle 2,738. Every excursion ends by cycle 539 in
+> the other five arms. The excursions never break a launch gate — G-P1/G-SUP
+> need the pool to exceed 15, and 16 does — so the gate results, the
+> verdicts and the inventory totals are unaffected. The sentence below is the
+> corrected form.
 
 The steady state is **identical across all six arms** — 18 beliefs over 7
 competing subjects, the exact configuration the launch gates were built to
@@ -279,9 +304,11 @@ be decided is worse than no pre-registration.
 
 **It can answer:**
 
-1. The organism reaches a **complete, unchanging** structural state on
-   **cycle 1**, in all six arms, and then accumulates evidence for 2,999
-   cycles (+10,776%). Structure and evidence are decoupled at this scale.
+1. The organism reaches a **complete structural state on cycle 1** in all six
+   arms, and then accumulates evidence for 2,999 cycles (+10,776%). Structure
+   and evidence are decoupled at this scale. The retained belief count is
+   exactly constant; the pre-retention pool is constant for 98–99.5% of the
+   run in five arms and for 75.9% of it in `NO_QUESTIONS` (journal §31).
 2. The **retention policy is now measurable at all**, and it changes which
    beliefs persist and how many items are discovered before saturation
    (44 → 112 across the arms).

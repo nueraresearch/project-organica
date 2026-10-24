@@ -264,8 +264,14 @@ magnitude, 14 survived. Three *interpretations* were retracted outright.
 **The Tier-1 matrix ran: 6 colonies × 3,000 cycles = 18,000 colony-cycles.**
 Every arm reaches its complete structural configuration — 18 pre-retention
 beliefs, 7 competing subjects, 15 retained beliefs — **on cycle 1**, and
-holds it for 2,999 cycles while mean support grows **+10,776%**. Structure
-flat, evidence growing by three orders of magnitude.
+essentially holds it for 2,999 cycles while mean support grows **+10,776%**.
+Structure flat, evidence growing by three orders of magnitude.
+
+> *Corrected 2026-10-24 ([journal §31](research-journal/phase_g_findings_20261021.md)).*
+> The retained belief count is exactly 15 in every cycle of every colony, but
+> the pre-retention pool is modal rather than constant: it dips to 16 beliefs
+> over 6 subjects and returns, in 98.1–99.5% of cycles for five arms and in
+> only 75.9% for `NO_QUESTIONS`. No launch gate is affected.
 
 The five pre-registered predictions came back **2 SUPPORTED and 3 REVERSED**:
 
@@ -318,13 +324,13 @@ performance. →
 
 ## Current state
 
-**Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
+**Package version 0.8.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.8.0 is cut on `master` and not yet tagged, and **0.7.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
 Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–30.
 
-> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.8.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.7.0, pre-1.0.
+**The project is not at "v1" or "v2" as a release.** It is at 0.8.0, pre-1.0 — and 0.8.0 has not been published yet.
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 

@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.7.0** |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.8.0** (unreleased) · 0.7.0 is the latest tag |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -21,7 +21,206 @@ The package version is **pre-1.0**, which is the honest state: the public
 API is not declared stable, and the MINOR/PATCH numbers carry the
 meaning instead. `tests/test_versioning.py` asserts that the three
 declarations — `organica.__version__`, `pyproject.toml` and `CITATION.cff`
-— never drift apart, and that a git tag exists for the version.
+— never drift apart, and that the version describes *this* commit: if a
+tag for the version exists, it must point here. A version whose changelog
+entry is marked `(unreleased)` is allowed to have no tag yet, because
+there is nothing to check out.
+
+---
+
+## [0.8.0] — 2026-10-24 (unreleased)
+
+**The external-validity arc: three preregistered campaigns asking whether
+Organica's structure buys anything over trivial baselines. The honest
+answer recorded here is negative.**
+
+Full detail in research journal §24–§30 and in
+`docs/PHASE-H-PREREGISTRATION.md`, `docs/REGIME-SHIFT-PREREGISTRATION.md`,
+`docs/PHASE-J-ADAPTATION-PREREGISTRATION.md`.
+
+### Corrected — the structural plateau is dominant, not perfect
+
+**0.7.0 said "the structure is decided on cycle 1" and that every colony
+"holds that configuration for 2,999 cycles". The first half is right; the
+second was an overstatement, and it is corrected here.**
+
+Regenerating the Tier-1 artifact to produce `docs/discovery.json` meant
+checking every published claim against the regenerated file. Measured cycle by
+cycle:
+
+| Colony | cycles at 18 beliefs / 7 subjects | of the tail half | last excursion |
+|---|---:|---:|---:|
+| FULL | 2,964 / 2,999 (98.8%) | 100% | cycle 212 |
+| SALIENCE | 2,984 / 2,999 (99.5%) | 100% | cycle 221 |
+| NO_CONTRADICTIONS | 2,957 / 2,999 (98.6%) | 100% | cycle 163 |
+| **NO_QUESTIONS** | **2,277 / 2,999 (75.9%)** | **95.1%** | **cycle 2,738** |
+| NO_DREAMS | 2,984 / 2,999 (99.5%) | 100% | cycle 185 |
+| ANTI_EIG | 2,943 / 2,999 (98.1%) | 100% | cycle 539 |
+
+The **retained** belief count is exactly 15 in every one of the 2,999 cycles of
+every colony. The **pre-retention pool** is modal, not constant: it dips to 16
+beliefs over 6 competing subjects and returns. The excursions are brief — 1–17
+cycles in five arms, all over by cycle 539 — and they are real substrate
+states, not a recording artifact.
+
+**No launch gate is affected.** G-CS, G-P1, G-SUP and G-EXP hold in 100% of
+cycles in all six colonies and G-SUS is 100% in every tail half, re-verified
+from the regenerated artifact. G-P1/G-SUP need the pool to *exceed* 15, and 16
+does. The verdicts, the noise floor, the inventory totals and the +10,776%
+support growth stand as published.
+
+The exception is the interesting part: **`NO_QUESTIONS` is also the arm that
+discovers the most** (112 items; 95% of them by cycle 977, 99% by cycle 2,167)
+and the only arm still finding new items deep into the run. The five arms
+whose structure stops moving are the five that stop discovering; the one arm
+that kept discovering kept moving. One arm in one run — a correlation, not a
+cause — but it points the same way as H24.
+
+Full record: journal §31, facts sheet §S, `docs/FORCE-MATRIX-RESULTS.md` §2.
+
+### The position this leaves
+
+**No external-validity task tested has produced a win for Organica.** Being
+precise about what that means:
+
+- **Held-out prediction** — beaten by both baselines (0.4126 against 0.5040
+  and 0.4851).
+- **Structure recovery** — beats the temporal-transition-graph baseline in
+  the clean and overlapping worlds, **loses to it in the stress world**, and
+  loses to plain same-event co-occurrence in all three.
+- **Regime-shift detection** — no family met its preregistered success rule;
+  the cause-mixture comparison was inconclusive.
+- **Post-shift adaptation** — both gates failed in both families, against
+  baselines with far lower predictive loss.
+
+That is not the same statement as *the architecture has been shown useless*.
+These tasks score next-event prediction, detection delay, structure recovery
+and adaptation cost, and none of them is what the eight-layer engine was
+designed to win. But it is the honest reading of the evidence so far, and it
+is recorded **before** any redesign rather than after one.
+
+### Added — Phase H: external validity (preregistered)
+
+Held-out next-event prediction, F1 on known training tags:
+
+| Model | F1 |
+|---|---|
+| Organica (Generation-1 prediction candidates) | **0.4126** |
+| First-order Markov | **0.5040** |
+| Decayed temporal association | **0.4851** |
+
+**Disclosure:** the prediction curriculum is deterministic and identical across
+seeds, so Organica's F1 is exactly 0.4126 and the Markov baseline's exactly
+0.5040 in all ten seeds. The intervals there are degenerate, and they are
+reported as degenerate rather than smoothed into significance.
+
+Structure recovery against hidden cause-pair ground truth, mean F1 over the
+ten seeds (range in brackets):
+
+| World | Organica | Same-event co-occurrence | Temporal transition graph |
+|---|---|---|---|
+| clean | **0.7041** [0.667–0.750] | 0.8000 | 0.1482 |
+| overlapping | **0.5469** [0.449–0.628] | 0.7642 | 0.2199 |
+| stress | **0.1091** [0.097–0.159] | 0.7959 | 0.2803 |
+
+Organica beats the temporal-graph baseline in the clean and overlapping
+worlds and **loses to it in the stress world** — 0.1091 against 0.2803. It
+loses to plain same-event co-occurrence in all three. The league is a
+three-level stress test, and Organica degrades faster than either baseline
+does.
+
+### Added — Phase I: preregistered regime-shift detection
+
+No primary success rule was met in either generator family.
+
+- **cause-mix** — Organica's mean detection delay was **2.55** cycles,
+  against **2.80** for the Markov baseline and **4.25** for decayed
+  association. The paired advantage for the Markov baseline is 0.25
+  cycles, 97.5% CI **[−0.25, 0.75]** — inconclusive. Organica's
+  false-alarm rate is **0.0**.
+- **mapping-swap** — the baselines are **faster** (Markov **1.25**,
+  decayed **1.20**, against Organica **2.65**), and their **15%**
+  false-alarm rate breaks the 10% gate while Organica's is **0%**. The
+  benchmark is flagged invalid for this family, and the comparison is
+  reported with that caveat attached.
+
+### Added — Phase J: gradual post-shift adaptation
+
+Both gates failed in both families.
+
+| Family | Organica adaptation cost | Markov | Decayed |
+|---|---|---|---|
+| cause-mix | **2.497** | 0.178 | 0.122 |
+| mapping-mix | **2.727** | 0.442 | 0.276 |
+
+Final-stable NLL gap: **+4.478** / **+4.500** (cause-mix) and **+3.617** /
+**+3.796** (mapping-mix). A clean negative result.
+
+### Added — extended burst horizons, and the scaffold ladder
+
+The burst curriculum was carried to longer horizons:
+
+| Horizon | Baseline inventory | Burst inventory | Bursts delivered | Assimilation efficiency |
+|---|---|---|---|---|
+| 600 cycles | 91 | **119** | 19 | 1.474 |
+| 1,200 cycles | 91 | **128** | 39 | 0.949 |
+
+**Assimilation efficiency decays** — 2.44 → 1.474 → 0.949 items per burst —
+so the mechanism's yield falls as the run lengthens even while the
+cumulative total still climbs. At 1,200 cycles the burst arm added 8 items
+between cycles 601 and 1200 and 2 in its final 100 cycles, reaching 128
+against a preregistered 140+ progressive-expansion band. Neither unbounded
+expansion nor a stable attractor is established; the reading is recorded as
+*intermediate*.
+
+The 300-cycle scaffold ladder, at 91 for the repeating baseline, gives 94 /
+93 / 95 for the slow / medium / fast scaffold variants over 24 / 51 / 186
+distinct event strings — scaffolding holds the inventory roughly flat
+where uniform scaling collapses it.
+
+### Changed
+
+- **The live study is PAUSED** at the owner's direction, after continuous-run
+  cycle 1032 (global `sleep_cycle` 5396). The pause marker is in the
+  append-only log, the `INTERVAL` override was removed, and there is no
+  scheduled restart. The organism did not experience the missing wall-clock
+  time, and the write-up says so.
+- The package version is **0.8.0**, cut on master; **0.7.0 remains the
+  latest tagged release**. Master had drifted past the `v0.7.0` tag while
+  still declaring 0.7.0, so the version number was naming a release that
+  master was not.
+
+### Fixed
+
+- `tests/test_versioning.py` failed in a **fresh clone**. `clone_check.py`
+  clones with `--depth 1`, which fetches only the tags pointing at the
+  commit it fetched, so a release tag on an ancestor commit was absent
+  locally and the test asserted against an empty tag list. The check now
+  consults the remote when the checkout is shallow, and a full checkout
+  with no tag still fails exactly as before.
+- The version test now also fails when the version describes a commit the
+  tag does not cover, which is the drift that let master sit past
+  `v0.7.0` while still claiming 0.7.0.
+- The local `master` branch had not actually been advanced past the
+  overnight merges: a fast-forward had landed on a since-deleted PR branch
+  instead, leaving `master` 13 commits behind its remote while the working
+  tree still looked current. `master` is fast-forwarded and the three
+  orphaned branches are gone.
+
+### Known limitations
+
+- Phase H's **prediction** scores are identical across all ten seeds, because
+  the curriculum is deterministic; those intervals carry no information about
+  seed variance. The **recovery** task does vary across seeds, and Organica's
+  recovery F1 falls to 0.1091 in the stress world, below the temporal-graph
+  baseline's 0.2803.
+- Phase I and Phase J generalise only to their two predefined synthetic
+  generator families, and Phase J's settling time is self-referenced to
+  each model's own final stable loss, so it is descriptive, not
+  confirmatory.
+- Phase I's mapping-swap family has an **invalid benchmark** — the
+  baselines' false-alarm rate is above the gate.
+- The live study is paused and no restart is scheduled.
 
 ---
 
@@ -43,6 +242,12 @@ first cycle and holds that configuration for 2,999 cycles, while mean support
 grows **+10,776%**. All six arms converge to the *same* attractor despite
 six different interventions. Structure flat, evidence growing by three orders
 of magnitude.
+
+> *Corrected in 0.8.0 — journal §31. "Holds that configuration for 2,999
+> cycles" was an overstatement: the retained belief count is exactly 15 in
+> every cycle, but the pre-retention pool is modal rather than constant
+> (98.1–99.5% of cycles for five arms, 75.9% for `NO_QUESTIONS`). No launch
+> gate, verdict, inventory total or noise-floor number changes.*
 
 ### The verdicts
 
