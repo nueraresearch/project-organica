@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.8.0** (unreleased) · 0.7.0 is the latest tag |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.9.0** (unreleased) · 0.8.0 is the latest tag |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -28,7 +28,81 @@ there is nothing to check out.
 
 ---
 
-## [0.8.0] — 2026-10-24 (unreleased)
+## [0.9.0] — 2026-10-24 (unreleased)
+
+**The project question changed: from *can we make a developmental
+architecture?* to *what class of problems benefits from one?* Phase K opens
+the search for that task.**
+
+### The reasoning
+
+Phases H, I and J were three preregistered attempts to show an external
+advantage and all three were negative. That is not the same statement as
+*V1 failed*:
+
+> V1 develops interesting internal structure. We do not yet know what
+> problem that structure solves.
+
+Three tasks were negative; an infinite number of tasks were not tested. So
+**no V2** — the design of a successor architecture cannot be justified while
+the advantage it would provide is unknown. Designing V2 first would make V2
+guesswork.
+
+### Added — Phase K: Comparative Advantage Search
+
+A **search**, not a test. The question is *what is Organica uniquely good
+at?* Three candidate task families, each derived from a mechanism the
+project has actually measured, each scored against the strongest simple
+baseline that could plausibly solve it.
+
+| Family | Mechanism it targets | The baseline that could beat it |
+|---|---|---|
+| **K1 — Incremental world modeling** | question generation drives novelty assimilation | online co-occurrence, which won Phase H at 0.8000 vs 0.7041 |
+| **K2 — Belief revision** | falsification and contradiction drive revision | change-point detection plus wholesale relearning, with a forgetting window |
+| **K3 — Longitudinal knowledge integration** | dreams integrate beliefs into coherent structure (P4, SUPPORTED) | sliding-window co-occurrence, which must trade retention against acquisition |
+
+The protocol is frozen in [`docs/PHASE-K-PREREGISTRATION.md`](docs/PHASE-K-PREREGISTRATION.md)
+and was committed **before any Phase K outcome was generated**. Three things
+in it keep the phase honest:
+
+1. **The baselines get the tuning advantage.** Every simple baseline is swept
+   over a declared grid and its *best* score is the number used. A strawman
+   baseline is the most likely way to manufacture a false positive, and it is
+   impossible by construction.
+2. **The harness is validated before the campaign runs.** The Phase H
+   held-out task is rerun through the same code, where Organica's loss is
+   already known (0.412605 vs 0.504039). If the harness reports a win
+   there, the campaign does not run.
+3. **"No family confirmed" is a pre-committed terminal outcome.** Three more
+   families ruled out is a publishable result, and it does not authorise a
+   V2.
+
+Decision rule: paired percentile bootstrap over ten seeds, **98.33%**
+interval (Bonferroni across the three families), SUPPORTED only when the
+interval for Organica − best simple baseline lies wholly above zero.
+Attribution — whether the hypothesised mechanism is actually implicated — is
+reported from a matched within-architecture ablation and is kept separate
+from the success criterion.
+
+**The pilot, disclosed.** The harness was run once at one seed and one tenth
+of every cycle count before the protocol was frozen. Organica was behind the
+baseline in all three families. That is one seed at ten per cent of the
+protocol and it is **not evidence**; it is recorded in the preregistration
+so it cannot later be mistaken for a result.
+
+### Changed
+
+- The package version is **0.9.0**, cut on master; **0.8.0 is the latest
+  release**. 0.8.0 was a research-integrity release: corrected clone
+  verification, corrected version/tag semantics, the missing campaign
+  artifacts regenerated, the cycle-1 fixation claim corrected (journal
+  §31), the negative external-validity results recorded, and the
+  documentation synchronised with the measurements.
+- Journal §32 records the strategic shift and the negative-results map.
+
+---
+
+## [0.8.0] — 2026-10-24
 
 **The external-validity arc: three preregistered campaigns asking whether
 Organica's structure buys anything over trivial baselines. The honest
@@ -185,10 +259,10 @@ where uniform scaling collapses it.
   append-only log, the `INTERVAL` override was removed, and there is no
   scheduled restart. The organism did not experience the missing wall-clock
   time, and the write-up says so.
-- The package version is **0.8.0**, cut on master; **0.7.0 remains the
-  latest tagged release**. Master had drifted past the `v0.7.0` tag while
-  still declaring 0.7.0, so the version number was naming a release that
-  master was not.
+- The package version is **0.8.0**, and this release is the one that
+  carries it. Master had drifted past the `v0.7.0` tag while still
+  declaring 0.7.0, so the version number was naming a release that master
+  was not.
 
 ### Fixed
 
@@ -509,5 +583,6 @@ real and is disclosed in full in `research-journal/phase_g_findings_20261021.md`
 
 - First public release of the substrate and the sleep pipeline.
 
+[0.8.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.8.0
 [0.7.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.7.0
 [0.6.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.6.0

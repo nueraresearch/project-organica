@@ -2391,3 +2391,96 @@ at the 0.7.0 entry), `docs/ORGANICA-V2-DESIGN-NOTES.md`,
 points back here. The measurement is reproducible from the artifact alone:
 `docs/force_matrix.json` → `series` → `pre_beliefs`, `pre_subjects_ge2`,
 `beliefs`.
+
+## §32 — Phase K: Comparative Advantage Search
+
+**The question changed.** Six months ago the project question was *can we
+make a developmental architecture?* Today it is *what class of problems
+benefits from a developmental architecture?* The second question is harder
+and it is the right one, and it is only answerable by looking for the task
+rather than by declaring the architecture finished.
+
+**The evidence that forced the change.** Phases H, I and J were three
+preregistered attempts to show an external advantage, and all three were
+negative. That is not the same as *V1 failed*. It is:
+
+> V1 develops interesting internal structure. We do not yet know what
+> problem that structure solves.
+
+Three tasks were negative; an infinite number of tasks were not tested. The
+previous framing — three failures, therefore useless — was a mistake of
+inference, and the cost of making it would have been a redesign aimed at
+nothing.
+
+### The negative-results map, as it stands
+
+**Demonstrated**
+
+- Development occurs.
+- Curriculum affects development.
+- Novelty assimilation matters.
+- Developmental capacity is **not fixed** — it depends strongly on the
+  structure and presentation schedule of novelty (74 → 91 → 113 → 119 →
+  128 under scaffolded burst curricula).
+- Uniform novelty can **harm** development (frequency dilution).
+- The structural plateau is primarily an **environmental** constraint
+  (H24), not an architectural ceiling — with the qualification §31
+  recorded.
+
+**Not demonstrated**
+
+- Better next-event prediction (Phase H: 0.4126 vs 0.5040 Markov).
+- Better structure recovery (Phase H: loses to co-occurrence in all three
+  worlds, and to the temporal graph in the stress world).
+- Better regime-shift detection (Phase I: no family met its success rule).
+- Better post-shift adaptation (Phase J: both gates failed in both
+  families).
+- Any clear external advantage over strong simple baselines.
+
+### The decision
+
+**No V2.** Not "not yet" — the design of a successor architecture cannot be
+justified while the advantage it would provide is unknown. Designing V2
+before finding the task would make V2 guesswork.
+
+**One more phase.** Phase K is a **search**, not a test. Its question is
+*what is Organica uniquely good at?* Three candidate task families, each
+derived from a mechanism the project has actually measured, each scored
+against the strongest simple baseline that could plausibly solve it.
+
+| Family | Mechanism it targets | The baseline that could beat it |
+|---|---|---|
+| **K1 — Incremental world modeling** | question generation drives novelty assimilation | online co-occurrence, which won Phase H at 0.8000 vs 0.7041 |
+| **K2 — Belief revision** | falsification and contradiction drive revision | change-point detection plus wholesale relearning, with a forgetting window |
+| **K3 — Longitudinal knowledge integration** | dreams integrate beliefs into coherent structure (P4, SUPPORTED) | sliding-window co-occurrence, which must trade retention against acquisition |
+
+The protocol is frozen in `docs/PHASE-K-PREREGISTRATION.md`, committed before
+any Phase K outcome was generated. Three things in it are worth stating
+here, because they are the parts that keep this phase honest:
+
+1. **The baselines get the tuning advantage.** Every simple baseline is swept
+   over a declared grid and its *best* score is the number used. A
+   strawman baseline is the most likely way to manufacture a false
+   positive, and it is impossible by construction here.
+2. **The harness is validated before the campaign runs.** The Phase H
+   held-out task is rerun through the same code, where Organica's loss is
+   already known (0.412605 vs 0.504039). If the harness reports a win
+   there, the campaign does not run. A control that could only confirm
+   itself would be worthless.
+3. **"No family confirmed" is a pre-committed terminal outcome.** Three
+   more families ruled out is a legitimate, publishable result, and it does
+   not authorise a V2.
+
+The three families were chosen *because* they match measured mechanisms, and
+that is a genuine risk of false positives. It is disclosed in the
+preregistration rather than hidden, and it is the reason for the three
+safeguards above.
+
+**The pilot, disclosed.** The harness was run once at one seed and one tenth
+of every cycle count before the protocol was frozen, to confirm it executes.
+It did, and Organica was behind the baseline in all three families. That is
+one seed at ten per cent of the protocol and it is **not evidence**; it is
+recorded in the preregistration so that it cannot later be mistaken for a
+result. It did surface one real design fact: K3's joint endpoint is
+sensitive to a hard zero, so the retention and incorporation components are
+reported separately in every artifact.

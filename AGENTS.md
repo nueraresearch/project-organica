@@ -7,7 +7,7 @@ This file is the standing brief for any agent (or person) working on this reposi
 Project Organica is a research codebase for a *developmental* machine intelligence: a program that grows cognitive structures from a raw event stream through repeated sleep/consolidation cycles, rather than loading pre-trained weights. The full architecture, the nine emergence targets, the six design laws, and the current state of the 90-day longitudinal study are documented in:
 
 - **`docs/USER-MANUAL.md`** — the owner's manual. Start here. It covers what the project is, how to run everything, how to read the telemetry, the action list, and troubleshooting.
-- `research-journal/phase_g_findings_20261021.md` — the full research record (§1–§31), including the failures and the retractions.
+- `research-journal/phase_g_findings_20261021.md` — the full research record (§1–§32), including the failures and the retractions.
 - `CHALLENGE.md` — the nine emergence targets and the integrity constraint.
 - `docs/DESIGN_LAWS.md` — the six inviolable laws.
 - `docs/ABLATION-PREREGISTRATION.md` — the ablation study's predictions, written **before** the run. Do not edit §4 to match a result; amend and disclose instead.
@@ -15,7 +15,7 @@ Project Organica is a research codebase for a *developmental* machine intelligen
 - `docs/FORCE-MATRIX-RESULTS.md` — the Tier-1 matrix results, the verdicts, and **H24**.
 - `docs/FACTS-SHEET.md` — every claim with its provenance, separated from assumptions.
 - `docs/EMERGENCE-CRITERIA.md` — what counts as emergence here, and which levels the project can currently evidence.
-- `docs/PHASE-H-PREREGISTRATION.md`, `docs/REGIME-SHIFT-PREREGISTRATION.md`, `docs/PHASE-J-ADAPTATION-PREREGISTRATION.md` — the external-validity campaigns. **§4 is committed before the run; do not edit it to match a result, amend and disclose instead.**
+- `docs/PHASE-H-PREREGISTRATION.md`, `docs/REGIME-SHIFT-PREREGISTRATION.md`, `docs/PHASE-J-ADAPTATION-PREREGISTRATION.md`, `docs/PHASE-K-PREREGISTRATION.md` — the external-validity campaigns and the comparative-advantage search. **The protocol is committed before the run; do not edit it to match a result, amend and disclose instead.**
 
 ## Standing rule — keep the manual current
 
@@ -48,6 +48,7 @@ Rationale: the manual is the single place the owner looks to answer "where are w
 8. **Do not name a colony after something it does not do.** `NO_CONTRADICTIONS` removes contradiction's *weight in the confidence formula*, not contradictions; the name overstates the intervention and the discrepancy is disclosed in the results document. If a new arm needs a name that a reader would take literally, name it for the mechanism it actually changes.
 9. **Tags must be ≥ 4 letters.** The engine extracts tags with `re.findall(r"\b[a-zA-Z]{4,}\b", ...)`, so a stimulus word of three characters or fewer is invisible to the entire substrate. A ladder whose leaves are silently dropped measures nothing and looks like a null result.
 10. **The package version must describe the commit it is on.** If `v<version>` exists as a tag, it must point at the current commit. Master drifting past a published tag while still declaring that version means the version names a release that master is not, and anyone installing from master gets a different artifact under the same number. Bump the version (`organica/__init__.py`, `pyproject.toml`, `CITATION.cff`) and add the changelog entry. A version whose changelog heading says `(unreleased)` is allowed to have no tag yet — there is nothing to check out. `tests/test_versioning.py` enforces both halves.
+11. **A baseline may never be handicapped, and every harness needs a control it can fail.** Every simple baseline is swept over a declared hyperparameter grid and its *best* score is the number used. A benchmark that a strong baseline cannot solve is not evidence of anything — Phases H, I and J each failed against baselines that were given no tuning advantage at all — and a strawman baseline is the easiest way to manufacture a false positive. Where a protocol builds a harness, it must build a control the harness can fail: Phase K's K0 reruns the Phase H task, where Organica's loss is already known, and the campaign does not run if that control fails.
 
 ## If a study run is live, the engine is frozen
 
@@ -91,6 +92,7 @@ python benchmarks/ground_truth_recovery.py           # structure recovery vs hid
 python benchmarks/phase_h_campaign.py                # Phase H, 10 seeds
 python benchmarks/regime_shift.py                    # Phase I, 20 seeds x 2 families
 python benchmarks/post_shift_adaptation.py           # Phase J, 20 seeds x 2 families
+python benchmarks/phase_k_campaign.py --families K1 K2 K3 --seeds 10 --workers 3
 ```
 
 The study daemon may be running against `memory.db`. Prefer read-only inspection, or work on a copy, so you do not disturb a multi-week run.

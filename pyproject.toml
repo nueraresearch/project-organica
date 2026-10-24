@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "organica"
 # Keep in sync with organica.__version__ and CITATION.cff --
 # tests/test_versioning.py asserts that all three agree.
-version = "0.8.0"
+version = "0.9.0"
 description = "A developmental machine intelligence organism that grows understanding from experience, sleep, curiosity, and experimentation."
 readme = "README.md"
 requires-python = ">=3.11"
