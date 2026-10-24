@@ -86,20 +86,60 @@ def test_version_has_a_changelog_entry():
         f"CHANGELOG.md has no entry for {organica.__version__}")
 
 
+def _is_shallow_clone() -> bool:
+    """True when this checkout was made with `git clone --depth N`."""
+    return (ROOT / ".git" / "shallow").exists()
+
+
 def test_a_git_tag_exists_for_the_version():
-    """A release without a tag is a version that cannot be checked out."""
+    """A release without a tag is a version that cannot be checked out.
+
+    The witness has to be the right one, or the test lies. A local tag list
+    is the obvious witness, but it is *absent by construction* in a shallow
+    clone: `git clone --depth 1` fetches only tags pointing at the commit it
+    fetched, so a release tag on an ancestor commit (which is what every
+    release tag is, once you have made a commit after tagging) is missing
+    locally even though it exists on the remote.
+
+    `benchmarks/clone_check.py` clones exactly that way, so the check it
+    runs has to consult the remote. And the remote is the more faithful
+    witness anyway: the question is not "is the tag in this checkout", it is
+    "can a stranger check this version out", and a stranger fetches from the
+    remote.
+    """
     import subprocess
+    tag = f"v{organica.__version__}"
     try:
         out = subprocess.run(
-            ["git", "tag", "-l", f"v{organica.__version__}"],
+            ["git", "tag", "-l", tag],
             cwd=ROOT, capture_output=True, text=True, timeout=30)
     except Exception:
         pytest.skip("git is not available in this environment")
     if out.returncode != 0:
         pytest.skip("git is not usable here")
-    assert out.stdout.strip(), (
-        f"no git tag 'v{organica.__version__}'. The version is declared in "
-        f"three files but cannot be checked out.")
+    if out.stdout.strip():
+        return  # the tag is right here; no further evidence needed
+
+    if not _is_shallow_clone():
+        # A full checkout with no local tag means the tag genuinely does not
+        # exist. This is the original failure, and it should keep failing.
+        pytest.fail(
+            f"no git tag '{tag}'. The version is declared in three files but "
+            f"cannot be checked out.")
+
+    # Shallow checkout: the local tag list cannot witness anything. Ask the
+    # remote, which is what a stranger would fetch from.
+    try:
+        remote = subprocess.run(
+            ["git", "ls-remote", "--tags", "origin", tag],
+            cwd=ROOT, capture_output=True, text=True, timeout=60)
+    except Exception:
+        pytest.skip("the remote is not reachable from this environment")
+    if remote.returncode != 0:
+        pytest.skip("the remote is not reachable from this environment")
+    assert remote.stdout.strip(), (
+        f"no git tag '{tag}' on the remote either. The version is declared "
+        f"in three files but cannot be checked out.")
 
 
 def test_versioning_is_documented():
