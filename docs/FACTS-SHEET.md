@@ -290,3 +290,96 @@ and cognitive revolutions. If the inventory goes 74 → 300 → 1,200 → 5,000,
 the plateau was environmental; if it stays 74, the plateau is architectural.
 
 Full statement: `docs/FORCE-MATRIX-RESULTS.md` §11; journal §23.10.
+
+## K. The substrate's structural bandwidth — MEASURED (2026-10-23)
+
+Measured while designing the H24 ladder, *before* the ladder was run. These
+are properties of the engine, and they are the reason the ladder's rungs
+are shaped the way they are.
+
+| # | Fact | Evidence |
+|---|------|----------|
+| **K1** | **Hub degree 3 is the optimum, and the usable range is narrow.** One hub shared across N triangles: the hub's best edge ratio falls 1.00 (N=2) → 0.75 (N=3) → 0.56 (N=4) → 0.44 (N=5) → 0.35 (N=6) → 0.31 (N=8) → **0.185 (N=12)**, against a `STABLE_THRESHOLD` of 0.3. Structure is best at N=3 (15 beliefs, 17 pre-retention, 6 competing subjects) and **collapses to zero at N=12**. | `docs/hub_degree_probe.json` |
+| **K2** | **The Layer-1 prediction window (`MAX_PREDICTIONS = 20`) binds before the belief cap does.** Layer 1 ranks temporal edges by count and keeps the top 20; the Layer-2 process builder finds 3-cycles only among those 20. When many triangles are equally frequent the top 20 is an arbitrary subset, so complete 3-cycles are rare. Measured: 4 hubs × 3 triangles (48 edges) left ≈5 edges per hub, and **competing subjects fell from 5.98 to 1.50**. More structure in the world produced *less* structure in the organism. | `benchmarks/scale_ladder.py`; `benchmarks/branch_diag2.py` |
+| **K3** | **A tag must be at least four letters.** The engine extracts tags with `re.findall(r"\b[a-zA-Z]{4,}\b", ...)`. A first version of the ladder numbered its leaves (`ta0`); every leaf was silently invisible, the ladder measured nothing, and the null looked like a result. Caught by verifying the perturbation happened before interpreting. | `organica/scale_streams.py`; `AGENTS.md` rule 9 |
+| **K4** | **A consequence for V2's design, not a change to the engine:** a world that keeps offering new structure must keep a small number of structures *frequent*, so the top-20 window always contains complete triangles, while new structure arrives around them. Scaling the world by hub *degree* scales a quantity the survival filter is actively eating. | `docs/WORLD-SCALE-PREREGISTRATION.md` §3 |
+
+> **K1 and K2 together are the reason the Tier-1 stimulus looks the way it
+> does.** `lattice_L1` has one hub at degree 3 — 12 edges, inside the 20-edge
+> window, with a hub ratio of 0.75, comfortably above the 0.3 threshold. It
+> is not an arbitrary choice; it is close to the only shape the substrate can
+> currently hold structure in. **That is an architectural bandwidth limit, and
+> it is the first measurement that bears directly on H24.**
+
+---
+
+## L. The H24 Scale Ladder — pilot result — MEASURED 2026-10-23
+
+Protocol: 300 cycles per rung, `colony=FULL`, `seed=20261023`. Rungs 0–2
+completed. Rung 3 stopped early due to a bootstrapping defect (disclosed in
+`docs/WORLD-SCALE-PREREGISTRATION.md` §7.3). Engine unchanged.
+
+| # | Fact | Evidence |
+|---|------|----------|
+| **L1** | **Increasing environmental variety while holding `MAX_PREDICTIONS = 20` fixed decreased developmental inventory.** Rung 0 (3 triangles, 1 hub): **91 items**. Rung 1 (12 triangles, 4 hubs): **66 items**. Rung 2 (48 triangles, 16 hubs): **56 items**. A 16× increase in distinct world structures produced a 38% decrease in cumulative inventory. | `docs/scale_ladder.json`; `docs/WORLD-SCALE-PREREGISTRATION.md` §7.1 |
+| **L2** | **Theories and questions decreased in step with beliefs.** Rung 0: 10 theories, 10 questions. Rungs 1 and 2: 4 theories, 4 questions. The upper layers did not compensate for the lower-layer loss. | same |
+| **L3** | **Discovery ceased entirely in the final 100 cycles for Rungs 1 and 2.** `new_in_last_100_cycles = 0` for both. Rung 0 still showed 3 new items in its final 100 cycles. | same |
+| **L4** | **The simple version of H24 — more world → more development — is not supported by this pilot.** The direction of the effect was the opposite of what an unconstrained environmental hypothesis predicts. | same; `docs/WORLD-SCALE-PREREGISTRATION.md` §7.1 |
+| **L5** | **L4 does not falsify H24.** H24 says the plateau is constrained by environmental *information content*. The pilot tested *environmental variety under uniform frequency*. A world with structure-selective frequency (stable scaffold + incremental novelty) is a different test and has not been run. H24 remains open. | `docs/WORLD-SCALE-PREREGISTRATION.md` §7.1, §8 |
+| **L6** | **Architectural efficiency collapses with world size under uniform frequency.** Normalising inventory against the number of distinct triangles in the world: Rung 0 = 91/3 = **30.3 items per triangle**; Rung 1 = 66/12 = **5.5**; Rung 2 = 56/48 = **1.17**. A 16× increase in available world structure produced a **26× decrease** in structure extracted per unit world. | `docs/scale_ladder.json` |
+| **L7** | **The failure propagates bottom-up through the developmental ladder.** Beliefs fell first (17 → 12 → 10), then theories and questions collapsed together (10 → 4 → 4), then dreams (52 → 28 → 24). The degradation matches the causal chain: the prediction window starves processes, processes starve workflows, workflows starve beliefs, beliefs starve theories and questions, theories and questions starve dreams. Later layers do not partially compensate for earlier losses — they amplify them. | same |
+| **L8** | **This is a dilution test, not a scale test.** Rungs 1 and 2 held attentional capacity (`MAX_PREDICTIONS = 20`) and all thresholds fixed while flooding the prediction window with competing patterns. A fair scale test would hold *competition per slot* fixed. The pilot's result is therefore a property of the stimulus design, not of the architecture's ceiling. | `docs/WORLD-SCALE-PREREGISTRATION.md` §7.2 |
+| **L9** | **The architecture responds strongly to stimulus structure.** The fact that inventory falls monotonically (91 → 66 → 56) with world complexity under dilution, rather than plateauing immediately, shows the architecture is sensitive to its environment in a mechanistically predictable way. This is not a sign of fragility; it is the property that makes a scaffold + novelty experiment interpretable. | same |
+
+> **L1–L4 together are a clean inversion of the naive expectation**, and
+> they are a measured fact: more world, less mind, under the uniform-variety
+> regime. The mechanism that would explain this is stated separately in §L-M
+> (assumption) because it has not been directly tested.
+
+## L-M. The frequency-dilution mechanism — PROPOSED, NOT TESTED
+
+This is the mechanism hypothesis that explains L1–L4. It is an assumption,
+not a fact, and it lives here rather than in §L because it was not directly
+measured by the pilot.
+
+| # | Assumption | If it is wrong |
+|---|------------|----------------|
+| **LM1** | The inventory decrease is caused by **frequency dilution through `MAX_PREDICTIONS = 20`**: when N triangles are uniformly frequent, their 3N directed edges compete equally for 20 slots; an arbitrary top-20 rarely contains a complete 3-cycle; without a complete 3-cycle no process, workflow, or belief forms. | If raising `MAX_PREDICTIONS` to 40 does not recover the Rung-1 inventory, the dilution mechanism is not sufficient and another ceiling is binding. |
+| **LM2** | A **stable scaffold** (3 frequently-repeating triangles holding the top-20 window) plus **incremental novelty** (one fresh triangle per K cycles, introduced infrequently enough to be visible when it arrives) would allow the inventory to grow beyond 91. | If a scaffold + novelty world produces inventory ≤ 91 regardless of novelty rate, the mechanism is wrong and the ceiling is architectural. |
+
+**What would confirm LM1:** the Rung-1 inventory (66) rises to near Rung-0
+levels (91) when `MAX_PREDICTIONS` is doubled to 40, holding everything
+else fixed.
+
+**What would confirm LM2:** the scaffold + novelty experiment (§8 of the
+preregistration) produces cumulative inventory > 91 and growing, with
+theories and questions tracking the novelty arrival rate.
+
+**What would falsify both:** a scaffold + novelty world with `MAX_PREDICTIONS
+= 40` still produces inventory ≤ 91. In that case the ceiling is
+architectural — not the prediction window, and not the stimulus shape.
+
+---
+
+## M. Burst Assimilation and Recurrence Scaffolding — MEASURED (2026-10-23)
+
+Protocol: 100 cycles, `colony=FULL`, `seed=20261023`, exact apples-to-apples
+comparison between Rung 0 (Core only) and Burst Assimilation (Core + 1 new triangle
+every 30 cycles with an 8-cycle concentrated burst, then sustained alongside core).
+
+| # | Fact | Evidence |
+|---|------|----------|
+| **M1** | **Scaffolding prevents the multi-layer collapse.** In a 300-cycle scaffolded run (`docs/scale_ladder_scaffold.json`), theories stayed high (13–14 vs 4 in uniform variety), questions remained active (11–13 vs 4), and beliefs reached 18 across all rungs. | `docs/scale_ladder_scaffold.json` |
+| **M2** | **Passive single-exposure novelty fails to clear early-stage filters.** In `scaffold_stream`, novelty introduced 1× every K cycles had raw event count 1, which was silently rejected by `PREDICTION_MIN_COUNT = 5` and `STABLE_THRESHOLD = 0.3`. Total inventory grew only 91 → 95 across 300 cycles. | `organica/scale_streams.py`; `docs/scale_ladder_scaffold.json` |
+| **M3** | **Burst reinforcement successfully clears Layer 1 and drives upward developmental emergence.** In 100 cycles, Burst Assimilation broke the Rung-0 baseline: **inventory rose 82 → 99 (+20.7%)**, **theories jumped 10 → 16 (+60.0%)**, **experiments & investigations jumped 10 → 18 (+80.0%)**, and **beliefs rose 16 → 19**. | Experimental run on 2026-10-23 (`test_burst.db` vs `Rung 0`) |
+| **M4** | **The empirical rule established:** *Organica develops substantially more structure when novelty is introduced with enough local reinforcement to survive the architecture's early-stage filters.* | Facts M1–M3; L1–L9 |
+| **M5** | **The effect compounds over longer horizons.** At 300 cycles, Burst Assimilation pushed total inventory to **113** (vs Rung 0 baseline of **91**, a **+24.2%** increase), with **theories rising 10 → 17 (+70%)**, **questions rising 10 → 13**, **beliefs rising 17 → 20**, **experiments rising 12 → 19**, and **new discoveries continuing across epochs (10, 7, 2, 6 vs 6, 6, 0, 2)**. Development did not freeze at 91. | 300-cycle experiment on 2026-10-23 (`test_burst_300.db`, `test_burst_curve.db`) |
+| **M6** | **The developmental ceiling is not a fixed architectural constant.** Two prior candidate ceilings were falsified: 74 items (broken by Rung 0 baseline at 91) and 91 items (broken by Burst Assimilation at 113). The ceiling moved when the presentation schedule of novelty changed. | Facts I3, L1, M5 |
+| **M7** | **The core conclusion established:** *Organica's developmental capacity is not fixed. It is strongly dependent on the structure and presentation schedule of novelty.* Novelty must first become stable enough through local reinforcement to enter the developmental hierarchy; when it does, the organism assimilates it repeatedly throughout the run rather than experiencing a one-time initialization boost. | Facts M1–M6 |
+
+## M-H. Open Research Questions on Burst Assimilation
+
+1. **Does the attractor keep moving at longer horizons?** (Test: 600-cycle and 1,200-cycle burst assimilation: does inventory stabilize at ~113, or does it step up toward 140–180+?).
+2. **Does earlier assimilated structure serve as developmental substrate for later novelty?**
+
+

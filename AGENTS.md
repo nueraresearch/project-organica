@@ -7,10 +7,13 @@ This file is the standing brief for any agent (or person) working on this reposi
 Project Organica is a research codebase for a *developmental* machine intelligence: a program that grows cognitive structures from a raw event stream through repeated sleep/consolidation cycles, rather than loading pre-trained weights. The full architecture, the nine emergence targets, the six design laws, and the current state of the 90-day longitudinal study are documented in:
 
 - **`docs/USER-MANUAL.md`** — the owner's manual. Start here. It covers what the project is, how to run everything, how to read the telemetry, the action list, and troubleshooting.
-- `research-journal/phase_g_findings_20261021.md` — the Phase G audit (ten findings, with evidence).
+- `research-journal/phase_g_findings_20261021.md` — the full research record (§1–§23), including the failures and the retractions.
 - `CHALLENGE.md` — the nine emergence targets and the integrity constraint.
 - `docs/DESIGN_LAWS.md` — the six inviolable laws.
 - `docs/ABLATION-PREREGISTRATION.md` — the ablation study's predictions, written **before** the run. Do not edit §4 to match a result; amend and disclose instead.
+- `docs/FORCE-MATRIX-PREREGISTRATION.md` — Ablation Study 2's frozen metrics, gates, sensitivity audit and noise floor. §1–§7 are committed **before** the campaign; §8 and §9 are the post-freeze records.
+- `docs/FORCE-MATRIX-RESULTS.md` — the Tier-1 matrix results, the verdicts, and **H24**.
+- `docs/FACTS-SHEET.md` — every claim with its provenance, separated from assumptions.
 - `docs/EMERGENCE-CRITERIA.md` — what counts as emergence here, and which levels the project can currently evidence.
 
 ## Standing rule — keep the manual current
@@ -39,8 +42,10 @@ Rationale: the manual is the single place the owner looks to answer "where are w
 3. **Never truncate `organica.log`.** It is the longitudinal record and is append-only. The daemon owns it through its logging `FileHandler`.
 4. **The sleep-cycle counter must stay monotonic.** `organica/memory.py` keeps it in the `sleep_cycles` table. Do not reintroduce a sliding-window read of the events table for this — that was the bug that reset the counter mid-run.
 5. **Substrate changes must be behaviour-preserving and proven so.** `tests/test_substrate_equivalence.py` is the pattern: if you change how anything is read or written, add a test showing the result is identical to the old behaviour.
-6. **Do not commit or push without being asked.** The owner has not authorized commits; work is currently uncommitted by design.
+6. **Do not commit or push without being asked.** The owner authorises commits and pushes as a standing arrangement, but still expects to be asked before a release is tagged or published. Work may sit uncommitted by design until they say otherwise.
 7. **Do not add third-party runtime dependencies.** The core is standard library only.
+8. **Do not name a colony after something it does not do.** `NO_CONTRADICTIONS` removes contradiction's *weight in the confidence formula*, not contradictions; the name overstates the intervention and the discrepancy is disclosed in the results document. If a new arm needs a name that a reader would take literally, name it for the mechanism it actually changes.
+9. **Tags must be ≥ 4 letters.** The engine extracts tags with `re.findall(r"\b[a-zA-Z]{4,}\b", ...)`, so a stimulus word of three characters or fewer is invisible to the entire substrate. A ladder whose leaves are silently dropped measures nothing and looks like a null result.
 
 ## If a study run is live, the engine is frozen
 
@@ -61,12 +66,23 @@ See `docs/USER-MANUAL.md` §6.4 for the full table.
 ## Verifying a change
 
 ```bash
-python -m pytest tests -q                 # 17 tests, must be green
+python -m pytest tests -q                 # 42 tests, must be green
 python benchmarks/study_health.py          # study must stay healthy
 python benchmarks/lineage_audit.py         # Law II must stay at 100% grounded
 python benchmarks/g5_gap_diagnostic.py --cycles 10   # G5 must remain reachable
 python benchmarks/cold_start.py --cycles 40          # unassisted bootstrap
+python benchmarks/clone_check.py           # a fresh clone works end to end
 python benchmarks/ablation_study.py --cycles 300     # the ablation suite (~25 min)
+```
+
+The campaign tooling is separate from the engine and is safe to re-run:
+
+```bash
+python benchmarks/run_matrix.py --cycles 3000         # the Tier-1 matrix
+python benchmarks/metric_sensitivity.py --matrix docs/force_matrix.json
+python benchmarks/process_noise.py --sweep --cycles 3000   # the measured floor
+python benchmarks/verdicts.py                        # the pre-registered predictions
+python benchmarks/discovery_report.py                # the inventory and discovery curves
 ```
 
 The study daemon may be running against `memory.db`. Prefer read-only inspection, or work on a copy, so you do not disturb a multi-week run.

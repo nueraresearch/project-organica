@@ -110,8 +110,37 @@ python benchmarks/study_health.py   # is it alive? is the counter monotonic?
 | Growth benchmarks hold | `python benchmarks/benchmark_suite.py` |
 | The four domains reproduce | `python benchmarks/cross_domain_validation.py` |
 | The code is correct | `python -m pytest tests -q` |
+| A fresh clone works | `python benchmarks/clone_check.py` |
 
 Every one of these writes a machine-readable report into `docs/`.
+
+### Reproduce the research
+
+```bash
+# The V1 ablation study, and its re-run on the fixed substrate
+python benchmarks/ablation_study.py --cycles 300 --out docs/ablation_study.json
+python benchmarks/ablation_study.py --cycles 300 --out docs/ablation_study_postfix.json
+
+# V1 before vs after, including the RETRACTED interpretations
+python benchmarks/v1_impact.py
+
+# The Tier-1 matrix: 6 colonies x 3,000 cycles
+python benchmarks/run_matrix.py --cycles 3000 --out docs/force_matrix.json
+
+# Which metrics can discriminate at all, and the measured noise floor
+python benchmarks/metric_sensitivity.py --matrix docs/force_matrix.json
+python benchmarks/process_noise.py --sweep --cycles 3000
+
+# The pre-registered predictions, bucketed
+python benchmarks/verdicts.py
+
+# The discovery curve -- what was found, and when
+python benchmarks/discovery_report.py
+```
+
+The campaign is **pre-registered**: the metric definitions, the gate
+definitions, the sensitivity audit and the noise floor were all fixed and
+committed *before* the run. → [`docs/FORCE-MATRIX-PREREGISTRATION.md`](docs/FORCE-MATRIX-PREREGISTRATION.md)
 
 ### Explore it interactively
 
@@ -133,12 +162,14 @@ project-organica/
 │   ├── memory.py       # SQLite substrate: events, co-occurrence, temporal graphs
 │   ├── sleep.py        # the eight-layer sleep transformation service
 │   ├── streams.py      # the experience streams the organism can be run against
+│   ├── branch_streams.py  # branch-structured stimuli (the unit of competing expectation)
+│   ├── scale_streams.py   # worlds of increasing information content (the H24 ladder)
 │   └── paths.py        # canonical paths; disposable scratch space
 ├── build.py            # build an organism from scratch
 ├── run_continuous.py   # the study daemon
 ├── metrics.py          # log parsing and metric aggregation
 ├── observation/        # time-window snapshots and the structural event journal
-├── benchmarks/         # the audits and benchmarks above
+├── benchmarks/         # the audits, benchmarks and campaigns above
 ├── examples/           # one script per generation + the four domains
 ├── tests/              # the test suite
 ├── papers/             # research manuscripts
@@ -148,13 +179,91 @@ project-organica/
 
 ---
 
+---
+
+## What the research has found
+
+The project keeps a full development record in
+[`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md),
+including the failures. The findings that changed the plan:
+
+**A measurement defect was suppressing the organism's own structure.** The
+tag-frequency counter that normalises every Layer-1 edge strength was
+maintained over *all* stored events, including the organism's own sleep
+payloads, while the graph it normalises was built from world events only.
+The numerator and the denominator of the same ratio were measuring different
+populations, and the survival filter discarded the world's own edges.
+Measured on the study stream: 4 surviving edges, 0 processes, 0 workflows, 0
+beliefs. Fixed, and a regression test now asserts the two populations match.
+→ [journal §21](research-journal/phase_g_findings_20261021.md), [manual §8.4](docs/USER-MANUAL.md)
+
+**That fix reversed a V1 conclusion.** "No Falsification freezes the organism"
+is **withdrawn**. Pre-fix it produced nothing; post-fix it is the
+best-supplied condition in the study — 18 beliefs, every subject competing,
+MBSD 1.000 — and it is the only V1 condition that clears the launch gates.
+Across the twelve comparable scalars, 21 deltas **reversed**, 36 changed
+magnitude, 14 survived. Three *interpretations* were retracted outright.
+→ [journal §22](research-journal/phase_g_findings_20261021.md), [`docs/v1_impact.json`](docs/v1_impact.json)
+
+**The Tier-1 matrix ran: 6 colonies × 3,000 cycles = 18,000 colony-cycles.**
+Every arm reaches its complete structural configuration — 18 pre-retention
+beliefs, 7 competing subjects, 15 retained beliefs — **on cycle 1**, and
+holds it for 2,999 cycles while mean support grows **+10,776%**. Structure
+flat, evidence growing by three orders of magnitude.
+
+The five pre-registered predictions came back **2 SUPPORTED and 3 REVERSED**:
+
+| # | Prediction | Verdict |
+|---|---|---|
+| P1 | Retention policy affects development | **SUPPORTED** (M7: 212 vs 2,990 cycles) |
+| P2 | Contradiction is developmental fuel | **REVERSED** — removing it *raises* development |
+| P3 | Curiosity needs explicit questions | **REVERSED** — removing questions *raises* development |
+| P4 | Dreams contribute to trajectory | **SUPPORTED** — removing them lowers it |
+| P5 | EIG is orthogonal to development | **REVERSED** — lowest-EIG develops *more* than highest-EIG |
+
+The verdicts are **direction-aware**. A naive "did the metric move?" test
+would have scored all five as confirmed and reported a clean sweep of
+confirmations. → [`docs/FORCE-MATRIX-RESULTS.md`](docs/FORCE-MATRIX-RESULTS.md), [`docs/verdicts.json`](docs/verdicts.json)
+
+**And the campaign measured something other than what it was named.** M5,
+"development velocity", is `new items ÷ run length`. The reference arm
+discovered **74** items over 300 cycles and **74** over 3,000 — the rate fell
+from 24.667 to 2.467 because the *numerator stopped growing*. The stimulus
+**repeats every 9 cycles**: 9 distinct events, seen 333 times. A repertoire
+cannot grow in a world that does not change, so the plateau is consistent
+with *the organism exhausted the environment* — which is not the same
+statement as *the organism cannot develop*.
+
+That produced the project's current hypothesis, **H24**:
+
+> Organica's apparent developmental plateau is primarily constrained by
+> **environmental information content** rather than by architectural inability
+> to reorganise.
+
+H24 is stated with its evidence on both sides and its falsification criteria
+*before* the experiment that tests it. The next experiment is a
+**world-complexity ladder** — a stimulus change, not an architecture change.
+→ [results §11](docs/FORCE-MATRIX-RESULTS.md), [facts sheet §J](docs/FACTS-SHEET.md), [journal §23](research-journal/phase_g_findings_20261021.md)
+
+---
+
 ## Current state
 
-**Package version 0.6.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen while the comparative research campaign runs. Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete, and the Phase-H work — the instrumentation audit, the gate validation and the substrate correction — is in [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
+**Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
-> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.6.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete. The current work — the instrumentation audit, the gate validation, the substrate correction, the V1 before/after audit and the Tier-1 matrix — is in [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
+
+> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+
+**The project is not at "v1" or "v2" as a release.** It is at 0.7.0, pre-1.0.
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
+
+**What is not established, and is not claimed:** that the organism is
+developmental in the strong sense. The architecture's *internal organisation*
+is built to change with history, and it measurably does — but on every
+stimulus measured so far it converges quickly and then accumulates evidence
+without reorganising. H24 is the live question about why.
 
 ---
 

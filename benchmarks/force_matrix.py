@@ -667,13 +667,25 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     return checks
 
 
-def merge(parts: list[Path], out_path: Path) -> None:
+def merge(parts: list[Path], out_path: Path,
+          provenance: dict | None = None) -> None:
     """Merge per-colony artifacts into the combined campaign artifact.
 
     The six colonies are independent, so the campaign runs them as six
     processes and merges the results. Every colony gets the same seed and
     the same stimulus, and the merge preserves the canonical order.
     """
+    import subprocess
+    import time
+
+    def git(*args):
+        try:
+            out = subprocess.run(["git", *args], cwd=str(REPO),
+                                 capture_output=True, text=True, timeout=30)
+            return out.stdout.strip() if out.returncode == 0 else None
+        except Exception:
+            return None
+
     rows = []
     for part in parts:
         if not part.exists():
@@ -683,12 +695,27 @@ def merge(parts: list[Path], out_path: Path) -> None:
         rows.extend(doc.get("rows", []))
     order = list(COLONIES)
     rows.sort(key=lambda r: order.index(r["colony"]) if r["colony"] in order else 99)
+    prov = {
+        "py_hash_seed": "0",
+        "py_hash_seed_note":
+            "The same PYTHONHASHSEED in all six colony processes, so the hash "
+            "order is common-mode across colonies and cannot contaminate the "
+            "between-colony comparison. The unpinned floor was measured: "
+            "docs/process_noise_3000.json.",
+        "git_commit": git("rev-parse", "HEAD"),
+        "git_branch": git("rev-parse", "--abbrev-ref", "HEAD"),
+        "git_describe": git("describe", "--tags", "--always"),
+        "merged_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    if provenance:
+        prov.update(provenance)
     out_path.write_text(json.dumps({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": rows[0]["cycles"] if rows else None,
         "seed": rows[0]["seed"] if rows else None,
         "stimulus": "lattice_L1 (three disjoint triangles)",
         "merged_from": [p.name for p in parts],
+        "provenance": prov,
         "rows": rows,
     }, indent=2), encoding="utf-8")
     print(f"merged {len(rows)} colonies into {out_path}")

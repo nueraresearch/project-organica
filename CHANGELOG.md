@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.6.0** |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.7.0** |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -22,6 +22,132 @@ API is not declared stable, and the MINOR/PATCH numbers carry the
 meaning instead. `tests/test_versioning.py` asserts that the three
 declarations — `organica.__version__`, `pyproject.toml` and `CITATION.cff`
 — never drift apart, and that a git tag exists for the version.
+
+---
+
+## [0.7.0] — 2026-10-23
+
+**Ablation Study 2 — the Tier-1 matrix ran, and what it actually measured.**
+
+18,000 colony-cycles: six colonies × 3,000 cycles, on the fixed substrate,
+under a protocol whose metrics, gates, noise floor and sensitivity were all
+fixed and committed *before* the run. The results are a scientific finding in
+their own right and are published in `docs/FORCE-MATRIX-RESULTS.md` and
+journal §23.
+
+### The headline
+
+**The structure is decided on cycle 1.** Every colony reaches 18
+pre-retention beliefs, 7 competing subjects and 15 retained beliefs on the
+first cycle and holds that configuration for 2,999 cycles, while mean support
+grows **+10,776%**. All six arms converge to the *same* attractor despite
+six different interventions. Structure flat, evidence growing by three orders
+of magnitude.
+
+### The verdicts
+
+**2 SUPPORTED · 3 REVERSED · 0 UNSUPPORTED · 0 NOT INTERPRETABLE**
+
+| # | Prediction | Verdict |
+|---|---|---|
+| P1 | Retention policy affects development | **SUPPORTED** (M7: 212 vs 2,990 cycles) |
+| P2 | Contradiction is developmental fuel | **REVERSED** — removing it *raises* development |
+| P3 | Curiosity needs explicit questions | **REVERSED** — removing questions *raises* development |
+| P4 | Dreams contribute to trajectory | **SUPPORTED** — removing them lowers it |
+| P5 | EIG is orthogonal to development | **REVERSED** — lowest-EIG develops *more* than highest-EIG |
+
+The verdicts are **direction-aware**. A naive "did the metric move?" test
+would have scored all five as confirmed.
+
+### A metric that was not a metric
+
+M5 ("development velocity") is `new items ÷ run length`. The reference arm
+discovered **74** items over 300 cycles and **74** over 3,000; the rate fell
+from 24.667 to 2.467 because the numerator stopped growing. Every colony
+discovered **zero** new items in its final 100 cycles. The inventory, broken
+down by category, is the interpretable number: FULL 74 (16 beliefs, 11
+questions, 36 dreams, 11 experiments) · SALIENCE 78 · NO_CONTRADICTIONS 79 ·
+NO_QUESTIONS 112 · NO_DREAMS 44 · ANTI_EIG 85.
+
+### A confound, disclosed
+
+The stimulus **repeats every 9 cycles** — 9 distinct events over 7 distinct
+words, seen 333 times. A repertoire cannot grow in a world that does not
+change, so the plateau is consistent with *the organism exhausted the
+environment*, which is not the same statement as *the organism cannot
+develop*. The campaign cannot separate the two.
+
+### The hypothesis this produced
+
+**H24: Organica's apparent developmental plateau is primarily constrained by
+environmental information content rather than by architectural inability to
+reorganise.** Stated with the evidence on both sides and its falsification
+criteria before the experiment that tests it. The next experiment is a
+**world-complexity ladder** — a stimulus change, not an architecture change.
+
+### Added
+
+- `docs/FORCE-MATRIX-RESULTS.md` — the results, the verdicts, what the
+  campaign can and cannot answer, and H24.
+- `benchmarks/run_matrix.py` — the campaign launcher. Runs the G1
+  verification once, launches the six colonies in parallel with the **same**
+  `PYTHONHASHSEED=0`, and records the hash seed, git commit and wall clock
+  in the artifact.
+- `benchmarks/verdicts.py` — every pre-registered prediction forced into
+  SUPPORTED / UNSUPPORTED / REVERSED / NOT INTERPRETABLE, direction-aware.
+- `benchmarks/discovery_report.py` — the inventory breakdown and the
+  cumulative discovery curves, plus the stimulus's own measured periodicity.
+- `benchmarks/process_noise.py` — the process-level noise floor, with a
+  parallel sweep and the scale-invariant item-count form.
+- `organica/scale_streams.py` — worlds of increasing information content for
+  the H24 ladder.
+- `benchmarks/scale_ladder.py` — the ladder runner.
+- `benchmarks/hub_degree_probe.py` — measures the Layer-1 survival threshold
+  against hub degree.
+- `docs/force_matrix.json`, `docs/discovery.json`, `docs/verdicts.json`,
+  `docs/process_noise_3000.json`, `docs/figure_tier1_matrix.svg`,
+  `docs/figure_discovery.svg`.
+- Facts sheet §I (matrix results) and §J (H24).
+- `docs/ORGANICA-V2-DESIGN-NOTES.md` §7–§10 rewritten with the matrix's
+  answers and the new stimulus requirement.
+
+### Changed
+
+- `benchmarks/force_matrix.py` now records the per-cycle **discovery
+  history** — new items and cumulative distinct items per category — so the
+  inventory can be measured directly rather than inferred from a rate.
+- `benchmarks/metric_sensitivity.py` gains the per-metric most-sensitive-
+  colony ranking and a **downstream** deviation ranking that excludes each
+  colony's own intervention metric.
+- `benchmarks/v1_impact.py` excludes `None` metrics rather than zeroing
+  them. The harness reports "n/a" for lineage completeness when a condition
+  has no lineage; that is *not measurable*, not zero, and zeroing it would
+  have been the same class of error as the scope defect the tool documents.
+- The README now carries the research findings, the verdicts, and H24.
+
+### Fixed
+
+- `benchmarks/seed_noise.py` overclaimed: it measures the **within-process**
+  seed floor (exactly 0.00), not the floor that binds. Disclosed in place.
+- `benchmarks/figure_campaign.py` failed with a raw `KeyError` on an
+  artifact predating the per-cycle series capture; it now says so.
+- `benchmarks/run_matrix.py` and `force_matrix.py` print the G1 header even
+  when verification is skipped.
+- `organica/scale_streams.py` numbered its leaf tags (`ta0`), and the engine
+  only extracts words of **four or more letters** — every leaf was silently
+  invisible and the ladder measured nothing. The leaves are now spelled in
+  letters.
+
+### Known limitations
+
+- The stimulus's 9-cycle period means the campaign cannot separate
+  "exhausted the environment" from "cannot reorganise". H24 is untested.
+- M7's spread rests on very few observations: the reference arm's
+  212-cycle mean is the mean of **one** belief death. Reported as such.
+- `NO_CONTRADICTIONS` removes contradiction's **weight in the confidence
+  formula**, not contradictions. M3 is near-invariant for it by
+  construction. The colony's name overstates the intervention; disclosed in
+  the results document and the facts sheet.
 
 ---
 
@@ -155,4 +281,5 @@ real and is disclosed in full in `research-journal/phase_g_findings_20261021.md`
 
 - First public release of the substrate and the sleep pipeline.
 
+[0.7.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.7.0
 [0.6.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.6.0
