@@ -85,6 +85,29 @@ reorganise.** Stated with the evidence on both sides and its falsification
 criteria before the experiment that tests it. The next experiment is a
 **world-complexity ladder** — a stimulus change, not an architecture change.
 
+### The World-Scale Ladder & Burst Assimilation Findings (2026-10-23)
+
+Immediate experimental testing of H24 during the 0.7.0 cycle revealed three
+successive mechanistic insights that redefined the developmental narrative:
+
+1. **Uniform scaling causes dilution collapse**: Multiplying distinct world
+   triangles by 16× (3 → 12 → 48) collapsed inventory (91 → 66 → 56) and
+   theories (10 → 4) due to frequency dilution in the `MAX_PREDICTIONS = 20`
+   window.
+2. **Scaffolding prevents collapse**: Maintaining a 3-triangle core scaffold
+   prevented multi-layer degradation, preserving theories at 13–14 and
+   stabilizing beliefs at 18.
+3. **Burst reinforcement enables developmental assimilation**: Novelty requires
+   local reinforcement to survive early-stage filters (`PREDICTION_MIN_COUNT = 5`,
+   `STABLE_THRESHOLD = 0.3`). Introducing novelty in concentrated bursts
+   drove cumulative inventory to **113 items (+24.2%)** across 300 cycles, with
+   active discoveries continuing through epochs 2–5 (88, 10, 7, 2, 6, 0).
+4. **Conclusion frozen**: *Organica's developmental capacity is not a fixed
+   architectural constant. It is strongly dependent on the structure and
+   presentation schedule of novelty.* Prior candidate ceilings (74, 91) were
+   constrained measurements of environmental bottlenecks rather than hard
+   architectural limits.
+
 ### Added
 
 - `docs/FORCE-MATRIX-RESULTS.md` — the results, the verdicts, what the
