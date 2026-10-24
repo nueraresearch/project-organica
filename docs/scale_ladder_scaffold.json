@@ -374,8 +374,8 @@
       "stimulus": {
         "core_triangles": 3,
         "novelty_every_cycles": 50,
-        "novelties_introduced": 6,
-        "total_distinct_triangles": 9,
+        "novelties_introduced": 5,
+        "total_distinct_triangles": 8,
         "distinct_event_strings": 24,
         "distinct_words": 22,
         "experience_period_cycles": null,
@@ -393,7 +393,7 @@
         },
         "rate_per_100_cycles": 31.333,
         "new_in_last_100_cycles": 4,
-        "inventory_per_triangle": 10.44
+        "inventory_per_triangle": 11.75
       },
       "discovery_curve": {
         "cumulative": [
@@ -737,8 +737,8 @@
       "stimulus": {
         "core_triangles": 3,
         "novelty_every_cycles": 20,
-        "novelties_introduced": 15,
-        "total_distinct_triangles": 18,
+        "novelties_introduced": 14,
+        "total_distinct_triangles": 17,
         "distinct_event_strings": 51,
         "distinct_words": 49,
         "experience_period_cycles": null,
@@ -756,7 +756,7 @@
         },
         "rate_per_100_cycles": 31.0,
         "new_in_last_100_cycles": 1,
-        "inventory_per_triangle": 5.17
+        "inventory_per_triangle": 5.47
       },
       "discovery_curve": {
         "cumulative": [
@@ -1100,8 +1100,8 @@
       "stimulus": {
         "core_triangles": 3,
         "novelty_every_cycles": 5,
-        "novelties_introduced": 60,
-        "total_distinct_triangles": 63,
+        "novelties_introduced": 59,
+        "total_distinct_triangles": 62,
         "distinct_event_strings": 186,
         "distinct_words": 184,
         "experience_period_cycles": null,
@@ -1119,7 +1119,7 @@
         },
         "rate_per_100_cycles": 31.667,
         "new_in_last_100_cycles": 1,
-        "inventory_per_triangle": 1.51
+        "inventory_per_triangle": 1.53
       },
       "discovery_curve": {
         "cumulative": [

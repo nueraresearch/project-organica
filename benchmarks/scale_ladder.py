@@ -53,7 +53,7 @@ sys.path.insert(0, str(REPO))
 
 from organica.scale_streams import (  # noqa: E402
     rung_for_run, scale_designs, scale_stream, scaffold_stream,
-    triangle_events)
+    burst_stream, triangle_events)
 
 
 def run_rung(rung: str, cycles: int, seed: int, colony: str = "FULL") -> dict:
@@ -75,7 +75,35 @@ def run_rung(rung: str, cycles: int, seed: int, colony: str = "FULL") -> dict:
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
 
-    if mode == "scaffold":
+    if mode == "burst":
+        core_triangles = design["core_triangles"]
+        burst_every = design.get("burst_every", 30)
+        burst_len = design.get("burst_len", 8)
+        core_evs = triangle_events(core_triangles)
+        for text in core_evs:
+            mem.store(text, event_type="event", source="seed:bootstrap")
+        full_stream = burst_stream(core_triangles, cycles, burst_every, burst_len, EVENTS_PER_CYCLE)
+        for i in range(cycles):
+            cycle_evs = full_stream[i * EVENTS_PER_CYCLE : (i + 1) * EVENTS_PER_CYCLE]
+            for text in cycle_evs:
+                mem.store(text, event_type="event", source=f"cycle:{i}")
+            svc.run_sleep_cycle()
+            capture_cycle(svc)
+        # The stream introduces at positive cycle indices (every, 2*every, ...).
+        # A horizon ending exactly on a multiple does not include that cycle.
+        n_novel = (cycles - 1) // burst_every if cycles > 0 else 0
+        stimulus_info = {
+            "core_triangles": len(core_triangles),
+            "burst_every_cycles": burst_every,
+            "burst_len_cycles": burst_len,
+            "novelties_introduced": n_novel,
+            "total_distinct_triangles": len(core_triangles) + n_novel,
+            "distinct_event_strings": len(set(full_stream)),
+            "distinct_words": len({w for e in full_stream for w in e.split()}),
+            "experience_period_cycles": None,
+            "never_repeats": True,
+        }
+    elif mode == "scaffold":
         # Bootstrap with the repeating core only (not the whole stream).
         # Events are then delivered cycle-by-cycle from the pre-built stream.
         core_triangles = design["core_triangles"]
@@ -96,7 +124,8 @@ def run_rung(rung: str, cycles: int, seed: int, colony: str = "FULL") -> dict:
             svc.run_sleep_cycle()
             capture_cycle(svc)
 
-        n_novel = cycles // novelty_every
+        # The first novelty arrives at novelty_every, not cycle zero.
+        n_novel = (cycles - 1) // novelty_every if cycles > 0 else 0
         stimulus_info = {
             "core_triangles": len(core_triangles),
             "novelty_every_cycles": novelty_every,

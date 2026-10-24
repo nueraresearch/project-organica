@@ -446,4 +446,67 @@ increased developmental inventory by +24.2% and continued producing new structur
 across epochs 2 through 5. Novelty must first become stable enough through local
 reinforcement to enter the developmental hierarchy.
 
+---
+
+## 10. The 600-Cycle Compounding Horizon — PRE-REGISTERED (2026-10-23)
+
+### 10.1 The Fork
+The 300-cycle burst experiment showed discovery continuing through epochs 2–5
+and reaching 113 items. The 600-cycle experiment distinguishes between two
+competing explanations:
+
+* **Possibility A: Elastic Attractor (~113)**
+  * Prediction: Inventory flattens near 113–120 in cycles 300–600. Epochs 7–12
+    yield near 0 new items.
+  * Interpretation: The curriculum shifted the attractor upward (+24%), but higher-layer
+    working memory constraints (`MAX_HYPOTHESES = 15`, `MAX_THEORIES = 8`) now firmly bind.
+* **Possibility B: Progressive Expansion**
+  * Prediction: Inventory continues stepping upward to 140–160+. Epochs 7–12
+    continue discovering 4–8 new items per epoch.
+  * Interpretation: Assimilation alters the space of what can subsequently be
+    absorbed; development compounds recursively.
+
+### 10.2 Metric: Assimilation Efficiency
+Defined in advance to measure capacity accumulation vs saturation:
+$$\text{Assimilation Efficiency} = \frac{\Delta \text{Cumulative Inventory Above Baseline}}{\text{Number of Novelty Bursts Delivered}}$$
+
+* At 300 cycles (9 bursts): $(113 - 91) / 9 = \mathbf{2.44}$ items per burst.
+* At 600 cycles (19 bursts):
+  * If $\Delta \text{Inventory} \approx 24$ (total ~115): Efficiency drops to **1.26** $\to$ Saturation (Possibility A).
+  * If $\Delta \text{Inventory} \ge 45$ (total ~140+): Efficiency holds at **$\ge 2.37$** $\to$ Progressive Expansion (Possibility B).
+
+### 10.3 Protocol
+* **Arm 1 (Baseline)**: Rung 0 (Core only), 600 cycles.
+* **Arm 2 (Burst Assimilation)**: `_burst_30` (Core + novelty burst every 30 cycles, 8c burst), 600 cycles.
+* Both arms run with `seed=20261023`, `colony=FULL`.
+* Measured: Total inventory, categories, 50-cycle epoch discovery curve (12 epochs), and Assimilation Efficiency.
+
+## 11. The 1,200-cycle extension — MEASURED 2026-10-23
+
+This was an exploratory extension of the 600-cycle comparison, not a separately
+preregistered campaign. It reused the same engine, FULL colony, seed
+`20261023`, 30-cycle burst interval and 8-cycle burst window. The 600-cycle
+fork in §10 remains the interpretation guide; its 140+ progressive-expansion
+band was not reached.
+
+| Arm | Inventory | New in final 100 cycles |
+|---|---:|---:|
+| Core baseline | **91** | **0** |
+| Burst curriculum | **128** | **2** |
+
+The burst arm is 9 items above the prior 600-cycle result of 119, with 8 items
+appearing after cycle 600 in this run. Discovery was sparse in the second half:
+8 items across cycles 601–1200, with only 2 in cycles 1101–1150 and none in
+the final 50. This supports continued but slowing discovery; it does not meet
+the preregistered 140+ expansion band or establish saturation. The result is
+**intermediate**, not a decisive fork between the two 600-cycle possibilities.
+Per-cycle data: `docs/scale_horizon_1200.json`.
+
+**Metadata correction.** The generator introduces novelty at positive cycle
+indices only. A 1,200-cycle run delivers 39 novelty bursts (cycles 30 through
+1170), not 40; the 600-cycle run delivers 19, not 20. The runner and artifacts
+now count delivered bursts; inventory outcomes are unchanged. Corrected
+efficiencies are 37/39 = **0.949** items per burst at 1,200 cycles and 28/19 =
+**1.474** at 600 cycles. The 600-cycle comparison should be read from its
+inventory and epoch curve, not its previously overstated efficiency.
 

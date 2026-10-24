@@ -1,0 +1,118 @@
+{
+  "protocol": {
+    "train_cycles": 200,
+    "test_cycles": 100,
+    "events_per_cycle": 8,
+    "seed": 20261023,
+    "curriculum": "lattice_L1 core + burst_30, burst_len=8",
+    "freeze_point": "after cycle 200; no test-time updates",
+    "prediction_unit": "tag in current event predicts tag in next event",
+    "primary_vocabulary": "tags seen in bootstrap or training stream",
+    "f1_threshold": 0.5,
+    "smoothing_alpha": 0.5,
+    "decay_half_life_cycles": 50
+  },
+  "novelty": {
+    "test_only_tags": [
+      "novaaag",
+      "novaaah",
+      "novaaai",
+      "nvlpaag",
+      "nvlpaah",
+      "nvlpaai",
+      "nvlqaag",
+      "nvlqaah",
+      "nvlqaai"
+    ],
+    "test_only_tag_occurrences": 402,
+    "note": "Primary scores exclude unseen target tags; this count exposes that limitation."
+  },
+  "results_known_training_tags": [
+    {
+      "model": "organica_g1_predictions",
+      "threshold": 0.5,
+      "tp": 982,
+      "fp": 1824,
+      "fn": 972,
+      "precision": 0.349964,
+      "recall": 0.502559,
+      "f1": 0.412605,
+      "brier": 0.052491,
+      "log_loss": 0.775434,
+      "scored_binary_labels": 40000
+    },
+    {
+      "model": "first_order_markov",
+      "threshold": 0.5,
+      "tp": 780,
+      "fp": 361,
+      "fn": 1174,
+      "precision": 0.683611,
+      "recall": 0.399181,
+      "f1": 0.504039,
+      "brier": 0.030192,
+      "log_loss": 0.182113,
+      "scored_binary_labels": 40000
+    },
+    {
+      "model": "decayed_temporal_association",
+      "threshold": 0.5,
+      "tp": 723,
+      "fp": 304,
+      "fn": 1231,
+      "precision": 0.703992,
+      "recall": 0.37001,
+      "f1": 0.485072,
+      "brier": 0.030107,
+      "log_loss": 0.184087,
+      "scored_binary_labels": 40000
+    }
+  ],
+  "results_including_test_only_tags": [
+    {
+      "model": "organica_g1_predictions",
+      "threshold": 0.5,
+      "tp": 982,
+      "fp": 1824,
+      "fn": 1618,
+      "precision": 0.349964,
+      "recall": 0.377692,
+      "f1": 0.3633,
+      "brier": 0.050471,
+      "log_loss": 0.81626,
+      "scored_binary_labels": 54400
+    },
+    {
+      "model": "first_order_markov",
+      "threshold": 0.5,
+      "tp": 780,
+      "fp": 361,
+      "fn": 1820,
+      "precision": 0.683611,
+      "recall": 0.3,
+      "f1": 0.417001,
+      "brier": 0.034068,
+      "log_loss": 0.335478,
+      "scored_binary_labels": 54400
+    },
+    {
+      "model": "decayed_temporal_association",
+      "threshold": 0.5,
+      "tp": 723,
+      "fp": 304,
+      "fn": 1877,
+      "precision": 0.703992,
+      "recall": 0.278077,
+      "f1": 0.398677,
+      "brier": 0.033998,
+      "log_loss": 0.33432,
+      "scored_binary_labels": 54400
+    }
+  ],
+  "limitations": [
+    "Single deterministic seed; this is a pilot, not an uncertainty estimate.",
+    "F1 uses a fixed 0.5 probability threshold; no threshold is tuned on test data.",
+    "Organica's G1 strengths are treated as probabilities for Brier and log loss; calibration is not established.",
+    "This is a synthetic curriculum and does not score latent causal structure."
+  ]
+}

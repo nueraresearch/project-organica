@@ -1,0 +1,158 @@
+{
+  "protocol": {
+    "train_cycles": 200,
+    "test_cycles_not_ingested": 100,
+    "events_per_cycle": 8,
+    "seed": 20261023,
+    "hidden_cause_and_regime_labels_ingested": false,
+    "pair_threshold": 5,
+    "recovery_target": "undirected same-latent-cause pairs among the observable cause features"
+  },
+  "world": {
+    "config": {
+      "cycles": 300,
+      "events_per_cycle": 8,
+      "regime_cycles": 100,
+      "noise_rate": 0.1,
+      "seed": 20261023,
+      "dominant_cause_probability": 0.85
+    },
+    "cause_features": {
+      "cause_a": [
+        "amber",
+        "birch",
+        "cedar",
+        "maple"
+      ],
+      "cause_b": [
+        "indigo",
+        "fern",
+        "willow",
+        "yarrow"
+      ]
+    },
+    "noise_features": [
+      "quartz",
+      "static",
+      "velvet",
+      "random"
+    ]
+  },
+  "training": {
+    "events": 1600,
+    "observed_tags": [
+      "amber",
+      "birch",
+      "cedar",
+      "fern",
+      "indigo",
+      "maple",
+      "quartz",
+      "random",
+      "static",
+      "velvet",
+      "willow",
+      "yarrow"
+    ],
+    "hidden_causes_seen": [
+      "cause_a",
+      "cause_b",
+      "noise"
+    ],
+    "regime_switches_seen": [
+      0,
+      1
+    ]
+  },
+  "gold_pairs": [
+    [
+      "amber",
+      "birch"
+    ],
+    [
+      "amber",
+      "cedar"
+    ],
+    [
+      "amber",
+      "maple"
+    ],
+    [
+      "birch",
+      "cedar"
+    ],
+    [
+      "birch",
+      "maple"
+    ],
+    [
+      "cedar",
+      "maple"
+    ],
+    [
+      "fern",
+      "indigo"
+    ],
+    [
+      "fern",
+      "willow"
+    ],
+    [
+      "fern",
+      "yarrow"
+    ],
+    [
+      "indigo",
+      "willow"
+    ],
+    [
+      "indigo",
+      "yarrow"
+    ],
+    [
+      "willow",
+      "yarrow"
+    ]
+  ],
+  "results": [
+    {
+      "model": "organica_surviving_structures",
+      "true_positive": 12,
+      "false_positive": 10,
+      "false_negative": 0,
+      "precision": 0.545455,
+      "recall": 1.0,
+      "f1": 0.705882,
+      "predicted_pairs": 22,
+      "gold_pairs": 12
+    },
+    {
+      "model": "same_event_cooccurrence",
+      "true_positive": 12,
+      "false_positive": 6,
+      "false_negative": 0,
+      "precision": 0.666667,
+      "recall": 1.0,
+      "f1": 0.8,
+      "predicted_pairs": 18,
+      "gold_pairs": 12
+    },
+    {
+      "model": "temporal_transition_graph",
+      "true_positive": 12,
+      "false_positive": 138,
+      "false_negative": 0,
+      "precision": 0.08,
+      "recall": 1.0,
+      "f1": 0.148148,
+      "predicted_pairs": 150,
+      "gold_pairs": 12
+    }
+  ],
+  "limitations": [
+    "Single seed; no run-to-run uncertainty estimate.",
+    "The generator's feature families are cleanly separable; recovery is easier than an ambiguous natural world.",
+    "Pairwise co-cause recovery is not proof of causal intervention knowledge.",
+    "The final 100 cycles are not ingested; this pilot scores structural recovery from training data, not held-out prediction."
+  ]
+}

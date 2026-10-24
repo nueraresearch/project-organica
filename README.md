@@ -12,7 +12,7 @@ python build.py          # builds an organism from nothing -- ~30 seconds
 **No dependencies. No GPU. No API keys. Python 3.11+ is the only requirement.**
 
 📘 **[Getting Started](GETTING-STARTED.md)** — the guide for a first-time reader
-📕 **[Owner's Manual](docs/USER-MANUAL.md)** — operating the 90-day study
+📕 **[Owner's Manual](docs/USER-MANUAL.md)** — operating the organism and research campaigns
 🔬 **[The Organica Challenge](CHALLENGE.md)** — the replication protocol
 ⚖️ [Apache 2.0](LICENSE) · 📌 [Cite this](CITATION.cff)
 
@@ -28,7 +28,7 @@ $$\text{Foundation Model (Trillions of parameters)} \longrightarrow \text{Fine-T
 
 $$\text{Memory First} \longrightarrow \text{Experience} \longrightarrow \text{Sleep} \longrightarrow \text{Structural Synthesis} \longrightarrow \text{Emergent Epistemology}$$
 
-Organica begins dumb, minimal, and lightweight. It contains **zero pre-trained neural networks and zero hard-coded natural language rules**. It is designed like a digital infant: an organism whose cognitive capabilities emerge through repeated cycles of waking experience, graph consolidation during sleep, hypothesis formation, structural curiosity, and active experimentation.
+Organica contains **zero pretrained neural networks and no hand-coded grammar or domain model**. Its lexical atom and stopword list are explicit English-specific priors, alongside its other developmental machinery. It is designed like a digital infant: an organism whose cognitive capabilities emerge through repeated cycles of waking experience, graph consolidation during sleep, hypothesis formation, structural curiosity, and active experimentation.
 
 **What is built in, stated precisely.** The developmental machinery is specified in advance — the ladder itself, the lexical atom (words of four or more characters, minus a stopword list), co-occurrence and temporal edge construction, the extinction threshold, the Expected-Information-Gain attention rule, the dream categories. None of that is learned. What is *not* built in is any knowledge: no grammar, no vocabulary, no domain content, no pretrained weights. The claim is **"no pretrained knowledge and no domain-specific cognitive content; the mechanisms of development are specified, and knowledge structures emerge within them."** It is the same position developmental psychology takes about human infants: enormous built-in machinery, and essentially all of the *content* learned.
 
@@ -74,7 +74,7 @@ The six inviolable laws are in [`docs/DESIGN_LAWS.md`](docs/DESIGN_LAWS.md).
   ↓
 [Gen 8] Experiments
   ↓
-[Gen 9] Self-Modeling            ← locked until the longitudinal study concludes
+[Gen 9] Self-Modeling            ← reserved; requires its own evidence and review
 ```
 
 **Generation 5 is the pivot.** It requires the organism to hold *two contradictory beliefs about the same subject*. The Shannon entropy of that contradiction becomes a Question, and the system spends its attention there. A run that never reaches G5 is not a healthy run — it is an inert one, and the telemetry will look fine while it happens.
@@ -136,11 +136,28 @@ python benchmarks/verdicts.py
 
 # The discovery curve -- what was found, and when
 python benchmarks/discovery_report.py
+
+# Frozen held-out prediction pilot: Organica vs simple baselines
+$env:PYTHONHASHSEED='0'; python benchmarks/heldout_prediction.py
+
+# Known-cause structure recovery pilot
+$env:PYTHONHASHSEED='0'; python benchmarks/ground_truth_recovery.py
 ```
 
 The campaign is **pre-registered**: the metric definitions, the gate
 definitions, the sensitivity audit and the noise floor were all fixed and
 committed *before* the run. → [`docs/FORCE-MATRIX-PREREGISTRATION.md`](docs/FORCE-MATRIX-PREREGISTRATION.md)
+
+The held-out prediction script is a **single-seed pilot**, not yet a
+preregistered multi-run evaluation. Its first result favors the tag-level
+Markov baseline over Organica on this synthetic curriculum; see the output
+artifact and journal §24 before interpreting it.
+
+The known-cause recovery pilot also favors a simple same-event co-occurrence
+graph over Organica's surviving structures (F1 0.800 vs 0.706). Its feature
+families are deliberately clean, so the result is a benchmark shakedown, not
+evidence about real-world causal discovery. See the generator, result artifact,
+and journal §25.
 
 ### Explore it interactively
 
@@ -164,6 +181,7 @@ project-organica/
 │   ├── streams.py      # the experience streams the organism can be run against
 │   ├── branch_streams.py  # branch-structured stimuli (the unit of competing expectation)
 │   ├── scale_streams.py   # worlds of increasing information content (the H24 ladder)
+│   ├── ground_truth_worlds.py  # synthetic causes, regime changes, and noise with hidden labels
 │   └── paths.py        # canonical paths; disposable scratch space
 ├── build.py            # build an organism from scratch
 ├── run_continuous.py   # the study daemon
@@ -240,10 +258,21 @@ That produced the project's current hypothesis, **H24**:
 > **environmental information content** rather than by architectural inability
 > to reorganise.
 
-H24 is stated with its evidence on both sides and its falsification criteria
-*before* the experiment that tests it. The next experiment is a
-**world-complexity ladder** — a stimulus change, not an architecture change.
-→ [results §11](docs/FORCE-MATRIX-RESULTS.md), [facts sheet §J](docs/FACTS-SHEET.md), [journal §23](research-journal/phase_g_findings_20261021.md)
+H24 is stated with its evidence and falsification criteria. Uniformly larger
+worlds reduced inventory; scaffolded and reinforced novelty raised it. The
+exploratory 1,200-cycle burst horizon reached 128 items against a 91-item core
+baseline, but discovery slowed to two items in the final 100 cycles. This
+supports curriculum-dependent structure formation, while the longer-term
+ceiling remains unresolved. The first usefulness pilots now compare frozen
+Organica predictions and recovered structures with simple baselines. On the
+single-seed held-out task, Markov leads Organica in known-tag F1 (0.504 vs
+0.413) and log loss (0.182 vs 0.775); on known-cause pair recovery, same-event
+co-occurrence leads in F1 (0.800 vs 0.706). These pilots do not establish
+general performance: both need multi-seed and harder-world evaluation. →
+[world-scale record](docs/WORLD-SCALE-PREREGISTRATION.md),
+[prediction results](docs/heldout_prediction.json),
+[recovery results](docs/ground_truth_recovery.json),
+[journal §§24–25](research-journal/phase_g_findings_20261021.md)
 
 ---
 
@@ -251,7 +280,7 @@ H24 is stated with its evidence on both sides and its falsification criteria
 
 **Package version 0.7.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete. The current work — the instrumentation audit, the gate validation, the substrate correction, the V1 before/after audit and the Tier-1 matrix — is in [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete. The current evaluation record includes the instrumentation audit, gate validation, substrate correction, V1 before/after audit, Tier-1 matrix, extended burst horizon, and first held-out prediction and known-cause recovery pilots. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md).
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.7.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -260,10 +289,12 @@ Phases A–E (architecture, reproduction pack, growth benchmarks, five research 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 
 **What is not established, and is not claimed:** that the organism is
-developmental in the strong sense. The architecture's *internal organisation*
-is built to change with history, and it measurably does — but on every
-stimulus measured so far it converges quickly and then accumulates evidence
-without reorganising. H24 is the live question about why.
+developmental in the strong sense, or that its structures improve prediction
+or recover latent structure better than simple alternatives. Tier-1's
+repeating stimulus saturates quickly; richer curricula increase inventory,
+but the first predictive and recovery pilots favor simpler baselines. H24
+captures the curriculum question; external usefulness now needs replicated,
+harder evaluations.
 
 ---
 
