@@ -34,11 +34,10 @@
 ```bash
 cd C:\Users\monte\anti\project-organica
 
-# Is the study alive and healthy? (30 seconds, do this first)
+# Read the latest recorded study health (read-only; daemon is paused)
 python benchmarks/study_health.py
 
-# Start the daemon if it is not running
-start_organica.bat
+# Do not restart until a stable V1.0.0 is ready and reviewed.
 
 # Watch it work
 Get-Content organica.log -Wait -Tail 20      # PowerShell
@@ -68,23 +67,24 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 18:05 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-23 20:27 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
-| Study status | **RUNNING** — daemon PID 29524, relaunched 2026-10-23 11:49 MDT on the **fixed** build (the substrate correction described in [§8.4](#84-the-counter-that-was-measuring-the-wrong-population)). |
+| Study status | **PAUSED** by owner request after continuous-run cycle 1032 / global sleep cycle 5396 at 2026-10-23 20:26 MDT. No `run_continuous.py` process is active. Do not resume until a stable V1.0.0 is ready and reviewed. Pause marker is appended to `organica.log`. |
 | Build in effect | `retention=salience caps(hyp=15,pred=20,proc=10,meta=15,wf=10) contradiction_scale=1.0 markers=15 freq_scope=world` — written to the log at every startup, so the log says which configuration produced which cycles. |
-| Cycles completed | **4,753** sleep cycles (the longest single-arm record the project has) |
-| Sleep-cycle counter | 1 → 4,753, **0 non-monotonic steps**, 0 failed cycles. The counter survived the restart *and* the substrate change, because it lives in the database, not in the process. |
-| Cycle latency | median 614 ms (up from ~294 ms — the matrix campaign was competing for CPU), max 1,905 ms |
-| Substrate | ~25 MB, bounded by retention (109 rows pruned/cycle) |
+| Cycles completed | **5,396** sleep cycles; the last daemon session completed 1,032 continuous-run cycles. |
+| Sleep-cycle counter | 1 → 5,396, **0 non-monotonic steps**, 0 failed cycles. The counter survived the restart and substrate correction because it lives in the database, not in the process. |
+| Cycle latency | median 309 ms and max 631 ms over the last 50 recorded cycles; last-200 median 297 ms |
+| Substrate | Bounded by retention; mean **109 rows pruned/cycle** over the last 200 recorded cycles. |
 | Tag vocabulary | **29 tags, 0 schema tags.** Before the fix it was 63 tags, 60.6% of them the organism's own JSON field names. |
 | Mean population (last 200 cycles) | 13.0 hypotheses, 8.0 dreams, 1.0 theories, 1.0 questions — **exactly constant**, stdev 0.000 |
 | Lineage (Law II) | 100% grounded, 0 unverifiable, 0 ungrounded |
 | Archived run | `logs/organica_prefix_20261022.log` (7.97 MB) + per-cycle series in `docs/prefix_run_series.json` (3,725 cycles) |
 | **Tier-1 matrix** | **COMPLETE** — 6 colonies × 3,000 cycles = 18,000 colony-cycles. Results in [`docs/FORCE-MATRIX-RESULTS.md`](FORCE-MATRIX-RESULTS.md); journal §23. |
 | **V1 before/after** | **COMPLETE** — 21 reversals, and three interpretations **retracted**. `docs/v1_impact.json`; journal §22. |
-| Git | `master` pushed and in sync; a fresh clone from GitHub passes 8/8 checks (`benchmarks/clone_check.py`) |
+| **Phase H external-validity campaign** | **COMPLETE** — ten seeds, fixed held-out curriculum, three latent-cause difficulty levels; simple baselines lead overall. Full intervals in `docs/phase_h_results.json`; journal §28. |
+| Git | Phase H work is prepared on branch `phase-h-external-validity`; package remains pre-1.0. |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
@@ -98,7 +98,9 @@ failed cycles       : 0
 
 The five pre-registered predictions came back **2 SUPPORTED and 3 REVERSED** — removing contradiction or question creation *raises* development velocity, and selecting the lowest-EIG experiment develops *more* than selecting the highest-EIG one. The verdicts are direction-aware; a naive "did it move?" test would have reported five confirmations.
 
-**H24 has been tested with the world-scale ladder and burst curriculum.** Uniform variety reduced inventory, while scaffolded and reinforced novelty raised it from 91 to 113 at 300 cycles and 119 at 600. The exploratory 1,200-cycle extension reached 128 (against a 91-item core baseline), with 2 new items in its final 100 cycles. This supports curriculum-dependent structure formation, but does not establish ongoing expansion. The first held-out prediction pilot favors the tag-level Markov baseline over Organica (F1 0.504 vs 0.413 on known tags); the known-cause recovery pilot favors same-event co-occurrence (F1 0.800 vs Organica 0.706). Both are single-seed synthetic pilots. See world-scale record §11 and journal §§24–25.
+**H24 has been tested with the world-scale ladder and burst curriculum.** Uniform variety reduced inventory, while scaffolded and reinforced novelty raised it from 91 to 113 at 300 cycles and 119 at 600. The exploratory 1,200-cycle extension reached 128 (against a 91-item core baseline), with 2 new items in its final 100 cycles. This supports curriculum-dependent structure formation, but does not establish ongoing expansion. Phase H then tested external usefulness: Markov beat Organica on the single fixed prediction stream, and same-event co-occurrence beat it on latent pair recovery in all three conditions. Details and uncertainty intervals are in `docs/phase_h_results.json` and journal §28.
+
+**Phase H's ten-seed usefulness campaign favors simple baselines on the tested tasks.** Markov F1 was 0.504 vs Organica 0.413, but all ten prediction runs used the same deterministic stream and produced identical scores; those intervals do not measure input-world uncertainty. In structure recovery, same-event co-occurrence led Organica across clean, overlapping, and stress worlds (F1 0.800, 0.764, 0.796 vs 0.704, 0.547, 0.109). Organica beat the temporal graph only in clean and overlapping conditions; its relative recovery position declined as difficulty increased. See [facts §P](FACTS-SHEET.md), [Phase H protocol](PHASE-H-PREREGISTRATION.md), result artifact, and journal §§26–28.
 
 **The headline, and it changed the plan:** the 90-day run **plateaued at cycle 261 — 7% of the way in.** Every population series has standard deviation **0.000000** and slope **0.0 per 1,000 cycles** over the last 931 cycles. The organism reached a fixed point and then sat still for 3,464 cycles. A single arm with a flat line describes nothing and identifies nothing; **only contrasts can.** The comparative matrix replaces the 90-day single arm as the primary experiment, and the daemon becomes a *monitor*, not a gate.
 
@@ -153,7 +155,7 @@ The important claim is not that it works well. It's that **every structure it ho
 - **Law II — 100% verified structural provenance.** Everything traces to Generation 0. *Verified — see [§8, finding 8](#8-the-findings-and-what-each-means-for-you).*
 - **Law V — Epistemic attention (EIG over confidence).** The organism spends effort where *uncertainty* is, not where it's already certain. `EIG = Uncertainty × (1 + Novelty)`.
 
-**Generation 9 is deliberately locked.** The whole point of the current study is to earn it.
+**Generation 9 is deliberately locked.** The study is paused; V1.0.0 stability and review are prerequisites before deciding whether to resume it or reopen the architecture.
 
 ---
 
@@ -169,6 +171,12 @@ start_organica.bat
 
 Launches `run_continuous.py` in the background. It writes one JSON summary line per cycle to `organica.log` and never truncates it. The cycle interval is 30 seconds (override with a file named `INTERVAL` containing a number of seconds).
 
+**Current state: paused.** The daemon stopped after cycle 1032 (global sleep
+cycle 5396) on 2026-10-23, pending a stable V1.0.0. The temporary `INTERVAL`
+override was removed. Do not launch `start_organica.bat` or
+`run_continuous.py` until the V1.0.0 build and resumption decision are
+reviewed. The database and append-only log are preserved.
+
 | Behaviour | Detail |
 |---|---|
 | Log | `organica.log` — **appended**, never truncated |
@@ -176,11 +184,13 @@ Launches `run_continuous.py` in the background. It writes one JSON summary line 
 | Database | `memory.db` (SQLite) |
 | Working memory | newest 4,000 sleep events |
 | Candidate retention | newest 20,000 (bounded; older ones evicted) |
-| Stop | `Stop-Process -Id <pid> -Force` — see [§9](#9-troubleshooting) |
+| Stop | Stop only after the latest cycle is logged, then record the pause; see [§9](#9-troubleshooting). |
 
 ### 4.2 Making it survive 90 days ⚠️
 
-**The daemon is stable but unprotected.** It is a `start /b` child of a transient console, and this machine's own shell history contains broad `Get-Process python | Stop-Process -Force` sweeps. Run 1 died exactly that way — not a bug, but it will cost you the study.
+**This section is deferred while the study is paused.** Do not configure an
+auto-restarting supervisor until the V1.0.0 build is reviewed and the owner
+decides to resume collection. Otherwise a scheduled task could undo the pause.
 
 A Windows Scheduled Task fixes it: it survives console close and logoff, and restarts the daemon if it exits.
 
@@ -250,6 +260,7 @@ run_dashboard_and_api.bat
 | `$env:PYTHONHASHSEED='0'; python benchmarks/heldout_prediction.py` | Freezes after 200 cycles and compares Organica G1, a tag-level Markov baseline and a recency-decayed temporal baseline on cycles 201–300; writes `docs/heldout_prediction.json`. Pilot only; one seed. |
 | `python benchmarks/cold_start.py --cycles 40` | **Would the organism bootstrap later generations with no help?** Ablates pre-seeding, the engineered branch point, the lookback window and the hypothesis cap. |
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/ground_truth_recovery.py` | Recovers known same-cause feature pairs from 200 training cycles and scores Organica and graph baselines; writes `docs/ground_truth_recovery.json`. Pilot only; one seed. |
+| PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/phase_h_campaign.py --seeds 10` | Runs the preregistered ten-seed prediction and clean/overlap/stress structure-recovery league; writes `docs/phase_h_results.json` with per-seed scores and bootstrap intervals. Default three workers. |
 | `python benchmarks/ablation_study.py --cycles 300` | **Which parts of the architecture are actually load-bearing?** Ten ablations plus a full-system reference, scored forward-looking. |
 | `python benchmarks/ablation_verify.py --cycles 300` | **Did each ablation actually change the organism?** Perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Run this *before* reading any outcome. |
 | `python benchmarks/clone_check.py` | Clones the public repo into a temp directory and checks a stranger can run it: import, tests, `build.py`, all 9 examples, and that the live study is untouched. |
@@ -477,12 +488,14 @@ Ordered by how much they cost you if you skip them.
 
 | # | Action | Why | Effort |
 |---|---|---|---|
-| 1 | **Install the Scheduled Task supervisor** ([§4.2](#42-making-it-survive-90-days-)) | The daemon is unprotected. Run 1 was killed by a stray `Stop-Process`. Without this you may lose the study at any point. | 5 min |
-| 2 | **Schedule the snapshot jobs** | Daily/weekly/monthly snapshots are the actual longitudinal data. Run them from a Scheduled Task, not from memory. | 10 min |
-| 3 | **Decide the clean restart** (decision [#5](#72-decide-this-week)) | The current run is legitimate but carries a ~264-cycle preamble from an earlier build. A fresh start on the final build removes the caveat from the paper. | 5 min, then ~1 h of data |
+| 1 | **After V1.0.0 review: decide whether to resume the study** | Owner decision recorded 2026-10-23: pause collection until a stable V1.0.0 exists; preserve the current database and log. | Deferred |
+| 2 | **If resuming: install the Scheduled Task supervisor** ([§4.2](#42-making-it-survive-90-days-)) | Configure restart behavior only after the owner authorizes collection again. | Deferred |
+| 3 | **If resuming: schedule the snapshot jobs and decide on a clean restart** | Resolve whether the preserved 5,396-cycle database is compatible with the V1.0.0 engine before choosing continuation or a new run. | Deferred |
 | 4 | **Write the designer-surprise predictions** | One metric answers your actual question — *"did it produce anything I did not anticipate?"* — and it cannot be automated, because only you can say what you expected. The scorer is built; it needs your predictions recorded **before** a run. | 20 min |
-| 5 | **Review the held-out prediction pilot** (`benchmarks/heldout_prediction.py`) | Compare frozen Organica G1 predictions with a first-order Markov model and a recency-decayed temporal-association baseline on cycles 201–300. The pilot is a usefulness check, not ground-truth recovery or an uncertainty estimate. | 5 min |
-| 6 | **Review and extend the known-cause recovery pilot** (`benchmarks/ground_truth_recovery.py`) | The first run recovers all 12 gold pairs, but simple co-occurrence has higher precision and F1. Vary noise and feature overlap, add seeds, and score held-out regime prediction before making a causal-recovery claim. | 1–2 days |
+| 5 | **Extend prediction to seed-varied worlds and regime shifts** | In the completed Phase H prediction league, the ten runs repeated one fixed stream: Markov F1 0.504 and decayed association 0.485 both exceeded Organica 0.413. Their zero-width intervals are not world-level uncertainty. | Next benchmark preregistration |
+| 6 | **Use structure-recovery results to design the next benchmark** | Co-occurrence beat Organica in clean, overlapping, and stress worlds; Organica's relative score declined as difficulty increased. This scores pairwise association, not intervention knowledge or held-out regime prediction. | Results complete |
+| 7 | **Test whether Organica adds value on held-out regime prediction** | Vary worlds across seeds, include shared causes and decoys, and keep a separate regime-shift test set. Freeze metric definitions and decision thresholds before runs. | Next |
+| 8 | **Only after a stable advantage, run targeted layer ablations** | Identify which mechanisms explain any task-specific advantage over the strongest simple baseline. | Later |
 
 **Completed on 2026-10-21 — recorded, not just done** (per rule 3 of [§18](#18-keeping-this-manual-current)):
 
@@ -951,6 +964,7 @@ project-organica/
 │   ├── scale_ladder.py            # the H24 ladder: worlds of increasing information content
 │   ├── heldout_prediction.py      # Organica vs Markov and decayed association on held-out events
 │   ├── ground_truth_recovery.py   # score recovered structure against hidden-cause pair ground truth
+│   ├── phase_h_campaign.py        # ten-seed prediction/recovery league with bootstrap intervals
 │   ├── hub_degree_probe.py        # the Layer-1 survival threshold against hub degree
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
 │   ├── lineage_audit.py           # Law II: real resolution to Generation 0
@@ -975,6 +989,8 @@ project-organica/
 │   ├── EMERGENCE-CRITERIA.md    # what counts as emergence, and what we can evidence
 │   ├── FORCE-MATRIX-PREREGISTRATION.md  # Ablation Study 2: frozen M1–M9 + the launch gates
 │   ├── FORCE-MATRIX-RESULTS.md   # the Tier-1 matrix results and what they can/cannot answer
+│   ├── PHASE-H-PREREGISTRATION.md # frozen external-validity protocol, seeds, conditions, and decision rules
+│   ├── phase_h_results.json       # ten-seed external-validity campaign and paired difficulty trends
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
 │   ├── ORGANICA-V2-DESIGN-NOTES.md  # planning only: what survived, what failed, what is inert
@@ -1391,3 +1407,6 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-23 | **Release 0.7.0 — the Tier-1 matrix, and H24.** Six colonies × 3,000 cycles = **18,000 colony-cycles**. **The structure is decided on cycle 1**: every arm reaches 18 pre-retention beliefs, 7 competing subjects and 15 retained beliefs and holds them for 2,999 cycles while mean support grows **+10,776%**. **M5 was not a velocity** — it is a finite inventory ÷ run length (74 items over both 300 and 3,000 cycles; the rate fell 24.667 → 2.467 because the numerator stopped growing), and every arm discovered **zero** new items in its final 100 cycles. **The confound: the stimulus repeats every 9 cycles** (9 distinct events, 7 words, 333 repetitions), so the plateau is consistent with *the organism exhausted the environment*, not with an inability to develop. **The five pre-registered predictions: 2 SUPPORTED, 3 REVERSED, 0 UNSUPPORTED, 0 NOT INTERPRETABLE** — the verdicts are direction-aware, so removing contradiction or questions reads as REVERSED rather than as a confirmation. The **noise floor is one new item**, measured at the 3,000-cycle scale (`docs/process_noise_3000.json`). Two colony names are corrected in place: `NO_CONTRADICTIONS` removes contradiction's *weight in confidence*, not contradictions. Added `benchmarks/verdicts.py`, `benchmarks/discovery_report.py`, `benchmarks/run_matrix.py`, `benchmarks/scale_ladder.py`, `benchmarks/hub_degree_probe.py`, `organica/scale_streams.py`; added **`docs/FORCE-MATRIX-RESULTS.md`**, `docs/discovery.json`, `docs/figure_discovery.svg`, `docs/figure_tier1_matrix.svg`, `docs/verdicts.json`; added facts sheet §I (matrix results) and **§J (H24)**; updated `docs/ORGANICA-V2-DESIGN-NOTES.md` §7–§10 with the matrix's answers and the new stimulus requirement; **rewrote the README** to carry the findings, the verdicts and H24. Journal §23. |
 | 2026-10-23 | Recorded the exploratory 1,200-cycle horizon (91 baseline, 128 burst, 2 new in the final 100), corrected novelty metadata (39/19 actual bursts at 1,200/600 cycles), and documented the held-out pilot (Markov F1 0.504 vs Organica 0.413 on known tags). Added its run command, file-map entry, and review action. Journal §24; world-scale record §11. |
 | 2026-10-23 | Added the known-cause generator and structural-recovery pilot. The one-seed result: Organica F1 0.706, same-event co-occurrence 0.800, temporal graph 0.148. Added hidden-cause results and limits to the fact sheet and journal §25, and recorded seed/noise/overlap follow-up in the action list. |
+| 2026-10-23 | Preregistered Phase H before its multi-seed run: ten seeds, fixed hash seed, prediction and structure-recovery leagues, and three controlled noise/overlap/decoy levels. Added `benchmarks/phase_h_campaign.py`; the campaign leaves the cognitive engine unchanged. Journal §26. |
+| 2026-10-23 | **Paused live study collection at owner direction** after continuous-run cycle 1032 (global cycle 5396), preserving the database and log until a stable V1.0.0 is ready and reviewed. Updated the status dashboard, restart guidance, and deferred study actions. Journal §27. |
+| 2026-10-23 | **Completed Phase H external-validity campaign** across ten seeds. Recorded fixed-stream prediction scores, recovery intervals, and paired difficulty trends; clarified that H1 seeds did not resample the input stream. Updated next actions toward seed-varied prediction and regime-shift evaluation. Journal §28. |

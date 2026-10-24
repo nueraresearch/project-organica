@@ -2085,3 +2085,119 @@ the score does not test whether the system predicts regime changes or selects
 useful interventions. The artifact is `docs/ground_truth_recovery.json`.
 Next: sweep noise rates and feature overlap, vary seeds, report uncertainty,
 and score both structural recovery and held-out regime prediction.
+
+## §26 — Phase H external-validity campaign preregistration
+
+**Frozen before the multi-seed run on 2026-10-23.** The clean, single-seed
+prediction and structure-recovery pilots above informed this protocol; they
+are not counted as extra independent replicates. The campaign runs seeds
+20261023–20261032 with `PYTHONHASHSEED=0` and fresh disposable databases.
+The prediction curriculum is deterministic and fixed across seeds, so only
+Organica's sleep RNG varies for H1; the Markov baselines repeat on the same
+stream. Recovery-world samples and Organica's sleep RNG both vary for H2/H3.
+No cognitive engine code changes are part of this phase.
+
+The prediction task remains fixed at train cycles 1–200 and frozen test cycles
+201–300, with a 0.5 F1 threshold, 50-cycle decay half-life, and Organica,
+first-order Markov, and decayed-association models. Structure recovery uses
+the same 200-cycle training window, hidden labels withheld from models, a
+fixed pair threshold of 5, and Organica, same-event co-occurrence, and temporal
+graph baselines. Three recovery conditions are specified in
+`docs/PHASE-H-PREREGISTRATION.md`: clean (10% noise, no shared features or
+decoys), overlapping (20%, two shared features, 10% decoy correlations), and
+stress (30%, three shared features, 25% decoy correlations). Cause dominance
+continues to switch every 100 cycles.
+
+The report will give per-seed scores, means, standard deviations, ranges, and
+deterministic 10,000-resample percentile bootstrap intervals, including paired
+model differences. An Organica F1 advantage is supported only when its paired
+95% interval against a simple baseline lies wholly above zero; a wholly
+negative interval falsifies an advantage for that task/condition, and an
+interval containing zero is inconclusive. The intervals describe only the
+specified synthetic seed variation. Exact campaign output:
+`docs/phase_h_results.json`; completed scores and paired difficulty trends
+are analyzed in §28.
+
+While the campaign was still running and before any scores were inspected,
+the preregistration was amended to add a paired clean-to-overlap and
+clean-to-stress difference-in-differences for Organica's recovery F1 advantage.
+This tests whether its relative position shifts with difficulty; it does not
+change the worlds, models, seeds, or primary per-condition comparisons.
+
+Before outcome inspection, the seed description was also clarified: the
+held-out curriculum is deterministic, so its seeds vary Organica's seeded
+sleep RNG but do not resample input data. Recovery worlds do vary across seeds.
+The campaign's results must be interpreted with that distinction.
+
+## §27 — Live study paused pending stable V1.0.0
+
+On 2026-10-23 at 20:26 MDT, at the owner's direction, the live study daemon
+was stopped after its completed continuous-run cycle **1032**
+(global `sleep_cycle=5396`). Its last cycle succeeded. A read-only health
+summary of the append-only log reported 5,396 cycles, zero non-monotonic
+counter steps, zero failed cycles, a 309 ms median and 631 ms maximum over the
+last 50 records, and 100% theory/question duty cycles over the last 200.
+
+The daemon process is no longer active. The current database and log were
+preserved; an explicit pause marker was appended to `organica.log`. The
+temporary `INTERVAL` override used to let the current cycle finish was
+removed. No scheduled restart was found. Collection remains paused until a
+stable V1.0.0 build is ready and reviewed; whether to continue this database
+or begin a fresh run is deferred to that review. The Phase H benchmarks use
+separate disposable databases and are unaffected by this pause.
+
+## §28 — Phase H: multi-seed usefulness and structure-recovery results
+
+The preregistered campaign completed all ten seeds (20261023–20261032) under
+`PYTHONHASHSEED=0`, using three workers and separate disposable databases.
+The live study remained paused. Full per-seed values and deterministic
+10,000-resample percentile bootstrap intervals are in
+`docs/phase_h_results.json`; the protocol and decision rules are in
+`docs/PHASE-H-PREREGISTRATION.md`.
+
+### H1 — Held-out next-event prediction
+
+On known training tags, mean F1 was **0.412605** for Organica, **0.504039**
+for first-order Markov, and **0.485072** for recency-decayed association.
+Markov's paired F1 lead over Organica was **0.091434**; the decayed model's
+lead was **0.072467**. Each score was identical across all ten runs, so the
+bootstrap intervals are degenerate. The prediction curriculum itself is a
+fixed deterministic stream; the seeds varied Organica's sleep RNG, not the
+input data, and the simple baselines repeat the same score. Therefore this
+confirms the original pilot on that one curriculum but does **not** provide
+input-world uncertainty or ten independent world replications.
+
+### H2/H3 — Known-cause recovery league
+
+Mean F1 with 95% bootstrap intervals:
+
+| Condition | Organica | Same-event co-occurrence | Temporal graph |
+|---|---:|---:|---:|
+| Clean | 0.7041 [0.6835, 0.7250] | **0.8000 [0.8000, 0.8000]** | 0.1482 [0.1481, 0.1484] |
+| Overlapping | 0.5469 [0.5150, 0.5764] | **0.7642 [0.7632, 0.7662]** | 0.2199 [0.2162, 0.2234] |
+| Stress | 0.1091 [0.0991, 0.1226] | **0.7959 [0.7959, 0.7959]** | 0.2803 [0.2792, 0.2812] |
+
+Same-event co-occurrence outperformed Organica in every condition. Organica
+outperformed the temporal graph in the clean and overlapping conditions, but
+the temporal graph led in the stress condition. As difficulty increased,
+Organica's relative F1 position worsened. The paired change from clean to
+overlapping was **−0.121** ([−0.167, −0.077]) against co-occurrence and
+**−0.229** ([−0.273, −0.187]) against the temporal graph. From clean to stress,
+the changes were **−0.591** ([−0.607, −0.576]) and **−0.727**
+([−0.743, −0.712]), respectively. These intervals are wholly below zero,
+so the hypothesis that Organica's relative recovery advantage grows in these
+harder worlds is falsified under this protocol.
+
+**Interpretation and limits.** Organica recovered measurable signal in the
+clean world and beat the temporal graph there, but the simpler co-occurrence
+model remained better. Its relative performance declined with shared features,
+noise, and decoy correlations; the current structural machinery did not become
+more useful as this generator grew harder. This is evidence about three
+controlled synthetic conditions, not natural-world external validity. The
+task evaluates undirected pairwise association, not causal intervention
+knowledge or held-out regime prediction. H1 does not vary its input stream.
+
+**Next experiments.** Give H1 a preregistered seed-varying curriculum or
+multiple independent held-out worlds, and score held-out regime prediction.
+Then test which Organica layers contribute using controlled, task-specific
+ablations; do not infer layer value from the current internal inventory.
