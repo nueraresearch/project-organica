@@ -632,15 +632,102 @@ def _run_one(args) -> dict:
     }
 
 
+def _normalise_record(r: dict) -> dict:
+    """Bring a saved per-seed record into the internal shape.
+
+    The results file has been written in two shapes over the life of this
+    harness -- the flat `per_model_detail` form and the `records` form --
+    so a resume has to understand both.
+    """
+    if "organica" in r:
+        return r
+    models = r.get("models", [])
+    best = max((m for m in models
+                if m["model"] in ("cooccurrence", "temporal_graph")),
+               key=lambda m: m["primary"], default=None)
+    return {
+        "family": r["family"],
+        "seed": r["seed"],
+        "organica": r.get("organica_primary"),
+        "ablation": r.get("ablation_primary"),
+        "best_simple_baseline": best or {"primary": None},
+        "all_models": models,
+        "protocol": r.get("protocol", {}),
+    }
+
+
 def run_campaign(families: list[str], seeds: list[int], workers: int,
-                 scale: int = 1) -> dict:
+                 scale: int = 1, out_path: Path | None = None,
+                 resume: bool = False) -> dict:
     jobs = [(f, s, scale) for f in families for s in seeds]
     started = time.time()
     records: list[dict] = []
+
+    if resume and out_path is not None and out_path.exists():
+        try:
+            prior = json.loads(out_path.read_text(encoding="utf-8"))
+            records = [_normalise_record(r) for r in prior.get("records", [])]
+            if not records:
+                records = [_normalise_record(r)
+                           for r in prior.get("per_model_detail", [])]
+            done = {(r["family"], r["seed"]) for r in records}
+            jobs = [j for j in jobs if (j[0], j[1]) not in done]
+            print(f"  resuming: {len(records)} seed(s) already done, "
+                  f"{len(jobs)} to go")
+        except Exception as exc:  # a partial file must never be fatal
+            print(f"  resume failed ({exc}); starting from scratch")
+            records = []
+            jobs = [(f, s, scale) for f in families for s in seeds]
+
+    def flush(complete: bool = False) -> None:
+        """Write the per-seed results as they arrive.
+
+        A campaign that is killed by a time limit must not lose the seeds it
+        already finished. The partial file is marked incomplete.
+        """
+        if out_path is None:
+            return
+        payload = {
+            "protocol": {
+                "preregistration": "docs/PHASE-K-PREREGISTRATION.md",
+                "seeds": seeds,
+                "workers": workers,
+                "python_hash_seed": "0",
+                "bootstrap_replicates": BOOTSTRAP_REPLICATES,
+                "decision_alpha": DECISION_ALPHA,
+                "cycle_scale": scale,
+                "baseline_rule": ("every simple baseline is swept over the "
+                                  "declared grid and its BEST score is used; "
+                                  "this is generous to the baseline by design"),
+                "wall_clock_seconds": round(time.time() - started, 1),
+                "complete": complete,
+            },
+            "summaries": {
+                f: summarize([r for r in records if r["family"] == f], f)
+                for f in families
+                if any(r["family"] == f for r in records)
+            },
+            "confirmed_families": [],
+            "records": records,
+            "per_model_detail": [
+                {"family": r["family"], "seed": r["seed"],
+                 "organica_primary": r["organica"],
+                 "ablation_primary": r["ablation"],
+                 "models": r["all_models"],
+                 "protocol": r["protocol"]}
+                for r in records
+            ],
+        }
+        payload["confirmed_families"] = [
+            f for f, s in payload["summaries"].items() if s["verdict"] == "SUPPORTED"]
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
     if workers > 1:
         with ProcessPoolExecutor(max_workers=workers) as pool:
             for rec in pool.map(_run_one, jobs):
                 records.append(rec)
+                flush()
                 print(f"  {rec['family']} seed {rec['seed']}: "
                       f"organica={rec['organica']} "
                       f"baseline={rec['best_simple_baseline']['primary']} "
@@ -649,6 +736,7 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
         for job in jobs:
             rec = _run_one(job)
             records.append(rec)
+            flush()
             print(f"  {rec['family']} seed {rec['seed']}: "
                   f"organica={rec['organica']} "
                   f"baseline={rec['best_simple_baseline']['primary']} "
@@ -738,6 +826,8 @@ def main() -> None:
     ap.add_argument("--self-test", action="store_true",
                     help="run the instrument audits only (K0 control + "
                          "endpoint ceiling check)")
+    ap.add_argument("--resume", action="store_true",
+                    help="continue from the seeds already in the output file")
     ap.add_argument("--smoke", action="store_true",
                     help="one seed per family, cycles divided by 10 -- for "
                          "harness validation only, never a result")
@@ -811,10 +901,12 @@ def main() -> None:
         sys.exit(1)
     print("  all endpoints reachable.\n")
 
-    result = run_campaign(args.families, seeds, args.workers, scale)
+    result = run_campaign(args.families, seeds, args.workers, scale,
+                          out_path=Path(args.out), resume=args.resume)
     result["control"] = c
     result["ceiling_check"] = ceil
     result["protocol"]["cycle_scale"] = scale
+    result["protocol"]["complete"] = True
 
     print()
     print("=" * 80)
