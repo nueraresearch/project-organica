@@ -26,6 +26,50 @@ that answer, and only if the answer is positive.
 
 ---
 
+> ### AMENDMENT 1 — 2026-10-24, before any K outcome was generated
+>
+> **What was wrong.** The K3 joint endpoint scored each group against the
+> other group's content as false positives: `core_retention_f1` counted the
+> late entity's pairs as errors, and `late_incorporation_f1` counted the
+> scaffold's. A model that held *both* the scaffold and the late structure
+> perfectly could therefore reach only **0.667**, and a model that held only
+> one of the two scored **0**. The endpoint was unreachable in principle and
+> its two components contradicted each other. The same mutual penalty
+> affected K1's *supporting* `late_f1`, though not its primary endpoint.
+>
+> **How it was found.** Not by the pilot, and not by the results. During the
+> first run attempt, before any K3 seed had completed, the endpoint was
+> checked against a **synthetic perfect model** — the metric's own ceiling.
+> It measured 0.667 where 1.0 is the only sensible answer. Six K1 seeds had
+> completed at that moment; **no K3 outcome existed**.
+>
+> **Why the first attempt was discarded entirely** rather than just K3 being
+> re-run: the run is cheap to repeat and a mixed-provenance result is worth
+> less than a clean one. All thirty seeds are re-run from scratch.
+>
+> **Why this amendment cannot have been result-driven.** K1's and K2's
+> endpoints are provably unaffected: a perfect model scores exactly **1.0**
+> on both under the ceiling audit, and K1's primary endpoint — the union F1
+> over all three entities' gold pairs — was never in question. Only K3's
+> joint endpoint and K1's supporting `late_f1` changed.
+>
+> **The fix.** Each group is now scored against its own gold with the other
+> declared group **excluded from the false positives**. A model holding both
+> the scaffold and the late structure scores 1.0 on both components and 1.0
+> on the joint endpoint; a model holding only one still scores 0.
+>
+> **The audit is now permanent.** The ceiling check is part of the harness
+> and runs before every campaign, alongside the K0 control. K0 checks that
+> the pipeline can report a **loss**; the ceiling check checks that the
+> metric can report a **win**. A campaign does not start if either fails.
+>
+> **K1's supporting `late_f1`** likewise excludes the scaffold's pairs from
+> its false positives, so it measures "how much of the late entity's
+> structure did the model hold" rather than "how much of the late entity's
+> structure did the model hold, minus everything else it also held".
+
+---
+
 ## 1. Why these three families, and what "advantage" would have to mean
 
 Each candidate is derived from a mechanism the project has actually measured,
@@ -172,6 +216,14 @@ and from every claim.
 A control that could only ever confirm itself would be worthless. This one
 can only fail.
 
+**The endpoint ceiling check.** Every endpoint is checked against a
+**synthetic perfect model**. A metric that a perfect model cannot score 1.0
+on is broken — it either has a ceiling nobody can reach, or it penalises two
+requirements that contradict each other. The campaign **does not run** if
+any endpoint fails. This check is what caught the defect recorded in
+Amendment 1, and it is now permanent: K0 checks that the pipeline can report
+a **loss**, the ceiling check checks that the metric can report a **win**.
+
 **The pilot, disclosed.** Before this document was frozen, the harness was
 run once at **one seed and one tenth of every cycle count** (K1 30 cycles,
 K2 30, K3 60) to check that it executes and that the numbers move. It did,
@@ -194,7 +246,9 @@ recorded so that nobody is surprised later:
    but incorporated **none** of the late entities, so the harmonic mean was
    exactly zero. That is a real measurement at 60 cycles, not an extraction
    failure — the score components are reported separately in every artifact,
-   so the joint number can always be taken apart.
+   so the joint number can always be taken apart. (This is what prompted the
+   ceiling audit in Amendment 1, though the audit found a different and
+   larger problem: the endpoint was itself unreachable.)
 2. **The harness extracts the organism's structures correctly.** K1 and K3
    produce non-zero pair sets, and the same code path produces the Phase H
    numbers exactly.

@@ -141,11 +141,20 @@ def generate_world(seed: int, cycles: int, entities: list[Entity], *,
 # ==================================================================
 
 def pair_f1(predicted: set[tuple[str, str]],
-             gold: set[tuple[str, str]]) -> dict:
+             gold: set[tuple[str, str]],
+             exclude_from_fp: set[tuple[str, str]] | None = None) -> dict:
     """F1 of predicted pairs against gold. Anything predicted outside gold
-    counts as a false positive."""
+    counts as a false positive, except for pairs in `exclude_from_fp`.
+
+    The exclusion matters when the gold is split across two declared groups:
+    a model that holds both the scaffold and the late structure should not
+    be punished for holding the scaffold when it is scored on the late
+    structure. Without it, an endpoint that scores a model on two groups
+    cannot reach 1.0, and an unachievable endpoint is a broken instrument.
+    """
+    exclude = exclude_from_fp or set()
     tp = len(predicted & gold)
-    fp = len(predicted - gold)
+    fp = len(predicted - gold - exclude)
     fn = len(gold - predicted)
     precision = tp / (tp + fp) if tp + fp else 0.0
     recall = tp / (tp + fn) if tp + fn else 0.0
@@ -468,17 +477,30 @@ def _score_one(predicted, gold_primary, gold_late, gold_retired,
                 "stale_rate": round(stale / len(negatives), 6) if negatives else 0.0}
 
     if joint:
-        core = pair_f1(predicted, set(gold_primary))
-        late = pair_f1(predicted, set(gold_late))
-        return {"primary": round(harmonic(core["f1"], late["f1"]), 6),
-                "core_retention_f1": core["f1"],
-                "late_incorporation_f1": late["f1"]}
+        core = set(gold_primary)
+        late = set(gold_late)
+        # Each component is scored against its own group, with the other
+        # group excluded from the false positives. A model holding both
+        # scores 1.0 on both and 1.0 on the joint endpoint.
+        core_score = pair_f1(predicted, core, exclude_from_fp=late)
+        late_score = pair_f1(predicted, late, exclude_from_fp=core)
+        return {"primary": round(harmonic(core_score["f1"], late_score["f1"]), 6),
+                "core_retention_f1": core_score["f1"],
+                "late_incorporation_f1": late_score["f1"],
+                "core_precision": core_score["precision"],
+                "core_recall": core_score["recall"],
+                "late_precision": late_score["precision"],
+                "late_recall": late_score["recall"]}
 
     primary = pair_f1(predicted, set(gold_primary))
     out = {"primary": primary["f1"], "precision": primary["precision"],
            "recall": primary["recall"]}
     if gold_late:
-        out["late_f1"] = pair_f1(predicted, set(gold_late))["f1"]
+        # The supporting incorporation score: how much of the LATE entity's
+        # structure did the model hold, without being punished for also
+        # holding the scaffold.
+        out["late_f1"] = pair_f1(predicted, set(gold_late),
+                                 exclude_from_fp=set(gold_primary) - set(gold_late))["f1"]
     return out
 
 
@@ -668,12 +690,54 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
     }
 
 
+def ceiling_check() -> dict:
+    """Every endpoint must be reachable.
+
+    An instrument audit, not an experiment. A metric that a *perfect* model
+    cannot score 1.0 on is broken: it either has a ceiling nobody can reach,
+    or it penalises two requirements that contradict each other. This is the
+    K0 control's sibling -- K0 checks that the pipeline can report a loss,
+    this checks that the metric can report a win.
+
+    Found the hard way: the joint endpoint originally scored each group
+    against the other group's content as false positives, so a model holding
+    the scaffold AND the late structure could reach only 0.667.
+    """
+    core = {("a", "b"), ("a", "c"), ("b", "c")}
+    late = {("x", "y"), ("x", "z"), ("y", "z")}
+    noise = {("n1", "n2"), ("n3", "n4")}
+
+    cases = [
+        # (family, gold_primary, gold_late, gold_retired, revision, joint,
+        #  perfect prediction, expected primary)
+        ("K1", core | late, late, None, False, False, core | late, 1.0),
+        ("K2", late, None, core, True, False, late, 1.0),
+        ("K3", core, late, None, False, True, core | late, 1.0),
+    ]
+    results = []
+    ok = True
+    for (family, gold_p, gold_l, gold_r, revision, joint, perfect,
+         expected) in cases:
+        got = _score_one(perfect, gold_p, gold_l, gold_r, revision, joint)["primary"]
+        passed = abs(got - expected) < 1e-9
+        ok = ok and passed
+        results.append({"family": family, "perfect_model_score": got,
+                        "expected": expected, "passed": passed})
+    return {"passed": ok, "cases": results,
+            "note": ("A perfect model must score 1.0 on every endpoint. "
+                     "This check is an instrument audit and produces no "
+                     "experimental claim.")}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--families", nargs="*", default=["K1", "K2", "K3"])
     ap.add_argument("--seeds", type=int, default=10)
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--control-only", action="store_true")
+    ap.add_argument("--self-test", action="store_true",
+                    help="run the instrument audits only (K0 control + "
+                         "endpoint ceiling check)")
     ap.add_argument("--smoke", action="store_true",
                     help="one seed per family, cycles divided by 10 -- for "
                          "harness validation only, never a result")
@@ -688,7 +752,7 @@ def main() -> None:
     if args.smoke and scale == 1:
         scale = 10
 
-    if args.control_only:
+    if args.control_only or args.self_test:
         print("=" * 80)
         print("K0 -- HARNESS VALIDATION (expected: Organica LOSES to Markov)")
         print("=" * 80)
@@ -699,6 +763,21 @@ def main() -> None:
                   "task where Organica is known to lose. STOP. ***")
             sys.exit(1)
         print("\nharness validated: the loss is reproduced.")
+
+        print()
+        print("=" * 80)
+        print("ENDPOINT CEILING CHECK (expected: a perfect model scores 1.0)")
+        print("=" * 80)
+        ceil = ceiling_check()
+        for case in ceil["cases"]:
+            print(f"  {case['family']}: perfect model scores "
+                  f"{case['perfect_model_score']:.6f} "
+                  f"(expected {case['expected']}) "
+                  f"{'ok' if case['passed'] else '*** FAIL ***'}")
+        if not ceil["passed"]:
+            print("\n*** AN ENDPOINT IS UNREACHABLE. STOP. ***")
+            sys.exit(1)
+        print("\nall endpoints are reachable.")
         return
 
     seeds = [20261023 + i for i in range(args.seeds)]
@@ -717,10 +796,24 @@ def main() -> None:
     if not c["organica_loses"]:
         print("*** THE HARNESS IS BROKEN -- STOP. ***")
         sys.exit(1)
-    print("  harness validated.\n")
+    print("  harness validated.")
+
+    # The endpoint ceiling check runs second. If an endpoint cannot be
+    # reached by a perfect model, the metric is broken and the campaign
+    # does not run.
+    ceil = ceiling_check()
+    for case in ceil["cases"]:
+        print(f"  ceiling {case['family']}: perfect model scores "
+              f"{case['perfect_model_score']:.6f} "
+              f"{'ok' if case['passed'] else '*** FAIL ***'}")
+    if not ceil["passed"]:
+        print("*** AN ENDPOINT IS UNREACHABLE -- STOP. ***")
+        sys.exit(1)
+    print("  all endpoints reachable.\n")
 
     result = run_campaign(args.families, seeds, args.workers, scale)
     result["control"] = c
+    result["ceiling_check"] = ceil
     result["protocol"]["cycle_scale"] = scale
 
     print()

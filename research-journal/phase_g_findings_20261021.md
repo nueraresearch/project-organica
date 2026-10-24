@@ -2484,3 +2484,22 @@ recorded in the preregistration so that it cannot later be mistaken for a
 result. It did surface one real design fact: K3's joint endpoint is
 sensitive to a hard zero, so the retention and incorporation components are
 reported separately in every artifact.
+
+> **Amendment to §32, 2026-10-24 — before any Phase K outcome was generated.**
+> The first run attempt was **stopped and discarded**, not completed. The
+> reason was an instrument audit, not a result: every endpoint was checked
+> against a **synthetic perfect model**, and K3's joint endpoint measured
+> **0.667** where 1.0 is the only sensible answer. It scored each group
+> against the other group's content as false positives, so a model holding
+> both the scaffold and the late structure could never reach 1.0, and the
+> two components contradicted each other.
+>
+> Six K1 seeds had completed when the defect was found; **no K3 outcome
+> existed**. K1's and K2's endpoints were provably unaffected — a perfect
+> model scores exactly 1.0 on both — and K1's primary endpoint was never in
+> question. All thirty seeds were re-run from scratch rather than mixing
+> provenances. The audit is now permanent and runs before every campaign,
+> alongside the K0 control: **K0 checks that the pipeline can report a loss;
+> the ceiling check checks that the metric can report a win.** A campaign
+> does not start if either fails. The full amendment, with the reasoning,
+> is in `docs/PHASE-K-PREREGISTRATION.md`.
