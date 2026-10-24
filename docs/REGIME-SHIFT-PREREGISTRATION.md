@@ -39,7 +39,7 @@ Two generator families create different kinds of change:
    its four fixed outcome tags (`amber`–`maple` or `indigo`–`yarrow`). With
    probability 0.10, the outcome is instead sampled from the eight-tag
    outcome vocabulary. This changes cause prevalence and the context/outcome
-   associations.
+   joint frequencies.
 2. **Mapping-swap.** One of four context tags is selected uniformly. In the
    first regime it predicts its paired outcome (`amber`, `birch`, `cedar`,
    `maple`); after the shift, the mapping is permuted to
@@ -57,18 +57,21 @@ independent real-world environments.
 
 All systems receive the same ordered event stream. They start without prior
 events and update only after the current cycle has been scored. Each system
-uses the preceding event's context tag to predict the next outcome tag:
+uses the immediately preceding event tag to predict the next event tag across
+the fixed full tag vocabulary. The score includes transitions within a cycle
+and the transition from the preceding cycle's final event to the current
+cycle's first event:
 
 - **Organica:** prediction strengths from the final `SleepService` report
-  after the preceding cycle. For each context, strengths over the known
-  outcome vocabulary are normalized into a categorical distribution; an
-  empty row is uniform.
-- **First-order Markov:** cumulative counts of adjacent context→outcome
-  transitions, with symmetric Dirichlet smoothing `alpha = 0.5`.
+  after the preceding cycle. For each source tag, strengths over the full
+  tag vocabulary are normalized into a categorical distribution; an empty
+  row is uniform.
+- **First-order Markov:** cumulative counts of adjacent tag transitions, with
+  symmetric Dirichlet smoothing `alpha = 0.5`.
 - **Recency-decayed association:** the same transition counts, exponentially
   decayed with a **20-cycle half-life**, with the same smoothing.
 
-The known tag vocabulary is part of the synthetic task specification, not
+The full tag vocabulary is part of the synthetic task specification, not
 hidden cause or regime information. No model receives the change point, the
 new mapping, or regime labels. Organica's `SleepService` RNG is seeded with
 the world seed. Each system forecasts a complete cycle before any event in
@@ -76,9 +79,9 @@ that cycle is added to its state.
 
 ## Primary score and alarm rule
 
-For each cycle, compute the mean categorical negative log-likelihood of the
-eight observed outcome tags under each model's forecasts. Higher surprise
-means worse fit to the current stream. Freeze probability floors at `1e-9`.
+For each cycle, compute the mean categorical negative log-likelihood of all
+observed next-event tags under each model's forecasts. Higher surprise means
+worse fit to the current stream. Freeze probability floors at `1e-9`.
 
 For each model and each world, calibrate the alarm level from its own stable
 pre-shift score: compute non-overlapping five-cycle mean-surprise blocks for
