@@ -2201,3 +2201,49 @@ knowledge or held-out regime prediction. H1 does not vary its input stream.
 multiple independent held-out worlds, and score held-out regime prediction.
 Then test which Organica layers contribute using controlled, task-specific
 ablations; do not infer layer value from the current internal inventory.
+
+## §29 — Phase I: preregistered regime-shift detection
+
+Before implementation or outcome generation, Phase I froze the question,
+two synthetic generator families, three prediction systems, per-world
+surprise threshold, 20 seed-paired shifted/control worlds per family, and a
+paired restricted-delay success criterion. Before running, the interval was
+amended to 97.5% with a Bonferroni adjustment across the two family-level
+opportunities, scoring was clarified to cover all next-tag transitions, and
+`PYTHONHASHSEED=0` was pinned. No cognitive-engine file was changed. The full
+protocol is `docs/REGIME-SHIFT-PREREGISTRATION.md`.
+
+The 80-world campaign completed with 20 shifted and 20 stationary-control
+worlds in each family. Mean restricted delay (misses capped at 31 cycles):
+
+| Family | Organica | First-order Markov | Decayed association |
+|---|---:|---:|---:|
+| Cause-mixture switch | 2.55 | 2.80 | 4.25 |
+| Mapping-swap | 2.65 | 1.25 | 1.20 |
+
+All systems detected every shifted cause-mixture world except decayed
+association, which detected 19/20. All systems detected all mapping-swap
+worlds. In cause-mixture worlds, the paired baseline-minus-Organica delay
+advantage was 0.25 cycles versus Markov (97.5% interval [−0.25, 0.75]) and
+1.70 versus decayed association ([−0.05, 5.75]); both are inconclusive under
+the preregistered effect-size/interval rule. Stationary-control false-alarm
+rates in that family were 0% for Organica, 5% for Markov, and 0% for decayed
+association.
+
+In mapping-swap worlds, the simple baselines' mean delays were shorter, but
+their stationary-control false-alarm rates were each 15% (3/20), above the
+preregistered 10% gate. Baseline-minus-Organica delay was −1.40 cycles for
+Markov (97.5% interval [−1.900, −0.949]) and −1.45 for decayed association
+([−1.950, −0.950]). Organica's control false-alarm rate was 0%. Consequently
+the mapping-swap comparison cannot count as a valid baseline win, and the
+primary success rule was not met in either family. The result does not
+demonstrate an Organica advantage on regime-shift detection. A future
+threshold calibration would be a new protocol and must be frozen before any
+further outcome generation; the completed thresholds were not tuned after
+inspection.
+
+These are replications within two synthetic generator families, not evidence
+across real environments. The detector uses predictive surprise and does not
+isolate the causal contribution of contradiction or belief-revision layers.
+Per-world alarms, thresholds, delays, and secondary internal counts are in
+`docs/regime_shift_results.json`; the corresponding fact-sheet entry is §Q.
