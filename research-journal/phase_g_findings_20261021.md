@@ -3015,3 +3015,141 @@ contradict the code rather than confirm it.
 Recorded in AGENTS.md as rule 13, and in the preregistration as Amendment 1.
 
 **No Phase L campaign was run, and no Phase L outcome exists.**
+
+---
+
+## §37 — The protocol review, and the hunt for what the pilot did not expose
+
+**What this section records.** A decision record, written before any Phase L
+outcome existed: the owner's review of the preregistration, the changes it
+produced, and a pre-flight audit aimed squarely at the degeneracies the pilot
+had *not* exposed.
+
+### The review's sharpest point: DI and PI are not opposites
+
+This is the part worth keeping, because it is a correction to the *protocol's
+framing* rather than to its arithmetic.
+
+The protocol measures two indices: DI, how much of the late structure the
+organism retains, and PI, how much of the early structure it retains. It is
+tempting to read a rising DI as revision. But:
+
+| DI | PI | what it actually is |
+|---|---|---|
+| 0.8 | 0.8 | **coexistence** — the late structure was learned and the early structure was kept. The organism got bigger. Nothing was displaced. |
+| 0.8 | 0.1 | **genuine displacement** — the late structure replaced the early one. |
+
+K3 had already established, before Phase L was written, that **acquisition and
+displacement are different phenomena**: the late group was incorporated when
+it was strictly stronger, and the deficit was in *displacement*. Yet the
+Phase L metrics, read naively, would not distinguish the two cases — a curve
+on which DI rises while PI holds would look like success under criterion 1
+and would in fact be accumulation.
+
+So a third quantity is now reported:
+
+> **DS = DI − PI** — the Displacement Score.
+
+It is a **diagnostic**, and deliberately so. It is not a primary metric, it is
+not a success criterion, it enters no verdict, and it is never averaged with
+anything. It exists so that a reader can see, at every sweep point, whether
+the organism is *replacing* or merely *accumulating*. A curve on which DS
+stays near zero while DI rises is telling us something the other two indices
+cannot.
+
+### Revision latency, elevated
+
+The same review made a second point: **two organisms can end at the same DI
+and PI while behaving completely differently.** One crosses at cycle 170, the
+other at cycle 590. Same endpoint, different developmental behaviour. The RT
+alone would not see the difference.
+
+Revision latency — cycles from the late group's arrival until DI first
+exceeds 0.5 — was already declared in §3.4 of the protocol and was not being
+computed. It is now computed and reported at the same level as the RT.
+
+**The four success criteria are unchanged.** This is the important part.
+Promoting latency from a footnote to a co-primary *report* is a change in
+emphasis. Adding a fifth *criterion* would have been a change in the test,
+and a test that quietly gains a criterion after the fact is the same error as
+a prediction revised to fit a result.
+
+### Hysteresis: deferred, and recorded
+
+The most interesting proposed extension was **hysteresis** — running the axis
+in reverse, late → early, to ask whether the system crosses back. If it
+crosses one way and not the other, that is path-dependence, and it is the
+kind of thing a genuinely dynamic intelligence might show and a static one
+would not.
+
+It is **not** in this phase. The review said so itself: not necessarily
+Phase L.1, but definitely a later phase. A protocol that measures one thing
+well is worth more than one that measures two things imperfectly, and
+doubling the campaign before the first one has run would change its shape for
+no reason. It is recorded in the protocol as the natural successor.
+
+### The interval: 98.33% → 99%
+
+The protocol stated a 98.33% decision interval and glossed it as "Bonferroni
+across the arms". Those two statements disagree, and the disagreement was
+carried in from Phase K, where 0.05/3 over three families gave exactly
+98.33%. Five arms gives 0.05/5 = 0.01, i.e. **99%**.
+
+The owner's ruling: **the intent governs and the stray percentage is the
+accidental constant.** The procedure — Bonferroni across the arms — is
+preserved; the number is corrected. This was settled in the open, before any
+outcome existed, which is the only time it could be settled honestly. Phase
+K's own figures are untouched: that protocol had three families, and 0.05/3
+was correct there.
+
+### The hunt for what the pilot did not expose
+
+Amendment 1 fixed the defects the pilot surfaced. But the pilot's four
+defects were, by construction, the ones it *could* surface. The owner's
+concern was the class of bug that makes a long run worthless while looking
+perfect the whole way.
+
+So the harness was audited for the degeneracies the pilot had not exposed.
+Five checks, all passing:
+
+| Check | Result | Why it matters |
+|---|---|---|
+| The engine is **deterministic** for a given seed | DI 0.5 / PI 0.277778, twice | without this the paired bootstrap over seeds resamples nothing |
+| Different seeds give **different** results | 4 distinct results from 4 seeds | without this there is no seed variance to resample |
+| Every arm has a **full denominator** | min `late_available` = 18, min `early_available` = 18, of 18 possible | a ratio over 1 or 2 is noise |
+| The **V4 belief cap binds** | peak beliefs 11 → **15** (the cap) | otherwise V4 measures the engine, not the organism |
+| The protocol's **factual claims hold** | Phase K's K3 really did use 600 cycles | otherwise the "direct comparison" claim is false |
+
+The V4 check is the one that earns its place. Phase G measured the belief pool
+**starved** on the live study stream — mean 5.17 beliefs, maximum 6, against
+`MAX_HYPOTHESES = 15`. If the pool never fills, the belief-cap arm cannot
+change anything, and a flat V4 curve would be a statement about the engine
+rather than about the organism. That is precisely how V5 was inert, and it
+would have been invisible to the reader. The cap **does** bind here — peak
+beliefs reach 15 — and there is now a **fourth instrument audit** that keeps
+this true permanently.
+
+### Two quietly-wrong things
+
+Worth recording because neither would have announced itself:
+
+- The results file recorded `"python_hash_seed": "0"` **unconditionally**. It
+  asserted the pinned value whether or not it was set — a false record of the
+  run's conditions, in the file whose whole purpose is to be the record. It
+  now records the **actual** value, records whether the pin was met, and
+  warns loudly when it was not.
+- The intermediate checkpoints recomputed the **10,000-replicate bootstrap
+  after every cell**. The bootstrap cannot change until an arm is complete, so
+  that was hours of pure arithmetic added to the run for no new information.
+  The audits had the same problem in a worse form — they rebuild worlds, and
+  one of them runs the engine. Both are now computed **once** and carried.
+
+### What this section is not
+
+It is not a result. **No Phase L outcome existed when it was written**, and
+the campaign had not been run. The protocol is amended, the instruments are
+audited, the run is authorised — and the answer, whatever it is, is still
+ahead.
+
+Recorded in AGENTS.md as rule 13, in the preregistration as Amendment 2, in
+the facts sheet as §W, and in the manual as §8.9.
