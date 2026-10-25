@@ -572,6 +572,7 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 12 | **The internal developmental machinery is not what drives development.** Removing contradiction, removing question creation, and selecting the lowest-EIG candidate each *raise* development (P2, P3, P5 — all REVERSED), and the Phase K ablations agree independently: `NO_QUESTIONS`, `NO_FALSIFICATION` and `NO_DREAMS` all have intervals containing zero. | What moved development was the **curriculum and the structure of the stimulus** — not the curiosity, contradiction and attention machinery designed to be the active ingredient. This is the finding that most redirects the work. See [§8.6](#86-the-v1-synthesis-what-v1-established-and-what-it-did-not). |
 | 13 | **Organica 1 is frozen, and the freeze is enforced by a test.** The `v0.9.0` tag is the archival reference for the engine; `tests/test_v1_freeze.py` compares every frozen file against that tag and fails if one differs. | The engine is a fixed reference object now: everything afterwards measures it and nothing changes it quietly. Benchmarks, harnesses and documentation stay free, so the research continues — it just runs against a stable thing. See [§8.7](#87-organica-1-is-frozen-the-v090-tag-is-the-archival-reference). |
 | 14 | **An identical value at every point of a sweep is a measurement defect until proven otherwise.** The Phase L pilot returned `DI = 0.000` at all eight points of the support-ratio sweep — a clean-looking negative result that was entirely an artefact: the late group arrived after the run had ended, so the late structure was never available, and a ratio with no denominator was being reported as zero. Four harness defects in total, plus a bootstrap that was resampling the wrong statistic. | Two audits were in place and **both passed** on the broken world, because they checked the *metric* and the metric was perfect — the *design* was dead. A **third audit** now checks the design itself (the degeneracy audit), and an unmeasurable quantity is reported as not measurable and **excluded, never zeroed**. See [§8.8](#88-phase-l-the-pilot-that-looked-like-a-negative-result-and-was-not). |
+| 15 | **Phase L's primary axis found a reproducible crossing and still did not clear its bar.** On the V1 sweep the Displacement Index rises from 0.000 to 0.750 and the Preservation Index falls from ~0.79 to 0.000; the curves cross at **3:1**, and that crossing survives everything: a 10,000-replicate paired bootstrap puts it at **[5.0, 5.0]** with 10,000 of 10,000 replicates finding it, eight alternative bootstrap seeds all return `INTERIOR`, and leave-one-seed-out leaves it at 3:1 in **10 of 10** folds. But one of the four pre-committed criteria — *PI is monotone decreasing* — was **not met**: mean PI rises 0.789 → 0.794 between 1:4 and 1:3 before falling through the rest of the sweep. The pre-committed verdict is therefore **`H3-L — INCONCLUSIVE`** (*raise n; conclude nothing*), and no V2 is authorised. | **Three passing criteria are not a partial success.** The protocol asked four questions and the phase is judged on all four; the number satisfied is not a score. The criterion was evaluated once by the committed code and it failed — it was **not** re-read, relaxed, or reinterpreted afterwards, and the stable RT was not allowed to stand in for the criterion that failed. Note also that the protocol describes `H3-L` as *"intervals too wide to place RT"*, which is **not** what happened here; that wording gap is recorded, not exploited. See [§8.10](#810-phase-l-the-primary-axis-result). |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -1179,6 +1180,83 @@ a **fourth instrument audit** that keeps this honest permanently.
 
 ---
 
+### 8.10 Phase L: the primary axis result
+
+**What this section records.** The completed Phase L V1 run — 80 of 80 cells,
+8,057.8 s wall clock, 10 seeds per sweep point, decision interval 99.00% — and
+the verdict the frozen protocol produced from it. Full detail and evidence:
+**`docs/phase_l_results.md`**; artifacts `docs/phase_l_results.json` and
+`docs/phase_l_results.ndjson`.
+
+**The verdict: `H3-L — INCONCLUSIVE`.** The protocol's remedy for that verdict
+is *raise n; conclude nothing*, and no Phase L outcome authorises a V2.
+
+### The curve
+
+| Label | DI (sd) | PI (sd) | DS | Latency | Seeds reaching DI > 0.5 |
+|---|---|---|---|---|---|
+| 1:4 | 0.000 (0.000) | 0.789 (0.078) | −0.789 | — | 0/10 |
+| 1:3 | 0.000 (0.000) | 0.794 (0.070) | −0.794 | — | 0/10 |
+| 1:2 | 0.000 (0.000) | 0.783 (0.096) | −0.783 | — | 0/10 |
+| 1:1 | 0.000 (0.000) | 0.728 (0.055) | −0.728 | — | 0/10 |
+| 2:1 | 0.283 (0.124) | 0.600 (0.122) | −0.317 | — | 0/10 |
+| 3:1 | 0.722 (0.037) | 0.022 (0.039) | +0.700 | 347 | 10/10 |
+| 4:1 | 0.739 (0.064) | 0.000 (0.000) | +0.739 | 285 | 10/10 |
+| 6:1 | 0.750 (0.029) | 0.000 (0.000) | +0.750 | 236 | 10/10 |
+
+All four instrument audits passed on the live run, and **no cell was
+unmeasurable** — nothing was excluded and nothing was zeroed.
+
+### The four criteria, as evaluated
+
+| # | Criterion | Result |
+|---|---|---|
+| 1 | DI monotone increasing, range ≥ 0.25 | **MET** (range 0.750) |
+| 2 | PI monotone decreasing | **NOT MET** — mean PI rises 0.789 → 0.794 at 1:3, then falls monotonically |
+| 3 | The curves cross, interior to the sweep | **MET** — at **3:1** |
+| 4 | The crossing is reproducible (99% bootstrap interval excludes both endpoints) | **MET** — **[5.0, 5.0]**, 10,000/10,000 replicates |
+
+Criterion 2 is the only failure, and it failed by **+0.005** at a point whose
+standard deviation is 0.070. The criterion has no noise clause: it is evaluated
+on the mean curve, and the mean curve rises. It was evaluated once by the
+committed code, and it was **not** re-read, relaxed, or reinterpreted
+afterwards — the stable RT was not allowed to stand in for the criterion that
+failed.
+
+### The crossing, for what it is worth
+
+The RT at 3:1 is as reproducible as a crossing over eight positions can be: a
+paired bootstrap over seeds puts it at [5.0, 5.0], eight alternative bootstrap
+seeds all return `INTERIOR`, and leave-one-seed-out leaves it at 3:1 in **10 of
+10** folds. Revision latency (co-primary report, not a criterion) goes from
+**0/10** seeds reaching DI > 0.5 at 2:1 to **10/10** at 3:1, with a median of
+347 cycles — the transition is abrupt, not gradual.
+
+### One wording gap in the protocol, recorded rather than exploited
+
+The protocol describes the `H3-L` bucket as *"intervals too wide to place RT."*
+That is **not** what happened: the RT interval is the narrowest possible and
+criterion 4 passed. The verdict is INCONCLUSIVE because **criterion 2 failed**,
+not because the threshold could not be located. Nothing was reinterpreted, but
+the next phase must say what "inconclusive" means when the interval is narrow
+and a different criterion failed — otherwise a stable RT becomes a quiet licence
+to round INCONCLUSIVE down to "close enough".
+
+### What this does and does not establish
+
+**Established:** the instrument works and the pilot's flat line was an artefact;
+the organism sits at the preservation pole (DI exactly 0.000, PI ≈ 0.79) under
+low displacement pressure; on this axis DI and PI cross at 3:1 and the crossing
+is highly reproducible.
+
+**Not established:** a boundary in the `H2-L` sense (criterion 2 was not met);
+PI's monotone decrease; anything about capability; anything about the support
+ratio being *the* operative variable beyond this axis on this engine. **V2–V5
+were not run** — no Phase L outcome authorises a V2. The baseline rule was
+recorded and not exercised in V1.
+
+---
+
 ## 9. Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -1760,3 +1838,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-24 | **Released 0.8.0, and opened Phase K.** 0.8.0 is published as a **research-integrity release** — corrected clone verification, corrected version/tag semantics, the two missing campaign artifacts regenerated, the cycle-1 fixation claim corrected, the negative external-validity results recorded, and the documentation synchronised with the measurements. Its release page now exists, so the link in `CHANGELOG.md` resolves. The project question changed: from *can we make a developmental architecture?* to *what class of problems benefits from one?* Phases H, I and J were three negative attempts, not a verdict on V1 — three tasks were negative, and an infinite number were not tested — so **no V2 is designed**. Instead **Phase K: Comparative Advantage Search** opens, with three candidate task families (K1 incremental world modeling, K2 belief revision, K3 longitudinal knowledge integration), each derived from a mechanism the project has actually measured, each scored against the strongest simple baseline that could plausibly solve it, and each with a matched within-architecture ablation so that a win can be attributed rather than merely seen. The protocol is frozen in `docs/PHASE-K-PREREGISTRATION.md` and was committed **before any Phase K outcome was generated**. Three safeguards are built into it: the simple baselines are swept over a declared grid and their **best** score is used, so a strawman cannot manufacture a win; the harness is validated against the Phase H task, where Organica's loss is already known, and the campaign does not run if that control fails; and **"no family confirmed" is a pre-committed terminal outcome** that does not authorise a V2. The harness was run once at one seed and one tenth scale before the freeze; that pilot is disclosed in the preregistration and is **not evidence**. The package version is **0.9.0** for the phase. Journal §32. |
 | 2026-10-25 | **The Phase L pilot exposed four harness defects, and the apparent negative result it produced was an artefact.** The reduced-scale pilot printed `DI = 0.000` and `PI = 0.611` at **all eight** points of the support-ratio sweep — a clean-looking negative result of exactly the Phase K K3 shape. It was not a result: the support ratio was not varying anything. The late group's arrival was an **absolute** cycle number while the pilot ran fewer cycles than that, so the late group never became active and the late structure was never available to measure; a ratio with a zero denominator was reported as `0.0`, so the harness reported "nothing was displaced" eight times in a sweep where nothing could be displaced. Two further defects: the **contradiction arm (V5) shared a feature of the late group with itself**, so the world was byte-identical with the arm on and off and V5 measured nothing; and the **density arm (V3)** chunked the event stream at a fixed rate while the arm varies it, so at density 4.0 the engine saw 7,200 of 28,800 events while the harness reported a complete run. A fifth defect was found by reading: the **RT bootstrap was resampling the DI–PI gap** rather than the **crossing location** that criterion 4 is about, and reporting a min/max rather than the preregistered percentile interval. **Why the two existing audits did not catch any of it: both check the METRIC, and the metric was fine — the DESIGN was dead.** An audit of the instrument is not an audit of the experiment. A third audit now exists — the **degeneracy audit** — checking that every cell has a denominator, that the support ratio changes the early/late event mix, that the contradiction arm differs from the plain arm, and that the density arm changes the event count. It earned its place at once: the first version of the audit had a scaling inconsistency with the campaign builder and the audit caught it by failing the run before anything executed. Unmeasurable quantities are now reported as not measurable and **excluded, never zeroed**. Recorded as **Amendment 1** in the preregistration, made before any Phase L outcome existed: no hypothesis, variable, metric, baseline, success criterion or terminal outcome was changed, and no gate was relaxed — one audit was added. After the fix the axis is live (DI 0.000 → 0.667 across the sweep, one seed, reduced scale — a disclosed pilot, never evidence). **No Phase L campaign has been run and no Phase L outcome exists; the protocol awaits your review.** Added **§8.8** and finding 14; journal **§36**; facts sheet **§V**; AGENTS.md rule 13; CHANGELOG 0.10.0. |
 | 2026-10-25 | **The Phase L protocol review, and the hunt for hidden degeneracy.** The owner reviewed the preregistration and authorised the campaign, with four changes. **The decision interval is corrected from 98.33% to 99%**: the protocol glossed 98.33% as "Bonferroni across the arms", but across five arms Bonferroni gives 0.05/5 = 0.01 (a 99% interval) while 98.33% is 0.05/3 — Phase K's factor, carried over by accident. The intent governs; the stray percentage is the accidental constant. Phase K's own figures are unaffected. **Success and failure are now stated plainly** (protocol §6.1): success is a reproducible displacement curve with an interior crossing; failure is a flat DI, a flat PI and no crossing — a characterisation of the organism at one pole, and a publishable one. The campaign must be able to fail. **A new diagnostic, the Displacement Score `DS = DI − PI`**, because DI and PI are not opposites: DI 0.8 / PI 0.8 is *coexistence*, not revision, and K3 already established that acquisition and displacement differ. DS is a diagnostic only — not a metric, not a criterion, in no verdict. **Revision latency is elevated to co-primary reporting** (same endpoint, different developmental behaviour), with the four success criteria unchanged. **Hysteresis is deferred, not forgotten** — the reverse sweep is the natural successor phase. Before running, a **pre-flight audit for the degeneracies the pilot did NOT expose** was added, and all five checks pass: the engine is **deterministic** for a given seed (so the paired bootstrap resamples something real), different seeds give different results (4 distinct of 4), every arm has a **full denominator** (18/18), the **V4 belief cap binds** (peak beliefs 11 → 15 against a cap of 15 — so V4 is not inert, unlike V5 was), and the protocol's own claims hold. A **fourth instrument audit** now keeps the V4 check honest permanently. Two quietly-wrong things were fixed: the results file recorded `PYTHONHASHSEED=0` whether or not it was set (it now records the actual value and warns), and the checkpoints recomputed the 10,000-replicate bootstrap and the audits after every cell (now computed once). Recorded as **Amendment 2**, made before any Phase L outcome existed. |
+| 2026-10-25 | **The Phase L primary axis ran to completion: 80 of 80 cells, and the verdict is `H3-L — INCONCLUSIVE`.** 8,057.8 s wall clock, 10 seeds per sweep point, `PYTHONHASHSEED=0` pinned and recorded as the *actual* value, 99.00% decision interval, 10,000 bootstrap replicates, engine = the frozen `v0.9.0` (verified unchanged by the freeze test). **All four instrument audits passed on the live run** and **no cell was unmeasurable** — nothing excluded, nothing zeroed. The V1 curve: DI 0.000 / PI 0.73–0.79 across 1:4–1:1 (preservation plateau) → DI 0.283 / PI 0.600 at 2:1 (coexistence) → DI 0.722–0.750 / PI 0.022–0.000 at 3:1, 4:1, 6:1 (displacement). **Three of the four pre-committed criteria are met:** DI monotone increasing with range 0.750; the curves cross at **3:1**, interior to the sweep; and the crossing is reproducible under a paired bootstrap with interval **[5.0, 5.0]** and **10,000/10,000** replicates finding it, eight alternative bootstrap seeds all `INTERIOR`, leave-one-seed-out 3:1 in **10 of 10**. **Criterion 2 — PI monotone decreasing — was not met:** mean PI rises 0.789 → 0.794 between 1:4 and 1:3 (+0.005 against a per-point sd of 0.070) before falling monotonically through the rest of the sweep. The criterion has no noise clause, it was evaluated once by the committed code, and it was **not** re-read, relaxed, or reinterpreted afterwards — the stable RT was not allowed to stand in for the criterion that failed. The pre-committed verdict is therefore INCONCLUSIVE: *raise n; conclude nothing*, and **no V2 is authorised** — V2–V5 were deliberately not run. Revision latency (co-primary report, not a criterion): 0/10 seeds reach DI > 0.5 at 1:4–2:1, 10/10 at 3:1 (median 347 cycles), 285 at 4:1, 236 at 6:1 — the transition is abrupt rather than gradual. DS (diagnostic only) shows the transition passes through a coexistence band at 2:1 rather than a clean handover. **A wording defect in the protocol is recorded rather than exploited:** the `H3-L` bucket is described as *"intervals too wide to place RT"*, which is **not** what happened — the RT interval is the narrowest possible and criterion 4 passed; the verdict is INCONCLUSIVE because criterion 2 failed. Added `docs/phase_l_results.md` and the artifacts `docs/phase_l_results.json` + `docs/phase_l_results.ndjson`; added **§8.10** and **finding 15**; facts sheet **§X**; journal **§38**. Also in this commit: the harness now keeps the preregistered promise that `--resume` rebuilds from the NDJSON recording when the results file is missing or truncated (six new tests in `tests/test_phase_l_resume.py`, proved able to fail by three separate mutations). |

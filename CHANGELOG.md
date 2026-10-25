@@ -33,6 +33,65 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Result — Phase L primary axis (V1): a reproducible crossing, and a criterion that did not pass
+
+The Phase L campaign ran its primary axis to completion: **80 of 80 cells**,
+8,057.8 s wall clock, 10 seeds per sweep point, `PYTHONHASHSEED=0` pinned and
+recorded as the *actual* value, 99.00% decision interval, 10,000 bootstrap
+replicates, against the frozen `v0.9.0` engine (verified unchanged by the
+freeze test). **All four instrument audits passed on the live run**, and **no
+cell was unmeasurable** — nothing was excluded and nothing was zeroed.
+
+**Verdict: `H3-L — INCONCLUSIVE`.** The protocol's remedy for that verdict is
+*raise n; conclude nothing*, and **no Phase L outcome authorises a V2** — the
+secondary arms V2–V5 were deliberately not run.
+
+| Label | DI (sd) | PI (sd) | DS | Latency | Seeds reaching DI > 0.5 |
+|---|---|---|---|---|---|
+| 1:4 | 0.000 (0.000) | 0.789 (0.078) | −0.789 | — | 0/10 |
+| 1:3 | 0.000 (0.000) | 0.794 (0.070) | −0.794 | — | 0/10 |
+| 1:2 | 0.000 (0.000) | 0.783 (0.096) | −0.783 | — | 0/10 |
+| 1:1 | 0.000 (0.000) | 0.728 (0.055) | −0.728 | — | 0/10 |
+| 2:1 | 0.283 (0.124) | 0.600 (0.122) | −0.317 | — | 0/10 |
+| 3:1 | 0.722 (0.037) | 0.022 (0.039) | +0.700 | 347 | 10/10 |
+| 4:1 | 0.739 (0.064) | 0.000 (0.000) | +0.739 | 285 | 10/10 |
+| 6:1 | 0.750 (0.029) | 0.000 (0.000) | +0.750 | 236 | 10/10 |
+
+**Three of the four pre-committed criteria are met.** DI is monotone increasing
+with range 0.750; the curves cross at **3:1**, interior to the sweep; and the
+crossing is reproducible under a paired bootstrap over seeds — interval
+**[5.0, 5.0]**, **10,000 of 10,000** replicates finding a crossing, eight
+alternative bootstrap seeds all `INTERIOR`, leave-one-seed-out 3:1 in **10 of
+10** folds.
+
+**Criterion 2 — *PI is monotone decreasing* — was not met.** Mean PI rises
+0.789 → 0.794 between 1:4 and 1:3 (+0.005, against a per-point standard
+deviation of 0.070) before falling monotonically through the rest of the
+sweep. The criterion has no noise clause: it is evaluated on the mean curve,
+and the mean curve rises. It was evaluated once by the committed code and it
+failed; it was **not** re-read, relaxed, or reinterpreted afterwards, and the
+stable RT was not allowed to stand in for the criterion that failed.
+
+**A wording defect in the protocol is recorded rather than exploited.** The
+`H3-L` bucket is described as *"intervals too wide to place RT"*, which is not
+what happened — the RT interval is the narrowest possible and criterion 4
+passed comfortably. The verdict is INCONCLUSIVE because criterion 2 failed, not
+because the threshold could not be located. The next phase must say what
+"inconclusive" means when the interval is narrow and a different criterion
+failed.
+
+**Established:** the instrument works and the pilot's flat line was an
+artefact; the organism sits at the preservation pole (DI exactly 0.000, PI ≈
+0.79) under low displacement pressure; on this axis DI and PI cross at 3:1 and
+the crossing is highly reproducible. **Not established:** a boundary in the
+`H2-L` sense, PI's monotone decrease, anything about capability, and anything
+about the support ratio being *the* operative variable beyond this axis on
+this engine.
+
+Added `docs/phase_l_results.md` and the artifacts `docs/phase_l_results.json`
+and `docs/phase_l_results.ndjson`. Journal §38, facts sheet §X, manual §8.10
+and finding 15.
+
 ### The freeze
 
 **Organica 1 is frozen as of the `v0.9.0` tag.** Not abandoned, and not

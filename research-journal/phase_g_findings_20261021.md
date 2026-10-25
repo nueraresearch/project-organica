@@ -3153,3 +3153,100 @@ ahead.
 
 Recorded in AGENTS.md as rule 13, in the preregistration as Amendment 2, in
 the facts sheet as §W, and in the manual as §8.9.
+
+---
+
+## §38 — The Phase L V1 result: a crossing that reproduced, and one criterion that did not
+
+**Run:** 2026-10-25, arm V1, 80 of 80 cells, 8,057.8 s wall clock, 10 seeds
+per sweep point, `PYTHONHASHSEED=0` pinned and recorded as the actual value,
+decision interval 99.00%. The engine was the frozen `v0.9.0` engine, verified
+unchanged by the freeze test.
+
+**Verdict: `H3-L — INCONCLUSIVE`.** The protocol's remedy for that verdict is
+*raise n; conclude nothing*. No V2 is authorised by it.
+
+### What the run produced
+
+| Label | DI (sd) | PI (sd) | DS | Latency | Seeds reaching DI > 0.5 |
+|---|---|---|---|---|---|
+| 1:4 | 0.000 (0.000) | 0.789 (0.078) | −0.789 | — | 0/10 |
+| 1:3 | 0.000 (0.000) | 0.794 (0.070) | −0.794 | — | 0/10 |
+| 1:2 | 0.000 (0.000) | 0.783 (0.096) | −0.783 | — | 0/10 |
+| 1:1 | 0.000 (0.000) | 0.728 (0.055) | −0.728 | — | 0/10 |
+| 2:1 | 0.283 (0.124) | 0.600 (0.122) | −0.317 | — | 0/10 |
+| 3:1 | 0.722 (0.037) | 0.022 (0.039) | +0.700 | 347 | 10/10 |
+| 4:1 | 0.739 (0.064) | 0.000 (0.000) | +0.739 | 285 | 10/10 |
+| 6:1 | 0.750 (0.029) | 0.000 (0.000) | +0.750 | 236 | 10/10 |
+
+The pilot's flat `DI = 0.000` at all eight points is gone, and its replacement
+is not a flat line in the other direction either. The axis has a shape: a
+preservation plateau (1:4 through 1:1, DI exactly 0.000, PI 0.73–0.79), a
+transition band (2:1, DI 0.283, PI 0.600 — coexistence, not handover), and a
+displacement regime (3:1 and above, DI 0.72–0.75, PI 0.022 → 0.000).
+
+### The three criteria that were met
+
+DI monotone increasing with range 0.750; the curves crossing at **3:1**,
+interior to the sweep; and the crossing reproducible under a 10,000-replicate
+paired bootstrap over seeds, whose interval is **[5.0, 5.0]** with **10,000 of
+10,000** replicates finding a crossing. Eight alternative bootstrap seeds all
+returned `INTERIOR`, and dropping any one of the ten seeds left the crossing at
+3:1. That is as tight as an interval over eight positions can be.
+
+### The criterion that was not met
+
+**PI is monotone decreasing.** The mean PI *rises* from 0.789 at 1:4 to 0.794 at
+1:3 — a step of +0.005 at a point whose standard deviation is 0.070 — and then
+falls monotonically through the rest of the sweep. One criterion, one
+violation, one point.
+
+It would have been easy to call this noise and move on. It was not called noise
+because the criterion does not have a noise clause: it is evaluated on the mean
+curve, and the mean curve rises. The criterion was evaluated once by the
+committed code and it failed, and the verdict that follows from the protocol's
+own table is INCONCLUSIVE.
+
+### A wrinkle in the protocol's own labels, recorded rather than exploited
+
+The protocol describes the `H3-L` bucket as *"intervals too wide to place RT."*
+That is not what happened. The RT interval is `[5.0, 5.0]`; criterion 4 passed
+comfortably; the RT was never in doubt. The verdict is INCONCLUSIVE because
+**criterion 2 failed**, not because the threshold could not be located.
+
+This is worth writing down precisely because it is the kind of thing that can
+quietly become a licence. Nothing was re-read, relaxed, or reinterpreted: the
+verdict stands as INCONCLUSIVE and the remedy (raise n; conclude nothing)
+governs. But a bucket whose label and whose stated rationale have come apart is
+a drafting defect in the protocol, and the next phase should say what
+"inconclusive" means when the interval is narrow and a different criterion
+failed. The alternative — quietly reading INCONCLUSIVE as "close enough" because
+the RT was stable — is exactly the move the pre-registration exists to prevent.
+
+### The transferable lesson
+
+**A criterion that passes for the wrong reason is not a stronger result than a
+criterion that fails for a small reason.** The RT here is as reproducible as a
+crossing can be, and the phase still does not get to claim a boundary — because
+the protocol asked four questions and three were answered yes. The number of
+criteria satisfied is not a score. What the phase may report is: *the crossing
+is real and reproducible at 3:1, and the phase's pre-registered bar was not
+cleared.*
+
+The mirror of this lesson is the one from §37: the pilot looked like a clean
+negative and was an artefact; this run looks like a clean positive and is
+barred by one criterion that missed by 0.005. **Both of those are the same
+lesson.** The instrument either measures what it claims or it does not, and the
+protocol — not the observer — decides what the number means.
+
+### What this section is not
+
+It is not a claim that Organica has a coherence–plasticity boundary. The
+pre-registered verdict is INCONCLUSIVE and the protocol forbids concluding
+anything from it. It is not a claim about capability. It is not a claim that
+support ratio is *the* operative variable beyond this axis on this engine. And
+it is not a licence for V2: V2–V5 were deliberately not run, because no Phase L
+outcome authorises a V2.
+
+Recorded in `docs/phase_l_results.md`, in the facts sheet as §X, and in the
+manual as §8.10.

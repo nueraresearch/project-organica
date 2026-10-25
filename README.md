@@ -419,9 +419,7 @@ variables can be measured and manipulated.
 
 The protocol is frozen in
 [`docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md`](docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md),
-committed before any outcome exists. **Launch is not run**: the protocol is
-written, the harness is built and validated, and the protocol is reviewed
-before the campaign executes.
+committed before any outcome exists.
 
 **One thing worth knowing about the harness, because it is the kind of bug
 this project is built to catch.** The reduced-scale pilot initially returned
@@ -438,8 +436,36 @@ checked the *metric* and the metric was fine — the *design* was dead. A third
 audit, the **degeneracy audit**, now checks the design itself, and an
 unmeasurable quantity is reported as not measurable and **excluded, never
 zeroed**. Recorded as **Amendment 1** in the preregistration, made before any
-Phase L outcome existed. **No Phase L campaign has been run and no Phase L
-outcome exists.**
+Phase L outcome existed.
+
+#### The primary axis has been measured — verdict: `H3-L — INCONCLUSIVE`
+
+The V1 sweep ran to completion: **80 of 80 cells**, 10 seeds per point, all
+four instrument audits passing on the live run, **no unmeasurable cells**.
+
+| Label | DI | PI | Seeds reaching DI > 0.5 |
+|---|---|---|---|
+| 1:4 – 1:1 | 0.000 | 0.73 – 0.79 | 0/10 |
+| 2:1 | 0.283 | 0.600 | 0/10 |
+| **3:1** | **0.722** | **0.022** | **10/10** |
+| 4:1 | 0.739 | 0.000 | 10/10 |
+| 6:1 | 0.750 | 0.000 | 10/10 |
+
+**Three of the four pre-committed criteria are met.** DI is monotone increasing
+(range 0.750); the curves cross at **3:1**, interior to the sweep; and the
+crossing is reproducible — a 10,000-replicate paired bootstrap puts it at
+**[5.0, 5.0]** with **10,000 of 10,000** replicates finding it, and
+leave-one-seed-out leaves it at 3:1 in **10 of 10** folds.
+
+**One criterion was not met.** *PI is monotone decreasing*: mean PI rises
+0.789 → 0.794 between 1:4 and 1:3 before falling through the rest of the sweep.
+The criterion was evaluated once by the committed code and it failed — it was
+not re-read or relaxed afterwards, and the stable RT was not allowed to stand
+in for the criterion that failed. The pre-committed verdict is therefore
+**`H3-L — INCONCLUSIVE`**: *raise n; conclude nothing.* **No V2 is authorised**
+by it, and the secondary arms were deliberately not run.
+
+The full write-up is [`docs/phase_l_results.md`](docs/phase_l_results.md).
 
 ---
 
