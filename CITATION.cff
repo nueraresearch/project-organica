@@ -12,9 +12,8 @@ abstract: >-
   natural selection.
 type: software
 version: 0.9.0
-# 0.9.0 is cut on master and NOT yet published; 0.8.0 is the latest release.
-# This date is the day the version was cut -- update it on the day 0.9.0 is
-# actually tagged, or cite 0.8.0 instead.
+# 0.9.0 is published: it is the archival reference for the frozen Organica 1
+# engine. The date below is the day the v0.9.0 tag was created.
 date-released: "2026-10-24"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"

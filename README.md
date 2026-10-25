@@ -383,13 +383,13 @@ The pre-committed terminal outcome fired: **no confirmed family means no V2.**
 
 ## Current state
 
-**Package version 0.9.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.9.0 is cut on `master` and not yet tagged, and **0.8.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
+**Package version 0.9.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; **0.9.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
 Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.9.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.9.0, pre-1.0 — and 0.9.0 has not been published yet.
+**The project is not at "v1" or "v2" as a release.** It is at 0.9.0, pre-1.0 — and 0.9.0 **has** been published. Its tag is the archival reference for the frozen Organica 1 engine.
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 

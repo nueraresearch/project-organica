@@ -28,7 +28,7 @@ there is nothing to check out.
 
 ---
 
-## [0.9.0] — 2026-10-24 (unreleased)
+## [0.9.0] — 2026-10-24
 
 **The project question changed: from *can we make a developmental
 architecture?* to *what class of problems benefits from one?* Phase K opens
@@ -639,6 +639,7 @@ real and is disclosed in full in `research-journal/phase_g_findings_20261021.md`
 
 - First public release of the substrate and the sleep pipeline.
 
+[0.9.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.9.0
 [0.8.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.8.0
 [0.7.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.7.0
 [0.6.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.6.0
