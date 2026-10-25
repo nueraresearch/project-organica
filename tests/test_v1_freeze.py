@@ -95,21 +95,64 @@ def _git(*args: str, timeout: int = 60):
         return None
 
 
+def _commit_is_present(commit: str) -> bool:
+    """Is this commit's object actually in this checkout's object store?
+
+    A commit SHA can be *known* without its objects being *here*. A shallow
+    clone knows the SHA of a remote tag's target and cannot read a single
+    file from it. Knowing the SHA is not the same as being able to check
+    the freeze against it.
+    """
+    out = _git("cat-file", "-e", f"{commit}^{{commit}}")
+    return out is not None and out.returncode == 0
+
+
 def _tag_commit() -> str | None:
-    """The commit the freeze tag points at, or None if it is not reachable."""
-    out = _git("rev-list", "-n", "1", FREEZE_TAG)
+    """The commit the freeze tag points at, or None if it is not reachable.
+
+    Returns the COMMIT, not the tag object. `v0.9.0` is an annotated tag, so
+    `refs/tags/v0.9.0` names a tag object and `refs/tags/v0.9.0^{}` names
+    the commit it points at. Resolving to the wrong one makes every
+    subsequent lookup fail for a reason that has nothing to do with the
+    freeze.
+
+    Returns None when the tag's commit cannot be READ here -- a shallow
+    clone knows the SHA but not the objects. The caller then skips rather
+    than reporting a freeze that was never actually checked.
+    """
+    # Prefer the local tag, peeled to its commit.
+    out = _git("rev-list", "-n", "1", f"{FREEZE_TAG}^{{commit}}")
     if out is not None and out.returncode == 0 and out.stdout.strip():
-        return out.stdout.strip()
+        commit = out.stdout.strip()
+        if _commit_is_present(commit):
+            return commit
+        return None
+
     # Not in this checkout. It may still be on the remote -- a shallow clone
-    # has no ancestor tags. Check there before giving up.
-    ls = _git("ls-remote", "--tags", "origin", FREEZE_TAG)
+    # has no ancestor tags. Look there, but a remote SHA alone is not
+    # enough: without the objects, the freeze still cannot be checked.
+    ls = _git("ls-remote", "--tags", "origin", f"{FREEZE_TAG}*")
     if ls is None or ls.returncode != 0:
         return None
+    remote_commit = None
     for line in ls.stdout.splitlines():
         sha, _, name = line.partition("\t")
         name = name.strip()
-        if name in (f"refs/tags/{FREEZE_TAG}^{{}}", f"refs/tags/{FREEZE_TAG}"):
-            return sha.strip()
+        if name == f"refs/tags/{FREEZE_TAG}^{{}}":
+            remote_commit = sha.strip()
+        elif name == f"refs/tags/{FREEZE_TAG}" and remote_commit is None:
+            # The tag object itself. Peel it below if we can.
+            remote_commit = sha.strip()
+    if remote_commit is None:
+        return None
+    if _commit_is_present(remote_commit):
+        return remote_commit
+    # The tag object may be local even when the commit is not; try peeling.
+    peeled = _git("rev-parse", f"{remote_commit}^{{commit}}")
+    if peeled is not None and peeled.returncode == 0 and peeled.stdout.strip():
+        commit = peeled.stdout.strip()
+        if _commit_is_present(commit):
+            return commit
     return None
 
 
@@ -160,10 +203,11 @@ def freeze_commit() -> str:
     commit = _tag_commit()
     if commit is None:
         pytest.skip(
-            f"the archival tag {FREEZE_TAG} is not reachable from this "
-            f"environment (a shallow clone has no ancestor tags, and the "
-            f"remote may be unreachable). The freeze cannot be verified "
-            f"here. Run a full clone to check it.")
+            f"the archival tag {FREEZE_TAG} cannot be read from this "
+            f"environment. A shallow clone knows the tag's SHA but does not "
+            f"have its objects, so the freeze cannot be checked here -- this "
+            f"is a skip, not a pass. Run a full clone (or `git fetch --tags`) "
+            f"to check it.")
     return commit
 
 
@@ -179,10 +223,16 @@ def test_engine_file_is_unchanged_since_the_freeze(relpath, freeze_commit):
     tagged = _blob_id_at_tag(relpath, freeze_commit)
     working = _working_blob_id(relpath)
 
-    assert tagged is not None, (
-        f"{relpath} does not exist at {FREEZE_TAG} ({freeze_commit[:12]}). "
-        f"The freeze reference and the repository disagree about what the "
-        f"engine is.")
+    if tagged is None:
+        # The file is absent at the tagged commit. That is either real
+        # breakage, or the commit's objects are not readable here. The
+        # fixture already established that the commit is present, so a
+        # missing path at a present commit IS a disagreement.
+        pytest.fail(
+            f"{relpath} does not exist at {FREEZE_TAG} ({freeze_commit[:12]}). "
+            f"The freeze reference and the repository disagree about what the "
+            f"engine is.")
+
     assert working is not None, (
         f"{relpath} has been deleted. Organica 1 is frozen; restoring the "
         f"file is the fix, not amending the freeze.")
