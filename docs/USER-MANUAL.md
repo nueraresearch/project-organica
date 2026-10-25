@@ -569,6 +569,7 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 8 | **Law II holds — but nothing was measuring it.** `get_ancestry()` cannot reach G0, and the shipped validation only checked that parent ids were present among other candidates. | The invariant is **true** (100% grounded, both stores). The gap was in the *verification*, not the architecture. `benchmarks/lineage_audit.py` now tests the real thing. |
 | 9 | **Experiments are generated but never executed.** Every consumer only prints them. | Law IV is never exercised and **no Question can ever close**. The study measures epistemic *tension*, not *resolution*. Largest remaining design gap. |
 | 10 | **The organism bootstraps most of itself, but not Generation 5.** Measured across eight assistance levels: G1, G4, G6, G7 and G8 appear from an unengineered stream with no seeding. G5 never does. | The project's central claim holds for most of the ladder and fails precisely at the pivot — and the cause is now proven causal, not guessed. See [§8.1](#81-the-cold-start-study). |
+| 12 | **The internal developmental machinery is not what drives development.** Removing contradiction, removing question creation, and selecting the lowest-EIG candidate each *raise* development (P2, P3, P5 — all REVERSED), and the Phase K ablations agree independently: `NO_QUESTIONS`, `NO_FALSIFICATION` and `NO_DREAMS` all have intervals containing zero. | What moved development was the **curriculum and the structure of the stimulus** — not the curiosity, contradiction and attention machinery designed to be the active ingredient. This is the finding that most redirects the work. See [§8.6](#86-the-v1-synthesis-what-v1-established-and-what-it-did-not). |
 | 11 | **Six task families are now negative, and the mechanism ablations came back empty.** Phase K searched three candidate task families against the strongest simple baseline; all three came back REVERSED, and on the two families where a mechanism was ablated specifically, the ablation changed nothing measurable. | The question *“what class of problems benefits from a developmental architecture?”* is still **open**, with six families excluded rather than one verdict reached. The next useful step is a **mechanism** question, not another task family. See [§8.5](#85-phase-k-the-search-failed-and-what-that-changes). |
 
 ### 8.1 The cold-start study
@@ -942,6 +943,64 @@ Tools: `benchmarks/phase_k_campaign.py` → **`docs/phase_k_results.json`**;
 
 ---
 
+### 8.6 The V1 synthesis: what V1 established, and what it did not
+
+**Why this exists.** Six task families are now negative. The project's risk
+has changed shape — it is no longer a shortage of data, it is **the risk of
+drawing the wrong conclusion from data that is already there.** Six negatives
+are either a map of a development-first architecture's natural properties, or
+a verdict on it, and the difference between those readings decides everything
+after this.
+
+**The synthesis is a separate document** because it is a different kind of
+statement from a finding: it adds **no new evidence**, it is a reading of the
+record, and every claim in it cites a committed artifact.
+**[`docs/V1-SYNTHESIS.md`](V1-SYNTHESIS.md).** Journal: **§34**.
+
+**The one-sentence conclusion.**
+
+> Organica demonstrates that a development-first architecture can generate
+> history-dependent cognitive structure through experience, but it has not yet
+> demonstrated that those structures confer a measurable advantage on external
+> tasks.
+
+The first half is supported by direct measurement. The second is a negative
+result with a specific shape — six families, several of them large losses
+rather than near-misses. Read together they are usually taken as a verdict.
+They should not be: the first half is a claim about **development**, the second
+about **tasks**, and the benchmarks were never chosen to measure development.
+
+**The two goals, and why the distinction decides the next step.**
+
+| Goal | The evidence |
+|---|---|
+| **A dynamic intelligence whose internal organization changes through experience** | **Supported.** Development occurs, history matters, curriculum matters, trajectories diverge, and internal epistemic structure emerges with no pretrained domain knowledge. |
+| **A replacement for modern language models** | **Not supported.** Nothing here addresses language, generation, or scale — and the one relevant measurement is negative. |
+
+The dangerous move is letting the urgency of the second goal drive the method
+of the first, which is how a project ends up running benchmark after benchmark
+looking for a win the architecture was never designed to produce.
+
+**The question this leaves open** — not *can we make Organica smarter*, and
+not *what benchmark next*:
+
+> **What properties must a developmental intelligence have to remain adaptable
+> without losing coherence?**
+
+All six campaigns so far asked *"can Organica beat a baseline?"*. The next one
+should ask *"can we find and move the property that makes plasticity and
+coherence trade against each other?"* The discipline does not change:
+pre-register it, make every harness able to fail, do not relax a gate to make
+a campaign runnable, record a null as a null.
+
+**No V2 is designed and no Phase L is launched by this.** The preregistered
+terminal outcome for Phase K stands as written, and Path B (engineering) becomes
+available when Path A (developmental science) identifies the mechanism —
+not before, because the mechanisms one would most naturally reach for are
+exactly the ones measurement has shown are **not** load-bearing.
+
+---
+
 ## 9. Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -1095,6 +1154,7 @@ project-organica/
 │   ├── phase_k_results.json         # the Phase K campaign result (produced by the phase)
 │   ├── phase_k_results.ndjson       # the Phase K live recording: one line per completed seed, appended and flushed
 │   ├── phase_k_results.md           # the Phase K write-up: results, robustness, the K3 root cause, and what it changes
+│   ├── V1-SYNTHESIS.md              # the formal synthesis of V1: what was established, what was not, and the question it leaves open
 │   ├── clone_check.json          # the last fresh-clone check, check by check
 │   ├── figure_tier1_matrix.svg  # the campaign figure
 │   └── figure_discovery.svg     # the cumulative-discovery figure
@@ -1515,5 +1575,6 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-24 | **A correction to the campaign's headline claim.** Regenerating the Tier-1 artifact (see the row above) meant checking every published claim against the regenerated file rather than assuming it had survived, and one did not. Journal §23.3 said every colony "does not change it again for 2,999 cycles". Measured cycle by cycle: the **retained** belief count is exactly **15 in every cycle of every colony**, but the **pre-retention pool is modal, not constant** — it dips to 16 beliefs over 6 competing subjects and returns, in 2,964/2,999 cycles (98.8%) for FULL, 99.5% for SALIENCE and NO_DREAMS, 98.6% for NO_CONTRADICTIONS, 98.1% for ANTI_EIG, and only **2,277/2,999 (75.9%) for `NO_QUESTIONS`**, whose excursions run as late as cycle 2,738. The excursions are 1–17 cycles long in the other five arms and all end by cycle 539. **No launch gate is affected** — G-CS, G-P1, G-SUP and G-EXP hold in 100% of cycles in all six colonies and G-SUS is 100% in every tail half, re-verified from the regenerated artifact; G-P1/G-SUP need the pool to exceed 15 and 16 does. The verdicts, the noise floor, the inventory totals and the +10,776% support growth are unchanged. The exception is the interesting part: `NO_QUESTIONS` is also the arm that discovers the most (112 items, 95% by cycle 977) and the only one still finding new items deep into the run — the arms that stopped discovering are the arms that stopped moving, which points the same way as H24. Corrected in place in `docs/FORCE-MATRIX-RESULTS.md` §2, `docs/FACTS-SHEET.md` §I1 with the measurement in a new **§S**, `README.md`, `CHANGELOG.md` (0.8.0, with a pointer at the 0.7.0 entry), `docs/ORGANICA-V2-DESIGN-NOTES.md` and `docs/WORLD-SCALE-PREREGISTRATION.md`. Journal §31. |
 | 2026-10-24 | **Repository hygiene.** The local `master` branch had never actually been advanced past the overnight merges — a fast-forward had landed on a since-deleted PR branch instead, leaving `master` 13 commits behind its remote while the working tree looked current, which is what made `git rev-list --left-right --count origin/master...master` report a divergence that `git rev-parse` contradicted. `master` is now level with `origin/master`, and the three orphaned feature branches are deleted. `AGENTS.md` updated: the research journal is at **§1–§30**, not §1–§23; the Phase H/I/J preregistrations are listed as frozen-before-the-run documents; and the new benchmark commands are listed. The pre-G9 master plan's Phase A deliverables list `docs/generations/GEN_0.md`…`GEN_8.md`, which were never produced as separate files — the generation specifications live in `docs/architecture.md` and the manual's layer tables, and an amendment in the plan records this rather than leaving a dangling reference. A sweep of every repo-relative path referenced across the markdown files now resolves, apart from the per-generation specification files the pre-G9 plan lists and never produced. |
 | 2026-10-24 | **Phase K is runnable, resumable, and watched.** The campaign is long — the Phase K worlds carry 16 to 28 distinct tags against the Tier-1 lattice's 7, so a cycle costs roughly three and a half times what it did there, and the full thirty-seed matrix runs for a couple of hours of wall time. Three changes make that safe. **Results are collected with `as_completed` rather than `pool.map`**, because `pool.map` yields in submission order: one slow seed blocked every checkpoint until it finished, and when the first run was stopped, only the single seed that had landed survived. **The results file is written atomically** — to a temporary file and then renamed — so a kill during the write cannot truncate it, and **an append-only live recording** is flushed after every seed to `docs/phase_k_results.ndjson`, which a resume can rebuild from if the results file is ever lost. `--resume` skips the seeds already done. `temp_db` creates a directory per call and the harness was leaving them behind — 775 leaked directories, now cleaned up, and the directory is removed after each run from now on. |
+| 2026-10-24 | **The V1 synthesis, and a README that had fallen behind.** The README still declared package version 0.8.0, still called 0.7.0 the latest release, and had no mention of Phase K at all — it was written before the campaign and had drifted. It now carries the Phase K result, the six-family negative table, a **"What is established"** section (which it was missing entirely, so it was showing only the negative half of the picture), and a pointer to the synthesis. **Added `docs/V1-SYNTHESIS.md`**, the formal read of what V1 established and what it did not. It adds no new evidence — it is a reading of the record, and every claim in it cites a committed artifact. Its content: development, history-dependence, curriculum-sensitivity and trajectory-divergence are **supported**; external advantage is **not**, across six task families; and the finding that most redirects the work is that **the internal developmental machinery is not what drives development** (P2/P3/P5 all REVERSED, and all three Phase K ablation intervals contain zero) — what moved development was the curriculum and the structure of the stimulus. It states the two goals the project could serve (dynamic intelligence — supported; LLM replacement — not), and the danger of letting the second goal's urgency drive the first goal's method. It closes with the question the evidence leaves open: **what properties must a developmental intelligence have to remain adaptable without losing coherence?** — and with the note that K3's 2×2 makes this precise: Organica is not incapable of revision, it is **priority-ordered**, so the deficit is in displacement, not acquisition and not capacity. **No V2 is designed and no Phase L is launched.** Added manual §8.6 and finding 12; journal §34; README refresh. |
 | 2026-10-24 | **Phase K ran to completion, and the search failed.** All thirty seeds (ten per family, three families) came back **REVERSED**: K1 Organica 0.5923 vs baseline 0.9360 (difference −0.3437, 98.33% interval [−0.3773, −0.3123]); K2 0.4111 vs 0.9846 (−0.5735, [−0.6162, −0.5309]); K3 0.0000 vs 0.8578 (−0.8578, [−0.8598, −0.8571]). No family is SUPPORTED and none is INCONCLUSIVE, so these are clean losses rather than ambiguous ones, and every verdict survives eight different bootstrap seeds and both leave-one-out checks. **The pre-committed terminal outcome H2 fired exactly as written down before the run**: three more task families are ruled out, the negative-results map grows, and **no V2 is designed**. The ablations came back empty — `NO_QUESTIONS` −0.0095 [−0.0328, +0.0140], `NO_FALSIFICATION` +0.0241 [−0.0048, +0.0495], `NO_DREAMS` +0.0000 — so question generation, falsification and dreams are **not load-bearing** for the tasks they were built around (within one implementation, on synthetic worlds; a mechanism cannot show an effect on a task the organism was already losing by a wide margin). The **K3 zero was root-caused rather than reported as a number**: the late structure appears in **0 of 150 cycles** (not a final-cycle artifact), every candidate type except `anomaly` mentions **0 of 12** late tags (nothing left unread by the edge extractor), and a 2×2 control across five seeds shows the late group is incorporated **only when it is strictly stronger** than the group that arrived first — so the exclusion is a salience/priority competition under a bounded belief pool, which is the risk §6 of the preregistration named before the run. Added `benchmarks/phase_k_diagnose.py` (per-cycle, under-read and 2×2 checks), `docs/phase_k_results.md`, `docs/phase_k_results.json` and the live recording `docs/phase_k_results.ndjson`; added **§8.5** and finding 11; added decision **13**; facts sheet **§T**; journal **§33**. The campaign ran across two background chunks because it exceeded a single command's time limit, and the resumable harness meant no seed was lost or re-run; one bookkeeping note is recorded rather than hidden — the live recording holds **29 of 30** seeds, because K1/20261023 was completed by an earlier harness version before the checkpoint existed and was carried in through the results-file resume path. |
 | 2026-10-24 | **Released 0.8.0, and opened Phase K.** 0.8.0 is published as a **research-integrity release** — corrected clone verification, corrected version/tag semantics, the two missing campaign artifacts regenerated, the cycle-1 fixation claim corrected, the negative external-validity results recorded, and the documentation synchronised with the measurements. Its release page now exists, so the link in `CHANGELOG.md` resolves. The project question changed: from *can we make a developmental architecture?* to *what class of problems benefits from one?* Phases H, I and J were three negative attempts, not a verdict on V1 — three tasks were negative, and an infinite number were not tested — so **no V2 is designed**. Instead **Phase K: Comparative Advantage Search** opens, with three candidate task families (K1 incremental world modeling, K2 belief revision, K3 longitudinal knowledge integration), each derived from a mechanism the project has actually measured, each scored against the strongest simple baseline that could plausibly solve it, and each with a matched within-architecture ablation so that a win can be attributed rather than merely seen. The protocol is frozen in `docs/PHASE-K-PREREGISTRATION.md` and was committed **before any Phase K outcome was generated**. Three safeguards are built into it: the simple baselines are swept over a declared grid and their **best** score is used, so a strawman cannot manufacture a win; the harness is validated against the Phase H task, where Organica's loss is already known, and the campaign does not run if that control fails; and **"no family confirmed" is a pre-committed terminal outcome** that does not authorise a V2. The harness was run once at one seed and one tenth scale before the freeze; that pilot is disclosed in the preregistration and is **not evidence**. The package version is **0.9.0** for the phase. Journal §32. |

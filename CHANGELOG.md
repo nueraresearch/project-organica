@@ -130,6 +130,7 @@ belief pool, not a blanket inability to learn late structure. This is the risk
 
 ### Added
 
+- `docs/V1-SYNTHESIS.md` — **the formal synthesis of V1.** What the project established, what it did not, the distinction between the two goals it could serve, the danger of reading six negative task families as a verdict rather than a map, and the question the evidence leaves open: *what properties must a developmental intelligence have to remain adaptable without losing coherence?* It adds no new evidence — it is a reading of the record, and every claim in it cites a committed artifact.
 - `docs/phase_k_results.md` — the Phase K write-up: results, robustness, the
   K3 root cause, and what it changes.
 - `docs/phase_k_results.json` — the campaign artifact: protocol block, the K0

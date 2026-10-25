@@ -2652,3 +2652,81 @@ That is a question about mechanism, and it is answerable without designing V2.
 > run through the results-file resume path. The results file — the
 > authoritative artifact — contains all thirty, and the two files agree
 > numerically on every overlapping seed.
+
+---
+
+## §34 — V1 synthesis: what V1 established, and what it did not
+
+**Why this section exists.** Six task families are now negative — Phase H
+(twice), I, J, and all three of Phase K's families. The project's risk has
+changed shape: it is no longer a shortage of data, it is **the risk of
+drawing the wrong conclusion from data that is already there.** Six negatives
+are either a map of a development-first architecture's natural properties, or
+a verdict on it, and the difference between those readings decides everything
+after this.
+
+**The synthesis is a separate document**, because it is a different kind of
+statement from a finding: it adds no new evidence. It is
+[`docs/V1-SYNTHESIS.md`](../docs/V1-SYNTHESIS.md). Every claim in it cites a
+committed artifact, and it is a *reading* of the record, not an extension of
+it. Nothing in it is a new measurement.
+
+### The one-sentence conclusion
+
+> Organica demonstrates that a development-first architecture can generate
+> history-dependent cognitive structure through experience, but it has not yet
+> demonstrated that those structures confer a measurable advantage on external
+> tasks.
+
+The first half is supported by direct measurement (§§2–§2.5 of the
+synthesis). The second is a negative result with a specific shape — six
+families, several of them large losses rather than near-misses (§3).
+
+### The finding that most redirects the work
+
+**The internal developmental machinery is not what drives development.** The
+Tier-1 matrix found that removing contradiction, removing question creation,
+and selecting the lowest-EIG candidate each *raise* development (P2, P3, P5,
+all REVERSED), and the Phase K ablations agree independently on a different
+task family and substrate: `NO_QUESTIONS`, `NO_FALSIFICATION` and `NO_DREAMS`
+all have intervals containing zero. What moved development, consistently, was
+**the curriculum and the structure of the stimulus** — not the curiosity,
+contradiction and attention machinery that was designed to be the active
+ingredient.
+
+This is a negative attribution within one implementation on synthetic worlds.
+It does not say those mechanisms are inert in general. It says they are not
+load-bearing *here*.
+
+### The dangerous question, and why K3 is the most informative result
+
+> What if Organica is already doing exactly what it was designed to do?
+
+The architecture is optimised to **accumulate and stabilise structure**, and
+the matrix found exactly that: structure fixed on cycle 1 and held for 2,999
+cycles while support grew +10,776%. K3 then found that the early scaffold
+dominates. That may not be a bug. It may be the purest expression of the
+architecture — coherence preserved at the cost of adaptability.
+
+The 2×2 control makes this precise rather than rhetorical: the late group
+**is** incorporated when it is strictly stronger than the group that arrived
+first (9–11 of 18 gold pairs at late weight 3 / early weight 1, against 0–1
+otherwise). So Organica is not incapable of revision; it is **priority-ordered**,
+with arrival order as the tiebreak in favour of the incumbent. The deficit is
+in **displacement**, not in acquisition and not in capacity.
+
+### The question this leaves open
+
+Not *can we make Organica smarter*, and not *what benchmark next*:
+
+> **What properties must a developmental intelligence have to remain adaptable
+> without losing coherence?**
+
+All six previous campaigns asked *"can Organica beat a baseline?"*. The next
+one should ask *"can we find and move the property that makes plasticity and
+coherence trade against each other?"* — and the discipline does not change:
+pre-register it, make every harness able to fail, do not relax a gate to make
+a campaign runnable, record a null as a null.
+
+**No V2 is designed and no Phase L is launched by this section.** The
+preregistered terminal outcome for Phase K stands as written.

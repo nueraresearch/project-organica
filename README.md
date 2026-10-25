@@ -12,6 +12,7 @@ python build.py          # builds an organism from nothing -- ~30 seconds
 **No dependencies. No GPU. No API keys. Python 3.11+ is the only requirement.**
 
 📘 **[Getting Started](GETTING-STARTED.md)** — the guide for a first-time reader
+🧬 **[V1 Synthesis](docs/V1-SYNTHESIS.md)** — what Organica 1 established, what it did not, and the question it leaves open
 📕 **[Owner's Manual](docs/USER-MANUAL.md)** — operating the organism and research campaigns
 🔬 **[The Organica Challenge](CHALLENGE.md)** — the replication protocol
 ⚖️ [Apache 2.0](LICENSE) · 📌 [Cite this](CITATION.cff)
@@ -153,11 +154,27 @@ $env:PYTHONHASHSEED='0'; python benchmarks/phase_h_campaign.py --seeds 10
 
 # Phase J: gradual post-shift adaptation (pre-registered; writes 80 worlds)
 $env:PYTHONHASHSEED='0'; python benchmarks/post_shift_adaptation.py --workers 3
+
+# Phase K: the comparative-advantage search (pre-registered; resumable)
+$env:PYTHONHASHSEED='0'; python benchmarks/phase_k_campaign.py --families K1 K2 K3 --seeds 10 --workers 12 --resume
+
+# the K3 root cause: per-cycle, under-read, and the arrival-order x strength 2x2
+python benchmarks/phase_k_diagnose.py --scale 4 --seeds 5
 ```
 
 The campaign is **pre-registered**: the metric definitions, the gate
 definitions, the sensitivity audit and the noise floor were all fixed and
 committed *before* the run. → [`docs/FORCE-MATRIX-PREREGISTRATION.md`](docs/FORCE-MATRIX-PREREGISTRATION.md)
+
+**Phase K searched three candidate task families** — incremental world
+modeling, belief revision, and longitudinal knowledge integration — against the
+strongest simple baseline that could plausibly solve each, with a matched
+within-architecture ablation per family. **All three came back REVERSED:**
+Organica 0.5923 vs 0.9360, 0.4111 vs 0.9846, and 0.0000 vs 0.8578. Every
+98.33% decision interval lies wholly below zero, and every verdict survives
+eight bootstrap seeds and both leave-one-out checks. The pre-committed
+terminal outcome **H2** fired: three more families are ruled out, the
+negative-results map grows, and **no V2 is designed**. → [`docs/phase_k_results.md`](docs/phase_k_results.md), [journal §33](research-journal/phase_g_findings_20261021.md)
 
 **Phase H completed ten-seed evaluation** without changing the cognitive
 engine. Markov (known-tag F1 0.504) and recency-decayed association (0.485)
@@ -320,29 +337,105 @@ performance. →
 [Phase H results](docs/phase_h_results.json),
 [journal §§24–28](research-journal/phase_g_findings_20261021.md)
 
+**Phase K searched three candidate task families, and all three came back
+REVERSED.** Incremental world modeling, belief revision, and longitudinal
+knowledge integration — each derived from a mechanism the project had
+measured, each scored against the strongest simple baseline that could
+plausibly solve it, each with a matched within-architecture ablation so a win
+could be attributed rather than merely seen.
+
+| Family | Organica | Best simple baseline | 98.33% interval | Verdict |
+|---|---|---|---|---|
+| K1 — incremental world modeling | 0.5923 | 0.9360 | [−0.3773, −0.3123] | **REVERSED** |
+| K2 — belief revision | 0.4111 | 0.9846 | [−0.6162, −0.5309] | **REVERSED** |
+| K3 — longitudinal integration | 0.0000 | 0.8578 | [−0.8598, −0.8571] | **REVERSED** |
+
+The baselines were handed the tuning advantage on purpose: each was swept over
+a declared grid of 24 configurations and its **best** score used, so a
+strawman cannot manufacture a win. Every verdict survives eight different
+bootstrap seeds and both leave-one-out checks.
+
+**The ablations came back empty**, which is the more interesting half.
+`NO_QUESTIONS` −0.0095 [−0.0328, +0.0140]; `NO_FALSIFICATION` +0.0241
+[−0.0048, +0.0495]; `NO_DREAMS` +0.0000. All three intervals contain zero,
+so the mechanisms these families were built around are **not load-bearing** for
+the tasks they were meant to carry. That is a negative attribution within one
+implementation on synthetic worlds; a mechanism cannot show an effect on a task
+the organism was already losing by a wide margin.
+
+**The K3 zero was root-caused rather than reported as a number.** Organica
+scored exactly 0.000 on late incorporation on all ten seeds, which looks like a
+bug until you check it. Three artifacts could have faked it, and each got a
+check that could fail: the late structure appears in **zero of 150 cycles**
+(so it is not a snapshot artifact); every candidate type except `anomaly`
+mentions **zero of 12** late tags (so nothing was left unread); and a 2×2
+control across five seeds shows the late group is incorporated **only when it
+is strictly stronger** than the group that arrived first. So the exclusion is
+a salience/priority competition under a bounded belief pool — precisely the
+risk §6 of the preregistration named before the run.
+
+The pre-committed terminal outcome fired: **no confirmed family means no V2.**
+→ [`docs/phase_k_results.md`](docs/phase_k_results.md),
+[journal §33](research-journal/phase_g_findings_20261021.md),
+[facts sheet §T](docs/FACTS-SHEET.md)
+
 ---
 
 ## Current state
 
-**Package version 0.8.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.8.0 is cut on `master` and not yet tagged, and **0.7.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Ablation Study 2**, and its Tier-1 matrix has now run.
+**Package version 0.9.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.9.0 is cut on `master` and not yet tagged, and **0.8.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–30.
+Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
-> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.8.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.9.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.8.0, pre-1.0 — and 0.8.0 has not been published yet.
+**The project is not at "v1" or "v2" as a release.** It is at 0.9.0, pre-1.0 — and 0.9.0 has not been published yet.
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 
-**What is not established, and is not claimed:** that the organism is
-developmental in the strong sense, or that its structures improve prediction
-or recover latent structure better than simple alternatives. Tier-1's
-repeating stimulus saturates quickly; richer curricula increase inventory,
-but simple baselines lead on the tested prediction, structure-recovery, and
-gradual-adaptation tasks. Phase I did not demonstrate a winner under its
-preregistered detection rule. These are controlled synthetic tasks; the
-prediction task still needs input-world replication, and the recovery task
-does not measure causal intervention knowledge.
+### Six task families, six negatives — and what the project does with them
+
+This is the most important thing to know about the repository. The external-validity arc is a **coherent negative result**, not a string of unrelated failures:
+
+| Phase | Task | Outcome |
+|---|---|---|
+| H | next-event prediction | Markov 0.504, decayed 0.485, **Organica 0.413** |
+| H | latent-structure recovery | same-event co-occurrence 0.800 / 0.764 / 0.796 vs **Organica 0.704 / 0.547 / 0.109** |
+| I | regime-shift detection | preregistered success rule **not met** |
+| J | post-shift adaptation | **neither primary gate passed** |
+| K1 | incremental world modeling | **REVERSED** — 0.5923 vs 0.9360 |
+| K2 | belief revision | **REVERSED** — 0.4111 vs 0.9846 |
+| K3 | longitudinal integration | **REVERSED** — 0.0000 vs 0.8578 |
+
+Six task families are negative. **That is not a verdict on the architecture** — it is six tasks that did not favour Organica 1. The project's question changed accordingly, from *can we make a developmental architecture?* to *what class of problems benefits from one?* The preregistered terminal outcome for Phase K was written down before the run: **no confirmed family means no V2**. It fired. **No V2 is being designed.**
+
+### What is not established, and is not claimed
+
+That the organism is developmental in the strong sense, or that its structures improve prediction or recover latent structure better than simple alternatives. Tier-1's repeating stimulus saturates quickly; richer curricula increase inventory, but simple baselines lead on the tested prediction, structure-recovery, gradual-adaptation, world-modeling, belief-revision and longitudinal-integration tasks. Phase I did not demonstrate a winner under its preregistered detection rule. These are controlled synthetic tasks; the prediction task still needs input-world replication, and the recovery task does not measure causal intervention knowledge.
+
+### What *is* established
+
+That development can emerge from experience-driven accumulation; that it is
+highly path-dependent; that curriculum matters enormously; that novelty
+assimilation matters; and that developmental trajectories are not fixed.
+Internal epistemic structures — contradictory beliefs, questions, theories —
+emerge without pretrained domain knowledge.
+
+One of these is a negative finding about the project's own design, and it is
+the one that most redirects the work: **the internal developmental machinery
+is not what drives development.** The Tier-1 matrix found that removing
+contradiction, removing question creation, and selecting the lowest-EIG
+candidate each *raise* development (P2, P3, P5 — all REVERSED), and the
+Phase K ablations agree independently on a different task family and
+substrate. What moved development, consistently, was the **curriculum and the
+structure of the stimulus** — not the curiosity, contradiction and attention
+machinery that was designed to be the active ingredient.
+
+**The full synthesis is in [`docs/V1-SYNTHESIS.md`](docs/V1-SYNTHESIS.md).** It
+states what V1 established, what it did not, the danger of reading six
+negative task families as a verdict rather than a map, and the question the
+evidence leaves open: *what properties must a developmental intelligence have
+to remain adaptable without losing coherence?*
 
 ---
 
