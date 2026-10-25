@@ -2950,7 +2950,7 @@ Separate from the four, and found by reading rather than by running. The RT
 bootstrap was resampling the **DI−PI gap** and reporting its minimum and
 maximum. The preregistration's criterion 4 asks for the **crossing
 location**: *"the RT estimated from a paired bootstrap over seeds has a
-98.33% interval that excludes both endpoints of the sweep."* The statistic
+99% interval that excludes both endpoints of the sweep."* The statistic
 resampled is now the index of the first label at which DI overtakes PI; the
 interval is a percentile interval over those locations; seeds are resampled
 **paired across labels**; and "excludes both endpoints" is tested directly

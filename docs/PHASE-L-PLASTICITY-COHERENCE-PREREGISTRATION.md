@@ -119,9 +119,10 @@ expressed as a number on a declared axis.
 
 | Quantity | Definition | Why it is here |
 |---|---|---|
-| **Revision latency** | cycles from the late group's arrival until DI first exceeds 0.5 | distinguishes *never* from *slowly* |
+| **Revision latency** | cycles from the late group's arrival until DI first exceeds 0.5 | distinguishes *never* from *slowly*. **Elevated to co-primary reporting by Amendment 2** — two organisms can end at the same DI and PI while crossing at completely different times. |
 | **Knowledge preservation** | fraction of early-group pairs still asserted at the end, across the whole run | PI at the final cycle is a snapshot; this is the trajectory |
 | **Absolute late incorporation** | raw count of retained late pairs | DI is a ratio and can hide a small absolute number |
+| **Displacement Score (DS)** | `DI − PI` — **added by Amendment 2 as a diagnostic** | DI and PI are not opposites: DI 0.8 / PI 0.8 is *coexistence*, not revision. The gap distinguishes accumulation from displacement. **Not a primary metric and not a success criterion.** |
 
 **Reported separately, never averaged.** A harmonic mean that collapses to
 zero when one component is zero destroyed an endpoint in Phase K (Amendment
@@ -206,7 +207,7 @@ Concretely, Phase L succeeds if **all four** hold:
 3. **The two curves cross**, and the crossing point (RT) is interior to the
    sweep — not at either endpoint.
 4. **The crossing is reproducible**: the RT estimated from a paired bootstrap
-   over seeds has a 98.33% interval that excludes both endpoints of the sweep.
+   over seeds has a 99% interval that excludes both endpoints of the sweep.
 
 Criterion 4 is what separates a boundary from a coincidence. A crossing point
 that can be anywhere on the axis is not a boundary.
@@ -214,6 +215,38 @@ that can be anywhere on the axis is not a boundary.
 **If the criteria are met, the finding is the curve and its RT** — a
 characterisation, not a victory. If Organica's curve is *worse* than a
 baseline's, that is a legitimate finding too, and the phase reports it.
+
+### 6.1 Stated plainly: what success looks like, and what failure looks like
+
+This phase is designed to be able to **fail cleanly**. Both of the following
+are publishable outcomes, and neither is a disappointment:
+
+**SUCCESS — a stable displacement curve exists.**
+
+```
+low  pressure  ->  preservation dominates   (DI low,  PI high)
+mid  pressure  ->  transition               (DI partial, PI partial)
+high pressure  ->  displacement dominates   (DI high, PI low)
+```
+
+with an interior, reproducible crossing (RT) between the poles.
+
+**FAILURE — no measurable relationship exists.**
+
+```
+DI flat across the sweep      (the dial is not connected to anything)
+PI flat across the sweep
+no crossing at all
+```
+
+A flat curve is a **characterisation**: the organism sits at one pole —
+preservation is absolute, or revision is unconditional — and the phase has
+located that pole. That is a real answer to the question, and it is the
+answer H2-L′ names.
+
+**The campaign must be able to fail.** It is not built to produce a win, and
+no gate is relaxed to make it produce one. A flat DI and a flat PI are
+recorded as flat.
 
 ---
 
@@ -241,7 +274,7 @@ separate decision, taken afterwards.
 | **Seeds** | 10 (20261023–20261032), paired across arms — the same seed sees every arm |
 | **Hash seed** | `PYTHONHASHSEED=0` in every process, so hash order is common-mode across arms |
 | **Cycles** | 600 per world, matching the Phase K K3 family |
-| **Decision interval** | 98.33% paired percentile bootstrap (Bonferroni across the arms), 10,000 replicates |
+| **Decision interval** | 99% paired percentile bootstrap (Bonferroni across the five arms), 10,000 replicates |
 | **Bootstrap seed** | derived from the arm name through Python's string hash, which is deterministic only because `PYTHONHASHSEED=0` is pinned — the robustness check re-runs it with 8 other seeds and reports if any verdict moves |
 | **Engine** | **Organica 1, frozen.** `organica/sleep.py` and `organica/memory.py` are not modified. Verified by `tests/test_v1_freeze.py` |
 | **Baseline rule** | best-of-grid, declared above, never handicapped |
@@ -262,12 +295,21 @@ The campaign **does not run** if any of them fails.
    check the metric; this one checks the **design**. In every cell of every
    arm, both groups must be available for measurement; the support ratio must
    actually change the early/late event mix; the contradiction arm must
-   produce a different world from the plain arm; and the density arm must
-   actually change the event count. A metric can be perfect and the design
-   still dead, and that is exactly what the first pilot demonstrated.
+   produce a different world from the plain arm; the density arm must
+   actually change the event count; and the early and late gold sets must
+   stay disjoint. A metric can be perfect and the design still dead, and
+   that is exactly what the first pilot demonstrated.
+4. **The V4 pressure audit.** *(Added by Amendment 2.)* Phase G measured the
+   belief pool *starved* on the live study stream — mean 5.17 beliefs,
+   maximum 6, against `MAX_HYPOTHESES = 15`. If the pool never fills, the
+   belief-cap arm cannot change anything, and a flat V4 curve would be a
+   statement about the engine rather than about the organism — the way V5
+   was inert before Amendment 1. This audit runs the frozen engine at both
+   ends of the V4 sweep and requires that the cap actually binds.
 
-All three audits are permanent, and all three run on every invocation of the
-harness.
+All four audits are permanent, and all four run on every invocation of the
+harness. The V4 audit runs the engine, so it is computed **once at startup**
+and carried into the run rather than recomputed per cell.
 
 ### 8.2 The harness must be resumable and lose nothing
 
@@ -398,7 +440,7 @@ varies that rate (6, 12, 24, 48). At density 4.0 the engine saw 7,200 of
 
 The bootstrap was resampling the **DI−PI gap** and reporting its minimum and
 maximum. Section 6, criterion 4 asks for something else: *the RT estimated
-from a paired bootstrap over seeds has a 98.33% interval that excludes both
+from a paired bootstrap over seeds has a 99% interval that excludes both
 endpoints of the sweep.* The RT is the **crossing location**, so the
 resampled statistic is now the index of the first label at which DI overtakes
 PI, and the interval is a **percentile** interval over those locations, with
@@ -424,17 +466,18 @@ scaling inconsistency with `build_jobs` (it applied the V2 arrival label
 absolutely while the campaign applied it proportionally), and the audit
 caught it by failing the run before a single cell was executed.
 
-### One item for the owner to settle
+### One item for the owner to settle — **settled by Amendment 2**
 
-Section 6 and section 8 state a **98.33%** decision interval, and gloss it as
+Section 6 and section 8 stated a **98.33%** decision interval, and glossed it as
 "Bonferroni across the arms". Across five arms, Bonferroni gives
-0.05/5 = 0.01, i.e. a **99%** interval; 98.33% corresponds to 0.05/3. The two
-readings disagree.
+0.05/5 = 0.01, i.e. a **99%** interval; 98.33% corresponds to 0.05/3 — which is
+Phase K's correction factor over its three families, carried over by accident.
 
-The harness currently implements **98.33%**, following the number the protocol
-states rather than the parenthetical gloss. **This is flagged for the owner
-before the campaign runs**, because it changes which verdicts are reachable.
-Nothing depends on it yet: no Phase L outcome exists.
+The owner settled this on 2026-10-25, before any Phase L outcome existed:
+**the intent governs and the stray percentage is the accidental constant**, so
+the procedure is preserved and the number is corrected. The interval is
+**99%**. See Amendment 2.
+
 
 ### What did not change
 
@@ -444,3 +487,173 @@ pre-committed terminal outcome was altered. The four defects were all in the
 harness's *implementation* of the protocol as written; the corrections make
 the code do what this document already said. No gate was relaxed, and one
 audit was added.
+
+---
+
+## Amendment 2 — 2026-10-25
+
+**Made before any Phase L outcome existed.** The campaign has not been run.
+
+### The decision interval: 98.33% → 99%
+
+Section 6 and section 8 stated a **98.33%** decision interval and glossed it
+as "Bonferroni across the arms". Those disagree:
+
+| | |
+|---|---|
+| "Bonferroni across the arms", five arms, family-wise α = 0.05 | 0.05 / 5 = 0.01 per arm → a **99%** interval |
+| a stated 98.33% interval | α = 0.0167 = 0.05 / 3 — **Phase K's** correction factor, carried over by accident |
+
+**The owner's ruling: the intent governs and the stray percentage is the
+accidental constant.** The procedure — Bonferroni across the arms — is
+preserved, and the number is corrected to **99%**. The harness now computes
+`DECISION_ALPHA = 0.05 / 5`.
+
+This changes which verdicts are reachable, which is exactly why it was
+settled now, in the open, before any outcome existed rather than after a
+result was in hand. Phase K's own 98.33% figures are **unaffected**: that
+protocol had three families and 0.05/3 was correct there.
+
+### Section 6.1 added: success and failure stated plainly
+
+Section 6 already specified the success criterion and section 7 already
+pre-committed four terminal outcomes, including H2-L′ ("no boundary"). The
+owner's review asked for the same thing to be stated in the plainest
+possible terms, so section 6.1 now says it directly:
+
+- **Success** — a stable displacement curve exists: low pressure → preservation
+  dominates; mid pressure → transition; high pressure → displacement
+  dominates; with an interior, reproducible crossing.
+- **Failure** — no measurable relationship exists: DI flat, PI flat, no
+  crossing. A flat curve is a *characterisation* (the organism sits at one
+  pole), and it is a publishable answer.
+
+**The campaign must be able to fail.** It is not built to produce a win and
+no gate is relaxed to make it produce one.
+
+### Two preregistered secondary outcomes the harness was not computing
+
+Section 3.4 declares three secondary outcomes: *revision latency*,
+*knowledge preservation* (the PI trajectory), and *absolute late
+incorporation*. The harness computed only the third. The first two are now
+implemented, from a per-cycle DI/PI trace taken as the engine runs.
+
+The trace is **per-cycle, not cumulative**: each cycle's report reflects what
+the engine asserted *in that cycle*, so the trace answers "when did the
+organism start asserting the late structure", not "when did it ever assert
+it". The final indices are still computed from the last report alone, and
+the trace does not change them — an internal consistency check confirms the
+trace's last point equals the final DI and PI.
+
+These are reported **separately and never averaged**, as section 3.4 requires.
+
+### One record that was false
+
+The results file recorded `"python_hash_seed": "0"` unconditionally — it
+asserted the pinned value whether or not it was set. The protocol pins
+`PYTHONHASHSEED=0`; recording the pin rather than the fact is a false record
+of the run's conditions. The harness now records the **actual** value, records
+whether it was pinned as required, and warns loudly when it was not.
+
+### A pre-flight audit for the degeneracies that would still be there
+
+Amendment 1 fixed the defects the pilot exposed. The owner's review asked for
+one more thing before the long run: **a hunt for the degeneracies that were
+*not* exposed.** A hidden degeneracy makes hours of compute worthless, and
+the pilot already proved the class of bug is live in this project.
+
+The pre-flight audit checks, before the campaign:
+
+1. **The engine is deterministic for a given seed.** Without this the paired
+   bootstrap over seeds is resampling noise.
+2. **Different seeds give different results.** If every seed gave the same
+   number there would be no seed variance to resample.
+3. **Every arm has a denominator with room to spare** — the smallest
+   `late_available` and `early_available` across all five arms must be large
+   enough for the ratio to mean something, not 1 or 2.
+4. **The V4 belief-cap pressure actually binds.** Phase G measured the belief
+   pool *starved* — mean 5.17, max 6, against a cap of 15. If the pool never
+   fills, V4 is an inert arm in the same way V5 was, and it must be reported
+   as such rather than as a null result about the organism.
+5. **The protocol's own factual claims hold** — notably "600 cycles, matching
+   the Phase K K3 family", which was checked against Phase K's own
+   preregistration.
+
+### The Displacement Score: a diagnostic, added by the owner's review
+
+The owner's second review raised the sharpest remaining scientific point:
+**DI and PI are not opposites.**
+
+| DI | PI | what it is |
+|---|---|---|
+| 0.8 | 0.8 | **coexistence** — the late structure was learned and the early structure was kept. That is not revision. |
+| 0.8 | 0.1 | **genuine displacement** — the late structure replaced the early one. |
+
+K3 already taught this project that **acquisition and displacement are
+different phenomena**, and the two indices do not distinguish them on their
+own. So a third quantity is now reported alongside them:
+
+```
+DS = DI - PI
+```
+
+**DS is a DIAGNOSTIC. It is not a primary metric, it is not a success
+criterion, it enters no verdict, and it is never averaged with anything.**
+It is reported per sweep point so that coexistence and displacement can be
+told apart. A curve on which DS stays near zero while DI rises is a curve
+showing *accumulation*, not *revision* — a distinction this phase would
+otherwise blur.
+
+### Revision latency: elevated from secondary to co-primary reporting
+
+The owner's review also asked that the **trajectory** be taken seriously, not
+just the endpoints: two organisms can end at the same DI and PI while
+behaving completely differently — one crossing at cycle 170, the other at
+cycle 590. Same endpoint, different developmental behaviour.
+
+The trajectory was already being computed (see above). It is now reported at
+the same level as the RT rather than as a footnote: for every sweep point,
+the mean and median **revision latency** (cycles from the late group's
+arrival until DI first exceeds 0.5), and how many seeds reached it at all.
+
+**The four success criteria are unchanged.** Revision latency is a
+co-primary *report*, not a new criterion: a phase that quietly added a
+fifth criterion after the fact would be the same error in a different coat.
+
+### Hysteresis: deliberately deferred to a future phase
+
+The owner's review proposed the most interesting extension of all — **run the
+axis in reverse** (late → early) and ask whether the system crosses back.
+A system that crosses the threshold one way but not the other is showing
+*hysteresis*, which is path-dependence, and a genuinely dynamic intelligence
+might be expected to show it.
+
+**This is not in Phase L.** It is recorded here as the natural successor
+(Phase L.2), and it is deliberately not added now: adding a reverse sweep
+to a protocol that has not yet run would double the campaign and change its
+shape before there is any reason to. A protocol that measures one thing well
+is worth more than one that measures two things imperfectly.
+
+### Run order: the primary axis first
+
+The owner's review noted that the support ratio carries nearly all the
+theoretical weight — the hypothesis is essentially *a displacement boundary
+exists* — and that V1 is the cleanest evidence of it. **The campaign runs V1
+first** and the secondary arms after, so that the primary answer is available
+early. This is a scheduling decision, not a protocol change: all five arms
+are still declared, still run, and still reported, because the secondary arms
+are what can detect H2-L³ (the operative variable is not support ratio).
+
+### One thing deliberately NOT changed
+
+**No more benchmarks.** The protocol's largest victory is that it stopped
+caring about beating Markov or winning tasks and started caring about
+characterising the organism. That is protected.
+
+### What did not change in Amendment 2
+
+No hypothesis, independent variable, sweep point, seed, metric definition,
+baseline, success criterion or terminal outcome. The decision interval was
+*corrected to match the stated procedure*, the success/failure statement was
+made explicit, two declared secondary outcomes were implemented, and one
+false record was fixed. **No gate was relaxed.**

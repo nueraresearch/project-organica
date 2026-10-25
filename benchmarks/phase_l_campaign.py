@@ -52,18 +52,17 @@ EVENTS_PER_CYCLE = 12
 NOISE_RATE = 0.10
 BOOTSTRAP_REPLICATES = 10_000
 
-#: The decision interval. The frozen preregistration states a "98.33% paired
-#: percentile bootstrap" twice (section 6, criterion 4, and the protocol
-#: table in section 8), so that is the number implemented here.
+#: The decision interval: 99%, two-sided.
 #:
-#: Note for protocol review: 98.33% corresponds to a two-sided alpha of
-#: 0.0167 = 0.05/3, whereas "Bonferroni across the arms" over five arms
-#: gives 0.05/5 = 0.01 and therefore a 99% interval. The two readings
-#: disagree, and the code follows the NUMBER the preregistration states
-#: rather than the parenthetical gloss. This is flagged in Amendment 1 for
-#: the owner to settle before the campaign runs; it has no effect on any
-#: outcome that exists today, because no Phase L outcome exists yet.
-DECISION_ALPHA = 0.05 / 3
+#: Bonferroni across the five arms at a family-wise alpha of 0.05 gives
+#: 0.05/5 = 0.01 per arm, i.e. a 99% interval. The preregistration originally
+#: wrote "98.33%" alongside the gloss "Bonferroni across the arms" -- but
+#: 98.33% corresponds to 0.05/3, which was Phase K's correction factor over
+#: its three families, carried over by accident. The owner's ruling (before
+#: any Phase L outcome existed) was that the **intent** -- Bonferroni across
+#: the arms -- governs and the stray percentage is the accidental constant.
+#: See Amendment 2 in the preregistration.
+DECISION_ALPHA = 0.05 / 5
 DECISION_LOWER_Q = DECISION_ALPHA / 2
 DECISION_UPPER_Q = 1 - DECISION_ALPHA / 2
 
@@ -181,10 +180,11 @@ def build_world(seed: int, *, support_ratio: tuple[int, int] = (1, 3),
                                0, weight=1.0))
 
     events_per_cycle = max(1, int(round(EVENTS_PER_CYCLE * density)))
-    return _generate(seed, cycles, entities, events_per_cycle)
+    return _generate(seed, cycles, entities, events_per_cycle, arrival)
 
 
-def _generate(seed: int, cycles: int, entities: list[Entity], events_per_cycle: int):
+def _generate(seed: int, cycles: int, entities: list[Entity],
+              events_per_cycle: int, arrival: int = 0):
     rng = random.Random(seed)
     events: list[str] = []
     for cycle in range(cycles):
@@ -206,7 +206,8 @@ def _generate(seed: int, cycles: int, entities: list[Entity], events_per_cycle: 
                          for i, a in enumerate(e.features)
                          for b in e.features[i + 1:]}
     return {"events": events, "gold": gold, "entities": entities,
-            "cycles": cycles, "events_per_cycle": events_per_cycle}
+            "cycles": cycles, "events_per_cycle": events_per_cycle,
+            "arrival": arrival}
 
 
 # ----------------------------------------------------------------------
@@ -260,9 +261,22 @@ def indices(predicted: set, early_gold: set, late_gold: set,
     early_ret = len(predicted & early_gold)
     di = (late_ret / late_available) if late_available else None
     pi = (early_ret / early_available) if early_available else None
+    # The Displacement Score: DI - PI.
+    #
+    # DI and PI are NOT opposites. DI = 0.8 with PI = 0.8 is coexistence --
+    # the late structure was learned and the early structure was kept -- and
+    # that is not revision. DI = 0.8 with PI = 0.1 is genuine displacement.
+    # K3 already taught this project that acquisition and displacement are
+    # different phenomena, so the gap between the two indices is reported as
+    # its own diagnostic.
+    #
+    # It is a DIAGNOSTIC, not a primary metric and not a success criterion.
+    # It is never averaged with anything, and it does not enter any verdict.
+    ds = (di - pi) if (di is not None and pi is not None) else None
     return {
         "displacement_index": round(di, 6) if di is not None else None,
         "preservation_index": round(pi, 6) if pi is not None else None,
+        "displacement_score": round(ds, 6) if ds is not None else None,
         "displacement_measurable": bool(late_available),
         "preservation_measurable": bool(early_available),
         "late_retained": late_ret,
@@ -276,10 +290,34 @@ def indices(predicted: set, early_gold: set, late_gold: set,
 # The models
 # ----------------------------------------------------------------------
 
-def organica_pairs(events: list[str], cycles: int, seed: int,
-                   events_per_cycle: int = EVENTS_PER_CYCLE) -> set:
-    """Run the FROZEN engine over the stream and return the feature pairs its
-    surviving structures imply.
+def _pairs_from_report(report) -> set:
+    """The feature pairs a sleep-cycle report's structures imply."""
+    from dataclasses import asdict
+
+    structures = []
+    if report:
+        for name in ("concepts", "phrases", "loops", "predictions",
+                     "anomalies", "meta_concepts", "processes",
+                     "workflow_concepts", "hypotheses", "theories",
+                     "questions", "dreams", "investigations", "experiments"):
+            structures.extend(asdict(item) for item in getattr(report, name, []))
+    edges = edges_implied_by_structures(structures)
+    return {tuple(sorted((a, b))) for a, t in edges.items() for b in t if a != b}
+
+
+def organica_run(events: list[str], cycles: int, seed: int,
+                 events_per_cycle: int = EVENTS_PER_CYCLE,
+                 early_gold: set | None = None,
+                 late_gold: set | None = None,
+                 late_available: int = 0,
+                 early_available: int = 0,
+                 arrival: int = 0,
+                 trace: bool = False) -> dict:
+    """Run the FROZEN engine over the stream.
+
+    Returns the final pair set, and -- when `trace` is set -- the per-cycle
+    DI/PI trajectory that the preregistration's secondary outcomes need
+    ("revision latency", "knowledge preservation").
 
     The engine is not modified. This is the same extraction the published
     campaigns use, so Phase L's numbers are comparable with Phase K's.
@@ -288,9 +326,13 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
     V3 arm varies the event density, and chunking a denser stream at the
     default rate would feed the engine only part of the world while
     reporting it as a complete run.
-    """
-    from dataclasses import asdict
 
+    **The trajectory is per-cycle, not cumulative.** Each cycle's report
+    reflects what the engine asserted *in that cycle*, so the trace answers
+    "when did the organism start asserting the late structure" rather than
+    "when did it ever assert it". The final indices are computed from the
+    last report alone, exactly as before -- the trace does not change them.
+    """
     from organica.memory import MemoryService
     from organica.paths import temp_db
     from organica.sleep import SleepService
@@ -302,6 +344,7 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
     report = None
+    trajectory = []
     try:
         for cycle in range(cycles):
             chunk = events[cycle * events_per_cycle:(cycle + 1) * events_per_cycle]
@@ -309,15 +352,19 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
                 mem.store(event, event_type="event", source=f"cycle:{cycle}")
             if chunk:
                 report = svc.run_sleep_cycle()
-        structures = []
-        if report:
-            for name in ("concepts", "phrases", "loops", "predictions",
-                         "anomalies", "meta_concepts", "processes",
-                         "workflow_concepts", "hypotheses", "theories",
-                         "questions", "dreams", "investigations", "experiments"):
-                structures.extend(asdict(item) for item in getattr(report, name, []))
-        edges = edges_implied_by_structures(structures)
-        return {tuple(sorted((a, b))) for a, t in edges.items() for b in t if a != b}
+                if trace:
+                    pairs = _pairs_from_report(report)
+                    late_ret = len(pairs & late_gold) if late_gold else 0
+                    early_ret = len(pairs & early_gold) if early_gold else 0
+                    trajectory.append({
+                        "cycle": cycle,
+                        "di": round(late_ret / late_available, 6) if late_available else None,
+                        "pi": round(early_ret / early_available, 6) if early_available else None,
+                        "late_retained": late_ret,
+                        "early_retained": early_ret,
+                    })
+        final = _pairs_from_report(report)
+        return {"pairs": final, "trajectory": trajectory}
     finally:
         mem.close()
         db.unlink(missing_ok=True)
@@ -325,6 +372,13 @@ def organica_pairs(events: list[str], cycles: int, seed: int,
             db.parent.rmdir()
         except OSError:
             pass
+
+
+def organica_pairs(events: list[str], cycles: int, seed: int,
+                   events_per_cycle: int = EVENTS_PER_CYCLE) -> set:
+    """The pair set the engine's surviving structures assert at the end."""
+    return organica_run(events, cycles, seed,
+                        events_per_cycle=events_per_cycle)["pairs"]
 
 
 def cooc_pairs(events, *, window_cycles, min_count, events_per_cycle=EVENTS_PER_CYCLE):
@@ -386,10 +440,41 @@ def run_cell(job) -> dict:
 
     results = {}
 
-    predicted = organica_pairs(events, world["cycles"], seed,
-                               events_per_cycle=epc)
+    # The trace gives the preregistration's secondary outcomes: the
+    # per-cycle DI and PI trajectories. It costs one edge extraction per
+    # cycle, which is small against the sleep cycle itself.
+    run = organica_run(events, world["cycles"], seed,
+                       events_per_cycle=epc,
+                       early_gold=early_gold, late_gold=late_gold,
+                       late_available=late_avail, early_available=early_avail,
+                       arrival=world.get("arrival", 0), trace=True)
+    predicted = run["pairs"]
     results["organica"] = indices(predicted, early_gold, late_gold,
                                   early_avail, late_avail)
+
+    # Secondary outcomes, computed from the trajectory and reported
+    # separately -- never averaged with the primary indices.
+    traj = run["trajectory"]
+    arrival_cycle = world.get("arrival", 0)
+    latency = None
+    for point in traj:
+        if point["cycle"] >= arrival_cycle and point["di"] is not None \
+                and point["di"] > 0.5:
+            latency = point["cycle"] - arrival_cycle
+            break
+    results["secondary"] = {
+        "revision_latency_cycles": latency,
+        "revision_latency_reached": latency is not None,
+        "arrival_cycle": arrival_cycle,
+        "final_di": results["organica"]["displacement_index"],
+        "final_pi": results["organica"]["preservation_index"],
+        "absolute_late_incorporation":
+            results["organica"]["late_retained"],
+        "absolute_early_retention":
+            results["organica"]["early_retained"],
+        "di_trajectory": [pt["di"] for pt in traj],
+        "pi_trajectory": [pt["pi"] for pt in traj],
+    }
 
     # The simple baselines, swept over their declared grids. BEST is used.
     # "Best" is measured on DI, the axis under study. A configuration whose
@@ -594,6 +679,81 @@ def degeneracy_audit(scale: int = 1) -> dict:
             "note": "Instrument audit. Produces no experimental claim."}
 
 
+def v4_pressure_audit(scale: int = 1, cycles: int = 120) -> dict:
+    """Does the V4 belief-cap arm create REAL pressure, or is it inert?
+
+    Phase G measured the belief pool *starved* on the live study stream: mean
+    5.17 beliefs, maximum 6, against `MAX_HYPOTHESES = 15`. If the pool never
+    fills, the V4 arm cannot change anything, and a flat V4 curve would be a
+    statement about the ENGINE rather than about the organism -- exactly the
+    way V5 was inert before Amendment 1.
+
+    This runs the frozen engine at the two ends of the V4 sweep and compares
+    how many hypotheses it retains. If more competing subjects produce more
+    retained beliefs, the arm is connected to something.
+
+    NOTE ON THE COUNT: the report's hypothesis collection is the retained
+    BELIEFS (capped at MAX_HYPOTHESES = 15) plus the structural MARKERS
+    (which have their own allowance of 15, because Layer 5 discards them and
+    they must not consume the belief budget). So the report count can reach
+    30. The belief budget itself is capped at 15.
+    """
+    from organica.memory import MemoryService
+    from organica.paths import temp_db
+    from organica.sleep import SleepService
+
+    def probe(cap_pressure: int) -> dict:
+        ww = build_world(SEEDS[0], cap_pressure=cap_pressure, cycles=cycles)
+        ev = ww["events"]
+        db = temp_db("phase_l_v4.db")
+        db.unlink(missing_ok=True)
+        mem = MemoryService(db_path=str(db))
+        svc = SleepService(mem)
+        if hasattr(svc, "_rng"):
+            svc._rng.seed(SEEDS[0])
+        peak_total = 0
+        peak_beliefs = 0
+        try:
+            for cyc in range(cycles):
+                chunk = ev[cyc * ww["events_per_cycle"]:(cyc + 1) * ww["events_per_cycle"]]
+                for event in chunk:
+                    mem.store(event, event_type="event", source=f"cycle:{cyc}")
+                if chunk:
+                    rep = svc.run_sleep_cycle()
+                    hyps = list(getattr(rep, "hypotheses", []) or [])
+                    peak_total = max(peak_total, len(hyps))
+                    beliefs = [h for h in hyps
+                               if getattr(h, "expectation", None)
+                               != "high_structural_significance"]
+                    peak_beliefs = max(peak_beliefs, len(beliefs))
+        finally:
+            mem.close()
+            db.unlink(missing_ok=True)
+            try:
+                db.parent.rmdir()
+            except OSError:
+                pass
+        return {"cap_pressure": cap_pressure, "peak_hypotheses_total": peak_total,
+                "peak_beliefs": peak_beliefs}
+
+    low = probe(min(BELIEF_CAP_PRESSURES))
+    high = probe(max(BELIEF_CAP_PRESSURES))
+    problems = []
+    if high["peak_beliefs"] <= low["peak_beliefs"]:
+        problems.append(
+            "the belief-cap arm does not change how many beliefs the engine "
+            f"retains ({low['peak_beliefs']} -> {high['peak_beliefs']}), so V4 "
+            "measures the engine rather than the organism")
+    if high["peak_beliefs"] < 15:
+        problems.append(
+            f"the belief pool never reaches MAX_HYPOTHESES (15) even at the "
+            f"highest cap pressure (peak {high['peak_beliefs']}), so the cap "
+            "never binds and the V4 arm is inert")
+    return {"passed": not problems, "problems": problems,
+            "low": low, "high": high, "cycles": cycles,
+            "note": "Instrument audit. Produces no experimental claim."}
+
+
 def discrimination_control() -> dict:
     """The metric must separate 'never revises' from 'always revises'.
 
@@ -733,9 +893,17 @@ def paired_interval(values: list[float], seed: int) -> list[float]:
             round(_quantile(means, DECISION_UPPER_Q), 6)]
 
 
-def summarize_arm(cells: list[dict], arm: str) -> dict:
+def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> dict:
     """One arm: the DI and PI curves, and the Revision Threshold if the
-    curves cross."""
+    curves cross.
+
+    `with_bootstrap` may be turned off for the intermediate summaries the
+    runner writes after every cell. The bootstrap is 10,000 replicates and
+    it does not change until the arm is complete, so recomputing it on
+    every checkpoint is pure waste -- with 240 cells and five arms that
+    would add hours of pure arithmetic to the run. The final summary always
+    computes it.
+    """
     by_label: dict[str, list[dict]] = {}
     for c in cells:
         if c["arm"] == arm:
@@ -756,6 +924,17 @@ def summarize_arm(cells: list[dict], arm: str) -> dict:
         excluded = len(rows) - min(len(dis), len(pre))
         if excluded:
             unmeasurable.append({"label": lbl, "excluded_cells": excluded})
+        # The diagnostic Displacement Score, and the revision latency that
+        # the trajectory makes available. Both are reported, never averaged
+        # into anything, and neither enters a verdict.
+        ds_vals = [r["results"]["organica"]["displacement_score"] for r in rows
+                   if r["results"]["organica"].get("displacement_score") is not None]
+        lat_vals = [r["results"]["secondary"]["revision_latency_cycles"]
+                    for r in rows
+                    if r["results"].get("secondary", {}).get("revision_latency_cycles")
+                    is not None]
+        lat_reached = sum(1 for r in rows
+                          if r["results"].get("secondary", {}).get("revision_latency_reached"))
         curve.append({
             "label": lbl,
             "n_seeds": len(rows),
@@ -765,6 +944,12 @@ def summarize_arm(cells: list[dict], arm: str) -> dict:
             "displacement_index_stdev": round(statistics.stdev(dis), 6) if len(dis) > 1 else 0.0,
             "preservation_index_mean": round(statistics.mean(pre), 6) if pre else None,
             "preservation_index_stdev": round(statistics.stdev(pre), 6) if len(pre) > 1 else 0.0,
+            "displacement_score_mean": round(statistics.mean(ds_vals), 6) if ds_vals else None,
+            "displacement_score_stdev": round(statistics.stdev(ds_vals), 6) if len(ds_vals) > 1 else 0.0,
+            "revision_latency_mean_cycles": round(statistics.mean(lat_vals), 3) if lat_vals else None,
+            "revision_latency_median_cycles": round(statistics.median(lat_vals), 3) if lat_vals else None,
+            "revision_latency_reached_seeds": lat_reached,
+            "revision_latency_unreached_seeds": len(rows) - lat_reached,
         })
 
     di = [c["displacement_index_mean"] for c in curve]
@@ -817,7 +1002,7 @@ def summarize_arm(cells: list[dict], arm: str) -> dict:
     # the common-mode structure of the seed pairing is preserved.
     rt_interval = None
     rt_replicates_with_crossing = 0
-    if crossing is not None:
+    if crossing is not None and with_bootstrap:
         labels_with_rows = [lbl for lbl in order if by_label.get(lbl)]
         n_seeds = min(len(by_label[lbl]) for lbl in labels_with_rows)
         crossings = []
@@ -857,13 +1042,21 @@ def summarize_arm(cells: list[dict], arm: str) -> dict:
         # sweep -- a crossing that can land anywhere on the axis is not a
         # boundary. The interval is over crossing locations (indices), so
         # "excludes both endpoints" means strictly inside the sweep.
-        criteria["rt_reproducible"] = bool(
-            rt_interval is not None
-            and rt_interval[0] > 0
-            and rt_interval[1] < len(curve) - 1)
-        verdict = ("BOUNDARY" if all(criteria.values())
-                   else "NO_BOUNDARY" if not criteria["curves_cross"]
-                   else "INCONCLUSIVE")
+        if with_bootstrap:
+            criteria["rt_reproducible"] = bool(
+                rt_interval is not None
+                and rt_interval[0] > 0
+                and rt_interval[1] < len(curve) - 1)
+            verdict = ("BOUNDARY" if all(criteria.values())
+                       else "NO_BOUNDARY" if not criteria["curves_cross"]
+                       else "INCONCLUSIVE")
+        else:
+            # The bootstrap was not run for this intermediate summary, so
+            # criterion 4 is not yet evaluable. Saying "INCONCLUSIVE" here
+            # would be a claim about the science; it is not. Say the
+            # summary is provisional.
+            criteria["rt_reproducible"] = None
+            verdict = "PROVISIONAL"
     else:
         # A secondary arm cannot overrule the primary axis.
         verdict = ("SECONDARY_TREND" if criteria["di_monotone_increasing"]
@@ -901,10 +1094,20 @@ def _label_order(arm: str) -> list[str]:
 
 def run_campaign(families: list[str], seeds: list[int], workers: int,
                  scale: int = 1, out_path: Path | None = None,
-                 resume: bool = False, checkpoint_path: Path | None = None) -> dict:
+                 resume: bool = False, checkpoint_path: Path | None = None,
+                 audits: dict | None = None) -> dict:
     jobs = build_jobs(families, seeds, scale)
     started = time.time()
     records: list[dict] = []
+
+    # The audits are computed ONCE and carried into every checkpoint.
+    # Recomputing them per cell would add the degeneracy audit's world
+    # rebuilds (24 worlds) to each of the campaign's cells, and the V4
+    # pressure audit's two engine runs -- which would dominate the run.
+    if audits is None:
+        audits = {"control": discrimination_control(),
+                  "ceiling_check": ceiling_check(),
+                  "degeneracy_audit": degeneracy_audit(scale=scale)}
 
     if checkpoint_path is None and out_path is not None:
         checkpoint_path = out_path.with_suffix(".ndjson")
@@ -943,24 +1146,38 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
     def flush(complete: bool = False):
         if out_path is None:
             return
+        # The intermediate summaries skip the 10,000-replicate bootstrap.
+        # It cannot change until the arm is complete, so recomputing it
+        # after every cell would add hours of arithmetic to the run for no
+        # new information. The final flush computes it.
         payload = {
             "protocol": {
                 "preregistration": PREREGISTRATION,
                 "arms": families,
                 "seeds": list(seeds),
                 "workers": workers,
-                "python_hash_seed": "0",
+                # The ACTUAL value, not an assertion that it was "0". The
+                # preregistration pins PYTHONHASHSEED=0; recording the
+                # pinned value whether or not it was set would be a false
+                # record of the run's conditions.
+                "python_hash_seed": os.environ.get("PYTHONHASHSEED", "(unset)"),
+                "python_hash_seed_pinned_ok":
+                    os.environ.get("PYTHONHASHSEED") == "0",
                 "bootstrap_replicates": BOOTSTRAP_REPLICATES,
                 "decision_alpha": DECISION_ALPHA,
+                "decision_interval_level": f"{100*(1-DECISION_ALPHA):.2f}%",
                 "cycle_scale": scale,
                 "baseline_rule": ("every simple baseline is swept over the declared "
                                   "grid and its BEST score is used"),
                 "wall_clock_seconds": round(time.time() - started, 1),
                 "complete": complete,
             },
-            "control": discrimination_control(),
-            "ceiling_check": ceiling_check(),
-            "summaries": {a: summarize_arm(records, a) for a in families
+            "control": audits["control"],
+            "ceiling_check": audits["ceiling_check"],
+            "degeneracy_audit": audits["degeneracy_audit"],
+            "v4_pressure_audit": audits.get("v4_pressure_audit"),
+            "summaries": {a: summarize_arm(records, a, with_bootstrap=complete)
+                          for a in families
                           if any(r["arm"] == a for r in records)},
             "records": records,
         }
@@ -1040,9 +1257,17 @@ def main() -> int:
         print(json.dumps({k: v for k, v in degen.items() if k != "cells"},
                          indent=2))
         print()
-        if not ctrl["passed"] or not ceil["passed"] or not degen["passed"]:
+        print("=" * 70)
+        print("V4 PRESSURE AUDIT (the belief-cap arm must bind)")
+        print("=" * 70)
+        v4 = v4_pressure_audit(scale=args.scale)
+        print(json.dumps(v4, indent=2))
+        print()
+        if not (ctrl["passed"] and ceil["passed"] and degen["passed"]
+                and v4["passed"]):
             print("INSTRUMENT AUDIT FAILED. The campaign does not run.")
-            for p in ctrl["problems"] + ceil["problems"] + degen["problems"]:
+            for p in (ctrl["problems"] + ceil["problems"] + degen["problems"]
+                      + v4["problems"]):
                 print(f"  - {p}")
             return 1
         print("all endpoints are reachable, the metric discriminates, and the "
@@ -1064,18 +1289,39 @@ def main() -> int:
     ctrl = discrimination_control()
     ceil = ceiling_check()
     degen = degeneracy_audit(scale=args.scale)
-    if not ctrl["passed"] or not ceil["passed"] or not degen["passed"]:
+    v4 = v4_pressure_audit(scale=args.scale)
+    if not (ctrl["passed"] and ceil["passed"] and degen["passed"] and v4["passed"]):
         print("INSTRUMENT AUDIT FAILED. The campaign does not run.")
-        for p in ctrl["problems"] + ceil["problems"] + degen["problems"]:
+        for p in (ctrl["problems"] + ceil["problems"] + degen["problems"]
+                  + v4["problems"]):
             print(f"  - {p}")
         return 1
     print("  discrimination control: passed")
     print("  endpoint ceiling check: passed")
     print("  degeneracy audit: passed")
+    print(f"  V4 pressure audit: passed "
+          f"(peak beliefs {v4['low']['peak_beliefs']} -> "
+          f"{v4['high']['peak_beliefs']} against a cap of 15)")
+
+    # The preregistration pins PYTHONHASHSEED=0 in every process, so that
+    # hash order is common-mode across arms. Warn loudly if it is not set:
+    # the run is still valid, but the record says so rather than claiming
+    # a condition that was not met.
+    if os.environ.get("PYTHONHASHSEED") != "0":
+        print()
+        print("  WARNING: PYTHONHASHSEED is not '0' in this process.")
+        print("  The preregistration pins it to 0 so that hash order is")
+        print("  common-mode across arms. The run will record the actual")
+        print("  value. Re-run with  $env:PYTHONHASHSEED='0'  to match the")
+        print("  protocol exactly.")
     print()
 
     result = run_campaign(args.families, seeds, args.workers, args.scale,
-                           out, args.resume)
+                           out, args.resume,
+                           audits={"control": ctrl,
+                                   "ceiling_check": ceil,
+                                   "degeneracy_audit": degen,
+                                   "v4_pressure_audit": v4})
 
     print()
     print("=" * 70)
@@ -1084,10 +1330,19 @@ def main() -> int:
     for arm, s in result["summaries"].items():
         print(f"  {arm}: {s['verdict']}")
         for c in s["curve"]:
-            print(f"      {c['label']:>8s}  DI={c['displacement_index_mean']:.3f}"
-                  f"  PI={c['preservation_index_mean']:.3f}")
+            di = c["displacement_index_mean"]
+            pi = c["preservation_index_mean"]
+            ds = c.get("displacement_score_mean")
+            lat = c.get("revision_latency_mean_cycles")
+            lat_s = f"{lat:.0f}" if lat is not None else "-"
+            print(f"      {c['label']:>8s}  DI={di:.3f}  PI={pi:.3f}  "
+                  f"DS={ds:+.3f}  latency={lat_s}")
         if s.get("crossing_label"):
             print(f"      Revision Threshold at {s['crossing_label']}")
+        if s.get("rt_bootstrap_interval"):
+            lo, hi = s["rt_bootstrap_interval"]
+            print(f"      RT bootstrap interval (sweep positions): "
+                  f"[{lo}, {hi}]")
     print()
     print(f"  wrote {out}")
     return 0

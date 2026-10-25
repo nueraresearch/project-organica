@@ -122,6 +122,41 @@ outcome existed. No hypothesis, variable, metric, baseline, success criterion
 or terminal outcome was changed, and no gate was relaxed — one audit was
 added.
 
+### Changed — the Phase L decision interval is 99%, not 98.33%
+
+The Phase L protocol stated a **98.33%** decision interval and glossed it as
+"Bonferroni across the arms". Those disagree: across five arms Bonferroni
+gives 0.05/5 = 0.01, i.e. a **99%** interval, while 98.33% corresponds to
+0.05/3 — Phase K's correction factor, carried over by accident.
+
+**The owner's ruling, made before any Phase L outcome existed: the intent
+governs and the stray percentage is the accidental constant.** The procedure
+is preserved and the number is corrected to 99%. Phase K's own 98.33%
+figures are unaffected — that protocol had three families and 0.05/3 was
+correct there. Recorded as **Amendment 2**.
+
+Amendment 2 also adds a plain statement of what success and failure look
+like (preregistration §6.1): success is a stable displacement curve with an
+interior, reproducible crossing; failure is a flat DI, a flat PI and no
+crossing — a characterisation, and a publishable one. **The campaign must be
+able to fail.**
+
+### Added — the two preregistered secondary outcomes the harness was missing
+
+The protocol declares three secondary outcomes. The harness computed only
+"absolute late incorporation"; **revision latency** and the **knowledge
+preservation trajectory** are now computed from a per-cycle DI/PI trace taken
+as the engine runs. The trace is per-cycle rather than cumulative, so it
+answers *when did the organism start asserting the late structure*; the final
+indices are still computed from the last report alone and the trace does not
+change them.
+
+### Fixed — a false record in the results file
+
+The results file recorded `"python_hash_seed": "0"` unconditionally, asserting
+the pinned value whether or not it was set. It now records the **actual**
+value, records whether the pin was met, and warns loudly when it was not.
+
 ---
 
 ## [0.9.0] — 2026-10-24
