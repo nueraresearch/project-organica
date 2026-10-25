@@ -1092,6 +1092,54 @@ def _label_order(arm: str) -> list[str]:
 # The campaign runner
 # ----------------------------------------------------------------------
 
+def load_resume_records(out_path: Path | None,
+                         checkpoint_path: Path | None) -> tuple[list, str]:
+    """Rebuild the set of already-completed cells for a resumed run.
+
+    The preregistration promises exactly this: "--resume rebuilds from the
+    recording if the results file is missing". The results file is written
+    atomically, so it is normally present and complete -- but a crash between
+    the NDJSON write and the next atomic replace would leave cells recorded
+    only in the NDJSON, and those cells must not be re-run.
+
+    A resumed run loads prior records from the RESULTS file, so those records
+    are NOT re-appended to the NDJSON. The live recording can therefore
+    legitimately hold FEWER records than the results file. That gap is
+    expected and is disclosed in the protocol block; it is not a sign of lost
+    work.
+
+    Returns (records, source_label).
+    """
+    source = "results file"
+    records: list = []
+    if out_path is not None and out_path.exists():
+        try:
+            prior = json.loads(out_path.read_text(encoding="utf-8"))
+            records = prior.get("records", [])
+        except Exception:
+            records = []
+            source = "results file (unreadable)"
+    if not records and checkpoint_path is not None and checkpoint_path.exists():
+        rebuilt = []
+        try:
+            with open(checkpoint_path, "r", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rebuilt.append(json.loads(line))
+                    except Exception:
+                        # A torn final line from a hard kill. Everything
+                        # before it is still good.
+                        continue
+        except Exception:
+            rebuilt = []
+        records = rebuilt
+        source = "NDJSON live recording"
+    return records, source
+
+
 def run_campaign(families: list[str], seeds: list[int], workers: int,
                  scale: int = 1, out_path: Path | None = None,
                  resume: bool = False, checkpoint_path: Path | None = None,
@@ -1130,18 +1178,16 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
         except OSError:
             pass
 
-    if resume and out_path is not None and out_path.exists():
-        try:
-            prior = json.loads(out_path.read_text(encoding="utf-8"))
-            records = prior.get("records", [])
-        except Exception:
-            records = []
+    if resume:
+        records, source = load_resume_records(out_path, checkpoint_path)
+        if records:
+            print(f"  resuming from {source}: {len(records)} cell(s) already done",
+                  flush=True)
 
     if records:
         done = {(r["arm"], r["label"], r["seed"]) for r in records}
         jobs = [j for j in jobs if (j["arm"], j["label"], j["seed"]) not in done]
-        print(f"  resuming: {len(records)} cell(s) already done, {len(jobs)} to go",
-              flush=True)
+        print(f"  {len(jobs)} cell(s) to go", flush=True)
 
     def flush(complete: bool = False):
         if out_path is None:
