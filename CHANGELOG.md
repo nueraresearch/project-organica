@@ -90,6 +90,57 @@ baseline in all three families. That is one seed at ten per cent of the
 protocol and it is **not evidence**; it is recorded in the preregistration
 so it cannot later be mistaken for a result.
 
+### The result — the search failed, and that was pre-committed
+
+The campaign ran to completion: **ten seeds per family**, thirty in total. All
+three families came back **REVERSED**.
+
+| Family | Organica | Best simple baseline | Paired difference | 98.33% interval | Verdict |
+|---|---|---|---|---|---|
+| K1 — incremental world modeling | 0.5923 | 0.9360 | −0.3437 | [−0.3773, −0.3123] | **REVERSED** |
+| K2 — belief revision | 0.4111 | 0.9846 | −0.5735 | [−0.6162, −0.5309] | **REVERSED** |
+| K3 — longitudinal integration | 0.0000 | 0.8578 | −0.8578 | [−0.8598, −0.8571] | **REVERSED** |
+
+No family is SUPPORTED and none is INCONCLUSIVE: every decision interval lies
+wholly below zero, so these are clean losses rather than ambiguous ones. Every
+verdict survives eight different bootstrap seeds and both leave-one-out
+checks. The **H2** terminal outcome fired exactly as written down before the
+run: three more task families are ruled out, the negative-results map grows,
+and **no V2 is designed**.
+
+**The ablations came back empty — a negative attribution.** `NO_QUESTIONS`
+(K1) −0.0095 [−0.0328, +0.0140]; `NO_FALSIFICATION` (K2) +0.0241 [−0.0048,
++0.0495]; `NO_DREAMS` (K3) +0.0000 [0.0000, 0.0000]. All three intervals
+contain zero, so the three mechanisms the families were built around are not
+load-bearing for the tasks they were meant to carry. This is within one
+implementation on synthetic worlds, and it does not say the mechanisms are
+inert in general.
+
+**The K3 zero was root-caused, not assumed.** Organica scored exactly 0.000
+on late incorporation on all ten seeds while a trivial co-occurrence counter
+reached 0.857, so three artifacts were checked — each capable of failing.
+The late structure appears in **zero of 150 cycles**, so it is not an artifact
+of reading only the final cycle. Every candidate type except `anomaly` mentions
+**zero of 12** late tags, so no late structure was left unread by the edge
+extractor. And a 2×2 control across five seeds shows the late group is
+incorporated **only when it is strictly stronger** than the group that arrived
+first — so the exclusion is a salience/priority competition under a bounded
+belief pool, not a blanket inability to learn late structure. This is the risk
+§6 of the preregistration named before the run.
+
+### Added
+
+- `docs/phase_k_results.md` — the Phase K write-up: results, robustness, the
+  K3 root cause, and what it changes.
+- `docs/phase_k_results.json` — the campaign artifact: protocol block, the K0
+  control, the ceiling check, all thirty per-seed records with every model's
+  score and configuration, and the per-family summaries.
+- `docs/phase_k_results.ndjson` — the live recording, one line per completed
+  seed, appended and flushed.
+- `benchmarks/phase_k_diagnose.py` — the K3 root-cause diagnostics: the
+  per-cycle check, the under-read check, and the arrival-order × strength 2×2
+  control.
+
 ### Changed
 
 - The package version is **0.9.0**, cut on master; **0.8.0 is the latest
@@ -98,7 +149,11 @@ so it cannot later be mistaken for a result.
   artifacts regenerated, the cycle-1 fixation claim corrected (journal
   §31), the negative external-validity results recorded, and the
   documentation synchronised with the measurements.
-- Journal §32 records the strategic shift and the negative-results map.
+- Journal §32 records the strategic shift and the negative-results map;
+  **§33 records the Phase K result**, its robustness, and the K3 root cause.
+- Facts sheet **§T** records the result in the one-fact-per-line form.
+- The manual's status row for Phase K, its command list, its file map and its
+  revision log are updated in the same turn as the change they describe.
 
 ---
 

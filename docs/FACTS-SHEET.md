@@ -617,3 +617,25 @@ does not. | —
 
 Reproduce from the artifact alone: `docs/force_matrix.json` → `series` →
 `pre_beliefs`, `pre_subjects_ge2`, `beliefs`.
+
+## T — Phase K: Comparative Advantage Search (2026-10-24)
+
+Three candidate task families, ten seeds each, scored against the **best**
+simple baseline configuration from a declared grid of 24 per seed per family.
+Decision rule: paired percentile bootstrap, 98.33% interval (Bonferroni across
+the three families); SUPPORTED only if the interval lies wholly above zero.
+
+| Fact | Value | Source |
+|---|---|---|
+| **T1** | **All three families are REVERSED.** K1 (incremental world modeling) Organica **0.5923** vs baseline **0.9360**, difference **−0.3437** [−0.3773, −0.3123]. K2 (belief revision) **0.4111** vs **0.9846**, **−0.5735** [−0.6162, −0.5309]. K3 (longitudinal integration) **0.0000** vs **0.8578**, **−0.8578** [−0.8598, −0.8571]. No family is SUPPORTED; none is INCONCLUSIVE. | `docs/phase_k_results.json` → `summaries` |
+| **T2** | **The terminal outcome is H2: the search failed.** It was written into the preregistration before any Phase K outcome existed. Three more task families are ruled out, the negative-results map grows, and **V2 is not designed.** | `docs/PHASE-K-PREREGISTRATION.md` §7 |
+| **T3** | **The verdicts are robust.** Re-running the bootstrap with 8 different seeds leaves all three verdicts unchanged. Dropping the single most favourable seed, and separately the single least favourable seed, also leaves every verdict unchanged. | journal §33 |
+| **T4** | **The mechanism ablations came back empty — a negative attribution.** `NO_QUESTIONS` (K1) −0.0095 [−0.0328, +0.0140]; `NO_FALSIFICATION` (K2) +0.0241 [−0.0048, +0.0495]; `NO_DREAMS` (K3) +0.0000 [0.0000, 0.0000]. **All three intervals contain zero**, so question generation, falsification and dreams are not load-bearing for the tasks they were built around. Within one implementation, on synthetic worlds. | `docs/phase_k_results.json` → `summaries.*.matched_ablation` |
+| **T5** | **The K3 zero is architectural, not a measurement artifact.** Three checks, each able to fail: the late structure appears in **0 of 150 cycles** (not merely the final one); every candidate type except `anomaly` mentions **0 of 12** late tags, so nothing was left unread; and a 2×2 control across 5 seeds shows the late group is incorporated **only when strictly stronger** than the group that arrived first (9–11 of 18 at late weight 3 / early weight 1; 0–1 of 18 otherwise). | `benchmarks/phase_k_diagnose.py`; journal §33 |
+| **T6** | **Organica retains the early scaffold and incorporates none of the late structure under the protocol's configuration.** Core-retention F1 ≈ 0.67; late-incorporation F1 = 0.000 on all 10 seeds. The exclusion is a salience/priority competition under a bounded belief pool, which is the risk §6 of the preregistration named before the run. | `docs/phase_k_results.json` → `per_model_detail` |
+| **T7** | **Six task families are now negative.** Phase H (next-event prediction), I (regime-shift detection), J (post-shift adaptation), K1, K2, K3. The question *"what class of problems benefits from a developmental architecture?"* stays **open**, with six families excluded rather than one verdict reached. | journal §32, §33 |
+| **T8** | **One bookkeeping note.** The live recording `docs/phase_k_results.ndjson` holds **29 of 30** seeds: K1/20261023 was completed by an earlier harness version before the checkpoint existed and was carried in through the results-file resume path. The authoritative results file holds all 30, and the two agree numerically on every overlapping seed. | `docs/phase_k_results.json`, `docs/phase_k_results.ndjson` |
+
+Reproduce from the artifact alone: `docs/phase_k_results.json` → `summaries`,
+`per_model_detail`; the root cause with `python benchmarks/phase_k_diagnose.py
+--scale 4 --seeds 5`.

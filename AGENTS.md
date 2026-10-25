@@ -7,7 +7,7 @@ This file is the standing brief for any agent (or person) working on this reposi
 Project Organica is a research codebase for a *developmental* machine intelligence: a program that grows cognitive structures from a raw event stream through repeated sleep/consolidation cycles, rather than loading pre-trained weights. The full architecture, the nine emergence targets, the six design laws, and the current state of the 90-day longitudinal study are documented in:
 
 - **`docs/USER-MANUAL.md`** — the owner's manual. Start here. It covers what the project is, how to run everything, how to read the telemetry, the action list, and troubleshooting.
-- `research-journal/phase_g_findings_20261021.md` — the full research record (§1–§32), including the failures and the retractions.
+- `research-journal/phase_g_findings_20261021.md` — the full research record (§1–§33), including the failures and the retractions.
 - `CHALLENGE.md` — the nine emergence targets and the integrity constraint.
 - `docs/DESIGN_LAWS.md` — the six inviolable laws.
 - `docs/ABLATION-PREREGISTRATION.md` — the ablation study's predictions, written **before** the run. Do not edit §4 to match a result; amend and disclose instead.
@@ -93,6 +93,7 @@ python benchmarks/phase_h_campaign.py                # Phase H, 10 seeds
 python benchmarks/regime_shift.py                    # Phase I, 20 seeds x 2 families
 python benchmarks/post_shift_adaptation.py           # Phase J, 20 seeds x 2 families
 python benchmarks/phase_k_campaign.py --families K1 K2 K3 --seeds 10 --workers 3
+python benchmarks/phase_k_diagnose.py --scale 4 --seeds 5   # the K3 root cause
 ```
 
 The study daemon may be running against `memory.db`. Prefer read-only inspection, or work on a copy, so you do not disturb a multi-week run.

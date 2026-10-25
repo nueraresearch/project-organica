@@ -2503,3 +2503,152 @@ reported separately in every artifact.
 > the ceiling check checks that the metric can report a win.** A campaign
 > does not start if either fails. The full amendment, with the reasoning,
 > is in `docs/PHASE-K-PREREGISTRATION.md`.
+
+## §33 — Phase K results: three families, three losses, and what the zero means
+
+**The search failed, and that was a pre-committed outcome.** All three
+candidate families came back **REVERSED**. Not one was SUPPORTED, and not one
+was INCONCLUSIVE — every 98.33% decision interval lies wholly below zero, so
+each is a clean loss rather than an ambiguous one. The terminal outcome **H2**
+was written into the preregistration before any Phase K outcome existed:
+*"three more task families are ruled out. The negative-results map grows. Do
+not design V2."* It is not being reinterpreted as a near-miss.
+
+| Family | Organica | Best simple baseline | Paired difference | 98.33% interval | Verdict |
+|---|---|---|---|---|---|
+| K1 — incremental world modeling | 0.5923 | 0.9360 | −0.3437 | [−0.3773, −0.3123] | **REVERSED** |
+| K2 — belief revision | 0.4111 | 0.9846 | −0.5735 | [−0.6162, −0.5309] | **REVERSED** |
+| K3 — longitudinal integration | 0.0000 | 0.8578 | −0.8578 | [−0.8598, −0.8571] | **REVERSED** |
+
+Ten seeds each, `PYTHONHASHSEED=0` in every process, the engine frozen. The
+baselines were given the tuning advantage deliberately: each was swept over
+its declared grid — 15 co-occurrence configurations and 9 temporal-graph
+configurations, 24 per seed per family — and the **best** score used.
+
+### Robustness
+
+Every verdict survives the two checks that could have embarrassed it. Re-running
+the bootstrap with **eight different seeds** leaves all three verdicts
+unchanged, so no verdict is an artifact of the hash-derived bootstrap seed the
+protocol pins. Dropping the single most favourable seed, and separately the
+single least favourable seed, also leaves every verdict unchanged: with ten
+seeds, one outlier cannot carry any of these intervals.
+
+### The ablations: a negative attribution
+
+| Family | Ablation | Ablation mean | Organica − ablation | 98.33% interval |
+|---|---|---|---|---|
+| K1 | `NO_QUESTIONS` | 0.6018 | −0.0095 | [−0.0328, +0.0140] |
+| K2 | `NO_FALSIFICATION` | 0.3870 | +0.0241 | [−0.0048, +0.0495] |
+| K3 | `NO_DREAMS` | 0.0000 | +0.0000 | [0.0000, 0.0000] |
+
+**All three intervals contain zero.** This is the more interesting half of the
+result and it is a *negative attribution*: the three mechanisms the families
+were built around — question generation, falsification, dreams — are **not
+load-bearing** for the tasks they were supposed to carry. In K3 the ablation
+arm is identical to the decimal because the score was already zero.
+
+The attribution is within one implementation on synthetic worlds. It says these
+mechanisms do not carry these tasks in Organica 1; it does not say the
+mechanisms are useless.
+
+### The K3 zero: measured, not assumed
+
+Organica scored **exactly 0.000 on all ten K3 seeds** while a trivial
+co-occurrence counter reached 0.857. A hard zero on a metric whose ceiling was
+independently proved reachable needs a cause before it is reported, and three
+artifacts could have faked one. All three were checked, and each check was
+capable of failing.
+
+**1. Not a reading artifact.** The harness reads structures from the final
+sleep cycle's report. A per-cycle diagnostic ran one K3 world and inspected
+**every** cycle's own structures: late-group pairs appear in **zero cycles out
+of 150**. The late structure is never formed at any point, so this is not the
+organism forming it and then losing it.
+
+**2. Not an under-read.** The engine emits many candidate types and the edge
+extractor handles a specific set. The final cycle's structures were dumped by
+type and checked for late-entity tag mentions: `hypothesis`, `loop_candidate`,
+`prediction_candidate`, `process_candidate`, `workflow_concept`,
+`meta_concept`, `dream`, `investigation` and `experiment` mention **0 of 12**
+late tags. Only `anomaly` mentions them (5 of 12) — the engine **notices** the
+late structure and does not absorb it. No late structure was sitting unread in
+a type the extractor ignores.
+
+**3. Not a blanket inability to learn late structure.** A 2×2 control crossed
+the two things that could decide the outcome — which group arrives first, and
+which group is stronger — across five seeds:
+
+| early weight | late weight | early group coverage (5 seeds) | late group coverage (5 seeds) |
+|---|---|---|---|
+| 3 | 1 *(the protocol's K3)* | 14, 16, 15, 15, 17 | **0, 0, 0, 0, 0** |
+| 3 | 3 | 13, 16, 15, 15, 17 | 0, 1, 0, 0, 0 |
+| 1 | 3 | 12, 14, 14, 15, 16 | **9, 11, 10, 10, 9** |
+| 1 | 1 | 13, 16, 15, 15, 17 | 0, 1, 0, 0, 0 |
+
+The late group is incorporated **only when it is strictly stronger** than the
+group that arrived first. At equal strength the earlier group wins. So the
+exclusion is a **salience/priority competition under a bounded belief pool**,
+not a blanket inability to learn late structure — and the protocol's K3 places
+the late group at weight 1 against the scaffold's weight 3.
+
+This is exactly the risk §6 of the preregistration named *before* the run: *"a
+K3 result measures retention against incorporation under a capacity limit, not
+unbounded accumulation… The scaffold entities carry weight 3 and the late
+entities weight 1 precisely so that the scaffold stays observable after the
+novelty arrives."* The measurement confirms the caveat was load-bearing, and
+the caveat is what makes the number interpretable. **Organica retains the
+early scaffold (core-retention F1 ≈ 0.67) and incorporates none of the late
+structure under the specified configuration.**
+
+### What this changes
+
+**For V2: nothing authorises a redesign, and nothing was designed.** Six task
+families are now negative — H (next-event prediction), I (regime-shift
+detection), J (post-shift adaptation), and K1, K2, K3. The question *"what
+class of problems benefits from a developmental architecture?"* remains open,
+with six families excluded.
+
+**The negative-results map is the deliverable.** A reader can now see that
+Organica 1 loses to a co-occurrence counter on all six, and that on the two
+families where a mechanism was specifically ablated, the ablation changed
+nothing.
+
+**One thing this campaign does establish, and it is not a consolation
+prize:** the losses are *large and stable*, not marginal. K2's baseline scores
+a perfect 1.000 on eight of ten seeds. K3's is 0.857 on nine of ten. The gap
+is not noise around a tie; it is a gap, and the paired intervals are tight.
+Whatever advantage a developmental architecture has, it is not on these three
+kinds of task, and it is not going to appear by tuning the current engine
+against them.
+
+**A caution about the ablations.** The K1 and K2 ablation intervals contain
+zero, which means the ablation did not detect a mechanism effect. It does not
+follow that the mechanisms are inert in general — the ablation measures them
+*on these tasks*, where the organism was already losing by a wide margin, and
+a mechanism cannot show an effect if the outcome is dominated by something
+else.
+
+### The next question
+
+Six negative families is a strong signal that the *current* engine does not
+have an external advantage on any task tried so far. The honest options are
+(a) keep searching more task families, and (b) stop assuming the engine is the
+thing being tested. This campaign supplies evidence for (b): the mechanism
+attributions came back empty on the two families where they were tested, so
+the next step is to establish **which internal mechanism, if any, produces
+the external advantage at all** — before another family is added to the map.
+That is a question about mechanism, and it is answerable without designing V2.
+
+> **Note on the campaign's execution.** The thirty-seed matrix ran across two
+> background chunks, because the harness exceeded the runtime limit of a
+> single background command. The campaign was built to survive that: results
+> are written atomically, an append-only live recording
+> (`docs/phase_k_results.ndjson`) is flushed after every seed, and `--resume`
+> skips completed seeds. No seed was lost and no seed was re-run. One
+> bookkeeping note, recorded rather than hidden: the live recording contains
+> **29** of the 30 seeds, because seed K1/20261023 was completed by an earlier
+> harness version before the checkpoint existed and was carried into the final
+> run through the results-file resume path. The results file — the
+> authoritative artifact — contains all thirty, and the two files agree
+> numerically on every overlapping seed.
