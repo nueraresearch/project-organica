@@ -657,3 +657,151 @@ baseline, success criterion or terminal outcome. The decision interval was
 *corrected to match the stated procedure*, the success/failure statement was
 made explicit, two declared secondary outcomes were implemented, and one
 false record was fixed. **No gate was relaxed.**
+
+---
+
+## Amendment 3 — 2026-10-25: raise n on the primary axis
+
+**Made before any raise-n outcome existed.** The n=10 run had completed and
+was reported; the raise-n run had not started and no raise-n cell had been
+executed at the time of writing.
+
+### Why
+
+The n=10 run produced the terminal outcome **`H3-L — INCONCLUSIVE`**, whose
+protocol-specified remedy is *"raise n. Do not conclude anything."* The
+owner's decision was to take that remedy literally, and to take it on the
+primary axis: the same sweep, the same protocol, the same criteria, no
+edits. The question the raise-n run has to answer is narrow and specific:
+
+> Is the small PI reversal at the low end of the sweep (1:4 → 1:3,
+> +0.005 on the mean curve) a real feature of the curve, or sampling
+> variation around an otherwise monotone relationship?
+
+### What changes
+
+| | |
+|---|---|
+| **Seeds per sweep point** | 10 → **30** (the original 10 plus 20 new: 20261033–20261052) |
+| **Sweep points** | unchanged — 1:4, 1:3, 1:2, 1:1, 2:1, 3:1, 4:1, 6:1 |
+| **Independent variable** | unchanged — support ratio (late : early) |
+| **Metrics** | unchanged — DI, PI, DS (diagnostic), revision latency |
+| **Decision interval** | unchanged — 99.00% (alpha 0.01) |
+| **The four success criteria** | unchanged — all four, exactly as written in section 6 |
+| **Terminal outcomes** | unchanged — the four in section 7 |
+| **Engine** | unchanged — the frozen `v0.9.0` engine |
+| **Secondary arms** | still not run; no Phase L outcome authorises a V2 |
+
+The raise-n run is a strict **superset** of the n=10 run: the original ten
+seeds are the first ten of the new list, so all 80 original cells are
+**reused, not recomputed**, and 160 new cells are added. The original
+results file is retained unmodified as the n=10 record.
+
+### A defect found while preparing the run: the bootstrap paired by position, not by seed
+
+The preregistration says criterion 4 is *"the RT estimated from a **paired
+bootstrap over seeds**"*. The implementation paired by **position in the
+records list**. The records arrive in completion order, and completion order
+differs from label to label — measurably so: in the n=10 run, the seed order
+within 1:4 was `[32, 27, 31, 29, 24, 25, 23, 30, 26, 28]` and within 1:3 it
+was `[24, 23, 26, 32, 29, 30, 27, 31, 25, 28]`. Position-pairing therefore
+paired **unrelated seeds** across labels, which is an unpaired resample
+wearing the word "paired" on it.
+
+This is the same class of defect as the four the pilot exposed: the code not
+doing what this document says. It is disclosed here rather than quietly
+fixed.
+
+**The fix.** Each label contributes a `{seed: value}` map; the seeds common
+to every label are drawn with replacement; every label is evaluated on that
+same drawn set of seeds. A true paired resample.
+
+**Does the fix change the n=10 result?** **No.** Under the corrected pairing
+the n=10 run still gives RT = 3:1, bootstrap interval **[5.0, 5.0]**, with
+**10,000 of 10,000** replicates finding a crossing; the eight alternative
+bootstrap seeds still all return `INTERIOR`; the leave-one-seed-out crossings
+are still 3:1 in **10 of 10** folds; the four criteria are unchanged; and the
+verdict is still `H3-L — INCONCLUSIVE`. The published n=10 record is
+therefore unaffected, and it is retained as committed.
+
+**The test that proves the fix.** `tests/test_phase_l_analysis.py` asserts
+that the bootstrap interval, the crossing label, the criteria and the
+adjacent differences are **invariant under a shuffle of the record order**.
+The position-pairing implementation fails that test; it was proved to fail
+by reverting the fix and watching it go red.
+
+**The analysis is now committed code.** The analysis that produced the
+reported numbers — the curves, the four criteria, the RT interval, the eight
+alternative bootstrap seeds, the leave-one-seed-out check — lived in an
+uncommitted scratch script. It now lives in
+`benchmarks/phase_l_analyze.py`, with the same seed-paired bootstrap, so
+every reported figure is reproducible from committed code.
+
+### A new diagnostic: the adjacent paired differences
+
+The monotone criteria are evaluated on the **mean** curve, so each is a
+statement about the **sign** of an adjacent difference. That has a
+consequence which must be stated before the run, not after it:
+
+> **If the underlying curve is flat at one end of the sweep, the sign of a
+> noisy mean difference is a coin flip at any n.** More seeds do not settle
+> a sign test against a flat curve. What more seeds settle is the
+> **effect size**.
+
+So the raise-n run reports, for every adjacent pair of sweep points, the
+paired difference in DI and in PI with a **99% paired-bootstrap interval**
+(seeds paired across the two labels, as for the RT). This is the
+diagnostic that answers the owner's actual question — "is the reversal real,
+or is the low end flat?" — rather than the sign of one noisy step.
+
+**It is a diagnostic.** Like DS, it is not a primary metric, not a success
+criterion, in no verdict, and never averaged. It characterises the shape of
+the curve; it does not re-score the protocol.
+
+### What the n=10 data already shows, and what that implies for n=30
+
+Recorded **before** the raise-n run so that it cannot be read as an
+after-the-fact explanation of whatever comes out:
+
+| Adjacent step | dPI (n=10, 99% paired interval) |
+|---|---|
+| 1:4 → 1:3 | **+0.006** [−0.028, +0.044] |
+| 1:3 → 1:2 | −0.011 [−0.072, +0.078] |
+| 1:2 → 1:1 | −0.056 [−0.128, +0.022] |
+| 1:1 → 2:1 | −0.128 [−0.206, −0.039] |
+| 2:1 → 3:1 | −0.578 [−0.689, −0.494] |
+
+The three steps at the low end are each **individually consistent with zero**;
+the two steps at the transition are not. The DI difference is **exactly
+0.000** at every low-end step, for every seed — a structural plateau, not
+noise.
+
+**Therefore the raise-n run is expected to tighten the low-end intervals
+(tighter by about √3) and to establish the low end as a plateau. It is *not*
+expected to resolve the sign of the 1:4 → 1:3 step, and a pass of criterion
+2 at n=30 would have to be read as "the signs happened to come out
+non-increasing at n=30", not as "PI decreases at the low end".**
+
+That is the honest statement of what more data can and cannot buy here, and
+it is made now, before the run, so that it cannot become a story afterwards.
+
+### Pre-committed reading of the raise-n outcome
+
+| Outcome | Condition | How it is reported |
+|---|---|---|
+| **`H2-L — a boundary exists`** | all four criteria met at n=30 | The verdict is reported as the protocol's table says. **The adjacent-difference diagnostic is reported alongside it**, so the reader sees the plateau on the low end whether or not criterion 2 passed by sign. |
+| **`H3-L — inconclusive`** | criterion 2 still not met | *Raise n; conclude nothing.* The diagnostic characterises the low end as a plateau with the interval that supports it. **No boundary claim is made, and the stable RT is not offered as a substitute for the criterion that failed.** |
+| `H2-L′ — no boundary` | the curves do not cross, or the RT interval includes an endpoint | Reported as a characterisation. |
+
+In every branch: **no V2 is authorised**, and the secondary arms V2–V5 remain
+unrun.
+
+### What did not change in Amendment 3
+
+No hypothesis, independent variable, sweep point, metric definition,
+baseline, success criterion, decision interval, or terminal outcome. The
+seed count was raised — which is the remedy this document's own section 7
+names for the outcome that was measured — a real defect in the bootstrap's
+pairing was fixed and disclosed, one diagnostic was added, and the analysis
+was moved into committed code. **No gate was relaxed, and no criterion was
+re-read.**

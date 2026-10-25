@@ -46,7 +46,11 @@ from benchmarks.ablation_metrics import edges_implied_by_structures  # noqa: E40
 
 PREREGISTRATION = "docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md"
 
-SEEDS = tuple(20261023 + i for i in range(10))
+# The seeds. The first ten are the seeds of the original n=10 run; the
+# raise-n run (Amendment 3) extends this list to thirty, so the raise-n
+# campaign is a strict SUPERSET of the original one and every original cell
+# is reused rather than recomputed.
+SEEDS = tuple(20261023 + i for i in range(30))
 CYCLES = 600
 EVENTS_PER_CYCLE = 12
 NOISE_RATE = 0.10
@@ -893,6 +897,28 @@ def paired_interval(values: list[float], seed: int) -> list[float]:
             round(_quantile(means, DECISION_UPPER_Q), 6)]
 
 
+def _seed_metric_map(rows: list[dict], metric: str) -> dict[int, float]:
+    """{seed: value} for one label.
+
+    Unmeasurable cells are DROPPED, never recorded as zero. A seed with no
+    measurable value has no value to contribute.
+    """
+    out: dict[int, float] = {}
+    for r in rows:
+        v = r["results"]["organica"].get(metric)
+        if v is not None:
+            out[r["seed"]] = v
+    return out
+
+
+def _common_seeds(maps: list[dict[int, float]]) -> list[int]:
+    """The seeds present in EVERY map."""
+    sets = [set(m) for m in maps if m]
+    if not sets:
+        return []
+    return sorted(set.intersection(*sets))
+
+
 def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> dict:
     """One arm: the DI and PI curves, and the Revision Threshold if the
     curves cross.
@@ -970,6 +996,8 @@ def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> d
                 "verdict": "UNMEASURABLE",
                 "unmeasurable_cells": unmeasurable,
                 "crossing_label": None, "rt_bootstrap_interval": None,
+                "rt_replicates_with_crossing": 0, "rt_paired_seeds": 0,
+                "adjacent_differences": [],
                 "decision_interval": {
                     "level": f"{100*(1-DECISION_ALPHA):.2f}%",
                     "rule": "as stated in the frozen preregistration"}}
@@ -991,34 +1019,43 @@ def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> d
     # The statistic resampled is the CROSSING LOCATION -- the index of the
     # first label at which DI overtakes PI -- because that is what the
     # preregistration calls the RT and what criterion 4 is about ("the RT
-    # estimated from a paired bootstrap over seeds has a 98.33% interval
-    # that excludes both endpoints of the sweep"). The interval is a
-    # PERCENTILE interval over the resampled crossing locations, and it
-    # excludes both endpoints when every resample places the crossing
-    # strictly inside the sweep.
+    # estimated from a paired bootstrap over seeds has a 99% interval that
+    # excludes both endpoints of the sweep"). The interval is a PERCENTILE
+    # interval over the resampled crossing locations, and it excludes both
+    # endpoints when every resample places the crossing strictly inside the
+    # sweep.
     #
-    # Seeds are resampled PAIRED across labels: one bootstrap replicate
-    # draws a seed set and evaluates every label on that same seed set, so
+    # Seeds are resampled PAIRED across labels: one bootstrap replicate draws
+    # a set of SEEDS and evaluates every label on that same set of seeds, so
     # the common-mode structure of the seed pairing is preserved.
+    #
+    # The pairing must be by SEED, not by position in the records list. The
+    # records arrive in completion order, and completion order differs from
+    # label to label -- so pairing by position pairs unrelated seeds across
+    # labels and turns a paired bootstrap into an unpaired one. (That was a
+    # real defect; see Amendment 3 in the preregistration.)
     rt_interval = None
     rt_replicates_with_crossing = 0
+    rt_paired_seeds = 0
     if crossing is not None and with_bootstrap:
         labels_with_rows = [lbl for lbl in order if by_label.get(lbl)]
-        n_seeds = min(len(by_label[lbl]) for lbl in labels_with_rows)
+        di_maps = {lbl: _seed_metric_map(by_label[lbl], "displacement_index")
+                   for lbl in labels_with_rows}
+        pi_maps = {lbl: _seed_metric_map(by_label[lbl], "preservation_index")
+                   for lbl in labels_with_rows}
+        common = _common_seeds([di_maps[l] for l in labels_with_rows]
+                               + [pi_maps[l] for l in labels_with_rows])
+        n_seeds = len(common)
+        rt_paired_seeds = n_seeds
         crossings = []
         for b in range(BOOTSTRAP_REPLICATES):
             rng = random.Random(9000 + b)
-            # One paired draw of seed positions, shared by every label.
-            picks = [rng.randrange(n_seeds) for _ in range(n_seeds)]
-            d_sampled, p_sampled = [], []
-            for lbl in labels_with_rows:
-                rows = by_label[lbl]
-                ds = [rows[p % len(rows)]["results"]["organica"]["displacement_index"]
-                      for p in picks]
-                ps = [rows[p % len(rows)]["results"]["organica"]["preservation_index"]
-                      for p in picks]
-                d_sampled.append(statistics.mean(ds))
-                p_sampled.append(statistics.mean(ps))
+            # One paired draw of SEEDS, shared by every label.
+            picks = [common[rng.randrange(n_seeds)] for _ in range(n_seeds)]
+            d_sampled = [statistics.mean(di_maps[lbl][s] for s in picks)
+                         for lbl in labels_with_rows]
+            p_sampled = [statistics.mean(pi_maps[lbl][s] for s in picks)
+                         for lbl in labels_with_rows]
             # Where does THIS resample place the crossing?
             for i in range(1, len(d_sampled)):
                 if d_sampled[i - 1] <= p_sampled[i - 1] and d_sampled[i] > p_sampled[i]:
@@ -1028,6 +1065,51 @@ def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> d
         if crossings:
             rt_interval = [round(_quantile(crossings, DECISION_LOWER_Q), 6),
                            round(_quantile(crossings, DECISION_UPPER_Q), 6)]
+
+    # The adjacent-difference diagnostic (Amendment 3).
+    #
+    # The monotone criteria are evaluated on the MEAN curve, so they are a
+    # statement about the SIGN of an adjacent difference. When the underlying
+    # curve is flat at one end of the sweep, the sign of a noisy mean
+    # difference is a coin flip at ANY n -- more seeds do not settle it.
+    # What more seeds DO settle is the EFFECT SIZE. So the adjacent
+    # differences are reported with 99% paired-bootstrap intervals: that
+    # characterises the low end of the PI curve as a plateau or a decrease.
+    #
+    # This is a DIAGNOSTIC. It enters no criterion, no verdict, and no
+    # average, exactly like DS. It reports what the shape is; it does not
+    # re-score the protocol.
+    adjacent_differences = []
+    if with_bootstrap and len(order) > 1:
+        adj_maps = {
+            lbl: {"di": _seed_metric_map(by_label[lbl], "displacement_index"),
+                  "pi": _seed_metric_map(by_label[lbl], "preservation_index")}
+            for lbl in order if by_label.get(lbl)
+        }
+        for i in range(len(order) - 1):
+            lo_lbl, hi_lbl = order[i], order[i + 1]
+            pair = {}
+            for metric in ("di", "pi"):
+                a_map = adj_maps[lo_lbl][metric]
+                b_map = adj_maps[hi_lbl][metric]
+                shared = sorted(set(a_map) & set(b_map))
+                if len(shared) < 2:
+                    pair[metric] = None
+                    continue
+                diffs = [b_map[s] - a_map[s] for s in shared]
+                rng = random.Random(31_000 + i)
+                means = sorted(statistics.mean(
+                    diffs[rng.randrange(len(diffs))] for _ in range(len(diffs)))
+                    for _ in range(BOOTSTRAP_REPLICATES))
+                pair[metric] = {
+                    "from": lo_lbl,
+                    "to": hi_lbl,
+                    "n_paired_seeds": len(shared),
+                    "mean_difference": round(statistics.mean(diffs), 6),
+                    "interval": [round(_quantile(means, DECISION_LOWER_Q), 6),
+                                 round(_quantile(means, DECISION_UPPER_Q), 6)],
+                }
+            adjacent_differences.append(pair)
 
     criteria = {
         "di_monotone_increasing": monotone_di,
@@ -1069,6 +1151,8 @@ def summarize_arm(cells: list[dict], arm: str, with_bootstrap: bool = True) -> d
             "crossing_label": curve[crossing]["label"] if crossing else None,
             "rt_bootstrap_interval": rt_interval,
             "rt_replicates_with_crossing": rt_replicates_with_crossing,
+            "rt_paired_seeds": rt_paired_seeds,
+            "adjacent_differences": adjacent_differences,
             "decision_interval": {
                 "level": f"{100*(1-DECISION_ALPHA):.2f}%",
                 "rule": "as stated in the frozen preregistration"}}
@@ -1271,7 +1355,8 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--families", nargs="+", default=["V1", "V2", "V3", "V4", "V5"])
-    ap.add_argument("--seeds", type=int, default=10)
+    ap.add_argument("--seeds", type=int, default=30,
+                    help="number of seeds per sweep point (Amendment 3: 30)")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--scale", type=int, default=1)
     ap.add_argument("--resume", action="store_true")
