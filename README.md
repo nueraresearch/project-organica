@@ -383,15 +383,65 @@ The pre-committed terminal outcome fired: **no confirmed family means no V2.**
 
 ## Current state
 
-**Package version 0.9.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; **0.9.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
+**Package version 0.10.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.10.0 is cut on `master` and not yet tagged, and **0.9.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
 Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.9.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.9.0, pre-1.0 — and 0.9.0 **has** been published. Its tag is the archival reference for the frozen Organica 1 engine.
+**The project is not at "v1" or "v2" as a release.** It is at 0.10.0, pre-1.0 — and 0.10.0 has not been published yet. Its tag is the archival reference for the frozen Organica 1 engine. **Organica 1 is frozen**: no more architectural modifications to the engine; everything afterwards measures it. See [`docs/V1-FREEZE.md`](docs/V1-FREEZE.md).
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
+
+### Phase L: measuring the coherence–plasticity boundary
+
+Phase K closed. **Phase L opens as a measurement phase, not another
+benchmark hunt.** Every previous phase asked *"can Organica do X?"*
+— prediction, recovery, regime shifts, adaptation, world modeling, belief
+revision, integration — and all of them came back negative. Phase L asks a
+different question:
+
+> **How much pressure is required for new structure to displace old
+> structure?**
+
+That question comes out of the strongest measured phenomenon in V1. The K3
+2×2 control showed the late group **is** incorporated when it is strictly
+stronger than the group that arrived first, so Organica 1 is not incapable
+of revision — it is **priority-ordered**. A priority rule is a variable, and
+variables can be measured and manipulated.
+
+| | |
+|---|---|
+| **Displacement Index (DI)** | `late_structure_retained / late_structure_available` |
+| **Preservation Index (PI)** | `early_structure_retained / early_structure_original` |
+| **Revision Threshold (RT)** | the pressure at which DI crosses PI — the headline quantity |
+| **Success criterion** | a **reproducible displacement curve**, not a win |
+
+The protocol is frozen in
+[`docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md`](docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md),
+committed before any outcome exists. **Launch is not run**: the protocol is
+written, the harness is built and validated, and the protocol is reviewed
+before the campaign executes.
+
+**One thing worth knowing about the harness, because it is the kind of bug
+this project is built to catch.** The reduced-scale pilot initially returned
+`DI = 0.000` at every point of the sweep — a clean-looking negative result
+that was in fact an artefact, because the late group arrived after the run
+had ended and the late structure was never available to measure. Four harness
+defects were behind it, and the lesson has been kept as **AGENTS.md rule 13**:
+
+> *An identical value at every point of a sweep is a measurement defect until
+> proven otherwise.*
+
+The two original audits had both **passed** on that broken world, because they
+checked the *metric* and the metric was fine — the *design* was dead. A third
+audit, the **degeneracy audit**, now checks the design itself, and an
+unmeasurable quantity is reported as not measurable and **excluded, never
+zeroed**. Recorded as **Amendment 1** in the preregistration, made before any
+Phase L outcome existed. **No Phase L campaign has been run and no Phase L
+outcome exists.**
+
+---
 
 ### Six task families, six negatives — and what the project does with them
 

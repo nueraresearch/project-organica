@@ -11,9 +11,11 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.9.0
-# 0.9.0 is published: it is the archival reference for the frozen Organica 1
-# engine. The date below is the day the v0.9.0 tag was created.
+version: 0.10.0
+# 0.10.0 is NOT yet published; 0.9.0 is the latest release, and its tag is
+# the archival reference for the frozen Organica 1 engine.
+# This date is the day the version was cut -- update it on the day 0.10.0 is
+# actually tagged, or cite 0.9.0 instead.
 date-released: "2026-10-24"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"

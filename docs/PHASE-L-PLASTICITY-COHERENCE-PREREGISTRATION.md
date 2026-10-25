@@ -3,6 +3,12 @@
 **Status: FROZEN PROTOCOL. Committed before any Phase L outcome was
 generated.**
 
+**Amended once — Amendment 1 (2026-10-25), see
+[Amendment 1](#amendment-1--2026-10-25).** The amendment was made before any
+Phase L outcome existed. It corrects *harness* defects and adds an instrument
+audit; it changes no hypothesis, no independent variable, no metric
+definition, and no success criterion.
+
 This is not a benchmark hunt. Every previous phase asked some version of
 *"can Organica do X?"* — prediction, recovery, regime shifts, adaptation,
 world modeling, belief revision, integration — and all of them came back
@@ -244,7 +250,7 @@ separate decision, taken afterwards.
 
 ### 8.1 Instrument audits, run before the campaign
 
-The campaign **does not run** if either fails.
+The campaign **does not run** if any of them fails.
 
 1. **The discrimination control.** First-seen-wins must score DI ≈ 0 and
    PI ≈ 1.0; last-seen-wins must score DI ≈ 1.0 and PI ≈ 0. If the
@@ -252,8 +258,16 @@ The campaign **does not run** if either fails.
    measuring nothing and the campaign does not run.
 2. **The endpoint ceiling check.** A synthetic perfect model must score 1.0 on
    DI and PI. A metric a perfect model cannot reach is a broken instrument.
+3. **The degeneracy audit.** *(Added by Amendment 1.)* The first two audits
+   check the metric; this one checks the **design**. In every cell of every
+   arm, both groups must be available for measurement; the support ratio must
+   actually change the early/late event mix; the contradiction arm must
+   produce a different world from the plain arm; and the density arm must
+   actually change the event count. A metric can be perfect and the design
+   still dead, and that is exactly what the first pilot demonstrated.
 
-Both audits are permanent, and both run on every invocation of the harness.
+All three audits are permanent, and all three run on every invocation of the
+harness.
 
 ### 8.2 The harness must be resumable and lose nothing
 
@@ -314,3 +328,119 @@ Produced by the campaign:
 - `docs/phase_l_results.ndjson` — the live recording.
 - `docs/phase_l_results.md` — the write-up, including the displacement
   curves and the RT estimate with its interval.
+
+---
+
+## Amendment 1 — 2026-10-25
+
+**Made before any Phase L outcome existed.** No Phase L campaign has been run.
+The pilot that exposed these defects was a *reduced-scale execution check*
+(section 8, "Pilot"), which is explicitly **never evidence**, and it is
+reported below as a harness finding, not a scientific result.
+
+### Why an amendment was needed
+
+The pilot returned a clean-looking result that was entirely an artefact:
+
+```
+V1 1:4 seed 20261023: DI=0.000 PI=0.611
+V1 1:3 seed 20261023: DI=0.000 PI=0.611
+...
+V1 6:1 seed 20261023: DI=0.000 PI=0.611
+```
+
+Eight identical points. Read naively, that is a negative result: *the late
+structure never displaces the early structure, at any pressure*. It is not.
+**The support ratio was not varying anything at all**, and the reason was a
+harness defect, not a property of the organism.
+
+### The four defects
+
+**1. The late group arrived after the run ended.** `build_world` defaulted the
+late group's arrival to cycle 150 in absolute terms. The pilot ran at reduced
+scale (150 cycles), so the late group never became active, the late structure
+was never available, and DI had no denominator. `build_jobs` scaled `arrival`
+for the V2 arm but not for V1, V3, V4 or V5.
+
+*Fix:* arrival is now a **fraction of the run** (`ARRIVAL_FRACTION = 0.25`,
+i.e. 150 of 600 — the same proportion the original default expressed), and
+every arm scales it proportionally.
+
+**2. An unmeasurable index was reported as zero.** `indices()` returned
+`0.0` when the denominator was zero. So "the late structure was never
+available" was recorded as "the organism retained none of the late
+structure" — a measurement of nothing reported as a measurement of zero.
+This is the exact failure mode the Phase K harmonic-mean collapse produced,
+and the project rule is explicit: *unmeasurable metrics are reported as "not
+measurable", excluded — never zeroed.*
+
+*Fix:* `indices()` returns `None` for an undefined ratio, and such cells are
+**excluded** from the curve and counted under `unmeasurable_cells`. An arm
+with any unmeasurable point returns the verdict `UNMEASURABLE` rather than
+any scientific verdict.
+
+**3. The contradiction arm (V5) was a no-op.** The code shared a feature of
+the *late* group with itself, rebuilding `late_0` exactly as it already was.
+The world was byte-identical with the arm on and off, so V5 measured nothing.
+
+*Fix:* the shared feature now comes from the **early** group, so the two
+compete for the same subject, as section 4 intends. Verified: the gold sets
+and the event streams now differ between `off` and `on`.
+
+**4. The density arm (V3) fed the engine only part of the world.** The engine
+chunks the event stream at a fixed 12 events per cycle, but the density arm
+varies that rate (6, 12, 24, 48). At density 4.0 the engine saw 7,200 of
+28,800 events while the harness reported a complete run.
+
+*Fix:* the world's own `events_per_cycle` is passed to the engine.
+
+### A fifth correction: the RT bootstrap measured the wrong thing
+
+The bootstrap was resampling the **DI−PI gap** and reporting its minimum and
+maximum. Section 6, criterion 4 asks for something else: *the RT estimated
+from a paired bootstrap over seeds has a 98.33% interval that excludes both
+endpoints of the sweep.* The RT is the **crossing location**, so the
+resampled statistic is now the index of the first label at which DI overtakes
+PI, and the interval is a **percentile** interval over those locations, with
+seeds resampled **paired across labels**. "Excludes both endpoints" is now
+tested directly: the interval must lie strictly inside the sweep.
+
+### A new instrument audit: the degeneracy audit
+
+The two audits in section 8.1 both check the **metric**. Neither checked the
+**design**, and that is why all three of the defects above passed them: the
+metric was working perfectly on a world where nothing could be measured.
+
+Section 8.1 now has a third audit, and the campaign does not run if it fails:
+
+3. **The degeneracy audit.** For every cell of every arm: both groups must be
+   available for measurement; the support ratio must actually change the
+   early/late event mix; the contradiction arm must produce a different world
+   from the plain arm; and the density arm must actually change the event
+   count. Every check is failable by construction.
+
+It earns its place immediately: the first version of the audit itself had a
+scaling inconsistency with `build_jobs` (it applied the V2 arrival label
+absolutely while the campaign applied it proportionally), and the audit
+caught it by failing the run before a single cell was executed.
+
+### One item for the owner to settle
+
+Section 6 and section 8 state a **98.33%** decision interval, and gloss it as
+"Bonferroni across the arms". Across five arms, Bonferroni gives
+0.05/5 = 0.01, i.e. a **99%** interval; 98.33% corresponds to 0.05/3. The two
+readings disagree.
+
+The harness currently implements **98.33%**, following the number the protocol
+states rather than the parenthetical gloss. **This is flagged for the owner
+before the campaign runs**, because it changes which verdicts are reachable.
+Nothing depends on it yet: no Phase L outcome exists.
+
+### What did not change
+
+No hypothesis (H-L1, H-L1a/b/c), no independent variable, no sweep point, no
+seed, no metric definition, no baseline, no success criterion, and no
+pre-committed terminal outcome was altered. The four defects were all in the
+harness's *implementation* of the protocol as written; the corrections make
+the code do what this document already said. No gate was relaxed, and one
+audit was added.

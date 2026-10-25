@@ -28,6 +28,102 @@ there is nothing to check out.
 
 ---
 
+## [0.10.0] — (unreleased)
+
+**Organica 1 is frozen, and Phase L opens as a measurement phase rather than
+another benchmark hunt.**
+
+### The freeze
+
+**Organica 1 is frozen as of the `v0.9.0` tag.** Not abandoned, and not
+"no more commits" — **no more architectural modifications to the engine.**
+The engine becomes a fixed reference object: everything afterwards *measures*
+it, and nothing afterwards *quietly changes* it.
+
+Frozen: `organica/sleep.py`, `memory.py`, `paths.py`, `streams.py`,
+`branch_streams.py`, `scale_streams.py`, `ground_truth_worlds.py`, and the
+published result artifacts. Still free: benchmarks, harnesses, all
+documentation, the action list, and tests for new instrumentation. The one
+boundary rule: nothing may change the **behaviour** of the frozen engine.
+
+**The freeze is enforced, not declared.** `tests/test_v1_freeze.py` reads the
+frozen files out of the `v0.9.0` tag and compares them against the working
+tree, failing and naming the difference if one differs, and skipping honestly
+when the tag is not reachable. It was proved to fire by temporarily modifying
+a frozen file and watching it fail. See `docs/V1-FREEZE.md`.
+
+### Added — Phase L: Plasticity–Coherence Measurement
+
+Phase L is not a benchmark hunt. Every previous phase asked *"can Organica do
+X?"*; this one asks **how much pressure is required for new structure to
+displace old structure?**
+
+The protocol is frozen in
+[`docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md`](docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md)
+and was committed **before any Phase L outcome was generated**.
+
+| | |
+|---|---|
+| **Hypothesis** | Organica 1 exhibits a measurable coherence–plasticity boundary; revision occurs only after a displacement threshold |
+| **Primary axis** | support ratio (late : early), 8 points — the axis the K3 2×2 already located |
+| **Secondary axes** | arrival timing, novelty density, belief-cap pressure, contradiction pressure — each swept **one at a time** |
+| **Displacement Index** | `late_structure_retained / late_structure_available` |
+| **Preservation Index** | `early_structure_retained / early_structure_original` |
+| **Revision Threshold** | the pressure at which DI crosses PI — the headline quantity |
+| **Success criterion** | a **reproducible displacement curve**, not a win: DI monotone up, PI monotone down, an interior crossing, and a bootstrap interval excluding both endpoints |
+| **Terminal outcomes** | four, pre-committed — **none of them authorises a V2** |
+
+The instrument audits are permanent and required. A **discrimination control**
+must show that first-seen-wins scores DI ≈ 0 / PI ≈ 1 and last-seen-wins
+scores DI ≈ 1 / PI ≈ 0, so the metric can tell "never revises" from
+"always revises". An **endpoint ceiling check** must show a perfect model
+scoring 1.0 on both indices. A **degeneracy audit** must show the design
+itself is live: that every cell has a denominator to measure against, that
+the support ratio actually changes the early/late event mix, that the
+contradiction arm produces a different world from the plain arm, and that the
+density arm actually changes the event count. The campaign does not run if any
+of them fails.
+
+**Launch is not run.** The protocol is written, the harness is built and
+validated, and the protocol is reviewed before the campaign executes.
+
+### Fixed — four harness defects found by the Phase L pilot
+
+The reduced-scale pilot returned `DI = 0.000` at **every** point of the
+support-ratio sweep — a clean-looking negative result that was in fact an
+artefact. The support ratio was not varying anything. Four defects, all in
+the harness's implementation of the protocol as written:
+
+1. **The late group arrived after the run ended.** The arrival cycle was
+   absolute rather than a fraction of the run, so at reduced scale the late
+   group never became active and the late structure was never available to
+   measure. Arrival is now proportional.
+2. **An unmeasurable index was reported as `0.0`.** A ratio with a zero
+   denominator was reported as "nothing was retained" for conditions in which
+   nothing was available to retain. Undefined ratios are now `None`,
+   excluded from the curve, and counted — never zeroed.
+3. **The contradiction arm was a no-op.** It shared a feature of the late
+   group with itself, producing a byte-identical world with the arm on and
+   off. The shared feature now comes from the early group, so the two groups
+   actually compete for the same subject.
+4. **The density arm fed the engine only part of the world.** The event
+   stream was chunked at a fixed rate while the density arm varies it, so at
+   density 4.0 the engine saw 7,200 of 28,800 events while the harness
+   reported a complete run. The world's own event rate is now used.
+
+Also corrected: the Revision Threshold bootstrap was resampling the DI−PI gap
+rather than the **crossing location** that criterion 4 is about, and was
+reporting a min/max rather than the preregistered percentile interval. Seeds
+are now resampled paired across labels, and "excludes both endpoints" is
+tested directly against the sweep.
+
+Recorded as **Amendment 1** in the preregistration, made before any Phase L
+outcome existed. No hypothesis, variable, metric, baseline, success criterion
+or terminal outcome was changed, and no gate was relaxed — one audit was
+added.
+
+---
+
 ## [0.9.0] — 2026-10-24
 
 **The project question changed: from *can we make a developmental
@@ -639,6 +735,7 @@ real and is disclosed in full in `research-journal/phase_g_findings_20261021.md`
 
 - First public release of the substrate and the sleep pipeline.
 
+[0.10.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.10.0
 [0.9.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.9.0
 [0.8.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.8.0
 [0.7.0]: https://github.com/nueraresearch/project-organica/releases/tag/v0.7.0

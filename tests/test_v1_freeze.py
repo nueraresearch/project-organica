@@ -15,28 +15,40 @@ overstatement, the tag-frequency counter measured the wrong population. Each
 of those was a documentation-versus-evidence gap, and each was found by an
 instrument rather than by reading carefully.
 
-So this is an instrument. It reads the frozen files out of the `v0.9.0` tag
-and compares them, byte for byte, with the working tree. If one of them has
-changed, the freeze has been broken and the test says so.
+So this is an instrument. It compares the frozen files against the `v0.9.0`
+tag, using git's own notion of file identity, and fails if one of them has
+changed. If it changed, the freeze has been broken and the test says which
+file and how.
+
+**Why it compares git object IDs rather than raw bytes.** This repository
+checks out with `core.autocrlf` on, so a working-tree file and the blob
+stored in the tag can differ in line endings while being *the same file* as
+far as git is concerned. Comparing raw bytes would therefore fail on files
+nobody touched -- which is worse than no test, because it trains the reader
+to ignore it. So the comparison asks git the question that actually matters:
+*would committing this file right now change it?* That is
+`git hash-object --path`, which applies the same clean filter the index
+uses, compared against the blob ID recorded in the tag.
 
 Three properties this test deliberately has:
 
 1. **It can fail.** It compares real content from a real tag; a changed file
-   produces a real failure with the differing file named.
+   produces a real failure with the differing file named. This was verified by
+   temporarily modifying a frozen file and watching the test fail.
 2. **It skips honestly.** A shallow clone has no ancestor tags, so the tag is
    simply not there. The test skips and says why. It never passes silently
    because it could not check.
 3. **It is about the ENGINE, not the archive.** Benchmarks, harnesses,
    documentation, and the owner's action list all stay free to change -- see
-   `docs/V1-FREEZE.md` §2. A frozen architecture whose published results
-   could drift is not frozen at all, so the campaign artifacts are checked too.
+   `docs/V1-FREEZE.md` section 2. A frozen architecture whose published
+   results could drift is not frozen at all, so the campaign artifacts are
+   checked too.
 
 Run:  python -m pytest tests/test_v1_freeze.py -v
 """
 
 from __future__ import annotations
 
-import hashlib
 import subprocess
 import sys
 from pathlib import Path
@@ -86,40 +98,61 @@ def _git(*args: str, timeout: int = 60):
 def _tag_commit() -> str | None:
     """The commit the freeze tag points at, or None if it is not reachable."""
     out = _git("rev-list", "-n", "1", FREEZE_TAG)
+    if out is not None and out.returncode == 0 and out.stdout.strip():
+        return out.stdout.strip()
+    # Not in this checkout. It may still be on the remote -- a shallow clone
+    # has no ancestor tags. Check there before giving up.
+    ls = _git("ls-remote", "--tags", "origin", FREEZE_TAG)
+    if ls is None or ls.returncode != 0:
+        return None
+    for line in ls.stdout.splitlines():
+        sha, _, name = line.partition("\t")
+        name = name.strip()
+        if name in (f"refs/tags/{FREEZE_TAG}^{{}}", f"refs/tags/{FREEZE_TAG}"):
+            return sha.strip()
+    return None
+
+
+def _blob_id_at_tag(relpath: str, commit: str) -> str | None:
+    """The git object ID of `relpath` at the tagged commit, or None."""
+    out = _git("rev-parse", f"{commit}:{relpath}")
     if out is None or out.returncode != 0 or not out.stdout.strip():
-        # Not in this checkout. It may still be on the remote -- a shallow
-        # clone has no ancestor tags. Check there before giving up.
-        ls = _git("ls-remote", "--tags", "origin", FREEZE_TAG)
-        if ls is None or ls.returncode != 0:
-            return None
-        for line in ls.stdout.splitlines():
-            sha, _, name = line.partition("\t")
-            name = name.strip()
-            if name == f"refs/tags/{FREEZE_TAG}^{{}}":
-                return sha.strip()
-            if name == f"refs/tags/{FREEZE_TAG}":
-                return sha.strip()
         return None
     return out.stdout.strip()
 
 
-def _blob_at_tag(path: str, commit: str) -> bytes | None:
-    """The bytes of `path` at the tagged commit, or None if it is absent."""
-    out = _git("show", f"{commit}:{path}")
-    if out is None or out.returncode != 0:
-        return None
-    return out.stdout.encode("utf-8", errors="surrogateescape")
+def _working_blob_id(relpath: str) -> str | None:
+    """The git object ID the working-tree file *would* get if committed now.
 
-
-def _working_bytes(path: str) -> bytes | None:
-    f = ROOT / path
+    This applies the same clean filter the index uses, so a file that differs
+    only in line endings -- which this repository's `core.autocrlf` checkout
+    makes routine -- correctly compares equal to the tagged blob.
+    """
+    f = ROOT / relpath
     if not f.exists():
         return None
-    return f.read_bytes()
+    out = _git("hash-object", "--path", relpath, str(f))
+    if out is None or out.returncode != 0 or not out.stdout.strip():
+        return None
+    return out.stdout.strip()
 
 
-def _digest(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()[:16]
+def _first_difference(relpath: str, commit: str) -> str:
+    """A human-readable description of how the file differs, for the failure
+    message. Uses git's own diff, which normalises line endings."""
+    out = _git("diff", "--no-index", "--stat",
+               "-", str(ROOT / relpath), timeout=30)
+    # The comparison above is only a fallback; the useful one is against the
+    # tag itself.
+    d = _git("diff", f"{commit}", "--", relpath)
+    if d is not None and d.returncode == 0 and not d.stdout.strip():
+        return ""
+    if d is not None and d.stdout.strip():
+        lines = [l for l in d.stdout.splitlines()
+                 if l.startswith(("+", "-")) and not l.startswith(("+++", "---"))]
+        if lines:
+            return "\n    " + "\n    ".join(lines[:12])
+    return ""
 
 
 @pytest.fixture(scope="module")
@@ -136,9 +169,15 @@ def freeze_commit() -> str:
 
 @pytest.mark.parametrize("relpath", FROZEN_ENGINE)
 def test_engine_file_is_unchanged_since_the_freeze(relpath, freeze_commit):
-    """A frozen engine file must be byte-identical to the tagged version."""
-    tagged = _blob_at_tag(relpath, freeze_commit)
-    working = _working_bytes(relpath)
+    """A frozen engine file must be identical to the tagged version.
+
+    "Identical" is git's notion: the working-tree file, cleaned the way the
+    index would clean it, must have the same object ID as the blob recorded
+    in the tag. A file nobody touched therefore passes, and a file that was
+    edited fails.
+    """
+    tagged = _blob_id_at_tag(relpath, freeze_commit)
+    working = _working_blob_id(relpath)
 
     assert tagged is not None, (
         f"{relpath} does not exist at {FREEZE_TAG} ({freeze_commit[:12]}). "
@@ -151,29 +190,12 @@ def test_engine_file_is_unchanged_since_the_freeze(relpath, freeze_commit):
     if tagged == working:
         return
 
-    # Name the difference precisely. A failure that says only "changed" is
-    # weaker than one that says which file and how much.
-    tagged_lines = tagged.decode("utf-8", errors="replace").splitlines()
-    working_lines = working.decode("utf-8", errors="replace").splitlines()
-    changed = [
-        i + 1 for i, (a, b) in enumerate(zip(tagged_lines, working_lines))
-        if a != b
-    ]
-    detail = ""
-    if changed:
-        first = changed[0]
-        detail = (f" First difference at line {first}: "
-                  f"tagged {tagged_lines[first - 1]!r}, "
-                  f"working {working_lines[first - 1]!r}.")
-    elif len(tagged_lines) != len(working_lines):
-        detail = (f" Line count changed: {len(tagged_lines)} -> "
-                  f"{len(working_lines)}.")
-
+    detail = _first_difference(relpath, freeze_commit)
     pytest.fail(
         f"{relpath} has changed since Organica 1 was frozen at {FREEZE_TAG} "
         f"({freeze_commit[:12]}).{detail}\n\n"
         f"Organica 1 is a fixed reference object: everything after it "
-        f"MEASURES the engine, and nothing after it changes it quietly. "
+        f"MEASURES the engine, and nothing after it changes it quietly.\n"
         f"If the change is behaviour-preserving and belongs in the engine, "
         f"put it in a NEW module instead -- the freeze covers the listed "
         f"files, not the package. If it is an intentional architecture "
@@ -190,28 +212,27 @@ def test_published_artifact_is_unchanged_since_the_freeze(relpath, freeze_commit
     a published artifact in place destroys the provenance the facts sheet
     depends on.
     """
-    tagged = _blob_at_tag(relpath, freeze_commit)
+    tagged = _blob_id_at_tag(relpath, freeze_commit)
     if tagged is None:
         # Not present at the tag: the artifact was produced after the freeze,
         # or is gitignored. Either way there is nothing to compare.
         pytest.skip(f"{relpath} does not exist at {FREEZE_TAG}; nothing to compare.")
 
-    working = _working_bytes(relpath)
+    working = _working_blob_id(relpath)
     assert working is not None, (
         f"{relpath} has been deleted. It is a published result. If it is "
         f"withdrawn, record that as a documented correction rather than "
         f"removing it.")
 
     if tagged != working:
+        detail = _first_difference(relpath, freeze_commit)
         pytest.fail(
             f"{relpath} has changed since Organica 1 was frozen at "
-            f"{FREEZE_TAG} ({freeze_commit[:12]}).\n\n"
+            f"{FREEZE_TAG} ({freeze_commit[:12]}).{detail}\n\n"
             f"It is a published result. Corrections are documented, not "
             f"quietly applied: add the correction to the journal and the "
             f"facts sheet, point at the section that supersedes the old "
-            f"number, and leave the artifact alone. The digest of the "
-            f"tagged version is {_digest(tagged)} and of the working copy "
-            f"{_digest(working)}.")
+            f"number, and leave the artifact alone.")
 
 
 def test_the_freeze_record_exists_and_names_the_tag():

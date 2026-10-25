@@ -45,9 +45,16 @@ DEFAULT_REMOTE = "https://github.com/nueraresearch/project-organica.git"
 
 
 def run(cmd: list[str], cwd: Path, timeout: int = 900) -> tuple[int, str]:
+    # The output is decoded as UTF-8 explicitly. With `text=True` and no
+    # encoding, Python uses the locale's preferred encoding, which on a
+    # cp1252 machine raises UnicodeDecodeError on the first non-ASCII
+    # character in the output -- and pytest's own output contains such
+    # characters. That made the check fail for a reason that has nothing to
+    # do with the thing being checked, and it hid the real failure behind
+    # a crash.
     proc = subprocess.run(
         cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout,
-        shell=False,
+        shell=False, encoding="utf-8", errors="replace",
     )
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 

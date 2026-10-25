@@ -2730,3 +2730,288 @@ a campaign runnable, record a null as a null.
 
 **No V2 is designed and no Phase L is launched by this section.** The
 preregistered terminal outcome for Phase K stands as written.
+
+---
+
+## §35 — The freeze, and Phase L as a measurement phase
+
+**What this section records.** Two decisions that are not experimental
+results, and are therefore recorded here rather than in a results document:
+Organica 1 is **frozen**, and Phase L is opened as a **measurement** phase.
+
+### The freeze
+
+**Organica 1 is frozen as of the `v0.9.0` tag (2026-10-24).** The owner's
+definition was precise, and it is reproduced here because the wording matters:
+
+> "No more architectural modifications to Organica 1. The V1 engine becomes a
+> fixed reference object. Everything afterwards measures it. Nothing afterwards
+> quietly changes it. The v0.9.0 tag becomes the archival reference."
+
+Note what this is **not**. It is not abandonment, and it is not "no more
+commits" — the documentation, the harnesses, the benchmarks, the action
+list and the owner's decisions all keep moving. It is a freeze on the
+**architecture**, and only on the architecture.
+
+**The frozen set.** `organica/sleep.py`, `organica/memory.py`,
+`organica/paths.py`, `organica/streams.py`, `organica/branch_streams.py`,
+`organica/scale_streams.py`, `organica/ground_truth_worlds.py` — the files
+that define what Organica 1 *is* — plus the published result artifacts.
+`organica/__init__.py` is deliberately **excluded**: it carries the package
+version, which has to be able to move, and it holds no cognitive logic.
+
+**The freeze is enforced, not declared.** `tests/test_v1_freeze.py` reads the
+frozen files out of the `v0.9.0` tag and compares them against the working
+tree. It fails, and names the difference, when one has changed. It skips
+honestly, and says so, when the tag is not reachable — which is what a
+shallow clone looks like.
+
+The first version of that test compared raw bytes and **failed on thirteen
+files that nobody had touched**, because this repository checks out with
+`core.autocrlf` on and the working tree's line endings differ from the blob
+in the tag. That was a defect in the test, not in the freeze, and it is
+worth recording because it is exactly the failure mode this project has
+learned to fear: a check that fires on noise trains the reader to ignore it.
+The test now asks git the question that actually matters — *would committing
+this file right now change it?* — by comparing the object ID that
+`git hash-object --path` produces against the blob ID in the tag.
+
+**The mechanism was proved to fire.** A frozen file was temporarily modified
+and the test watched to fail, naming the file and the differing line; the
+file was then restored and the test watched to pass again. A freeze that
+cannot fail is decoration.
+
+The reasoning behind enforcing it at all is this repository's own history.
+The version once named a release master was not; the changelog once linked a
+404; the "structure flat" claim was an overstatement; the tag-frequency
+counter measured the wrong population. Every one of those was a
+documentation-versus-evidence gap, and every one was caught by an instrument
+rather than by reading carefully. So the freeze is an instrument too.
+
+### Phase L: Plasticity–Coherence Measurement
+
+**The question changed shape.** Six task families are negative. Every one of
+them asked some version of *"can Organica do X?"* — prediction, recovery,
+regime shifts, adaptation, world modeling, belief revision, integration. The
+next phase asks a different question:
+
+> **How much pressure is required for new structure to displace old
+> structure?**
+
+This question is not a retry. It comes out of the strongest measured
+phenomenon in V1, and the measurement that opened the door is the K3 2×2
+control: the late group **is** incorporated when it is strictly stronger than
+the group that arrived first (9–11 of 18 gold pairs at late weight 3 /
+early weight 1, against 0–1 otherwise).
+
+That result is the whole reason this phase is worth running. "Organica cannot
+revise" is a dead end — an incapacity is boring, and it suggests no
+experiment. "Organica is **priority-ordered**" is a variable: it can be
+measured, it can be manipulated, and it can become a theory.
+
+**The design follows from that.** The independent variables are varied **one
+at a time**, deliberately, because a boundary that moves when five things move
+at once is a correlation rather than a boundary:
+
+| Axis | Variable | Role |
+|---|---|---|
+| **V1** | support ratio (late : early), 8 points | **primary** — the axis the K3 2×2 already located |
+| V2 | arrival timing | does an *earlier* incumbent bind harder than a *stronger* one? |
+| V3 | novelty density | does a denser late stream change the threshold, or only the latency? |
+| V4 | belief-cap pressure | does the bound itself set the threshold? |
+| V5 | contradiction pressure | does *conflict* displace where mere novelty does not? |
+
+**V5 is included because it could overturn the framing.** If late structure
+that *contradicts* early structure displaces it while merely *new* structure
+does not, then the operative variable is conflict rather than strength, and
+the phase's title is wrong. That is a result, and the protocol says so in
+advance rather than discovering it later.
+
+**The endpoints are named and the criterion is not a win.** The **Displacement
+Index** is `late_structure_retained / late_structure_available`; the
+**Preservation Index** is `early_structure_retained / early_structure_original`;
+and the **Revision Threshold** is the pressure at which DI crosses PI. The
+success criterion is **a reproducible displacement curve** — DI monotone up,
+PI monotone down, an interior crossing, and a bootstrap interval excluding
+both endpoints — and explicitly **not** "Organica beats a baseline". No
+composite score is computed; a harmonic mean is exactly what destroyed an
+endpoint in Phase K.
+
+**The instrument audits are required and permanent.** A **discrimination
+control** must show that first-seen-wins scores DI ≈ 0 / PI ≈ 1 and
+last-seen-wins scores DI ≈ 1 / PI ≈ 0, so the metric can tell "never
+revises" from "always revises" — and an **endpoint ceiling check** must show
+a perfect model reaching 1.0 on both. Both passed when the harness was built.
+The campaign does not run if either fails.
+
+**Four terminal outcomes are pre-committed**, and **none of them authorises a
+V2**. "No family confirmed" was written down before Phase K so that a negative
+result could not be reinterpreted as a near-miss; the same discipline applies
+here.
+
+**Launch is not run.** The protocol is frozen and committed, the harness is
+built and validated, and the protocol is reviewed **before** the campaign
+executes. The synthesis' strongest recommendation was to stop producing
+outcomes long enough to decide exactly what property is being measured, and a
+protocol that is written and then immediately run has not had that chance.
+
+### What this section does not claim
+
+- It does not claim the coherence–plasticity boundary **exists**. That is
+  H-L1, and it is untested until the campaign runs.
+- It does not claim anything about Organica 2, which is not designed.
+- It does not claim the mechanism behind displacement. DI and PI describe
+  *what* displaces what, not *which layer* does it. Identifying that is a
+  separate phase with its own ablation design.
+
+---
+
+## §36 — The pilot that looked like a negative result and was not
+
+**What this section records.** A harness finding, not a scientific result.
+The Phase L pilot returned an apparently clean answer, and the answer was an
+artefact. This section records what happened, because the failure mode is
+more valuable than the numbers it corrupted.
+
+### What the pilot said
+
+The reduced-scale execution check of the Phase L harness printed eight
+identical points:
+
+```
+V1 1:4 seed 20261023: DI=0.000 PI=0.611
+V1 1:3 seed 20261023: DI=0.000 PI=0.611
+V1 1:2 seed 20261023: DI=0.000 PI=0.611
+V1 1:1 seed 20261023: DI=0.000 PI=0.611
+V1 2:1 seed 20261023: DI=0.000 PI=0.611
+V1 3:1 seed 20261023: DI=0.000 PI=0.611
+V1 4:1 seed 20261023: DI=0.000 PI=0.611
+V1 6:1 seed 20261023: DI=0.000 PI=0.611
+```
+
+Read casually, that is a strong and publishable-looking negative result:
+*the late structure never displaces the early structure, at any pressure,
+anywhere on the sweep.* It is exactly the shape of the Phase K K3 result —
+"the early scaffold dominates" — and it would have fit neatly into the
+existing story. That fit is what made it dangerous. **A result that confirms
+what you already believe is the result you are least likely to check.**
+
+### What it actually was
+
+The support ratio was not varying anything at all.
+
+`build_world` took the late group's arrival cycle as an **absolute** number
+(150). The pilot ran at reduced scale — 150 cycles — so the late group
+arrived on the last cycle of the run and never became active. The late
+structure was therefore never available, so the Displacement Index had no
+denominator. And `indices()` returned `0.0` for a ratio with a zero
+denominator.
+
+So the sweep ran through eight points in which **nothing could be
+displaced**, and reported "nothing was displaced" eight times.
+
+### Why the existing audits did not catch it
+
+This is the part worth keeping.
+
+Phase L had two instrument audits, and both passed on that broken world:
+
+- the **discrimination control** checked that the metric can separate
+  first-seen-wins from last-seen-wins — it could, because the metric was
+  fine;
+- the **endpoint ceiling check** checked that a perfect model can reach 1.0
+  — it could, because the metric was fine.
+
+Both audits check the **metric**. Neither checked the **design**. The metric
+was working perfectly on a world in which the thing being measured was not
+present. *An audit of the instrument is not an audit of the experiment.*
+
+### The four defects
+
+| # | Defect | Consequence |
+|---|---|---|
+| 1 | Late group's arrival was an absolute cycle, not a fraction of the run | at reduced scale the late group never became active; DI had no denominator |
+| 2 | A ratio with a zero denominator was reported as `0.0` | "nothing was retained" was reported for conditions in which nothing was available to retain |
+| 3 | The contradiction arm shared a feature of the **late** group with itself | the arm rebuilt `late_0` unchanged; the world was byte-identical with the arm on and off, so V5 measured nothing |
+| 4 | The event stream was chunked at a fixed rate while the density arm varies it | at density 4.0 the engine saw 7,200 of 28,800 events while the harness reported a complete run |
+
+Defect 2 is the one that generalises. It is the same failure as Phase K's
+collapsed harmonic mean, which is why Amendment 1 was required there: a
+formula that cannot represent "not measurable" will represent it as zero
+rather than refuse to answer. The project rule — *unmeasurable metrics are
+reported as not measurable, excluded, never zeroed* — now has a second
+instance behind it, and the harness enforces it (`None`, excluded cells
+counted, an arm with any unmeasurable point returns the verdict
+`UNMEASURABLE` and no scientific verdict at all).
+
+### A fifth correction: the bootstrap measured the wrong statistic
+
+Separate from the four, and found by reading rather than by running. The RT
+bootstrap was resampling the **DI−PI gap** and reporting its minimum and
+maximum. The preregistration's criterion 4 asks for the **crossing
+location**: *"the RT estimated from a paired bootstrap over seeds has a
+98.33% interval that excludes both endpoints of the sweep."* The statistic
+resampled is now the index of the first label at which DI overtakes PI; the
+interval is a percentile interval over those locations; seeds are resampled
+**paired across labels**; and "excludes both endpoints" is tested directly
+against the sweep bounds.
+
+The old implementation would have reported a confident `rt_reproducible`
+on the strength of a gap statistic that has nothing to do with where the
+crossing is.
+
+### What was added: the degeneracy audit
+
+A third instrument audit, and the one that would have stopped all of this
+before a single cell ran. For every cell of every arm it checks that:
+
+1. both groups are available for measurement — there is a denominator;
+2. the support ratio actually changes the early/late event mix;
+3. the contradiction arm produces a different world from the plain arm;
+4. the density arm actually changes the event count.
+
+Every check is failable by construction, and the campaign does not run if the
+audit fails. It earned its place immediately: **the first version of the
+audit had a scaling inconsistency with the campaign builder** (it applied the
+V2 arrival label absolutely while the campaign applied it proportionally), and
+the audit caught it by failing the run before anything executed. An audit
+written by the same person who wrote the code under test will inherit the
+code's assumptions unless it is built to disagree with them.
+
+After the fixes, the audit reports the late group's share of the event
+stream rising monotonically across the sweep — 0.132 at 1:4 through 0.579 at
+6:1 — which is the property that was silently absent before.
+
+### After the fix
+
+The corrected pilot, same reduced scale, one seed, **never evidence**:
+
+```
+1:4  DI=0.000  PI=0.667      3:1  DI=0.500  PI=0.278
+1:3  DI=0.000  PI=0.722      4:1  DI=0.667  PI=0.000
+1:2  DI=0.000  PI=0.667      6:1  DI=0.667  PI=0.000
+1:1  DI=0.000  PI=0.667
+2:1  DI=0.167  PI=0.611
+```
+
+The axis is now live: DI rises and PI falls across the sweep, and the curves
+cross somewhere between 2:1 and 3:1. **This is a one-seed reduced-scale
+pilot and it is not evidence of anything** — it is a demonstration that the
+harness now measures what it claims to measure. The campaign is still
+awaiting the owner's protocol review, and no Phase L outcome exists.
+
+### The transferable lesson
+
+> **An identical value at every point of a sweep is a measurement defect
+> until proven otherwise.**
+
+Phase K had a lesson about *not* relaxing a gate to make a campaign
+runnable. This one is the mirror image: the gate was fine, the metric was
+fine, and the campaign would have run perfectly and produced a confident
+wrong answer. The protection is not more scrutiny of the result — it is
+scrutiny of the *design*, before the run, by an instrument built to
+contradict the code rather than confirm it.
+
+Recorded in AGENTS.md as rule 13, and in the preregistration as Amendment 1.
+
+**No Phase L campaign was run, and no Phase L outcome exists.**

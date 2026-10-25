@@ -639,3 +639,59 @@ the three families); SUPPORTED only if the interval lies wholly above zero.
 Reproduce from the artifact alone: `docs/phase_k_results.json` → `summaries`,
 `per_model_detail`; the root cause with `python benchmarks/phase_k_diagnose.py
 --scale 4 --seeds 5`.
+
+## T — Phase K results (2026-10-24)
+
+**T1** | **All three families are REVERSED.** K1 (incremental world modeling) Organica **0.5923** vs baseline **0.9360**, difference **−0.3437** [−0.3773, −0.3123]. K2 (belief revision) **0.4111** vs **0.9846**, **−0.5735** [−0.6162, −0.5309]. K3 (longitudinal integration) **0.0000** vs **0.8578**, **−0.8578** [−0.8598, −0.8571]. No family is SUPPORTED; none is INCONCLUSIVE. | `docs/phase_k_results.json` → `summaries`
+
+**T2** | **The terminal outcome is H2: the search failed.** It was written into the preregistration before any Phase K outcome existed. Three more task families are ruled out, the negative-results map grows, and **V2 is not designed**. | `docs/PHASE-K-PREREGISTRATION.md` §7
+
+**T3** | **The verdicts are robust.** Eight different bootstrap seeds leave all three verdicts unchanged. Dropping the single most favourable seed, and separately the least favourable seed, also leaves every verdict unchanged. | journal §33
+
+**T4** | **The mechanism ablations came back empty — a negative attribution.** `NO_QUESTIONS` (K1) −0.0095 [−0.0328, +0.0140]; `NO_FALSIFICATION` (K2) +0.0241 [−0.0048, +0.0495]; `NO_DREAMS` (K3) +0.0000 [0.0000, 0.0000]. **All three intervals contain zero**, so question generation, falsification and dreams are not load-bearing for the tasks they were built around. Within one implementation, on synthetic worlds. | `docs/phase_k_results.json` → `summaries.*.matched_ablation`
+
+**T5** | **The K3 zero is architectural, not a measurement artifact.** Three checks, each able to fail: the late structure appears in **0 of 150 cycles**; every candidate type except `anomaly` mentions **0 of 12** late tags; and a 2×2 control across 5 seeds shows the late group is incorporated **only when strictly stronger** than the group that arrived first (9–11 of 18 at late weight 3 / early weight 1; 0–1 otherwise). | `benchmarks/phase_k_diagnose.py`; journal §33
+
+**T6** | **Organica retains the early scaffold and incorporates none of the late structure under the protocol's configuration.** Core-retention F1 ≈ 0.67; late-incorporation F1 = 0.000 on all 10 seeds. The exclusion is a salience/priority competition under a bounded belief pool — the risk §6 of the preregistration named before the run. | `docs/phase_k_results.json` → `per_model_detail`
+
+**T7** | **One bookkeeping note.** The live recording `docs/phase_k_results.ndjson` holds **29 of 30** seeds: K1/20261023 was completed by an earlier harness version before the checkpoint existed and was carried in through the results-file resume path. The authoritative results file holds all 30, and the two agree numerically on every overlapping seed. | `docs/phase_k_results.json`, `docs/phase_k_results.ndjson`
+
+## U — The freeze and Phase L (2026-10-25)
+
+**U1** | **Organica 1 is frozen as of the `v0.9.0` tag.** Not abandoned and not "no more commits" — **no more architectural modifications to the engine.** The engine is a fixed reference object: everything afterwards measures it, nothing afterwards quietly changes it. Frozen: `organica/sleep.py`, `memory.py`, `paths.py`, `streams.py`, `branch_streams.py`, `scale_streams.py`, `ground_truth_worlds.py`, and the published result artifacts. `organica/__init__.py` is excluded deliberately — it carries the version. | `docs/V1-FREEZE.md`; journal §35
+
+**U2** | **The freeze is enforced, not declared.** `tests/test_v1_freeze.py` reads the frozen files out of the `v0.9.0` tag and compares them against the working tree, failing and naming the difference if one differs, and skipping honestly when the tag is unreachable. It was **proved to fire** by temporarily modifying a frozen file. The first version compared raw bytes and failed on 13 untouched files because of `core.autocrlf`; it now compares git object IDs, because a check that fires on noise trains the reader to ignore it. | `tests/test_v1_freeze.py`; journal §35
+
+**U3** | **Phase L asks a different question from every previous phase.** Not *"can Organica do X?"* but **"how much pressure is required for new structure to displace old structure?"** It is a measurement phase, not a benchmark hunt, and its success criterion is a **reproducible displacement curve**, not a win. The protocol is frozen and was committed before any outcome existed. | `docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md`
+
+**U4** | **The Phase L endpoints are named.** **Displacement Index** = `late_structure_retained / late_structure_available`; **Preservation Index** = `early_structure_retained / early_structure_original`; **Revision Threshold** = the pressure at which DI crosses PI, and the headline quantity. No composite score is computed — a harmonic mean is what destroyed an endpoint in Phase K. | same
+
+**U5** | **The independent variables are varied one at a time.** V1 support ratio (8 points, **primary**), V2 arrival timing, V3 novelty density, V4 belief-cap pressure, V5 contradiction pressure. V5 is included **because it could overturn the framing**: if late structure that *contradicts* displaces while merely *new* structure does not, the operative variable is conflict rather than strength, and the phase's title is wrong. | same §4
+
+**U6** | **The instrument audits are permanent and required.** A **discrimination control** must show first-seen-wins at DI ≈ 0 / PI ≈ 1 and last-seen-wins at DI ≈ 1 / PI ≈ 0, so the metric can tell "never revises" from "always revises"; an **endpoint ceiling check** must show a perfect model at 1.0 on both. Both passed when the harness was built. The campaign does not run if either fails. | `benchmarks/phase_l_campaign.py --self-test`
+
+**U7** | **Launch is not run.** The protocol is written, the harness is built and validated, and the protocol is reviewed **before** the campaign executes. Four terminal outcomes are pre-committed, and **none of them authorises a V2**. | journal §35; preregistration §7
+
+## V — The Phase L pilot defects (2026-10-25)
+
+**V1** | **The Phase L pilot's "result" was an artefact, not a finding.** The reduced-scale execution check returned `DI = 0.000` at **all eight** points of the support-ratio sweep, with `PI = 0.611` at all eight. Read casually that is a clean negative result — *the late structure never displaces the early structure at any pressure*. It is not a result at all: **the support ratio was not varying anything.** | journal §36; preregistration Amendment 1
+
+**V2** | **Cause 1 — the late group arrived after the run ended.** The arrival cycle was an **absolute** number (150), but the pilot ran 150 cycles, so the late group never became active and the late structure was never available to measure. Fixed: arrival is now a **fraction** of the run (`ARRIVAL_FRACTION = 0.25`, i.e. the same 150-of-600 proportion), scaled proportionally in every arm. | `benchmarks/phase_l_campaign.py`; Amendment 1
+
+**V3** | **Cause 2 — an unmeasurable index was reported as `0.0`.** A ratio with a zero denominator was scored as zero, so "the late structure was never available" was recorded as "the organism retained none of the late structure". Fixed: undefined ratios are `None`, excluded from the curve and counted as unmeasurable; an arm with any unmeasurable point returns the verdict `UNMEASURABLE` and **no scientific verdict**. This is the same failure mode as the Phase K collapsed harmonic mean. | `benchmarks/phase_l_campaign.py`; AGENTS.md rule 13
+
+**V4** | **Cause 3 — the contradiction arm (V5) was a no-op.** The code shared a feature of the **late** group with itself, rebuilding `late_0` exactly as it already was. The world was byte-identical with the arm on and off, so V5 measured nothing. Fixed: the shared feature now comes from the **early** group, so the two groups genuinely compete for the same subject. Verified: the gold sets and event streams now differ between `off` and `on`. | `benchmarks/phase_l_campaign.py`; Amendment 1
+
+**V5** | **Cause 4 — the density arm (V3) fed the engine only part of the world.** The event stream was chunked at a fixed 12 events per cycle while the density arm varies that rate (6/12/24/48), so at density 4.0 the engine saw **7,200 of 28,800** events while the harness reported a complete run. Fixed: the world's own `events_per_cycle` is passed to the engine. | `benchmarks/phase_l_campaign.py`; Amendment 1
+
+**V6** | **A fifth defect, found by reading rather than running: the RT bootstrap measured the wrong statistic.** It resampled the **DI−PI gap** and reported its min/max. Criterion 4 of the protocol asks for the **crossing location**: the RT from a paired bootstrap over seeds with a 98.33% interval excluding both endpoints. Fixed: the resampled statistic is the index of the first label at which DI overtakes PI, the interval is a percentile interval over those locations, seeds are resampled **paired across labels**, and "excludes both endpoints" is tested directly against the sweep bounds. | `benchmarks/phase_l_campaign.py`; Amendment 1
+
+**V7** | **Why the existing audits did not catch any of it.** Both Phase L audits check the **metric** — that it separates the two poles, that a perfect model reaches the ceiling. Both passed on the broken world, because the metric was fine. The **design** was dead. *An audit of the instrument is not an audit of the experiment.* | journal §36
+
+**V8** | **A third audit now exists: the degeneracy audit.** For every cell of every arm it checks that both groups are available for measurement, that the support ratio actually changes the early/late event mix, that the contradiction arm differs from the plain arm, and that the density arm actually changes the event count. Every check is failable by construction and the campaign does not run if it fails. It earned its place immediately: **the first version of the audit itself had a scaling inconsistency with the campaign builder**, and the audit caught it by failing the run before anything executed. | `benchmarks/phase_l_campaign.py --self-test`; Amendment 1
+
+**V9** | **After the fix, the axis is live — and this is still not evidence.** The corrected pilot (reduced scale, **one seed**, disclosed pilot, never evidence) gives DI 0.000 / 0.000 / 0.000 / 0.000 / 0.167 / 0.500 / 0.667 / 0.667 and PI 0.667 / 0.722 / 0.667 / 0.667 / 0.611 / 0.278 / 0.000 / 0.000 across 1:4 → 6:1, with the curves crossing between 2:1 and 3:1. **No Phase L campaign has been run and no Phase L outcome exists.** | journal §36; `.scratch/phase_l_smoke2.json`
+
+**V10** | **One item is open for the owner.** The protocol states a **98.33%** decision interval and glosses it as "Bonferroni across the arms"; across five arms Bonferroni gives 0.05/5 = 0.01, i.e. **99%**, while 98.33% corresponds to 0.05/3. The two readings disagree, and the disagreement changes which verdicts are reachable. The harness implements **98.33%**, following the number the protocol states. This needs settling before the campaign runs. | Amendment 1; preregistration §6, §8
+
+**V11** | **The transferable rule, now AGENTS.md rule 13.** *An identical value at every point of a sweep is a measurement defect until proven otherwise.* The protection is not more scrutiny of the result — it is scrutiny of the **design**, before the run, by an instrument built to contradict the code rather than confirm it. | AGENTS.md rule 13; journal §36

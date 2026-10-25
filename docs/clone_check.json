@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-25T00:35:16Z",
+  "generated_at": "2026-10-25T15:07:38Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 2.6,
+      "seconds": 2.4,
       "detail": ""
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_wan6x6cp\\project-organica\\organica\\__init__.py"
+      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_hp5nrvjr\\project-organica\\organica\\__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -21,9 +21,9 @@
     },
     {
       "step": "pytest",
-      "ok": true,
-      "seconds": 71.2,
-      "detail": "42 passed in 69.69s (0:01:09)"
+      "ok": false,
+      "seconds": 74.9,
+      "detail": ""
     },
     {
       "step": "build_py",
@@ -94,6 +94,6 @@
       "detail": ""
     }
   ],
-  "passed": 8,
+  "passed": 7,
   "total": 8
 }

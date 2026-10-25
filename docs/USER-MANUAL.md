@@ -485,7 +485,6 @@ python benchmarks/study_health.py
 
 **Caveat 2 — the cognitive freeze has now been tested, not just asserted.** The cold-start ablation ([§8.1](#81-the-cold-start-study)) ran the *unchanged* engine against eight different assistance levels and confirmed that the engine is still the engine. That matters for provenance: the cognitive code has not been touched since the run began, and the substrate changes were proven behaviour-preserving by test, so the run is a legitimate experiment against the current engine — you are not comparing two engines, you are comparing one engine against two substrates with identical behaviour.
 
-
 ---
 
 ## 7. What you need to do
@@ -569,10 +568,10 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 8 | **Law II holds — but nothing was measuring it.** `get_ancestry()` cannot reach G0, and the shipped validation only checked that parent ids were present among other candidates. | The invariant is **true** (100% grounded, both stores). The gap was in the *verification*, not the architecture. `benchmarks/lineage_audit.py` now tests the real thing. |
 | 9 | **Experiments are generated but never executed.** Every consumer only prints them. | Law IV is never exercised and **no Question can ever close**. The study measures epistemic *tension*, not *resolution*. Largest remaining design gap. |
 | 10 | **The organism bootstraps most of itself, but not Generation 5.** Measured across eight assistance levels: G1, G4, G6, G7 and G8 appear from an unengineered stream with no seeding. G5 never does. | The project's central claim holds for most of the ladder and fails precisely at the pivot — and the cause is now proven causal, not guessed. See [§8.1](#81-the-cold-start-study). |
+| 11 | **Six task families are now negative, and the mechanism ablations came back empty.** Phase K searched three candidate task families against the strongest simple baseline; all three came back REVERSED, and on the two families where a mechanism was ablated specifically, the ablation changed nothing measurable. | The question *“what class of problems benefits from a developmental architecture?”* is still **open**, with six families excluded rather than one verdict reached. The next useful step is a **mechanism** question, not another task family. See [§8.5](#85-phase-k-the-search-failed-and-what-that-changes). |
 | 12 | **The internal developmental machinery is not what drives development.** Removing contradiction, removing question creation, and selecting the lowest-EIG candidate each *raise* development (P2, P3, P5 — all REVERSED), and the Phase K ablations agree independently: `NO_QUESTIONS`, `NO_FALSIFICATION` and `NO_DREAMS` all have intervals containing zero. | What moved development was the **curriculum and the structure of the stimulus** — not the curiosity, contradiction and attention machinery designed to be the active ingredient. This is the finding that most redirects the work. See [§8.6](#86-the-v1-synthesis-what-v1-established-and-what-it-did-not). |
 | 13 | **Organica 1 is frozen, and the freeze is enforced by a test.** The `v0.9.0` tag is the archival reference for the engine; `tests/test_v1_freeze.py` compares every frozen file against that tag and fails if one differs. | The engine is a fixed reference object now: everything afterwards measures it and nothing changes it quietly. Benchmarks, harnesses and documentation stay free, so the research continues — it just runs against a stable thing. See [§8.7](#87-organica-1-is-frozen-the-v090-tag-is-the-archival-reference). |
-| 11 | **Six task families are now negative, and the mechanism ablations came back empty.** Phase K searched three candidate task families against the strongest simple baseline; all three came back REVERSED, and on the two families where a mechanism was ablated specifically, the ablation changed nothing measurable. | The question *“what class of problems benefits from a developmental architecture?”* is still **open**, with six families excluded rather than one verdict reached. The next useful step is a **mechanism** question, not another task family. See [§8.5](#85-phase-k-the-search-failed-and-what-that-changes). |
-
+| 14 | **An identical value at every point of a sweep is a measurement defect until proven otherwise.** The Phase L pilot returned `DI = 0.000` at all eight points of the support-ratio sweep — a clean-looking negative result that was entirely an artefact: the late group arrived after the run had ended, so the late structure was never available, and a ratio with no denominator was being reported as zero. Four harness defects in total, plus a bootstrap that was resampling the wrong statistic. | Two audits were in place and **both passed** on the broken world, because they checked the *metric* and the metric was perfect — the *design* was dead. A **third audit** now checks the design itself (the degeneracy audit), and an unmeasurable quantity is reported as not measurable and **excluded, never zeroed**. See [§8.8](#88-phase-l-the-pilot-that-looked-like-a-negative-result-and-was-not). |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -1030,6 +1029,79 @@ instrument too. It skips honestly (and says so) when the tag is not reachable,
 which is what a shallow clone looks like.
 
 The freeze record is **[`docs/V1-FREEZE.md`](V1-FREEZE.md)**.
+
+---
+
+### 8.8 Phase L: the pilot that looked like a negative result and was not
+
+**What happened.** The reduced-scale execution check of the Phase L harness
+printed eight identical points:
+
+```
+V1 1:4 seed 20261023: DI=0.000 PI=0.611
+V1 1:3 seed 20261023: DI=0.000 PI=0.611
+... (all eight points identical)
+```
+
+Read casually, that is a publishable-looking negative result — *the late
+structure never displaces the early structure, at any pressure*. It is
+exactly the shape of the Phase K K3 result, and it would have slotted neatly
+into the existing story. **A result that confirms what you already believe
+is the result you are least likely to check.**
+
+**What it actually was.** The support ratio was not varying anything. The
+late group's arrival cycle was an absolute number (150) while the pilot ran
+150 cycles, so the late group never became active, the late structure was
+never available to measure, and a ratio with no denominator was being
+reported as `0.0`. The sweep ran through eight points in which **nothing
+could be displaced**, and reported "nothing was displaced" eight times.
+
+**Why the existing audits missed it.** Phase L had two instrument audits and
+both passed on that broken world: the discrimination control checked that the
+metric separates the two poles, and the ceiling check checked that a perfect
+model can reach 1.0. Both check the **metric**. Neither checked the
+**design**. The metric was working perfectly on a world where the thing being
+measured was not present.
+
+**The four defects, all fixed** (details in
+[`docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md`](PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md),
+Amendment 1):
+
+1. The late group's arrival was absolute rather than a fraction of the run.
+2. An unmeasurable index was reported as `0.0` instead of excluded.
+3. The contradiction arm shared a feature of the late group with itself, so
+   the world was byte-identical with the arm on and off — V5 measured
+   nothing.
+4. The density arm fed the engine only part of the world (7,200 of 28,800
+   events at density 4.0).
+
+A fifth, found by reading rather than running: the Revision Threshold
+bootstrap was resampling the **DI–PI gap** instead of the **crossing
+location** that the protocol's criterion 4 is about.
+
+**What was added.** A **third instrument audit — the degeneracy audit** — that
+checks the design rather than the metric: that every cell has a denominator
+to measure against, that the support ratio actually changes the early/late
+event mix, that the contradiction arm differs from the plain arm, and that
+the density arm actually changes the event count. The campaign does not run
+if it fails. It earned its place immediately: the first version of the audit
+itself had a scaling inconsistency with the campaign builder, and the audit
+caught it by failing the run before anything executed.
+
+**After the fix**, the corrected pilot (reduced scale, one seed — a disclosed
+pilot, never evidence) gives DI rising 0.000 → 0.667 and PI falling
+0.722 → 0.000 across the sweep, with the curves crossing between 2:1 and
+3:1. The axis is alive. **No Phase L campaign has been run and no Phase L
+outcome exists.**
+
+**The rule this earns, now AGENTS.md rule 13:**
+
+> *An identical value at every point of a sweep is a measurement defect until
+> proven otherwise.*
+
+The protection is not more scrutiny of the result. It is scrutiny of the
+**design**, before the run, by an instrument built to contradict the code
+rather than confirm it.
 
 ---
 
@@ -1612,3 +1684,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-24 | **The V1 synthesis, and a README that had fallen behind.** The README still declared package version 0.8.0, still called 0.7.0 the latest release, and had no mention of Phase K at all — it was written before the campaign and had drifted. It now carries the Phase K result, the six-family negative table, a **"What is established"** section (which it was missing entirely, so it was showing only the negative half of the picture), and a pointer to the synthesis. **Added `docs/V1-SYNTHESIS.md`**, the formal read of what V1 established and what it did not. It adds no new evidence — it is a reading of the record, and every claim in it cites a committed artifact. Its content: development, history-dependence, curriculum-sensitivity and trajectory-divergence are **supported**; external advantage is **not**, across six task families; and the finding that most redirects the work is that **the internal developmental machinery is not what drives development** (P2/P3/P5 all REVERSED, and all three Phase K ablation intervals contain zero) — what moved development was the curriculum and the structure of the stimulus. It states the two goals the project could serve (dynamic intelligence — supported; LLM replacement — not), and the danger of letting the second goal's urgency drive the first goal's method. It closes with the question the evidence leaves open: **what properties must a developmental intelligence have to remain adaptable without losing coherence?** — and with the note that K3's 2×2 makes this precise: Organica is not incapable of revision, it is **priority-ordered**, so the deficit is in displacement, not acquisition and not capacity. **No V2 is designed and no Phase L is launched.** Added manual §8.6 and finding 12; journal §34; README refresh. |
 | 2026-10-24 | **Phase K ran to completion, and the search failed.** All thirty seeds (ten per family, three families) came back **REVERSED**: K1 Organica 0.5923 vs baseline 0.9360 (difference −0.3437, 98.33% interval [−0.3773, −0.3123]); K2 0.4111 vs 0.9846 (−0.5735, [−0.6162, −0.5309]); K3 0.0000 vs 0.8578 (−0.8578, [−0.8598, −0.8571]). No family is SUPPORTED and none is INCONCLUSIVE, so these are clean losses rather than ambiguous ones, and every verdict survives eight different bootstrap seeds and both leave-one-out checks. **The pre-committed terminal outcome H2 fired exactly as written down before the run**: three more task families are ruled out, the negative-results map grows, and **no V2 is designed**. The ablations came back empty — `NO_QUESTIONS` −0.0095 [−0.0328, +0.0140], `NO_FALSIFICATION` +0.0241 [−0.0048, +0.0495], `NO_DREAMS` +0.0000 — so question generation, falsification and dreams are **not load-bearing** for the tasks they were built around (within one implementation, on synthetic worlds; a mechanism cannot show an effect on a task the organism was already losing by a wide margin). The **K3 zero was root-caused rather than reported as a number**: the late structure appears in **0 of 150 cycles** (not a final-cycle artifact), every candidate type except `anomaly` mentions **0 of 12** late tags (nothing left unread by the edge extractor), and a 2×2 control across five seeds shows the late group is incorporated **only when it is strictly stronger** than the group that arrived first — so the exclusion is a salience/priority competition under a bounded belief pool, which is the risk §6 of the preregistration named before the run. Added `benchmarks/phase_k_diagnose.py` (per-cycle, under-read and 2×2 checks), `docs/phase_k_results.md`, `docs/phase_k_results.json` and the live recording `docs/phase_k_results.ndjson`; added **§8.5** and finding 11; added decision **13**; facts sheet **§T**; journal **§33**. The campaign ran across two background chunks because it exceeded a single command's time limit, and the resumable harness meant no seed was lost or re-run; one bookkeeping note is recorded rather than hidden — the live recording holds **29 of 30** seeds, because K1/20261023 was completed by an earlier harness version before the checkpoint existed and was carried in through the results-file resume path. |
 | 2026-10-24 | **Released 0.8.0, and opened Phase K.** 0.8.0 is published as a **research-integrity release** — corrected clone verification, corrected version/tag semantics, the two missing campaign artifacts regenerated, the cycle-1 fixation claim corrected, the negative external-validity results recorded, and the documentation synchronised with the measurements. Its release page now exists, so the link in `CHANGELOG.md` resolves. The project question changed: from *can we make a developmental architecture?* to *what class of problems benefits from one?* Phases H, I and J were three negative attempts, not a verdict on V1 — three tasks were negative, and an infinite number were not tested — so **no V2 is designed**. Instead **Phase K: Comparative Advantage Search** opens, with three candidate task families (K1 incremental world modeling, K2 belief revision, K3 longitudinal knowledge integration), each derived from a mechanism the project has actually measured, each scored against the strongest simple baseline that could plausibly solve it, and each with a matched within-architecture ablation so that a win can be attributed rather than merely seen. The protocol is frozen in `docs/PHASE-K-PREREGISTRATION.md` and was committed **before any Phase K outcome was generated**. Three safeguards are built into it: the simple baselines are swept over a declared grid and their **best** score is used, so a strawman cannot manufacture a win; the harness is validated against the Phase H task, where Organica's loss is already known, and the campaign does not run if that control fails; and **"no family confirmed" is a pre-committed terminal outcome** that does not authorise a V2. The harness was run once at one seed and one tenth scale before the freeze; that pilot is disclosed in the preregistration and is **not evidence**. The package version is **0.9.0** for the phase. Journal §32. |
+| 2026-10-25 | **The Phase L pilot exposed four harness defects, and the apparent negative result it produced was an artefact.** The reduced-scale pilot printed `DI = 0.000` and `PI = 0.611` at **all eight** points of the support-ratio sweep — a clean-looking negative result of exactly the Phase K K3 shape. It was not a result: the support ratio was not varying anything. The late group's arrival was an **absolute** cycle number while the pilot ran fewer cycles than that, so the late group never became active and the late structure was never available to measure; a ratio with a zero denominator was reported as `0.0`, so the harness reported "nothing was displaced" eight times in a sweep where nothing could be displaced. Two further defects: the **contradiction arm (V5) shared a feature of the late group with itself**, so the world was byte-identical with the arm on and off and V5 measured nothing; and the **density arm (V3)** chunked the event stream at a fixed rate while the arm varies it, so at density 4.0 the engine saw 7,200 of 28,800 events while the harness reported a complete run. A fifth defect was found by reading: the **RT bootstrap was resampling the DI–PI gap** rather than the **crossing location** that criterion 4 is about, and reporting a min/max rather than the preregistered percentile interval. **Why the two existing audits did not catch any of it: both check the METRIC, and the metric was fine — the DESIGN was dead.** An audit of the instrument is not an audit of the experiment. A third audit now exists — the **degeneracy audit** — checking that every cell has a denominator, that the support ratio changes the early/late event mix, that the contradiction arm differs from the plain arm, and that the density arm changes the event count. It earned its place at once: the first version of the audit had a scaling inconsistency with the campaign builder and the audit caught it by failing the run before anything executed. Unmeasurable quantities are now reported as not measurable and **excluded, never zeroed**. Recorded as **Amendment 1** in the preregistration, made before any Phase L outcome existed: no hypothesis, variable, metric, baseline, success criterion or terminal outcome was changed, and no gate was relaxed — one audit was added. After the fix the axis is live (DI 0.000 → 0.667 across the sweep, one seed, reduced scale — a disclosed pilot, never evidence). **No Phase L campaign has been run and no Phase L outcome exists; the protocol awaits your review.** Added **§8.8** and finding 14; journal **§36**; facts sheet **§V**; AGENTS.md rule 13; CHANGELOG 0.10.0. |
