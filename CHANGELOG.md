@@ -92,6 +92,43 @@ Added `docs/phase_l_results.md` and the artifacts `docs/phase_l_results.json`
 and `docs/phase_l_results.ndjson`. Journal §38, facts sheet §X, manual §8.10
 and finding 15.
 
+### Amendment 3 — the raise-n campaign on the primary axis
+
+The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy
+is *"raise n; conclude nothing"*. The owner took that remedy literally and on
+the primary axis: **same sweep, same protocol, same criteria, no edits.**
+Seeds per point go **10 → 30** (the original 10 plus 20 new), so the campaign
+is a strict **superset** — the 80 original cells are reused, not recomputed,
+and 160 new cells are added. Sweep points, independent variable, metrics,
+decision interval, the four success criteria, the four terminal outcomes and
+the frozen engine are **unchanged**; the secondary arms V2–V5 remain unrun.
+
+**A real defect was found while preparing the run.** The preregistration says
+criterion 4 is a *paired* bootstrap over seeds, but the implementation paired
+by **position in the records list** — and the records arrive in completion
+order, which differs from label to label. Position-pairing therefore paired
+unrelated seeds across labels: an unpaired resample wearing the word
+"paired" on it. Each label now contributes a `{seed: value}` map and every
+label is evaluated on the same drawn set of seeds. **The fix does not change
+the n=10 result** — RT 3:1, interval `[5.0, 5.0]`, 10,000/10,000 replicates,
+eight alternative bootstrap seeds `INTERIOR`, leave-one-seed-out 3:1 in
+10/10, the same four criteria, the same verdict — so the n=10 record is kept
+as `docs/phase_l_results_n10.json` / `.ndjson`.
+
+**A new diagnostic: the adjacent paired differences.** The monotone criteria
+are evaluated on the **mean** curve and therefore test the **sign** of an
+adjacent difference; if the underlying curve is flat at one end of the sweep,
+that sign is a coin flip at any n. More seeds settle the **effect size**. So
+each adjacent pair now reports its paired difference with a 99% paired
+interval. It is a diagnostic only — not a metric, not a criterion, in no
+verdict.
+
+**The analysis is committed code.** `benchmarks/phase_l_analyze.py` replaces
+the uncommitted scratch script that produced the reported numbers.
+
+Amendment 3 was committed **before the raise-n run existed**. 69 tests pass;
+the four instrument audits pass.
+
 ### The freeze
 
 **Organica 1 is frozen as of the `v0.9.0` tag.** Not abandoned, and not
