@@ -4186,3 +4186,112 @@ quietly updated.
 Recorded in `docs/AUDIT-TRACE-SPEC.md` (§6 status, §12 correction, §13), in
 the manual as §8.15 and finding 21, in the facts sheet as §AA18–§AA19, in
 `AGENTS.md` as rule 21, and in the artifacts as `A3_ancestry_honesty`.
+
+---
+
+## §48 — Carried or re-derived: two diagnostics that changed the acquisition design
+
+**What this section records.** The owner pushed on the A3 result and asked a
+better question than "how long is the history window": **what determines
+whether a structure continues to be regenerated?** Two read-only diagnostic
+probes were run to answer it, and they changed both the mechanism claim and
+the shape of the experiment that follows.
+
+### Diagnostic 1: is the lineage carried, or re-derived?
+
+A surviving structure's parent set is identical in **94.5%** of 3,883 structure-cycles.
+My first reading was "carried forward" — the edge set rides along with the
+node. **That reading was wrong, and the second diagnostic corrected it.**
+
+### Diagnostic 2: what do those links actually point at?
+
+For every parent link, the state of the parent at the moment of the link:
+
+| State of the parent | Share of 8,416 links |
+|---|---|
+| **Active** — re-derived from current experience in that same cycle | **87.2%** |
+| **Carried** — alive in the window but not re-derived that cycle | **12.8%** |
+
+**So the lineage is re-derived, not carried.** The identical parent sets are
+*deterministic re-derivation* — the same content key produces the same
+parents — not copied edges. A carried lineage would have shown a high share
+of links pointing at structures that were **not** re-derived. It does not.
+
+This is the correction the measurement discipline exists for: I stated a
+mechanism from one number, and the second number refuted it.
+
+### The engine's survival rule is asymmetric across layers
+
+This turned out to be the fact that matters most, and it was in the source all
+along.
+
+`_natural_selection` (`sleep.py:1752-1802`) is the survival mechanism. It
+reinforces a structure whose key current experience re-produced, and otherwise
+decays it ×0.8 and prunes it below `DEATH_THRESHOLD = 0.15`. **But
+`_candidate_key` returns `""` for every type except concept, phrase, loop and
+prediction** (`sleep.py:1804-1817`). So **nothing above Layer 1 is ever
+decayed or pruned by that path.**
+
+- **Layer 1** survives only if current experience keeps producing its content
+  key. This is "persistent reconstruction" proper — and it is a **hand-written
+  rule**, not an emergent property.
+- **Layers 2–4** are never decayed. They persist as rows while they stay in
+  the window, and are re-formed with **recomputed parents** when the
+  composition rules re-form them. Hypotheses die by their own rule (`1499`).
+
+**So "persistent reconstruction" is accurate for Layer 1 and misleading for
+Layers 2–4**, where continuity is closer to row persistence with re-derived
+edges. The experiment must not treat "the structure survived" as one thing.
+
+### The trace shows the present lineage, not the historical one
+
+A candidate's identity is a content hash (`_make_id`, `sleep.py:45-48`) and
+**does not include the parent set**. Higher-layer structures are re-formed
+every cycle with parents recomputed. So **the same content identity can carry
+a different lineage later** — measured, `meta_concept`'s parent set changed in
+57 of 207 structure-cycles while its identity was unchanged.
+
+**Consequence, and it is a hard limit on the trace's strongest claim:** the
+lineage the trace shows is the organism's **current** descent. It is not
+evidence of the descent as it was when the structure formed. "Reconstruction
+of surviving developmental state" is right; "developmental history" is not.
+
+### What the owner changed in the design
+
+The owner's critique was threefold, and all three were right:
+
+1. **Removing a parent may block future regeneration without collapsing an
+   existing descendant.** So survival must be measured as a **time course**,
+   and the analysis must be able to detect a **crossover** — content that
+   persists and then stops being useful unless it is re-derived — rather
+   than a level difference at one moment.
+2. **Removing a parent from the observer's reconstruction is not the same as
+   removing it from the organism's state.** The first tests the audit trace;
+   only the second tests the maintenance mechanism. So the design is a
+   **2 × 2 × 3 factorial**: parent {removed, not} × source experiences
+   {removed, not} × removal applied to the {observer, organism}.
+3. **R3 must track content identity, not row identity.** A new row may be the
+   same structure re-instantiated; a persistent row may simply be retained.
+   In this engine the id *is* a content hash, so identity and row are
+   separable — and the measurement above separates them.
+
+Plus a fourth point that follows from the framing: **if continuity is
+persistent reconstruction rather than archival recall, then a perfect-recall
+system with no re-derivation is the harder baseline, not the easier one.** So
+the design adds a **replay learner** — it stores the episodes verbatim and
+regenerates nothing — scored on the same three outcomes. If Organica beats it
+on *"structure that remains useful after the experience is gone"*, that is a
+result worth the project. If it does not, "persistent reconstruction" is
+decoration and must be reported as such.
+
+### Status
+
+Pre-registered in `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`, committed
+before any cell is run, with the two diagnostics explicitly quarantined as
+**design inputs, not predictions** so that the factorial's predictions remain
+pre-committed. The sharpest prediction is computed from the source rather
+than fitted: a Layer-1 structure whose key stops being produced is pruned
+after `⌈log(0.15 / c) / log(0.8)⌉` cycles — 4 from `c = 0.3`, 6 from `c = 0.5`.
+
+Recorded in the manual as §8.16 and finding 22, in the facts sheet as
+§AA20–§AA22, in `AGENTS.md` as rule 22, and in the pre-registration itself.

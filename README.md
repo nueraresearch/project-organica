@@ -568,6 +568,20 @@ being judged.
 A forced-tie arm confirms the observer reproduces the engine's choice even when
 the lookback window is genuinely ambiguous.
 
+**The acquisition experiment is pre-registered**
+([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)).
+It asks whether experience can create a structure that remains useful after
+the originating experience is gone — and whether the organism carries
+structure forward or reconstructs it from evidence. Two diagnostics, run
+before the design was written, showed the lineage is **re-derived rather than
+carried** (**87 %** of lineage links point at structures re-derived in that
+same cycle) and that the engine's survival rule is **asymmetric across
+layers**: Layer 1 survives only if experience keeps re-producing its content
+key, while the layers above persist as rows with re-derived edges. The
+decisive control is a **replay learner** — perfect recall with no
+re-derivation — because if continuity is reconstruction rather than recall,
+perfect recall is the harder baseline.
+
 **And the lineage measurement turned out to say something uncomfortable.**
 An ancestry auditor walks each cycle's structures' parent chains against the
 engine's own window: **lineage reachability 1.000** (every reported structure

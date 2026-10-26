@@ -579,6 +579,7 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 19 | **The trace must adjudicate a pre-committed question, or it is a second inventory.** The audit layer is attractive, and attractive things become projects: it could be built, extended and admired without ever settling a question the project wanted answered — which would make it a *second* inventory ("how many events resolve?") and swap one measurement habit for another. So the rule is pre-committed rather than aspirational: **the next protocol's success criteria must contain at least one trace-derived diagnostic, and a result that fails it fails the protocol even if the headline behaviour is correct.** | **An instrument that cannot fail a claim is decoration, and a diagnostic that is never a criterion is just a number to report.** The first pre-committed instance is the disqualifier: *a predicted-correct result whose supporting evidence is self-sourced is not a transfer result* — the temporal graph's lookback window has no `event_type` filter, so a belief's support can come from the organism's own previous sleep payload (D2). That is the first concrete use of D2, and it is what turns a disclosed defect into a live instrument. And the trace's own metrics — evidence completeness, lineage completeness, selection reproducibility — stay **diagnostics of the instrument**: reported, never criteria. See [§8.14](#814-keeping-the-trace-honest). |
 | 20 | **A pre-committed threshold must not be computed from the run it judges — and the window that bounds the trace was an order of magnitude smaller than asserted.** The per-claim transfer rule's third condition read *"no higher than the run's baseline rate"* — circular, because a baseline computed on the same run relaxes the criterion whenever that run's beliefs happen to be unusually self-sourced. **The reference rate is now FROZEN at 17.9%** (the distinct-evidence self-sourced share on the calibration probe), is **not recomputed on the evaluated run**, may be **re-calibrated only on data that is not being judged**, and is labelled a **provisional calibration value, not a precise universal cutoff** — one run, one world, one policy. **And the cognition window is now MEASURED rather than estimated: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event window spans only 1.7 cycles — not the "roughly 40–130 cycles" this project had asserted from a guess.** The estimate was wrong by more than an order of magnitude and the correction is recorded rather than quietly fixed. Consequence: a lineage still being produced stays inside the window, but one that stopped being produced is gone within about 1.7 cycles — so the developmental history of anything the organism has moved on from is **unrecoverable**, not slowly censored. **A3's definition is now fixed in advance** (lineage reachability, evidence linkage, and a four-way truncation split reported separately), and **fidelity is not sufficiency**: reproducing the implemented rule does not establish that the reconstruction is a uniquely correct account of *why* a belief arose. |
 | 21 | **A3 is met, and it says something uncomfortable: an investigator cannot see more developmental history than Organica itself remembers.** The ancestry auditor walks each cycle's structures' parent chains against the engine's own window. **Lineage reachability 1.000** (8,061 of 8,061 structures resolve back to Layer 1 within depth 7), **evidence linkage 1.000** (1,412 of 1,412 claims resolve to event ids with a world/self split), **zero honesty errors**, and an empty structure-level truncation split — while the branch-level count shows **105 aged-out branches**, because every structure resolves through at least one branch that stayed in the window. **The window is not the binding constraint on lineage depth, and this corrects section 12's claim that it was:** surviving candidates are re-stored every cycle, so a live ancestor stays in the window however old it is; what bounds a lineage is the **death** of an ancestor. Measured: the window holds 3,998 candidates, the oldest last stored 1 cycle ago, content spanning 2 cycles. **So the trace reconstructs everything the organism still holds, exactly — and the developmental history of anything it has moved on from is unrecoverable, because the organism does not hold it either.** That is a hard ceiling on the project's distinguishing property, and it is a property of Organica 1 as frozen, not of the auditor. |
+| 22 | **The organism's memory and the laboratory's record are different objects, and the acquisition experiment must score them separately.** Q1 — *did the organism retain the knowledge?* — is answered by the organism's own state. Q2 — *can the laboratory prove how it developed?* — is answered by the per-cycle snapshots the laboratory kept. Conflating them is how an audit system slides into claiming historical reconstruction it never earned. **And two diagnostic probes changed what the design has to ask.** First, the lineage is **re-derived, not carried**: a structure's parent set is identical in ~94.5% of structure-cycles, but **87.2% of all 8,416 lineage links point at structures re-derived in that same cycle** — so the identical sets are deterministic re-derivation, not copied edges. Second, the engine's survival rule is **asymmetric across layers**: `_natural_selection` decays and prunes **Layer 1 only** (`sleep.py:1752-1802`, `_candidate_key` returns `""` for everything else), so **Layer 1 survives only if current experience keeps producing its content key, while Layers 2–4 are never decayed and persist as rows with re-derived edges.** The pre-registration therefore tests six cells (parent removed or not × source experiences removed or not × removal applied to the **observer** or to the **organism**), and the sharpest prediction is computed from the source rather than fitted: a Layer-1 structure whose key stops being produced is pruned after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 cycles from 0.3, 6 from 0.5. |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -1782,6 +1783,98 @@ depth 7 to 0.809 at depth 3 to 0.221 at depth 1 (53 depth-truncated) — so
 Both are diagnostics of the instrument, never criteria.
 
 
+### 8.16 The acquisition experiment: pre-registered, not yet run
+
+**The question, as it now stands.** Not *can a structure emerge?* but **can
+experience create a structure that remains useful after the originating
+experience is gone?** — and then, **does the organism carry structure forward,
+reconstruct it from evidence, or do both under different conditions?**
+
+**The design is pre-registered** in
+[`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md),
+committed before any cell is run.
+
+### Two questions, kept apart
+
+| | Question | Answered by |
+|---|---|---|
+| **Q1** | Did the organism retain the knowledge? | the organism's own state — current beliefs, current lineage, current support |
+| **Q2** | Can the laboratory prove how it developed? | the laboratory's record — per-cycle snapshots, the store log, the trace |
+
+A result on Q1 is not a result on Q2. The trace reconstructs what the organism
+holds; it is evidence about Q2 only where the laboratory's record independently
+covers the period in which the structure formed.
+
+### Two diagnostics that shaped the design (design inputs, not predictions)
+
+| Diagnostic | Result |
+|---|---|
+| A surviving structure's parent set is identical across consecutive cycles | **94.5%** of 3,883 structure-cycles |
+| …but what do those links point at? | **87.2% active** (parent re-derived that same cycle) / **12.8% carried** (alive, not re-derived) — of 8,416 links |
+
+**Read together: the lineage is re-derived, not carried.** The identical parent
+sets are deterministic re-derivation, not copied edges. *(This corrected an
+earlier reading of mine, which called the ~95 % identical sets "carried
+forward"; the link-state measurement is the discriminating evidence.)*
+
+### The engine's survival rule is asymmetric across layers
+
+This is the single most important fact for the design:
+
+- **Layer 1** (concept, phrase, loop, prediction) — `_natural_selection`
+  (`sleep.py:1752-1802`) **reinforces** a structure whose key current
+  experience re-produced, and otherwise **decays it ×0.8** and **prunes** it
+  below `DEATH_THRESHOLD = 0.15`. `_candidate_key` returns `""` for every
+  other type, so **nothing above Layer 1 is ever decayed or pruned this way**.
+- **Layers 2–4** (meta, process, workflow, hypothesis, theory, question) —
+  never decayed; they persist as rows while they stay in the window, and are
+  **re-formed with recomputed parents** when the composition rules re-form
+  them. Hypotheses die by their own rule: `conf < 0.15` and
+  `support + contradiction ≥ 3` (`sleep.py:1499`).
+
+**So "persistent reconstruction" is accurate for Layer 1 and misleading for
+Layers 2–4**, where continuity is closer to row persistence with re-derived
+edges. The experiment must not treat "the structure survived" as one thing.
+
+### The design
+
+**Six cells**: parent {removed, not} × source experiences {removed, not} ×
+removal applied to the {observer, organism}.
+
+**Removing a parent from the observer's reconstruction tests the trace.
+Removing it from the organism's state tests the maintenance mechanism.** They
+are different experiments, and the observer-side arm cannot corrupt the
+organism — it can only expose whether the trace stays honest.
+
+**Three outcomes, tracked separately and per cycle:** does the content
+identity reappear; is the lineage still connected; does the belief still
+support the preregistered task. The third is a **time course**, so a
+crossover — content that persists and then stops being useful unless it is
+re-derived — is detectable rather than invisible.
+
+**The sharpest prediction is computed from the source, not fitted:** a Layer-1
+structure whose key stops being produced is pruned after
+`⌈log(0.15 / c) / log(0.8)⌉` cycles — 4 cycles from `c = 0.3`, 6 from `c = 0.5`.
+
+### The control that matters
+
+If continuity is persistent reconstruction rather than archival recall, then
+**a perfect-recall system with no re-derivation is the harder baseline**, not
+the easier one. The design therefore includes a **replay learner** — it
+stores the episodes verbatim and regenerates nothing — scored on the same
+three outcomes. If Organica beats it on *"structure that remains useful after
+the experience is gone"*, that is a result worth the project. If it does not,
+"persistent reconstruction" is decoration and must be reported as such.
+
+### What it will not establish
+
+Not that Organica learns. Not that the trace reconstructs *developmental
+history* — it reconstructs the **present** lineage of surviving structures.
+Not that the results generalise. And **not anything biological**: the
+resemblance to how some biological systems are described is a motivation for
+the experiment, never a claim about its result.
+
+
 ---
 
 ## 9. Troubleshooting
@@ -2378,3 +2471,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-26 | **A pre-committed threshold must not be computed from the run it judges, and the window span was wrong by an order of magnitude.** **The reference rate is now FROZEN at 17.9%** — the distinct-evidence self-sourced share measured on the calibration probe — and is **not recomputed on the evaluated run**. A threshold derived from the same data it judges is not a threshold: a run whose beliefs happened to be unusually self-sourced would otherwise relax the criterion meant to constrain it. It may only be **re-calibrated on data that is not being judged**, recorded before the next protocol runs, and it is labelled a **provisional calibration value, not a precise universal cutoff** (one run, one world, one policy). **A3's definition is fixed in advance**, and it reports three things separately: **lineage reachability** (share of extant structures resolving back to Layer 1 within depth 7), **evidence linkage** (share of extant claims whose support resolves to event ids with a world/self split), and a **truncation split** — *aged out* (**a persistence problem**) / *depth-truncated* (**a representation problem**) / *no parent* / *missing record* (**a data defect**, and the one that would matter most). The two graphs are kept separate: Level 1 is candidate → candidate and **terminates at Layer 1 — no parent link points at an event**; Level 2 is claim → transitions → events. **And the measurement corrects an earlier estimate by more than an order of magnitude: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event cognition window spans only 1.7 cycles — not the "roughly 40–130 cycles" this project previously asserted from a guess.** The estimate was wrong, and the correction is recorded rather than quietly fixed. Consequence: a lineage still being produced stays inside the window (candidates are re-stored every cycle), while one that stopped being produced is gone within about 1.7 cycles — so the developmental history of anything the organism has moved on from is unrecoverable, not slowly censored. **And the boundary A3 cannot cross: fidelity is not sufficiency.** The probe establishes that the auditor reproduces the implemented rule; it does **not** establish that an intact reconstruction is a uniquely correct account of why a belief arose. Recorded in spec §10, §11, §12; facts sheet §AA14, §AA15, §AA16; journal §46; AGENTS.md rule 19. |
 | 2026-10-26 | **Seven literal template placeholders had shipped in the committed audit-trace specification**, inside sentences that assert results — so a reader would have seen a number that was never computed, when the value was sitting in a committed artifact the whole time. Six came from the second and third review rounds (`{ties}`, `{t_dist:,}`, `{t_edges}`, `{t_cycles}`, `{t_a1:,}`, `{t_a2}`) and one from this round's own script (`{share:.1f}`, caught before it was committed). Corrected in place from the artifacts: 479 tied windows, 2,589 distinct transitions, 241 aggregate edges, 60 cycles, 692 A1 beliefs, 60 A2 cycles, 692 A7 beliefs, 17.9% reference rate. The lesson is narrow: **a placeholder is silent** — it looks like a sentence in a diff, so another careful read will not find it. A mechanical substitution pass with a leftover-assertion did, and the guard is now standing as `tests/test_doc_placeholders.py`. **A check that must be run beats a check that must be remembered.** Facts sheet §AA17; journal §46; AGENTS.md rule 20. |
 | 2026-10-26 | **A3 was measured, and it corrected the specification's own reasoning.** The ancestry auditor walks each cycle's structures' parent chains against the engine's window. **Lineage reachability 1.000** (8,061 of 8,061 structures resolve back to Layer 1 within depth 7), **evidence linkage 1.000** (1,412 of 1,412 claims resolve to event ids with a world/self split), **zero honesty errors**, and an empty structure-level truncation split — while the branch-level count shows **105 aged-out branches**, because every structure resolves through at least one branch still inside the window. **The window is NOT the binding constraint on lineage depth, and spec §12's claim that it was is corrected in place:** surviving candidates are re-stored every cycle (Layer-1 by the natural-selection decay path, higher-layer by the report's re-derivation and the stable-prior add-back), so a live ancestor stays in the window however old it is — what bounds a lineage is the **death of an ancestor**. **Measured: the window holds 3,998 candidates, the oldest last stored 1 cycle ago, content spanning 2 cycles.** **So the trace reconstructs everything the organism still holds, exactly — and the developmental history of anything it has moved on from is unrecoverable, because the organism does not hold it either. The engine's cognition window IS its memory.** That is a hard ceiling on the project's distinguishing property, and it is a property of Organica 1 as frozen, not of the auditor. Two sweeps prove the branches are reachable rather than inert: the window sweep falls from 1.000 to 0.000 at 25–50 candidates, the depth sweep from 1.000 at depth 7 to 0.221 at depth 1 (53 depth-truncated) — so **the engine's depth limit of 7 is not binding**. Added §8.15 and finding 21; facts sheet §AA18, §AA19; journal §47; AGENTS.md rule 21; spec §13 and the §12 correction; the probe now reports `A3_ancestry_honesty`. |
+| 2026-10-26 | **The acquisition experiment was pre-registered — and two diagnostic probes changed what it asks.** The blank-slate question is now **can experience create a structure that remains useful after the originating experience is gone?** — and **does the organism carry structure forward, reconstruct it from evidence, or do both under different conditions?** The design is six cells (parent removed or not × source experiences removed or not × removal applied to the **observer** or to the **organism**, because removing a parent from the auditor's reconstruction tests the trace and removing it from the organism's state tests the maintenance mechanism). **Two diagnostics, quarantined as design inputs rather than predictions:** a surviving structure's parent set is identical in **94.5%** of structure-cycles, but **87.2% of all 8,416 lineage links point at structures re-derived in that same cycle** — so the lineage is **re-derived, not carried**, and this corrects an earlier reading of mine. And the engine's survival rule is **asymmetric across layers**: `_natural_selection` decays and prunes **Layer 1 only**, so Layer 1 survives only if current experience keeps producing its content key, while Layers 2–4 are never decayed and persist as rows with **re-derived edges** — meaning "persistent reconstruction" is accurate for Layer 1 and misleading for the rest. **The sharpest prediction is computed from the source, not fitted:** a Layer-1 structure whose key stops being produced is pruned after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 from 0.3, 6 from 0.5. **Q1 (internal persistence) and Q2 (external provenance) are scored separately**, and the decisive control is a **replay learner** that stores episodes verbatim and regenerates nothing: if continuity is reconstruction rather than recall, perfect recall is the harder baseline, and beating it is the result. Added `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`; §8.16 and finding 22; facts sheet §AA20–§AA22; journal §48; AGENTS.md rule 22. |

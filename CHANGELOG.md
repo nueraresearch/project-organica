@@ -390,6 +390,48 @@ have broken the reconciliation. The 60-cycle forced-tie artifact is committed as
 
 Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45.
 
+### Added — the acquisition experiment pre-registration, and two diagnostics that changed its questions
+
+The blank-slate question is now **can experience create a structure that
+remains useful after the originating experience is gone?** — and **does the
+organism carry structure forward, reconstruct it from evidence, or do both
+under different conditions?**
+
+**Two read-only diagnostics, run before the design was written, and
+quarantined in the pre-registration as design inputs rather than
+predictions:**
+
+- A surviving structure's parent set is identical in **94.5%** of 3,883 structure-cycles.
+- **But 87.2% of all 8,416 lineage links point at structures re-derived in that same
+  cycle** (12.8% carried) — so the lineage is **re-derived, not carried**. This corrects
+  an earlier reading of mine that called the identical sets "carried forward"; the
+  link-state measurement is the discriminating evidence.
+
+**The engine's survival rule is asymmetric across layers**, and this is the fact the
+design rests on: `_natural_selection` (`sleep.py:1752-1802`) decays and prunes **Layer 1
+only** — `_candidate_key` returns `""` for every other type — so Layer 1 survives only
+if current experience keeps producing its content key, while Layers 2–4 are never
+decayed and persist as rows with re-derived edges. **"Persistent reconstruction" is
+accurate for Layer 1 and misleading for the rest.**
+
+**The trace shows the present lineage, not the historical one**: a candidate's identity
+is a content hash that does **not** include the parent set, and parents are recomputed
+each cycle, so the same content identity can carry a different lineage later.
+
+**The design:** six cells (parent {removed, not} × source experiences {removed, not} ×
+removal applied to the **observer** or the **organism**, because removing a parent from
+the auditor's reconstruction tests the trace and removing it from the organism's state
+tests the maintenance mechanism). **Q1 (internal persistence) and Q2 (external
+provenance) scored separately.** Three outcomes tracked separately and per cycle, so a
+crossover is detectable. **The sharpest prediction is computed from the source, not
+fitted**: pruning after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 from c=0.3, 6 from c=0.5. And
+the decisive control is a **replay learner** that stores episodes verbatim and
+regenerates nothing: if continuity is reconstruction rather than recall, perfect recall
+is the *harder* baseline.
+
+Added `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`; manual §8.16 and finding 22;
+facts sheet §AA20–§AA22; journal §48; AGENTS.md rule 22.
+
 ### Added — A3: the ancestry measurement, and a correction it forced on the specification
 
 **A3 is met.** An ancestry auditor walks each cycle's reported structures' parent

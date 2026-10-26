@@ -37,6 +37,7 @@ GUARDED = [
     "docs/PHASE-L-SYNTHESIS.md",
     "docs/phase_l_results.md",
     "docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md",
+    "docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md",
     "research-journal/phase_g_findings_20261021.md",
     "CHANGELOG.md",
     "README.md",
