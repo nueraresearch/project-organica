@@ -390,6 +390,50 @@ have broken the reconciliation. The 60-cycle forced-tie artifact is committed as
 
 Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45.
 
+### Added — A3: the ancestry measurement, and a correction it forced on the specification
+
+**A3 is met.** An ancestry auditor walks each cycle's reported structures' parent
+chains against the engine's own cognition window and classifies every branch
+that fails to resolve. **Lineage reachability 1.000** (8,061 of 8,061
+structures resolve back to Layer 1 within depth 7), **evidence linkage 1.000**
+(1,412 of 1,412 claims resolve to event ids with a world/self split), **zero
+honesty errors**, and an empty structure-level truncation split — while the
+branch-level count shows **105 aged-out branches**, because every structure
+resolves through at least one branch still inside the window. The stress arm
+(3,240 structures) and the forced-tie arm (3,988 structures) both return 1.000.
+
+**The correction.** Spec §12 said the window was "the more likely binding
+constraint", because it spans only 1.7 cycles. **That was wrong.** Surviving
+candidates are re-stored every cycle, so a live ancestor stays in the window
+however old it is — **a lineage's depth is bounded by the death of an ancestor,
+not by the window's recency.** Measured: the window holds 3,998 candidates, the
+oldest last stored 1 cycle ago, content spanning 2 cycles. The correction is
+recorded in place, not quietly fixed.
+
+**The answer to A3's key question.** The observer's limit and the architecture's
+limit are the same limit: **the engine's cognition window IS its memory.** An
+investigator cannot recover more developmental history than Organica retains,
+because there is no more to recover. That is good news for the trace and a hard
+ceiling on the project's distinguishing property.
+
+**Two sweeps prove the truncation categories are reachable rather than inert:**
+the window sweep falls from 1.000 at the engine's window to 0.000 at 25–50
+candidates (68 aged out); the depth sweep falls from 1.000 at depth 7 to 0.221
+at depth 1 (53 depth-truncated) — so **the engine's depth limit of 7 is not
+binding; the chains are shorter than it.**
+
+**Two defects the build caught in itself**, both found by the checks rather than
+by inspection: the observer matched `sleep:meta_concept` with a prefix test
+that excluded every meta candidate (the engine uses an exact comparison), which
+produced spurious "missing record" verdicts; and the window sweep sliced the
+wrong end of a newest-first list. Both fixed, and the ordering is now pinned by
+a test.
+
+Added `A3_ancestry_honesty` to the probe's artifact; spec §13 and the §12
+correction; manual §8.15 and finding 21; facts sheet §AA18–§AA19; journal §47;
+AGENTS.md rule 21; `tests/test_audit_ancestry.py` (7 tests, four of them
+proof-of-firing).
+
 ### Fixed — a threshold that judged its own data, and a window span that was wrong by an order of magnitude
 
 **The transfer rule's reference rate is now frozen.** The third condition read

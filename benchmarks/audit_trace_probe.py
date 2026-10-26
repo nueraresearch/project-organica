@@ -111,12 +111,40 @@ class ObservingMemoryService(MemoryService):
         # window into a span in CYCLES -- a measurement rather than an
         # estimate.
         self.sleep_events = 0
+        # every candidate id the engine has ever stored in this run.  This is
+        # what lets A3 tell "aged out of the cognition window" apart from
+        # "no record was ever written" -- the difference between a persistence
+        # limit and a data defect.
+        self.candidate_ids: set[str] = set()
+        # the cycle in which each candidate was last stored.  Candidates are
+        # RE-STORED every cycle -- the natural-selection decay path writes a
+        # decayed copy of every surviving prior candidate (sleep.py:1784-1800)
+        # -- so the window's SPAN IN STORES is not the same as the AGE OF ITS
+        # CONTENT.  This measures the second.
+        self.current_cycle = -1
+        self.last_store_cycle: dict[str, int] = {}
 
     def store(self, content: str, event_type: str = "observe", source: str = "env"):
         event = super().store(content, event_type=event_type, source=source)
         self.store_order.append(event.id)
         if event_type == "sleep":
             self.sleep_events += 1
+            # Candidates are persisted one per sleep event, as JSON, with a
+            # source of `sleep:<type>` (sleep.py:1916-1967).  The cycle marker
+            # is exactly `sleep:meta` -- an EXACT match, because a candidate of
+            # type `meta_concept` is stored with the source `sleep:meta_concept`,
+            # which starts with the marker's prefix but is not the marker.
+            # (The engine makes the same distinction: `source != "sleep:meta"`
+            # at sleep.py:881 and memory.py:472.)
+            if source != "sleep:meta":
+                try:
+                    payload = json.loads(content)
+                except (json.JSONDecodeError, ValueError):
+                    payload = None
+                if isinstance(payload, dict) and payload.get("id"):
+                    cid = payload["id"]
+                    self.candidate_ids.add(cid)
+                    self.last_store_cycle[cid] = self.current_cycle
         # The engine records graph edges only for world events: `store()`
         # guards the call with `if event_type != "sleep"`.  The observer must
         # mirror that guard exactly, or it attributes transitions the engine
@@ -144,6 +172,326 @@ class ObservingMemoryService(MemoryService):
                         (tag_from, tag_to, prior_id, event.id)
                     ] = prior_type
         return event
+
+
+# ------------------------------------------------------------------
+# A3 -- ancestry honesty and lineage completeness.
+#
+# The definition these implement is fixed in advance in
+# docs/AUDIT-TRACE-SPEC.md section 12.  Two links, kept apart:
+#
+#   Level 1 -- developmental lineage: candidate -> candidate, via
+#              `parent_ids`.  It terminates at Layer 1 (the tag-built
+#              structures).  NO PARENT LINK POINTS AT AN EVENT.
+#   Level 2 -- evidential linkage: claim -> transitions -> events.
+#
+# Success in one cannot stand in for success in the other.
+# ------------------------------------------------------------------
+
+# The engine's own Layer 1 -- the candidate lists the sleep report labels
+# "# Layer 1" (sleep.py:270-275).  These are built from tags and carry no
+# parent link, so a lineage terminates here.  `anomaly` is included because
+# the engine's report groups it under Layer 1 and it is built from tags like
+# the rest; the spec's list of four is refined by the engine's own layering.
+LAYER1_TYPES = frozenset({
+    "concept_candidate", "phrase_candidate", "loop_candidate",
+    "prediction_candidate", "anomaly",
+})
+
+MAX_ANCESTRY_DEPTH = 7       # sleep.py:841 -- get_ancestry(max_depth=7)
+WINDOW_SLEEP_EVENTS = 4000   # sleep.py:878 -- recent(n=4000, event_type="sleep")
+
+# The report's fourteen candidate lists (sleep.py:266-291).
+REPORT_LISTS = (
+    "concepts", "phrases", "loops", "predictions", "anomalies",
+    "meta_concepts", "processes", "workflow_concepts",
+    "hypotheses", "theories", "questions", "dreams",
+    "investigations", "experiments",
+)
+
+# Pre-committed precedence when a structure fails to resolve, and more than
+# one branch carries a reason.  Ordered by how much each reason damages
+# trust in the trace:
+#   missing_record  a data defect -- a parent id with no record anywhere
+#   aged_out        the record is gone from the window -- a persistence limit
+#   depth_truncated the chain exists and the walk cut it -- a representation
+#                   limit, and the most benign of the three
+#   no_parent       the chain simply ended without reaching Layer 1
+SPLIT_PRECEDENCE = ("missing_record", "aged_out", "depth_truncated", "no_parent")
+
+# The window bound every unresolved node must carry.  Stated in the record
+# itself, not in a footnote (spec section 3.2).
+WINDOW_BOUND = (
+    f"{WINDOW_SLEEP_EVENTS} sleep events (the most recent "
+    f"{WINDOW_SLEEP_EVENTS} rows of `events` with event_type='sleep')"
+)
+
+
+def _ancestor_status(node_id: str, by_id: dict, ever_stored: set[str],
+                     depth: int, max_depth: int) -> tuple[str, int]:
+    """Follow one lineage branch to its end.
+
+    Mirrors the engine's own `build_tree` (sleep.py:845-856): a node that is
+    not in the window stops the walk, and so does a node at `max_depth`.
+
+    Returns `(status, depth_reached)`.  `status` is one of:
+      "layer1"          the branch reached a Layer-1 terminal -- resolved
+      "aged_out"        the record exists but fell outside the window
+      "missing_record"  no record was ever written under this id
+      "depth_truncated" the depth limit cut a chain that was still going
+      "no_parent"       the chain ended at a node that is not Layer 1
+    """
+    node = by_id.get(node_id)
+    if node is None:
+        # The id is referenced by a parent link but is not in the cognition
+        # window.  It was either aged out -- the record exists elsewhere --
+        # or the record was never written at all.  It is NOT "no parent":
+        # the chain did not end, the record is simply out of reach.
+        if node_id in ever_stored:
+            return "aged_out", depth
+        return "missing_record", depth
+
+    parents = node.get("parent_ids") or []
+    if depth >= max_depth:
+        if parents:
+            return "depth_truncated", depth
+        return ("layer1" if node.get("type") in LAYER1_TYPES else "no_parent"), depth
+    if not parents:
+        return ("layer1" if node.get("type") in LAYER1_TYPES else "no_parent"), depth
+
+    best = None
+    for pid in parents:
+        status, reached = _ancestor_status(pid, by_id, ever_stored, depth + 1, max_depth)
+        if best is None:
+            best = (status, reached)
+        elif status == "layer1":
+            # a resolved branch always wins
+            best = (status, reached)
+        elif best[0] == "layer1":
+            pass
+        elif reached > best[1]:
+            best = (status, reached)
+        elif reached == best[1] and SPLIT_PRECEDENCE.index(status) < SPLIT_PRECEDENCE.index(best[0]):
+            best = (status, reached)
+    return best
+
+
+def trace_lineage(structure, by_id: dict, ever_stored: set[str],
+                  max_depth: int = MAX_ANCESTRY_DEPTH) -> dict:
+    """Trace one structure's lineage and classify the outcome.
+
+    A structure *resolves* when at least one of its parent branches reaches
+    a Layer-1 terminal within the depth limit.  When it does not resolve,
+    the reason is taken from its failing branches by the pre-committed
+    precedence.
+    """
+    parents = list(getattr(structure, "parent_ids", None) or [])
+    branches = []
+    for pid in parents:
+        status, depth = _ancestor_status(pid, by_id, ever_stored, 1, max_depth)
+        branches.append({
+            "parent": pid,
+            "status": status,
+            "depth_reached": depth,
+            # every unresolved node carries the window bound
+            "window_bound": WINDOW_BOUND if status != "layer1" else None,
+        })
+
+    resolved = any(b["status"] == "layer1" for b in branches)
+    reason = None
+    if not resolved and branches:
+        reason = min((b["status"] for b in branches),
+                     key=lambda s: SPLIT_PRECEDENCE.index(s))
+    elif not resolved:
+        reason = "no_parent"
+
+    return {
+        "id": getattr(structure, "id", ""),
+        "type": getattr(structure, "type", ""),
+        "resolved": resolved,
+        "reason": reason,
+        "branches": branches,
+    }
+
+
+def audit_ancestry(report, window_candidates: list[dict], ever_stored: set[str],
+                   max_depth: int = MAX_ANCESTRY_DEPTH) -> dict:
+    """Measure lineage completeness for one cycle's structures.
+
+    `window_candidates` must be the window the engine itself would read for
+    these structures -- that is, the candidates persisted by the cycle that
+    produced them.  Reading the window *before* the cycle would miss the
+    structures' own parents, which are persisted at the end of the cycle.
+    """
+    by_id = {c["id"]: c for c in window_candidates if isinstance(c, dict) and c.get("id")}
+
+    seen: set[str] = set()
+    structures = []
+    for name in REPORT_LISTS:
+        for s in getattr(report, name, None) or []:
+            sid = getattr(s, "id", "")
+            if not sid or sid in seen:
+                continue
+            seen.add(sid)
+            structures.append(s)
+
+    # Layer-1 structures ARE terminals -- they have no lineage to resolve,
+    # so counting them would inflate the rate with a trivial population.
+    # They are reported separately, and the population is named.
+    layer1 = [s for s in structures if getattr(s, "type", "") in LAYER1_TYPES]
+    with_lineage = [s for s in structures if getattr(s, "type", "") not in LAYER1_TYPES]
+
+    traces = [trace_lineage(s, by_id, ever_stored, max_depth) for s in with_lineage]
+    resolved = [t for t in traces if t["resolved"]]
+    split = {reason: 0 for reason in SPLIT_PRECEDENCE}
+    for t in traces:
+        if not t["resolved"] and t["reason"]:
+            split[t["reason"]] += 1
+
+    # Branch-level counts: the raw picture, so a reader is not forced to
+    # rely on the precedence rule for the structure-level split.  "layer1"
+    # counts branches that DID resolve.
+    branch_counts = {reason: 0 for reason in SPLIT_PRECEDENCE}
+    branch_counts["layer1"] = 0
+    for t in traces:
+        for b in t["branches"]:
+            branch_counts[b["status"]] = branch_counts.get(b["status"], 0) + 1
+
+    # --- the honesty check -------------------------------------------
+    # A node that is not in the window must never be reported as "no
+    # parent": the chain did not end, the record is out of reach.  And a
+    # node that IS in the window must never be reported as absent.  Both
+    # directions are checked against the data, not against the code path.
+    honesty_errors = []
+    for t in traces:
+        for b in t["branches"]:
+            in_window = b["parent"] in by_id
+            if not in_window and b["status"] == "no_parent":
+                honesty_errors.append({
+                    "id": t["id"], "parent": b["parent"],
+                    "error": "out-of-window parent reported as having no parent",
+                })
+            if in_window and b["status"] in ("aged_out", "missing_record"):
+                honesty_errors.append({
+                    "id": t["id"], "parent": b["parent"],
+                    "error": "in-window parent reported as absent",
+                })
+            if b["status"] != "layer1" and not b.get("window_bound"):
+                honesty_errors.append({
+                    "id": t["id"], "parent": b["parent"],
+                    "error": "unresolved node without a stated window bound",
+                })
+
+    return {
+        "structures_reported": len(structures),
+        "layer1_structures": len(layer1),
+        "structures_with_lineage": len(with_lineage),
+        "resolved": len(resolved),
+        "lineage_reachability": (len(resolved) / len(with_lineage)) if with_lineage else None,
+        "truncation_split": split,
+        "branch_level_counts": branch_counts,
+        "honesty_errors": honesty_errors,
+        "honest": not honesty_errors,
+        "traces": traces,
+    }
+
+
+def _accumulate_a3(acc: dict, result: dict) -> None:
+    """Fold one cycle's A3 result into the run-wide accumulator."""
+    acc["cycles"].append(result)
+    acc["structures"] += result["structures_with_lineage"]
+    acc["resolved"] += result["resolved"]
+    for reason, n in result["truncation_split"].items():
+        acc["split"][reason] += n
+    for reason, n in result["branch_level_counts"].items():
+        acc["branch_counts"][reason] += n
+    acc["honesty_errors"].extend(result["honesty_errors"])
+
+
+def depth_sweep(report, window_candidates: list[dict], ever_stored: set[str],
+                depths=(1, 2, 3, 5, 7)) -> list[dict]:
+    """A DIAGNOSTIC, not a criterion: reachability as a function of depth limit.
+
+    The engine's limit is depth 7.  This sweep asks what the reachability
+    would have been at smaller limits, which is how the "depth-truncated"
+    branch is shown to be reachable -- a category that never fires is a
+    category that has not been tested.
+    """
+    out = []
+    for depth in depths:
+        result = audit_ancestry(report, window_candidates, ever_stored, max_depth=depth)
+        out.append({
+            "max_depth": depth,
+            "lineage_reachability": result["lineage_reachability"],
+            "truncation_split": result["truncation_split"],
+        })
+    return out
+
+
+def window_content_age(window_candidates: list[dict], last_store_cycle: dict[str, int],
+                       final_cycle: int) -> dict:
+    """How far back, in CYCLES, the window's candidate content actually reaches.
+
+    The window is the most recent 4,000 SLEEP EVENTS.  Its span in stores is
+    therefore small -- but candidates are re-stored every cycle, so the
+    window's *content* can be much older than its span in stores.  This
+    measures the second, which is the one that bounds how much developmental
+    history is recoverable.
+    """
+    ages = []
+    for c in window_candidates:
+        cid = c.get("id") if isinstance(c, dict) else None
+        if cid is None:
+            continue
+        last = last_store_cycle.get(cid)
+        if last is None:
+            continue
+        ages.append(final_cycle - last)
+    if not ages:
+        return {"candidates": 0}
+    ages.sort()
+    return {
+        "candidates": len(ages),
+        "oldest_age_cycles": ages[-1],
+        "median_age_cycles": ages[len(ages) // 2],
+        "youngest_age_cycles": ages[0],
+        "distinct_cycles_spanned": len(set(ages)),
+        "note": "Age in cycles of each candidate still held by the window, "
+                "measured from the cycle it was last stored in. This is the "
+                "window's CONTENT age, which is not the same as its span in "
+                "stores: candidates are re-stored every cycle by the decay "
+                "path, so a window of 4,000 sleep events can still hold "
+                "structures that were first formed many cycles earlier.",
+    }
+
+
+def window_sweep(report, window_candidates: list[dict], ever_stored: set[str],
+                 sizes=(25, 50, 100, 200, 500, 1000, 2000, 4000),
+                 max_depth: int = MAX_ANCESTRY_DEPTH) -> list[dict]:
+    """A DIAGNOSTIC, not a criterion: reachability as a function of window size.
+
+    The engine's window is fixed at 4,000 sleep events.  This sweep asks what
+    the reachability would have been at smaller windows, which is how the
+    "aged out" branch is shown to be reachable and how much of the
+    incompleteness is the window rather than the architecture.
+
+    It reads the same candidate list the engine holds and slices it; it does
+    not touch the engine, and it is reported separately from the criteria.
+    """
+    out = []
+    for size in sizes:
+        # `_load_prior_candidates` reads `recent(n=4000, event_type="sleep")`,
+        # which is ordered NEWEST FIRST.  The newest `size` candidates are
+        # therefore the FRONT of the list, not the back.
+        subset = window_candidates[:size] if size < len(window_candidates) else window_candidates
+        result = audit_ancestry(report, subset, ever_stored, max_depth)
+        out.append({
+            "window_candidates": len(subset),
+            "lineage_reachability": result["lineage_reachability"],
+            "truncation_split": result["truncation_split"],
+            "branch_level_counts": result["branch_level_counts"],
+        })
+    return out
 
 
 # ------------------------------------------------------------------
@@ -367,6 +715,22 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
     a1_checked = a2_checked = a7_checked = 0
     self_sourced_total = world_sourced_total = 0
     belief_edges: set[tuple[str, str]] = set()
+    # --- A3 accumulators -------------------------------------------------
+    prev_report = None
+    a3: dict = {
+        "cycles": [],
+        "structures": 0,
+        "resolved": 0,
+        "split": {reason: 0 for reason in SPLIT_PRECEDENCE},
+        "branch_counts": {reason: 0 for reason in SPLIT_PRECEDENCE},
+        "honesty_errors": [],
+    }
+    a3["branch_counts"]["layer1"] = 0
+    a3_claims = a3_claims_linked = 0
+    a3_final = None
+    a3_window_sweep: list[dict] = []
+    a3_depth_sweep: list[dict] = []
+    a3_window_age: dict = {}
     try:
         for cycle in range(cycles):
             chunk = events[cycle * EVENTS_PER_CYCLE:(cycle + 1) * EVENTS_PER_CYCLE]
@@ -376,6 +740,7 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             # Snapshots taken at exactly the moment the engine reads them.
             temporal = _temporal_graph(mem)
             prior = svc._load_prior_candidates()
+            mem.current_cycle = cycle
 
             report = svc.run_sleep_cycle()
 
@@ -427,6 +792,30 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             if a7_errors:
                 a7_fail += 1
 
+            # --- A3: ancestry honesty + lineage completeness ---------------
+            # The structures reported THIS cycle are traced against the
+            # window the engine would read for them -- which is the window
+            # as it stands AFTER this cycle's candidates are persisted.  That
+            # window is the one loaded at the start of the NEXT cycle, so
+            # the previous cycle's report is traced here, not this cycle's.
+            if prev_report is not None:
+                a3_result = audit_ancestry(prev_report, prior, mem.candidate_ids)
+                _accumulate_a3(a3, a3_result)
+
+            # Evidence linkage (Level 2) is measured at the report's OWN
+            # cycle: a belief's support count is cumulative, so it has to be
+            # compared against the attribution as it stood when the report
+            # was produced.
+            for hid, h in reported_beliefs.items():
+                transitions = _attribution_for(mem, h.subject, h.expectation)
+                a3_claims += 1
+                if len(transitions) == h.support_count and all(
+                    t["source"] in ("world", "self") for t in transitions
+                ):
+                    a3_claims_linked += 1
+
+            prev_report = report
+
             cycle_reports.append({
                 "cycle": cycle + 1,
                 "reported_beliefs": len(reported_beliefs),
@@ -458,6 +847,18 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 })
         attributed_only = [f"{f}->{t}" for (f, t) in mem.attribution
                            if (f, t) not in aggregate_edges]
+
+        # --- A3: the final cycle's structures, traced against the final window
+        # The loop above traces each cycle's report at the start of the next
+        # cycle.  The last cycle's report has no next cycle, so it is traced
+        # here against the window as it stands after the run.
+        if prev_report is not None:
+            final_window = svc._load_prior_candidates()
+            a3_final = audit_ancestry(prev_report, final_window, mem.candidate_ids)
+            _accumulate_a3(a3, a3_final)
+            a3_window_sweep = window_sweep(prev_report, final_window, mem.candidate_ids)
+            a3_depth_sweep = depth_sweep(prev_report, final_window, mem.candidate_ids)
+            a3_window_age = window_content_age(final_window, mem.last_store_cycle, cycles - 1)
     finally:
         mem.close()
         db.unlink(missing_ok=True)
@@ -594,6 +995,68 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                     "aggregate count. The world/self split is the D2 quantity: "
                     "a supporting transition whose prior event is the "
                     "organism's own sleep payload is self-sourced.",
+        },
+        "A3_ancestry_honesty": {
+            "pass": not a3["honesty_errors"],
+            "criterion": "Every ancestry node is either resolved within the "
+                         "window, or explicitly marked absent WITH the window "
+                         "bound stated. A record that reports a parent as "
+                         "having no parent when it was merely out of window "
+                         "fails the build.",
+            "window_bound": WINDOW_BOUND,
+            "max_depth": MAX_ANCESTRY_DEPTH,
+            "structures_checked": a3["structures"],
+            "structures_resolved": a3["resolved"],
+            "lineage_reachability": (round(a3["resolved"] / a3["structures"], 6)
+                                     if a3["structures"] else None),
+            "truncation_split": a3["split"],
+            "branch_level_counts": a3["branch_counts"],
+            "honesty_errors": a3["honesty_errors"][:10],
+            "honesty_error_count": len(a3["honesty_errors"]),
+            "evidence_linkage": {
+                "claims_checked": a3_claims,
+                "claims_linked": a3_claims_linked,
+                "share": (round(a3_claims_linked / a3_claims, 6) if a3_claims else None),
+                "note": "Level 2, measured at each claim's own cycle: the share "
+                        "of reported beliefs whose support resolves to event ids "
+                        "with a world/self split that fully accounts for the "
+                        "reported support count. Evidence linkage and lineage "
+                        "reachability are DIFFERENT populations and neither "
+                        "stands in for the other.",
+            },
+            "populations": {
+                "lineage": "reported structures whose type is NOT a Layer-1 type. "
+                           "Layer-1 structures ARE terminals -- they have no "
+                           "parent link -- so counting them would inflate the "
+                           "rate with a trivial population.",
+                "claims": "reported hypotheses with a real expectation (the same "
+                          "population A7 checks).",
+            },
+            "note": "Structures reported in cycle N are traced against the "
+                    "window the engine would read for them -- the window as it "
+                    "stands AFTER cycle N's candidates are persisted, which is "
+                    "the window loaded at the start of cycle N+1. Tracing a "
+                    "cycle's report against the window read BEFORE that cycle "
+                    "would miss the structures' own parents, which do not exist "
+                    "in the substrate yet.",
+            "diagnostics": {
+                "window_sweep": a3_window_sweep,
+                "window_sweep_note": "DIAGNOSTIC, not a criterion: reachability "
+                                     "as a function of window size, computed by "
+                                     "slicing the candidate list the engine "
+                                     "holds. It shows how much of the "
+                                     "incompleteness is the window rather than "
+                                     "the architecture. The engine's own window "
+                                     "is fixed at 4,000 sleep events.",
+                "depth_sweep": a3_depth_sweep,
+                "depth_sweep_note": "DIAGNOSTIC, not a criterion: reachability "
+                                    "as a function of the depth limit. It is "
+                                    "how the 'depth-truncated' branch is shown "
+                                    "to be reachable -- a category that never "
+                                    "fires is a category that has not been "
+                                    "tested. The engine's own limit is 7.",
+                "window_content_age": a3_window_age,
+            },
         },
         "summary": {
             "cycles_run": len(cycle_reports),

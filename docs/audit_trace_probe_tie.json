@@ -73,6 +73,243 @@
     },
     "note": "Every temporal edge must resolve to the concrete events that produced it, and the attributed total must equal the aggregate count. The world/self split is the D2 quantity: a supporting transition whose prior event is the organism's own sleep payload is self-sourced."
   },
+  "A3_ancestry_honesty": {
+    "pass": true,
+    "criterion": "Every ancestry node is either resolved within the window, or explicitly marked absent WITH the window bound stated. A record that reports a parent as having no parent when it was merely out of window fails the build.",
+    "window_bound": "4000 sleep events (the most recent 4000 rows of `events` with event_type='sleep')",
+    "max_depth": 7,
+    "structures_checked": 3988,
+    "structures_resolved": 3988,
+    "lineage_reachability": 1.0,
+    "truncation_split": {
+      "missing_record": 0,
+      "aged_out": 0,
+      "depth_truncated": 0,
+      "no_parent": 0
+    },
+    "branch_level_counts": {
+      "missing_record": 0,
+      "aged_out": 224,
+      "depth_truncated": 0,
+      "no_parent": 0,
+      "layer1": 12887
+    },
+    "honesty_errors": [],
+    "honesty_error_count": 0,
+    "evidence_linkage": {
+      "claims_checked": 692,
+      "claims_linked": 692,
+      "share": 1.0,
+      "note": "Level 2, measured at each claim's own cycle: the share of reported beliefs whose support resolves to event ids with a world/self split that fully accounts for the reported support count. Evidence linkage and lineage reachability are DIFFERENT populations and neither stands in for the other."
+    },
+    "populations": {
+      "lineage": "reported structures whose type is NOT a Layer-1 type. Layer-1 structures ARE terminals -- they have no parent link -- so counting them would inflate the rate with a trivial population.",
+      "claims": "reported hypotheses with a real expectation (the same population A7 checks)."
+    },
+    "note": "Structures reported in cycle N are traced against the window the engine would read for them -- the window as it stands AFTER cycle N's candidates are persisted, which is the window loaded at the start of cycle N+1. Tracing a cycle's report against the window read BEFORE that cycle would miss the structures' own parents, which do not exist in the substrate yet.",
+    "diagnostics": {
+      "window_sweep": [
+        {
+          "window_candidates": 25,
+          "lineage_reachability": 0.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 68,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 211,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 0
+          }
+        },
+        {
+          "window_candidates": 50,
+          "lineage_reachability": 0.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 68,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 211,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 0
+          }
+        },
+        {
+          "window_candidates": 100,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 25,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 186
+          }
+        },
+        {
+          "window_candidates": 200,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 8,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 203
+          }
+        },
+        {
+          "window_candidates": 500,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 6,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 205
+          }
+        },
+        {
+          "window_candidates": 1000,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 6,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 205
+          }
+        },
+        {
+          "window_candidates": 2000,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 6,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 205
+          }
+        },
+        {
+          "window_candidates": 3998,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          },
+          "branch_level_counts": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0,
+            "layer1": 211
+          }
+        }
+      ],
+      "window_sweep_note": "DIAGNOSTIC, not a criterion: reachability as a function of window size, computed by slicing the candidate list the engine holds. It shows how much of the incompleteness is the window rather than the architecture. The engine's own window is fixed at 4,000 sleep events.",
+      "depth_sweep": [
+        {
+          "max_depth": 1,
+          "lineage_reachability": 0.22058823529411764,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 53,
+            "no_parent": 0
+          }
+        },
+        {
+          "max_depth": 2,
+          "lineage_reachability": 0.6911764705882353,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 8,
+            "depth_truncated": 13,
+            "no_parent": 0
+          }
+        },
+        {
+          "max_depth": 3,
+          "lineage_reachability": 0.8088235294117647,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 7,
+            "depth_truncated": 6,
+            "no_parent": 0
+          }
+        },
+        {
+          "max_depth": 5,
+          "lineage_reachability": 0.9852941176470589,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 1,
+            "depth_truncated": 0,
+            "no_parent": 0
+          }
+        },
+        {
+          "max_depth": 7,
+          "lineage_reachability": 1.0,
+          "truncation_split": {
+            "missing_record": 0,
+            "aged_out": 0,
+            "depth_truncated": 0,
+            "no_parent": 0
+          }
+        }
+      ],
+      "depth_sweep_note": "DIAGNOSTIC, not a criterion: reachability as a function of the depth limit. It is how the 'depth-truncated' branch is shown to be reachable -- a category that never fires is a category that has not been tested. The engine's own limit is 7.",
+      "window_content_age": {
+        "candidates": 3998,
+        "oldest_age_cycles": 1,
+        "median_age_cycles": 0,
+        "youngest_age_cycles": 0,
+        "distinct_cycles_spanned": 2,
+        "note": "Age in cycles of each candidate still held by the window, measured from the cycle it was last stored in. This is the window's CONTENT age, which is not the same as its span in stores: candidates are re-stored every cycle by the decay path, so a window of 4,000 sleep events can still hold structures that were first formed many cycles earlier."
+      }
+    }
+  },
   "summary": {
     "cycles_run": 60,
     "cycles_with_beliefs": 58,

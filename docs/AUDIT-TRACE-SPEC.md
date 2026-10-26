@@ -407,10 +407,11 @@ The build is accepted only if all six hold, and each is a check that can fail:
 | **A6** | **Trace/ counterfactual separation** | The trace contains no counterfactual field; any replay lives in a separate artifact with its own label. A check that greps the trace schema for counterfactual claims fails the build. |
 | **A7** | **Event-level attribution** | Every temporal edge resolves to the concrete events that produced it, the attributed total for each edge **equals** its aggregate count, and each belief's support resolves to event ids with a **world/self split**. Requires the store-time observer, and the observer's own guard must mirror the engine's. |
 
-**Status of the criteria at the time of writing (2026-10-26):** **A1, A2, A4
-and A7 are met** by the probe (§10) — A7 including a **forced-tie arm** in
-which the engine's lookback window is genuinely ambiguous. **A3 (ancestry
-completeness), A5 (field-honesty) and A6 (trace/counterfactual separation) are
+**Status of the criteria (updated 2026-10-26, §13):** **A1, A2, A3, A4 and
+A7 are met** by the probe (§10, §13) — A7 including a **forced-tie arm** in
+which the engine's lookback window is genuinely ambiguous, and A3 including a
+window sweep and a depth sweep that show its truncation branches are
+reachable. **A5 (field-honesty) and A6 (trace/counterfactual separation) are
 still pending** and belong to the build.
 
 **Completion metrics the trace should report** (diagnostics, not pass/fail):
@@ -789,9 +790,12 @@ designed to represent.
 problem. *"Depth-truncated"* means **the developmental chain exists and the
 tracing machinery cut it** — a representation problem. They have different
 causes and different fixes, and a single percentage cannot distinguish them.
-The window is the more likely binding constraint, and it is now **measured
-rather than estimated**: the engine stores **2,374.68 sleep events per cycle**, so the 4,000-event
-cognition window spans only **1.7 cycles**.
+The window's span is now **measured rather than estimated**: the engine
+stores **2,374.68 sleep events per cycle**, so the 4,000-event cognition window spans only
+**1.7 cycles of stores**. But the measurement went further, and **corrected the
+sentence that followed it**: the window's span is **not** the binding constraint
+on lineage depth. See §13. The binding constraint is the **death of an
+ancestor**, not the window's recency.
 
 **That corrects an earlier estimate by more than an order of magnitude.** This
 specification previously said the window spanned "roughly 40–130 cycles",
@@ -840,6 +844,102 @@ longer?), **revision resistance** (does it survive contradicting evidence?),
 warrants?), and **false-positive rate**. The trace is the first instrument that
 can ask these questions. They are a **characterisation study**, not a protocol,
 and they are not asked here.
+
+---
+
+## 13. A3: the measurement
+
+**What was run.** An ancestry auditor, added to the probe, that walks each
+cycle's reported structures' parent chains against the engine's own cognition
+window and classifies every branch that fails to resolve. The definition was
+fixed in advance in §12; the criterion is in §6.
+
+### The result
+
+| Quantity | Default arm (120 cycles) |
+|---|---|
+| **Lineage reachability** | **1.000** — 8,061 of 8,061 structures resolve back to Layer 1 within depth 7 |
+| **Evidence linkage** | **1.000** — 1,412 of 1,412 claims resolve to event ids with a world/self split |
+| **Truncation split** (structures) | aged out 0 / depth-truncated 0 / no parent 0 / missing record 0 |
+| **Branch-level counts** | layer-1 resolved 25,168 / aged out 105 / depth-truncated 0 / no parent 0 |
+| **Honesty errors** | 0 |
+
+The same holds on the stress arm (3,240 structures, 1.000) and the forced-tie
+arm (3,988 structures, 1.000).
+
+**Read the two counts together.** The *structure-level* split is empty, but
+**105 branches were aged out**. Every structure nonetheless resolves, because each one has at
+least one parent branch still inside the window. The empty split is therefore
+not "nothing aged out" — it is "nothing failed to resolve". Both numbers are
+reported for exactly that reason.
+
+### The correction this measurement forced
+
+§12 said the window was *"the more likely binding constraint"*, on the
+reasoning that the window spans only 1.7 cycles. **That was wrong, and the
+measurement corrected it.**
+
+**Surviving candidates are re-stored every cycle** — Layer-1 candidates by the
+natural-selection decay path (`sleep.py:1784-1800`), and higher-layer
+candidates by the report's own re-derivation and the stable-prior add-back
+(`sleep.py:476-509`). So an ancestor that is still alive stays inside the
+window no matter how old it is. **A lineage's depth is not bounded by the
+window's recency.**
+
+What the window does bound is the history of anything that **died**. A
+candidate that decays below the death threshold is pruned and never stored
+again; its last store eventually leaves the 4,000-event window, and the parent
+link that pointed at it becomes unresolvable. That is the 105 aged-out branches.
+
+### How much history does Organica actually keep?
+
+**Measured: the window's content age is at most 1 cycle, spanning 2 distinct cycles.**
+The window holds 3,998 candidates, and the oldest of them was last stored
+one cycle ago. So a *dead* structure's history is unrecoverable almost
+immediately, while a *living* one's is recoverable indefinitely — and the
+difference is the decay rule, not the window.
+
+### A3's key question, answered
+
+§12 asked: **does the incompleteness reflect the architecture's actual
+developmental history, or the observer's retention limit?**
+
+> **It is the same limit, and there is no incompleteness to explain. The
+> engine's cognition window *is* its memory. An investigator cannot recover
+> more developmental history than Organica retains, because there is no more
+> to recover.**
+
+Read that twice, because it cuts both ways. It is good news for the trace:
+the auditor reconstructs the lineage of **everything the organism still
+holds**, exactly, with zero honesty errors. It is a hard ceiling on the
+project's distinguishing property: **developmental provenance in Organica 1
+has a horizon of the organism's own memory, and that horizon is about two
+cycles for anything that has died.** A claim of developmental provenance that
+reaches further back than the organism's own window would be a claim about a
+history that does not exist.
+
+### The two sweeps, and why they are diagnostics
+
+A category that never fires is a category that has not been tested. Both
+sweeps are **diagnostics of the instrument**, never criteria:
+
+- **Window sweep** — reachability as a function of window size. At the
+  engine's window it is 1.000; at 100 candidates it falls to 0.971 with 2
+  structures aged out; at 25–50 it falls to 0.000, with 68 structures aged
+  out. **"Aged out" is reachable and the measurement moves.**
+- **Depth sweep** — reachability as a function of the depth limit. At depth 7
+  it is 1.000; at depth 5, 0.985; at depth 3, 0.809; at depth 1, 0.221, with
+  53 structures depth-truncated. **"Depth-truncated" is reachable, and the
+  engine's depth limit of 7 is not binding** — the chains are shorter than it.
+
+### What this does not establish
+
+It does not establish that the reconstructed chain is the *true* developmental
+history (§10's fidelity-is-not-sufficiency boundary still applies), that the
+result generalises beyond one world family, one policy and one configuration,
+or anything at all about learning or transfer. And **it does not establish
+that A3 was the bottleneck** — the measurement says it was not.
+
 
 ---
 

@@ -4069,3 +4069,120 @@ Recorded in `docs/AUDIT-TRACE-SPEC.md` (§10, §11, §12), in the manual as
 §8.14, in the facts sheet as §AA14–§AA16, in `AGENTS.md` as rule 19, and in
 the artifact `docs/audit_trace_probe.json` →
 `A7_event_level_attribution.cognition_window`.
+
+---
+
+## §47 — The window was not the constraint, and the specification said it was
+
+**What this section records.** A3 — the ancestry check — was built against the
+definition fixed in advance in spec §12, and the measurement corrected the
+specification's own reasoning.
+
+### The measurement
+
+An ancestry auditor walks each cycle's reported structures' parent chains
+against the engine's own cognition window and classifies every branch that
+fails to resolve. Two links, kept apart: **Level 1** (developmental lineage,
+terminating at Layer 1 — no parent link points at an event) and **Level 2**
+(evidential linkage, reaching events).
+
+- **Lineage reachability: 1.000** — 8,061 of 8,061 structures resolve back to Layer 1 within
+  depth 7.
+- **Evidence linkage: 1.000** — 1,412 of 1,412 claims resolve to event ids with a world/self
+  split.
+- **Honesty errors: 0.**
+- **Truncation split (structures):** aged out 0 / depth-truncated 0 /
+  no parent 0 / missing record 0.
+- **Branch-level counts:** layer-1 resolved 25,168 / aged out 105 / depth-truncated 0 /
+  no parent 0.
+
+The stress arm (3,240 structures) and the forced-tie arm (3,988 structures)
+both return 1.000.
+
+**The two counts must be read together.** The structure-level split is empty,
+but 105 branches were aged out. Every structure resolves because each has at least one parent
+branch still inside the window. An empty split is not "nothing aged out" — it
+is "nothing failed to resolve". Both are reported for that reason.
+
+### The correction
+
+Spec §12 said the window was **"the more likely binding constraint"**, on the
+reasoning that it spans only 1.7 cycles. **That was wrong.**
+
+**Surviving candidates are re-stored every cycle.** Layer-1 candidates go
+through the natural-selection decay path (`sleep.py:1784-1800`), which writes a
+decayed copy of every surviving prior candidate; higher-layer candidates are
+re-derived by the report and added back from the stable prior
+(`sleep.py:476-509`). So an ancestor that is still alive stays inside the
+window no matter how old it is. **A lineage's depth is not bounded by the
+window's recency.**
+
+What the window bounds is the history of anything that **died**. A candidate
+that decays below the death threshold is pruned and never stored again; its
+last store leaves the 4,000-event window, and the parent link that pointed at
+it becomes unresolvable. That is the 105 aged-out branches.
+
+The correction is recorded in §12 and §13 rather than quietly fixed — the same
+way every other correction in this project has been.
+
+### How much history does Organica actually keep?
+
+**Measured: the window's content age is at most 1 cycle, spanning 2 distinct cycles.** The
+window holds 3,998 candidates; the oldest was last stored one cycle ago. A *dead* structure's
+history is unrecoverable almost immediately; a *living* one's is recoverable
+indefinitely. The difference is the decay rule, not the window.
+
+### A3's key question, answered
+
+§12 asked whether the incompleteness reflects the architecture's developmental
+history or the observer's retention limit. The answer is that **there is no
+incompleteness at the engine's window**, and the reason is sharp:
+
+> **The observer's limit and the architecture's limit are the same limit. The
+> engine's cognition window *is* its memory. An investigator cannot recover
+> more developmental history than Organica retains, because there is no more
+> to recover.**
+
+That cuts both ways. It is good news for the trace — the auditor reconstructs
+the lineage of everything the organism still holds, exactly, with no honesty
+errors. And it is a hard ceiling on the project's distinguishing property:
+**developmental provenance in Organica 1 has the horizon of the organism's own
+memory.** A claim of developmental provenance reaching further back than the
+organism's own window would be a claim about a history that does not exist.
+
+### The sweeps, and what a category that never fires means
+
+Both sweeps are diagnostics of the instrument, never criteria.
+
+- **Window sweep:** 1.000 at the engine's window; 0.971 at 100 candidates (2
+  aged out); 0.000 at 25–50 (68 aged out).
+- **Depth sweep:** 1.000 at depth 7; 0.985 at depth 5; 0.809 at depth 3; 0.221
+  at depth 1 (53 depth-truncated).
+
+So **"aged out" and "depth-truncated" are both reachable**, and **the engine's
+depth limit of 7 is not binding** — the chains are shorter than it. A category
+that never fires is a category that has not been tested.
+
+### Two defects the build caught in itself
+
+Both were found by the checks rather than by inspection, and both are recorded
+here because the project's rule is that corrections are documented, not
+quietly updated.
+
+1. **The observer mis-classified `meta_concept` candidates as cycle markers.**
+   The candidate payload's source is `sleep:meta_concept`, and the check used
+   `source.startswith("sleep:meta")` — which matches the marker prefix and
+   therefore excluded every meta candidate from the record of what had ever
+   been stored. The consequence was spurious **"missing record"** verdicts on
+   perfectly ordinary parent links. The engine distinguishes these with an
+   **exact** comparison (`source != "sleep:meta"`, `sleep.py:881` and
+   `memory.py:472`), and the observer now does too.
+2. **The window sweep sliced the wrong end of the window.** `recent()` orders
+   by `time DESC`, so the newest candidates are at the FRONT of the list. The
+   sweep took the back, and so reported the reachability of the *oldest*
+   candidates. The sweep now takes the front, and a test pins the ordering so
+   it cannot regress.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` (§6 status, §12 correction, §13), in
+the manual as §8.15 and finding 21, in the facts sheet as §AA18–§AA19, in
+`AGENTS.md` as rule 21, and in the artifacts as `A3_ancestry_honesty`.

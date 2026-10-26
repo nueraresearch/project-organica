@@ -568,6 +568,20 @@ being judged.
 A forced-tie arm confirms the observer reproduces the engine's choice even when
 the lookback window is genuinely ambiguous.
 
+**And the lineage measurement turned out to say something uncomfortable.**
+An ancestry auditor walks each cycle's structures' parent chains against the
+engine's own window: **lineage reachability 1.000** (every reported structure
+resolves back to Layer 1 within depth 7) and **evidence linkage 1.000** (every
+claim resolves to event ids with a world/self split), with zero honesty errors.
+But it also corrected the specification's own reasoning — the window is *not*
+the binding constraint on lineage depth, because surviving candidates are
+re-stored every cycle; what bounds a lineage is the **death of an ancestor**.
+And the measurement of how much history Organica keeps is the real result:
+**the engine's cognition window *is* its memory.** An investigator can
+reconstruct the lineage of everything the organism still holds, exactly — and
+cannot see further back than Organica remembers, because the organism does not
+remember it either.
+
 And the rule that keeps it from becoming its own project: the next
 protocol's success criteria must contain at least one **trace-derived
 diagnostic**, and a result that fails it fails the protocol **even if the
