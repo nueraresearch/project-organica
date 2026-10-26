@@ -516,6 +516,39 @@ The full characterisation is
 
 ---
 
+#### Next: a trace an investigator can check
+
+Phase L answered *can development occur?* The next question is narrower and
+harder — **does what Organica develops become usable in a new situation?** — and
+one limb of it cannot be measured with the tools that exist today: *trace*.
+
+So the trace was specified first, against the frozen engine's actual report
+fields and persistence limits
+([`docs/AUDIT-TRACE-SPEC.md`](docs/AUDIT-TRACE-SPEC.md)). The question it
+answers:
+
+> **Could an investigator reconstruct the reason — what evidence was used, how
+> the claim was formed, what the competing candidates were — without asking the
+> system?**
+
+Three levels: **provenance** (available — parent links exist), **evidence**
+(available, with one correction — support counts are temporal transitions, and
+"contradiction" is competing flow), and **selection** (available without
+instrumenting the engine — the whole contest is reconstructible from what the
+engine already exposes and what the substrate already persists).
+
+Two rules came out of writing it: **a count must be named as what it counts**,
+and **a trace is not a counterfactual** — *"candidate B would have survived
+without A"* is a replay, run separately, never a field of the record.
+
+**And the load-bearing claim was tested rather than asserted.** An instrument
+probe runs the frozen engine and, at every cycle, rebuilds the selection contest
+from the report and the substrate: **120 cycles, 1,412 beliefs checked, the evidence
+replay and the selection reconstruction both exact on every cycle** — plus a stress
+arm that tightens the belief budget so candidates actually *lose*, which the
+default configuration never does. So the contest is reconstructible **without a
+hook inside the engine** — assembly, not instrumentation.
+
 ### Six task families, six negatives — and what the project does with them
 
 This is the most important thing to know about the repository. The external-validity arc is a **coherent negative result**, not a string of unrelated failures:

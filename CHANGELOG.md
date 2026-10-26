@@ -198,6 +198,69 @@ region.
 Added `docs/PHASE-L-SYNTHESIS.md`; manual §8.12 and finding 17; facts sheet
 §Z; journal §40.
 
+### Added — the development audit trace specification (Phase M groundwork)
+
+The specification for a **developmental auditability** record: the artifact
+that would let an investigator reconstruct *why* a structure survived — what
+evidence was used, how the claim was formed, what the competing candidates were
+— **without asking the system**. Written against the frozen engine's **actual**
+report fields and persistence limits, source-read on 2026-10-25.
+
+**Level 1 (provenance) is available.** `get_ancestry()` reads parent links that
+are already stored; the limits are depth 7 and the 4,000-event window, and a
+parent outside the window means *not found in window*, never *no parent*.
+
+**Level 2 (evidence) is available, with one correction.** `support_count` counts
+**temporal transitions**, and `contradiction_count` is the subject's **competing
+flow** — not a count of observations that contradicted the claim. The record
+format as first proposed ("12 supporting observations, 4 contradictory
+observations") would have put a false claim at the centre of the audit and is
+corrected in the spec.
+
+**Level 3 (selection) is available without instrumenting the engine.** The
+report contains only survivors, but under the default `salience` policy the
+whole contest — including candidates culled by the confidence rule and
+candidates that lost on rank — is reconstructible from the report's own Layer-2/3
+outputs plus the persisted priors. The plan is therefore **assembly, not
+instrumentation**; a labelled observer build is the fallback, and it must prove
+that recording the trace leaves the engine's outputs unchanged.
+
+**Counterfactuals live behind a wall.** *"Candidate B would have survived
+without A"* is a **replay**, not a trace: a separate run, a separate artifact,
+its own label.
+
+**Six acceptance criteria** for the eventual build, each able to fail:
+evidence-replay exactness, selection-reconstruction exactness, ancestry honesty,
+behaviour invariance, field-honesty, and trace/counterfactual separation.
+
+**Two defects disclosed, neither patched** (Organica 1 is frozen):
+`contradiction_count` is easy to misread, and the temporal graph's lookback
+window has **no `event_type` filter**, so a supporting transition can originate
+from the organism's own previous sleep payload while co-occurrence and
+tag-frequency edges are world-scoped.
+
+Added `docs/AUDIT-TRACE-SPEC.md`; manual §8.13 and finding 18; facts sheet §AA;
+journal §41; AGENTS.md rule 17.
+
+**And the specification's load-bearing claim was tested.** `benchmarks/audit_trace_probe.py`
+is an **instrument probe, not an experiment about the organism**: it runs the frozen engine on
+the frozen cause-world generator and, at every cycle, rebuilds the selection contest from
+the report and the substrate and compares. **Default arm** (the engine's own belief cap of
+15): **120 cycles, 1,412 beliefs checked, A1 evidence replay 0 failures, A2 selection
+reconstruction 120/120 cycles.** **Stress arm** (cap 5, so the cap binds): **60 cycles, 290
+beliefs checked, A1 0 failures, A2 60/60 cycles, 403 candidates lost on rank.** The default
+arm alone was a weak test — its pool peaked at 12 against a cap of 15, so the
+*lost-on-rank* branch never fired — which is why the stress arm exists and why the write-up
+says so. **The checks can fail:** `tests/test_audit_trace_probe.py` breaks the auditor on
+purpose and requires A1 and A2 to go red, and they do. **So the selection contest needs no
+hook inside the engine** — assembly, not instrumentation. What is *not* established:
+generality, the `stochastic` policy, the four remaining acceptance criteria, or anything
+about learning.
+
+Added `benchmarks/audit_trace_probe.py`, `tests/test_audit_trace_probe.py`, and the artifacts
+`docs/audit_trace_probe.json` and `docs/audit_trace_probe_stress.json`; spec §10; facts sheet
+§AA8.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy

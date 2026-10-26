@@ -3520,3 +3520,121 @@ cites a committed artifact for every claim. The measurement record stays in
 everywhere, and the two are kept visibly separate.
 
 Recorded in the facts sheet as §Z, and in the manual as §8.12.
+
+---
+
+## §41 — The next chapter: developmental auditability, and the record that has to exist first
+
+**What this section records.** A decision, and the specification that follows
+from it. It is a decision record and a design document, not new evidence.
+
+### The decision
+
+The owner's reading of the raise-n result was that the project's defining
+ambition is **an intelligent blank slate that learns like a human**, and that the
+results so far describe *what Organica currently does*, not what the project
+should aspire to. Two north stars were separated: **A** — build a blank slate
+that learns like a human; **B** — build a developmental architecture and
+understand its properties. For most of the project's history they looked like
+one destination. Phases H through L suggest they are not.
+
+The operational consequence is a change in what the next experiment asks:
+
+> **Can developmental structure support transfer? Generalization? Belief
+> revision? Adaptation?**
+
+Those are narrower, more valuable questions than *can development occur?* — which
+has been answered.
+
+### Why this section is a specification and not a protocol
+
+The three limbs that bridge from development to transfer are **predict**, **trace**
+and **revise**. Two of them are measurements against the engine's own output.
+The third — *trace* — is not a measurement the engine currently supports, and it
+is the one that decides whether the other two mean anything: if the organism
+revises, we need to be able to show **what moved, on what evidence, and against
+which competing candidates**.
+
+So the trace was specified first. The specification is
+**`docs/AUDIT-TRACE-SPEC.md`**, written against the frozen engine's actual
+report fields and persistence limits rather than against an idealised version of
+them.
+
+### What the engine turned out to support
+
+| Level | Verdict |
+|---|---|
+| Provenance | **Available.** Parent links exist; `get_ancestry()` reads them. Bounded by depth 7 and a 4,000-event window. |
+| Evidence | **Available, with a correction.** Support counts are *temporal transitions*; "contradiction" is *competing flow*. The record format as first proposed would have mislabelled both. |
+| Selection | **Available, and without instrumenting the engine** — under the default `salience` policy the whole contest is reconstructible from the report's own Layer-2/3 outputs plus the persisted priors. |
+
+The last line is the one worth keeping. The instinct was to reach for a hook
+inside the engine. The engine does not need one: every input to the retention
+ranking is derivable from what the engine already exposes and what the substrate
+already persists. So the plan is **assembly, not instrumentation** — with a
+labelled observer build held in reserve, and the non-negotiable requirement that
+an observer prove that recording the trace leaves the engine's outputs unchanged.
+
+### Two corrections this section carries
+
+1. **A count must be named as what it counts.** `support_count` counts temporal
+   transitions. `contradiction_count` is the subject's competing flow. Neither is
+   a count of observations, and the difference is the difference between an
+   audit record and a plausible-sounding one.
+2. **A trace is not a counterfactual.** *"Candidate B would have survived
+   without A"* is a replay: a separate run, a separate artifact, its own label.
+   It is never a field of the trace.
+
+### Two defects disclosed, neither patched
+
+**D1** — `contradiction_count` is a contention measure and reads like a
+contradiction count. **D2** — the temporal graph's lookback window has **no
+`event_type` filter**, so a supporting transition can originate from the
+organism's own previous sleep payload, while co-occurrence and tag-frequency
+edges are world-scoped. Both are recorded rather than fixed: Organica 1 is
+frozen at `v0.9.0`, and D2 is a genuine finding about V1's support counts, not
+a bug to patch from here.
+
+### What is not claimed
+
+No claim that the engine is explainable. No claim of causal explanation. No
+claim that the organism learns like a human — only that the record which would
+let that question be asked without taking the system's word for it has been
+specified, with six acceptance criteria, each able to fail.
+
+### Addendum — the claim was tested, and the weaker arm was reported as weaker
+
+The specification's load-bearing claim was that the selection contest is
+externally reconstructible. That claim was read out of the source, and a
+specification whose central claim is unverified is a guess with citations. So
+it was tested, with `benchmarks/audit_trace_probe.py` — an **instrument probe**,
+not an experiment about the organism: it makes no claim about what Organica
+does, only about whether an outside auditor can reproduce what the engine did.
+
+| Arm | Belief cap | Cycles | Beliefs checked | A1 | A2 | Died | Lost on rank |
+|---|---|---|---|---|---|---|---|
+| Default | 15 | 120 | 1,412 | 0 failures | 120/120 | 4 | 0 |
+| Stress | 5 | 60 | 290 | 0 failures | 60/60 | 3 | **403** |
+
+**The default arm was a weak test and is reported as one.** Its pool peaked at
+12 candidates against a cap of 15, so the cap never bound and **no candidate
+ever lost on rank** — the branch that matters most for Level 3 went unexercised.
+The stress arm tightens the budget so the pool exceeds the cap, and 403
+candidates were lost on rank; the reconstruction stayed exact in both arms.
+
+**The checks can fail.** The probe's tests break the auditor on purpose —
+zeroing the curiosity term, and separately dropping a tag from the temporal
+graph — and require both checks to go red. They do.
+
+**The honest limit.** One world family, one configuration, one policy. The
+probe validates the *transcription* of the rules; it does not validate the
+auditor on worlds it has not seen, it says nothing about the `stochastic`
+policy (where the reconstruction degrades to a bound), and it says nothing at
+all about learning, transfer or capability.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` §10, in the facts sheet as §AA8, in the
+manual as §8.13, and in the artifacts `docs/audit_trace_probe.json` and
+`docs/audit_trace_probe_stress.json`.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md`, in the manual as §8.13 and finding 18,
+in the facts sheet as §AA, and in `AGENTS.md` as rule 17.
