@@ -4,6 +4,13 @@
 **Verdict by the four pre-committed criteria: `H3-L — INCONCLUSIVE`.**
 **Protocol remedy for this outcome: raise n; conclude nothing. No outcome here authorises a V2.**
 
+> **This document is the measurement record.** The published *characterisation*
+> — what the measurement means, in the owner's reading — is
+> **[`docs/PHASE-L-SYNTHESIS.md`](PHASE-L-SYNTHESIS.md)**. The two are kept
+> separate on purpose: the verdict is what the protocol produced, and the
+> characterisation is what the shape turned out to be. Neither re-scores the
+> other.
+
 This is the **raise-n** run: the protocol's own remedy for the n=10 result,
 taken on the primary axis with the same sweep, the same criteria and no
 edits (Amendment 3, committed **before** the run existed).

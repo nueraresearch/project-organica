@@ -3418,3 +3418,105 @@ changed is that the phase can now *say what the verdict means*.
 
 Recorded in `docs/phase_l_results.md`, in the facts sheet as §Y, and in the
 manual as §8.11.
+
+---
+
+## §40 — The decision: publish the characterisation, and stop raising n
+
+**What this section records.** The owner's reading of the raise-n result, the
+decision taken on the strength of it, and the reasoning behind that decision.
+It is a decision record, not new evidence.
+
+### The reading
+
+> **Organica 1 does not appear to exhibit a continuous coherence–plasticity
+> trade-off. It appears to exhibit regime behaviour separated by a
+> reproducible transition region.**
+
+This is the owner's sentence, and it is deliberately *not* the protocol
+verdict. The two answer different questions: the protocol asked whether four
+pre-committed properties hold (**no** → `H3-L — INCONCLUSIVE`), and this asks
+what shape the curve actually has (**a step function**).
+
+The owner put it sharply: raising n made the result **sharper, not cleaner**.
+Normally tripling a sample makes a signal emerge or disappear; here the
+crossing got stronger, the threshold got stronger, the plateaus got
+stronger, and the verdict stayed negative. That is not a null result — it is a
+result whose shape the protocol did not anticipate.
+
+### What survived increasing n, and what did not
+
+**Survived:** the preservation plateau (DI exactly 0.000 for all 30 seeds
+across 1:4–1:1), the transition region, the crossing at 3:1, the reproducible
+RT, and the abrupt latency shift (0/30 → 30/30 between 2:1 and 3:1).
+
+**Did not survive:** strict monotonicity — which got *weaker*, which is
+exactly what you expect if it was never a property of the organism in the
+first place.
+
+### Why raising n again is not the answer
+
+The reason to raise n in the first place was specific: there was a plausible
+world where the +0.005 PI reversal was **noise around an otherwise monotone
+curve**, and another where the curve was **genuinely step-shaped**. Those
+worlds predict differently, and more data distinguishes them.
+
+**It distinguished them.** At n=30 the low-end steps are each individually
+consistent with zero, the plateaus are exact across all 30 seeds, and the two
+monotonicity criteria fail *more* firmly, not less. The noise-around-a-monotone-
+curve world is not supported.
+
+So the campaign was not failing for want of precision. **It was failing
+because the curve is not the curve the protocol expected.** A third raise would
+change nothing about the thing being measured — and "raise n until it says
+what I want" is the exact failure mode a pre-registration exists to prevent.
+**The protocol's remedy has been carried out to its end, and the honest move
+is to report the shape, not to keep buying precision on a question the data
+has already answered.**
+
+### The decision
+
+**Publish the characterisation.** Not `H2-L` — that outcome was not reached,
+and the verdict stands as `H3-L — INCONCLUSIVE`. Not "boundary established" —
+the protocol says that was not established. But this *was* established:
+
+- the displacement curve is step-like;
+- the threshold location is stable and reproducible;
+- the monotonic assumptions are not properties of the organism.
+
+**Then, and only then, consider the secondary axes.** They are no longer
+tests of *which variable moves a smooth boundary* — they are tests of **why
+the curve is step-shaped**: what sets the width and location of the transition
+region. That is a more specific question than the one Phase L was written to
+answer, and it is a question about regime formation.
+
+V2–V5 remain unrun. No Phase L outcome authorises a V2, and the owner has
+not authorised one.
+
+### The dangerous question, and the answer to it
+
+The temptation this result creates is *"a stable, reproducible threshold at
+3:1 — that is a boundary, isn't it?"*
+
+**It is not.** A threshold is a boundary only if the trade-off is a continuum
+that the threshold divides. Here the curve is flat on both sides of the
+crossing, and the crossing is stable for a reason that has nothing to do with a
+continuum: the organism switches regimes, and the switch is reproducible. That
+is a real property — and it is not the property the protocol asked for. Calling
+it one would be the same category of error as re-scoring the failed criteria,
+only more flattering.
+
+The second temptation is to let "regime behaviour" become a claim about
+intelligence. It is not one. Phase L measured a displacement index, a
+preservation index and a latency on synthetic worlds. **"Regime" describes the
+shape of those curves, and nothing more.**
+
+### Where this lives
+
+The published characterisation is **`docs/PHASE-L-SYNTHESIS.md`**, following the
+`docs/V1-SYNTHESIS.md` pattern: a formal read that adds no new evidence and
+cites a committed artifact for every claim. The measurement record stays in
+`docs/phase_l_results.md`, the protocol verdict stays `H3-L — INCONCLUSIVE`
+everywhere, and the two are kept visibly separate.
+
+Recorded in the facts sheet as §Z, and in the manual as §8.12.

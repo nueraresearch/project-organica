@@ -393,7 +393,7 @@ Phases A–E (architecture, reproduction pack, growth benchmarks, five research 
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 
-### Phase L: measuring the coherence–plasticity boundary
+### Phase L: measuring the coherence–plasticity trade-off
 
 Phase K closed. **Phase L opens as a measurement phase, not another
 benchmark hunt.** Every previous phase asked *"can Organica do X?"*
@@ -474,6 +474,45 @@ monotonicity is not a property this organism's displacement curve has*, and
 more seeds cannot turn a plateau into a ramp.
 
 The full write-up is [`docs/phase_l_results.md`](docs/phase_l_results.md).
+
+#### The characterisation — what the shape actually is
+
+The verdict and the characterisation are **separate artefacts**, and the
+characterisation does not re-score the verdict. The verdict stands as
+`H3-L — INCONCLUSIVE`; the shape of what was measured is unambiguous, and it
+is this:
+
+> *Organica 1 does not appear to exhibit a continuous coherence–plasticity
+> trade-off. It appears to exhibit regime behaviour separated by a
+> reproducible transition region.*
+
+What survived increasing n: the preservation plateau (DI **exactly 0.000** for
+all 30 seeds across 1:4–1:1), the transition region, the crossing at **3:1**,
+the reproducible RT (**[5.0, 5.0]**, 10,000/10,000 replicates, leave-one-seed-out
+3:1 in **30 of 30**), and the abrupt latency shift (**0/30 → 30/30** seeds
+reaching DI > 0.5 between 2:1 and 3:1). What did not survive: strict
+monotonicity — which got *weaker* as n grew, exactly as expected if it was
+never a property of the organism.
+
+**Why n is not raised again.** The reason to raise n was to separate two worlds:
+the tiny PI reversal being *noise around an otherwise monotone curve*, or the
+curve being *genuinely step-shaped*. n=30 distinguished them — the low-end
+steps are each consistent with zero, the plateaus are exact across all 30
+seeds, and the monotonicity criteria fail *more* firmly. The campaign was not
+failing for want of precision; it was failing because the curve is not the
+curve the protocol expected. **V2–V5 remain unrun**; the secondary axes are now
+a more specific question than the one Phase L was written to ask: not *which
+variable moves a smooth boundary*, but **why is the curve step-shaped**.
+
+**A stable threshold is not a boundary.** A threshold divides a continuum only
+if the trade-off is a continuum, and here the curve is flat on both sides of
+the crossing. The crossing is stable because the organism *switches regimes* —
+a real property, and not the property the protocol asked for. And "regime"
+describes the shape of a displacement index, a preservation index and a
+latency on synthetic worlds: it is **not** a claim about intelligence.
+
+The full characterisation is
+[`docs/PHASE-L-SYNTHESIS.md`](docs/PHASE-L-SYNTHESIS.md).
 
 ---
 

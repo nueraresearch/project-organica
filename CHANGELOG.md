@@ -153,6 +153,51 @@ the paired bootstrap over seeds is sound.
 `docs/phase_l_results.md` is rewritten for the raise-n result; journal §39,
 facts sheet §Y, manual §8.11 and finding 16.
 
+### Result — Phase L characterisation: regime behaviour, and a verdict that did not move
+
+The raise-n result has been read and **published as a characterisation**:
+[`docs/PHASE-L-SYNTHESIS.md`](docs/PHASE-L-SYNTHESIS.md). The protocol verdict
+is **unchanged** — `H3-L — INCONCLUSIVE` — and the two are deliberately kept
+as separate artefacts, the measurement record and the synthesis, neither
+re-scoring the other.
+
+> *Organica 1 does not appear to exhibit a continuous coherence–plasticity
+> trade-off. It appears to exhibit regime behaviour separated by a
+> reproducible transition region.*
+
+**What survived increasing n:** the preservation plateau (**DI exactly 0.000**
+for all 30 seeds across 1:4–1:1), the transition region, the crossing at
+**3:1**, the reproducible RT (**[5.0, 5.0]**, 10,000/10,000 replicates,
+leave-one-seed-out 3:1 in **30 of 30**), and the abrupt latency shift
+(**0/30 → 30/30** seeds reaching DI > 0.5 between 2:1 and 3:1). **What did not
+survive:** strict monotonicity, which got *weaker* as n grew — exactly as
+expected if it was never a property of the organism.
+
+**Raising n is exhausted on this axis and will not be repeated.** The reason to
+raise n was to distinguish *the tiny PI reversal is noise around an otherwise
+monotone curve* from *the curve is genuinely step-shaped* — worlds that predict
+differently. n=30 distinguished them: the low-end steps are each consistent
+with zero, the plateaus are exact across all 30 seeds, and the monotonicity
+criteria fail *more* firmly. The campaign was not failing for want of
+precision; it was failing because the curve is not the curve the protocol
+expected.
+
+**The dangerous question, answered.** *A stable, reproducible threshold at 3:1
+— that is a boundary, isn't it?* **It is not.** A threshold divides a continuum
+only if the trade-off is a continuum; here the curve is flat on both sides of
+the crossing, and the crossing is stable because the organism **switches
+regimes**. That is a real property of the measured system, and it is not the
+property the protocol asked for.
+
+**What comes next.** **V2–V5 remain unrun** — no Phase L outcome authorises a
+V2. The secondary axes are now a more specific question than the one Phase L
+was written to ask: not *which variable moves a smooth boundary*, but **why is
+the curve step-shaped** — what sets the width and location of the transition
+region.
+
+Added `docs/PHASE-L-SYNTHESIS.md`; manual §8.12 and finding 17; facts sheet
+§Z; journal §40.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy
