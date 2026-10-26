@@ -559,8 +559,12 @@ real number behind D2, after its denominator was pinned down:
 **17.9% of the distinct evidence behind Organica's reported beliefs is
 self-sourced** — the prior event being the organism's own sleep payload. On a
 wider surface the number is much larger: 43.2% of *all* the distinct transitions it
-recorded are self-sourced. A forced-tie arm confirms the observer reproduces
-the engine's choice even when the lookback window is genuinely ambiguous.
+recorded are self-sourced. That figure is measured, **not** shown to be
+consequential — and it is not a per-claim number, which is why the
+pre-committed disqualifier is written against a claim's *own* support, with
+its world/self split reported for that claim and a threshold fixed in advance.
+A forced-tie arm confirms the observer reproduces the engine's choice even when
+the lookback window is genuinely ambiguous.
 
 And the rule that keeps it from becoming its own project: the next
 protocol's success criteria must contain at least one **trace-derived

@@ -212,10 +212,27 @@ Two consequences, both verified by measurement:
   there — but they are not excluded by the schema.
 - **Therefore event-level attribution requires a store-time observer**: a
   passive subclass of `MemoryService` that calls the parent unchanged and
-  re-runs the *same* lookback query immediately afterwards, recording exactly
-  the window the engine used. The observer must mirror the engine's own guard
-  — edges are recorded only when `event_type != "sleep"` — and the attribution
-  must reconcile with the aggregate table exactly, transition by transition.
+  re-runs the lookback immediately afterwards, recording the window the engine
+  used. The observer must mirror the engine's own guard — edges are recorded
+  only when `event_type != "sleep"` — and the attribution must reconcile with
+  the aggregate table exactly, transition by transition.
+
+**A precision about the observer's query, because "the same query" is slightly
+too strong.** The engine runs `SELECT tags FROM events ORDER BY time DESC
+LIMIT 3`; the observer runs `SELECT id, time, event_type, tags, rowid FROM
+events ORDER BY time DESC LIMIT 3` — the **same ordering clause and limit**,
+with a **wider projection** so that the contributing rows can be identified.
+The two are not byte-identical SQL, and SQLite does not promise a stable order
+among rows that tie on `time`. The correct statement is therefore:
+
+> **The observer's window matched the engine's in every tested case, as an
+> empirical match on the tested SQLite implementation** — and the evidence for
+> that match is **A7's exactness**: if the observer's window had differed from
+> the engine's on any store, the attributed totals would not have matched the
+> aggregate counts, and A7 would have failed. The forced-tie arm pushes on this
+> deliberately ({ties} stores with a genuinely tied window, 0 mismatches).
+
+That is a demonstration, not a guarantee, and it is stated that way here.
 
 **Two denominators, and they must not be confused.** A belief's support count
 is **cumulative**: it is the number of transitions on that edge so far. So the
@@ -225,6 +242,16 @@ belief survives, and any total summed over beliefs and cycles is a count of
 the **distinct** count (each transition once, deduplicated) and the
 **reference** count (each appearance). The disqualifier in §11 reads the
 distinct one, because the question it asks is about distinct evidence.
+
+**What the run-level share is, and is not.** The figure below is a share of
+the **union of the unique evidence transitions behind beliefs reported during
+the run** — deduplicated, and restricted to the edges those beliefs rested on.
+It is **not** a per-claim share (a particular claim's own support can be far
+more or far less self-sourced), and it is **not** evidence that self-sourced
+support caused an incorrect prediction. It is a population-level measurement of
+how much of the organism's belief evidence is its own output. The disqualifier
+in §11 is therefore written as a **per-claim rule**, and the run-level figure
+is the baseline that rule is read against.
 
 **The record must also carry the attribution split**, because the engine's
 counting rule is not scoped to the world: the lookback window is
@@ -533,13 +560,21 @@ the trace must report both rather than let one stand in for the other.
 **The forced-tie arm.** The engine's lookback query has no tie-breaker, so the
 schema does not determine which rows a tied window selects. The forced-tie arm
 patches the clock so that every four consecutive stores share a timestamp,
-producing **479 stores with a genuinely tied window**, and requires the
+producing **{ties} stores with a genuinely tied window**, and requires the
 observer to reproduce the engine's choice anyway. **It does:** A7 stays exact
-(2,589 distinct transitions, 241 aggregate edges reconciling, 0 mismatches). The honest
-statement is that the *implementation* is deterministic for identical queries
-over identical data — so the observer's re-run selects the same rows — while
-the *schema* still does not guarantee it, and a replayer that did not observe
-at store time could not rely on it.
+({t_dist:,} distinct transitions, {t_edges} aggregate edges reconciling, 0 mismatches).
+
+**The result is an implementation match, not a schema guarantee.** The observer
+runs the same *ordering clause* as the engine with a wider projection, so the
+match is empirical on the tested SQLite implementation — and the evidence for
+it is A7's exactness, since a window mismatch would have broken the
+reconciliation. The schema still does not settle tied ordering, and a replayer
+that did not observe at store time could not rely on it. That is precisely why
+A7 requires store-time observation.
+
+**The artifact is committed:** `docs/audit_trace_probe_tie.json` — {t_cycles} cycles, {ties} tied
+windows, A1 {t_a1:,} beliefs / 0 failures, A2 {t_a2}/{t_a2} cycles, A7 {t_a7:,} beliefs / 0 failures with
+{t_edges} aggregate edges reconciling.
 
 ### What the probe establishes, and what it does not
 
@@ -599,26 +634,59 @@ from being decoration:
 
 - A claimed **transfer** must be supported by **world-derived** evidence. The
   trace reports the world/self split of every belief's support (§3.3, D2), and
-  if the support carrying the claim is **self-sourced** — the organism's own
-  previous sleep payload — the claim does not count as transfer.
+  the split is read **for the claim's own support**, under the four conditions
+  below — not against a run-level average.
 - A claimed **revision** must be visible in the trace as a change in a claim
   whose support is world-derived, with the prior state resolved
   (`revision_delta`, `prior_confidence`).
 - A claimed **explanation** must resolve to event ids (§3.3) — not to counts,
   and never to the system's own account of itself.
 
-**The disqualifier, stated plainly:**
+**And the question this leaves open, which is now measurable.** Whether
+self-sourced support *hurts* — whether a claim's self-sourced share predicts
+its correctness — is a testable question, and the trace is the first
+instrument that can ask it. It is not asked here.
 
-> **A predicted-correct result whose supporting evidence is self-sourced is not
-> a transfer result.**
+**The disqualifier, stated as a per-claim rule and fixed in advance.** A
+run-level share cannot carry a per-claim claim, so the rule is written against
+the **claim's own support**:
+
+> **A transfer claim must rest on world-derived evidence, and it must be shown
+> to do so.** Concretely, four conditions, all fixed before the next protocol
+> runs:
+>
+> 1. **Report the split for the claim's own support** — the trace's world/self
+>    split over that claim's *distinct* evidence. A run-level average is not
+>    acceptable evidence for a particular claim.
+> 2. **A majority of that support must be world-derived.** A claim resting
+>    mainly on the organism's own output is not a transfer claim.
+> 3. **Its self-sourced share must be no higher than the run's baseline rate**
+>    for beliefs. A claim that leans on self-generated evidence *more* than an
+>    ordinary belief does has not been carried by the world.
+> 4. **The comparison is against the claim, never against the organism in
+>    general** — and a failed condition fails the protocol **even if the
+>    prediction was correct**.
+
+**Why the rule is conservative, and why that is stated rather than hidden.**
+The contamination is now **measured, not shown to be consequential**: nothing
+yet demonstrates that a self-sourced transition caused a wrong answer. The
+qualification is exactly right — the figure is not evidence of harm. So the
+disqualifier is a statement about **what counts as evidence of transfer**, not
+a claim that the organism is damaged by its own output. That is also why it is
+pre-committed: a criterion that only bites once the harm has already been
+demonstrated would never bite at all.
+
+**And the question this leaves open, which is now measurable.** Whether
+self-sourced support *hurts* — whether a claim's self-sourced share predicts
+its correctness — is a testable question, and the trace is the first
+instrument that can ask it. It is not asked here.
 
 **Calibrated, not binary.** The disqualifier is not a mood: the trace reports
 a *share*, and the probe measured what that share looks like on a world where
 the organism is doing ordinary work — **17.9% of the distinct evidence behind reported beliefs
-was self-sourced** (§10). So the criterion is about the support *carrying the
-claim*, not about the trace's average: a claim resting on the self-sourced
-minority fails, and a claim resting on world-derived support stands. The
-measurement gives the criterion a baseline instead of a vibe.
+was self-sourced** (§10). That figure is the **baseline** condition 3 above
+compares against; it is not itself a per-claim verdict. The measurement gives
+the criterion a baseline instead of a vibe.
 
 That is the first concrete use of D2, and it is what turns a disclosed defect
 into a live scientific instrument. A defect that can defeat a claim is worth

@@ -362,6 +362,34 @@ Added `docs/audit_trace_probe_tie.json`; the probe gained a `--force-tie` arm
 and a distinct-evidence view; a seventh test requires the two views to stay
 apart. Recorded in spec §3.3, §6, §10, §11; facts sheet §AA11; journal §44.
 
+### Changed — the figure's population, and the disqualifier as a per-claim rule
+
+**The 17.9% is a share of the union of the unique evidence transitions behind beliefs reported during
+the run** — deduplicated, restricted to the edges those beliefs rested on. It is **not** a per-claim
+share, and it is **not** evidence that self-sourced support caused an incorrect prediction.
+
+**A run-level share cannot carry a per-claim claim**, so the disqualifier is now written against the
+claim itself, in four conditions fixed in advance: report the world/self split for the **claim's own**
+support; a **majority** of it must be world-derived; its self-sourced share must be **no higher than the
+run's baseline rate** for beliefs; and the comparison is against the claim, never the organism in
+general, with a failed condition **failing the protocol even if the prediction was correct**.
+
+**The rule is conservative, and says so.** The contamination is **measured, not shown to be
+consequential** — nothing yet shows that a self-sourced transition caused a wrong answer — so the
+disqualifier is a statement about *what counts as evidence of transfer*, not a claim that the organism
+is damaged by its own output. That is also why it is pre-committed: a criterion that only bites once
+the harm is demonstrated would never bite at all. **Whether self-sourced support *hurts* is now a
+measurable question**, and the trace is the first instrument that can ask it.
+
+**The observer's window match is an implementation match, not a schema guarantee.** The engine runs
+`SELECT tags FROM events ORDER BY time DESC LIMIT 3`; the observer runs the same ordering clause with a
+wider projection, so the two are not byte-identical SQL. The match is empirical on the tested SQLite
+implementation, and the evidence for it is **A7's exactness** — a window mismatch on any store would
+have broken the reconciliation. The 60-cycle forced-tie artifact is committed as
+`docs/audit_trace_probe_tie.json` (60 cycles, 479 tied windows, 0 mismatches).
+
+Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy

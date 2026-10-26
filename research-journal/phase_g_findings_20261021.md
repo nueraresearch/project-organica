@@ -3872,3 +3872,73 @@ Recorded in `docs/AUDIT-TRACE-SPEC.md` (§3.3, §6, §10, §11), in the manual a
 §8.13, in the facts sheet as §AA11, and in the artifacts
 `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json` and
 `docs/audit_trace_probe_tie.json`.
+
+---
+
+## §45 — What the figure is about, and what the disqualifier now asks
+
+**What this section records.** Two refinements from a third review of the
+audit-trace work, and the one that matters most: **the disqualifier was
+restated as a per-claim rule.**
+
+### The population, stated precisely
+
+The **17.9%** is a share of the **union of the unique evidence transitions behind beliefs reported during
+the run** — deduplicated, and restricted to the edges those beliefs rested on.
+It is **not** a per-claim share: a particular claim's own support can be far
+more or far less self-sourced than the run-level figure. And it is **not**
+evidence that self-sourced support caused an incorrect prediction — nothing
+yet demonstrates that.
+
+**A run-level share cannot carry a per-claim claim.** So the disqualifier is
+now written against the claim itself, in four conditions fixed in advance:
+
+1. Report the world/self split for the **claim's own** support.
+2. A **majority** of that support must be world-derived.
+3. Its self-sourced share must be **no higher than the run's baseline rate**
+   for beliefs.
+4. The comparison is against the claim, never the organism in general, and a
+   failed condition **fails the protocol even if the prediction was correct**.
+
+**Why the rule is conservative, and why that is stated rather than hidden.** The
+contamination is now **measured, not shown to be consequential**. The
+disqualifier is therefore a statement about *what counts as evidence of
+transfer*, not a claim that the organism is damaged by its own output. That is
+also precisely why it is pre-committed: a criterion that only bites once the
+harm has been demonstrated would never bite at all.
+
+**And the question this leaves open is now measurable:** whether a claim's
+self-sourced share predicts its correctness. The trace is the first instrument
+that can ask it. It is not asked here.
+
+### The observer's window match: an implementation match, not a schema guarantee
+
+The engine runs `SELECT tags FROM events ORDER BY time DESC LIMIT 3`. The
+observer runs the **same ordering clause and limit** with a **wider
+projection** — `id, time, event_type, tags, rowid` — so that the contributing
+rows can be identified. The two are **not byte-identical SQL**, and SQLite
+does not promise a stable order among rows that tie on `time`.
+
+The correct statement is therefore: **the observer's window matched the
+engine's in every tested case, as an empirical match on the tested SQLite
+implementation** — and the evidence for that match is **A7's exactness**,
+because a window mismatch on any store would have broken the reconciliation.
+The forced-tie arm pushes on this deliberately: **479 stores with a genuinely tied window, 0 mismatches**.
+
+**The 60-cycle forced-tie artifact is committed** as
+`docs/audit_trace_probe_tie.json` — 60 cycles, 479 tied windows,
+A1 692 beliefs / 0 failures,
+A2 60/60 cycles,
+A7 692 beliefs / 0 failures with 241 aggregate edges reconciling.
+
+### A note on the review itself
+
+One qualification in it was checked against the repository and did not hold:
+the forced-tie artifact was already committed, and the 60-cycle figures in the
+specification are that artifact's own. The other two qualifications were
+correct, and both were adopted. The record is updated in place rather than
+quietly — which is the same discipline the work is about.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` (§3.3, §10, §11), in the manual as
+§8.14, in the facts sheet as §AA12 and §AA13, and in the artifact
+`docs/audit_trace_probe_tie.json`.
