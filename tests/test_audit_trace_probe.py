@@ -51,6 +51,44 @@ def test_observer_does_not_change_the_engine():
     assert result["A4_behaviour_invariance"]["pass"], result["A4_behaviour_invariance"]
 
 
+def test_forced_timestamp_ties_are_reproduced():
+    """The engine's lookback query has no tie-breaker; the observer must
+    still reproduce the engine's choice when timestamps collide."""
+    result = probe.run(cycles=8, seed=20261025, force_tie=True)
+    ties = result["A7_event_level_attribution"]["timestamp_ties"]
+    assert ties["stores_with_tied_window"] > 0, (
+        "the forced-tie arm produced no tied windows — the tie case was not "
+        "actually exercised, so the check is vacuous"
+    )
+    assert result["A7_event_level_attribution"]["pass"], result["A7_event_level_attribution"]
+
+
+def test_distinct_evidence_is_deduplicated():
+    """The distinct-evidence view must count each transition once.
+
+    The support-reference view is a weighted sum over belief-by-cycle
+    snapshots, so it counts the same transition again in every later cycle
+    where the belief is still reported. The distinct view must not.
+    """
+    result = probe.run(cycles=8, seed=20261025, max_hypotheses=STRESS_CAP)
+    a7 = result["A7_event_level_attribution"]
+    distinct = a7["distinct_evidence"]
+    references = a7["support_references"]
+    assert distinct["total_transitions"] > 0
+    assert references["total"] >= distinct["total_transitions"], (
+        "the support-reference view must count at least as many references as "
+        "there are distinct transitions"
+    )
+    # a dedup bug would make the distinct total equal the reference total
+    assert distinct["total_transitions"] < references["total"], (
+        "the distinct view equals the weighted view — it is not deduplicating"
+    )
+    assert (distinct["self_sourced"] + distinct["world_sourced"]
+            == distinct["total_transitions"])
+    assert (references["self_sourced"] + references["world_sourced"]
+            == references["total"])
+
+
 def test_a_wrong_auditor_is_caught(monkeypatch):
     """A deliberately wrong auditor must make the selection check fail."""
     monkeypatch.setattr(probe, "_subject_entropy", lambda subject, temporal: 0.0)

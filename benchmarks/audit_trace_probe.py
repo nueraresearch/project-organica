@@ -32,11 +32,14 @@ window the engine had just used.  Nothing in `organica/` is touched.
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import math
 import sys
+import time
 from dataclasses import asdict, fields
 from pathlib import Path
+from unittest import mock
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -50,6 +53,28 @@ CYCLES = 120
 EVENTS_PER_CYCLE = 8
 SEED = 20261025
 INVARIANCE_CYCLES = 12
+TIE_GROUP = 4
+
+
+class _TieClock:
+    """A clock that returns the same timestamp for every N calls.
+
+    Used by the forced-tie arm: the engine's lookback query has no
+    tie-breaker, so the forced-tie arm makes the window's contents genuinely
+    ambiguous and checks that the observer still reproduces the engine's
+    choice.
+    """
+
+    def __init__(self, group: int = TIE_GROUP, base: float = 1_700_000_000.0):
+        self.group = group
+        self.base = base
+        self.calls = 0
+
+    def time(self) -> float:
+        value = self.base + (self.calls // self.group) * 0.0001
+        self.calls += 1
+        return value
+
 
 
 # ------------------------------------------------------------------
@@ -71,6 +96,15 @@ class ObservingMemoryService(MemoryService):
         # edge (from_tag, to_tag) -> list of (prior_event_id, prior_event_type,
         #                                  to_event_id)
         self.attribution: dict[tuple[str, str], list[tuple[str, str, str]]] = {}
+        # every DISTINCT transition, deduplicated by
+        # (from_tag, to_tag, prior_event_id, to_event_id).  The attribution
+        # lists above are cumulative: a transition stays in the engine's
+        # support count for as long as the edge exists, so summing them per
+        # belief per cycle counts the same transition many times over.
+        self.unique_transitions: dict[tuple[str, str, str, str], str] = {}
+        # how many stores saw a lookback window containing two rows with the
+        # same timestamp (the engine's query has no tie-breaker)
+        self.tied_windows = 0
         self.store_order: list[str] = []
 
     def store(self, content: str, event_type: str = "observe", source: str = "env"):
@@ -86,6 +120,9 @@ class ObservingMemoryService(MemoryService):
             "SELECT id, time, event_type, tags, rowid FROM events "
             "ORDER BY time DESC LIMIT 3"
         ).fetchall()
+        times = [r[1] for r in rows]
+        if len(times) != len(set(times)):
+            self.tied_windows += 1
         for prior_id, _t, prior_type, prior_tags, _rowid in rows:
             for tag_from in (prior_tags or "").split(","):
                 if not tag_from:
@@ -96,6 +133,9 @@ class ObservingMemoryService(MemoryService):
                     self.attribution.setdefault((tag_from, tag_to), []).append(
                         (prior_id, prior_type, event.id)
                     )
+                    self.unique_transitions[
+                        (tag_from, tag_to, prior_id, event.id)
+                    ] = prior_type
         return event
 
 
@@ -288,7 +328,8 @@ def _attribution_for(observer: ObservingMemoryService, subject: str,
     return out
 
 
-def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = None) -> dict:
+def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = None,
+        force_tie: bool = False) -> dict:
     world = generate_cause_world(cycles=cycles, events_per_cycle=EVENTS_PER_CYCLE, seed=seed)
     events = world["events"]
 
@@ -305,10 +346,20 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         # auditor reads the same budget, and the engine's files are untouched.
         svc.MAX_HYPOTHESES = max_hypotheses
 
+    # Forced-tie arm: the engine's lookback query is `ORDER BY time DESC
+    # LIMIT 3` with no tie-breaker, so under equal timestamps the window is
+    # not determined by the schema.  This arm makes ties happen on purpose
+    # and requires the observer to reproduce the engine's choice anyway.
+    clock_patch = _TieClock() if force_tie else None
+    stack = contextlib.ExitStack()
+    if clock_patch is not None:
+        stack.enter_context(mock.patch.object(time, "time", clock_patch.time))
+
     cycle_reports = []
     a1_fail = a2_fail = a7_fail = 0
     a1_checked = a2_checked = a7_checked = 0
     self_sourced_total = world_sourced_total = 0
+    belief_edges: set[tuple[str, str]] = set()
     try:
         for cycle in range(cycles):
             chunk = events[cycle * EVENTS_PER_CYCLE:(cycle + 1) * EVENTS_PER_CYCLE]
@@ -355,6 +406,7 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             a7_errors = []
             for hid, h in reported_beliefs.items():
                 transitions = _attribution_for(mem, h.subject, h.expectation)
+                belief_edges.add((h.subject, h.expectation))
                 if len(transitions) != h.support_count:
                     a7_errors.append({"id": hid, "error": "attribution count mismatch",
                                        "attributed": len(transitions),
@@ -402,9 +454,31 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
     finally:
         mem.close()
         db.unlink(missing_ok=True)
+        stack.close()
 
     cycles_with_beliefs = [c for c in cycle_reports if c["reported_beliefs"]]
     total_attributed = world_sourced_total + self_sourced_total
+
+    # --- the distinct-evidence view --------------------------------------
+    # The attribution lists are cumulative, and the run above re-counts a
+    # belief's whole support in every cycle in which that belief is reported.
+    # So the pooled number above is a count of SUPPORT REFERENCES, not of
+    # distinct transitions.  The distinct view is what the disqualifier in
+    # the spec needs: "is the evidence behind this claim the organism's own
+    # output?"  It is restricted to the edges that actually back a reported
+    # belief -- counting every transition in the run would mix in edges no
+    # reported belief ever rested on.
+    distinct_belief = set()
+    for edge in belief_edges:
+        for prior_id, prior_type, to_id in mem.attribution.get(edge, []):
+            distinct_belief.add((edge[0], edge[1], prior_id, to_id, prior_type))
+    unique_self = sum(1 for t in distinct_belief if t[4] == "sleep")
+    unique_total = len(distinct_belief)
+    unique_world = unique_total - unique_self
+    unique_share = (unique_self / unique_total) if unique_total else 0.0
+    reference_share = (self_sourced_total / total_attributed) if total_attributed else 0.0
+    all_self = sum(1 for t in mem.unique_transitions.values() if t == "sleep")
+    all_total = len(mem.unique_transitions)
     return {
         "purpose": "Feasibility probe for docs/AUDIT-TRACE-SPEC.md — can the "
                    "selection contest be reconstructed from outside the engine, "
@@ -446,14 +520,53 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         "A7_event_level_attribution": {
             "beliefs_checked": a7_checked, "cycles_failing": a7_fail,
             "pass": a7_fail == 0 and not edge_mismatches and not attributed_only,
-            "attributed_transitions_total": total_attributed,
-            "world_sourced": world_sourced_total,
-            "self_sourced": self_sourced_total,
-            "self_sourced_share": (round(self_sourced_total / total_attributed, 6)
-                                    if total_attributed else 0.0),
             "aggregate_edges_checked": edges_checked,
             "edge_mismatches": edge_mismatches[:10],
             "attributed_but_absent_from_aggregate": attributed_only[:10],
+            "distinct_evidence": {
+                "total_transitions": unique_total,
+                "self_sourced": unique_self,
+                "world_sourced": unique_world,
+                "self_sourced_share": round(unique_share, 6),
+                "belief_edges": len(belief_edges),
+                "note": "each DISTINCT supporting transition counted once, "
+                        "deduplicated by (from_tag, to_tag, prior_event_id, "
+                        "to_event_id), and restricted to the edges that "
+                        "actually back a reported belief. This is the share of "
+                        "unique evidence behind the reported support, and it "
+                        "is the figure the pre-committed disqualifier is read "
+                        "against.",
+            },
+            "all_transitions_recorded": {
+                "total_transitions": all_total,
+                "self_sourced": all_self,
+                "self_sourced_share": (round(all_self / all_total, 6)
+                                        if all_total else 0.0),
+                "note": "every distinct transition the observer recorded, "
+                        "including edges that no reported belief ever rested "
+                        "on. Context, not the disqualifier's figure.",
+            },
+            "support_references": {
+                "total": total_attributed,
+                "self_sourced": self_sourced_total,
+                "world_sourced": world_sourced_total,
+                "self_sourced_share": round(reference_share, 6),
+                "note": "the SAME support counted once per belief per cycle in "
+                        "which that belief is reported. This is a weighted view "
+                        "of reported support, NOT a share of unique transitions: "
+                        "a transition that occurred early is counted again in "
+                        "every later cycle where the belief is still reported.",
+            },
+            "timestamp_ties": {
+                "stores_with_tied_window": mem.tied_windows,
+                "forced": bool(force_tie),
+                "note": "The engine's lookback query is `ORDER BY time DESC "
+                        "LIMIT 3` with no tie-breaker, so under equal "
+                        "timestamps the window is not determined by the schema. "
+                        "The forced-tie arm makes ties happen on purpose and "
+                        "requires the observer to reproduce the engine's choice "
+                        "anyway.",
+            },
             "note": "Every temporal edge must resolve to the concrete events "
                     "that produced it, and the attributed total must equal the "
                     "aggregate count. The world/self split is the D2 quantity: "
@@ -531,9 +644,13 @@ def main() -> None:
     parser.add_argument("--max-hypotheses", type=int, default=None,
                         help="stress arm: tighten the belief budget so the "
                              "'lost on rank' branch is exercised")
+    parser.add_argument("--force-tie", action="store_true",
+                        help="forced-tie arm: make timestamps collide so the "
+                             "engine's untie-broken lookback window is "
+                             "genuinely ambiguous")
     parser.add_argument("--out", default=str(REPO / "docs" / "audit_trace_probe.json"))
     args = parser.parse_args()
-    result = run(args.cycles, args.seed, args.max_hypotheses)
+    result = run(args.cycles, args.seed, args.max_hypotheses, args.force_tie)
     result.update(run_invariance())
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

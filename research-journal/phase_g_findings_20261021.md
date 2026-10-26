@@ -3794,3 +3794,81 @@ license a claim at another.
 
 Recorded in `docs/AUDIT-TRACE-SPEC.md` (§2.1, §3.3, §5, §6, §10, §11), in the
 manual as §8.13, in the facts sheet as §AA10, and in `AGENTS.md` as rule 17(d).
+
+---
+
+## §44 — The denominator was wrong, and the correction changed what the number was about
+
+**What this section records.** A second review of the audit-trace probe: a
+correction to its most quoted number, and a forced-tie arm. It is a correction
+record, not new evidence about the organism.
+
+### The denominator
+
+The probe reported the share of *self-sourced* support transitions at **17.5%**.
+That figure pooled the support of every reported belief across every cycle in
+which that belief was reported. A belief's support count is **cumulative** — it
+is the number of transitions on that edge so far — so a transition that
+occurred early is counted again in every later cycle where the belief
+survives. The pooled number is therefore a count of **support references**,
+not of distinct evidence. It is a valid weighted view; it is not the share of
+unique transitions.
+
+**Three views, kept apart:**
+
+| View | Default arm | Stress arm | What it is |
+|---|---|---|---|
+| **Distinct evidence behind reported beliefs** | **802 / 4,481 = 17.9%** | 384 / 2,521 = 15.2% | each transition once, restricted to the edges that back a reported belief. **The disqualifier's figure.** |
+| Pooled support references | 53,980 / 307,857 = 17.5% | 4,554 / 30,529 = 14.9% | the same support counted once per belief per cycle it appears in |
+| All distinct transitions recorded | 5,436 / 12,583 = 43.2% | 2,692 / 6,291 = 42.8% | every transition the observer saw, including edges no reported belief rested on |
+
+**Correcting the denominator moved the headline only slightly** — 17.5% to 17.9% — and
+that agreement is worth stating plainly: the two views were not telling
+different stories.
+
+**But the correction surfaced a separate and much larger number**: across all
+12,583 distinct transitions the observer recorded, **43.2% are self-sourced** —
+transitions on edges that no reported belief ever rested on. Those are the
+organism's own tag-to-tag edges, the substrate of its self-generated output.
+**43.2% of the organism's entire distinct transition surface is its own output, against 17.9% of the
+evidence actually behind its claims.** Two surfaces, two numbers, and the trace
+must report both rather than let one stand in for the other.
+
+### A number that was wrong, and said so
+
+An intermediate figure of **42%** was quoted before the population was pinned
+down. That was the *unrestricted* distinct set — every transition the observer
+recorded — and it was **not** the share of evidence behind reported beliefs.
+The correct figure for the disqualifier is **17.9%**. The 42% is a real
+number about a real surface, but it was quoted for the wrong surface, and the
+error is recorded rather than quietly replaced.
+
+### The forced-tie arm
+
+The engine's lookback query is `ORDER BY time DESC LIMIT 3` with **no
+tie-breaker**, so the schema does not determine which rows a tied window
+selects. The forced-tie arm patches the clock so every four consecutive stores
+share a timestamp, producing **479 stores with a genuinely tied window**, and requires the
+observer to reproduce the engine's choice anyway.
+
+**It does.** A7 stays exact: 2,589 distinct transitions, 241 aggregate edges reconciling,
+0 mismatches; A1 692 beliefs / 0 failures; A2 60/60 cycles.
+
+**The honest statement, which is narrower than "ties are fine":** the
+**implementation** is deterministic for identical queries over identical data,
+so the observer's re-run selects the same rows the engine selected. The
+**schema** still does not determine the window under a tie, and a replayer
+that did not observe at store time could not rely on it. The observer is the
+reason, not a proof about the engine.
+
+### The test that keeps the views apart
+
+A new test requires the distinct view to be genuinely deduplicated: the
+distinct total must be strictly less than the weighted total, and each view's
+internal sum must balance. Seven tests now cover the four axes, four of them
+deliberately broken variants that must go red.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` (§3.3, §6, §10, §11), in the manual as
+§8.13, in the facts sheet as §AA11, and in the artifacts
+`docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json` and
+`docs/audit_trace_probe_tie.json`.

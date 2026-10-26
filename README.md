@@ -555,9 +555,12 @@ verified**: reconciling an aggregate against an aggregate shows the *counts*,
 not the experiences behind them. Event-level attribution is now its own check,
 and it passes — **1,412 beliefs and 244 aggregate edges reconciling exactly** — via a passive
 store-time observer that provably changes nothing. It also produced the first
-real number behind D2: **17.5% of belief-support transitions are self-sourced**, the prior event being
-the organism's own sleep payload. Roughly one support transition in six rests
-on the organism's own output.
+real number behind D2, after its denominator was pinned down:
+**17.9% of the distinct evidence behind Organica's reported beliefs is
+self-sourced** — the prior event being the organism's own sleep payload. On a
+wider surface the number is much larger: 43.2% of *all* the distinct transitions it
+recorded are self-sourced. A forced-tie arm confirms the observer reproduces
+the engine's choice even when the lookback window is genuinely ambiguous.
 
 And the rule that keeps it from becoming its own project: the next
 protocol's success criteria must contain at least one **trace-derived

@@ -331,6 +331,37 @@ compared a wall-clock timestamp — both caught by the checks rather than by
 inspection. The generalisable lesson is now **AGENTS.md rule 17(d): an
 aggregate is not an attribution; name the resolution of every check.**
 
+### Corrected — the self-sourced figure's denominator, and the forced-tie arm
+
+The probe's most quoted number — the share of self-sourced support — was
+measured against the wrong denominator. It pooled the support of every reported
+belief across every cycle in which that belief was reported; because a belief's
+support count is **cumulative**, a transition that occurred early is counted
+again in every later cycle where the belief survives. That pooled number counts
+**support references**, not distinct evidence.
+
+**Three views, kept apart** (default arm): **distinct evidence behind reported
+beliefs** 802/4,481 = **17.9%** self-sourced — the disqualifier's figure;
+**pooled support references** 53,980/307,857 = 17.5%; **all distinct transitions recorded**
+5,436/12,583 = **43.2%**, including edges no reported belief ever rested on. Correcting
+the denominator moved the headline only slightly (17.5% → 17.9%), and that agreement is worth
+stating — but it surfaced a separate and much larger number: **43.2% of the organism's entire
+distinct transition surface is its own sleep output**, against 17.9% of the evidence actually behind its
+claims.
+
+**The forced-tie arm is now run.** The engine's lookback query has no
+tie-breaker, so the schema does not determine which rows a tied window selects.
+The clock is patched so every four consecutive stores share a timestamp,
+producing **479 stores with a genuinely tied window**; the observer reproduces the engine's
+choice anyway and **A7 stays exact**. The honest statement: the *implementation*
+is deterministic for identical queries over identical data, while the *schema*
+still does not determine the window under a tie — the observer is the reason,
+not a proof about the engine.
+
+Added `docs/audit_trace_probe_tie.json`; the probe gained a `--force-tie` arm
+and a distinct-evidence view; a seventh test requires the two views to stay
+apart. Recorded in spec §3.3, §6, §10, §11; facts sheet §AA11; journal §44.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy

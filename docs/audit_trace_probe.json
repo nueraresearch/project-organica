@@ -35,13 +35,35 @@
     "beliefs_checked": 1412,
     "cycles_failing": 0,
     "pass": true,
-    "attributed_transitions_total": 307857,
-    "world_sourced": 253877,
-    "self_sourced": 53980,
-    "self_sourced_share": 0.175341,
     "aggregate_edges_checked": 244,
     "edge_mismatches": [],
     "attributed_but_absent_from_aggregate": [],
+    "distinct_evidence": {
+      "total_transitions": 4481,
+      "self_sourced": 802,
+      "world_sourced": 3679,
+      "self_sourced_share": 0.178978,
+      "belief_edges": 12,
+      "note": "each DISTINCT supporting transition counted once, deduplicated by (from_tag, to_tag, prior_event_id, to_event_id), and restricted to the edges that actually back a reported belief. This is the share of unique evidence behind the reported support, and it is the figure the pre-committed disqualifier is read against."
+    },
+    "all_transitions_recorded": {
+      "total_transitions": 12583,
+      "self_sourced": 5436,
+      "self_sourced_share": 0.432011,
+      "note": "every distinct transition the observer recorded, including edges that no reported belief ever rested on. Context, not the disqualifier's figure."
+    },
+    "support_references": {
+      "total": 307857,
+      "self_sourced": 53980,
+      "world_sourced": 253877,
+      "self_sourced_share": 0.175341,
+      "note": "the SAME support counted once per belief per cycle in which that belief is reported. This is a weighted view of reported support, NOT a share of unique transitions: a transition that occurred early is counted again in every later cycle where the belief is still reported."
+    },
+    "timestamp_ties": {
+      "stores_with_tied_window": 0,
+      "forced": false,
+      "note": "The engine's lookback query is `ORDER BY time DESC LIMIT 3` with no tie-breaker, so under equal timestamps the window is not determined by the schema. The forced-tie arm makes ties happen on purpose and requires the observer to reproduce the engine's choice anyway."
+    },
     "note": "Every temporal edge must resolve to the concrete events that produced it, and the attributed total must equal the aggregate count. The world/self split is the D2 quantity: a supporting transition whose prior event is the organism's own sleep payload is self-sourced."
   },
   "summary": {

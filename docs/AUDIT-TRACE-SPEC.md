@@ -217,6 +217,15 @@ Two consequences, both verified by measurement:
   — edges are recorded only when `event_type != "sleep"` — and the attribution
   must reconcile with the aggregate table exactly, transition by transition.
 
+**Two denominators, and they must not be confused.** A belief's support count
+is **cumulative**: it is the number of transitions on that edge so far. So the
+same piece of evidence appears in the support of a belief for as long as the
+belief survives, and any total summed over beliefs and cycles is a count of
+**support references**, not of distinct evidence. The trace must report both:
+the **distinct** count (each transition once, deduplicated) and the
+**reference** count (each appearance). The disqualifier in §11 reads the
+distinct one, because the question it asks is about distinct evidence.
+
 **The record must also carry the attribution split**, because the engine's
 counting rule is not scoped to the world: the lookback window is
 `SELECT tags FROM events ORDER BY time DESC LIMIT 3` with **no `event_type`
@@ -372,9 +381,10 @@ The build is accepted only if all six hold, and each is a check that can fail:
 | **A7** | **Event-level attribution** | Every temporal edge resolves to the concrete events that produced it, the attributed total for each edge **equals** its aggregate count, and each belief's support resolves to event ids with a **world/self split**. Requires the store-time observer, and the observer's own guard must mirror the engine's. |
 
 **Status of the criteria at the time of writing (2026-10-26):** **A1, A2, A4
-and A7 are met** by the probe (§10). **A3 (ancestry completeness), A5
-(field-honesty) and A6 (trace/counterfactual separation) are still pending**
-and belong to the build.
+and A7 are met** by the probe (§10) — A7 including a **forced-tie arm** in
+which the engine's lookback window is genuinely ambiguous. **A3 (ancestry
+completeness), A5 (field-honesty) and A6 (trace/counterfactual separation) are
+still pending** and belong to the build.
 
 **Completion metrics the trace should report** (diagnostics, not pass/fail):
 evidence-trace completeness (fraction of beliefs whose support resolves to
@@ -459,10 +469,11 @@ attribution is therefore now its own check (A7), and the earlier result is
 named for what it is: **aggregate evidence reconciliation and selection
 reconstruction passed.**
 
-| Arm | Belief cap | Cycles | A1 aggregate evidence | A2 selection | A7 event-level attribution | Died | **Lost on rank** |
-|---|---|---|---|---|---|---|---|
-| Default | 15 (the engine's own) | 120 | **1,412 beliefs, 0 failures** | **120/120 cycles** | **1,412 beliefs, 0 failures; 244 edges reconcile** | 4 | 0 |
-| Stress | 5 (cap binding) | 60 | **290 beliefs, 0 failures** | **60/60 cycles** | **290 beliefs, 0 failures; 241 edges reconcile** | 3 | **403** |
+| Arm | Belief cap | Cycles | A1 aggregate evidence | A2 selection | A7 event-level attribution | Distinct evidence self-sourced | Died | **Lost on rank** |
+|---|---|---|---|---|---|---|---|---|
+| Default | 15 (the engine's own) | 120 | **1,412 beliefs, 0 failures** | **120/120 cycles** | **1,412 beliefs, 0 failures; 244 edges reconcile** | **17.9%** | 4 | 0 |
+| Stress | 5 (cap binding) | 60 | **290 beliefs, 0 failures** | **60/60 cycles** | **290 beliefs, 0 failures; 241 edges reconcile** | **15.2%** | 3 | **403** |
+| Forced tie | 15 | 60 | **692 beliefs, 0 failures** | **60/60 cycles** | **692 beliefs, 0 failures; 241 edges reconcile; 479 tied windows** | **17.5%** | 4 | 0 |
 
 Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`.
 
@@ -494,13 +505,41 @@ nothing to do with behaviour. Both were the auditor's errors, both were found
 by the checks rather than by inspection, and both are recorded here rather than
 quietly fixed.
 
-**D2 is now a measured quantity, not a worry.** Across the default arm, of
-307,857 attributed support transitions, **53,980 (17.5%) were self-sourced** — their prior event was the
-organism's own sleep payload rather than a world event; 253,877 were world-sourced. On this world, roughly
-**one support transition in six rests on the organism's own output.** That is
-the number the pre-committed disqualifier (§11) has to be read against: a
-transfer claim whose support is self-sourced is not a transfer claim, and this
-is how much of the support can be self-sourced in practice.
+**D2 is now a measured quantity — and the denominator had to be fixed
+first.** The first version of this figure pooled the support of every reported
+belief across every cycle in which that belief was reported. Because a belief's
+support count is **cumulative**, a transition that occurred early is counted
+again in every later cycle where the belief survives, so that pooled number
+counts **support references**, not distinct evidence. It is a valid weighted
+view; it is not the share of unique transitions.
+
+**The probe now reports three numbers, and they answer different questions:**
+
+| View | Default arm | What it is |
+|---|---|---|
+| **Distinct evidence behind reported beliefs** | **802 of 4,481 = 17.9%** self-sourced | each transition counted once, restricted to the edges that actually back a reported belief. **This is the disqualifier's figure.** |
+| Pooled support references | 53,980 of 307,857 = 17.5% | the same support counted once per belief per cycle it appears in. A weighted view, not a share of unique transitions. |
+| All distinct transitions recorded | 5,436 of 12,583 = 43.2% | every transition the observer saw, **including edges that no reported belief ever rested on**. Context, not the disqualifier's figure. |
+
+**Correcting the denominator moved the headline only slightly** — 17.5% to 17.9% — and that agreement is worth
+stating plainly. **But the correction did surface a separate and much larger
+number**: across all 12,583 distinct transitions the observer recorded, **43.2% are
+self-sourced** — transitions on edges that no reported belief ever rested on.
+Those are the organism's own tag-to-tag edges: the substrate of its
+self-generated output, carrying twice the self-sourcing of the evidence
+actually behind its claims. The two numbers describe different surfaces, and
+the trace must report both rather than let one stand in for the other.
+
+**The forced-tie arm.** The engine's lookback query has no tie-breaker, so the
+schema does not determine which rows a tied window selects. The forced-tie arm
+patches the clock so that every four consecutive stores share a timestamp,
+producing **479 stores with a genuinely tied window**, and requires the
+observer to reproduce the engine's choice anyway. **It does:** A7 stays exact
+(2,589 distinct transitions, 241 aggregate edges reconciling, 0 mismatches). The honest
+statement is that the *implementation* is deterministic for identical queries
+over identical data — so the observer's re-run selects the same rows — while
+the *schema* still does not guarantee it, and a replayer that did not observe
+at store time could not rely on it.
 
 ### What the probe establishes, and what it does not
 
@@ -516,10 +555,13 @@ engine.**
 - **Generality.** One world family (the frozen cause generator), one
   configuration, one policy. The probe validates the *transcription*; it does
   not validate the auditor on worlds it has not seen, and it says so.
-- **Behaviour under timestamp ties.** No ties occurred in the probe run, and
-  the engine's lookback query has no `rowid` tiebreak, so under a tie the
-  window is not determined by the schema. The observer sidesteps this by
-  capturing the window at store time; a post-hoc replay would not.
+- **Behaviour under timestamp ties — now tested, with a limit.** The
+  forced-tie arm produces genuinely tied windows and the observer reproduces
+  the engine's choice every time, because the implementation is deterministic
+  for identical queries over identical data. The **schema** still does not
+  determine the window under a tie, so a replayer that did not observe at
+  store time could not rely on it. The observer is the reason, not a proof
+  about the engine.
 - **The `stochastic` policy.** Under a weighted lottery the retained set is not
   a function of the scores; the reconstruction degrades to a bound (§3.4).
 - **The whole trace.** The probe checks the *selection* and *evidence* axes.
@@ -572,8 +614,8 @@ from being decoration:
 
 **Calibrated, not binary.** The disqualifier is not a mood: the trace reports
 a *share*, and the probe measured what that share looks like on a world where
-the organism is doing ordinary work — **17.5% of belief support transitions
-were self-sourced** (§10). So the criterion is about the support *carrying the
+the organism is doing ordinary work — **17.9% of the distinct evidence behind reported beliefs
+was self-sourced** (§10). So the criterion is about the support *carrying the
 claim*, not about the trace's average: a claim resting on the self-sourced
 minority fails, and a claim resting on world-derived support stands. The
 measurement gives the criterion a baseline instead of a vibe.
