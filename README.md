@@ -543,11 +543,29 @@ without A"* is a replay, run separately, never a field of the record.
 
 **And the load-bearing claim was tested rather than asserted.** An instrument
 probe runs the frozen engine and, at every cycle, rebuilds the selection contest
-from the report and the substrate: **120 cycles, 1,412 beliefs checked, the evidence
-replay and the selection reconstruction both exact on every cycle** — plus a stress
-arm that tightens the belief budget so candidates actually *lose*, which the
-default configuration never does. So the contest is reconstructible **without a
-hook inside the engine** — assembly, not instrumentation.
+from the report and the substrate: **120 cycles, 1,412 beliefs checked, the
+aggregate evidence reconciliation and the selection reconstruction both exact on
+every cycle**, plus a stress arm that tightens the belief budget so candidates
+actually *lose*, which the default configuration never does. So the contest is
+reconstructible **without a hook inside the engine** — assembly, not
+instrumentation.
+
+The probe was then **reviewed, and its headline was ahead of what it
+verified**: reconciling an aggregate against an aggregate shows the *counts*,
+not the experiences behind them. Event-level attribution is now its own check,
+and it passes — **1,412 beliefs and 244 aggregate edges reconciling exactly** — via a passive
+store-time observer that provably changes nothing. It also produced the first
+real number behind D2: **17.5% of belief-support transitions are self-sourced**, the prior event being
+the organism's own sleep payload. Roughly one support transition in six rests
+on the organism's own output.
+
+And the rule that keeps it from becoming its own project: the next
+protocol's success criteria must contain at least one **trace-derived
+diagnostic**, and a result that fails it fails the protocol **even if the
+headline behaviour is correct**. The first instance is pre-committed —
+*a predicted-correct result whose supporting evidence is self-sourced is not
+a transfer result* — which turns the trace's own disclosed defect into a
+live instrument that can defeat a claim.
 
 ### Six task families, six negatives — and what the project does with them
 

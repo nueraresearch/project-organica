@@ -1,17 +1,23 @@
 """The audit-trace probe must be able to fail.
 
 `benchmarks/audit_trace_probe.py` claims that an outside auditor can
-reconstruct the engine's selection contest exactly.  That claim is only worth
-anything if the check can go red, so this test breaks the auditor on purpose
-and requires the check to notice.
+reconstruct the engine's selection contest exactly, and that every temporal
+edge resolves to the concrete events that produced it.  Those claims are only
+worth anything if the checks can go red, so this test breaks the auditor on
+purpose and requires the checks to notice.
 
-The break is surgical: the probe's own `_subject_entropy` is replaced with a
-wrong one.  The engine keeps its real implementation, so a wrong auditor must
-reproduce a different retained set.  The stress arm (a tightened belief
-budget) is used, because with the default budget the pool does not exceed the
-cap and the ranking would not matter.
+Three breaks, one per axis:
 
-Reference: docs/AUDIT-TRACE-SPEC.md, acceptance criteria A1 and A2.
+  * the curiosity term zeroed   -> the ranking changes  -> A2 must fail
+  * a tag dropped from the graph -> the counts change    -> A1 must fail
+  * the sleep-event guard lifted -> extra transitions are attributed
+                                                          -> A7 must fail
+
+The last one matters: the observer must mirror the engine's own guard
+(`if event_type != "sleep"`), and the only way to know it does is to remove it
+and watch the reconciliation break.
+
+Reference: docs/AUDIT-TRACE-SPEC.md, acceptance criteria A1, A2, A4, A7.
 """
 from __future__ import annotations
 
@@ -31,15 +37,22 @@ def test_probe_reconstructs_the_engine_decision():
     """The auditor reproduces the engine's retained set, exactly."""
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
     assert result["summary"]["cycles_with_beliefs"] > 0, "no beliefs formed; test is vacuous"
-    assert result["A1_evidence_replay"]["pass"], result["A1_evidence_replay"]
+    assert result["A1_evidence_replay_aggregate"]["pass"], result["A1_evidence_replay_aggregate"]
     assert result["A2_selection_reconstruction"]["pass"], result["A2_selection_reconstruction"]
+    assert result["A7_event_level_attribution"]["pass"], result["A7_event_level_attribution"]
     # the stress arm must actually exercise the "lost on rank" branch,
     # otherwise the reconstruction check is not testing what it claims to.
     assert result["summary"]["total_lost"] > 0, "stress arm never lost a candidate"
 
 
+def test_observer_does_not_change_the_engine():
+    """A4 — recording the trace must leave the engine's outputs unchanged."""
+    result = probe.run_invariance(cycles=6, seed=20261025)
+    assert result["A4_behaviour_invariance"]["pass"], result["A4_behaviour_invariance"]
+
+
 def test_a_wrong_auditor_is_caught(monkeypatch):
-    """A deliberately wrong auditor must make the reconstruction fail."""
+    """A deliberately wrong auditor must make the selection check fail."""
     monkeypatch.setattr(probe, "_subject_entropy", lambda subject, temporal: 0.0)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
     assert not result["A2_selection_reconstruction"]["pass"], (
@@ -49,7 +62,7 @@ def test_a_wrong_auditor_is_caught(monkeypatch):
 
 
 def test_a_wrong_auditor_is_caught_on_the_evidence_axis(monkeypatch):
-    """A wrong support count must make the evidence check fail too."""
+    """A wrong support count must make the aggregate evidence check fail."""
     original = probe._temporal_graph
 
     def broken(mem):
@@ -59,7 +72,44 @@ def test_a_wrong_auditor_is_caught_on_the_evidence_axis(monkeypatch):
 
     monkeypatch.setattr(probe, "_temporal_graph", broken)
     result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
-    assert not result["A1_evidence_replay"]["pass"], (
+    assert not result["A1_evidence_replay_aggregate"]["pass"], (
         "the evidence replay passed with a broken count — "
         "the check cannot fail, so it is decoration"
+    )
+
+
+def test_a_wrong_observer_is_caught_on_the_attribution_axis(monkeypatch):
+    """Attributing sleep-event transitions must break the reconciliation.
+
+    The engine records graph edges only for world events.  An observer that
+    lifts that guard attributes transitions the engine never made, and the
+    attributed totals stop matching the aggregate table.  This is the check
+    that keeps the observer honest.
+    """
+    original_store = probe.ObservingMemoryService.store
+
+    def sloppy_store(self, content, event_type="observe", source="env"):
+        # same as the observer, but WITHOUT the engine's sleep-event guard
+        event = original_store(self, content, event_type=event_type, source=source)
+        if event_type == "sleep":
+            rows = self._conn.execute(
+                "SELECT id, time, event_type, tags, rowid FROM events "
+                "ORDER BY time DESC LIMIT 3"
+            ).fetchall()
+            for prior_id, _t, prior_type, prior_tags, _rowid in rows:
+                for tag_from in (prior_tags or "").split(","):
+                    if not tag_from:
+                        continue
+                    for tag_to in event.tags:
+                        if tag_from != tag_to:
+                            self.attribution.setdefault((tag_from, tag_to), []).append(
+                                (prior_id, prior_type, event.id)
+                            )
+        return event
+
+    monkeypatch.setattr(probe.ObservingMemoryService, "store", sloppy_store)
+    result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
+    assert not result["A7_event_level_attribution"]["pass"], (
+        "the attribution reconciliation passed with an observer that "
+        "over-attributes — the check cannot fail, so it is decoration"
     )

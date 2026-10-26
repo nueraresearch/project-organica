@@ -1,6 +1,6 @@
 {
-  "purpose": "Feasibility probe for docs/AUDIT-TRACE-SPEC.md \u2014 can the selection contest be reconstructed from outside the engine?",
-  "instrument_note": "Instrument probe, not an experiment about the organism. It makes no claim about what Organica does; it checks whether an outside auditor can reproduce what the engine did. No engine file was modified or instrumented.",
+  "purpose": "Feasibility probe for docs/AUDIT-TRACE-SPEC.md \u2014 can the selection contest be reconstructed from outside the engine, and can evidence be resolved to event ids?",
+  "instrument_note": "Instrument probe, not an experiment about the organism. It makes no claim about what Organica does; it checks whether an outside auditor can reproduce what the engine did. No engine file was modified or instrumented. The observer subclasses MemoryService, calls the parent unchanged, and only reads the lookback window the engine had just used.",
   "protocol": {
     "world": "organica/ground_truth_worlds.generate_cause_world",
     "cycles": 120,
@@ -17,17 +17,32 @@
       0.25
     ],
     "death_threshold": 0.15,
-    "contradiction_scale": 1.0
+    "contradiction_scale": 1.0,
+    "report_candidate_lists": 14
   },
-  "A1_evidence_replay": {
+  "A1_evidence_replay_aggregate": {
     "beliefs_checked": 1412,
     "cycles_failing": 0,
-    "pass": true
+    "pass": true,
+    "scope": "aggregate counts only \u2014 the `precedes` table, not the individual observations behind them"
   },
   "A2_selection_reconstruction": {
     "cycles_checked": 120,
     "cycles_failing": 0,
     "pass": true
+  },
+  "A7_event_level_attribution": {
+    "beliefs_checked": 1412,
+    "cycles_failing": 0,
+    "pass": true,
+    "attributed_transitions_total": 307857,
+    "world_sourced": 253877,
+    "self_sourced": 53980,
+    "self_sourced_share": 0.175341,
+    "aggregate_edges_checked": 244,
+    "edge_mismatches": [],
+    "attributed_but_absent_from_aggregate": [],
+    "note": "Every temporal edge must resolve to the concrete events that produced it, and the attributed total must equal the aggregate count. The world/self split is the D2 quantity: a supporting transition whose prior event is the organism's own sleep payload is self-sourced."
   },
   "summary": {
     "cycles_run": 120,
@@ -48,6 +63,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [],
       "lost_detail": []
     },
@@ -60,6 +76,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [],
       "lost_detail": []
     },
@@ -72,6 +89,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_0c1536ac",
@@ -250,6 +268,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -428,6 +447,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_bbedbdd9",
@@ -621,6 +641,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_bbedbdd9",
@@ -814,6 +835,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -977,6 +999,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -1170,6 +1193,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -1363,6 +1387,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -1556,6 +1581,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -1749,6 +1775,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_23c7c1fa",
@@ -1942,6 +1969,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -2135,6 +2163,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -2328,6 +2357,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -2521,6 +2551,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_bbedbdd9",
@@ -2714,6 +2745,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -2907,6 +2939,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -3100,6 +3133,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -3293,6 +3327,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_cf11d4d4",
@@ -3486,6 +3521,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -3679,6 +3715,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -3872,6 +3909,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -4065,6 +4103,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -4258,6 +4297,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -4451,6 +4491,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -4644,6 +4685,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -4837,6 +4879,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -5030,6 +5073,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -5223,6 +5267,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_0c1536ac",
@@ -5416,6 +5461,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -5609,6 +5655,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -5802,6 +5849,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -5995,6 +6043,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -6188,6 +6237,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -6381,6 +6431,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -6574,6 +6625,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -6767,6 +6819,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -6960,6 +7013,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -7153,6 +7207,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -7346,6 +7401,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -7539,6 +7595,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -7732,6 +7789,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -7925,6 +7983,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -8118,6 +8177,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -8311,6 +8371,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -8504,6 +8565,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -8697,6 +8759,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -8890,6 +8953,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -9083,6 +9147,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -9276,6 +9341,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -9469,6 +9535,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -9662,6 +9729,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -9855,6 +9923,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -10048,6 +10117,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -10241,6 +10311,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -10434,6 +10505,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -10627,6 +10699,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -10820,6 +10893,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -11013,6 +11087,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -11206,6 +11281,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -11399,6 +11475,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_23c7c1fa",
@@ -11592,6 +11669,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -11785,6 +11863,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -11978,6 +12057,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -12171,6 +12251,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -12364,6 +12445,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -12557,6 +12639,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -12750,6 +12833,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -12943,6 +13027,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -13136,6 +13221,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -13329,6 +13415,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -13522,6 +13609,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -13715,6 +13803,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -13908,6 +13997,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -14101,6 +14191,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -14294,6 +14385,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -14487,6 +14579,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -14680,6 +14773,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -14873,6 +14967,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -15066,6 +15161,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -15259,6 +15355,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -15452,6 +15549,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -15645,6 +15743,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -15838,6 +15937,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16031,6 +16131,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16224,6 +16325,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16417,6 +16519,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16610,6 +16713,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16803,6 +16907,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -16996,6 +17101,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -17189,6 +17295,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -17382,6 +17489,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -17575,6 +17683,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -17768,6 +17877,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -17961,6 +18071,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -18154,6 +18265,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -18347,6 +18459,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -18540,6 +18653,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -18733,6 +18847,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -18926,6 +19041,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -19119,6 +19235,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -19312,6 +19429,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -19505,6 +19623,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -19698,6 +19817,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -19891,6 +20011,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -20084,6 +20205,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -20277,6 +20399,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -20470,6 +20593,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -20663,6 +20787,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -20856,6 +20981,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -21049,6 +21175,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -21242,6 +21369,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -21435,6 +21563,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -21628,6 +21757,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -21821,6 +21951,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -22014,6 +22145,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -22207,6 +22339,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -22400,6 +22533,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -22593,6 +22727,7 @@
       "lost": 0,
       "a1_errors": [],
       "a2_match": true,
+      "a7_errors": [],
       "kept_detail": [
         {
           "id": "hyp_abc3c91a",
@@ -22777,5 +22912,12 @@
       ],
       "lost_detail": []
     }
-  ]
+  ],
+  "A4_behaviour_invariance": {
+    "cycles": 12,
+    "seed": 20261025,
+    "observer_on_equals_observer_off": true,
+    "pass": true,
+    "note": "The observer subclasses MemoryService, calls the parent unchanged, and only reads. It must not change a single reported field."
+  }
 }

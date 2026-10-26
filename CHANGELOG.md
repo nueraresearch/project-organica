@@ -261,6 +261,76 @@ Added `benchmarks/audit_trace_probe.py`, `tests/test_audit_trace_probe.py`, and 
 `docs/audit_trace_probe.json` and `docs/audit_trace_probe_stress.json`; spec §10; facts sheet
 §AA8.
 
+### Added — the rule that keeps the audit trace from becoming a second inventory
+
+An audit layer is attractive, and attractive things become projects. The trace
+could have been built, extended and admired without ever adjudicating a question
+the project wanted answered — which would make it a *second* inventory
+("how many events resolve?"), and would swap one measurement habit for another.
+
+**So the rule is pre-committed, not aspirational:** the next protocol's success
+criteria must contain at least one **trace-derived diagnostic**, and a result
+that fails it **fails the protocol even if the headline behaviour is correct.**
+
+**The first instance is a disqualifier: *a predicted-correct result whose
+supporting evidence is self-sourced is not a transfer result.*** The trace
+reports the world/self split of every belief's support, because the temporal
+graph's lookback window has no `event_type` filter and a supporting transition
+can originate from the organism's own previous sleep payload (D2). That is
+D2's first concrete use, and it turns a disclosed defect into a **live
+scientific instrument** — a defect that can defeat a claim is worth more than a
+defect that is merely recorded.
+
+**Second guard:** the trace's own metrics — evidence-trace completeness,
+lineage completeness, selection reproducibility — are **diagnostics of the
+instrument**: reported, never criteria. An audit layer earns its keep by
+adjudicating a live question, not by accumulating completeness.
+
+Added spec §11; AGENTS.md rule 18; manual §8.14 and finding 19; facts sheet
+§AA9; journal §42.
+
+### Corrected — the audit-trace probe's headline, and three errors in the specification
+
+The probe's first version reconciled the **aggregate** `precedes` table against
+the engine's reported support counts. That demonstrates the auditor reproduces
+Organica's *counts* and its *selection decisions*; it does **not** demonstrate
+that it can identify the individual experiences behind a count. The
+specification claimed the stronger thing, and is now corrected to say exactly
+what was measured: **aggregate evidence reconciliation and selection
+reconstruction passed.** Event-level attribution is now its own acceptance
+criterion (**A7**), measured with a passive store-time observer.
+
+**Three corrections to the specification, each verified against the source
+before being written down:**
+
+1. A cycle returns **14** candidate lists, not 13.
+2. The engine's lookback window **includes the event being stored** —
+   `store()` inserts the row before recording edges — so the window is the
+   event itself plus two others, and **within-event tag pairs also become
+   temporal edges**. The first replay rule was wrong.
+3. **A post-hoc replay from the final log cannot reconstruct the window**: the
+   engine's query has no `rowid` tiebreak, and sleep-candidate rows are
+   pruned. Event-level attribution therefore **requires** a passive
+   store-time observer, whose guard must mirror the engine's own
+   `event_type != "sleep"` rule.
+
+**Results.** Default arm: A1 1,412 beliefs / 0 failures, A2
+120/120 cycles, A7 1,412 beliefs / 0 failures with 244 aggregate
+edges reconciling exactly. Stress arm: A1 290, A2 60/60, A7 290, **403 candidates lost on rank**. A4
+behaviour invariance passes — observer on and off produce byte-identical
+reports apart from `ran_at`.
+
+**D2 is now measured: 53,980 of 307,857 attributed support transitions (17.5%) are
+self-sourced** — the prior event was the organism's own sleep payload. Roughly
+one belief-support transition in six rests on the organism's own output. That
+is the baseline the pre-committed disqualifier is read against.
+
+**The probe found two defects in itself** — an observer that attributed
+sleep-event transitions the engine never makes, and an invariance check that
+compared a wall-clock timestamp — both caught by the checks rather than by
+inspection. The generalisable lesson is now **AGENTS.md rule 17(d): an
+aggregate is not an attribution; name the resolution of every check.**
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy

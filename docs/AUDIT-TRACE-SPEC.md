@@ -62,7 +62,7 @@ Every row was read from the source on 2026-10-25. Nothing here is recalled.
 
 | Fact | Where |
 |---|---|
-| A cycle returns 13 candidate lists: concepts, phrases, loops, predictions, anomalies, meta_concepts, processes, workflow_concepts, hypotheses, theories, questions, dreams, investigations, experiments — plus four dynamics counters (`candidates_strengthened`, `candidates_decayed`, `candidates_pruned`, `composites_created`). | `sleep.py:266-298` |
+| A cycle returns **14** candidate lists: concepts, phrases, loops, predictions, anomalies, meta_concepts, processes, workflow_concepts, hypotheses, theories, questions, dreams, investigations, experiments — plus four dynamics counters (`candidates_strengthened`, `candidates_decayed`, `candidates_pruned`, `composites_created`). | `sleep.py:266-298` |
 | `PredictionCandidate`: `source`, `target`, `strength`, `evidence`, `parent_ids`. | `sleep.py:88-98` |
 | `HypothesisCandidate`: `subject`, `expectation`, `confidence`, `support_count`, `contradiction_count`, `parent_ids`, and `evidence` = {`support_count`, `contradiction_count`, `raw_contradiction_count`, `total_flow`, `prior_confidence`, `revision_delta`}. | `sleep.py:147-159`, `sleep.py:1505-1512` |
 | **The report contains only survivors.** Pre-retention candidates and discarded candidates are never emitted. | `sleep.py:1406-1528` |
@@ -176,19 +176,46 @@ candidate as a JSON payload.
 and — the part that makes it auditable — **the list of contributing event
 transitions**.
 
-**How it is obtained.** The counts are in the report. The contributing events
-are obtained by **replaying the engine's own counting rule over the persisted
-event log**, using the substrate's read APIs:
+The counts are in the report. Resolving them to the experiences behind them
+is **two separate jobs**, and conflating them is what would make the trace
+look more auditable than it is.
 
-> For each world event `e` with tags `T(e)`: for each tag `a` in the tags of
-> the **three events immediately preceding `e`** in time order, and each tag `b`
-> in `T(e)` with `a ≠ b`: the pair `(a, b)` gains one transition, attributed to
-> `e`.
+**Level 2a — aggregate counts.** The engine's own counting rule, read from the
+substrate's `precedes` table. The auditor recomputes every belief's support,
+competing flow and confidence from it and compares against the report. **No
+observer is needed for this**, and the acceptance test is exactness, not
+plausibility: the auditor's recomputed count must **equal** the engine's
+reported `support_count` for every belief in every cycle. If it does not, the
+auditor is wrong, not the engine — and the discrepancy is the finding.
 
-**The acceptance test is exactness, not plausibility:** the auditor's replayed
-count must **equal** the engine's reported `support_count` for every belief in
-every cycle. If it does not, the auditor is wrong, not the engine — and the
-discrepancy is the finding.
+**Level 2b — event-level attribution.** The *individual* transitions behind a
+count, each resolved to the event ids that produced it. This is where the
+engine's actual rule has to be written down exactly, and it is not what the
+first draft of this specification said:
+
+> The lookback window is the **three most recent rows by
+> `ORDER BY time DESC LIMIT 3`** — and it **includes the event being stored**,
+> because `store()` inserts the row *before* recording edges. So the window is
+> the event itself plus two others, and **within-event tag pairs also become
+> temporal edges**: a pair of tags in one event produces a transition from
+> that event to itself.
+
+Two consequences, both verified by measurement:
+
+- **A post-hoc replay from the final log is not guaranteed to agree.** The
+  engine's query has **no `rowid` tiebreak**, so under equal timestamps the
+  window is not determined by the schema; and sleep-candidate rows are
+  **pruned** from the log (`DEFAULT_SLEEP_RETENTION = 20000`), so a window the
+  engine actually saw may no longer be in the log at all. In the probe run
+  **no timestamps tied** (48 of 48 distinct), and `time.time()` showed ~0.5 ms
+  effective resolution, so ties are possible in principle and did not occur
+  there — but they are not excluded by the schema.
+- **Therefore event-level attribution requires a store-time observer**: a
+  passive subclass of `MemoryService` that calls the parent unchanged and
+  re-runs the *same* lookback query immediately afterwards, recording exactly
+  the window the engine used. The observer must mirror the engine's own guard
+  — edges are recorded only when `event_type != "sleep"` — and the attribution
+  must reconcile with the aggregate table exactly, transition by transition.
 
 **The record must also carry the attribution split**, because the engine's
 counting rule is not scoped to the world: the lookback window is
@@ -289,11 +316,19 @@ count without identities cannot answer "which one lost".
 
 ## 5. The observer build, and the invariance requirement
 
-**Default: no observer.** Per §3.3–3.4, the trace is assemblable from what the
-engine already exposes and the substrate already persists. The auditor reads
-through the substrate's own read APIs (`recent`, `temporal_edges`,
-`cooccurrences`, `tag_frequencies`) rather than re-implementing them, so window
-and ordering semantics are **inherited, not emulated**.
+**Default: no observer — for Level 3.** Per §3.4, the *selection* contest is
+assemblable from what the engine already exposes and the substrate already
+persists. The auditor reads through the substrate's own read APIs (`recent`,
+`temporal_edges`, `cooccurrences`, `tag_frequencies`) rather than
+re-implementing them, so window and ordering semantics are **inherited, not
+emulated**.
+
+**Required: an observer — for Level 2b.** Event-level attribution cannot be
+reconstructed from the persisted log (§3.3), so a passive store-time observer
+is required for it. The observer subclasses `MemoryService`, calls the parent
+unchanged, and only *reads*. Its two obligations are that it mirrors the
+engine's own edge-recording guard exactly, and that it provably changes
+nothing (A4).
 
 **Fallback: a labelled observer build,** used only where a hook inside the
 engine is genuinely unavoidable. The project's existing precedent is the
@@ -334,6 +369,12 @@ The build is accepted only if all six hold, and each is a check that can fail:
 | **A4** | **Behaviour invariance** | Observer on vs off, same seed: byte-identical cycle reports. Proven to fail by a deliberate mutation. |
 | **A5** | **Field-honesty** | Every numeric field in the record carries its exact semantics (`support` = temporal transitions; `contradiction` = competing flow). A check that the rendered record contains no mislabelled count fails the build. |
 | **A6** | **Trace/ counterfactual separation** | The trace contains no counterfactual field; any replay lives in a separate artifact with its own label. A check that greps the trace schema for counterfactual claims fails the build. |
+| **A7** | **Event-level attribution** | Every temporal edge resolves to the concrete events that produced it, the attributed total for each edge **equals** its aggregate count, and each belief's support resolves to event ids with a **world/self split**. Requires the store-time observer, and the observer's own guard must mirror the engine's. |
+
+**Status of the criteria at the time of writing (2026-10-26):** **A1, A2, A4
+and A7 are met** by the probe (§10). **A3 (ancestry completeness), A5
+(field-honesty) and A6 (trace/counterfactual separation) are still pending**
+and belong to the build.
 
 **Completion metrics the trace should report** (diagnostics, not pass/fail):
 evidence-trace completeness (fraction of beliefs whose support resolves to
@@ -406,12 +447,22 @@ frozen ground-truth world generator, and at every cycle it takes the report and
 the substrate state, rebuilds the contest from the documented rules, and
 compares. It makes **no claim about what Organica does**; it checks whether an
 outside auditor can reproduce what the engine did. No engine file was modified
-or instrumented.
+or instrumented; the observer subclasses `MemoryService`, calls the parent
+unchanged, and only reads.
 
-| Arm | Belief cap | Cycles | Beliefs checked | A1 evidence replay | A2 selection reconstruction | Died | **Lost on rank** |
+**What the first version of the probe actually verified was narrower than it
+claimed, and the spec was corrected to match.** The first pass reconciled the
+**aggregate** `precedes` table against the report — which shows the auditor
+reproduces Organica's *counts* and its *selection decisions*, and does **not**
+show that it can identify the individual experiences behind a count. Event-level
+attribution is therefore now its own check (A7), and the earlier result is
+named for what it is: **aggregate evidence reconciliation and selection
+reconstruction passed.**
+
+| Arm | Belief cap | Cycles | A1 aggregate evidence | A2 selection | A7 event-level attribution | Died | **Lost on rank** |
 |---|---|---|---|---|---|---|---|
-| Default | 15 (the engine's own) | 120 | 1,412 | **0 failures** | **120 / 120 cycles** | 4 | 0 |
-| Stress | 5 (cap binding) | 60 | 290 | **0 failures** | **60 / 60 cycles** | 3 | **403** |
+| Default | 15 (the engine's own) | 120 | **1,412 beliefs, 0 failures** | **120/120 cycles** | **1,412 beliefs, 0 failures; 244 edges reconcile** | 4 | 0 |
+| Stress | 5 (cap binding) | 60 | **290 beliefs, 0 failures** | **60/60 cycles** | **290 beliefs, 0 failures; 241 edges reconcile** | 3 | **403** |
 
 Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`.
 
@@ -419,15 +470,37 @@ Artifacts: `docs/audit_trace_probe.json`, `docs/audit_trace_probe_stress.json`.
 Its pool peaked at 12 candidates against a cap of 15, so the cap never bound
 and **no candidate ever lost on rank** — the interesting branch went untested.
 The stress arm tightens the belief budget to 5 so that the pool exceeds the
-cap, and **403 candidates were lost on rank** across the run. The
-reconstruction stayed exact in both arms: the auditor reproduced the engine's
-retained set on every cycle, including the cycles where the decision turned on
-the ranking.
+cap, and **403 candidates were lost on rank** across the run. The reconstruction stayed exact in both arms.
 
-**The checks can fail.** `tests/test_audit_trace_probe.py` breaks the auditor on
-purpose — zeroing the curiosity term, and separately dropping a tag from the
-temporal graph — and requires both A1 and A2 to go red. They do. A check that
-cannot fail is decoration, and this one is not.
+**What the stress arm does and does not show.** It shows the auditor can
+reconstruct a **binding-cap decision** — that the ranking, not just the pool,
+is reproduced. It does **not** show that the cap commonly determines outcomes
+under default conditions: in the default arm it never bound at all. The
+honest statement is *the auditor handles the case in which the cap decides*,
+not *the cap decides often*.
+
+**The checks can fail.** `tests/test_audit_trace_probe.py` breaks the auditor
+on purpose — zeroing the curiosity term, dropping a tag from the temporal graph,
+and lifting the observer's own sleep-event guard — and requires A1, A2 and A7
+to go red. They do. A check that cannot fail is decoration, and this one is not.
+
+**The probe found two defects in itself, which is the point of having checks
+that can fail.** Its first observer attributed transitions for sleep events as
+well as world events — the engine deliberately skips those — so the attributed
+totals ran an order of magnitude above the aggregate counts and A7 caught it.
+And its first invariance check compared whole reports including `ran_at`, a
+wall-clock timestamp, so two identical runs differed for a reason that had
+nothing to do with behaviour. Both were the auditor's errors, both were found
+by the checks rather than by inspection, and both are recorded here rather than
+quietly fixed.
+
+**D2 is now a measured quantity, not a worry.** Across the default arm, of
+307,857 attributed support transitions, **53,980 (17.5%) were self-sourced** — their prior event was the
+organism's own sleep payload rather than a world event; 253,877 were world-sourced. On this world, roughly
+**one support transition in six rests on the organism's own output.** That is
+the number the pre-committed disqualifier (§11) has to be read against: a
+transfer claim whose support is self-sourced is not a transfer claim, and this
+is how much of the support can be self-sourced in practice.
 
 ### What the probe establishes, and what it does not
 
@@ -443,6 +516,10 @@ engine.**
 - **Generality.** One world family (the frozen cause generator), one
   configuration, one policy. The probe validates the *transcription*; it does
   not validate the auditor on worlds it has not seen, and it says so.
+- **Behaviour under timestamp ties.** No ties occurred in the probe run, and
+  the engine's lookback query has no `rowid` tiebreak, so under a tie the
+  window is not determined by the schema. The observer sidesteps this by
+  capturing the window at store time; a post-hoc replay would not.
 - **The `stochastic` policy.** Under a weighted lottery the retained set is not
   a function of the scores; the reconstruction degrades to a bound (§3.4).
 - **The whole trace.** The probe checks the *selection* and *evidence* axes.
@@ -451,6 +528,76 @@ engine.**
   belong to the build, and the build has not happened.
 - **Anything about learning.** No claim is made or implied that the organism
   learns, transfers, or generalises. This is an audit of a mechanism.
+
+---
+
+## 11. Keeping the trace honest
+
+**The risk this section exists to name.** A layer that makes developmental
+decisions reconstructible is attractive, and attractive things become projects.
+The trace could become the new displacement curve: infrastructure that is
+built, extended and admired without ever adjudicating a question the project
+wanted answered. Then it would be a *second* inventory — *"how many events
+resolve?"* — and the project would have swapped one measurement habit for
+another.
+
+**The rule.** The trace must be **load-bearing for a question that was
+pre-committed before the trace existed.** Concretely: the next protocol's
+success criteria must contain at least one **trace-derived diagnostic**, and a
+result that fails that diagnostic **fails the protocol even if the headline
+behaviour is correct**.
+
+### What that means for the next phase
+
+The blank-slate acquisition test asks whether experience can produce knowledge
+that transfers, predicts and revises. The standing criticism of any such
+success is: *"it predicted correctly — but what did it actually learn?"* The
+trace is the answer to that criticism, and the pre-commitment is what stops it
+from being decoration:
+
+- A claimed **transfer** must be supported by **world-derived** evidence. The
+  trace reports the world/self split of every belief's support (§3.3, D2), and
+  if the support carrying the claim is **self-sourced** — the organism's own
+  previous sleep payload — the claim does not count as transfer.
+- A claimed **revision** must be visible in the trace as a change in a claim
+  whose support is world-derived, with the prior state resolved
+  (`revision_delta`, `prior_confidence`).
+- A claimed **explanation** must resolve to event ids (§3.3) — not to counts,
+  and never to the system's own account of itself.
+
+**The disqualifier, stated plainly:**
+
+> **A predicted-correct result whose supporting evidence is self-sourced is not
+> a transfer result.**
+
+**Calibrated, not binary.** The disqualifier is not a mood: the trace reports
+a *share*, and the probe measured what that share looks like on a world where
+the organism is doing ordinary work — **17.5% of belief support transitions
+were self-sourced** (§10). So the criterion is about the support *carrying the
+claim*, not about the trace's average: a claim resting on the self-sourced
+minority fails, and a claim resting on world-derived support stands. The
+measurement gives the criterion a baseline instead of a vibe.
+
+That is the first concrete use of D2, and it is what turns a disclosed defect
+into a live scientific instrument. A defect that can defeat a claim is worth
+more than a defect that is merely recorded.
+
+**A second guard: the trace's own metrics must not become the target.**
+Evidence-trace completeness, lineage completeness and selection reproducibility
+are **diagnostics of the instrument**, not measurements of the organism. They
+are reported; they are never criteria.
+
+### The roadmap this sits in
+
+| Stage | What it established |
+|---|---|
+| **V1** | Developmental properties: development occurs, history matters, curriculum matters, stable regimes emerge. |
+| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. |
+| **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. Demonstrated, not asserted (§10). |
+| **Next** | Can experience produce knowledge that **transfers, predicts and revises** — judged with trace-derived diagnostics pre-committed in advance. |
+
+A coherent progression: *what structures exist* → *what develops and survives*
+→ *why it survived* → *whether what it developed is usable in a new situation*.
 
 ---
 

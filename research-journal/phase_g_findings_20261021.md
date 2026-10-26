@@ -3638,3 +3638,159 @@ manual as §8.13, and in the artifacts `docs/audit_trace_probe.json` and
 
 Recorded in `docs/AUDIT-TRACE-SPEC.md`, in the manual as §8.13 and finding 18,
 in the facts sheet as §AA, and in `AGENTS.md` as rule 17.
+
+---
+
+## §42 — The roadmap, and the rule that keeps the trace from becoming a second inventory
+
+**What this section records.** A framing, and one rule adopted with it. It is a
+decision record, not new evidence.
+
+### The framing
+
+Read against the whole arc, the project has moved through a coherent
+progression:
+
+| Stage | What it established |
+|---|---|
+| **V1** | Developmental properties: development occurs, history matters, curriculum matters, stable regimes emerge. |
+| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. |
+| **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. |
+| **Next** | Can experience produce knowledge that **transfers, predicts and revises**? |
+
+*What structures exist* → *what develops and survives* → *why it survived* →
+*whether what it developed is usable in a new situation*.
+
+The shift worth naming is not "can the system explain itself?" but **"can an
+external investigator reconstruct what happened?"** — a stronger and much harder
+standard, and one that most systems could not even aspire to.
+
+### The rule
+
+An audit layer is attractive, and attractive things become projects. The trace
+could become the new displacement curve: built, extended and admired without
+ever adjudicating a question the project wanted answered. Then it would be a
+*second* inventory, and the project would have swapped one measurement habit for
+another.
+
+**So the rule is pre-committed, not aspirational:** the next protocol's success
+criteria must contain at least one **trace-derived diagnostic**, and a result
+that fails it **fails the protocol even if the headline behaviour is correct.**
+
+**The first instance is the disqualifier:**
+
+> **A predicted-correct result whose supporting evidence is self-sourced is not
+> a transfer result.**
+
+This is the first concrete use of D2 — the temporal graph's lookback window has
+no `event_type` filter, so a belief's support can come from the organism's own
+previous sleep payload. A defect that can *defeat a claim* is worth more than a
+defect that is merely recorded, and this is what turns D2 from a disclosed
+limitation into a live scientific instrument.
+
+**And the second guard:** the trace's own metrics — evidence-trace
+completeness, lineage completeness, selection reproducibility — are
+**diagnostics of the instrument**. Reported; never criteria. An audit layer
+earns its keep by adjudicating a live question, not by accumulating
+completeness.
+
+### One precision, recorded
+
+The framing *memory → development → auditability → intelligence* should not be
+read **causally**. Auditability is an epistemic addition to the *study*, not a
+developmental stage on the path to intelligence: nothing about the organism
+becomes more capable because its history can be audited. What the project
+*does* have is a real and unusual property — Organica preserves lineage,
+parent links, generation counters and a 4,000-event working window — and that
+property is what makes the audit possible. Whether lineage preservation is
+*necessary* for capable development, or merely *sufficient* for auditable
+development, is an open question, and it is not settled by this work.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` §11, in `AGENTS.md` as rule 18, in the
+manual as §8.14 and finding 19, and in the facts sheet as §AA9.
+
+---
+
+## §43 — The probe's headline was ahead of what it verified, and the correction produced a measurement
+
+**What this section records.** A review of the audit-trace probe, three
+corrections to the specification, and a new acceptance criterion. It is a
+correction record, not new evidence about the organism.
+
+### The gap
+
+The probe's first version reconciled the **aggregate** `precedes` table against
+the engine's reported support counts. That demonstrates the auditor reproduces
+Organica's *counts* and its *selection decisions*. It does **not** demonstrate
+that it can identify the individual experiences behind a count — the aggregate
+table does not preserve which events contributed each count, or whether they
+were world events or the organism's own output. The specification had claimed
+the stronger thing. **The claim was narrowed to the measurement, and the
+stronger thing was made a separate test.**
+
+**The result is now named for what it is: aggregate evidence reconciliation and
+selection reconstruction passed.** Event-level attribution is now **A7**,
+measured with a passive store-time observer.
+
+### Three corrections, each verified against the source before being written down
+
+1. **A cycle returns 14 candidate lists, not 13.** The specification's own field
+   list had 14 entries under a heading that said 13.
+2. **The lookback window includes the event being stored.** `store()` inserts
+   the row *before* recording edges, and the window is
+   `ORDER BY time DESC LIMIT 3` — so the window is the event itself plus two
+   others, and **within-event tag pairs also become temporal edges**. The
+   specification's first replay rule ("the three events immediately preceding
+   e") was wrong.
+3. **A post-hoc replay from the final log cannot reconstruct the window.** The
+   engine's query has **no `rowid` tiebreak**, so under equal timestamps the
+   window is not determined by the schema, and sleep-candidate rows are
+   **pruned** from the log. No timestamps tied in the probe run (48 of 48
+   distinct; `time.time()` showed ~0.5 ms effective resolution), but ties are
+   not excluded by the schema. **Event-level attribution therefore requires a
+   passive store-time observer** — and the observer's own guard must mirror the
+   engine's `event_type != "sleep"` rule.
+
+### Results
+
+| Arm | A1 aggregate evidence | A2 selection | A7 event-level attribution | Died | Lost on rank |
+|---|---|---|---|---|---|
+| Default (cap 15) | 1,412 beliefs, 0 failures | 120/120 cycles | 1,412 beliefs, 0 failures, 244 edges reconcile | 4 | 0 |
+| Stress (cap 5) | 290 beliefs, 0 failures | 60/60 cycles | 290 beliefs, 0 failures, 241 edges reconcile | 3 | **403** |
+
+**A4 behaviour invariance passes**: observer on and observer off produce
+byte-identical reports apart from the wall-clock `ran_at`.
+
+**What the stress arm does and does not show.** It shows the auditor can
+reconstruct a **binding-cap decision** — that the ranking, not merely the pool,
+is reproduced. It does **not** show that the cap commonly decides outcomes: in
+the default arm it never bound at all. The honest statement is *the auditor
+handles the case in which the cap decides*, not *the cap decides often*.
+
+### D2 is now a measurement, not a worry
+
+Of 307,857 attributed support transitions in the default arm, **53,980 (17.5%) were
+self-sourced** — their prior event was the organism's own sleep payload rather
+than a world event. The stress arm gives 15.3%. So on this world, roughly **one belief-support
+transition in six rests on the organism's own output.** That is the baseline
+against which the pre-committed disqualifier is read (§42): the criterion is
+about the support *carrying a claim*, not about this average.
+
+### The probe found two defects in itself
+
+Its first observer attributed transitions for **sleep** events as well as world
+events — the engine deliberately skips those — so the attributed totals ran an
+order of magnitude above the aggregate counts, and A7 caught it. And its first
+invariance check compared whole reports including `ran_at`, a wall-clock
+timestamp, so two identical runs differed for a reason that had nothing to do
+with behaviour. Both were the auditor's errors; both were found by the checks
+rather than by inspection.
+
+**The generalisable lesson, now AGENTS rule 17(d):** *an aggregate is not an
+attribution.* A check that reconciles a count against a count verifies the
+arithmetic, not the provenance. **Name the resolution of every check** —
+aggregate, transition, or event — because a check at one resolution does not
+license a claim at another.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` (§2.1, §3.3, §5, §6, §10, §11), in the
+manual as §8.13, in the facts sheet as §AA10, and in `AGENTS.md` as rule 17(d).

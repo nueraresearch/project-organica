@@ -10,16 +10,24 @@ It is an instrument probe, not an experiment about the organism: it produces no
 claim about what Organica does, only about whether an outside auditor can
 reproduce what the engine did.
 
-Two checks, the two load-bearing acceptance criteria from the spec:
+Four checks:
 
   A1  evidence replay exactness   — for every reported belief, the auditor's
       recomputed support / contradiction / confidence equal the engine's.
+      NOTE: this reconciles **aggregate** counts (the `precedes` table), not
+      the individual observations behind them.
   A2  selection reconstruction    — the auditor's reconstructed retained set
       equals the engine's reported retained set, cycle by cycle.
+  A7  event-level attribution     — every temporal edge resolves to the
+      concrete events that produced it, the attributed total equals the
+      aggregate count, and each belief's support resolves to event ids with a
+      world/self split.  Requires a passive store-time observer.
+  A4  behaviour invariance         — an observer that records the trace leaves
+      the engine's outputs byte-identical.
 
-The engine is not modified and is not instrumented.  The auditor reads the
-report and the substrate, and re-derives the decision from the documented
-rules.  Nothing in `organica/` is touched.
+The engine is not modified and is not instrumented.  The observer subclasses
+MemoryService, calls the parent unchanged, and only *reads* the lookback
+window the engine had just used.  Nothing in `organica/` is touched.
 """
 from __future__ import annotations
 
@@ -27,7 +35,7 @@ import argparse
 import json
 import math
 import sys
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -36,11 +44,59 @@ sys.path.insert(0, str(REPO))
 from organica.ground_truth_worlds import generate_cause_world  # noqa: E402
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
-from organica.sleep import SleepService, _make_id  # noqa: E402
+from organica.sleep import SleepService, SleepReport, _make_id  # noqa: E402
 
 CYCLES = 120
 EVENTS_PER_CYCLE = 8
 SEED = 20261025
+INVARIANCE_CYCLES = 12
+
+
+# ------------------------------------------------------------------
+# The passive observer.
+# ------------------------------------------------------------------
+
+class ObservingMemoryService(MemoryService):
+    """Records the engine's lookback window at store time.  Read-only.
+
+    The engine's `_record_temporal_edges` looks back at the three most recent
+    rows by `ORDER BY time DESC LIMIT 3` — a window that **includes the event
+    being stored**, because `store()` inserts the row before recording edges.
+    Re-running the same query immediately afterwards observes exactly the
+    window the engine used, without changing anything.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # edge (from_tag, to_tag) -> list of (prior_event_id, prior_event_type,
+        #                                  to_event_id)
+        self.attribution: dict[tuple[str, str], list[tuple[str, str, str]]] = {}
+        self.store_order: list[str] = []
+
+    def store(self, content: str, event_type: str = "observe", source: str = "env"):
+        event = super().store(content, event_type=event_type, source=source)
+        self.store_order.append(event.id)
+        # The engine records graph edges only for world events: `store()`
+        # guards the call with `if event_type != "sleep"`.  The observer must
+        # mirror that guard exactly, or it attributes transitions the engine
+        # never made.
+        if event_type == "sleep":
+            return event
+        rows = self._conn.execute(
+            "SELECT id, time, event_type, tags, rowid FROM events "
+            "ORDER BY time DESC LIMIT 3"
+        ).fetchall()
+        for prior_id, _t, prior_type, prior_tags, _rowid in rows:
+            for tag_from in (prior_tags or "").split(","):
+                if not tag_from:
+                    continue
+                for tag_to in event.tags:
+                    if tag_from == tag_to:
+                        continue
+                    self.attribution.setdefault((tag_from, tag_to), []).append(
+                        (prior_id, prior_type, event.id)
+                    )
+        return event
 
 
 # ------------------------------------------------------------------
@@ -87,8 +143,6 @@ def reconstruct(report, prior: list[dict], temporal: dict[str, dict[str, int]],
     """
     stable = _stable_prior(prior, svc.STABLE_THRESHOLD)
 
-    # Normalise the report's candidate objects to plain dicts so that the
-    # cycle's own candidates and the persisted priors are the same shape.
     cur_workflows = [asdict(w) for w in report.workflow_concepts]
     cur_processes = [asdict(p) for p in report.processes]
     cur_metas = [asdict(m) for m in report.meta_concepts]
@@ -220,13 +274,27 @@ def reconstruct(report, prior: list[dict], temporal: dict[str, dict[str, int]],
     }
 
 
+def _attribution_for(observer: ObservingMemoryService, subject: str,
+                      expectation: str) -> list[dict]:
+    """The concrete transitions behind one belief's support."""
+    out = []
+    for prior_id, prior_type, to_id in observer.attribution.get((subject, expectation), []):
+        out.append({
+            "from_event": prior_id,
+            "from_event_type": prior_type,
+            "to_event": to_id,
+            "source": "self" if prior_type == "sleep" else "world",
+        })
+    return out
+
+
 def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = None) -> dict:
     world = generate_cause_world(cycles=cycles, events_per_cycle=EVENTS_PER_CYCLE, seed=seed)
     events = world["events"]
 
     db = temp_db("audit_trace_probe.db")
     db.unlink(missing_ok=True)
-    mem = MemoryService(db_path=str(db))
+    mem = ObservingMemoryService(db_path=str(db))
     svc = SleepService(mem)
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
@@ -238,8 +306,9 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
         svc.MAX_HYPOTHESES = max_hypotheses
 
     cycle_reports = []
-    a1_fail = a2_fail = 0
-    a1_checked = a2_checked = 0
+    a1_fail = a2_fail = a7_fail = 0
+    a1_checked = a2_checked = a7_checked = 0
+    self_sourced_total = world_sourced_total = 0
     try:
         for cycle in range(cycles):
             chunk = events[cycle * EVENTS_PER_CYCLE:(cycle + 1) * EVENTS_PER_CYCLE]
@@ -260,7 +329,7 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             reported_markers = {i: h for i, h in reported.items()
                                 if h.expectation == "high_structural_significance"}
 
-            # --- A1: evidence replay exactness -----------------------------
+            # --- A1: evidence replay exactness (aggregate counts) ----------
             a1_errors = []
             for hid, h in reported_beliefs.items():
                 mine = rec["beliefs"].get(hid)
@@ -282,6 +351,23 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             if not a2_ok:
                 a2_fail += 1
 
+            # --- A7: event-level attribution -------------------------------
+            a7_errors = []
+            for hid, h in reported_beliefs.items():
+                transitions = _attribution_for(mem, h.subject, h.expectation)
+                if len(transitions) != h.support_count:
+                    a7_errors.append({"id": hid, "error": "attribution count mismatch",
+                                       "attributed": len(transitions),
+                                       "support_count": h.support_count})
+                    continue
+                world_n = sum(1 for t in transitions if t["source"] == "world")
+                self_n = len(transitions) - world_n
+                world_sourced_total += world_n
+                self_sourced_total += self_n
+                a7_checked += 1
+            if a7_errors:
+                a7_fail += 1
+
             cycle_reports.append({
                 "cycle": cycle + 1,
                 "reported_beliefs": len(reported_beliefs),
@@ -291,21 +377,44 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 "lost": len(rec["lost"]),
                 "a1_errors": a1_errors,
                 "a2_match": a2_ok,
+                "a7_errors": a7_errors,
                 "kept_detail": rec["kept_detail"],
                 "lost_detail": rec["lost"][:5],
             })
+
+        # --- A7 aggregate: every edge's attributed total == its count -----
+        # The cross-check between two independent paths: the per-event
+        # attribution, and the `precedes` aggregate table the engine builds.
+        edge_mismatches = []
+        edges_checked = 0
+        aggregate_edges = set()
+        for tag_from, tag_to, count in mem.temporal_edges(min_count=1):
+            edges_checked += 1
+            aggregate_edges.add((tag_from, tag_to))
+            attributed = len(mem.attribution.get((tag_from, tag_to), []))
+            if attributed != count:
+                edge_mismatches.append({
+                    "from": tag_from, "to": tag_to,
+                    "aggregate_count": count, "attributed": attributed,
+                })
+        attributed_only = [f"{f}->{t}" for (f, t) in mem.attribution
+                           if (f, t) not in aggregate_edges]
     finally:
         mem.close()
         db.unlink(missing_ok=True)
 
     cycles_with_beliefs = [c for c in cycle_reports if c["reported_beliefs"]]
+    total_attributed = world_sourced_total + self_sourced_total
     return {
         "purpose": "Feasibility probe for docs/AUDIT-TRACE-SPEC.md — can the "
-                   "selection contest be reconstructed from outside the engine?",
+                   "selection contest be reconstructed from outside the engine, "
+                   "and can evidence be resolved to event ids?",
         "instrument_note": "Instrument probe, not an experiment about the organism. "
                            "It makes no claim about what Organica does; it checks "
                            "whether an outside auditor can reproduce what the engine did. "
-                           "No engine file was modified or instrumented.",
+                           "No engine file was modified or instrumented. The observer "
+                           "subclasses MemoryService, calls the parent unchanged, and "
+                           "only reads the lookback window the engine had just used.",
         "protocol": {
             "world": "organica/ground_truth_worlds.generate_cause_world",
             "cycles": cycles, "events_per_cycle": EVENTS_PER_CYCLE, "seed": seed,
@@ -316,14 +425,40 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
             "salience_weights": list(SleepService.SALIENCE_WEIGHTS),
             "death_threshold": SleepService.DEATH_THRESHOLD,
             "contradiction_scale": SleepService.CONTRADICTION_SCALE,
+            "report_candidate_lists": len([f.name for f in fields(SleepReport)
+                                           if f.name not in ("cycle", "ran_at",
+                                                             "prior_candidates_loaded",
+                                                             "candidates_strengthened",
+                                                             "candidates_decayed",
+                                                             "candidates_pruned",
+                                                             "composites_created")]),
         },
-        "A1_evidence_replay": {
+        "A1_evidence_replay_aggregate": {
             "beliefs_checked": a1_checked, "cycles_failing": a1_fail,
             "pass": a1_fail == 0,
+            "scope": "aggregate counts only — the `precedes` table, not the "
+                     "individual observations behind them",
         },
         "A2_selection_reconstruction": {
             "cycles_checked": a2_checked, "cycles_failing": a2_fail,
             "pass": a2_fail == 0,
+        },
+        "A7_event_level_attribution": {
+            "beliefs_checked": a7_checked, "cycles_failing": a7_fail,
+            "pass": a7_fail == 0 and not edge_mismatches and not attributed_only,
+            "attributed_transitions_total": total_attributed,
+            "world_sourced": world_sourced_total,
+            "self_sourced": self_sourced_total,
+            "self_sourced_share": (round(self_sourced_total / total_attributed, 6)
+                                    if total_attributed else 0.0),
+            "aggregate_edges_checked": edges_checked,
+            "edge_mismatches": edge_mismatches[:10],
+            "attributed_but_absent_from_aggregate": attributed_only[:10],
+            "note": "Every temporal edge must resolve to the concrete events "
+                    "that produced it, and the attributed total must equal the "
+                    "aggregate count. The world/self split is the D2 quantity: "
+                    "a supporting transition whose prior event is the "
+                    "organism's own sleep payload is self-sourced.",
         },
         "summary": {
             "cycles_run": len(cycle_reports),
@@ -338,6 +473,57 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
     }
 
 
+def _reports_signature(reports: list[dict]) -> str:
+    """A stable signature of the engine's outputs.
+
+    `ran_at` is a wall-clock timestamp and differs between any two runs; it
+    is not part of the engine's behavioural output, so it is excluded.  Every
+    other field — every candidate, every counter — must match exactly.
+    """
+    stripped = []
+    for r in reports:
+        r = dict(r)
+        r.pop("ran_at", None)
+        stripped.append(r)
+    return json.dumps(stripped, sort_keys=True)
+
+
+def run_invariance(cycles: int = INVARIANCE_CYCLES, seed: int = SEED) -> dict:
+    """A4 — does the observer change the engine's outputs?  It must not."""
+    def once(observing: bool) -> list[dict]:
+        world = generate_cause_world(cycles=cycles, events_per_cycle=EVENTS_PER_CYCLE, seed=seed)
+        db = temp_db(f"audit_trace_invariance_{'obs' if observing else 'plain'}.db")
+        db.unlink(missing_ok=True)
+        mem = (ObservingMemoryService if observing else MemoryService)(db_path=str(db))
+        svc = SleepService(mem)
+        if hasattr(svc, "_rng"):
+            svc._rng.seed(seed)
+        out = []
+        try:
+            for cycle in range(cycles):
+                for event in world["events"][cycle * EVENTS_PER_CYCLE:(cycle + 1) * EVENTS_PER_CYCLE]:
+                    mem.store(event, event_type="event", source=f"cycle:{cycle}")
+                report = svc.run_sleep_cycle()
+                out.append(asdict(report))
+        finally:
+            mem.close()
+            db.unlink(missing_ok=True)
+        return out
+
+    plain = _reports_signature(once(False))
+    observed = _reports_signature(once(True))
+    return {
+        "A4_behaviour_invariance": {
+            "cycles": cycles, "seed": seed,
+            "observer_on_equals_observer_off": plain == observed,
+            "pass": plain == observed,
+            "note": "The observer subclasses MemoryService, calls the parent "
+                    "unchanged, and only reads. It must not change a single "
+                    "reported field.",
+        }
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--cycles", type=int, default=CYCLES)
@@ -348,6 +534,7 @@ def main() -> None:
     parser.add_argument("--out", default=str(REPO / "docs" / "audit_trace_probe.json"))
     args = parser.parse_args()
     result = run(args.cycles, args.seed, args.max_hypotheses)
+    result.update(run_invariance())
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
