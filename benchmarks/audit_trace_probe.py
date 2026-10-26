@@ -106,10 +106,17 @@ class ObservingMemoryService(MemoryService):
         # same timestamp (the engine's query has no tie-breaker)
         self.tied_windows = 0
         self.store_order: list[str] = []
+        # how many `sleep` events the engine stores per cycle. The cognition
+        # window is the most recent 4,000 sleep events, so this converts the
+        # window into a span in CYCLES -- a measurement rather than an
+        # estimate.
+        self.sleep_events = 0
 
     def store(self, content: str, event_type: str = "observe", source: str = "env"):
         event = super().store(content, event_type=event_type, source=source)
         self.store_order.append(event.id)
+        if event_type == "sleep":
+            self.sleep_events += 1
         # The engine records graph edges only for world events: `store()`
         # guards the call with `if event_type != "sleep"`.  The observer must
         # mirror that guard exactly, or it attributes transitions the engine
@@ -566,6 +573,21 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                         "The forced-tie arm makes ties happen on purpose and "
                         "requires the observer to reproduce the engine's choice "
                         "anyway.",
+            },
+            "cognition_window": {
+                "sleep_events_total": mem.sleep_events,
+                "sleep_events_per_cycle": round(mem.sleep_events / cycles, 2) if cycles else 0.0,
+                "window_sleep_events": 4000,
+                "window_span_cycles": (round(4000 / (mem.sleep_events / cycles), 1)
+                                       if cycles and mem.sleep_events else None),
+                "note": "The cognition window is the most recent 4,000 sleep "
+                        "events (sleep.py:876-886). The span in CYCLES depends "
+                        "on how many sleep events the engine stores per cycle, "
+                        "so it is measured here rather than estimated. A "
+                        "structure that keeps being produced stays inside the "
+                        "window because candidates are re-stored every cycle; "
+                        "one that stops being produced ages out after roughly "
+                        "this many cycles.",
             },
             "note": "Every temporal edge must resolve to the concrete events "
                     "that produced it, and the attributed total must equal the "

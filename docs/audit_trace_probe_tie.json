@@ -64,6 +64,13 @@
       "forced": true,
       "note": "The engine's lookback query is `ORDER BY time DESC LIMIT 3` with no tie-breaker, so under equal timestamps the window is not determined by the schema. The forced-tie arm makes ties happen on purpose and requires the observer to reproduce the engine's choice anyway."
     },
+    "cognition_window": {
+      "sleep_events_total": 135560,
+      "sleep_events_per_cycle": 2259.33,
+      "window_sleep_events": 4000,
+      "window_span_cycles": 1.8,
+      "note": "The cognition window is the most recent 4,000 sleep events (sleep.py:876-886). The span in CYCLES depends on how many sleep events the engine stores per cycle, so it is measured here rather than estimated. A structure that keeps being produced stays inside the window because candidates are re-stored every cycle; one that stops being produced ages out after roughly this many cycles."
+    },
     "note": "Every temporal edge must resolve to the concrete events that produced it, and the attributed total must equal the aggregate count. The world/self split is the D2 quantity: a supporting transition whose prior event is the organism's own sleep payload is self-sourced."
   },
   "summary": {

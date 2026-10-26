@@ -3942,3 +3942,130 @@ quietly — which is the same discipline the work is about.
 Recorded in `docs/AUDIT-TRACE-SPEC.md` (§3.3, §10, §11), in the manual as
 §8.14, in the facts sheet as §AA12 and §AA13, and in the artifact
 `docs/audit_trace_probe_tie.json`.
+
+---
+
+## §46 — A threshold that judged its own data, and a window that was an order of magnitude wrong
+
+**What this section records.** A fourth review of the audit-trace work, and
+two real defects it caught: one in a pre-committed rule, one in a number this
+project had been asserting.
+
+### The threshold that judged its own data
+
+The per-claim transfer rule's third condition read: *a claim's self-sourced
+share must be no higher than **the run's baseline rate** for beliefs.* That
+has a circularity in it. If the baseline is computed on the same run being
+judged, then a run whose beliefs happen to be unusually self-sourced relaxes
+the very criterion meant to constrain it — and the criterion's own outcome
+feeds back into the threshold it is measured against. A threshold derived from
+the data it judges is not a threshold.
+
+**The reference rate is now frozen: 17.9%**, the distinct-evidence self-sourced share
+measured on the calibration probe (default arm, 120 cycles). Two rules, fixed
+now: it is **not recomputed on the evaluated run**, and it may only be
+**re-calibrated on data that is not being judged**, with any re-calibration
+recorded before the next protocol runs.
+
+**And it is a provisional calibration value, not a precise universal cutoff.**
+It rests on one run, one world, one policy (`salience`, the default). The
+honest description of the condition is *"no more self-sourced than the
+reference claim's support was"* — a comparison against a fixed calibration,
+with all the fragility that implies.
+
+### The window that was an order of magnitude wrong
+
+This project asserted, in the specification and in the manual, that the
+4,000-event cognition window spanned "roughly 40–130 cycles". That was a
+**guess** about how many sleep events a cycle stores.
+
+**Measured: the engine stores 2,374.68 sleep events per cycle, so the window spans 1.7 cycles.** The
+estimate was wrong by more than an order of magnitude, and the correction is
+recorded rather than quietly fixed.
+
+The consequences point in opposite directions and both matter:
+
+- A lineage that **keeps being produced** stays inside the window, because
+  candidates are re-stored every cycle. Active lineages may resolve far better
+  than 1.7 cycles of history suggests.
+- A lineage that **stops being produced** is gone within about 1.7 cycles. The
+  developmental history of anything the organism has moved on from is
+  **unrecoverable** — not slowly censored, simply not there.
+
+### A3's definition, fixed before it is measured
+
+A criterion whose definition is written after the measurement is not a
+criterion. So A3's definition is now written down:
+
+**The two graphs stay separate.** Level 1 is developmental lineage —
+candidate → candidate via `parent_ids` — and it **terminates at Layer 1**; no
+parent link points at an event. Level 2 is evidential linkage — claim →
+transitions → events. Level 1 answers *"where did this structure come from?"*;
+Level 2 answers *"what evidence supports it?"*. **Success in one cannot stand
+in for success in the other**, and asking ancestry to reach events would be
+asking Level 1 to prove something it was never designed to represent.
+
+**Three quantities, reported separately:** *lineage reachability* (share of
+extant structures resolving back to Layer 1 within depth 7); *evidence linkage*
+(share of extant claims whose support resolves to event ids with a world/self
+split); and a *truncation split* — **aged out** (**a persistence problem**) /
+**depth-truncated** (**a representation problem**) / *no parent* / *missing
+record* (**a data defect**, and the one that would matter most).
+
+**The key outcome is not the percentage.** It is whether the incompleteness
+reflects **the architecture's actual developmental history** or **the
+observer's retention limit**.
+
+### Fidelity is not sufficiency
+
+The review made one more distinction worth keeping: the probe demonstrates
+that an auditor reproduces **the implemented rule**, including under a binding
+cap — it does **not** establish that an intact reconstruction is a *uniquely
+correct account of why a belief arose*. A reconstruction can be exactly
+faithful to the algorithm and still be a shallow account of development: it
+explains the arithmetic of selection, not why the structures formed. That is a
+separate validation question, and A3 is where it begins.
+
+### The question this leaves open
+
+Whether self-sourced support *hurts*, and in what way. The candidate outcomes
+— **correctness**, **persistence**, **revision resistance**, **confidence
+inflation**, **false-positive rate** — are named in the specification and
+pre-committed to nothing. It is a characterisation study, not a protocol.
+
+### A defect the review process caught in itself
+
+While checking the round's edits, the substitution step found **six literal
+`{...}` placeholders already committed in the specification** — `{ties}`,
+`{t_dist:,}`, `{t_edges}`, `{t_cycles}`, `{t_a1:,}`, `{t_a2}` — left in
+the text by the second and third review rounds, which wrote template prose
+without substituting the artifact values. A seventh (`{share:.1f}`) was
+introduced by this round's own script and caught before it was committed.
+
+The placeholders sat inside sentences that assert results: *"producing
+**{ties}** stores with a genuinely tied window"*, *"**The artifact is
+committed:** ... {t_cycles} cycles"*. In a document that is read as a
+measurement record, a literal `{ties}` reads as a number that was never
+computed — it looks like a value the author was unable to produce, when in fact
+the value existed in a committed artifact the whole time.
+
+**Corrected in place, from the artifacts, not by hand:** {ties} → **479**,
+`{t_dist:,}` → **2,589**, `{t_edges}` → **241**, `{t_cycles}` → **60**, `{t_a1:,}` → **692**,
+`{t_a2}` → **60**, `{t_a7:,}` → **692**, `{share:.1f}` → **17.9%**. A standing check now does this: **`tests/test_doc_placeholders.py`**
+scans the guarded document set for unsubstituted placeholders, asserts that
+none survive, and carries its own proof-of-firing.
+
+**The lesson is narrower than "be careful".** The third review round read this
+specification closely enough to catch an over-strong claim about a denominator,
+and still did not notice six literal braces — because a placeholder is *silent*.
+It does not look wrong in a diff. It looks like a sentence. What caught it was
+a mechanical substitution step run over the file, not another careful read.
+
+Which is the point: **a check that must be run beats a check that must be
+remembered.** Reading harder does not find braces; a substitution pass with a
+leftover-assertion does.
+
+Recorded in `docs/AUDIT-TRACE-SPEC.md` (§10, §11, §12), in the manual as
+§8.14, in the facts sheet as §AA14–§AA16, in `AGENTS.md` as rule 19, and in
+the artifact `docs/audit_trace_probe.json` →
+`A7_event_level_attribution.cognition_window`.

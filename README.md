@@ -562,7 +562,9 @@ wider surface the number is much larger: 43.2% of *all* the distinct transitions
 recorded are self-sourced. That figure is measured, **not** shown to be
 consequential — and it is not a per-claim number, which is why the
 pre-committed disqualifier is written against a claim's *own* support, with
-its world/self split reported for that claim and a threshold fixed in advance.
+its world/self split reported for that claim and a threshold fixed in advance —
+the reference rate frozen from calibration data, never recomputed on the run
+being judged.
 A forced-tie arm confirms the observer reproduces the engine's choice even when
 the lookback window is genuinely ambiguous.
 

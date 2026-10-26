@@ -230,7 +230,7 @@ among rows that tie on `time`. The correct statement is therefore:
 > that match is **A7's exactness**: if the observer's window had differed from
 > the engine's on any store, the attributed totals would not have matched the
 > aggregate counts, and A7 would have failed. The forced-tie arm pushes on this
-> deliberately ({ties} stores with a genuinely tied window, 0 mismatches).
+> deliberately (479 stores with a genuinely tied window, 0 mismatches).
 
 That is a demonstration, not a guarantee, and it is stated that way here.
 
@@ -560,9 +560,9 @@ the trace must report both rather than let one stand in for the other.
 **The forced-tie arm.** The engine's lookback query has no tie-breaker, so the
 schema does not determine which rows a tied window selects. The forced-tie arm
 patches the clock so that every four consecutive stores share a timestamp,
-producing **{ties} stores with a genuinely tied window**, and requires the
+producing **479 stores with a genuinely tied window**, and requires the
 observer to reproduce the engine's choice anyway. **It does:** A7 stays exact
-({t_dist:,} distinct transitions, {t_edges} aggregate edges reconciling, 0 mismatches).
+(2,589 distinct transitions, 241 aggregate edges reconciling, 0 mismatches).
 
 **The result is an implementation match, not a schema guarantee.** The observer
 runs the same *ordering clause* as the engine with a wider projection, so the
@@ -572,9 +572,9 @@ reconciliation. The schema still does not settle tied ordering, and a replayer
 that did not observe at store time could not rely on it. That is precisely why
 A7 requires store-time observation.
 
-**The artifact is committed:** `docs/audit_trace_probe_tie.json` — {t_cycles} cycles, {ties} tied
-windows, A1 {t_a1:,} beliefs / 0 failures, A2 {t_a2}/{t_a2} cycles, A7 {t_a7:,} beliefs / 0 failures with
-{t_edges} aggregate edges reconciling.
+**The artifact is committed:** `docs/audit_trace_probe_tie.json` — 60 cycles, 479 tied
+windows, A1 692 beliefs / 0 failures, A2 60/60 cycles, A7 692 beliefs / 0 failures with
+241 aggregate edges reconciling.
 
 ### What the probe establishes, and what it does not
 
@@ -603,6 +603,13 @@ engine.**
   The ancestry completeness metric (A3), the behaviour-invariance proof (A4),
   the field-honesty check (A5) and the trace/counterfactual separation (A6)
   belong to the build, and the build has not happened.
+- **Sufficiency.** The probe establishes **fidelity to the implemented rule**:
+  the auditor reproduces what the engine did. It does **not** establish that an
+  intact reconstruction is a *uniquely correct account of why a belief arose*.
+  A reconstruction can be exactly faithful to the algorithm and still be a
+  shallow account of development — it explains the arithmetic of selection, not
+  why the structures formed in the first place. That is a separate validation
+  question, and A3 (§12) is where it begins.
 - **Anything about learning.** No claim is made or implied that the organism
   learns, transfers, or generalises. This is an audit of a mechanism.
 
@@ -660,12 +667,34 @@ the **claim's own support**:
 >    acceptable evidence for a particular claim.
 > 2. **A majority of that support must be world-derived.** A claim resting
 >    mainly on the organism's own output is not a transfer claim.
-> 3. **Its self-sourced share must be no higher than the run's baseline rate**
->    for beliefs. A claim that leans on self-generated evidence *more* than an
->    ordinary belief does has not been carried by the world.
+> 3. **Its self-sourced share must be no higher than the reference rate
+>    fixed below** — a claim that leans on self-generated evidence *more* than
+>    an ordinary belief does has not been carried by the world.
 > 4. **The comparison is against the claim, never against the organism in
 >    general** — and a failed condition fails the protocol **even if the
 >    prediction was correct**.
+
+**The reference rate is FROZEN, not recomputed on the run being judged.**
+
+> **Reference rate: 17.9%** — the distinct-evidence self-sourced share measured on the
+> calibration probe (default arm, 120 cycles, `docs/audit_trace_probe.json`).
+
+Two rules about it, both fixed now:
+
+- **It is not recomputed on the evaluated run.** A threshold derived from the
+  same data it judges is not a threshold; it is a description that moves with
+  the result. A run whose beliefs happen to be unusually self-sourced would
+  otherwise relax the criterion that was supposed to constrain it.
+- **It may only be re-calibrated on data that is not being judged**, and any
+  re-calibration must be recorded before the next protocol runs.
+
+**And it is a provisional calibration value, not a precise universal cutoff.**
+It rests on **one run, one world, one policy** (`salience`, the engine's
+default). It is a starting point for a rule that needs one, not a constant
+nature has been shown to have. The honest description of condition 3 is
+therefore *"no more self-sourced than the reference claim's support was"* —
+a comparison against a fixed calibration, with all the fragility that implies,
+rather than a claim about a universal threshold.
 
 **Why the rule is conservative, and why that is stated rather than hidden.**
 The contamination is now **measured, not shown to be consequential**: nothing
@@ -708,6 +737,109 @@ are reported; they are never criteria.
 
 A coherent progression: *what structures exist* → *what develops and survives*
 → *why it survived* → *whether what it developed is usable in a new situation*.
+
+---
+
+## 12. A3: what it will measure, fixed in advance
+
+**Why this section exists.** A3 is the next measurement, and a criterion whose
+definition is written *after* the measurement is not a criterion. This section
+fixes what A3 counts, what each number means, and what each outcome would
+imply — before anything is run.
+
+### The two graphs, and why they are separate
+
+The trace carries two different kinds of link, and conflating them makes A3
+silently impossible:
+
+- **Level 1 — developmental lineage**: candidate → candidate, through
+  `parent_ids`. A belief's parents are structures; a structure's parents are
+  structures. **This chain terminates at Layer 1** — concepts, phrases, loops,
+  predictions — which are built from tags. **No parent link points at an
+  event.**
+- **Level 2 — evidential linkage**: claim → supporting transitions → events,
+  through the counts.
+
+Level 1 answers *"where did this structure come from?"*. Level 2 answers *"what
+evidence supports it?"*. A true audit trace needs both, and **success in one
+cannot stand in for success in the other**. Asking ancestry resolution to
+"reach events" would be asking Level 1 to prove something it was never
+designed to represent.
+
+### The three quantities A3 will report, separately
+
+1. **Lineage reachability** — the share of extant structures whose parent chain
+   resolves back to **Layer 1** within depth 7.
+2. **Evidence linkage** — the share of extant claims whose support resolves to
+   **event ids** with a world/self split (A7's machinery, applied as a rate
+   rather than as a check).
+3. **Truncation split** — for the structures that do *not* resolve, why not, in
+   four disjoint categories:
+   - **aged out** — the ancestor existed but fell outside the cognition window
+     (**a persistence limit**);
+   - **depth-truncated** — the chain was longer than depth 7 (**a representation
+     limit**);
+   - **no parent** — the structure never had one (Layer-1 candidates, markers);
+   - **missing record** — a parent id was referenced but no record exists
+     (**a data defect**, and the one that would matter most).
+
+### The interpretation the split buys
+
+*"Aged out"* means **history existed and retention erased it** — a persistence
+problem. *"Depth-truncated"* means **the developmental chain exists and the
+tracing machinery cut it** — a representation problem. They have different
+causes and different fixes, and a single percentage cannot distinguish them.
+The window is the more likely binding constraint, and it is now **measured
+rather than estimated**: the engine stores **2,374.68 sleep events per cycle**, so the 4,000-event
+cognition window spans only **1.7 cycles**.
+
+**That corrects an earlier estimate by more than an order of magnitude.** This
+specification previously said the window spanned "roughly 40–130 cycles",
+inferred from a guess about how many sleep events a cycle stores. The
+measurement says **1.7 cycles**. The estimate was wrong, and the correction is recorded rather than
+quietly fixed — the same way every other correction in this project has been.
+
+Two consequences follow, and they point in opposite directions:
+
+- A lineage that is **still being produced** stays inside the window, because
+  candidates are re-stored every cycle. So active lineages may resolve far
+  better than the window's tiny span suggests.
+- A lineage that **stopped being produced** is gone within about 1.7 cycles. So
+  the developmental history of *anything* the organism has moved on from is
+  unrecoverable — not censored by a slow decay, but simply not there.
+
+### The boundary A3 cannot cross
+
+A3 measures **reachability**, not **sufficiency**. A high reachability rate
+would mean the auditor can follow extant structures back to Layer 1; it would
+not mean the reconstructed chain is the *true* developmental history, nor that
+the account is complete. And a low rate would not mean the organism has no
+developmental history — only that the window no longer holds it. The key
+outcome is therefore not the percentage but this:
+
+> **Does the incompleteness reflect the architecture's actual developmental
+> history, or the observer's retention limit?**
+
+### What each outcome would mean
+
+| Outcome | Reading |
+|---|---|
+| High reachability, truncation dominated by "no parent" | The trace is a genuine **developmental** trace for extant structures. |
+| High reachability, truncation dominated by "aged out" | The trace is developmental only for the recent past; history older than ~1.7 cycles is **gone**, not censored. |
+| Low reachability dominated by "aged out" | The organism's developmental history is **not recoverable** at this window. A persistence finding about V1, not a tracing failure. |
+| Low reachability dominated by "depth-truncated" | A **representation** finding: the chains exist but the tracing machinery cuts them, and the auditor needs a deeper walk. |
+| Any "missing record" | A **data defect** — a parent id with no record — and the one that would most damage trust in the trace. |
+
+### And the question this leaves open, now that it is measurable
+
+Whether self-sourced support *hurts* — and if so, in what way. The candidate
+outcomes, none of them pre-committed: **correctness** (does a
+self-sourced-heavy claim predict more errors?), **persistence** (does it last
+longer?), **revision resistance** (does it survive contradicting evidence?),
+**confidence inflation** (does its confidence overstate what its support
+warrants?), and **false-positive rate**. The trace is the first instrument that
+can ask these questions. They are a **characterisation study**, not a protocol,
+and they are not asked here.
 
 ---
 

@@ -390,6 +390,49 @@ have broken the reconciliation. The 60-cycle forced-tie artifact is committed as
 
 Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45.
 
+### Fixed — a threshold that judged its own data, and a window span that was wrong by an order of magnitude
+
+**The transfer rule's reference rate is now frozen.** The third condition read
+*"no higher than the run's baseline rate"* — circular, because a threshold
+computed on the same data it judges relaxes whenever that run's beliefs happen
+to be unusually self-sourced. The reference rate is now **17.9%**, fixed from
+the calibration probe, **not recomputed on the evaluated run**, re-calibratable
+only on data that is not being judged, and labelled a **provisional calibration
+value, not a precise universal cutoff** (one run, one world, one policy).
+
+**The window span was wrong by more than an order of magnitude, and is now
+measured.** This project asserted the 4,000-event cognition window spanned
+"roughly 40–130 cycles". That was a guess. **Measured: the engine stores 2,374.68 sleep events per
+cycle, so the window spans 1.7 cycles.** The correction is recorded rather than quietly fixed. A lineage that keeps
+being produced stays inside the window (candidates are re-stored every cycle);
+one that stopped being produced is gone within about 1.7 cycles.
+
+**A3's definition is fixed in advance**, reporting three things separately:
+*lineage reachability* (extant structures resolving back to Layer 1 within
+depth 7), *evidence linkage* (extant claims whose support resolves to event
+ids with a world/self split), and a *truncation split* — **aged out** (a
+persistence problem) / **depth-truncated** (a representation problem) / *no
+parent* / **missing record** (a data defect). Level 1 (developmental lineage)
+and Level 2 (evidential linkage) stay separate: **success in one cannot stand
+in for success in the other.**
+
+**And the boundary A3 cannot cross: fidelity is not sufficiency.** Reproducing
+the implemented rule — exactly, and under a binding cap — does not establish
+that the reconstruction is a uniquely correct account of *why* a belief arose.
+
+Added spec §12; facts sheet §AA14–§AA16; journal §46; AGENTS.md rule 19; the
+probe now reports `A7_event_level_attribution.cognition_window`.
+
+**Fixed — seven literal template placeholders in the specification.** `{ties}`,
+`{t_dist:,}`, `{t_edges}`, `{t_cycles}`, `{t_a1:,}`, `{t_a2}` (committed in the second
+and third review rounds) and `{share:.1f}` (introduced by this round's script and
+caught before commit) had shipped inside sentences that assert results. Corrected
+in place from the artifacts: 479 tied windows, 2,589 distinct transitions, 241
+aggregate edges, 60 cycles, 692 A1 beliefs, 60 A2 cycles, 692 A7 beliefs, 17.9%
+reference rate. A placeholder is **silent** — it reads as a sentence in a diff —
+so it is now caught by a standing guard — `tests/test_doc_placeholders.py` — rather
+than by another careful read. Facts sheet §AA17; journal §46; AGENTS.md rule 20.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy

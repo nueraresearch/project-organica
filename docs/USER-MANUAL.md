@@ -15,7 +15,7 @@
 5. [Reading the output](#5-reading-the-output)
 6. [What the study is measuring](#6-what-the-study-is-measuring)
 7. [What you need to do](#7-what-you-need-to-do)
-8. [The ten findings, and what each means for you](#8-the-findings-and-what-each-means-for-you)
+8. [The findings, and what each means for you](#8-the-findings-and-what-each-means-for-you)
 9. [Troubleshooting](#9-troubleshooting)
 10. [File map](#10-file-map)
 11. [Vocabulary](#11-vocabulary)
@@ -277,7 +277,7 @@ run_dashboard_and_api.bat
 | `python benchmarks/archive_run.py --log organica.log` | Snapshots the daemon log into a per-cycle series (`docs/prefix_run_series.json`), re-deriving contradiction totals from the hypothesis snapshot. |
 | `python benchmarks/benchmark_suite.py` | BM1–BM5 growth benchmarks |
 | `python benchmarks/cross_domain_validation.py` | Phase F: the four reproduction domains, writes `docs/validation_report.json` |
-| `python -m pytest tests -q` | The test suite (35 tests) |
+| `python -m pytest tests -q` | The test suite (79 tests) |
 
 ### 4.6 The four reproduction domains
 
@@ -577,6 +577,7 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 17 | **Phase L published a characterisation, and kept the verdict.** The raise-n result is now read as **regime behaviour separated by a reproducible transition region**, not as a continuous coherence–plasticity trade-off — and the two artefacts are kept deliberately separate: the measurement record says `H3-L — INCONCLUSIVE`, the synthesis says what the shape is, and neither re-scores the other. | **A protocol verdict and a scientific characterisation are different claims and belong in different documents.** The temptation is to let a good story quietly replace a failed protocol — *"a stable threshold at 3:1, that's a boundary, isn't it?"* It is not: a threshold is a boundary only if the trade-off is a continuum the threshold divides, and here the curve is flat on both sides of the crossing. Calling it a boundary would be the same category of error as re-scoring the failed criteria, only more flattering. See [§8.12](#812-phase-l-the-published-characterisation). |
 | 18 | **The next question is not "can it develop?" but "does what it develops become usable?" — and answering it needs a record an investigator can check.** The specification for that record is written against the frozen engine's actual report fields and persistence limits, and it corrects one thing in the record format as first proposed: the engine's `support_count` counts **temporal transitions**, and `contradiction_count` is the subject's **competing flow** — *not* a count of observations that contradicted the claim. | **A count must be named as what it counts, and a trace must not contain counterfactuals.** Calling 12 transitions "12 observations" and 4 competing transitions "4 contradictions" would put a false claim at the centre of the audit record — and the audit record exists precisely so that claims can be checked. Separately: *"candidate B would have survived without A"* is a **replay**, not a trace; it needs a separate run and its own label, and can never be a field of the trace. See [§8.13](#813-phase-m-groundwork-the-development-audit-trace-specification). |
 | 19 | **The trace must adjudicate a pre-committed question, or it is a second inventory.** The audit layer is attractive, and attractive things become projects: it could be built, extended and admired without ever settling a question the project wanted answered — which would make it a *second* inventory ("how many events resolve?") and swap one measurement habit for another. So the rule is pre-committed rather than aspirational: **the next protocol's success criteria must contain at least one trace-derived diagnostic, and a result that fails it fails the protocol even if the headline behaviour is correct.** | **An instrument that cannot fail a claim is decoration, and a diagnostic that is never a criterion is just a number to report.** The first pre-committed instance is the disqualifier: *a predicted-correct result whose supporting evidence is self-sourced is not a transfer result* — the temporal graph's lookback window has no `event_type` filter, so a belief's support can come from the organism's own previous sleep payload (D2). That is the first concrete use of D2, and it is what turns a disclosed defect into a live instrument. And the trace's own metrics — evidence completeness, lineage completeness, selection reproducibility — stay **diagnostics of the instrument**: reported, never criteria. See [§8.14](#814-keeping-the-trace-honest). |
+| 20 | **A pre-committed threshold must not be computed from the run it judges — and the window that bounds the trace was an order of magnitude smaller than asserted.** The per-claim transfer rule's third condition read *"no higher than the run's baseline rate"* — circular, because a baseline computed on the same run relaxes the criterion whenever that run's beliefs happen to be unusually self-sourced. **The reference rate is now FROZEN at 17.9%** (the distinct-evidence self-sourced share on the calibration probe), is **not recomputed on the evaluated run**, may be **re-calibrated only on data that is not being judged**, and is labelled a **provisional calibration value, not a precise universal cutoff** — one run, one world, one policy. **And the cognition window is now MEASURED rather than estimated: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event window spans only 1.7 cycles — not the "roughly 40–130 cycles" this project had asserted from a guess.** The estimate was wrong by more than an order of magnitude and the correction is recorded rather than quietly fixed. Consequence: a lineage still being produced stays inside the window, but one that stopped being produced is gone within about 1.7 cycles — so the developmental history of anything the organism has moved on from is **unrecoverable**, not slowly censored. **A3's definition is now fixed in advance** (lineage reachability, evidence linkage, and a four-way truncation split reported separately), and **fidelity is not sufficiency**: reproducing the implemented rule does not establish that the reconstruction is a uniquely correct account of *why* a belief arose. |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -1619,12 +1620,24 @@ run-level share cannot carry a per-claim claim. Four conditions:
    acceptable evidence for a particular claim.
 2. **A majority of that support must be world-derived.** A claim resting mainly
    on the organism's own output is not a transfer claim.
-3. **Its self-sourced share must be no higher than the run's baseline rate**
-   for beliefs. A claim that leans on self-generated evidence *more* than an
+3. **Its self-sourced share must be no higher than the reference rate fixed
+   below** — a claim that leans on self-generated evidence *more* than an
    ordinary belief does has not been carried by the world.
 4. **The comparison is against the claim, never against the organism in
    general** — and a failed condition **fails the protocol even if the
    prediction was correct**.
+
+**The reference rate is FROZEN, not recomputed on the run being judged.**
+**17.9%** — the distinct-evidence self-sourced share measured on the
+calibration probe (default arm, 120 cycles). It is **not recomputed on the
+evaluated run**: a threshold derived from the same data it judges is not a
+threshold, and a run whose beliefs happen to be unusually self-sourced would
+otherwise relax the criterion meant to constrain it. It may only be
+**re-calibrated on data that is not being judged**, with any re-calibration
+recorded before the next protocol runs. And it is a **provisional calibration
+value, not a precise universal cutoff** — one run, one world, one policy.
+The honest description is *"no more self-sourced than the reference claim's
+support was"*.
 
 The trace reports the world/self split of every belief's support (§3.3 of the
 spec, defect D2): the temporal graph's lookback window has no `event_type`
@@ -1651,6 +1664,66 @@ to event ids — not to counts, and never to the system's own account of itself.
 **The second guard.** The trace's own metrics — evidence-trace completeness,
 lineage completeness, selection reproducibility — are **diagnostics of the
 instrument**, not measurements of the organism. Reported; never criteria.
+
+**A3's definition is fixed in advance, and the window that bounds it was
+MEASURED rather than estimated.** A criterion whose definition is written after
+the measurement is not a criterion, so spec §12 now says what A3 counts before
+anything is run. The trace carries **two different links**, and conflating them
+makes A3 silently impossible:
+
+- **Level 1 — developmental lineage**: candidate → candidate, via `parent_ids`.
+  It **terminates at Layer 1** (concepts, phrases, loops, predictions), and **no
+  parent link points at an event**.
+- **Level 2 — evidential linkage**: claim → supporting transitions → events.
+
+Level 1 answers *"where did this structure came from?"*; Level 2 answers *"what
+evidence supports it?"*. **Success in one cannot stand in for success in the
+other** — asking ancestry to reach events would be asking Level 1 to prove
+something it was never designed to represent.
+
+A3 therefore reports **three quantities separately**: **lineage reachability**
+(share of extant structures resolving back to Layer 1 within depth 7),
+**evidence linkage** (share of extant claims whose support resolves to event
+ids with a world/self split), and a **truncation split** — *aged out* (the
+ancestor fell outside the cognition window — **a persistence problem**) /
+*depth-truncated* (the chain was longer than depth 7 — **a representation
+problem**) / *no parent* / *missing record* (**a data defect**, and the one that
+would matter most).
+
+**The window is the more likely binding constraint, and it is now measured, not
+guessed: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event cognition window spans
+only 1.7 cycles — not the "roughly 40–130 cycles" this manual previously
+asserted.** That estimate was wrong by more than an order of magnitude, and the
+correction is recorded rather than quietly fixed. Two consequences point in
+opposite directions, and both matter: a lineage that **keeps being produced**
+stays inside the window (candidates are re-stored every cycle), so active
+lineages may resolve far better than 1.7 cycles of history suggests — while a lineage that
+**stops being produced** is gone within about 1.7 cycles. The developmental
+history of anything the organism has moved on from is therefore
+**unrecoverable**, not slowly censored.
+
+**The key outcome is not the percentage.** It is this:
+
+> **Does the incompleteness reflect the architecture's actual developmental
+> history, or the observer's retention limit?**
+
+**And the boundary A3 cannot cross: fidelity is not sufficiency.** The probe
+establishes **fidelity to the implemented rule** — the auditor reproduces what
+the engine did, including under a binding cap. It does **not** establish that
+an intact reconstruction is a *uniquely correct account of why a belief arose*.
+A reconstruction can be exactly faithful to the algorithm and still be a shallow
+account of development: it explains the arithmetic of selection, not why the
+structures formed in the first place. That is a separate validation question,
+and A3 is where it begins.
+
+**Whether self-sourced support *hurts* — and in what way — is now a measurable
+question.** The candidate outcomes, none of them pre-committed: **correctness**
+(does a self-sourced-heavy claim predict more errors?), **persistence** (does
+it last longer?), **revision resistance** (does it survive contradicting
+evidence?), **confidence inflation** (does its confidence overstate what its
+support warrants?), and **false-positive rate**. The trace is the first
+instrument that can ask these questions. They are a **characterisation study,
+not a protocol**, and they are not asked here.
 
 **The roadmap this sits in:** V1 established developmental properties → Phase L
 established regime behaviour with a stable transition region → the development
@@ -1763,7 +1836,7 @@ project-organica/
 ├── conftest.py                  # makes `pytest` work from any directory
 │
 ├── examples/domains/            # the four reproduction worlds
-├── tests/                       # 42 tests (incl. substrate equivalence, retention policy, versioning)
+├── tests/                       # 79 tests (incl. substrate equivalence, retention policy, versioning, audit-trace probe, doc-placeholder guard)
 ├── papers/                      # research manuscripts
 ├── research-journal/            # development history + Phase G findings
 ├── docs/                        # architecture, design laws, failures, reports
@@ -2251,3 +2324,5 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-26 | **The audit-trace probe was reviewed, and its headline was ahead of what it actually verified.** The first version reconciled the **aggregate** `precedes` table against the engine's reported support counts. That shows the auditor reproduces Organica's *counts* and its *selection decisions*; it does **not** show it can identify the individual experiences behind a count. The specification was corrected to say exactly that — **aggregate evidence reconciliation and selection reconstruction passed** — and event-level attribution was made its own check (**A7**), measured with a passive store-time observer. **Results: A1 1,412 beliefs / 0 failures, A2 120/120 cycles, A7 1,412 beliefs / 0 failures with 244 aggregate edges reconciling exactly** (default arm); A4 behaviour invariance — observer on vs off, byte-identical reports — **passes**. **Three corrections, each verified against the source before being written down:** a cycle returns **14** candidate lists, not 13; the engine's lookback window **includes the event being stored** (so the window is the event plus two others, and within-event tag pairs also become temporal edges) — the specification's first replay rule was wrong; and **a post-hoc replay from the final log cannot reconstruct the window** (the engine's query has no `rowid` tiebreak, and sleep-candidate rows are pruned), so event-level attribution **requires** a store-time observer whose guard mirrors the engine's own `event_type != "sleep"` rule. **D2 is now measured, not feared: of 307,857 attributed support transitions, 53,980 (17.5%) were self-sourced** — roughly one belief-support transition in six rests on the organism's own sleep payload. That is the baseline the pre-committed disqualifier is read against. **The probe found two defects in itself** — an observer that attributed sleep-event transitions, and an invariance check that compared `ran_at` — both caught by the checks rather than by inspection. Five tests now cover the four axes, each with a deliberately-broken variant that must go red. |
 | 2026-10-26 | **The self-sourced figure needed its denominator fixed.** The first version pooled the support of every reported belief across every cycle in which it was reported; because a belief's support count is **cumulative**, a transition that occurred early is counted again in every later cycle where the belief survives. That pooled number counts **support references**, not distinct evidence. The probe now reports three views: **distinct evidence behind reported beliefs** (802 of 4,481 = **17.9%** self-sourced — the disqualifier's figure); **pooled support references** (53,980 of 307,857 = 17.5%); and **all distinct transitions recorded** (5,436 of 12,583 = **43.2%**), including edges no reported belief ever rested on. **Correcting the denominator moved the headline only slightly** (17.5% → 17.9%) and that agreement is worth stating; **but it surfaced a separate and much larger number**: **43.2% of the organism's entire distinct transition surface is its own sleep output**, against 17.9% of the evidence actually behind its claims. Different surfaces, and the trace must report both rather than let one stand in for the other. **The forced-tie arm is now run:** the clock is patched so every four consecutive stores share a timestamp, producing **479 stores with a genuinely tied window**, and the observer reproduces the engine's choice anyway — **A7 stays exact** (2,589 distinct transitions, 241 aggregate edges reconciling, 0 mismatches; tie arm A1 692 beliefs 0 failures, A2 60/60 cycles). The honest statement: the **implementation** is deterministic for identical queries over identical data, so the observer's re-run selects the same rows; the **schema** still does not determine the window under a tie, and a replayer that did not observe at store time could not rely on it. Seven tests now cover the four axes, including one that requires the distinct view to be genuinely deduplicated. Recorded in spec §3.3, §6, §10, §11; facts sheet §AA11; journal §44. |
 | 2026-10-26 | **The figure's population is now stated precisely, and the disqualifier became a per-claim rule.** The **17.9%** is a share of the **union of the unique evidence transitions behind beliefs reported during the run** — deduplicated, restricted to the edges those beliefs rested on. It is **not** a per-claim share, and it is **not** evidence that self-sourced support caused an incorrect prediction. A run-level share cannot carry a per-claim claim, so the disqualifier is rewritten as a **per-claim rule fixed in advance**: (1) report the world/self split for the **claim's own** support; (2) a **majority** of it must be world-derived; (3) its self-sourced share must be **no higher than the run's baseline rate** for beliefs; (4) the comparison is against the claim, never the organism in general, and a failed condition **fails the protocol even if the prediction was correct**. **Why the rule is conservative, and why that is stated rather than hidden:** the contamination is now **measured, not shown to be consequential** — nothing yet demonstrates that a self-sourced transition caused a wrong answer — so the disqualifier is a statement about **what counts as evidence of transfer**, not a claim that the organism is damaged by its own output. That is also why it is pre-committed: a criterion that only bites once the harm has already been demonstrated would never bite at all. **Whether self-sourced support *hurts* is now a measurable question, and the trace is the first instrument that can ask it — not asked here.** **Also: the observer's window match is an implementation match, not a schema guarantee** — the engine runs `SELECT tags FROM events ORDER BY time DESC LIMIT 3` and the observer runs the **same ordering clause** with a **wider projection**, so the two are not byte-identical SQL; the match is empirical on the tested SQLite implementation, and the evidence for it is **A7's exactness** (a window mismatch on any store would have broken the reconciliation). The **60-cycle forced-tie artifact is committed** as `docs/audit_trace_probe_tie.json` — 60 cycles, 479 tied windows, A1 692 beliefs / 0 failures, A2 60/60 cycles, A7 692 beliefs / 0 failures. Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45. |
+| 2026-10-26 | **A pre-committed threshold must not be computed from the run it judges, and the window span was wrong by an order of magnitude.** **The reference rate is now FROZEN at 17.9%** — the distinct-evidence self-sourced share measured on the calibration probe — and is **not recomputed on the evaluated run**. A threshold derived from the same data it judges is not a threshold: a run whose beliefs happened to be unusually self-sourced would otherwise relax the criterion meant to constrain it. It may only be **re-calibrated on data that is not being judged**, recorded before the next protocol runs, and it is labelled a **provisional calibration value, not a precise universal cutoff** (one run, one world, one policy). **A3's definition is fixed in advance**, and it reports three things separately: **lineage reachability** (share of extant structures resolving back to Layer 1 within depth 7), **evidence linkage** (share of extant claims whose support resolves to event ids with a world/self split), and a **truncation split** — *aged out* (**a persistence problem**) / *depth-truncated* (**a representation problem**) / *no parent* / *missing record* (**a data defect**, and the one that would matter most). The two graphs are kept separate: Level 1 is candidate → candidate and **terminates at Layer 1 — no parent link points at an event**; Level 2 is claim → transitions → events. **And the measurement corrects an earlier estimate by more than an order of magnitude: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event cognition window spans only 1.7 cycles — not the "roughly 40–130 cycles" this project previously asserted from a guess.** The estimate was wrong, and the correction is recorded rather than quietly fixed. Consequence: a lineage still being produced stays inside the window (candidates are re-stored every cycle), while one that stopped being produced is gone within about 1.7 cycles — so the developmental history of anything the organism has moved on from is unrecoverable, not slowly censored. **And the boundary A3 cannot cross: fidelity is not sufficiency.** The probe establishes that the auditor reproduces the implemented rule; it does **not** establish that an intact reconstruction is a uniquely correct account of why a belief arose. Recorded in spec §10, §11, §12; facts sheet §AA14, §AA15, §AA16; journal §46; AGENTS.md rule 19. |
+| 2026-10-26 | **Seven literal template placeholders had shipped in the committed audit-trace specification**, inside sentences that assert results — so a reader would have seen a number that was never computed, when the value was sitting in a committed artifact the whole time. Six came from the second and third review rounds (`{ties}`, `{t_dist:,}`, `{t_edges}`, `{t_cycles}`, `{t_a1:,}`, `{t_a2}`) and one from this round's own script (`{share:.1f}`, caught before it was committed). Corrected in place from the artifacts: 479 tied windows, 2,589 distinct transitions, 241 aggregate edges, 60 cycles, 692 A1 beliefs, 60 A2 cycles, 692 A7 beliefs, 17.9% reference rate. The lesson is narrow: **a placeholder is silent** — it looks like a sentence in a diff, so another careful read will not find it. A mechanical substitution pass with a leftover-assertion did, and the guard is now standing as `tests/test_doc_placeholders.py`. **A check that must be run beats a check that must be remembered.** Facts sheet §AA17; journal §46; AGENTS.md rule 20. |
