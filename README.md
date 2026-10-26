@@ -440,30 +440,38 @@ Phase L outcome existed.
 
 #### The primary axis has been measured — verdict: `H3-L — INCONCLUSIVE`
 
-The V1 sweep ran to completion: **80 of 80 cells**, 10 seeds per point, all
-four instrument audits passing on the live run, **no unmeasurable cells**.
+The V1 sweep ran to completion at **n = 30** (240 cells; the original 80
+reused, not recomputed), with all four instrument audits passing on the live
+run and **no unmeasurable cells**.
 
 | Label | DI | PI | Seeds reaching DI > 0.5 |
 |---|---|---|---|
-| 1:4 – 1:1 | 0.000 | 0.73 – 0.79 | 0/10 |
-| 2:1 | 0.283 | 0.600 | 0/10 |
-| **3:1** | **0.722** | **0.022** | **10/10** |
-| 4:1 | 0.739 | 0.000 | 10/10 |
-| 6:1 | 0.750 | 0.000 | 10/10 |
+| 1:4 – 1:1 | 0.000 | 0.72 – 0.75 | 0/30 |
+| 2:1 | 0.204 | 0.606 | 0/30 |
+| **3:1** | **0.706** | **0.039** | **30/30** |
+| 4:1 | 0.722 | 0.000 | 30/30 |
+| 6:1 | 0.715 | 0.000 | 30/30 |
 
-**Three of the four pre-committed criteria are met.** DI is monotone increasing
-(range 0.750); the curves cross at **3:1**, interior to the sweep; and the
-crossing is reproducible — a 10,000-replicate paired bootstrap puts it at
-**[5.0, 5.0]** with **10,000 of 10,000** replicates finding it, and
-leave-one-seed-out leaves it at 3:1 in **10 of 10** folds.
+**The Revision Threshold is the most stable thing in the phase.** It did not
+move when n tripled: the crossing is at **3:1**, a 10,000-replicate paired
+bootstrap puts it at **[5.0, 5.0]** with **10,000 of 10,000** replicates
+finding it, eight alternative bootstrap seeds all return `INTERIOR`, and
+leave-one-seed-out leaves it at 3:1 in **30 of 30** folds.
 
-**One criterion was not met.** *PI is monotone decreasing*: mean PI rises
-0.789 → 0.794 between 1:4 and 1:3 before falling through the rest of the sweep.
-The criterion was evaluated once by the committed code and it failed — it was
-not re-read or relaxed afterwards, and the stable RT was not allowed to stand
-in for the criterion that failed. The pre-committed verdict is therefore
-**`H3-L — INCONCLUSIVE`**: *raise n; conclude nothing.* **No V2 is authorised**
-by it, and the secondary arms were deliberately not run.
+**Two of the four pre-committed criteria are not met**, and the verdict is
+therefore **`H3-L — INCONCLUSIVE`**: *raise n; conclude nothing.* **No V2 is
+authorised** by it, and the secondary arms were deliberately not run.
+
+The reason the criteria fail is now visible, and it is the more interesting
+result. **The displacement curve is a step function, not a ramp** — DI is
+exactly 0.000 across 1:4–1:1 for every seed, PI is exactly 0.000 at 4:1 and
+6:1, and there are two sharp transitions in between. Both failing criteria
+are sign tests on steps whose 99% paired interval contains zero, while every
+step whose interval excludes zero is a real transition. And resampling the
+30 measured seeds shows the two stable criteria hold in **100%** of random
+subsets while the two monotone ones hold in **7–19%** — so *strict
+monotonicity is not a property this organism's displacement curve has*, and
+more seeds cannot turn a plateau into a ramp.
 
 The full write-up is [`docs/phase_l_results.md`](docs/phase_l_results.md).
 

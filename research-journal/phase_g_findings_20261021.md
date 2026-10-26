@@ -3250,3 +3250,171 @@ outcome authorises a V2.
 
 Recorded in `docs/phase_l_results.md`, in the facts sheet as §X, and in the
 manual as §8.10.
+
+---
+
+## §39 — The raise-n run: the bar was not cleared, and now the reason is visible
+
+**Run:** 2026-10-25, arm V1, **240 of 240 cells**, 12,738.1 s wall clock,
+**30 seeds per sweep point**, `PYTHONHASHSEED=0` pinned and recorded as the
+actual value, decision interval 99.00%. The n=30 campaign is a strict
+**superset** of the n=10 run: the original ten seeds are the first ten of the
+new list, so the 80 original cells were **reused, not recomputed** — and the
+reuse was verified, all 80 byte-identical in the merged file.
+
+**Verdict: `H3-L — INCONCLUSIVE`.** Unchanged. And this time **two** of the
+four criteria are not met.
+
+| Criterion | n = 10 | n = 30 |
+|---|---|---|
+| 1. DI monotone increasing | **met** | **not met** |
+| 2. PI monotone decreasing | not met | not met |
+| 3. DI range ≥ 0.25, crossing interior | met | met |
+| 4. RT interval excludes both endpoints | met | met |
+
+### What did not move
+
+The Revision Threshold did not move. At n=30 it is still **3:1**, with a
+paired-bootstrap interval of **[5.0, 5.0]**, **10,000 of 10,000** replicates
+finding a crossing, eight alternative bootstrap seeds all `INTERIOR`, and
+leave-one-seed-out leaving it at 3:1 in **30 of 30** folds. Tripling n did
+not move the one quantity the phase set out to locate.
+
+### What moved
+
+Criterion 1. At n=10 the DI curve was monotone; at n=30 it is not, because
+the top of the curve dips by −0.007 (4:1 0.722 → 6:1 0.715).
+
+### The shape the curve actually has
+
+The curve is a **step function**, not a ramp. Three plateaus and two
+transitions:
+
+```
+DI   0.000  0.000  0.000  0.000 │ 0.204 │ 0.706  0.722  0.715
+PI   0.743  0.754  0.748  0.717 │ 0.606 │ 0.039  0.000  0.000
+     1:4    1:3    1:2    1:1    │  2:1  │  3:1    4:1    6:1
+     └──── plateau ────┘        └──────┘ └──── plateau ────┘
+```
+
+DI is **exactly 0.000** at the four low ratios for all thirty seeds — the
+late structure is never incorporated there. PI is exactly 0.000 at 4:1 and
+6:1 — the early structure is entirely gone. Revision latency goes from
+**0/30** seeds reaching DI > 0.5 at 2:1 to **30/30** at 3:1 (mean 356 cycles,
+median 351).
+
+### Why the two criteria failed: both failures are signs of zero
+
+The monotone criteria are evaluated on the **mean** curve, so each is a
+statement about the **sign** of an adjacent difference. The adjacent-difference
+diagnostic (Amendment 3) shows what those signs actually are:
+
+| Step | dPI (99% paired interval) |
+|---|---|
+| 1:4 → 1:3 (criterion 2 fails here) | **+0.011 [−0.026, +0.044]** |
+| 1:3 → 1:2 | −0.006 [−0.046, +0.033] |
+| 1:2 → 1:1 | −0.031 [−0.078, +0.015] |
+| 1:1 → 2:1 | −0.111 [−0.157, −0.065] |
+| 2:1 → 3:1 | −0.567 [−0.619, −0.522] |
+| 3:1 → 4:1 | −0.039 [−0.059, −0.020] |
+| 4:1 → 6:1 (criterion 1 fails here) | +0.000 [+0.000, +0.000] |
+
+**Both failing steps have intervals that contain zero.** Every step whose
+interval excludes zero is a real transition; every step whose interval
+contains zero is a plateau edge. The two failures are the signs of two
+differences that are not distinguishable from zero.
+
+### The uncomfortable part: the criteria are not stable properties
+
+Resampling the thirty measured seeds and recomputing the four criteria:
+
+| Criterion | random 10-seed subsets | random 20-seed subsets |
+|---|---|---|
+| 1. DI monotone increasing | 19.3% | 16.1% |
+| 2. PI monotone decreasing | 12.0% | 6.6% |
+| 3. DI range ≥ 0.25 | **100.0%** | **100.0%** |
+| 3b. Crossing interior | **100.0%** | **100.0%** |
+| **All four together** | **2.9%** | **1.2%** |
+
+(The n=30 figure is 0% for criteria 1 and 2 — as measured.)
+
+So the two robust criteria are the two that hold in every resample, and the
+two fragile criteria hold in 7–19%. The n=10 run's criterion-1 pass was
+itself one of the lucky 19%: the n=10 result was not "three of four, close
+enough" — it was one draw out of a small number of draws that happen to
+satisfy a sign test at a plateau.
+
+**This does not re-score the protocol.** The verdict stands as INCONCLUSIVE,
+no boundary is claimed, and the four criteria stand as written. But the phase
+can now say something it could not say at n=10: **strict monotonicity is not
+a property this organism's displacement curve has.** The low end is DI =
+0.000 exactly and the high end saturates at DI ≈ 0.71. More seeds cannot
+turn a plateau into a ramp, so "raise n" is exhausted as a route to
+satisfying criteria 1 and 2.
+
+### And the added seeds moved the curve more than resampling should allow
+
+The raise-n run is not "the n=10 curve plus precision". The twenty added
+seeds shifted the curve consistently, and two shifts fall outside the
+resampling distribution:
+
+| Point | original 10 | added 20 | gap | p |
+|---|---|---|---|---|
+| DI at 6:1 | 0.750 | 0.697 | −0.053 | **0.0022** |
+| DI at 2:1 | 0.283 | 0.164 | −0.119 | **0.0103** |
+
+Every non-zero gap points the same way — the added seeds sit lower on both
+DI and PI. The seed enters the world only through `random.Random(seed)` and
+the entity set does not depend on it, so the seeds *should* be exchangeable;
+but the campaign's seeds are **consecutive integers**, and "the first ten
+consecutive seeds versus the next twenty" is exactly what
+non-exchangeability looks like and also exactly what an unlucky draw looks
+like. A seed-exchangeability audit was run to tell those apart: 30 fresh,
+non-consecutive, pre-declared seeds at the point with the largest gap, the
+same question asked of them. It is an instrument audit — it produces no
+experimental claim and cannot turn this result into a boundary claim.
+
+**The seeds are exchangeable.** The fresh scattered set gave DI 0.7241 at
+6:1 — against 0.7148 for the campaign's own 30 and 0.7500 for its original
+ten — a difference of +0.0093 from the campaign's 30-seed mean, **p = 0.60**
+against random 30/30 splits of all 60 measured values. And the fresh set's
+own arbitrary half-split gave a gap of **−0.0407** against the campaign's
+**+0.0528**: similar magnitude, opposite direction. The lumpy discrete DI
+distribution (multiples of 1/18) routinely produces gaps of that size under a
+split, and the direction is where the luck goes.
+
+So **the original ten seeds were an unlucky high draw, not a seed-block
+artefact** — the shift between the n=10 and n=30 curves is sampling luck, and
+**the paired bootstrap over seeds is sound**. The n=30 curve is the better
+estimate because there are more of them, not because they were different.
+
+### The transferable lesson
+
+**A criterion that flips when n changes is not a measurement of a property;
+it is a measurement of the draw.** This phase went in with four criteria and
+came out with two of them behaving like coin flips and two of them behaving
+like facts. The way to tell the two apart is not to argue about them — it is
+to ask *how often does this criterion hold across random subsets of the data
+I already have?* That question is cheap, it is answerable with the data in
+hand, and it converts a verdict into a characterisation.
+
+The sibling lesson is the one from §38: **strict monotonicity was the wrong
+shape of test for a curve that has plateaus.** The protocol asked for a
+monotone ramp; the organism produced a step function. Neither of those is
+the protocol's fault — the protocol asked a clear question, and the answer
+was a shape it had not imagined. What the protocol *did* do was hold its
+ground: it did not let the stable RT stand in for the criteria that failed,
+and it did not let "raise n" quietly become "raise n until it says what I
+want."
+
+### What this section is not
+
+It is not a boundary claim. It is not a V2 authorisation — the secondary arms
+were not run, because no Phase L outcome authorises a V2. It is not a claim
+that the phase failed: `H3-L` is a pre-committed outcome with a pre-committed
+remedy, and the remedy has now been taken. And it is not a licence to relax a
+criterion after the fact. The criteria stand; the verdict stands; what
+changed is that the phase can now *say what the verdict means*.
+
+Recorded in `docs/phase_l_results.md`, in the facts sheet as §Y, and in the
+manual as §8.11.

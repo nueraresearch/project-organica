@@ -92,6 +92,67 @@ Added `docs/phase_l_results.md` and the artifacts `docs/phase_l_results.json`
 and `docs/phase_l_results.ndjson`. Journal §38, facts sheet §X, manual §8.10
 and finding 15.
 
+### Result — Phase L raise-n (n=30): the verdict stands, and the reason is now visible
+
+The raise-n campaign finished: **240 of 240 cells**, 30 seeds per point,
+12,738.1 s, `PYTHONHASHSEED=0` pinned and recorded as the actual value,
+99.00% decision interval, against the frozen `v0.9.0` engine. All four
+instrument audits passed on the live run and **no cell was unmeasurable**. It
+is a strict **superset** of the n=10 run — the original ten seeds are the
+first ten of the new list, so the 80 original cells were **reused, not
+recomputed** — and the reuse was verified: all 80 are byte-identical in the
+merged file.
+
+**Verdict: `H3-L — INCONCLUSIVE`, unchanged — and now with TWO of the four
+criteria unmet.**
+
+| Criterion | n = 10 | n = 30 |
+|---|---|---|
+| 1. DI monotone increasing | **met** | **not met** |
+| 2. PI monotone decreasing | not met | not met |
+| 3. DI range ≥ 0.25, crossing interior | met | met |
+| 4. RT interval excludes both endpoints | met | met |
+
+**The Revision Threshold did not move:** still 3:1, interval **[5.0, 5.0]**,
+**10,000 of 10,000** replicates finding a crossing, eight alternative
+bootstrap seeds all `INTERIOR`, leave-one-seed-out at 3:1 in **30 of 30**
+folds. Tripling n did not move the one quantity the phase set out to locate.
+
+**The curve is a step function, not a ramp.** DI is **exactly 0.000** at
+1:4–1:1 for all 30 seeds; **PI is exactly 0.000** at 4:1 and 6:1; DI ≈ 0.71
+across the top; two sharp transitions in between. Revision latency goes from
+**0/30** seeds reaching DI > 0.5 at 2:1 to **30/30** at 3:1 (mean 356 cycles,
+median 351).
+
+**Both failing criteria fail on steps whose 99% paired interval contains
+zero** — +0.011 [−0.026, +0.044] at 1:4 → 1:3, and −0.007 [−0.037, +0.022] at
+4:1 → 6:1 — while every step whose interval excludes zero is a real
+transition. **A criterion that flips when n changes is measuring the draw,
+not the organism:** resampling the 30 measured seeds, criteria 3 and 3b hold
+in **100%** of random subsets, criterion 1 in 19.3% / 16.1% / 0%, criterion 2
+in 12.0% / 6.6% / 0%, and **all four together in 2.9% / 1.2% / 0%**. Strict
+monotonicity is not a property this organism's displacement curve has at any
+practical n, and more seeds cannot turn a plateau into a ramp — so "raise n"
+is exhausted as a route to satisfying criteria 1 and 2. **This does not
+re-score the protocol:** the verdict stands, no boundary is claimed, and the
+four criteria stand as written.
+
+**The added seeds moved the curve more than resampling should allow** — DI at
+6:1 0.750 → 0.697 (p = 0.0022) and DI at 2:1 0.283 → 0.164 (p = 0.0103)
+against random 10-vs-20 splits — so a **seed-exchangeability audit** with 30
+fresh, non-consecutive, pre-declared seeds was run to tell non-exchangeability
+from an unlucky draw. It is an instrument audit and produces no experimental
+claim. **The seeds are exchangeable**: the fresh scattered set gave DI 0.7241
+at 6:1 against the campaign's own 0.7148 (30 seeds) and 0.7500 (its original
+ten) — a difference of +0.0093, **p = 0.60** against random 30/30 splits of
+all 60 measured values — and its own arbitrary half-split gap of **−0.0407**
+has the opposite sign to the campaign's +0.0528 at similar magnitude. **The
+original ten seeds were an unlucky high draw, not a seed-block artefact**, so
+the paired bootstrap over seeds is sound.
+
+`docs/phase_l_results.md` is rewritten for the raise-n result; journal §39,
+facts sheet §Y, manual §8.11 and finding 16.
+
 ### Amendment 3 — the raise-n campaign on the primary axis
 
 The n=10 run produced `H3-L — INCONCLUSIVE`, whose protocol-specified remedy
