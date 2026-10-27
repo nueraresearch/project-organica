@@ -640,7 +640,19 @@ engine.**
 - **The whole trace.** The probe checks the *selection* and *evidence* axes.
   The ancestry completeness metric (A3), the behaviour-invariance proof (A4),
   the field-honesty check (A5) and the trace/counterfactual separation (A6)
-  belong to the build, and the build has not happened.
+  belong to the build. **A3 and A4 have since been measured and are met**
+  (§13); **A5 and A6 remain pending.**
+- **Independent replication.** "Independently auditable" means **independently
+  reconstructed from the engine's state** — an outside reader with the report
+  and the substrate can rebuild the decision and check it. It does **not** mean
+  **independently replicated by another lab**. No second laboratory has
+  reproduced this work; nothing here is a replication result, and the probe's
+  generality is bounded to one world family, one configuration and one policy
+  (above).
+- **The organism's past.** The lineage the trace reconstructs is the
+  organism's **surviving, current** structures and their present descent. It
+  does not reconstruct the full history of those structures' development
+  (see §12, and the present-lineage finding in the journal).
 - **Sufficiency.** The probe establishes **fidelity to the implemented rule**:
   the auditor reproduces what the engine did. It does **not** establish that an
   intact reconstruction is a *uniquely correct account of why a belief arose*.
@@ -768,9 +780,9 @@ are reported; they are never criteria.
 
 | Stage | What it established |
 |---|---|
-| **V1** | Developmental properties: development occurs, history matters, curriculum matters, stable regimes emerge. |
-| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. |
-| **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. Demonstrated, not asserted (§10). |
+| **V1** | Developmental properties: development occurs, outcomes vary with the experience *schedule* (path dependence; strict order dependence is **not** isolated, because the curriculum comparisons vary the event multiset and order together), curriculum matters, stable regimes emerge. |
+| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. The transition is robust **within** this engine, world family and support-ratio axis, not a general threshold. |
+| **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. Demonstrated, not asserted (§10) — **reconstructed from the engine's state**, not replicated by another lab. |
 | **Next** | Can experience produce knowledge that **transfers, predicts and revises** — judged with trace-derived diagnostics pre-committed in advance. |
 
 A coherent progression: *what structures exist* → *what develops and survives*

@@ -72,6 +72,17 @@ The curriculum experiments, the scaffold experiments, the burst-assimilation
 experiments and the long-horizon runs all point the same way: change the
 presentation schedule, and you change the outcome.
 
+> **What this does and does not show (narrowed 2026-10-26).** The schedule
+> experiments change the **event multiset and the order together**, so they
+> establish **path dependence** — the developmental outcome depends on the
+> history. They do **not** establish **strict order dependence**, the stronger
+> claim that *the same information in a different sequence* produces a
+> different state. That requires the comparison with the **event multiset held
+> fixed and only the order changed**, and that comparison has **not been run**.
+> The distinction is not pedantry: an organism that merely accumulates evidence
+> would also look path-dependent under a schedule change, so the current
+> evidence does not yet separate "order matters" from "content matters".
+
 ### 2.3 Curriculum matters enormously
 
 The clearest single result in the project. Development capacity is **not
@@ -170,6 +181,15 @@ Stated as the project's own negative-results map, with the Phase K addition.
 **Six task families. Six negatives.** The Phase K verdicts are large and
 stable: every 98.33% interval lies wholly below zero, every verdict survives
 eight different bootstrap seeds and both leave-one-out checks.
+
+**On transfer specifically, the careful summary is: no positive transfer has
+been demonstrated, and the measured cross-domain result was negative.**
+Cross-domain transfer is **−0.486** across **12 domain pairs**, with a mean
+shared vocabulary of **0.17 tags** — the substrate is lexical co-occurrence,
+so there is no representation above the tag that could cross a vocabulary
+boundary. **Other forms of transfer remain untested**, so this is a measured
+negative on one axis, not a general finding that Organica cannot transfer.
+→ `docs/EMERGENCE-CRITERIA.md` §4; manual §8.2; facts sheet §D2.
 
 **What this is not.** It is not a demonstration that developmental
 architectures do not work. It is a demonstration that **Organica 1 does not
@@ -271,6 +291,17 @@ first (9–11 of 18 gold pairs at late weight 3 / early weight 1, against 0–1
 otherwise). The organism is not incapable of revision. It is **priority-
 ordered**: strength of signal decides what displaces what, and arrival order
 is a tiebreak that resolves in favour of the incumbent.
+
+> **What "revision" means in this paragraph (narrowed 2026-10-26).** Here
+> *revision* means **structural displacement** — later structure displacing
+> earlier structure — which is what the 2×2 control measured. It does **not**
+> mean that a *belief* was corrected against ground truth. That is a separate
+> capability, and the project has measured it separately and against a strong
+> baseline: on Phase K's belief-revision task Organica scored **0.4111** against
+> the best simple baseline's **0.9846** (difference **−0.5735**, 98.33%
+> interval **[−0.6162, −0.5309]**, **REVERSED**). Reading "not incapable of
+> revision" as a general endorsement of belief revision would overstate what
+> was shown.
 
 That is a much more interesting finding than "it can't learn new things,"
 because it is the *shape* of the problem. It says the deficit is in
@@ -401,6 +432,12 @@ as a null.
   development. They are a fair test of one implementation.
 - It does not claim the coherence/plasticity framing is the right one. It
   claims the measurements make it the most informative question available.
+- It does not claim **strict order dependence** (§2.2) — only schedule
+  dependence, which the record supports.
+- It does not claim **belief revision** (§5). It claims structural
+  displacement; the belief-revision task was a clean loss.
+- It does not claim **positive transfer** (§3). The measured cross-domain
+  result was negative and other forms of transfer are untested.
 - It does not authorise a V2, and it does not launch a Phase L.
 
 ---

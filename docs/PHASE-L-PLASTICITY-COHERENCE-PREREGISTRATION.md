@@ -17,6 +17,22 @@ negative. Phase L asks a different question:
 > **How much pressure is required for new structure to displace old
 > structure?**
 
+> **Reading note added 2026-10-26 — nothing in this protocol changes.**
+> This document is a frozen pre-registration and is **not** edited after the
+> fact; the hypotheses, metrics and success criteria below are exactly as
+> committed. This note exists only to stop a later reader importing a wider
+> reading than the protocol supports. **Where this protocol says "revision",
+> it means revision of *early structure* — measured by the structure-retention
+> indices DI and PI defined in §3.1 — and it does not mean that a *belief* was
+> corrected against ground truth.** Belief revision is a separate capability
+> question, and the project's one head-to-head measurement of it was a clean
+> loss (Organica **0.4111** vs the best simple baseline **0.9846**; difference
+> **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED** — see
+> `docs/phase_k_results.md`). The Phase L finding is therefore named
+> **structural displacement**. The same narrowing, and the four others applied
+> to the project's summaries, is recorded in `docs/PHASE-L-SYNTHESIS.md`
+> §2.2, §2.3a, §3.3 and §8, and in the manual §8.18.
+
 That question is not a retry of the others. It comes out of the strongest
 measured phenomenon in V1, and it is the first question in this project that
 treats Organica 1 as a **property to be characterised** rather than a system

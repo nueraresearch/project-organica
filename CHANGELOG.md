@@ -33,6 +33,60 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Corrected — five claims in the project's own summary, narrowed (2026-10-26)
+
+A review of the project's *summary* — not of its measurements — found five
+sentences that were wider than the checks behind them. All five were
+corrected, and the corrections were made **before the acquisition experiment
+ran**, so the next study does not inherit an overstatement from the previous
+one. **No number was recomputed, no artifact re-read, and no criterion
+reinterpreted.** The protocol verdict `H3-L — INCONCLUSIVE` stands, the Phase L
+characterisation stands, and the six negative task families stand.
+
+1. **"Revision exists" → "structural displacement exists."** Phase L's
+   `DI`/`PI` are structure-retention indices — they measure whether later
+   *structure* displaces earlier *structure*, not whether a *belief* was
+   corrected against ground truth. Belief revision is a separate capability
+   question, and the one head-to-head measurement of it was a clean loss:
+   Organica **0.4111** vs the best simple baseline **0.9846**, difference
+   **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED**.
+2. **The 3:1 crossing is robust *within this defined experiment* — this
+   engine, this world family, this support-ratio axis.** The eight alternative
+   bootstrap seeds test **resampling stability, not new worlds**; they re-draw
+   from the same measured seeds. **3:1 is not a general threshold for
+   Organica.**
+3. **Path dependence is supported; strict order dependence is not tested.** The
+   curriculum and history comparisons vary the event **multiset and the order
+   together**, so they cannot separate "order matters" from "content matters".
+   Isolating order requires the multiset held fixed — that comparison has not
+   been run.
+4. **Transfer: no positive transfer has been demonstrated, and the measured
+   cross-domain result was negative** — **−0.4863** across **12 domain pairs**,
+   mean shared vocabulary **0.17 tags**. Other forms of transfer remain
+   untested.
+5. **"Independently auditable" means independently *reconstructed from the
+   engine's state*, not independently *replicated by another lab*.** The trace
+   also covers the organism's **surviving, current** structures rather than
+   their full past, and **A5 and A6 remain pending**.
+
+The project now leads with the compressed state: *Organica demonstrably
+changes its internal structure as experience and curriculum change. Under one
+tested pressure axis, later structures can abruptly displace earlier ones. The
+project has built a strong instrument for auditing surviving state and
+implemented decisions. It has not yet shown that these structures yield useful
+knowledge or positive transfer; the acquisition experiment could address that,
+and its metric and memory-removal conditions are now pinned — it is
+pre-registered and not yet run.*
+
+The lesson is recorded as `AGENTS.md` rule 24: **a claim must be no wider than
+the check behind it, and the summary is where the widening happens.** The
+measurements were right and the *headlines* were wrong, and a wrong headline is
+invisible in a diff — it looks exactly like a right one. Propagated to the
+README, the Phase L synthesis (§2.2, §2.3a, §3.3, §8), the V1 synthesis
+(§2.2, §3, §5, §9), the audit-trace specification (§10, §11), the emergence
+criteria (§4), the manual (§2, §8.18, finding 24, six common misreadings), the
+facts sheet (§AB1–§AB7) and the journal (§50).
+
 ### Result — Phase L primary axis (V1): a reproducible crossing, and a criterion that did not pass
 
 The Phase L campaign ran its primary axis to completion: **80 of 80 cells**,

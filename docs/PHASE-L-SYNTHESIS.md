@@ -90,12 +90,47 @@ The crossing is at **3:1**, and it did not move when n tripled:
 ([`docs/phase_l_results.md` §4](../docs/phase_l_results.md); analysis in
 [`benchmarks/phase_l_analyze.py`](../benchmarks/phase_l_analyze.py))
 
+> **The scope of that robustness — narrowed 2026-10-26.** The 3:1 crossing is
+> robust **within this defined experiment**: this engine, this world family,
+> this support-ratio axis. The eight alternative bootstrap seeds test
+> **resampling stability, not new worlds** — they re-draw from the same
+> measured seeds, so they say the crossing is not an artefact of one resample,
+> not that the crossing would land in the same place in a different world.
+> Leave-one-seed-out is the same kind of check on the same data.
+> **3:1 is therefore not a general threshold for Organica**, and this document
+> does not assert one. The correct reading is: *within the axis, world family
+> and engine tested, the transition location is highly reproducible and does
+> not drift with n.*
+
 ### 2.3 The transition is abrupt, not gradual
 
 Revision latency goes from **0 of 30** seeds reaching DI > 0.5 at 2:1 to
 **30 of 30** at 3:1 (mean 356 cycles, median 351). The organism does not
 revise *slightly more* under higher pressure. It goes from **never** to
 **always** between two adjacent points on the sweep.
+
+> ### 2.3a What this finding is called — narrowed 2026-10-26
+>
+> The Phase L result is **structural displacement**: later *structure*
+> displacing earlier *structure*, measured by a structure-retention index
+> (DI/PI). It is **not** a measurement of whether a *belief* was corrected
+> against ground truth. The two are different capabilities and the project's
+> record separates them:
+>
+> | | Phase L (structural displacement) | Phase K (belief revision) |
+> |---|---|---|
+> | Question | Do later structures displace earlier ones? | Is a wrong belief corrected against ground truth? |
+> | Metric | DI / PI — a structure-retention index | Task score against a known truth |
+> | Result | reproducible transition at 3:1 | Organica **0.4111** vs best simple baseline **0.9846** |
+> | Difference | — | **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED** |
+>
+> **Belief revision remains a separate capability question, and the one time
+> the project measured it head-to-head against a strong baseline, Organica
+> lost cleanly.** So "revision exists" is not a supported summary of Phase L;
+> "structural displacement occurs, and is sharply thresholded" is. Nothing in
+> this document's characterisation carries over to the belief-revision
+> question, and the earlier wording that read Phase L as a revision result has
+> been corrected wherever it appeared.
 
 ### 2.4 The instrument is sound, and its seed axis is exchangeable
 
@@ -145,10 +180,19 @@ plateau into a ramp.
 
 - **Nothing about capability.** Nothing about intelligence, learning, or what
   this means for any task.
+- **Nothing about belief revision.** Phase L measured structural displacement.
+  Whether a belief is corrected against ground truth is a different question,
+  measured elsewhere and answered against Organica (§2.3a).
 - **Nothing about the secondary axes.** V2–V5 were **not run**. No Phase L
   outcome authorises a V2, and the protocol says so in advance.
 - **Nothing about support ratio being *the* operative variable** beyond this
   one axis on this one frozen engine.
+- **Nothing about order dependence, strictly.** Phase L varied a pressure
+  ratio, not an event order. The project's *schedule*-dependence results
+  (curriculum, history) vary the event **multiset and order together**, so
+  they support **path dependence** and do **not** isolate strict order
+  dependence — that would need the event multiset held fixed with only the
+  order changed, and that comparison has not been run.
 - The **baseline rule** was recorded and **not exercised** in V1: the arm is
   the organism's own curve, bracketed by the control and ceiling check rather
   than by a competing system.
@@ -247,6 +291,13 @@ describes the shape of those curves. Nothing more.
 
 - It does not claim a coherence–plasticity boundary. The protocol's verdict is
   `H3-L — INCONCLUSIVE`, and that verdict is reproduced in every artifact.
+- It does not claim a **general** threshold for Organica. The 3:1 crossing is
+  robust within this engine, world family and support-ratio axis (§2.2); it is
+  not a property of the organism in general.
+- It does not claim **belief revision** (§2.3a). It claims structural
+  displacement.
+- It does not claim **strict order dependence** (§3.3). It claims
+  schedule dependence.
 - It does not re-read, relax, or reinterpret a single pre-committed criterion.
   The criteria were evaluated once by committed code; criterion 1 was met at
   n=10 and is not met at n=30; that is what is reported.

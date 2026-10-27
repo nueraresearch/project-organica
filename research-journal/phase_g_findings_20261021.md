@@ -4405,3 +4405,108 @@ Recorded in `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (Revision 2), in
 the manual as §2 and §8.17 and finding 23, in the facts sheet as §AA23–§AA26,
 in `AGENTS.md` as rule 23, and in the audit-trace specification as §6, §7 (D3)
 and §9.
+
+---
+
+## §50 — The five claims, narrowed, and what a summary owes its checks
+
+**What this section records.** A review of the project's own *summary* — not of
+its measurements — found five sentences that were wider than the checks behind
+them. All five were corrected, and the corrections were made **before the
+acquisition experiment ran**, so the next study does not have to carry an
+overstatement inherited from the previous one.
+
+**Why the summary is where this defect lives.** The project's discipline has
+always been aimed at the *measurement*: measure, don't infer; pre-register;
+never revise a prediction to fit a result. That discipline has to reach the
+**headline** as well, because the headline is the thing a reader takes away
+and repeats to someone else. A measurement that is right and a sentence that
+is wrong about it are separate failures, and only the second one is
+invisible in the artifacts — a wrong sentence looks exactly like a right one
+in a diff. This is the same shape as the defect the acquisition-plan review
+found two days earlier, where **`DI` — an endpoint imported from another study
+— measured a completely different quantity from the one it was asked about**.
+There the wrong metric was in a *plan*; here the wrong wording was in the
+*headline*, and it had already shipped into the README and three synthesis
+documents.
+
+### The five corrections
+
+**1. "Revision exists" → "structural displacement exists."** Phase L's
+`DI`/`PI` are structure-retention indices. They measure whether later
+*structure* displaces earlier *structure*. They say nothing about whether a
+*belief* was corrected against ground truth. That question has been measured
+separately, head-to-head against a strong baseline, and Organica **lost**:
+**0.4111** against the best simple baseline's **0.9846**, difference
+**−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED**. So the
+project has a sharp, reproducible *structural displacement* result and a clean
+*belief revision* loss, and the earlier wording let the first be read as
+evidence for the second. It is not.
+
+**2. "The 3:1 transition is remarkably stable" → "stable within this defined
+experiment."** The crossing did not move when n tripled, survived a
+10,000-replicate paired bootstrap at **[5.0, 5.0]**, survived eight
+alternative bootstrap seeds, and survived leave-one-seed-out in **30 of 30**
+folds. But the alternative bootstrap seeds **re-draw from the same measured
+seeds** — they test **resampling stability, not new worlds** — and
+leave-one-seed-out is the same kind of check on the same data. The scope is
+therefore: *this engine, this world family, this support-ratio axis*. **3:1 is
+not a general threshold for Organica**, and the number should not be quoted as
+one.
+
+**3. "Path dependence" → path dependence supported, strict order dependence not
+tested.** The curriculum, scaffold, burst-assimilation and long-horizon
+results all show the same thing: change the schedule, change the outcome. But
+those comparisons vary the event **multiset and the order together**. An
+organism that merely accumulated evidence into a commutative bag would also
+look path-dependent under a schedule change, so the current evidence does not
+separate "order matters" from "content matters". Isolating order requires
+holding the multiset fixed and permuting only the order — and that comparison
+has **not** been run.
+
+**4. "Transfer is open" → no positive transfer has been demonstrated, and the
+measured cross-domain result was negative.** Cross-domain transfer is
+**−0.4863** across **12 domain pairs**, mean shared vocabulary **0.17 tags**:
+the substrate is lexical co-occurrence, so there is no representation above
+the tag that could cross a vocabulary boundary. **Other forms of transfer
+remain untested.** So the honest sentence has two halves — the measured axis
+is negative, and the untested axes are untested — and the earlier "open" hid
+the first.
+
+**5. "An independently auditable developmental record" → independently
+*reconstructed*, not independently *replicated*.** What the trace establishes
+is that an outside reader, given the report and the substrate, can rebuild the
+developmental decision and check it. No second laboratory has reproduced this
+work, and nothing in the repository is a replication result. Two further limits
+sit alongside it: the trace reconstructs the organism's **surviving, current**
+structures rather than the full history of their development, and **A5 and A6
+are still pending**, so the audit layer is not finished.
+
+### The compressed state, and why it is the framing
+
+> *Organica demonstrably changes its internal structure as experience and
+> curriculum change. Under one tested pressure axis, later structures can
+> abruptly displace earlier ones. The project has built a strong instrument for
+> auditing surviving state and implemented decisions. It has not yet shown that
+> these structures yield useful knowledge or positive transfer; the acquisition
+> experiment could address that, and its metric and memory-removal conditions
+> are now pinned — it is pre-registered and not yet run.*
+
+That sentence keeps the achievement — development is real — while protecting
+the next experiment from being asked to prove more than it measures. It is
+now the project's opening framing in the README, and it is the framing this
+journal will be read against.
+
+### What did not change
+
+The protocol verdict `H3-L — INCONCLUSIVE` stands. The Phase L
+characterisation stands. The six negative task families stand. No number was
+recomputed, no artifact was re-read, and no criterion was reinterpreted: this
+was a correction to language, made against the existing record and recorded
+rather than quietly applied.
+
+Recorded in the README, `docs/PHASE-L-SYNTHESIS.md` (§2.2, §2.3a, §3.3, §8),
+`docs/V1-SYNTHESIS.md` (§2.2, §3, §5, §9), `docs/AUDIT-TRACE-SPEC.md` (§10,
+§11), `docs/EMERGENCE-CRITERIA.md` (§4), the manual as §2, §8.18, finding 24
+and six new common misreadings, the facts sheet as §AB1–§AB7, and
+`AGENTS.md` as rule 24.

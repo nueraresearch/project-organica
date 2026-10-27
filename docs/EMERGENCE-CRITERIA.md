@@ -46,6 +46,7 @@ Each level is strictly harder to fake. A system at Level 2 has not thereby demon
 - **Operational test:** train on domain A, evaluate on domain B; compare against training on B alone.
 - **Metric:** CDT (Cross-Domain Transfer).
 - **Organica status: MEASURED, NOT SATISFIED.** The four reproduction domains exist and `cross_domain_validation.py` runs, but CDT as a *transfer delta* has now been computed for the first time as part of the ablation study: it is **negative**, and the mean shared vocabulary between domain pairs is **0.17 tags**. The organism's substrate is lexical co-occurrence, so it has no representation that could carry across a vocabulary boundary. A human transfers "an agent acts on an environment" from kitchens to robots; Organica cannot, because "kitchen" and "robot" share no tags and no structure above the tag.
+- **The correct summary of the transfer evidence (2026-10-26): no positive transfer has been demonstrated, and the measured cross-domain result was negative.** This is a measured negative on **one** axis (cross-domain, lexical vocabulary). **Other forms of transfer remain untested** — no claim is made here that Organica cannot transfer in general, only that nothing has yet been shown to transfer.
 - **Why this matters:** this is the sharpest available evidence that the current architecture is a knowledge-compression engine rather than a general learner. It does not invalidate the project — it locates the gap precisely.
 
 ### Level 2 — Novel Concept Emergence

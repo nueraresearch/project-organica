@@ -19,6 +19,15 @@
 > structure and is superseded for planning purposes by this banner and by the pre-registration
 > above.
 
+> **Where the project stands, in one paragraph (2026-10-26).**
+>
+> *Organica demonstrably changes its internal structure as experience and curriculum change.
+> Under one tested pressure axis, later structures can abruptly displace earlier ones. The
+> project has built a strong instrument for auditing surviving state and implemented decisions.
+> It has not yet shown that these structures yield useful knowledge or positive transfer; the
+> acquisition experiment could address that, and its metric and memory-removal conditions are
+> now pinned — it is pre-registered and not yet run.*
+
 > **A Developmental Machine Intelligence.**
 > Growing intelligence from memory, structure, sleep, curiosity, and experimentation rather than pre-trained weights.
 
@@ -425,9 +434,18 @@ different question:
 
 That question comes out of the strongest measured phenomenon in V1. The K3
 2×2 control showed the late group **is** incorporated when it is strictly
-stronger than the group that arrived first, so Organica 1 is not incapable
-of revision — it is **priority-ordered**. A priority rule is a variable, and
-variables can be measured and manipulated.
+stronger than the group that arrived first, so Organica 1 is not incapable of
+**structural displacement** — it is **priority-ordered**. A priority rule is a
+variable, and variables can be measured and manipulated.
+
+> **What this finding is called (2026-10-26).** The Phase L result is
+> **structural displacement**: later *structure* displacing earlier *structure*,
+> measured by a structure-retention index. It is **not** a measurement of
+> whether a *belief* was corrected against ground truth. Belief revision remains
+> a separate capability question, and on Phase K's belief-revision task
+> Organica scored **0.4111** against the best simple baseline's **0.9846**
+> (difference **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**,
+> **REVERSED**). The two must not be read as the same capability.
 
 | | |
 |---|---|
@@ -476,6 +494,13 @@ move when n tripled: the crossing is at **3:1**, a 10,000-replicate paired
 bootstrap puts it at **[5.0, 5.0]** with **10,000 of 10,000** replicates
 finding it, eight alternative bootstrap seeds all return `INTERIOR`, and
 leave-one-seed-out leaves it at 3:1 in **30 of 30** folds.
+
+> **What that robustness is, and is not (2026-10-26).** The 3:1 crossing is
+> robust **within this defined experiment** — this engine, this world family,
+> this support-ratio axis. The eight alternative bootstrap seeds test
+> **resampling stability, not new worlds**: they re-draw from the same measured
+> seeds. **3:1 is not a general threshold for Organica**, and nothing in this
+> repository should be read as turning it into one.
 
 **Two of the four pre-committed criteria are not met**, and the verdict is
 therefore **`H3-L — INCONCLUSIVE`**: *raise n; conclude nothing.* **No V2 is
@@ -623,6 +648,17 @@ headline behaviour is correct**. The first instance is pre-committed —
 a transfer result* — which turns the trace's own disclosed defect into a
 live instrument that can defeat a claim.
 
+> **What "auditable" means here, and what it does not (2026-10-26).**
+> **Independently auditable** means **independently reconstructed from the
+> engine's state** — an outside reader, given the report and the substrate, can
+> rebuild the developmental decision and check it. It does **not** mean
+> **independently replicated by another lab**: no second laboratory has
+> reproduced this work, and nothing here is a replication result. Two further
+> limits stand alongside it: the trace concerns the organism's **surviving,
+> current** structures and does not reconstruct their full past, and **A5
+> (field honesty) and A6 (trace/counterfactual separation) are still pending**,
+> so the audit layer is not finished.
+
 ### Six task families, six negatives — and what the project does with them
 
 This is the most important thing to know about the repository. The external-validity arc is a **coherent negative result**, not a string of unrelated failures:
@@ -643,13 +679,25 @@ Six task families are negative. **That is not a verdict on the architecture** �
 
 That the organism is developmental in the strong sense, or that its structures improve prediction or recover latent structure better than simple alternatives. Tier-1's repeating stimulus saturates quickly; richer curricula increase inventory, but simple baselines lead on the tested prediction, structure-recovery, gradual-adaptation, world-modeling, belief-revision and longitudinal-integration tasks. Phase I did not demonstrate a winner under its preregistered detection rule. These are controlled synthetic tasks; the prediction task still needs input-world replication, and the recovery task does not measure causal intervention knowledge.
 
+**On transfer, the careful summary is a specific one: no positive transfer has been demonstrated, and the measured cross-domain result was negative.** Cross-domain transfer is **−0.486** across **12 domain pairs**, with a mean shared vocabulary of **0.17 tags** — the organism's substrate is lexical co-occurrence, so there is no representation above the tag that could cross a vocabulary boundary. **Other forms of transfer remain untested**, so this is a measured negative on one axis, not a general claim that Organica cannot transfer.
+
 ### What *is* established
 
 That development can emerge from experience-driven accumulation; that it is
-highly path-dependent; that curriculum matters enormously; that novelty
-assimilation matters; and that developmental trajectories are not fixed.
+path-dependent; that curriculum matters enormously; that novelty assimilation
+matters; and that developmental trajectories are not fixed.
 Internal epistemic structures — contradictory beliefs, questions, theories —
 emerge without pretrained domain knowledge.
+
+> **What "path-dependent" means here (2026-10-26).** The curriculum and history
+> results show that developmental outcomes vary with the experience *schedule*.
+> **Strict order dependence is not tested.** To claim that *the same information
+> in a different order* produces a different state, the comparison must hold
+> the **event multiset fixed** and change **only the order** — and that
+> comparison has not been run. The curriculum experiments vary the schedule's
+> multiset **and** its order together, so they cannot separate the two. What is
+> supported is schedule dependence; what is not yet supported is order
+> dependence as an isolated effect.
 
 One of these is a negative finding about the project's own design, and it is
 the one that most redirects the work: **the internal developmental machinery

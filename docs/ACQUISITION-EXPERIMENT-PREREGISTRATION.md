@@ -254,6 +254,24 @@ Phase L's Amendment 3 made to the bootstrap's pairing.)
 another. A learner can retain without transferring (it knows the old regime
 perfectly and cannot use it in the new one), or transfer without revising.
 
+> **Which "revision" this is — clarification added 2026-10-26, nothing in the
+> design changes.** The word is used in three distinct senses across this
+> project's documents, and confusing them would be a real error:
+>
+> | Sense | Where | What it measures |
+> |---|---|---|
+> | **Structural displacement** | Phase L (`DI`/`PI`) | whether later *structure* displaces earlier *structure* — a structure-retention index |
+> | **Belief revision** | Phase K (K2) | whether a *belief* is corrected against ground truth — Organica **0.4111** vs baseline **0.9846**, **REVERSED** |
+> | **Revision (this study)** | here, §4.3 | the **state after a window of continued learning**, scored on a ground-truth prediction score — closer to belief revision than to displacement |
+>
+> This study's **REVISION** score is a *prediction* score measured after the
+> learner has continued learning, so it is the belief-revision-adjacent sense,
+> not Phase L's displacement sense. That is deliberate: the endpoint here is
+> the ground-truth prediction score fixed in Revision 2 (§4.2), **not** `DI`.
+> The Phase L pre-registration carries a parallel dated reading note, and the
+> narrowing of all five over-wide claims is recorded in the manual §8.18 and
+> `docs/PHASE-L-SYNTHESIS.md` §2.3a.
+
 ---
 
 ## 5. The cell matrix — one complete table
