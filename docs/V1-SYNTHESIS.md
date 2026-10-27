@@ -1,5 +1,16 @@
 # Organica V1 — A Synthesis
 
+> ### Superseded for planning purposes — 2026-10-26
+>
+> **This document's measurement record stands as written.** What is superseded is its
+> **forward look**: the plasticity study it points toward is no longer the next step.
+>
+> The next step is **the acquisition experiment**
+> ([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md),
+> Revision 2): *can a controlled experience leave behind a structure that helps on later events,
+> after the raw episodes that produced it are unavailable?* The audit build is finished first
+> (A5 and A6 only), then frozen.
+
 > **What this document is.** A formal read of what Organica 1 established,
 > what it did not, and what the two of those together mean for what to do
 > next. It is not a campaign, not a preregistration, and **not a V2 design.**

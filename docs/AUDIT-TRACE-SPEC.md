@@ -395,7 +395,7 @@ the plan.
 
 ## 6. Acceptance criteria for the build
 
-The build is accepted only if all six hold, and each is a check that can fail:
+The build is accepted only if all **seven** hold, and each is a check that can fail:
 
 | # | Criterion | Test |
 |---|---|---|
@@ -437,6 +437,31 @@ of thing the audit layer exists to surface: a belief that appears to be
 supported by the world may partly be supported by the organism's own output.
 A future phase can measure how much that matters; it cannot be patched here.
 
+### D3 — the engine's charter claims a link the engine does not have
+
+**`docs/DESIGN_LAWS.md` Law II** reads:
+
+> *Every cognitive primitive must trace an unbroken, deterministic DAG of
+> `parent_ids` back to Generation 0 empirical events.*
+
+The DAG part holds. **The "back to empirical events" part does not.** Measured
+by the A3 auditor: the `parent_ids` chain **terminates at Layer 1** — concepts,
+phrases, loops, predictions — which are built from tags. **No parent link in
+the engine points at an event.** The structure→event link exists only as
+*counts* (support, contradiction), which is a different kind of link, and
+§3.2 has said so since this specification was first written.
+
+**This is disclosed, not resolved.** Law II is the frozen engine's constitution
+and Organica 1 is frozen, so amending the charter is **the owner's decision,
+not a documentation fix**. The README's restatement of the law was corrected to
+match what the engine does; the law itself is left as written, with this
+disclosure attached, pending the owner's ruling.
+
+**Why it is disclosed rather than dropped.** The trace's own claim depends on
+it: the auditor reconstructs **surviving developmental state** (§3.2), and a
+reader who believes Law II literally would expect a reconstruction back to
+events. The trace cannot deliver that, and says so.
+
 ---
 
 ## 8. What this specification does not claim
@@ -451,6 +476,18 @@ A future phase can measure how much that matters; it cannot be patched here.
   test depends on this trace existing; it does not exist yet.
 - **It changes no engine behaviour.** Organica 1 is frozen at `v0.9.0`.
 ## 9. Next steps
+### What the trace is for next, and its stop condition
+
+The trace's next job is to be **an input to the acquisition experiment**
+(`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`, Revision 2), not to be
+extended. The audit build is finished when **A5 and A6 are closed** — those
+two are the only pending criteria — and then it is **tagged, frozen, and
+stopped**. After that, **no feature may be added to the instrumentation**; a
+new requirement goes to the study's wish-list instead. The instrumentation may
+be *fixed* if it is found to be wrong, but not *extended*.
+
+**A1, A2, A3, A4 and A7 are closed and are not reopened.**
+
 
 1. **Build the auditor** — an external, read-only reconstructor over the
    substrate plus the report, implementing §3.2–3.4. No engine changes.

@@ -1,5 +1,24 @@
 # Project Organica
 
+> ### What this project is doing now — 2026-10-26
+>
+> **The live study is PAUSED** at 5,396 sleep cycles and stays paused. **V2 is not
+> cut**, and **V2–V5 are not run**. The next decisive work is a single study:
+> **the acquisition experiment** —
+> [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)
+> (Revision 2) — asking **can a controlled experience leave behind a structure that helps on
+> later events, after the raw episodes that produced it are unavailable?**
+>
+> **The audit build is finished, then frozen.** A1, A2, A3, A4 and A7 are closed; only **A5 and
+> A6** remain, and they are the last work on the instrumentation. After they close, the
+> instrumentation is tagged and stopped, and **no feature may be added to it**.
+>
+> **Superseded readings.** The V1 synthesis's forward look toward a plasticity study is
+> **superseded (2026-10-26)** by the acquisition experiment as the centre of the project. The
+> Phase L characterisation stands as written. `ROADMAP.md` describes the project's earlier
+> structure and is superseded for planning purposes by this banner and by the pre-registration
+> above.
+
 > **A Developmental Machine Intelligence.**
 > Growing intelligence from memory, structure, sleep, curiosity, and experimentation rather than pre-trained weights.
 
@@ -44,7 +63,7 @@ The honest limits of that claim are documented, measured, and kept current in [`
 2. **Sleep Never Explains — It Only Creates Structures**
    Sleep is not an LLM summarizer or chat prompt. It is a graph transformation and natural selection process that emits discrete, typed candidate nodes with explicit numeric provenance.
 3. **Native Genealogical Lineage**
-   Every abstract workflow, hypothesis, question, and dream maintains 100% verified ancestral parent links down to raw experience events.
+   Every abstract workflow, hypothesis, question, and dream maintains a 100% verified **structural** lineage — an unbroken, deterministic DAG of `parent_ids` back to the **Layer-1** structures it was built from. **No parent link points at a raw event**: the structure→event link is a *count* (support, contradiction), not a pointer, and the two are different kinds of link. See the audit-trace specification §3.2.
 4. **Natural Selection & Falsifiability**
    Candidates must earn their survival. Confirmed structures strengthen; unreinforced structures decay; refuted structures go extinct.
 5. **The Attention Economy**

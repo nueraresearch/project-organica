@@ -1,5 +1,20 @@
 # Project Organica: Research Roadmap
 
+> ### Superseded for planning purposes — 2026-10-26
+>
+> This roadmap describes the project's earlier structure and is **superseded for planning**
+> by the current sequence, which is:
+>
+> **finish the audit build (A5, A6 only) → freeze and tag the instrumentation → run the
+> acquisition experiment → compare against the replay learner → publish whatever happens →
+> only then discuss V2.**
+>
+> The acquisition experiment is specified in
+> [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)
+> (Revision 2). The live study is **paused** at 5,396 sleep cycles. V2 is **not cut**; V2–V5
+> are **not run**. Nothing below is withdrawn — it is the record of what the project has
+> already done, and of the frontier it has not yet reached.
+
 > *"Grow a digital infant rather than train an oracle."*
 
 ---

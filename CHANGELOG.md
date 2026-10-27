@@ -390,6 +390,57 @@ have broken the reconciliation. The 60-cycle forced-tie artifact is committed as
 
 Recorded in spec §3.3, §10, §11; facts sheet §AA12, §AA13; journal §45.
 
+### Fixed — the acquisition pre-registration, after a review found five defects
+
+**The pre-registration is now Revision 2**, committed before any cell is run. Five
+defects in Revision 1 were found and corrected:
+
+1. **The endpoint was the wrong metric.** Task support was scored with Phase L's
+   `DI` — `late_structure_retained / late_structure_available` — which measures
+   **structural displacement, not prediction**. Now a **ground-truth prediction
+   score** on a fixed label set, with the exact predictions named, F1 at 0.5
+   primary and balanced accuracy and Brier co-reported.
+2. **"Source experiences removed" did not say what derived memory survived.**
+   Ingest also accumulates `cooccurrences` and `tag_counts` (`memory.py:282`,
+   `306`), which outlive the event rows. The condition is now named **"episode
+   removal with learned graph retained"**, the retained set is listed, and **the
+   same rows are removed from every learner's store** — which is what makes the
+   comparison about reconstruction versus replay rather than about unequal
+   access to evidence.
+3. **The cell matrix was not specified.** Now **one complete table with the
+   exact number of runs — 10 per seed, 30 seeds, 180 engine runs** — and a
+   prediction for every cell, with `P-none × E-pres` stated as the untreated
+   baseline rather than an extra cell on top of six.
+4. **It was not an executable plan.** Now pinned: the generator and its
+   parameters, the target relation, the phase boundaries (the regime switch lands
+   exactly on the follow-up boundary), the seeds and sample size, the
+   quantitative decision rule, and both baselines' algorithms, tuning grids,
+   memory accounting and test-time procedures. **"Same memory budget", defined:**
+   identical raw rows and identical removal for every learner, with derived
+   state deliberately *not* equalised because derived state **is** the mechanism
+   under test — and in the `E-pres` cells the comparison learners have strictly
+   *more* usable access than Organica, so a win for Organica is conservative.
+5. **The audit build had no stop condition.** Now explicit: **close A5 and A6
+   only** (A1, A2, A3, A4 and A7 are closed and are not reopened), then **tag,
+   freeze and stop** — no feature may be added to the instrumentation afterwards.
+
+**Drift fixed in the same pass.** The README claimed every abstract structure
+keeps parent links *"down to raw experience events"* — **the engine has never
+done that**: the `parent_ids` chain terminates at Layer 1, and the
+structure→event link is a count, not a pointer. The README's restatement was
+corrected; **Law II of `docs/DESIGN_LAWS.md` is left as written** with the
+discrepancy disclosed in the audit-trace specification as **D3**, because the
+frozen engine's constitution is the owner's decision. Also fixed: the
+specification's *"all six"* acceptance criteria where the table lists seven; the
+manual's status table dated 2026-10-23 while the file recorded 2026-10-26 work;
+and the missing **dated supersessions** in the README, `ROADMAP.md` and the V1
+synthesis.
+
+**The owner's standing decisions are recorded:** V2 **not cut**, live study **not
+restarted**, V2–V5 **not run**, no further open-ended audit work. Sequence:
+**finish the audit build → freeze it → run the acquisition experiment → compare
+against the replay learner → publish whatever happens → only then discuss V2.**
+
 ### Added — the acquisition experiment pre-registration, and two diagnostics that changed its questions
 
 The blank-slate question is now **can experience create a structure that

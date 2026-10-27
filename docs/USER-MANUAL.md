@@ -67,7 +67,7 @@ failed cycles       : 0
 
 ## 2. Where things stand right now
 
-**As of 2026-10-23 22:13 MDT** (this section is refreshed on every manual update):
+**As of 2026-10-26 17:40 MDT** (this section is refreshed on every manual update):
 
 | | |
 |---|---|
@@ -92,6 +92,9 @@ failed cycles       : 0
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
 | Mechanism closure (M0.5) | **complete** — see [§8.4](#84-the-counter-that-was-measuring-the-wrong-population). The gate is validated, the launch gates are closed, and the substrate defect that caused the collapse is fixed. |
+| **Audit trace (Phase M)** | **A1, A2, A3, A4 and A7 CLOSED; A5 and A6 are the only remaining work, and the instrumentation is frozen after they close.** Spec [`docs/AUDIT-TRACE-SPEC.md`](AUDIT-TRACE-SPEC.md); journal §41–§48. |
+| **Acquisition experiment** | **PRE-REGISTERED (Revision 2), NOT RUN.** The centre of the project: *can a controlled experience leave behind a structure that helps on later events, after the raw episodes are unavailable?* [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md). **10 runs per seed × 30 seeds.** |
+| **Owner's standing decisions (2026-10-26)** | V2 **not cut**; live study **not restarted**; **V2–V5 not run**; no further open-ended audit work. Sequence: finish the audit build → freeze it → run the acquisition experiment → compare against the replay learner → publish whatever happens → only then discuss V2. |
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
 | Gate board | `docs/GATE-BOARD.md` — what is demonstrated, what is assumed, what is blocked |
 
@@ -580,6 +583,7 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 20 | **A pre-committed threshold must not be computed from the run it judges — and the window that bounds the trace was an order of magnitude smaller than asserted.** The per-claim transfer rule's third condition read *"no higher than the run's baseline rate"* — circular, because a baseline computed on the same run relaxes the criterion whenever that run's beliefs happen to be unusually self-sourced. **The reference rate is now FROZEN at 17.9%** (the distinct-evidence self-sourced share on the calibration probe), is **not recomputed on the evaluated run**, may be **re-calibrated only on data that is not being judged**, and is labelled a **provisional calibration value, not a precise universal cutoff** — one run, one world, one policy. **And the cognition window is now MEASURED rather than estimated: the engine stores 2,374.68 sleep events per cycle, so the 4,000-event window spans only 1.7 cycles — not the "roughly 40–130 cycles" this project had asserted from a guess.** The estimate was wrong by more than an order of magnitude and the correction is recorded rather than quietly fixed. Consequence: a lineage still being produced stays inside the window, but one that stopped being produced is gone within about 1.7 cycles — so the developmental history of anything the organism has moved on from is **unrecoverable**, not slowly censored. **A3's definition is now fixed in advance** (lineage reachability, evidence linkage, and a four-way truncation split reported separately), and **fidelity is not sufficiency**: reproducing the implemented rule does not establish that the reconstruction is a uniquely correct account of *why* a belief arose. |
 | 21 | **A3 is met, and it says something uncomfortable: an investigator cannot see more developmental history than Organica itself remembers.** The ancestry auditor walks each cycle's structures' parent chains against the engine's own window. **Lineage reachability 1.000** (8,061 of 8,061 structures resolve back to Layer 1 within depth 7), **evidence linkage 1.000** (1,412 of 1,412 claims resolve to event ids with a world/self split), **zero honesty errors**, and an empty structure-level truncation split — while the branch-level count shows **105 aged-out branches**, because every structure resolves through at least one branch that stayed in the window. **The window is not the binding constraint on lineage depth, and this corrects section 12's claim that it was:** surviving candidates are re-stored every cycle, so a live ancestor stays in the window however old it is; what bounds a lineage is the **death** of an ancestor. Measured: the window holds 3,998 candidates, the oldest last stored 1 cycle ago, content spanning 2 cycles. **So the trace reconstructs everything the organism still holds, exactly — and the developmental history of anything it has moved on from is unrecoverable, because the organism does not hold it either.** That is a hard ceiling on the project's distinguishing property, and it is a property of Organica 1 as frozen, not of the auditor. |
 | 22 | **The organism's memory and the laboratory's record are different objects, and the acquisition experiment must score them separately.** Q1 — *did the organism retain the knowledge?* — is answered by the organism's own state. Q2 — *can the laboratory prove how it developed?* — is answered by the per-cycle snapshots the laboratory kept. Conflating them is how an audit system slides into claiming historical reconstruction it never earned. **And two diagnostic probes changed what the design has to ask.** First, the lineage is **re-derived, not carried**: a structure's parent set is identical in ~94.5% of structure-cycles, but **87.2% of all 8,416 lineage links point at structures re-derived in that same cycle** — so the identical sets are deterministic re-derivation, not copied edges. Second, the engine's survival rule is **asymmetric across layers**: `_natural_selection` decays and prunes **Layer 1 only** (`sleep.py:1752-1802`, `_candidate_key` returns `""` for everything else), so **Layer 1 survives only if current experience keeps producing its content key, while Layers 2–4 are never decayed and persist as rows with re-derived edges.** The pre-registration therefore tests six cells (parent removed or not × source experiences removed or not × removal applied to the **observer** or to the **organism**), and the sharpest prediction is computed from the source rather than fitted: a Layer-1 structure whose key stops being produced is pruned after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 cycles from 0.3, 6 from 0.5. |
+| 23 | **The acquisition study was reviewed, and five defects in its plan were found — including one that would have made the headline meaningless.** The endpoint had been **DI**, which measures *structural displacement* (`late_structure_retained / late_structure_available`), **not** whether a belief predicts the world; it is now a **ground-truth prediction score** on a fixed label set, with the exact predictions named. **"Source experiences removed" did not say what derived memory survives** — ingest also accumulates `cooccurrences` and `tag_counts` (`memory.py:282`, `306`), which outlive the event rows — so the condition is now named **"episode removal with learned graph retained"**, and **the same rows are removed from every learner's store**, which is what makes the comparison about *reconstruction versus replay* rather than about *different access to evidence*. The cell matrix was not specified (a "2 × 2 × 3" heading, a baseline added on top of six cells, and a prediction table with five rows): it is now **one complete table with the exact number of runs — 10 per seed, 30 seeds — and a prediction for every cell**. And **"same memory budget" needed an operational definition**: identical raw rows and identical removal for every learner, with derived state deliberately *not* equalised, because derived state **is the mechanism under test**. The review also found the audit build's remaining work is smaller than the roadmap implied: **only A5 and A6 are pending**, so they are closed and then the instrumentation is **tagged, frozen, and stopped** — no feature may be added to it. And the review caught **presentation drift**: the README still claimed parent links ran *down to raw experience events*, which the engine has never done — the `parent_ids` chain terminates at Layer 1 — and the manual's status table was dated October 23 while the file recorded October 26 work. |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -1873,6 +1877,111 @@ history* — it reconstructs the **present** lineage of surviving structures.
 Not that the results generalise. And **not anything biological**: the
 resemblance to how some biological systems are described is a motivation for
 the experiment, never a claim about its result.
+
+
+### 8.17 The acquisition study: the plan, the stop condition, and the road ahead
+
+**The pre-registration is Revision 2**
+([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md)),
+committed before any cell is run. **Nothing here has been measured against a
+factorial cell.**
+
+### What was wrong with Revision 1, and what fixed it
+
+| Defect | Correction |
+|---|---|
+| The endpoint was **DI** — a *structural displacement* ratio, not a prediction score | a **ground-truth prediction score** on a fixed label set, with the exact predictions named |
+| "Source experiences removed" did not say what derived memory survives | named **"episode removal with learned graph retained"**; `cooccurrences` and `tag_counts` survive and are said to; **the same rows are removed from every learner's store** |
+| The cell matrix was not specified | **one table, the exact number of runs, a prediction for every cell** |
+| Not an executable plan | target relation, warm-up/follow-up lengths, seeds, sample size, decision rule, and both baselines' algorithms, grids, memory accounting and test-time procedures all pinned |
+| The audit build had no stop condition | **close A5 and A6, then tag, freeze and stop** — no feature may be added to the instrumentation |
+
+### The plan in brief
+
+**World.** `generate_cause_world`, 220 cycles × 8 events, `regime_cycles=110`,
+`noise_rate=0.10`, no overlap, no decoys. The target relation is the generator's
+own gold same-cause pair set.
+
+**Phases.** Warm-up 0–19; **acquisition 20–109**; **follow-up 110–219** — and the
+regime switches at cycle 110, exactly on the follow-up boundary, so the
+acquisition phase saw the follow-up's dominant cause only at its 15 % minority
+rate. That is what makes the follow-up a **transfer** test rather than a repeat.
+
+**Endpoint.** For each evaluation event and each tag in a fixed vocabulary,
+predict whether that tag appears in the next event. Ground truth is the
+observed next event. Fixed denominator, so no learner can gain by scoring on a
+different set. **Primary metric: F1 at 0.5**, with balanced accuracy and Brier
+co-reported.
+
+**Three scores, not one.** **Retention** — does the acquired structure still
+predict after the source episodes are removed? **Transfer** — does it apply to a
+regime it barely experienced? **Revision** — does the score improve with
+continued learning? **Scored per seed, not per cycle**, paired by seed.
+
+**The cell matrix — 10 runs per seed, 30 seeds, 180 engine runs.**
+
+| Learner | Cells | Runs |
+|---|---|---|
+| Organica | P ∈ {none, org, obs} × E ∈ {pres, rem} | 6 |
+| Replay learner | E ∈ {pres, rem} | 2 |
+| Statistical learner | E ∈ {pres, rem} | 2 |
+| Fixed-rule ceiling | — | 0 (a reference, not a run) |
+
+**`P-none × E-pres` IS the untreated baseline** — it is not an extra cell on
+top of six.
+
+**Where the mechanism question lives.** In the `E-pres` cells the comparison
+learners can read the raw episodes that Organica's cognition window has
+already dropped, so **they have strictly more usable access than Organica** —
+**a win for Organica is conservative.** In the `E-rem` cells they have nothing,
+so those cells measure **Organica's retention**, not the head-to-head. **The
+head-to-head is the `E-pres` comparison.** And the predicted dissociation is
+cell 4: the organism retains everything while the laboratory's provenance is
+broken — **Q1 and Q2 separated in the auditor's own hands.**
+
+**"Same memory budget", operationally.** Identical raw rows and identical
+removal for every learner. **Derived state is deliberately not equalised**,
+because derived state *is* the mechanism under test. No baseline is handicapped:
+each is swept over its declared grid and its best score is used, and the
+comparator is the single best configuration across both baseline families,
+selected on the **tuning split**, never on a scoring window.
+
+**The decision rule, fixed.** 99 % bootstrap CI of the mean paired difference,
+10,000 replicates, paired by seed. **Win** if the CI excludes 0 upward; **tie**
+if it contains 0; **loss** if it excludes 0 downward. The study verdict is
+exactly one of **"Reconstruction does work"** (wins transfer, loses neither
+other), **"The comparator's mechanism wins"** (the comparator wins transfer),
+or **"Inconclusive"**. **Every branch publishes** — a loss publishes as a loss.
+
+**The audit build's stop condition.** Close **A5** (field honesty) and **A6**
+(trace / counterfactual separation) — the only two pending criteria — regenerate
+the three probe arms, then **tag, freeze and stop**. After that **no feature
+may be added to the instrumentation**; a new requirement goes to the study's
+wish-list. The instrumentation may be *fixed* if it is found wrong, but not
+*extended*. **A1, A2, A3, A4 and A7 are closed and are not reopened.**
+
+### The owner's standing decisions (2026-10-26)
+
+**V2 is not cut. The live study is not restarted. V2–V5 are not run. No further
+open-ended audit work.** The sequence is: **finish the audit build → freeze it →
+run the acquisition experiment → compare against the replay learner → publish
+whatever happens → only then discuss V2.**
+
+### Two things the review caught that were not about the plan
+
+**The endpoint question is the one that matters.** A metric imported from
+another study can measure a completely different quantity. DI was the right
+metric for a *displacement* claim and the wrong one for a *prediction* claim,
+and nothing about it looked wrong until someone asked what it actually
+measures.
+
+**The charter drifted from the engine.** `docs/DESIGN_LAWS.md` Law II still
+says every primitive traces its `parent_ids` DAG *"back to Generation 0
+empirical events"*. **The engine has never done that** — the chain terminates
+at Layer 1, and the structure→event link is a *count*, not a pointer. The
+README's restatement was corrected; the law itself is left as written with the
+disclosure attached, because **the frozen engine's constitution is the owner's
+decision, not a documentation fix.**
 
 
 ---

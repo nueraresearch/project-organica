@@ -4295,3 +4295,113 @@ after `⌈log(0.15 / c) / log(0.8)⌉` cycles — 4 from `c = 0.3`, 6 from `c = 
 
 Recorded in the manual as §8.16 and finding 22, in the facts sheet as
 §AA20–§AA22, in `AGENTS.md` as rule 22, and in the pre-registration itself.
+
+---
+
+## §49 — The review of the acquisition plan, and five defects it found
+
+**What this section records.** The acquisition pre-registration was reviewed
+before any cell was run. Five defects were found, and the plan was rewritten as
+**Revision 2**. Two of the defects would have made the study's headline
+meaningless, and one of them was a metric that had been carried over from
+another study without asking what it measures.
+
+### Defect 1 — the endpoint was the wrong metric
+
+Revision 1 scored task support with **DI**. DI is
+`late_structure_retained / late_structure_available`
+(`docs/PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION.md` §3.1) — **structural
+displacement**. It does not measure whether a belief predicts the world.
+
+**A metric imported from another study can measure a completely different
+quantity, and nothing about DI looks wrong until someone asks what it
+measures.** Revision 2 uses a ground-truth prediction score: for each
+evaluation event and each tag in a **fixed vocabulary**, predict whether that
+tag appears in the next event; ground truth is the observed next event; the
+denominator is fixed so no learner can gain by scoring on a different set.
+Primary metric **F1 at 0.5**, with balanced accuracy and Brier co-reported.
+
+### Defect 2 — "source experiences removed" did not say what survived it
+
+Ingest accumulates **`cooccurrences`** and **`tag_counts`** on every world
+event (`memory.py:282`, `306`), and those outlive the event rows. So deleting
+the acquisition episodes does not delete everything derived from them.
+
+**This is not automatically a bad design** — deleting raw episodes while
+retaining the compressed graph is a meaningful condition, arguably the right
+one. What was wrong was the *description*: the plan called it "source
+experiences removed" without saying which derived memories remain. It is now
+named **"episode removal with learned graph retained"**, the retained set is
+listed explicitly, and **the same rows are removed from every learner's
+store** — which is what makes the comparison about *reconstruction versus
+replay* rather than about *different access to evidence*.
+
+### Defect 3 — the cell matrix was not specified
+
+The heading said "2 × 2 × 3", §4.3 added a baseline on top of six cells, and
+the prediction table listed five rows (`P-obs × E-rem` missing). Revision 2
+publishes **one table with the exact number of runs** — **10 per seed, 30 seeds,
+180 engine runs** — and a prediction for every cell, with `P-none × E-pres`
+stated as the untreated baseline rather than an extra cell on top of six.
+
+### Defect 4 — it was not an executable plan
+
+Now pinned: the generator and its parameters, the target relation, the phase
+boundaries (with the regime switch landing exactly on the follow-up boundary),
+the seeds and sample size, the quantitative decision rule, and — for both
+baselines — the algorithm, the tuning grid, the memory accounting and the
+test-time procedure.
+
+**"Same memory budget", operationally:** identical raw rows and identical
+removal for every learner, with **derived state deliberately not equalised**,
+because derived state *is* the mechanism under test. And the asymmetry that
+remains runs **against** Organica: in the `E-pres` cells the comparison
+learners can read the raw episodes Organica's cognition window has dropped.
+**A win for Organica is therefore conservative.**
+
+### Defect 5 — the audit build had no stop condition
+
+The remaining work is smaller than the roadmap implied. **A1, A2, A3, A4 and A7
+are closed and are not reopened. Only A5 and A6 remain**, and the stop
+condition is now explicit: close them, regenerate the three probe arms, then
+**tag, freeze and stop** — after which **no feature may be added to the
+instrumentation**. A new requirement goes to the study's wish-list. The
+instrumentation may be *fixed* if it is found wrong, but not *extended*.
+
+### The owner direction, recorded
+
+**V2 is not cut. The live study is not restarted. V2–V5 are not run. No
+further open-ended audit work.** The sequence: **finish the audit build → freeze
+it → run the acquisition experiment → compare against the replay learner →
+publish whatever happens → only then discuss V2.**
+
+### The charter drift, and what was done about it
+
+`docs/DESIGN_LAWS.md` **Law II** reads: *"Every cognitive primitive must trace
+an unbroken, deterministic DAG of `parent_ids` back to Generation 0 empirical
+events."*
+
+**The engine has never done that.** The A3 auditor measured it: the
+`parent_ids` chain **terminates at Layer 1** — concepts, phrases, loops,
+predictions — which are built from tags. **No parent link points at an event.**
+The structure→event link exists only as *counts*, and the audit-trace
+specification has said so since it was written.
+
+The README's restatement was corrected. **The law itself is left as written,
+with the discrepancy disclosed in the specification as D3** — because the
+frozen engine's constitution is **the owner's decision, not a documentation
+fix**, and this journal does not amend a charter.
+
+### Two smaller drifts, fixed in the same pass
+
+- The audit-trace specification said *"all six"* acceptance criteria where the
+  table lists **seven**.
+- The manual's status table was dated **2026-10-23** while the file recorded
+  2026-10-26 work. It is refreshed, and **dated supersessions** were added to
+  the README, `ROADMAP.md` and the V1 synthesis, so a new reader can tell what
+  the project is doing now.
+
+Recorded in `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (Revision 2), in
+the manual as §2 and §8.17 and finding 23, in the facts sheet as §AA23–§AA26,
+in `AGENTS.md` as rule 23, and in the audit-trace specification as §6, §7 (D3)
+and §9.
