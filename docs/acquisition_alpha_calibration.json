@@ -1,0 +1,109 @@
+{
+  "calibration_seed": 20261099,
+  "base_rate_tune_log_loss": 0.413719,
+  "base_rate_tune_brier": 0.113809,
+  "selected_alpha_declared_grid": 256.0,
+  "alpha_sweep": [
+    {
+      "alpha": 0.0,
+      "tune_log_loss": 2.696347,
+      "tune_brier": 0.143685
+    },
+    {
+      "alpha": 0.5,
+      "tune_log_loss": 0.849324,
+      "tune_brier": 0.140515
+    },
+    {
+      "alpha": 1.0,
+      "tune_log_loss": 0.790888,
+      "tune_brier": 0.138649
+    },
+    {
+      "alpha": 2.0,
+      "tune_log_loss": 0.735021,
+      "tune_brier": 0.13654
+    },
+    {
+      "alpha": 4.0,
+      "tune_log_loss": 0.682011,
+      "tune_brier": 0.134519
+    },
+    {
+      "alpha": 8.0,
+      "tune_log_loss": 0.631904,
+      "tune_brier": 0.132585
+    },
+    {
+      "alpha": 16.0,
+      "tune_log_loss": 0.584959,
+      "tune_brier": 0.130417
+    },
+    {
+      "alpha": 32.0,
+      "tune_log_loss": 0.541978,
+      "tune_brier": 0.127709
+    },
+    {
+      "alpha": 64.0,
+      "tune_log_loss": 0.504273,
+      "tune_brier": 0.124466
+    },
+    {
+      "alpha": 128.0,
+      "tune_log_loss": 0.473322,
+      "tune_brier": 0.121111
+    },
+    {
+      "alpha": 256.0,
+      "tune_log_loss": 0.450113,
+      "tune_brier": 0.118242
+    },
+    {
+      "alpha": 512.0,
+      "tune_log_loss": 0.43446,
+      "tune_brier": 0.116232
+    },
+    {
+      "alpha": 1024.0,
+      "tune_log_loss": 0.424928,
+      "tune_brier": 0.115047
+    },
+    {
+      "alpha": 2048.0,
+      "tune_log_loss": 0.419569,
+      "tune_brier": 0.114424
+    },
+    {
+      "alpha": 4096.0,
+      "tune_log_loss": 0.416711,
+      "tune_brier": 0.114113
+    },
+    {
+      "alpha": 8192.0,
+      "tune_log_loss": 0.415233,
+      "tune_brier": 0.11396
+    },
+    {
+      "alpha": 16384.0,
+      "tune_log_loss": 0.41448,
+      "tune_brier": 0.113884
+    },
+    {
+      "alpha": 32768.0,
+      "tune_log_loss": 0.414101,
+      "tune_brier": 0.113846
+    },
+    {
+      "alpha": 65536.0,
+      "tune_log_loss": 0.41391,
+      "tune_brier": 0.113828
+    },
+    {
+      "alpha": 1000000.0,
+      "tune_log_loss": 0.413732,
+      "tune_brier": 0.11381
+    }
+  ],
+  "conclusion": "Loss decreases monotonically toward empirical base rate across all alpha. Asserted structures do not cover cross-cell transitions on compositional world; alpha serves as a base-rate reversion parameter rather than discovering an interior optimum."
+}

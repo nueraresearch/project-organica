@@ -1,0 +1,543 @@
+[
+  {
+    "seed": 20261101,
+    "runtime_s": 38.2,
+    "raw_temporal_coverage": 1.0,
+    "step1_temporal_coverage": 1.0,
+    "final_projected_coverage": 0.0,
+    "final_projected_edges": {
+      "total": 34,
+      "intra_cell": 34,
+      "inter_cell": 0,
+      "world_edge_overlap": 0
+    },
+    "capacity_test_predictions": {
+      "min_count_threshold": 5,
+      "uncapped_candidates_count": 237,
+      "uncapped_coverage": 0.9911,
+      "uncapped_intra": 48,
+      "uncapped_inter": 189,
+      "capped20_coverage": 0.0,
+      "capped20_intra": 20,
+      "capped20_inter": 0
+    },
+    "per_candidate_type": {
+      "experiment": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "investigation": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "dream": {
+        "count": 6,
+        "edges_count": 4,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 4,
+        "inter_cell": 0
+      },
+      "hypothesis": {
+        "count": 12,
+        "edges_count": 2,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 2,
+        "inter_cell": 0
+      },
+      "workflow_concept": {
+        "count": 11,
+        "edges_count": 7,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 7,
+        "inter_cell": 0
+      },
+      "process_candidate": {
+        "count": 11,
+        "edges_count": 14,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 14,
+        "inter_cell": 0
+      },
+      "meta_concept": {
+        "count": 10,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "anomaly": {
+        "count": 10,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "prediction_candidate": {
+        "count": 22,
+        "edges_count": 22,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 22,
+        "inter_cell": 0
+      },
+      "loop_candidate": {
+        "count": 22,
+        "edges_count": 30,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 30,
+        "inter_cell": 0
+      }
+    }
+  },
+  {
+    "seed": 20261102,
+    "runtime_s": 63.0,
+    "raw_temporal_coverage": 1.0,
+    "step1_temporal_coverage": 1.0,
+    "final_projected_coverage": 0.0089,
+    "final_projected_edges": {
+      "total": 41,
+      "intra_cell": 39,
+      "inter_cell": 2,
+      "world_edge_overlap": 1
+    },
+    "capacity_test_predictions": {
+      "min_count_threshold": 5,
+      "uncapped_candidates_count": 240,
+      "uncapped_coverage": 1.0,
+      "uncapped_intra": 48,
+      "uncapped_inter": 192,
+      "capped20_coverage": 0.0089,
+      "capped20_intra": 19,
+      "capped20_inter": 1
+    },
+    "per_candidate_type": {
+      "experiment": {
+        "count": 5,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "investigation": {
+        "count": 5,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "dream": {
+        "count": 9,
+        "edges_count": 7,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 6,
+        "inter_cell": 1
+      },
+      "question": {
+        "count": 1,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "theory": {
+        "count": 1,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "hypothesis": {
+        "count": 15,
+        "edges_count": 4,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 4,
+        "inter_cell": 0
+      },
+      "workflow_concept": {
+        "count": 10,
+        "edges_count": 9,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 9,
+        "inter_cell": 0
+      },
+      "process_candidate": {
+        "count": 10,
+        "edges_count": 16,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 16,
+        "inter_cell": 0
+      },
+      "meta_concept": {
+        "count": 11,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "anomaly": {
+        "count": 11,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "prediction_candidate": {
+        "count": 24,
+        "edges_count": 24,
+        "world_edge_overlap": 1,
+        "coverage": 0.0089,
+        "intra_cell": 23,
+        "inter_cell": 1
+      },
+      "loop_candidate": {
+        "count": 24,
+        "edges_count": 31,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 31,
+        "inter_cell": 0
+      }
+    }
+  },
+  {
+    "seed": 20261103,
+    "runtime_s": 70.7,
+    "raw_temporal_coverage": 1.0,
+    "step1_temporal_coverage": 1.0,
+    "final_projected_coverage": 0.0089,
+    "final_projected_edges": {
+      "total": 40,
+      "intra_cell": 38,
+      "inter_cell": 2,
+      "world_edge_overlap": 1
+    },
+    "capacity_test_predictions": {
+      "min_count_threshold": 5,
+      "uncapped_candidates_count": 239,
+      "uncapped_coverage": 1.0,
+      "uncapped_intra": 48,
+      "uncapped_inter": 191,
+      "capped20_coverage": 0.0,
+      "capped20_intra": 20,
+      "capped20_inter": 0
+    },
+    "per_candidate_type": {
+      "experiment": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "investigation": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "dream": {
+        "count": 9,
+        "edges_count": 5,
+        "world_edge_overlap": 1,
+        "coverage": 0.0089,
+        "intra_cell": 3,
+        "inter_cell": 2
+      },
+      "hypothesis": {
+        "count": 15,
+        "edges_count": 4,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 4,
+        "inter_cell": 0
+      },
+      "workflow_concept": {
+        "count": 10,
+        "edges_count": 8,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 8,
+        "inter_cell": 0
+      },
+      "process_candidate": {
+        "count": 10,
+        "edges_count": 16,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 16,
+        "inter_cell": 0
+      },
+      "meta_concept": {
+        "count": 12,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "anomaly": {
+        "count": 12,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "prediction_candidate": {
+        "count": 28,
+        "edges_count": 23,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 23,
+        "inter_cell": 0
+      },
+      "loop_candidate": {
+        "count": 23,
+        "edges_count": 31,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 31,
+        "inter_cell": 0
+      }
+    }
+  },
+  {
+    "seed": 20261104,
+    "runtime_s": 68.3,
+    "raw_temporal_coverage": 1.0,
+    "step1_temporal_coverage": 1.0,
+    "final_projected_coverage": 0.0,
+    "final_projected_edges": {
+      "total": 30,
+      "intra_cell": 30,
+      "inter_cell": 0,
+      "world_edge_overlap": 0
+    },
+    "capacity_test_predictions": {
+      "min_count_threshold": 5,
+      "uncapped_candidates_count": 240,
+      "uncapped_coverage": 1.0,
+      "uncapped_intra": 48,
+      "uncapped_inter": 192,
+      "capped20_coverage": 0.0,
+      "capped20_intra": 20,
+      "capped20_inter": 0
+    },
+    "per_candidate_type": {
+      "experiment": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "investigation": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "dream": {
+        "count": 7,
+        "edges_count": 4,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 4,
+        "inter_cell": 0
+      },
+      "hypothesis": {
+        "count": 12,
+        "edges_count": 4,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 4,
+        "inter_cell": 0
+      },
+      "workflow_concept": {
+        "count": 8,
+        "edges_count": 7,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 7,
+        "inter_cell": 0
+      },
+      "process_candidate": {
+        "count": 8,
+        "edges_count": 12,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 12,
+        "inter_cell": 0
+      },
+      "meta_concept": {
+        "count": 11,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "anomaly": {
+        "count": 10,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "prediction_candidate": {
+        "count": 24,
+        "edges_count": 19,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 19,
+        "inter_cell": 0
+      },
+      "loop_candidate": {
+        "count": 17,
+        "edges_count": 24,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 24,
+        "inter_cell": 0
+      }
+    }
+  },
+  {
+    "seed": 20261105,
+    "runtime_s": 60.4,
+    "raw_temporal_coverage": 1.0,
+    "step1_temporal_coverage": 1.0,
+    "final_projected_coverage": 0.0268,
+    "final_projected_edges": {
+      "total": 37,
+      "intra_cell": 34,
+      "inter_cell": 3,
+      "world_edge_overlap": 3
+    },
+    "capacity_test_predictions": {
+      "min_count_threshold": 5,
+      "uncapped_candidates_count": 238,
+      "uncapped_coverage": 1.0,
+      "uncapped_intra": 48,
+      "uncapped_inter": 190,
+      "capped20_coverage": 0.0,
+      "capped20_intra": 20,
+      "capped20_inter": 0
+    },
+    "per_candidate_type": {
+      "experiment": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "investigation": {
+        "count": 6,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "dream": {
+        "count": 8,
+        "edges_count": 4,
+        "world_edge_overlap": 2,
+        "coverage": 0.0179,
+        "intra_cell": 2,
+        "inter_cell": 2
+      },
+      "hypothesis": {
+        "count": 12,
+        "edges_count": 2,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 2,
+        "inter_cell": 0
+      },
+      "workflow_concept": {
+        "count": 11,
+        "edges_count": 9,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 9,
+        "inter_cell": 0
+      },
+      "process_candidate": {
+        "count": 12,
+        "edges_count": 18,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 18,
+        "inter_cell": 0
+      },
+      "meta_concept": {
+        "count": 11,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "anomaly": {
+        "count": 10,
+        "edges_count": 0,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 0,
+        "inter_cell": 0
+      },
+      "prediction_candidate": {
+        "count": 28,
+        "edges_count": 22,
+        "world_edge_overlap": 0,
+        "coverage": 0.0,
+        "intra_cell": 22,
+        "inter_cell": 0
+      },
+      "loop_candidate": {
+        "count": 22,
+        "edges_count": 28,
+        "world_edge_overlap": 2,
+        "coverage": 0.0179,
+        "intra_cell": 26,
+        "inter_cell": 2
+      }
+    }
+  }
+]

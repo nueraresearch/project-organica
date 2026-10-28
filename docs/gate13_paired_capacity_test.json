@@ -1,0 +1,817 @@
+[
+  {
+    "seed": 20261101,
+    "control": {
+      "seed": 20261101,
+      "max_predictions": 20,
+      "runtime_s": 66.2,
+      "world_edges_total": 112,
+      "covered_world_edges": 0,
+      "asserted_coverage": 0.0,
+      "passed_gate_13": false,
+      "final_asserted_edges_count": 27,
+      "intra_cell_asserted": 26,
+      "inter_cell_asserted": 1,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 98,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 109,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        }
+      ]
+    },
+    "treatment": {
+      "seed": 20261101,
+      "max_predictions": 1000,
+      "runtime_s": 69.3,
+      "world_edges_total": 112,
+      "covered_world_edges": 110,
+      "asserted_coverage": 0.9821,
+      "passed_gate_13": true,
+      "final_asserted_edges_count": 241,
+      "intra_cell_asserted": 52,
+      "inter_cell_asserted": 189,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 98,
+          "world_edges_in_admitted_preds": 7,
+          "admitted_preds_count": 57
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 110,
+          "world_edges_in_admitted_preds": 46,
+          "admitted_preds_count": 182
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 82,
+          "admitted_preds_count": 266
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 98,
+          "admitted_preds_count": 305
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 106,
+          "admitted_preds_count": 324
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 107,
+          "admitted_preds_count": 328
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 108,
+          "admitted_preds_count": 329
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 108,
+          "admitted_preds_count": 332
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 108,
+          "admitted_preds_count": 333
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 110,
+          "admitted_preds_count": 336
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 110,
+          "admitted_preds_count": 336
+        }
+      ]
+    }
+  },
+  {
+    "seed": 20261102,
+    "control": {
+      "seed": 20261102,
+      "max_predictions": 20,
+      "runtime_s": 64.4,
+      "world_edges_total": 112,
+      "covered_world_edges": 1,
+      "asserted_coverage": 0.0089,
+      "passed_gate_13": false,
+      "final_asserted_edges_count": 41,
+      "intra_cell_asserted": 39,
+      "inter_cell_asserted": 2,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 105,
+          "world_edges_in_admitted_preds": 5,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 111,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        }
+      ]
+    },
+    "treatment": {
+      "seed": 20261102,
+      "max_predictions": 1000,
+      "runtime_s": 74.4,
+      "world_edges_total": 112,
+      "covered_world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "final_asserted_edges_count": 243,
+      "intra_cell_asserted": 53,
+      "inter_cell_asserted": 190,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 105,
+          "world_edges_in_admitted_preds": 11,
+          "admitted_preds_count": 46
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 111,
+          "world_edges_in_admitted_preds": 67,
+          "admitted_preds_count": 210
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 111,
+          "world_edges_in_admitted_preds": 87,
+          "admitted_preds_count": 275
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 98,
+          "admitted_preds_count": 310
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 106,
+          "admitted_preds_count": 323
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 109,
+          "admitted_preds_count": 329
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 111,
+          "admitted_preds_count": 332
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        }
+      ]
+    }
+  },
+  {
+    "seed": 20261103,
+    "control": {
+      "seed": 20261103,
+      "max_predictions": 20,
+      "runtime_s": 70.7,
+      "world_edges_total": 112,
+      "covered_world_edges": 1,
+      "asserted_coverage": 0.0089,
+      "passed_gate_13": false,
+      "final_asserted_edges_count": 40,
+      "intra_cell_asserted": 38,
+      "inter_cell_asserted": 2,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 101,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 111,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        }
+      ]
+    },
+    "treatment": {
+      "seed": 20261103,
+      "max_predictions": 1000,
+      "runtime_s": 76.2,
+      "world_edges_total": 112,
+      "covered_world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "final_asserted_edges_count": 244,
+      "intra_cell_asserted": 53,
+      "inter_cell_asserted": 191,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 101,
+          "world_edges_in_admitted_preds": 13,
+          "admitted_preds_count": 61
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 110,
+          "world_edges_in_admitted_preds": 59,
+          "admitted_preds_count": 196
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 87,
+          "admitted_preds_count": 289
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 105,
+          "admitted_preds_count": 317
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 109,
+          "admitted_preds_count": 325
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 109,
+          "admitted_preds_count": 328
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 110,
+          "admitted_preds_count": 330
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 335
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 335
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 335
+        }
+      ]
+    }
+  },
+  {
+    "seed": 20261104,
+    "control": {
+      "seed": 20261104,
+      "max_predictions": 20,
+      "runtime_s": 67.9,
+      "world_edges_total": 112,
+      "covered_world_edges": 0,
+      "asserted_coverage": 0.0,
+      "passed_gate_13": false,
+      "final_asserted_edges_count": 28,
+      "intra_cell_asserted": 28,
+      "inter_cell_asserted": 0,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 109,
+          "world_edges_in_admitted_preds": 3,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        }
+      ]
+    },
+    "treatment": {
+      "seed": 20261104,
+      "max_predictions": 1000,
+      "runtime_s": 68.0,
+      "world_edges_total": 112,
+      "covered_world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "final_asserted_edges_count": 244,
+      "intra_cell_asserted": 52,
+      "inter_cell_asserted": 192,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 109,
+          "world_edges_in_admitted_preds": 10,
+          "admitted_preds_count": 59
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 51,
+          "admitted_preds_count": 193
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 95,
+          "admitted_preds_count": 287
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 105,
+          "admitted_preds_count": 318
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 107,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 109,
+          "admitted_preds_count": 341
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 347
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 348
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 349
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 349
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 350
+        }
+      ]
+    }
+  },
+  {
+    "seed": 20261105,
+    "control": {
+      "seed": 20261105,
+      "max_predictions": 20,
+      "runtime_s": 61.5,
+      "world_edges_total": 112,
+      "covered_world_edges": 3,
+      "asserted_coverage": 0.0268,
+      "passed_gate_13": false,
+      "final_asserted_edges_count": 37,
+      "intra_cell_asserted": 34,
+      "inter_cell_asserted": 3,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 97,
+          "world_edges_in_admitted_preds": 3,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 108,
+          "world_edges_in_admitted_preds": 3,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 110,
+          "world_edges_in_admitted_preds": 3,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 2,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 1,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 0,
+          "admitted_preds_count": 20
+        }
+      ]
+    },
+    "treatment": {
+      "seed": 20261105,
+      "max_predictions": 1000,
+      "runtime_s": 77.0,
+      "world_edges_total": 112,
+      "covered_world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "final_asserted_edges_count": 243,
+      "intra_cell_asserted": 53,
+      "inter_cell_asserted": 190,
+      "cycle_milestones": [
+        {
+          "cycle": 10,
+          "world_edges_in_temporal": 98,
+          "world_edges_in_admitted_preds": 18,
+          "admitted_preds_count": 60
+        },
+        {
+          "cycle": 20,
+          "world_edges_in_temporal": 110,
+          "world_edges_in_admitted_preds": 60,
+          "admitted_preds_count": 208
+        },
+        {
+          "cycle": 30,
+          "world_edges_in_temporal": 111,
+          "world_edges_in_admitted_preds": 81,
+          "admitted_preds_count": 269
+        },
+        {
+          "cycle": 40,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 93,
+          "admitted_preds_count": 299
+        },
+        {
+          "cycle": 50,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 98,
+          "admitted_preds_count": 308
+        },
+        {
+          "cycle": 60,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 104,
+          "admitted_preds_count": 320
+        },
+        {
+          "cycle": 70,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 108,
+          "admitted_preds_count": 328
+        },
+        {
+          "cycle": 80,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 111,
+          "admitted_preds_count": 333
+        },
+        {
+          "cycle": 90,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 111,
+          "admitted_preds_count": 333
+        },
+        {
+          "cycle": 100,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        },
+        {
+          "cycle": 110,
+          "world_edges_in_temporal": 112,
+          "world_edges_in_admitted_preds": 112,
+          "admitted_preds_count": 334
+        }
+      ]
+    }
+  }
+]

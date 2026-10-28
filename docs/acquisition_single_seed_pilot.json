@@ -1,0 +1,1281 @@
+{
+  "seed": 20261100,
+  "gates": {
+    "cell_1_organica_P_none_E_pres_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_2_organica_P_org_E_pres_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_2_organica_P_org_E_pres_p_org_verified": true,
+    "cell_3_organica_P_org_E_rem_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_3_organica_P_org_E_rem_p_org_verified": true,
+    "cell_3_organica_P_org_E_rem_removal_verified": {
+      "events_cleared": true,
+      "precedes_cleared": true,
+      "cooccurrences_preserved": true,
+      "tag_counts_preserved": true
+    },
+    "cell_4_organica_P_obs_E_pres_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_5_organica_P_obs_E_rem_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_5_organica_P_obs_E_rem_removal_verified": {
+      "events_cleared": true,
+      "precedes_cleared": true,
+      "cooccurrences_preserved": true,
+      "tag_counts_preserved": true
+    },
+    "cell_6_organica_P_none_E_rem_sufficiency": {
+      "passed": false,
+      "acquisition_failed": true,
+      "asserted_structure_coverage": 0.0,
+      "raw_temporal_coverage": 1.0,
+      "world_edges": 112,
+      "covered_asserted_edges": 0,
+      "covered_temporal_edges": 112,
+      "threshold": 0.5
+    },
+    "cell_6_organica_P_none_E_rem_removal_verified": {
+      "events_cleared": true,
+      "precedes_cleared": true,
+      "cooccurrences_preserved": true,
+      "tag_counts_preserved": true
+    }
+  },
+  "p_target_id": "loop_037e7a92",
+  "cells": {
+    "cell_7_replay_E_pres": {
+      "config": {
+        "window": 1,
+        "half_life": null,
+        "alpha": 0.5
+      },
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.347521,
+            "brier": 0.104874
+          },
+          "self_cells_shape": {
+            "log_loss": 0.347521,
+            "brier": 0.104874
+          }
+        },
+        "transfer": {
+          "house_shape": {
+            "log_loss": 0.349592,
+            "brier": 0.104936
+          },
+          "self_cells_shape": {
+            "log_loss": 0.349592,
+            "brier": 0.104936
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.351989,
+            "brier": 0.106946
+          },
+          "self_cells_shape": {
+            "log_loss": 0.351989,
+            "brier": 0.106946
+          }
+        }
+      }
+    },
+    "cell_8_replay_E_rem": {
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        },
+        "transfer": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        }
+      }
+    },
+    "cell_9_statistical_E_pres": {
+      "config": [
+        0.1,
+        null,
+        null
+      ],
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.347273,
+            "brier": 0.104619
+          },
+          "self_cells_shape": {
+            "log_loss": 0.347273,
+            "brier": 0.104619
+          }
+        },
+        "transfer": {
+          "house_shape": {
+            "log_loss": 0.350723,
+            "brier": 0.104774
+          },
+          "self_cells_shape": {
+            "log_loss": 0.350723,
+            "brier": 0.104774
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.352194,
+            "brier": 0.106901
+          },
+          "self_cells_shape": {
+            "log_loss": 0.352194,
+            "brier": 0.106901
+          }
+        }
+      }
+    },
+    "cell_10_statistical_E_rem": {
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        },
+        "transfer": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          },
+          "self_cells_shape": {
+            "log_loss": 0.403045,
+            "brier": 0.113281
+          }
+        }
+      }
+    },
+    "cell_1_organica_P_none_E_pres": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 120,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 22,
+            "edge_weight": 110.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 110,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 7,
+            "edge_weight": 11.0
+          },
+          "experiment": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 9,
+            "edge_weight": 9.0
+          },
+          "investigation": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 19,
+            "edge_weight": 94.0
+          },
+          "meta_concept": {
+            "unique_count": 9,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 21,
+            "edge_weight": 2356.0
+          },
+          "process_candidate": {
+            "unique_count": 11,
+            "edge_weight": 26.0
+          },
+          "workflow_concept": {
+            "unique_count": 11,
+            "edge_weight": 15.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.463391,
+            "brier": 0.120887
+          },
+          "self_cells_shape": {
+            "log_loss": 0.463391,
+            "brier": 0.120887
+          }
+        }
+      }
+    },
+    "cell_2_organica_P_org_E_pres": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 119,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 21,
+            "edge_weight": 106.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 109,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 7,
+            "edge_weight": 11.0
+          },
+          "experiment": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 9,
+            "edge_weight": 9.0
+          },
+          "investigation": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 18,
+            "edge_weight": 90.0
+          },
+          "meta_concept": {
+            "unique_count": 9,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 21,
+            "edge_weight": 2356.0
+          },
+          "process_candidate": {
+            "unique_count": 11,
+            "edge_weight": 26.0
+          },
+          "workflow_concept": {
+            "unique_count": 11,
+            "edge_weight": 15.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.452951,
+            "brier": 0.119102
+          },
+          "self_cells_shape": {
+            "log_loss": 0.452951,
+            "brier": 0.119102
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453823,
+            "brier": 0.11912
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453823,
+            "brier": 0.11912
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.463334,
+            "brier": 0.120882
+          },
+          "self_cells_shape": {
+            "log_loss": 0.463334,
+            "brier": 0.120882
+          }
+        }
+      }
+    },
+    "cell_3_organica_P_org_E_rem": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 119,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 21,
+            "edge_weight": 106.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 133,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 14,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 7,
+            "edge_weight": 13.0
+          },
+          "experiment": {
+            "unique_count": 7,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 14,
+            "edge_weight": 14.0
+          },
+          "investigation": {
+            "unique_count": 7,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 31,
+            "edge_weight": 160.0
+          },
+          "meta_concept": {
+            "unique_count": 12,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 31,
+            "edge_weight": 1062.0
+          },
+          "process_candidate": {
+            "unique_count": 5,
+            "edge_weight": 11.0
+          },
+          "workflow_concept": {
+            "unique_count": 5,
+            "edge_weight": 6.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.452951,
+            "brier": 0.119102
+          },
+          "self_cells_shape": {
+            "log_loss": 0.452951,
+            "brier": 0.119102
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453823,
+            "brier": 0.11912
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453823,
+            "brier": 0.11912
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.428125,
+            "brier": 0.116385
+          },
+          "self_cells_shape": {
+            "log_loss": 0.428125,
+            "brier": 0.116385
+          }
+        }
+      }
+    },
+    "cell_4_organica_P_obs_E_pres": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 120,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 22,
+            "edge_weight": 110.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 110,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 7,
+            "edge_weight": 11.0
+          },
+          "experiment": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 9,
+            "edge_weight": 9.0
+          },
+          "investigation": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 19,
+            "edge_weight": 94.0
+          },
+          "meta_concept": {
+            "unique_count": 9,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 21,
+            "edge_weight": 2356.0
+          },
+          "process_candidate": {
+            "unique_count": 11,
+            "edge_weight": 26.0
+          },
+          "workflow_concept": {
+            "unique_count": 11,
+            "edge_weight": 15.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.463391,
+            "brier": 0.120887
+          },
+          "self_cells_shape": {
+            "log_loss": 0.463391,
+            "brier": 0.120887
+          }
+        }
+      },
+      "audit_reconstruction_frozen": {
+        "withheld_target_id": "loop_037e7a92",
+        "reconstruction_candidate_count": 3994,
+        "summary": {
+          "raw_count": 3994,
+          "unique_count": 119,
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 8,
+              "edge_weight": 12.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 106.0
+            },
+            "meta_concept": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 22,
+              "edge_weight": 1719.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 23.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 13.0
+            }
+          }
+        }
+      },
+      "audit_reconstruction_revised": {
+        "withheld_target_id": "loop_037e7a92",
+        "reconstruction_candidate_count": 3994,
+        "summary": {
+          "raw_count": 3994,
+          "unique_count": 109,
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 7,
+              "edge_weight": 11.0
+            },
+            "experiment": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 9,
+              "edge_weight": 9.0
+            },
+            "investigation": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 18,
+              "edge_weight": 90.0
+            },
+            "meta_concept": {
+              "unique_count": 9,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 21,
+              "edge_weight": 2356.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 26.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 15.0
+            }
+          }
+        }
+      }
+    },
+    "cell_5_organica_P_obs_E_rem": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 120,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 22,
+            "edge_weight": 110.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 127,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 14,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 6,
+            "edge_weight": 10.0
+          },
+          "experiment": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 13,
+            "edge_weight": 13.0
+          },
+          "investigation": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 29,
+            "edge_weight": 150.0
+          },
+          "meta_concept": {
+            "unique_count": 12,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 31,
+            "edge_weight": 1062.0
+          },
+          "process_candidate": {
+            "unique_count": 5,
+            "edge_weight": 11.0
+          },
+          "workflow_concept": {
+            "unique_count": 5,
+            "edge_weight": 6.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.427846,
+            "brier": 0.116352
+          },
+          "self_cells_shape": {
+            "log_loss": 0.427846,
+            "brier": 0.116352
+          }
+        }
+      },
+      "audit_reconstruction_frozen": {
+        "withheld_target_id": "loop_037e7a92",
+        "reconstruction_candidate_count": 3994,
+        "summary": {
+          "raw_count": 3994,
+          "unique_count": 119,
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 8,
+              "edge_weight": 12.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 106.0
+            },
+            "meta_concept": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 22,
+              "edge_weight": 1719.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 23.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 13.0
+            }
+          }
+        }
+      },
+      "audit_reconstruction_revised": {
+        "withheld_target_id": "loop_037e7a92",
+        "reconstruction_candidate_count": 3997,
+        "summary": {
+          "raw_count": 3997,
+          "unique_count": 127,
+          "per_type": {
+            "anomaly": {
+              "unique_count": 14,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 6,
+              "edge_weight": 10.0
+            },
+            "experiment": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 13,
+              "edge_weight": 13.0
+            },
+            "investigation": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 29,
+              "edge_weight": 150.0
+            },
+            "meta_concept": {
+              "unique_count": 12,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 31,
+              "edge_weight": 1062.0
+            },
+            "process_candidate": {
+              "unique_count": 5,
+              "edge_weight": 11.0
+            },
+            "workflow_concept": {
+              "unique_count": 5,
+              "edge_weight": 6.0
+            }
+          }
+        }
+      }
+    },
+    "cell_6_organica_P_none_E_rem": {
+      "alpha_frozen": 256.0,
+      "alpha_revised": 256.0,
+      "frozen_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 120,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 11,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 8,
+            "edge_weight": 12.0
+          },
+          "experiment": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 11,
+            "edge_weight": 11.0
+          },
+          "investigation": {
+            "unique_count": 8,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 22,
+            "edge_weight": 110.0
+          },
+          "meta_concept": {
+            "unique_count": 10,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 22,
+            "edge_weight": 1719.0
+          },
+          "process_candidate": {
+            "unique_count": 10,
+            "edge_weight": 23.0
+          },
+          "workflow_concept": {
+            "unique_count": 10,
+            "edge_weight": 13.0
+          }
+        }
+      },
+      "revised_candidates_summary": {
+        "raw_count": 3997,
+        "unique_count": 127,
+        "per_type": {
+          "anomaly": {
+            "unique_count": 14,
+            "edge_weight": 0.0
+          },
+          "dream": {
+            "unique_count": 6,
+            "edge_weight": 10.0
+          },
+          "experiment": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "hypothesis": {
+            "unique_count": 13,
+            "edge_weight": 13.0
+          },
+          "investigation": {
+            "unique_count": 6,
+            "edge_weight": 0.0
+          },
+          "loop_candidate": {
+            "unique_count": 29,
+            "edge_weight": 150.0
+          },
+          "meta_concept": {
+            "unique_count": 12,
+            "edge_weight": 0.0
+          },
+          "prediction_candidate": {
+            "unique_count": 31,
+            "edge_weight": 1062.0
+          },
+          "process_candidate": {
+            "unique_count": 5,
+            "edge_weight": 11.0
+          },
+          "workflow_concept": {
+            "unique_count": 5,
+            "edge_weight": 6.0
+          }
+        }
+      },
+      "acquisition_failed": true,
+      "transfer_status": "not_measurable_due_to_acquisition_failure",
+      "scores": {
+        "retention": {
+          "house_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453018,
+            "brier": 0.119109
+          }
+        },
+        "transfer_diagnostic": {
+          "house_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          },
+          "self_cells_shape": {
+            "log_loss": 0.453886,
+            "brier": 0.119126
+          }
+        },
+        "revision": {
+          "house_shape": {
+            "log_loss": 0.427846,
+            "brier": 0.116352
+          },
+          "self_cells_shape": {
+            "log_loss": 0.427846,
+            "brier": 0.116352
+          }
+        }
+      }
+    }
+  },
+  "references": {
+    "bayes_ceiling": {
+      "retention": {
+        "house_shape": {
+          "log_loss": 0.276259,
+          "brier": 0.091919
+        },
+        "self_cells_shape": {
+          "log_loss": 0.276259,
+          "brier": 0.091919
+        }
+      },
+      "transfer": {
+        "house_shape": {
+          "log_loss": 0.272383,
+          "brier": 0.0905
+        },
+        "self_cells_shape": {
+          "log_loss": 0.272383,
+          "brier": 0.0905
+        }
+      },
+      "revision": {
+        "house_shape": {
+          "log_loss": 0.275208,
+          "brier": 0.091534
+        },
+        "self_cells_shape": {
+          "log_loss": 0.275208,
+          "brier": 0.091534
+        }
+      }
+    },
+    "base_rate": {
+      "retention": {
+        "house_shape": {
+          "log_loss": 0.409581,
+          "brier": 0.113631
+        },
+        "self_cells_shape": {
+          "log_loss": 0.409581,
+          "brier": 0.113631
+        }
+      },
+      "transfer": {
+        "house_shape": {
+          "log_loss": 0.409529,
+          "brier": 0.113633
+        },
+        "self_cells_shape": {
+          "log_loss": 0.409529,
+          "brier": 0.113633
+        }
+      },
+      "revision": {
+        "house_shape": {
+          "log_loss": 0.406084,
+          "brier": 0.113288
+        },
+        "self_cells_shape": {
+          "log_loss": 0.406084,
+          "brier": 0.113288
+        }
+      }
+    }
+  },
+  "elapsed_seconds": 539.83
+}

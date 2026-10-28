@@ -1,0 +1,551 @@
+{
+  "calibration_seed": 20261099,
+  "note_on_evaluation": "These calibration scores are in-sample fits over the acquisition prefix (cycles 0-109 fit, cycles 20-73 scored) used solely to fix hyperparameters independently of confirmatory seeds (20261101-20261130). They are NOT held-out validation scores.",
+  "warmup_prefix_included": true,
+  "warmup_cycles": [
+    0,
+    20
+  ],
+  "acquisition_cycles": [
+    20,
+    110
+  ],
+  "tune_split_cycles": [
+    20,
+    74
+  ],
+  "tune_split_fraction": 0.6,
+  "training_rows_count": 752,
+  "vocabulary_size": 16,
+  "scoring_shape": "house (exclude_self=True)",
+  "replay_calibration": {
+    "grid": "window in (1,2,3) x half_life in (None, 25, 50, 100) x alpha in (0.5, 1.0)",
+    "grid_size": 24,
+    "best_config": {
+      "window": 1,
+      "half_life": null,
+      "alpha": 0.5
+    },
+    "best_tune_log_loss": 0.339421,
+    "all_candidates": [
+      {
+        "window": 1,
+        "half_life": null,
+        "alpha": 0.5,
+        "tune_log_loss": 0.339421,
+        "tune_brier": 0.103753
+      },
+      {
+        "window": 1,
+        "half_life": null,
+        "alpha": 1.0,
+        "tune_log_loss": 0.341,
+        "tune_brier": 0.104031
+      },
+      {
+        "window": 1,
+        "half_life": 100,
+        "alpha": 0.5,
+        "tune_log_loss": 0.345651,
+        "tune_brier": 0.10422
+      },
+      {
+        "window": 1,
+        "half_life": 100,
+        "alpha": 1.0,
+        "tune_log_loss": 0.347255,
+        "tune_brier": 0.104575
+      },
+      {
+        "window": 1,
+        "half_life": 50,
+        "alpha": 0.5,
+        "tune_log_loss": 0.352227,
+        "tune_brier": 0.104678
+      },
+      {
+        "window": 1,
+        "half_life": 50,
+        "alpha": 1.0,
+        "tune_log_loss": 0.353519,
+        "tune_brier": 0.105113
+      },
+      {
+        "window": 1,
+        "half_life": 25,
+        "alpha": 1.0,
+        "tune_log_loss": 0.364158,
+        "tune_brier": 0.106099
+      },
+      {
+        "window": 1,
+        "half_life": 25,
+        "alpha": 0.5,
+        "tune_log_loss": 0.36452,
+        "tune_brier": 0.105511
+      },
+      {
+        "window": 3,
+        "half_life": null,
+        "alpha": 0.5,
+        "tune_log_loss": 0.375174,
+        "tune_brier": 0.109313
+      },
+      {
+        "window": 3,
+        "half_life": null,
+        "alpha": 1.0,
+        "tune_log_loss": 0.375517,
+        "tune_brier": 0.109371
+      },
+      {
+        "window": 3,
+        "half_life": 100,
+        "alpha": 0.5,
+        "tune_log_loss": 0.378021,
+        "tune_brier": 0.109529
+      },
+      {
+        "window": 3,
+        "half_life": 100,
+        "alpha": 1.0,
+        "tune_log_loss": 0.378418,
+        "tune_brier": 0.109605
+      },
+      {
+        "window": 3,
+        "half_life": 50,
+        "alpha": 0.5,
+        "tune_log_loss": 0.380803,
+        "tune_brier": 0.109725
+      },
+      {
+        "window": 3,
+        "half_life": 50,
+        "alpha": 1.0,
+        "tune_log_loss": 0.381225,
+        "tune_brier": 0.109821
+      },
+      {
+        "window": 3,
+        "half_life": 25,
+        "alpha": 0.5,
+        "tune_log_loss": 0.385679,
+        "tune_brier": 0.110048
+      },
+      {
+        "window": 3,
+        "half_life": 25,
+        "alpha": 1.0,
+        "tune_log_loss": 0.386031,
+        "tune_brier": 0.110189
+      },
+      {
+        "window": 2,
+        "half_life": null,
+        "alpha": 1.0,
+        "tune_log_loss": 0.393225,
+        "tune_brier": 0.111142
+      },
+      {
+        "window": 2,
+        "half_life": null,
+        "alpha": 0.5,
+        "tune_log_loss": 0.393256,
+        "tune_brier": 0.111094
+      },
+      {
+        "window": 2,
+        "half_life": 100,
+        "alpha": 1.0,
+        "tune_log_loss": 0.394796,
+        "tune_brier": 0.11113
+      },
+      {
+        "window": 2,
+        "half_life": 100,
+        "alpha": 0.5,
+        "tune_log_loss": 0.394966,
+        "tune_brier": 0.111061
+      },
+      {
+        "window": 2,
+        "half_life": 50,
+        "alpha": 1.0,
+        "tune_log_loss": 0.396359,
+        "tune_brier": 0.111135
+      },
+      {
+        "window": 2,
+        "half_life": 50,
+        "alpha": 0.5,
+        "tune_log_loss": 0.396759,
+        "tune_brier": 0.111043
+      },
+      {
+        "window": 2,
+        "half_life": 25,
+        "alpha": 1.0,
+        "tune_log_loss": 0.398871,
+        "tune_brier": 0.111194
+      },
+      {
+        "window": 2,
+        "half_life": 25,
+        "alpha": 0.5,
+        "tune_log_loss": 0.399966,
+        "tune_brier": 0.111049
+      }
+    ]
+  },
+  "statistical_calibration": {
+    "family": "cell_counter",
+    "grid": "alpha in (0.1, 0.5, 1.0) x half_life in (None, 25, 50, 100) x window in (None, 200, 400, 800)",
+    "grid_size": 48,
+    "best_config": {
+      "alpha": 0.1,
+      "half_life": null,
+      "decay_window": null
+    },
+    "best_tune_log_loss": 0.341199,
+    "tie_breaking_note": "decay_window=None and decay_window=800 yield identical log-loss (0.341199) because the training sequence contains 880 rows. alpha=0.1 minimally outperforms alpha=0.5 (0.341286).",
+    "all_candidates": [
+      {
+        "alpha": 0.1,
+        "half_life": null,
+        "decay_window": null,
+        "tune_log_loss": 0.341199,
+        "tune_brier": 0.104051
+      },
+      {
+        "alpha": 0.1,
+        "half_life": null,
+        "decay_window": 800,
+        "tune_log_loss": 0.341199,
+        "tune_brier": 0.104051
+      },
+      {
+        "alpha": 0.5,
+        "half_life": null,
+        "decay_window": null,
+        "tune_log_loss": 0.341286,
+        "tune_brier": 0.104066
+      },
+      {
+        "alpha": 0.5,
+        "half_life": null,
+        "decay_window": 800,
+        "tune_log_loss": 0.341286,
+        "tune_brier": 0.104066
+      },
+      {
+        "alpha": 1.0,
+        "half_life": null,
+        "decay_window": null,
+        "tune_log_loss": 0.341395,
+        "tune_brier": 0.104084
+      },
+      {
+        "alpha": 1.0,
+        "half_life": null,
+        "decay_window": 800,
+        "tune_log_loss": 0.341395,
+        "tune_brier": 0.104084
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 100,
+        "decay_window": null,
+        "tune_log_loss": 0.397115,
+        "tune_brier": 0.10571
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 100,
+        "decay_window": 800,
+        "tune_log_loss": 0.397115,
+        "tune_brier": 0.10571
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 25,
+        "decay_window": null,
+        "tune_log_loss": 0.397521,
+        "tune_brier": 0.106877
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 25,
+        "decay_window": 800,
+        "tune_log_loss": 0.397521,
+        "tune_brier": 0.106877
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 25,
+        "decay_window": 400,
+        "tune_log_loss": 0.397522,
+        "tune_brier": 0.106877
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 25,
+        "decay_window": 200,
+        "tune_log_loss": 0.397565,
+        "tune_brier": 0.106885
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 100,
+        "decay_window": null,
+        "tune_log_loss": 0.401887,
+        "tune_brier": 0.10562
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 100,
+        "decay_window": 800,
+        "tune_log_loss": 0.401887,
+        "tune_brier": 0.10562
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 50,
+        "decay_window": null,
+        "tune_log_loss": 0.404064,
+        "tune_brier": 0.106208
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 50,
+        "decay_window": 800,
+        "tune_log_loss": 0.404064,
+        "tune_brier": 0.106208
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 50,
+        "decay_window": 200,
+        "tune_log_loss": 0.40417,
+        "tune_brier": 0.106289
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 50,
+        "decay_window": 400,
+        "tune_log_loss": 0.404317,
+        "tune_brier": 0.106214
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 100,
+        "decay_window": null,
+        "tune_log_loss": 0.40719,
+        "tune_brier": 0.105546
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 100,
+        "decay_window": 800,
+        "tune_log_loss": 0.40719,
+        "tune_brier": 0.105546
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 25,
+        "decay_window": null,
+        "tune_log_loss": 0.409097,
+        "tune_brier": 0.106545
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 25,
+        "decay_window": 400,
+        "tune_log_loss": 0.409097,
+        "tune_brier": 0.106545
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 25,
+        "decay_window": 800,
+        "tune_log_loss": 0.409097,
+        "tune_brier": 0.106545
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 25,
+        "decay_window": 200,
+        "tune_log_loss": 0.409138,
+        "tune_brier": 0.106552
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 100,
+        "decay_window": 200,
+        "tune_log_loss": 0.410596,
+        "tune_brier": 0.105967
+      },
+      {
+        "alpha": 1.0,
+        "half_life": 100,
+        "decay_window": 400,
+        "tune_log_loss": 0.412616,
+        "tune_brier": 0.105813
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 50,
+        "decay_window": null,
+        "tune_log_loss": 0.416828,
+        "tune_brier": 0.106031
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 50,
+        "decay_window": 800,
+        "tune_log_loss": 0.416828,
+        "tune_brier": 0.106031
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 50,
+        "decay_window": 200,
+        "tune_log_loss": 0.4171,
+        "tune_brier": 0.106098
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 50,
+        "decay_window": 400,
+        "tune_log_loss": 0.417343,
+        "tune_brier": 0.106036
+      },
+      {
+        "alpha": 1.0,
+        "half_life": null,
+        "decay_window": 200,
+        "tune_log_loss": 0.420318,
+        "tune_brier": 0.105668
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 100,
+        "decay_window": 200,
+        "tune_log_loss": 0.424246,
+        "tune_brier": 0.105844
+      },
+      {
+        "alpha": 0.5,
+        "half_life": 100,
+        "decay_window": 400,
+        "tune_log_loss": 0.426523,
+        "tune_brier": 0.105717
+      },
+      {
+        "alpha": 1.0,
+        "half_life": null,
+        "decay_window": 400,
+        "tune_log_loss": 0.43089,
+        "tune_brier": 0.105546
+      },
+      {
+        "alpha": 0.5,
+        "half_life": null,
+        "decay_window": 200,
+        "tune_log_loss": 0.434584,
+        "tune_brier": 0.1056
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 25,
+        "decay_window": null,
+        "tune_log_loss": 0.441118,
+        "tune_brier": 0.106267
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 25,
+        "decay_window": 400,
+        "tune_log_loss": 0.441118,
+        "tune_brier": 0.106267
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 25,
+        "decay_window": 800,
+        "tune_log_loss": 0.441118,
+        "tune_brier": 0.106267
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 25,
+        "decay_window": 200,
+        "tune_log_loss": 0.44116,
+        "tune_brier": 0.106273
+      },
+      {
+        "alpha": 0.5,
+        "half_life": null,
+        "decay_window": 400,
+        "tune_log_loss": 0.445551,
+        "tune_brier": 0.105514
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 50,
+        "decay_window": null,
+        "tune_log_loss": 0.4481,
+        "tune_brier": 0.105885
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 50,
+        "decay_window": 800,
+        "tune_log_loss": 0.4481,
+        "tune_brier": 0.105885
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 50,
+        "decay_window": 200,
+        "tune_log_loss": 0.450311,
+        "tune_brier": 0.105941
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 50,
+        "decay_window": 400,
+        "tune_log_loss": 0.450637,
+        "tune_brier": 0.10589
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 100,
+        "decay_window": 200,
+        "tune_log_loss": 0.458077,
+        "tune_brier": 0.105744
+      },
+      {
+        "alpha": 0.1,
+        "half_life": 100,
+        "decay_window": 400,
+        "tune_log_loss": 0.460572,
+        "tune_brier": 0.105639
+      },
+      {
+        "alpha": 0.1,
+        "half_life": null,
+        "decay_window": 200,
+        "tune_log_loss": 0.468931,
+        "tune_brier": 0.105546
+      },
+      {
+        "alpha": 0.1,
+        "half_life": null,
+        "decay_window": 400,
+        "tune_log_loss": 0.480224,
+        "tune_brier": 0.105489
+      }
+    ]
+  }
+}
