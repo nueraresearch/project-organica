@@ -24,8 +24,8 @@
 > version stays untagged — the tag marks the instrumentation, not a release.
 >
 > **Superseded readings.** The V1 synthesis's forward look toward a plasticity study is
-> **superseded (2026-10-26)** by the acquisition experiment as the centre of the project. The
-> Phase L characterisation stands as written. `ROADMAP.md` describes the project's earlier
+> **superseded (2026-10-26)** by the acquisition experiment as the center of the project. The
+> Phase L characterization stands as written. `ROADMAP.md` describes the project's earlier
 > structure and is superseded for planning purposes by this banner and by the pre-registration
 > above.
 
@@ -36,7 +36,7 @@
 > project has built a strong instrument for auditing surviving state and implemented decisions.
 > It has not yet shown that these structures yield useful knowledge or positive transfer; the
 > acquisition benchmark's first run did not change that — on a compositional task with a
-> genuine generalisation gap, the frozen engine asserted almost none of the world's relations
+> genuine generalization gap, the frozen engine asserted almost none of the world's relations
 > and lost to simple transition counting. The benchmark is sound, the obstacle is one named
 > and measured bound, and the organism is not yet able to use it.*
 
@@ -473,7 +473,7 @@ committed before any outcome exists.
 **One thing worth knowing about the harness, because it is the kind of bug
 this project is built to catch.** The reduced-scale pilot initially returned
 `DI = 0.000` at every point of the sweep — a clean-looking negative result
-that was in fact an artefact, because the late group arrived after the run
+that was in fact an artifact, because the late group arrived after the run
 had ended and the late structure was never available to measure. Four harness
 defects were behind it, and the lesson has been kept as **AGENTS.md rule 13**:
 
@@ -531,15 +531,15 @@ more seeds cannot turn a plateau into a ramp.
 
 The full write-up is [`docs/phase_l_results.md`](docs/phase_l_results.md).
 
-#### The characterisation — what the shape actually is
+#### The characterization — what the shape actually is
 
-The verdict and the characterisation are **separate artefacts**, and the
-characterisation does not re-score the verdict. The verdict stands as
+The verdict and the characterization are **separate artifacts**, and the
+characterization does not re-score the verdict. The verdict stands as
 `H3-L — INCONCLUSIVE`; the shape of what was measured is unambiguous, and it
 is this:
 
 > *Organica 1 does not appear to exhibit a continuous coherence–plasticity
-> trade-off. It appears to exhibit regime behaviour separated by a
+> trade-off. It appears to exhibit regime behavior separated by a
 > reproducible transition region.*
 
 What survived increasing n: the preservation plateau (DI **exactly 0.000** for
@@ -567,7 +567,7 @@ a real property, and not the property the protocol asked for. And "regime"
 describes the shape of a displacement index, a preservation index and a
 latency on synthetic worlds: it is **not** a claim about intelligence.
 
-The full characterisation is
+The full characterization is
 [`docs/PHASE-L-SYNTHESIS.md`](docs/PHASE-L-SYNTHESIS.md).
 
 ---
@@ -646,7 +646,7 @@ around a **compositional task** that withholds a *combination* of familiar
 elements. Its gate passes: the Bayes ceiling beats the **strongest** simple
 baseline by **+0.1035 nats** (99 % interval [+0.0996, +0.1074]) across 30
 independent worlds, and the gap on the withheld combination is **4.6×** the
-gap elsewhere — so the benchmark has genuine generalisation headroom. The
+gap elsewhere — so the benchmark has genuine generalization headroom. The
 **first run of the frozen engine against it failed the preregistered
 acquisition gate on every inspected seed**: the organism asserted **0–3 of 112**
 world edges while its raw memory held **112 / 112**. The cause is one named
@@ -671,7 +671,7 @@ remember it either.
 And the rule that keeps it from becoming its own project: the next
 protocol's success criteria must contain at least one **trace-derived
 diagnostic**, and a result that fails it fails the protocol **even if the
-headline behaviour is correct**. The first instance is pre-committed —
+headline behavior is correct**. The first instance is pre-committed —
 *a predicted-correct result whose supporting evidence is self-sourced is not
 a transfer result* — which turns the trace's own disclosed defect into a
 live instrument that can defeat a claim.
@@ -705,7 +705,7 @@ This is the most important thing to know about the repository. The external-vali
 | K2 | belief revision | **REVERSED** — 0.4111 vs 0.9846 |
 | K3 | longitudinal integration | **REVERSED** — 0.0000 vs 0.8578 |
 
-Six task families are negative. **That is not a verdict on the architecture** — it is six tasks that did not favour Organica 1. The project's question changed accordingly, from *can we make a developmental architecture?* to *what class of problems benefits from one?* The preregistered terminal outcome for Phase K was written down before the run: **no confirmed family means no V2**. It fired. **No V2 is being designed.**
+Six task families are negative. **That is not a verdict on the architecture** — it is six tasks that did not favor Organica 1. The project's question changed accordingly, from *can we make a developmental architecture?* to *what class of problems benefits from one?* The preregistered terminal outcome for Phase K was written down before the run: **no confirmed family means no V2**. It fired. **No V2 is being designed.**
 
 ### What is not established, and is not claimed
 

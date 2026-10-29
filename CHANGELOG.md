@@ -187,6 +187,33 @@ is untouched.**
 - **No V2 build is authorised.**
 
 
+### Changed — the publication framing moved into the rule file; living guidance set to American English (2026-10-29)
+
+The publication map was settled in conversation and recorded in `papers/README.md`, but a
+framing that lives in one document is a preference rather than a constraint. It now also
+lives in the rule file.
+
+- **`AGENTS.md` rule 26** states two disciplines: **research-program structure is not
+  publication structure** (the corpus is organized as a research-program map and a
+  publication map kept side by side, so the layer map orients a reader without pressing
+  every old manuscript or lab artifact into a paper), and **a claim's status names its
+  scope** (four statuses — *supported within the tested scope*, *mixed / context-limited*,
+  *reversed*, *not established / not measured* — with **not established is not refuted**,
+  and a compound status required where the evidence splits).
+- **`AGENTS.md`, `README.md` and `ROADMAP.md` set to American English.** Code spans and
+  identifiers were protected, so no file path, tag, test name or constant was altered;
+  the diff is prose only.
+- **The historical research record was deliberately not rewritten.** Preregistrations,
+  measurement records and the frozen journal sections are committed records whose value
+  depends on having been written as they were; normalizing them is the owner's decision,
+  not a cleanup.
+- Manual revision-log row added, per the standing obligation that any change the manual
+  describes is recorded in the same turn.
+
+No measurement changed. The frozen engine is untouched — the only difference from `v0.9.0`
+is the version string in `organica/__init__.py`, which is not in the frozen file set — and
+the live study remains paused at 5,396 sleep cycles with no `organica.log`.
+
 ### Corrected — the audit build's closure was recorded in six places, and two documents still said the opposite (2026-10-29)
 
 The owner read the paper directory and the V2 design brief and found two documents
