@@ -1,7 +1,7 @@
 # Paper 2: Reconstructing Evidence and Selection from Organica’s Surviving State
 
 **Authors:** Jeremy et al. (Nuera Research)  
-**Draft status:** Evidence-alignment revision, 2026-10-27. A5/A6 remain open; not submitted or published.  
+**Draft status:** Evidence-alignment revision, 2026-10-27; A5/A6 closed and the audit layer frozen at `audit-trace-v1` on 2026-10-28. Not submitted or published.  
 **Scope:** Reconstruction fidelity for tested probes and surviving current structures.
 
 ## Abstract
@@ -32,4 +32,4 @@ These probes test a defined observer, implementation, database behavior, and set
 
 ## Conclusion
 
-The present evidence supports a narrow result: tested surviving Organica structures and claims can be reconstructed from engine state with exact measured linkage in the audited probes. A5/A6 closure and the bounded wording above are prerequisites to a submission.
+The present evidence supports a narrow result: tested surviving Organica structures and claims can be reconstructed from engine state with exact measured linkage in the audited probes. A5/A6 are now closed (2026-10-28) and the instrumentation is tagged and frozen at `audit-trace-v1`; the bounded wording above remains a prerequisite to a submission.

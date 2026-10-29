@@ -92,6 +92,32 @@ run when the corrections were made.**
   manual (§8.19, finding 25), the facts sheet (§AC), `AGENTS.md` (rule 25),
   the README framing, and journal §51.
 
+### The audit build is CLOSED, TAGGED and FROZEN (2026-10-28)
+
+The audit build's stop condition is met and has been executed. **A1–A7 are all
+met**, the three probe arms (default, stress, forced-tie) are regenerated, and
+the instrumentation is **tagged `audit-trace-v1`**.
+
+- **A5 closed** — field honesty enforced; records verified to contain zero
+  mislabelled count fields, and proved to fail if competing flow is mislabelled
+  as contradictory observations.
+- **A6 closed** — counterfactual separation enforced; trace records and schema
+  verified to contain zero counterfactual claims, and proved to fail on
+  counterfactual injection.
+
+**From that tag, no feature may be added to the instrumentation.** It may still
+be *fixed* if it is found to be wrong, but not *extended*; a new requirement
+goes to the study's wish-list instead.
+
+**The package version stays untagged.** `audit-trace-v1` marks the
+*instrumentation*, not a release of the package — which keeps the three version
+namespaces (package version, architecture generation, research campaign) separate
+as this changelog requires.
+
+Verification at the freeze: **128 tests pass** · 83 anchors / 0 broken · 1,142
+document paths all exist · the live study untouched at **5,396** sleep cycles
+with no `organica.log`.
+
 ### Corrected — "bottleneck" is not "deepest cause": the acquisition failure is a PRECISION limit, not a capacity limit (2026-10-28)
 
 The parallel session's Gate 13 write-up named **`MAX_PREDICTIONS = 20`** as the
@@ -182,7 +208,8 @@ characterisation stands, and the six negative task families stand.
 5. **"Independently auditable" means independently *reconstructed from the
    engine's state*, not independently *replicated by another lab*.** The trace
    also covers the organism's **surviving, current** structures rather than
-   their full past, and **A5 and A6 remain pending**.
+   their full past, and the audit layer is **now complete** — A1–A7 all met,
+   tagged and frozen at `audit-trace-v1` (2026-10-28).
 
 The project now leads with the compressed state: *Organica demonstrably
 changes its internal structure as experience and curriculum change. Under one

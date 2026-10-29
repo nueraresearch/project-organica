@@ -479,14 +479,39 @@ events. The trace cannot deliver that, and says so.
 ### What the trace is for next, and its stop condition
 
 The trace's next job is to be **an input to the acquisition experiment**
-(`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`, Revision 2), not to be
+(`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`, Revision 3), not to be
 extended. The audit build is finished when **A5 and A6 are closed** — those
-two are the only pending criteria — and then it is **tagged, frozen, and
+two were the only pending criteria — and then it is **tagged, frozen, and
 stopped**. After that, **no feature may be added to the instrumentation**; a
 new requirement goes to the study's wish-list instead. The instrumentation may
 be *fixed* if it is found to be wrong, but not *extended*.
 
 **A1, A2, A3, A4 and A7 are closed and are not reopened.**
+
+> ### The build is CLOSED, TAGGED and FROZEN (2026-10-28)
+>
+> The stop condition is met and has been executed:
+>
+> - **A5 closed** — field honesty enforced; records verified to contain zero
+>   mislabelled count fields, and proved to fail if competing flow is
+>   mislabelled as contradictory observations
+>   (`tests/test_audit_trace_probe.py::test_a5_field_honesty_fails_on_mislabelled_count`).
+> - **A6 closed** — counterfactual separation enforced; trace records and schema
+>   verified to contain zero counterfactual claims, and proved to fail on
+>   counterfactual injection
+>   (`tests/test_audit_trace_probe.py::test_a6_counterfactual_separation_fails_on_counterfactual_field`).
+> - **The three probe arms regenerated** — default, stress and forced-tie.
+> - **Tagged and frozen** at tag **`audit-trace-v1`**.
+>
+> **From that tag, no feature may be added to the instrumentation.** The
+> instrumentation may still be **fixed** if it is found to be wrong, but not
+> **extended**; a new requirement goes to the study's wish-list instead. The
+> **package version stays untagged** — `audit-trace-v1` marks the
+> *instrumentation*, not a release of the package, which keeps the three
+> version namespaces separate as `CHANGELOG.md` requires.
+>
+> Full suite at the freeze: **128 tests pass**; 83 anchors / 0 broken; 1,142
+> document paths all exist; the live study untouched at **5,396** sleep cycles.
 
 
 1. **Build the auditor** — an external, read-only reconstructor over the
@@ -640,8 +665,9 @@ engine.**
 - **The whole trace.** The probe checks the *selection* and *evidence* axes.
   The ancestry completeness metric (A3), the behaviour-invariance proof (A4),
   the field-honesty check (A5) and the trace/counterfactual separation (A6)
-  belong to the build. **A3 and A4 have since been measured and are met**
-  (§13); **A5 and A6 remain pending.**
+  belong to the build. **A3, A4, A5 and A6 have since been measured and are met**
+  (§13, and the closure note above); **the build is closed, tagged and frozen
+  at `audit-trace-v1`.**
 - **Independent replication.** "Independently auditable" means **independently
   reconstructed from the engine's state** — an outside reader with the report
   and the substrate can rebuild the decision and check it. It does **not** mean

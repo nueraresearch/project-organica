@@ -17,9 +17,11 @@
 > [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md);
 > audit record: [`docs/ACQUISITION-ENDPOINT-AUDIT.md`](docs/ACQUISITION-ENDPOINT-AUDIT.md).
 >
-> **The audit build is finished, then frozen.** A1, A2, A3, A4 and A7 are closed; only **A5 and
-> A6** remain, and they are the last work on the instrumentation. After they close, the
-> instrumentation is tagged and stopped, and **no feature may be added to it**.
+> **The audit build is FINISHED, TAGGED and FROZEN (2026-10-28).** A1–A7 are all
+> met, the three probe arms are regenerated, and the instrumentation is tagged
+> **`audit-trace-v1`**. From that tag **no feature may be added to it**; it may
+> still be *fixed* if it is found wrong, but not *extended*. The package
+> version stays untagged — the tag marks the instrumentation, not a release.
 >
 > **Superseded readings.** The V1 synthesis's forward look toward a plasticity study is
 > **superseded (2026-10-26)** by the acquisition experiment as the centre of the project. The
@@ -674,16 +676,20 @@ headline behaviour is correct**. The first instance is pre-committed —
 a transfer result* — which turns the trace's own disclosed defect into a
 live instrument that can defeat a claim.
 
-> **What "auditable" means here, and what it does not (2026-10-26).**
+> **What "auditable" means here, and what it does not (2026-10-28).**
 > **Independently auditable** means **independently reconstructed from the
 > engine's state** — an outside reader, given the report and the substrate, can
 > rebuild the developmental decision and check it. It does **not** mean
 > **independently replicated by another lab**: no second laboratory has
-> reproduced this work, and nothing here is a replication result. Two further
-> limits stand alongside it: the trace concerns the organism's **surviving,
-> current** structures and does not reconstruct their full past, and **A5
-> (field honesty) and A6 (trace/counterfactual separation) are still pending**,
-> so the audit layer is not finished.
+> reproduced this work, and nothing here is a replication result. One limit
+> stands alongside it: the trace concerns the organism's **surviving,
+> current** structures and does not reconstruct their full past.
+>
+> **The audit layer is FINISHED (2026-10-28).** A1–A7 are all met, the three
+> probe arms are regenerated, and the instrumentation is **tagged and frozen**
+> at **`audit-trace-v1`**. From that tag no feature may be added to it; it may
+> still be *fixed* if found wrong, but not *extended*. The package version
+> stays untagged — the tag marks the instrumentation, not a release.
 
 ### Six task families, six negatives — and what the project does with them
 

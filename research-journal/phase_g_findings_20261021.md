@@ -5040,3 +5040,100 @@ candidates by something other than raw frequency?
 
 → `docs/GATE13-CAUSAL-ACCOUNT.md`; `docs/gate13_capacity_sweep.json`;
 `docs/gate13_allocation_rule.json`; `docs/V2-CAPACITY-DESIGN-BRIEF.md` addendum
+---
+
+## §53 — The audit build is closed, tagged and frozen
+
+**What this section records.** The audit build's stop condition, written in
+§49, was executed on 2026-10-28. This is the project's first **executed** stop
+condition, and the record of it is in six places rather than one, because a
+freeze that only the changelog knows about is not a freeze.
+
+### The condition, and that it was met
+
+§49 set the condition explicitly: *close A5 and A6 only (A1, A2, A3, A4 and A7
+are closed and are not reopened), regenerate the three probe arms, then **tag,
+freeze and stop**.* All four steps are done.
+
+| Step | Status | Evidence |
+|---|---|---|
+| **A5** — field honesty | **closed** | `tests/test_audit_trace_probe.py::test_a5_field_honesty_fails_on_mislabelled_count` — a rendered record calling competing flow "contradictory observations" **fails the build** |
+| **A6** — trace / counterfactual separation | **closed** | `tests/test_audit_trace_probe.py::test_a6_counterfactual_separation_fails_on_counterfactual_field` — a trace containing a counterfactual claim **fails the build** |
+| **Three probe arms regenerated** | **done** | default, stress and forced-tie (479 stores with a genuinely tied window; 0 mismatches) |
+| **Tag, freeze, stop** | **done** | tag **`audit-trace-v1`** |
+
+Both new criteria were closed with the property the project insists on: **a
+check that cannot fire is decoration.** Each has a test that deliberately
+breaks the property and asserts that the build catches it.
+
+### The tag, and the namespace decision behind it
+
+The owner was asked how the freeze should be recorded, and chose
+**`audit-trace-v1`** — an **instrumentation-only** tag — leaving the **package
+version 0.10.0 untagged**.
+
+That choice keeps the project's three version namespaces separate, which
+`CHANGELOG.md` states as a rule rather than an accident:
+
+| Namespace | Form | Current |
+|---|---|---|
+| Package version | `0.x.y` | **0.10.0, unreleased and untagged** |
+| Architecture generation | *Organica 1*, *Organica 2* | **Organica 1**, frozen at `v0.9.0` |
+| Research campaign | *Ablation Study 1*, *Ablation Study 2* | **Study 2 in flight** |
+
+The instrumentation is not a release of the package, and tagging it as one
+would have made `v0.10.0` a published artefact that nobody had asked to
+publish.
+
+### Verification at the freeze
+
+**128 tests pass** · **83 anchors, 0 broken** · **1,142 document paths, all
+exist** · the live study **untouched at 5,396 sleep cycles** with no
+`organica.log`. The live daemon stays paused, and Organica 1 stays frozen at
+`v0.9.0`.
+
+### Where the freeze is recorded
+
+A freeze only binds if the reader finds it, so the record is in **six** places:
+the audit-trace specification (§9, §10), the README banner and its
+"what auditable means" note, the user manual (§2 status row, the stop-condition
+paragraph, findings 23 and 25), the facts sheet (AA26, AB5), `AGENTS.md` rule
+23(c), and `CHANGELOG.md`. The manuscripts were updated too — paper 02 and the
+papers index both said "A5/A6 remain open", which had become false.
+
+**Journal §50 is a frozen record and was not rewritten.** It says "A5 and A6
+are still pending"; that was true on 2026-10-26 and remains the historical
+truth of that date. This section records the change, as §51 recorded the change
+to the framing sentence.
+
+### The lesson
+
+**A stop condition is only real once it has been executed, and a freeze that
+lives in one document is not a freeze.** The condition was written in §49 and
+carried through the spec, the manual, the facts sheet and the README as a
+*plan* for weeks. It took a review to notice that the plan had quietly become
+the status in four different places — and the papers were still claiming
+"A5/A6 remain open" while the spec said they were met. Every statement about
+a build's completion state is a claim, and claims have to be corrected against
+the record when the record moves.
+
+**Corollary — the same discipline applies to the tag.** A tag is a permanent,
+public, *immutable* claim about what a commit contains. Which namespace it
+belongs to is therefore not a naming detail; it is a claim about what was
+released, and it was put to the owner rather than decided by the agent.
+
+### What does not change
+
+- **Organica 1 remains frozen** at `v0.9.0`; `organica/` is not modified.
+- **The live study remains paused** at 5,396 sleep cycles.
+- **The acquisition campaign remains stopped at its gate** (§51), and the
+  deeper causal account stands (§52). No transfer or revision result exists.
+- **No V2 build is authorised.** The V2 question is narrower and sharper — can
+  the organism identify which of its vocabulary items are its own, and can it
+  rank candidates by something other than raw frequency? — and that is all
+  that changed.
+- **Law II of `docs/DESIGN_LAWS.md` remains as written**, with the discrepancy
+  disclosed as D3. The frozen engine's constitution is the owner's decision.
+
+→ `docs/AUDIT-TRACE-SPEC.md` §9, §10; `tests/test_audit_trace_probe.py`;
+tag `audit-trace-v1`
