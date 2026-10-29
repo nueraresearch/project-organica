@@ -210,6 +210,53 @@ closing that gap.
 - **Every number, claim, verdict, date, method, seed and decision rule in the repository is
   unchanged.** The frozen engine is untouched.
 
+### Corrected — Paper 00's audit completed: the constitution, measured against the code (2026-10-29)
+
+The owner asked for the audit of Paper 00's broad claims to be *finished*, not just the two
+defects that happened to be noticed. It was finished, by reading the six laws in
+`docs/DESIGN_LAWS.md` against the frozen engine and the V1 record.
+
+- **Two of the six architectural laws are contradicted by the implementation.**
+  - **Law III (Cognitive Isolation) is violated in exactly the way it was written to prevent.**
+    The design law requires that *"temporal precedes matrices are strictly computed on non-sleep
+    events"*; `memory.py` gates the **trigger** on `event_type != "sleep"` but not the **lookback
+    window**, so sleep output re-enters `precedes` at **201×–341×** the world's own event count
+    (D2). **This is the same defect that contradicts Paper 05's "zero self-contamination"
+    guarantee.**
+  - **Law V (EIG Attention) is wrong twice.** Formally, the engine applies
+    `uncertainty * (1.0 + novelty)` to questions and `uncertainty * novelty` to dreams, so the
+    law's single expression is not what it computes for half its cases. Empirically, the
+    pre-registered prediction that development is EIG-orthogonal came back **REVERSED** —
+    selecting the *lowest*-EIG experiment develops **more** than the highest-EIG one.
+- **Law IV (Grounded Dreaming) is mixed.** The confidence baseline **holds** (dreams are created
+  at **0.04–0.06**, matching the design law), but the law's operative clause — a dream becomes a
+  belief only if an external experiment generates the confirming events — is **never exercised**,
+  because the engine generates experiments and never executes them, so no question can ever
+  close.
+- **Law VI holds** (thresholds **0.3** / **0.15**); **Law I was not separately audited** and is
+  reported as such rather than assumed.
+- **Also corrected:** the abstract's *"unbroken lineage to the raw experience"* is false (D3);
+  *"causal predictions"* overstates the engine's own words — `memory.py` calls the temporal edges
+  *"the organism's first approximation of causality"* — so the abstract now says **temporal
+  predictions**; and the reference list's stale titles and its false *"Associated pre-prints"*
+  label (seven manuscript files, **zero published**).
+- **D4, a new disclosed defect.** The engine's stored `generation` field agrees with
+  `docs/architecture.md` for **G1** and is **one lower for every primitive from G2 upward**
+  (meta-concepts and processes `1`, workflows `2`, hypotheses `3`, theories and questions `4`,
+  dreams `5`, investigations `6`, experiments `7`), and no document states the field's mapping —
+  an undocumented offset, not a violated claim. The audit-trace specification is frozen at
+  `audit-trace-v1` and was **not** edited to carry it; the disclosure lives in `docs/FACTS-SHEET.md`
+  AD5 and manual finding 33.
+- **Added** — manual finding 33 and a revision-log row; `docs/FACTS-SHEET.md` AD5; journal §59.
+
+**A constitution that has never been audited against its implementation is a description of an
+unimplemented architecture.** Every one of these was found by *writing the auditor*, not by
+arguing — the strongest evidence this program has produced for its own thesis, and invisible to
+any review that read the laws and the code side by side without measuring the code's behavior.
+
+**Paper 00 is now accurate and still not ready to circulate**: it is not yet the recast position
+paper the project needs, and its literature engagement is absent.
+
 ### Corrected — the first audit of Paper 00 and Paper 05 (2026-10-29)
 
 The owner's publication framing put Paper 00 and Paper 05 outside the active submission

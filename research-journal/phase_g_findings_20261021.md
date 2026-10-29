@@ -5702,3 +5702,106 @@ acquisition gate failure and the transfer result of *not measurable* all stand a
 frozen engine is untouched; the live study remains paused at 5,396 sleep cycles.
 
 → manual finding 32; facts sheet AD4; `git diff HEAD` (23 files)
+---
+
+## §59 — Paper 00's audit, completed: the constitution, measured against the code
+
+**What this section records.** The owner asked for the audit of Paper 00's broad claims to be
+finished, not just the two defects that happened to be noticed. It was finished, by reading the
+six laws in `docs/DESIGN_LAWS.md` against the frozen engine and the V1 record. **Two of the six
+laws are contradicted by the implementation, one is untested on its own terms, and one is
+contradicted in direction.**
+
+### Law III — violated in exactly the way it was written to prevent
+
+The design law states:
+
+> *Internal cognitive operations (sleep consolidation, dream generation, hypothesis pruning) must
+> never pollute the empirical experience graphs.*
+> - Event logs must partition internal reflection (`event_type="sleep"`) from external observation.
+> - **Co-occurrence graphs and temporal precedes matrices are strictly computed on non-sleep events.**
+
+The second bullet is the requirement, stated exactly. And the engine does not meet it.
+`memory.py::_record_temporal_edges` gates the **trigger** on `event_type != "sleep"`, but its
+**lookback window** is ungated:
+
+```sql
+SELECT tags FROM events ORDER BY time DESC LIMIT ?
+```
+
+So a world event can take its source tag from a sleep row. Sleep output re-enters the empirical
+graph at **201×–341×** the world's own event count, and the contamination is **35.7%–40.7%** of
+the relation table with **100.0%** of the removed rows sleep-sourced (D2,
+`docs/GATE13-RELATION-SEPARATION.md`).
+
+**This is the same defect that contradicts Paper 05's "zero synthetic self-contamination"
+guarantee.** One measured mechanism, two documents claiming different things about it.
+
+### Law V — wrong twice, formally and empirically
+
+**Formally.** The law states one expression, $	ext{EIG} = 	ext{Uncertainty} 	imes (1.0 +
+	ext{Novelty})$. The engine computes it two ways: `uncertainty * (1.0 + novelty)` for questions
+(novelty fixed at 0.50), and `uncertainty * d.novelty` — **no `1.0 +`** — for dreams, whose
+uncertainty is `1.0 - confidence`. So the single expression is not what the engine computes for
+half its cases.
+
+**Empirically.** The pre-registered prediction **P5 (EIG-orthogonal) is REVERSED**: selecting the
+*lowest*-EIG experiment develops **more** than selecting the highest-EIG one. The mechanism
+exists; its direction is opposite to the law's claim. The sibling predictions were
+**P1 retention SUPPORTED**, **P2 contradiction-is-fuel REVERSED**, **P3 curiosity-needs-questions
+REVERSED**, **P4 dreams-contribute SUPPORTED** — **2 SUPPORTED, 3 REVERSED, 0 UNSUPPORTED, 0 NOT
+INTERPRETABLE** (`docs/verdicts.json`).
+
+### Law IV — the baseline holds, the path is never exercised
+
+Dreams are created with confidence **0.04–0.06**, matching the design law's baseline, so that
+clause holds. But the law's operative clause — *a dream can only become a belief if an external
+experiment generates empirical events that confirm its structure* — is **never exercised**: the
+engine generates experiments and **never executes them** (every consumer only prints them), so no
+question can ever close. The mechanism is present and its path is untraveled.
+
+### Law VI holds, and Law I was not separately audited
+
+Decay thresholds are **0.3** (stable) and **0.15** (death). Law I was not audited in this pass and
+is reported as such rather than assumed.
+
+### Also corrected
+
+- The abstract's *"unbroken lineage to the raw experience"* is false (D3 — the chain terminates at
+  Layer 1).
+- The abstract's *"causal predictions"* overstates the engine's own words: `memory.py` calls the
+  temporal edges *"the organism's first approximation of causality"*. The abstract now says
+  **temporal predictions**.
+- **D4, a new disclosed defect.** The engine's stored `generation` field agrees with
+  `docs/architecture.md` for **G1** and is **one lower for every primitive from G2 upward**:
+  meta-concepts and processes `generation = 1`, workflows `2`, hypotheses `3`, theories and
+  questions `4`, dreams `5`, investigations `6`, experiments `7`. No document states the field's
+  mapping, so this is an **undocumented offset**, not a violated claim — but the generation table
+  in Paper 00 is the public description, and anyone reading a stored candidate beside it would
+  mis-map. The audit-trace specification is frozen at `audit-trace-v1` and was **not** edited to
+  carry D4; the disclosure lives in the fact sheet (AD5) and the manual (finding 33).
+- The reference list's titles were the **old** names, and its *"Associated pre-prints"* label was
+  false: the inventory is **seven manuscript files, zero published**. The list now names each
+  manuscript with its status.
+
+### The lesson
+
+**A constitution that has never been audited against its implementation is a description of an
+unimplemented architecture.** Two laws broken, one unexercised, one reversed — and every one of
+them was found by *writing the auditor*, not by arguing. That is the strongest evidence this
+program has produced for its own thesis, and it would have been invisible to any review that
+read the laws and the code side by side without measuring the code's behavior.
+
+**A law that cannot be violated is not a law; a law that has never been tested is not yet a
+claim.**
+
+### What does not change
+
+No measurement is altered. The six negative task families, the Phase L verdict
+`H3-L — INCONCLUSIVE`, the acquisition gate failure and the transfer result of *not measurable*
+all stand. The frozen engine is untouched; `docs/DESIGN_LAWS.md` and
+`docs/AUDIT-TRACE-SPEC.md` were not edited.
+
+→ `papers/00_intelligence_through_structural_descent.md` §3.1; `docs/DESIGN_LAWS.md`;
+`docs/AUDIT-TRACE-SPEC.md` §7; `docs/architecture.md`; `organica/memory.py`;
+`organica/sleep.py`; `docs/verdicts.json`; manual finding 33; facts sheet AD5
