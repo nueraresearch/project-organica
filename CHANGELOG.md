@@ -187,6 +187,29 @@ is untouched.**
 - **No V2 build is authorised.**
 
 
+### Changed — the historical record normalized to American English, with the change proven (2026-10-29)
+
+The owner confirmed that the frozen records stay right under a spelling normalization — spelling
+is not a claim, so no number, verdict, method, seed or decision rule is touched — and authorized
+closing that gap.
+
+- **234 words across 25 files** normalized, including the preregistrations
+  (`ABLATION-PREREGISTRATION`, `ACQUISITION-EXPERIMENT-PREREGISTRATION`,
+  `PHASE-L-PLASTICITY-COHERENCE-PREREGISTRATION`, `WORLD-SCALE-PREREGISTRATION`), the audit-trace
+  specification, the measurement records and the frozen journal sections.
+- **Three proofs, run against `HEAD` for every changed file**: non-target content byte-identical;
+  the sequence of numeric literals identical; structure identical (headings, table rows, list
+  items, lines). All three pass on all 23 changed files. Inline code spans were never rewritten,
+  so **no identifier, file path, tag, test name or constant changed**.
+- **A bug worth recording.** The first pass reported *"remaining: 0"* and was wrong by 88
+  occurrences: the sweep and its check shared a document-wide code-span regex that mis-aligns on
+  unbalanced backticks, so prose was skipped and then not counted. The bug surfaced only because
+  a **second, differently implemented** check — a raw-text scan with no span logic — disagreed
+  with the first. **A verifier that reuses the writer's parser inherits the writer's bug; a check
+  that cannot disagree with its own writer is not a check.**
+- **Every number, claim, verdict, date, method, seed and decision rule in the repository is
+  unchanged.** The frozen engine is untouched.
+
 ### Corrected — the first audit of Paper 00 and Paper 05 (2026-10-29)
 
 The owner's publication framing put Paper 00 and Paper 05 outside the active submission

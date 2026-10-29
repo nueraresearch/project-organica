@@ -5653,3 +5653,52 @@ ready to circulate, and Paper 00's remaining claims are **not** audited.
 → `papers/00_intelligence_through_structural_descent.md`;
 `papers/05_cognitive_isolation_principle.md`; `docs/architecture.md`;
 `docs/AUDIT-TRACE-SPEC.md` §7 (D3); manual finding 31; facts sheet AD3
+---
+
+## §58 — The historical record, normalized to American English, with the change proven
+
+**What this section records.** The owner confirmed that the frozen records stay right under a
+spelling normalization, and authorized closing that gap. **234 words across 25 files** were
+normalized — including the preregistrations, the measurement records and the frozen journal
+sections — and the change was **proven** to be spelling-only rather than asserted to be.
+
+### Three proofs, run against `HEAD` for every changed file
+
+1. **Non-target content byte-identical.** Every British-or-American target word is replaced by
+   the *same* token on both sides, so the comparison sees only the non-target bytes and the
+   token positions. Identical on all 23 changed files.
+2. **The sequence of numeric literals identical.** No number changed, moved, appeared or
+   disappeared — in any file.
+3. **Structure identical.** The same count of headings, table rows, list items and lines.
+
+Inline code spans were never rewritten, so no identifier, file path, tag, test name or
+constant was touched. The frozen engine and every protocol's substance are untouched.
+
+### The bug worth recording
+
+The first pass reported **"remaining: 0"** — and it was **wrong by 88 occurrences**. The sweep
+and its verification shared a document-wide code-span regex, `` `[^`]*` ``, which mis-aligns when
+backticks are unbalanced across a line: the "code span" it matched ran past its closing backtick
+into ordinary prose, so the sweep **skipped prose it should have rewritten**, and the same
+mis-pairing then **failed to count what was skipped**. Both halves were wrong in the same
+direction, so the check agreed with the writer.
+
+The bug surfaced only because a **second, differently implemented** check — a raw-text scan with
+no span logic at all — disagreed with the first. The fix was per-line backtick pairing (exact
+for balanced lines) plus the raw scan as an independent witness. The final state is **0
+remaining under a raw scan**.
+
+**A verifier that reuses the writer's parser inherits the writer's bug. A check that cannot
+disagree with its own writer is not a check.** This is the same shape as the acquisition
+harness, where two implementations of one gate name disagreed by 100% versus 0.0% on the same
+seed and world: the disagreement was the finding, and the fix was to make the two
+implementations reconcile against the protocol rather than to trust one of them.
+
+### What does not change
+
+Every number, claim, verdict, date, method, seed and decision rule in the repository is
+unchanged. The six negative task families, the Phase L verdict `H3-L — INCONCLUSIVE`, the
+acquisition gate failure and the transfer result of *not measurable* all stand as recorded. The
+frozen engine is untouched; the live study remains paused at 5,396 sleep cycles.
+
+→ manual finding 32; facts sheet AD4; `git diff HEAD` (23 files)
