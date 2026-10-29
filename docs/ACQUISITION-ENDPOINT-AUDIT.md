@@ -7,7 +7,7 @@
 It exists because the project's own rule is that **corrections are documented,
 not quietly applied** — and because a benchmark that was wrong in five
 different ways at once deserves a record of how each was found, so the next
-one can be recognised faster.
+one can be recognized faster.
 
 > ### The origin
 >
@@ -61,7 +61,7 @@ readout emits hard 0/1 predictions.
 
 **Measured.** The **Bayes-optimal calibrated model scores F1 = 0.0000 —
 identical to the trivial model.** The hard 0/1 readout scores 0.3703 (one
-direction) / 0.3963 (symmetric). F1 was measuring **threshold behaviour, not
+direction) / 0.3963 (symmetric). F1 was measuring **threshold behavior, not
 knowledge quality**.
 
 **Consequence.** Log-loss becomes the primary metric, and F1 is demoted to a
@@ -255,7 +255,7 @@ the learner must **apply** it where the evidence is missing.
 
 **The row that makes the gate mean something.** The gap on the held cell is
 **4.6×** the gap on the cells whose transitions were fully observed. That is
-what shows the gap comes from **generalisation** rather than from generic
+what shows the gap comes from **generalization** rather than from generic
 estimation error — without it, the gate could have been passing for the wrong
 reason. It is check **G7**, and it is a check the earlier probe could not
 have contained.
@@ -292,7 +292,7 @@ vocabulary tags, with the top-20 temporal edges dominated by one group
 (16 of 20 sources from one group, 3 from a second, 1 from a third, 0 from a
 fourth) even though the groups were visited comparably (26.7 / 30.8 / 23.9 /
 18.6 %, ratio 1.7×). That is **`MAX_PREDICTIONS = 20` in Layer 1** — an
-organism-side capacity finding, not a stimulus artefact.
+organism-side capacity finding, not a stimulus artifact.
 
 Both limits are recorded **before** the run, so neither can be discovered
 afterwards as an excuse for a null result.
@@ -325,10 +325,10 @@ afterwards as an excuse for a null result.
   Gate 13 preflight *did* execute engine runs; they are recorded in §8, and
   they bear on the organism, not on the instrument.
 - That the compositional task is the right test forever. It is a test of
-  generalisation to a **withheld combination** in one synthetic world family.
+  generalization to a **withheld combination** in one synthetic world family.
   If it also fails to separate the ceiling from the strongest baseline, that
   is a publishable finding about the task, and it is reported as one.
-- Anything about "understanding". The target is evidence of **generalisation
+- Anything about "understanding". The target is evidence of **generalization
   beyond observed transitions**, not proof of an unobservable inner state.
 
 ---
@@ -400,7 +400,7 @@ mapping randomised per world (30 worlds, seeds 20261200–20261229).
 
 The lower bound clears the 0.05-nat bar, so the benchmark is discriminative,
 and G7 shows *why*: the gap on the withheld combination is **4.6×** the gap
-elsewhere, so it comes from generalisation rather than from estimation error.
+elsewhere, so it comes from generalization rather than from estimation error.
 
 > **The +0.1035 nats is the benchmark's headroom. It is not Organica's margin.**
 > The compositional probe runs no engine and scores no learner. It answers one
@@ -548,7 +548,7 @@ from a world that never presented the relation.
   because one bounded Layer-1 selection step discarded it. Naming a failure
   is not the same as authorising a build.
 - **Nothing here is evidence of understanding.** The target was and remains
-  evidence of generalisation beyond observed transitions.
+  evidence of generalization beyond observed transitions.
 
 ---
 

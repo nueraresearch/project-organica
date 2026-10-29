@@ -55,7 +55,7 @@ been shown to measure a finite inventory divided by the run length.
 
 | Inventory across the ladder | Reading |
 |---|---|
-| **grows** with the world's information content | H24 **supported**: the plateau was an environmental artefact, and what this project found is a developmental system inside a toy universe |
+| **grows** with the world's information content | H24 **supported**: the plateau was an environmental artifact, and what this project found is a developmental system inside a toy universe |
 | **flat** across the ladder | H24 **falsified**: the ceiling is architectural, and the honest conclusion becomes *the organism cannot reorganise beyond what a nine-event world teaches it, no matter how much novelty it is given* |
 | grows then saturates | **partial**: the environment was binding at small scale, and an architectural ceiling binds at large scale. The rung at which it saturates is then the finding, and the layer census at that rung says which layer is the ceiling |
 
@@ -187,7 +187,7 @@ the project toward an architectural review.
 
 - Not that Organica is developmental in the strong sense. It is not
   established, and this experiment does not establish it.
-- Not that the Tier-1 plateau was an artefact. It might have been a genuine
+- Not that the Tier-1 plateau was an artifact. It might have been a genuine
   architectural ceiling in a world that happened to be small. The ladder
   exists to find out which.
 - Not that the ladder's own rungs are the right ones. The pilot decides
@@ -351,7 +351,7 @@ Two world shapes, run head-to-head on the same organism and engine:
 | **Scaffold + novelty** | 3 frequent triangles (one hub, repeating) + 1 new triangle introduced every K cycles | Mechanism test: if the scaffold holds the window and novelty drives discovery, inventory should grow beyond 91 |
 
 The scaffold is `lattice_L1` (the Rung 0 world, which is already
-characterised). The novelty triangles are introduced one at a time, each
+characterized). The novelty triangles are introduced one at a time, each
 with a fresh hub at degree 3, so they do not compete with the scaffold for
 the top-20 slots in the first cycle they appear.
 
@@ -371,7 +371,7 @@ ceiling is architectural.
 `benchmarks/scale_ladder.py` will be updated before the revised ladder
 runs. The fix:
 
-- For `mode=block` worlds: bootstrap with one block (current behaviour).
+- For `mode=block` worlds: bootstrap with one block (current behavior).
 - For `mode=scaffold` worlds: bootstrap with the scaffold block only; deliver
   novelty triangles cycle by cycle, one triangle's 3 events per K cycles.
 - For `mode=open` worlds (if re-run): bootstrap with one hub's events (9

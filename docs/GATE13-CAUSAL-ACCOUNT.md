@@ -5,7 +5,7 @@ measurements of the acquisition-gate failure, states the causal account they
 support, and narrows the question a V2 build would have to answer.
 
 It does **not** revise any verdict. The six negative task families, the Phase L
-protocol verdict `H3-L — INCONCLUSIVE`, the Phase L characterisation, and the
+protocol verdict `H3-L — INCONCLUSIVE`, the Phase L characterization, and the
 campaign's stop at Gate 13 all stand exactly as recorded.
 
 > ### What prompted this
@@ -160,7 +160,7 @@ both rules, **precision never exceeds 0.3443**.
    what any selection must retain (precision ≤ 0.3443 at every budget and
    under both rules). The highest-count rows are internal-vocabulary edges
    (`type → olive`, `generation → olive`) and intra-cell pairs.
-3. **Layer 1 selects on frequency, and the world is not organised by
+3. **Layer 1 selects on frequency, and the world is not organized by
    frequency.** `_build_predictions` sorts by raw temporal count and truncates
    at 20. At that cut, **0–3 of 112** world edges survive, while 28–39
    intra-cell edges do.
@@ -229,7 +229,7 @@ document.
   selection cannot extract it*.
 - **It does not establish a V2 design**, and it does not authorise one.
 - **It does not change any verdict.** The six negative task families, `H3-L —
-  INCONCLUSIVE`, the Phase L characterisation, and the campaign's stop at Gate
+  INCONCLUSIVE`, the Phase L characterization, and the campaign's stop at Gate
   13 stand.
 - **It does not change the confirmatory sample.** Every seed used here
   (`20261100`–`20261105`) is diagnostic and remains diagnostic. The usable

@@ -193,7 +193,7 @@ measured dead end** — the tag-level versions of it are all ruled out.
   satisfiable. It establishes what requirement 2 must **not** be.
 - **It does not change any verdict.** The six negative task families, the
   Phase L protocol verdict `H3-L — INCONCLUSIVE`, the Phase L
-  characterisation, and the campaign's stop at Gate 13 all stand.
+  characterization, and the campaign's stop at Gate 13 all stand.
 - **It does not change the confirmatory sample.** Every seed used is
   diagnostic and remains diagnostic.
 - **It does not reopen the frozen engine.** Every number here comes from an

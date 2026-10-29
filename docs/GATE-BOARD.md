@@ -33,7 +33,7 @@ entry (`§C2`) or a committed artifact.
 | Evidence flow measured | ❌ | Every developmental metric is a count, so the flat-population / growing-evidence divergence is invisible to the metric suite (§G3) |
 | Experiment executor exists | ❌ | No executor → no Question ever closes, EIG can never pay off, `cy`/`eig_star` structurally unmeasurable (§G1) |
 | Cross-domain transfer | ❌ | Level 1 measured-negative; uncertainty 0.0 in 3 of 4 validation domains (§B6) |
-| **Commercial** rights understood | ❌ | Counsel required. Pending: entity · IP ownership · open-source licence position · authorization memo |
+| **Commercial** rights understood | ❌ | Counsel required. Pending: entity · IP ownership · open-source license position · authorization memo |
 | **Commercial** customer problem validated | ❌ | Interviews pending. No customer conversation has been run |
 
 ---
@@ -89,7 +89,7 @@ in the parameter influence map — raising it 15 → 40 changes nothing at all.
 > So the numerator and the denominator measured different populations, and
 > a prediction candidate only survives into `stable_prior` when its
 > strength clears `STABLE_THRESHOLD = 0.3`. The world's own edges were
-> being discarded in favour of whatever the organism happened to say about
+> being discarded in favor of whatever the organism happened to say about
 > itself.
 >
 > **Measured, on a branch stimulus:** before the fix, 4 surviving edges
@@ -311,7 +311,7 @@ producing the named artifact — not writing a plan.
 | 6 | Which metrics count development? | M1–M9 frozen in a pre-registration **before** the run, with the stoplight interpretation | Research | — |
 | 7 | Does the 90-day horizon buy anything? | Closed: **no.** The run plateaued at cycle 261 with zero variance for 3,464 cycles | Research | — |
 | 8 | Is the organism's own output polluting its input? | 60.6% of tag occurrences are its own JSON field names (§D8). Decide: exclude stored candidates from tag extraction, or accept and document | Research | — |
-| 9 | Entity and IP ownership | Counsel memo covering entity · IP ownership · OSS licence · authorization memo | Commercial | — |
+| 9 | Entity and IP ownership | Counsel memo covering entity · IP ownership · OSS license · authorization memo | Commercial | — |
 | 10 | Is there a customer problem worth removing? | 5 conversations measuring pain intensity · current workaround · budget ownership · urgency | Commercial | — |
 
 ---
@@ -319,7 +319,7 @@ producing the named artifact — not writing a plan.
 ## Priority queue
 
 ### Track A — Research
-1. ~~Replace alphabetical retention~~ → **done** (engine change, 2026-10-23; measured effect on current behaviour: none, because the cap does not bind)
+1. ~~Replace alphabetical retention~~ → **done** (engine change, 2026-10-23; measured effect on current behavior: none, because the cap does not bind)
 2. **Validate the gate against existing data** → **done** (journal §20: the theory count *is* the competing-subject count, 100% of cycles in 9/11 conditions; the gate is reformulated as a count and a fourth gate, G-EXP, added for `MAX_THEORIES = 8`)
 3. **Freeze M1–M9 + the gates** → `docs/FORCE-MATRIX-PREREGISTRATION.md`, committed before the run. Five gates now: G-CS, G-P1, G-SUP, G-EXP, **G-SUS** (sustained, not peaked)
 4. ~~**Design the branch-structured stimulus**~~ → **done** (journal §21.7: the unit of competing expectation is a *triangle* — a 3-cycle — because that is the only thing a workflow is built from. Three disjoint triangles give 7 subjects × 2 beliefs and 18 beliefs total, which is exactly the derived target)

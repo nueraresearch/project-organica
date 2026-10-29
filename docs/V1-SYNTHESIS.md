@@ -262,7 +262,7 @@ Look at the architecture:
 Memory → Sleep → Structure → Beliefs → Questions → Theories
 ```
 
-It is optimised to **accumulate and stabilise structure.** And the matrix
+It is optimized to **accumulate and stabilise structure.** And the matrix
 found exactly that: structure fixed on cycle 1 (18 pre-retention beliefs, 7
 competing subjects, 15 retained beliefs) and held for 2,999 cycles while
 support grew **+10,776%**.
@@ -297,7 +297,7 @@ organism cannot revise" result. The 2×2 control found that the late group
 first (9–11 of 18 gold pairs at late weight 3 / early weight 1, against 0–1
 otherwise). The organism is not incapable of revision. It is **priority-
 ordered**: strength of signal decides what displaces what, and arrival order
-is a tiebreak that resolves in favour of the incumbent.
+is a tiebreak that resolves in favor of the incumbent.
 
 > **What "revision" means in this paragraph (narrowed 2026-10-26).** Here
 > *revision* means **structural displacement** — later structure displacing
@@ -399,7 +399,7 @@ scaffold lock-in, weak late assimilation, belief-pool competition, insufficient
 restructuring.
 
 This path is **not yet authorised**, and the reason is procedural rather than
-courage-based: the lessons from V1 are now well characterised (§2, §3, §5),
+courage-based: the lessons from V1 are now well characterized (§2, §3, §5),
 but §2.6 established that the mechanisms one would most naturally reach for
 are exactly the ones that measurement has shown are **not** load-bearing.
 Designing V2 against a named weakness is right; designing it against a
@@ -461,5 +461,5 @@ as a null.
 | The K3 2×2 (displacement priority) | `python benchmarks/phase_k_diagnose.py --scale 4 --seeds 5` |
 | Retractions and corrections | journal §22 (21 reversals, 3 retractions), §31 (correction) |
 | The negative-results map | journal §32, §33 |
-| Design intent vs measured behaviour | journal §§14, 22, 23; [`docs/ORGANICA-V2-DESIGN-NOTES.md`](ORGANICA-V2-DESIGN-NOTES.md) §§1–5, 9 |
+| Design intent vs measured behavior | journal §§14, 22, 23; [`docs/ORGANICA-V2-DESIGN-NOTES.md`](ORGANICA-V2-DESIGN-NOTES.md) §§1–5, 9 |
 | The experiment-executor gap | manual §7.2 decision 7; §8.2 |

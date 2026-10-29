@@ -93,7 +93,7 @@ A metric that is undefined for a given condition is excluded, and the remaining 
 
 `Impact(S) = ES_full − ES_without_S`. Bands: **< 5** cosmetic · **5–15** supportive · **15–30** important · **30–50** foundational · **> 50** existential.
 
-**The aggregate is a summary, not a measurement.** Its normalisation constants (`SCR_REF = 50`, `CD_CAP = 100`) are conventions. The **primary result is the per-metric delta table**; any claim that a layer is "foundational" must be visible in the raw metric columns too.
+**The aggregate is a summary, not a measurement.** Its normalization constants (`SCR_REF = 50`, `CD_CAP = 100`) are conventions. The **primary result is the per-metric delta table**; any claim that a layer is "foundational" must be visible in the raw metric columns too.
 
 ## 4. Pre-registered predictions
 
@@ -115,7 +115,7 @@ Expected: PA and PA_substrate both well above zero; LC = 1.0; SCR > 1; NSR moder
 *Expected symptom:* structures still emerge, but traceability and falsification paths are gone.
 *Expected to move:* LC → 0 (nothing resolves to Generation 0 without parents); everything else essentially unchanged.
 *Confirmed if:* LC collapses to ~0 while PA, SCR, SS and the structural populations are within a few percent of O_FULL. That is the signature of **lineage as governance rather than cognition**.
-*Falsified if:* LC stays at 1.0 (the ablation did not take) or the structural populations collapse (the engine does depend on its own provenance in a way that changes behaviour).
+*Falsified if:* LC stays at 1.0 (the ablation did not take) or the structural populations collapse (the engine does depend on its own provenance in a way that changes behavior).
 
 ### C — No Curiosity
 
@@ -185,10 +185,10 @@ Expected: PA and PA_substrate both well above zero; LC = 1.0; SCR > 1; NSR moder
 
 ## 6. Honest limitations, stated before the run
 
-1. **ES is a weighted convenience index.** Its normalisation constants are conventions. The per-metric delta table is the result; ES is the summary.
+1. **ES is a weighted convenience index.** Its normalization constants are conventions. The per-metric delta table is the result; ES is the summary.
 2. **Two metrics are excluded, one is pending.** CY and EIG* are not measurable; DPF needs a human.
 3. **Single seed per condition.** No variance estimate is claimed. A difference smaller than a few percent should not be read as a difference at all.
-4. **The stimulus is a 48-event rotation.** The train/held-out split is a genuine held-out split (the held-out events are never ingested), but it measures generalisation *within one synthetic world*, not across worlds. CDT is the cross-world measure, and with near-zero shared vocabulary between the reproduction domains (§4, ablation-independent) it is expected to be ≈ 0 or negative.
+4. **The stimulus is a 48-event rotation.** The train/held-out split is a genuine held-out split (the held-out events are never ingested), but it measures generalization *within one synthetic world*, not across worlds. CDT is the cross-world measure, and with near-zero shared vocabulary between the reproduction domains (§4, ablation-independent) it is expected to be ≈ 0 or negative.
 5. **PA and PA_substrate are substrate-level.** They are built at ingest time from the event stream, so they are *expected to be identical across every sleep ablation* (A–I) and to differ only for J. That is not a bug — it is the localisation result: it says which part of the system the sleep pipeline actually acts on. If PA turns out to differ between sleep ablations, something else is going on and should be investigated.
 6. **This study measures the architecture as it is, not as it should be.** It does not propose cognitive changes. Any remedy it suggests is a proposal under the Phase A freeze, not an applied change.
 
@@ -214,7 +214,7 @@ The consequence was severe and would have been reported as a finding: `PA = 0.00
 
 **Fix.** The stream is now split **within each domain**: the block structure is detected automatically (`detect_blocks`), and the last repetition of each block is held out. Training now contains 34 events spanning both domains; 14 events are held out in 2 blocks. The held-out events have never been ingested, so no substrate edge derives from them.
 
-**What this changes about the meaning of PA.** Because the stimulus is a repeating synthetic stream, the held-out event *instances* are textually identical to training instances. `PA` therefore measures **within-domain prediction of a held-out sequence position** — retention and reproduction of learned regularities — not generalisation to new material. The generalisation measurement is CDT, which is reported separately and is negative. This limitation was already stated in §6.4; the fix makes the split honest rather than accidentally cross-domain.
+**What this changes about the meaning of PA.** Because the stimulus is a repeating synthetic stream, the held-out event *instances* are textually identical to training instances. `PA` therefore measures **within-domain prediction of a held-out sequence position** — retention and reproduction of learned regularities — not generalization to new material. The generalization measurement is CDT, which is reported separately and is negative. This limitation was already stated in §6.4; the fix makes the split honest rather than accidentally cross-domain.
 
 ### Defect 2 — SCR rewarded destroying structures
 
@@ -264,7 +264,7 @@ Two companion numbers are reported alongside it: the **duty cycle** of contradic
 At the owner's review, a **mechanism-verification stage** was added ahead of any interpretation: *"in experimental cognitive systems, 'the ablation actually changed the organism' is always the first result to verify."* `benchmarks/ablation_verify.py` implements it and writes `docs/ablation_verification.json`. It checks:
 
 1. **A perturbation census** — for every condition, which populations changed relative to `O_FULL`? A condition that changed nothing was not an ablation.
-2. **Did Random Curiosity actually change behaviour?** Experiment overlap (Jaccard) between the EIG-selected set and the randomly-selected set; the rank correlation between each candidate's EIG score and the position it was selected at; and the distribution of curiosity scores selected by each policy. If those distributions are identical, the EIG implementation is not influencing selection at all, and any equality in the aggregate is vacuous.
+2. **Did Random Curiosity actually change behavior?** Experiment overlap (Jaccard) between the EIG-selected set and the randomly-selected set; the rank correlation between each candidate's EIG score and the position it was selected at; and the distribution of curiosity scores selected by each policy. If those distributions are identical, the EIG implementation is not influencing selection at all, and any equality in the aggregate is vacuous.
 3. **Where do contradictions come from?** The same conditions re-run with the Layer-4 hypothesis cap removed, to distinguish "contradictions are generated by the falsification subsystem" from "contradiction *survival* depends on it" from "the ablation disabled a dead pipeline".
 
 This stage was added **before** the reported run, and it is capable of invalidating a result rather than merely decorating one.
@@ -272,12 +272,12 @@ This stage was added **before** the reported run, and it is capable of invalidat
 ### What was not changed
 
 - No prediction in §4 was revised.
-- No threshold, band, or metric was redefined in a direction that favours a result. All three fixes remove artefacts that flattered a *degenerate* system (an empty system scored a perfect contradiction-hygiene mark; a structure-destroying system scored excellent compression).
+- No threshold, band, or metric was redefined in a direction that favours a result. All three fixes remove artifacts that flattered a *degenerate* system (an empty system scored a perfect contradiction-hygiene mark; a structure-destroying system scored excellent compression).
 - The engine was not modified, before or after.
 
 ### Why this is disclosed rather than quietly fixed
 
-Run 1's raw output was available before the fixes were made, and two of its three headline results (Random Sleep scoring above the full system; PA of zero everywhere) would have been wrong in the reader's favour or against the project's own claim, depending on which was reported. Pre-registration is only worth something if the record of what was seen first is preserved. It is preserved here and in the git history: the commit containing this document precedes both runs, and this amendment was written before the second run completed.
+Run 1's raw output was available before the fixes were made, and two of its three headline results (Random Sleep scoring above the full system; PA of zero everywhere) would have been wrong in the reader's favor or against the project's own claim, depending on which was reported. Pre-registration is only worth something if the record of what was seen first is preserved. It is preserved here and in the git history: the commit containing this document precedes both runs, and this amendment was written before the second run completed.
 
 ---
 

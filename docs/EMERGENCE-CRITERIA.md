@@ -109,9 +109,9 @@ Each level is strictly harder to fake. A system at Level 2 has not thereby demon
 
 This section exists because the project's vision text can be read as claiming something stronger than the code does, and because the honest version is more defensible than the strong one.
 
-### 3.1 How does the organism recognise language? It does not.
+### 3.1 How does the organism recognize language? It does not.
 
-The direct answer to the question *"how does it recognise language, or even know what language is, without being taught?"*:
+The direct answer to the question *"how does it recognize language, or even know what language is, without being taught?"*:
 
 **It doesn't. It never forms a representation of language as such.** There is no grammar, no lexicon, no parser, no tokeniser with linguistic knowledge, no embedding, and no model of what a word means. What it has is a lexical filter:
 
@@ -129,7 +129,7 @@ def _extract_tags(content: str) -> list[str]:
     ...
 ```
 
-The behaviour this produces, precisely:
+The behavior this produces, precisely:
 
 - Words are lowercased and matched against `[a-zA-Z]{4,}` — **four or more alphabetic characters**.
 - Words shorter than four characters are **invisible**. "cat", "dog", "run", "ok" never become tags. Neither do digits, punctuation, or any non-ASCII character.

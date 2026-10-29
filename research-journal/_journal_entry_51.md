@@ -54,8 +54,8 @@ edge readout emits hard 0/1. Scored on the frozen world's follow-up window:
 | constant zero | **0.0000** | 0.1397 |
 
 **The Bayes-optimal model scores exactly what the trivial model scores.**
-F1 at 0.5 was measuring *threshold behaviour*, not knowledge quality. The
-reviewer's phrasing — that F1 might compare threshold behaviour rather than
+F1 at 0.5 was measuring *threshold behavior*, not knowledge quality. The
+reviewer's phrasing — that F1 might compare threshold behavior rather than
 learning quality — is confirmed without qualification, and the endpoint was
 unusable as specified.
 
@@ -89,7 +89,7 @@ been undiagnosable: it could not have distinguished "did not retain" from
 the source: `_find_communities` is connected components on the co-occurrence
 graph, and `_build_concepts` makes one concept per component, and
 `edges_implied_by_structures` asserts **every pair** among a concept's
-members — so a concept *would* generalise to pairs never directly
+members — so a concept *would* generalize to pairs never directly
 co-observed. But `_classify` requires a concept to have
 `degree >= 4 and clustering <= 0.4 and predictive_reach >= 4`, and a group
 defined *by* co-occurrence has **clustering 1.000** — the opposite of what
@@ -177,12 +177,12 @@ grouping oracle alone captures **0.8679** of the span.
 **The world's law *is* first-order Markov, so a bigram table is its natural
 learner: "understood the law" and "counted transitions" are not separable by
 a next-event score alone.** That world was therefore reclassified
-**CALIBRATION / CONTROL**, not a generalisation benchmark.
+**CALIBRATION / CONTROL**, not a generalization benchmark.
 
 ### The compositional task — a benchmark that can fail
 
 A new task was built to measure what the transition world could not:
-generalisation to a **withheld combination** of familiar elements. Four
+generalization to a **withheld combination** of familiar elements. Four
 cells in a 2 × 2 grid of two latent factors, 4 tags each (16 total); the law
 is that the successor cell differs in exactly one factor (flip-P 0.65 /
 flip-Q 0.35, rotating at the regime switch); the tag-to-cell mapping is
@@ -205,7 +205,7 @@ Thirty independent worlds, seeds 20261200–20261229, all checks pass:
 
 **G7 is the load-bearing gate.** Without it, G1 could be passing because of
 generic estimation error. With it, the headroom is demonstrably
-*generalisation* headroom on the withheld combination specifically.
+*generalization* headroom on the withheld combination specifically.
 
 A sensitivity, reported and not gated: a control with the right structure but
 the two transition weights swapped is only **+0.0307** worse [+0.0283,

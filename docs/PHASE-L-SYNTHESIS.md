@@ -18,7 +18,7 @@
 
 **The protocol verdict is unchanged and stands: `H3-L — INCONCLUSIVE`.** This
 document does not re-score it, does not soften it, and does not replace it.
-What it does is publish the **characterisation** — the pattern that survived
+What it does is publish the **characterization** — the pattern that survived
 increasing n — which is a different kind of claim from the verdict, and is
 stated separately for that reason.
 
@@ -27,14 +27,14 @@ stated separately for that reason.
 ## 1. The one-sentence conclusion
 
 > **Organica 1 does not appear to exhibit a continuous coherence–plasticity
-> trade-off. It appears to exhibit regime behaviour separated by a
+> trade-off. It appears to exhibit regime behavior separated by a
 > reproducible transition region.**
 
 That sentence is the owner's reading of the pattern that survived raising the
-sample size from 10 seeds to 30. It is a **characterisation**, and it carries
+sample size from 10 seeds to 30. It is a **characterization**, and it carries
 two halves that are not equally supported:
 
-- **"Regime behaviour with a reproducible transition region"** — supported by
+- **"Regime behavior with a reproducible transition region"** — supported by
   direct measurement, and it got *stronger* as n rose.
 - **"Does not exhibit a continuous trade-off"** — supported by the absence of
   the property the protocol asked for, established not by an argument but by
@@ -94,7 +94,7 @@ The crossing is at **3:1**, and it did not move when n tripled:
 > robust **within this defined experiment**: this engine, this world family,
 > this support-ratio axis. The eight alternative bootstrap seeds test
 > **resampling stability, not new worlds** — they re-draw from the same
-> measured seeds, so they say the crossing is not an artefact of one resample,
+> measured seeds, so they say the crossing is not an artifact of one resample,
 > not that the crossing would land in the same place in a different world.
 > Leave-one-seed-out is the same kind of check on the same data.
 > **3:1 is therefore not a general threshold for Organica**, and this document
@@ -128,7 +128,7 @@ revise *slightly more* under higher pressure. It goes from **never** to
 > the project measured it head-to-head against a strong baseline, Organica
 > lost cleanly.** So "revision exists" is not a supported summary of Phase L;
 > "structural displacement occurs, and is sharply thresholded" is. Nothing in
-> this document's characterisation carries over to the belief-revision
+> this document's characterization carries over to the belief-revision
 > question, and the earlier wording that read Phase L as a revision result has
 > been corrected wherever it appeared.
 
@@ -142,7 +142,7 @@ ten) — a difference of +0.0093, **p = 0.60** against random 30/30 splits of
 all 60 measured values ([`docs/phase_l_seed_audit.json`](../docs/phase_l_seed_audit.json)).
 
 The original ten seeds were an **unlucky high draw**, not a seed-block
-artefact. So the n=30 curve is the better estimate because there are more
+artifact. So the n=30 curve is the better estimate because there are more
 seeds, not because they were different.
 
 ---
@@ -199,14 +199,14 @@ plateau into a ramp.
 
 ---
 
-## 4. Why the verdict and the characterisation differ
+## 4. Why the verdict and the characterization differ
 
 They do not contradict each other; they answer different questions.
 
 | | Question it answers | Answer |
 |---|---|---|
 | **Protocol verdict** | Do the curve's four pre-committed properties hold? | **No** → `H3-L — INCONCLUSIVE` |
-| **Characterisation** | What shape does the curve actually have? | **A step function with a reproducible transition at 3:1** |
+| **Characterization** | What shape does the curve actually have? | **A step function with a reproducible transition at 3:1** |
 
 The mechanism is visible in the paired differences. Every adjacent step whose
 99% interval excludes zero is a real transition; every step whose interval
@@ -259,7 +259,7 @@ specific and more interesting:
 That is a question about **regime formation** — how much pressure is needed
 before the organism switches from preserving to displacing, and what sets that
 threshold. It is the natural successor, and the owner's decision is to
-**publish the characterisation first** and only then consider the secondary
+**publish the characterization first** and only then consider the secondary
 axes, so that they are read against a known shape rather than against a
 hypothetical smooth boundary.
 
@@ -280,7 +280,7 @@ property. It is not the property the protocol asked for, and calling it one
 would be the same category of error as re-scoring the failed criteria — only
 more flattering.
 
-The second temptation is to let "regime behaviour" become a claim about
+The second temptation is to let "regime behavior" become a claim about
 intelligence. It is not one. **Phase L measured a displacement index, a
 preservation index, and a latency on synthetic worlds.** The word "regime"
 describes the shape of those curves. Nothing more.

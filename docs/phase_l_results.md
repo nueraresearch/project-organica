@@ -4,11 +4,11 @@
 **Verdict by the four pre-committed criteria: `H3-L — INCONCLUSIVE`.**
 **Protocol remedy for this outcome: raise n; conclude nothing. No outcome here authorises a V2.**
 
-> **This document is the measurement record.** The published *characterisation*
+> **This document is the measurement record.** The published *characterization*
 > — what the measurement means, in the owner's reading — is
 > **[`docs/PHASE-L-SYNTHESIS.md`](PHASE-L-SYNTHESIS.md)**. The two are kept
 > separate on purpose: the verdict is what the protocol produced, and the
-> characterisation is what the shape turned out to be. Neither re-scores the
+> characterization is what the shape turned out to be. Neither re-scores the
 > other.
 
 This is the **raise-n** run: the protocol's own remedy for the n=10 result,
@@ -152,7 +152,7 @@ differences.
 ## 6. How stable are the criteria themselves?
 
 *This analysis was run **after** the n=30 outcome was known. It is a
-characterisation of what the verdict means. It changes no criterion, no
+characterization of what the verdict means. It changes no criterion, no
 verdict and no prediction — the verdict stands as `H3-L — INCONCLUSIVE`.*
 
 Resampling the 30 measured seeds and recomputing the four criteria:
@@ -176,7 +176,7 @@ organism's displacement curve has**, at any practical n: the low end is
 DI = 0.000 exactly and the high end saturates at DI ≈ 0.71. More seeds
 cannot make a plateau into a ramp.
 
-This is the substantive content of the raise-n run. It is **not** a licence
+This is the substantive content of the raise-n run. It is **not** a license
 to re-score the protocol: the verdict is INCONCLUSIVE, no boundary is
 claimed, and the four criteria stand as written.
 
@@ -242,7 +242,7 @@ routinely produces gaps of this size under a split, and the *direction* is
 where the luck goes.
 
 **Therefore: the original ten seeds were an unlucky high draw, not a
-seed-block artefact.** The shift between the n=10 and n=30 curves is sampling
+seed-block artifact.** The shift between the n=10 and n=30 curves is sampling
 luck, exactly as the owner suspected might be true.
 
 **Consequence for the bootstrap: the paired bootstrap over seeds is sound.**

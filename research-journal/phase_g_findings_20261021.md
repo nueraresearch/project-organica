@@ -29,9 +29,9 @@ All four defects are now fixed and covered by tests. The study has been relaunch
 **Addendum (2026-10-22).** Two further studies were run against the corrected build, both answering questions the 90-day study cannot:
 
 - **§14 — the cold-start question.** *Would Generation 1 have built out the generations above it with no assistance and no code changes?* Answered empirically: G1, G4 and G6–G8 bootstrap unassisted; **G5 never does**, and the cause is proven causal rather than guessed.
-- **§17 — the ablation study.** *Which mechanisms are actually doing the work?* Eleven conditions, pre-registered before the run, with a mechanism-verification stage run before any interpretation. The answer is uncomfortable and useful: sleep and the graph are foundational, **lineage is pure governance with zero behavioural effect**, and the attention economy changes what it selects without changing what the organism achieves.
+- **§17 — the ablation study.** *Which mechanisms are actually doing the work?* Eleven conditions, pre-registered before the run, with a mechanism-verification stage run before any interpretation. The answer is uncomfortable and useful: sleep and the graph are foundational, **lineage is pure governance with zero behavioral effect**, and the attention economy changes what it selects without changing what the organism achieves.
 
-Both studies are also summarised in `docs/USER-MANUAL.md` §8.1 and §8.2.
+Both studies are also summarized in `docs/USER-MANUAL.md` §8.1 and §8.2.
 
 ---
 
@@ -220,7 +220,7 @@ This is why G5 sustainment is ~70% and not ~100%, and why adding domains made it
 |---|---|---|
 | `tag_counts` table, maintained incrementally | Removes the O(n) full scan | Result proven **identical** to the legacy scan |
 | `sleep_cycles` table | Authoritative monotonic cycle counter | Cannot reset; survives restarts |
-| `idx_events_type_time`, `idx_events_source` | O(log n) `recent()` | Behaviour unchanged |
+| `idx_events_type_time`, `idx_events_source` | O(log n) `recent()` | Behavior unchanged |
 | `prune_sleep_candidates(keep=20000)` | Bounds disk growth | Never deletes experience events or `sleep:meta`; leaves the newest 4,000 events (the organism's working memory) byte-identical |
 | Backfill on open | Existing databases keep working | One-time; verified equivalent |
 
@@ -233,13 +233,13 @@ This is why G5 sustainment is ~70% and not ~100%, and why adding domains made it
 | `.gitignore` | `*.log`, `logs/`, `INTERVAL` — unbounded run artifacts out of version control |
 | `metrics.py`, `observation/metrics_observer.py`, `dashboard_ui.py` | Observation pipeline repairs (§6) |
 
-### New artefacts
+### New artifacts
 
 - `benchmarks/g5_gap_diagnostic.py` — the G5 gate instrumented and proven.
 - `benchmarks/substrate_probe.py` — live-substrate read costs and page accounting.
 - `benchmarks/substrate_scaling_analysis.py` — latency-vs-cycle fit from the real log.
 - `benchmarks/stream_sweep.py` — candidate stream selection.
-- `tests/test_substrate_equivalence.py` — 8 tests proving the substrate changes are behaviour-preserving.
+- `tests/test_substrate_equivalence.py` — 8 tests proving the substrate changes are behavior-preserving.
 - `docs/g5_gap_diagnostic.json`, `docs/substrate_probe.json`, `docs/stream_sweep.json`, `docs/substrate_scaling_analysis.json`.
 
 **Test status: 13 passed.**
@@ -315,7 +315,7 @@ At cycle 98 the surviving hypothesis set had been rebuilt from scratch — suppo
 
 It does mean the study's headline metric should be **G5 sustainment over a rolling window**, not "theories > 0" per cycle, and it means any claim of "Generation 5 is present" should be stated as a duty cycle.
 
-**It also sharpens the architecture amendment in §7.** The knife-edge behaviour comes from `DEATH_THRESHOLD` interacting with share-based confidence. Two candidate amendments:
+**It also sharpens the architecture amendment in §7.** The knife-edge behavior comes from `DEATH_THRESHOLD` interacting with share-based confidence. Two candidate amendments:
 
 1. Make Layer 4's selection merit-aware (already proposed), so a competitor with genuine evidence is not truncated away before it can be evaluated.
 2. Consider whether a minority expectation should be pruned for *low share* at all, or only for lack of evidence. Under the current rule, a hypothesis can be extinguished by the very success of its sibling.
@@ -441,7 +441,7 @@ This also maps onto the working-memory literature: the architecture's competence
 
 Two findings point the same way, and both argue for **simplification** rather than more layers:
 
-1. **Belief should be a posterior, not a share.** A Laplace- or Beta-smoothed posterior over each subject's successors would keep a genuinely split belief alive (a 50/50 split across 20 observations should stay near 0.5, not decay below 0.15 and die), would make the lookback width irrelevant, and would remove much of the need for engineered stimuli. It is also *more* human-like: human belief revision is evidence accumulation against a prior, not a normalised ratio. It is a one-formula change.
+1. **Belief should be a posterior, not a share.** A Laplace- or Beta-smoothed posterior over each subject's successors would keep a genuinely split belief alive (a 50/50 split across 20 observations should stay near 0.5, not decay below 0.15 and die), would make the lookback width irrelevant, and would remove much of the need for engineered stimuli. It is also *more* human-like: human belief revision is evidence accumulation against a prior, not a normalized ratio. It is a one-formula change.
 2. **G8 needs an executor.** If experiments were actually run — probe a discriminating context, inject the outcome, measure the belief delta — the organism would *generate its own competing expectations* from its own uncertainty. That is the self-build loop: the engineered branch point becomes unnecessary because the organism manufactures its own. This is the largest remaining gap (§13), and it is the one that would make "the simplest architecture" actually simplest.
 
 **Caveat on power:** the `real_git_history` condition used 8 commit messages, because this repository has only 8 commits so far. That condition is under-powered and should be re-run on a larger, genuinely independent history (a mature repository, a system log, a chat corpus) before the conclusion is treated as settled. The unbranched-stream conditions do not have this weakness, and they agree.
@@ -624,7 +624,7 @@ Every condition changed the organism. `B` (No Lineage) is the deliberate excepti
 | cond | perturbation |
 |---|---|
 | A | confirmed — every Layer-1 population → 0 |
-| B | confirmed (provenance-only: behaviour unchanged is the result) |
+| B | confirmed (provenance-only: behavior unchanged is the result) |
 | C | confirmed — hypotheses 13→15, theories 1→3, investigations 5→0 |
 | D | confirmed — processes 10→0, workflows 10→0, hypotheses 13→7, theories 1→0 |
 | E | confirmed — processes 10→0, workflows 10→0, hypotheses 13→6 |
@@ -634,7 +634,7 @@ Every condition changed the organism. `B` (No Lineage) is the deliberate excepti
 | I | confirmed — processes 10→0, workflows 10→0, hypotheses 13→15 |
 | J | confirmed — every Layer-1 population → 0 |
 
-#### Did Random Curiosity actually change behaviour?
+#### Did Random Curiosity actually change behavior?
 
 **Yes, and the comparison is far from vacuous.**
 
@@ -696,7 +696,7 @@ A second, narrower caveat: **Contradiction Density counts subjects carrying two 
 
 `B` (No Lineage) produces deltas of **0.000** on PA, PA_substrate, IP, SCR, SS, CD and NSR, and identical populations (13 / 1 / 1 / 8 / 5 / 5). The *only* thing that changes is Lineage Completeness, from 1.000 to 0.000.
 
-So Law II — "every structure traces back to raw experience" — is **load-bearing for auditability and completely inert for behaviour**. That is a genuinely useful result and it is not what the design implies: it is listed as a principle, and one might reasonably read that as a claim that the architecture depends on it. It does not. The honest formulation is that lineage is a *governance layer*, and a valuable one — it is what makes claims 3 through 8 checkable at all — but it should not be counted among the cognitive mechanisms when arguing that the architecture does something.
+So Law II — "every structure traces back to raw experience" — is **load-bearing for auditability and completely inert for behavior**. That is a genuinely useful result and it is not what the design implies: it is listed as a principle, and one might reasonably read that as a claim that the architecture depends on it. It does not. The honest formulation is that lineage is a *governance layer*, and a valuable one — it is what makes claims 3 through 8 checkable at all — but it should not be counted among the cognitive mechanisms when arguing that the architecture does something.
 
 **Finding C — Curiosity does not drive belief formation. It drives action on belief.**
 
@@ -812,7 +812,7 @@ In priority order. Every item below is a **proposal**; Phase A freezes cognitive
 | 3 | **Stop truncating hypotheses alphabetically — a real defect, but measured to be currently inert** | Finding J, as corrected. The rule is name-based and frequency-correlated, so it is wrong in principle. But the cap binds in 0 of 600 cycles, so the sort currently changes nothing — and it was **not** the cause of Finding D. Sort by evidence (a unit-free salience composite) instead, and treat it as a correctness fix, not as the fix for D. | Cognitive — authorised by the owner 2026-10-22, applied 2026-10-23 |
 | 4 | **The hypothesis cap is not the constraint — upstream belief supply is** | This remedy was written on the belief that "15 slots against 13–15 live hypotheses means the cap binds constantly". That is **wrong**: `MAX_HYPOTHESES` is INERT (0/600 cycles; raising it 15→60 changes nothing). The real constraint is upstream: Layer 1 discards ~99% of its candidates (pressure 29–61×) and Layer 4 receives 5–8 beliefs. Re-target this remedy at the funnel, not the cap. | Cognitive — needs a recorded decision |
 | 5 | **Give the aggregate a population term, or stop using it** | Finding E is the argument: an ablation removed the whole upper ladder and scored −3. The per-metric table plus the population table is the honest summary. | Measurement |
-| 6 | **Record Law II as governance, not cognition** | Finding B. The design documents list lineage among the principles in a way that implies behavioural importance it does not have. | Documentation |
+| 6 | **Record Law II as governance, not cognition** | Finding B. The design documents list lineage among the principles in a way that implies behavioral importance it does not have. | Documentation |
 | 7 | **Run the ablation suite again after any cognitive change** | It is now the regression test for "did we accidentally make the organism depend on us, or stop depending on something it used to need?" | Process |
 
 ### 17.9 What would falsify this section
@@ -1027,7 +1027,7 @@ This also explains Finding 11 (the plateau) and Finding 12 (inert retention) wit
 | Was planned | Now | Why |
 |---|---|---|
 | Run the 6-colony Tier-1 matrix | **Gated** behind G-P1 | With pressure 0.35-0.51, `FULL` and `SALIENCE_RETENTION` would be the same colony |
-| Replace alphabetical retention | **Done** (2026-10-23) | The rule was wrong; it is now a named, unit-free salience policy with its own allowance for inert markers. Measured effect on current behaviour: **none** — the cap does not bind — so it is a correctness fix, not a behavioural one |
+| Replace alphabetical retention | **Done** (2026-10-23) | The rule was wrong; it is now a named, unit-free salience policy with its own allowance for inert markers. Measured effect on current behavior: **none** — the cap does not bind — so it is a correctness fix, not a behavioral one |
 | Extend the 90-day run | **Replaced** by the matrix; the daemon becomes a monitor | 3,464 cycles of zero variance (19.2) |
 | Enlarge the world | **Refuted as a strategy** | A richer world made the organism worse (19.6) |
 | Enlarge the budget | **Refuted as a strategy** | `MAX_HYPOTHESES` is INERT (19.5) |
@@ -1039,9 +1039,9 @@ Both were found by checking a measurement against the substrate it claims to des
 1. **The archived contradiction series was `null`, not zero.** The archive script copied `rec["contradiction_total"]` from each daemon log record, but `run_continuous.py` never writes that key. All 3,725 archived values were `null`, which reads as "zero contradiction everywhere"; the true final value is **400,550**. The archive is now a committed tool (`benchmarks/archive_run.py`) that re-derives the totals from the hypothesis snapshot, which *is* in the record.
 2. **The first audit reported the workflow layer as dead.** It read the report attribute `workflows` instead of `workflow_concepts`, so a working layer measured 0. The audit now uses an explicit name-to-attribute mapping, and a test asserts that no inline cap literals remain in the layer builders.
 
-### 19.11 Artefacts
+### 19.11 Artifacts
 
-| Artefact | Contents |
+| Artifact | Contents |
 |---|---|
 | `benchmarks/development_probe.py` -> `docs/development_probe.json` | Cap-binding census, budget insensitivity, plateau analysis, vocabulary audit |
 | `benchmarks/instrumentation_audit.py` -> `docs/instrumentation_audit.json` | Pre-cap pools and retention pressure, 14-parameter influence map, effective world size, funnel sweep |
@@ -1161,16 +1161,16 @@ stream — and on ablations of it. A branch-structured stimulus is
 (§14 and §2.1 of this journal both record that the original stream was
 replaced precisely because it was too narrow to exercise the architecture).
 Results on an engineered stimulus are evidence that the **architecture
-can** support the behaviour, not that it does so **unassisted**. The
+can** support the behavior, not that it does so **unassisted**. The
 unassisted question is a separate experiment, and §14's cold-start design
 is the instrument for it.
 
 The gates below are therefore stated as *preconditions for the campaign to
 be informative*, not as claims about the organism.
 
-### 20.5 Artefacts
+### 20.5 Artifacts
 
-| Artefact | Contents |
+| Artifact | Contents |
 |---|---|
 | `benchmarks/gate_validation.py` -> `docs/gate_validation.json` | The identity test, the cross-condition correlation, and the high-theory check, from the V1 artifact |
 | `benchmarks/mbsd_census.py` -> `docs/mbsd_census.json` | The exact MBSD density (with the denominator) for all 11 conditions, re-running the V1 condition classes verbatim |
@@ -1522,7 +1522,7 @@ instead of mixing two populations in one table. `tests/test_substrate_equivalenc
 gains a scope-consistency regression test: *a sleep payload must change
 neither the temporal graph nor the frequency counter that normalises it.*
 
-**This is a behaviour change and it is disclosed here.**
+**This is a behavior change and it is disclosed here.**
 
 | | before | after |
 |---|---:|---:|
@@ -1744,7 +1744,7 @@ follow from §22.4:
    cap binds. That is the P1 arm's whole point, and it was unmeasurable
    until now.
 2. **No Falsification is no longer a candidate colony.** Its pre-fix
-   behaviour was an artifact. The six V2 colonies are unchanged from the
+   behavior was an artifact. The six V2 colonies are unchanged from the
    pre-registration, and D is not one of them — but the reason D was
    dropped from the V2 list (it looked like a collapse) is now known to be
    wrong, and that is recorded rather than quietly fixed.
@@ -1981,7 +1981,7 @@ MBSD, theories, questions, cognitive revolutions.**
 
 | If the inventory goes | Then |
 |---|---|
-| 74 → 300 → 1,200 → 5,000 | The plateau was an **environmental artefact**. What this project found is a developmental system trapped inside a toy universe. |
+| 74 → 300 → 1,200 → 5,000 | The plateau was an **environmental artifact**. What this project found is a developmental system trapped inside a toy universe. |
 | 74 → 74 → 74 → 74 | The plateau is **architectural**, and the architecture — not the environment — is the ceiling. |
 
 This is a **stimulus** experiment. Nothing about the engine changes, so the
@@ -2530,8 +2530,8 @@ configurations, 24 per seed per family — and the **best** score used.
 Every verdict survives the two checks that could have embarrassed it. Re-running
 the bootstrap with **eight different seeds** leaves all three verdicts
 unchanged, so no verdict is an artifact of the hash-derived bootstrap seed the
-protocol pins. Dropping the single most favourable seed, and separately the
-single least favourable seed, also leaves every verdict unchanged: with ten
+protocol pins. Dropping the single most favorable seed, and separately the
+single least favorable seed, also leaves every verdict unchanged: with ten
 seeds, one outlier cannot carry any of these intervals.
 
 ### The ablations: a negative attribution
@@ -2702,7 +2702,7 @@ load-bearing *here*.
 
 > What if Organica is already doing exactly what it was designed to do?
 
-The architecture is optimised to **accumulate and stabilise structure**, and
+The architecture is optimized to **accumulate and stabilise structure**, and
 the matrix found exactly that: structure fixed on cycle 1 and held for 2,999
 cycles while support grew +10,776%. K3 then found that the early scaffold
 dominates. That may not be a bug. It may be the purest expression of the
@@ -2712,7 +2712,7 @@ The 2×2 control makes this precise rather than rhetorical: the late group
 **is** incorporated when it is strictly stronger than the group that arrived
 first (9–11 of 18 gold pairs at late weight 3 / early weight 1, against 0–1
 otherwise). So Organica is not incapable of revision; it is **priority-ordered**,
-with arrival order as the tiebreak in favour of the incumbent. The deficit is
+with arrival order as the tiebreak in favor of the incumbent. The deficit is
 in **displacement**, not in acquisition and not in capacity.
 
 ### The question this leaves open
@@ -2870,7 +2870,7 @@ protocol that is written and then immediately run has not had that chance.
 
 **What this section records.** A harness finding, not a scientific result.
 The Phase L pilot returned an apparently clean answer, and the answer was an
-artefact. This section records what happened, because the failure mode is
+artifact. This section records what happened, because the failure mode is
 more valuable than the numbers it corrupted.
 
 ### What the pilot said
@@ -3061,7 +3061,7 @@ cannot.
 
 The same review made a second point: **two organisms can end at the same DI
 and PI while behaving completely differently.** One crosses at cycle 170, the
-other at cycle 590. Same endpoint, different developmental behaviour. The RT
+other at cycle 590. Same endpoint, different developmental behavior. The RT
 alone would not see the difference.
 
 Revision latency — cycles from the late group's arrival until DI first
@@ -3215,7 +3215,7 @@ comfortably; the RT was never in doubt. The verdict is INCONCLUSIVE because
 **criterion 2 failed**, not because the threshold could not be located.
 
 This is worth writing down precisely because it is the kind of thing that can
-quietly become a licence. Nothing was re-read, relaxed, or reinterpreted: the
+quietly become a license. Nothing was re-read, relaxed, or reinterpreted: the
 verdict stands as INCONCLUSIVE and the remedy (raise n; conclude nothing)
 governs. But a bucket whose label and whose stated rationale have come apart is
 a drafting defect in the protocol, and the next phase should say what
@@ -3234,7 +3234,7 @@ is real and reproducible at 3:1, and the phase's pre-registered bar was not
 cleared.*
 
 The mirror of this lesson is the one from §37: the pilot looked like a clean
-negative and was an artefact; this run looks like a clean positive and is
+negative and was an artifact; this run looks like a clean positive and is
 barred by one criterion that missed by 0.005. **Both of those are the same
 lesson.** The instrument either measures what it claims or it does not, and the
 protocol — not the observer — decides what the number means.
@@ -3245,7 +3245,7 @@ It is not a claim that Organica has a coherence–plasticity boundary. The
 pre-registered verdict is INCONCLUSIVE and the protocol forbids concluding
 anything from it. It is not a claim about capability. It is not a claim that
 support ratio is *the* operative variable beyond this axis on this engine. And
-it is not a licence for V2: V2–V5 were deliberately not run, because no Phase L
+it is not a license for V2: V2–V5 were deliberately not run, because no Phase L
 outcome authorises a V2.
 
 Recorded in `docs/phase_l_results.md`, in the facts sheet as §X, and in the
@@ -3384,7 +3384,7 @@ distribution (multiples of 1/18) routinely produces gaps of that size under a
 split, and the direction is where the luck goes.
 
 So **the original ten seeds were an unlucky high draw, not a seed-block
-artefact** — the shift between the n=10 and n=30 curves is sampling luck, and
+artifact** — the shift between the n=10 and n=30 curves is sampling luck, and
 **the paired bootstrap over seeds is sound**. The n=30 curve is the better
 estimate because there are more of them, not because they were different.
 
@@ -3396,7 +3396,7 @@ came out with two of them behaving like coin flips and two of them behaving
 like facts. The way to tell the two apart is not to argue about them — it is
 to ask *how often does this criterion hold across random subsets of the data
 I already have?* That question is cheap, it is answerable with the data in
-hand, and it converts a verdict into a characterisation.
+hand, and it converts a verdict into a characterization.
 
 The sibling lesson is the one from §38: **strict monotonicity was the wrong
 shape of test for a curve that has plateaus.** The protocol asked for a
@@ -3412,7 +3412,7 @@ want."
 It is not a boundary claim. It is not a V2 authorisation — the secondary arms
 were not run, because no Phase L outcome authorises a V2. It is not a claim
 that the phase failed: `H3-L` is a pre-committed outcome with a pre-committed
-remedy, and the remedy has now been taken. And it is not a licence to relax a
+remedy, and the remedy has now been taken. And it is not a license to relax a
 criterion after the fact. The criteria stand; the verdict stands; what
 changed is that the phase can now *say what the verdict means*.
 
@@ -3421,7 +3421,7 @@ manual as §8.11.
 
 ---
 
-## §40 — The decision: publish the characterisation, and stop raising n
+## §40 — The decision: publish the characterization, and stop raising n
 
 **What this section records.** The owner's reading of the raise-n result, the
 decision taken on the strength of it, and the reasoning behind that decision.
@@ -3430,7 +3430,7 @@ It is a decision record, not new evidence.
 ### The reading
 
 > **Organica 1 does not appear to exhibit a continuous coherence–plasticity
-> trade-off. It appears to exhibit regime behaviour separated by a
+> trade-off. It appears to exhibit regime behavior separated by a
 > reproducible transition region.**
 
 This is the owner's sentence, and it is deliberately *not* the protocol
@@ -3476,7 +3476,7 @@ has already answered.**
 
 ### The decision
 
-**Publish the characterisation.** Not `H2-L` — that outcome was not reached,
+**Publish the characterization.** Not `H2-L` — that outcome was not reached,
 and the verdict stands as `H3-L — INCONCLUSIVE`. Not "boundary established" —
 the protocol says that was not established. But this *was* established:
 
@@ -3506,14 +3506,14 @@ is a real property — and it is not the property the protocol asked for. Callin
 it one would be the same category of error as re-scoring the failed criteria,
 only more flattering.
 
-The second temptation is to let "regime behaviour" become a claim about
+The second temptation is to let "regime behavior" become a claim about
 intelligence. It is not one. Phase L measured a displacement index, a
 preservation index and a latency on synthetic worlds. **"Regime" describes the
 shape of those curves, and nothing more.**
 
 ### Where this lives
 
-The published characterisation is **`docs/PHASE-L-SYNTHESIS.md`**, following the
+The published characterization is **`docs/PHASE-L-SYNTHESIS.md`**, following the
 `docs/V1-SYNTHESIS.md` pattern: a formal read that adds no new evidence and
 cites a committed artifact for every claim. The measurement record stays in
 `docs/phase_l_results.md`, the protocol verdict stays `H3-L — INCONCLUSIVE`
@@ -3654,7 +3654,7 @@ progression:
 | Stage | What it established |
 |---|---|
 | **V1** | Developmental properties: development occurs, history matters, curriculum matters, stable regimes emerge. |
-| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. |
+| **Phase L** | Regime behavior with a stable transition region — and the protocol verdict and the characterization kept as separate artifacts. |
 | **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. |
 | **Next** | Can experience produce knowledge that **transfers, predicts and revises**? |
 
@@ -3675,7 +3675,7 @@ another.
 
 **So the rule is pre-committed, not aspirational:** the next protocol's success
 criteria must contain at least one **trace-derived diagnostic**, and a result
-that fails it **fails the protocol even if the headline behaviour is correct.**
+that fails it **fails the protocol even if the headline behavior is correct.**
 
 **The first instance is the disqualifier:**
 
@@ -3758,7 +3758,7 @@ measured with a passive store-time observer.
 | Default (cap 15) | 1,412 beliefs, 0 failures | 120/120 cycles | 1,412 beliefs, 0 failures, 244 edges reconcile | 4 | 0 |
 | Stress (cap 5) | 290 beliefs, 0 failures | 60/60 cycles | 290 beliefs, 0 failures, 241 edges reconcile | 3 | **403** |
 
-**A4 behaviour invariance passes**: observer on and observer off produce
+**A4 behavior invariance passes**: observer on and observer off produce
 byte-identical reports apart from the wall-clock `ran_at`.
 
 **What the stress arm does and does not show.** It shows the auditor can
@@ -3783,7 +3783,7 @@ events — the engine deliberately skips those — so the attributed totals ran 
 order of magnitude above the aggregate counts, and A7 caught it. And its first
 invariance check compared whole reports including `ran_at`, a wall-clock
 timestamp, so two identical runs differed for a reason that had nothing to do
-with behaviour. Both were the auditor's errors; both were found by the checks
+with behavior. Both were the auditor's errors; both were found by the checks
 rather than by inspection.
 
 **The generalisable lesson, now AGENTS rule 17(d):** *an aggregate is not an
@@ -4031,7 +4031,7 @@ separate validation question, and A3 is where it begins.
 Whether self-sourced support *hurts*, and in what way. The candidate outcomes
 — **correctness**, **persistence**, **revision resistance**, **confidence
 inflation**, **false-positive rate** — are named in the specification and
-pre-committed to nothing. It is a characterisation study, not a protocol.
+pre-committed to nothing. It is a characterization study, not a protocol.
 
 ### A defect the review process caught in itself
 
@@ -4500,7 +4500,7 @@ journal will be read against.
 ### What did not change
 
 The protocol verdict `H3-L — INCONCLUSIVE` stands. The Phase L
-characterisation stands. The six negative task families stand. No number was
+characterization stands. The six negative task families stand. No number was
 recomputed, no artifact was re-read, and no criterion was reinterpreted: this
 was a correction to language, made against the existing record and recorded
 rather than quietly applied.
@@ -4565,8 +4565,8 @@ edge readout emits hard 0/1. Scored on the frozen world's follow-up window:
 | constant zero | **0.0000** | 0.1397 |
 
 **The Bayes-optimal model scores exactly what the trivial model scores.**
-F1 at 0.5 was measuring *threshold behaviour*, not knowledge quality. The
-reviewer's phrasing — that F1 might compare threshold behaviour rather than
+F1 at 0.5 was measuring *threshold behavior*, not knowledge quality. The
+reviewer's phrasing — that F1 might compare threshold behavior rather than
 learning quality — is confirmed without qualification, and the endpoint was
 unusable as specified.
 
@@ -4600,7 +4600,7 @@ been undiagnosable: it could not have distinguished "did not retain" from
 the source: `_find_communities` is connected components on the co-occurrence
 graph, and `_build_concepts` makes one concept per component, and
 `edges_implied_by_structures` asserts **every pair** among a concept's
-members — so a concept *would* generalise to pairs never directly
+members — so a concept *would* generalize to pairs never directly
 co-observed. But `_classify` requires a concept to have
 `degree >= 4 and clustering <= 0.4 and predictive_reach >= 4`, and a group
 defined *by* co-occurrence has **clustering 1.000** — the opposite of what
@@ -4688,12 +4688,12 @@ grouping oracle alone captures **0.8679** of the span.
 **The world's law *is* first-order Markov, so a bigram table is its natural
 learner: "understood the law" and "counted transitions" are not separable by
 a next-event score alone.** That world was therefore reclassified
-**CALIBRATION / CONTROL**, not a generalisation benchmark.
+**CALIBRATION / CONTROL**, not a generalization benchmark.
 
 ### The compositional task — a benchmark that can fail
 
 A new task was built to measure what the transition world could not:
-generalisation to a **withheld combination** of familiar elements. Four
+generalization to a **withheld combination** of familiar elements. Four
 cells in a 2 × 2 grid of two latent factors, 4 tags each (16 total); the law
 is that the successor cell differs in exactly one factor (flip-P 0.65 /
 flip-Q 0.35, rotating at the regime switch); the tag-to-cell mapping is
@@ -4716,7 +4716,7 @@ Thirty independent worlds, seeds 20261200–20261229, all checks pass:
 
 **G7 is the load-bearing gate.** Without it, G1 could be passing because of
 generic estimation error. With it, the headroom is demonstrably
-*generalisation* headroom on the withheld combination specifically.
+*generalization* headroom on the withheld combination specifically.
 
 A sensitivity, reported and not gated: a control with the right structure but
 the two transition weights swapped is only **+0.0307** worse [+0.0283,
@@ -4978,7 +4978,7 @@ rules, **precision never exceeds 0.3443**.
    world's edges are roughly **a third** of what any selection must retain
    (precision ≤ 0.3443 at every budget, under both rules). The top of the table
    is internal-vocabulary edges and intra-cell pairs.
-3. **Layer 1 selects on frequency, and the world is not organised by
+3. **Layer 1 selects on frequency, and the world is not organized by
    frequency.** At the global top-20 cut, **0–3 of 112** world edges survive
    while 28–39 intra-cell edges do.
 4. **Neither a modest budget nor a modest re-allocation rescues it.** Coverage
@@ -5032,7 +5032,7 @@ structural allocation") was measured and did not hold. That is worth more than
 a brief whose premise nobody checked.
 
 **What does not change.** The six negative task families, the Phase L protocol
-verdict `H3-L — INCONCLUSIVE`, the Phase L characterisation, and the
+verdict `H3-L — INCONCLUSIVE`, the Phase L characterization, and the
 campaign's stop at Gate 13 stand exactly as recorded. **No V2 build is
 authorised.** The V2 question is narrower and sharper than it was: can the
 organism identify which of its vocabulary items are its own, and can it rank
@@ -5082,7 +5082,7 @@ That choice keeps the project's three version namespaces separate, which
 | Research campaign | *Ablation Study 1*, *Ablation Study 2* | **Study 2 in flight** |
 
 The instrumentation is not a release of the package, and tagging it as one
-would have made `v0.10.0` a published artefact that nobody had asked to
+would have made `v0.10.0` a published artifact that nobody had asked to
 publish.
 
 ### Verification at the freeze
@@ -5308,7 +5308,7 @@ second, contradictory diagnosis.
 ### What does not change
 
 The six negative task families, the Phase L protocol verdict `H3-L —
-INCONCLUSIVE`, the Phase L characterisation, and the campaign's stop at Gate
+INCONCLUSIVE`, the Phase L characterization, and the campaign's stop at Gate
 13 all stand. Every seed used is diagnostic and remains diagnostic. The frozen
 engine is untouched — the probe rebuilds the table offline. And Law II of
 `docs/DESIGN_LAWS.md` remains as written, with the discrepancy disclosed as
@@ -5343,9 +5343,9 @@ evidence={"temporal_count": count, "source_frequency": source_freq,
 candidates.sort(key=lambda p: p["evidence"]["temporal_count"], reverse=True)
 ```
 
-The engine computes a **frequency-normalised** criterion, stores it in every
+The engine computes a **frequency-normalized** criterion, stores it in every
 candidate's evidence, uses it for **survival**, and then sorts by **raw count**
-for **admission**. `memory.py:264-281` calls the normalisation "load-bearing
+for **admission**. `memory.py:264-281` calls the normalization "load-bearing
 rather than cosmetic". So requirement 3 might need no new idea — and every
 criterion the probe tested uses only fields the engine **already stores**.
 
@@ -5381,7 +5381,7 @@ A diagnostic printed the selected edges with every number behind them.
 Because `_record_tag_counts` is inside the `if event_type != "sleep":` block,
 **`tag_counts` is world-scoped** and the engine's own words have **no
 frequency entry**; `freqs.get(tag_from, 1)` returns 1, so `ratio = count`.
-**The engine's normalised criterion is undefined for exactly the edges it
+**The engine's normalized criterion is undefined for exactly the edges it
 would need to discriminate, and ranks them first.**
 
 **Under a self-inclusive scope:** the failure runs the other way. The world's
@@ -5406,7 +5406,7 @@ the organism talks about the world using the world's words.
    **relation-level** property: *which event did this relation come from*.
 3. **The two fixes are complementary and jointly necessary**, and even
    together they are six times short of the gate.
-4. **The engine's own normalised criterion is actively harmful on this
+4. **The engine's own normalized criterion is actively harmful on this
    table.** `ratio` is not a neutral alternative to raw count here; on the raw
    table it is worse, because the frequency it normalises by is absent for
    exactly the contaminated rows.
@@ -5432,13 +5432,13 @@ measured dead end.**
 ### The lessons
 
 **1. "The engine has no precedent for this" is a statement about the code, not
-about the space of solutions.** The engine *did* compute a normalised
+about the space of solutions.** The engine *did* compute a normalized
 criterion — and using it would have been worse than the thing it replaces.
 The precedent was there; it was simply not the one anyone expected, and
 checking it changed the requirement from "invent a criterion" to "the
 criterion you can compute is the wrong one".
 
-**2. A normalisation can be undefined exactly where it is needed, and the
+**2. A normalization can be undefined exactly where it is needed, and the
 symptom is a ranking that prefers the contamination.** `ratio = count /
 max(source_freq, 1)` looks defensive, and the default of 1 looks safe. It is
 safe for the tags the counter knows and *catastrophic* for the tags it does
@@ -5457,7 +5457,7 @@ and the discriminator has to be relation-level instead.
 ### What does not change
 
 The six negative task families, the Phase L protocol verdict `H3-L —
-INCONCLUSIVE`, the Phase L characterisation, and the campaign's stop at Gate
+INCONCLUSIVE`, the Phase L characterization, and the campaign's stop at Gate
 13 all stand. Every seed used is diagnostic and remains diagnostic. The frozen
 engine is untouched — every number comes from an offline reconstruction
 validated against the engine's own table. And no V2 build is authorised: this

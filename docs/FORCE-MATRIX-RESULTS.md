@@ -426,7 +426,7 @@ MBSD, theories, questions and cognitive revolutions**.
 
 | If the inventory goes | Then |
 |---|---|
-| 74 → 300 → 1,200 → 5,000 | The plateau was an **environmental artefact**. What this project found is a developmental system trapped inside a toy universe — a very different conclusion from a developmental ceiling. |
+| 74 → 300 → 1,200 → 5,000 | The plateau was an **environmental artifact**. What this project found is a developmental system trapped inside a toy universe — a very different conclusion from a developmental ceiling. |
 | 74 → 74 → 74 → 74 | The plateau is **architectural**. The organism cannot reorganise, and the architecture — not the environment — is the ceiling. |
 
 This is the fork the campaign reached, and it is a **stimulus** experiment.

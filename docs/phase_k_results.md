@@ -152,7 +152,7 @@ mechanisms are useless.
 A verdict this clean still has to survive its own uncertainties, so both were
 checked on every family:
 
-| Family | 8 bootstrap seeds | Drop the most favourable seed | Drop the least favourable seed |
+| Family | 8 bootstrap seeds | Drop the most favorable seed | Drop the least favorable seed |
 |---|---|---|---|
 | K1 | REVERSED (all 8) | REVERSED [−0.3832, −0.3211] | REVERSED [−0.3669, −0.3074] |
 | K2 | REVERSED (all 8) | REVERSED [−0.6239, −0.5435] | REVERSED [−0.6034, −0.5211] |
@@ -162,8 +162,8 @@ The published interval depends on a bootstrap seed derived from the family
 name through Python's string hash, which is deterministic only because the
 protocol pins `PYTHONHASHSEED=0`. Re-running the bootstrap with eight
 different seeds leaves every verdict unchanged, so no verdict is an artifact
-of that choice. Removing the single most favourable seed, and separately the
-single least favourable seed, also leaves every verdict unchanged — with ten
+of that choice. Removing the single most favorable seed, and separately the
+single least favorable seed, also leaves every verdict unchanged — with ten
 seeds, one outlier cannot carry any of these intervals.
 
 ### 4.3 Why K3 is exactly zero — measured, not assumed
@@ -199,7 +199,7 @@ pairs, in the very same world shape. The exclusion is therefore a property of
 the *configuration the protocol specifies*, not a blanket inability to learn
 late structure.
 
-That is the honest characterisation: under the frozen K3 protocol — scaffold
+That is the honest characterization: under the frozen K3 protocol — scaffold
 entities at weight 3, late entities at weight 1 — Organica retains the early
 scaffold (core-retention F1 ≈ 0.67) and incorporates **none** of the late
 structure, and a bounded belief pool (`MAX_HYPOTHESES = 15`, with 18

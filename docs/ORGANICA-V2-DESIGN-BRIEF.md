@@ -325,7 +325,7 @@ Measured on the same world:
 | Distinct temporal edges in the substrate | **192** | `docs/acquisition_coverage_audit.json` (`temporal_edge_total`) |
 | Source-group composition of the **top 20** edges by count | **16 / 3 / 1 / 0** — one group supplies 16 of 20 sources, a second 3, a third 1, a fourth 0 | recomputed from `benchmarks/acquisition_world.py` on the same world and seed |
 
-**This is an organism-side capacity finding, not a stimulus artefact.** The four groups
+**This is an organism-side capacity finding, not a stimulus artifact.** The four groups
 were visited comparably (26.7 / 30.8 / 23.9 / 18.6 %), so the world is not the
 explanation; the 20-edge cap is. A group visited at 18.6 % of the experience loses its
 edges to groups visited at 30.8 % and 26.7 %.

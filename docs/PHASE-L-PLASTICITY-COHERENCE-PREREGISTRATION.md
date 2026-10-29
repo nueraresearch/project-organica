@@ -35,7 +35,7 @@ negative. Phase L asks a different question:
 
 That question is not a retry of the others. It comes out of the strongest
 measured phenomenon in V1, and it is the first question in this project that
-treats Organica 1 as a **property to be characterised** rather than a system
+treats Organica 1 as a **property to be characterized** rather than a system
 to be compared against something.
 
 The evidence that motivated it is in [`docs/V1-SYNTHESIS.md`](V1-SYNTHESIS.md)
@@ -65,7 +65,7 @@ And the 2×2 control turned "bad" into something usable: the late group
 first (9–11 of 18 gold pairs at late weight 3 / early weight 1, against
 0–1 otherwise). So Organica 1 is not incapable of revision. It is
 **priority-ordered**: signal strength decides what displaces what, and arrival
-order breaks ties in favour of the incumbent.
+order breaks ties in favor of the incumbent.
 
 **A priority rule is a variable.** Variables can be measured, and they can be
 manipulated. That is the entire justification for this phase.
@@ -229,7 +229,7 @@ Criterion 4 is what separates a boundary from a coincidence. A crossing point
 that can be anywhere on the axis is not a boundary.
 
 **If the criteria are met, the finding is the curve and its RT** — a
-characterisation, not a victory. If Organica's curve is *worse* than a
+characterization, not a victory. If Organica's curve is *worse* than a
 baseline's, that is a legitimate finding too, and the phase reports it.
 
 ### 6.1 Stated plainly: what success looks like, and what failure looks like
@@ -255,7 +255,7 @@ PI flat across the sweep
 no crossing at all
 ```
 
-A flat curve is a **characterisation**: the organism sits at one pole —
+A flat curve is a **characterization**: the organism sits at one pole —
 preservation is absolute, or revision is unconditional — and the phase has
 located that pole. That is a real answer to the question, and it is the
 answer H2-L′ names.
@@ -273,7 +273,7 @@ Written before the run so that no outcome can be reinterpreted afterwards.
 | Outcome | Condition | What it means |
 |---|---|---|
 | **H2-L — a boundary exists** | all four criteria met | Organica 1 has a measurable coherence–plasticity boundary, located with an interval. **This is the success case.** It names a property, not a capability. |
-| **H2-L′ — no boundary** | the curves do not cross, or the RT interval includes an endpoint | the system sits at a pole, not at a trade-off. Either **preservation is absolute** (DI stays near 0 across the whole sweep) or **revision is unconditional** (PI stays near 1). Both are real characterisations and both are publishable. |
+| **H2-L′ — no boundary** | the curves do not cross, or the RT interval includes an endpoint | the system sits at a pole, not at a trade-off. Either **preservation is absolute** (DI stays near 0 across the whole sweep) or **revision is unconditional** (PI stays near 1). Both are real characterizations and both are publishable. |
 | **H2-L³ — the wrong variable** | the primary axis shows no monotone trend, **but** a secondary axis does | the operative variable is not support ratio. Name the axis that moved, and say plainly that the primary hypothesis was wrong. |
 | **H3-L — inconclusive** | intervals too wide to place RT | raise n. Do not conclude anything. |
 
@@ -398,7 +398,7 @@ reported below as a harness finding, not a scientific result.
 
 ### Why an amendment was needed
 
-The pilot returned a clean-looking result that was entirely an artefact:
+The pilot returned a clean-looking result that was entirely an artifact:
 
 ```
 V1 1:4 seed 20261023: DI=0.000 PI=0.611
@@ -541,7 +541,7 @@ possible terms, so section 6.1 now says it directly:
   dominates; mid pressure → transition; high pressure → displacement
   dominates; with an interior, reproducible crossing.
 - **Failure** — no measurable relationship exists: DI flat, PI flat, no
-  crossing. A flat curve is a *characterisation* (the organism sits at one
+  crossing. A flat curve is a *characterization* (the organism sits at one
   pole), and it is a publishable answer.
 
 **The campaign must be able to fail.** It is not built to produce a win and
@@ -625,7 +625,7 @@ otherwise blur.
 The owner's review also asked that the **trajectory** be taken seriously, not
 just the endpoints: two organisms can end at the same DI and PI while
 behaving completely differently — one crossing at cycle 170, the other at
-cycle 590. Same endpoint, different developmental behaviour.
+cycle 590. Same endpoint, different developmental behavior.
 
 The trajectory was already being computed (see above). It is now reported at
 the same level as the RT rather than as a footnote: for every sweep point,
@@ -807,7 +807,7 @@ it is made now, before the run, so that it cannot become a story afterwards.
 |---|---|---|
 | **`H2-L — a boundary exists`** | all four criteria met at n=30 | The verdict is reported as the protocol's table says. **The adjacent-difference diagnostic is reported alongside it**, so the reader sees the plateau on the low end whether or not criterion 2 passed by sign. |
 | **`H3-L — inconclusive`** | criterion 2 still not met | *Raise n; conclude nothing.* The diagnostic characterises the low end as a plateau with the interval that supports it. **No boundary claim is made, and the stable RT is not offered as a substitute for the criterion that failed.** |
-| `H2-L′ — no boundary` | the curves do not cross, or the RT interval includes an endpoint | Reported as a characterisation. |
+| `H2-L′ — no boundary` | the curves do not cross, or the RT interval includes an endpoint | Reported as a characterization. |
 
 In every branch: **no V2 is authorised**, and the secondary arms V2–V5 remain
 unrun.

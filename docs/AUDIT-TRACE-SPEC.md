@@ -74,7 +74,7 @@ Every row was read from the source on 2026-10-25. Nothing here is recalled.
 | Fact | Where |
 |---|---|
 | `events(id, time, source, event_type, content, tags)`; ids are uuid4; `tags` is the comma-joined tokenizer output. | `memory.py:102-112` |
-| `cooccurrences(tag_a, tag_b, count)` — order-normalised pairs **within** one event. | `memory.py:306-319` |
+| `cooccurrences(tag_a, tag_b, count)` — order-normalized pairs **within** one event. | `memory.py:306-319` |
 | `precedes(tag_from, tag_to, count)` — temporal edges built from the **last 3 events** (`lookback=3`), every prior tag crossed with every new tag. | `memory.py:321-343` |
 | `tag_counts`, `sleep_cycles` (the authoritative monotonic counter), `meta`. | `memory.py:142-172` |
 | Experience events (`event_type != 'sleep'`) and `sleep:meta` markers are **never pruned**. Sleep *candidate* rows are pruned beyond `DEFAULT_SLEEP_RETENTION = 20000`. | `memory.py:452-490`, `memory.py:31` |
@@ -91,7 +91,7 @@ Every row was read from the source on 2026-10-25. Nothing here is recalled.
 | `confidence = support / (support + contradiction)`; zero when both are zero. | `sleep.py:1494-1497` |
 | **Death rule:** a candidate with `confidence < 0.15` and `support + contradiction ≥ 3` is dropped **before** retention — it never reaches the contest. | `sleep.py:1499-1500` |
 | Retention budget: `MAX_HYPOTHESES = 15` beliefs; structural markers (`expectation == "high_structural_significance"`) are held in a **separate** allowance of `MAX_STRUCTURAL_MARKERS = 15` and cannot consume the belief budget. | `sleep.py:336`, `sleep.py:421`, `sleep.py:1520-1527` |
-| Salience score = `0.25·tension + 0.25·curiosity + 0.25·novelty + 0.25·revision`, where `tension = raw_contradiction / (support + raw_contradiction)`, `curiosity` is the normalised Shannon entropy of the subject's outgoing flow, `novelty = 1` if the belief was never held before, `revision = |confidence − prior_confidence|`. | `sleep.py:1534-1602` |
+| Salience score = `0.25·tension + 0.25·curiosity + 0.25·novelty + 0.25·revision`, where `tension = raw_contradiction / (support + raw_contradiction)`, `curiosity` is the normalized Shannon entropy of the subject's outgoing flow, `novelty = 1` if the belief was never held before, `revision = |confidence − prior_confidence|`. | `sleep.py:1534-1602` |
 | **The default retention policy is `"salience"`**, and its ranking is deterministic: `sorted(by (−score, subject))`, first 15 kept. The tiebreak is lexicographic on the subject. | `sleep.py:392`, `sleep.py:1641-1643` |
 | Alternative policies exist (`alphabetical`, `confidence`, `contradiction`, `tension`, `stochastic`). Under `stochastic` the retained set is a **weighted lottery** over salience — not a function of the scores, and not reconstructible without the RNG state. | `sleep.py:397-408`, `sleep.py:1644-1667` |
 | A separate stage, `_natural_selection`, reinforces Layer-1 candidates (+0.05) or decays them (×0.8) and prunes those falling under the death threshold. It operates on **Layer 1 only** — `_candidate_key` has no hypothesis branch, so beliefs are never decayed or pruned there. | `sleep.py:1752-1802`, `sleep.py:1804-1817`, `sleep.py:1819-1865` |
@@ -114,7 +114,7 @@ Selection: retained at rank 4 of 15
 ```
 
 **The third line is wrong as written, and writing it that way would put a false
-claim at the centre of the audit record.** "4 contradictory observations" says
+claim at the center of the audit record.** "4 contradictory observations" says
 the world produced four observations that contradicted `subject → expectation`.
 What the engine actually holds is the subject's **total outgoing flow** minus
 the flow that supports this expectation — i.e. *four transitions from the same
@@ -342,7 +342,7 @@ count without identities cannot answer "which one lost".
 
 **Two precision notes on the inputs a future protocol will rely on:**
 
-- `strength` on a prediction is an internal score normalised against source
+- `strength` on a prediction is an internal score normalized against source
   frequency — **not a calibrated probability**, and it must not be scored as one.
 - `support` and `contradiction` are **transitions and competing flow**. A
   protocol that says "12 observations" where the engine says 12 transitions has
@@ -402,7 +402,7 @@ The build is accepted only if all **seven** hold, and each is a check that can f
 | **A1** | **Evidence replay exactness** | For every belief in every cycle, the auditor's replayed `support_count` equals the engine's reported value. Any mismatch fails the build. |
 | **A2** | **Selection reconstruction exactness** | The auditor's reconstructed retained set equals the engine's reported retained set, cycle by cycle, under the default `salience` policy — including the candidates that died and the ones that lost, with ranks and margins. |
 | **A3** | **Ancestry honesty** | Every ancestry node is either resolved within the window, or explicitly marked `found: False` with the window bound stated. A record that reports a parent as absent when it was merely out of window fails. |
-| **A4** | **Behaviour invariance** | Observer on vs off, same seed: byte-identical cycle reports. Proven to fail by a deliberate mutation. |
+| **A4** | **Behavior invariance** | Observer on vs off, same seed: byte-identical cycle reports. Proven to fail by a deliberate mutation. |
 | **A5** | **Field-honesty** | Every numeric field in the record carries its exact semantics (`support` = temporal transitions; `contradiction` = competing flow). A check that the rendered record contains no mislabelled count fails the build. |
 | **A6** | **Trace/ counterfactual separation** | The trace contains no counterfactual field; any replay lives in a separate artifact with its own label. A check that greps the trace schema for counterfactual claims fails the build. |
 | **A7** | **Event-level attribution** | Every temporal edge resolves to the concrete events that produced it, the attributed total for each edge **equals** its aggregate count, and each belief's support resolves to event ids with a **world/self split**. Requires the store-time observer, and the observer's own guard must mirror the engine's. |
@@ -410,7 +410,7 @@ The build is accepted only if all **seven** hold, and each is a check that can f
 **Status of the criteria (updated 2026-10-27):** **All seven criteria (A1, A2, A3, A4, A5, A6, A7) are MET** by the probe (`benchmarks/audit_trace_probe.py`) and verified by acceptance tests (`tests/test_audit_trace_probe.py`, `tests/test_audit_ancestry.py`):
 - **A1, A2, A7**: Reconciled across default, stress, and forced-tie arms.
 - **A3**: Lineage reachability and honesty verified with depth/window sweeps.
-- **A4**: Behaviour invariance verified with byte-identical output check.
+- **A4**: Behavior invariance verified with byte-identical output check.
 - **A5**: Field honesty enforced; records verified to contain zero mislabelled count fields, and proved to fail if competing flow is mislabelled as contradictory observations.
 - **A6**: Counterfactual separation enforced; trace records and schema verified to contain zero counterfactual claims, and proved to fail on counterfactual injection.
 
@@ -474,7 +474,7 @@ events. The trace cannot deliver that, and says so.
   that would let that question be asked without taking the system's word for it.
 - **It does not authorise a learning experiment.** The blank-slate acquisition
   test depends on this trace existing; it does not exist yet.
-- **It changes no engine behaviour.** Organica 1 is frozen at `v0.9.0`.
+- **It changes no engine behavior.** Organica 1 is frozen at `v0.9.0`.
 ## 9. Next steps
 ### What the trace is for next, and its stop condition
 
@@ -591,7 +591,7 @@ well as world events — the engine deliberately skips those — so the attribut
 totals ran an order of magnitude above the aggregate counts and A7 caught it.
 And its first invariance check compared whole reports including `ran_at`, a
 wall-clock timestamp, so two identical runs differed for a reason that had
-nothing to do with behaviour. Both were the auditor's errors, both were found
+nothing to do with behavior. Both were the auditor's errors, both were found
 by the checks rather than by inspection, and both are recorded here rather than
 quietly fixed.
 
@@ -653,7 +653,7 @@ engine.**
 - **Generality.** One world family (the frozen cause generator), one
   configuration, one policy. The probe validates the *transcription*; it does
   not validate the auditor on worlds it has not seen, and it says so.
-- **Behaviour under timestamp ties — now tested, with a limit.** The
+- **Behavior under timestamp ties — now tested, with a limit.** The
   forced-tie arm produces genuinely tied windows and the observer reproduces
   the engine's choice every time, because the implementation is deterministic
   for identical queries over identical data. The **schema** still does not
@@ -663,7 +663,7 @@ engine.**
 - **The `stochastic` policy.** Under a weighted lottery the retained set is not
   a function of the scores; the reconstruction degrades to a bound (§3.4).
 - **The whole trace.** The probe checks the *selection* and *evidence* axes.
-  The ancestry completeness metric (A3), the behaviour-invariance proof (A4),
+  The ancestry completeness metric (A3), the behavior-invariance proof (A4),
   the field-honesty check (A5) and the trace/counterfactual separation (A6)
   belong to the build. **A3, A4, A5 and A6 have since been measured and are met**
   (§13, and the closure note above); **the build is closed, tagged and frozen
@@ -705,7 +705,7 @@ another.
 pre-committed before the trace existed.** Concretely: the next protocol's
 success criteria must contain at least one **trace-derived diagnostic**, and a
 result that fails that diagnostic **fails the protocol even if the headline
-behaviour is correct**.
+behavior is correct**.
 
 ### What that means for the next phase
 
@@ -807,7 +807,7 @@ are reported; they are never criteria.
 | Stage | What it established |
 |---|---|
 | **V1** | Developmental properties: development occurs, outcomes vary with the experience *schedule* (path dependence; strict order dependence is **not** isolated, because the curriculum comparisons vary the event multiset and order together), curriculum matters, stable regimes emerge. |
-| **Phase L** | Regime behaviour with a stable transition region — and the protocol verdict and the characterisation kept as separate artefacts. The transition is robust **within** this engine, world family and support-ratio axis, not a general threshold. |
+| **Phase L** | Regime behavior with a stable transition region — and the protocol verdict and the characterization kept as separate artifacts. The transition is robust **within** this engine, world family and support-ratio axis, not a general threshold. |
 | **Development audit trace** | The developmental *decision* becomes reconstructible by an outside investigator. Demonstrated, not asserted (§10) — **reconstructed from the engine's state**, not replicated by another lab. |
 | **Next** | Can experience produce knowledge that **transfers, predicts and revises** — judged with trace-derived diagnostics pre-committed in advance. |
 
@@ -917,7 +917,7 @@ self-sourced-heavy claim predict more errors?), **persistence** (does it last
 longer?), **revision resistance** (does it survive contradicting evidence?),
 **confidence inflation** (does its confidence overstate what its support
 warrants?), and **false-positive rate**. The trace is the first instrument that
-can ask these questions. They are a **characterisation study**, not a protocol,
+can ask these questions. They are a **characterization study**, not a protocol,
 and they are not asked here.
 
 ---
@@ -1022,5 +1022,5 @@ that A3 was the bottleneck** — the measurement says it was not.
 2026-10-25. The load-bearing claim was subsequently tested by
 `benchmarks/audit_trace_probe.py` (§10). Companion documents:
 `docs/phase_l_results.md` (the measurement record),
-`docs/PHASE-L-SYNTHESIS.md` (the characterisation),
+`docs/PHASE-L-SYNTHESIS.md` (the characterization),
 `docs/USER-MANUAL.md` (§8.13, finding 18).*

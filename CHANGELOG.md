@@ -69,7 +69,7 @@ run when the corrections were made.**
   transitions removed from the training stream only. Its gate passes on **30
   independent worlds**: gap **+0.1035 nats**, 99 % interval **[+0.0996,
   +0.1074]** against the strongest simple baseline, with the held cell's gap
-  **4.6×** the rest so the headroom is *generalisation* headroom. Gates G1–G7,
+  **4.6×** the rest so the headroom is *generalization* headroom. Gates G1–G7,
   each with a proof-of-firing.
 - **The campaign stopped at the preregistered acquisition gate.** The frozen
   engine asserted **0–3 of 112** world edges while its raw memory held
@@ -163,7 +163,7 @@ is untouched.**
   **0.0000 to 0.0804** and precision from **0.0000 to 0.4500**, and flip the
   intra/inter balance from 20 / 0 to roughly 8–15 / 5–13 — the world's cross-cell
   relations enter the selection for the first time in meaningful numbers.
-- **The engine's own normalised criterion is actively harmful here.** On the raw
+- **The engine's own normalized criterion is actively harmful here.** On the raw
   table under the engine's own scope, `ratio`, `cosine` and `pmi` each select
   **20 engine-vocabulary edges and 0 world edges** on every seed.
 - **The mechanism is measured, not inferred.** `_record_tag_counts` sits inside the
@@ -422,7 +422,7 @@ corrected, and the corrections were made **before the acquisition experiment
 ran**, so the next study does not inherit an overstatement from the previous
 one. **No number was recomputed, no artifact re-read, and no criterion
 reinterpreted.** The protocol verdict `H3-L — INCONCLUSIVE` stands, the Phase L
-characterisation stands, and the six negative task families stand.
+characterization stands, and the six negative task families stand.
 
 1. **"Revision exists" → "structural displacement exists."** Phase L's
    `DI`/`PI` are structure-retention indices — they measure whether later
@@ -517,7 +517,7 @@ because the threshold could not be located. The next phase must say what
 failed.
 
 **Established:** the instrument works and the pilot's flat line was an
-artefact; the organism sits at the preservation pole (DI exactly 0.000, PI ≈
+artifact; the organism sits at the preservation pole (DI exactly 0.000, PI ≈
 0.79) under low displacement pressure; on this axis DI and PI cross at 3:1 and
 the crossing is highly reproducible. **Not established:** a boundary in the
 `H2-L` sense, PI's monotone decrease, anything about capability, and anything
@@ -583,18 +583,18 @@ at 6:1 against the campaign's own 0.7148 (30 seeds) and 0.7500 (its original
 ten) — a difference of +0.0093, **p = 0.60** against random 30/30 splits of
 all 60 measured values — and its own arbitrary half-split gap of **−0.0407**
 has the opposite sign to the campaign's +0.0528 at similar magnitude. **The
-original ten seeds were an unlucky high draw, not a seed-block artefact**, so
+original ten seeds were an unlucky high draw, not a seed-block artifact**, so
 the paired bootstrap over seeds is sound.
 
 `docs/phase_l_results.md` is rewritten for the raise-n result; journal §39,
 facts sheet §Y, manual §8.11 and finding 16.
 
-### Result — Phase L characterisation: regime behavior, and a verdict that did not move
+### Result — Phase L characterization: regime behavior, and a verdict that did not move
 
-The raise-n result has been read and **published as a characterisation**:
+The raise-n result has been read and **published as a characterization**:
 [`docs/PHASE-L-SYNTHESIS.md`](docs/PHASE-L-SYNTHESIS.md). The protocol verdict
 is **unchanged** — `H3-L — INCONCLUSIVE` — and the two are deliberately kept
-as separate artefacts, the measurement record and the synthesis, neither
+as separate artifacts, the measurement record and the synthesis, neither
 re-scoring the other.
 
 > *Organica 1 does not appear to exhibit a continuous coherence–plasticity
@@ -1101,7 +1101,7 @@ validated, and the protocol is reviewed before the campaign executes.
 
 The reduced-scale pilot returned `DI = 0.000` at **every** point of the
 support-ratio sweep — a clean-looking negative result that was in fact an
-artefact. The support ratio was not varying anything. Four defects, all in
+artifact. The support ratio was not varying anything. Four defects, all in
 the harness's implementation of the protocol as written:
 
 1. **The late group arrived after the run ended.** The arrival cycle was
@@ -1148,7 +1148,7 @@ correct there. Recorded as **Amendment 2**.
 Amendment 2 also adds a plain statement of what success and failure look
 like (preregistration §6.1): success is a stable displacement curve with an
 interior, reproducible crossing; failure is a flat DI, a flat PI and no
-crossing — a characterisation, and a publishable one. **The campaign must be
+crossing — a characterization, and a publishable one. **The campaign must be
 able to fail.**
 
 ### Added — the two preregistered secondary outcomes the harness was missing

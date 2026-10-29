@@ -225,11 +225,11 @@ reporting a compression-fidelity result while claiming a knowledge result.
 | Task | World | Role | What it can support | What it cannot |
 |---|---|---|---|---|
 | **T1 — transition** | `benchmarks/acquisition_world.py` | **CALIBRATION / CONTROL** | ordinary transition learning; adaptation to a changed law; that the harness runs and the metrics behave | any claim of abstraction beyond counts |
-| **T2 — compositional** | `benchmarks/acquisition_compositional.py` | **PRIMARY** | generalisation to a **withheld combination** of familiar elements; retention of that; revision of it | a claim about a human-like "understanding"; anything about worlds other than this one |
+| **T2 — compositional** | `benchmarks/acquisition_compositional.py` | **PRIMARY** | generalization to a **withheld combination** of familiar elements; retention of that; revision of it | a claim about a human-like "understanding"; anything about worlds other than this one |
 
 **The owner's instruction is honoured in the strict form: the world was not
 hardened to force a win.** The compositional task was built so that the gap is
-created by *generalisation* — and it was then measured (§4.2) to confirm that
+created by *generalization* — and it was then measured (§4.2) to confirm that
 the gap comes from the withheld combination and not from generic estimation
 error. If the compositional task had also failed to separate the ceiling from
 the strongest baseline, that would have been reported as "the task does not
@@ -301,7 +301,7 @@ over a declared grid and selected on the **tuning split** only:
 positive control proves the ceiling is reachable by a learner that holds the
 rule, and the broken-rule control proves the endpoint can tell a wrong law
 from the right one. And the last-but-two row is the check that the gap comes
-from **generalisation rather than estimation error**: the gap on the held
+from **generalization rather than estimation error**: the gap on the held
 cell is **4.6×** the gap on the cells whose transitions were fully observed.
 **Without that check, G1 could have been passing for the wrong reason.**
 
@@ -381,7 +381,7 @@ This was diagnosed rather than assumed: the groups are visited comparably
 (26.7 / 30.8 / 23.9 / 18.6 %, ratio 1.7×), and the top-20 temporal edges are
 dominated by one group (16 of 20 sources from one group, 3 from a second, 1
 from a third, 0 from a fourth) — so the crowding is **`MAX_PREDICTIONS = 20`
-in Layer 1**, an organism-side capacity finding, **not** a stimulus artefact.
+in Layer 1**, an organism-side capacity finding, **not** a stimulus artifact.
 This caps what Organica can score, and it is stated here so that a low
 Organica score is not misread as "the organism cannot learn this world" when
 part of it is "the organism's own layer-1 cap discarded a third of the
@@ -397,9 +397,9 @@ without revising.
 | Limb | Window (T1 / T2) | Law in force | State used | Question |
 |---|---|---|---|---|
 | **RETENTION** | 110–149 / 110–149 | old (r0) | **frozen** at the end of acquisition | does the acquired structure still predict the world it was acquired from, after the source episodes are removed? |
-| **TRANSFER** | 150–199 / 150–199 | old (r0) | **frozen** | does it generalise to a **new combination** under the *same* law? |
+| **TRANSFER** | 150–199 / 150–199 | old (r0) | **frozen** | does it generalize to a **new combination** under the *same* law? |
 | **REVISION** | 200–249 / 200–249 | **new (r1)** | after continued learning | does it update when the law changes? |
-| **REVISION (held out)** | 250–299 / 250–299 | new (r1) | after continued learning | does the *updated* structure generalise to a **new combination** under the new law? |
+| **REVISION (held out)** | 250–299 / 250–299 | new (r1) | after continued learning | does the *updated* structure generalize to a **new combination** under the new law? |
 
 The **revision** limb is scored on a **separate held-out test**, not on the
 window it was learned in — because a learner that merely memorised the
@@ -518,7 +518,7 @@ lives.** In the `E-pres` cells the comparison learners have the raw episodes
 (they are outside its cognition window) while the replay learner can. **So in
 `E-pres` the comparison learners have strictly MORE usable access than
 Organica.** A win for Organica there is therefore **conservative**: it cannot
-be an artefact of unequal access. In the `E-rem` cells the comparison learners
+be an artifact of unequal access. In the `E-rem` cells the comparison learners
 have nothing at all, so those cells measure **Organica's retention**, not the
 mechanism head-to-head. **The head-to-head comparison is the `E-pres`
 comparison.**
@@ -701,7 +701,7 @@ python -m pytest tests/test_acquisition_endpoint.py -q  # 20 proof-of-firing tes
 | 4 | **The positive control reaches the ceiling** — a learner holding the generating rule. | G2 | PASS |
 | 5 | **The broken-rule control fails** — a learner with the wrong law is clearly worse. | G3 | PASS (≥ +0.1015 worse) |
 | 6 | **The withheld combination is genuinely withheld**, and the held cell is still observed in training (the world is not rigged). | G4, G4b, G4c, G4d | PASS |
-| 7 | **The gap comes from generalisation, not estimation error** — the held cell's gap dominates the rest. | G7 | PASS — +0.1963 vs +0.0425 |
+| 7 | **The gap comes from generalization, not estimation error** — the held cell's gap dominates the rest. | G7 | PASS — +0.1963 vs +0.0425 |
 | 8 | **The metric and readout are pinned together** — a hard 0/1 read loses to the base rate under log-loss. | I4 | PASS (5.9441 vs 0.3293) |
 | 9 | **The three limbs are separate numbers**, under three different laws. | I1/R3 | PASS |
 | 10 | **Content-identity detector** — the laboratory can tell a re-instantiated structure from a retained one, by id, from the store log alone. | `tests/test_audit_trace_probe.py` | pending — A5 |

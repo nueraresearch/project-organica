@@ -49,12 +49,12 @@ Freezing the engine does not freeze the project. This is the important half.
 | **Documentation** (`docs/`, `README.md`, `CHANGELOG.md`, the journal) | the record must keep tracking the work, including work about the frozen engine |
 | **The manual and the owner's action list** | the owner's decisions are not a change to the architecture |
 | **Tests for new instrumentation** | a new harness needs its own regression tests |
-| **A new `organica/` module that does not alter engine behaviour** | additive and inert, with the freeze test still green |
+| **A new `organica/` module that does not alter engine behavior** | additive and inert, with the freeze test still green |
 
-**The one rule that covers the boundary:** nothing may change the *behaviour*
-of the frozen engine. If a change is behaviour-preserving and proven so —
+**The one rule that covers the boundary:** nothing may change the *behavior*
+of the frozen engine. If a change is behavior-preserving and proven so —
 the pattern `tests/test_substrate_equivalence.py` already uses — it can
-live in a new module. If it cannot be proven behaviour-preserving, it is an
+live in a new module. If it cannot be proven behavior-preserving, it is an
 architecture change, and the answer is no.
 
 ---
