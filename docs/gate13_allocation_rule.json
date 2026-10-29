@@ -1,0 +1,284 @@
+[
+  {
+    "seed": 20261101,
+    "precedes_rows": 375,
+    "distinct_sources": 30,
+    "world_edges": 112,
+    "global_top_k": {
+      "5": {
+        "edges_retained": 5,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 10,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "20": {
+        "edges_retained": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "40": {
+        "edges_retained": 40,
+        "covered": 2,
+        "coverage": 0.0179,
+        "precision": 0.05,
+        "passes_gate13": false
+      },
+      "80": {
+        "edges_retained": 80,
+        "covered": 16,
+        "coverage": 0.1429,
+        "precision": 0.2,
+        "passes_gate13": false
+      },
+      "160": {
+        "edges_retained": 160,
+        "covered": 55,
+        "coverage": 0.4911,
+        "precision": 0.3438,
+        "passes_gate13": false
+      },
+      "320": {
+        "edges_retained": 320,
+        "covered": 108,
+        "coverage": 0.9643,
+        "precision": 0.3375,
+        "passes_gate13": true
+      }
+    },
+    "per_source_top_k": {
+      "1": {
+        "edges_retained": 30,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "2": {
+        "edges_retained": 60,
+        "covered": 2,
+        "coverage": 0.0179,
+        "precision": 0.0333,
+        "passes_gate13": false
+      },
+      "3": {
+        "edges_retained": 90,
+        "covered": 6,
+        "coverage": 0.0536,
+        "precision": 0.0667,
+        "passes_gate13": false
+      },
+      "5": {
+        "edges_retained": 143,
+        "covered": 33,
+        "coverage": 0.2946,
+        "precision": 0.2308,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 258,
+        "covered": 81,
+        "coverage": 0.7232,
+        "precision": 0.314,
+        "passes_gate13": true
+      }
+    }
+  },
+  {
+    "seed": 20261102,
+    "precedes_rows": 379,
+    "distinct_sources": 27,
+    "world_edges": 112,
+    "global_top_k": {
+      "5": {
+        "edges_retained": 5,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 10,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "20": {
+        "edges_retained": 20,
+        "covered": 1,
+        "coverage": 0.0089,
+        "precision": 0.05,
+        "passes_gate13": false
+      },
+      "40": {
+        "edges_retained": 40,
+        "covered": 1,
+        "coverage": 0.0089,
+        "precision": 0.025,
+        "passes_gate13": false
+      },
+      "80": {
+        "edges_retained": 80,
+        "covered": 8,
+        "coverage": 0.0714,
+        "precision": 0.1,
+        "passes_gate13": false
+      },
+      "160": {
+        "edges_retained": 160,
+        "covered": 46,
+        "coverage": 0.4107,
+        "precision": 0.2875,
+        "passes_gate13": false
+      },
+      "320": {
+        "edges_retained": 320,
+        "covered": 106,
+        "coverage": 0.9464,
+        "precision": 0.3312,
+        "passes_gate13": true
+      }
+    },
+    "per_source_top_k": {
+      "1": {
+        "edges_retained": 27,
+        "covered": 2,
+        "coverage": 0.0179,
+        "precision": 0.0741,
+        "passes_gate13": false
+      },
+      "2": {
+        "edges_retained": 54,
+        "covered": 4,
+        "coverage": 0.0357,
+        "precision": 0.0741,
+        "passes_gate13": false
+      },
+      "3": {
+        "edges_retained": 81,
+        "covered": 7,
+        "coverage": 0.0625,
+        "precision": 0.0864,
+        "passes_gate13": false
+      },
+      "5": {
+        "edges_retained": 135,
+        "covered": 36,
+        "coverage": 0.3214,
+        "precision": 0.2667,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 262,
+        "covered": 82,
+        "coverage": 0.7321,
+        "precision": 0.313,
+        "passes_gate13": true
+      }
+    }
+  },
+  {
+    "seed": 20261103,
+    "precedes_rows": 405,
+    "distinct_sources": 34,
+    "world_edges": 112,
+    "global_top_k": {
+      "5": {
+        "edges_retained": 5,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 10,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "20": {
+        "edges_retained": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "40": {
+        "edges_retained": 40,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "80": {
+        "edges_retained": 80,
+        "covered": 13,
+        "coverage": 0.1161,
+        "precision": 0.1625,
+        "passes_gate13": false
+      },
+      "160": {
+        "edges_retained": 160,
+        "covered": 36,
+        "coverage": 0.3214,
+        "precision": 0.225,
+        "passes_gate13": false
+      },
+      "320": {
+        "edges_retained": 320,
+        "covered": 109,
+        "coverage": 0.9732,
+        "precision": 0.3406,
+        "passes_gate13": true
+      }
+    },
+    "per_source_top_k": {
+      "1": {
+        "edges_retained": 34,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "2": {
+        "edges_retained": 68,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "passes_gate13": false
+      },
+      "3": {
+        "edges_retained": 102,
+        "covered": 2,
+        "coverage": 0.0179,
+        "precision": 0.0196,
+        "passes_gate13": false
+      },
+      "5": {
+        "edges_retained": 163,
+        "covered": 30,
+        "coverage": 0.2679,
+        "precision": 0.184,
+        "passes_gate13": false
+      },
+      "10": {
+        "edges_retained": 286,
+        "covered": 86,
+        "coverage": 0.7679,
+        "precision": 0.3007,
+        "passes_gate13": true
+      }
+    }
+  }
+]

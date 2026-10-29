@@ -1,0 +1,252 @@
+{
+  "20261101": {
+    "20": {
+      "seed": 20261101,
+      "cap": 20,
+      "runtime_s": 54.3,
+      "total_asserted_edges": 36,
+      "covered_world_edges": 0,
+      "world_edges": 112,
+      "asserted_coverage": 0.0,
+      "passed_gate_13": false,
+      "intra_cell_edges": 36,
+      "inter_cell_edges": 0
+    },
+    "40": {
+      "seed": 20261101,
+      "cap": 40,
+      "runtime_s": 48.2,
+      "total_asserted_edges": 47,
+      "covered_world_edges": 4,
+      "world_edges": 112,
+      "asserted_coverage": 0.0357,
+      "passed_gate_13": false,
+      "intra_cell_edges": 39,
+      "inter_cell_edges": 8
+    },
+    "80": {
+      "seed": 20261101,
+      "cap": 80,
+      "runtime_s": 46.6,
+      "total_asserted_edges": 72,
+      "covered_world_edges": 20,
+      "world_edges": 112,
+      "asserted_coverage": 0.1786,
+      "passed_gate_13": false,
+      "intra_cell_edges": 41,
+      "inter_cell_edges": 31
+    },
+    "None": {
+      "seed": 20261101,
+      "cap": null,
+      "runtime_s": 41.2,
+      "total_asserted_edges": 240,
+      "covered_world_edges": 111,
+      "world_edges": 112,
+      "asserted_coverage": 0.9911,
+      "passed_gate_13": true,
+      "intra_cell_edges": 52,
+      "inter_cell_edges": 188
+    }
+  },
+  "20261102": {
+    "20": {
+      "seed": 20261102,
+      "cap": 20,
+      "runtime_s": 65.0,
+      "total_asserted_edges": 41,
+      "covered_world_edges": 1,
+      "world_edges": 112,
+      "asserted_coverage": 0.0089,
+      "passed_gate_13": false,
+      "intra_cell_edges": 39,
+      "inter_cell_edges": 2
+    },
+    "40": {
+      "seed": 20261102,
+      "cap": 40,
+      "runtime_s": 76.4,
+      "total_asserted_edges": 45,
+      "covered_world_edges": 7,
+      "world_edges": 112,
+      "asserted_coverage": 0.0625,
+      "passed_gate_13": false,
+      "intra_cell_edges": 38,
+      "inter_cell_edges": 7
+    },
+    "80": {
+      "seed": 20261102,
+      "cap": 80,
+      "runtime_s": 93.3,
+      "total_asserted_edges": 57,
+      "covered_world_edges": 15,
+      "world_edges": 112,
+      "asserted_coverage": 0.1339,
+      "passed_gate_13": false,
+      "intra_cell_edges": 42,
+      "inter_cell_edges": 15
+    },
+    "None": {
+      "seed": 20261102,
+      "cap": null,
+      "runtime_s": 95.5,
+      "total_asserted_edges": 243,
+      "covered_world_edges": 112,
+      "world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "intra_cell_edges": 53,
+      "inter_cell_edges": 190
+    }
+  },
+  "20261103": {
+    "20": {
+      "seed": 20261103,
+      "cap": 20,
+      "runtime_s": 77.3,
+      "total_asserted_edges": 40,
+      "covered_world_edges": 1,
+      "world_edges": 112,
+      "asserted_coverage": 0.0089,
+      "passed_gate_13": false,
+      "intra_cell_edges": 38,
+      "inter_cell_edges": 2
+    },
+    "40": {
+      "seed": 20261103,
+      "cap": 40,
+      "runtime_s": 71.1,
+      "total_asserted_edges": 40,
+      "covered_world_edges": 1,
+      "world_edges": 112,
+      "asserted_coverage": 0.0089,
+      "passed_gate_13": false,
+      "intra_cell_edges": 39,
+      "inter_cell_edges": 1
+    },
+    "80": {
+      "seed": 20261103,
+      "cap": 80,
+      "runtime_s": 77.8,
+      "total_asserted_edges": 58,
+      "covered_world_edges": 15,
+      "world_edges": 112,
+      "asserted_coverage": 0.1339,
+      "passed_gate_13": false,
+      "intra_cell_edges": 42,
+      "inter_cell_edges": 16
+    },
+    "None": {
+      "seed": 20261103,
+      "cap": null,
+      "runtime_s": 73.1,
+      "total_asserted_edges": 244,
+      "covered_world_edges": 112,
+      "world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "intra_cell_edges": 53,
+      "inter_cell_edges": 191
+    }
+  },
+  "20261104": {
+    "20": {
+      "seed": 20261104,
+      "cap": 20,
+      "runtime_s": 67.2,
+      "total_asserted_edges": 28,
+      "covered_world_edges": 0,
+      "world_edges": 112,
+      "asserted_coverage": 0.0,
+      "passed_gate_13": false,
+      "intra_cell_edges": 28,
+      "inter_cell_edges": 0
+    },
+    "40": {
+      "seed": 20261104,
+      "cap": 40,
+      "runtime_s": 73.6,
+      "total_asserted_edges": 33,
+      "covered_world_edges": 2,
+      "world_edges": 112,
+      "asserted_coverage": 0.0179,
+      "passed_gate_13": false,
+      "intra_cell_edges": 31,
+      "inter_cell_edges": 2
+    },
+    "80": {
+      "seed": 20261104,
+      "cap": 80,
+      "runtime_s": 69.6,
+      "total_asserted_edges": 50,
+      "covered_world_edges": 10,
+      "world_edges": 112,
+      "asserted_coverage": 0.0893,
+      "passed_gate_13": false,
+      "intra_cell_edges": 39,
+      "inter_cell_edges": 11
+    },
+    "None": {
+      "seed": 20261104,
+      "cap": null,
+      "runtime_s": 73.6,
+      "total_asserted_edges": 244,
+      "covered_world_edges": 112,
+      "world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "intra_cell_edges": 52,
+      "inter_cell_edges": 192
+    }
+  },
+  "20261105": {
+    "20": {
+      "seed": 20261105,
+      "cap": 20,
+      "runtime_s": 73.8,
+      "total_asserted_edges": 37,
+      "covered_world_edges": 3,
+      "world_edges": 112,
+      "asserted_coverage": 0.0268,
+      "passed_gate_13": false,
+      "intra_cell_edges": 34,
+      "inter_cell_edges": 3
+    },
+    "40": {
+      "seed": 20261105,
+      "cap": 40,
+      "runtime_s": 81.3,
+      "total_asserted_edges": 39,
+      "covered_world_edges": 8,
+      "world_edges": 112,
+      "asserted_coverage": 0.0714,
+      "passed_gate_13": false,
+      "intra_cell_edges": 31,
+      "inter_cell_edges": 8
+    },
+    "80": {
+      "seed": 20261105,
+      "cap": 80,
+      "runtime_s": 81.8,
+      "total_asserted_edges": 60,
+      "covered_world_edges": 20,
+      "world_edges": 112,
+      "asserted_coverage": 0.1786,
+      "passed_gate_13": false,
+      "intra_cell_edges": 40,
+      "inter_cell_edges": 20
+    },
+    "None": {
+      "seed": 20261105,
+      "cap": null,
+      "runtime_s": 88.6,
+      "total_asserted_edges": 243,
+      "covered_world_edges": 112,
+      "world_edges": 112,
+      "asserted_coverage": 1.0,
+      "passed_gate_13": true,
+      "intra_cell_edges": 53,
+      "inter_cell_edges": 190
+    }
+  }
+}

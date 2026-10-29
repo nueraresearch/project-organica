@@ -92,6 +92,62 @@ run when the corrections were made.**
   manual (§8.19, finding 25), the facts sheet (§AC), `AGENTS.md` (rule 25),
   the README framing, and journal §51.
 
+### Corrected — "bottleneck" is not "deepest cause": the acquisition failure is a PRECISION limit, not a capacity limit (2026-10-28)
+
+The parallel session's Gate 13 write-up named **`MAX_PREDICTIONS = 20`** as the
+cause of the acquisition failure, on the evidence that raising the cap to
+1,000 restored coverage to 98.2 %–100 %. That was sound on its own evidence,
+but it left **three probes written and uncommitted** that ask whether there is
+a better fix than a bigger budget. Running them, and adding a fourth, changes
+the answer. **All seeds used are diagnostic (`20261100`–`20261105`); the
+confirmatory sample (`20261106`–`20261130`, 25 seeds) is untouched.**
+
+- **The world's relations are in memory.** Raw temporal coverage is
+  **0.97–1.00** on every seed and both stimulus shapes (**1.0000** on all six
+  2-tag seeds) — the same figure the pilot recorded.
+- **But they are a minority of the candidate space, and they are not the
+  high-count rows.** The `precedes` table has **366–518 rows** for a 16-tag
+  world; only **232–240** are world-tag pairs; the world's 112 edges are about
+  a third of what any selection must retain. **Precision never exceeds
+  0.3443** at any budget under either allocation rule.
+- **A 1-tag stimulus does not rescue it** — it removes the within-cell pairs by
+  construction, quintuples coverage to **0.1719–0.1953**, and still fails
+  **0 of 6** seeds. The top of the table is internal vocabulary
+  (`type -> olive`, `generation -> olive`).
+- **The capacity sweep is a steep monotone dose-response**: **0.0000–0.0268**
+  at cap 20, **0.0089–0.0714** at 40, **0.0893–0.1786** at 80,
+  **0.9911–1.0000** uncapped — needing **240–244** asserted edges, about
+  **12×** the budget. At the frozen cap the law-bearing **inter-cell** edges
+  are **0–3** while intra-cell edges are **28–39**: the engine formed the
+  world's partition and none of its transitions.
+- **A per-source allocation rule is NOT the fix** — this refutes the
+  hypothesis the observation-protocol probe suggested. Per-source K=10 retains
+  **258–286** edges for coverage **0.72–0.77**, where the global rule reaches
+  **0.95–0.97** at 320.
+- **So the deepest cause is PRECISION.** In a candidate space where the signal
+  is a third of the rows and is not clustered at the top of any frequency
+  ordering, **no frequency-based selection can find it**. The specific
+  pollution is **internal vocabulary**: **27–34** distinct sources for a
+  16-tag world.
+- **Three things are called "Gate 13"** and they disagree — the protocol's
+  (asserted structure, global top-20: FAIL), the capacity sweep's (global
+  top-K: dose-response), and the observation probe's (`precedes` table,
+  per-source top-20: PASS). The third is a different *selection rule over the
+  same table*, and the whole FAIL/PASS difference is that rule. The filter in
+  that probe selects on the world's own tag list and is therefore an
+  **oracle**, not an organism-side fix.
+- **Added** — `docs/GATE13-CAUSAL-ACCOUNT.md`,
+  `benchmarks/probe_allocation_rule.py`, `docs/gate13_capacity_sweep.json`,
+  `docs/gate13_allocation_rule.json`; **updated** —
+  `docs/V2-CAPACITY-DESIGN-BRIEF.md` (the brief's premise was measured and it
+  does not hold; two of its design objectives are refuted),
+  `docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.7, `docs/ACQUISITION-ENDPOINT-AUDIT.md`
+  §8.3, `docs/USER-MANUAL.md` §8.19, `docs/FACTS-SHEET.md` AC11–AC13,
+  `AGENTS.md` rule 25(d), journal §52.
+- **No V2 build is authorised.** The V2 question is narrower and sharper: can
+  the organism identify which of its vocabulary items are its own, and can it
+  rank candidates by something other than raw frequency?
+
 ### Corrected — five claims in the project's own summary, narrowed (2026-10-26)
 
 A review of the project's *summary* — not of its measurements — found five

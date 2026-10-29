@@ -475,6 +475,23 @@ So the failure is a **capacity limit**, not a missing signal and not a readout
 defect. Downstream selection does **not** discard the cross-cell predictions once
 they are admitted: they survive natural selection and decay across 110 cycles.
 
+> **Refined 2026-10-28: "bottleneck" is not "deepest cause".** Four further
+> diagnostic probes (`docs/GATE13-CAUSAL-ACCOUNT.md`) measured this bound and
+> found it is **not the deepest cause**. Coverage is a steep monotone
+> dose-response in the cap — **0.00 → 0.04–0.07 → 0.09–0.18 → 0.99–1.00** —
+> needing **240–244** asserted edges, ~12× the budget. A **per-source**
+> allocation rule does **not** help (258–286 edges for coverage 0.72–0.77,
+> where global reaches 0.95–0.97 at 320), and **precision never exceeds
+> 0.3443** at any budget under either rule. A 1-tag stimulus removes the
+> within-cell pairs by construction and still fails **0 of 6** seeds. **The
+> deeper constraint is precision** — no frequency-based selection can find
+> edges that are a third of the rows and not clustered at the top of any
+> frequency ordering. This changes what §7 gate 5 asks for: the failure is
+> now **named as a precision limit in the candidate space**, and the V2
+> question sharpens to *can the organism identify its own vocabulary, and can it
+> rank candidates by something other than raw frequency?* **No build is
+> authorised.**
+
 **Organica's readout lost.** On the Pilot 0 seed, with identical raw exposure for
 every learner:
 

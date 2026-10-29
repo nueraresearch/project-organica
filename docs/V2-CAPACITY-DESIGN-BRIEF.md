@@ -1,5 +1,62 @@
-# Organica V2 Design Brief
+# Organica V2 — Capacity Sub-Brief
 ## Preserve useful structure under bounded capacity
+
+> **This is a SUB-BRIEF of [`docs/ORGANICA-V2-DESIGN-BRIEF.md`](ORGANICA-V2-DESIGN-BRIEF.md)**,
+> which is the overall V2 plan. This one scopes a single question. The two are
+> not competing plans, and neither authorises a build.
+>
+> **Read the addendum below before using this brief.** Four diagnostic probes
+> run on 2026-10-28 changed the premise of this document.
+
+### Addendum (2026-10-28): the premise of this brief was measured and it does not hold
+
+The brief below frames the V2 problem as **bounded structural allocation** —
+how to preserve more useful structure under a declared budget. Four probes
+(`docs/GATE13-CAUSAL-ACCOUNT.md`) say the frame is wrong: **the constraint is
+not the budget, and not the allocation rule either. It is precision.**
+
+| Measurement | Result |
+|---|---|
+| The world's 112 edges are in the `precedes` table | **yes** — raw temporal coverage **0.97–1.00** on every seed and both stimulus shapes |
+| The engine's asserted structure at the frozen cap | **0–3 of 112** — inter-cell (law-bearing) edges **0–3**, intra-cell **28–39** |
+| Coverage vs the global cap (20 / 40 / 80 / uncapped) | **0.00 → 0.04–0.07 → 0.09–0.18 → 0.99–1.00** — a steep monotone dose-response needing **240–244** asserted edges, ~12× the budget |
+| Coverage vs a **per-source** allocation rule (objective 1 below) | **not** the fix — per-source K=10 retains 258–286 edges for coverage 0.72–0.77, where the global rule reaches 0.95–0.97 at 320 |
+| Precision at every budget and under both rules | **never exceeds 0.3443** |
+| A world-vocabulary filter (oracle) | precision **0.35 → 0.5333** at **unchanged coverage 1.0000** |
+
+**Two of this brief's design objectives are now measured and must be restated.**
+
+**Objective 1 (source-level budget distribution) is refuted as the primary
+fix.** A per-source quota does not rescue acquisition at a modest budget; it
+merely spends a comparable number of edges more evenly and reaches lower
+coverage than the global rule does at a slightly larger budget. Per-source
+distribution may still be worth having — it is the mechanism by which a
+high-frequency node stops monopolising slots — but **it is not sufficient**, and
+it is not the thing to build first.
+
+**Objective 2 (evidence-type separation) is necessary but not sufficient.** The
+within-cell/cross-cell crowding is real, but a 1-tag stimulus removes the
+within-cell pairs *by construction* and still fails Gate 13 on **0 of 6** seeds
+(asserted coverage 0.1719–0.1953). Separating evidence types cannot be the
+whole fix.
+
+**What the measurements point at instead.** In a candidate space where the
+world's edges are about a third of the rows and are not clustered at the top of
+any frequency ordering, **no frequency-based selection can find them**. Layer 1
+ranks by raw count; the world does not co-occur in count order. The two halves
+of the real question are therefore:
+
+1. **Vocabulary.** Can the organism tell which of its vocabulary items are its
+   own, rather than incidental words? A perfect filter buys precision
+   0.35 → 0.53 at no coverage cost — and the filter measured is an **oracle**
+   (`TAG_POOL`), so the organism-side version is the open question.
+2. **Ranking.** Can candidates be ranked by something other than raw frequency?
+   The engine currently has no criterion to offer.
+
+**No V2 build is authorised by this addendum.** It narrows the question and
+records what has been ruled out.
+
+---
 
 ### Purpose
 

@@ -4851,3 +4851,192 @@ metric imported from another study measured a different quantity; here, a
 metric from the house scoring code measured a different quantity than the
 claim, on a world that could not supply the quantity at all. **The endpoint
 is part of the hypothesis, and it is the part that most often goes unchecked.**
+---
+
+## §52 — "Bottleneck" is not "deepest cause": the acquisition failure is a precision limit, not a capacity limit
+
+**What this section records.** §51 established that the endpoint was wrong and
+that the campaign stopped at Gate 13. The parallel session's write-up named the
+cause as **`MAX_PREDICTIONS = 20`** — the prediction-candidate cap — on the
+evidence that raising it to 1,000 restored coverage to 98.2 %–100 %. That
+conclusion was sound on its own evidence, but it left **three probes written
+and uncommitted**, and those probes ask whether there is a *better* fix than a
+bigger budget.
+
+Running them, and adding a fourth, changes the answer. **The cap is the
+proximate bound. The deepest cause is precision.** All seeds used here are
+diagnostic (`20261100`–`20261105`, designated by Amendment 3); the confirmatory
+sample (`20261106`–`20261130`, 25 seeds) is untouched.
+
+### Three different things are called "Gate 13", and they disagree
+
+| What it measures | Selection rule | Coverage of the world's 112 edges | Verdict |
+|---|---|---|---|
+| the organism's **asserted structure** | the engine's **global** top-20 by count | **0.0000 – 0.0268** | **FAIL** (0–3 of 112) |
+| the same, at raised caps | global top-K by count, K swept | 0.0000 → 1.0000 | dose-response |
+| the **`precedes` table** | **top-20 *per source*** | **0.9688 – 1.0000** | **PASS** |
+
+The third is not a third protocol. It is a **different selection rule over the
+same table**, and the entire FAIL/PASS difference is that rule. This is the
+third naming collision in this project, after the harness/runner pair fixed in
+§51; the rule that caught it is the one written down in §51.
+
+### Probe 1 — the 1-tag stimulus does not rescue it
+
+Each event carries **one** tag instead of two, removing the within-cell
+co-occurrence pairs by construction.
+
+| | world edges | asserted coverage | precision | raw temporal coverage | gate 13 |
+|---|---|---|---|---|---|
+| 2-tag (protocol) | 112 | 0.0000 – 0.0268 | 0.35 – 0.37 | 1.0000 | 0 / 6 pass |
+| **1-tag** | 128 | **0.1719 – 0.1953** | 0.3548 – 0.3731 | 0.9688 – 0.9844 | **0 / 6 pass** |
+
+Removing one tag per event roughly **quintuples** the coverage and still fails
+on every seed. The probe's own output shows the rest — the top of the
+`precedes` table on the 1-tag stimulus:
+
+```
+1. type -> olive (33)          6. type -> indigo (25)
+2. generation -> olive (30)    7. type -> ochre (25)
+3. type -> crimson (28)        8. generation -> crimson (25)
+4. type -> umber (26)          9. generation -> umber (25)
+5. subject -> olive (26)      10. type -> birch (24)
+```
+
+The highest-count rows are **internal vocabulary words pointing at world
+tags**. They are not relations of the world at all.
+
+### Probe 2 — the capacity sweep: a dose-response, and no cheap budget
+
+Five seeds, caps 20 / 40 / 80 / uncapped, engine's own selection, only the cap
+changed.
+
+| Cap | asserted coverage | intra-cell edges | **inter-cell edges** | total asserted |
+|---|---|---|---|---|
+| **20** (frozen) | 0.0000 – 0.0268 | 28 – 39 | **0 – 3** | 28 – 41 |
+| 40 | 0.0089 – 0.0714 | 31 – 39 | 1 – 8 | 33 – 47 |
+| 80 | 0.0893 – 0.1786 | 39 – 42 | 11 – 31 | 50 – 72 |
+| **uncapped** | **0.9911 – 1.0000** | 52 – 53 | **188 – 192** | **240 – 244** |
+
+**At the frozen cap the law-bearing edges are not scarce — they are absent.**
+Inter-cell asserted edges are **0–3** while intra-cell ones are **28–39**: the
+engine has formed the world's *partition* (which tags belong together) and
+essentially none of the world's *transitions*. And "raise the cap to 1,000" is
+really "remove the cap" — full coverage needs **240–244** asserted edges, about
+**12×** the engine's budget of 20.
+
+### Probe 3 — the observation protocol: the world **is** in memory
+
+Six seeds × two stimulus shapes, reading the `precedes` table directly with
+top-20 **per source**.
+
+| World | precedes rows | world-tag pairs | RAW coverage | RAW precision | FILTERED coverage | FILTERED precision |
+|---|---|---|---|---|---|---|
+| 1-tag | 419 – 518 | 232 – 237 (44.8 % – 56.6 %) | 0.9688 – 0.9922 | 0.2417 – 0.3031 | 0.9688 – 0.9922 | **0.5359 – 0.5427** |
+| 2-tag | 366 – 405 | 232 – 240 (59.3 % – 65.6 %) | **1.0000** (all 6) | 0.3160 – 0.3497 | **1.0000** (all 6) | **0.5333** |
+
+The world's relations are in memory **essentially completely** — the same
+`raw_temporal_coverage: 1.0` the pilot recorded, now shown to hold on every
+seed. But only 44.8 %–65.6 % of the rows are world-tag pairs, and the raw
+precision of a selection over the table is 0.24–0.35. Filtering to world-tag
+pairs raises precision to **0.5333** at **unchanged coverage**.
+
+> **The filter is an oracle.** It selects on the world's own tag list, which
+> the organism does not have. It is **not** a legitimate fix. Its value is that
+> it *quantifies the headroom*.
+
+### Probe 4 (new) — the allocation rule: per-source is **not** the fix
+
+Both curves computed on the same `precedes` table from the same engine run, so
+the comparison is paired. `edges retained` is shown beside `coverage` so that a
+fix which merely spends more budget is visible as such.
+
+| Seed | rule | K | edges retained | coverage | precision |
+|---|---|---|---|---|---|
+| 20261101 | global | 20 | 20 | 0.0000 | 0.0000 |
+| 20261101 | global | 80 | 80 | 0.1429 | 0.2000 |
+| 20261101 | global | 160 | 160 | 0.4911 | 0.3438 |
+| 20261101 | global | 320 | 320 | **0.9643** | 0.3375 |
+| 20261101 | per-source | 5 | 143 | 0.2946 | 0.2308 |
+| 20261101 | **per-source** | **10** | **258** | **0.7232** | 0.3140 |
+| 20261102 | global | 320 | 320 | **0.9464** | 0.3312 |
+| 20261103 | global | 320 | 320 | **0.9732** | 0.3406 |
+| 20261103 | per-source | 10 | 286 | 0.7679 | 0.3007 |
+
+**This overturns the hypothesis the observation-protocol probe suggested.** A
+per-source allocation does *not* rescue the benchmark at a modest budget: it
+needs **258–286 retained edges** to pass, and reaches only **0.72–0.77** where
+the global rule reaches **0.95–0.97** at 320. At every budget and under both
+rules, **precision never exceeds 0.3443**.
+
+### The causal account
+
+1. **The world's relations are in memory.** The `precedes` table holds all 112
+   world edges (raw temporal coverage 0.97–1.00, every seed, both shapes).
+2. **They are a minority of the table, and they are not the high-count rows.**
+   366–518 rows for a 16-tag world; only 232–240 are world-tag pairs; the
+   world's edges are roughly **a third** of what any selection must retain
+   (precision ≤ 0.3443 at every budget, under both rules). The top of the table
+   is internal-vocabulary edges and intra-cell pairs.
+3. **Layer 1 selects on frequency, and the world is not organised by
+   frequency.** At the global top-20 cut, **0–3 of 112** world edges survive
+   while 28–39 intra-cell edges do.
+4. **Neither a modest budget nor a modest re-allocation rescues it.** Coverage
+   is a steep monotone dose-response needing ~240 edges; a per-source rule at
+   the same nominal budget is not better.
+5. **So the binding constraint is PRECISION, not capacity.** In a candidate
+   space where the signal is a third of the rows and is not clustered at the
+   top of any frequency ordering, **no frequency-based selection can pick it
+   out.**
+
+The specific pollution is **internal vocabulary**: the `precedes` table has
+**27–34 distinct sources for a 16-tag world**, because the event text carries
+non-tag words (`type`, `generation`, `subject`, `evidence`) that the engine
+treats as vocabulary items. That is the same failure as the taxonomy
+constraint of §51: the engine has no way to represent "a tight group of my own
+tags", and no way to tell its own coined vocabulary from incidental words.
+
+### The lessons
+
+**1. A bounded selection is not a selection rule. Before enlarging a budget,
+check that the ranking can find the signal at all.** The first diagnosis named
+a bottleneck; the deeper diagnosis named a precision limit. The difference cost
+four probes. The cheap check is three measurements: the **coverage ceiling** of
+the ranking with the budget removed, the **precision at each budget**, and the
+same curves under a *different* allocation rule. If precision is flat and low
+across budgets and rules, the defect is the **candidate space**, and the
+design question is "can this be ranked by something other than frequency?" —
+not "how much budget?".
+
+**2. The proximate bound and the deepest cause are different claims, and the
+project had been using them interchangeably.** "Raising the cap restores
+coverage" was true; "the cap is the cause" was true; "the cap is the deepest
+cause" was **not** established, and the V2 brief was written on the
+unestablished version. A brief that inherits the shallowest available account
+of a failure inherits its shallowest question.
+
+**3. A hypothesis suggested by a probe must be tested by a probe, not adopted
+because it is the more hopeful reading.** The observation-protocol probe
+suggested that a per-source allocation would fix things; the paired
+allocation-rule probe refuted it. The refutation is the finding.
+
+**4. An oracle filter quantifies headroom; it does not propose a fix.** The
+world-vocabulary filter buys precision 0.35 → 0.5333 at no coverage cost, and
+it selects on information the organism does not have. Its legitimate
+counterpart — *the organism identifying its own vocabulary* — is the real
+question, and it is open.
+
+**5. A measurement that refutes the plan is not a failure of the plan; it is
+the plan's first result.** The V2 capacity brief's premise ("bounded
+structural allocation") was measured and did not hold. That is worth more than
+a brief whose premise nobody checked.
+
+**What does not change.** The six negative task families, the Phase L protocol
+verdict `H3-L — INCONCLUSIVE`, the Phase L characterisation, and the
+campaign's stop at Gate 13 stand exactly as recorded. **No V2 build is
+authorised.** The V2 question is narrower and sharper than it was: can the
+organism identify which of its vocabulary items are its own, and can it rank
+candidates by something other than raw frequency?
+
+→ `docs/GATE13-CAUSAL-ACCOUNT.md`; `docs/gate13_capacity_sweep.json`;
+`docs/gate13_allocation_rule.json`; `docs/V2-CAPACITY-DESIGN-BRIEF.md` addendum
