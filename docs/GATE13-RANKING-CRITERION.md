@@ -12,7 +12,7 @@ It turned out to have a precedent — and the precedent is the finding.
 
 ---
 
-## 1. The engine already computes a normalised criterion, and does not use it
+## 1. The engine already computes a normalized criterion, and does not use it
 
 `organica/sleep.py:1139-1160`, `SleepService._build_predictions`:
 
@@ -31,10 +31,10 @@ candidates.sort(key=lambda p: p["evidence"]["temporal_count"], reverse=True)
 return candidates[:self.MAX_PREDICTIONS]
 ```
 
-The engine computes a **frequency-normalised** criterion, stores it in every
+The engine computes a **frequency-normalized** criterion, stores it in every
 candidate's evidence, and then sorts by **raw count** for admission. The
-normalised quantity is used for **survival** (via `stable_prior`) and not for
-**admission** — and `memory.py:264-281` says the normalisation is
+normalized quantity is used for **survival** (via `stable_prior`) and not for
+**admission** — and `memory.py:264-281` says the normalization is
 "load-bearing rather than cosmetic".
 
 So requirement 3 may not need a new idea. Every criterion the probe tested
@@ -54,7 +54,7 @@ Two tables × two frequency scopes × five criteria × three seeds = **60 cells*
 
 | table | frequency scope | what it is |
 |---|---|---|
-| `raw` | `world_freq` | the engine's own table and scope — **today's behaviour** |
+| `raw` | `world_freq` | the engine's own table and scope — **today's behavior** |
 | `raw` | `world_plus_self_freq` | the engine's table, with the engine's own vocabulary counted too |
 | `filtered` | `world_freq` | provenance-separated table (world-only lookback) |
 | `filtered` | `world_plus_self_freq` | provenance-separated **and** self-scoped frequency |
@@ -92,7 +92,7 @@ Per seed, in the best configuration (`filtered` + `world_plus_self_freq`):
 **Three things follow.**
 
 **(a) No criterion alone reaches the world's edges.** On the raw table under
-the engine's own scope, the normalised criteria select **20 engine-vocabulary
+the engine's own scope, the normalized criteria select **20 engine-vocabulary
 edges and zero world edges**, on every seed.
 
 **(b) The provenance filter alone does not reach them either** — the `filtered`
@@ -122,7 +122,7 @@ the selected edges with every number behind them.
 `store()`, so **`tag_counts` is world-scoped and the engine's own words are
 absent from it**. `freqs.get(tag_from, 1)` therefore returns **1**, and
 `ratio = count / 1 = count` — the maximum possible ratio for that count. **The
-engine's normalised criterion is undefined for exactly the edges it would need
+engine's normalized criterion is undefined for exactly the edges it would need
 to discriminate, and ranks them first.**
 
 **Under the self-inclusive scope (`world_plus_self_freq`):**
@@ -159,7 +159,7 @@ the organism talks about the world using the world's words.
    moves the needle (0.0089); together they move coverage from 0.0000 to
    0.0804 and precision to 0.4500. **And together they are still six times
    short of the gate.**
-4. **The engine's own normalised criterion is actively harmful here.** Under
+4. **The engine's own normalized criterion is actively harmful here.** Under
    the engine's own scope it selects engine vocabulary exclusively, because
    the frequency it normalises by is world-scoped and therefore absent for
    the contaminated rows. The `ratio` the engine computes and stores is not a

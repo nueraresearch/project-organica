@@ -1,6 +1,6 @@
 # Project Organica: Research Roadmap
 
-> ### Superseded for planning purposes — 2026-10-26
+> ### Superseded for planning purposes — 2026-10-26 · updated 2026-10-29
 >
 > This roadmap describes the project's earlier structure and is **superseded for planning**
 > by the current sequence, which is:
@@ -9,11 +9,19 @@
 > acquisition experiment → compare against the replay learner → publish whatever happens →
 > only then discuss V2.**
 >
+> **Where that sequence stands (2026-10-29).** The first two steps are **done**: A5 and A6
+> closed on 2026-10-28, each with a proof-of-firing test, and the instrumentation is tagged
+> and frozen at `audit-trace-v1`. The third step **ran and stopped at its own preregistered
+> acquisition gate** — the asserted-structure gate failed on every inspected seed, so the
+> 600-cell factorial did not run and transfer was reported as *not measurable*; the baseline
+> comparison that did run was a **loss**. The live study is **paused** at 5,396 sleep cycles.
+> V2 is **not cut**; V2–V5 are **not run**. Nothing below is withdrawn — it is the record of
+> what the project has already done, and of the frontier it has not yet reached.
+>
 > The acquisition experiment is specified in
 > [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)
-> (Revision 2). The live study is **paused** at 5,396 sleep cycles. V2 is **not cut**; V2–V5
-> are **not run**. Nothing below is withdrawn — it is the record of what the project has
-> already done, and of the frontier it has not yet reached.
+> (**Revision 3**, with **Amendment 3**). Nothing below is withdrawn — it is the record of
+> what the project has already done, and of the frontier it has not yet reached.
 
 > *"Grow a digital infant rather than train an oracle."*
 

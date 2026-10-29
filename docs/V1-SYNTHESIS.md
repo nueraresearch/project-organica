@@ -1,15 +1,22 @@
 # Organica V1 — A Synthesis
 
-> ### Superseded for planning purposes — 2026-10-26
+> ### Superseded for planning purposes — 2026-10-26 · updated 2026-10-29
 >
 > **This document's measurement record stands as written.** What is superseded is its
 > **forward look**: the plasticity study it points toward is no longer the next step.
 >
 > The next step is **the acquisition experiment**
 > ([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md),
-> Revision 2): *can a controlled experience leave behind a structure that helps on later events,
-> after the raw episodes that produced it are unavailable?* The audit build is finished first
-> (A5 and A6 only), then frozen.
+> **Revision 3**, with **Amendment 3**): *can a controlled experience leave behind a structure
+> that helps on later events, after the raw episodes that produced it are unavailable?* The
+> audit build is finished first (A5 and A6 only), then frozen.
+>
+> **Update 2026-10-29 — the plan this banner describes has since been executed.** The audit
+> build **was** finished first: A5 and A6 closed on 2026-10-28, each with a proof-of-firing
+> test, and the instrumentation is tagged and frozen at `audit-trace-v1`. The acquisition
+> experiment then ran and **stopped at its own preregistered acquisition gate**, so the
+> question this banner poses was **not answered** — it was reported *not measurable*, and the
+> 600-cell factorial did not run. The measurement record below is unaffected.
 
 > **What this document is.** A formal read of what Organica 1 established,
 > what it did not, and what the two of those together mean for what to do

@@ -139,13 +139,20 @@ design is downstream of a positive answer that has not arrived. Phase L's verdic
 **So: V2 is not authorised by any completed phase.** This brief is a **plan**, and the
 plan's first job is to earn authorisation.
 
-### 4.3 The audit build is nearly, but not fully, closed
+### 4.3 The audit build is closed, tagged and frozen
 
-**Closed and not reopened:** A1 evidence replay exactness, A2 selection reconstruction,
-A3 ancestry honesty, A4 behaviour invariance, A7 event-level attribution. **Still
-open:** **A5 field honesty** (every numeric field carries its exact semantics) and **A6
-trace / counterfactual separation** (no counterfactual field in the trace).
-→ `docs/AUDIT-TRACE-SPEC.md` §7, §13
+**All seven are closed and not reopened:** A1 evidence replay exactness, A2 selection
+reconstruction, A3 ancestry honesty, A4 behavior invariance, **A5 field honesty** (every
+numeric field carries its exact semantics), **A6 trace / counterfactual separation** (no
+counterfactual field in the trace), A7 event-level attribution. A5 and A6 closed on
+**2026-10-28**, each with a **proof-of-firing** test, and the instrumentation is **tagged
+and frozen** at `audit-trace-v1`; no feature may be added to it from that tag, though it
+may be **fixed** if found wrong.
+→ `docs/AUDIT-TRACE-SPEC.md` §6, §7, §13; `docs/USER-MANUAL.md` §2, §8.17; journal §53
+
+**This section previously read that A5 and A6 were "still open."** That was true when the
+brief was written (2026-10-27) and false from 2026-10-28, when they closed and the
+instrumentation was tagged and frozen. Corrected here rather than silently removed.
 
 The probe that is already built reconstructs the selection and evidence axes exactly,
 including a binding-cap case: in the default arm the belief pool peaked at **12** against a
@@ -234,6 +241,9 @@ Gates, in order. Passing a gate authorises the next step's *planning*, not its b
     close, and then it is tagged and frozen; no feature may be added afterwards, though
     the instrumentation may be **fixed** if it is found wrong.
    → `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` §7
+   → **EXECUTED (2026-10-28).** A5 and A6 are closed, each with a proof-of-firing test;
+   the three probe arms (default, stress, forced-tie) are regenerated, and the
+   instrumentation is tagged and frozen at `audit-trace-v1`.
 5. **Run the corrected V1 acquisition study and use its result to decide what V2 needs to
     change.** A V2 build becomes justified when that process identifies a **specific**
     failure — weak transfer despite correct internal structure, or failure to retain
@@ -244,8 +254,9 @@ Gates, in order. Passing a gate authorises the next step's *planning*, not its b
    identify a **specific failure** — but a **third** kind, not the two named here: the
    organism never formed the structure at all, because one bounded Layer-1 selection
    step discarded it. The gate is therefore **satisfied as a process** and **unsatisfied
-   as a test**, and a V2 build is *not* thereby authorised: gates 4 (A5/A6) and the
-   study itself remain open.
+   as a test**, and a V2 build is *not* thereby authorised: gate 4 (A5/A6) is now
+   **closed** (2026-10-28); the study's 600-cell factorial **did not run**, because the
+   campaign stopped at its own preregistered acquisition gate.
 
 **Until gate 5 is passed, this brief stays a set of testable options.** Designing V2
 against a *named* weakness is right; designing it against a *guessed* mechanism is what
@@ -389,21 +400,21 @@ separable by a next-event score alone.**
 - That world is a **calibration and control task** — ordinary transition learning and
     law-change adaptation. It is **not** evidence of abstraction beyond counts, and it
     must not be reported as such.
-- A **compositional generalisation task** is required to test generalisation beyond
+- A **compositional generalization task** is required to test generalization beyond
     observed transitions: latent factors, training on combinations that reveal each
     factor, testing on withheld combinations, with the factor-to-tag mapping **randomised
     per world** so that no tag identity can be memorised across worlds. Its comparison set
     is the tuned count-based baselines: bigram, decayed bigram, and a compact/latent-state
     rule learner.
 - **Do not make a world artificially harder to force a win.** The target is evidence of
-    generalisation beyond observed transitions — not proof of an inner state called
+    generalization beyond observed transitions — not proof of an inner state called
     "understanding."
 
 ---
 
 ### 9.6 The compositional task exists, and it is discriminative
 
-§9.5 called for a compositional generalisation task. It has been **built and
+§9.5 called for a compositional generalization task. It has been **built and
 gated**: `benchmarks/acquisition_compositional.py`, checked by
 `benchmarks/acquisition_compositional_probe.py` over **30 independent worlds**
 (seeds 20261200–20261229).
@@ -427,7 +438,7 @@ events per world), so the withheld thing is a **combination**, not a tag.
 
 **G7 is the load-bearing one.** Without it, G1 could be passing because of generic
 estimation error. With it, the benchmark's headroom is demonstrably
-*generalisation* headroom, on the withheld combination specifically.
+*generalization* headroom, on the withheld combination specifically.
 
 **A sensitivity, reported and not gated:** a control with the right structure but
 the two transition weights swapped is only **+0.0307** worse [+0.0283, +0.0332]. The
@@ -515,7 +526,7 @@ they are admitted: they survive natural selection and decay across 110 cycles.
 > uses it for **survival**, and sorts by **raw count** for **admission**. A
 > 60-cell grid over those stored fields reached a **best cell of coverage 0.0804
 > at precision 0.4500 against a 0.50 gate — six times short**
-> (`docs/GATE13-RANKING-CRITERION.md`). **The engine's own normalised criterion
+> (`docs/GATE13-RANKING-CRITERION.md`). **The engine's own normalized criterion
 > is actively harmful here**: on the raw table under its own scope, `ratio`,
 > `cosine` and `pmi` each select **20 engine-vocabulary edges and 0 world edges**,
 > because `tag_counts` is world-scoped and the engine's own words have no
@@ -569,22 +580,22 @@ wrong or under-stated, and each is corrected here rather than dropped.
 | # | What the draft said | Correction | Source of the correction |
 |---|---|---|---|
 | **1** | "Phase K's three task families were reversed" | Understated the record. There are **six** negative families — Phase H (next-event prediction), Phase I (regime-shift detection), Phase J (post-shift adaptation), plus K1, K2, K3 — and **all three K families are REVERSED**: clean losses, not inconclusive ones. Phase K's pre-committed terminal outcome was **H2, the search failed**, whose own text reads **"Do not design V2."** V2 is therefore authorised by **no** completed phase. | `docs/phase_k_results.md` §4; `docs/PHASE-K-PREREGISTRATION.md` §7; `docs/V1-SYNTHESIS.md` §3 |
-| **2** | "The audit work is promising" | Needs its boundary. The audit trace reconstructs the organism's **current, surviving** structures from the engine's state; it is **not an independent replication** and does not reconstruct a structure's full past. **A5 (field honesty) and A6 (trace/counterfactual separation) remain open**; A1–A4 and A7 are closed. "Independently auditable" means independently **reconstructed**, never **replicated**. | `docs/AUDIT-TRACE-SPEC.md` §7, §8, §13; `docs/USER-MANUAL.md` §8.18 |
+| **2** | "The audit work is promising" | Needs its boundary. The audit trace reconstructs the organism's **current, surviving** structures from the engine's state; it is **not an independent replication** and does not reconstruct a structure's full past. **A5 (field honesty) and A6 (trace/counterfactual separation) are closed** (2026-10-28, each with a proof-of-firing test), and the instrumentation is tagged and frozen at `audit-trace-v1`; A1–A4 and A7 were closed earlier. "Independently auditable" means independently **reconstructed**, never **replicated**. | `docs/AUDIT-TRACE-SPEC.md` §7, §8, §13; `docs/USER-MANUAL.md` §8.18 |
 | **3** | "History-dependent internal structure" | Right, but the claim must be cut to its evidence: the schedule experiments vary the event **multiset and order together**, so they establish **path dependence**, not **strict order dependence**; isolating order requires the multiset held fixed, and that comparison **has not been run**. Phase L's verdict is `H3-L — INCONCLUSIVE`, and its `DI`/`PI` are **structure-retention** indices — so the established finding is **structural displacement**, not belief revision, which was measured separately in K2 and lost (0.4111 vs 0.9846). | `docs/V1-SYNTHESIS.md` §2.2, §5; `docs/PHASE-L-SYNTHESIS.md` §2.3a, §3.1 |
-| **4** | The new endpoint files "are reusable benchmark infrastructure", and the probe "mostly validates the world, metric, and theoretical readout" | **Defect, and it has been corrected.** As of 2026-10-27 the endpoint probe could **pass every check it contains** and still leave the benchmark with no room to show an advantage over a strong baseline. The probe's own I2 headroom check compared the ceiling only against a **base-rate** predictor (`headroom` = 0.105032, `I2_headroom` = true); against the **strongest simple baseline** — a first-order bigram over the raw rows — the margin was **0.027462 nats**, and against the grouping oracle **0.027908** nats, both below the probe's own **0.05-nat** bar. **The fix has been made** (§9.6): the compositional task's gap against the strongest simple baseline is **+0.1035 nats** with a 99 % lower bound of **+0.0996**, and G7 shows the gap is generalisation headroom on the withheld combination, not estimation error. | `docs/acquisition_endpoint_audit.json`; `docs/acquisition_baseline_capability.json`; `docs/acquisition_readout_design.json`; `docs/acquisition_compositional_gate.json` |
+| **4** | The new endpoint files "are reusable benchmark infrastructure", and the probe "mostly validates the world, metric, and theoretical readout" | **Defect, and it has been corrected.** As of 2026-10-27 the endpoint probe could **pass every check it contains** and still leave the benchmark with no room to show an advantage over a strong baseline. The probe's own I2 headroom check compared the ceiling only against a **base-rate** predictor (`headroom` = 0.105032, `I2_headroom` = true); against the **strongest simple baseline** — a first-order bigram over the raw rows — the margin was **0.027462 nats**, and against the grouping oracle **0.027908** nats, both below the probe's own **0.05-nat** bar. **The fix has been made** (§9.6): the compositional task's gap against the strongest simple baseline is **+0.1035 nats** with a 99 % lower bound of **+0.0996**, and G7 shows the gap is generalization headroom on the withheld combination, not estimation error. | `docs/acquisition_endpoint_audit.json`; `docs/acquisition_baseline_capability.json`; `docs/acquisition_readout_design.json`; `docs/acquisition_compositional_gate.json` |
 | **5** | "Those files refer to Revision 3, while the preregistration, README, and manual still describe Revision 2" | True **on 2026-10-27** and corrected in the same work cycle — this is a transient state, not a standing discrepancy. The committed pre-registration now reads **Revision 3**, with **Amendment 3** (2026-10-28) recording that the Task 2 campaign **stopped at the acquisition gate** without measuring transfer. | `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (header, §10); `docs/USER-MANUAL.md` §2 |
 
 **One more correction the draft needed and did not have:** it described the acquisition
 endpoint work as reusable benchmark infrastructure. The measurements above show that the
 endpoint's *checks* pass while its *headroom* does not survive contact with a strong
 baseline (§9.5, correction 4). The infrastructure is reusable; the world as designed is
-a **calibration task**, and calling it a generalisation benchmark would overstate it.
+a **calibration task**, and calling it a generalization benchmark would overstate it.
 
 **And a sixth correction, made on 2026-10-28, to this brief's own §9.1–§9.2:** those
 two findings were measured on **seed 20261100**, which Amendment 2 of the
 pre-registration designates an **exploratory pilot seed**. The taxonomy finding of
 §9.1 is a structural fact about `_classify` and does not depend on the seed; the
-coverage figures of §9.2 are **diagnostic**, not confirmatory, and are labelled as
+coverage figures of §9.2 are **diagnostic**, not confirmatory, and are labeled as
 such.
 
 ---
@@ -601,7 +612,7 @@ measurement.
 | The acquisition study shows **failure to retain useful structure after episode removal** (R3 fails) | the defect is in *persistence* — V2 work targets Layer-1 retention and its asymmetry, and `MAX_PREDICTIONS` becomes a named suspect (§9.2). **NOT MEASURABLE:** R3 cannot be scored while R1 fails (§9.7) |
 | The engine gains a category for a **tight group** and concepts then form on a group-structured world (§9.1) | the representational constraint is lifted and the relational task becomes runnable on V1's frozen taxonomy |
 | **RESOLVED 2026-10-28, in the negative.** The compositional task does **not** let a count-based baseline solve the withheld combinations (§9.6) | the compositional world is not too easy. Gap against the strongest baseline **+0.1035**, lower bound **+0.0996**, and the held cell's gap is **4.6×** the rest. The task stands as the instrument |
-| A5 and A6 close and freeze | gate 4 is satisfied and the acquisition study may be run; until then no V2 design may consume the trace |
+| **RESOLVED 2026-10-28.** A5 and A6 close and freeze | gate 4 is satisfied — closed, tagged and frozen at `audit-trace-v1` — and the acquisition study may be run; it ran and **stopped at its own acquisition gate** (§9.7), so no V2 design may consume the trace as a settled result |
 | The acquisition study's verdict is **"Reconstruction does work"** | V1's developmental machinery becomes a *candidate mechanism* with a positive measurement behind it |
 | The acquisition study's verdict is **"the comparator's mechanism wins"** | replay or the rule learner is the mechanism; V2 is either a better replay or not a V2 |
 | The acquisition study's verdict is **"Inconclusive"** | the plan repeats: raise n, do not design |
@@ -627,7 +638,7 @@ the point of §9.7.
 - **It does not select a representation.** §9.1 identifies a missing category; it does not
     say which category to add, or that V2 should add it.
 - **It does not choose the world's difficulty.** §9.5 fixes the requirement — evidence of
-    generalisation beyond observed transitions — and explicitly forbids making a world
+    generalization beyond observed transitions — and explicitly forbids making a world
     harder to manufacture a win.
 - **It does not change the acquisition protocol.** The cell matrix, seeds, decision rule
     and baselines are set in `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`.

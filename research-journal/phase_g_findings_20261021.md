@@ -5466,3 +5466,99 @@ records what requirement 2 must **not** be, not a design for it.
 → `docs/GATE13-RANKING-CRITERION.md`; `docs/gate13_ranking_criterion.json`;
 `benchmarks/probe_ranking_criterion.py`; `benchmarks/probe_ranking_mechanism.py`;
 manual finding 28
+---
+
+## §56 — The closure was recorded in six places, and two documents still said the opposite
+
+**What this section records.** The owner read the paper directory and the V2 design
+brief, and found two documents still asserting that the audit build was unfinished
+after it had closed, frozen and been tagged on 2026-10-28. This section records the
+correction, the publication plan that followed from the same reading, and the two
+lessons.
+
+### The drift, measured
+
+The closure of A5 and A6 had been written into **six** places: the audit-trace
+specification §9/§10, the README banner, the manual §2/§8.17, facts sheet AA26/AB5,
+AGENTS rule 23(c), and the CHANGELOG.
+
+Two documents still said the opposite:
+
+- **Paper 02 contradicted itself.** Its abstract ended *"A5 field honesty and A6
+  separation of trace from counterfactual remain pending; the audit instrumentation is
+  not yet frozen"* and its §3 was titled *"Remaining acceptance work"* — while its own
+  draft-status line said *"A5/A6 closed and the audit layer frozen at `audit-trace-v1`
+  on 2026-10-28"* and its conclusion said *"A5/A6 are now closed (2026-10-28) and the
+  instrumentation is tagged and frozen"*.
+- **The V2 design brief's §4.3 was headed *"The audit build is nearly, but not fully
+  closed"*** and its body listed A5 and A6 as *"Still open"*. Five further passages
+  carried the same state: build gate 4 was unmarked, the gate-5 annotation said
+  *"gates 4 (A5/A6) and the study itself remain open"*, the §10 corrections table said
+  A5/A6 *"remain open"*, the §11 table treated their closure as a future event, and the
+  superseded banners in `ROADMAP.md` and `docs/V1-SYNTHESIS.md` described the audit
+  build as unfinished and the pre-registration as Revision 2.
+
+**Eleven passages across four documents** were corrected. Paper 02's abstract, §3 and
+draft-status line; the V2 brief's §4.3 heading and body, build gate 4 (now marked
+**EXECUTED (2026-10-28)**), the gate-5 annotation, the §10 corrections table and the
+§11 table; and both banners.
+
+### Lesson 1: six agreeing places do not compensate for two disagreeing ones
+
+The closure had been recorded in six places, and the count was treated as the
+guarantee. It was not a guarantee at all — the check was **never made**. Two
+documents said the opposite, and one of them said it *about itself*, which is worse
+than being out of date: an out-of-date document misleads only the reader who follows
+it, while a self-contradicting document teaches the reader that its own sentences
+cannot be relied on, and that distrust then extends to the sentence that was right.
+
+The sweep also needs a **named criterion** rather than suspicion. Here the criterion
+was available and simple: **one status, stated in every document that states it.** The
+audit build's closure is a single boolean; every sentence that asserts it must agree.
+That criterion is checkable, and it found eleven sentences that did not.
+
+### Lesson 2: the papers are the publication surface, and the index must carry the plan
+
+The same reading produced the publication plan, and it is now in `papers/README.md`:
+
+- **Paper 01** — the honest empirical V1 account: developmental structure forms,
+  external advantage has not been demonstrated, Task 2 stopped at acquisition and
+  transfer was not measured.
+- **Paper 02** — the bounded audit-trace result: reconstruction of tested surviving
+  state from the engine's stored state.
+- **Paper 00** — separately, as a position paper, only after its broad claims and its
+  literature framing are audited.
+- **Papers 03 and 04** — held: mechanism *proposals*, not demonstrated-efficacy results.
+- **Papers 05 and 06** — historical, until their claims are rechecked, and **no claim in
+  either is currently strengthened by recent work — neither should be described as if it
+  were**. Paper 05 in particular **cannot** be presented as evidence that the system
+  prevents self-contamination: its strict-firewall claim conflicts with the measured
+  sleep-sourced relations (D2, quantified in `docs/GATE13-RELATION-SEPARATION.md`). Paper
+  06's major lifecycle, stability and lineage claims remain unverified against the current
+  evidence.
+
+Paper 01's **core question is "can developmental structure emerge in Organica 1?"** — one
+question, answered rigorously, with the negative external-task results included as the
+boundaries of the answer, and **not** an attempt to cover every probe. The accurate next milestone is **making the first two submission-ready**, not publishing them as they stand.
+
+And the correction of the record: the **Phase L characterization, the V1 synthesis and
+the audit artifacts are research records, not manuscripts.** They are not additional
+papers in `papers/`. The inventory stays **seven manuscript files, zero published**.
+
+Paper 01 was renamed to match its revised title
+(`01_developmental_structure_formation.md`), Paper 02 was revised to academic grade,
+and the house style is now **American English**.
+
+The corpus was then organized as **two maps kept side by side**, because the three-layer view orients a reader but does not decide what gets published: a **research-program map** (theory, proposed mechanisms, empirical findings) and a **publication map** (which manuscript can make a coherent, evidence-backed contribution now). And every claim now carries one of **four** statuses — *supported within this scope*, *mixed / context-limited*, *reversed*, *not established / not measured* — because a claim that was not established is **not** a claim that was refuted, and *reversed* is a stronger statement than merely unsupported. Paper 01's central question was narrowed to match, and it no longer covers every probe. Paper 05 might instead become a paper about the **limits or failure** of cognitive isolation, but that would be a new thesis rather than a revision.
+
+### What does not change
+
+No measurement is altered by any of this. The six negative task families, the Phase L
+verdict `H3-L — INCONCLUSIVE`, the acquisition gate failure, and the transfer result
+of *not measurable* all stand as recorded. Every seed used in the mechanism probes
+remains diagnostic, and the confirmatory sample is untouched. The frozen engine is
+untouched.
+
+→ `papers/02_persistent_structural_provenance.md`; `papers/README.md`;
+`docs/ORGANICA-V2-DESIGN-BRIEF.md` §4.3, §7, §10, §11; `ROADMAP.md`;
+`docs/V1-SYNTHESIS.md`; manual findings 29 and 30; facts sheet AD1–AD2

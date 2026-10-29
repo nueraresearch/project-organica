@@ -187,6 +187,85 @@ is untouched.**
 - **No V2 build is authorised.**
 
 
+### Corrected — the audit build's closure was recorded in six places, and two documents still said the opposite (2026-10-29)
+
+The owner read the paper directory and the V2 design brief and found two documents
+still asserting that the audit build was unfinished, after it had closed, frozen and
+been tagged on 2026-10-28.
+
+- **Paper 02 contradicted itself.** Its abstract ended *"A5 field honesty and A6
+  separation of trace from counterfactual remain pending; the audit instrumentation is
+  not yet frozen"* and its §3 was titled *"Remaining acceptance work"* — while its own
+  draft-status line said *"A5/A6 closed and the audit layer frozen at `audit-trace-v1`
+  on 2026-10-28"* and its conclusion said the same.
+- **The V2 design brief's §4.3 was headed *"The audit build is nearly, but not fully
+  closed"*** and listed A5 and A6 as *"Still open"*. Five further passages carried the
+  same state: build gate 4 was unmarked, the gate-5 annotation said *"gates 4 (A5/A6)
+  and the study itself remain open"*, the §10 corrections table said A5/A6 *"remain
+  open"*, the §11 table treated their closure as a future event, and the superseded
+  banners in `ROADMAP.md` and `docs/V1-SYNTHESIS.md` described the audit build as
+  unfinished and the pre-registration as Revision 2.
+- **Eleven passages across four documents** corrected. The closure had been recorded in
+  **six** places; six agreeing places do not compensate for two disagreeing ones, and a
+  self-contradicting document is worse than a merely out-of-date one, because it
+  teaches the reader that its own sentences cannot be relied on. The sweep criterion
+  was **one status, stated in every document that states it**.
+
+### Changed — the papers are the publication surface (2026-10-29)
+
+The repository is a research program whose codebase is one component, and the
+owner set the near-term publication sequence. It is now recorded in
+[`papers/README.md`](../papers/README.md) so it is not re-derived. **The accurate
+next milestone is making the first two manuscripts submission-ready — not publishing
+them as they stand.**
+
+- **Paper 01** — rewritten at academic grade as the honest empirical V1 account:
+  methods and results reconciled to the committed record, with the negative
+  external-task findings and the acquisition campaign retained rather than smoothed.
+  Renamed to `01_developmental_structure_formation.md` to match its revised title
+  (nothing referenced the old filename).
+- **Paper 02** — revised at academic grade: Introduction, Positioning, Methods
+  (observer, the two graphs, the three arms, every measured quantity **with its
+  population**, the acceptance criteria with their proof-of-firing tests, and
+  reproduction), Results (selection reconstruction, event-level attribution, ancestry
+  honesty, behavioral invariance and the 1.7-cycle window boundary), Discussion,
+  expanded Limitations, and data/code availability. The non-vacuity argument is now
+  explicit: the default arm's candidate cap never bound, so the stress arm — in which
+  403 candidates lost on rank — carries the selection test.
+- **Paper 01's headline finding kept in its own words**: the **+0.1035 nats** is the
+  *benchmark's headroom*, not a margin any learner achieved, and the transfer question
+  is **not measurable** rather than answered.
+- **House style set to American English** (`behavior`, `program`, `analyze`, `center`).
+- **Two maps, kept side by side.** The corpus is organized as a **research-program
+  map** (theory / proposed mechanisms / empirical findings) and a **publication map**
+  (which manuscript can make a coherent, evidence-backed contribution now), so the
+  three-layer view orients a reader without pressing every old manuscript or lab
+  artifact into a paper.
+- **Claims now carry one of four statuses**: *supported within this scope*, *mixed /
+  context-limited*, *reversed*, and *not established / not measured*. **Not
+  established is not refuted**, and *reversed* is a stronger statement than merely
+  unsupported. Paper 01's central question was narrowed to match and no longer covers
+  every probe.
+- **Paper 05 might instead become a paper about the limits or failure of cognitive
+  isolation** — a new thesis, not a revision of the existing one.
+- **Held or reclassified**: Paper 00 is a separate position paper, to be developed only
+  after its broad claims and literature framing are audited; Papers 03 and 04 are
+  mechanism *proposals*, not demonstrated-efficacy results; Papers 05 and 06 stay
+  historical until their claims are rechecked, and **no claim in either is currently
+  strengthened by recent work — neither should be described as if it were**: Paper 05
+  **cannot** be presented as evidence that the system prevents self-contamination, because
+  its strict-firewall claim conflicts with the measured sleep-sourced relations, and
+  Paper 06's major lifecycle, stability and lineage claims remain unverified against the
+  current evidence.
+- **The Phase L characterization, the V1 synthesis and the audit artifacts are research
+  records, not manuscripts.** They are not additional papers in `papers/`, and the
+  inventory stays **seven manuscript files, zero published**.
+
+**No measurement changed.** The six negative task families, the Phase L verdict
+`H3-L — INCONCLUSIVE`, the acquisition gate failure and the transfer result of *not
+measurable* all stand as recorded; every seed used in the mechanism probes remains
+diagnostic; the frozen engine is untouched.
+
 ### The audit build is CLOSED, TAGGED and FROZEN (2026-10-28)
 
 The audit build's stop condition is met and has been executed. **A1–A7 are all
@@ -444,7 +523,7 @@ the paired bootstrap over seeds is sound.
 `docs/phase_l_results.md` is rewritten for the raise-n result; journal §39,
 facts sheet §Y, manual §8.11 and finding 16.
 
-### Result — Phase L characterisation: regime behaviour, and a verdict that did not move
+### Result — Phase L characterisation: regime behavior, and a verdict that did not move
 
 The raise-n result has been read and **published as a characterisation**:
 [`docs/PHASE-L-SYNTHESIS.md`](docs/PHASE-L-SYNTHESIS.md). The protocol verdict
@@ -453,7 +532,7 @@ as separate artefacts, the measurement record and the synthesis, neither
 re-scoring the other.
 
 > *Organica 1 does not appear to exhibit a continuous coherence–plasticity
-> trade-off. It appears to exhibit regime behaviour separated by a
+> trade-off. It appears to exhibit regime behavior separated by a
 > reproducible transition region.*
 
 **What survived increasing n:** the preservation plateau (**DI exactly 0.000**
@@ -505,7 +584,7 @@ parent outside the window means *not found in window*, never *no parent*.
 **temporal transitions**, and `contradiction_count` is the subject's **competing
 flow** — not a count of observations that contradicted the claim. The record
 format as first proposed ("12 supporting observations, 4 contradictory
-observations") would have put a false claim at the centre of the audit and is
+observations") would have put a false claim at the center of the audit and is
 corrected in the spec.
 
 **Level 3 (selection) is available without instrumenting the engine.** The
@@ -513,7 +592,7 @@ report contains only survivors, but under the default `salience` policy the
 whole contest — including candidates culled by the confidence rule and
 candidates that lost on rank — is reconstructible from the report's own Layer-2/3
 outputs plus the persisted priors. The plan is therefore **assembly, not
-instrumentation**; a labelled observer build is the fallback, and it must prove
+instrumentation**; a labeled observer build is the fallback, and it must prove
 that recording the trace leaves the engine's outputs unchanged.
 
 **Counterfactuals live behind a wall.** *"Candidate B would have survived
@@ -522,7 +601,7 @@ its own label.
 
 **Six acceptance criteria** for the eventual build, each able to fail:
 evidence-replay exactness, selection-reconstruction exactness, ancestry honesty,
-behaviour invariance, field-honesty, and trace/counterfactual separation.
+behavior invariance, field-honesty, and trace/counterfactual separation.
 
 **Two defects disclosed, neither patched** (Organica 1 is frozen):
 `contradiction_count` is easy to misread, and the temporal graph's lookback
@@ -561,7 +640,7 @@ the project wanted answered — which would make it a *second* inventory
 
 **So the rule is pre-committed, not aspirational:** the next protocol's success
 criteria must contain at least one **trace-derived diagnostic**, and a result
-that fails it **fails the protocol even if the headline behaviour is correct.**
+that fails it **fails the protocol even if the headline behavior is correct.**
 
 **The first instance is a disqualifier: *a predicted-correct result whose
 supporting evidence is self-sourced is not a transfer result.*** The trace
@@ -608,7 +687,7 @@ before being written down:**
 **Results.** Default arm: A1 1,412 beliefs / 0 failures, A2
 120/120 cycles, A7 1,412 beliefs / 0 failures with 244 aggregate
 edges reconciling exactly. Stress arm: A1 290, A2 60/60, A7 290, **403 candidates lost on rank**. A4
-behaviour invariance passes — observer on and off produce byte-identical
+behavior invariance passes — observer on and off produce byte-identical
 reports apart from `ran_at`.
 
 **D2 is now measured: 53,980 of 307,857 attributed support transitions (17.5%) are
@@ -825,7 +904,7 @@ proof-of-firing).
 computed on the same data it judges relaxes whenever that run's beliefs happen
 to be unusually self-sourced. The reference rate is now **17.9%**, fixed from
 the calibration probe, **not recomputed on the evaluated run**, re-calibratable
-only on data that is not being judged, and labelled a **provisional calibration
+only on data that is not being judged, and labeled a **provisional calibration
 value, not a precise universal cutoff** (one run, one world, one policy).
 
 **The window span was wrong by more than an order of magnitude, and is now
@@ -909,7 +988,7 @@ Frozen: `organica/sleep.py`, `memory.py`, `paths.py`, `streams.py`,
 `branch_streams.py`, `scale_streams.py`, `ground_truth_worlds.py`, and the
 published result artifacts. Still free: benchmarks, harnesses, all
 documentation, the action list, and tests for new instrumentation. The one
-boundary rule: nothing may change the **behaviour** of the frozen engine.
+boundary rule: nothing may change the **behavior** of the frozen engine.
 
 **The freeze is enforced, not declared.** `tests/test_v1_freeze.py` reads the
 frozen files out of the `v0.9.0` tag and compares them against the working
@@ -1340,7 +1419,7 @@ where uniform scaling collapses it.
   seed variance. The **recovery** task does vary across seeds, and Organica's
   recovery F1 falls to 0.1091 in the stress world, below the temporal-graph
   baseline's 0.2803.
-- Phase I and Phase J generalise only to their two predefined synthetic
+- Phase I and Phase J generalize only to their two predefined synthetic
   generator families, and Phase J's settling time is self-referenced to
   each model's own final stable loss, so it is descriptive, not
   confirmatory.
@@ -1515,8 +1594,8 @@ successive mechanistic insights that redefined the developmental narrative:
 
 **Milestone M0.5 — mechanism closure, and a substrate correction.**
 
-This release changes the organism's behaviour. It is a pre-1.0 release
-because the public API is not stable, but the behavioural change is
+This release changes the organism's behavior. It is a pre-1.0 release
+because the public API is not stable, but the behavioral change is
 real and is disclosed in full in `research-journal/phase_g_findings_20261021.md`
 §21.8 and `docs/USER-MANUAL.md` §8.4.
 
