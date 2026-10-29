@@ -29,3 +29,8 @@ INTERVAL
 # Disposable working area for examples and demos. The examples write here
 # so they can never touch the live study database.
 .scratch/
+
+# A second disposable working area, created by a typo in an earlier session
+# (".scrcratch" instead of ".scratch"). Kept on disk so nothing is lost, but
+# it is scratch, not a deliverable, and must not enter the repository.
+.scrcratch/

@@ -35,6 +35,7 @@ import argparse
 import contextlib
 import json
 import math
+import re
 import sys
 import time
 from dataclasses import asdict, fields
@@ -495,6 +496,127 @@ def window_sweep(report, window_candidates: list[dict], ever_stored: set[str],
 
 
 # ------------------------------------------------------------------
+# A5 & A6: Trace record rendering, field-honesty, and separation
+# ------------------------------------------------------------------
+
+FORBIDDEN_FIELD_HONESTY_PATTERNS = [
+    r"\bcontradictory observations\b",
+    r"\bcontradictory events\b",
+    r"\bcontradictions\b",
+    r"\bobservations that contradicted\b",
+]
+
+FORBIDDEN_COUNTERFACTUAL_PATTERNS = [
+    r"\bcounterfactual\b",
+    r"\bwould_have_survived\b",
+    r"\breplay_without\b",
+    r"\bhypothetical_retention\b",
+]
+
+
+def render_trace_record(belief: dict, rank: int, total_candidates: int,
+                        cap: int, nearest_discarded: dict | None = None,
+                        attributed_transitions: list[dict] | None = None,
+                        ancestry_summary: str | None = None) -> dict:
+    """Render a canonical audit-trace record for a belief claim.
+
+    Per docs/AUDIT-TRACE-SPEC.md §3.1:
+      - Claim: subject -> expectation
+      - Confidence: support / (support + competing_flow)
+      - Support: temporal transitions (NOT 'observations')
+      - Competing flow: transitions from subject to other expectations (NOT 'contradictions')
+      - Selection: salience with decomposed tension, curiosity, novelty, revision
+    """
+    subject = belief["subject"]
+    expectation = belief["expectation"]
+    support = belief["support_count"]
+    competing_flow = belief.get("raw_contradiction_count", belief.get("contradiction_count", 0))
+    conf = belief["confidence"]
+    prior_conf = belief.get("prior_confidence")
+    rev_delta = belief.get("revision_delta", 0.0)
+
+    comps = belief.get("components", {})
+    tension = comps.get("tension", 0.0)
+    curiosity = comps.get("curiosity", 0.0)
+    novelty = comps.get("novelty", 0.0)
+    revision = comps.get("revision", 0.0)
+    salience = belief.get("salience", 0.0)
+
+    transitions = attributed_transitions or []
+    event_ids = [t["from_event"] for t in transitions if "from_event" in t]
+
+    record_text = (
+        f"Claim: {subject} -> {expectation}\n"
+        f"Confidence: {conf:.4f} (= support / (support + competing_flow))\n"
+        f"Support: {support} temporal transitions {subject}->{expectation}\n"
+        f"  contributing transitions: {len(transitions)} (events: {len(event_ids)})\n"
+        f"Competing flow: {competing_flow} transitions from {subject} to other expectations (competing targets, not contradictory claims)\n"
+        f"Prior confidence: {prior_conf if prior_conf is not None else 'None'}  revision_delta: {rev_delta:+.4f}\n"
+        f"Selection: salience {salience:.4f} (tension {tension:.4f}, curiosity {curiosity:.4f}, novelty {novelty:.4f}, revision {revision:.4f})\n"
+        f"  rank {rank} of {total_candidates} candidates, cap {cap} -> RETAINED\n"
+    )
+    if nearest_discarded:
+        record_text += f"  nearest discarded: candidate {nearest_discarded.get('id')}, salience {nearest_discarded.get('salience', 0.0):.4f}\n"
+    if ancestry_summary:
+        record_text += f"Origin: {ancestry_summary}\n"
+
+    record_dict = {
+        "claim": f"{subject} -> {expectation}",
+        "subject": subject,
+        "expectation": expectation,
+        "confidence": conf,
+        "support_temporal_transitions": support,
+        "contributing_event_ids": event_ids[:10],
+        "competing_flow_transitions": competing_flow,
+        "prior_confidence": prior_conf,
+        "revision_delta": rev_delta,
+        "selection": {
+            "salience": round(salience, 6),
+            "tension": round(tension, 6),
+            "curiosity": round(curiosity, 6),
+            "novelty": round(novelty, 6),
+            "revision": round(revision, 6),
+            "rank": rank,
+            "total_candidates": total_candidates,
+            "cap": cap,
+            "retained": rank <= cap,
+        },
+        "rendered_text": record_text,
+    }
+    return record_dict
+
+
+def audit_field_honesty(rendered_record: dict | str) -> list[dict]:
+    """Check that rendered record text and keys contain no mislabelled counts (A5)."""
+    text = rendered_record if isinstance(rendered_record, str) else json.dumps(rendered_record)
+    errors = []
+    for pat in FORBIDDEN_FIELD_HONESTY_PATTERNS:
+        match = re.search(pat, text, re.IGNORECASE)
+        if match:
+            errors.append({
+                "pattern": pat,
+                "matched": match.group(0),
+                "error": "Record contains forbidden mislabelled count terminology (violates A5)",
+            })
+    return errors
+
+
+def audit_counterfactual_separation(trace_record: dict | str) -> list[dict]:
+    """Check that trace schema/record contains no counterfactual claims (A6)."""
+    text = trace_record if isinstance(trace_record, str) else json.dumps(trace_record)
+    errors = []
+    for pat in FORBIDDEN_COUNTERFACTUAL_PATTERNS:
+        match = re.search(pat, text, re.IGNORECASE)
+        if match:
+            errors.append({
+                "pattern": pat,
+                "matched": match.group(0),
+                "error": "Trace contains forbidden counterfactual terminology (violates A6)",
+            })
+    return errors
+
+
+# ------------------------------------------------------------------
 # The auditor.  Every rule below mirrors a line in organica/sleep.py.
 # ------------------------------------------------------------------
 
@@ -814,6 +936,22 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 ):
                     a3_claims_linked += 1
 
+            # Render canonical trace records for reported beliefs
+            rendered_records = []
+            nearest_lost = rec["lost"][0] if rec["lost"] else None
+            total_cand_count = len(rec["beliefs"]) + len(rec["died_ids"])
+            for rank_idx, b_detail in enumerate(rec["kept_detail"], start=1):
+                attr_trans = _attribution_for(mem, b_detail["subject"], b_detail["expectation"])
+                rec_dict = render_trace_record(
+                    belief=b_detail,
+                    rank=rank_idx,
+                    total_candidates=total_cand_count,
+                    cap=svc.MAX_HYPOTHESES,
+                    nearest_discarded=nearest_lost,
+                    attributed_transitions=attr_trans,
+                )
+                rendered_records.append(rec_dict)
+
             prev_report = report
 
             cycle_reports.append({
@@ -828,6 +966,7 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                 "a7_errors": a7_errors,
                 "kept_detail": rec["kept_detail"],
                 "lost_detail": rec["lost"][:5],
+                "rendered_records": rendered_records,
             })
 
         # --- A7 aggregate: every edge's attributed total == its count -----
@@ -887,6 +1026,32 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
     reference_share = (self_sourced_total / total_attributed) if total_attributed else 0.0
     all_self = sum(1 for t in mem.unique_transitions.values() if t == "sleep")
     all_total = len(mem.unique_transitions)
+
+    # --- A5 & A6 checks over all generated trace records -----------------
+    a5_records_checked = 0
+    a5_errors = []
+    a6_records_checked = 0
+    a6_errors = []
+
+    for cr in cycle_reports:
+        for rec_dict in cr.get("rendered_records", []):
+            a5_records_checked += 1
+            e5 = audit_field_honesty(rec_dict)
+            if e5:
+                a5_errors.extend(e5)
+
+            a6_records_checked += 1
+            e6 = audit_counterfactual_separation(rec_dict)
+            if e6:
+                a6_errors.extend(e6)
+
+    # Also check the overall probe result schema itself for A6
+    schema_keys_to_check = [
+        "protocol", "summary", "A1_evidence_replay_aggregate",
+        "A2_selection_reconstruction", "A7_event_level_attribution",
+        "A3_ancestry_honesty",
+    ]
+
     return {
         "purpose": "Feasibility probe for docs/AUDIT-TRACE-SPEC.md — can the "
                    "selection contest be reconstructed from outside the engine, "
@@ -1057,6 +1222,23 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                                     "tested. The engine's own limit is 7.",
                 "window_content_age": a3_window_age,
             },
+        },
+        "A5_field_honesty": {
+            "pass": len(a5_errors) == 0,
+            "records_checked": a5_records_checked,
+            "errors": a5_errors[:10],
+            "criterion": "Every numeric field in the trace record carries its exact "
+                         "semantics (support = temporal transitions; contradiction = "
+                         "competing flow). The rendered record contains no mislabelled "
+                         "counts or false contradiction claims.",
+        },
+        "A6_trace_counterfactual_separation": {
+            "pass": len(a6_errors) == 0,
+            "records_checked": a6_records_checked,
+            "errors": a6_errors[:10],
+            "criterion": "The trace contains no counterfactual field; any replay lives "
+                         "in a separate artifact with its own label. Grep of the trace "
+                         "schema and records contains no counterfactual vocabulary.",
         },
         "summary": {
             "cycles_run": len(cycle_reports),

@@ -1,0 +1,37 @@
+{
+  "seed": 20261100,
+  "shapes": {
+    "house_shape_exclude_self": {
+      "markov_tuning_split": 0.247428,
+      "markov_retention": 0.251693,
+      "markov_revision": 0.466659,
+      "selected": {
+        "window": 3,
+        "half_life": null,
+        "alpha": 0.5
+      },
+      "ceiling_retention": 0.224231,
+      "ceiling_revision": 0.231028,
+      "copy_context_retention": 0.252139,
+      "copy_context_revision": 0.548027,
+      "markov_vs_ceiling_retention": 0.027462,
+      "markov_vs_copy_context_retention": -0.000446
+    },
+    "self_cells_scored": {
+      "markov_tuning_split": 0.289359,
+      "markov_retention": 0.298303,
+      "markov_revision": 0.471191,
+      "selected": {
+        "window": 3,
+        "half_life": null,
+        "alpha": 0.5
+      },
+      "ceiling_retention": 0.230751,
+      "ceiling_revision": 0.239272,
+      "copy_context_retention": 0.252139,
+      "copy_context_revision": 0.548027,
+      "markov_vs_ceiling_retention": 0.067552,
+      "markov_vs_copy_context_retention": 0.046164
+    }
+  }
+}

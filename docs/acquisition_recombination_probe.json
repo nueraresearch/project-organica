@@ -1,0 +1,39 @@
+{
+  "alpha_tag_markov": 0.5,
+  "shapes": {
+    "house_shape_exclude_self": {
+      "retention": {
+        "ceiling (knows the law)": 0.217486,
+        "group-Markov (abstracts)": 0.215581,
+        "copy-context (grouping)": 0.250216,
+        "tag-Markov (counts only)": 0.236175,
+        "base rate": 0.256273,
+        "trivial": 1.941678,
+        "rev:ceiling (new law)": 0.211981,
+        "rev:group-Markov (abstracts)": 0.381001,
+        "rev:copy-context (grouping)": 0.431638,
+        "rev:tag-Markov (counts only)": 0.321175,
+        "rev:base rate": 0.286327
+      },
+      "headroom_over_counting": -0.018689,
+      "headroom_over_abstracting": 0.001905
+    },
+    "self_cells_scored": {
+      "retention": {
+        "ceiling (knows the law)": 0.220636,
+        "group-Markov (abstracts)": 0.219517,
+        "copy-context (grouping)": 0.250216,
+        "tag-Markov (counts only)": 0.247944,
+        "base rate": 0.287678,
+        "trivial": 2.302585,
+        "rev:ceiling (new law)": 0.215804,
+        "rev:group-Markov (abstracts)": 0.381369,
+        "rev:copy-context (grouping)": 0.431638,
+        "rev:tag-Markov (counts only)": 0.322335,
+        "rev:base rate": 0.289329
+      },
+      "headroom_over_counting": -0.027308,
+      "headroom_over_abstracting": 0.001119
+    }
+  }
+}

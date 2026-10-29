@@ -1,0 +1,155 @@
+{
+  "cycles": 220,
+  "seed": 20261100,
+  "candidates": 3997,
+  "candidate_types": {
+    "experiment": 15,
+    "investigation": 15,
+    "dream": 22,
+    "question": 4,
+    "theory": 4,
+    "hypothesis": 52,
+    "workflow_concept": 30,
+    "process_candidate": 30,
+    "meta_concept": 24,
+    "anomaly": 30,
+    "prediction_candidate": 153,
+    "loop_candidate": 3618
+  },
+  "graph_nodes": 9,
+  "graph_edges": 31,
+  "table": {
+    "CEILING (true law) | pre-switch": {
+      "f1": 0.1976,
+      "precision": 0.1438,
+      "recall": 0.3156,
+      "brier": 0.102653,
+      "log_loss": 0.338212,
+      "tp": 367,
+      "fp": 2185,
+      "fn": 796,
+      "threshold": 0.2
+    },
+    "CEILING (true law) | post-switch": {
+      "f1": 0.2885,
+      "precision": 0.1769,
+      "recall": 0.7824,
+      "brier": 0.095242,
+      "log_loss": 0.314561,
+      "tp": 1582,
+      "fp": 7362,
+      "fn": 440,
+      "threshold": 0.15
+    },
+    "Organica (structures, weighted) | pre-switch": {
+      "f1": 0.1858,
+      "precision": 0.2056,
+      "recall": 0.1694,
+      "brier": 0.117676,
+      "log_loss": 2.847867,
+      "tp": 197,
+      "fp": 761,
+      "fn": 966,
+      "threshold": 0.05
+    },
+    "Organica (structures, weighted) | post-switch": {
+      "f1": 0.1732,
+      "precision": 0.1966,
+      "recall": 0.1548,
+      "brier": 0.11655,
+      "log_loss": 2.851962,
+      "tp": 313,
+      "fp": 1279,
+      "fn": 1709,
+      "threshold": 0.05
+    },
+    "Organica (structures, binary) | pre-switch": {
+      "f1": 0.1848,
+      "precision": 0.1998,
+      "recall": 0.172,
+      "brier": 0.172806,
+      "log_loss": 4.774798,
+      "tp": 200,
+      "fp": 801,
+      "fn": 963,
+      "threshold": 0.05
+    },
+    "Organica (structures, binary) | post-switch": {
+      "f1": 0.1728,
+      "precision": 0.1918,
+      "recall": 0.1573,
+      "brier": 0.17017,
+      "log_loss": 4.701971,
+      "tp": 318,
+      "fp": 1340,
+      "fn": 1704,
+      "threshold": 0.05
+    },
+    "Replay (raw rows) | pre-switch": {
+      "f1": 0.3041,
+      "precision": 0.2181,
+      "recall": 0.5021,
+      "brier": 0.097283,
+      "log_loss": 0.323561,
+      "tp": 584,
+      "fp": 2094,
+      "fn": 579,
+      "threshold": 0.1
+    },
+    "Replay (raw rows) | post-switch": {
+      "f1": 0.2733,
+      "precision": 0.1942,
+      "recall": 0.4609,
+      "brier": 0.097524,
+      "log_loss": 0.327228,
+      "tp": 932,
+      "fp": 3867,
+      "fn": 1090,
+      "threshold": 0.1
+    },
+    "Statistical (house Markov) | pre-switch": {
+      "f1": 0.2987,
+      "precision": 0.2164,
+      "recall": 0.4824,
+      "brier": 0.097376,
+      "log_loss": 0.324432,
+      "tp": 561,
+      "fp": 2032,
+      "fn": 602,
+      "threshold": 0.1
+    },
+    "Statistical (house Markov) | post-switch": {
+      "f1": 0.2688,
+      "precision": 0.1928,
+      "recall": 0.4436,
+      "brier": 0.097587,
+      "log_loss": 0.327948,
+      "tp": 897,
+      "fp": 3756,
+      "fn": 1125,
+      "threshold": 0.1
+    },
+    "Trivial (constant zero) | pre-switch": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "brier": 0.11393,
+      "log_loss": 3.148009,
+      "tp": 0,
+      "fp": 0,
+      "fn": 1163,
+      "threshold": 0.05
+    },
+    "Trivial (constant zero) | post-switch": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "brier": 0.113037,
+      "log_loss": 3.123319,
+      "tp": 0,
+      "fp": 0,
+      "fn": 2022,
+      "threshold": 0.05
+    }
+  }
+}

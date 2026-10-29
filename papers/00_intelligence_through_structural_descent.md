@@ -1,6 +1,7 @@
 # Intelligence Through Structural Descent
 ## A Philosophical Foundation for Project Organica
 
+**Draft status:** Philosophical framing; not submitted or published. Audit claims before circulation.
 **Jeremy** — Nuera Research  
 October 2026
 
@@ -121,3 +122,5 @@ This paper, and the open-source architecture it accompanies, are an invitation t
 4. Dream-Driven Structural Exploration: Counterfactual Search Without Self-Delusion
 5. The Cognitive Isolation Principle: Preventing Runaway Feedback in Introspective Architectures
 6. The Ecology of Beliefs: Evolutionary Dynamics in Continual Cognitive Substrates
+
+

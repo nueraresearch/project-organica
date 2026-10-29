@@ -2,7 +2,7 @@
 
 **Authors**: Jeremy et al. (Nuera Research)  
 **Date**: October 2026  
-**Status**: Pre-print Candidate  
+**Draft status:** Historical manuscript; not submitted or published. Requires claim-by-claim evidence audit before circulation.
 **Repository**: `https://github.com/nueraresearch/project-organica`
 
 ---
@@ -26,3 +26,4 @@ Under the Cognitive Isolation Principle:
 $$\mathcal{E} = \mathcal{E}_{\text{observe}} \cup \mathcal{E}_{\text{sleep}}, \quad \mathcal{E}_{\text{observe}} \cap \mathcal{E}_{\text{sleep}} = \emptyset$$
 $$G_{\text{empirical}} = \mathcal{T}(\mathcal{E}_{\text{observe}})$$
 Consolidation outputs are queryable for ancestral provenance and introspective queries, but are mathematically barred from updating empirical transition matrices. This strict partition ensures zero synthetic self-contamination across indefinite life cycles.
+

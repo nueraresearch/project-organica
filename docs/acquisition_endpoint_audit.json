@@ -1,0 +1,28 @@
+{
+  "world_role": "CALIBRATION / CONTROL (not discriminative)",
+  "world_role_is_discriminative": false,
+  "ceiling_old_law_log_loss": 0.224231,
+  "ceiling_new_law_log_loss": 0.231028,
+  "base_rate_log_loss": 0.329263,
+  "half_structure_log_loss": 0.235508,
+  "trivial_log_loss": 2.706801,
+  "law_edges_hard_log_loss": 5.944139,
+  "span": 2.48257,
+  "headroom_over_base_rate": 0.105032,
+  "strong_baselines": {
+    "base_rate": 0.329263,
+    "bigram": 0.240949,
+    "decayed_bigram": 0.240949,
+    "cell_counter": 0.229878
+  },
+  "strongest_simple_baseline": "cell_counter",
+  "headroom_over_strongest_baseline": 0.005647,
+  "checks": {
+    "I1_non_degenerate": true,
+    "I1_monotone": true,
+    "I2_classification_computed": true,
+    "I4_metric_readout_pinned": true,
+    "R3_limbs_separate": true,
+    "phase_regime_aligned": true
+  }
+}

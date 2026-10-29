@@ -1,0 +1,121 @@
+{
+  "seed": 20261100,
+  "cycles": 250,
+  "frozen_candidates": 3996,
+  "frozen_graph_nodes": [
+    "amber",
+    "birch",
+    "cedar",
+    "fern",
+    "indigo",
+    "maple",
+    "umber",
+    "verdant",
+    "willow",
+    "yarrow"
+  ],
+  "vocab_missing_from_frozen_graph": [
+    "crimson",
+    "ochre",
+    "olive",
+    "sable",
+    "slate",
+    "teal"
+  ],
+  "shapes": {
+    "house_shape_exclude_self": {
+      "readouts": {
+        "structures backoff_frozen_alpha256.0": {
+          "alpha": 256.0,
+          "tuning_log_loss": 0.327305,
+          "retention_log_loss": 0.320483,
+          "revision_log_loss": 0.484462,
+          "retention_fraction_of_span": 0.9612
+        },
+        "structures backoff_final_alpha256.0": {
+          "alpha": 256.0,
+          "tuning_log_loss": 0.294033,
+          "retention_log_loss": 0.293286,
+          "revision_log_loss": 0.495585,
+          "retention_fraction_of_span": 0.9722
+        },
+        "graph backoff_frozen_alpha2.0": {
+          "alpha": 2.0,
+          "tuning_log_loss": 0.272162,
+          "retention_log_loss": 0.277761,
+          "revision_log_loss": 0.455923,
+          "retention_fraction_of_span": 0.9784
+        },
+        "graph backoff_final_alpha2.0": {
+          "alpha": 2.0,
+          "tuning_log_loss": 0.274844,
+          "retention_log_loss": 0.280157,
+          "revision_log_loss": 0.458181,
+          "retention_fraction_of_span": 0.9775
+        }
+      },
+      "retention": {
+        "ceiling": 0.224231,
+        "copy_context": 0.252139,
+        "base_rate": 0.329263,
+        "self_echo": 0.811067,
+        "trivial": 2.706801,
+        "span": 2.48257
+      },
+      "revision": {
+        "ceiling_new_law": 0.231028,
+        "copy_context": 0.548027
+      },
+      "headroom_ceiling_over_base": 0.105032,
+      "headroom_ceiling_over_copy_context": 0.027908,
+      "headroom_ceiling_over_copy_context_revision": 0.316999
+    },
+    "self_cells_scored": {
+      "readouts": {
+        "structures backoff_frozen_alpha256.0": {
+          "alpha": 256.0,
+          "tuning_log_loss": 0.411879,
+          "retention_log_loss": 0.413067,
+          "revision_log_loss": 0.493444,
+          "retention_fraction_of_span": 0.9434
+        },
+        "structures backoff_final_alpha256.0": {
+          "alpha": 256.0,
+          "tuning_log_loss": 0.388627,
+          "retention_log_loss": 0.390877,
+          "revision_log_loss": 0.504955,
+          "retention_fraction_of_span": 0.9503
+        },
+        "graph backoff_frozen_alpha2.0": {
+          "alpha": 2.0,
+          "tuning_log_loss": 0.350794,
+          "retention_log_loss": 0.362233,
+          "revision_log_loss": 0.464435,
+          "retention_fraction_of_span": 0.9592
+        },
+        "graph backoff_final_alpha2.0": {
+          "alpha": 2.0,
+          "tuning_log_loss": 0.353476,
+          "retention_log_loss": 0.36463,
+          "revision_log_loss": 0.466693,
+          "retention_fraction_of_span": 0.9585
+        }
+      },
+      "retention": {
+        "ceiling": 0.230751,
+        "copy_context": 0.252139,
+        "base_rate": 0.402159,
+        "self_echo": 0.686826,
+        "trivial": 3.453878,
+        "span": 3.223127
+      },
+      "revision": {
+        "ceiling_new_law": 0.239272,
+        "copy_context": 0.548027
+      },
+      "headroom_ceiling_over_base": 0.171408,
+      "headroom_ceiling_over_copy_context": 0.021388,
+      "headroom_ceiling_over_copy_context_revision": 0.308755
+    }
+  }
+}

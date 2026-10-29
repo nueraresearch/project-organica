@@ -1,0 +1,52 @@
+{
+  "seed": 20261100,
+  "phases": {
+    "warm-up": {
+      "g0": 46,
+      "g1": 72,
+      "g2": 26,
+      "g3": 16,
+      "noise": 0
+    },
+    "acquisition": {
+      "g0": 192,
+      "g1": 222,
+      "g2": 172,
+      "g3": 134,
+      "noise": 0
+    },
+    "retention": {
+      "g0": 72,
+      "g1": 95,
+      "g2": 96,
+      "g3": 57,
+      "noise": 0
+    },
+    "revision": {
+      "g0": 201,
+      "g1": 197,
+      "g2": 201,
+      "g3": 201,
+      "noise": 0
+    }
+  },
+  "per_tag_counts": {
+    "verdant": 101,
+    "olive": 78,
+    "teal": 68,
+    "crimson": 80,
+    "ochre": 61,
+    "slate": 59,
+    "birch": 95,
+    "maple": 96,
+    "amber": 103,
+    "indigo": 117,
+    "fern": 104,
+    "yarrow": 112,
+    "willow": 111,
+    "sable": 72,
+    "umber": 93,
+    "cedar": 90
+  },
+  "temporal_edge_total": 192
+}

@@ -1,51 +1,42 @@
-# Paper 1: Developmental Cognitive Architectures Through Structural Descent
+# Paper 1: Developmental Structure Formation in Organica 1
 
-**Authors**: Jeremy et al. (Nuera Research)  
-**Date**: October 2026  
-**Status**: Pre-print Candidate  
-**Repository**: `https://github.com/nueraresearch/project-organica`
-
----
+**Authors:** Jeremy et al. (Nuera Research)  
+**Draft status:** Evidence-alignment revision, 2026-10-27. Not submitted or published.  
+**Scope:** Organica 1; developmental outcomes and their measurement.
 
 ## Abstract
-Modern artificial intelligence models compress vast linguistic corpora into static parameter weights, trading epistemic provenance and developmental growth for statistical prediction. In this work, we introduce **Project Organica**, a non-parametric developmental architecture where higher-order cognitive primitives (concepts, processes, workflows, falsifiable hypotheses, theories, questions, counterfactual dreams, and active experiments) emerge through **structural descent**. Rather than relying on LLM prompting or gradient updates, each generational layer $N+1$ operates deterministically upon the topological graphs produced by Layer $N$. We demonstrate across four diverse domains (developer workflows, bug trackers, synthetic ecologies, and robotic kinematics) that complex cognitive structures consistently emerge, maintain 100% verified ancestral lineage, and self-direct inquiry without external reward shaping.
 
----
+Project Organica is a developmental architecture that constructs candidate structures from a stream of events through repeated consolidation. We examine what Organica 1 has demonstrated after a sequence of preregistered developmental and external-task studies. The evidence supports history- and curriculum-dependent changes in internal structure: different curricula produce different structural trajectories, and prior assumptions that inventory ceilings were fixed were overturned in later experiments. These findings establish developmental dynamics in the operational sense used here; they do not establish human-like learning, open-ended growth, or general intelligence. In external evaluations to date, Organica has not demonstrated an advantage over the tested lightweight baselines on held-out prediction, latent-structure recovery, regime-shift response, or the Phase K task families. We describe the architecture, summarize the measured developmental results, and separate those results from the still-open question of whether developed structures provide reusable knowledge.
 
-## 1. Introduction & The Developmental Paradigm
-Artificial intelligence has converged on the "Oracle Paradigm": pre-training monolithic networks that provide probabilistic responses while severing the connection between knowledge and experience. Once weights are updated, the empirical genealogy of an assertion is permanently lost.
+## 1. Research question and scope
 
-We demonstrate an alternative framework grounded in developmental biology and Piagetian epistemology:
-$$G_0 \xrightarrow{\text{Filter}} G_1 \xrightarrow{\text{Compose}} G_2 \xrightarrow{\text{Synthesize}} G_3 \xrightarrow{\text{Falsify}} G_4 \xrightarrow{\text{Entropy}} G_5 \xrightarrow{\text{Perturb}} G_6 \xrightarrow{\text{EIG}} G_7 \xrightarrow{\text{Probe}} G_8$$
+This paper asks whether a frozen developmental architecture changes its internal structural state as a function of experience and curriculum. It does not treat inventory growth as a proxy for intelligence, nor does it assume that a structure is useful because it persists or has a long lineage.
 
-Every cognitive state in Organica can explain why it exists, what observations generated it, what competing hypotheses it opposes, and what experiment would falsify it.
+“Development” here means measured change in the architecture’s candidate structures over cycles. “Path dependence” means that the measured final state varies with the experienced history or curriculum. The existing curriculum comparisons vary event content and presentation schedule together; they do not isolate strict order dependence while holding the event multiset constant.
 
----
+## 2. Architecture
 
-## 2. Structural Descent Formalism
+Organica 1 receives tagged event streams and periodically forms higher-level candidates through fixed engine procedures. The engine has built-in inductive structure, including a tag extractor, candidate types, thresholds, persistence rules, and a fixed consolidation process. It is therefore a system without pretrained domain content, not a system without prior structure or assumptions.
 
-### 2.1 Topological Filtering ($G_0 \rightarrow G_1$)
-Given an event stream $S$, we maintain a directed temporal graph $G_{\text{temporal}} = (V, E_{\tau})$ and an undirected co-occurrence graph $G_{\text{cooc}} = (V, E_{\sigma})$. Cognitive primitives are distinguished by their local clustering coefficient $C(v)$ and out-neighborhood predictive reach $R(v)$:
-- **Concepts**: $C(v) \le 0.40, R(v) \ge 4$ (structural bridges).
-- **Phrase Fragments**: $C(v) \ge 0.70, R(v) \le 2$ (localized collocations).
+The architecture and frozen-engine boundary are described in [`docs/architecture.md`](../docs/architecture.md) and [`docs/V1-FREEZE.md`](../docs/V1-FREEZE.md). The implementation should be reported as it exists, not as an idealized eight-layer hierarchy: each claimed layer or capability requires a direct mapping to the frozen code and an observable output.
 
-### 2.2 Higher-Order Composition ($G_1 \rightarrow G_3$)
-Let $\mathcal{P}$ denote closed directed 2- and 3-cycles in $G_{\text{temporal}}$ and $\mathcal{M}$ denote meta-concept anchors participating across multiple candidate types. A **Workflow** $W$ emerges when:
-$$W = \mathcal{P} \bowtie \mathcal{M}, \quad |\text{Anchors}(W)| \ge 2$$
-Workflows represent learned behavioral sequences formed strictly from proven dynamical cycles.
+## 3. Evidence and interpretation
 
----
+The developmental record documents curriculum-sensitive trajectories and repeated movement beyond earlier inventory attractors. The project’s synthesis concludes that history-dependent cognitive structure can form, while external task advantage remains unestablished ([`docs/V1-SYNTHESIS.md`](../docs/V1-SYNTHESIS.md); [`research-journal/phase_g_findings_20261021.md`](../research-journal/phase_g_findings_20261021.md)).
 
-## 3. Results Across Diverse Domains
-Organica was evaluated across four distinct domains without hyperparameter tuning:
-1. **Developer Traces**: Spontaneous emergence of `failure -> modified -> passed`.
-2. **Issue Lifecycles**: Spontaneous emergence of triage-to-verification processes.
-3. **Synthetic Ecologies**: Discovery of closed metabolic foraging loops (`food -> organism`).
-4. **Autonomous Kinematics**: Discovery of obstacle-turn-clear sensorimotor loops.
+External evaluations are material counterevidence to any claim that structural development already yields useful task performance. Phase K’s three preregistered task families were all classified **REVERSED**; its belief-revision comparison was 0.4111 for Organica versus 0.9846 for the strongest simple baseline ([`docs/phase_k_results.md`](../docs/phase_k_results.md)). Phase L measured structural displacement indices, not belief revision, and its preregistered overall verdict was **H3-L — INCONCLUSIVE** ([`docs/phase_l_results.md`](../docs/phase_l_results.md)). These outcomes must remain distinct.
 
-In all cases, 100% of generated high-order structures traced complete parentage back to raw events.
+## 4. Limitations
 
----
+The evidence is from synthetic and task-specific environments, and does not show learning like a human. Curriculum sensitivity is not the same as strict order dependence. Increasing inventory is not evidence of prediction, transfer, causal understanding, or improved future learning. The audit results apply to the reconstruction tasks and tested engine states; they do not establish independent replication by another laboratory or complete reconstruction of lost historical state.
 
-## 4. Conclusion
-Structural descent provides a foundation for continual learning without catastrophic forgetting, post-hoc explainability layers, or hallucination. Intelligence does not require billions of parameters; it requires the developmental discipline of structural descent.
+## 5. Conclusion
+
+Organica 1 provides evidence for curriculum-sensitive developmental structure formation. It has not yet shown that this development produces reusable knowledge or an advantage over simple alternatives. The acquisition study is preregistered but not yet built or run; its benchmark must first be aligned with the structure the engine can actually express. This paper should be completed only after its methods, figures, and every numerical claim are tied to committed artifacts.
+
+## Repository evidence
+
+- [`docs/V1-SYNTHESIS.md`](../docs/V1-SYNTHESIS.md)
+- [`docs/phase_k_results.md`](../docs/phase_k_results.md)
+- [`docs/phase_l_results.md`](../docs/phase_l_results.md)
+- [`docs/EMERGENCE-CRITERIA.md`](../docs/EMERGENCE-CRITERIA.md)

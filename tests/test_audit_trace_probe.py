@@ -40,6 +40,10 @@ def test_probe_reconstructs_the_engine_decision():
     assert result["A1_evidence_replay_aggregate"]["pass"], result["A1_evidence_replay_aggregate"]
     assert result["A2_selection_reconstruction"]["pass"], result["A2_selection_reconstruction"]
     assert result["A7_event_level_attribution"]["pass"], result["A7_event_level_attribution"]
+    assert result["A5_field_honesty"]["pass"], result["A5_field_honesty"]
+    assert result["A6_trace_counterfactual_separation"]["pass"], result["A6_trace_counterfactual_separation"]
+    assert result["A5_field_honesty"]["records_checked"] > 0, "no trace records rendered for A5"
+    assert result["A6_trace_counterfactual_separation"]["records_checked"] > 0, "no trace records rendered for A6"
     # the stress arm must actually exercise the "lost on rank" branch,
     # otherwise the reconstruction check is not testing what it claims to.
     assert result["summary"]["total_lost"] > 0, "stress arm never lost a candidate"
@@ -151,3 +155,38 @@ def test_a_wrong_observer_is_caught_on_the_attribution_axis(monkeypatch):
         "the attribution reconciliation passed with an observer that "
         "over-attributes — the check cannot fail, so it is decoration"
     )
+
+
+def test_a5_field_honesty_fails_on_mislabelled_count(monkeypatch):
+    """A rendered record calling competing flow 'contradictory observations' must fail A5."""
+    original_render = probe.render_trace_record
+
+    def dishonest_render(*args, **kwargs):
+        rec = original_render(*args, **kwargs)
+        rec["rendered_text"] += "\nEvidence: 4 contradictory observations"
+        return rec
+
+    monkeypatch.setattr(probe, "render_trace_record", dishonest_render)
+    result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
+    assert not result["A5_field_honesty"]["pass"], (
+        "A5 field honesty passed with 'contradictory observations' in record — check cannot fail!"
+    )
+    assert len(result["A5_field_honesty"]["errors"]) > 0
+
+
+def test_a6_counterfactual_separation_fails_on_counterfactual_field(monkeypatch):
+    """A trace containing a counterfactual claim must fail A6."""
+    original_render = probe.render_trace_record
+
+    def counterfactual_render(*args, **kwargs):
+        rec = original_render(*args, **kwargs)
+        rec["would_have_survived_without_competing"] = True
+        rec["rendered_text"] += "\nNote: candidate would_have_survived under replay_without competitor"
+        return rec
+
+    monkeypatch.setattr(probe, "render_trace_record", counterfactual_render)
+    result = probe.run(cycles=CYCLES, seed=20261025, max_hypotheses=STRESS_CAP)
+    assert not result["A6_trace_counterfactual_separation"]["pass"], (
+        "A6 counterfactual check passed with counterfactual claim — check cannot fail!"
+    )
+    assert len(result["A6_trace_counterfactual_separation"]["errors"]) > 0

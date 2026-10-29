@@ -1,0 +1,117 @@
+{
+  "seed": 20261100,
+  "cycles": 250,
+  "events_per_cycle": 8,
+  "phases": {
+    "acquisition": [
+      20,
+      110
+    ],
+    "retention": [
+      110,
+      150
+    ]
+  },
+  "shapes": {
+    "house_shape_exclude_self": {
+      "span": 2.48257,
+      "levels": {
+        "L0  raw event rows": {
+          "log_loss": 0.201492,
+          "brier": 0.0655,
+          "fraction_of_span": 1.0092
+        },
+        "L1  memory's temporal table": {
+          "log_loss": 0.23646,
+          "brier": 0.074055,
+          "fraction_of_span": 0.9951
+        },
+        "L2  structures, ALL types (weighted)": {
+          "log_loss": 1.28739,
+          "brier": 0.081228,
+          "fraction_of_span": 0.5718
+        },
+        "L2n structures, predictions only (weighted)": {
+          "log_loss": 1.272801,
+          "brier": 0.081301,
+          "fraction_of_span": 0.5776
+        },
+        "L3  compressed graph, SOFT": {
+          "log_loss": 1.302721,
+          "brier": 0.094969,
+          "fraction_of_span": 0.5656
+        },
+        "L3h compressed graph, hard 0/1": {
+          "log_loss": 2.885451,
+          "brier": 0.104428,
+          "fraction_of_span": -0.072
+        },
+        "copy-context control": {
+          "log_loss": 0.552239,
+          "brier": 0.076215,
+          "fraction_of_span": 0.8679
+        },
+        "ceiling (knows the law)": {
+          "log_loss": 0.224231,
+          "brier": 0.071647,
+          "fraction_of_span": 1.0
+        },
+        "trivial": {
+          "log_loss": 2.706801,
+          "brier": 0.097962,
+          "fraction_of_span": 0.0
+        }
+      }
+    },
+    "self_cells_scored": {
+      "span": 3.223127,
+      "levels": {
+        "L0  raw event rows": {
+          "log_loss": 0.369278,
+          "brier": 0.092425,
+          "fraction_of_span": 0.957
+        },
+        "L1  memory's temporal table": {
+          "log_loss": 0.446666,
+          "brier": 0.101069,
+          "fraction_of_span": 0.933
+        },
+        "L2  structures, ALL types (weighted)": {
+          "log_loss": 1.681704,
+          "brier": 0.108067,
+          "fraction_of_span": 0.5498
+        },
+        "L2n structures, predictions only (weighted)": {
+          "log_loss": 1.635606,
+          "brier": 0.107604,
+          "fraction_of_span": 0.5641
+        },
+        "L3  compressed graph, SOFT": {
+          "log_loss": 1.655377,
+          "brier": 0.120779,
+          "fraction_of_span": 0.558
+        },
+        "L3h compressed graph, hard 0/1": {
+          "log_loss": 3.632528,
+          "brier": 0.131466,
+          "fraction_of_span": -0.0554
+        },
+        "copy-context control": {
+          "log_loss": 0.552239,
+          "brier": 0.076215,
+          "fraction_of_span": 0.9003
+        },
+        "ceiling (knows the law)": {
+          "log_loss": 0.230751,
+          "brier": 0.074891,
+          "fraction_of_span": 1.0
+        },
+        "trivial": {
+          "log_loss": 3.453878,
+          "brier": 0.125,
+          "fraction_of_span": 0.0
+        }
+      }
+    }
+  }
+}

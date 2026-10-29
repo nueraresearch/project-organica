@@ -1,0 +1,941 @@
+{
+  "n_worlds": 30,
+  "gate_nats": 0.05,
+  "mean_gap": 0.103454,
+  "gap_lower_99": 0.099597,
+  "gap_upper_99": 0.107358,
+  "gap_on_held_cell": {
+    "mean": 0.196298,
+    "lower_99": 0.190067,
+    "upper_99": 0.203342
+  },
+  "gap_on_other_cells": {
+    "mean": 0.04255,
+    "lower_99": 0.04109,
+    "upper_99": 0.044372
+  },
+  "best_simple_counts": {
+    "bigram": 23,
+    "cell_counter": 7
+  },
+  "broken_control_min_excess": 0.101476,
+  "swapped_law_sensitivity": {
+    "mean": 0.030748,
+    "lower_99": 0.028299,
+    "upper_99": 0.033179
+  },
+  "checks": {
+    "G1_gap_lower_bound_clears_gate": true,
+    "G2_positive_control_reaches_ceiling": true,
+    "G3_broken_control_is_worse": true,
+    "G4_withheld_combination_absent_from_training": true,
+    "G4b_held_cell_still_observed": true,
+    "G4c_flagged_events_all_excluded": true,
+    "G4d_split_is_not_empty": true,
+    "G5_monotone_in_structure": true,
+    "G6_held_cell_varies_across_worlds": true,
+    "G7_withheld_combination_drives_the_gap": true
+  },
+  "per_world": [
+    {
+      "seed": 20261200,
+      "held_cell": "p0q0",
+      "ceiling": 0.270585,
+      "positive_control": 0.270585,
+      "broken_control": 0.386013,
+      "swapped_law_control": 0.307308,
+      "base_rate": 0.419891,
+      "bigram": 0.383882,
+      "bigram_cfg": [
+        1.0,
+        100,
+        null
+      ],
+      "cell_counter": 0.396212,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.383882,
+      "best_simple_name": "bigram",
+      "gap": 0.113297,
+      "held_context_events_in_training": 164,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 98,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.21277,
+      "gap_on_other_cells": 0.040397
+    },
+    {
+      "seed": 20261201,
+      "held_cell": "p0q0",
+      "ceiling": 0.274694,
+      "positive_control": 0.274694,
+      "broken_control": 0.412446,
+      "swapped_law_control": 0.303199,
+      "base_rate": 0.414461,
+      "bigram": 0.382265,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.3963,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.382265,
+      "best_simple_name": "bigram",
+      "gap": 0.107571,
+      "held_context_events_in_training": 202,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 142,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.197326,
+      "gap_on_other_cells": 0.044478
+    },
+    {
+      "seed": 20261202,
+      "held_cell": "p0q1",
+      "ceiling": 0.276235,
+      "positive_control": 0.276235,
+      "broken_control": 0.422358,
+      "swapped_law_control": 0.301658,
+      "base_rate": 0.416761,
+      "bigram": 0.367796,
+      "bigram_cfg": [
+        1.0,
+        null,
+        200
+      ],
+      "cell_counter": 0.378206,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.367796,
+      "best_simple_name": "bigram",
+      "gap": 0.091561,
+      "held_context_events_in_training": 155,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 94,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.172413,
+      "gap_on_other_cells": 0.043984
+    },
+    {
+      "seed": 20261203,
+      "held_cell": "p1q1",
+      "ceiling": 0.269301,
+      "positive_control": 0.269301,
+      "broken_control": 0.377753,
+      "swapped_law_control": 0.308592,
+      "base_rate": 0.413905,
+      "bigram": 0.372117,
+      "bigram_cfg": [
+        0.5,
+        50,
+        400
+      ],
+      "cell_counter": 0.375172,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.372117,
+      "best_simple_name": "bigram",
+      "gap": 0.102816,
+      "held_context_events_in_training": 177,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 109,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.20141,
+      "gap_on_other_cells": 0.040112
+    },
+    {
+      "seed": 20261204,
+      "held_cell": "p0q0",
+      "ceiling": 0.276235,
+      "positive_control": 0.276235,
+      "broken_control": 0.422358,
+      "swapped_law_control": 0.301658,
+      "base_rate": 0.410589,
+      "bigram": 0.367138,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.37271,
+      "cell_cfg": [
+        1.0,
+        25,
+        null
+      ],
+      "best_simple": 0.367138,
+      "best_simple_name": "bigram",
+      "gap": 0.090903,
+      "held_context_events_in_training": 175,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 109,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.172066,
+      "gap_on_other_cells": 0.041484
+    },
+    {
+      "seed": 20261205,
+      "held_cell": "p0q1",
+      "ceiling": 0.272896,
+      "positive_control": 0.272896,
+      "broken_control": 0.400882,
+      "swapped_law_control": 0.304997,
+      "base_rate": 0.417743,
+      "bigram": 0.37777,
+      "bigram_cfg": [
+        1.0,
+        100,
+        400
+      ],
+      "cell_counter": 0.388195,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.37777,
+      "best_simple_name": "bigram",
+      "gap": 0.104874,
+      "held_context_events_in_training": 194,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 127,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.213205,
+      "gap_on_other_cells": 0.041526
+    },
+    {
+      "seed": 20261206,
+      "held_cell": "p1q0",
+      "ceiling": 0.278289,
+      "positive_control": 0.278289,
+      "broken_control": 0.435574,
+      "swapped_law_control": 0.299604,
+      "base_rate": 0.412576,
+      "bigram": 0.385283,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.395804,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.385283,
+      "best_simple_name": "bigram",
+      "gap": 0.106994,
+      "held_context_events_in_training": 196,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 130,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.184321,
+      "gap_on_other_cells": 0.041166
+    },
+    {
+      "seed": 20261207,
+      "held_cell": "p0q1",
+      "ceiling": 0.273667,
+      "positive_control": 0.273667,
+      "broken_control": 0.405838,
+      "swapped_law_control": 0.304226,
+      "base_rate": 0.420683,
+      "bigram": 0.391933,
+      "bigram_cfg": [
+        1.0,
+        50,
+        200
+      ],
+      "cell_counter": 0.405996,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.391933,
+      "best_simple_name": "bigram",
+      "gap": 0.118266,
+      "held_context_events_in_training": 204,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 140,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.210598,
+      "gap_on_other_cells": 0.044925
+    },
+    {
+      "seed": 20261208,
+      "held_cell": "p1q1",
+      "ceiling": 0.27264,
+      "positive_control": 0.27264,
+      "broken_control": 0.39923,
+      "swapped_law_control": 0.305253,
+      "base_rate": 0.413712,
+      "bigram": 0.380986,
+      "bigram_cfg": [
+        1.0,
+        50,
+        null
+      ],
+      "cell_counter": 0.38322,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.380986,
+      "best_simple_name": "bigram",
+      "gap": 0.108346,
+      "held_context_events_in_training": 194,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 132,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.197431,
+      "gap_on_other_cells": 0.04472
+    },
+    {
+      "seed": 20261209,
+      "held_cell": "p0q1",
+      "ceiling": 0.270842,
+      "positive_control": 0.270842,
+      "broken_control": 0.387665,
+      "swapped_law_control": 0.307051,
+      "base_rate": 0.410697,
+      "bigram": 0.373072,
+      "bigram_cfg": [
+        1.0,
+        100,
+        null
+      ],
+      "cell_counter": 0.381748,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.373072,
+      "best_simple_name": "bigram",
+      "gap": 0.10223,
+      "held_context_events_in_training": 160,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 98,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.193507,
+      "gap_on_other_cells": 0.040738
+    },
+    {
+      "seed": 20261210,
+      "held_cell": "p1q1",
+      "ceiling": 0.271612,
+      "positive_control": 0.271612,
+      "broken_control": 0.392621,
+      "swapped_law_control": 0.306281,
+      "base_rate": 0.411966,
+      "bigram": 0.364986,
+      "bigram_cfg": [
+        0.5,
+        100,
+        200
+      ],
+      "cell_counter": 0.364146,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.364146,
+      "best_simple_name": "cell_counter",
+      "gap": 0.092534,
+      "held_context_events_in_training": 163,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 111,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.19101,
+      "gap_on_other_cells": 0.039097
+    },
+    {
+      "seed": 20261211,
+      "held_cell": "p0q1",
+      "ceiling": 0.276748,
+      "positive_control": 0.276748,
+      "broken_control": 0.425662,
+      "swapped_law_control": 0.301144,
+      "base_rate": 0.415498,
+      "bigram": 0.374894,
+      "bigram_cfg": [
+        0.5,
+        100,
+        400
+      ],
+      "cell_counter": 0.369512,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.369512,
+      "best_simple_name": "cell_counter",
+      "gap": 0.092764,
+      "held_context_events_in_training": 171,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 115,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.187093,
+      "gap_on_other_cells": 0.039745
+    },
+    {
+      "seed": 20261212,
+      "held_cell": "p1q1",
+      "ceiling": 0.274951,
+      "positive_control": 0.274951,
+      "broken_control": 0.414098,
+      "swapped_law_control": 0.302942,
+      "base_rate": 0.418175,
+      "bigram": 0.381048,
+      "bigram_cfg": [
+        1.0,
+        100,
+        400
+      ],
+      "cell_counter": 0.390231,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.381048,
+      "best_simple_name": "bigram",
+      "gap": 0.106097,
+      "held_context_events_in_training": 169,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 103,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.19325,
+      "gap_on_other_cells": 0.03987
+    },
+    {
+      "seed": 20261213,
+      "held_cell": "p0q0",
+      "ceiling": 0.272383,
+      "positive_control": 0.272383,
+      "broken_control": 0.397578,
+      "swapped_law_control": 0.30551,
+      "base_rate": 0.416197,
+      "bigram": 0.373319,
+      "bigram_cfg": [
+        1.0,
+        100,
+        null
+      ],
+      "cell_counter": 0.3873,
+      "cell_cfg": [
+        1.0,
+        25,
+        null
+      ],
+      "best_simple": 0.373319,
+      "best_simple_name": "bigram",
+      "gap": 0.100936,
+      "held_context_events_in_training": 168,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 103,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.203018,
+      "gap_on_other_cells": 0.054635
+    },
+    {
+      "seed": 20261214,
+      "held_cell": "p0q0",
+      "ceiling": 0.271869,
+      "positive_control": 0.271869,
+      "broken_control": 0.394273,
+      "swapped_law_control": 0.306024,
+      "base_rate": 0.41113,
+      "bigram": 0.370808,
+      "bigram_cfg": [
+        0.5,
+        50,
+        200
+      ],
+      "cell_counter": 0.3794,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.370808,
+      "best_simple_name": "bigram",
+      "gap": 0.098939,
+      "held_context_events_in_training": 184,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 129,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.203313,
+      "gap_on_other_cells": 0.045891
+    },
+    {
+      "seed": 20261215,
+      "held_cell": "p0q0",
+      "ceiling": 0.268017,
+      "positive_control": 0.268017,
+      "broken_control": 0.369493,
+      "swapped_law_control": 0.309876,
+      "base_rate": 0.418313,
+      "bigram": 0.389544,
+      "bigram_cfg": [
+        1.0,
+        null,
+        200
+      ],
+      "cell_counter": 0.407239,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.389544,
+      "best_simple_name": "bigram",
+      "gap": 0.121527,
+      "held_context_events_in_training": 175,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 108,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.212766,
+      "gap_on_other_cells": 0.044568
+    },
+    {
+      "seed": 20261216,
+      "held_cell": "p1q1",
+      "ceiling": 0.278546,
+      "positive_control": 0.278546,
+      "broken_control": 0.437226,
+      "swapped_law_control": 0.299347,
+      "base_rate": 0.413794,
+      "bigram": 0.37153,
+      "bigram_cfg": [
+        0.5,
+        50,
+        200
+      ],
+      "cell_counter": 0.369739,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.369739,
+      "best_simple_name": "cell_counter",
+      "gap": 0.091193,
+      "held_context_events_in_training": 178,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 110,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.188587,
+      "gap_on_other_cells": 0.039123
+    },
+    {
+      "seed": 20261217,
+      "held_cell": "p1q0",
+      "ceiling": 0.271356,
+      "positive_control": 0.271356,
+      "broken_control": 0.390969,
+      "swapped_law_control": 0.306537,
+      "base_rate": 0.419074,
+      "bigram": 0.388603,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.407973,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.388603,
+      "best_simple_name": "bigram",
+      "gap": 0.117247,
+      "held_context_events_in_training": 189,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 116,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.212999,
+      "gap_on_other_cells": 0.039588
+    },
+    {
+      "seed": 20261218,
+      "held_cell": "p1q1",
+      "ceiling": 0.271612,
+      "positive_control": 0.271612,
+      "broken_control": 0.392621,
+      "swapped_law_control": 0.306281,
+      "base_rate": 0.422425,
+      "bigram": 0.386274,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.398852,
+      "cell_cfg": [
+        1.0,
+        25,
+        null
+      ],
+      "best_simple": 0.386274,
+      "best_simple_name": "bigram",
+      "gap": 0.114662,
+      "held_context_events_in_training": 196,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 126,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.238814,
+      "gap_on_other_cells": 0.04477
+    },
+    {
+      "seed": 20261219,
+      "held_cell": "p0q1",
+      "ceiling": 0.271099,
+      "positive_control": 0.271099,
+      "broken_control": 0.389317,
+      "swapped_law_control": 0.306794,
+      "base_rate": 0.409826,
+      "bigram": 0.37787,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.384765,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.37787,
+      "best_simple_name": "bigram",
+      "gap": 0.106771,
+      "held_context_events_in_training": 181,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 126,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.181738,
+      "gap_on_other_cells": 0.040348
+    },
+    {
+      "seed": 20261220,
+      "held_cell": "p1q0",
+      "ceiling": 0.277005,
+      "positive_control": 0.277005,
+      "broken_control": 0.427314,
+      "swapped_law_control": 0.300888,
+      "base_rate": 0.413604,
+      "bigram": 0.376551,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.380711,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.376551,
+      "best_simple_name": "bigram",
+      "gap": 0.099546,
+      "held_context_events_in_training": 186,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 137,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.198602,
+      "gap_on_other_cells": 0.043363
+    },
+    {
+      "seed": 20261221,
+      "held_cell": "p0q0",
+      "ceiling": 0.276492,
+      "positive_control": 0.276492,
+      "broken_control": 0.42401,
+      "swapped_law_control": 0.301401,
+      "base_rate": 0.413811,
+      "bigram": 0.373015,
+      "bigram_cfg": [
+        0.5,
+        50,
+        200
+      ],
+      "cell_counter": 0.371165,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.371165,
+      "best_simple_name": "cell_counter",
+      "gap": 0.094673,
+      "held_context_events_in_training": 188,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 116,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.186603,
+      "gap_on_other_cells": 0.042828
+    },
+    {
+      "seed": 20261222,
+      "held_cell": "p1q1",
+      "ceiling": 0.27341,
+      "positive_control": 0.27341,
+      "broken_control": 0.404186,
+      "swapped_law_control": 0.304483,
+      "base_rate": 0.418504,
+      "bigram": 0.386928,
+      "bigram_cfg": [
+        0.5,
+        25,
+        null
+      ],
+      "cell_counter": 0.386583,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.386583,
+      "best_simple_name": "cell_counter",
+      "gap": 0.113173,
+      "held_context_events_in_training": 198,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 131,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.193035,
+      "gap_on_other_cells": 0.044486
+    },
+    {
+      "seed": 20261223,
+      "held_cell": "p0q0",
+      "ceiling": 0.271356,
+      "positive_control": 0.271356,
+      "broken_control": 0.390969,
+      "swapped_law_control": 0.306537,
+      "base_rate": 0.411796,
+      "bigram": 0.375754,
+      "bigram_cfg": [
+        0.5,
+        100,
+        200
+      ],
+      "cell_counter": 0.379121,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.375754,
+      "best_simple_name": "bigram",
+      "gap": 0.104398,
+      "held_context_events_in_training": 182,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 120,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.203126,
+      "gap_on_other_cells": 0.042837
+    },
+    {
+      "seed": 20261224,
+      "held_cell": "p0q1",
+      "ceiling": 0.27418,
+      "positive_control": 0.27418,
+      "broken_control": 0.409142,
+      "swapped_law_control": 0.303713,
+      "base_rate": 0.412637,
+      "bigram": 0.367654,
+      "bigram_cfg": [
+        0.5,
+        100,
+        200
+      ],
+      "cell_counter": 0.370871,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.367654,
+      "best_simple_name": "bigram",
+      "gap": 0.093474,
+      "held_context_events_in_training": 179,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 118,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.189295,
+      "gap_on_other_cells": 0.040106
+    },
+    {
+      "seed": 20261225,
+      "held_cell": "p1q1",
+      "ceiling": 0.276748,
+      "positive_control": 0.276748,
+      "broken_control": 0.425662,
+      "swapped_law_control": 0.301144,
+      "base_rate": 0.415506,
+      "bigram": 0.380766,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.383883,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.380766,
+      "best_simple_name": "bigram",
+      "gap": 0.104018,
+      "held_context_events_in_training": 161,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 94,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.184609,
+      "gap_on_other_cells": 0.040506
+    },
+    {
+      "seed": 20261226,
+      "held_cell": "p1q1",
+      "ceiling": 0.274951,
+      "positive_control": 0.274951,
+      "broken_control": 0.414098,
+      "swapped_law_control": 0.302942,
+      "base_rate": 0.412547,
+      "bigram": 0.374195,
+      "bigram_cfg": [
+        0.5,
+        50,
+        200
+      ],
+      "cell_counter": 0.374084,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.374084,
+      "best_simple_name": "cell_counter",
+      "gap": 0.099133,
+      "held_context_events_in_training": 178,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 109,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.178938,
+      "gap_on_other_cells": 0.040817
+    },
+    {
+      "seed": 20261227,
+      "held_cell": "p1q1",
+      "ceiling": 0.271869,
+      "positive_control": 0.271869,
+      "broken_control": 0.394273,
+      "swapped_law_control": 0.306024,
+      "base_rate": 0.417623,
+      "bigram": 0.372493,
+      "bigram_cfg": [
+        0.5,
+        100,
+        200
+      ],
+      "cell_counter": 0.369545,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.369545,
+      "best_simple_name": "cell_counter",
+      "gap": 0.097676,
+      "held_context_events_in_training": 180,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 124,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.194895,
+      "gap_on_other_cells": 0.037685
+    },
+    {
+      "seed": 20261228,
+      "held_cell": "p1q1",
+      "ceiling": 0.274694,
+      "positive_control": 0.274694,
+      "broken_control": 0.412446,
+      "swapped_law_control": 0.303199,
+      "base_rate": 0.413416,
+      "bigram": 0.376061,
+      "bigram_cfg": [
+        1.0,
+        100,
+        400
+      ],
+      "cell_counter": 0.390034,
+      "cell_cfg": [
+        1.0,
+        25,
+        200
+      ],
+      "best_simple": 0.376061,
+      "best_simple_name": "bigram",
+      "gap": 0.101367,
+      "held_context_events_in_training": 180,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 122,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.191229,
+      "gap_on_other_cells": 0.041158
+    },
+    {
+      "seed": 20261229,
+      "held_cell": "p1q0",
+      "ceiling": 0.272896,
+      "positive_control": 0.272896,
+      "broken_control": 0.400882,
+      "swapped_law_control": 0.304997,
+      "base_rate": 0.415232,
+      "bigram": 0.379535,
+      "bigram_cfg": [
+        1.0,
+        100,
+        200
+      ],
+      "cell_counter": 0.394783,
+      "cell_cfg": [
+        1.0,
+        25,
+        null
+      ],
+      "best_simple": 0.379535,
+      "best_simple_name": "bigram",
+      "gap": 0.106639,
+      "held_context_events_in_training": 173,
+      "withheld_transitions_still_in_training": 0,
+      "withheld_events_flagged": 126,
+      "withheld_flagged_but_in_training": 0,
+      "gap_on_held_cell": 0.200963,
+      "gap_on_other_cells": 0.051537
+    }
+  ]
+}

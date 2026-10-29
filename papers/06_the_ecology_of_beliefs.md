@@ -2,7 +2,7 @@
 
 **Authors**: Jeremy et al. (Nuera Research)  
 **Date**: October 2026  
-**Status**: Pre-print Candidate  
+**Draft status:** Historical manuscript; not submitted or published. Requires claim-by-claim evidence audit before circulation.
 **Repository**: `https://github.com/nueraresearch/project-organica`
 
 ---
@@ -61,3 +61,4 @@ Under 1,000 rapid event streams and multi-cycle sleep consolidation passes, DAG 
 
 ## 3. Conclusion
 Intelligence is neither a static lookup table nor an opaque parameter matrix. It is a self-pruning, self-curating developmental ecology.
+

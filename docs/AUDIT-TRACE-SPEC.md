@@ -407,12 +407,12 @@ The build is accepted only if all **seven** hold, and each is a check that can f
 | **A6** | **Trace/ counterfactual separation** | The trace contains no counterfactual field; any replay lives in a separate artifact with its own label. A check that greps the trace schema for counterfactual claims fails the build. |
 | **A7** | **Event-level attribution** | Every temporal edge resolves to the concrete events that produced it, the attributed total for each edge **equals** its aggregate count, and each belief's support resolves to event ids with a **world/self split**. Requires the store-time observer, and the observer's own guard must mirror the engine's. |
 
-**Status of the criteria (updated 2026-10-26, §13):** **A1, A2, A3, A4 and
-A7 are met** by the probe (§10, §13) — A7 including a **forced-tie arm** in
-which the engine's lookback window is genuinely ambiguous, and A3 including a
-window sweep and a depth sweep that show its truncation branches are
-reachable. **A5 (field-honesty) and A6 (trace/counterfactual separation) are
-still pending** and belong to the build.
+**Status of the criteria (updated 2026-10-27):** **All seven criteria (A1, A2, A3, A4, A5, A6, A7) are MET** by the probe (`benchmarks/audit_trace_probe.py`) and verified by acceptance tests (`tests/test_audit_trace_probe.py`, `tests/test_audit_ancestry.py`):
+- **A1, A2, A7**: Reconciled across default, stress, and forced-tie arms.
+- **A3**: Lineage reachability and honesty verified with depth/window sweeps.
+- **A4**: Behaviour invariance verified with byte-identical output check.
+- **A5**: Field honesty enforced; records verified to contain zero mislabelled count fields, and proved to fail if competing flow is mislabelled as contradictory observations.
+- **A6**: Counterfactual separation enforced; trace records and schema verified to contain zero counterfactual claims, and proved to fail on counterfactual injection.
 
 **Completion metrics the trace should report** (diagnostics, not pass/fail):
 evidence-trace completeness (fraction of beliefs whose support resolves to

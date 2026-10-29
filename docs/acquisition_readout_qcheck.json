@@ -1,0 +1,10 @@
+{
+  "graph_nodes": 9,
+  "graph_edges": 31,
+  "edge_counts_distinct": 35,
+  "tags_in_assertions": 11,
+  "vocabulary": 16,
+  "ceiling_log_loss": 0.338212,
+  "trivial_log_loss": 3.148009,
+  "span": 2.809797
+}
