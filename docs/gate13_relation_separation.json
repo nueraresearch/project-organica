@@ -1,0 +1,176 @@
+[
+  {
+    "seed": 20261101,
+    "reconstruction_matches_engine": true,
+    "events_total": 152941,
+    "events_world": 756,
+    "events_sleep": 152185,
+    "engine_table_rows": 373,
+    "rows_removed_by_separation": 133,
+    "sleep_vocabulary_terms": 50,
+    "world_edges": 112,
+    "raw": {
+      "table_rows": 373,
+      "selected": {
+        "edges": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "intra_cell": 20,
+        "inter_cell": 0,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 30
+    },
+    "filtered_limit3": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "intra_cell": 20,
+        "inter_cell": 0,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 35
+    },
+    "filtered_limit4": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 2,
+        "coverage": 0.0179,
+        "precision": 0.1,
+        "intra_cell": 18,
+        "inter_cell": 2,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 16
+    },
+    "self_only_removed": {
+      "table_rows": 133,
+      "share_of_engine_rows": 0.3566,
+      "share_with_sleep_source": 1.0
+    }
+  },
+  {
+    "seed": 20261102,
+    "reconstruction_matches_engine": true,
+    "events_total": 236031,
+    "events_world": 761,
+    "events_sleep": 235270,
+    "engine_table_rows": 379,
+    "rows_removed_by_separation": 139,
+    "sleep_vocabulary_terms": 49,
+    "world_edges": 112,
+    "raw": {
+      "table_rows": 379,
+      "selected": {
+        "edges": 20,
+        "covered": 1,
+        "coverage": 0.0089,
+        "precision": 0.05,
+        "intra_cell": 19,
+        "inter_cell": 1,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 18
+    },
+    "filtered_limit3": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "intra_cell": 20,
+        "inter_cell": 0,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 34
+    },
+    "filtered_limit4": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 4,
+        "coverage": 0.0357,
+        "precision": 0.2,
+        "intra_cell": 16,
+        "inter_cell": 4,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 8
+    },
+    "self_only_removed": {
+      "table_rows": 139,
+      "share_of_engine_rows": 0.3668,
+      "share_with_sleep_source": 1.0
+    }
+  },
+  {
+    "seed": 20261103,
+    "reconstruction_matches_engine": true,
+    "events_total": 264305,
+    "events_world": 772,
+    "events_sleep": 263533,
+    "engine_table_rows": 405,
+    "rows_removed_by_separation": 165,
+    "sleep_vocabulary_terms": 49,
+    "world_edges": 112,
+    "raw": {
+      "table_rows": 405,
+      "selected": {
+        "edges": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "intra_cell": 18,
+        "inter_cell": 0,
+        "mixed_vocabulary": 2,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 53
+    },
+    "filtered_limit3": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 0,
+        "coverage": 0.0,
+        "precision": 0.0,
+        "intra_cell": 20,
+        "inter_cell": 0,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 37
+    },
+    "filtered_limit4": {
+      "table_rows": 240,
+      "selected": {
+        "edges": 20,
+        "covered": 5,
+        "coverage": 0.0446,
+        "precision": 0.25,
+        "intra_cell": 15,
+        "inter_cell": 5,
+        "mixed_vocabulary": 0,
+        "passes_gate13": false
+      },
+      "first_world_edge_rank": 8
+    },
+    "self_only_removed": {
+      "table_rows": 165,
+      "share_of_engine_rows": 0.4074,
+      "share_with_sleep_source": 1.0
+    }
+  }
+]

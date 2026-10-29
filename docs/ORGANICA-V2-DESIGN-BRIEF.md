@@ -491,6 +491,39 @@ they are admitted: they survive natural selection and decay across 110 cycles.
 > question sharpens to *can the organism identify its own vocabulary, and can it
 > rank candidates by something other than raw frequency?* **No build is
 > authorised.**
+>
+> **2026-10-29 — and the answer to the separation question is now measured.**
+> A further probe (`docs/GATE13-RELATION-SEPARATION.md`) tested whether world
+> relations can be separated from engine-generated ones **without modifying
+> the frozen engine**, and found the mechanism exactly: `memory.py:261` gates
+> the **trigger** of edge recording but `memory.py:332` does **not** gate the
+> **lookback window**, so a world event takes its `tag_from` from sleep rows
+> (disclosed as **D2**, never quantified). The separation removes **35.7 %–40.7 %**
+> of the relation table, with **100.0 %** of the removed rows sleep-sourced —
+> and it uses `event_type`, which the engine already records, so it is **not an
+> oracle**. **But it is not sufficient**: with every contaminated row removed,
+> coverage at the frozen cap of 20 is still **0.0000–0.0446**. The substrate is
+> **201×–341×** engine-generated. **The V2 requirement list is therefore three
+> items, not two** — provenance separation, relation-family separation, and a
+> **ranking that is not raw frequency** — and the third is the hard one. **Still
+> no build is authorised.**
+
+> **2026-10-29 — and the third requirement has now been measured against the
+> engine's own arithmetic.** The ranking requirement was called the hard one,
+> with no precedent in the engine. It has one: `sleep.py:1139-1160` computes
+> `ratio = count / max(source_freq, 1)`, stores it in every candidate's evidence,
+> uses it for **survival**, and sorts by **raw count** for **admission**. A
+> 60-cell grid over those stored fields reached a **best cell of coverage 0.0804
+> at precision 0.4500 against a 0.50 gate — six times short**
+> (`docs/GATE13-RANKING-CRITERION.md`). **The engine's own normalised criterion
+> is actively harmful here**: on the raw table under its own scope, `ratio`,
+> `cosine` and `pmi` each select **20 engine-vocabulary edges and 0 world edges**,
+> because `tag_counts` is world-scoped and the engine's own words have no
+> frequency entry (`freqs.get(tag_from, 1)` -> 1, so `ratio = count`). **So the
+> discriminator cannot be a per-tag statistic — it must be relation-level**, and
+> the only relation-level property available is *which event the relation came
+> from*. Requirement 2 (relation-family separation) is now the one with a
+> measured dead end at the tag level. **Still no build is authorised.**
 
 **Organica's readout lost.** On the Pilot 0 seed, with identical raw exposure for
 every learner:

@@ -92,6 +92,101 @@ run when the corrections were made.**
   manual (§8.19, finding 25), the facts sheet (§AC), `AGENTS.md` (rule 25),
   the README framing, and journal §51.
 
+### Measured — the relation separation is real, oracle-free, and NOT sufficient (2026-10-29)
+
+The sharpest open question after the causal account was: *can world relations
+be separated from engine-generated relations, without modifying the frozen
+engine?* It has now been measured. **All seeds are diagnostic
+(`20261101`–`20261103`); the confirmatory sample (`20261106`–`20261130`, 25
+seeds) is untouched.**
+
+- **The mechanism, located.** `memory.py:261` gates the **trigger** of edge
+  recording (`if event_type != "sleep"`), but `memory.py:332` does **not** gate
+  the **lookback window** (`SELECT tags FROM events ORDER BY time DESC LIMIT ?`),
+  so a world event can take its `tag_from` from a **sleep row**. This is
+  **D2** in the audit-trace spec — disclosed, never quantified.
+- **The substrate is 99.5 % the engine's own output** — **756–772 world events
+  against 152,186–263,533 sleep events** (**201×–341×**). The engine stores one
+  sleep event per candidate per cycle, so after 110 cycles it has written two
+  to three hundred times as many rows about its own thinking as about the
+  world.
+- **The separation removes 35.7 %–40.7 % of the relation table, and 100.0 % of
+  the removed rows have a sleep-sourced `tag_from`** — the D2 mechanism,
+  confirmed exactly. It uses `event_type`, which the engine already records, so
+  it is **not an oracle** (unlike the world-vocabulary filter of the previous
+  entry).
+- **And it is not sufficient.** With every contaminated row removed, coverage
+  at the frozen cap of 20 is still **0.0000–0.0446**, and the top 20 is still
+  **75–100 % intra-cell**. The separation *does* move the world's edges up
+  sharply (first world edge from rank 30 / 18 / 53 to **16 / 8 / 8**), and that
+  is still not enough to clear the gate.
+- **Two distinct crowding mechanisms were in play.** In the **1-tag** stimulus
+  the crowding is the engine's own vocabulary — first world edge at **rank
+  31**, the top 30 rows all `internal→world`, verified independently. In the
+  **2-tag** stimulus, once that is removed, the crowding is the **world's own
+  co-occurrence**: intra-cell pairs out-count the law's transitions by roughly
+  an order of magnitude, and a global count-ranked cut of 20 is consumed by
+  them entirely.
+- **The V2 requirement list is now three, not two:** provenance separation,
+  relation-family separation, and **a ranking that is not raw frequency**. The
+  third is the hard one, and the capacity sweep showed it cannot be bought
+  with budget — precision never exceeds 0.3443 at any budget under either
+  allocation rule.
+- **Added** — `docs/GATE13-RELATION-SEPARATION.md`,
+  `benchmarks/probe_relation_separation.py`,
+  `docs/gate13_relation_separation.json`; **updated** —
+  `docs/GATE13-CAUSAL-ACCOUNT.md`, `docs/V2-CAPACITY-DESIGN-BRIEF.md` (second
+  addendum), `docs/USER-MANUAL.md` (finding 27, revision-log row),
+  `docs/FACTS-SHEET.md` AC14, journal §54.
+- **No V2 build is authorised.**
+
+### Measured — the ranking requirement: every criterion the engine already stores fails (2026-10-29)
+
+The third of the three V2 requirements — *a ranking that is not raw frequency* —
+had been called the hard one, with no precedent in the engine. **It turned out to
+have a precedent, and the precedent is the finding.** **All seeds are diagnostic
+(`20261101`–`20261103`); the confirmatory sample (`20261106`–`20261130`, 25 seeds)
+is untouched.**
+
+- **The engine already computes the criterion.** `sleep.py:1139-1160` computes
+  `ratio = count / max(source_freq, 1)`, stores it in every candidate's evidence,
+  uses it for **survival**, and then sorts by **raw `temporal_count`** for
+  **admission** — so every criterion the probe tested uses fields the engine
+  **already stores**.
+- **The grid.** 2 tables x 2 frequency scopes x 5 criteria x 3 seeds = **60 cells**,
+  over `temporal_count`, `source_frequency`, `target_frequency` and `ratio`. The
+  offline reconstruction of the raw table had to match the engine's own table
+  exactly or the probe would refuse to report; it did, on every seed.
+- **The best cell in the entire grid reaches coverage 0.0804 at precision 0.4500.
+  The gate is 0.50** — six times short. Everything else is worse.
+- **Neither fix works alone (0.0089). Together** they take coverage from
+  **0.0000 to 0.0804** and precision from **0.0000 to 0.4500**, and flip the
+  intra/inter balance from 20 / 0 to roughly 8–15 / 5–13 — the world's cross-cell
+  relations enter the selection for the first time in meaningful numbers.
+- **The engine's own normalised criterion is actively harmful here.** On the raw
+  table under the engine's own scope, `ratio`, `cosine` and `pmi` each select
+  **20 engine-vocabulary edges and 0 world edges** on every seed.
+- **The mechanism is measured, not inferred.** `_record_tag_counts` sits inside the
+  `if event_type != "sleep":` block, so **`tag_counts` is world-scoped** and the
+  engine's own words have **no frequency entry** — `freqs.get(tag_from, 1)` returns
+  1, so `ratio = count / 1 = count`, the maximum possible for that count.
+- **A self-inclusive scope flips the failure the other way.** The engine's sleep
+  output **names the world's tags** (`sable` 2,601 times, `olive` 7,753, `maple`
+  35,986, `cedar` 52,070), so world tags acquire enormous denominators and are
+  penalised, and the engine's *rare* metadata words win — best world edge
+  `sable` -> `fern` at ratio **0.0177**, against `mutation` -> `cedar` at
+  **0.1654**. **The world's vocabulary and the engine's own vocabulary are not
+  separable by frequency in either direction**, so the discriminator cannot be a
+  per-tag statistic; it must be a **relation-level** property — *which event the
+  relation came from*.
+- **Added** — `docs/GATE13-RANKING-CRITERION.md`,
+  `benchmarks/probe_ranking_criterion.py`, `benchmarks/probe_ranking_mechanism.py`,
+  `docs/gate13_ranking_criterion.json`; **updated** — `docs/USER-MANUAL.md`
+  (finding 28, revision-log row), `docs/FACTS-SHEET.md` AC15, journal §55,
+  `docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.7.
+- **No V2 build is authorised.**
+
+
 ### The audit build is CLOSED, TAGGED and FROZEN (2026-10-28)
 
 The audit build's stop condition is met and has been executed. **A1–A7 are all

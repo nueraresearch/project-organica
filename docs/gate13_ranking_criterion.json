@@ -1,0 +1,665 @@
+[
+  {
+    "seed": 20261101,
+    "reconstruction_matches_engine": true,
+    "world_edges": 112,
+    "self_vocabulary_terms": 50,
+    "self_events": 152185,
+    "tables": {
+      "raw": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 3,
+            "inter_cell": 0,
+            "mixed_vocabulary": 17,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 7,
+            "coverage": 0.0625,
+            "precision": 0.35,
+            "intra_cell": 3,
+            "inter_cell": 11,
+            "mixed_vocabulary": 6,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 3,
+            "inter_cell": 0,
+            "mixed_vocabulary": 17,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          }
+        }
+      },
+      "filtered": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 4,
+            "coverage": 0.0357,
+            "precision": 0.2,
+            "intra_cell": 12,
+            "inter_cell": 8,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 8,
+            "coverage": 0.0714,
+            "precision": 0.4,
+            "intra_cell": 8,
+            "inter_cell": 12,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 5,
+            "coverage": 0.0446,
+            "precision": 0.25,
+            "intra_cell": 12,
+            "inter_cell": 8,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 8,
+            "coverage": 0.0714,
+            "precision": 0.4,
+            "intra_cell": 7,
+            "inter_cell": 13,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        }
+      }
+    }
+  },
+  {
+    "seed": 20261102,
+    "reconstruction_matches_engine": true,
+    "world_edges": 112,
+    "self_vocabulary_terms": 49,
+    "self_events": 235271,
+    "tables": {
+      "raw": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 1,
+            "coverage": 0.0089,
+            "precision": 0.05,
+            "intra_cell": 19,
+            "inter_cell": 1,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 13,
+            "inter_cell": 0,
+            "mixed_vocabulary": 7,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 1,
+            "coverage": 0.0089,
+            "precision": 0.05,
+            "intra_cell": 19,
+            "inter_cell": 1,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 1,
+            "coverage": 0.0089,
+            "precision": 0.05,
+            "intra_cell": 7,
+            "inter_cell": 1,
+            "mixed_vocabulary": 12,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 2,
+            "inter_cell": 0,
+            "mixed_vocabulary": 18,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 1,
+            "inter_cell": 0,
+            "mixed_vocabulary": 19,
+            "passes_gate13": false
+          }
+        }
+      },
+      "filtered": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 1,
+            "coverage": 0.0089,
+            "precision": 0.05,
+            "intra_cell": 19,
+            "inter_cell": 1,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 9,
+            "coverage": 0.0804,
+            "precision": 0.45,
+            "intra_cell": 9,
+            "inter_cell": 11,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 7,
+            "coverage": 0.0625,
+            "precision": 0.35,
+            "intra_cell": 9,
+            "inter_cell": 11,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 3,
+            "coverage": 0.0268,
+            "precision": 0.15,
+            "intra_cell": 17,
+            "inter_cell": 3,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 3,
+            "coverage": 0.0268,
+            "precision": 0.15,
+            "intra_cell": 15,
+            "inter_cell": 5,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        }
+      }
+    }
+  },
+  {
+    "seed": 20261103,
+    "reconstruction_matches_engine": true,
+    "world_edges": 112,
+    "self_vocabulary_terms": 49,
+    "self_events": 263533,
+    "tables": {
+      "raw": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 18,
+            "inter_cell": 0,
+            "mixed_vocabulary": 2,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 13,
+            "inter_cell": 0,
+            "mixed_vocabulary": 7,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 18,
+            "inter_cell": 0,
+            "mixed_vocabulary": 2,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 1,
+            "coverage": 0.0089,
+            "precision": 0.05,
+            "intra_cell": 7,
+            "inter_cell": 1,
+            "mixed_vocabulary": 12,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 1,
+            "inter_cell": 0,
+            "mixed_vocabulary": 19,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 0,
+            "inter_cell": 0,
+            "mixed_vocabulary": 20,
+            "passes_gate13": false
+          }
+        }
+      },
+      "filtered": {
+        "world_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        },
+        "world_plus_self_freq": {
+          "count": {
+            "edges": 20,
+            "covered": 0,
+            "coverage": 0.0,
+            "precision": 0.0,
+            "intra_cell": 20,
+            "inter_cell": 0,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "ratio": {
+            "edges": 20,
+            "covered": 6,
+            "coverage": 0.0536,
+            "precision": 0.3,
+            "intra_cell": 14,
+            "inter_cell": 6,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "target_ratio": {
+            "edges": 20,
+            "covered": 5,
+            "coverage": 0.0446,
+            "precision": 0.25,
+            "intra_cell": 15,
+            "inter_cell": 5,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "cosine": {
+            "edges": 20,
+            "covered": 3,
+            "coverage": 0.0268,
+            "precision": 0.15,
+            "intra_cell": 17,
+            "inter_cell": 3,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          },
+          "pmi": {
+            "edges": 20,
+            "covered": 9,
+            "coverage": 0.0804,
+            "precision": 0.45,
+            "intra_cell": 11,
+            "inter_cell": 9,
+            "mixed_vocabulary": 0,
+            "passes_gate13": false
+          }
+        }
+      }
+    }
+  }
+]

@@ -5137,3 +5137,332 @@ released, and it was put to the owner rather than decided by the agent.
 
 → `docs/AUDIT-TRACE-SPEC.md` §9, §10; `tests/test_audit_trace_probe.py`;
 tag `audit-trace-v1`
+---
+
+## §54 — The separation is real, it is oracle-free, and it is not enough
+
+**What this section records.** §52 established that the acquisition failure is
+a **precision** limit, not a capacity limit. This section records the probe
+that tested the sharpest open question: *can world relations be separated from
+engine-generated relations, without modifying the frozen engine?*
+
+**All seeds are diagnostic** (`20261101`-`20261103`). The confirmatory sample
+(`20261106`-`20261130`, 25 seeds) is untouched.
+
+### The mechanism, located
+
+`organica/memory.py::store()` gates the **trigger**:
+
+```python
+if event_type != "sleep":
+    self._record_cooccurrences(event.tags)
+    self._record_temporal_edges(event.tags)
+```
+
+but `_record_temporal_edges` builds its **window** with an unfiltered query
+(`memory.py:332`):
+
+```python
+rows = self._conn.execute(
+    "SELECT tags FROM events ORDER BY time DESC LIMIT ?", (lookback,)
+).fetchall()
+```
+
+A **world** event triggers recording and takes its `tag_from` from whatever rows
+precede it — sleep rows included. This is **D2** in the audit-trace spec, which
+disclosed the mechanism but had not measured its consequence.
+
+### The substrate is 99.5 % the engine's own output
+
+| Seed | world events | sleep events | ratio | `precedes` rows |
+|---|---|---|---|---|
+| 20261101 | 756 | **152,186** | **201x** | 373 |
+| 20261102 | 761 | **235,271** | **309x** | 379 |
+| 20261103 | 772 | **263,533** | **341x** | 405 |
+
+The engine stores one sleep event per candidate per cycle. After 110 cycles it
+has written **two to three hundred times** as many rows about its own thinking
+as about the world. Its cognition window (`recent(n=4000, event_type="sleep")`)
+is therefore almost entirely its own output — which is by design, and is not a
+defect in itself. It does, however, set the scale of the problem.
+
+### What the separation removes
+
+The probe rebuilds the table offline and applies the engine's own rule. **Its
+own proof-of-firing: the rebuilt table must match the engine's table exactly,
+or the probe refuses to report.** It matched on all three seeds.
+
+| Seed | rows removed | share of the table | **of those, sleep-sourced `tag_from`** | rows left |
+|---|---|---|---|---|
+| 20261101 | 133 | **35.7 %** | **100.0 %** | 240 |
+| 20261102 | 139 | **36.7 %** | **100.0 %** | 240 |
+| 20261103 | 165 | **40.7 %** | **100.0 %** | 240 |
+
+**Every row the separation removes has a sleep-sourced `tag_from`.** The
+contamination is not a hypothesis about what might be happening; it is exactly
+the D2 mechanism, and it is a third to two-fifths of the relation table. The
+remaining 240 rows are precisely the world-tag pairs (16 tags x 15).
+
+### And it is not enough
+
+Each table selected by the engine's own Layer-1 rule — global top-20 by count.
+
+| Seed | table | coverage | precision | intra-cell | inter-cell | rank of first world edge |
+|---|---|---|---|---|---|---|
+| 20261101 | raw (engine) | 0.0000 | 0.0000 | 20 | 0 | 30 |
+| | filtered LIMIT 3 | **0.0000** | 0.0000 | 20 | 0 | 35 |
+| | filtered LIMIT 4 | 0.0179 | 0.1000 | 18 | 2 | **16** |
+| 20261102 | raw (engine) | 0.0089 | 0.0500 | 19 | 1 | 18 |
+| | filtered LIMIT 3 | **0.0000** | 0.0000 | 20 | 0 | 34 |
+| | filtered LIMIT 4 | 0.0357 | 0.2000 | 16 | 4 | **8** |
+| 20261103 | raw (engine) | 0.0000 | 0.0000 | 18 | 2 | 53 |
+| | filtered LIMIT 3 | **0.0000** | 0.0000 | 20 | 0 | 37 |
+| | filtered LIMIT 4 | 0.0446 | 0.2500 | 15 | 5 | **8** |
+
+**With every contaminated row removed, the world's edges still do not reach the
+top 20**, and the top 20 remains 75-100 % intra-cell.
+
+The separation **does** move the world's edges up sharply — the first world
+edge goes from rank 30 / 18 / 53 to **16 / 8 / 8** under LIMIT 4 — and that is
+still not enough to clear the gate.
+
+### Why the remaining competition is intra-cell
+
+A cell's two tags co-occur in **every** event of that cell, so an intra-cell
+pair accumulates a count of the order of (events / cells). The world's
+transitions are individual tag-level transitions under a cell-level law, so a
+specific tag pair follows the law only a fraction of the time. The two
+populations differ by roughly an order of magnitude in count, and a global
+count-ranked cut of 20 is consumed by the first population entirely.
+
+**This is why two probes seemed to disagree about which mechanism dominates.**
+In the **1-tag** stimulus an event carries one tag, so there are no intra-cell
+co-occurrence pairs to compete — and there the crowding **is** the internal
+vocabulary (first world edge at rank 31; the top 30 rows all `internal->world`,
+verified). In the **2-tag** stimulus the internal vocabulary is removed and the
+crowding **is** the intra-cell pairs. **Each world shows one dominant
+mechanism, and they are different mechanisms.**
+
+### What this settles
+
+1. **Provenance mixing is real, measured, and exactly as D2 described** —
+   35.7 %-40.7 % of the relation table, with 100 % of the removed rows
+   sleep-sourced.
+2. **The separation is available without privileged knowledge.** It uses
+   `event_type`, which the engine already records on every event. It is not an
+   oracle — unlike the world-vocabulary filter of §52, which selects on
+   `TAG_POOL` and is therefore not an organism-side fix.
+3. **Separating the families is NOT sufficient.** "Useful structure exists
+   below the selection boundary" is **true**; "separating the families would
+   recover it" is **false**.
+
+### The V2 requirement list is now three, not two
+
+1. **Provenance separation** — the world relation table must not contain
+   relations sourced from the organism's own output. One filtered lookback
+   query; the information is already in the schema.
+2. **Relation-family separation** — co-occurrence and transition relations
+   must not compete for the same budget. The `cooccurrences` and `precedes`
+   tables are already separate; they are re-mixed downstream, in Layer 1.
+3. **A ranking that is not raw frequency** — even with (1) and (2) done, the
+   world's transitions are out-ranked by its own co-occurrence by roughly an
+   order of magnitude, because the two differ in *frequency* and not in *kind*.
+
+**Requirement 3 is the one with no precedent in the engine, and it is the one
+§52's capacity sweep showed cannot be bought with budget:** precision never
+exceeds 0.3443 at any budget under either allocation rule. Requirement 1 is
+the cheapest and is a single query filter.
+
+**No V2 build is authorised.** The target narrowed from "relation-family
+separation" — one requirement — to three, and the hard one is now identified.
+
+### The lessons
+
+**1. A disclosed mechanism is not a measured one.** D2 named the unfiltered
+lookback and nobody had quantified its consequence. When it was quantified, it
+was **a third to two-fifths of the relation table**, and the substrate turned
+out to be **99.5 % the engine's own output**. A disclosure earns the defect a
+name; it does not earn it a size.
+
+**2. "Separation" is a family of claims, and the useful one is the one you
+can act on without privileged knowledge.** The first separation measured
+(yesterday's) filtered on the *world's* tag list and was an **oracle** — it
+quantified headroom and proposed nothing. This one filters on `event_type`,
+which the engine already stores, and is therefore a **candidate change** as
+well as a measurement. The difference is not academic: an oracle cannot
+become a design.
+
+**3. Removing a contaminant can reveal the next contaminant, and you have to
+keep going.** With 100 % of the engine-generated rows removed, the gate still
+failed, and the reason had changed from "the engine's own vocabulary" to "the
+world's own co-occurrence". A probe that stopped at "we removed the
+contamination and the gate still fails" would have reported a dead end; the
+useful report is "we removed it, the crowding changed identity, and here is
+the new one."
+
+**4. Separate the mechanisms before designing for them.** The 1-tag and 2-tag
+worlds show *different* dominant crowding. A single fix aimed at one of them
+would have looked like a partial success in the other world and invited a
+second, contradictory diagnosis.
+
+### What does not change
+
+The six negative task families, the Phase L protocol verdict `H3-L —
+INCONCLUSIVE`, the Phase L characterisation, and the campaign's stop at Gate
+13 all stand. Every seed used is diagnostic and remains diagnostic. The frozen
+engine is untouched — the probe rebuilds the table offline. And Law II of
+`docs/DESIGN_LAWS.md` remains as written, with the discrepancy disclosed as
+D3.
+
+→ `docs/GATE13-RELATION-SEPARATION.md`; `docs/gate13_relation_separation.json`;
+`benchmarks/probe_relation_separation.py`; manual finding 27
+---
+
+## §55 — The ranking requirement: every criterion the engine already stores was
+tested, and all of them fail
+
+**What this section records.** §54 left three V2 requirements, the third being
+"a ranking that is not raw frequency" — the one the causal account had called
+the hard one, with no precedent in the engine. It turned out to have a
+precedent, and the precedent is the finding.
+
+**All seeds are diagnostic** (`20261101`-`20261103`). The confirmatory sample
+(`20261106`-`20261130`, 25 seeds) is untouched.
+
+### The precedent: the engine already computes the criterion
+
+`organica/sleep.py:1139-1160`:
+
+```python
+ratio = count / max(source_freq, 1)
+...
+strength=min(1.0, ratio),
+evidence={"temporal_count": count, "source_frequency": source_freq,
+          "target_frequency": freqs.get(tag_to, 0), "ratio": round(ratio, 3)},
+...
+candidates.sort(key=lambda p: p["evidence"]["temporal_count"], reverse=True)
+```
+
+The engine computes a **frequency-normalised** criterion, stores it in every
+candidate's evidence, uses it for **survival**, and then sorts by **raw count**
+for **admission**. `memory.py:264-281` calls the normalisation "load-bearing
+rather than cosmetic". So requirement 3 might need no new idea — and every
+criterion the probe tested uses only fields the engine **already stores**.
+
+### The grid
+
+Two tables x two frequency scopes x five criteria x three seeds = **60 cells**.
+The raw table's offline reconstruction must match the engine's table exactly,
+or the probe refuses to report; it did, on every seed.
+
+**The best cell in the entire grid reaches coverage 0.0804 at precision 0.4500.
+The gate is 0.50.**
+
+| table | scope | criterion | best coverage | precision |
+|---|---|---|---|---|
+| raw | world_freq | `count` *(the engine today)* | 0.0089 | 0.0500 |
+| raw | world_freq | `ratio` / `cosine` / `pmi` | **0.0000** | 0.0000 |
+| raw | world_plus_self_freq | `target_ratio` | 0.0625 | 0.3500 |
+| filtered | world_freq | any | 0.0089 | 0.0500 |
+| **filtered** | **world_plus_self_freq** | **`ratio` / `pmi`** | **0.0804** | **0.4500** |
+
+Neither fix works alone. Together they take coverage from **0.0000 to 0.0804**
+and precision from **0.0000 to 0.4500**, and flip the intra/inter balance from
+20/0 to roughly 8-15/5-13 — the world's cross-cell relations enter the
+selection for the first time in meaningful numbers. **And they are still six
+times short of the gate.**
+
+### Why each scope fails, measured
+
+A diagnostic printed the selected edges with every number behind them.
+
+**Under the engine's own scope:** `type -> cedar`, count 48, world-frequency
+**0**, self-frequency 158,183, **ratio 48.0000** — exactly the raw count.
+Because `_record_tag_counts` is inside the `if event_type != "sleep":` block,
+**`tag_counts` is world-scoped** and the engine's own words have **no
+frequency entry**; `freqs.get(tag_from, 1)` returns 1, so `ratio = count`.
+**The engine's normalised criterion is undefined for exactly the edges it
+would need to discriminate, and ranks them first.**
+
+**Under a self-inclusive scope:** the failure runs the other way. The world's
+tags appear in the engine's own sleep output constantly — `sable` 2,601
+times, `olive` 7,753, `maple` 35,986, `cedar` 52,070 — so the world's tags
+acquire enormous denominators and are penalised. The best world edge by the
+same criterion is `sable -> fern` at ratio **0.0177**, against `mutation ->
+cedar` at **0.1654**.
+
+**Both scopes fail, for opposite reasons, and the reason underneath both is
+the same: the engine's sleep output names the world's tags.** The world
+vocabulary and the engine's own vocabulary are not separable **by frequency in
+either direction**, because they are not separable at all in the substrate —
+the organism talks about the world using the world's words.
+
+### What this settles
+
+1. **Requirement 3 is not "find a better formula."** Every formula built from
+   the engine's own stored fields was measured, and all of them fail, in both
+   scopes, on both tables, on every seed.
+2. **The discriminator cannot be a per-tag statistic.** It must be a
+   **relation-level** property: *which event did this relation come from*.
+3. **The two fixes are complementary and jointly necessary**, and even
+   together they are six times short of the gate.
+4. **The engine's own normalised criterion is actively harmful on this
+   table.** `ratio` is not a neutral alternative to raw count here; on the raw
+   table it is worse, because the frequency it normalises by is absent for
+   exactly the contaminated rows.
+
+### The V2 requirement list, restated in terms of what each fix touches
+
+1. **Provenance separation (relation-level).** One filtered lookback query —
+   `memory.py:332` — and `event_type` is already in the schema. Cheapest, and
+   oracle-free.
+2. **A relation-level criterion, not a tag-level one.** After the provenance
+   filter, the remaining competition is between the world's **own** relation
+   families: intra-cell co-occurrence and cross-cell transition. **No per-tag
+   frequency statistic can separate those**, because they involve the same
+   tags. The discriminator has to be structural — for example, whether a
+   source's target is its *unique* successor or *one of several*.
+3. **Relation-family separation.** The `cooccurrences` and `precedes` tables
+   are already separate in the substrate; they are re-mixed downstream, in
+   Layer 1.
+
+**Requirement 2 is the one with no precedent, and it is now the one with a
+measured dead end.**
+
+### The lessons
+
+**1. "The engine has no precedent for this" is a statement about the code, not
+about the space of solutions.** The engine *did* compute a normalised
+criterion — and using it would have been worse than the thing it replaces.
+The precedent was there; it was simply not the one anyone expected, and
+checking it changed the requirement from "invent a criterion" to "the
+criterion you can compute is the wrong one".
+
+**2. A normalisation can be undefined exactly where it is needed, and the
+symptom is a ranking that prefers the contamination.** `ratio = count /
+max(source_freq, 1)` looks defensive, and the default of 1 looks safe. It is
+safe for the tags the counter knows and *catastrophic* for the tags it does
+not — and the tags it does not know are the ones the criterion must
+discriminate. A denominator with a silent default is a hole with a plausible
+shape.
+
+**3. When a criterion cannot be computed, the honest report is "cannot be
+computed", not "does not work".** The two scopes failed for opposite
+reasons — one because the engine's own words had no frequency, the other
+because the world's tags had too much. Reporting either as "the criterion
+does not work" would have been true and useless; the useful statement is
+that **the quantity the criterion needs is not available in the substrate**,
+and the discriminator has to be relation-level instead.
+
+### What does not change
+
+The six negative task families, the Phase L protocol verdict `H3-L —
+INCONCLUSIVE`, the Phase L characterisation, and the campaign's stop at Gate
+13 all stand. Every seed used is diagnostic and remains diagnostic. The frozen
+engine is untouched — every number comes from an offline reconstruction
+validated against the engine's own table. And no V2 build is authorised: this
+records what requirement 2 must **not** be, not a design for it.
+
+→ `docs/GATE13-RANKING-CRITERION.md`; `docs/gate13_ranking_criterion.json`;
+`benchmarks/probe_ranking_criterion.py`; `benchmarks/probe_ranking_mechanism.py`;
+manual finding 28

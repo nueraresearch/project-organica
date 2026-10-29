@@ -209,6 +209,19 @@ The measurements bound the two halves of that question:
 This is a **narrowing**, not a design. No V2 build is authorised by this
 document.
 
+> **Extended 2026-10-29 — the separation is real and it is not sufficient.**
+> A further probe (`docs/GATE13-RELATION-SEPARATION.md`) rebuilt the relation
+> table offline and applied a **provenance** separation — world events only in
+> the lookback window — using `event_type`, which the engine already records,
+> so it is **not an oracle**. It removes **35.7 %–40.7 %** of the table, and
+> **100 %** of the removed rows have a sleep-sourced `tag_from`, which
+> confirms the D2 mechanism exactly. **And with every contaminated row
+> removed, coverage at the frozen budget of 20 is still 0.0000–0.0446**, and
+> the top 20 is still 75–100 % intra-cell. So the V2 requirement list is now
+> **three** items — provenance separation, relation-family separation, and a
+> ranking that is not raw frequency — and the third is the one with no
+> precedent in the engine.
+
 ## 8. What this does not establish
 
 - **It does not establish that V1 could pass Gate 13 under some other rule.**

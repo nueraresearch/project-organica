@@ -53,6 +53,46 @@ of the real question are therefore:
 2. **Ranking.** Can candidates be ranked by something other than raw frequency?
    The engine currently has no criterion to offer.
 
+> ### Addendum (2026-10-29): the requirement list is now THREE, and the separation is measured
+>
+> A further probe (`docs/GATE13-RELATION-SEPARATION.md`) replaced the oracle
+> filter above with an **oracle-free** one. The engine records `event_type` on
+> every event, so the relation table can be rebuilt with a **world-only
+> lookback window** without touching the frozen engine — and the mechanism it
+> removes is the one already disclosed as **D2** (`memory.py:332`: the
+> lookback query has no `event_type` filter, so a world event can take its
+> `tag_from` from a sleep row).
+>
+> | Measurement | Result |
+> |---|---|
+> | Rows the provenance separation removes | **35.7 %–40.7 %** of the relation table |
+> | Of those, sleep-sourced `tag_from` | **100.0 %** — the D2 mechanism, confirmed exactly |
+> | The substrate | **756–772 world events against 152,186–263,533 sleep events** — **201×–341×** |
+> | Coverage at the frozen cap of 20, **after** the separation | **0.0000–0.0446** |
+> | The top 20, after the separation | still **75–100 % intra-cell** |
+>
+> **So the separation is real, and it is NOT sufficient.** The V2 requirement
+> list is therefore three, not two:
+>
+> 1. **Provenance separation** — the world relation table must not contain
+>    relations sourced from the organism's own output. One filtered lookback
+>    query; the information is already in the schema.
+> 2. **Relation-family separation** — co-occurrence and transition relations
+>    must not compete for the same budget. The `cooccurrences` and `precedes`
+>    tables are already separate; they are re-mixed downstream, in Layer 1.
+> 3. **A ranking that is not raw frequency** — even with (1) and (2) done, the
+>    world's transitions are out-ranked by its own co-occurrence by roughly an
+>    order of magnitude, because the two differ in *frequency* and not in
+>    *kind*.
+>
+> **Requirement 3 is the one with no precedent in the engine, and it is the one
+> the capacity sweep showed cannot be bought with budget** — precision never
+> exceeds 0.3443 at any budget under either allocation rule. **Requirement 1
+> is the cheapest and is a single query filter.**
+>
+> **No build is authorised by this addendum.** It replaces one requirement
+> with three and identifies which of them is the hard one.
+
 **No V2 build is authorised by this addendum.** It narrows the question and
 records what has been ruled out.
 
