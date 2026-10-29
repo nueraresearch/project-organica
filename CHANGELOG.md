@@ -33,6 +33,65 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Corrected — the acquisition endpoint, the benchmark that replaced it, and the campaign that stopped at its gate (2026-10-28)
+
+A review of the acquisition experiment found its **endpoint** could not measure
+what the study claims. Every one of the five objections was checked against the
+code and the frozen generator, and **every one was confirmed**; two further
+defects were found that the review did not raise; and a third was found in the
+redesign, which changed the study's structure. **No acquisition cell had been
+run when the corrections were made.**
+
+- **Seven defects, confirmed against the code.** (a) The task and the readout
+  described **different relations** — the frozen generator draws each event's
+  cause independently, and the gold relation is a within-event co-occurrence
+  that does not predict the next event. (b) **F1@0.5 was degenerate**: the
+  Bayes-optimal model scored **0.0000**, exactly like the model that knows
+  nothing. (c) The projection was **directional** where the gold relation was
+  undirected — 10 of 12 gold pairs appeared in one direction only. (d) The
+  "fixed-rule ceiling" was a **relation oracle**, not a prediction ceiling.
+  (e) **Retention and transfer were one number with two names.** (f) The
+  engine's taxonomy has **no category for a tight group** — `_classify` needs
+  clustering ≤ 0.4 and a co-occurrence-defined group has clustering
+  **1.000**, so all 12 tags classified `unclassified` and **zero** concepts
+  formed. (g) The generator's regime switch is **relation-invariant**.
+- **The probe's headroom check was against the wrong comparator.** It compared
+  the Bayes ceiling with a **base rate** — the weakest possible comparator.
+  Against the **strongest** simple baseline (tuned bigram, decayed bigram,
+  cell counter) the headroom was **0.005647** nats against the base rate's
+  **0.105032**: the world's law is **first-order Markov**, so a bigram table
+  is its natural learner and "understood the law" and "counted transitions"
+  are not separable by a next-event score alone. That world was reclassified
+  **CALIBRATION / CONTROL**.
+- **Added — a compositional task that withholds a *combination* of familiar
+  elements.** Four cells in a 2 × 2 grid of two latent factors; the
+  tag-to-cell mapping is randomised per world; one held cell per world has its
+  transitions removed from the training stream only. Its gate passes on **30
+  independent worlds**: gap **+0.1035 nats**, 99 % interval **[+0.0996,
+  +0.1074]** against the strongest simple baseline, with the held cell's gap
+  **4.6×** the rest so the headroom is *generalisation* headroom. Gates G1–G7,
+  each with a proof-of-firing.
+- **The campaign stopped at the preregistered acquisition gate.** The frozen
+  engine asserted **0–3 of 112** world edges while its raw memory held
+  **112 / 112 (100 %)**. The cause is one named bound — `MAX_PREDICTIONS = 20`
+  — and raising **only** that cap restores **98.2 %–100 %**. Organica's
+  readout scored **0.453018** against a replay learner's **0.347521**.
+  **Transfer was not measured, and it is not a transfer failure**; the 600-cell
+  factorial did not run.
+- **Fixed — a gate that could not fire.** The harness and the runner each
+  implemented "Gate 13" under one name: the harness on the raw-temporal basis
+  (**100 %**, passed) and the runner on the asserted basis (**0.0 %**, failed),
+  on the same seed and the same world. The harness now implements the
+  pre-registration's dual accounting, gates on the asserted figure, exposes
+  the cap-raised treatment so the failure is attributable, and its test asserts
+  that Gate 13 **fails** on the frozen engine and **passes** under the
+  treatment.
+- **Added** — `docs/ACQUISITION-ENDPOINT-AUDIT.md` (the audit record),
+  `docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/V2-CAPACITY-DESIGN-BRIEF.md`;
+  **updated** — the pre-registration (Revision 3, Amendment 3), the user
+  manual (§8.19, finding 25), the facts sheet (§AC), `AGENTS.md` (rule 25),
+  the README framing, and journal §51.
+
 ### Corrected — five claims in the project's own summary, narrowed (2026-10-26)
 
 A review of the project's *summary* — not of its measurements — found five

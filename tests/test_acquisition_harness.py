@@ -9,8 +9,9 @@ Design discipline (mirrors AGENTS.md):
   * Standard library only; no third-party imports beyond pytest.
 
 Speed note: tests that spin up a world use FAST_CYCLES (40) so they complete in
-~15s each.  The sufficiency PASS test uses SHORT_CYCLES (120) to ensure enough
-acquisition events are present to exceed the 0.50 coverage threshold.
+~15s each.  Gate 13 needs SHORT_CYCLES (120) to reach a settled acquisition
+state, so its two expensive runs are computed ONCE in module-scoped fixtures
+and shared by the assertions that read them.
 """
 from __future__ import annotations
 
@@ -172,21 +173,61 @@ class TestGate12RemovalVerification:
 # Gate 13 — acquisition sufficiency
 # ---------------------------------------------------------------------------
 
+@pytest.fixture(scope="module")
+def gate13_frozen():
+    """Gate 13 on the FROZEN engine, computed once (a 120-cycle run is slow)."""
+    return gate_acquisition_sufficiency(
+        seed=DEFAULT_SEED, cycles=SHORT_CYCLES, threshold=SUFFICIENCY_THRESHOLD)
+
+
+@pytest.fixture(scope="module")
+def gate13_capped():
+    """Gate 13 with the Layer-1 prediction cap raised to 1000 (treatment arm)."""
+    return gate_acquisition_sufficiency(
+        seed=DEFAULT_SEED, cycles=SHORT_CYCLES, threshold=SUFFICIENCY_THRESHOLD,
+        max_predictions=1000)
+
+
 class TestGate13AcquisitionSufficiency:
-    def test_passes_on_normal_run(self):
-        # Use SHORT_CYCLES here: FAST_CYCLES (40) has only 20 acquisition cycles,
-        # which may not produce enough coverage to exceed the 0.50 threshold.
-        result = gate_acquisition_sufficiency(
-            seed=DEFAULT_SEED,
-            cycles=SHORT_CYCLES,
-            threshold=SUFFICIENCY_THRESHOLD,
-        )
+    """Gate 13 measures ASSERTED structure coverage (Amendment 1).
+
+    On the frozen engine the gate FIRES.  The raw temporal log holds every
+    world edge while the organism's asserted structure holds almost none of
+    them, and that asymmetry is the measured finding.  So the "normal run"
+    expectation for this gate is a FAILURE, and the treatment arm — the same
+    gate with the Layer-1 prediction cap raised — is what shows the failure is
+    attributable rather than mysterious.
+    """
+
+    def test_gate_fires_on_the_frozen_engine(self, gate13_frozen):
+        """The gate must FAIL at the preregistered threshold, not pass."""
+        result = gate13_frozen
+        assert result["passed"] is False
+        assert result["acquisition_failed"] is True
+        assert result["asserted_coverage"] < SUFFICIENCY_THRESHOLD
+        assert result["coverage_basis"] == "asserted_structure"
+        assert result["world_edges"] > 0
+        assert result["failure_reason"] is not None
+
+    def test_raw_memory_holds_the_world_the_assertions_lack(self, gate13_frozen):
+        """Raw temporal coverage is high while asserted coverage is near zero.
+
+        This is the discrimination the dual accounting exists for: the world
+        was present in the organism's memory and the organism failed to assert
+        it.  A harness measuring only the raw figure would pass here.
+        """
+        result = gate13_frozen
+        assert result["raw_temporal_coverage"] > 0.9
+        assert result["asserted_coverage"] < 0.1
+        assert (result["covered_temporal_edges"]
+                > result["covered_asserted_edges"])
+
+    def test_gate_passes_when_the_prediction_cap_is_raised(self, gate13_capped):
+        """Attribution: the same gate passes when the Layer-1 cap is relaxed."""
+        result = gate13_capped
+        assert result["asserted_coverage"] >= SUFFICIENCY_THRESHOLD
         assert result["passed"] is True
         assert result["acquisition_failed"] is False
-        assert result["coverage"] >= SUFFICIENCY_THRESHOLD
-        assert result["world_edges"] > 0
-        assert result["covered_edges"] > 0
-        assert result["failure_reason"] is None
 
     def test_fails_when_threshold_impossibly_high(self):
         """Force failure by using a threshold of 1.1 (above any possible coverage)."""
@@ -263,12 +304,26 @@ class TestGate16ScratchOnly:
 class TestRunAllGates:
     def test_all_gates_pass_normal_run(self):
         # run_all_gates uses SHORT_CYCLES by default; we override to FAST_CYCLES
-        # but gate 13 may not reach threshold.  Pass threshold=0.0 to guarantee.
+        # and pass threshold=0.0 so every gate's own mechanics are exercised
+        # without asserting anything about the organism's acquisition.
         result = run_all_gates(seed=DEFAULT_SEED, cycles=FAST_CYCLES,
                                threshold=0.0)
         assert result["all_passed"] is True
         assert "ALL GATES PASSED" in result["summary"]
         assert len(result["gates"]) == 4
+
+    def test_aggregate_reports_gate13_failure_at_the_real_threshold(self):
+        """At the preregistered threshold the prerequisite check must NOT pass.
+
+        §8 requirement 13 is a prerequisite of the acquisition study.  A
+        harness that reported "all gates passed" on the frozen engine would
+        authorise a study the same harness says is not measurable.
+        """
+        result = run_all_gates(seed=DEFAULT_SEED, cycles=FAST_CYCLES,
+                               threshold=SUFFICIENCY_THRESHOLD)
+        assert result["all_passed"] is False
+        assert "gate13" in result["summary"]
+        assert result["gates"]["gate13_sufficiency"]["acquisition_failed"] is True
 
     def test_aggregate_fails_when_one_gate_fails(self, monkeypatch):
         """Monkeypatch gate 13 to force a failure; aggregate must be False."""

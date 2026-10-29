@@ -32,12 +32,21 @@ Gate 12  removal verification (table-level)
     harness was built.
 
 Gate 13  acquisition sufficiency
-    At the end of the acquisition phase the harness counts how many of the
-    world's compositional edges are represented in the organism's current
-    ``temporal_edges()`` output.  If fewer than ``SUFFICIENCY_THRESHOLD`` are
-    covered the seed is flagged as ``acquisition_failed``.  A seed flagged
-    here MUST NOT be labelled ``transfer_failure`` — the distinction is
-    structural.
+    At the end of the acquisition phase the harness computes TWO coverages,
+    exactly as Amendment 1 of the pre-registration specifies: the fraction of
+    the world's compositional edges represented in the organism's ASSERTED
+    STRUCTURE, and the fraction represented in its RAW temporal memory.  The
+    gate is evaluated against the ASSERTED figure.  If it falls below
+    ``SUFFICIENCY_THRESHOLD`` the seed is flagged as ``acquisition_failed``.
+    A seed flagged here MUST NOT be labelled ``transfer_failure`` — the
+    distinction is structural.
+
+    The two figures answer different questions, and the difference between
+    them is the finding.  Raw coverage at 1.0 with asserted coverage at 0.0
+    means the world was fully present in memory and the organism failed to
+    assert it: an organism-side finding, not a stimulus artefact.  A harness
+    that measured only the raw figure could not tell those apart, and would
+    pass on exactly the seeds the acquisition study must reject.
 
 Gate 16  scratch-only guarantee
     Every harness run uses ``organica.paths.temp_db()`` for its database.  The
@@ -72,7 +81,7 @@ sys.path.insert(0, str(REPO))
 
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import LIVE_DB, temp_db  # noqa: E402
-from organica.sleep import SleepService  # noqa: E402
+from organica.sleep import PredictionCandidate, SleepService, _make_id  # noqa: E402
 from benchmarks.acquisition_compositional import (  # noqa: E402
     generate_compositional_world,
     PHASE_ACQUISITION,
@@ -462,29 +471,94 @@ def _world_compositional_edges(world: dict) -> set[tuple[str, str]]:
     return edges
 
 
+class _CapOverrideSleepService(SleepService):
+    """Diagnostic subclass that raises the Layer-1 prediction cap.
+
+    ``organica/sleep.py`` is frozen and is never edited.  The cap is changed by
+    subclassing — the same instrument the paired capacity diagnostic used
+    (``benchmarks/run_paired_capacity_test.py``).  It exists so that Gate 13
+    can be shown to FIRE on the frozen engine and shown to STOP firing when the
+    one bound responsible is relaxed.  A gate that cannot fail is decoration; a
+    failure nobody can attribute is not a diagnosis.
+
+    Only the truncation changes.  Candidate construction, the
+    ``PREDICTION_MIN_COUNT`` filter, the sort key and every other constant are
+    the engine's own.
+    """
+
+    def __init__(self, memory: MemoryService, max_predictions: int) -> None:
+        super().__init__(memory)
+        self.diagnostic_max_predictions = max_predictions
+
+    def _build_predictions(self, temporal, freqs):
+        candidates = []
+        for tag_from, targets in temporal.items():
+            source_freq = freqs.get(tag_from, 1)
+            for tag_to, count in targets.items():
+                if count >= self.PREDICTION_MIN_COUNT:
+                    ratio = count / max(source_freq, 1)
+                    candidates.append(PredictionCandidate(
+                        id=_make_id("pred", tag_from, tag_to),
+                        source=tag_from,
+                        target=tag_to,
+                        strength=min(1.0, ratio),
+                        evidence={
+                            "temporal_count": count,
+                            "source_frequency": source_freq,
+                            "target_frequency": freqs.get(tag_to, 0),
+                            "ratio": round(ratio, 3),
+                        },
+                    ))
+        candidates.sort(key=lambda p: p.evidence["temporal_count"], reverse=True)
+        return candidates[:self.diagnostic_max_predictions]
+
+
 def gate_acquisition_sufficiency(
     seed: int = DEFAULT_SEED,
     cycles: int = SHORT_CYCLES,
     threshold: float = SUFFICIENCY_THRESHOLD,
+    max_predictions: int | None = None,
 ) -> dict:
     """Gate 13: verify Organica acquired enough of the world's structure.
 
-    At the end of the acquisition phase the harness counts how many of the
-    world's training-stream edges appear in ``temporal_edges(min_count=1)``.
+    Amendment 1 of the pre-registration defines this gate with DUAL ACCOUNTING
+    and pins it to the ASSERTED basis:
 
-    If coverage < threshold, the seed is flagged as ``acquisition_failed``.
-    A seed in this state MUST NOT subsequently be labelled ``transfer_failure``.
+    * ``asserted_structure_coverage`` — the fraction of the world's
+      compositional edges represented in the organism's asserted structure
+      (``structure_edges`` over the surviving candidates);
+    * ``raw_temporal_coverage`` — the fraction present in the raw transition
+      logs (``mem.temporal_edges(min_count=1)``).
+
+    The threshold is evaluated against ``asserted_structure_coverage``.  The
+    raw figure is retained as a diagnostic, because the difference between the
+    two IS the finding: raw 1.0 with asserted 0.0 means the world was fully
+    present in memory and the organism failed to assert it.
+
+    ``max_predictions`` raises the Layer-1 prediction cap for DIAGNOSTIC use
+    only; ``None`` (the default) runs the frozen engine unchanged.  It is the
+    treatment arm of the paired capacity diagnostic, exposed here so that the
+    gate's failure can be attributed rather than merely observed.
+
+    If asserted coverage < threshold, the seed is flagged as
+    ``acquisition_failed``.  A seed in this state MUST NOT subsequently be
+    labelled ``transfer_failure``.
 
     Returns
     -------
     dict with keys:
-        passed              bool
-        world_edges         int     — edges derivable from the training stream
-        covered_edges       int     — of those, found in temporal_edges()
-        coverage            float   — covered / world_edges
-        threshold           float
-        acquisition_failed  bool    — True when coverage < threshold
-        failure_reason      str | None
+        passed                   bool
+        world_edges              int         — edges derivable from the training stream
+        covered_asserted_edges   int         — of those, found in the asserted structure
+        covered_temporal_edges   int         — of those, found in raw temporal memory
+        asserted_coverage        float       — covered_asserted_edges / world_edges
+        raw_temporal_coverage    float       — covered_temporal_edges / world_edges
+        coverage                 float       — alias of asserted_coverage
+        coverage_basis           str         — "asserted_structure"
+        threshold                float
+        max_predictions          int | None
+        acquisition_failed       bool        — True when asserted coverage < threshold
+        failure_reason           str | None
     """
     db_path = _make_scratch_db("gate13")
     mem = _CountingMemoryService(str(db_path))
@@ -499,7 +573,10 @@ def gate_acquisition_sufficiency(
 
     ACQ_SOURCE = "env_acq"
 
-    sleep_svc = SleepService(mem)
+    if max_predictions is None:
+        sleep_svc = SleepService(mem)
+    else:
+        sleep_svc = _CapOverrideSleepService(mem, max_predictions=max_predictions)
     for i, (text, train_flag) in enumerate(zip(events_text, trainable)):
         in_acq = acq_event_lo <= i < acq_event_hi
         if in_acq and not train_flag:
@@ -514,21 +591,31 @@ def gate_acquisition_sufficiency(
     # The world's ground-truth edges (training stream only, no withheld)
     world_edges = _world_compositional_edges(world)
 
-    # Edges the organism actually formed
-    organism_edges = set(
-        (ft, tt) for ft, tt, _cnt in mem.temporal_edges(min_count=1)
-    )
+    # --- the ASSERTED basis: the organism's own surviving structures ------
+    # `structure_edges` lives in the runner; the import is deferred inside the
+    # function because the runner imports this module at module level.
+    from benchmarks.acquisition_runner import structure_edges  # noqa: PLC0415
 
-    covered = world_edges & organism_edges
-    coverage = len(covered) / len(world_edges) if world_edges else 0.0
-    acquisition_failed = coverage < threshold
+    asserted = structure_edges(sleep_svc._load_prior_candidates())
+    asserted_pairs = {(a, b) for a, targets in asserted.items() for b in targets}
+    covered_asserted = world_edges & asserted_pairs
+
+    # --- the RAW basis: the transition log itself --------------------------
+    temporal_pairs = {(a, b) for a, b, _c in mem.temporal_edges(min_count=1)}
+    covered_temporal = world_edges & temporal_pairs
+
+    n_world = len(world_edges)
+    asserted_coverage = len(covered_asserted) / n_world if n_world else 0.0
+    raw_coverage = len(covered_temporal) / n_world if n_world else 0.0
+    acquisition_failed = asserted_coverage < threshold
 
     passed = not acquisition_failed
     failure_reason: str | None = None
     if not passed:
         failure_reason = (
-            f"coverage {coverage:.3f} < threshold {threshold:.3f} — "
-            f"seed {seed} is acquisition_failed, NOT transfer_failure"
+            f"asserted structure coverage {asserted_coverage:.3f} < threshold "
+            f"{threshold:.3f} — seed {seed} is acquisition_failed, NOT "
+            f"transfer_failure (raw temporal coverage {raw_coverage:.3f})"
         )
 
     _WriteSentinel.assert_not_live(db_path)
@@ -540,10 +627,15 @@ def gate_acquisition_sufficiency(
 
     return {
         "passed": passed,
-        "world_edges": len(world_edges),
-        "covered_edges": len(covered),
-        "coverage": round(coverage, 6),
+        "world_edges": n_world,
+        "covered_asserted_edges": len(covered_asserted),
+        "covered_temporal_edges": len(covered_temporal),
+        "asserted_coverage": round(asserted_coverage, 6),
+        "raw_temporal_coverage": round(raw_coverage, 6),
+        "coverage": round(asserted_coverage, 6),
+        "coverage_basis": "asserted_structure",
         "threshold": threshold,
+        "max_predictions": max_predictions,
         "acquisition_failed": acquisition_failed,
         "failure_reason": failure_reason,
     }

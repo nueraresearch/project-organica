@@ -93,7 +93,7 @@ failed cycles       : 0
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
 | Mechanism closure (M0.5) | **complete** — see [§8.4](#84-the-counter-that-was-measuring-the-wrong-population). The gate is validated, the launch gates are closed, and the substrate defect that caused the collapse is fixed. |
 | **Audit trace (Phase M)** | **A1, A2, A3, A4 and A7 CLOSED; A5 and A6 are the only remaining work, and the instrumentation is frozen after they close.** Spec [`docs/AUDIT-TRACE-SPEC.md`](AUDIT-TRACE-SPEC.md); journal §41–§48. |
-| **Acquisition experiment** | **PRE-REGISTERED (Revision 2), NOT RUN.** The centre of the project: *can a controlled experience leave behind a structure that helps on later events, after the raw episodes are unavailable?* [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md). **10 runs per seed × 30 seeds.** |
+| **Acquisition experiment** | **PRE-REGISTERED (Revision 3). THE CAMPAIGN STOPPED AT THE ACQUISITION GATE (2026-10-28).** The endpoint was audited — seven defects, all confirmed against the code — the benchmark was rebuilt as a **compositional task** whose gate passes, and the frozen engine then **failed the preregistered Gate 13 on every inspected seed**: asserted structure coverage **0.0 %–2.7 %** (0–3 of 112 edges) against **112 / 112 (100 %)** raw temporal coverage. **Transfer was not measured, and it is not a transfer failure**; the 600-cell factorial did not run. Cause: `MAX_PREDICTIONS = 20` crowding — raising only the cap to 1,000 restores **98.2 %–100 %**. The centre of the project is unchanged: *can a controlled experience leave behind a structure that helps on later events, after the raw episodes are unavailable?* See [§8.19](#819-the-endpoint-audit-and-the-campaign-that-stopped-at-its-own-gate-2026-10-28) and finding 25. The centre of the project: *can a controlled experience leave behind a structure that helps on later events, after the raw episodes are unavailable?* [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md). **10 runs per seed × 30 seeds.** |
 | **Owner's standing decisions (2026-10-26)** | V2 **not cut**; live study **not restarted**; **V2–V5 not run**; no further open-ended audit work. Sequence: finish the audit build → freeze it → run the acquisition experiment → compare against the replay learner → publish whatever happens → only then discuss V2. |
 | **Five claims narrowed (2026-10-26)** | The project's own summary was reviewed and five headlines were wider than the checks behind them: *"revision exists"* → **structural displacement**; the **3:1** transition → robust **within this engine, world family and support-ratio axis**; *"path-dependent"* → **schedule dependence**, strict order dependence untested; *transfer* → **no positive transfer demonstrated, measured cross-domain result negative**; *"independently auditable"* → **independently reconstructed, not replicated by another lab**. No measurement, verdict or criterion changed. See [§8.18](#818-the-five-claims-narrowed-2026-10-26) and finding 24. |
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
@@ -586,6 +586,8 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 22 | **The organism's memory and the laboratory's record are different objects, and the acquisition experiment must score them separately.** Q1 — *did the organism retain the knowledge?* — is answered by the organism's own state. Q2 — *can the laboratory prove how it developed?* — is answered by the per-cycle snapshots the laboratory kept. Conflating them is how an audit system slides into claiming historical reconstruction it never earned. **And two diagnostic probes changed what the design has to ask.** First, the lineage is **re-derived, not carried**: a structure's parent set is identical in ~94.5% of structure-cycles, but **87.2% of all 8,416 lineage links point at structures re-derived in that same cycle** — so the identical sets are deterministic re-derivation, not copied edges. Second, the engine's survival rule is **asymmetric across layers**: `_natural_selection` decays and prunes **Layer 1 only** (`sleep.py:1752-1802`, `_candidate_key` returns `""` for everything else), so **Layer 1 survives only if current experience keeps producing its content key, while Layers 2–4 are never decayed and persist as rows with re-derived edges.** The pre-registration therefore tests six cells (parent removed or not × source experiences removed or not × removal applied to the **observer** or to the **organism**), and the sharpest prediction is computed from the source rather than fitted: a Layer-1 structure whose key stops being produced is pruned after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 cycles from 0.3, 6 from 0.5. |
 | 23 | **The acquisition study was reviewed, and five defects in its plan were found — including one that would have made the headline meaningless.** The endpoint had been **DI**, which measures *structural displacement* (`late_structure_retained / late_structure_available`), **not** whether a belief predicts the world; it is now a **ground-truth prediction score** on a fixed label set, with the exact predictions named. **"Source experiences removed" did not say what derived memory survives** — ingest also accumulates `cooccurrences` and `tag_counts` (`memory.py:282`, `306`), which outlive the event rows — so the condition is now named **"episode removal with learned graph retained"**, and **the same rows are removed from every learner's store**, which is what makes the comparison about *reconstruction versus replay* rather than about *different access to evidence*. The cell matrix was not specified (a "2 × 2 × 3" heading, a baseline added on top of six cells, and a prediction table with five rows): it is now **one complete table with the exact number of runs — 10 per seed, 30 seeds — and a prediction for every cell**. And **"same memory budget" needed an operational definition**: identical raw rows and identical removal for every learner, with derived state deliberately *not* equalised, because derived state **is the mechanism under test**. The review also found the audit build's remaining work is smaller than the roadmap implied: **only A5 and A6 are pending**, so they are closed and then the instrumentation is **tagged, frozen, and stopped** — no feature may be added to it. And the review caught **presentation drift**: the README still claimed parent links ran *down to raw experience events*, which the engine has never done — the `parent_ids` chain terminates at Layer 1 — and the manual's status table was dated October 23 while the file recorded October 26 work. |
 | 24 | **Five claims in the project's own summary were wider than the checks behind them, and they are now narrowed.** (a) *"Revision exists"* was a misnomer: Phase L measured **structural displacement** (a structure-retention index), not belief correction against ground truth — and on Phase K's belief-revision task Organica scored **0.4111** against the best simple baseline's **0.9846** (difference **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED**), so belief revision remains a **separate capability question**. (b) The **3:1** crossing is robust **within this defined experiment** — this engine, this world family, this support-ratio axis; the eight alternative bootstrap seeds test **resampling stability, not new worlds**, so 3:1 is **not a general threshold for Organica**. (c) **Path dependence** is supported; **strict order dependence is not tested** — the curriculum comparisons vary the event multiset and order together, and isolating order needs the multiset held fixed, which has not been run. (d) On transfer, **no positive transfer has been demonstrated and the measured cross-domain result was negative** (**−0.486** across 12 domain pairs, mean shared vocabulary **0.17 tags**); other forms of transfer remain untested. (e) **"Independently auditable" means independently *reconstructed from the engine's state*, not independently *replicated by another lab*** — and the trace concerns the organism's **surviving, current** structures, not their full past. | **A claim must be no wider than the check behind it, and the summary is where the widening happens.** Each of the five was true of some *narrower* thing the project had actually measured, and each had been stated in a broader form — in the README's own "what is established" section, in the Phase L synthesis, in the V1 synthesis, and in the manual. The error was not in the measurements; it was in the *headline*, which is the one thing a reader takes away. The same discipline that caught the **DI endpoint defect** in the acquisition plan — *a metric imported from another study can measure a completely different quantity* — applies to a summary sentence the same way. **Apply when:** any sentence summarising what the project has established. Ask what the check actually measured, name the population and the axis it was measured on, and cut the claim to fit. See [§8.18](#818-the-five-claims-narrowed-2026-10-26). |
+| 25 | **The acquisition endpoint was measuring the wrong thing; the benchmark was rebuilt; and the campaign then stopped at its own gate.** Seven defects were confirmed against the code (the task and the readout described different relations; F1@0.5 was degenerate — the Bayes-optimal model scored **0.0000**, exactly like the trivial model; the projection was directional where the gold relation was not; the "ceiling" was a relation oracle, not a prediction ceiling; retention and transfer were one number with two names; the engine's taxonomy has no category for a tight group; the regime switch is relation-invariant). The benchmark was rebuilt as a **compositional task** and its gate passes: gap **+0.1035 nats**, 99 % interval **[+0.0996, +0.1074]**, with the held cell's gap **4.6×** the rest. Then the frozen engine **failed the preregistered Gate 13 on every inspected seed** — asserted structure coverage **0.0 %–2.7 %** (0–3 of 112 edges) against **112 / 112 (100 %)** raw — and the campaign stopped there. Organica's readout scored **0.453018** against Replay **0.347521** and Statistical **0.347273**. **Transfer was not measured, and it is not a transfer failure.** | **A benchmark must be able to fail, and so must the question it asks — and a benchmark's headroom is not a learner's margin.** The **+0.1035** is the room between the Bayes ceiling and the best simple model; it is **not** what any learner achieved, and reading it as a capability result inverts the finding. The engine's failure has **one named cause** (`MAX_PREDICTIONS = 20` crowding): raising only that cap restores **98.2 %–100 %** coverage, so the failure is attributable rather than mysterious. **Apply when:** reporting anything from this task — say which of the three questions was answered (*is the benchmark discriminative / does the engine hold the structure / does the organism beat the baselines*) and never merge them. See §8.19 and journal §51. |
+
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -2033,14 +2035,117 @@ leads with:
 > abruptly displace earlier ones. The project has built a strong instrument for
 > auditing surviving state and implemented decisions. It has not yet shown that
 > these structures yield useful knowledge or positive transfer; the acquisition
-> experiment could address that, and its metric and memory-removal conditions
-> are now pinned — it is pre-registered and not yet run.*
+> benchmark's first run did not change that — on a compositional task with a
+> genuine generalisation gap, the frozen engine asserted almost none of the
+> world's relations and lost to simple transition counting. The benchmark is
+> sound, the obstacle is one named and measured bound, and the organism is not
+> yet able to use it.*
 
 **What this does not change.** The protocol verdict `H3-L — INCONCLUSIVE`
 stands. The Phase L characterisation stands. The six negative task families
 stand. No number changed, no artifact was re-read, and no criterion was
 reinterpreted — this was a correction to *language*, made against the
 existing record, and recorded rather than quietly applied.
+
+### 8.19 The endpoint audit, and the campaign that stopped at its own gate (2026-10-28)
+
+**The short version.** The acquisition experiment's **endpoint** was audited
+and found to be measuring the wrong thing. Seven defects were confirmed
+against the code. The benchmark was rebuilt around a **compositional task**
+whose gate passes. A separate, parallel run then measured the **frozen engine**
+on that task and found it **fails the preregistered acquisition gate on every
+inspected seed**. The campaign stopped there. **Transfer was not measured, and
+it is not a transfer failure.**
+
+**Three different questions, three different answers.** These are easy to
+conflate and they were run by different pieces of work:
+
+| Question | Answer | Where |
+|---|---|---|
+| Is the benchmark discriminative — is there room for something better than transition counting? | **YES.** Gap **+0.1035 nats**, 99 % interval **[+0.0996, +0.1074]**, lower bound clears the 0.05-nat bar across 30 independent worlds | `docs/acquisition_compositional_gate.json` |
+| Does the frozen engine's own state contain the world's relations? | **NO.** Asserted coverage **0.0 % – 2.7 %** (0–3 of 112 edges) while raw temporal memory holds **112 / 112 (100 %)** | `docs/GATE13-PREFLIGHT-AUDIT.md` |
+| Did Organica beat the baselines on the task? | **NO.** Organica **0.453018** against Replay **0.347521**, Statistical **0.347273**, base rate **0.409581** | `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` |
+
+> **The +0.1035 is the benchmark's headroom, not an Organica margin.** The
+> compositional probe runs **no engine** and scores no learner. It answers
+> *"is there room for something better than counting?"* — yes. It does not
+> answer whether Organica occupies that room. Reading one as the other turns a
+> task-validity result into a capability result.
+
+**The cause of the failure, measured rather than inferred.** `_build_predictions`
+sorts prediction candidates by raw temporal count and truncates at
+`MAX_PREDICTIONS = 20`. On the compositional stimulus the two tags of a cell
+co-occur in *every* event of that cell, so within-cell pairs accumulate far
+higher counts than the cross-cell transitions that carry the law — the top 20
+slots fill with within-cell pairs and the cross-cell edges are discarded.
+Raising **only** the cap to 1,000, same engine, same stream, same five seeds:
+
+| Seed | Cap 20 | Cap 1,000 |
+|---|---|---|
+| `20261101` | 0 / 112 (FAIL) | 110 / 112 = **98.2 %** (PASS) |
+| `20261102` | 1 / 112 (FAIL) | 112 / 112 = **100 %** (PASS) |
+| `20261103` | 1 / 112 (FAIL) | 112 / 112 = **100 %** (PASS) |
+| `20261104` | 0 / 112 (FAIL) | 112 / 112 = **100 %** (PASS) |
+| `20261105` | 3 / 112 (FAIL) | 112 / 112 = **100 %** (PASS) |
+
+So it is a **capacity limit**, not a missing signal, not a readout defect, and
+not a property of the world. Organica's readout then lost because the asserted
+structure is mostly within-cell co-occurrence — so it answers *which cell the
+context is in* when the task asks *which cell comes next*.
+
+**An instrument defect found while reconciling the two results.** Two functions
+implemented "Gate 13" under one name. The runner used the **asserted** basis,
+as Amendment 1 of the pre-registration requires, and failed correctly. The
+harness used the **raw temporal** basis, returned **100 %**, and passed — on
+the same seed, on the same world — and its test asserted `passed is True`. A
+gate that cannot fire on the condition the study exists to detect is
+decoration. **Fixed:** the harness now computes both figures, gates on the
+asserted one, records `coverage_basis = "asserted_structure"`, and exposes the
+cap-raised treatment so the failure can be *attributed*. The test now asserts
+that Gate 13 **fails** on the frozen engine, that the treatment arm **passes**,
+and that the aggregate prerequisite check reports the failure at the
+preregistered threshold.
+
+**Seed bookkeeping.** Amendment 2 defined the confirmatory sample as thirty
+seeds, `20261101`–`20261130`. Amendment 3 designated `20261101`–`20261105` as
+diagnostic. **Five of the thirty confirmatory seeds are now diagnostic**;
+a usable confirmatory sample is **25** (`20261106`–`20261130`). The frozen
+amendment text is not rewritten — the consequence is recorded in
+`docs/ACQUISITION-ENDPOINT-AUDIT.md` §8.6. Any future campaign must
+re-specify its seed set rather than inherit a partly-spent one.
+
+**Where the study stands.** Pre-registration **Revision 3**, with
+**Amendment 3** recording the stop. The 600-cell factorial did not run.
+Seeds `20261100`–`20261105` are permanently diagnostic. **No verdict on
+transfer or revision exists.** The compositional task remains a valid,
+pre-registered instrument — it is the thing a future V2 would be measured on,
+not a result about V1.
+
+**Commands.**
+
+```bash
+# the task gate — no engine run
+python benchmarks/acquisition_compositional_probe.py
+
+# the acquisition gate on the frozen engine
+python benchmarks/acquisition_harness.py --gate 13
+
+# the whole harness gate set
+python benchmarks/acquisition_harness.py --gate all
+
+# proof-of-firing tests (the Gate 13 arm is slow: two 120-cycle runs)
+python -m pytest tests/test_acquisition_harness.py -q -k Gate13
+```
+
+**Do not say** that Organica generalised, transferred, or revised on this
+task. It did not get that far. **Do say** that the benchmark is valid, the
+frozen engine cannot currently reach the state the benchmark asks about, and
+the reason is one named bound.
+
+**See also:** `docs/ACQUISITION-ENDPOINT-AUDIT.md` (the audit record),
+`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (Revision 3 + Amendment 3),
+`docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.6–§9.7,
+`docs/V2-CAPACITY-DESIGN-BRIEF.md`, journal §51, and finding 25.
 
 ---
 
@@ -2646,3 +2751,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-26 | **The acquisition experiment was pre-registered — and two diagnostic probes changed what it asks.** The blank-slate question is now **can experience create a structure that remains useful after the originating experience is gone?** — and **does the organism carry structure forward, reconstruct it from evidence, or do both under different conditions?** The design is six cells (parent removed or not × source experiences removed or not × removal applied to the **observer** or to the **organism**, because removing a parent from the auditor's reconstruction tests the trace and removing it from the organism's state tests the maintenance mechanism). **Two diagnostics, quarantined as design inputs rather than predictions:** a surviving structure's parent set is identical in **94.5%** of structure-cycles, but **87.2% of all 8,416 lineage links point at structures re-derived in that same cycle** — so the lineage is **re-derived, not carried**, and this corrects an earlier reading of mine. And the engine's survival rule is **asymmetric across layers**: `_natural_selection` decays and prunes **Layer 1 only**, so Layer 1 survives only if current experience keeps producing its content key, while Layers 2–4 are never decayed and persist as rows with **re-derived edges** — meaning "persistent reconstruction" is accurate for Layer 1 and misleading for the rest. **The sharpest prediction is computed from the source, not fitted:** a Layer-1 structure whose key stops being produced is pruned after `⌈log(0.15/c)/log(0.8)⌉` cycles — 4 from 0.3, 6 from 0.5. **Q1 (internal persistence) and Q2 (external provenance) are scored separately**, and the decisive control is a **replay learner** that stores episodes verbatim and regenerates nothing: if continuity is reconstruction rather than recall, perfect recall is the harder baseline, and beating it is the result. Added `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`; §8.16 and finding 22; facts sheet §AA20–§AA22; journal §48; AGENTS.md rule 22. |
 | 2026-10-26 | **The acquisition pre-registration was reviewed and rewritten as Revision 2, after five defects were found in its plan.** The endpoint was **DI** — a *structural displacement* ratio, not a prediction score — and it is now a **ground-truth prediction score** on a fixed vocabulary, with F1 at 0.5 primary and balanced accuracy and Brier co-reported. *"Source experiences removed"* did not say what derived memory survived, so the condition is now named **"episode removal with learned graph retained"** and the **same rows are removed from every learner's store** — which is what makes the comparison about reconstruction versus replay rather than about unequal access to evidence. The cell matrix was not specified; it is now **one complete table, 10 runs per seed, 30 seeds, 180 engine runs, a prediction for every cell**, with `P-none × E-pres` as the untreated baseline. The plan was not executable; the generator, target relation, phase boundaries, seeds, sample size, decision rule and both baselines' algorithms and tuning grids are now pinned. And the audit build had **no stop condition**; it is now explicit: **close A5 and A6 only, then tag, freeze and stop** — no feature may be added afterwards, though the instrumentation may be *fixed* if found wrong. The owner's standing decisions are recorded: **V2 not cut, live study not restarted, V2–V5 not run, no further open-ended audit work.** Added `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (Revision 2); §8.17 and finding 23; facts sheet §AA23–§AA26; journal §49; AGENTS.md rule 23. |
 | 2026-10-26 | **Five claims in the project's own summary were wider than the checks behind them, and all five were narrowed.** (a) *"Revision exists"* → **structural displacement**: Phase L's `DI`/`PI` are structure-retention indices, and belief revision — measured separately in Phase K — was a clean loss (**0.4111** vs **0.9846**, difference **−0.5735**, 98.33% interval **[−0.6162, −0.5309]**, **REVERSED**). (b) The **3:1** crossing is robust **within this engine, world family and support-ratio axis**; the eight alternative bootstrap seeds test **resampling stability, not new worlds**, so 3:1 is **not a general threshold for Organica**. (c) **Path dependence** is supported, **strict order dependence is not tested** — the curriculum comparisons vary the event multiset and order together, and isolating order needs the multiset held fixed. (d) On transfer, **no positive transfer has been demonstrated and the measured cross-domain result was negative** (**−0.4863** across 12 domain pairs, mean shared vocabulary **0.17 tags**); other forms remain untested. (e) **"Independently auditable" means independently *reconstructed from the engine's state*, not independently *replicated by another lab*** — and the trace covers surviving, current structures rather than their full past. **No measurement, verdict or criterion changed**; the protocol verdict `H3-L — INCONCLUSIVE` and the six negative task families stand. This was a correction to *language*, made against the existing record before the acquisition experiment ran, and recorded rather than quietly applied. Added §8.18 and finding 24, six common misreadings, and the §2 status row; README banner and findings; `docs/PHASE-L-SYNTHESIS.md` §2.2, §2.3a, §3.3, §8; `docs/V1-SYNTHESIS.md` §2.2, §3, §5, §9; `docs/AUDIT-TRACE-SPEC.md` §10, §11; `docs/EMERGENCE-CRITERIA.md` §4; facts sheet §AB1–§AB7; journal §50; AGENTS.md rule 24; CHANGELOG. |
+| 2026-10-28 | **The acquisition endpoint was audited, the benchmark was rebuilt, and the campaign stopped at its own gate.** Seven defects in the endpoint were confirmed against the code: the task and the readout described different relations; F1@0.5 was degenerate (the Bayes-optimal model scored **0.0000**, exactly like the trivial model); the projection was directional where the gold relation was not; the "fixed-rule ceiling" was a relation oracle, not a prediction ceiling; retention and transfer were one number with two names; the engine's taxonomy has no category for a tight group (a co-occurrence-defined group has clustering 1.000, and `_classify` requires <= 0.4 for a concept); and the generator's regime switch is relation-invariant. The world was then measured against its **strongest** baseline rather than its base rate, which showed the redesigned law is **first-order Markov** (a bigram sits **0.027462** nats from the ceiling; the headroom over the strongest baseline is **0.005647** nats, against **0.105032** over the base rate) — so that world was reclassified **CALIBRATION / CONTROL**. A **compositional task** was built to measure what it could not: withheld *combination* of familiar elements, tag-to-cell mapping randomised per world. Its gate passes on 30 independent worlds — gap **+0.1035** nats, 99 % interval **[+0.0996, +0.1074]**, lower bound clearing the 0.05-nat bar, with the held cell's gap **4.6x** the rest so the headroom is *generalisation* headroom. A separate parallel run then measured the **frozen engine** on that task and **failed Gate 13 on every inspected seed**: asserted structure coverage **0.0 %-2.7 %** (0-3 of 112 edges) against **112 / 112 (100 %)** raw temporal coverage. The cause is **one named bound** — `MAX_PREDICTIONS = 20` sorted by raw temporal count, which the within-cell pairs monopolise because a cell's two tags co-occur in every one of its events; raising **only** the cap to 1,000 restores **98.2 %-100 %** coverage and clears the gate on all five paired seeds. Organica's readout scored **0.453018** against Replay **0.347521**, Statistical **0.347273** and base rate **0.409581**. **Transfer was not measured, and it is not a transfer failure**; the 600-cell factorial did not run. **An instrument defect was found while reconciling the two results:** the harness and the runner each implemented "Gate 13", the harness on the *raw temporal* basis (it returned **100 %** and passed) and the runner on the *asserted* basis (it returned **0.0 %** and failed) — on the same seed, on the same world — so the harness held a gate that **could not fire**. It now implements Amendment 1's dual accounting, gates on the asserted figure, exposes the cap-raised treatment so the failure is attributable, and its test asserts that Gate 13 **fails**. The lessons are: **run the perfect model *and the strongest simple model*, and require the lower uncertainty bound across independent worlds** (a base rate is the weakest possible comparator); **the metric choice and the readout choice are not separable** (an ad-hoc readout scores 1.655377 on structures a tuned backoff readout scores 0.362233); **a grading-only control is not a control set** (the grouping oracle reaches 0.8679 of the span); and **a benchmark's headroom is not a learner's margin** — the +0.1035 is the room between the ceiling and the best simple model, not what any learner achieved. Added §8.19 and finding 25 and the §2 status row; `docs/ACQUISITION-ENDPOINT-AUDIT.md` (new); `docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.6-§9.7; `docs/V2-CAPACITY-DESIGN-BRIEF.md`; facts sheet §AC; journal §51; AGENTS.md rule 25; CHANGELOG. |

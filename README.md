@@ -1,13 +1,21 @@
 # Project Organica
 
-> ### What this project is doing now — 2026-10-26
+> ### What this project is doing now — 2026-10-28
 >
 > **The live study is PAUSED** at 5,396 sleep cycles and stays paused. **V2 is not
-> cut**, and **V2–V5 are not run**. The next decisive work is a single study:
-> **the acquisition experiment** —
-> [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)
-> (Revision 2) — asking **can a controlled experience leave behind a structure that helps on
-> later events, after the raw episodes that produced it are unavailable?**
+> cut**, and **V2–V5 are not run**.
+>
+> **The acquisition campaign STOPPED AT ITS OWN GATE (2026-10-28).** Its endpoint was
+> audited — seven defects, all confirmed against the code — and the benchmark was rebuilt
+> around a **compositional task** whose gate passes (+0.1035 nats over the strongest simple
+> baseline, 99 % interval [+0.0996, +0.1074], 30 independent worlds). The frozen engine
+> then **failed the preregistered acquisition gate on every inspected seed**: it asserted
+> **0–3 of 112** world edges while its raw memory held **112 / 112**. The cause is one
+> named bound — `MAX_PREDICTIONS = 20` — and raising only that cap restores 98.2–100 %.
+> **Transfer was not measured, and it is not a transfer failure.** Pre-registration
+> (Revision 3, Amendment 3):
+> [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md);
+> audit record: [`docs/ACQUISITION-ENDPOINT-AUDIT.md`](docs/ACQUISITION-ENDPOINT-AUDIT.md).
 >
 > **The audit build is finished, then frozen.** A1, A2, A3, A4 and A7 are closed; only **A5 and
 > A6** remain, and they are the last work on the instrumentation. After they close, the
@@ -25,8 +33,10 @@
 > Under one tested pressure axis, later structures can abruptly displace earlier ones. The
 > project has built a strong instrument for auditing surviving state and implemented decisions.
 > It has not yet shown that these structures yield useful knowledge or positive transfer; the
-> acquisition experiment could address that, and its metric and memory-removal conditions are
-> now pinned — it is pre-registered and not yet run.*
+> acquisition benchmark's first run did not change that — on a compositional task with a
+> genuine generalisation gap, the frozen engine asserted almost none of the world's relations
+> and lost to simple transition counting. The benchmark is sound, the obstacle is one named
+> and measured bound, and the organism is not yet able to use it.*
 
 > **A Developmental Machine Intelligence.**
 > Growing intelligence from memory, structure, sleep, curiosity, and experimentation rather than pre-trained weights.
@@ -413,7 +423,7 @@ The pre-committed terminal outcome fired: **no confirmed family means no V2.**
 
 **Package version 0.10.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.10.0 is cut on `master` and not yet tagged, and **0.9.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
-Phases A–E (architecture, reproduction pack, growth benchmarks, five research papers, community infrastructure) are complete. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
+Phases A–E covered the architecture, reproduction pack, growth benchmarks, research-paper drafts, and community infrastructure. The `papers/` directory contains seven manuscript files: four from the original agenda, one philosophical framing, and two later concepts; none has been published. See [`papers/README.md`](papers/README.md) for their current evidence and publication status. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.9.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -612,8 +622,10 @@ being judged.
 A forced-tie arm confirms the observer reproduces the engine's choice even when
 the lookback window is genuinely ambiguous.
 
-**The acquisition experiment is pre-registered**
-([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md)).
+**The acquisition experiment is pre-registered, and its campaign stopped at the gate**
+([`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md),
+Revision 3 with Amendment 3; audit record in
+[`docs/ACQUISITION-ENDPOINT-AUDIT.md`](docs/ACQUISITION-ENDPOINT-AUDIT.md)).
 It asks whether experience can create a structure that remains useful after
 the originating experience is gone — and whether the organism carries
 structure forward or reconstructs it from evidence. Two diagnostics, run
@@ -625,6 +637,20 @@ key, while the layers above persist as rows with re-derived edges. The
 decisive control is a **replay learner** — perfect recall with no
 re-derivation — because if continuity is reconstruction rather than recall,
 perfect recall is the harder baseline.
+
+**And the endpoint turned out to be measuring the wrong thing.** A review found
+seven defects, all confirmed against the code, and the benchmark was rebuilt
+around a **compositional task** that withholds a *combination* of familiar
+elements. Its gate passes: the Bayes ceiling beats the **strongest** simple
+baseline by **+0.1035 nats** (99 % interval [+0.0996, +0.1074]) across 30
+independent worlds, and the gap on the withheld combination is **4.6×** the
+gap elsewhere — so the benchmark has genuine generalisation headroom. The
+**first run of the frozen engine against it failed the preregistered
+acquisition gate on every inspected seed**: the organism asserted **0–3 of 112**
+world edges while its raw memory held **112 / 112**. The cause is one named
+bound (`MAX_PREDICTIONS = 20`), and raising only that cap restores 98.2–100 %.
+Organica's readout scored **0.453018** against a replay learner's **0.347521**.
+**Transfer was not measured, and it is not a transfer failure.**
 
 **And the lineage measurement turned out to say something uncomfortable.**
 An ancestry auditor walks each cycle's structures' parent chains against the
@@ -724,3 +750,6 @@ Read [`AGENTS.md`](AGENTS.md) first — it states the rules that keep the archit
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
+
+
+
