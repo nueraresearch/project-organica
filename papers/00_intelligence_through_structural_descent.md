@@ -1,7 +1,7 @@
 # Intelligence Through Structural Descent
 ## A Philosophical Foundation for Project Organica
 
-**Draft status:** Philosophical framing; not submitted or published. Audit claims before circulation.
+**Draft status:** Philosophical framing; not submitted or published. Audit claims before circulation. Factually corrected 2026-10-29: the generation count (the hierarchy spans **eight generational primitives above a G0 experience substrate**, not "eight generations" over nine rows) and **Law II**, which the frozen engine does not satisfy (the `parent_ids` chain **terminates at Layer 1**; disclosed as D3). The remaining broad claims are **not yet audited**, and this document is **not ready to circulate**.
 **Jeremy** — Nuera Research  
 October 2026
 
@@ -47,7 +47,7 @@ $$\forall s \in \mathcal{G}_{n+1},\; \exists\, \{p_1, \ldots, p_k\} \subseteq \m
 
 This is not merely a bookkeeping rule. It is a **constitutional constraint** that forces every belief to earn its existence by ascending from verified experience.
 
-In Project Organica, this hierarchy spans eight generations:
+In Project Organica, this hierarchy spans **eight generational primitives above a G0 experience substrate**:
 
 | Generation | Structure | Synthesized From |
 | --- | --- | --- |
@@ -71,7 +71,7 @@ The entire architecture is governed by six inviolable laws, not a hyperparameter
 
 **I. Upward Induction.** Higher structures are synthesized from lower structures, never injected from above.
 
-**II. Provenance.** Every structure carries explicit, verified `parent_ids` traceable to G0 events.
+**II. Provenance.** Every structure carries explicit, verified `parent_ids` traceable to the generation below it. *In the frozen engine this chain terminates at Layer 1 — concepts, phrases, loops and predictions are built from tags, and the structure-to-event link exists only as counts. The discrepancy is disclosed as **D3** in the audit-trace specification, and it is the owner's decision whether the law or the engine changes.*
 
 **III. Cognitive Isolation.** Internal consolidation (sleep) must never modify the empirical graph on which consolidation itself depends.
 

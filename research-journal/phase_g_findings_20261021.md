@@ -5562,3 +5562,94 @@ untouched.
 → `papers/02_persistent_structural_provenance.md`; `papers/README.md`;
 `docs/ORGANICA-V2-DESIGN-BRIEF.md` §4.3, §7, §10, §11; `ROADMAP.md`;
 `docs/V1-SYNTHESIS.md`; manual findings 29 and 30; facts sheet AD1–AD2
+---
+
+## §57 — The first audit of the two theoretical manuscripts, and what it found
+
+**What this section records.** The owner's publication framing put Paper 00 and Paper 05
+outside the active submission queue pending review. This section records the first pass
+of that review — what was checked, what failed, and what was corrected — and it records
+that the review is **not finished**.
+
+### Paper 00: two verified factual defects
+
+**The generation count.** Paper 00 said *"In Project Organica, this hierarchy spans eight
+generations"* and then presented a table with **nine** rows, G0 through G8. The project's own
+architecture specification names the structure correctly: **"The 8 Generational Primitives"**,
+with **G0: Experience** as the substrate and G1–G8 as the eight primitives. The position
+paper's count was wrong against itself and against the code.
+
+Paper 01's first draft made the same error — it wrote "eight generations" over a nine-item
+list — and was corrected in the same pass. That is the second time this turn that a
+consistency check between two documents caught an error in a document written minutes
+earlier.
+
+**Law II.** Paper 00 states Law II as one of six inviolable laws:
+
+> **II. Provenance.** Every structure carries explicit, verified `parent_ids` traceable to
+> G0 events.
+
+The frozen engine does **not** satisfy that. The `parent_ids` chain **terminates at Layer
+1** — concepts, phrases, loops and predictions are built from tags — and the structure to
+event link exists only as **counts**. This is the project's own **D3**, disclosed in the
+audit-trace specification and left open because the frozen engine's constitution is the
+owner's decision, not a documentation fix. Paper 00 asserted the law with no disclosure
+at all, which is the same sentence that had to be removed from the README in the earlier
+drift review.
+
+**Both were corrected in place**, with the D3 disclosure carried inline rather than
+omitted. Paper 00's **remaining** broad claims and its literature framing are **not
+audited**, and the manuscript is **not ready to circulate**.
+
+### The abstract's claim, against the record
+
+Paper 00's abstract offers a narrower, falsifiable claim: that the architecture *"can
+spontaneously generate concepts, causal predictions, recurring processes, falsifiable
+hypotheses, epistemic curiosity, counterfactual imagination, and prioritized empirical
+inquiry."* The **forms** of the last three exist — G5–G8. The **efficacy** does not:
+
+- Phase K's matched mechanism ablations came back empty. `NO_QUESTIONS` −0.0095
+  [−0.0328, +0.0140]; `NO_FALSIFICATION` +0.0241 [−0.0048, +0.0495]; `NO_DREAMS` +0.0000
+  [0.0000, +0.0000]. **All three intervals contain zero.**
+- **Law IV is never exercised.** Experiments are generated, every consumer only prints
+  them, and **no Question can ever close**. The study measures epistemic *tension*, not
+  *resolution*.
+
+So the generation of curiosity, dreams and inquiry is **not demonstrated** — which is a
+different statement from "not attempted", and the paper's framing needs it.
+
+### Paper 05: the core guarantee is contradicted by the measurement
+
+Paper 05's abstract claims its strict firewall *"ensures zero synthetic self-contamination
+across indefinite life cycles"* and offers *"mathematical bounds and architectural guarantees
+proving that systems respecting CIP maintain stable representations over infinite sleep
+iterations."*
+
+The measurement says otherwise. **17.9%** of the distinct supporting transitions behind
+reported beliefs (802 of 4,481) are **self-sourced**, and **43.2%** of all distinct
+transitions the observer recorded (5,436 of 12,583) are the organism's own output, entering
+the temporal substrate through the **unfiltered lookback window** (D2, quantified in
+`docs/GATE13-RELATION-SEPARATION.md`).
+
+This is why Paper 05 is not merely out of date. Its thesis is the negative of what was
+measured, and the repair is not an update — it is a **new thesis**: *the limits of
+cognitive isolation in Organica V1*.
+
+### The lesson
+
+**A position paper is audited against the code, not against the prose.** The two documents
+most likely to be circulated are the two least checked against the engine, because neither
+is a measurement record and so neither is covered by the harness. And the first finding of
+such an audit is usually a **count or a law the record already contradicts** — because
+those are the claims a reader cannot check for themselves.
+
+### What does not change
+
+No measurement is altered. The six negative task families, the Phase L verdict
+`H3-L — INCONCLUSIVE`, the acquisition gate failure and the transfer result of *not
+measurable* all stand. The frozen engine is untouched. Paper 00 and Paper 05 are **not**
+ready to circulate, and Paper 00's remaining claims are **not** audited.
+
+→ `papers/00_intelligence_through_structural_descent.md`;
+`papers/05_cognitive_isolation_principle.md`; `docs/architecture.md`;
+`docs/AUDIT-TRACE-SPEC.md` §7 (D3); manual finding 31; facts sheet AD3

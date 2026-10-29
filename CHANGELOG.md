@@ -187,6 +187,45 @@ is untouched.**
 - **No V2 build is authorised.**
 
 
+### Corrected — the first audit of Paper 00 and Paper 05 (2026-10-29)
+
+The owner's publication framing put Paper 00 and Paper 05 outside the active submission
+queue pending review. The first pass of that review found two verified factual defects and
+one contradicted guarantee.
+
+- **Paper 00's generation count was wrong against itself.** It said *"this hierarchy spans
+  eight generations"* and then listed **nine** rows (G0–G8). `docs/architecture.md` names
+  it correctly: *"The 8 Generational Primitives"*, with **G0: Experience** as the substrate
+  and G1–G8 as the primitives. Paper 01's first draft made the same error and was
+  corrected in the same pass.
+- **Paper 00's Law II is stated without the project's own disclosure.** The manuscript
+  calls it inviolable — *"Every structure carries explicit, verified `parent_ids` traceable
+  to G0 events"* — but the frozen engine's chain **terminates at Layer 1**, because
+  concepts, phrases, loops and predictions are built from tags and the structure→event
+  link exists only as counts. This is **D3**, already disclosed in the audit-trace
+  specification and left open because the frozen engine's constitution is the owner's
+  decision. Corrected in place, with the disclosure carried inline.
+- **Paper 00's abstract claims efficacy the record does not support.** The *forms* of
+  curiosity, dreaming and inquiry exist (G5–G8); the *efficacy* does not — Phase K's
+  matched mechanism ablations all came back empty (`NO_QUESTIONS` −0.0095 [−0.0328,
+  +0.0140]; `NO_FALSIFICATION` +0.0241 [−0.0048, +0.0495]; `NO_DREAMS` +0.0000 [0.0000,
+  +0.0000], all three intervals containing zero), and **Law IV is never exercised** —
+  experiments are generated, every consumer only prints them, and no Question can ever
+  close. **Paper 00's remaining broad claims and its literature framing are still
+  unaudited**, and the manuscript is **not ready to circulate**.
+- **Paper 05's core guarantee is contradicted by the measurement.** Its claim that the
+  strict partition *"ensures zero synthetic self-contamination across indefinite life
+  cycles"* does not survive contact with the record: **17.9%** of the distinct supporting
+  transitions behind reported beliefs (802 of 4,481) are self-sourced, and **43.2%** of all
+  distinct transitions recorded (5,436 of 12,583) are the organism's own output, entering
+  the temporal substrate through the unfiltered lookback window (D2). The repair is a
+  **new thesis** — *the limits of cognitive isolation in Organica V1* — not a revision.
+- **Added** — manual finding 31; `docs/FACTS-SHEET.md` AD3; journal §57.
+
+**A position paper is audited against the code, not against the prose.** The two documents
+most likely to be circulated are the two least checked against the engine, because neither
+is a measurement record and so neither is covered by the harness.
+
 ### Changed — the publication framing moved into the rule file; living guidance set to American English (2026-10-29)
 
 The publication map was settled in conversation and recorded in `papers/README.md`, but a

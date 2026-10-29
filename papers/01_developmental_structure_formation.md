@@ -43,7 +43,7 @@ It does not claim that developmental structure becomes reusable knowledge — th
 
 Organica 1 receives tagged event streams and periodically forms higher-level candidates through fixed engine procedures. The engine has built-in inductive structure, including a tag extractor, candidate types, thresholds, persistence rules, and a fixed consolidation process. It is therefore a system without pretrained domain content, not a system without prior structure or assumptions.
 
-Structures are organized in eight generations, each synthesized strictly from the one below it: raw events (G0); concepts, predictions and loops (G1); meta-concepts and processes (G2); workflows (G3); hypotheses (G4); theories and questions (G5); dreams (G6); investigations (G7); and experiments (G8). Six architectural laws govern the process — upward induction, provenance, cognitive isolation, grounded dreaming, expected-information-gain attention, and natural selection.
+Structures are organized in **eight generational primitives above a G0 experience substrate**, each synthesized strictly from the one below it: raw events (G0, the substrate); concepts, predictions and loops (G1); meta-concepts and processes (G2); workflows (G3); hypotheses (G4); theories and questions (G5); dreams (G6); investigations (G7); and experiments (G8). Six architectural laws govern the process — upward induction, provenance, cognitive isolation, grounded dreaming, expected-information-gain attention, and natural selection.
 
 The implementation should be reported as it exists, not as an idealized hierarchy: each claimed layer or capability requires a direct mapping to the frozen code and an observable output, and the project's architecture reference is [`docs/architecture.md`](../docs/architecture.md).
 
