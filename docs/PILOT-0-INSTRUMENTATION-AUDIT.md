@@ -30,18 +30,64 @@
 
 | Cell | Condition | Learner | Retention (110–149) | Transfer Diagnostic (150–199) | Revision (250–299) |
 | :---: | :--- | :--- | :---: | :---: | :---: |
-| **1** | `P-none × E-pres` | Organica | 0.453018 | 0.453912 | 0.463372 |
-| **2** | `P-org × E-pres` | Organica | 0.453018 | 0.453842 | 0.463321 |
-| **3** | `P-org × E-rem` | Organica | 0.453018 | 0.453842 | 0.428071 |
-| **4** | `P-obs × E-pres` | Organica | 0.453018 | 0.453912 | 0.463372 |
-| **5** | `P-obs × E-rem` | Organica | 0.453018 | 0.453912 | 0.427814 |
-| **6** | `P-none × E-rem` | Organica | 0.453018 | 0.453912 | 0.427814 |
+| **1** | `P-none × E-pres` | Organica | 0.453018 | 0.453886 | 0.463391 |
+| **2** | `P-org × E-pres` | Organica | 0.452951 | 0.453823 | 0.463334 |
+| **3** | `P-org × E-rem` | Organica | 0.452951 | 0.453823 | 0.428125 |
+| **4** | `P-obs × E-pres` | Organica | 0.453018 | 0.453886 | 0.463391 |
+| **5** | `P-obs × E-rem` | Organica | 0.453018 | 0.453886 | 0.427846 |
+| **6** | `P-none × E-rem` | Organica | 0.453018 | 0.453886 | 0.427846 |
 | **7** | `E-pres` | Replay | 0.347521 | 0.349592 | 0.351989 |
 | **8** | `E-rem` | Replay | 0.403045 | 0.403045 | 0.403045 |
 | **9** | `E-pres` | Statistical | 0.347273 | 0.350723 | 0.352194 |
 | **10** | `E-rem` | Statistical | 0.403045 | 0.403045 | 0.403045 |
-| *Ref* | *Bayes ceiling* | *Closed-form* | *0.276259* | *0.272365* | *0.275176* |
-| *Ref* | *Base rate* | *Marginal* | *0.409581* | *0.409511* | *0.406124* |
+| *Ref* | *Bayes ceiling* | *Closed-form* | *0.276259* | *0.272383* | *0.275208* |
+| *Ref* | *Base rate* | *Marginal* | *0.409581* | *0.409529* | *0.406084* |
+
+---
+
+### 2.1 Correction 1 (2026-10-29): transcription drift in the score matrix
+
+**What was wrong.** The 10-cell score matrix above was transcribed from
+`docs/acquisition_single_seed_pilot.json` by hand, and **18 of its 36 values
+disagree with that artifact** — every one of them in the fourth or fifth
+decimal of log-loss (the largest disagreement is $6.7\times10^{-5}$). The
+artifact itself did not change: the same values are present in both commits
+that carried it (`89b0744`, 2026-10-28, and `4ceeab4`, 2026-10-29), so the
+drift is in the transcription, not in the run. No conclusion in this document
+changes: Organica's readout still loses to both baselines, and the E-rem floor
+is still $0.403045$.
+
+**What was done.** Every value in the matrix above was replaced with the
+artifact's value, read mechanically from the JSON rather than retyped. The check
+is permanent: `tests/test_readout_tables.py`. Six of the drifted values had been
+inherited by `papers/01_developmental_structure_formation.md`
+§4.7, and the five-row summary that repeats this matrix in
+`docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`,
+`docs/FACTS-SHEET.md`, `research-journal/phase_g_findings_20261021.md` and
+`research-journal/_journal_entry_51.md` was corrected with it.
+
+**Why it is recorded here rather than applied silently.** The artifact is
+stable and the table was not, so the table was wrong — and a wrong number in a
+table that reads as machine-generated is the kind of defect that survives
+every review, because it looks checked. The rule this exposes is narrow and
+worth stating: **a table transcribed from an artifact is a new claim, and it
+needs a mechanical check against that artifact.** The generator that draws the
+manuscript's figure for this readout now reads the artifact directly and
+asserts the values it draws, so the transcription step no longer exists on
+that path, and `tests/test_readout_tables.py` now asserts every document that
+restates this readout against the artifact. See `docs/USER-MANUAL.md` finding 34.
+
+**A first repair made it worse, and the mechanical check caught it (2026-10-30).**
+The correction was first applied by a script that replaced the drifted rows with
+hand-written replacements. That script **replaced the two reference rows**
+(Bayes ceiling, base rate) with **duplicate copies of cells 7 and 8**, so the
+table went from *18 wrong values* to *12 rows, of which 2 were duplicates and 2
+references were missing*. The defect was invisible to review: the table still
+had the right shape, the right headers and the right-looking numbers. It was
+caught only by running the table against the artifact mechanically. The table
+above is now **regenerated from `docs/acquisition_single_seed_pilot.json`** rather
+than patched, and `tests/test_readout_tables.py` asserts that the checker can
+itself fail.
 
 ---
 

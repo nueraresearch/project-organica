@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" font-family="Helvetica,Arial,sans-serif" role="img" aria-label="The three audit-trace arms and the non-vacuity of the selection check">
+<title>The three audit-trace arms and the non-vacuity of the selection check</title>
+<rect width="1080" height="560" fill="#ffffff"/>
+<text x="36.0" y="38.0" font-size="16" fill="#1a1a1a" text-anchor="start" font-weight="bold">The selection check could only fail where the contest was decided</text>
+<text x="36.0" y="60.0" font-size="11.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">Candidates dropped and candidates that lost on rank, per arm, with what each arm checked.</text>
+<text x="36.0" y="544.0" font-size="10" fill="#8a8a8a" text-anchor="start" font-weight="normal">Source: docs/audit_trace_probe.json, docs/audit_trace_probe_stress.json, docs/audit_trace_probe_tie.json  |  drawn by benchmarks/figure_papers.py</text>
+<text x="96.0" y="122.0" font-size="13" fill="#1a1a1a" text-anchor="start" font-weight="bold">A. Candidates that lost on rank</text>
+<line x1="118.0" y1="386.0" x2="556.0" y2="386.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="108.0" y="390.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">0</text>
+<line x1="118.0" y1="334.0" x2="556.0" y2="334.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="108.0" y="338.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">100</text>
+<line x1="118.0" y1="282.0" x2="556.0" y2="282.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="108.0" y="286.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">200</text>
+<line x1="118.0" y1="230.0" x2="556.0" y2="230.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="108.0" y="234.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">300</text>
+<line x1="118.0" y1="178.0" x2="556.0" y2="178.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="108.0" y="182.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">400</text>
+<line x1="118.0" y1="386.0" x2="556.0" y2="386.0" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+<rect x="154.0" y="384.0" width="74.0" height="2.0" fill="#c0504d" opacity="0.9"/>
+<text x="191.0" y="376.0" font-size="13" fill="#5f5f5f" text-anchor="middle" font-weight="bold">0</text>
+<text x="191.0" y="360.0" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 0 in one cycle</text>
+<text x="191.0" y="408.0" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">default arm</text>
+<text x="191.0" y="426.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">120 cycles  |  1,412 beliefs</text>
+<text x="191.0" y="440.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">8,061 structures checked</text>
+<rect x="300.0" y="176.4" width="74.0" height="209.6" fill="#c0504d" opacity="0.9"/>
+<text x="337.0" y="166.4" font-size="13" fill="#c0504d" text-anchor="middle" font-weight="bold">403</text>
+<text x="337.0" y="150.4" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 7 in one cycle</text>
+<text x="337.0" y="408.0" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">stress arm</text>
+<text x="337.0" y="426.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">60 cycles  |  290 beliefs</text>
+<text x="337.0" y="440.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">3,240 structures checked</text>
+<rect x="446.0" y="384.0" width="74.0" height="2.0" fill="#c0504d" opacity="0.9"/>
+<text x="483.0" y="376.0" font-size="13" fill="#5f5f5f" text-anchor="middle" font-weight="bold">0</text>
+<text x="483.0" y="360.0" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 0 in one cycle</text>
+<text x="483.0" y="408.0" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold">forced-tie arm</text>
+<text x="483.0" y="426.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">60 cycles  |  692 beliefs</text>
+<text x="483.0" y="440.0" font-size="10" fill="#5f5f5f" text-anchor="middle" font-weight="normal">3,988 structures checked</text>
+<text x="36.0" y="474.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="normal">In the default and forced-tie arms no candidate ever lost on rank, so the selection test could not have failed there.</text>
+<text x="36.0" y="492.0" font-size="11.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">The stress arm carries the non-vacuity argument: the cap bound, and 403 candidates lost on it.</text>
+<text x="654.0" y="122.0" font-size="13" fill="#1a1a1a" text-anchor="start" font-weight="bold">B. Candidates dropped (died)</text>
+<line x1="676.0" y1="386.0" x2="1042.0" y2="386.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="666.0" y="390.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">0</text>
+<line x1="676.0" y1="308.0" x2="1042.0" y2="308.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="666.0" y="312.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">2</text>
+<line x1="676.0" y1="230.0" x2="1042.0" y2="230.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="666.0" y="234.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">4</text>
+<line x1="676.0" y1="152.0" x2="1042.0" y2="152.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="666.0" y="156.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">6</text>
+<line x1="676.0" y1="386.0" x2="1042.0" y2="386.0" stroke="#1a1a1a" stroke-width="1.2" stroke-linecap="round"/>
+<rect x="706.0" y="230.0" width="62.0" height="156.0" fill="#a8a8a8" opacity="0.9"/>
+<text x="737.0" y="220.0" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold">4</text>
+<text x="737.0" y="204.0" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 2 in one cycle</text>
+<text x="737.0" y="408.0" font-size="11.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">default arm</text>
+<rect x="828.0" y="269.0" width="62.0" height="117.0" fill="#a8a8a8" opacity="0.9"/>
+<text x="859.0" y="259.0" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold">3</text>
+<text x="859.0" y="243.0" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 1 in one cycle</text>
+<text x="859.0" y="408.0" font-size="11.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">stress arm</text>
+<rect x="950.0" y="230.0" width="62.0" height="156.0" fill="#a8a8a8" opacity="0.9"/>
+<text x="981.0" y="220.0" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold">4</text>
+<text x="981.0" y="204.0" font-size="10" fill="#8a8a8a" text-anchor="middle" font-weight="normal">max 2 in one cycle</text>
+<text x="981.0" y="408.0" font-size="11.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">forced-tie arm</text>
+<text x="36.0" y="510.0" font-size="11.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">The forced-tie arm additionally made 479 stores carry a tied timestamp window, and the observer still reproduced the engine's choice.</text>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="520" viewBox="0 0 1080 520" font-family="Helvetica,Arial,sans-serif" role="img" aria-label="Lineage reachability against the window, and the window against the run">
+<title>Lineage reachability against the window, and the window against the run</title>
+<rect width="1080" height="520" fill="#ffffff"/>
+<text x="36.0" y="38.0" font-size="16" fill="#1a1a1a" text-anchor="start" font-weight="bold">The boundary of the instrument is measurable, and it is narrow</text>
+<text x="36.0" y="60.0" font-size="11.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">Left: share of structures whose ancestry resolved, against the window the observer may read.</text>
+<text x="36.0" y="504.0" font-size="10" fill="#8a8a8a" text-anchor="start" font-weight="normal">Source: docs/audit_trace_probe.json, docs/audit_trace_probe_tie.json  |  drawn by benchmarks/figure_papers.py</text>
+<text x="36.0" y="112.0" font-size="13" fill="#1a1a1a" text-anchor="start" font-weight="bold">A. Lineage reachability vs window size</text>
+<line x1="92.0" y1="368.0" x2="470.0" y2="368.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="82.0" y="372.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">0.0</text>
+<line x1="92.0" y1="252.0" x2="470.0" y2="252.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="82.0" y="256.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">0.5</text>
+<line x1="92.0" y1="136.0" x2="470.0" y2="136.0" stroke="#e6e6e6" stroke-width="1" stroke-linecap="round"/>
+<text x="82.0" y="140.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">1.0</text>
+<circle cx="110.6" cy="368.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="120.6" cy="368.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="115.6" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">25</text>
+<circle cx="157.9" cy="368.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="167.9" cy="368.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="162.9" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">50</text>
+<circle cx="205.1" cy="142.8" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="215.1" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="210.1" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">100</text>
+<circle cx="252.4" cy="136.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="262.4" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="257.4" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">200</text>
+<circle cx="299.6" cy="136.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="309.6" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="304.6" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">500</text>
+<circle cx="346.9" cy="136.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="356.9" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="351.9" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">1000</text>
+<circle cx="394.1" cy="136.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="404.1" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="399.1" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">2000</text>
+<circle cx="441.4" cy="136.0" r="4.2" fill="#1f4e79" opacity="0.9"/>
+<circle cx="451.4" cy="136.0" r="4.2" fill="#e8a33d" opacity="0.9"/>
+<text x="446.4" y="386.0" font-size="9.5" fill="#5f5f5f" text-anchor="middle" font-weight="normal">3998</text>
+<text x="281.0" y="406.0" font-size="11" fill="#5f5f5f" text-anchor="middle" font-weight="normal">window candidates the observer may read</text>
+<circle cx="300.0" cy="124.0" r="4.2" fill="#1f4e79" opacity="0.8"/>
+<text x="310.0" y="128.0" font-size="10.5" fill="#1a1a1a" text-anchor="start" font-weight="normal">default arm</text>
+<circle cx="390.0" cy="124.0" r="4.2" fill="#e8a33d" opacity="0.8"/>
+<text x="400.0" y="128.0" font-size="10.5" fill="#1a1a1a" text-anchor="start" font-weight="normal">forced-tie arm</text>
+<text x="36.0" y="424.0" font-size="11.5" fill="#1a1a1a" text-anchor="start" font-weight="normal">Reachability is a function of the window, not of the substrate: the substrate holds every relation.</text>
+<text x="544.0" y="122.0" font-size="13" fill="#1a1a1a" text-anchor="start" font-weight="bold">B. The window against the run (default arm)</text>
+<rect x="566.0" y="200.0" width="476.0" height="52.0" fill="#e6e6e6" opacity="0.7"/>
+<rect x="1035.3" y="200.0" width="6.7" height="52.0" fill="#c0504d" opacity="0.9"/>
+<text x="566.0" y="188.0" font-size="10.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">cycle 0</text>
+<text x="1042.0" y="188.0" font-size="10.5" fill="#5f5f5f" text-anchor="end" font-weight="normal">cycle 120</text>
+<text x="1027.3" y="274.0" font-size="10.5" fill="#c0504d" text-anchor="end" font-weight="normal">the cognition window</text>
+<text x="1027.3" y="290.0" font-size="10.5" fill="#c0504d" text-anchor="end" font-weight="normal">last 1.7 cycles</text>
+<text x="566.0" y="314.0" font-size="10.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">everything before it is unrecoverable, because the organism does not retain it either</text>
+<text x="566.0" y="330.0" font-size="10.5" fill="#5f5f5f" text-anchor="start" font-weight="normal">4,000 sleep events of 284,962 stored (2,374.68 per cycle)</text>
+</svg>

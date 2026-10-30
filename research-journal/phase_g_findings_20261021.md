@@ -4758,11 +4758,11 @@ exposure for every learner:
 
 | learner | retention | transfer | revision |
 |---|---|---|---|
-| **Organica** | **0.453018** | 0.453912 | 0.463372 |
+| **Organica** | **0.453018** | 0.453886 | 0.463391 |
 | Replay | 0.347521 | 0.349592 | 0.351989 |
 | Statistical | 0.347273 | 0.350723 | 0.352194 |
-| base rate | 0.409581 | 0.409511 | 0.406124 |
-| Bayes ceiling | 0.276259 | 0.272365 | 0.275176 |
+| base rate | 0.409581 | 0.409529 | 0.406084 |
+| Bayes ceiling | 0.276259 | 0.272383 | 0.275208 |
 
 Organica scored **worse than the baselines did after their episodes were
 deleted** (the 0.403045 floor those cells collapse to). That is coherent
@@ -5739,11 +5739,19 @@ guarantee.** One measured mechanism, two documents claiming different things abo
 
 ### Law V — wrong twice, formally and empirically
 
-**Formally.** The law states one expression, $	ext{EIG} = 	ext{Uncertainty} 	imes (1.0 +
-	ext{Novelty})$. The engine computes it two ways: `uncertainty * (1.0 + novelty)` for questions
+**Formally.** The law states one expression, $\text{EIG} = \text{Uncertainty} \imes (1.0 +
+\text{Novelty})$. The engine computes it two ways: `uncertainty * (1.0 + novelty)` for questions
 (novelty fixed at 0.50), and `uncertainty * d.novelty` — **no `1.0 +`** — for dreams, whose
 uncertainty is `1.0 - confidence`. So the single expression is not what the engine computes for
 half its cases.
+
+*Corrected 2026-10-30:* the LaTeX escapes in the expression above were written into this
+journal as **literal tab characters** rather than as `\t`, so the formula rendered as
+broken text and its braces read as unsubstituted template placeholders. The escapes are
+restored here. **No claim in this section changes** — the expression, the two engine
+computations and the conclusion are unchanged; only the rendering was repaired. The
+repository's doc-placeholder guard is what caught it, and the defect was present in the
+committed record before this pass.
 
 **Empirically.** The pre-registered prediction **P5 (EIG-orthogonal) is REVERSED**: selecting the
 *lowest*-EIG experiment develops **more** than selecting the highest-EIG one. The mechanism
@@ -5805,3 +5813,151 @@ all stand. The frozen engine is untouched; `docs/DESIGN_LAWS.md` and
 → `papers/00_intelligence_through_structural_descent.md` §3.1; `docs/DESIGN_LAWS.md`;
 `docs/AUDIT-TRACE-SPEC.md` §7; `docs/architecture.md`; `organica/memory.py`;
 `organica/sleep.py`; `docs/verdicts.json`; manual finding 33; facts sheet AD5
+
+## §60 — A hand-transcribed table drifted from its artifact, and the repair was defective too
+
+**What this section records.** A publication-pass review of the Pilot-0 readout found that the
+10-cell score matrix in `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2 — a table whose entire
+authority is that it came from `docs/acquisition_single_seed_pilot.json` — had been
+**transcribed by hand**, and that **18 of its 36 values disagreed with that artifact** in the
+fourth and fifth decimal of log-loss. The artifact never changed. The table did.
+
+### What was wrong
+
+The artifact carries the Pilot-0 readout for all ten cells plus two reference models. Its
+values are identical in **both** commits that carry it — `89b0744` (2026-10-28) and `4ceeab4`
+(2026-10-29) — verified by extracting the values at each revision. The matrix in the audit
+document disagreed with it in **18 of 36** values, every one in the fourth or fifth decimal, the
+largest gap **6.7×10⁻⁵**.
+
+The disagreements were not random. They fell on the **Organica** cells (1–6) and on the two
+**reference** rows, and left the two baseline cells (7–10) and the retention column of cells 1,
+4, 5 and 6 untouched — the signature of a copy made from one earlier reading of the numbers
+rather than from the artifact.
+
+Six of the drifted values had been inherited by
+`papers/01_developmental_structure_formation.md` §4.7, and six more each by the five-row
+learner summaries in `docs/ACQUISITION-ENDPOINT-AUDIT.md`,
+`docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/FACTS-SHEET.md` (AC7),
+`research-journal/phase_g_findings_20261021.md` and `research-journal/_journal_entry_51.md`.
+
+### What the correction revealed about the correction
+
+The first repair was itself written by hand, and it **made the table worse in a different
+way**: the script that replaced the drifted rows **replaced the two reference rows** (Bayes
+ceiling, base rate) with **duplicate copies of cells 7 and 8**. The table went from *18 wrong
+values* to *twelve rows in which two were duplicates and two references were missing*.
+
+Nothing about that defect is visible to a reader. The table still had the right shape, the right
+headers and the right-looking numbers, and a diff against the previous revision shows only
+changed cells. It was caught by one thing only: **running the table against the artifact
+mechanically**. The table is now **regenerated from the artifact** rather than patched, and the
+check is permanent — `tests/test_readout_tables.py` asserts every document that restates the
+readout against the artifact, and includes four assertions that the checker itself can fail.
+
+### The lesson
+
+**A table transcribed from an artifact is a new claim, and it needs a mechanical check against
+that artifact.** The artifact is the machine-written record. A hand-copied table is a *second*
+claim that carries the artifact's authority without carrying its evidence, and every discrepancy
+sits in the fourth decimal where nobody looks.
+
+The prior verification script reported "0 failures" because it never covered these cells. That is
+the real failure mode: **a verification suite that has not been extended is a claim that nothing
+new is wrong**, not a claim that nothing is wrong.
+
+And the second-order lesson is the one this project needed: **a repair written by hand is
+another hand transcription, and it fails the same way.** The fix for a transcription defect is a
+generator, not a better transcription.
+
+### What does not change
+
+No measurement is altered and no verdict moves. Organica's readout still loses to both
+baselines on the Pilot-0 seed, the E-rem floor is still **0.403045**, the acquisition gate
+still fails, and transfer is still *not measurable*. The frozen engine is untouched.
+
+→ `docs/acquisition_single_seed_pilot.json`; `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2.1;
+`tests/test_readout_tables.py`; `papers/01_developmental_structure_formation.md` §4.7;
+manual finding 34; facts sheet AD6
+
+## §61 — The publication pass: citations that were read, and figures that can fail
+
+**What this section records.** Two manuscripts were brought to academic grade. Paper 02's §2 now
+carries inline citations and a **References** section of **five** sources; every one was read
+against a primary source rather than recalled. Eight figures were generated for Papers 01 and 02
+by a dependency-free generator that **asserts every value it draws against the artifact it came
+from**.
+
+### Citations: only what was read
+
+Each of the five sources was fetched and read on 2026-10-29:
+
+- **ACM Publications (2020)**, *Artifact Review and Badging* v1.1 — the source of the **Results
+  Reproduced** versus **Results Replicated** distinction Paper 02 uses, including the
+  Publications Board's 2020 **interchange** of the two definitions to adopt the NISO standard.
+- **Bau, Liu, Wang, Zhu & Torralba (2020)**, *Rewriting a Deep Generative Model*, ECCV 2020
+  (oral) — the inversion-by-latent-embedding construction that Paper 02's §2 sets against
+  Organica's inverse-construction account.
+- **Elhage, Nanda, Olsson et al. (2021)**, *A Mathematical Framework for Transformer Circuits*,
+  Anthropic — mechanistic interpretability as reverse engineering, the authors' own statement
+  that they "remain a very long way from being able to fully reverse engineer such models", and
+  the scope limit to attention-only models of two layers or fewer.
+- **Moreau & Missier (eds.) (2013)**, *PROV-DM: The PROV Data Model*, W3C Recommendation — the
+  provenance model that Paper 02's §2 positions the audit trace against.
+- **Shumailov, Shumaylov, Zhao, Papernot, Anderson & Gal (2024)**, *Nature* 631(8022):755–759 —
+  model collapse on recursively generated data, **with its Author Correction**
+  (*Nature* 640(8058):E6, 2025) disclosed. The correction fixes a notation typo in the
+  theoretical-intuition section ("αi = γi = 0" should read "βi = γi = 0") and **does not touch
+  the empirical claim** Paper 02 cites.
+
+**One candidate citation was dropped.** The Elhage paper's *faithful versus sufficient*
+distinction is the natural citation for one of Paper 02's §2 claims, and it is almost certainly
+in the paper. It was nonetheless **not cited**, because no readable copy could be found: the
+available PDF's page 4 is empty — the Introduction and Figure 1 are missing — and neither
+`pypdf` nor `pdfplumber` recovers it (137,658 characters extracted; zero occurrences of
+"faithful" or "sufficient"). **Cite only what was read.** A citation that cannot be verified is
+a claim about a document nobody has read.
+
+### Figures: a program that draws a claim must be able to fail
+
+`benchmarks/figure_papers.py` writes **eight** dependency-free SVGs. It is not a plotting-library
+wrapper — the SVG is hand-written, following the convention already set by
+`benchmarks/figure_campaign.py` — and it is built to fail:
+
+- **It asserts its values.** Every number a figure draws is checked against the committed
+  artifact before the figure is written, so a figure cannot drift from the published result.
+- **It checks its canvas.** Every x, y, cx and cy is bounds-checked against the canvas.
+- **It checks its text.** Every `text()` call is estimated for width overrun; two figures
+  failed this check during the build and were shortened.
+- **It parses its own XML.** Before writing, the SVG is parsed with `xml.etree.ElementTree`.
+
+That last guard was added because of a real failure: an early build emitted `font-style:italic`
+as a bare attribute, which is malformed XML, and **the renderer stopped after the first bar** — a
+figure that silently drew a third of itself. A figure that silently draws nothing is worse than
+no figure, because a missing figure is noticed.
+
+### The lesson
+
+**A figure is a program that draws a claim, so it must be able to fail** — and the same is true
+of a citation. Both are claims about the record, made in a form that review reads visually or
+trustingly, and both fail silently when the machinery underneath is wrong. The defense is the
+same in each case: **make the claim checkable against its source, mechanically.**
+
+**Cite only what was read.** A reference list is a set of claims about what other people wrote.
+Verified against the source, it is evidence. Verified against memory, it is a guess with a
+citation attached.
+
+### What does not change
+
+No measurement is altered. The eight figures draw the **committed** results; the five citations
+support **existing** claims; and the manuscripts' verdicts — `H3-L — INCONCLUSIVE`, the failed
+acquisition gate, the *not measurable* transfer result — are unchanged. Paper 00 remains
+accurate and **not yet** the recast position paper the project needs, and Paper 05 remains
+outside the active submission queue.
+
+→ `papers/01_developmental_structure_formation.md`;
+`papers/02_persistent_structural_provenance.md` §2 and References;
+`benchmarks/figure_papers.py`; `docs/figure_p*.svg`;
+`docs/acquisition_compositional_gate.json`; `docs/acquisition_single_seed_pilot.json`;
+`docs/phase_l_results.json`; `docs/phase_k_results.json`; `docs/gate13_capacity_sweep.json`;
+`docs/audit_trace_probe*.json`; manual finding 35; facts sheet AD7

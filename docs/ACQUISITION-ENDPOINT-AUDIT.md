@@ -470,11 +470,11 @@ the baselines received the identical raw exposure, so the comparison is fair.
 
 | Learner | Retention | Transfer | Revision |
 |---|---|---|---|
-| **Organica** | **0.453018** | 0.453912 | 0.463372 |
+| **Organica** | **0.453018** | 0.453886 | 0.463391 |
 | Replay | 0.347521 | 0.349592 | 0.351989 |
 | Statistical | 0.347273 | 0.350723 | 0.352194 |
-| Base rate | 0.409581 | 0.409511 | 0.406124 |
-| Bayes ceiling | 0.276259 | 0.272365 | 0.275176 |
+| Base rate | 0.409581 | 0.409529 | 0.406084 |
+| Bayes ceiling | 0.276259 | 0.272383 | 0.275208 |
 
 Organica scored **worse than the baselines did after their episodes were
 deleted** (0.453018 against the 0.403045 floor those cells collapse to). That

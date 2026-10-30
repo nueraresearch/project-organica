@@ -1,7 +1,7 @@
 # Paper 2: Reconstructing Evidence and Selection from Organica's Surviving State
 
 **Authors:** Jeremy et al. (Nuera Research)
-**Draft status:** Evidence-alignment revision, 2026-10-27; A5/A6 closed and the audit layer frozen at `audit-trace-v1` on 2026-10-28. Academic-grade revision, 2026-10-29: the abstract and §3 still stated that A5 and A6 "remain pending" and that the instrumentation "is not yet frozen", contradicting this line and the conclusion of the same document; the contradiction is corrected here and recorded in this line rather than applied silently. Not submitted or published.
+**Draft status:** Evidence-alignment revision, 2026-10-27; A5/A6 closed and the audit layer frozen at `audit-trace-v1` on 2026-10-28. Academic-grade revision, 2026-10-29: the abstract and §3 still stated that A5 and A6 "remain pending" and that the instrumentation "is not yet frozen", contradicting this line and the conclusion of the same document; the contradiction is corrected here and recorded in this line rather than applied silently. References added 2026-10-29: §2's five sourcing notes now carry named references, each retrieved and read at its cited URL on 2026-10-29, and the section's "Open for submission" note is replaced by the reference list; the note's forward-looking requirement — that the citations be supplied before submission — is met rather than restated. Not submitted or published.
 **Scope:** Reconstruction fidelity for tested probes and surviving current structures.
 **Repository:** [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica), branch `master`; instrumentation frozen at tag `audit-trace-v1`.
 
@@ -25,19 +25,19 @@ The paper's claim is deliberately narrow: *for the tested probes, the tested eng
 
 ## 2. Positioning
 
-This paper sits in the space between two established concerns. The first is **interpretability by external reconstruction**: the practice of building an outside account of a model's internal state that a reader can check, rather than trusting a narrative the model produces about itself. The second is **provenance in machine-generated data and scientific workflows**: the requirement that an artifact record where each item came from, so that a downstream claim can be traced and a contamination source can be identified.
+This paper sits in the space between two established concerns. The first is **interpretability by external reconstruction**: the practice of building an outside account of a model's internal state that a reader can check, rather than trusting a narrative the model produces about itself — the discipline Elhage et al. describe as reverse engineering a computation "similar to how a programmer might try to reverse engineer complicated binaries into human-readable source code" (Elhage et al., 2021), and which Bau et al. demonstrate concretely by locating and editing a generative model's internal rules from the outside (Bau et al., 2020). The second is **provenance in machine-generated data and scientific workflows**: the requirement that an artifact record where each item came from, so that a downstream claim can be traced and a contamination source can be identified — the requirement the PROV data model formalizes for general workflows (Moreau & Missier, 2013), and the one that becomes acute when a system's own output becomes its input (Shumailov et al., 2024).
 
 Organica's audit trace is an instance of the first applied to a developmental system, with the discipline of the second: every reported belief must resolve to concrete event identifiers, and every supporting transition must be attributed by provenance.
 
 Three distinctions place this work relative to that literature.
 
-**Reconstruction is not replication.** The observer here runs against the same substrate as the engine. It is independent of the engine's *implementation* in the sense that it re-derives the decision from persisted state and published rules rather than reading the engine's internals, but it is not independent of the engine's *run*: it observes the same database, and no second laboratory has reproduced this work. Where a community standard treats "independently auditable" as implying a second implementation, our usage is narrower and the difference is load-bearing.
+**Reconstruction is not replication.** The observer here runs against the same substrate as the engine. It is independent of the engine's *implementation* in the sense that it re-derives the decision from persisted state and published rules rather than reading the engine's internals, but it is not independent of the engine's *run*: it observes the same database, and no second laboratory has reproduced this work. That gap is drawn by name in the artifact-badging standard: *Results Reproduced* covers a different team obtaining the same result "using the author's own artifacts", while *Results Replicated* covers a different team obtaining the same result "using artifacts which they develop completely independently" (ACM Publications, 2020). Organica's audit trace is a reconstruction in that standard's sense and not a replication, and the difference is load-bearing. The standard's own history reinforces the point: the ACM Publications Board interchanged these two definitions in 2020 to align them with the NISO standard, because the earlier usage did not match other research communities (ACM Publications, 2020). A term whose scope is not stated is not a neutral label.
 
-**Fidelity is not sufficiency.** Reproducing the implemented rule exactly does not establish that the reconstruction is the uniquely correct account of *why* a belief arose. The implemented rule is one defensible account; an exact replay of it is evidence that the implementation was understood, not that the resulting explanation is the right one.
+**Fidelity is not sufficiency.** Reproducing the implemented rule exactly does not establish that the reconstruction is the uniquely correct account of *why* a belief arose. The implemented rule is one defensible account; an exact replay of it is evidence that the implementation was understood, not that the resulting explanation is the right one. This is the gap between an account of a computation and a claim about the mechanism the computation performs, and it is why the framing literature this paper draws on is careful to bound its own reach: the framework that makes mechanistic reconstruction a program for human-readable source code restricts itself to attention-only models of two layers or fewer, and states that its authors remain "a very long way from being able to fully reverse engineer such models" (Elhage et al., 2021).
 
-**Scope is part of the claim.** The trace reconstructs the organism's *surviving, current* structures and their present descent. It does not reconstruct the full history of how those structures formed, because the organism does not retain that history either (§4.4).
+**Scope is part of the claim.** The trace reconstructs the organism's *surviving, current* structures and their present descent. It does not reconstruct the full history of how those structures formed, because the organism does not retain that history either (§4.4). Recording where a derivation applies, and where it stops, is the ordinary requirement of a provenance record: the PROV data model is built around entities, activities, and the derivations that connect them, so that a consumer can see the scope of what is claimed (Moreau & Missier, 2013). The same discipline governs this paper's self-sourcing measurement: when a learning system is trained on recursively generated data, contamination of its own substrate is a measurable property of that substrate rather than a rhetorical concern (Shumailov et al., 2024), and Organica's self-sourced support is therefore reported against three separately named populations (§4.2) rather than as a single unqualified share.
 
-**Open for submission.** This section states the paper's position; it is not a literature survey, and the citations for each distinction above must be supplied before submission. No claim in this paper depends on a citation that has not been read.
+Each of the three distinctions is stated with the scope it is meant to cover. None is offered as a general result: they are the boundaries this paper observes, and they are the boundaries a reader should hold it to.
 
 ## 3. Methods
 
@@ -142,6 +142,10 @@ Across all three arms, the reconstruction was exact and no cycle failed.
 
 The stress arm is the load-bearing row. It is the only arm in which the selection contest actually decided anything — 403 candidates lost on rank — and it is the arm in which the reconstruction still matched exactly, cycle by cycle, for both the retained and the rejected candidates.
 
+![Figure 1. The three audit-trace arms, and the non-vacuity of the selection check](../docs/figure_p02_reconstruction_arms.svg)
+
+**Figure 1.** The three audit-trace arms, and what each one checked. Panel A counts the candidates that lost on rank: zero in the default and forced-tie arms, because the cap never bound there, and 403 in the stress arm. Panel B counts the candidates that were dropped outright, which is small in every arm. A selection test can only fail where the contest was decided, and only the stress arm was in that position — so the stress arm is the one that carries the non-vacuity argument. Drawn from the three committed probe artifacts by `benchmarks/figure_papers.py`.
+
 ### 4.2 Event-level attribution (A7)
 
 Every supporting transition resolved to event identifiers, with no mismatches and nothing attributed that was absent from the aggregate.
@@ -162,6 +166,10 @@ The three self-sourced views, reported separately with their populations as set 
 
 The **17.9 %** figure is **frozen** as the reference rate for the project's pre-committed per-claim disqualifier, and is not recomputed on any run it judges; it is a provisional calibration value from one world, one policy and one run, not a universal constant. It is a **support-composition statistic**: it says what fraction of the evidence behind the system's claims is the system's own prior output. It is **not** an error rate, and it does not by itself establish that self-sourced support causes errors.
 
+![Figure 2. The self-sourced share against three separately named populations](../docs/figure_p02_self_sourcing.svg)
+
+**Figure 2.** The same self-sourcing phenomenon measured over three populations in the default arm: the distinct supporting transitions behind reported beliefs (802 of 4,481 = 17.9 %), the pooled support references across reporting cycles (53,980 of 307,857 = 17.5 %), and every distinct transition the observer recorded (5,436 of 12,583 = 43.2 %). The first is the figure the pre-committed disqualifier is read against; the third is context. A single unqualified "self-sourced share" would misrepresent this record by more than a factor of two, which is why each population is named. Drawn from `docs/audit_trace_probe.json` by `benchmarks/figure_papers.py`.
+
 ### 4.3 Ancestry honesty (A3)
 
 | Arm | Structures checked | Resolved | Reachability | Truncation split (all four cells) | Aged-out branches | Layer-1 terminals | Honesty errors | Evidence linkage |
@@ -179,6 +187,10 @@ Structures reported in cycle *N* are traced against the window the engine would 
 **A4** passed: with the observer on and off, every reported field was identical over 12 cycles.
 
 The boundary is set by the engine's own memory, and it was measured rather than estimated. The cognition window is the most recent **4,000 sleep events**, and the engine stores **2,374.68 sleep events per cycle** in the default arm (284,962 sleep events over 120 cycles; **2,230.85** in the stress arm and **2,259.33** in the forced-tie arm). The window therefore spans **1.7 cycles** in the default arm and **1.8** in the other two — not the 40–130 cycles an earlier estimate in this project asserted from a guess. The consequence is sharp: a structure that keeps being produced stays inside the window, because candidates are re-stored every cycle; one that stops being produced is gone within about 1.7 cycles. **The developmental history of anything the organism has moved on from is unrecoverable** — not slowly censored, absent — and the trace is bounded by the organism's memory rather than by the observer's.
+
+![Figure 3. Lineage reachability against the window, and the window against the run](../docs/figure_p02_cognition_window.svg)
+
+**Figure 3.** The boundary of the instrument is measurable, and it is narrow. Panel A: the share of structures whose ancestry resolved, against the number of candidates the observer is allowed to read. Reachability is a function of the window, not of the substrate — the substrate holds every relation — and it saturates once the window exceeds about 100 candidates. Panel B: the default arm's 120-cycle run, with the final 1.7 cycles marked. Everything before that mark is unrecoverable, because the organism does not retain it either. Drawn from `docs/audit_trace_probe.json` and `docs/audit_trace_probe_tie.json` by `benchmarks/figure_papers.py`.
 
 ### 4.5 What the results do and do not show
 
@@ -211,7 +223,7 @@ These probes test a defined observer, a defined implementation (SQLite), a defin
 
 The present evidence supports a narrow result: tested surviving Organica structures and claims can be reconstructed from engine state with exact measured linkage in the audited probes. A5/A6 are closed (2026-10-28) and the instrumentation is tagged and frozen at `audit-trace-v1`; the bounded wording above remains a prerequisite to a submission.
 
-What remains for submission is assembly rather than acceptance: the methods and results sections above must be reconciled against the committed artifacts one final time, the citations in §2 must be supplied, and the figures must be generated from the same artifacts. None of those steps may widen a claim.
+What remains for submission is assembly rather than acceptance: the methods and results sections above must be reconciled against the committed artifacts one final time, and the draft must be checked against the target venue's format and length requirements. The citations in §2 and the figures in §4 are now supplied; every figure is drawn from the committed artifact by `benchmarks/figure_papers.py`, and every reference in §2 was read at its cited URL. None of those steps may widen a claim.
 
 ## Data and code availability
 
@@ -224,4 +236,20 @@ All measurements, protocols and artifacts are public in the repository at [`nuer
 - [`benchmarks/audit_trace_probe.py`](../benchmarks/audit_trace_probe.py) — the observer
 - [`tests/test_audit_trace_probe.py`](../tests/test_audit_trace_probe.py), [`tests/test_audit_ancestry.py`](../tests/test_audit_ancestry.py) — the proof-of-firing tests
 - [`docs/USER-MANUAL.md`](../docs/USER-MANUAL.md) §2, §8.17, §8.19 — the project's own record of the same work
-- [`research-journal/phase_g_findings_20261021.md`](../research-journal/phase_g_findings_20261021.md) — journal §41–§48, §53
+- [`research-journal/phase_g_findings_20261021.md`](../research-journal/phase_g_findings_20261021.md) — journal §41–§48, §53, §60
+- [`benchmarks/figure_papers.py`](../benchmarks/figure_papers.py) — the generator that draws every figure in §4 from the committed artifacts
+- [`docs/figure_p02_reconstruction_arms.svg`](../docs/figure_p02_reconstruction_arms.svg), [`docs/figure_p02_self_sourcing.svg`](../docs/figure_p02_self_sourcing.svg), [`docs/figure_p02_cognition_window.svg`](../docs/figure_p02_cognition_window.svg) — the three figures
+
+## References
+
+ACM Publications. (2020). *New changes to badging terminology* and *Artifact Review and Badging, Version 1.1*. https://www.acm.org/publications/badging-terms
+
+Bau, D., Liu, S., Wang, T., Zhu, J.-Y., & Torralba, A. (2020). Rewriting a deep generative model. *Computer Vision – ECCV 2020* (oral presentation). arXiv:2007.15646. https://arxiv.org/abs/2007.15646
+
+Elhage, N., Nanda, N., Olsson, C., Henighan, T., Joseph, N., Mann, B., Askell, A., Bai, Y., Chen, A., Conerly, T., DasSarma, N., Drain, D., Ganguli, D., Hatfield-Dodds, Z., Hernandez, D., Jones, A., Kernion, J., Lovitt, L., Ndousse, K., Amodei, D., Brown, T., Clark, J., Kaplan, J., McCandlish, S., & Olah, C. (2021). *A mathematical framework for transformer circuits*. Transformer Circuits Thread, Anthropic. December 22, 2021. https://transformer-circuits.pub/2021/framework/index.html
+
+Moreau, L., & Missier, P. (Eds.). (2013). *PROV-DM: The PROV data model*. W3C Recommendation, 30 April 2013. https://www.w3.org/TR/prov-dm/
+
+Shumailov, I., Shumaylov, Z., Zhao, Y., Papernot, N., Anderson, R., & Gal, Y. (2024). AI models collapse when trained on recursively generated data. *Nature, 631*(8022), 755–759. https://doi.org/10.1038/s41586-024-07566-y
+
+**Source notes.** All five sources were retrieved and read at the URLs above on 2026-10-29; the quoted phrases in §2 are verbatim from those sources, and the metadata (authors, venue, date, volume, pages) was checked against the arXiv record, the Transformer Circuits Thread page, the Crossref record, and the W3C Recommendation header respectively. Each source carries one specific distinction and is not cited for anything else: ACM Publications for reconstruction-versus-replication, Elhage et al. for the framing of external reconstruction and the bounding of its reach, Bau et al. for a worked instance of external rule localization and editing, Moreau & Missier for provenance as a standard external record, and Shumailov et al. for the literature parallel to Organica's measured self-sourced relations. An author correction to Shumailov et al. was published in *Nature, 640*(8058):E6 (2025); it corrects a notation error in that paper's theoretical-intuition section and does not alter the empirical result cited here. No claim in this paper depends on a source that has not been read.

@@ -1,7 +1,7 @@
 # Paper 1: Developmental Structure Formation in Organica 1
 
 **Authors:** Jeremy et al. (Nuera Research)
-**Draft status:** Evidence-alignment revision, 2026-10-27. Academic-grade revision, 2026-10-29: methods and results reconciled to the committed record, with the negative external-task findings and the acquisition campaign retained rather than smoothed. Not submitted or published.
+**Draft status:** Evidence-alignment revision, 2026-10-27. Academic-grade revision, 2026-10-29: methods and results reconciled to the committed record, with the negative external-task findings and the acquisition campaign retained rather than smoothed. Correction, 2026-10-29: six values in the §4.7 readout table disagreed with the artifact they were transcribed from (`docs/acquisition_single_seed_pilot.json`) in the fourth and fifth decimal, and the transfer column's diagnostic status was not stated; both are corrected in place and recorded at `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2.1. Figures added 2026-10-29, generated from the committed artifacts by `benchmarks/figure_papers.py`. Not submitted or published.
 **Scope:** Organica 1; developmental outcomes and their measurement.
 **Repository:** [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica), branch `master`.
 
@@ -125,6 +125,10 @@ The primary axis measures a support ratio (8 sweep points from 1:4 to 6:1) and r
 
 **The shape is a step function, not a ramp.** DI is exactly 0.000 across 1:4–1:1 for all 30 seeds — the late structure is never incorporated at those ratios — and saturates at ≈0.71 across 3:1–6:1. Two sharp transitions (1:1 → 2:1 and 2:1 → 3:1) separate three plateaus. Revision latency is abrupt, not gradual: 0/30 seeds reach DI > 0.5 below 3:1, and 30/30 reach it at 3:1, in a mean of 356 cycles.
 
+![Figure 1. The Phase L displacement and preservation indices against support ratio](../docs/figure_p01_displacement_curve.svg)
+
+**Figure 1.** The displacement curve is a step function. DI (blue squares) is exactly zero across 1:4–1:1, rises at 2:1, and saturates at ≈0.71 from 3:1 onward; PI (red circles) runs the other way, near 0.75 at the low end and exactly zero from 3:1 onward. Bars are ±1 standard deviation across the 30 seeds at each point. The dashed line marks the crossing at 3:1. Drawn from `docs/phase_l_results.json` by `benchmarks/figure_papers.py`.
+
 ### 4.3 The four pre-committed criteria, and why two fail
 
 | # | Criterion | n = 10 | n = 30 | Evidence at n = 30 |
@@ -137,6 +141,10 @@ The primary axis measures a support ratio (8 sweep points from 1:4 to 6:1) and r
 **Terminal outcome: `H3-L — INCONCLUSIVE`.** The protocol's remedy for this outcome is *raise n; conclude nothing*, and **no Phase L outcome authorises a V2**. The secondary arms V2–V5 were not run.
 
 Criterion 1 **flipped** between n=10 and n=30, because the top of the curve carries a −0.007 step whose 99% interval contains zero. Both failing criteria are therefore sign tests on steps that are **indistinguishable from zero**, and the adjacent-difference diagnostic confirms it: every step whose interval excludes zero is a real transition (1:1 → 2:1, +0.204 [+0.148, +0.261]; 2:1 → 3:1, +0.502 [+0.443, +0.559]; 3:1 → 4:1 on PI, −0.039 [−0.059, −0.020]), and every step whose interval contains zero is a plateau edge.
+
+![Figure 2. The paired difference at each adjacent support ratio, with its 99% interval](../docs/figure_p01_adjacent_differences.svg)
+
+**Figure 2.** Every adjacent step in the sweep, for both indices, with its preregistered 99% paired-bootstrap interval. Colored marks are steps whose interval excludes zero — the two transitions in DI (1:1 → 2:1 and 2:1 → 3:1) and the drop in PI (2:1 → 3:1, 3:1 → 4:1). Gray marks are steps whose interval contains zero, which are plateau edges rather than transitions. This is the diagnostic behind the two failing criteria: each failure is the sign of a difference indistinguishable from no change. Drawn from `docs/phase_l_results.json` by `benchmarks/figure_papers.py`.
 
 A criterion that flips when n changes is measuring the draw, not the organism.
 
@@ -183,6 +191,10 @@ Three negatives from Phase H, I and J prompted a *search* rather than a verdict:
 
 Not one is SUPPORTED, and not one is INCONCLUSIVE: every decision interval lies wholly below zero, so each family is a **clean loss** rather than an ambiguous one.
 
+![Figure 3. The three Phase K families: Organica minus the strongest simple baseline](../docs/figure_p01_phase_k_families.svg)
+
+**Figure 3.** The three Phase K families, as paired differences (Organica minus the best simple baseline), 10 seeds paired by seed, with the preregistered 98.33% decision interval. Every interval lies wholly below zero: each family is an excluded family, not an ambiguous one. The figure shows the three Phase K families only; the three earlier negative families are reported in the text above, and are not pooled into it because their metrics are not on a common scale with these. Drawn from `docs/phase_k_results.json` by `benchmarks/figure_papers.py`.
+
 The three earlier families were negative too. Held-out next-event prediction scored **0.413** against a first-order Markov baseline's **0.504** (a decayed variant reached 0.485); latent-structure recovery scored **0.704 / 0.547 / 0.109** against **0.800 / 0.764 / 0.796**; regime-shift detection had no family meet its preregistered success rule; and gradual post-shift adaptation had neither primary gate pass, in either family.
 
 **Six negative families is not a verdict on the architecture** — it is six excluded families and one open question. The matched mechanism ablations in Phase K (no questions, no falsification, no dreams) changed nothing measurable, which is why the next useful step was a *mechanism* question rather than another task family.
@@ -204,19 +216,25 @@ This was the decisive question: does developmental structure become **reusable k
 
 The world's relations **are** in memory. The organism did not **assert** them.
 
-**The readout lost.** On the Pilot 0 seed, with identical raw exposure for every learner:
+**The readout lost.** On the Pilot 0 seed, with identical raw exposure for every learner (log-loss; lower is better):
 
-| Learner | Retention | Transfer | Revision |
+| Learner | Retention | Transfer (diagnostic for Organica) | Revision |
 |---|---|---|---|
-| **Organica** | **0.453018** | 0.453912 | 0.463372 |
+| **Organica** | **0.453018** | 0.453886 | 0.463391 |
 | Replay | 0.347521 | 0.349592 | 0.351989 |
 | Statistical | 0.347273 | 0.350723 | 0.352194 |
-| Base rate | 0.409581 | 0.409511 | 0.406124 |
-| Bayes ceiling | 0.276259 | 0.272365 | 0.275176 |
+| Base rate | 0.409581 | 0.409529 | 0.406084 |
+| Bayes ceiling | 0.276259 | 0.272383 | 0.275208 |
 
 Organica scored worse than the baselines did *after their episodes were deleted* (the 0.403045 floor those cells collapse to). This is coherent with the cause rather than surprising: the asserted structure is mostly within-cell co-occurrence, so the readout answers *which cell the context is in* when the task asks *which cell comes next*.
 
-**Transfer was not measured, and it is not a transfer failure.** Per the protocol, a seed that fails acquisition is reported `acquisition_failed`, and transfer is reported as *not measurable*. The 600-cell factorial did not run.
+**Transfer was not measured, and it is not a transfer failure.** Per the protocol, a seed that fails acquisition is reported `acquisition_failed`, and transfer is reported as *not measurable*. The 600-cell factorial did not run. The transfer column above is therefore a **diagnostic**, not a measurement of transfer: the artifact stores Organica's value under the key `transfer_diagnostic`, and the Pilot-0 audit labels the column "Transfer Diagnostic" for that reason. The baselines' and reference models' transfer figures are measured values on the same window.
+
+*Corrected 2026-10-29:* six values in this table were transcribed from `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2, which disagreed with the artifact `docs/acquisition_single_seed_pilot.json` in the fourth and fifth decimal (the largest gap was $6.7\times10^{-5}$). The table above now carries the artifact's values, read mechanically. No verdict in this section changes; the correction and its cause are recorded at `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2.1.
+
+![Figure 4. The rebuilt benchmark's headroom, and the Pilot 0 readout by learner](../docs/figure_p01_acquisition.svg)
+
+**Figure 4.** The benchmark was discriminative, and the readout lost. Panel A: the headroom of the Bayes ceiling over the strongest simple baseline, in nats, with the preregistered 0.05-nat gate — +0.1035 overall, +0.1963 on the withheld cell and +0.0425 elsewhere. Panel B: the Pilot 0 readout by learner (log-loss, lower is better), with the floor the baselines collapse to once their episodes are deleted. Organica's readout is worse than that floor. Drawn from `docs/acquisition_compositional_gate.json` and `docs/acquisition_single_seed_pilot.json` by `benchmarks/figure_papers.py`.
 
 ### 4.8 Why the acquisition gate failed (summary; the characterization is a separate record)
 
@@ -228,6 +246,10 @@ The failure was characterized by four diagnostic probes, all run on **diagnostic
 - **No criterion the engine already stores can fix the ranking.** A 60-cell grid over those fields reached a best cell of **0.0804** coverage at **0.4500** precision against a **0.50** gate, and the engine's own normalized criterion selects **20 engine-vocabulary edges and 0 world edges**.
 
 This account is a candidate for a future manuscript. It is an explanation of *why* this one gate failed, not evidence about developmental structure, and it is not part of this paper's question.
+
+![Figure 5. Asserted structure coverage against the candidate budget](../docs/figure_p01_capacity_sweep.svg)
+
+**Figure 5.** The proximate bound, measured. The fraction of the world's 112 relations that the organism asserted, against the candidate budget, for five diagnostic seeds per point. At the frozen cap of 20 the organism asserts between 0.0000 and 0.0268 of the relations; removing the cap restores 0.9911–1.0000. The budget is the proximate bound and not the deepest cause — precision never exceeds 0.3443 at any budget under either allocation rule. Drawn from `docs/gate13_capacity_sweep.json` by `benchmarks/figure_papers.py`.
 
 ### 4.9 Claim status
 
@@ -327,3 +349,5 @@ All protocols, results and artifacts are public in the repository at [`nuerarese
 - [`docs/GATE13-CAUSAL-ACCOUNT.md`](../docs/GATE13-CAUSAL-ACCOUNT.md), [`docs/GATE13-RELATION-SEPARATION.md`](../docs/GATE13-RELATION-SEPARATION.md), [`docs/GATE13-RANKING-CRITERION.md`](../docs/GATE13-RANKING-CRITERION.md) — the mechanism account
 - [`docs/EMERGENCE-CRITERIA.md`](../docs/EMERGENCE-CRITERIA.md), [`docs/architecture.md`](../docs/architecture.md), [`docs/V1-FREEZE.md`](../docs/V1-FREEZE.md)
 - [`research-journal/phase_g_findings_20261021.md`](../research-journal/phase_g_findings_20261021.md) — the project's own running record
+- [`benchmarks/figure_papers.py`](../benchmarks/figure_papers.py) — the generator that draws every figure in §4 from the committed artifacts, and that refuses to draw a figure whose numbers it cannot find
+- [`docs/figure_p01_displacement_curve.svg`](../docs/figure_p01_displacement_curve.svg), [`docs/figure_p01_adjacent_differences.svg`](../docs/figure_p01_adjacent_differences.svg), [`docs/figure_p01_phase_k_families.svg`](../docs/figure_p01_phase_k_families.svg), [`docs/figure_p01_acquisition.svg`](../docs/figure_p01_acquisition.svg), [`docs/figure_p01_capacity_sweep.svg`](../docs/figure_p01_capacity_sweep.svg) — the five figures
