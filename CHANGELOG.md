@@ -33,6 +33,26 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Added — Paper 01's citations, and the lesson that carries none (2026-10-30)
+
+- **Paper 01's citations are closed.** §4.1's curriculum-sensitivity framing and §5.4's
+  four methodological lessons now carry inline `(Author, year)` markers, and the manuscript
+  carries a **References** section with **seven** sources, each retrieved and read on
+  2026-10-30: Bengio et al. (2009), Wang, Chen & Zhu (2021), Button et al. (2013),
+  Simmons et al. (2011), Jacobs & Wallach (2021), Davis & Goadrich (2006), and
+  Saito & Rehmsmeier (2015).
+- **One lesson carries no citation, by design.** The second methodological lesson —
+  compare against the strongest simple baseline and take the headroom from the ceiling —
+  is the project's own rule and reports only Organica 1's own numbers, so it is stated as
+  such rather than given a borrowed reference. The judgment is recorded in the source notes
+  instead of being left silent.
+- **The limit on what was read is written down.** Two sources were reachable only as their
+  authors' abstracts, because the ACM Digital Library's full text is not retrievable in this
+  environment; they are cited only for what those abstracts state.
+- **A correction to a cited source was read and disclosed.** An erratum to Button et al.
+  was published in *Nature Reviews Neuroscience* 14(6):451 (15 April 2013); it corrects the
+  definition of *R* on page 366 and does not affect the power conclusions cited here.
+
 ### Corrected — the first world edge was reported without the distribution beside it (2026-10-30)
 
 The owner reviewed the project's own reporting of the Gate 13 ranking failure and found one

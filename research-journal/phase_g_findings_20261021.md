@@ -6051,3 +6051,53 @@ and `papers/00_intelligence_through_structural_descent.md` §Law II.
 `docs/gate13_relation_separation.json`; `docs/GATE13-RELATION-SEPARATION.md`;
 `docs/GATE13-CAUSAL-ACCOUNT.md`; `docs/USER-MANUAL.md` findings 27 and 36;
 `docs/FACTS-SHEET.md` AD8; `papers/README.md`
+
+## §63 — Paper 01's citations, and the lesson that carries none
+
+**What this section records.** Paper 01 was the last of the two active manuscripts with its
+citations still open. This section records the audit that closed it: what was read, what
+each source is cited for, and the one lesson that is deliberately left uncited.
+
+### What was read
+
+Seven sources, each retrieved on 2026-10-30 and read at the level its claim requires.
+
+| Source | Read as | Cited for |
+|---|---|---|
+| Bengio et al. (2009), *Curriculum learning*, ICML | the authors' abstract | the definition of curriculum learning — examples presented in a meaningful order rather than at random |
+| Wang, Chen & Zhu (2021), *A survey on curriculum learning*, IEEE TPAMI | the arXiv record (arXiv:2010.13166v2) | curriculum as a training strategy whose effect on the trained model is a measured quantity |
+| Button et al. (2013), *Power failure*, *Nat Rev Neurosci* 14(5) | the abstract and the PubMed record | low power reduces the chance of detecting a true effect and the likelihood that a significant result reflects one |
+| Simmons et al. (2011), *False-positive psychology*, *Psychol Sci* 22(11) | the Crossref-deposited abstract and the Europe PMC record | flexibility in data collection, analysis and reporting inflates the actual false-positive rate above the nominal one; disclosure is the prescribed remedy |
+| Jacobs & Wallach (2021), *Measurement and fairness*, FAccT '21 | the authors' abstract | the mismatch between the construct a study means to measure and the operationalization it computes |
+| Davis & Goadrich (2006), *The relationship between Precision-Recall and ROC curves*, ICML | the authors' abstract | on skewed data a precision–recall curve gives the more informative picture, though ROC-space and PR-space dominance coincide |
+| Saito & Rehmsmeier (2015), *The precision-recall plot is more informative…*, *PLOS ONE* 10(3) | the open-access PLOS abstract | a ROC curve's visual interpretability is deceptive about reliability on imbalanced data |
+
+### The lesson that carries no citation
+
+The second of §5.4's four lessons — *compare against the strongest simple baseline, and
+take the headroom from the ceiling* — is **this project's own rule**, and it reports only
+Organica 1's own numbers. It is therefore stated in the manuscript as the project's rule,
+with no external reference attached, and the judgment is recorded rather than left silent.
+Two further candidate sources for it could not be located in any bibliographic record and
+are not cited.
+
+### A correction, disclosed
+
+An **erratum** to Button et al. was published in *Nature Reviews Neuroscience* 14(6):451
+on 15 April 2013 (https://doi.org/10.1038/nrn3502), and it was read. It corrects the
+definition of *R* on page 366, which reads in the corrected version as *"the pre-study odds
+(that is, the odds that a probed effect is indeed non-null among the effects being
+probed)"*. It touches neither the abstract nor the power conclusions cited in Paper 01, and
+it is disclosed in the manuscript's source notes.
+
+### The lesson
+
+**"Cite only what was read" is a rule about the limit, not only about the citation.** Two
+of the seven sources were reachable only as their authors' abstracts, because the ACM
+Digital Library's full text is not retrievable in this environment. They are cited only for
+what those abstracts state, and the limit is written down where a reader will find it. A
+reference list that does not say *how far* a source was read is a list that invites the
+reader to assume more than was checked.
+
+→ `papers/01_developmental_structure_formation.md` §4.1, §5.4, References;
+`papers/README.md`; `docs/USER-MANUAL.md` finding 37; `docs/FACTS-SHEET.md` AD9
