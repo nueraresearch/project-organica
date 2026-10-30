@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.10.0] — (unreleased)
 
+### Decided — Phase K H2 remains binding; one bounded Gate 13 diagnostic is authorized (2026-10-30)
+
+Phase K's terminal outcome **H2** ("the search failed; do not design V2") and the Gate 13 causal account had been read as if both were binding on everything, which left the project auditing a defect it had already localized. They scope different things and the decision is now recorded: **H2 binds V2 design** — no architecture redesign, no frozen-file change, no capability claim — and it does **not** bind one **diagnostic** arm, **G13-D**, which removes the two confounds it can remove (**capacity** and **provenance**) on the five seeds already classified diagnostic, in-process, and scored end-to-end against the declared baselines. The readout is held at its calibrated `alpha = 256.0` in both arms; it is a constant, not an intervention. Relation-family separation and a non-frequency ranking are out of scope: building them is design, which D1 forbids. The current 10-cell runner lacks both intervention hooks; a small adapter and dated diagnostic plan are required before execution. See [`docs/DECISION-V2-SCOPE.md`](docs/DECISION-V2-SCOPE.md) and manual decision 14. No preregistration, threshold, verdict, frozen engine, published result, or confirmatory seed is changed.
+
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
