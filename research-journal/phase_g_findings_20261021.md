@@ -5226,6 +5226,25 @@ The separation **does** move the world's edges up sharply — the first world
 edge goes from rank 30 / 18 / 53 to **16 / 8 / 8** under LIMIT 4 — and that is
 still not enough to clear the gate.
 
+**A first edge at rank 16 is one edge arriving, not the world's relations
+arriving.** The distribution beside it is what matters: under the engine's own
+global count-ranked selection the world's 112 edges are **spread through the
+table, not clustered at its top**.
+
+| Selection (global count-ranked) | world edges recovered, of 112 |
+|---|---|
+| top 20 — the engine's own budget | **0 – 1** |
+| top 40 | **0 – 2** |
+| top 80 | **8 – 16** |
+| top 160 | **36 – 55** |
+| top 320 — about 16× the engine's budget of 20 | **106 – 109** |
+
+(`docs/gate13_allocation_rule.json`, 3 seeds.) The five-seed capacity sweep puts
+the cap at 40 at **1 – 8 of 112** and the frozen cap of 20 at **0 – 3 of 112**
+(`docs/gate13_capacity_sweep.json`). *Corrected 2026-10-30:* the first-edge rank
+was previously reported without this distribution, which made the ranking problem
+look nearly solved.
+
 ### Why the remaining competition is intra-cell
 
 A cell's two tags co-occur in **every** event of that cell, so an intra-cell
@@ -5241,7 +5260,8 @@ co-occurrence pairs to compete — and there the crowding **is** the internal
 vocabulary (first world edge at rank 31; the top 30 rows all `internal->world`,
 verified). In the **2-tag** stimulus the internal vocabulary is removed and the
 crowding **is** the intra-cell pairs. **Each world shows one dominant
-mechanism, and they are different mechanisms.**
+mechanism, and they are different mechanisms.** The rank is a first case, not a distribution — the world's edges are spread
+through the table rather than clustered at its top (the table above).
 
 ### What this settles
 
@@ -5961,3 +5981,73 @@ outside the active submission queue.
 `docs/acquisition_compositional_gate.json`; `docs/acquisition_single_seed_pilot.json`;
 `docs/phase_l_results.json`; `docs/phase_k_results.json`; `docs/gate13_capacity_sweep.json`;
 `docs/audit_trace_probe*.json`; manual finding 35; facts sheet AD7
+
+## §62 — The first world edge was reported without the distribution beside it
+
+**What this section records.** The owner reviewed the project's own reporting of the Gate 13
+ranking failure and found one claim that was true but incomplete in a way that mattered: the
+**rank of the first world edge** was reported — *rank 31* in the 1-tag stimulus, *rank 30 /
+18 / 53* in the 2-tag seeds, and *rank 16 / 8 / 8* after the LIMIT-4 separation — **without
+the distribution of the world's edges behind it**. A first edge appearing early in a frequency
+ordering reads as though the world's relations are *nearly* reachable by raising a budget.
+They are not.
+
+### What the distribution is
+
+Under the engine's own global count-ranked selection, the world's 112 edges are **spread
+through the table, not clustered at its top** (`docs/gate13_allocation_rule.json`, 3 seeds,
+the global rule):
+
+| Selection (global count-ranked) | world edges recovered, of 112 |
+|---|---|
+| top 20 — the engine's own budget | **0 – 1** |
+| top 40 | **0 – 2** |
+| top 80 | **8 – 16** |
+| top 160 | **36 – 55** |
+| top 320 — about 16× the engine's budget of 20 | **106 – 109** |
+
+The five-seed capacity sweep puts the cap at 40 at **1 – 8 of 112**, and the frozen cap of 20
+at **0 – 3 of 112** (`docs/gate13_capacity_sweep.json`).
+
+The distribution is now carried beside the rank in `docs/GATE13-RELATION-SEPARATION.md` §4,
+in this journal's §54, in manual finding 27 and in the changelog.
+
+### A quoted figure that did not survive contact with the artifact
+
+While preparing the correction, the figure *"cap 40 recovers 4 – 8 of 112"* — which had been
+quoted in correspondence — was found **not** to be what the artifact says. The five-seed
+sweep gives **1 – 8 of 112** at cap 40 (per seed: 4, 7, 1, 2, 8). The correction therefore
+**restates the figure from the artifact** rather than carrying the quoted one forward. A
+number that cannot be traced to an artifact is not a weaker claim; it is not a claim.
+
+### What does not change
+
+No measurement is altered and no verdict moves. The first-edge ranks are correct as recorded;
+the artifact-backed ranges are what the documents now carry beside them. The conclusion is
+unchanged and is now stated with its distribution: **no frequency-based selection can find the
+world's relations**, because they are a third of the rows and are not clustered at the top of
+any frequency ordering. The frozen engine is untouched.
+
+### The lesson
+
+**A first edge at rank *N* is one edge arriving, not a set arriving.** This is the same
+discipline as *"a benchmark's headroom is not a learner's margin"* and *"the proximate bound
+and the deepest cause are different claims"*: a threshold, a first case and a headline
+statistic are all single points, and **the set is the claim**. Reporting the first edge alone
+made the ranking problem sound nearly solved; the distribution shows it needs roughly **16×**
+the engine's budget and a ranking rule the engine does not have.
+
+### The Law II ruling (owner, 2026-10-30)
+
+The owner has ruled on the **Law II** discrepancy: **keep it disclosed, and do not amend the
+law yet.** The amendment waits on a question the owner has framed explicitly — *is Law II a
+design requirement, or a description of V1's actual behavior?* Those two readings imply
+different amendments, and rewriting the law to match the frozen engine would erase the
+distinction that makes the discrepancy meaningful. `docs/DESIGN_LAWS.md` is therefore **not**
+edited, and the disclosure stays where the audit put it: facts sheet AD5, manual finding 33,
+and `papers/00_intelligence_through_structural_descent.md` §Law II.
+
+→ `docs/gate13_allocation_rule.json`; `docs/gate13_capacity_sweep.json`;
+`docs/gate13_relation_separation.json`; `docs/GATE13-RELATION-SEPARATION.md`;
+`docs/GATE13-CAUSAL-ACCOUNT.md`; `docs/USER-MANUAL.md` findings 27 and 36;
+`docs/FACTS-SHEET.md` AD8; `papers/README.md`

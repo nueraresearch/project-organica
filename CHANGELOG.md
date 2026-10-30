@@ -33,6 +33,40 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Corrected — the first world edge was reported without the distribution beside it (2026-10-30)
+
+The owner reviewed the project's own reporting of the Gate 13 ranking failure and found one
+claim that was true but incomplete in a way that mattered.
+
+- **The rank of the first world edge is correct** — **31** in the 1-tag stimulus, **30 / 18 /
+  53** in the 2-tag seeds, **16 / 8 / 8** after the LIMIT-4 separation — and it was reported on
+  its own. A first edge appearing early in a frequency ordering reads as though the world's
+  relations were nearly reachable by raising a budget.
+- **They are not.** Under the engine's own global count-ranked selection the world's 112 edges
+  are **spread through the table, not clustered at its top**: the top 20 recovers **0–1** of
+  them, the top 40 **0–2**, the top 80 **8–16**, the top 160 **36–55**, and the top **320** —
+  about **16×** the engine's budget — **106–109** (`docs/gate13_allocation_rule.json`, 3
+  seeds). The five-seed capacity sweep puts cap 40 at **1–8 of 112** and the frozen cap of 20
+  at **0–3 of 112** (`docs/gate13_capacity_sweep.json`).
+- **A quoted figure did not survive contact with the artifact.** *"Cap 40 recovers 4–8 of
+  112"* was carried in correspondence; the artifact gives **1–8 of 112** (per seed: 4, 7, 1, 2,
+  8). The numbers above are read from the artifacts.
+- **No measurement changes**, and the conclusion is unchanged — now stated with its
+  distribution: **no frequency-based selection can find the world's relations**, because they
+  are a third of the rows and are not clustered at the top of any frequency ordering.
+- **Law II — the owner's ruling, 2026-10-30.** Keep the discrepancy disclosed and **do not
+  amend the law yet**. The amendment waits on the owner's question: *is Law II a design
+  requirement, or a description of V1's actual behavior?* Rewriting the law to match the
+  frozen engine would erase the distinction that makes the discrepancy meaningful.
+  `docs/DESIGN_LAWS.md` is not edited; the disclosure stays where the audit put it.
+
+**A first edge at rank *N* is one edge arriving, not a set arriving.** A threshold, a first case
+and a headline statistic are all single points, and the set is the claim.
+
+→ `docs/GATE13-RELATION-SEPARATION.md`; `research-journal/phase_g_findings_20261021.md` §54
+and §62; `docs/USER-MANUAL.md` findings 27 and 36; `docs/FACTS-SHEET.md` AD8;
+`papers/README.md`
+
 ### Corrected — a hand-transcribed table had drifted from its artifact, and the first repair was defective too (2026-10-30)
 
 The publication pass on Papers 01 and 02 turned up a defect in the record itself: the Pilot-0

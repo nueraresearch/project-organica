@@ -106,6 +106,25 @@ edge goes from rank 30 / 18 / 53 to **16 / 8 / 8** under the LIMIT-4 variant.
 That is a large improvement in *rank*, and it is still not enough to clear the
 gate.
 
+**A first edge at rank 16 is one edge arriving, not the world's relations
+arriving.** The distribution beside it is what matters: under the engine's own
+global count-ranked selection the world's 112 edges are **spread through the
+table, not clustered at its top**.
+
+| Selection (global count-ranked) | world edges recovered, of 112 |
+|---|---|
+| top 20 — the engine's own budget | **0 – 1** |
+| top 40 | **0 – 2** |
+| top 80 | **8 – 16** |
+| top 160 | **36 – 55** |
+| top 320 — about 16× the engine's budget of 20 | **106 – 109** |
+
+(`docs/gate13_allocation_rule.json`, 3 seeds.) The five-seed capacity sweep puts
+the cap at 40 at **1 – 8 of 112** and the frozen cap of 20 at **0 – 3 of 112**
+(`docs/gate13_capacity_sweep.json`). *Corrected 2026-10-30:* the first-edge rank
+was previously reported without this distribution, which made the ranking problem
+look nearly solved.
+
 ### Why the remaining competition is intra-cell
 
 A cell's two tags co-occur in **every** event of that cell, so an intra-cell
@@ -121,7 +140,8 @@ intra-cell co-occurrence pairs to compete — and there the crowding *is* the
 internal vocabulary (first world edge at rank 31, top 30 rows all
 `internal→world`). In the **2-tag** stimulus the internal vocabulary is
 removed and the crowding is the intra-cell pairs. **Each world shows one
-dominant mechanism, and they are different mechanisms.**
+dominant mechanism, and they are different mechanisms.** The rank is a first case, not a distribution — the world's edges are spread
+through the table rather than clustered at its top (the table above).
 
 ## 5. What this settles, and what it leaves open
 
