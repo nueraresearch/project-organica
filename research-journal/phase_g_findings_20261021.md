@@ -6101,3 +6101,53 @@ reader to assume more than was checked.
 
 → `papers/01_developmental_structure_formation.md` §4.1, §5.4, References;
 `papers/README.md`; `docs/USER-MANUAL.md` finding 37; `docs/FACTS-SHEET.md` AD9
+
+---
+
+## §64 — Correction (2026-10-30): the cold-start table no longer reproduces, and the engine did not change
+
+**What was found.** A verification pass re-ran the documented checks on the frozen engine.
+`docs/cold_start.json`, generated 2026-10-21, no longer reproduces: its `cold_start`
+condition records **no G5 for the whole run**, and every retrievable engine reaches **G5 at
+cycle 10**. The row in §14 above (`cold_start` … G5 `–`) is therefore a record of the
+2026-10-21 run, not a description of the engine anyone can run today.
+
+**What was ruled out, one at a time.** The artifact and the rerun agree on the parameters
+that matter — `--cycles` 40, `events_per_cycle` `[8,8,1,1,1,8,8,8]`, seededness
+`[T,T,F,F,F,T,T,T]`, a 48-event stream for `cold_start` — and on the **schema**: the same
+top-level keys, the same condition keys, and the same twelve `final_populations` classes,
+including `G2 processes` and `G3 workflows`, which the old artifact carries with value `0`.
+The extra leaves in the rerun are populations that now emerge, not new fields. Run-to-run
+nondeterminism is ruled out (two consecutive runs: 0 structural differences), hash
+randomization is ruled out for emergence (`PYTHONHASHSEED=0` vs `1`: one non-emergence leaf,
+`experience_events` 111,697 → 111,758), and the interpreter is ruled out (3.13.15 and 3.14.7
+produce identical emergence keys for all eight conditions).
+
+**What the timeline says.** The artifact is dated 2026-10-21. The earliest engine retrievable
+from the repository is tag `v0.6.0`, dated 2026-10-23, and **it already shows the current
+profile** — `cold_start` G5 at 10, `cold_start_unbranched` deepest 12, `real_git_history`
+never. The freeze at `v0.9.0` (2026-10-24) is therefore **not** the cause; the change predates
+it. The commits between 2026-10-21 and 2026-10-23 are not published — `master` history was
+rewritten on 2026-10-29 and the deepest fetchable chain is 11 commits ending at 2026-10-29 —
+so the transition cannot be bisected. Whether the 2026-10-21 measurement was correct for a
+then-current engine, or was itself anomalous, cannot be decided from the surviving evidence.
+Both readings remain open; the record does not choose between them.
+
+**What changed as a result.** `docs/cold_start.json` and `docs/g5_gap_diagnostic.json` were
+re-measured on the frozen engine and the documents that restate them were regenerated from
+the artifact: manual §8.1's table, the §121 headline, decision 4's control claim, finding 10,
+`docs/FACTS-SHEET.md` B1 and the `docs/GATE-BOARD.md` status line. Two claims were narrowed
+rather than merely renumbered: `real_git_history` does reach G2 processes and G3 workflows
+(at cycle 14) and G4 at cycle 6, so "G2, G3 and G5 never emerge unassisted" is false; and
+`no_dev_stopwords` is no longer byte-identical to baseline (1 theory / 1 question against
+2 / 2), so the causal demonstration rests on `no_truncation` being identical and
+`wide_lookback` destroying G5.
+
+**What did not change.** The engine. `v0.9.0` and `HEAD` are behaviourally identical by
+`tests/test_v1_freeze.py`, `real_git_history` still never reaches G5, and the confidence-share
+mechanism is still the explanation the `wide_lookback` row supports. No verdict was re-read.
+
+→ `docs/USER-MANUAL.md` §8.1 and its revision log; `docs/cold_start.json`;
+`docs/g5_gap_diagnostic.json`; `docs/FACTS-SHEET.md` B1; `docs/GATE-BOARD.md`;
+`.scratch/verify/REPORT.md`
+

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T08:08:04Z",
+  "generated_at": "2026-10-30T21:33:42Z",
   "phase": "G",
   "title": "G5 Gap Diagnostic (Theories/Questions never emerge)",
   "method": "Instrumented the Layer 5 precondition (>=2 hypotheses per subject) and compared the resulting ceiling against actual production, across the longitudinal-study stream and the Phase F positive control.",
@@ -13,8 +13,8 @@
       "cycles_with_g5_eligible_subjects": 0,
       "cycles_where_ceiling_saturated": 10,
       "gate_is_binding_constraint": true,
-      "peak_hypotheses": 2,
-      "peak_distinct_subjects": 2,
+      "peak_hypotheses": 3,
+      "peak_distinct_subjects": 3,
       "peak_g5_eligible_subjects": 0,
       "peak_theories": 0,
       "peak_questions": 0,
@@ -22,14 +22,14 @@
       "peak_hypotheses_with_contradictions": 0,
       "peak_question_uncertainty": 0.0,
       "peak_experiment_priority": 0.8906,
-      "mean_hypothesis_confidence": 0.5945,
+      "mean_hypothesis_confidence": 0.6879,
       "scaling": {
         "events_first": 43,
-        "events_last": 2147,
-        "cycle_ms_first": 59.2,
-        "cycle_ms_last": 5004.1,
-        "ms_per_1000_events": 2350.2376,
-        "final_total_events": 2147
+        "events_last": 2150,
+        "cycle_ms_first": 19.4,
+        "cycle_ms_last": 117.9,
+        "ms_per_1000_events": 46.7489,
+        "final_total_events": 2150
       },
       "per_cycle": [
         {
@@ -56,7 +56,7 @@
           "mean_hypothesis_confidence": 0.0,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.0,
-          "cycle_ms": 59.2,
+          "cycle_ms": 19.4,
           "total_events": 43
         },
         {
@@ -83,7 +83,7 @@
           "mean_hypothesis_confidence": 0.0,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 137.8,
+          "cycle_ms": 21.0,
           "total_events": 72
         },
         {
@@ -104,7 +104,7 @@
                 "expectation": "high_structural_significance",
                 "support": 5,
                 "contradiction": 0,
-                "confidence": 0.9396
+                "confidence": 0.975
               }
             ]
           },
@@ -116,10 +116,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.9396,
+          "mean_hypothesis_confidence": 0.975,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 140.0,
+          "cycle_ms": 21.1,
           "total_events": 104
         },
         {
@@ -140,7 +140,7 @@
                 "expectation": "high_structural_significance",
                 "support": 5,
                 "contradiction": 0,
-                "confidence": 0.864
+                "confidence": 0.9439
               }
             ]
           },
@@ -152,10 +152,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.864,
+          "mean_hypothesis_confidence": 0.9439,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 140.6,
+          "cycle_ms": 21.6,
           "total_events": 140
         },
         {
@@ -176,7 +176,7 @@
                 "expectation": "high_structural_significance",
                 "support": 5,
                 "contradiction": 0,
-                "confidence": 0.8239
+                "confidence": 0.8978
               }
             ]
           },
@@ -188,10 +188,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.8239,
+          "mean_hypothesis_confidence": 0.8978,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 259.5,
+          "cycle_ms": 29.2,
           "total_events": 199
         },
         {
@@ -207,20 +207,20 @@
           "questions_actual": 0,
           "ceiling_saturated": true,
           "subject_detail": {
+            "issue": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 0.9773
+              }
+            ],
             "auth": [
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
-                "confidence": 0.7553
-              }
-            ],
-            "issue": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 5,
-                "contradiction": 0,
-                "confidence": 0.785
+                "confidence": 0.8301
               }
             ]
           },
@@ -232,10 +232,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.7702,
+          "mean_hypothesis_confidence": 0.9037,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 519.8,
+          "cycle_ms": 56.5,
           "total_events": 303
         },
         {
@@ -251,20 +251,20 @@
           "questions_actual": 0,
           "ceiling_saturated": true,
           "subject_detail": {
+            "issue": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 8,
+                "contradiction": 0,
+                "confidence": 0.9751
+              }
+            ],
             "auth": [
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
-                "confidence": 0.6881
-              }
-            ],
-            "issue": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 0.6983
+                "confidence": 0.7502
               }
             ]
           },
@@ -276,10 +276,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.6932,
+          "mean_hypothesis_confidence": 0.8626,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 724.9,
+          "cycle_ms": 47.9,
           "total_events": 462
         },
         {
@@ -295,20 +295,20 @@
           "questions_actual": 0,
           "ceiling_saturated": true,
           "subject_detail": {
+            "issue": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 8,
+                "contradiction": 0,
+                "confidence": 0.976
+              }
+            ],
             "auth": [
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
-                "confidence": 0.6239
-              }
-            ],
-            "issue": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 0.6742
+                "confidence": 0.6695
               }
             ]
           },
@@ -320,10 +320,10 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.6491,
+          "mean_hypothesis_confidence": 0.8227,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 1141.6,
+          "cycle_ms": 53.8,
           "total_events": 726
         },
         {
@@ -339,20 +339,20 @@
           "questions_actual": 0,
           "ceiling_saturated": true,
           "subject_detail": {
+            "issue": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 8,
+                "contradiction": 0,
+                "confidence": 0.978
+              }
+            ],
             "auth": [
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
-                "confidence": 0.5676
-              }
-            ],
-            "issue": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 0.6588
+                "confidence": 0.5987
               }
             ]
           },
@@ -364,18 +364,18 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.6132,
+          "mean_hypothesis_confidence": 0.7883,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 2188.5,
+          "cycle_ms": 68.3,
           "total_events": 1221
         },
         {
           "cycle": 10,
-          "hypotheses": 2,
-          "distinct_subjects": 2,
+          "hypotheses": 3,
+          "distinct_subjects": 3,
           "engine_grouped_subjects": 0,
-          "structural_only_subjects": 2,
+          "structural_only_subjects": 3,
           "g5_eligible_subjects": 0,
           "theory_ceiling": 0,
           "question_ceiling": 0,
@@ -383,20 +383,28 @@
           "questions_actual": 0,
           "ceiling_saturated": true,
           "subject_detail": {
-            "auth": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 0.5342
-              }
-            ],
             "issue": [
               {
                 "expectation": "high_structural_significance",
-                "support": 6,
+                "support": 8,
                 "contradiction": 0,
-                "confidence": 0.6487
+                "confidence": 0.9804
+              }
+            ],
+            "auth": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 13,
+                "contradiction": 0,
+                "confidence": 0.5571
+              }
+            ],
+            "triggering": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 9,
+                "contradiction": 0,
+                "confidence": 0.5166
               }
             ]
           },
@@ -408,11 +416,11 @@
           },
           "contradiction_total": 0,
           "hypotheses_with_contradictions": 0,
-          "mean_hypothesis_confidence": 0.5915,
+          "mean_hypothesis_confidence": 0.6847,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.8906,
-          "cycle_ms": 5004.1,
-          "total_events": 2147
+          "cycle_ms": 117.9,
+          "total_events": 2150
         }
       ]
     },
@@ -425,23 +433,23 @@
       "cycles_with_g5_eligible_subjects": 9,
       "cycles_where_ceiling_saturated": 10,
       "gate_is_binding_constraint": false,
-      "peak_hypotheses": 11,
+      "peak_hypotheses": 13,
       "peak_distinct_subjects": 7,
-      "peak_g5_eligible_subjects": 1,
-      "peak_theories": 1,
-      "peak_questions": 1,
-      "peak_contradiction_total": 683,
-      "peak_hypotheses_with_contradictions": 4,
-      "peak_question_uncertainty": 0.9957,
-      "peak_experiment_priority": 1.4935,
-      "mean_hypothesis_confidence": 0.6299,
+      "peak_g5_eligible_subjects": 2,
+      "peak_theories": 2,
+      "peak_questions": 2,
+      "peak_contradiction_total": 987.0,
+      "peak_hypotheses_with_contradictions": 6,
+      "peak_question_uncertainty": 1.0,
+      "peak_experiment_priority": 1.5,
+      "mean_hypothesis_confidence": 0.6093,
       "scaling": {
         "events_first": 103,
-        "events_last": 1048,
-        "cycle_ms_first": 233.0,
-        "cycle_ms_last": 532.0,
-        "ms_per_1000_events": 316.4021,
-        "final_total_events": 1048
+        "events_last": 1057,
+        "cycle_ms_first": 13.7,
+        "cycle_ms_last": 39.0,
+        "ms_per_1000_events": 26.5199,
+        "final_total_events": 1057
       },
       "per_cycle": [
         {
@@ -468,7 +476,7 @@
           "mean_hypothesis_confidence": 0.0,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.0,
-          "cycle_ms": 233.0,
+          "cycle_ms": 13.7,
           "total_events": 103
         },
         {
@@ -484,40 +492,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 5,
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 272.0,
+                "confidence": 0.1905
+              },
+              {
                 "expectation": "high_structural_significance",
                 "support": 22,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 272,
-                "confidence": 0.1905
               }
             ],
-            "executed": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 7,
+                "support": 5,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
               }
             ],
             "modified": [
@@ -536,26 +564,6 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
-              }
-            ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
@@ -569,8 +577,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -580,12 +588,12 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 555.1,
+          "cycle_ms": 19.7,
           "total_events": 208
         },
         {
@@ -601,40 +609,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 10,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 12,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 272.0,
+                "confidence": 0.1905
+              },
+              {
                 "expectation": "high_structural_significance",
                 "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 272,
-                "confidence": 0.1905
               }
             ],
-            "executed": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 10,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
               }
             ],
             "modified": [
@@ -653,26 +681,6 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 14,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
-              }
-            ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
@@ -686,8 +694,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -697,12 +705,12 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 610.0,
+          "cycle_ms": 29.7,
           "total_events": 313
         },
         {
@@ -718,40 +726,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 10,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 12,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 272.0,
+                "confidence": 0.1905
+              },
+              {
                 "expectation": "high_structural_significance",
                 "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 272,
-                "confidence": 0.1905
               }
             ],
-            "executed": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 10,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
               }
             ],
             "modified": [
@@ -770,26 +798,6 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 14,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
-              }
-            ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
@@ -803,8 +811,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -814,12 +822,12 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 573.3,
+          "cycle_ms": 24.7,
           "total_events": 418
         },
         {
@@ -835,40 +843,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 10,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 12,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 272.0,
+                "confidence": 0.1905
+              },
+              {
                 "expectation": "high_structural_significance",
                 "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 272,
-                "confidence": 0.1905
               }
             ],
-            "executed": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 10,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
               }
             ],
             "modified": [
@@ -887,26 +915,6 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 14,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
-              }
-            ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
@@ -920,8 +928,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -931,12 +939,12 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 506.1,
+          "cycle_ms": 24.9,
           "total_events": 523
         },
         {
@@ -952,40 +960,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 11,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 12,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
-                "expectation": "high_structural_significance",
-                "support": 40,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
                 "expectation": "suite",
                 "support": 64,
-                "contradiction": 272,
+                "contradiction": 272.0,
                 "confidence": 0.1905
-              }
-            ],
-            "executed": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 12,
-                "contradiction": 0,
-                "confidence": 1.0
               },
               {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
+                "expectation": "high_structural_significance",
+                "support": 37,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "detected": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 10,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "modified": [
@@ -999,35 +1027,15 @@
             "report": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 11,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 15,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
               }
             ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 40,
+                "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1037,8 +1045,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -1048,12 +1056,12 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 495.7,
+          "cycle_ms": 30.2,
           "total_events": 628
         },
         {
@@ -1069,40 +1077,60 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 11,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 12,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
-                "expectation": "high_structural_significance",
-                "support": 40,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
                 "expectation": "suite",
                 "support": 64,
-                "contradiction": 272,
+                "contradiction": 272.0,
                 "confidence": 0.1905
-              }
-            ],
-            "executed": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 12,
-                "contradiction": 0,
-                "confidence": 1.0
               },
               {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
+                "expectation": "high_structural_significance",
+                "support": 37,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "detected": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 10,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "modified": [
@@ -1116,35 +1144,15 @@
             "report": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 11,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 15,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
               }
             ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 40,
+                "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1154,8 +1162,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -1165,20 +1173,20 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
+          "contradiction_total": 683.0,
           "hypotheses_with_contradictions": 4,
           "mean_hypothesis_confidence": 0.6999,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 488.9,
+          "cycle_ms": 30.2,
           "total_events": 733
         },
         {
           "cycle": 8,
-          "hypotheses": 11,
+          "hypotheses": 12,
           "distinct_subjects": 7,
-          "engine_grouped_subjects": 3,
-          "structural_only_subjects": 4,
+          "engine_grouped_subjects": 4,
+          "structural_only_subjects": 3,
           "g5_eligible_subjects": 1,
           "theory_ceiling": 1,
           "question_ceiling": 1,
@@ -1186,43 +1194,13 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 11,
-                "contradiction": 0,
-                "confidence": 1.0
-              }
-            ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 40,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 272,
-                "confidence": 0.1905
-              }
-            ],
-            "executed": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 12,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
-              }
-            ],
             "modified": [
+              {
+                "expectation": "developer",
+                "support": 32,
+                "contradiction": 152.0,
+                "confidence": 0.1739
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
@@ -1230,7 +1208,33 @@
                 "confidence": 1.0
               }
             ],
-            "report": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 12,
@@ -1238,30 +1242,40 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 15,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
+            "developer": [
               {
                 "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
+                "support": 64,
+                "contradiction": 272.0,
+                "confidence": 0.1905
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 37,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "detected": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 10,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "report": [
+              {
+                "expectation": "high_structural_significance",
+                "support": 11,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 40,
+                "support": 37,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1271,8 +1285,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -1282,67 +1296,99 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
-          "hypotheses_with_contradictions": 4,
-          "mean_hypothesis_confidence": 0.6999,
+          "contradiction_total": 835.0,
+          "hypotheses_with_contradictions": 5,
+          "mean_hypothesis_confidence": 0.656,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 501.6,
-          "total_events": 838
+          "cycle_ms": 34.2,
+          "total_events": 839
         },
         {
           "cycle": 9,
-          "hypotheses": 11,
+          "hypotheses": 13,
           "distinct_subjects": 7,
-          "engine_grouped_subjects": 3,
-          "structural_only_subjects": 4,
-          "g5_eligible_subjects": 1,
-          "theory_ceiling": 1,
-          "question_ceiling": 1,
-          "theories_actual": 1,
-          "questions_actual": 1,
+          "engine_grouped_subjects": 4,
+          "structural_only_subjects": 3,
+          "g5_eligible_subjects": 2,
+          "theory_ceiling": 2,
+          "question_ceiling": 2,
+          "theories_actual": 2,
+          "questions_actual": 2,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "modified": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 152.0,
+                "confidence": 0.1739
+              },
+              {
+                "expectation": "developer",
+                "support": 32,
+                "contradiction": 152.0,
+                "confidence": 0.1739
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 11,
+                "support": 10,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
-                "expectation": "high_structural_significance",
-                "support": 40,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
                 "expectation": "suite",
                 "support": 64,
-                "contradiction": 272,
+                "contradiction": 272.0,
                 "confidence": 0.1905
-              }
-            ],
-            "executed": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 12,
-                "contradiction": 0,
-                "confidence": 1.0
               },
               {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
+                "expectation": "high_structural_significance",
+                "support": 41,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
-            "modified": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 8,
+                "support": 10,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1350,46 +1396,34 @@
             "report": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 11,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 15,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
               }
             ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 40,
+                "support": 39,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
           "eligible_subject_detail": {
+            "modified": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            },
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -1399,67 +1433,99 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
-          "hypotheses_with_contradictions": 4,
-          "mean_hypothesis_confidence": 0.6999,
-          "peak_question_uncertainty": 0.9957,
-          "peak_experiment_priority": 1.4935,
-          "cycle_ms": 507.4,
-          "total_events": 943
+          "contradiction_total": 987.0,
+          "hypotheses_with_contradictions": 6,
+          "mean_hypothesis_confidence": 0.6189,
+          "peak_question_uncertainty": 1.0,
+          "peak_experiment_priority": 1.5,
+          "cycle_ms": 35.7,
+          "total_events": 948
         },
         {
           "cycle": 10,
-          "hypotheses": 11,
+          "hypotheses": 13,
           "distinct_subjects": 7,
-          "engine_grouped_subjects": 3,
-          "structural_only_subjects": 4,
-          "g5_eligible_subjects": 1,
-          "theory_ceiling": 1,
-          "question_ceiling": 1,
-          "theories_actual": 1,
-          "questions_actual": 1,
+          "engine_grouped_subjects": 4,
+          "structural_only_subjects": 3,
+          "g5_eligible_subjects": 2,
+          "theory_ceiling": 2,
+          "question_ceiling": 2,
+          "theories_actual": 2,
+          "questions_actual": 2,
           "ceiling_saturated": true,
           "subject_detail": {
-            "detected": [
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
               {
                 "expectation": "high_structural_significance",
-                "support": 11,
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "modified": [
+              {
+                "expectation": "developer",
+                "support": 32,
+                "contradiction": 152.0,
+                "confidence": 0.1739
+              },
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 152.0,
+                "confidence": 0.1739
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "executed": [
+              {
+                "expectation": "suite",
+                "support": 32,
+                "contradiction": 143.0,
+                "confidence": 0.1829
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ],
             "developer": [
               {
-                "expectation": "high_structural_significance",
-                "support": 40,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
                 "expectation": "suite",
                 "support": 64,
-                "contradiction": 272,
+                "contradiction": 272.0,
                 "confidence": 0.1905
-              }
-            ],
-            "executed": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 12,
-                "contradiction": 0,
-                "confidence": 1.0
               },
               {
-                "expectation": "suite",
-                "support": 32,
-                "contradiction": 143,
-                "confidence": 0.1829
+                "expectation": "high_structural_significance",
+                "support": 43,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
-            "modified": [
+            "detected": [
               {
                 "expectation": "high_structural_significance",
-                "support": 8,
+                "support": 10,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1467,35 +1533,15 @@
             "report": [
               {
                 "expectation": "high_structural_significance",
-                "support": 12,
+                "support": 11,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 15,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
               }
             ],
             "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 40,
+                "support": 43,
                 "contradiction": 0,
                 "confidence": 1.0
               }
@@ -1503,6 +1549,14 @@
           },
           "eligible_subject_detail": {
             "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            },
+            "modified": {
               "hypothesis_count": 2,
               "expectations": [
                 "developer",
@@ -1516,13 +1570,13 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 683,
-          "hypotheses_with_contradictions": 4,
-          "mean_hypothesis_confidence": 0.6999,
-          "peak_question_uncertainty": 0.9957,
-          "peak_experiment_priority": 1.4935,
-          "cycle_ms": 532.0,
-          "total_events": 1048
+          "contradiction_total": 987.0,
+          "hypotheses_with_contradictions": 6,
+          "mean_hypothesis_confidence": 0.6189,
+          "peak_question_uncertainty": 1.0,
+          "peak_experiment_priority": 1.5,
+          "cycle_ms": 39.0,
+          "total_events": 1057
         }
       ]
     },
@@ -1532,26 +1586,26 @@
       "cycles": 10,
       "ever_produced_theory": true,
       "ever_produced_question": true,
-      "cycles_with_g5_eligible_subjects": 1,
+      "cycles_with_g5_eligible_subjects": 9,
       "cycles_where_ceiling_saturated": 10,
       "gate_is_binding_constraint": false,
-      "peak_hypotheses": 15,
-      "peak_distinct_subjects": 10,
+      "peak_hypotheses": 18,
+      "peak_distinct_subjects": 11,
       "peak_g5_eligible_subjects": 1,
       "peak_theories": 1,
       "peak_questions": 1,
-      "peak_contradiction_total": 1017,
+      "peak_contradiction_total": 1017.0,
       "peak_hypotheses_with_contradictions": 7,
       "peak_question_uncertainty": 0.9957,
       "peak_experiment_priority": 1.4935,
-      "mean_hypothesis_confidence": 0.6438,
+      "mean_hypothesis_confidence": 0.6048,
       "scaling": {
         "events_first": 176,
-        "events_last": 1157,
-        "cycle_ms_first": 235.7,
-        "cycle_ms_last": 670.7,
-        "ms_per_1000_events": 443.4251,
-        "final_total_events": 1157
+        "events_last": 1197,
+        "cycle_ms_first": 29.1,
+        "cycle_ms_last": 62.1,
+        "ms_per_1000_events": 32.3213,
+        "final_total_events": 1197
       },
       "per_cycle": [
         {
@@ -1578,7 +1632,7 @@
           "mean_hypothesis_confidence": 0.0,
           "peak_question_uncertainty": 0.0,
           "peak_experiment_priority": 0.0,
-          "cycle_ms": 235.7,
+          "cycle_ms": 29.1,
           "total_events": 176
         },
         {
@@ -1594,12 +1648,70 @@
           "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              }
+            ],
             "corridor": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              }
+            ],
+            "navigated": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 17,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
               }
             ],
             "detected": [
@@ -1610,20 +1722,6 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 17,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
@@ -1632,56 +1730,12 @@
                 "confidence": 1.0
               }
             ],
-            "navigated": [
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
-              }
-            ],
-            "resource": [
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "router": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "developer",
-                "support": 28,
-                "contradiction": 132,
-                "confidence": 0.175
-              },
-              {
-                "expectation": "suite",
-                "support": 24,
-                "contradiction": 136,
-                "confidence": 0.15
               }
             ],
             "suite": [
@@ -1697,8 +1751,8 @@
             "router": {
               "hypothesis_count": 2,
               "expectations": [
-                "developer",
-                "suite"
+                "suite",
+                "developer"
               ],
               "produced_theory": true
             }
@@ -1708,39 +1762,115 @@
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 1017,
+          "contradiction_total": 1017.0,
           "hypotheses_with_contradictions": 7,
           "mean_hypothesis_confidence": 0.5644,
           "peak_question_uncertainty": 0.9957,
           "peak_experiment_priority": 1.4935,
-          "cycle_ms": 515.4,
+          "cycle_ms": 37.5,
           "total_events": 285
         },
         {
           "cycle": 3,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -1751,54 +1881,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -1809,20 +1897,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -1831,54 +1905,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 531.6,
-          "total_events": 394
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 42.2,
+          "total_events": 399
         },
         {
           "cycle": 4,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -1889,54 +2048,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -1947,20 +2064,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -1969,54 +2072,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 540.9,
-          "total_events": 503
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 44.3,
+          "total_events": 513
         },
         {
           "cycle": 5,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2027,54 +2215,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2085,20 +2231,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2107,54 +2239,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 561.1,
-          "total_events": 612
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 47.8,
+          "total_events": 627
         },
         {
           "cycle": 6,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2165,54 +2382,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2223,20 +2398,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2245,54 +2406,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 544.0,
-          "total_events": 721
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 50.8,
+          "total_events": 741
         },
         {
           "cycle": 7,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2303,54 +2549,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2361,20 +2565,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2383,54 +2573,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 625.3,
-          "total_events": 830
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 51.3,
+          "total_events": 855
         },
         {
           "cycle": 8,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2441,54 +2716,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2499,20 +2732,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2521,54 +2740,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 668.4,
-          "total_events": 939
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 70.4,
+          "total_events": 969
         },
         {
           "cycle": 9,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2579,54 +2883,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2637,20 +2899,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2659,54 +2907,139 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 644.3,
-          "total_events": 1048
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 56.1,
+          "total_events": 1083
         },
         {
           "cycle": 10,
-          "hypotheses": 15,
-          "distinct_subjects": 10,
-          "engine_grouped_subjects": 5,
+          "hypotheses": 18,
+          "distinct_subjects": 11,
+          "engine_grouped_subjects": 6,
           "structural_only_subjects": 5,
-          "g5_eligible_subjects": 0,
-          "theory_ceiling": 0,
-          "question_ceiling": 0,
-          "theories_actual": 0,
-          "questions_actual": 0,
+          "g5_eligible_subjects": 1,
+          "theory_ceiling": 1,
+          "question_ceiling": 1,
+          "theories_actual": 1,
+          "questions_actual": 1,
           "ceiling_saturated": true,
           "subject_detail": {
+            "router": [
+              {
+                "expectation": "suite",
+                "support": 24,
+                "contradiction": 136.0,
+                "confidence": 0.15
+              },
+              {
+                "expectation": "developer",
+                "support": 28,
+                "contradiction": 132.0,
+                "confidence": 0.175
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 14,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "organism": [
+              {
+                "expectation": "resource",
+                "support": 29,
+                "contradiction": 138.0,
+                "confidence": 0.1737
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
             "corridor": [
+              {
+                "expectation": "robot",
+                "support": 29,
+                "contradiction": 97.0,
+                "confidence": 0.2302
+              },
               {
                 "expectation": "high_structural_significance",
                 "support": 6,
                 "contradiction": 0,
                 "confidence": 1.0
-              },
+              }
+            ],
+            "navigated": [
               {
                 "expectation": "robot",
                 "support": 29,
-                "contradiction": 97,
+                "contradiction": 97.0,
                 "confidence": 0.2302
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 6,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "developer": [
+              {
+                "expectation": "suite",
+                "support": 64,
+                "contradiction": 277.0,
+                "confidence": 0.1877
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 26,
+                "contradiction": 0,
+                "confidence": 1.0
+              }
+            ],
+            "resource": [
+              {
+                "expectation": "organism",
+                "support": 33,
+                "contradiction": 140.0,
+                "confidence": 0.1908
+              },
+              {
+                "expectation": "high_structural_significance",
+                "support": 7,
+                "contradiction": 0,
+                "confidence": 1.0
               }
             ],
             "detected": [
@@ -2717,54 +3050,12 @@
                 "confidence": 1.0
               }
             ],
-            "developer": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 26,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "suite",
-                "support": 64,
-                "contradiction": 277,
-                "confidence": 0.1877
-              }
-            ],
             "executed": [
               {
                 "expectation": "high_structural_significance",
                 "support": 8,
                 "contradiction": 0,
                 "confidence": 1.0
-              }
-            ],
-            "navigated": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 6,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "robot",
-                "support": 29,
-                "contradiction": 97,
-                "confidence": 0.2302
-              }
-            ],
-            "organism": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "resource",
-                "support": 29,
-                "contradiction": 138,
-                "confidence": 0.1737
               }
             ],
             "report": [
@@ -2775,20 +3066,6 @@
                 "confidence": 1.0
               }
             ],
-            "resource": [
-              {
-                "expectation": "high_structural_significance",
-                "support": 7,
-                "contradiction": 0,
-                "confidence": 1.0
-              },
-              {
-                "expectation": "organism",
-                "support": 33,
-                "contradiction": 140,
-                "confidence": 0.1908
-              }
-            ],
             "robot": [
               {
                 "expectation": "high_structural_significance",
@@ -2797,28 +3074,37 @@
                 "confidence": 1.0
               }
             ],
-            "router": [
+            "suite": [
               {
                 "expectation": "high_structural_significance",
-                "support": 14,
+                "support": 24,
                 "contradiction": 0,
                 "confidence": 1.0
               }
             ]
           },
-          "eligible_subject_detail": {},
+          "eligible_subject_detail": {
+            "router": {
+              "hypothesis_count": 2,
+              "expectations": [
+                "suite",
+                "developer"
+              ],
+              "produced_theory": true
+            }
+          },
           "downstream": {
             "dreams": 8,
             "investigations": 5,
             "experiments": 5
           },
-          "contradiction_total": 749,
-          "hypotheses_with_contradictions": 5,
-          "mean_hypothesis_confidence": 0.7342,
-          "peak_question_uncertainty": 0.0,
-          "peak_experiment_priority": 0.8906,
-          "cycle_ms": 670.7,
-          "total_events": 1157
+          "contradiction_total": 1017.0,
+          "hypotheses_with_contradictions": 7,
+          "mean_hypothesis_confidence": 0.6854,
+          "peak_question_uncertainty": 0.9957,
+          "peak_experiment_priority": 1.4935,
+          "cycle_ms": 62.1,
+          "total_events": 1197
         }
       ]
     }

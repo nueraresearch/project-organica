@@ -26,7 +26,7 @@ entry (`§C2`) or a committed artifact.
 | Lineage integrity | ✅ | 138/138 candidates grounded, 100%, 0 unverifiable (`docs/lineage_audit.json`) |
 | Substrate endurance | ✅ | 3,725 cycles without leak or regression; log archived 8.36 MB (`logs/organica_prefix_20261022.log`) |
 | Ablation campaign complete | 🟡 | **V1 complete** — 11 conditions, mechanism-verified, 6 disclosed measurement defects. V2 (Tier-1 forces) pending |
-| Development observed | 🟡 | G1/G4/G6/G7/G8 bootstrap unassisted; G5 never does. But the population is **degenerate**: 1 theory, 1 question, and **flat from cycle 261** (§B2) |
+| Development observed | 🟡 | G1–G4/G6/G7/G8 bootstrap unassisted (G2 processes and G3 workflows at cycle 14, G4 at 6, on the real-commit stream); **G5 never appears there**, but appears unseeded at cycle 10 in `cold_start` on the engineered stream (re-measured 2026-10-30). The live population is **degenerate**: 1 theory, 1 question, and **flat from cycle 261** (§B2) |
 | Contradiction is developmental fuel | ❌ | Never isolated. Raw contradiction grew 0 → 400,550 with **no** population change (§B4). The causal question is untested |
 | Selection pressure understood | 🟡 | **Was ❌ "measured inert."** The cap did not bind because the belief pool was starved by a **mis-scoped counter** — see the G-P1 update below. Corrected: the branch stimulus now holds **18 beliefs against a cap of 15**, pressure **1.20**, sustained |
 | Belief supply sufficient | ✅ *(on the branch stimulus)* | **Was ❌ "6 real beliefs across 5 subjects; exactly one subject carries ≥2 beliefs."** That was partly an artifact of the same defect. Measured now: **18 beliefs, 7 competing subjects, 5 theories, 100% of tail cycles** (`docs/gate_check.json`) |
@@ -358,3 +358,4 @@ threshold. Flagged, not tracked, in this repository.
 | Date | Change |
 |------|--------|
 | 2026-10-22 | Board created. Statuses set from `docs/FACTS-SHEET.md` §A–§G. "Selection pressure understood" downgraded from "retention redesign required" to **measured inert** (§D1–D3). "Development observed" downgraded from ✅ to 🟡 on the degeneracy of the G5 population (§B2, §D5–D6). |
+| 2026-10-30 | Cold-start study re-measured on the frozen engine: `cold_start` reaches G5 at cycle 10, `real_git_history` reaches G2 processes and G3 workflows at cycle 14 and G4 at cycle 6. The 2026-10-21 artifact no longer reproduces; the "Development observed" cell was corrected accordingly. No engine change. |

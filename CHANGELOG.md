@@ -33,6 +33,35 @@ there is nothing to check out.
 **Organica 1 is frozen, and Phase L opens as a measurement phase rather than
 another benchmark hunt.**
 
+### Corrected — the cold-start table no longer reproduced, and was re-measured (2026-10-30)
+
+- **`docs/cold_start.json` (2026-10-21) no longer reproduces on any engine retrievable from
+  this repository.** On `v0.6.0` (2026-10-23), `v0.9.0` and `HEAD`, the `cold_start`
+  condition (no seed, 1 event/cycle) reaches **G5 at cycle 10**; the artifact recorded no G5
+  for that condition at all.
+- **Every alternative explanation was checked and ruled out:** `--cycles`, `events_per_cycle`,
+  seededness, the 48-event stream, the benchmark schema (identical key sets), repeated runs
+  (**0** structural differences), `PYTHONHASHSEED` (one non-emergence leaf), and the
+  interpreter (3.13.15 vs 3.14.7, identical emergence keys). **The freeze is ruled out too:**
+  `v0.6.0` predates it and already shows the current profile.
+- **The transition cannot be bisected.** The 2026-10-21 → 2026-10-23 commits are not
+  published — `master` history was rewritten on 2026-10-29 — so whether the old measurement
+  was correct for a then-current engine, or was itself anomalous, cannot be decided from the
+  surviving evidence. Both readings remain open in the record.
+- **`docs/g5_gap_diagnostic.json` was re-measured as well**; its conclusion is unchanged (the
+  G5 gate is a property of the study stream, not the engine).
+- **Regenerated from the artifacts:** manual §8.1's table, its headline, decision 4's control
+  claim, finding 10, `docs/FACTS-SHEET.md` B1 and `docs/GATE-BOARD.md`. **Two claims were
+  narrowed:** `real_git_history` does reach G2 processes and G3 workflows (cycle 14) and G4
+  (cycle 6), so "G2, G3 and G5 never emerge unassisted" is false; and `no_dev_stopwords` is no
+  longer byte-identical to baseline (1 theory / 1 question against 2 / 2).
+- **`benchmarks/clone_check.py` now fetches the `v0.9.0` tag into its depth-1 clone**, so the
+  fifteen freeze checks run instead of skipping; its pytest line reports **159 passed, 0
+  skipped**, not 144 passed / 15 skipped.
+- **New `tests/test_manual_cold_start.py`** derives the §8.1 table from the artifact and fails
+  on drift, with a proof-of-firing.
+- **`AGENTS.md`'s test count corrected** (69 → 164, after the new guard file). No engine change; no verdict re-read.
+
 ### Added — Paper 01's citations, and the lesson that carries none (2026-10-30)
 
 - **Paper 01's citations are closed.** §4.1's curriculum-sensitivity framing and §5.4's
