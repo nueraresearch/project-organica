@@ -1,0 +1,490 @@
+{
+  "status": "post-hoc audit observation; not a gate and not a protocol amendment",
+  "generated_utc": "2026-10-31T05:19:06.852273+00:00",
+  "source": {
+    "diagnostic": "docs/use_path_diagnostic.json",
+    "campaign": "docs/formation_utilization.json"
+  },
+  "units": 60,
+  "cross_tab": {
+    "identical_pass": 51,
+    "identical_fail": 0,
+    "different_fail": 8,
+    "different_pass": 1
+  },
+  "identical": 51,
+  "different": 9,
+  "identical_and_fail": [],
+  "different_and_fail": [
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "identical": false,
+      "d0_failed_limbs": [
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "identical": false,
+      "d0_failed_limbs": [
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    }
+  ],
+  "different_and_pass": [
+    {
+      "task": "T2",
+      "seed": 20261122,
+      "identical": false,
+      "d0_failed_limbs": []
+    }
+  ],
+  "rows": [
+    {
+      "task": "T1",
+      "seed": 20261101,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261102,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261103,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261104,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261105,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261106,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261107,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261108,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261109,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261110,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261111,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261112,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261113,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261114,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261115,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261116,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261117,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261118,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261119,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261120,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261121,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261122,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261123,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261124,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T1",
+      "seed": 20261126,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261127,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "identical": false,
+      "d0_failed_limbs": [
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T1",
+      "seed": 20261130,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261101,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261102,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261103,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261104,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261105,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261106,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261107,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261108,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261109,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261110,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261111,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261112,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261113,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261114,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261115,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261116,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261117,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261119,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "identical": false,
+      "d0_failed_limbs": [
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261122,
+      "identical": false,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    },
+    {
+      "task": "T2",
+      "seed": 20261124,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261125,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261126,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261127,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261128,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261129,
+      "identical": true,
+      "d0_failed_limbs": []
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "identical": false,
+      "d0_failed_limbs": [
+        "retention",
+        "transfer",
+        "revision"
+      ]
+    }
+  ]
+}

@@ -43,6 +43,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REMOTE = "https://github.com/nueraresearch/project-organica.git"
 
+#: The Organica 1 archival tag. tests/test_v1_freeze.py compares the
+#: frozen engine against it; without the tag the comparisons skip.
+FREEZE_TAG = "v0.9.0"
+
 
 def run(cmd: list[str], cwd: Path, timeout: int = 900) -> tuple[int, str]:
     # The output is decoded as UTF-8 explicitly. With `text=True` and no
@@ -103,9 +107,26 @@ def main() -> int:
     code, out = run(["git", "clone", "--depth", "1", "--branch", args.branch,
                      args.remote, str(clone)], cwd=workdir, timeout=600)
     ok = code == 0 and clone.exists()
+    tag_detail = ""
+    if ok:
+        # `--depth 1` fetches only tags pointing at the cloned commit, so
+        # the archival tag -- an ancestor -- is absent, and
+        # tests/test_v1_freeze.py skips all fifteen comparisons. A green
+        # clone check would then say nothing about the freeze. Fetch the
+        # tag explicitly: a depth limit bounds commits, not trees, so the
+        # tagged blobs arrive and the comparisons can run.
+        tag_code, tag_out = run(["git", "fetch", "--depth", "1", "origin",
+                                 f"refs/tags/{FREEZE_TAG}:refs/tags/{FREEZE_TAG}"],
+                                cwd=clone, timeout=300)
+        if tag_code != 0:
+            ok = False
+            tag_detail = f"could not fetch {FREEZE_TAG}: {tag_out.strip()[-300:]}"
+        else:
+            tag_detail = f"{FREEZE_TAG} fetched so the freeze checks can run"
     results.append({"step": "clone", "ok": ok, "seconds": round(time.time() - t0, 1),
-                    "detail": out.strip()[-400:] if not ok else ""})
-    print(f"  [{'ok' if ok else 'FAIL'}] clone")
+                    "detail": tag_detail or (out.strip()[-400:] if not ok else "")})
+    print(f"  [{'ok' if ok else 'FAIL'}] clone"
+          f"{'  (' + tag_detail + ')' if tag_detail else ''}")
     if not ok:
         print(out[-1500:])
         return 1

@@ -33,7 +33,7 @@ it is in §F.
 
 | # | Fact | Evidence |
 |---|------|----------|
-| B1 | In the cold-start study, **G1, G4, G6, G7 and G8 bootstrap unassisted**; **G5 never does** in any of the 8 conditions. | `docs/cold_start.json` |
+| B1 | In the cold-start study on the frozen engine (re-measured 2026-10-30), **G1–G4, G6, G7 and G8 bootstrap unassisted** — G2 processes and G3 workflows at cycle 14 on the real-commit stream, G4 at cycle 6 — and **G5 never appears on the one unengineered stimulus** (`real_git_history`, 11 commit messages). G5 *does* appear unseeded at cycle 10 in `cold_start`, which uses the engineered stream; the 2026-10-21 artifact said it never did, and that row no longer reproduces (manual §8.1). | `docs/cold_start.json` |
 | B2 | **The live run converged and then stopped moving.** Over the last 931 cycles (25% of the run) and the last 372 cycles (10%), every population series has **stdev 0.000000, slope 0.0 per 1,000 cycles, and exactly one distinct value.** | `docs/development_probe.json` → `plateau` |
 | B3 | Convergence points: theories & questions constant from cycle **261**; dreams from **162**; investigations & experiments from **82**; hypotheses from **1,677**. | same |
 | B4 | **The population is flat while the evidence behind it grows without bound.** Raw contradiction across the retained hypotheses rose 0 → **400,550** while support reached 78,647, over a run whose population never changed after cycle 261. | same → `plateau.contradiction` |

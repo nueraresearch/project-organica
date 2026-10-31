@@ -6101,3 +6101,349 @@ reader to assume more than was checked.
 
 → `papers/01_developmental_structure_formation.md` §4.1, §5.4, References;
 `papers/README.md`; `docs/USER-MANUAL.md` finding 37; `docs/FACTS-SHEET.md` AD9
+
+---
+
+## §64 — Correction (2026-10-30): the cold-start table no longer reproduces, and the engine did not change
+
+**What was found.** A verification pass re-ran the documented checks on the frozen engine.
+`docs/cold_start.json`, generated 2026-10-21, no longer reproduces: its `cold_start`
+condition records **no G5 for the whole run**, and every retrievable engine reaches **G5 at
+cycle 10**. The row in §14 above (`cold_start` … G5 `–`) is therefore a record of the
+2026-10-21 run, not a description of the engine anyone can run today.
+
+**What was ruled out, one at a time.** The artifact and the rerun agree on the parameters
+that matter — `--cycles` 40, `events_per_cycle` `[8,8,1,1,1,8,8,8]`, seededness
+`[T,T,F,F,F,T,T,T]`, a 48-event stream for `cold_start` — and on the **schema**: the same
+top-level keys, the same condition keys, and the same twelve `final_populations` classes,
+including `G2 processes` and `G3 workflows`, which the old artifact carries with value `0`.
+The extra leaves in the rerun are populations that now emerge, not new fields. Run-to-run
+nondeterminism is ruled out (two consecutive runs: 0 structural differences), hash
+randomization is ruled out for emergence (`PYTHONHASHSEED=0` vs `1`: one non-emergence leaf,
+`experience_events` 111,697 → 111,758), and the interpreter is ruled out (3.13.15 and 3.14.7
+produce identical emergence keys for all eight conditions).
+
+**What the timeline says.** The artifact is dated 2026-10-21. The earliest engine retrievable
+from the repository is tag `v0.6.0`, dated 2026-10-23, and **it already shows the current
+profile** — `cold_start` G5 at 10, `cold_start_unbranched` deepest 12, `real_git_history`
+never. The freeze at `v0.9.0` (2026-10-24) is therefore **not** the cause; the change predates
+it. The commits between 2026-10-21 and 2026-10-23 are not published — `master` history was
+rewritten on 2026-10-29 and the deepest fetchable chain is 11 commits ending at 2026-10-29 —
+so the transition cannot be bisected. Whether the 2026-10-21 measurement was correct for a
+then-current engine, or was itself anomalous, cannot be decided from the surviving evidence.
+Both readings remain open; the record does not choose between them.
+
+**What changed as a result.** `docs/cold_start.json` and `docs/g5_gap_diagnostic.json` were
+re-measured on the frozen engine and the documents that restate them were regenerated from
+the artifact: manual §8.1's table, the §121 headline, decision 4's control claim, finding 10,
+`docs/FACTS-SHEET.md` B1 and the `docs/GATE-BOARD.md` status line. Two claims were narrowed
+rather than merely renumbered: `real_git_history` does reach G2 processes and G3 workflows
+(at cycle 14) and G4 at cycle 6, so "G2, G3 and G5 never emerge unassisted" is false; and
+`no_dev_stopwords` is no longer byte-identical to baseline (1 theory / 1 question against
+2 / 2), so the causal demonstration rests on `no_truncation` being identical and
+`wide_lookback` destroying G5.
+
+**What did not change.** The engine. `v0.9.0` and `HEAD` are behaviourally identical by
+`tests/test_v1_freeze.py`, `real_git_history` still never reaches G5, and the confidence-share
+mechanism is still the explanation the `wide_lookback` row supports. No verdict was re-read.
+
+→ `docs/USER-MANUAL.md` §8.1 and its revision log; `docs/cold_start.json`;
+`docs/g5_gap_diagnostic.json`; `docs/FACTS-SHEET.md` B1; `docs/GATE-BOARD.md`;
+`.scratch/verify/REPORT.md`
+
+## §65 — Correct structure is not enough: the formation-vs-utilization campaign, and a bar that was not what the protocol called it
+
+**What was run.** The amended protocol's 30 confirmatory seeds
+(`20261101`–`20261130`), both tasks, four arms (A, B, C, S) and the frozen
+comparators: **60 units, 240 arm runs**, engine **0.10.0**, no engine file
+changed. The campaign ran through `python .scratch/run_campaign_resumable.py
+--seeds 30 --workers 10`, a resumable wrapper over the harness's own
+`run_task_seed`; every unit was checkpointed, no unit failed or was re-run, and
+the artifact was assembled with the harness's own `analyse()` and renderer. The
+per-unit timings sum to **12.72 worker-hours**; the wall clock was **4,690 s**
+on 10 workers. All **60/60** units are `campaign_ready`.
+
+**The verdict.** Both formed arms lose transfer on both tasks, so §7's "both
+lose" cell fires on both: **"utilization fails even with correct structure"** →
+**V2 targets the use path (retrieval / activation / readout)**. The summary claim
+is **not supported**. The failing limbs are **transfer and retention**.
+
+| Task | Arm | Retention | Transfer | Revision |
+|---|---|---|---|---|
+| T1 | B (cap 1,000) | −0.0302 | −0.0296 | +0.0877 |
+| T1 | C (cap 1,000 + support) | −0.0267 | −0.0262 | +0.1002 |
+| T2 | B (cap 1,000) | −0.0797 | −0.0795 | −0.0676 |
+| T2 | C (cap 1,000 + support) | −0.0230 | −0.0227 | +0.0007 (tie) |
+
+`d = bar − arm`; positive favours the arm. Intervals are 98.33 % percentile
+bootstraps over 10,000 replicates, paired by seed (n = 30). The full eighteen-cell
+table, including A, is in the results document.
+
+**A notation defect, disclosed.** §7 writes `d = score(arm) − score(best
+baseline)` and then states the win rule as a lower bound above zero; lower
+log loss is better, so the two sentences use opposite orientations. The
+artifact and the results document use `d = bar − arm`, positive favours the
+arm, which is the orientation the win rule requires (`paired_bootstrap`'s
+docstring says so). No interval, verdict or criterion changes; the protocol
+is not edited.
+
+**The label is not the magnitude.** C closes **65.2 %** of arm A's transfer gap
+on T1 and **79.9 %** on T2 (retention 65.2 % / 79.6 %), leaving **0.0262** and
+**0.0227** nats. It improves over B by **0.0034** (T1) and **0.0568** (T2). It
+wins T1 revision by **0.1002** — against Replay, the bar there, which cannot
+revise — and ties T2 revision (+0.0007 [−0.0012, +0.0026]). The verdict says C
+does not clear the bar; it does not say the organism makes no use of the
+structure, and it does not say the structure is not there.
+
+**The bar was not "data-only".** The protocol's question and §12.5 call the
+comparator *"the strongest data-only learner"*. On T2 the bar is the
+**cell-level latent-state counter**, and `fit_cell_counter` takes `tag_to_cell`
+from the generator; its docstring says the structure is *"here granted"*. It is
+a declared member of the statistical-learner family (acquisition protocol §6.3),
+so this is a naming defect, not a deviation from the committed comparator set —
+but the name is wider than the thing. The verdict does not depend on it: post
+hoc, C still loses T2 transfer to Replay by **0.0208** [−0.0224, −0.0192] and to
+the bigram by **0.0187** [−0.0205, −0.0168]; on T1 the bar is Replay and C loses
+by **0.0262** [−0.0275, −0.0249]. C's oracle is also the stronger one — the
+generator's full transition support against the counter's four-cell map — so the
+loss is not an artifact of the baseline being handed more.
+
+**What the campaign can and cannot support.** It can support a statement about
+where the defect is: the arm that was given the law still lost, so the target is
+the use path, not candidate selection or admission precision. It cannot support
+"the engine cannot use structure" (C closes most of A's gap and wins T1
+revision); discovery (C is given the support; B is the discovery arm, and B also
+loses); a self-sourcing result (B's graph still contains B's sleep rows, and C
+inherits it under Amendment 1); "the engine with this filter installed" (C is a
+counterfactual trajectory at fixed evidence); a localization inside the use path
+(the experiment names the path, not the binding component); generality beyond
+T1/T2; or a V2 authorisation.
+
+**Audits.** 60/60 units ready. A1 coverage: T2 A **0.0000–0.0625** vs B/C
+**0.9643–1.0000**; T1 A **0.1553–0.2549** vs **0.8812–0.9935**. A2: **473,351**
+(T2) and **612,005** (T1) permitted candidates, **0** mismatches, the cap never
+bound. A3: B precision **0.3182–0.3394** on T2 (band 0.3543), C admission 1.0.
+A6: shuffled transfer **0.4957–0.5052** vs C **0.3569–0.3726**, Layer-1 coverage
+0.0. A7: **94.0–96.2 %** (T2) and **96.2–97.7 %** (T1) of readout weight from
+Layer 1. A8: **2,539,326** (T2) and **2,408,224** (T1) eligible-pair checks,
+**0** mismatches, own-table symmetric difference **17–93** / **0–19** edges
+(unread). A3 and A6 are not applicable on T1, with the reasons recorded before
+the campaign.
+
+**Provenance correction.** The artifact's `command` field initially named the
+harness's `--campaign` path, which was not the command that ran. It was
+re-assembled from the same 60 unit files with the wrapper's command; `status`,
+`results`, `audits` and `analysis` are identical to the first assembly, and the
+correction is disclosed in the artifact (`assembly_note`, `assembled_utc`) and
+in the results document. No measurement changed.
+
+**Why this is a finding and not only a result.** The protocol asked where the
+defect is, and the answer is the use path because the arm that was given the law
+still lost. The shape of the answer is the finding: correct structure closes
+most of the gap, and the residual is small, consistent, and not attributable to
+candidate selection. The second finding is about the instrument: **a
+comparator's name is part of its definition**, and "data-only" did not describe
+the T2 bar. Neither changes the verdict; both change what a reader should take
+from it. The general lesson is the one from §16 and AGENTS rule 24, applied to a
+pre-committed verdict: **a label and its magnitude are different claims**, and
+the label must not stand in for the effect size. "Utilization fails" is the
+protocol's verdict; 65–80 % of the gap closed is the measurement beside it.
+
+→ `docs/formation_utilization_results.md` (generated from the artifact);
+`docs/formation_utilization.json` / `.md`; `docs/FORMATION-UTILIZATION-
+PREREGISTRATION.md` §7, §12; `docs/USER-MANUAL.md` §8.21 and finding 39; AGENTS
+rule 24.
+
+## §66 — The record is corrected, and the diagnostic is pre-registered: D0 before room, room before mechanism
+
+**The record claim.** The formation-utilization campaign established that weak transfer despite
+correct internal structure is an observed ceiling condition and selected the use path as the target
+of investigation. It did not identify the binding component of that path and therefore did not, by
+itself, satisfy the mechanism requirement for a V2 build authorization.
+
+**What the correction is, and what it is not.** Section §65 measured the campaign and named the
+use path. What it could not do — and did not do — is say which component of that path binds. Three
+documents were still written as if the ceiling condition had never been observed. The V2 design
+brief's §11 row said *"NOT OBSERVED: R1 did not pass; the structure was never formed"*; gate 5 said
+the specific failure had not been demonstrated because the acquisition campaign stopped at its own
+acquisition gate; and §12 said no V2 result existed. The acquisition campaign's statement was true
+of the acquisition campaign. It stopped being true of the project on 2026-10-30, when arm C held the
+generator's support at fixed evidence and still lost transfer on both tasks (T1 −0.0262, T2
+−0.0227).
+
+The row is **preserved and marked superseded**, not rewritten. The replacement says what was
+observed, keeps the old sentence visible beside it, and gives the date. Gate 5 now reads
+**specific-failure condition met; mechanism condition not**. §12 gains a bullet that says the
+campaign selects the use path and does not authorise a build. That is the whole correction: no
+measurement changed, no verdict was re-read, and no claim was widened. The record claim is the
+sentence the three documents now share.
+
+**Why a correction is a finding.** A project's documents are part of its instrument, and an
+instrument that says "not observed" after the observation has landed is broken in the direction
+that matters least visibly: it does not contradict the data, it simply stops carrying it. The V2
+brief is the document a V2 decision is made from. Leaving it stale would have meant the decision
+was made against the 2026-10-28 record while the 2026-10-30 result sat in a different file. The
+general lesson is the one from §16 and AGENTS rule 24, applied to the *record* rather than to a
+headline: **a claim that was true of an earlier campaign is not a claim about the project**, and
+the correction must name the campaign it was true of.
+
+**The diagnostic, and why it is ordered the way it is.** The next step is
+[`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`](docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md),
+frozen before any cell runs. Its first question is not *which component binds?* It is *is there
+measurable room in the use path at this evidence?* The order is:
+
+```
+D0 reproduction  ->  room estimate  ->  mechanism mapping
+```
+
+**D0 is a validity gate, not a control.** It must reproduce the campaign's arm-C scores for all 30
+seeds and all three limbs within `1e-4`. If it does not, the decomposition is of a different object
+than the one that produced the ceiling result, and the only honest outcome is **AUDIT REQUIRED** —
+no room estimate, no mechanism mapping. A failed denominator check invalidates a variant; a failed
+D0 check invalidates the object being analysed.
+
+**The self-test found the campaign's missing hash seed before the run.** The engine is hash-order
+sensitive. Without `PYTHONHASHSEED=0`, the diagnostic's first re-run drifted from the campaign by
+**4.7e-4** (retention 2.8e-4, transfer 2.0e-4, revision 4.7e-4) and the asserted structure differed
+by 30 edges; with the pin it reproduced **exactly**. The campaign artifact was produced under that
+seed and its command did not record it. That is a provenance defect in the campaign, not a
+difference in any measurement, and the D0 tolerance was not changed to accommodate it. Amendment 1
+to the diagnostic protocol pins the seed, the runner refuses to start without it, and the artifact
+records it. The campaign's verdict stands; its reproducibility is now stated rather than assumed.
+
+**The room comes before the component.** The ceiling is the generator's true conditional on the
+same contexts. If the room between it and the pinned readout is below `0.01` nats on both tasks and
+no variant helps, the outcome is **EVIDENCE-LIMITED**: the use path has no measurable room at this
+evidence, and the target moves upstream to formation / estimation / evidence quality. That is a
+successful result, not a failure of the run — it can disprove a class of use-path V2 concepts before
+implementation.
+
+**The component arms are observer-side re-scorings, not interventions.** D1 restricts the asserted
+graph to Layer-1 edges (retrieval/provenance); D2 re-weights the same edges by type with **declared
+constants** — Layer 1 `1.0`, every other type `0.5` — and no fitting, no calibration, no influence
+from the campaign's seeds; D3 sweeps the smoothing α, selected only on `20261099`; D4 replaces the
+backoff with a direct conditional with a declared add-one constant; D5 is the ceiling. D2 is
+constants-only for a reason: a type weighting chosen after seeing a score would be a tuned
+retrospective analysis wearing a diagnostic's name.
+
+**What the diagnostic can and cannot do.** It can select a component for a V2 **brief**. It cannot
+authorise a V2 build. C is still given the support and reads B's evidence, so a component candidate
+is a hypothesis for a confirmatory protocol, not a deployable fix. B remains the discovery arm, and
+the formation limitation is untouched. The owner's build decision is separate, dated, and not
+supplied by any result in the diagnostic.
+
+**Status at freeze time (superseded by §67).** Pre-registered and frozen. No diagnostic cell had been run. The result was to be written
+to `docs/USE-PATH-DIAGNOSTIC-RESULTS.md` from the artifact, with the D0 gate as its first section.
+**No V2 build is authorised.**
+
+→ `docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`; `docs/use_path_diagnostic_freeze.json`;
+`docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.8, gate 5, §11, §12; `docs/USER-MANUAL.md` §8.22 and action
+15; `benchmarks/use_path_diagnostic.py`; `tests/test_use_path_diagnostic.py`; AGENTS rules 13, 19,
+23 and 24.
+
+## §67 — The use-path diagnostic ran, and its own validity gate stopped it: AUDIT REQUIRED
+
+The diagnostic was pre-registered and frozen at `a700e83` (Amendment 1, the `PYTHONHASHSEED=0`
+pin; the freeze record is `2b70a2e`) and ran on 2026-10-30 over all 60 units (30 seeds × 2 tasks).
+D0 asked it to reproduce the formation-vs-utilization campaign's arm-C scores on all three scored
+limbs within `1e-4`. It did not: **162 of 180** seed-limbs agree, **18 fail**, and the largest
+absolute difference is **0.004386** (T1 seed `20261128`, revision). The failures are **8 seeds**,
+not one bad seed — T1 `20261125`, `20261128`, `20261129`; T2 `20261118`, `20261120`, `20261121`,
+`20261123`, `20261130` — and they span all three limbs. Seventeen of the eighteen differences are
+below `2e-3`; the 0.004386 cell is the outlier. The pre-committed outcome is therefore **AUDIT
+REQUIRED**: no room estimate, no variant effect, no component, and no `evidence-limited`
+conclusion. Every other control passed: the D2 constants are the declared 1.0/0.5 and cannot be
+influenced by the campaign seeds; every admitted unit had an attribution and a denominator.
+
+**The likely cause, and it is not a use-path finding.** The engine stores each event with
+`time.time()`, which has coarse enough resolution that a cycle's rows can share a timestamp;
+`MemoryService.recent()` orders by `time DESC` with no `rowid` tiebreak; `_load_prior_candidates()`
+reads the newest 4,000 sleep rows; and the harness's `structure_edges()` keeps the first snapshot
+per candidate id. A different tie order therefore keeps a different snapshot, which is enough to
+move a readout by the observed amount. The code already uses `rowid DESC` in
+`prune_sleep_candidates()`, so the omission is specific to `recent()`. **This is a code-path
+hypothesis, not an established cause**: the campaign artifact did not record the tie order, and the
+falsifier — an in-process `recent()` with a `rowid DESC` tiebreak re-run twice on a failing seed —
+has not been run.
+
+**Why the gate should stop the run.** The diagnostic exists to decompose *the object that produced
+the ceiling result*. Eighteen failures at `1e-4` mean the object being decomposed is not that
+object, and a room estimate or a component mapping computed on it would be a decomposition of a
+different world. The tempting alternative — widen `1e-4` after seeing the failures, or report
+D1–D5 anyway under an "exploratory" label — is exactly the move rule 19 and the campaign's own D0
+forbid. The gate firing is the instrument working, not the study failing. It is also finding 23's
+lesson in its intended direction: a check that cannot fire is decoration, and this one fired on the
+condition the study existed to detect.
+
+**What stands and what does not.** The V2 record correction stands: the campaign's ceiling condition
+is observed, the specific-failure condition of gate 5 is met, and the use path is the target. The
+*mechanism* condition is not met, no component was selected, and **no V2 brief follows**. The
+result document's first section is the gate; the generator refuses to emit a mechanism section when
+D0 fails. The next step is the reproduction audit, not another diagnostic cell and not a V2 design.
+
+→ `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`; `docs/use_path_diagnostic.json`;
+`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`; `docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.8, gate 5,
+§12; `docs/USER-MANUAL.md` §8.22 and actions 15–16; `benchmarks/use_path_diagnostic.py`;
+`tests/test_use_path_diagnostic.py`; AGENTS rules 13, 19, 23, 24 and 28.
+
+→ §68 records the later audit observation and the refined audit design.
+
+**Superseded on the cause (2026-10-30, §69).** §69 ran this hypothesis's falsifier. The `rowid` tiebreak changes neither the per-type table nor any score, and both read orders reproduce their own runs 3/3 on all eight failing seeds, so tie order is **not supported** as the cause and is no longer the leading hypothesis. The D0 verdict and everything else in §67 stand.
+
+## §68 — Audit observation: the candidate table is a leading forensic indicator for the D0 mismatch, and the reproduction audit design (2026-10-30)
+
+**Status.** The formation-vs-utilization campaign's conclusion that V2 must target the use path remains operative. The use-path diagnostic could not reconstruct the campaign object to its pre-registered D0 tolerance and therefore halted before variant decomposition. The current evidence concerns the reconstructability of the campaign object, not the campaign's recorded verdicts, and the question of whether the use path has measurable room was never reached. The next step is a controlled reproduction audit using paired no-tiebreak and rowid-tiebreak runs on the failing seeds, with the campaign's recorded per-type candidate table as the intermediate endpoint, to determine whether retrieval-order instability is causal, merely correlated, or irrelevant.
+
+**What stands, what is blocked, what is unreached.** The campaign's recorded verdicts stand. A1–A8 pass or are not applicable by their committed scope (A3 and A6 are N/A on T1); none failed, so the campaign's internal logic is not in question. What is blocked is the decomposition of the campaign object into a component: D0 fired before D1–D5, so no variant effect, room estimate or component is reported. What is unreached is the room question itself. The gap is in the reproduction relationship between the campaign artifact and the diagnostic re-run; the missing tie order is campaign-side metadata, and the re-run is the other half, so neither side is assigned the cause yet.
+
+**The mechanical check.** The campaign artifact already records the C arm's frozen-candidate table at `results[].arms.C.per_type`; the diagnostic records the same table at `records[].per_type`. Both are produced by `candidate_summary()` in `benchmarks/acquisition_runner.py`. `python benchmarks/use_path_diagnostic.py --structure-check` matches the units by `(task, seed)` and compares the tables **before** joining the D0 outcome, so the join cannot influence whether the tables are identical. The output is `docs/use_path_diagnostic_structure.json`; its `cross_tab` is the sole source of the counts below.
+
+**Cross-tab (source: `docs/use_path_diagnostic_structure.json`):** 51 identical/pass, 0 identical/fail, 8 different/fail, 1 different/pass.
+
+**What the pattern does and does not mean.** Every failing unit has a different frozen-candidate table; no unit with an identical table fails; and T2 `20261122` differs structurally while all three scores stay inside the D0 tolerance. The exception is the negative control, not an anomaly: a perfect separation would be a reason to suspect hidden coupling, while one structural difference that does not reach the score is the shape a real checkpoint should have. The pattern is descriptive. It localises the divergence to the frozen candidate set, before scoring; it does not establish why the set differs. Tie order remains the leading hypothesis, not a cause. The campaign ran from an uncommitted working tree and the committed harness is later, so a stable code-revision difference is the first alternative to exclude. And counts can show *that* the set differs, not *which* candidate: neither artifact records candidate IDs or the tie order.
+
+**The audit design.** Three layers, in order.
+
+1. **Repeatability.** N no-tiebreak runs and N `rowid`-DESC-tiebreak runs per failing seed; compare within each arm, not only across arms.
+2. **Structural reproduction.** Compare each arm's per-type table with the campaign's. Stop here if the candidate population does not reproduce; a score comparison on a different candidate set is not an attribution.
+3. **Score reproduction.** Only after layer 2.
+
+The four outcomes are: no-tiebreak unstable and tiebreak stable → ordering is the destabilizer; both stable and both differ from the campaign → look upstream of retrieval order, beginning with the code revision; tiebreak reproduces the campaign's table and scores → the campaign's effective order is consistent with `rowid` DESC; tiebreak unstable → the nondeterminism is upstream of retrieval order.
+
+The structural checkpoint is pre-committed **in the audit**. It is not retrofitted into the diagnostic's D0: D0 remains score-based, the protocol is unchanged, and the audit is a separate instrument whose purpose is attribution, not effect estimation.
+
+**What is not claimed.** No mechanism, no room estimate, no campaign re-score, no V2 brief and no V2 build. The per-type table is an audit instrument, not evidence about the use-path question.
+
+→ `docs/use_path_diagnostic_structure.json`; `docs/use_path_diagnostic.json`; `docs/formation_utilization.json`; `benchmarks/use_path_diagnostic.py --structure-check`; `tests/test_use_path_diagnostic.py`; `docs/USER-MANUAL.md` §8.22; §67.
+
+**Follow-up (2026-10-30, §69).** The audit designed here ran and returned the pre-declared *both stable, both differ* outcome: the `rowid` tiebreak is inert and both read orders are repeatable, so tie order is not supported as the cause. §69 records it.
+
+## §69 — The tie order is not the cause: the reproduction audit on the eight failing seeds (2026-10-30)
+
+**What was asked.** §68 committed the three-layer audit before it ran: repeatability under the shipped read order and under a `rowid DESC` tiebreak, then reproduction of the campaign's per-type candidate table, then — only if the table reproduced — reproduction of its scores. The question was whether retrieval-order instability was causal, merely correlated, or irrelevant to the D0 mismatch.
+
+**What ran.** Eight failing seeds, two configurations, three repeats each: 48 runs, each against a fresh database through the same B-then-C path the diagnostic used, with `PYTHONHASHSEED=0` asserted at startup and inherited by every worker. The tiebreak is applied by temporarily replacing `MemoryService.recent()` in-process and restoring it; `organica/` is not edited. The self-test fires the tiebreak on two equal-timestamp rows and proves the method is restored; an incomplete set of runs is refused rather than analysed. The artifact is `docs/use_path_audit.json`; the result document is `docs/USE-PATH-AUDIT.md`, generated from it.
+
+**Audit counts (source: `docs/use_path_audit.json`):** `seeds=8 repeats=3 runs=48 no_tiebreak_stable=8 tiebreak_stable=8 arms_agree=8 digests_agree=8 campaign_no_match=0 campaign_tie_match=0 diagnostic_no_match=8 diagnostic_tie_match=8 layer3_entered=0`
+
+**Instrument check.** Both configurations reproduce the diagnostic's per-type table and all three D0 scores exactly on 8/8 seeds, to the diagnostic artifact's six-decimal rounding. The audit is therefore a re-run of the object D0 failed on, not a different measurement.
+
+**Layer 1 — repeatability.** Each configuration reproduces its own per-type table in 3/3 runs on 8/8 seeds. The repeats are independent databases with independent wall-clock timestamps; they share the pinned hash seed, which is the declared constant. There is no run-to-run instability to explain on these seeds.
+
+**The intervention is inert.** The no-tiebreak and `rowid DESC` configurations produce identical per-type tables and identical scores on 8/8 seeds. The tiebreak is a real change to the query — the self-test fires it — but on these worlds it changes nothing the run reads. A cause cannot be a difference that makes no difference.
+
+**Layer 2 — structural reproduction.** Neither configuration reproduces the campaign's per-type table on any of the eight seeds (0/8 and 0/8). The deltas are structural, not a single drifted score: unique candidate counts move in both directions, and the edge weights move with them. T2 `20261118` is the sharpest case: its asserted-edge count and coverage are identical to the campaign's, and its candidate composition still differs. The checkpoint is doing work a score or coverage comparison cannot do.
+
+**Layer 3 — not entered.** The design compares scores only after the candidate population reproduces. It did not, so the score differences (largest **0.004386**, T1 `20261128`, revision) are recorded as observations, not as a reproduction result.
+
+**The verdict.** Retrieval-order instability is **not supported** as the cause of the D0 mismatch. The `rowid`-tiebreak hypothesis, as §67 stated it, does not survive its own falsifier: adding the tiebreak did not move the object, and the object is repeatable without it. The divergence is upstream of `recent()`'s tie order. This is the pattern §68 pre-declared as *both stable and both differ* → look upstream of retrieval order, beginning with the code revision; the audit follows that rule rather than inventing one after seeing the result.
+
+**What the audit does not name.** The upstream cause is not identified. Two candidates remain, both campaign-side and both unrecorded: a campaign-time harness revision — the harness was uncommitted when the campaign ran and was committed later, so git cannot show what the campaign executed — and the campaign's execution environment, which the artifact does not record (neither the hash seed nor the tie order). The structure check constrains the first: 51 of 60 campaign units reproduce their table under this same pinned code, so a code difference that affected every unit is excluded; a difference that acts only on ordering-sensitive units is not, and neither is an environment difference. The audit does not separate them.
+
+**What this changes.** §67's sentence naming tie order as the likely cause is superseded by this audit; the manual's §8.22 and actions 15–16 are corrected in the same turn. D0 remains fired, the diagnostic remains `AUDIT REQUIRED`, and no room estimate, mechanism, component or V2 brief follows. The campaign's recorded verdicts stand.
+
+**What would settle it.** A hash-seed sensitivity sweep on one failing seed is the cheapest next test: if the per-type table moves across hash seeds, the campaign's unrecorded environment is sufficient to explain the mismatch; if it does not, the campaign-time code is the remaining candidate and needs a campaign-time copy rather than another re-run. The sweep was not run here. The audit's stop condition was the three layers it committed to, and adding a fourth after seeing the result would be a new instrument, not this one.
+
+**The lesson.** An intervention must vary the thing it claims to vary. The self-test proved the tiebreak fires on a synthetic tie — that proved the hook, not the hypothesis. The hypothesis only became testable when the same intervention was run on the real seeds and the object was compared before and after; and then it failed, because the intervention made no difference. The second lesson is about missing metadata: when the record is incomplete, enumerate every unrecorded upstream quantity, not only the one the first story names. Here the tie order, the hash seed and the campaign-time code were all unrecorded, and the audit can exclude only the first.
+
+→ `docs/USE-PATH-AUDIT.md`; `docs/use_path_audit.json`; `benchmarks/use_path_audit.py`; `tests/test_use_path_audit.py`; `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`; `docs/use_path_diagnostic_structure.json`; `docs/USER-MANUAL.md` §8.22 and actions 15–16; §67; §68; AGENTS rules 13, 19, 23, 24.

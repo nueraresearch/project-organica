@@ -103,7 +103,7 @@ See `docs/USER-MANUAL.md` §6.4 for the full table.
 ## Verifying a change
 
 ```bash
-python -m pytest tests -q                 # 69 tests, must be green
+python -m pytest tests -q                 # 250 tests, must be green
 python benchmarks/study_health.py          # study must stay healthy
 python benchmarks/lineage_audit.py         # Law II must stay at 100% grounded
 python benchmarks/g5_gap_diagnostic.py --cycles 10   # G5 must remain reachable
