@@ -6332,7 +6332,7 @@ is a hypothesis for a confirmatory protocol, not a deployable fix. B remains the
 the formation limitation is untouched. The owner's build decision is separate, dated, and not
 supplied by any result in the diagnostic.
 
-**Status.** Pre-registered and frozen. No diagnostic cell has been run. The result will be written
+**Status at freeze time (superseded by §67).** Pre-registered and frozen. No diagnostic cell had been run. The result was to be written
 to `docs/USE-PATH-DIAGNOSTIC-RESULTS.md` from the artifact, with the D0 gate as its first section.
 **No V2 build is authorised.**
 
@@ -6341,3 +6341,109 @@ to `docs/USE-PATH-DIAGNOSTIC-RESULTS.md` from the artifact, with the D0 gate as 
 15; `benchmarks/use_path_diagnostic.py`; `tests/test_use_path_diagnostic.py`; AGENTS rules 13, 19,
 23 and 24.
 
+## §67 — The use-path diagnostic ran, and its own validity gate stopped it: AUDIT REQUIRED
+
+The diagnostic was pre-registered and frozen at `a700e83` (Amendment 1, the `PYTHONHASHSEED=0`
+pin; the freeze record is `2b70a2e`) and ran on 2026-10-30 over all 60 units (30 seeds × 2 tasks).
+D0 asked it to reproduce the formation-vs-utilization campaign's arm-C scores on all three scored
+limbs within `1e-4`. It did not: **162 of 180** seed-limbs agree, **18 fail**, and the largest
+absolute difference is **0.004386** (T1 seed `20261128`, revision). The failures are **8 seeds**,
+not one bad seed — T1 `20261125`, `20261128`, `20261129`; T2 `20261118`, `20261120`, `20261121`,
+`20261123`, `20261130` — and they span all three limbs. Seventeen of the eighteen differences are
+below `2e-3`; the 0.004386 cell is the outlier. The pre-committed outcome is therefore **AUDIT
+REQUIRED**: no room estimate, no variant effect, no component, and no `evidence-limited`
+conclusion. Every other control passed: the D2 constants are the declared 1.0/0.5 and cannot be
+influenced by the campaign seeds; every admitted unit had an attribution and a denominator.
+
+**The likely cause, and it is not a use-path finding.** The engine stores each event with
+`time.time()`, which has coarse enough resolution that a cycle's rows can share a timestamp;
+`MemoryService.recent()` orders by `time DESC` with no `rowid` tiebreak; `_load_prior_candidates()`
+reads the newest 4,000 sleep rows; and the harness's `structure_edges()` keeps the first snapshot
+per candidate id. A different tie order therefore keeps a different snapshot, which is enough to
+move a readout by the observed amount. The code already uses `rowid DESC` in
+`prune_sleep_candidates()`, so the omission is specific to `recent()`. **This is a code-path
+hypothesis, not an established cause**: the campaign artifact did not record the tie order, and the
+falsifier — an in-process `recent()` with a `rowid DESC` tiebreak re-run twice on a failing seed —
+has not been run.
+
+**Why the gate should stop the run.** The diagnostic exists to decompose *the object that produced
+the ceiling result*. Eighteen failures at `1e-4` mean the object being decomposed is not that
+object, and a room estimate or a component mapping computed on it would be a decomposition of a
+different world. The tempting alternative — widen `1e-4` after seeing the failures, or report
+D1–D5 anyway under an "exploratory" label — is exactly the move rule 19 and the campaign's own D0
+forbid. The gate firing is the instrument working, not the study failing. It is also finding 23's
+lesson in its intended direction: a check that cannot fire is decoration, and this one fired on the
+condition the study existed to detect.
+
+**What stands and what does not.** The V2 record correction stands: the campaign's ceiling condition
+is observed, the specific-failure condition of gate 5 is met, and the use path is the target. The
+*mechanism* condition is not met, no component was selected, and **no V2 brief follows**. The
+result document's first section is the gate; the generator refuses to emit a mechanism section when
+D0 fails. The next step is the reproduction audit, not another diagnostic cell and not a V2 design.
+
+→ `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`; `docs/use_path_diagnostic.json`;
+`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`; `docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.8, gate 5,
+§12; `docs/USER-MANUAL.md` §8.22 and actions 15–16; `benchmarks/use_path_diagnostic.py`;
+`tests/test_use_path_diagnostic.py`; AGENTS rules 13, 19, 23, 24 and 28.
+
+→ §68 records the later audit observation and the refined audit design.
+
+**Superseded on the cause (2026-10-30, §69).** §69 ran this hypothesis's falsifier. The `rowid` tiebreak changes neither the per-type table nor any score, and both read orders reproduce their own runs 3/3 on all eight failing seeds, so tie order is **not supported** as the cause and is no longer the leading hypothesis. The D0 verdict and everything else in §67 stand.
+
+## §68 — Audit observation: the candidate table is a leading forensic indicator for the D0 mismatch, and the reproduction audit design (2026-10-30)
+
+**Status.** The formation-vs-utilization campaign's conclusion that V2 must target the use path remains operative. The use-path diagnostic could not reconstruct the campaign object to its pre-registered D0 tolerance and therefore halted before variant decomposition. The current evidence concerns the reconstructability of the campaign object, not the campaign's recorded verdicts, and the question of whether the use path has measurable room was never reached. The next step is a controlled reproduction audit using paired no-tiebreak and rowid-tiebreak runs on the failing seeds, with the campaign's recorded per-type candidate table as the intermediate endpoint, to determine whether retrieval-order instability is causal, merely correlated, or irrelevant.
+
+**What stands, what is blocked, what is unreached.** The campaign's recorded verdicts stand. A1–A8 pass or are not applicable by their committed scope (A3 and A6 are N/A on T1); none failed, so the campaign's internal logic is not in question. What is blocked is the decomposition of the campaign object into a component: D0 fired before D1–D5, so no variant effect, room estimate or component is reported. What is unreached is the room question itself. The gap is in the reproduction relationship between the campaign artifact and the diagnostic re-run; the missing tie order is campaign-side metadata, and the re-run is the other half, so neither side is assigned the cause yet.
+
+**The mechanical check.** The campaign artifact already records the C arm's frozen-candidate table at `results[].arms.C.per_type`; the diagnostic records the same table at `records[].per_type`. Both are produced by `candidate_summary()` in `benchmarks/acquisition_runner.py`. `python benchmarks/use_path_diagnostic.py --structure-check` matches the units by `(task, seed)` and compares the tables **before** joining the D0 outcome, so the join cannot influence whether the tables are identical. The output is `docs/use_path_diagnostic_structure.json`; its `cross_tab` is the sole source of the counts below.
+
+**Cross-tab (source: `docs/use_path_diagnostic_structure.json`):** 51 identical/pass, 0 identical/fail, 8 different/fail, 1 different/pass.
+
+**What the pattern does and does not mean.** Every failing unit has a different frozen-candidate table; no unit with an identical table fails; and T2 `20261122` differs structurally while all three scores stay inside the D0 tolerance. The exception is the negative control, not an anomaly: a perfect separation would be a reason to suspect hidden coupling, while one structural difference that does not reach the score is the shape a real checkpoint should have. The pattern is descriptive. It localises the divergence to the frozen candidate set, before scoring; it does not establish why the set differs. Tie order remains the leading hypothesis, not a cause. The campaign ran from an uncommitted working tree and the committed harness is later, so a stable code-revision difference is the first alternative to exclude. And counts can show *that* the set differs, not *which* candidate: neither artifact records candidate IDs or the tie order.
+
+**The audit design.** Three layers, in order.
+
+1. **Repeatability.** N no-tiebreak runs and N `rowid`-DESC-tiebreak runs per failing seed; compare within each arm, not only across arms.
+2. **Structural reproduction.** Compare each arm's per-type table with the campaign's. Stop here if the candidate population does not reproduce; a score comparison on a different candidate set is not an attribution.
+3. **Score reproduction.** Only after layer 2.
+
+The four outcomes are: no-tiebreak unstable and tiebreak stable → ordering is the destabilizer; both stable and both differ from the campaign → look upstream of retrieval order, beginning with the code revision; tiebreak reproduces the campaign's table and scores → the campaign's effective order is consistent with `rowid` DESC; tiebreak unstable → the nondeterminism is upstream of retrieval order.
+
+The structural checkpoint is pre-committed **in the audit**. It is not retrofitted into the diagnostic's D0: D0 remains score-based, the protocol is unchanged, and the audit is a separate instrument whose purpose is attribution, not effect estimation.
+
+**What is not claimed.** No mechanism, no room estimate, no campaign re-score, no V2 brief and no V2 build. The per-type table is an audit instrument, not evidence about the use-path question.
+
+→ `docs/use_path_diagnostic_structure.json`; `docs/use_path_diagnostic.json`; `docs/formation_utilization.json`; `benchmarks/use_path_diagnostic.py --structure-check`; `tests/test_use_path_diagnostic.py`; `docs/USER-MANUAL.md` §8.22; §67.
+
+**Follow-up (2026-10-30, §69).** The audit designed here ran and returned the pre-declared *both stable, both differ* outcome: the `rowid` tiebreak is inert and both read orders are repeatable, so tie order is not supported as the cause. §69 records it.
+
+## §69 — The tie order is not the cause: the reproduction audit on the eight failing seeds (2026-10-30)
+
+**What was asked.** §68 committed the three-layer audit before it ran: repeatability under the shipped read order and under a `rowid DESC` tiebreak, then reproduction of the campaign's per-type candidate table, then — only if the table reproduced — reproduction of its scores. The question was whether retrieval-order instability was causal, merely correlated, or irrelevant to the D0 mismatch.
+
+**What ran.** Eight failing seeds, two configurations, three repeats each: 48 runs, each against a fresh database through the same B-then-C path the diagnostic used, with `PYTHONHASHSEED=0` asserted at startup and inherited by every worker. The tiebreak is applied by temporarily replacing `MemoryService.recent()` in-process and restoring it; `organica/` is not edited. The self-test fires the tiebreak on two equal-timestamp rows and proves the method is restored; an incomplete set of runs is refused rather than analysed. The artifact is `docs/use_path_audit.json`; the result document is `docs/USE-PATH-AUDIT.md`, generated from it.
+
+**Audit counts (source: `docs/use_path_audit.json`):** `seeds=8 repeats=3 runs=48 no_tiebreak_stable=8 tiebreak_stable=8 arms_agree=8 digests_agree=8 campaign_no_match=0 campaign_tie_match=0 diagnostic_no_match=8 diagnostic_tie_match=8 layer3_entered=0`
+
+**Instrument check.** Both configurations reproduce the diagnostic's per-type table and all three D0 scores exactly on 8/8 seeds, to the diagnostic artifact's six-decimal rounding. The audit is therefore a re-run of the object D0 failed on, not a different measurement.
+
+**Layer 1 — repeatability.** Each configuration reproduces its own per-type table in 3/3 runs on 8/8 seeds. The repeats are independent databases with independent wall-clock timestamps; they share the pinned hash seed, which is the declared constant. There is no run-to-run instability to explain on these seeds.
+
+**The intervention is inert.** The no-tiebreak and `rowid DESC` configurations produce identical per-type tables and identical scores on 8/8 seeds. The tiebreak is a real change to the query — the self-test fires it — but on these worlds it changes nothing the run reads. A cause cannot be a difference that makes no difference.
+
+**Layer 2 — structural reproduction.** Neither configuration reproduces the campaign's per-type table on any of the eight seeds (0/8 and 0/8). The deltas are structural, not a single drifted score: unique candidate counts move in both directions, and the edge weights move with them. T2 `20261118` is the sharpest case: its asserted-edge count and coverage are identical to the campaign's, and its candidate composition still differs. The checkpoint is doing work a score or coverage comparison cannot do.
+
+**Layer 3 — not entered.** The design compares scores only after the candidate population reproduces. It did not, so the score differences (largest **0.004386**, T1 `20261128`, revision) are recorded as observations, not as a reproduction result.
+
+**The verdict.** Retrieval-order instability is **not supported** as the cause of the D0 mismatch. The `rowid`-tiebreak hypothesis, as §67 stated it, does not survive its own falsifier: adding the tiebreak did not move the object, and the object is repeatable without it. The divergence is upstream of `recent()`'s tie order. This is the pattern §68 pre-declared as *both stable and both differ* → look upstream of retrieval order, beginning with the code revision; the audit follows that rule rather than inventing one after seeing the result.
+
+**What the audit does not name.** The upstream cause is not identified. Two candidates remain, both campaign-side and both unrecorded: a campaign-time harness revision — the harness was uncommitted when the campaign ran and was committed later, so git cannot show what the campaign executed — and the campaign's execution environment, which the artifact does not record (neither the hash seed nor the tie order). The structure check constrains the first: 51 of 60 campaign units reproduce their table under this same pinned code, so a code difference that affected every unit is excluded; a difference that acts only on ordering-sensitive units is not, and neither is an environment difference. The audit does not separate them.
+
+**What this changes.** §67's sentence naming tie order as the likely cause is superseded by this audit; the manual's §8.22 and actions 15–16 are corrected in the same turn. D0 remains fired, the diagnostic remains `AUDIT REQUIRED`, and no room estimate, mechanism, component or V2 brief follows. The campaign's recorded verdicts stand.
+
+**What would settle it.** A hash-seed sensitivity sweep on one failing seed is the cheapest next test: if the per-type table moves across hash seeds, the campaign's unrecorded environment is sufficient to explain the mismatch; if it does not, the campaign-time code is the remaining candidate and needs a campaign-time copy rather than another re-run. The sweep was not run here. The audit's stop condition was the three layers it committed to, and adding a fourth after seeing the result would be a new instrument, not this one.
+
+**The lesson.** An intervention must vary the thing it claims to vary. The self-test proved the tiebreak fires on a synthetic tie — that proved the hook, not the hypothesis. The hypothesis only became testable when the same intervention was run on the real seeds and the object was compared before and after; and then it failed, because the intervention made no difference. The second lesson is about missing metadata: when the record is incomplete, enumerate every unrecorded upstream quantity, not only the one the first story names. Here the tie order, the hash seed and the campaign-time code were all unrecorded, and the audit can exclude only the first.
+
+→ `docs/USE-PATH-AUDIT.md`; `docs/use_path_audit.json`; `benchmarks/use_path_audit.py`; `tests/test_use_path_audit.py`; `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`; `docs/use_path_diagnostic_structure.json`; `docs/USER-MANUAL.md` §8.22 and actions 15–16; §67; §68; AGENTS rules 13, 19, 23, 24.

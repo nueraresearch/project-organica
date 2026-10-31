@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -288,3 +289,107 @@ def test_hash_seed_must_be_pinned(monkeypatch):
     monkeypatch.setenv("PYTHONHASHSEED", "0")
     assert d.require_hash_seed() == "0"
 
+def test_audit_document_reports_the_diagnosis_without_a_mechanism():
+    artifact = {
+        "d0_reproduction": {
+            "passed": False, "expected_units": 60, "units_present": 60,
+            "n_checks": 180, "max_abs_diff": 0.0044, "tolerance": 1e-4,
+            "failures": [{"task": "T2", "seed": 20261123, "limb": "transfer",
+                          "expected": 0.366038, "actual": 0.367058,
+                          "abs_diff": 0.00102}],
+        },
+        "d0_diagnosis": {
+            "hypothesis": "equal timestamps are ordered without a rowid tiebreak",
+            "evidence": ["memory.py:390 orders by time DESC"],
+            "falsifier": "a rowid tiebreak should make repeated runs agree",
+            "why_not_a_mechanism": "it is a property of the saved object",
+        },
+        "protocol": "docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md",
+        "protocol_sha256": "x", "freeze_commit": "y",
+        "campaign_artifact": "docs/formation_utilization.json",
+        "engine_version": "0.10.0", "pythonhashseed": "0",
+        "generated_utc": "2026-10-30T00:00:00Z",
+    }
+    out = d.render_results(artifact)
+    assert "hypothesis, not established" in out.lower()
+    assert "MECHANISM CANDIDATE" not in out
+    assert "rowid tiebreak" in out
+
+
+def test_structure_check_reproduces_the_candidate_table_pattern():
+    result = d.structure_check()
+    assert result["status"].startswith("post-hoc audit observation")
+    assert result["units"] == 60
+    assert result["cross_tab"] == {
+        "identical_pass": 51, "identical_fail": 0,
+        "different_fail": 8, "different_pass": 1,
+    }
+    assert result["identical_and_fail"] == []
+    assert [(r["task"], r["seed"]) for r in result["different_and_pass"]] == [
+        ("T2", 20261122)]
+
+    # All four cells must be reachable from a synthetic table, so a future
+    # implementation cannot quietly assume "different -> fail, same -> pass".
+    def pt(n):
+        return {"prediction_candidate": {"unique_count": n, "edge_weight": float(n)}}
+    artifact = {
+        "d0_reproduction": {"checks": [
+            {"task": "T1", "seed": 1, "limb": "transfer", "passed": False},
+            {"task": "T1", "seed": 2, "limb": "transfer", "passed": True},
+            {"task": "T1", "seed": 3, "limb": "transfer", "passed": True},
+            {"task": "T1", "seed": 4, "limb": "transfer", "passed": False},
+        ]},
+        "records": [
+            {"task": "T1", "seed": 1, "per_type": pt(1)},
+            {"task": "T1", "seed": 2, "per_type": pt(1)},
+            {"task": "T1", "seed": 3, "per_type": pt(1)},
+            {"task": "T1", "seed": 4, "per_type": pt(1)},
+        ],
+    }
+    campaign = {"results": [
+        {"task": "T1", "seed": 1, "arms": {"C": {"per_type": pt(1)}}},
+        {"task": "T1", "seed": 2, "arms": {"C": {"per_type": pt(2)}}},
+        {"task": "T1", "seed": 3, "arms": {"C": {"per_type": pt(1)}}},
+        {"task": "T1", "seed": 4, "arms": {"C": {"per_type": pt(2)}}},
+    ]}
+    synthetic = d.structure_check(artifact, campaign)
+    assert synthetic["cross_tab"] == {
+        "identical_pass": 1, "identical_fail": 1,
+        "different_fail": 1, "different_pass": 1,
+    }
+
+
+CROSS_TAB_LINE = re.compile(
+    r"Cross-tab \(source: `docs/use_path_diagnostic_structure\.json`\):\*\*\s*"
+    r"(\d+) identical/pass, (\d+) identical/fail, "
+    r"(\d+) different/fail, (\d+) different/pass"
+)
+
+
+def _cross_tab_from(text, where):
+    match = CROSS_TAB_LINE.search(text)
+    assert match, f"{where}: fixed-format cross-tab line not found"
+    return tuple(int(value) for value in match.groups())
+
+
+def test_journal_and_manual_cross_tab_match_the_structure_artifact():
+    structure = json.loads(
+        (REPO / "docs/use_path_diagnostic_structure.json").read_text(encoding="utf-8"))
+    cross = structure["cross_tab"]
+    want = (cross["identical_pass"], cross["identical_fail"],
+            cross["different_fail"], cross["different_pass"])
+
+    journal = (REPO / "research-journal/phase_g_findings_20261021.md"
+               ).read_text(encoding="utf-8")
+    journal_section = journal[journal.index("## §68"):]
+    manual = (REPO / "docs/USER-MANUAL.md").read_text(encoding="utf-8")
+    manual_start = manual.index("### 8.22")
+    manual_section = manual[manual_start:
+                            manual.index("## 9. Troubleshooting", manual_start)]
+
+    assert _cross_tab_from(journal_section, "journal §68") == want
+    assert _cross_tab_from(manual_section, "manual §8.22") == want
+
+    wrong = journal_section.replace(
+        f"{want[0]} identical/pass", f"{want[0] + 1} identical/pass", 1)
+    assert _cross_tab_from(wrong, "synthetic") != want

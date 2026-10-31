@@ -264,7 +264,8 @@ Gates, in order. Passing a gate authorises the next step's *planning*, not its b
    d = −0.0262; T2 d = −0.0227), and arm B lost it too. The *specific-failure* condition
    is therefore met in substance. The *mechanism* condition is not: the campaign selects
    the use path, not a component. Gate 5 therefore authorises the pre-registered use-path
-   diagnostic, not a V2 build.
+   diagnostic, not a V2 build. That diagnostic ran on 2026-10-30 and returned
+   **AUDIT REQUIRED**; the mechanism condition therefore remains unmet.
 
 **Until gate 5 is passed, this brief stays a set of testable options.** Designing V2
 against a *named* weakness is right; designing it against a *guessed* mechanism is what
@@ -615,7 +616,18 @@ form — three different mechanisms — and it cannot say which.
 D0 must reproduce the campaign's C scores within `1e-4` before any variant is read; the
 room between the pinned readout and the generator's ceiling is estimated before any
 component is named; D1–D4 are observer-side re-scorings of the same asserted graph. The
-diagnostic can select a component for a V2 **brief**. It cannot authorise a V2 build.
+diagnostic was designed to select a component for a V2 **brief**. It did not; see the
+result below.
+
+**Result (2026-10-30): AUDIT REQUIRED.** The diagnostic ran all 60 units and 180
+seed-limbs. D0 failed on **18** seed-limbs against the `1e-4` tolerance; the largest
+absolute difference was **0.004386** (T1 seed `20261128`, revision). All other controls
+passed. The pre-committed outcome is **AUDIT REQUIRED**: no room estimate, no variant
+effect and no component are reported. The likely cause is that `MemoryService.recent()`
+orders sleep rows by `time DESC` with no `rowid` tiebreak, while `structure_edges` keeps
+the first snapshot per candidate id; the campaign artifact did not record the tie order.
+That is a code-path hypothesis, not an established cause. The next step is the
+reproduction audit, not a V2 brief. **The mechanism condition of gate 5 remains unmet.**
 
 **No V2 build is authorised.**
 
@@ -698,8 +710,8 @@ the point of §9.7.
 
 - **It does not turn the formation-utilization campaign into a build authorisation.** The
     campaign met the *specific-failure* condition of gate 5 and selected the use path; it
-    did not identify a component. The next step is the pre-registered use-path diagnostic,
-    not a V2 design.
+    did not identify a component. The diagnostic ran and returned **AUDIT REQUIRED**; the
+    next step is the reproduction audit, not a V2 design.
 
 ---
 

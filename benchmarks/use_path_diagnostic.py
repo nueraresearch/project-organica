@@ -63,6 +63,7 @@ FREEZE = REPO / "docs/use_path_diagnostic_freeze.json"
 CAMPAIGN = REPO / "docs/formation_utilization.json"
 ARTIFACT = REPO / "docs/use_path_diagnostic.json"
 RESULT_MD = REPO / "docs/USE-PATH-DIAGNOSTIC-RESULTS.md"
+STRUCTURE_CHECK_JSON = REPO / "docs/use_path_diagnostic_structure.json"
 PARTS = REPO / ".scratch" / "use_path_diagnostic_parts"
 CALIBRATION_CACHE = REPO / ".scratch" / "use_path_diagnostic_calibration.json"
 
@@ -578,6 +579,34 @@ def audit_d0_reproduction(records: list[dict], campaign: dict,
     }
 
 
+def d0_diagnosis() -> dict[str, Any]:
+    """Code-path evidence for the reproduction failure, not a measured cause."""
+    return {
+        "status": "hypothesis; not established",
+        "hypothesis": (
+            "Sleep rows stored in the same time.time() tick share a timestamp. "
+            "MemoryService.recent() orders only by time DESC, so their order is "
+            "unspecified. _load_prior_candidates reads the newest 4,000 sleep rows "
+            "and structure_edges keeps the first snapshot per candidate id. A "
+            "different tie order keeps a different snapshot, which moves the "
+            "readout by up to the observed 0.0044 nats."),
+        "evidence": [
+            "organica/memory.py:247 — store() stamps every event with time.time().",
+            "organica/memory.py:390 — recent() orders by time DESC and has no rowid tiebreak.",
+            "organica/memory.py:465-477 — prune_sleep_candidates() already uses rowid DESC as a tiebreak, so the omission is specific to recent().",
+            "organica/sleep.py:877 — _load_prior_candidates() calls recent(n=4000, event_type='sleep').",
+            "benchmarks/acquisition_runner.py:155 — structure_edges() dedupes by id and keeps the first encounter.",
+        ],
+        "falsifier": (
+            "Re-run a failing seed twice with an in-process recent() that adds "
+            "rowid DESC. If the two runs agree and the campaign artifact does not, "
+            "the tie order is the cause. Not yet run."),
+        "why_not_a_mechanism": (
+            "It is a property of the saved object, not of the use path. It does not "
+            "name retrieval, activation or the readout form."),
+    }
+
+
 def audit_denominators(records: list[dict]) -> dict[str, Any]:
     failures = []
     for record in records:
@@ -951,6 +980,9 @@ def _room_table(room: dict, task: str) -> list[str]:
 
 def _render_audit(artifact: dict) -> str:
     gate = artifact["d0_reproduction"]
+    failures = gate.get("failures", [])
+    seeds_hit = {(f.get("task"), f.get("seed")) for f in failures}
+    small = sum(1 for f in failures if f.get("abs_diff", 0) < 2e-3)
     lines = [
         "# AUDIT REQUIRED — the use-path diagnostic",
         "",
@@ -963,16 +995,26 @@ def _render_audit(artifact: dict) -> str:
         f"within {_fmt(gate.get('tolerance'), 6)}. "
         f"Units present: {gate.get('units_present')}. "
         f"Seed-limbs checked: {gate.get('n_checks')}. "
-        f"Largest absolute difference: {_fmt(gate.get('max_abs_diff'), 6)}.",
+        f"Largest absolute difference: {_fmt(gate.get('max_abs_diff'), 6)}. "
+        f"Failures span {len(seeds_hit)} distinct seed(s); {small} of {len(failures)} "
+        f"are below {_fmt(2e-3, 3)}.",
         "",
-        f"**{len(gate.get('failures', []))} failure(s)**:",
+        f"**{len(failures)} failure(s)**:",
         "",
     ]
-    for failure in gate.get("failures", [])[:20]:
-        lines.append(
-            f"- {failure.get('task', '?')} / {failure.get('seed', '?')} / "
-            f"{failure.get('limb', '?')}: {failure}")
-    if not gate.get("failures"):
+    for failure in failures[:20]:
+        if "expected" in failure:
+            lines.append(
+                f"- {failure.get('task', '?')} / {failure.get('seed', '?')} / "
+                f"{failure.get('limb', '?')}: expected "
+                f"{_fmt(failure.get('expected'), 6)}, actual "
+                f"{_fmt(failure.get('actual'), 6)}, "
+                f"|Δ| {_fmt(failure.get('abs_diff'), 6)}")
+        else:
+            lines.append(
+                f"- {failure.get('task', '?')} / {failure.get('seed', '?')}: "
+                f"{failure.get('reason', failure)}")
+    if not failures:
         lines.append("- no individual failure recorded; the unit count is short")
     lines += [
         "",
@@ -990,7 +1032,29 @@ def _render_audit(artifact: dict) -> str:
         "- No variant effect.",
         "- No component, and no `evidence-limited` conclusion.",
         "",
-        "## 3. Provenance",
+    ]
+    diagnosis = _iter_dict(artifact.get("d0_diagnosis"))
+    if diagnosis:
+        lines += [
+            "## 3. The reproduction diagnosis (hypothesis, not established)",
+            "",
+            f"{diagnosis.get('hypothesis', '')}",
+            "",
+            "**Code-path evidence**",
+            "",
+        ]
+        for item in diagnosis.get("evidence", []):
+            lines.append(f"- {item}")
+        lines += [
+            "",
+            f"**Falsifier.** {diagnosis.get('falsifier', '')}",
+            "",
+            f"**Why this is not a mechanism.** "
+            f"{diagnosis.get('why_not_a_mechanism', '')}",
+            "",
+        ]
+    lines += [
+        "## 4. Provenance",
         "",
         f"- Protocol: `{artifact.get('protocol')}`",
         f"- Protocol SHA-256: `{artifact.get('protocol_sha256')}`",
@@ -1002,6 +1066,65 @@ def _render_audit(artifact: dict) -> str:
         "",
     ]
     return _assert_no_placeholder("\n".join(lines))
+
+
+def structure_check(artifact: dict | None = None,
+                    campaign: dict | None = None) -> dict[str, Any]:
+    """Compare the C arm's frozen-candidate table with the campaign's.
+
+    This is a post-hoc audit observation, not a gate.  D0 is a score gate and
+    a score pass can hide a different object (T2 seed 20261122 differs in
+    ``per_type`` while all three scores stay inside 7.5e-5).  The comparison
+    reads only the two candidate tables; the D0 outcome is joined afterwards,
+    so it cannot influence whether the tables are judged identical.
+    """
+    if artifact is None:
+        artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    if campaign is None:
+        campaign = json.loads(CAMPAIGN.read_text(encoding="utf-8"))
+    campaign_by = {(r["task"], r["seed"]): r for r in campaign["results"]}
+    missing = [r for r in artifact["records"]
+               if (r["task"], r["seed"]) not in campaign_by]
+    if missing:
+        raise ValueError(f"{len(missing)} diagnostic unit(s) absent from the campaign")
+    failed: dict[tuple[str, int], list[str]] = defaultdict(list)
+    for check in artifact["d0_reproduction"]["checks"]:
+        if not check.get("passed"):
+            failed[(check["task"], check["seed"])].append(check["limb"])
+    rows = []
+    for record in artifact["records"]:
+        key = (record["task"], record["seed"])
+        expected = campaign_by[key]["arms"]["C"]["per_type"]
+        rows.append({
+            "task": key[0],
+            "seed": key[1],
+            "identical": expected == record["per_type"],
+            "d0_failed_limbs": failed.get(key, []),
+        })
+    identical = [r for r in rows if r["identical"]]
+    different = [r for r in rows if not r["identical"]]
+    cross_tab = {
+        "identical_pass": sum(1 for r in identical if not r["d0_failed_limbs"]),
+        "identical_fail": sum(1 for r in identical if r["d0_failed_limbs"]),
+        "different_fail": sum(1 for r in different if r["d0_failed_limbs"]),
+        "different_pass": sum(1 for r in different if not r["d0_failed_limbs"]),
+    }
+    return {
+        "status": "post-hoc audit observation; not a gate and not a protocol amendment",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "source": {
+            "diagnostic": ARTIFACT.relative_to(REPO).as_posix(),
+            "campaign": CAMPAIGN.relative_to(REPO).as_posix(),
+        },
+        "units": len(rows),
+        "cross_tab": cross_tab,
+        "identical": len(identical),
+        "different": len(different),
+        "identical_and_fail": [r for r in identical if r["d0_failed_limbs"]],
+        "different_and_fail": [r for r in different if r["d0_failed_limbs"]],
+        "different_and_pass": [r for r in different if not r["d0_failed_limbs"]],
+        "rows": rows,
+    }
 
 
 def _mapping_label(mapping: dict) -> str:
@@ -1276,10 +1399,11 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
     artifact = {
         "d0_reproduction": gate,
         "status": status,
-        "protocol": str(PROTOCOL.relative_to(REPO)),
+        "variants_interpretable": bool(gate["passed"]),
+        "protocol": PROTOCOL.relative_to(REPO).as_posix(),
         "protocol_sha256": freeze.get("protocol_sha256"),
         "freeze_commit": freeze.get("freeze_commit"),
-        "campaign_artifact": str(CAMPAIGN.relative_to(REPO)),
+        "campaign_artifact": CAMPAIGN.relative_to(REPO).as_posix(),
         "engine_version": ENGINE_VERSION,
         "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -1313,6 +1437,8 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
         "mapping": analysis.get("mapping"),
         "records": records,
     }
+    if not gate["passed"]:
+        artifact["d0_diagnosis"] = d0_diagnosis()
     _atomic_write(ARTIFACT, json.dumps(artifact, indent=2, sort_keys=False) + "\n")
     _atomic_write(RESULT_MD, render_results(artifact))
     return artifact
@@ -1345,6 +1471,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="run the 60 confirmatory units and write the artifact")
     parser.add_argument("--calibrate", action="store_true",
                         help="run the calibration seed and cache the result")
+    parser.add_argument("--structure-check", action="store_true",
+                        help="compare the diagnostic's C per-type table with the campaign's")
     parser.add_argument("--render", action="store_true",
                         help="regenerate the result document from the artifact")
     parser.add_argument("--workers", type=int, default=10)
@@ -1358,6 +1486,12 @@ def main(argv: list[str] | None = None) -> int:
         return self_test()
     if args.calibrate:
         print(json.dumps(load_or_run_calibration(force=args.force), indent=2))
+        return 0
+    if args.structure_check:
+        result = structure_check()
+        _atomic_write(STRUCTURE_CHECK_JSON, json.dumps(result, indent=2) + "\n")
+        print(json.dumps({k: v for k, v in result.items()
+                          if k not in ("rows",)}, indent=2))
         return 0
     if args.run:
         seeds = SEEDS[: args.seeds]

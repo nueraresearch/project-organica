@@ -1,0 +1,6660 @@
+{
+  "status": "three-layer reproduction audit; post-hoc observation, not a protocol and not a change to D0",
+  "generated_utc": "2026-10-31T06:10:04.962312+00:00",
+  "command": "PYTHONHASHSEED=0 python benchmarks/use_path_audit.py --repeats 3 --workers 8  # reanalysed in place",
+  "pythonhashseed": "0",
+  "repeats": 3,
+  "seeds": [
+    "T1/20261125",
+    "T1/20261128",
+    "T1/20261129",
+    "T2/20261118",
+    "T2/20261120",
+    "T2/20261121",
+    "T2/20261123",
+    "T2/20261130"
+  ],
+  "runs": [
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 314.086
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 324.243
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 326.335
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 340.533
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 367.96
+    },
+    {
+      "task": "T1",
+      "seed": 20261125,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 11,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 14,
+          "edge_weight": 28.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 28,
+          "edge_weight": 134.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 156,
+          "edge_weight": 7428.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.229981,
+        "transfer": 0.229389,
+        "revision": 0.38805
+      },
+      "asserted_edges": 177,
+      "coverage": 0.9187,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "3cab5a00f2dab52b",
+          "dream": "3471659744ec587a",
+          "experiment": "c01273231211bd81",
+          "hypothesis": "a1b260af72f8d0a4",
+          "investigation": "6fbb74ae391115fc",
+          "loop_candidate": "5db43cb30cd2baf2",
+          "meta_concept": "0037e55336b7fec5",
+          "prediction_candidate": "5e2689d3981eb5e1",
+          "process_candidate": "d2b10da190d8058d",
+          "question": "ef954544005085e5",
+          "theory": "25105d4bb138f333",
+          "workflow_concept": "ef6e314184365448"
+        },
+        "post": {
+          "anomaly": "5ef4db3c6752d8bb",
+          "dream": "e953fb08d1ee57e9",
+          "experiment": "c51c9b79fb52c670",
+          "hypothesis": "962766270cca3e39",
+          "investigation": "11edca6b28a5cdbd",
+          "loop_candidate": "4b4a6bfc894393e1",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "e79da627879ad2d8",
+          "process_candidate": "d6b511b2e83f0d5a",
+          "question": "ac131ce7482c5276",
+          "theory": "05c97ab8a536e911",
+          "workflow_concept": "6d1fdb3364d65341"
+        }
+      },
+      "temporal_graph": "09feba6094910da1",
+      "seconds": 254.237
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 325.446
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 338.679
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 337.581
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 363.203
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 361.746
+    },
+    {
+      "task": "T1",
+      "seed": 20261128,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 15,
+          "edge_weight": 29.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 37,
+          "edge_weight": 37.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 25,
+          "edge_weight": 116.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 157,
+          "edge_weight": 7460.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "question": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.234219,
+        "transfer": 0.246502,
+        "revision": 0.389487
+      },
+      "asserted_edges": 179,
+      "coverage": 0.9745,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6790414966973d8f",
+          "dream": "c5538f193d603378",
+          "experiment": "f7822500554f26fd",
+          "hypothesis": "90a02bca3bd98838",
+          "investigation": "f9e575f69c4bc1c4",
+          "loop_candidate": "5469e6f1d8f565cc",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "b8462fcbfe1c40ea",
+          "process_candidate": "d96aae42dd9a0579",
+          "question": "1b1756090fa3c67f",
+          "theory": "612768f74bcbb6f9",
+          "workflow_concept": "d16686c5fa711178"
+        },
+        "post": {
+          "anomaly": "7edf02a332a344fa",
+          "dream": "4b5f7f4de175e0a7",
+          "experiment": "7744086df499c818",
+          "hypothesis": "126910c7bfdb8162",
+          "investigation": "aea0f5ce032718fb",
+          "loop_candidate": "ddbc8476a365f2a2",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "18e49bb9a4b1e6c0",
+          "process_candidate": "03beb7fbb62e9ee3",
+          "question": "dd51cd8c05b23772",
+          "theory": "642a6f8665d6ba8d",
+          "workflow_concept": "5a94cff68589fc25"
+        }
+      },
+      "temporal_graph": "b907b3f478de0979",
+      "seconds": 241.999
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 316.587
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 326.652
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 330.932
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 345.86
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 367.048
+    },
+    {
+      "task": "T1",
+      "seed": 20261129,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 12,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 10,
+          "edge_weight": 22.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 36,
+          "edge_weight": 36.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 110.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 149,
+          "edge_weight": 7402.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "question": {
+          "unique_count": 8,
+          "edge_weight": 0.0
+        },
+        "theory": {
+          "unique_count": 9,
+          "edge_weight": 0.0
+        },
+        "workflow_concept": {
+          "unique_count": 9,
+          "edge_weight": 9.0
+        }
+      },
+      "scores": {
+        "retention": 0.233976,
+        "transfer": 0.234355,
+        "revision": 0.381434
+      },
+      "asserted_edges": 167,
+      "coverage": 0.9226,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "998155175928be8f",
+          "dream": "2e403d1cc10c1985",
+          "experiment": "d928b4d4e56eae11",
+          "hypothesis": "5e665f87f0e0f13c",
+          "investigation": "f0248c633b42720d",
+          "loop_candidate": "06ff736c96838cb7",
+          "meta_concept": "cb6ffbc259f96c63",
+          "prediction_candidate": "8a13a16719ee7165",
+          "process_candidate": "6170a6712dd66582",
+          "question": "9502b90a25e467ee",
+          "theory": "fbd799c1efc75b0c",
+          "workflow_concept": "b621fd4c4746a0ec"
+        },
+        "post": {
+          "anomaly": "84becd1007b51935",
+          "dream": "4f5b2ceb96f555c6",
+          "experiment": "19bffa6d2034c42b",
+          "hypothesis": "66f6efe78170d1e7",
+          "investigation": "13d4442db0776966",
+          "loop_candidate": "608d455d3be60f10",
+          "meta_concept": "bf210dce8d0008f5",
+          "prediction_candidate": "c23150dfe96eca24",
+          "process_candidate": "7629d371fa25b045",
+          "question": "9a0e622b2ef14e79",
+          "theory": "43dca69e6dd3758f",
+          "workflow_concept": "748752f43fd6d931"
+        }
+      },
+      "temporal_graph": "e7eb8a03722c5a57",
+      "seconds": 249.799
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 237.999
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 241.361
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 244.927
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 253.676
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 245.975
+    },
+    {
+      "task": "T2",
+      "seed": 20261118,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 14,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 7,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 22,
+          "edge_weight": 106.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 127,
+          "edge_weight": 2958.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361073,
+        "transfer": 0.361047,
+        "revision": 0.347738
+      },
+      "asserted_edges": 172,
+      "coverage": 0.9911,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "92a80f2741a81ec0",
+          "dream": "b38d43aeba5eec0e",
+          "experiment": "9b48a2b91030f567",
+          "hypothesis": "649ccea6f4cc762a",
+          "investigation": "64e62c7046bb5ab1",
+          "loop_candidate": "19be86991c5fdd9e",
+          "meta_concept": "642db34b3f3c8be9",
+          "prediction_candidate": "ca162e164d3ffd19",
+          "process_candidate": "f84af1260fd27acf",
+          "workflow_concept": "e18242d0bc1d8d89"
+        },
+        "post": {
+          "anomaly": "6879f818974ef4cd",
+          "dream": "eefdda9619b79caa",
+          "experiment": "107fdfad0521c463",
+          "hypothesis": "f5b1fb5a088646c0",
+          "investigation": "1b6a948855034aff",
+          "loop_candidate": "8808817b84998496",
+          "meta_concept": "09d3c796b60a3545",
+          "prediction_candidate": "72ca528072b76edd",
+          "process_candidate": "d6e83d7d13e07b8e",
+          "workflow_concept": "227fcabae90ab4d0"
+        }
+      },
+      "temporal_graph": "7ca695a016f6670a",
+      "seconds": 307.952
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 308.848
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 316.161
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 319.273
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 327.89
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 375.722
+    },
+    {
+      "task": "T2",
+      "seed": 20261120,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 7,
+          "edge_weight": 9.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 21,
+          "edge_weight": 102.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3206.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.36816,
+        "transfer": 0.361483,
+        "revision": 0.349908
+      },
+      "asserted_edges": 173,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "7e2fb11ea31db8d6",
+          "dream": "efb1b2dc4522f7a8",
+          "experiment": "61561a55f1e613d4",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "0f20d7b4cb7f1c88",
+          "loop_candidate": "8e25a6d656ece483",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "71c334e0deb4e9db",
+          "workflow_concept": "87f66253bafbba6c"
+        },
+        "post": {
+          "anomaly": "5d6e6186be5a1b5b",
+          "dream": "9bd6ff6a690b4982",
+          "experiment": "321008cecf2306f2",
+          "hypothesis": "55e7bb95c7086c0a",
+          "investigation": "eb6bdb3e879eea17",
+          "loop_candidate": "c84478e90865711b",
+          "meta_concept": "e8629cf87ab2247c",
+          "prediction_candidate": "6ebf2ebf09ff9dd8",
+          "process_candidate": "2aa60ab33f9fe357",
+          "workflow_concept": "8ce8697f3fa28df5"
+        }
+      },
+      "temporal_graph": "14d0b40a435b1d4c",
+      "seconds": 255.236
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 238.24
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 243.715
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 244.83
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 253.656
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 245.219
+    },
+    {
+      "task": "T2",
+      "seed": 20261121,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 13,
+          "edge_weight": 18.0
+        },
+        "experiment": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 23,
+          "edge_weight": 114.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3002.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.364558,
+        "transfer": 0.365949,
+        "revision": 0.346323
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "42d6d45fa23f1af1",
+          "dream": "9b6b03d30137b82d",
+          "experiment": "8a3a96b9511e1155",
+          "hypothesis": "46e1830944e96257",
+          "investigation": "8b20f201511804a2",
+          "loop_candidate": "f6301eed02e14a13",
+          "meta_concept": "e3806fb42bd4ce3a",
+          "prediction_candidate": "2bf9fd8704817221",
+          "process_candidate": "efd9e39307a2a92a",
+          "workflow_concept": "881f71077ed355e8"
+        },
+        "post": {
+          "anomaly": "af2e140426f4fb5f",
+          "dream": "75b06e6995dd1db9",
+          "experiment": "073cb6b3e442a02f",
+          "hypothesis": "274fb08aa58bb654",
+          "investigation": "40971a6ac59826a2",
+          "loop_candidate": "26dc3bc36831eec7",
+          "meta_concept": "edd09bd2da1365af",
+          "prediction_candidate": "84ebc86f73351683",
+          "process_candidate": "3a0ef59a57695af8",
+          "workflow_concept": "d712736975f4e3c9"
+        }
+      },
+      "temporal_graph": "a124414560f889b6",
+      "seconds": 308.484
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 307.913
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 316.799
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 316.753
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 326.169
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 375.434
+    },
+    {
+      "task": "T2",
+      "seed": 20261123,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 8,
+          "edge_weight": 10.0
+        },
+        "experiment": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 5,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 20,
+          "edge_weight": 94.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3108.0
+        },
+        "process_candidate": {
+          "unique_count": 10,
+          "edge_weight": 20.0
+        },
+        "workflow_concept": {
+          "unique_count": 10,
+          "edge_weight": 10.0
+        }
+      },
+      "scores": {
+        "retention": 0.361247,
+        "transfer": 0.367058,
+        "revision": 0.343837
+      },
+      "asserted_edges": 175,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "6e2f114193e6c2e4",
+          "dream": "a404e26b4241602f",
+          "experiment": "ef6f031c4063d286",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "1ef63f8ec2c21484",
+          "loop_candidate": "eb57982a98d2217a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "702010205b681996",
+          "workflow_concept": "21fbbee8662cc979"
+        },
+        "post": {
+          "anomaly": "feb267787ac6d193",
+          "dream": "890558507385c5fd",
+          "experiment": "8885e7d7e0fc65c8",
+          "hypothesis": "0f196b3f9cefef72",
+          "investigation": "b22a92f1cabd3ab3",
+          "loop_candidate": "91c634cedb23080a",
+          "meta_concept": "4ab0880698714cbd",
+          "prediction_candidate": "05926c10007ec4c5",
+          "process_candidate": "3acb1c7b9d5b8e38",
+          "workflow_concept": "b67af71a63de0397"
+        }
+      },
+      "temporal_graph": "0a4417e5e29de27a",
+      "seconds": 254.674
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "no_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 253.801
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "rowid_tiebreak",
+      "repeat": 0,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 256.364
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "no_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 262.596
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "rowid_tiebreak",
+      "repeat": 1,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 272.007
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "no_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 278.133
+    },
+    {
+      "task": "T2",
+      "seed": 20261130,
+      "arm": "rowid_tiebreak",
+      "repeat": 2,
+      "per_type": {
+        "anomaly": {
+          "unique_count": 10,
+          "edge_weight": 0.0
+        },
+        "dream": {
+          "unique_count": 9,
+          "edge_weight": 11.0
+        },
+        "experiment": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "hypothesis": {
+          "unique_count": 15,
+          "edge_weight": 15.0
+        },
+        "investigation": {
+          "unique_count": 6,
+          "edge_weight": 0.0
+        },
+        "loop_candidate": {
+          "unique_count": 26,
+          "edge_weight": 128.0
+        },
+        "meta_concept": {
+          "unique_count": 15,
+          "edge_weight": 0.0
+        },
+        "prediction_candidate": {
+          "unique_count": 128,
+          "edge_weight": 3066.0
+        },
+        "process_candidate": {
+          "unique_count": 11,
+          "edge_weight": 22.0
+        },
+        "workflow_concept": {
+          "unique_count": 11,
+          "edge_weight": 11.0
+        }
+      },
+      "scores": {
+        "retention": 0.366962,
+        "transfer": 0.366058,
+        "revision": 0.349659
+      },
+      "asserted_edges": 181,
+      "coverage": 1.0,
+      "candidate_ids": {
+        "frozen": {
+          "anomaly": "2f20b5047610475f",
+          "dream": "3c82182804f9a7ec",
+          "experiment": "07e03f4f3efc77b7",
+          "hypothesis": "983d033263e7d442",
+          "investigation": "ecd6e08109bf0981",
+          "loop_candidate": "e5edde1905459f7e",
+          "meta_concept": "46af1fa508652826",
+          "prediction_candidate": "0aabb51ee36e6b00",
+          "process_candidate": "29e07aa515337d3a",
+          "workflow_concept": "84eadd4eb2f50977"
+        },
+        "post": {
+          "anomaly": "ea4739cd242dfda0",
+          "dream": "79531e967b4ba9b0",
+          "experiment": "206eef6b83cf3aaa",
+          "hypothesis": "0b93446da16bb9d5",
+          "investigation": "421bca2613b21def",
+          "loop_candidate": "2238286b8fa2289e",
+          "meta_concept": "5291fad40aa95536",
+          "prediction_candidate": "f73585e67066f755",
+          "process_candidate": "549378cb47a5ed3f",
+          "workflow_concept": "fb65a24572741d6b"
+        }
+      },
+      "temporal_graph": "3a1131ca3ce80743",
+      "seconds": 314.412
+    }
+  ],
+  "summary": {
+    "per_seed": [
+      {
+        "task": "T1",
+        "seed": 20261125,
+        "d0_failed_limbs": [
+          "retention",
+          "transfer",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 10,
+              "edge_weight": 22.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 34,
+              "edge_weight": 34.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 22,
+              "edge_weight": 102.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 147,
+              "edge_weight": 7455.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "question": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "scores": {
+            "retention": 0.230747,
+            "transfer": 0.22907,
+            "revision": 0.386263
+          },
+          "asserted_edges": 165,
+          "coverage": 0.8812
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0007660000000000167,
+              "transfer": 0.0003190000000000137,
+              "revision": 0.001786999999999983
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 22.0
+                },
+                "audit": {
+                  "unique_count": 14,
+                  "edge_weight": 28.0
+                },
+                "unique_count_delta": 4,
+                "edge_weight_delta": 6.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 37,
+                  "edge_weight": 37.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 22,
+                  "edge_weight": 102.0
+                },
+                "audit": {
+                  "unique_count": 28,
+                  "edge_weight": 134.0
+                },
+                "unique_count_delta": 6,
+                "edge_weight_delta": 32.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 147,
+                  "edge_weight": 7455.0
+                },
+                "audit": {
+                  "unique_count": 156,
+                  "edge_weight": 7428.0
+                },
+                "unique_count_delta": 9,
+                "edge_weight_delta": -27.0
+              },
+              "question": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "theory": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              }
+            },
+            "asserted_edges": [
+              177
+            ],
+            "coverage": [
+              0.9187
+            ],
+            "candidate_id_digests": [
+              "9dfdde40b5d9aa48"
+            ],
+            "post_candidate_id_digests": [
+              "d9ef2362fa119e36"
+            ],
+            "temporal_graph_digests": [
+              "09feba6094910da1"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0007660000000000167,
+              "transfer": 0.0003190000000000137,
+              "revision": 0.001786999999999983
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 22.0
+                },
+                "audit": {
+                  "unique_count": 14,
+                  "edge_weight": 28.0
+                },
+                "unique_count_delta": 4,
+                "edge_weight_delta": 6.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 37,
+                  "edge_weight": 37.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 22,
+                  "edge_weight": 102.0
+                },
+                "audit": {
+                  "unique_count": 28,
+                  "edge_weight": 134.0
+                },
+                "unique_count_delta": 6,
+                "edge_weight_delta": 32.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 147,
+                  "edge_weight": 7455.0
+                },
+                "audit": {
+                  "unique_count": 156,
+                  "edge_weight": 7428.0
+                },
+                "unique_count_delta": 9,
+                "edge_weight_delta": -27.0
+              },
+              "question": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "theory": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              }
+            },
+            "asserted_edges": [
+              177
+            ],
+            "coverage": [
+              0.9187
+            ],
+            "candidate_id_digests": [
+              "9dfdde40b5d9aa48"
+            ],
+            "post_candidate_id_digests": [
+              "d9ef2362fa119e36"
+            ],
+            "temporal_graph_digests": [
+              "09feba6094910da1"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T1",
+        "seed": 20261128,
+        "d0_failed_limbs": [
+          "transfer",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 13,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 9,
+              "edge_weight": 19.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 34,
+              "edge_weight": 34.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 98.0
+            },
+            "meta_concept": {
+              "unique_count": 16,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 156,
+              "edge_weight": 7546.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "question": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "scores": {
+            "retention": 0.234267,
+            "transfer": 0.247592,
+            "revision": 0.393873
+          },
+          "asserted_edges": 175,
+          "coverage": 0.9682
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 4.799999999999249e-05,
+              "transfer": 0.0010900000000000076,
+              "revision": 0.0043859999999999455
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 13,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 12,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 19.0
+                },
+                "audit": {
+                  "unique_count": 15,
+                  "edge_weight": 29.0
+                },
+                "unique_count_delta": 6,
+                "edge_weight_delta": 10.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 37,
+                  "edge_weight": 37.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 98.0
+                },
+                "audit": {
+                  "unique_count": 25,
+                  "edge_weight": 116.0
+                },
+                "unique_count_delta": 4,
+                "edge_weight_delta": 18.0
+              },
+              "meta_concept": {
+                "campaign": {
+                  "unique_count": 16,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 15,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 156,
+                  "edge_weight": 7546.0
+                },
+                "audit": {
+                  "unique_count": 157,
+                  "edge_weight": 7460.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": -86.0
+              }
+            },
+            "asserted_edges": [
+              179
+            ],
+            "coverage": [
+              0.9745
+            ],
+            "candidate_id_digests": [
+              "eaa51bcee3706d92"
+            ],
+            "post_candidate_id_digests": [
+              "2d042d1d143f9fc0"
+            ],
+            "temporal_graph_digests": [
+              "b907b3f478de0979"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 4.799999999999249e-05,
+              "transfer": 0.0010900000000000076,
+              "revision": 0.0043859999999999455
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 13,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 12,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 19.0
+                },
+                "audit": {
+                  "unique_count": 15,
+                  "edge_weight": 29.0
+                },
+                "unique_count_delta": 6,
+                "edge_weight_delta": 10.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 37,
+                  "edge_weight": 37.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 98.0
+                },
+                "audit": {
+                  "unique_count": 25,
+                  "edge_weight": 116.0
+                },
+                "unique_count_delta": 4,
+                "edge_weight_delta": 18.0
+              },
+              "meta_concept": {
+                "campaign": {
+                  "unique_count": 16,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 15,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 156,
+                  "edge_weight": 7546.0
+                },
+                "audit": {
+                  "unique_count": 157,
+                  "edge_weight": 7460.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": -86.0
+              }
+            },
+            "asserted_edges": [
+              179
+            ],
+            "coverage": [
+              0.9745
+            ],
+            "candidate_id_digests": [
+              "eaa51bcee3706d92"
+            ],
+            "post_candidate_id_digests": [
+              "2d042d1d143f9fc0"
+            ],
+            "temporal_graph_digests": [
+              "b907b3f478de0979"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T1",
+        "seed": 20261129,
+        "d0_failed_limbs": [
+          "retention",
+          "transfer",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 34,
+              "edge_weight": 34.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 24,
+              "edge_weight": 120.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 149,
+              "edge_weight": 7419.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 22.0
+            },
+            "question": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            }
+          },
+          "scores": {
+            "retention": 0.234546,
+            "transfer": 0.234862,
+            "revision": 0.382793
+          },
+          "asserted_edges": 170,
+          "coverage": 0.9161
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0005700000000000149,
+              "transfer": 0.0005069999999999797,
+              "revision": 0.001358999999999999
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 12,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 22.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 36,
+                  "edge_weight": 36.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 2.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 24,
+                  "edge_weight": 120.0
+                },
+                "audit": {
+                  "unique_count": 22,
+                  "edge_weight": 110.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -10.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 149,
+                  "edge_weight": 7419.0
+                },
+                "audit": {
+                  "unique_count": 149,
+                  "edge_weight": 7402.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": -17.0
+              },
+              "question": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "theory": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 9.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -2.0
+              }
+            },
+            "asserted_edges": [
+              167
+            ],
+            "coverage": [
+              0.9226
+            ],
+            "candidate_id_digests": [
+              "8dc505afebbea6a7"
+            ],
+            "post_candidate_id_digests": [
+              "9c61d1aac15a3cbf"
+            ],
+            "temporal_graph_digests": [
+              "e7eb8a03722c5a57"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0005700000000000149,
+              "transfer": 0.0005069999999999797,
+              "revision": 0.001358999999999999
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 12,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 22.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "hypothesis": {
+                "campaign": {
+                  "unique_count": 34,
+                  "edge_weight": 34.0
+                },
+                "audit": {
+                  "unique_count": 36,
+                  "edge_weight": 36.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 2.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 24,
+                  "edge_weight": 120.0
+                },
+                "audit": {
+                  "unique_count": 22,
+                  "edge_weight": 110.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -10.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 149,
+                  "edge_weight": 7419.0
+                },
+                "audit": {
+                  "unique_count": 149,
+                  "edge_weight": 7402.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": -17.0
+              },
+              "question": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "theory": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 9.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -2.0
+              }
+            },
+            "asserted_edges": [
+              167
+            ],
+            "coverage": [
+              0.9226
+            ],
+            "candidate_id_digests": [
+              "8dc505afebbea6a7"
+            ],
+            "post_candidate_id_digests": [
+              "9c61d1aac15a3cbf"
+            ],
+            "temporal_graph_digests": [
+              "e7eb8a03722c5a57"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T2",
+        "seed": 20261118,
+        "d0_failed_limbs": [
+          "retention"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 13,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 9,
+              "edge_weight": 14.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 102.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 127,
+              "edge_weight": 2958.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "scores": {
+            "retention": 0.360933,
+            "transfer": 0.361044,
+            "revision": 0.347677
+          },
+          "asserted_edges": 172,
+          "coverage": 0.9911
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00013999999999997348,
+              "transfer": 3.000000000030756e-06,
+              "revision": 6.099999999997774e-05
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 13,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 14,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 14.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -4.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 102.0
+                },
+                "audit": {
+                  "unique_count": 22,
+                  "edge_weight": 106.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 4.0
+              }
+            },
+            "asserted_edges": [
+              172
+            ],
+            "coverage": [
+              0.9911
+            ],
+            "candidate_id_digests": [
+              "faa8277c51121315"
+            ],
+            "post_candidate_id_digests": [
+              "cece24e3c9e81dee"
+            ],
+            "temporal_graph_digests": [
+              "7ca695a016f6670a"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00013999999999997348,
+              "transfer": 3.000000000030756e-06,
+              "revision": 6.099999999997774e-05
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 13,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 14,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 14.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -4.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 102.0
+                },
+                "audit": {
+                  "unique_count": 22,
+                  "edge_weight": 106.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 4.0
+              }
+            },
+            "asserted_edges": [
+              172
+            ],
+            "coverage": [
+              0.9911
+            ],
+            "candidate_id_digests": [
+              "faa8277c51121315"
+            ],
+            "post_candidate_id_digests": [
+              "cece24e3c9e81dee"
+            ],
+            "temporal_graph_digests": [
+              "7ca695a016f6670a"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T2",
+        "seed": 20261120,
+        "d0_failed_limbs": [
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 9,
+              "edge_weight": 13.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 104.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 128,
+              "edge_weight": 3182.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 22.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            }
+          },
+          "scores": {
+            "retention": 0.368175,
+            "transfer": 0.361463,
+            "revision": 0.350555
+          },
+          "asserted_edges": 171,
+          "coverage": 1.0
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 1.4999999999987246e-05,
+              "transfer": 2.0000000000020002e-05,
+              "revision": 0.0006470000000000087
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 13.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 9.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -4.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -3,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -3,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 104.0
+                },
+                "audit": {
+                  "unique_count": 21,
+                  "edge_weight": 102.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": -2.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3182.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3206.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 24.0
+              },
+              "process_candidate": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 22.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -2.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -1.0
+              }
+            },
+            "asserted_edges": [
+              173
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "49343de2723a10ae"
+            ],
+            "post_candidate_id_digests": [
+              "d195032d9ab7395a"
+            ],
+            "temporal_graph_digests": [
+              "14d0b40a435b1d4c"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 1.4999999999987246e-05,
+              "transfer": 2.0000000000020002e-05,
+              "revision": 0.0006470000000000087
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 13.0
+                },
+                "audit": {
+                  "unique_count": 7,
+                  "edge_weight": 9.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": -4.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -3,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -3,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 104.0
+                },
+                "audit": {
+                  "unique_count": 21,
+                  "edge_weight": 102.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": -2.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3182.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3206.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 24.0
+              },
+              "process_candidate": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 22.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -2.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -1.0
+              }
+            },
+            "asserted_edges": [
+              173
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "49343de2723a10ae"
+            ],
+            "post_candidate_id_digests": [
+              "d195032d9ab7395a"
+            ],
+            "temporal_graph_digests": [
+              "14d0b40a435b1d4c"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T2",
+        "seed": 20261121,
+        "d0_failed_limbs": [
+          "retention",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 11,
+              "edge_weight": 13.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 24,
+              "edge_weight": 118.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 128,
+              "edge_weight": 2982.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 22.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            }
+          },
+          "scores": {
+            "retention": 0.364982,
+            "transfer": 0.366045,
+            "revision": 0.346944
+          },
+          "asserted_edges": 178,
+          "coverage": 1.0
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00042399999999997995,
+              "transfer": 9.599999999998499e-05,
+              "revision": 0.0006209999999999827
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 13.0
+                },
+                "audit": {
+                  "unique_count": 13,
+                  "edge_weight": 18.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 5.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 24,
+                  "edge_weight": 118.0
+                },
+                "audit": {
+                  "unique_count": 23,
+                  "edge_weight": 114.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -4.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 2982.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3002.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 20.0
+              }
+            },
+            "asserted_edges": [
+              181
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "68c63ed0ced125c3"
+            ],
+            "post_candidate_id_digests": [
+              "3839db65dd02404a"
+            ],
+            "temporal_graph_digests": [
+              "a124414560f889b6"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00042399999999997995,
+              "transfer": 9.599999999998499e-05,
+              "revision": 0.0006209999999999827
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 13.0
+                },
+                "audit": {
+                  "unique_count": 13,
+                  "edge_weight": 18.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 5.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 8,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 24,
+                  "edge_weight": 118.0
+                },
+                "audit": {
+                  "unique_count": 23,
+                  "edge_weight": 114.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -4.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 2982.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3002.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 20.0
+              }
+            },
+            "asserted_edges": [
+              181
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "68c63ed0ced125c3"
+            ],
+            "post_candidate_id_digests": [
+              "3839db65dd02404a"
+            ],
+            "temporal_graph_digests": [
+              "a124414560f889b6"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T2",
+        "seed": 20261123,
+        "d0_failed_limbs": [
+          "retention",
+          "transfer",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 9,
+              "edge_weight": 12.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 21,
+              "edge_weight": 98.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 128,
+              "edge_weight": 3072.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "scores": {
+            "retention": 0.360591,
+            "transfer": 0.366038,
+            "revision": 0.344579
+          },
+          "asserted_edges": 178,
+          "coverage": 1.0
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0006559999999999899,
+              "transfer": 0.0010200000000000209,
+              "revision": 0.0007420000000000204
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 12.0
+                },
+                "audit": {
+                  "unique_count": 8,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -2.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 98.0
+                },
+                "audit": {
+                  "unique_count": 20,
+                  "edge_weight": 94.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -4.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3072.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3108.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 36.0
+              }
+            },
+            "asserted_edges": [
+              175
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "a0b3a33fe20c90cb"
+            ],
+            "post_candidate_id_digests": [
+              "38da3011e78fe73a"
+            ],
+            "temporal_graph_digests": [
+              "0a4417e5e29de27a"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.0006559999999999899,
+              "transfer": 0.0010200000000000209,
+              "revision": 0.0007420000000000204
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "dream": {
+                "campaign": {
+                  "unique_count": 9,
+                  "edge_weight": 12.0
+                },
+                "audit": {
+                  "unique_count": 8,
+                  "edge_weight": 10.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -2.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 7,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -2,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 21,
+                  "edge_weight": 98.0
+                },
+                "audit": {
+                  "unique_count": 20,
+                  "edge_weight": 94.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": -4.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3072.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3108.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 36.0
+              }
+            },
+            "asserted_edges": [
+              175
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "a0b3a33fe20c90cb"
+            ],
+            "post_candidate_id_digests": [
+              "38da3011e78fe73a"
+            ],
+            "temporal_graph_digests": [
+              "0a4417e5e29de27a"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      },
+      {
+        "task": "T2",
+        "seed": 20261130,
+        "d0_failed_limbs": [
+          "retention",
+          "transfer",
+          "revision"
+        ],
+        "arms_agree": true,
+        "digests_agree": true,
+        "layer3_entered": false,
+        "campaign": {
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 6,
+              "edge_weight": 8.0
+            },
+            "experiment": {
+              "unique_count": 5,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 5,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 26,
+              "edge_weight": 126.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 128,
+              "edge_weight": 3064.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "scores": {
+            "retention": 0.366642,
+            "transfer": 0.365604,
+            "revision": 0.350402
+          },
+          "asserted_edges": 178,
+          "coverage": 1.0
+        },
+        "arms": {
+          "no_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00031999999999998696,
+              "transfer": 0.00045400000000000995,
+              "revision": 0.0007429999999999937
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 6,
+                  "edge_weight": 8.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 11.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 6,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 6,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 26,
+                  "edge_weight": 126.0
+                },
+                "audit": {
+                  "unique_count": 26,
+                  "edge_weight": 128.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3064.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3066.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "process_candidate": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 22.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 2.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 10.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 1.0
+              }
+            },
+            "asserted_edges": [
+              181
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "16815007ec91ec0b"
+            ],
+            "post_candidate_id_digests": [
+              "930b755a87279d69"
+            ],
+            "temporal_graph_digests": [
+              "3a1131ca3ce80743"
+            ]
+          },
+          "rowid_tiebreak": {
+            "runs": 3,
+            "stable": true,
+            "all_match": false,
+            "any_match": false,
+            "score_max_abs_diff": {
+              "retention": 0.00031999999999998696,
+              "transfer": 0.00045400000000000995,
+              "revision": 0.0007429999999999937
+            },
+            "score_matches": false,
+            "matches_diagnostic": true,
+            "diagnostic_score_max_abs_diff": {
+              "retention": 0.0,
+              "transfer": 0.0,
+              "revision": 0.0
+            },
+            "diagnostic_score_matches": true,
+            "per_type_deltas": {
+              "anomaly": {
+                "campaign": {
+                  "unique_count": 11,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 10,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": -1,
+                "edge_weight_delta": 0.0
+              },
+              "dream": {
+                "campaign": {
+                  "unique_count": 6,
+                  "edge_weight": 8.0
+                },
+                "audit": {
+                  "unique_count": 9,
+                  "edge_weight": 11.0
+                },
+                "unique_count_delta": 3,
+                "edge_weight_delta": 3.0
+              },
+              "experiment": {
+                "campaign": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 6,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "investigation": {
+                "campaign": {
+                  "unique_count": 5,
+                  "edge_weight": 0.0
+                },
+                "audit": {
+                  "unique_count": 6,
+                  "edge_weight": 0.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 0.0
+              },
+              "loop_candidate": {
+                "campaign": {
+                  "unique_count": 26,
+                  "edge_weight": 126.0
+                },
+                "audit": {
+                  "unique_count": 26,
+                  "edge_weight": 128.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "prediction_candidate": {
+                "campaign": {
+                  "unique_count": 128,
+                  "edge_weight": 3064.0
+                },
+                "audit": {
+                  "unique_count": 128,
+                  "edge_weight": 3066.0
+                },
+                "unique_count_delta": 0,
+                "edge_weight_delta": 2.0
+              },
+              "process_candidate": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 20.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 22.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 2.0
+              },
+              "workflow_concept": {
+                "campaign": {
+                  "unique_count": 10,
+                  "edge_weight": 10.0
+                },
+                "audit": {
+                  "unique_count": 11,
+                  "edge_weight": 11.0
+                },
+                "unique_count_delta": 1,
+                "edge_weight_delta": 1.0
+              }
+            },
+            "asserted_edges": [
+              181
+            ],
+            "coverage": [
+              1.0
+            ],
+            "candidate_id_digests": [
+              "16815007ec91ec0b"
+            ],
+            "post_candidate_id_digests": [
+              "930b755a87279d69"
+            ],
+            "temporal_graph_digests": [
+              "3a1131ca3ce80743"
+            ]
+          }
+        },
+        "outcome": "both_stable_both_differ"
+      }
+    ],
+    "counts": {
+      "seeds": 8,
+      "no_tiebreak_stable": 8,
+      "tiebreak_stable": 8,
+      "tiebreak_matches_campaign_table": 0,
+      "tiebreak_matches_campaign_scores": 0,
+      "no_tiebreak_matches_campaign_table": 0,
+      "no_tiebreak_matches_campaign_scores": 0,
+      "no_tiebreak_matches_diagnostic": 8,
+      "tiebreak_matches_diagnostic": 8,
+      "arms_agree": 8,
+      "digests_agree": 8,
+      "layer3_entered": 0,
+      "outcomes": {
+        "both_stable_both_differ": 8
+      }
+    },
+    "repeats": 3
+  },
+  "seconds": 1971.67
+}
