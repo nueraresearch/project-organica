@@ -6302,6 +6302,15 @@ than the one that produced the ceiling result, and the only honest outcome is **
 no room estimate, no mechanism mapping. A failed denominator check invalidates a variant; a failed
 D0 check invalidates the object being analysed.
 
+**The self-test found the campaign's missing hash seed before the run.** The engine is hash-order
+sensitive. Without `PYTHONHASHSEED=0`, the diagnostic's first re-run drifted from the campaign by
+**4.7e-4** (retention 2.8e-4, transfer 2.0e-4, revision 4.7e-4) and the asserted structure differed
+by 30 edges; with the pin it reproduced **exactly**. The campaign artifact was produced under that
+seed and its command did not record it. That is a provenance defect in the campaign, not a
+difference in any measurement, and the D0 tolerance was not changed to accommodate it. Amendment 1
+to the diagnostic protocol pins the seed, the runner refuses to start without it, and the artifact
+records it. The campaign's verdict stands; its reproducibility is now stated rather than assumed.
+
 **The room comes before the component.** The ceiling is the generator's true conditional on the
 same contexts. If the room between it and the pinned readout is below `0.01` nats on both tasks and
 no variant helps, the outcome is **EVIDENCE-LIMITED**: the use path has no measurable room at this

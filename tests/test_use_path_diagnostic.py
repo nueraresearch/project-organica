@@ -280,3 +280,11 @@ def test_result_document_marks_a_non_confirmatory_subset():
 def test_placeholder_guard_fires():
     with pytest.raises(ValueError):
         d._assert_no_placeholder("a number {missing} here")
+
+def test_hash_seed_must_be_pinned(monkeypatch):
+    monkeypatch.delenv("PYTHONHASHSEED", raising=False)
+    with pytest.raises(RuntimeError):
+        d.require_hash_seed()
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
+    assert d.require_hash_seed() == "0"
+

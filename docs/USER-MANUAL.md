@@ -2406,7 +2406,10 @@ Layer-1 coverage 0.0. A7: **94.0–96.2 %** (T2) and **96.2–97.7 %** (T1) of
 readout weight from Layer 1. A8: **2,539,326** (T2) and **2,408,224** (T1)
 eligible-pair checks, **0** mismatches, own-table symmetric difference
 **17–93** / **0–19** edges (unread). A3 and A6 are not applicable on T1, with
-the reasons recorded before the campaign.
+the reasons recorded before the campaign. **Reproducibility:** the campaign artifact reproduces
+exactly only under `PYTHONHASHSEED=0`; its command did not record the seed. The diagnostic's
+self-test measured a **4.7e-4** drift without the pin, then reproduced exactly with it. This is a
+provenance gap, not a change to any verdict.
 
 **Do not say** "utilization fails" without the magnitude: C closes most of A's
 gap and wins revision on T1. **Do say** the pre-committed mapping returns
@@ -2425,7 +2428,7 @@ protocol §7 and §12, finding 39, journal §65.
 
 **The question, in order.** The diagnostic does not begin by asking which component binds. It asks first whether there is **measurable room** in the use path at the evidence the campaign had, using the generator's true conditional as the ceiling. Only if the room exists does it ask which component — retrieval/provenance (D1), activation/aggregation (D2), or the readout form (D3/D4) — accounts for part of it.
 
-**The gate that can invalidate the whole run.** D0 must reproduce the campaign's arm-C scores for all 30 seeds and all three limbs within **1e-4**. If it does not, the outcome is **AUDIT REQUIRED** — no room estimate, no mechanism mapping. The decomposition would be of a different object than the one that produced the ceiling result. The result document's first section is the gate, and the generator refuses to emit a mechanism section if it failed.
+**The gate that can invalidate the whole run.** D0 must reproduce the campaign's arm-C scores for all 30 seeds and all three limbs within **1e-4**, under **`PYTHONHASHSEED=0`**. The self-test reproduced exactly with the pin and drifted by **4.7e-4** without it, which is a provenance gap in the campaign, not a change to its verdict. If the gate fails, the outcome is **AUDIT REQUIRED** — no room estimate, no mechanism mapping. The decomposition would be of a different object than the one that produced the ceiling result. The result document's first section is the gate, and the generator refuses to emit a mechanism section if it failed.
 
 **The outcomes, pre-committed.** The diagnostic can return **EVIDENCE-LIMITED** (room below 0.01 nats on both tasks and no arm helps: the use path has no measurable room at this evidence, so the target moves upstream to formation/estimation), a **MECHANISM CANDIDATE** (a named component), **UNKNOWN USE-PATH MECHANISM** (room exists but the tested family cannot reach it), **TASK-DEPENDENT**, or **AUDIT REQUIRED**. Evidence-limited is a successful result: it can disprove a class of use-path V2 concepts before implementation.
 

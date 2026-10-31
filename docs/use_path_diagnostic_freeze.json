@@ -1,12 +1,15 @@
 {
   "protocol": "docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md",
-  "protocol_sha256": "fffddd22e78aab7a2bd76a491903762f3f95978cea3d4088800240090241a8b8",
-  "frozen_utc": "2026-10-31T03:38:26Z",
-  "freeze_commit": "a1fd453da3b6fd4574e513fdeb386e0b6e02ffcf",
-  "freeze_commit_subject": "Corrected: the V2 record carries the observed ceiling condition, and the use-path diagnostic is frozen",
+  "protocol_sha256": "ddc6ae3a2c16ce10dd6d61c71deb56f20ae5f58d2238d8de4eb5948a626014a8",
+  "frozen_utc": "2026-10-31T03:45:08Z",
+  "freeze_commit": null,
+  "amendment": 1,
+  "amendment_reason": "PYTHONHASHSEED=0 pinned before any confirmatory cell; the self-test drifted 4.7e-4 without it and reproduced exactly with it",
+  "original_freeze_commit": "a1fd453da3b6fd4574e513fdeb386e0b6e02ffcf",
   "d0_tolerance": 0.0001,
   "room_threshold": 0.01,
   "effect_threshold": 0.01,
+  "pythonhashseed": "0",
   "seeds": [
     20261101,
     20261102,
@@ -53,5 +56,5 @@
     256.0,
     1024.0
   ],
-  "note": "SHA-256 is over the LF-normalized protocol bytes; the protocol was committed before any cell ran."
+  "note": "SHA-256 is over the LF-normalized protocol bytes. Amendment 1 pins PYTHONHASHSEED=0; no hypothesis, arm, threshold or outcome changed."
 }

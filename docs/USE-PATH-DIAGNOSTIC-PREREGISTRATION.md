@@ -81,6 +81,12 @@ analysed**.
   the campaign, and compares the re-run C scores with the artifact.
 - The tolerance is `1e-4`, which is ten times the largest previously observed re-run drift
   (`1.4e-5`) and is still far below any effect the diagnostic treats as meaningful (`0.01` nats).
+- **The hash seed is part of the reproduction.** The engine is hash-order sensitive. The campaign
+  artifact was produced with `PYTHONHASHSEED=0` but did not record it. The diagnostic's self-test
+  reproduced the campaign's C scores exactly under that pin and drifted by **4.7e-4** without it
+  (retention 2.8e-4, transfer 2.0e-4, revision 4.7e-4; 30 asserted edges differed). The runner
+  therefore refuses to start unless `PYTHONHASHSEED=0`, and the artifact records the seed. The
+  D0 tolerance is unchanged. See Amendment 1 in §15.
 - If **any** seed or limb fails, the run is `status = audit_required`,
   `variants_interpretable = false`, and no room estimate or mechanism mapping is reported. The
   result document is titled **AUDIT REQUIRED** and contains no mechanism section.
@@ -246,6 +252,7 @@ and it adds no field to `organica/`. The behavior-neutrality of the recorder is 
 - Seeds: **`20261101`–`20261130`**, the campaign's 30 confirmatory seeds. No new scoring seed is
   added; the diagnostic is a decomposition of the campaign's own units.
 - Units: 30 seeds × 2 tasks = **60 units**.
+- Hash seed: **`PYTHONHASHSEED=0`**, pinned, asserted at startup and recorded in the artifact.
 - Engine runs: B and C per unit = **120 runs**. D0–D5 are scored offline from the saved asserted
   structures; they add no engine runs.
 - Calibration: 2 tasks × (B + C) = **4 additional runs** on `20261099`.
@@ -318,3 +325,24 @@ condition. No result in this document can supply it.
 - This protocol was written **before** any diagnostic cell was run. The self-test and the
   calibration run may be executed only after the freeze commit; the confirmatory run may be
   executed only after the same freeze.
+
+---
+
+## 15. Amendment 1 — the hash seed is pinned (2026-10-30, before any confirmatory cell)
+
+**What was found.** The self-test was run before the campaign. Without a hash-seed pin it failed
+D0: the campaign's arm-C scores drifted by **4.7e-4** (retention 2.8e-4, transfer 2.0e-4, revision
+4.7e-4) and the asserted structure differed by 30 edges. With `PYTHONHASHSEED=0` it reproduced
+**exactly** (all three limbs, maximum absolute difference 0.0). The campaign artifact was produced
+under that seed; its command did not record it. That is a provenance defect in the campaign, not a
+difference in any measurement.
+
+**What changed.** `PYTHONHASHSEED=0` is now a declared reproducibility constant. The runner refuses
+to start without it; the artifact records it; the result document prints it. The D0 tolerance
+(`1e-4`), the arms, the thresholds, the mapping and the outcomes are **unchanged**. This amendment
+adds a control that was missing; it does not relax one.
+
+**Why it is disclosed here.** The protocol was frozen at `a1fd453` without the pin, and the
+self-test caught the omission before any confirmatory cell ran. This amendment is committed before
+the run, with the new freeze hash in `docs/use_path_diagnostic_freeze.json`. No hypothesis, arm,
+metric, threshold or terminal outcome was changed.

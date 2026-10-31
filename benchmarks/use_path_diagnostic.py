@@ -80,6 +80,7 @@ BOOTSTRAP_SEED = fu.BOOTSTRAP_SEED
 
 D0_ALPHA = fu.ALPHA
 ALPHA_GRID = (16.0, 64.0, 256.0, 1024.0)
+HASH_SEED = "0"
 D2_CONSTANTS = {"prediction_candidate": 1.0, "__other__": 0.5}
 D4_ADD_ONE = 1.0
 REGIME_BY_LIMB = {"retention": 0, "transfer": 0, "revision": 1}
@@ -91,6 +92,22 @@ class ProtocolNotFrozen(RuntimeError):
 
 class AuditRequired(RuntimeError):
     """The D0 gate failed; no mechanism may be mapped."""
+
+
+def require_hash_seed() -> str:
+    """The engine is hash-order sensitive; the campaign reproduces at seed 0.
+
+    The formation-utilization campaign's artifact was produced with
+    ``PYTHONHASHSEED=0`` but did not record it.  The diagnostic's self-test
+    found a 4.7e-4 drift without the pin, so the pin is a declared
+    reproducibility constant, not an option.
+    """
+    value = os.environ.get("PYTHONHASHSEED")
+    if value != HASH_SEED:
+        raise RuntimeError(
+            "PYTHONHASHSEED must be 0 for the diagnostic; run "
+            "`PYTHONHASHSEED=0 python benchmarks/use_path_diagnostic.py ...`")
+    return value
 
 
 # ---------------------------------------------------------------------------
@@ -308,6 +325,7 @@ def _log_loss(score_entry: dict[str, Any]) -> float:
 
 def run_unit(task: str, seed: int, calibrated_alpha: float | None) -> dict[str, Any]:
     """Run B and C for one (task, seed), then score D0–D5 offline."""
+    require_hash_seed()
     t0 = time.perf_counter()
     prep = fu.prepare_world(task, seed)
     support = fu.build_support(task, prep["world"], 0)
@@ -471,6 +489,7 @@ def calibrate(task: str) -> dict[str, Any]:
 
 
 def load_or_run_calibration(force: bool = False) -> dict[str, Any]:
+    require_hash_seed()
     if CALIBRATION_CACHE.exists() and not force:
         try:
             return json.loads(CALIBRATION_CACHE.read_text(encoding="utf-8"))
@@ -978,6 +997,7 @@ def _render_audit(artifact: dict) -> str:
         f"- Freeze commit: `{artifact.get('freeze_commit')}`",
         f"- Campaign artifact: `{artifact.get('campaign_artifact')}`",
         f"- Engine: {artifact.get('engine_version')}",
+        f"- Hash seed: `PYTHONHASHSEED={artifact.get('pythonhashseed', 'not recorded')}`",
         f"- Generated: {artifact.get('generated_utc')}",
         "",
     ]
@@ -1029,7 +1049,8 @@ def render_results(artifact: dict) -> str:
         f"D0 reproduced the campaign's arm-C scores on all {gate.get('expected_units')} "
         f"units and every scored limb within {_fmt(gate.get('tolerance'), 6)}. "
         f"Units present: {n_units}. Seed-limbs checked: {gate.get('n_checks')}. "
-        f"Largest absolute difference: {_fmt(gate.get('max_abs_diff'), 6)}.",
+        f"Largest absolute difference: {_fmt(gate.get('max_abs_diff'), 6)}. "
+        f"Hash seed: `PYTHONHASHSEED={artifact.get('pythonhashseed', 'not recorded')}`.",
         "",
         "**PASS.** The decomposition is of the object that produced the campaign result. "
         "The room estimate below is interpretable; nothing above it is.",
@@ -1131,6 +1152,7 @@ def render_results(artifact: dict) -> str:
         f"- Freeze commit: `{artifact.get('freeze_commit')}`",
         f"- Campaign artifact: `{artifact.get('campaign_artifact')}`",
         f"- Engine: {artifact.get('engine_version')}",
+        f"- Hash seed: `PYTHONHASHSEED={artifact.get('pythonhashseed', 'not recorded')}`",
         f"- Generated: {artifact.get('generated_utc')}",
         f"- Seeds: {len(artifact.get('seeds', []))} per task; tasks: "
         f"{', '.join(artifact.get('tasks', []))}",
@@ -1259,12 +1281,14 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
         "freeze_commit": freeze.get("freeze_commit"),
         "campaign_artifact": str(CAMPAIGN.relative_to(REPO)),
         "engine_version": ENGINE_VERSION,
+        "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "protocol_complete": (tuple(seeds) == SEEDS and tuple(tasks) == TASKS),
         "seeds": list(seeds),
         "tasks": list(tasks),
         "constants": {
             "d0_tolerance": D0_TOLERANCE,
+            "pythonhashseed": HASH_SEED,
             "effect_threshold": EFFECT_THRESHOLD,
             "room_threshold": ROOM_THRESHOLD,
             "decision_alpha": DECISION_ALPHA,
@@ -1295,12 +1319,14 @@ def run_all(workers: int, force: bool = False, seeds: tuple[int, ...] = SEEDS,
 
 
 def self_test() -> int:
+    require_hash_seed()
     freeze = check_freeze()
     campaign = load_campaign_c()
     record = run_unit("T2", SEEDS[0], None)
     gate = audit_d0_reproduction([record], campaign, expected_units=1)
     print(json.dumps({
         "freeze": freeze.get("protocol_sha256"),
+        "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
         "seed": record["seed"],
         "d0": record["d0"],
         "d0_gate": {"passed": gate["passed"],
