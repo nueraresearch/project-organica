@@ -6151,3 +6151,184 @@ mechanism is still the explanation the `wide_lookback` row supports. No verdict 
 `docs/g5_gap_diagnostic.json`; `docs/FACTS-SHEET.md` B1; `docs/GATE-BOARD.md`;
 `.scratch/verify/REPORT.md`
 
+## §65 — Correct structure is not enough: the formation-vs-utilization campaign, and a bar that was not what the protocol called it
+
+**What was run.** The amended protocol's 30 confirmatory seeds
+(`20261101`–`20261130`), both tasks, four arms (A, B, C, S) and the frozen
+comparators: **60 units, 240 arm runs**, engine **0.10.0**, no engine file
+changed. The campaign ran through `python .scratch/run_campaign_resumable.py
+--seeds 30 --workers 10`, a resumable wrapper over the harness's own
+`run_task_seed`; every unit was checkpointed, no unit failed or was re-run, and
+the artifact was assembled with the harness's own `analyse()` and renderer. The
+per-unit timings sum to **12.72 worker-hours**; the wall clock was **4,690 s**
+on 10 workers. All **60/60** units are `campaign_ready`.
+
+**The verdict.** Both formed arms lose transfer on both tasks, so §7's "both
+lose" cell fires on both: **"utilization fails even with correct structure"** →
+**V2 targets the use path (retrieval / activation / readout)**. The summary claim
+is **not supported**. The failing limbs are **transfer and retention**.
+
+| Task | Arm | Retention | Transfer | Revision |
+|---|---|---|---|---|
+| T1 | B (cap 1,000) | −0.0302 | −0.0296 | +0.0877 |
+| T1 | C (cap 1,000 + support) | −0.0267 | −0.0262 | +0.1002 |
+| T2 | B (cap 1,000) | −0.0797 | −0.0795 | −0.0676 |
+| T2 | C (cap 1,000 + support) | −0.0230 | −0.0227 | +0.0007 (tie) |
+
+`d = bar − arm`; positive favours the arm. Intervals are 98.33 % percentile
+bootstraps over 10,000 replicates, paired by seed (n = 30). The full eighteen-cell
+table, including A, is in the results document.
+
+**A notation defect, disclosed.** §7 writes `d = score(arm) − score(best
+baseline)` and then states the win rule as a lower bound above zero; lower
+log loss is better, so the two sentences use opposite orientations. The
+artifact and the results document use `d = bar − arm`, positive favours the
+arm, which is the orientation the win rule requires (`paired_bootstrap`'s
+docstring says so). No interval, verdict or criterion changes; the protocol
+is not edited.
+
+**The label is not the magnitude.** C closes **65.2 %** of arm A's transfer gap
+on T1 and **79.9 %** on T2 (retention 65.2 % / 79.6 %), leaving **0.0262** and
+**0.0227** nats. It improves over B by **0.0034** (T1) and **0.0568** (T2). It
+wins T1 revision by **0.1002** — against Replay, the bar there, which cannot
+revise — and ties T2 revision (+0.0007 [−0.0012, +0.0026]). The verdict says C
+does not clear the bar; it does not say the organism makes no use of the
+structure, and it does not say the structure is not there.
+
+**The bar was not "data-only".** The protocol's question and §12.5 call the
+comparator *"the strongest data-only learner"*. On T2 the bar is the
+**cell-level latent-state counter**, and `fit_cell_counter` takes `tag_to_cell`
+from the generator; its docstring says the structure is *"here granted"*. It is
+a declared member of the statistical-learner family (acquisition protocol §6.3),
+so this is a naming defect, not a deviation from the committed comparator set —
+but the name is wider than the thing. The verdict does not depend on it: post
+hoc, C still loses T2 transfer to Replay by **0.0208** [−0.0224, −0.0192] and to
+the bigram by **0.0187** [−0.0205, −0.0168]; on T1 the bar is Replay and C loses
+by **0.0262** [−0.0275, −0.0249]. C's oracle is also the stronger one — the
+generator's full transition support against the counter's four-cell map — so the
+loss is not an artifact of the baseline being handed more.
+
+**What the campaign can and cannot support.** It can support a statement about
+where the defect is: the arm that was given the law still lost, so the target is
+the use path, not candidate selection or admission precision. It cannot support
+"the engine cannot use structure" (C closes most of A's gap and wins T1
+revision); discovery (C is given the support; B is the discovery arm, and B also
+loses); a self-sourcing result (B's graph still contains B's sleep rows, and C
+inherits it under Amendment 1); "the engine with this filter installed" (C is a
+counterfactual trajectory at fixed evidence); a localization inside the use path
+(the experiment names the path, not the binding component); generality beyond
+T1/T2; or a V2 authorisation.
+
+**Audits.** 60/60 units ready. A1 coverage: T2 A **0.0000–0.0625** vs B/C
+**0.9643–1.0000**; T1 A **0.1553–0.2549** vs **0.8812–0.9935**. A2: **473,351**
+(T2) and **612,005** (T1) permitted candidates, **0** mismatches, the cap never
+bound. A3: B precision **0.3182–0.3394** on T2 (band 0.3543), C admission 1.0.
+A6: shuffled transfer **0.4957–0.5052** vs C **0.3569–0.3726**, Layer-1 coverage
+0.0. A7: **94.0–96.2 %** (T2) and **96.2–97.7 %** (T1) of readout weight from
+Layer 1. A8: **2,539,326** (T2) and **2,408,224** (T1) eligible-pair checks,
+**0** mismatches, own-table symmetric difference **17–93** / **0–19** edges
+(unread). A3 and A6 are not applicable on T1, with the reasons recorded before
+the campaign.
+
+**Provenance correction.** The artifact's `command` field initially named the
+harness's `--campaign` path, which was not the command that ran. It was
+re-assembled from the same 60 unit files with the wrapper's command; `status`,
+`results`, `audits` and `analysis` are identical to the first assembly, and the
+correction is disclosed in the artifact (`assembly_note`, `assembled_utc`) and
+in the results document. No measurement changed.
+
+**Why this is a finding and not only a result.** The protocol asked where the
+defect is, and the answer is the use path because the arm that was given the law
+still lost. The shape of the answer is the finding: correct structure closes
+most of the gap, and the residual is small, consistent, and not attributable to
+candidate selection. The second finding is about the instrument: **a
+comparator's name is part of its definition**, and "data-only" did not describe
+the T2 bar. Neither changes the verdict; both change what a reader should take
+from it. The general lesson is the one from §16 and AGENTS rule 24, applied to a
+pre-committed verdict: **a label and its magnitude are different claims**, and
+the label must not stand in for the effect size. "Utilization fails" is the
+protocol's verdict; 65–80 % of the gap closed is the measurement beside it.
+
+→ `docs/formation_utilization_results.md` (generated from the artifact);
+`docs/formation_utilization.json` / `.md`; `docs/FORMATION-UTILIZATION-
+PREREGISTRATION.md` §7, §12; `docs/USER-MANUAL.md` §8.21 and finding 39; AGENTS
+rule 24.
+
+## §66 — The record is corrected, and the diagnostic is pre-registered: D0 before room, room before mechanism
+
+**The record claim.** The formation-utilization campaign established that weak transfer despite
+correct internal structure is an observed ceiling condition and selected the use path as the target
+of investigation. It did not identify the binding component of that path and therefore did not, by
+itself, satisfy the mechanism requirement for a V2 build authorization.
+
+**What the correction is, and what it is not.** Section §65 measured the campaign and named the
+use path. What it could not do — and did not do — is say which component of that path binds. Three
+documents were still written as if the ceiling condition had never been observed. The V2 design
+brief's §11 row said *"NOT OBSERVED: R1 did not pass; the structure was never formed"*; gate 5 said
+the specific failure had not been demonstrated because the acquisition campaign stopped at its own
+acquisition gate; and §12 said no V2 result existed. The acquisition campaign's statement was true
+of the acquisition campaign. It stopped being true of the project on 2026-10-30, when arm C held the
+generator's support at fixed evidence and still lost transfer on both tasks (T1 −0.0262, T2
+−0.0227).
+
+The row is **preserved and marked superseded**, not rewritten. The replacement says what was
+observed, keeps the old sentence visible beside it, and gives the date. Gate 5 now reads
+**specific-failure condition met; mechanism condition not**. §12 gains a bullet that says the
+campaign selects the use path and does not authorise a build. That is the whole correction: no
+measurement changed, no verdict was re-read, and no claim was widened. The record claim is the
+sentence the three documents now share.
+
+**Why a correction is a finding.** A project's documents are part of its instrument, and an
+instrument that says "not observed" after the observation has landed is broken in the direction
+that matters least visibly: it does not contradict the data, it simply stops carrying it. The V2
+brief is the document a V2 decision is made from. Leaving it stale would have meant the decision
+was made against the 2026-10-28 record while the 2026-10-30 result sat in a different file. The
+general lesson is the one from §16 and AGENTS rule 24, applied to the *record* rather than to a
+headline: **a claim that was true of an earlier campaign is not a claim about the project**, and
+the correction must name the campaign it was true of.
+
+**The diagnostic, and why it is ordered the way it is.** The next step is
+[`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`](docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md),
+frozen before any cell runs. Its first question is not *which component binds?* It is *is there
+measurable room in the use path at this evidence?* The order is:
+
+```
+D0 reproduction  ->  room estimate  ->  mechanism mapping
+```
+
+**D0 is a validity gate, not a control.** It must reproduce the campaign's arm-C scores for all 30
+seeds and all three limbs within `1e-4`. If it does not, the decomposition is of a different object
+than the one that produced the ceiling result, and the only honest outcome is **AUDIT REQUIRED** —
+no room estimate, no mechanism mapping. A failed denominator check invalidates a variant; a failed
+D0 check invalidates the object being analysed.
+
+**The room comes before the component.** The ceiling is the generator's true conditional on the
+same contexts. If the room between it and the pinned readout is below `0.01` nats on both tasks and
+no variant helps, the outcome is **EVIDENCE-LIMITED**: the use path has no measurable room at this
+evidence, and the target moves upstream to formation / estimation / evidence quality. That is a
+successful result, not a failure of the run — it can disprove a class of use-path V2 concepts before
+implementation.
+
+**The component arms are observer-side re-scorings, not interventions.** D1 restricts the asserted
+graph to Layer-1 edges (retrieval/provenance); D2 re-weights the same edges by type with **declared
+constants** — Layer 1 `1.0`, every other type `0.5` — and no fitting, no calibration, no influence
+from the campaign's seeds; D3 sweeps the smoothing α, selected only on `20261099`; D4 replaces the
+backoff with a direct conditional with a declared add-one constant; D5 is the ceiling. D2 is
+constants-only for a reason: a type weighting chosen after seeing a score would be a tuned
+retrospective analysis wearing a diagnostic's name.
+
+**What the diagnostic can and cannot do.** It can select a component for a V2 **brief**. It cannot
+authorise a V2 build. C is still given the support and reads B's evidence, so a component candidate
+is a hypothesis for a confirmatory protocol, not a deployable fix. B remains the discovery arm, and
+the formation limitation is untouched. The owner's build decision is separate, dated, and not
+supplied by any result in the diagnostic.
+
+**Status.** Pre-registered and frozen. No diagnostic cell has been run. The result will be written
+to `docs/USE-PATH-DIAGNOSTIC-RESULTS.md` from the artifact, with the D0 gate as its first section.
+**No V2 build is authorised.**
+
+→ `docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`; `docs/use_path_diagnostic_freeze.json`;
+`docs/ORGANICA-V2-DESIGN-BRIEF.md` §9.8, gate 5, §11, §12; `docs/USER-MANUAL.md` §8.22 and action
+15; `benchmarks/use_path_diagnostic.py`; `tests/test_use_path_diagnostic.py`; AGENTS rules 13, 19,
+23 and 24.
+

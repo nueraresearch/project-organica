@@ -2,6 +2,11 @@
 
 **Date:** 2026-10-30
 **Status:** committed **before any cell of this experiment has run**. No result exists yet.
+**Amendment 1:** appended 2026-10-30 (§12), after the one-seed timing pass and before any
+confirmatory seed. It fixes Layer 1's temporal basis at arm B's for the admission arms, adds
+audit A8, and narrows what a C result can claim. Sections 1–11 stand as committed and are not
+re-scored; §12 supersedes §3.3's "same counts" and §4's arm-table description of arm C's
+substrate, and says what the amendment leaves in place.
 **Engine:** Organica 1, frozen at `v0.9.0`; no engine file may change for this study.
 **Parents:** `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` (world, tasks, limbs, readout,
 calibration), `docs/GATE13-PAIRED-CAPACITY-TEST.md` (the cap-1,000 treatment),
@@ -225,3 +230,174 @@ not by hand.
 | Windows 110–149 / 150–199 / 200–249 / 250–299 | same, §4.4 |
 | 30 seeds, 20261101–20261130 | same, §6.1 |
 | 98.33 % interval, 10,000 replicates, paired by seed | Phase K precedent, `docs/PHASE-K-PREREGISTRATION.md`; Phase L Amendment 3 for the pairing |
+
+---
+
+## 12. Amendment 1 — the temporal basis is fixed at arm B's (2026-10-30)
+
+**Status:** appended after the one-seed timing pass
+(`docs/formation_utilization_timing_pre_amendment.json`) and before any
+confirmatory seed. It is a recorded amendment, not a re-scoring: no criterion in
+§7 or §8 is relaxed, and the pre-amendment scores are not carried forward as a
+result. The owner's instruction of 2026-10-30 is the decision.
+
+### 12.1 What the timing pass found
+
+The arms do not share a temporal graph. The pre-amendment pass measured, at the
+end of acquisition:
+
+| Task | Edges (B vs C, acquisition end) | Symmetric difference | Cycles differing | Missing / extra |
+|---|---|---|---|---|
+| T2 | 374 vs 380 | 32 | 59 of 131 (first at cycle 6) | 248 / 172 |
+| T1 | 362 vs 351 | 21 | 107 of 160 (first at cycle 40) | 274 / 120 |
+
+The mechanism is `organica/memory.py::_record_temporal_edges`. It is called
+only for world events — `store()` skips it when `event_type == "sleep"` — but
+its window is `SELECT tags FROM events ORDER BY time DESC LIMIT 3`, and sleep
+rows are rows of `events`. A sleep row is therefore never an edge source, but
+it **occupies a window slot** for the first world events of the next cycle, and
+its extracted tags become `tag_from` values for those events. The number and
+content of sleep rows differ between arms by construction: A truncates at 20, B
+at 1,000, C admits only the generator's support and S a shuffled set. The next
+cycle's `precedes` counts therefore differ, and with them the Layer-1
+candidates. B versus C was not "the same evidence with different admission"; it
+was different evidence.
+
+The arm table's "all other layers and all counts are untouched" was false for
+this engine. This is the defect the diagnosis names; the amendment below is the
+response.
+
+### 12.2 The amendment
+
+Arm C and the shuffled-oracle arm S read **arm B's per-cycle temporal graph**
+instead of their own:
+
+- **B is run first and is unchanged.** At the start of each sleep cycle, before
+  any of that cycle's sleep rows are stored, the graph `_load_temporal()`
+  returns is recorded. B is the published formation arm and the basis on which
+  A1's coverage premise and A3's precision band were measured; changing B's
+  graph would have invalidated both.
+- **C and S are run with `_load_temporal()` returning that recorded graph for
+  the same cycle index.** Each run asserts it consumed exactly as many graphs
+  as B produced; a length mismatch stops the run.
+- **A is unchanged.** It is the cap control, not part of the B/C contrast.
+- **`organica/` is not edited.** The engine still writes each arm's own
+  `precedes` table; under the amendment the sleep service does not read C's or
+  S's.
+
+The filter itself is unchanged: C's admitted set is the graph's
+count-threshold-eligible pairs intersected with the generator's support, applied
+before the cap; S uses the size-matched shuffled set.
+
+**Why not make every arm sleep-blind instead.** That would change B, and with
+it the calibration this protocol committed: A1's 98–100 % premise and A3's
+0.3443 band were measured on B as shipped, and re-measuring either on the
+campaign's own data is forbidden by AGENTS rule 19. It would also change what
+A measures. Holding B fixed and giving the admission arms B's evidence fixes
+the contrast without re-opening the calibration.
+
+### 12.3 What the amendment fixes
+
+The feedback path is closed at the layer that reads it. At every cycle C and S
+receive the same `(source, target, count)` mapping B received, and therefore the
+same eligible candidate pairs and the same per-pair evidence. The new audit
+**A8** checks this at the resolution of the graph and the candidate stream:
+
+- per cycle, the graph each admission arm **actually read** must equal B's (the
+  service records what it returned, not what the harness meant to pass);
+- per cycle, the eligible pair set must equal B's;
+- evidence is compared on the pairs both lists carry, which catches a divergent
+  frequency denominator;
+- the two arms' logs must cover the same cycles; the run separately asserts the
+  graph list is consumed exactly once per sleep cycle.
+
+A8 is a **gate**. It ships with tests that fire on a differing graph, a
+differing candidate stream, a cycle-count mismatch and differing evidence, and
+with a test that the substitution is load-bearing — a deliberately perturbed
+graph changes the store, and with the filter off the fixed-basis run reproduces
+the captured arm's store and candidate dump (wall-clock fields normalized). A8
+does **not** require the engine's own `precedes`
+tables to agree: C's table is still written from C's own sleep rows, and its
+symmetric difference is reported as a footnote so a reader can see the channel
+exists and that Layer 1 no longer reads it.
+
+### 12.4 What the amendment does not fix
+
+- **B's graph still contains B's self-sourced edges.** B is the shipped engine;
+  its own sleep rows occupy slots in its window. The amendment does not make the
+  engine sleep-blind, so this study still cannot attribute anything to removing
+  self-sourcing (the audit trace's D2; AGENTS rule 18).
+- **C's own output still differs.** C admits fewer pairs; its sleep payload, its
+  prior candidates and the structures built from them differ from B's. That is
+  the treatment, not a confound: what is held fixed is the evidence the filter
+  acts on, not the organism's subsequent state.
+- **A and B remain closed-loop runs.** Only the two admission arms are given a
+  fixed graph.
+- **C is a counterfactual trajectory, not an independent organism.** It is the
+  engine run on B's temporal evidence with a restricted admission. It is not a
+  candidate deployable configuration, and its score is a ceiling conditional on
+  B's evidence.
+- **It does not test the filter inside the closed loop.** That would need either
+  an engine-level change to the lookback (forbidden by the freeze) or a
+  sleep-blind substrate for all arms (which would invalidate A3's band). The
+  closed-loop question is left to a future protocol that can calibrate on data
+  it does not judge.
+
+### 12.5 What it changes about the claim
+
+The primary B-versus-C contrast is now: *given the temporal evidence the
+unfiltered arm actually had, what does restricting admission to the generator's
+support do to retention, transfer and revision?* It is a paired, controlled
+contrast — and it is narrower than "a filter inside the organism":
+
+- A C win is evidence that **admission precision at fixed evidence** does not
+  bind the endpoint; a C tie is evidence that any effect is below the
+  resolution of this design. Neither is evidence that installing this filter in
+  the shipped engine would reproduce the result, because the shipped engine's
+  filter would change its evidence — the defect this amendment exists to
+  remove.
+- A C loss is evidence that correct structure at fixed evidence is not enough
+  for the use path, with the same caveat.
+- The result says nothing about self-sourced support: B's graph contains it and
+  C inherits it. The study cannot use C to argue that self-sourcing was or was
+  not the cause of anything.
+- The protocol's question — does holding the relation predict better than the
+  strongest data-only learner — is still answered by B (unchanged) and C (the
+  conditional ceiling). The mapping of §7 is unchanged. A C result must carry
+  the conditioning clause in the same sentence: *given B's temporal evidence*.
+
+**No pre-amendment score is a result of this design.** The pre-amendment
+artifact is preserved. Its C and S cells were measured under the confound, may
+not be compared with the amended C as if the amendment were an improvement, and
+are carried forward only as the diagnosis. B's cells are the reproducibility
+check between the two passes, at the artifact's four-decimal precision: the
+amended pass and the pre-amendment pass agree there, while at full precision the
+untouched A arm also moves in the fifth decimal (up to 1.4 × 10⁻⁵). The check is
+therefore reproducibility to about 10⁻⁵, not bit-identity — a property of the
+engine and the readout, not of the amendment.
+
+### 12.6 Audits and readiness
+
+The audit set is now **eight**: A1–A7 as committed, plus A8. The campaign does
+not report a score until all eight pass. A8 is gated on both tasks. The one-seed
+timing pass is re-run under this amendment; its measured cost and A8 result are
+recorded in `docs/formation_utilization_timing.json` / `.md`, not in this
+document.
+
+The amendment adds one audit because the fix has to be checked at the
+resolution it claims. It adds no arm, no world, no metric and no hypothesis;
+§10's stop condition is why the change is written as an amendment with a
+recorded owner decision rather than as a silent harness change.
+
+### 12.7 Provenance
+
+- Pre-amendment timing artifact: `docs/formation_utilization_timing_pre_amendment.json`
+  (seed `20261100`, 2026-10-30). The D1 table above is checked against it by
+  `tests/test_formation_utilization.py::test_amendment_table_matches_the_pre_amendment_artifact`.
+- Amendment decision: the owner's instruction of 2026-10-30, recorded before any
+  confirmatory seed.
+- Implementation: `benchmarks/formation_utilization.py` —
+  `_AdmissionSleepService._load_temporal`, `audit_temporal_input`, and the
+  B-first order in `run_task_seed`.
+- Tests: `tests/test_formation_utilization.py` (A8 proof-of-firing, the fixed
+  basis's equivalence and load-bearing checks, and the table check above).

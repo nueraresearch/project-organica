@@ -87,14 +87,14 @@ failed cycles       : 0
 | **Phase I regime-shift benchmark** | **COMPLETE** — 20 shifted and 20 stationary worlds per family. Primary success rule not met: cause-mixture comparisons inconclusive; Markov and decayed controls exceeded the 10% false-alarm gate in mapping-swap (15%). Results: `docs/regime_shift_results.json`; journal §29. |
 | **Phase J gradual-adaptation benchmark** | **COMPLETE** — 20 paired shifted/control seeds in each of two gradual-transition families (80 worlds total). Organica's preregistered adaptation-cost advantage and final-stable non-inferiority gates both failed in both families; Markov and decayed association had much lower NLL. Results: `docs/post_shift_adaptation_results.json`; journal §30. |
 | **Phase K comparative-advantage search** | **COMPLETE — all three families REVERSED; the search failed.** Ten seeds per family, scored against the *best* simple baseline configuration out of a declared grid of 24 per seed per family. K1 (incremental world modeling) Organica 0.5923 vs baseline 0.9360; K2 (belief revision) 0.4111 vs 0.9846; K3 (longitudinal integration) 0.0000 vs 0.8578. Every 98.33% decision interval lies wholly below zero, so all three are clean losses, not ambiguous ones, and every verdict survives 8 bootstrap seeds and both leave-one-out checks. **The pre-committed terminal outcome H2 fired: three more task families are ruled out, the negative-results map grows, and no V2 is designed.** Results: [`docs/phase_k_results.md`](phase_k_results.md); journal §33; facts sheet §T. Protocol: [`docs/PHASE-K-PREREGISTRATION.md`](PHASE-K-PREREGISTRATION.md). |
-| Git | The working branch is **one commit ahead of `origin/master` (`0970917`)** in the cloud worktree, plus the uncommitted formation-vs-utilization preregistration. Package version **0.10.0**, **unreleased** — the changelog heading says so, and rule 10 allows an unreleased version to have no tag. `v0.9.0` remains the **archival reference for the frozen Organica 1 engine** and is never moved. **Organica 1 is frozen** — see [§8.7](#87-organica-1-is-frozen-the-v090-tag-is-the-archival-reference). |
+| Git | The latest commit is **`8536d9a`** (the formation-vs-utilization preregistration); `0970917` was the previous baseline. The working tree holds the **harness, its 44 tests, the two timing artifacts, the 60-unit campaign artifact and the generated result document, uncommitted** (237 tests total). Package version **0.10.0**, **unreleased** — the changelog heading says so, and rule 10 allows an unreleased version to have no tag. `v0.9.0` remains the **archival reference for the frozen Organica 1 engine** and is never moved. **Organica 1 is frozen** — see [§8.7](#87-organica-1-is-frozen-the-v090-tag-is-the-archival-reference). |
 | Cold-start study | **complete** — see [§8.1](#81-the-cold-start-study) |
 | Ablation study (V1) | **complete** — see [§8.2](#82-the-ablation-study-which-mechanisms-are-actually-doing-the-work) |
 | Instrumentation audit (V1.5) | **complete** — see [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is) |
 | Mechanism closure (M0.5) | **complete** — see [§8.4](#84-the-counter-that-was-measuring-the-wrong-population). The gate is validated, the launch gates are closed, and the substrate defect that caused the collapse is fixed. |
 | **Audit trace (Phase M)** | **COMPLETE — A1–A7 all met, TAGGED and FROZEN at `audit-trace-v1` (2026-10-28).** A5 (field honesty) and A6 (trace/counterfactual separation) each have a proof-of-firing test that passes; the three probe arms (default, stress, forced-tie) are regenerated. **No feature may be added to the instrumentation from that tag**; it may be *fixed* if found wrong, but not *extended*. The **package version stays untagged** — the tag marks the instrumentation, not a release. Spec [`docs/AUDIT-TRACE-SPEC.md`](AUDIT-TRACE-SPEC.md); journal §41–§48, §53. |
 | **Acquisition experiment** | **PRE-REGISTERED (Revision 3). THE CAMPAIGN STOPPED AT THE ACQUISITION GATE (2026-10-28).** The endpoint was audited — seven defects, all confirmed against the code — the benchmark was rebuilt as a **compositional task** whose gate passes, and the frozen engine then **failed the preregistered Gate 13 on every inspected seed**: asserted structure coverage **0.0 %–2.7 %** (0–3 of 112 edges) against **112 / 112 (100 %)** raw temporal coverage. **Transfer was not measured, and it is not a transfer failure**; the 600-cell factorial did not run. Cause: `MAX_PREDICTIONS = 20` crowding — raising only the cap to 1,000 restores **98.2 %–100 %**; and the *deepest* cause is **precision**, not capacity (finding 26). The center of the project: *can a controlled experience leave behind a structure that helps on later events, after the raw episodes are unavailable?* [`docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`](ACQUISITION-EXPERIMENT-PREREGISTRATION.md). **10 runs per seed × 30 seeds.** See [§8.19](#819-the-endpoint-audit-and-the-campaign-that-stopped-at-its-own-gate-2026-10-28) and finding 25. |
-| **Formation vs. utilization** | **PRE-REGISTERED (2026-10-30), NOT RUN.** Three paired arms — cap 20, cap 1,000, and cap 1,000 with oracle admission — scored on the retention, transfer and revision limbs against Replay and the *best* tuned counting learner. It exists because the record has no cell for *formed but not used*: Gate 13 showed formation failing at cap 20, the cap-1,000 treatment showed it succeeding, and neither was scored downstream. The mapping from outcome to a V2 target is pre-committed, and seven audits must fire before any score is read. [`docs/FORMATION-UTILIZATION-PREREGISTRATION.md`](FORMATION-UTILIZATION-PREREGISTRATION.md). |
+| **Formation vs. utilization** | **COMPLETE (2026-10-30) — the pre-committed verdict is "utilization fails with correct structure" on both tasks; summary claim NOT SUPPORTED.** 30 seeds × 2 tasks, 60/60 units `campaign_ready`, four arms, all eight audits pass or are not applicable. **C — cap 1,000 with the generator's support admitted at Layer 1, reading arm B's per-cycle temporal graph (Amendment 1) — loses transfer on both tasks** (d = bar − arm: T1 **−0.0262** [−0.0275, −0.0249]; T2 **−0.0227** [−0.0242, −0.0211]) and **loses retention** (T1 −0.0267; T2 −0.0230). It **wins revision on T1** (d = **+0.1002** [+0.0956, +0.1047]) and **ties it on T2** (d = +0.0007 [−0.0012, +0.0026]). C closes **65.2 %** of arm A's transfer gap on T1 and **79.9 %** on T2, so the label means *does not clear the bar*, not *no use*. **B also loses transfer on both tasks** (T1 −0.0296; T2 −0.0795), so §7's "both lose" cell fires: **V2 targets the use path (retrieval / activation / readout)**, and the report names transfer and retention. **The T2 bar is the cell-level latent-state counter, which is granted the latent cell structure — it is not a data-only learner**, and C still loses to Replay by 0.0208 and the bigram by 0.0187 on T2, so the verdict does not depend on that oracle. **No V2 build is authorised.** [`docs/formation_utilization_results.md`](formation_utilization_results.md); protocol §7 and §12; [§8.21](#821-the-formation-vs-utilization-campaign-the-verdict-and-what-it-does-and-does-not-mean-2026-10-30). **The next step is the pre-registered use-path diagnostic ([§8.22](#822-the-use-path-diagnostic-the-step-to-v2-authorization-2026-10-30)), not a V2 build.** |
 | **Owner's standing decisions (2026-10-26)** | V2 **not cut**; live study **not restarted**; **V2–V5 not run**; no further open-ended audit work. Sequence: finish the audit build → freeze it → run the acquisition experiment → compare against the replay learner → publish whatever happens → only then discuss V2. **Added 2026-10-30:** Law II stays disclosed and its amendment is deferred, pending whether the law is a design requirement or a description of V1's actual behavior. |
 | **Five claims narrowed (2026-10-26)** | The project's own summary was reviewed and five headlines were wider than the checks behind them: *"revision exists"* → **structural displacement**; the **3:1** transition → robust **within this engine, world family and support-ratio axis**; *"path-dependent"* → **schedule dependence**, strict order dependence untested; *transfer* → **no positive transfer demonstrated, measured cross-domain result negative**; *"independently auditable"* → **independently reconstructed, not replicated by another lab**. No measurement, verdict or criterion changed. See [§8.18](#818-the-five-claims-narrowed-2026-10-26) and finding 24. |
 | Facts sheet | `docs/FACTS-SHEET.md` — every claim with its provenance |
@@ -273,6 +273,8 @@ run_dashboard_and_api.bat
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/post_shift_adaptation.py --workers 3` | Runs Phase J: 20 paired shifted/control seeds per gradual-transition family; writes per-world NLL, adaptation costs, final-stable comparisons, and settling summaries to `docs/post_shift_adaptation_results.json`. |
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/phase_k_campaign.py --families K1 K2 K3 --seeds 10 --workers 3` | Runs Phase K: the comparative-advantage search over three candidate task families, each with a matched within-architecture ablation and each scored against the strongest simple baseline. **The K0 harness control and the endpoint ceiling check run first and the campaign does not run if either fails.** Writes `docs/phase_k_results.json`. Use `--control-only` for the control alone, `--self-test` for both instrument audits, and `--smoke` for a one-seed, one-tenth-scale harness check (a pilot, never a result). |
 | PowerShell: `$env:PYTHONHASHSEED='0'; python benchmarks/phase_k_campaign.py --families K1 K2 K3 --seeds 10 --workers 12 --resume` | Continues a Phase K campaign that was stopped. The campaign is long enough to need more than one sitting on some machines, so it checkpoints as it goes: the results file is written **atomically** after every seed, and an append-only live recording goes to `docs/phase_k_results.ndjson`. `--resume` skips the seeds already present and rebuilds from the recording if the results file is missing. Nothing that has been computed is ever lost to a stop. |
+| `python benchmarks/formation_utilization.py --timing` | **The formation-vs-utilization harness's timing pass.** Runs the pre-registered arms — cap 20, cap 1,000, and cap 1,000 with oracle admission — plus a shuffled-oracle no-leakage arm. Under **Amendment 1**, arms C and S read arm B's per-cycle temporal graph, and **A8** gates that each admission arm actually read it and built B's eligible candidate stream. All eight audits are evaluated. Writes `docs/formation_utilization_timing.json` / `.md`. **Not a result:** one exploratory seed, no win/tie/loss, no verdict. |
+| `python benchmarks/formation_utilization.py --campaign --seeds 30 --workers 8` | The pre-registered campaign: 30 seeds × 2 tasks × 3 arms, plus the shuffled-oracle audit arm and the frozen comparators. Writes `docs/formation_utilization.json` / `.md`, or a **not measurable** stop that names the audit. **Run complete on 2026-10-30; the verdict is in §8.21 and the results document.** This run used a resumable wrapper over the same units. |
 | PowerShell: `python benchmarks/phase_k_diagnose.py --scale 4 --seeds 5` | **Why did Organica score exactly zero on K3?** Three checks, each able to fail: a **per-cycle** check (the late structure appears in no cycle, so the zero is not an artifact of reading only the final cycle), an **under-read** check (every candidate type except `anomaly` mentions zero late tags, so no late structure was sitting unread in a type the edge extractor ignores), and a **2×2** crossing which group arrives first against which group is stronger. The 2×2 shows the late group is incorporated only when it is strictly stronger than the group that arrived first. Use `--scale 1` for the protocol's own scale (slower). |
 | `python benchmarks/ablation_study.py --cycles 300` | **Which parts of the architecture are actually load-bearing?** Ten ablations plus a full-system reference, scored forward-looking. |
 | `python benchmarks/ablation_verify.py --cycles 300` | **Did each ablation actually change the organism?** Perturbation census, Random-Curiosity overlap and score distribution, contradiction provenance. Run this *before* reading any outcome. |
@@ -282,7 +284,7 @@ run_dashboard_and_api.bat
 | `python benchmarks/archive_run.py --log organica.log` | Snapshots the daemon log into a per-cycle series (`docs/prefix_run_series.json`), re-deriving contradiction totals from the hypothesis snapshot. |
 | `python benchmarks/benchmark_suite.py` | BM1–BM5 growth benchmarks |
 | `python benchmarks/cross_domain_validation.py` | Phase F: the four reproduction domains, writes `docs/validation_report.json` |
-| `python -m pytest tests -q` | The test suite (164 tests) |
+| `python -m pytest tests -q` | The test suite (237 tests) |
 
 ### 4.6 The four reproduction domains
 
@@ -533,6 +535,8 @@ Ordered by how much they cost you if you skip them.
 | 10 | **The valuation layer — a proposal, not a change** | *"Feeling comes before thinking."* Organica already computes value signals (confidence, uncertainty, EIG, novelty) and already computes them upstream of the beliefs they gate — that is Law V, and it is a salience rule. What it lacks is **valence** (no aversive signal: nothing is costly), **persistence** (attention is re-derived every cycle rather than integrated — which is why the G5 duty cycle oscillates instead of trending), and an **appetite for disconfirmation** (contradiction is *derived from* the graph, so it is recorded, never sought). The proposal is to make the valuation layer explicit and give it those three properties — but **after** the experiment executor, because a drive cannot be measured without behavior to measure, and because the executor is where valence naturally comes from. | Journal [§18](../research-journal/phase_g_findings_20261021.md) |
 | **11** | **The stimulus must carry more independent branch points** — *new, 2026-10-23, and now the top blocker* | The Tier-1 matrix is **gated**: gate G-P1 requires retention pressure > 1.0, and the belief pool reaches only 5.3–7.7 against a cap of 15 (pressure 0.35–0.51) at every setting tested. The belief pool is bounded by the number of distinct *reciprocal* structures reaching Layer 4, and a process only forms from a reciprocal prediction pair. Measured: widening the world makes things **worse** (belief pool 5.47 → 1.41, theories → 0), and widening the budget does nothing. What is needed is a stimulus with **more independent branch points** — subjects with competing successors — so the belief pool can exceed 15 and a retention policy can have something to choose between. This is a stimulus-design decision, not an architecture one. | [§8.3](#83-the-instrumentation-audit-where-the-pressure-really-is), journal [§19](../research-journal/phase_g_findings_20261021.md) |
 | **13** | **Phase K leaves a sharper question than it answered** — *new, 2026-10-24, and now the top-ranked decision* | Phase K searched three candidate task families against the strongest simple baseline and **all three came back REVERSED**, and the pre-committed terminal outcome **H2** fired: three more families ruled out, **no V2 designed**. The ablation arm is the part that redirects the work: on K1 and K2, where a mechanism was ablated specifically (question generation, falsification), the ablation changed **nothing measurable** — all intervals contain zero. So the next question is not *which task?* but **which internal mechanism, if any, produces an external advantage at all?** Another task family would be the seventh entry in a list of losses; the mechanism question is answerable without designing V2 and it is what would make a seventh family worth running. | [§8.5](#85-phase-k-the-search-failed-and-what-that-changes), journal [§33](../research-journal/phase_g_findings_20261021.md) |
+| **14** | **Formation vs. utilization — the campaign is complete; the pre-committed mapping names the use path, and a V2 build is still not authorised** — *updated 2026-10-30* | The 30-seed campaign ran to completion (60/60 units, all audits pass or N/A). **C loses transfer on both tasks** (T1 d = −0.0262, T2 d = −0.0227) and **B loses it too** (T1 −0.0296, T2 −0.0795), so §7's "both lose" row fires: **V2 targets the use path (retrieval / activation / readout)**, with transfer and retention named as the failing limbs. C wins revision on T1 (+0.1002) and ties it on T2 (+0.0007). **The decision you still own is whether to commission the use-path diagnostic**; the result selects a target and does not authorise a build. The diagnostic is pre-registered and frozen before any cell runs; it is the next step, not a V2 design. | [Results](formation_utilization_results.md); protocol §7; [§8.21](#821-the-formation-vs-utilization-campaign-the-verdict-and-what-it-does-and-does-not-mean-2026-10-30) |
+| **15** | **Commission the use-path diagnostic — the step that can satisfy gate 5's mechanism condition** — *new 2026-10-30* | The campaign met the specific-failure condition and selected the use path; it did not identify retrieval, activation or the readout form. The diagnostic's first question is whether there is measurable room in the use path at all; only if there is does it ask which component binds. D0 must reproduce the campaign's C scores within 1e-4; if it does not, the outcome is **AUDIT REQUIRED**, not a mechanism. The result can be **evidence-limited**, which is a successful conclusion and redirects the V2 target upstream. The diagnostic is pre-registered and must be frozen before any cell runs. | [Protocol](USE-PATH-DIAGNOSTIC-PREREGISTRATION.md); [§8.22](#822-the-use-path-diagnostic-the-step-to-v2-authorization-2026-10-30) |
 | **12** | **The 90-day horizon** — *new, 2026-10-23* | The run plateaued at cycle 261 with **zero** variance for 3,464 cycles. The 90-day single arm is replaced by the comparative matrix as the primary experiment, and the daemon becomes a **monitor** rather than a gate. A clean restart (decision 5) is still worth doing, but it is no longer urgent: the matrix is what produces the next evidence, and it runs cold by design. | [§2](#2-where-things-stand-right-now), journal [§19](../research-journal/phase_g_findings_20261021.md) |
 
 > **Phase A freeze reminder.** Decisions 4 and 6 are *cognitive* changes — the confidence formula and the layer-selection logic. Under the Phase A freeze they remain **proposals only**; nothing in this turn applied them. What shipped this turn was substrate and measurement only. Any change to decision 4 ends the current run and requires a fresh start ([§6.4](#64-rules-for-a-clean-run)).
@@ -604,6 +608,8 @@ Full detail and evidence: **`research-journal/phase_g_findings_20261021.md`**.
 | 35 | **The two active manuscripts were brought to academic grade, every citation in Paper 02 was verified against a primary source — and one candidate citation was dropped because it could not be read.** Paper 02's §2 now carries inline `(Author, year)` markers and a **References** section with **five** sources, each read on 2026-10-29: ACM Publications' *Artifact Review and Badging* v1.1 (for the **Results Reproduced** vs **Results Replicated** distinction, with the Publications Board's 2020 interchange of the two definitions recorded); Bau, Liu, Wang, Zhu & Torralba's *Rewriting a Deep Generative Model* (ECCV 2020, oral); Elhage, Nanda, Olsson et al.'s *A Mathematical Framework for Transformer Circuits* (Anthropic, 2021); the W3C **PROV-DM** Recommendation (Moreau & Missier, eds., 2013); and Shumailov, Shumaylov, Zhao, Papernot, Anderson & Gal's model-collapse paper (*Nature* 631(8022):755–759, 2024), **with its 2025 Author Correction disclosed** — which corrects a notation typo and does not touch the empirical claim Paper 02 cites. The Elhage paper's *faithful vs sufficient* distinction was **not cited**, because no readable copy of it could be found. Eight figures were then generated for Papers 01 and 02 by the new stdlib-only `benchmarks/figure_papers.py`, which **asserts every value it draws against the committed artifact**, bounds-checks its canvas, checks for text overflow, and **parses its own XML before writing**. | **Cite only what was read.** A reference list is a set of claims about what other people wrote; verified against the source it is evidence, verified against memory it is a guess with a citation attached. **A figure is a program that draws a claim, so it must be able to fail** — a figure that silently draws nothing, or that a renderer truncates at the first malformed attribute, is worse than no figure, because a missing figure is noticed. |
 | 36 | **The first world edge was reported without the distribution beside it, and the distribution is what the claim needed.** The **rank** of the first world edge — **31** in the 1-tag stimulus, **30 / 18 / 53** in the 2-tag seeds, **16 / 8 / 8** after the LIMIT-4 separation — was reported on its own in the relation-separation record, the journal, the manual and the changelog. The ranks are correct. What was missing is what sits behind them: under the engine's own global count-ranked selection the world's 112 edges are **spread through the table, not clustered at its top**. The top 20 recovers **0–1** of them, the top 40 **0–2**, the top 80 **8–16**, the top 160 **36–55**, and the top **320** — about **16×** the engine's budget — **106–109** (`docs/gate13_allocation_rule.json`, 3 seeds); the five-seed capacity sweep puts cap 40 at **1–8 of 112** and the frozen cap of 20 at **0–3 of 112**. The figure *"cap 40 recovers 4–8 of 112"*, which had been quoted in correspondence, is **not** what the artifact says, and has been restated from it. **No measurement changed**, and the conclusion is unchanged — now stated with its distribution: **no frequency-based selection can find the world's relations**, because they are a third of the rows and are not clustered at the top of any frequency ordering. | **A first edge at rank *N* is one edge arriving, not a set arriving.** The same discipline as *a benchmark's headroom is not a learner's margin* and *the proximate bound and the deepest cause are different claims*: a threshold, a first case and a headline statistic are all single points, and **the set is the claim**. Reporting the first edge alone made the ranking problem sound nearly solved, when it needs roughly **16×** the engine's budget and a ranking rule the engine does not have. **A number that cannot be traced to an artifact is not a weaker claim — it is not a claim.** |
 | 37 | **Paper 01's citations were verified against primary records, and one of its four methodological lessons is stated as the project's own rule with no external citation.** §4.1's curriculum-sensitivity framing and §5.4's four methodological lessons now carry inline `(Author, year)` markers, and the manuscript carries a **References** section with **seven** sources, each read on 2026-10-30: Bengio et al. (2009) for the definition of curriculum learning, Wang, Chen & Zhu (2021) for curriculum as a measured training strategy, Button et al. (2013) for the power result behind "a criterion that flips when n changes is measuring the draw", Simmons et al. (2011) for analytic flexibility inflating the actual false-positive rate, Jacobs & Wallach (2021) for the construct-versus-operationalization mismatch behind "an endpoint must measure the claim it is used for", Davis & Goadrich (2006) for the ROC–PR relationship on skewed data, and Saito & Rehmsmeier (2015) for the demonstration that a ROC curve's visual interpretability is deceptive on imbalanced data. The second lesson — compare against the strongest simple baseline and take the headroom from the ceiling — carries **no external citation by design**: it is this project's own rule and reports only Organica 1's own numbers. An **erratum** to Button et al. (*Nature Reviews Neuroscience* 14(6):451) was read and disclosed: it corrects the definition of *R* on page 366 and touches nothing cited here. | **"Cite only what was read" is a rule about the limit as well as about the citation.** Two of the seven sources were reachable only as their authors' abstracts, because the ACM Digital Library's full text is not retrievable in this environment; they are cited only for what those abstracts state, and that limit is written into the source notes instead of being left implicit. One candidate source could not be located in any bibliographic record and is therefore not cited. The project's own rule and the literature are kept distinct: a lesson that is the project's own is labeled as such rather than given a borrowed reference. |
+| 38 | **A Layer-1 admission filter is not a filter on this engine: the temporal lookback includes the organism's own sleep rows, so changing what is admitted changes what will be admitted next.** The formation-utilization timing pass measured the four arms' temporal graphs on one seed. On T2, **32** edges differ (**374** vs **380**), the permitted candidate streams differ on **59 of 131** cycles, first at cycle 6, with **248** permitted candidates missing and **172** extra over the run. On T1, **21** edges differ (**362** vs **351**), **107 of 160** cycles differ, first at cycle 40, with **274** missing and **120** extra. The mechanism is `_record_temporal_edges`: it reads the last three **events** (`SELECT tags FROM events ORDER BY time DESC LIMIT 3`), and sleep payloads are events. Their extracted tags enter `precedes`, so arm C's own admitted predictions become evidence for the next cycle's admission. The protocol's arm table says *"all other layers and all counts are untouched"*; that is false, B versus C is not the same evidence with different admission, and a C advantage could be **self-sourced support** rather than utilization. The campaign was therefore not authorised by the timing pass. | **Before comparing two arms that differ inside a layer, check that the layer's input is not derived from its output.** This is the same defect as the audit trace's D2 (a lookback with no event-type filter) appearing where it does real damage: not in a trace, but in the experiment's independent variable. **A perturbation of a layer's input is not a perturbation of its output**, and the difference is invisible in the arm table because both arms are described by what they admit, not by what they read. **A ten-minute timing pass that finds this is worth more than a five-hour campaign that reports a confounded number** — which is why the protocol required the timing pass before the campaign, and why the pass reports a diagnostic it was not asked for. **Amended 2026-10-30 (protocol §12).** Arms C and S now read arm B's per-cycle temporal graph, captured at the start of each sleep cycle; A and B are unchanged and `organica/` is untouched. Audit **A8** gates that the graph each admission arm actually read and its eligible pair stream equal B's at every cycle; the amended timing pass passes A8 on T2 (**131** cycles, **75,488** pair checks) and T1 (**160**, **80,200**). What the amendment fixes is the feedback into Layer 1; what it does not fix is B's own self-sourced evidence, and C is now a counterfactual trajectory on B's evidence — so a C result is admission filtering at fixed evidence, not "the engine with this filter installed". |
+| 39 | **Correct structure is necessary but not sufficient: with the generator's support admitted at Layer 1, the organism still loses retention and transfer to the best simple baseline — and the protocol's "data-only" label does not describe the T2 bar.** The 30-seed campaign (60/60 units ready, all eight audits pass or N/A) measured C at **0.2365 / 0.2355 / 0.3892** on T1 and **0.3643 / 0.3632 / 0.3502** on T2 (retention / transfer / revision). The pre-committed decision rule, d = bar − arm over 30 paired seeds with a 98.33 % interval, returns a **loss** on retention and transfer on both tasks: T1 **−0.0267 / −0.0262**, T2 **−0.0230 / −0.0227**. It returns a **win** on T1 revision (**+0.1002**) and a **tie** on T2 (+0.0007). B also loses transfer on both tasks (−0.0296 / −0.0795), so §7's "both lose" cell fires on both: **"utilization fails even with correct structure" → V2 targets the use path (retrieval / activation / readout)**; the summary claim is **not supported**, and the failing limbs are transfer and retention. The label is not the magnitude: C closes **65.2 %** of A's transfer gap on T1 and **79.9 %** on T2 (retention 65.2 % / 79.6 %), and improves over B by 0.0034 / 0.0568 nats. The T2 bar is the **cell-level latent-state counter**, which is **granted the latent cell structure** (`fit_cell_counter` takes `tag_to_cell` from the generator), so it is **not** the "strongest data-only learner" the protocol names. That is a naming defect, not a deviation — the counter is a declared member of the statistical-learner family — and the verdict survives without it: post hoc, C still loses T2 transfer to Replay by **0.0208** [−0.0224, −0.0192] and to the bigram by **0.0187** [−0.0205, −0.0168], while on T1 the bar is Replay and C loses by 0.0262. | **A pre-committed label and its magnitude are different claims, and the label must not stand in for the effect size.** "Utilization fails with correct structure" is the protocol's verdict; the same run shows C closing two-thirds to four-fifths of A's gap and winning revision on T1. A reader who takes the label alone over-reads it; a reader who takes the closure alone under-reads the loss. Report both, in that order. **And a comparator's name is part of its definition:** calling the T2 bar "data-only" widens the claim, because the cell counter is handed the latent cell map. The check that makes the label safe is the sensitivity against the genuinely data-only comparators, and it is post hoc — say so. **No V2 build is authorised.** See `docs/formation_utilization_results.md`, protocol §7, journal §65. |
 ### 8.1 The cold-start study
 
 **The question:** *would G1 have eventually built out the generations above it, with no assistance and no code changes on our end?*
@@ -2198,6 +2204,239 @@ the reason is one named bound.
 
 ---
 
+### 8.20 Formation versus utilization: the harness, the timing pass that found a confound, and the amendment that closed it (2026-10-30)
+
+**What was built.** `benchmarks/formation_utilization.py` implements the
+protocol committed at `8536d9a`: three paired arms — **A** (cap 20, the
+published failure), **B** (cap 1,000, formation at the measured precision
+ceiling) and **C** (cap 1,000 with the generator's support admitted at Layer 1,
+utilization *given* correct structure) — plus a size-matched shuffled-oracle arm
+for the no-leakage audit. The oracle is materialized from the generator's own
+parameters before any arm runs: **128** permitted pairs on T2 (**112** of them
+the training-stream edges) and **272** on T1 (**167**). The filter lives in the
+harness, rewrites `temporal` before the engine's cap, and leaves `freqs`
+untouched. `tests/test_formation_utilization.py` adds **44 tests**; the suite is **237** with the diagnostic's 20 checks:
+every audit has a proof-of-firing case, the fixed temporal basis has an
+equivalence test and a load-bearing test, the shuffled filter's shape is
+asserted, `analyse()` refuses a one-seed verdict, and the recording subclass is
+proven behavior-neutral — two stock runs and one recording run produce identical
+stores and candidate dumps.
+
+**The timing pass found a confound (D1).** The first one-seed pass, on
+`20261100`, measured **72.8 s** per engine run and passed every applicable
+audit — but the arms did not share a temporal graph. At the end of acquisition,
+on T2, **32** edges differ (374 vs 380), the permitted candidate streams differ
+on **59 of 131** cycles,
+first at cycle 6, with **248** missing and **172** extra; on T1, **21** edges
+differ (362 vs 351), **107 of 160** cycles differ, first at cycle 40, with
+**274** missing and **120** extra. `_record_temporal_edges` is called only for
+world events, but its window is the last three **rows** of `events`, and sleep
+rows are rows: the last sleep rows of cycle k occupy window slots for the first
+world events of cycle k+1, and their tags become `tag_from` values. An admission
+filter therefore changed the next cycle's temporal input. The arm table's
+*"all other layers and all counts are untouched"* was false, and a C advantage
+could have been self-sourced support. The pre-amendment artifact is preserved as
+`docs/formation_utilization_timing_pre_amendment.json`; its C and S cells are
+**not** a result of the amended design.
+
+**Amendment 1 (2026-10-30, protocol §12).** Arms C and S read **arm B's
+per-cycle temporal graph** instead of their own. B is run first, unmodified, and
+the graph `_load_temporal()` returns is recorded at the start of each sleep
+cycle; C and S are given that graph for the same cycle index, and each run
+asserts it consumed exactly one graph per cycle. A and B are unchanged, and
+`organica/` is untouched — the engine still writes each arm's own `precedes`
+table, which Layer 1 no longer reads for C and S. The filter itself is
+unchanged. **Why not make every arm sleep-blind:** that would change B, and with
+it A1's 98–100 % premise and A3's 0.3443 band, both measured on B as shipped;
+re-measuring either on the campaign's own data is forbidden by rule 19.
+
+**What it fixes, and what it does not.** The feedback path is closed at the
+layer that reads it: **A8** checks, every cycle, the graph each admission arm
+**actually read**, the eligible pair stream it built, the evidence on shared
+pairs, and that the two arms' logs cover the same cycles; the run separately
+asserts the graph list is consumed exactly once per cycle. A8 is a gate
+with proof-of-firing tests (differing graph, differing stream, cycle-count
+mismatch, differing evidence) and a load-bearing test (a perturbed graph changes
+the store; with the filter off the fixed-basis run reproduces B's store and
+candidate dump, with wall-clock fields normalized). It
+does **not** make B sleep-blind — B's graph still contains B's own sleep-row
+tags, and C inherits them — so the study still says nothing about self-sourcing.
+C's own payload and prior still differ; that is the treatment. And C is a
+counterfactual trajectory on B's evidence, not an independent organism: a C
+result is **admission filtering at fixed temporal evidence**, never "the engine
+with this filter installed".
+
+**The amended timing pass.** Eight runs on `20261100`: **72.2 s per run**
+(265 s T2, 316 s T1), projecting to **3.6 h** for the 180 arm runs, **1.2 h** for
+the 60 shuffled-audit runs and under a minute for the comparators — **4.8 h
+sequential**. Every applicable audit passes on both tasks. T2: A1
+(0.0000 / 1.0000 / 1.0000); A2 (**14,455** permitted candidates over **131**
+cycles, admitted exactly); A3 (B precision **0.3373**, inside the band; C's
+admission precision 1.0); A4; A5; A6 (shuffled Layer-1 coverage and precision
+**0.0000**, transfer **0.5007** against C's 0.3661); A7 (**95.0 %** of readout
+weight from Layer 1); A8 (**131 cycles**, **75,488** eligible-pair checks, the
+graph and stream identical; the engine's own tables still differ by **28**
+edges, unread). T1: A1 (0.1497 / 0.9222 / 0.9222); A2 (**21,057** / **160**);
+A4; A5; A7 (**97.3 %**); A8 (**160** cycles, **80,200** checks, **15** unread
+edges). A3 and A6 are **not applicable** on T1 with their reasons recorded: the
+band was measured on T2, and the shuffled filter retains **144 of 272** permitted
+pairs, so no size-matched wrong filter exists there.
+
+**B reproduces to the reported precision; C is a new cell.** B is unchanged by
+the amendment, and its cells agree with the pre-amendment pass at the artifact's
+four decimals — T2 retention/transfer/revision **0.4244 / 0.4254 / 0.4212**, T1
+**0.2370 / 0.2359 / 0.4014**, Layer-1 precision **0.3373 / 0.5404**. At full
+precision the untouched A arm also moves in the fifth decimal (up to **1.4 × 10⁻⁵**),
+so the check is reproducibility to about **10⁻⁵**, not bit-identity; that is a
+property of the engine and the readout, not of the amendment. C changes by
+design: readout coverage is now **1.0000** on T2 and **0.9222** on T1 (the same
+as B), and its scores are T2 **0.3656 / 0.3661 / 0.3490**, T1
+**0.2350 / 0.2346 / 0.3890**. It clears the bar on **2 of 6** task-limbs (both
+revision) and is worse on transfer by **0.0154** nats (T2) and **0.0229** (T1).
+One seed is not a verdict and these numbers may not be quoted as a win or a
+loss; they are recorded because an oracle-admitted arm that does not clear a
+counting baseline on its own timing seed is a warning the campaign should carry.
+The pre-amendment C and S cells are **not** comparable with the amended ones and
+must not be presented as an improvement: they were a different design, measured
+under the confound.
+
+**What the campaign now means.** Every applicable audit passes, so the
+instrument was ready; the campaign was subsequently run on 2026-10-30 and is
+reported in [§8.21](#821-the-formation-vs-utilization-campaign-the-verdict-and-what-it-does-and-does-not-mean-2026-10-30).
+A summary claim from C must carry *given B's temporal evidence* in the same
+sentence, and a C result cannot be used to argue that self-sourcing was or was
+not the cause of anything. The protocol's question — does holding the relation
+predict better than the strongest simple baseline — is answered by B (unchanged)
+and C (the conditional ceiling), with the §7 mapping in §8.21. The T2 bar is a
+cell-level counter that is granted the latent cell structure, so "data-only"
+is too wide a name for it; the results document says so.
+
+**Commands.**
+
+```bash
+# the timing pass (~10 minutes; writes the two timing artifacts)
+python benchmarks/formation_utilization.py --timing
+
+# the campaign (the built-in path; the 2026-10-30 run used a resumable wrapper)
+python benchmarks/formation_utilization.py --campaign --seeds 30 --workers 8
+
+# the command the 2026-10-30 run actually used (wrapper, 60 checkpointed units)
+python .scratch/run_campaign_resumable.py --seeds 30 --workers 10
+```
+
+**Do not say** the oracle arm "failed to transfer": that was one timing seed
+and no verdict. The campaign has now run, and C loses the bar rather than
+failing to transfer; **do say** the harness is built, the confound was measured
+and closed by a recorded amendment, the campaign is complete, and the verdict
+is in §8.21.
+
+**See also:** [`docs/FORMATION-UTILIZATION-PREREGISTRATION.md`](FORMATION-UTILIZATION-PREREGISTRATION.md) §12,
+`docs/formation_utilization_timing.json` (the amended artifact) and `.md`,
+`docs/formation_utilization_timing_pre_amendment.json` (the diagnosis),
+AGENTS rule 18, and finding 38.
+
+---
+
+### 8.21 The formation-vs-utilization campaign: the verdict, and what it does and does not mean (2026-10-30)
+
+**What ran.** The amended protocol's 30 confirmatory seeds (`20261101`–`20261130`),
+both tasks, four arms per unit (A, B, C, S) and three comparator fits: **60
+units, 240 arm runs**. The engine is **0.10.0** and no engine file changed. The
+campaign was executed through `python .scratch/run_campaign_resumable.py --seeds
+30 --workers 10`, a resumable wrapper over the harness's own `run_task_seed`;
+each unit was checkpointed, no unit failed or was re-run, and the artifact was
+assembled with the harness's own `analyse()` and renderer. The artifact's
+per-unit timings sum to **12.72 worker-hours**; the run used 10 workers.
+All **60/60** units are `campaign_ready`.
+
+**The pre-committed verdict.** Both formed arms lose transfer on both tasks, so
+§7's "both lose" cell fires on both tasks: **"utilization fails even with correct
+structure" → V2 targets the use path (retrieval / activation / readout)**. The
+summary claim is **not supported**. The failing limbs are **transfer and
+retention**; revision is not a failing limb.
+
+| Task | Arm | Retention | Transfer | Revision |
+|---|---|---|---|---|
+| T1 | B | −0.0302 | −0.0296 | +0.0877 |
+| T1 | C | −0.0267 | −0.0262 | +0.1002 |
+| T2 | B | −0.0797 | −0.0795 | −0.0676 |
+| T2 | C | −0.0230 | −0.0227 | +0.0007 (tie) |
+
+`d = bar − arm`; positive favours the arm. Intervals are 98.33 % percentile
+bootstraps over 10,000 replicates, paired by seed (n = 30). The full eighteen-cell
+table is in the results document.
+The protocol's §7 writes the subtraction in the opposite order and then states
+the win rule for this orientation; the artifact and this table use `bar − arm`,
+which is the orientation the rule requires. The discrepancy is notation, not
+analysis; no verdict changes.
+
+**The label is not the magnitude.** C closes **65.2 %** of A's transfer gap on T1
+and **79.9 %** on T2 (retention 65.2 % / 79.6 %), leaving **0.0262** and
+**0.0227** nats. It improves over B by **0.0034** (T1) and **0.0568** (T2). So
+"fails" means *does not clear the bar*, not *no use*; the result is not "the
+engine cannot use structure". C wins T1 revision by **0.1002** — against Replay,
+which is the bar there and cannot revise — and ties T2 revision.
+
+**The bar's name.** The protocol calls the comparator "the strongest data-only
+learner". On T2 the bar is the **cell-level latent-state counter**, which is
+granted the latent cell structure (`fit_cell_counter` takes `tag_to_cell` from
+the generator; the docstring says "here granted"). It is not data-only. That is
+a naming defect, not a deviation: the counter is a declared member of the
+statistical-learner family (acquisition protocol §6.3). The verdict does not
+depend on it: post hoc, C still loses T2 transfer to Replay by **0.0208**
+[−0.0224, −0.0192] and to the bigram by **0.0187** [−0.0205, −0.0168]; on T1
+the bar is already Replay and C loses by **0.0262**. C's oracle (the full
+transition support) is stronger than the counter's (the four-cell map), so the
+loss is not explained by a better baseline oracle.
+
+**What it does not mean.** It is not discovery: C is given the support, B is the
+discovery arm, and B also loses transfer on both tasks. It is not a
+self-sourcing result: B's graph still contains B's sleep rows and C inherits it.
+It is not "the engine with this filter installed": Amendment 1 holds the
+evidence fixed, so C is a counterfactual trajectory. It does not localize the
+defect inside the use path. It does not generalize beyond T1/T2, and it does not
+authorise a V2 build.
+
+**Audits.** 60/60 units ready. A1 coverage: T2 A **0.0000–0.0625** vs B/C
+**0.9643–1.0000**; T1 A **0.1553–0.2549** vs **0.8812–0.9935**. A2:
+**473,351** (T2) and **612,005** (T1) permitted candidates, **0** mismatches, the
+cap never bound. A3: B precision **0.3182–0.3394** on T2 (band 0.3543), C
+admission 1.0. A6: shuffled transfer **0.4957–0.5052** vs C **0.3569–0.3726**,
+Layer-1 coverage 0.0. A7: **94.0–96.2 %** (T2) and **96.2–97.7 %** (T1) of
+readout weight from Layer 1. A8: **2,539,326** (T2) and **2,408,224** (T1)
+eligible-pair checks, **0** mismatches, own-table symmetric difference
+**17–93** / **0–19** edges (unread). A3 and A6 are not applicable on T1, with
+the reasons recorded before the campaign.
+
+**Do not say** "utilization fails" without the magnitude: C closes most of A's
+gap and wins revision on T1. **Do say** the pre-committed mapping returns
+"utilization fails with correct structure" on both tasks, C loses transfer by
+0.0262 / 0.0227 nats, B loses it too, and the V2 target is the use path — with
+the bar named as the cell-level counter, not a data-only learner. **No V2 build
+is authorised.**
+
+**See also:** [`docs/formation_utilization_results.md`](formation_utilization_results.md)
+(generated from the artifact), `docs/formation_utilization.json` / `.md`,
+protocol §7 and §12, finding 39, journal §65.
+
+### 8.22 The use-path diagnostic: the step to V2 authorization (2026-10-30)
+
+**The record is corrected, and the correction is visible.** The campaign's ceiling condition is now recorded as **observed**: with the generator's support admitted at Layer 1 and arm B's temporal graph fixed, arm C lost transfer on both tasks (T1 −0.0262, T2 −0.0227) while holding correct internal structure. The V2 brief's §9.8 carries the record claim; gate 5 now says the *specific-failure* condition is met and the *mechanism* condition is not; and the old §11 "NOT OBSERVED" entry is preserved and marked **SUPERSEDED**, not erased.
+
+**The question, in order.** The diagnostic does not begin by asking which component binds. It asks first whether there is **measurable room** in the use path at the evidence the campaign had, using the generator's true conditional as the ceiling. Only if the room exists does it ask which component — retrieval/provenance (D1), activation/aggregation (D2), or the readout form (D3/D4) — accounts for part of it.
+
+**The gate that can invalidate the whole run.** D0 must reproduce the campaign's arm-C scores for all 30 seeds and all three limbs within **1e-4**. If it does not, the outcome is **AUDIT REQUIRED** — no room estimate, no mechanism mapping. The decomposition would be of a different object than the one that produced the ceiling result. The result document's first section is the gate, and the generator refuses to emit a mechanism section if it failed.
+
+**The outcomes, pre-committed.** The diagnostic can return **EVIDENCE-LIMITED** (room below 0.01 nats on both tasks and no arm helps: the use path has no measurable room at this evidence, so the target moves upstream to formation/estimation), a **MECHANISM CANDIDATE** (a named component), **UNKNOWN USE-PATH MECHANISM** (room exists but the tested family cannot reach it), **TASK-DEPENDENT**, or **AUDIT REQUIRED**. Evidence-limited is a successful result: it can disprove a class of use-path V2 concepts before implementation.
+
+**D2 is constants-only.** The type weights are declared in the protocol — Layer 1 `= 1.0`, every other type `= 0.5` — not fitted, not calibrated, and not influenced by the campaign's seeds. If they were chosen after seeing a score, D2 would be a tuned retrospective analysis, not a diagnostic.
+
+**What it can and cannot do.** It can select a component for a V2 **brief**. It cannot authorise a V2 build, and it does not turn C into a deployable learner: C is given the support and reads B's evidence. The owner's build decision remains separate.
+
+**Where it lives.** [`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`](USE-PATH-DIAGNOSTIC-PREREGISTRATION.md) (frozen by SHA-256 in `docs/use_path_diagnostic_freeze.json`), `benchmarks/use_path_diagnostic.py`, `tests/test_use_path_diagnostic.py`; the artifact is `docs/use_path_diagnostic.json` and the generated document is `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`. **No V2 build is authorised.**
+
+---
+
 ## 9. Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -2285,6 +2524,8 @@ project-organica/
 │   ├── post_shift_adaptation.py   # Phase J gradual-transition adaptation benchmark and paired campaign
 │   ├── phase_k_campaign.py         # Phase K: the comparative-advantage search -- world generator, baseline grid, scoring, bootstrap, and the K0 harness control
 │   ├── phase_k_diagnose.py         # the K3 root cause: per-cycle check, under-read check, and the arrival-order x strength 2x2 control
+│   ├── formation_utilization.py    # the three-arm formation-vs-utilization harness: generator support, oracle admission, eight audits (Amendment 1: A8 input invariance), paired bootstrap
+│   ├── use_path_diagnostic.py      # the frozen use-path diagnostic: D0 reproduction gate, D1–D5, room-before-mechanism, generated results
 │   ├── hub_degree_probe.py        # the Layer-1 survival threshold against hub degree
 │   ├── run_horizon_600.py         # the burst curriculum carried to a 600-cycle horizon
 │   ├── figure_campaign.py         # the before/after figure, as dependency-free SVG
@@ -2302,7 +2543,7 @@ project-organica/
 ├── conftest.py                  # makes `pytest` work from any directory
 │
 ├── examples/domains/            # the four reproduction worlds
-├── tests/                       # 164 tests (incl. substrate equivalence, retention policy, versioning, audit-trace probe, ancestry auditor, doc-placeholder guard, readout-table drift, ranking-distribution drift, manual-table drift)
+├── tests/                       # 237 tests (incl. substrate equivalence, retention policy, versioning, audit-trace probe, ancestry auditor, doc-placeholder guard, readout-table drift, ranking-distribution drift, manual-table drift, formation-utilization audits, use-path diagnostic)
 ├── papers/                      # research manuscripts
 ├── research-journal/            # development history + Phase G findings
 ├── docs/                        # architecture, design laws, failures, reports
@@ -2320,6 +2561,10 @@ project-organica/
 │   ├── GATE-BOARD.md            # what is demonstrated vs assumed, and what is still open
 │   ├── FACTS-SHEET.md           # facts with provenance, separated from assumptions
 │   ├── ORGANICA-V2-DESIGN-NOTES.md  # planning only: what survived, what failed, what is inert
+│   ├── USE-PATH-DIAGNOSTIC-PREREGISTRATION.md # the frozen diagnostic protocol: D0 gate, room, component mapping
+│   ├── use_path_diagnostic_freeze.json # the protocol's SHA-256 and freeze commit
+│   ├── use_path_diagnostic.json       # the diagnostic artifact
+│   ├── USE-PATH-DIAGNOSTIC-RESULTS.md # generated from the artifact; the D0 gate is the first section
 │   ├── ablation_study.json      # the ablation results
 │   ├── ablation_study_postfix.json  # ...re-run on the fixed substrate
 │   ├── v1_impact.json           # V1 before vs after, incl. the RETRACTED interpretations
@@ -2817,3 +3062,7 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-10-30 | **The cold-start table was re-measured on the frozen engine, because the 2026-10-21 artifact no longer reproduces.** `cold_start` (no seed, engineered stream) reaches G5 at cycle 10 on `v0.6.0`, `v0.9.0` and `HEAD`, on Python 3.13.15 and 3.14.7, across repeated runs and hash seeds; the old table said `never`. `real_git_history` never reaches G5 but does reach G2 processes and G3 workflows at cycle 14, and its stimulus is 11 commit messages rather than 8. Parameters, seededness, event stream, schema and interpreter were each checked and ruled out; the 10-21→10-23 commits were never published, so the transition cannot be bisected. `docs/cold_start.json` and `docs/g5_gap_diagnostic.json` were regenerated, §8.1, decision 4 and finding 10 were corrected, and the claim that `no_dev_stopwords` is byte-identical to baseline was narrowed. No engine change. |
 | 2026-10-30 | Added the **formation-vs-utilization preregistration** (`docs/FORMATION-UTILIZATION-PREREGISTRATION.md`): three paired arms (cap 20, cap 1,000, cap 1,000 + oracle admission), the retention/transfer/revision limbs, a pre-committed mapping from outcome to a V2 target, and seven audits that must fire before a score is read. **Not run; no engine change.** Corrected the Git status row, which still described 0.9.0 as the package version and `master` as level with origin. |
 | 2026-10-30 | **Paper 01's citations were supplied and verified, and the publication index was brought in line with both manuscripts.** Paper 01's §4.1 and §5.4 now carry inline citations and a seven-source **References** section, every source read against a primary record on 2026-10-30, with Button et al.'s 2013 erratum read and disclosed. The second methodological lesson is stated as the project's own rule and carries no external citation by design. `papers/README.md` now lists Paper 01's citations as supplied rather than open. Added finding 37. |
+| 2026-10-30 | **The formation-vs-utilization harness was built and its one-seed timing pass run — and the pass found a confound, so the campaign is not authorised.** `benchmarks/formation_utilization.py` implements the protocol committed at `8536d9a`: arms A (cap 20), B (cap 1,000) and C (cap 1,000 + generator-support admission), plus a size-matched shuffled-oracle arm; the oracle is materialized from the generator (128 permitted pairs on T2, 272 on T1) and applied before the cap. `tests/test_formation_utilization.py` adds **39 tests** (203 total), one proof-of-firing per audit plus a substrate-equivalence check and the campaign stop path. **Cost:** 8 engine runs at **72.8 s** each; the campaign projects to **4.9 h sequential** (3.6 h arms, 1.2 h audit arm, comparators under a minute). **Audits:** every applicable one passed on both tasks — T2 A1 0.0000/1.0000/1.0000, A2 14,379 permitted candidates over 131 cycles admitted exactly, A3 B precision 0.3373 inside the 0.3443 + 0.01 band, A6 shuffled transfer 0.5002 vs C 0.3670, A7 94.6 % of readout weight from Layer 1; T1 A1 0.1497/0.9222/0.9102, A7 97.1 %, with A3 and A6 marked not applicable and the reasons recorded. **The finding (D1, finding 38):** the arms do not share a temporal graph — T2 32 edges differ (374 vs 380) and 59 of 131 permitted streams differ from cycle 6; T1 21 edges differ and 107 of 160 streams differ from cycle 40. `_record_temporal_edges` reads the last three **events**, sleep rows included, so an admission filter changes Layer 1's own input; the arm table's *"all other layers and all counts are untouched"* is false and a C advantage could be self-sourced support. **Descriptive only:** C is the best Organica arm but clears the bar on only 2 of 6 task-limbs and is worse on transfer by 0.0163 nats (T2) and 0.0229 (T1); one seed, no verdict. Two audit-scope corrections are disclosed: A2 is the committed self-stream audit (the stricter C-vs-B comparison became D1, not A2), and A3's band is applied on T2 only because that is where it was measured. Added §8.20, finding 38, the two command rows and the file-map entry; artifacts `docs/formation_utilization_timing.json` / `.md`. |
+| 2026-10-30 | **Amendment 1 to the formation-vs-utilization protocol: the admission arms read arm B's temporal graph, and audit A8 gates it.** The timing pass's D1 confound — the engine's lookback window is the last three rows of `events`, sleep rows included, so the oracle filter changed Layer 1's own input — is closed by fixing the temporal basis at arm B's: B is run first and its `_load_temporal()` graph is recorded at the start of each sleep cycle; C and S read it instead of their own; A and B are unchanged and `organica/` is untouched. **A8** checks, every cycle, the graph actually read, the eligible pair stream and the evidence on shared pairs, and that the two arms' logs cover the same cycles (the run asserts exact consumption); it is a gate with proof-of-firing and load-bearing tests. The amended timing pass (eight runs, **72.2 s** each, **4.8 h** sequential) passes every applicable audit on both tasks: T2 A8 **131** cycles and **75,488** pair checks, T1 **160** and **80,200**; the engine's own `precedes` tables still differ by **28** and **15** edges but Layer 1 no longer reads them. B agrees with the pre-amendment pass at four decimals (full-precision drift is at most **1.4 × 10⁻⁵**, including the untouched A arm, so reproducibility is about **10⁻⁵**, not bit-identity). C's new cells are descriptive only: readout coverage **1.0000** / **0.9222**, transfer **0.3661** / **0.2346**, clearing the bar on 2 of 6 task-limbs. **The claim is narrowed:** a C result is admission filtering at fixed temporal evidence, not "the engine with this filter installed", and it says nothing about self-sourcing. The pre-amendment artifact is preserved; its C and S cells are not a result of the amended design. No engine change; no campaign run. |
+| 2026-10-30 | **The formation-vs-utilization campaign ran to completion, and the pre-committed verdict is "utilization fails with correct structure" on both tasks — C loses transfer by 0.0262 nats (T1) and 0.0227 (T2), B loses it too, so V2's target is the use path and the summary claim is not supported.** 30 seeds × 2 tasks, 60/60 units `campaign_ready`, all eight audits pass or are N/A (A3/A6 N/A on T1), 12.72 worker-hours. C wins revision on T1 (+0.1002) and ties it on T2 (+0.0007), and closes 65.2 % / 79.9 % of A's transfer gap — the label means *does not clear the bar*, not *no use*. The T2 bar is the cell-level latent-state counter, **granted the latent cell structure**; the protocol's "data-only" wording is corrected, and a post-hoc check shows C still loses to Replay (0.0208) and the bigram (0.0187) on T2. Added `docs/formation_utilization_results.md` (generated from the artifact), its drift test, §8.21, finding 39, and journal §65; corrected the artifact's `command` provenance. **No V2 build is authorised.** |
+| 2026-10-30 | **The V2 record was corrected and the use-path diagnostic pre-registered.** The campaign's ceiling condition is now recorded as **observed** (V2 brief §9.8; gate 5's specific-failure condition met, mechanism condition not); the old §11 "NOT OBSERVED" entry is preserved and marked **SUPERSEDED**, not erased. The diagnostic freezes D0 reproduction (1e-4) as a validity gate, estimates the room (D5 − D0) before naming a component, and pre-commits five outcomes including **evidence-limited** and **audit required**. D2's weights are constants (1.0/0.5), not fitted. Added `docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`, `benchmarks/use_path_diagnostic.py`, `tests/test_use_path_diagnostic.py`; added action 15 and §8.22. **No V2 build is authorised.** |

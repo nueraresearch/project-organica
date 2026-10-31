@@ -1,0 +1,1595 @@
+{
+  "kind": "timing",
+  "seed": 20261100,
+  "generated_utc": "2026-10-31T00:30:24.817939+00:00",
+  "engine_version": "0.10.0",
+  "command": "python benchmarks/formation_utilization.py --timing --tasks T2 && python benchmarks/formation_utilization.py --timing --tasks T1",
+  "provenance_note": "Run as two foreground invocations (T2, then T1) after a background invocation was interrupted; each task was measured in full on the same seed and the same code, and the two task artifacts were merged without changing a measurement.",
+  "constants": {
+    "alpha": 256.0,
+    "cap_A": 20,
+    "cap_B": 1000,
+    "coverage_gate": 0.5,
+    "precision_ceiling": 0.3443,
+    "precision_tolerance": 0.01,
+    "attribution_minimum": 0.5,
+    "a6_score_tolerance": 0.01,
+    "decision_alpha": 0.9833,
+    "bootstrap_reps": 10000,
+    "calibration_seed": 20261099,
+    "regime_switch_cycle": 200
+  },
+  "tasks": {
+    "T2": {
+      "task": "T2",
+      "seed": 20261100,
+      "support_size": 128,
+      "support_regime_invariant": true,
+      "world_edges": 112,
+      "world_edges_in_support": 112,
+      "regime_switch_cycle": 200,
+      "shuffle": {
+        "size": 128,
+        "support_size": 128,
+        "retained_permitted": 0,
+        "retained_share": 0.0,
+        "filled_from_permitted": 0
+      },
+      "arms": {
+        "A": {
+          "label": "A",
+          "cap": 20,
+          "admission": "none",
+          "seconds": {
+            "acquisition": 38.24,
+            "scoring": 0.164,
+            "revision_learning": 23.74,
+            "revision_scoring": 0.105
+          },
+          "seconds_total": 62.249,
+          "coverage": 0.0,
+          "readout_precision": 0.0,
+          "layer1_coverage": 0.0,
+          "layer1_precision_world": 0.0,
+          "layer1_precision_support": 0.0,
+          "asserted_edges": 36,
+          "covered_world_edges": 0,
+          "layer1_edges": 22,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.453018,
+                "brier": 0.119109
+              },
+              "self_cells_shape": {
+                "log_loss": 0.453018,
+                "brier": 0.119109
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.453886,
+                "brier": 0.119126
+              },
+              "self_cells_shape": {
+                "log_loss": 0.453886,
+                "brier": 0.119126
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.463391,
+                "brier": 0.120887
+              },
+              "self_cells_shape": {
+                "log_loss": 0.463391,
+                "brier": 0.120887
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 8,
+              "edge_weight": 12.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 22,
+              "edge_weight": 110.0
+            },
+            "meta_concept": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 22,
+              "edge_weight": 1719.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 23.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 13.0
+            }
+          },
+          "total_prediction_admissions": 2533,
+          "max_pre_cap_candidates": 339
+        },
+        "B": {
+          "label": "B",
+          "cap": 1000,
+          "admission": "none",
+          "seconds": {
+            "acquisition": 41.973,
+            "scoring": 0.164,
+            "revision_learning": 29.307,
+            "revision_scoring": 0.098
+          },
+          "seconds_total": 71.542,
+          "coverage": 1.0,
+          "readout_precision": 0.3191,
+          "layer1_coverage": 1.0,
+          "layer1_precision_world": 0.3373,
+          "layer1_precision_support": 0.3855,
+          "asserted_edges": 351,
+          "covered_world_edges": 112,
+          "layer1_edges": 332,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.424449,
+                "brier": 0.115391
+              },
+              "self_cells_shape": {
+                "log_loss": 0.424449,
+                "brier": 0.115391
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.425399,
+                "brier": 0.115424
+              },
+              "self_cells_shape": {
+                "log_loss": 0.425399,
+                "brier": 0.115424
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.421241,
+                "brier": 0.115655
+              },
+              "self_cells_shape": {
+                "log_loss": 0.421241,
+                "brier": 0.115655
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 8,
+              "edge_weight": 14.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 20,
+              "edge_weight": 20.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 20,
+              "edge_weight": 98.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 332,
+              "edge_weight": 9789.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 26.0
+            },
+            "question": {
+              "unique_count": 1,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 1,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 15.0
+            }
+          },
+          "total_prediction_admissions": 37744,
+          "max_pre_cap_candidates": 339
+        },
+        "C": {
+          "label": "C",
+          "cap": 1000,
+          "admission": "support",
+          "seconds": {
+            "acquisition": 39.392,
+            "scoring": 0.164,
+            "revision_learning": 26.454,
+            "revision_scoring": 0.111
+          },
+          "seconds_total": 66.121,
+          "coverage": 1.0,
+          "readout_precision": 0.6512,
+          "layer1_coverage": 1.0,
+          "layer1_precision_world": 0.875,
+          "layer1_precision_support": 1.0,
+          "asserted_edges": 172,
+          "covered_world_edges": 112,
+          "layer1_edges": 128,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.365631,
+                "brier": 0.108111
+              },
+              "self_cells_shape": {
+                "log_loss": 0.365631,
+                "brier": 0.108111
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.366128,
+                "brier": 0.108153
+              },
+              "self_cells_shape": {
+                "log_loss": 0.366128,
+                "brier": 0.108153
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.348972,
+                "brier": 0.106224
+              },
+              "self_cells_shape": {
+                "log_loss": 0.348972,
+                "brier": 0.106224
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 7,
+              "edge_weight": 11.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 15,
+              "edge_weight": 15.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 20,
+              "edge_weight": 98.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 128,
+              "edge_weight": 2940.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 20.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 10.0
+            }
+          },
+          "total_prediction_admissions": 14455,
+          "max_pre_cap_candidates": 128
+        },
+        "S": {
+          "label": "S",
+          "cap": 1000,
+          "admission": "shuffled",
+          "seconds": {
+            "acquisition": 37.606,
+            "scoring": 0.158,
+            "revision_learning": 25.836,
+            "revision_scoring": 0.118
+          },
+          "seconds_total": 63.718,
+          "coverage": 0.0,
+          "readout_precision": 0.0,
+          "layer1_coverage": 0.0,
+          "layer1_precision_world": 0.0,
+          "layer1_precision_support": 0.0,
+          "asserted_edges": 130,
+          "covered_world_edges": 0,
+          "layer1_edges": 111,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.500203,
+                "brier": 0.122608
+              },
+              "self_cells_shape": {
+                "log_loss": 0.500203,
+                "brier": 0.122608
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.500734,
+                "brier": 0.122612
+              },
+              "self_cells_shape": {
+                "log_loss": 0.500734,
+                "brier": 0.122612
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.52933,
+                "brier": 0.125091
+              },
+              "self_cells_shape": {
+                "log_loss": 0.52933,
+                "brier": 0.125091
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 8,
+              "edge_weight": 14.0
+            },
+            "experiment": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 20,
+              "edge_weight": 20.0
+            },
+            "investigation": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 20,
+              "edge_weight": 98.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 111,
+              "edge_weight": 4138.0
+            },
+            "process_candidate": {
+              "unique_count": 11,
+              "edge_weight": 27.0
+            },
+            "question": {
+              "unique_count": 1,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 1,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 16.0
+            }
+          },
+          "total_prediction_admissions": 12589,
+          "max_pre_cap_candidates": 112
+        }
+      },
+      "comparators": {
+        "replay": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.347521,
+              "brier": 0.104874
+            },
+            "self_cells_shape": {
+              "log_loss": 0.347521,
+              "brier": 0.104874
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.349592,
+              "brier": 0.104936
+            },
+            "self_cells_shape": {
+              "log_loss": 0.349592,
+              "brier": 0.104936
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.351989,
+              "brier": 0.106946
+            },
+            "self_cells_shape": {
+              "log_loss": 0.351989,
+              "brier": 0.106946
+            }
+          }
+        },
+        "bigram": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.350038,
+              "brier": 0.104903
+            },
+            "self_cells_shape": {
+              "log_loss": 0.350038,
+              "brier": 0.104903
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.352407,
+              "brier": 0.104955
+            },
+            "self_cells_shape": {
+              "log_loss": 0.352407,
+              "brier": 0.104955
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.354748,
+              "brier": 0.107213
+            },
+            "self_cells_shape": {
+              "log_loss": 0.354748,
+              "brier": 0.107213
+            }
+          }
+        },
+        "cell_counter": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.347273,
+              "brier": 0.104619
+            },
+            "self_cells_shape": {
+              "log_loss": 0.347273,
+              "brier": 0.104619
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.350723,
+              "brier": 0.104774
+            },
+            "self_cells_shape": {
+              "log_loss": 0.350723,
+              "brier": 0.104774
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.352194,
+              "brier": 0.106901
+            },
+            "self_cells_shape": {
+              "log_loss": 0.352194,
+              "brier": 0.106901
+            }
+          }
+        }
+      },
+      "bar": {
+        "retention": {
+          "member": "cell_counter",
+          "calibration_log_loss": 0.33921
+        },
+        "transfer": {
+          "member": "cell_counter",
+          "calibration_log_loss": 0.34069
+        },
+        "revision": {
+          "member": "cell_counter",
+          "calibration_log_loss": 0.350158
+        }
+      },
+      "audits": {
+        "A1": {
+          "audit": "A1",
+          "name": "arm differential",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "A_below_gate": true,
+            "B_at_or_above_gate": true,
+            "C_at_or_above_gate": true
+          },
+          "evidence": {
+            "coverage": {
+              "A": 0.0,
+              "B": 1.0,
+              "C": 1.0
+            },
+            "gate": 0.5
+          },
+          "reason": "arms differ as specified: A 0.0000 < 0.50 <= B 1.0000, C 1.0000"
+        },
+        "A2": {
+          "audit": "A2",
+          "name": "oracle exactness",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "no_extra": true,
+            "no_missing": true,
+            "evidence_identical": true,
+            "cap_never_bound_after_filtering": true
+          },
+          "evidence": {
+            "cycles": 131,
+            "pairs_checked": 14455,
+            "max_permitted_candidates": 128,
+            "cap": 1000,
+            "cap_bound_cycles": 0,
+            "mismatch_count": 0,
+            "evidence_mismatches": 0,
+            "first_mismatches": []
+          },
+          "reason": "14455 permitted candidates across 131 cycles admitted exactly; the cap never bound after filtering"
+        },
+        "A3": {
+          "audit": "A3",
+          "name": "precision premise",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "B_within_band": true,
+            "C_admission_exact": true
+          },
+          "evidence": {
+            "precision_b_layer1_world": 0.3373,
+            "layer1_precision_c_support": 1.0,
+            "band_upper": 0.3543
+          },
+          "reason": "B Layer-1 precision 0.3373 <= 0.3543; C's admission precision is 1.0"
+        },
+        "A4": {
+          "audit": "A4",
+          "name": "denominators",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "retention": true,
+            "transfer": true,
+            "revision": true
+          },
+          "evidence": {
+            "retention": {
+              "events": 319,
+              "cells": 10208,
+              "excluded_observation_tokens": 0
+            },
+            "transfer": {
+              "events": 399,
+              "cells": 12768,
+              "excluded_observation_tokens": 0
+            },
+            "revision": {
+              "events": 399,
+              "cells": 12768,
+              "excluded_observation_tokens": 0
+            }
+          },
+          "reason": "every limb has a non-zero denominator"
+        },
+        "A5": {
+          "audit": "A5",
+          "name": "readout matches construct",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "ranks_true_target_above_distractor": true,
+            "beats_base_rate_on_the_true_answer": true,
+            "is_worse_than_base_rate_on_a_wrong_answer": true
+          },
+          "evidence": {
+            "p_true_target": 0.98374,
+            "p_distractor": 0.00813,
+            "log_loss_true": 0.010907,
+            "log_loss_wrong_answer": 2.979795,
+            "log_loss_base_rate": 0.636514,
+            "synthetic_alpha": 1.0
+          },
+          "reason": "the readout recovers the known answer and can be wrong"
+        },
+        "A6": {
+          "audit": "A6",
+          "name": "no leakage",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "shuffled_precision_in_B_band": true,
+            "shuffled_coverage_below_gate": true,
+            "shuffled_not_as_good_as_C": true
+          },
+          "evidence": {
+            "shuffled": {
+              "size": 128,
+              "support_size": 128,
+              "retained_permitted": 0,
+              "retained_share": 0.0,
+              "filled_from_permitted": 0
+            },
+            "shuffled_layer1_coverage": 0.0,
+            "shuffled_layer1_precision": 0.0,
+            "shuffled_readout_precision": 0.0,
+            "shuffled_transfer": 0.500734,
+            "c_transfer": 0.366128,
+            "score_tolerance": 0.01
+          },
+          "reason": "shuffling collapsed Layer-1 coverage to 0.0000 and Layer-1 precision to 0.0; transfer 0.5007 vs C's 0.3661"
+        },
+        "A7": {
+          "audit": "A7",
+          "name": "attribution share",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "controlled_share_at_or_above_minimum": true
+          },
+          "evidence": {
+            "total_edge_weight": 3094.0,
+            "controlled_weight": 2940.0,
+            "control_share": 0.9502,
+            "hypothesis_share": 0.0048,
+            "per_type_weight": {
+              "anomaly": 0.0,
+              "dream": 11.0,
+              "experiment": 0.0,
+              "hypothesis": 15.0,
+              "investigation": 0.0,
+              "loop_candidate": 98.0,
+              "meta_concept": 0.0,
+              "prediction_candidate": 2940.0,
+              "process_candidate": 20.0,
+              "workflow_concept": 10.0
+            },
+            "minimum": 0.5
+          },
+          "reason": "Layer 1 carries 0.9502 of the readout's edge weight (hypotheses 0.0048); threshold 0.50"
+        },
+        "A8": {
+          "audit": "A8",
+          "name": "temporal input invariance",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "C_cycle_count": true,
+            "C_graphs_identical": true,
+            "C_streams_identical": true,
+            "S_cycle_count": true,
+            "S_graphs_identical": true,
+            "S_streams_identical": true,
+            "evidence_identical_on_shared_pairs": true
+          },
+          "evidence": {
+            "cycles": 131,
+            "cycles_per_arm": {
+              "C": 131,
+              "S": 131
+            },
+            "eligible_pair_checks": 75488,
+            "graph_edges_b_final_cycle": 374,
+            "engine_own_table_symmetric_difference": 28,
+            "evidence_mismatches": 0,
+            "first_failures": []
+          },
+          "reason": "B and the admission arms read the same temporal graph at every cycle (131 cycles per arm, 75488 eligible-pair checks); evidence identical on the shared pairs. The engine's own precedes tables still differ by 28 edge(s); Layer 1 no longer reads them."
+        }
+      },
+      "campaign_ready": true,
+      "campaign_ready_reason": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle",
+      "timings": {
+        "prepare": 0.025,
+        "comparators": 0.538,
+        "arms": {
+          "A": 62.249,
+          "B": 71.542,
+          "C": 66.121,
+          "S": 63.718
+        }
+      },
+      "limb_counts": {
+        "retention": {
+          "events": 319,
+          "cells": 10208,
+          "excluded_observation_tokens": 0
+        },
+        "transfer": {
+          "events": 399,
+          "cells": 12768,
+          "excluded_observation_tokens": 0
+        },
+        "revision": {
+          "events": 399,
+          "cells": 12768,
+          "excluded_observation_tokens": 0
+        }
+      },
+      "wall_seconds": 265.3
+    },
+    "T1": {
+      "task": "T1",
+      "seed": 20261100,
+      "support_size": 272,
+      "support_regime_invariant": true,
+      "world_edges": 167,
+      "world_edges_in_support": 167,
+      "regime_switch_cycle": 200,
+      "shuffle": {
+        "size": 272,
+        "support_size": 272,
+        "retained_permitted": 144,
+        "retained_share": 0.5294,
+        "filled_from_permitted": 144
+      },
+      "arms": {
+        "A": {
+          "label": "A",
+          "cap": 20,
+          "admission": "none",
+          "seconds": {
+            "acquisition": 46.423,
+            "scoring": 0.175,
+            "revision_learning": 21.868,
+            "revision_scoring": 0.099
+          },
+          "seconds_total": 68.565,
+          "coverage": 0.1497,
+          "readout_precision": 0.6944,
+          "layer1_coverage": 0.1317,
+          "layer1_precision_world": 1.0,
+          "layer1_precision_support": 1.0,
+          "asserted_edges": 36,
+          "covered_world_edges": 25,
+          "layer1_edges": 22,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.282617,
+                "brier": 0.079161
+              },
+              "self_cells_shape": {
+                "log_loss": 0.370697,
+                "brier": 0.104105
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.281973,
+                "brier": 0.078895
+              },
+              "self_cells_shape": {
+                "log_loss": 0.372373,
+                "brier": 0.104374
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.459849,
+                "brier": 0.118703
+              },
+              "self_cells_shape": {
+                "log_loss": 0.467443,
+                "brier": 0.120865
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 11,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 12,
+              "edge_weight": 26.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 24,
+              "edge_weight": 24.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 17,
+              "edge_weight": 80.0
+            },
+            "meta_concept": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 22,
+              "edge_weight": 3400.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 22.0
+            },
+            "question": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 12.0
+            }
+          },
+          "total_prediction_admissions": 3174,
+          "max_pre_cap_candidates": 327
+        },
+        "B": {
+          "label": "B",
+          "cap": 1000,
+          "admission": "none",
+          "seconds": {
+            "acquisition": 54.066,
+            "scoring": 0.136,
+            "revision_learning": 30.356,
+            "revision_scoring": 0.152
+          },
+          "seconds_total": 84.71,
+          "coverage": 0.9222,
+          "readout_precision": 0.5049,
+          "layer1_coverage": 0.9222,
+          "layer1_precision_world": 0.5404,
+          "layer1_precision_support": 0.5474,
+          "asserted_edges": 305,
+          "covered_world_edges": 154,
+          "layer1_edges": 285,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.236987,
+                "brier": 0.073624
+              },
+              "self_cells_shape": {
+                "log_loss": 0.339632,
+                "brier": 0.099462
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.235924,
+                "brier": 0.073059
+              },
+              "self_cells_shape": {
+                "log_loss": 0.340024,
+                "brier": 0.099382
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.401355,
+                "brier": 0.113008
+              },
+              "self_cells_shape": {
+                "log_loss": 0.411178,
+                "brier": 0.115286
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 11,
+              "edge_weight": 23.0
+            },
+            "experiment": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 39,
+              "edge_weight": 39.0
+            },
+            "investigation": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 24,
+              "edge_weight": 120.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 285,
+              "edge_weight": 11342.0
+            },
+            "process_candidate": {
+              "unique_count": 16,
+              "edge_weight": 32.0
+            },
+            "question": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 7,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 16,
+              "edge_weight": 16.0
+            }
+          },
+          "total_prediction_admissions": 40100,
+          "max_pre_cap_candidates": 338
+        },
+        "C": {
+          "label": "C",
+          "cap": 1000,
+          "admission": "support",
+          "seconds": {
+            "acquisition": 55.391,
+            "scoring": 0.141,
+            "revision_learning": 27.247,
+            "revision_scoring": 0.121
+          },
+          "seconds_total": 82.9,
+          "coverage": 0.9222,
+          "readout_precision": 0.88,
+          "layer1_coverage": 0.9222,
+          "layer1_precision_world": 0.9872,
+          "layer1_precision_support": 1.0,
+          "asserted_edges": 175,
+          "covered_world_edges": 154,
+          "layer1_edges": 156,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.234978,
+                "brier": 0.073258
+              },
+              "self_cells_shape": {
+                "log_loss": 0.3371,
+                "brier": 0.099077
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.234584,
+                "brier": 0.07286
+              },
+              "self_cells_shape": {
+                "log_loss": 0.338263,
+                "brier": 0.099166
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.388968,
+                "brier": 0.1122
+              },
+              "self_cells_shape": {
+                "log_loss": 0.398543,
+                "brier": 0.11447
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 11,
+              "edge_weight": 24.0
+            },
+            "experiment": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 37,
+              "edge_weight": 37.0
+            },
+            "investigation": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 23,
+              "edge_weight": 112.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 156,
+              "edge_weight": 7433.0
+            },
+            "process_candidate": {
+              "unique_count": 13,
+              "edge_weight": 26.0
+            },
+            "question": {
+              "unique_count": 8,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 9,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 11,
+              "edge_weight": 11.0
+            }
+          },
+          "total_prediction_admissions": 21057,
+          "max_pre_cap_candidates": 162
+        },
+        "S": {
+          "label": "S",
+          "cap": 1000,
+          "admission": "shuffled",
+          "seconds": {
+            "acquisition": 50.758,
+            "scoring": 0.181,
+            "revision_learning": 26.788,
+            "revision_scoring": 0.147
+          },
+          "seconds_total": 77.874,
+          "coverage": 0.4371,
+          "readout_precision": 0.6759,
+          "layer1_coverage": 0.3234,
+          "layer1_precision_world": 0.7606,
+          "layer1_precision_support": 0.7606,
+          "asserted_edges": 108,
+          "covered_world_edges": 73,
+          "layer1_edges": 71,
+          "scores": {
+            "retention": {
+              "house_shape": {
+                "log_loss": 0.300788,
+                "brier": 0.082427
+              },
+              "self_cells_shape": {
+                "log_loss": 0.388661,
+                "brier": 0.107381
+              }
+            },
+            "transfer": {
+              "house_shape": {
+                "log_loss": 0.29209,
+                "brier": 0.080439
+              },
+              "self_cells_shape": {
+                "log_loss": 0.382452,
+                "brier": 0.105948
+              }
+            },
+            "revision": {
+              "house_shape": {
+                "log_loss": 0.454842,
+                "brier": 0.11672
+              },
+              "self_cells_shape": {
+                "log_loss": 0.463428,
+                "brier": 0.118948
+              }
+            }
+          },
+          "per_type": {
+            "anomaly": {
+              "unique_count": 10,
+              "edge_weight": 0.0
+            },
+            "dream": {
+              "unique_count": 9,
+              "edge_weight": 20.0
+            },
+            "experiment": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "hypothesis": {
+              "unique_count": 31,
+              "edge_weight": 31.0
+            },
+            "investigation": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "loop_candidate": {
+              "unique_count": 23,
+              "edge_weight": 112.0
+            },
+            "meta_concept": {
+              "unique_count": 15,
+              "edge_weight": 0.0
+            },
+            "prediction_candidate": {
+              "unique_count": 71,
+              "edge_weight": 2969.0
+            },
+            "process_candidate": {
+              "unique_count": 10,
+              "edge_weight": 23.0
+            },
+            "question": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "theory": {
+              "unique_count": 6,
+              "edge_weight": 0.0
+            },
+            "workflow_concept": {
+              "unique_count": 10,
+              "edge_weight": 13.0
+            }
+          },
+          "total_prediction_admissions": 11009,
+          "max_pre_cap_candidates": 119
+        }
+      },
+      "comparators": {
+        "replay": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.206622,
+              "brier": 0.066585
+            },
+            "self_cells_shape": {
+              "log_loss": 0.366027,
+              "brier": 0.093469
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.211724,
+              "brier": 0.067015
+            },
+            "self_cells_shape": {
+              "log_loss": 0.374767,
+              "brier": 0.09443
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.467882,
+              "brier": 0.123182
+            },
+            "self_cells_shape": {
+              "log_loss": 0.481417,
+              "brier": 0.125517
+            }
+          }
+        },
+        "bigram": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.231991,
+              "brier": 0.073167
+            },
+            "self_cells_shape": {
+              "log_loss": 0.26813,
+              "brier": 0.08891
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.237738,
+              "brier": 0.073436
+            },
+            "self_cells_shape": {
+              "log_loss": 0.274605,
+              "brier": 0.089494
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.505545,
+              "brier": 0.124221
+            },
+            "self_cells_shape": {
+              "log_loss": 0.508643,
+              "brier": 0.125575
+            }
+          }
+        },
+        "cell_counter": {
+          "retention": {
+            "house_shape": {
+              "log_loss": 0.230013,
+              "brier": 0.072981
+            },
+            "self_cells_shape": {
+              "log_loss": 0.265487,
+              "brier": 0.088545
+            }
+          },
+          "transfer": {
+            "house_shape": {
+              "log_loss": 0.235218,
+              "brier": 0.073308
+            },
+            "self_cells_shape": {
+              "log_loss": 0.271333,
+              "brier": 0.089159
+            }
+          },
+          "revision": {
+            "house_shape": {
+              "log_loss": 0.492563,
+              "brier": 0.124173
+            },
+            "self_cells_shape": {
+              "log_loss": 0.495683,
+              "brier": 0.125538
+            }
+          }
+        }
+      },
+      "bar": {
+        "retention": {
+          "member": "replay",
+          "calibration_log_loss": 0.20488
+        },
+        "transfer": {
+          "member": "replay",
+          "calibration_log_loss": 0.21059
+        },
+        "revision": {
+          "member": "replay",
+          "calibration_log_loss": 0.49008
+        }
+      },
+      "audits": {
+        "A1": {
+          "audit": "A1",
+          "name": "arm differential",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "A_below_gate": true,
+            "B_at_or_above_gate": true,
+            "C_at_or_above_gate": true
+          },
+          "evidence": {
+            "coverage": {
+              "A": 0.1497,
+              "B": 0.9222,
+              "C": 0.9222
+            },
+            "gate": 0.5
+          },
+          "reason": "arms differ as specified: A 0.1497 < 0.50 <= B 0.9222, C 0.9222"
+        },
+        "A2": {
+          "audit": "A2",
+          "name": "oracle exactness",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "no_extra": true,
+            "no_missing": true,
+            "evidence_identical": true,
+            "cap_never_bound_after_filtering": true
+          },
+          "evidence": {
+            "cycles": 160,
+            "pairs_checked": 21057,
+            "max_permitted_candidates": 162,
+            "cap": 1000,
+            "cap_bound_cycles": 0,
+            "mismatch_count": 0,
+            "evidence_mismatches": 0,
+            "first_mismatches": []
+          },
+          "reason": "21057 permitted candidates across 160 cycles admitted exactly; the cap never bound after filtering"
+        },
+        "A3": {
+          "audit": "A3",
+          "name": "precision premise",
+          "passed": null,
+          "applicable": false,
+          "checks": {
+            "C_admission_exact": true
+          },
+          "evidence": {
+            "precision_b_layer1_world": 0.5404,
+            "layer1_precision_c_support": 1.0,
+            "committed_band": null
+          },
+          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5404) and not gated"
+        },
+        "A4": {
+          "audit": "A4",
+          "name": "denominators",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "retention": true,
+            "transfer": true,
+            "revision": true
+          },
+          "evidence": {
+            "retention": {
+              "events": 319,
+              "cells": 10208,
+              "excluded_observation_tokens": 0
+            },
+            "transfer": {
+              "events": 399,
+              "cells": 12768,
+              "excluded_observation_tokens": 0
+            },
+            "revision": {
+              "events": 399,
+              "cells": 12768,
+              "excluded_observation_tokens": 0
+            }
+          },
+          "reason": "every limb has a non-zero denominator"
+        },
+        "A5": {
+          "audit": "A5",
+          "name": "readout matches construct",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "ranks_true_target_above_distractor": true,
+            "beats_base_rate_on_the_true_answer": true,
+            "is_worse_than_base_rate_on_a_wrong_answer": true
+          },
+          "evidence": {
+            "p_true_target": 0.98374,
+            "p_distractor": 0.00813,
+            "log_loss_true": 0.010907,
+            "log_loss_wrong_answer": 2.979795,
+            "log_loss_base_rate": 0.636514,
+            "synthetic_alpha": 1.0
+          },
+          "reason": "the readout recovers the known answer and can be wrong"
+        },
+        "A6": {
+          "audit": "A6",
+          "name": "no leakage",
+          "passed": null,
+          "applicable": false,
+          "checks": {},
+          "evidence": {
+            "size": 272,
+            "support_size": 272,
+            "retained_permitted": 144,
+            "retained_share": 0.5294,
+            "filled_from_permitted": 144
+          },
+          "reason": "the shuffled filter retains 144 of 272 permitted pairs, so a size-matched wrong filter does not exist on this world; the control cannot discriminate and is not gated"
+        },
+        "A7": {
+          "audit": "A7",
+          "name": "attribution share",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "controlled_share_at_or_above_minimum": true
+          },
+          "evidence": {
+            "total_edge_weight": 7643.0,
+            "controlled_weight": 7433.0,
+            "control_share": 0.9725,
+            "hypothesis_share": 0.0048,
+            "per_type_weight": {
+              "anomaly": 0.0,
+              "dream": 24.0,
+              "experiment": 0.0,
+              "hypothesis": 37.0,
+              "investigation": 0.0,
+              "loop_candidate": 112.0,
+              "meta_concept": 0.0,
+              "prediction_candidate": 7433.0,
+              "process_candidate": 26.0,
+              "question": 0.0,
+              "theory": 0.0,
+              "workflow_concept": 11.0
+            },
+            "minimum": 0.5
+          },
+          "reason": "Layer 1 carries 0.9725 of the readout's edge weight (hypotheses 0.0048); threshold 0.50"
+        },
+        "A8": {
+          "audit": "A8",
+          "name": "temporal input invariance",
+          "passed": true,
+          "applicable": true,
+          "checks": {
+            "C_cycle_count": true,
+            "C_graphs_identical": true,
+            "C_streams_identical": true,
+            "S_cycle_count": true,
+            "S_graphs_identical": true,
+            "S_streams_identical": true,
+            "evidence_identical_on_shared_pairs": true
+          },
+          "evidence": {
+            "cycles": 160,
+            "cycles_per_arm": {
+              "C": 160,
+              "S": 160
+            },
+            "eligible_pair_checks": 80200,
+            "graph_edges_b_final_cycle": 375,
+            "engine_own_table_symmetric_difference": 15,
+            "evidence_mismatches": 0,
+            "first_failures": []
+          },
+          "reason": "B and the admission arms read the same temporal graph at every cycle (160 cycles per arm, 80200 eligible-pair checks); evidence identical on the shared pairs. The engine's own precedes tables still differ by 15 edge(s); Layer 1 no longer reads them."
+        }
+      },
+      "campaign_ready": true,
+      "campaign_ready_reason": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle",
+      "timings": {
+        "prepare": 0.018,
+        "comparators": 0.526,
+        "arms": {
+          "A": 68.565,
+          "B": 84.71,
+          "C": 82.9,
+          "S": 77.874
+        }
+      },
+      "limb_counts": {
+        "retention": {
+          "events": 319,
+          "cells": 10208,
+          "excluded_observation_tokens": 0
+        },
+        "transfer": {
+          "events": 399,
+          "cells": 12768,
+          "excluded_observation_tokens": 0
+        },
+        "revision": {
+          "events": 399,
+          "cells": 12768,
+          "excluded_observation_tokens": 0
+        }
+      },
+      "wall_seconds": 316.173
+    }
+  },
+  "projection": {
+    "runs_measured": 8,
+    "mean_arm_seconds": 72.21,
+    "mean_comparator_seconds": 0.532,
+    "seeds": 30,
+    "campaign_arm_runs": 180,
+    "campaign_arm_hours": 3.61,
+    "audit_arm_runs": 60,
+    "audit_arm_hours": 1.2,
+    "comparator_runs": 60,
+    "comparator_hours": 0.009,
+    "total_hours": 4.82
+  },
+  "disclosures": [
+    {
+      "id": "A6 wording superseded",
+      "text": "The committed audit asked that shuffling the oracle make C \"collapse to B's coverage\". B's coverage is 98\u2013100 %, so no shuffle can produce that value: the direction is impossible. A6 is implemented as shuffled precision in B's measured band, shuffled coverage under A1's own 0.50 gate, and the shuffled transfer score not matching C's. The thresholds are the protocol's own; none was relaxed."
+    },
+    {
+      "id": "three limbs, not four",
+      "text": "\u00a73.4 says four scored windows; \u00a74.4 lists revision 200\u2013249 and a held-out 250\u2013299; the pinned runner scores three limbs. Three is what \u00a77's Bonferroni-over-three assumes. This harness scores retention 110\u2013149, transfer 150\u2013199 and revision 250\u2013299, and treats 200\u2013249 as the learning window it is."
+    },
+    {
+      "id": "T1's regime switch",
+      "text": "The T1 generator defaults to a law change at cycle 150, which would put the change inside the transfer window \u00a74.4 says is under the old law. The harness generates T1 with a switch at 200 and verifies the recorded regime at the boundary. The module default and \u00a74.4 disagree."
+    },
+    {
+      "id": "A6 on T1 is not a control",
+      "text": "T1's support covers 12 of 16 targets per source, so a size-matched wrong filter necessarily retains permitted pairs (the retained share is printed). A6 is therefore gated on the primary task T2 and reported as not applicable on T1. A control that cannot discriminate is not a passed control."
+    },
+    {
+      "id": "bar selection",
+      "text": "The comparators' configurations are frozen from the calibration artifact; only WHICH comparator is the bar per limb is chosen, on seed 20261099. Three comparators are fitted (replay, bigram, cell counter) rather than the protocol's two, which can only raise the bar."
+    },
+    {
+      "id": "A2's scope",
+      "text": "A2 is the committed audit on the arm's own stream: admitted = count-threshold-eligible pairs intersected with the support. A stronger C-versus-B comparison was implemented first and failed; it was reported as diagnostic D1 before Amendment 1 and is now audit A8, which gates the run. The comparison is retained because it measures whether the admission arms read the same evidence, which is the condition the amendment exists to establish."
+    },
+    {
+      "id": "amendment 1 \u2014 fixed temporal evidence",
+      "text": "The pre-amendment timing pass measured that an admission filter changed the next cycle's temporal graph: the engine's lookback window is the last three rows of `events`, and sleep rows are rows. Arms C and S now read arm B's per-cycle graph, recorded at the start of each sleep cycle, instead of their own; A and B are unchanged. This closes the feedback path into Layer 1 but does not make the engine sleep-blind: B's graph still contains B's own sleep rows, and C's own payload and prior still differ (that is the treatment). C is therefore a counterfactual trajectory on B's evidence, and a C result is admission filtering at fixed temporal evidence, not 'the engine with this filter installed'. See protocol \u00a712 and the preserved pre-amendment artifact."
+    },
+    {
+      "id": "A3's band is T2's",
+      "text": "The 0.3443 precision ceiling was measured on the compositional world. A3 applies it on T2 and reports T1's precision without gating, because T1 has no committed band. Applying a T2 constant to T1 would measure the wrong population."
+    },
+    {
+      "id": "orientation of the decision difference",
+      "text": "\u00a77 writes d = score(arm) \u2212 score(baseline) and calls a positive lower bound a win. With log-loss, lower is better, so the orientation that makes the rule coherent is d = baseline log-loss \u2212 arm log-loss. That is the quantity bootstrapped, and it is named in every artifact."
+    }
+  ],
+  "audits_passed": true,
+  "audits_failing": [],
+  "campaign_ready": true,
+  "campaign_ready_reasons": {
+    "T2": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle",
+    "T1": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle"
+  }
+}

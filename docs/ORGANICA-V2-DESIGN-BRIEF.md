@@ -248,7 +248,7 @@ Gates, in order. Passing a gate authorises the next step's *planning*, not its b
     change.** A V2 build becomes justified when that process identifies a **specific**
     failure — weak transfer despite correct internal structure, or failure to retain
     useful structure after episode removal.
-   → **PARTIALLY EXECUTED (2026-10-28).** The campaign stopped at the preregistered
+   → **PARTIALLY EXECUTED (2026-10-28); SPECIFIC-FAILURE CONDITION MET (2026-10-30).** The campaign stopped at the preregistered
    acquisition gate: Gate 13 failed on every inspected seed, so transfer was reported
    as *not measurable* and the 600-cell factorial did not run (§9.7). The process did
    identify a **specific failure** — but a **third** kind, not the two named here: the
@@ -257,6 +257,14 @@ Gates, in order. Passing a gate authorises the next step's *planning*, not its b
    as a test**, and a V2 build is *not* thereby authorised: gate 4 (A5/A6) is now
    **closed** (2026-10-28); the study's 600-cell factorial **did not run**, because the
    campaign stopped at its own preregistered acquisition gate.
+
+   → **SPECIFIC-FAILURE CONDITION MET (2026-10-30).** The formation-utilization campaign
+   observed the first of the two named failures: with the generator's support admitted
+   at Layer 1 and arm B's fixed temporal graph, arm C lost transfer on both tasks (T1
+   d = −0.0262; T2 d = −0.0227), and arm B lost it too. The *specific-failure* condition
+   is therefore met in substance. The *mechanism* condition is not: the campaign selects
+   the use path, not a component. Gate 5 therefore authorises the pre-registered use-path
+   diagnostic, not a V2 build.
 
 **Until gate 5 is passed, this brief stays a set of testable options.** Designing V2
 against a *named* weakness is right; designing it against a *guessed* mechanism is what
@@ -570,6 +578,47 @@ useful, lower-frequency structure under a bounded budget, without task labels or
 privileged knowledge of the world's latent factors. Naming a failure is not the same
 as authorising a build.
 
+### 9.8 The formation-utilization campaign: the ceiling condition is observed, and the use path is the target (2026-10-30)
+
+**The record claim.** The formation-utilization campaign established that weak transfer
+despite correct internal structure is an observed ceiling condition and selected the use
+path as the target of investigation. It did not identify the binding component of that
+path and therefore did not, by itself, satisfy the mechanism requirement for a V2 build
+authorization.
+
+**What was measured.** Thirty confirmatory seeds (`20261101`–`20261130`), both tasks, arm
+C at cap 1,000 with the generator's full non-zero transition support admitted at Layer 1
+and arm B's per-cycle temporal graph held fixed (Amendment 1). C had correct internal
+structure at fixed evidence and still lost transfer on both tasks: T1 `d = −0.0262`
+[−0.0275, −0.0249], T2 `d = −0.0227` [−0.0242, −0.0211], `d = bar − arm`. It lost
+retention too (T1 −0.0267, T2 −0.0230), won revision on T1 (+0.1002) and tied it on T2
+(+0.0007). B, the discovery arm, also lost transfer on both tasks (T1 −0.0296,
+T2 −0.0795), so the pre-committed "both lose" cell fired on both tasks: **the target is
+the use path (retrieval / activation / readout)** and the summary claim is not supported.
+
+**What the label means, and does not.** "Fails" means *does not clear the bar*, not *no
+use*: C closes 65.2 % of arm A's transfer gap on T1 and 79.9 % on T2. The T2 bar is the
+cell-level latent-state counter, which is granted the latent cell structure; it is not
+the "data-only" learner the protocol named. The verdict survives the strongest strictly
+data-only comparators (C still loses T2 transfer to Replay by 0.0208 and to the bigram by
+0.0187, and T1 transfer to Replay by 0.0262), so the naming defect does not carry the
+result.
+
+**The two limits that make this a target, not a mechanism.** C is a counterfactual
+trajectory on B's temporal evidence, not an independent organism; and the campaign does
+not localise the defect inside the use path. It says retrieval, activation or the readout
+form — three different mechanisms — and it cannot say which.
+
+**What follows.** Gate 5's *specific-failure* condition is met in substance. Its
+*mechanism* condition is not. The next step is the pre-registered use-path diagnostic
+([`docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md`](USE-PATH-DIAGNOSTIC-PREREGISTRATION.md)):
+D0 must reproduce the campaign's C scores within `1e-4` before any variant is read; the
+room between the pinned readout and the generator's ceiling is estimated before any
+component is named; D1–D4 are observer-side re-scorings of the same asserted graph. The
+diagnostic can select a component for a V2 **brief**. It cannot authorise a V2 build.
+
+**No V2 build is authorised.**
+
 ---
 
 ## 10. Corrections to the ingested draft
@@ -608,7 +657,7 @@ measurement.
 | Finding | Consequence |
 |---|---|
 | **OBSERVED 2026-10-28.** Gate 13 fails: V1 asserts **0.0 %–2.7 %** of the world's edges while its raw memory holds **100 %** (§9.7) | the defect is in **formation**, before persistence or use — a capacity bound in Layer-1 selection, not a retention or readout defect. V2 work targets candidate selection under a declared budget. **This is the third kind of failure**, not the two below. |
-| The acquisition study shows **weak transfer despite correct internal structure** (R1 passes, R2 fails) | the defect is in *use*, not formation — V2 work targets the readout/use path, and the readout is not the limiter (§9.3). **NOT OBSERVED:** R1 did not pass; the structure was never formed (§9.7) |
+| **OBSERVED 2026-10-30.** The acquisition study shows **weak transfer despite correct internal structure** (R1 passes, R2 fails) | the defect is in *use*, not formation — V2 work targets the readout/use path, and the readout is not the limiter (§9.3). **This row previously read:** *NOT OBSERVED: R1 did not pass; the structure was never formed (§9.7)*. That statement was correct for the acquisition campaign and is **superseded**, not erased: the formation-utilization campaign's arm C held the generator's support at fixed evidence and still lost transfer (T1 −0.0262, T2 −0.0227). The campaign selects the use path; it does not identify the component. |
 | The acquisition study shows **failure to retain useful structure after episode removal** (R3 fails) | the defect is in *persistence* — V2 work targets Layer-1 retention and its asymmetry, and `MAX_PREDICTIONS` becomes a named suspect (§9.2). **NOT MEASURABLE:** R3 cannot be scored while R1 fails (§9.7) |
 | The engine gains a category for a **tight group** and concepts then form on a group-structured world (§9.1) | the representational constraint is lifted and the relational task becomes runnable on V1's frozen taxonomy |
 | **RESOLVED 2026-10-28, in the negative.** The compositional task does **not** let a count-based baseline solve the withheld combinations (§9.6) | the compositional world is not too easy. Gap against the strongest baseline **+0.1035**, lower bound **+0.0996**, and the held cell's gap is **4.6×** the rest. The task stands as the instrument |
@@ -646,6 +695,11 @@ the point of §9.7.
     the audit instrument (A5 and A6 close it; no feature may be added afterwards), and it
     does not re-read any verdict: Phase K's three REVERSED verdicts, Phase L's `H3-L —
     INCONCLUSIVE`, and the six negative families all stand as recorded.
+
+- **It does not turn the formation-utilization campaign into a build authorisation.** The
+    campaign met the *specific-failure* condition of gate 5 and selected the use path; it
+    did not identify a component. The next step is the pre-registered use-path diagnostic,
+    not a V2 design.
 
 ---
 
