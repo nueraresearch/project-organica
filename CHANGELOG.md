@@ -28,6 +28,27 @@ there is nothing to check out.
 
 ---
 
+## [0.11.0] — (unreleased)
+
+### Fixed — the README described the repository's release state incorrectly (2026-10-31)
+
+The v0.10.0 tag was cut after the README was written, which left three
+statements false: that 0.10.0 was "cut on `master` and not yet tagged", that
+"0.9.0 is the latest release", and that "0.10.0 has not been published yet.
+Its tag is the archival reference for the frozen Organica 1 engine". The last
+of those was wrong in a second way: **v0.9.0 is the archival reference for the
+frozen engine**, and under v0.10.0 the engine is byte-identical to it apart
+from the package version string. The README now says so, and the package
+version is 0.11.0 with 0.10.0 as the latest release.
+
+### Recorded — the candidate-membership milestone, in the README (2026-10-31)
+
+The use-path reproduction audit returned AUDIT REQUIRED on eight seeds. The
+README now says what the candidate-membership audit found, because it is the
+most recent substantive result and it is what a reader assessing the
+repository's reproducibility needs: the eight failing seeds are a **hash-order
+artifact**, not a failure of the code or of the architecture.
+
 ## [0.10.0] — 2026-10-31
 
 ### Measured — the candidate-membership audit: the eight failing seeds are a hash-order artifact (2026-10-31)

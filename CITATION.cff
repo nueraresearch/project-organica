@@ -11,7 +11,7 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.10.0
+version: 0.11.0
 # 0.10.0 is NOT yet published; 0.9.0 is the latest release, and its tag is
 # the archival reference for the frozen Organica 1 engine.
 # This date is the day the version was cut -- update it on the day 0.10.0 is

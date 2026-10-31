@@ -49,7 +49,7 @@ The implementation should be reported as it exists, not as an idealized hierarch
 
 ### 2.2 The freeze, and one disclosed discrepancy
 
-Organica 1 is frozen at tag **`v0.9.0`** and enforced by a test: `tests/test_v1_freeze.py` compares every frozen file against that tag and fails if one differs (16/16 files verified at the Phase L run). The engine is a fixed reference object; everything after the freeze measures it and nothing changes it quietly. The audit instrumentation is separately frozen at tag **`audit-trace-v1`**; the package version `0.10.0` is deliberately **untagged**, because that tag marks the instrumentation, not a release.
+Organica 1 is frozen at tag **`v0.9.0`** and enforced by a test: `tests/test_v1_freeze.py` compares every frozen file against that tag and fails if one differs (16/16 files verified at the Phase L run). The engine is a fixed reference object; everything after the freeze measures it and nothing changes it quietly. The audit instrumentation is separately frozen at tag **`audit-trace-v1`**; the package version has advanced past it since this draft was written (`0.11.0`; `v0.10.0` is the release tag for the instrumentation and marks no change to the engine).
 
 One discrepancy is disclosed and left in place: **Law II** states that every structure's `parent_ids` are traceable to G0 events, and in the frozen engine the chain **terminates at Layer 1** — no parent link points at an experience event. The discrepancy is recorded as **D3** in the audit-trace specification because the frozen engine's constitution is the owner's decision, not a documentation fix. It does not affect any measurement reported here, but it does mean the architecture description in §2.1 must be read with that limit.
 
@@ -340,7 +340,7 @@ The most useful thing this record contributes is a set of attributable negative 
 
 ## Data and code availability
 
-All protocols, results and artifacts are public in the repository at [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica) (branch `master`). The engine is frozen at tag `v0.9.0`; the audit instrumentation at `audit-trace-v1`; the package version `0.10.0` is untagged. Protocols were committed before the outcomes they judge, and their amendments are dated and pre-outcome. Canonical result files: `docs/phase_l_results.json` (n = 30, with the n = 10 record preserved unmodified as `docs/phase_l_results_n10.json`), `docs/phase_k_results.json`, `docs/acquisition_compositional_gate.json`, `docs/gate13_capacity_sweep.json`, `docs/gate13_allocation_rule.json`, `docs/gate13_relation_separation.json` and `docs/gate13_ranking_criterion.json`.
+All protocols, results and artifacts are public in the repository at [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica) (branch `master`). The engine is frozen at tag `v0.9.0`; the audit instrumentation at `audit-trace-v1`; the package version has advanced past the instrumentation release (`v0.10.0`). Protocols were committed before the outcomes they judge, and their amendments are dated and pre-outcome. Canonical result files: `docs/phase_l_results.json` (n = 30, with the n = 10 record preserved unmodified as `docs/phase_l_results_n10.json`), `docs/phase_k_results.json`, `docs/acquisition_compositional_gate.json`, `docs/gate13_capacity_sweep.json`, `docs/gate13_allocation_rule.json`, `docs/gate13_relation_separation.json` and `docs/gate13_ranking_criterion.json`.
 
 ## Repository evidence
 

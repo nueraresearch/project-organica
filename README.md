@@ -423,13 +423,15 @@ The pre-committed terminal outcome fired: **no confirmed family means no V2.**
 
 ## Current state
 
-**Package version 0.10.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.10.0 is cut on `master` and not yet tagged, and **0.9.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
+**Package version 0.11.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.11.0 is unreleased and **0.10.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
 Phases A–E covered the architecture, reproduction pack, growth benchmarks, research-paper drafts, and community infrastructure. The `papers/` directory contains seven manuscript files: four from the original agenda, one philosophical framing, and two later concepts; none has been published. See [`papers/README.md`](papers/README.md) for their current evidence and publication status. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
-> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.9.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+**The use-path forensic milestone (2026-10-31).** The D0 reproduction audit returned AUDIT REQUIRED on eight seeds, and the cause is now measured rather than hypothesised: **the eight failing seeds are a hash-order artifact.** The engine is byte-identical to the campaign-era state, and under the committed code the campaign's own candidate population is reproduced exactly on all eight seeds once `PYTHONHASHSEED` is varied — the campaign ran with ten worker processes and therefore ten hash seeds, and the audit pinned one. Across the eight seeds **252** candidate IDs are the campaign's and not ours and **288** are ours and not the campaign's, and the two populations part company at sleep cycles 2–11. The sleep window the engine reads back covers only its last two or three cycles, so it bounds what the instrument can see rather than explaining the divergence. → [`docs/CANDIDATE-MEMBERSHIP-AUDIT.md`](docs/CANDIDATE-MEMBERSHIP-AUDIT.md); [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §71.
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.10.0, pre-1.0 — and 0.10.0 has not been published yet. Its tag is the archival reference for the frozen Organica 1 engine. **Organica 1 is frozen**: no more architectural modifications to the engine; everything afterwards measures it. See [`docs/V1-FREEZE.md`](docs/V1-FREEZE.md).
+> **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.11.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
+
+**The project is not at "v1" or "v2" as a release.** It is at 0.11.0, pre-1.0; **0.10.0 is the latest release**, and **the v0.9.0 tag is the archival reference for the frozen Organica 1 engine** — under v0.10.0 the engine is byte-identical to it apart from the package version string. **Organica 1 is frozen**: no more architectural modifications to the engine; everything afterwards measures it. See [`docs/V1-FREEZE.md`](docs/V1-FREEZE.md).
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 
@@ -756,6 +758,3 @@ Read [`AGENTS.md`](AGENTS.md) first — it states the rules that keep the archit
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
-
-
-
