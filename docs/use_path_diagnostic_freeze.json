@@ -2,7 +2,7 @@
   "protocol": "docs/USE-PATH-DIAGNOSTIC-PREREGISTRATION.md",
   "protocol_sha256": "ddc6ae3a2c16ce10dd6d61c71deb56f20ae5f58d2238d8de4eb5948a626014a8",
   "frozen_utc": "2026-10-31T03:45:08Z",
-  "freeze_commit": null,
+  "freeze_commit": "a700e83f3d383c03d7eaa1072d17726c2082de68",
   "amendment": 1,
   "amendment_reason": "PYTHONHASHSEED=0 pinned before any confirmatory cell; the self-test drifted 4.7e-4 without it and reproduced exactly with it",
   "original_freeze_commit": "a1fd453da3b6fd4574e513fdeb386e0b6e02ffcf",
@@ -56,5 +56,6 @@
     256.0,
     1024.0
   ],
-  "note": "SHA-256 is over the LF-normalized protocol bytes. Amendment 1 pins PYTHONHASHSEED=0; no hypothesis, arm, threshold or outcome changed."
+  "note": "SHA-256 is over the LF-normalized protocol bytes. Amendment 1 pins PYTHONHASHSEED=0; no hypothesis, arm, threshold or outcome changed.",
+  "freeze_commit_subject": "Amended: the use-path diagnostic pins PYTHONHASHSEED=0 before the run"
 }
