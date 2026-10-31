@@ -1,0 +1,129 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 630 371.25] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS7 7 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 2689 >>
+stream
+1 1 1 rg
+0 0 840 495 re f
+0.102 0.102 0.102 rg
+BT /F2 16 Tf 36 457 Td (The same ratio, against three differently named populations) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11.5 Tf 36 435 Td (Share of self-sourced transitions, reported separately for each population the observer measured.) Tj ET
+0.5412 0.5412 0.5412 rg
+BT /F1 10 Tf 36 16 Td (Source: docs/audit_trace_probe.json -> A7_event_level_attribution  |  drawn by benchmarks/figure_papers.py) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 151 m 800 151 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 70.105 147 Td (0%) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 172.6 m 800 172.6 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 63.989 168.6 Td (10%) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 194.2 m 800 194.2 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 63.989 190.2 Td (20%) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 215.8 m 800 215.8 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 63.989 211.8 Td (30%) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 237.4 m 800 237.4 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 63.989 233.4 Td (40%) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+96 259 m 800 259 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 63.989 255 Td (50%) Tj ET
+/GS1 gs
+0.1216 0.3059 0.4745 rg
+165.3 151 96 38.7 re f
+0.102 0.102 0.102 rg
+BT /F2 15 Tf 192.0375 201.7 Td (17.9%) Tj ET
+0.102 0.102 0.102 rg
+BT /F1 11 Tf 182.72 129 Td (802 of 4,481) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 145.6065 111 Td (distinct supporting transitions) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 159.897 96 Td (behind reported beliefs) Tj ET
+0.5412 0.5412 0.5412 rg
+BT /F1 10 Tf 130.22 79 Td (the pre-committed disqualifier's figure) Tj ET
+/GS1 gs
+0.1216 0.3059 0.4745 rg
+400 151 96 37.9 re f
+0.102 0.102 0.102 rg
+BT /F2 15 Tf 426.7375 200.9 Td (17.5%) Tj ET
+0.102 0.102 0.102 rg
+BT /F1 11 Tf 403.659 129 Td (53,980 of 307,857) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 387.31 111 Td (support references across) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 411.2395 96 Td (reporting cycles) Tj ET
+0.5412 0.5412 0.5412 rg
+BT /F1 10 Tf 368.795 79 Td (a weighted view of reported support) Tj ET
+/GS1 gs
+0.1216 0.3059 0.4745 rg
+634.7 151 96 93.3 re f
+0.102 0.102 0.102 rg
+BT /F2 15 Tf 661.4375 256.3 Td (43.2%) Tj ET
+0.102 0.102 0.102 rg
+BT /F1 11 Tf 644.475 129 Td (5,436 of 12,583) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 634.2688 111 Td (all distinct transitions) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 631.3445 96 Td (the observer recorded) Tj ET
+0.5412 0.5412 0.5412 rg
+BT /F1 10 Tf 605.72 79 Td (context, not the disqualifier's figure) Tj ET
+0.102 0.102 0.102 rg
+BT /F1 11.5 Tf 36 53 Td (A count must be named as what it counts: the same phenomenon, measured over three populations.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<< /Type /ExtGState /ca 0.900 /CA 0.900 >>
+endobj
+8 0 obj
+<< /Title (Self-sourced share against three separately named populations) /Producer (benchmarks/svg_to_pdf.py) >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000288 00000 n 
+0000003028 00000 n 
+0000003125 00000 n 
+0000003227 00000 n 
+0000003285 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R /Info 8 0 R >>
+startxref
+3414
+%%EOF

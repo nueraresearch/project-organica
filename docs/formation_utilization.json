@@ -606,9 +606,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3313,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3313 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3313 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -1367,9 +1367,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3353,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3353 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3353 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -2104,9 +2104,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3343,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3343 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3343 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -2857,9 +2857,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.32,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3200 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3200 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -3610,9 +3610,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3353,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3353 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3353 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -4355,9 +4355,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3265,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3265 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3265 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -5116,9 +5116,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3314,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3314 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3314 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -5877,9 +5877,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3343,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3343 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3343 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -6614,9 +6614,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3227,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3227 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3227 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -7351,9 +7351,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3343,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3343 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3343 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -8096,9 +8096,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3237,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3237 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3237 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -8833,9 +8833,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3343,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3343 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3343 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -9594,9 +9594,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3294,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3294 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3294 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -10355,9 +10355,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3182,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3182 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3182 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -11100,9 +11100,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3333,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3333 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3333 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -11837,9 +11837,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3323,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3323 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3323 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -12590,9 +12590,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3314,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3314 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3314 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -13327,9 +13327,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3323,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3323 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3323 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -14080,9 +14080,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3273,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3273 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3273 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -14817,9 +14817,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3323,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3323 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3323 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -15578,9 +15578,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3353,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3353 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3353 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -16315,9 +16315,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3283,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3283 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3283 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -17076,9 +17076,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3314,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3314 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3314 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -17813,9 +17813,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3314,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3314 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3314 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -18550,9 +18550,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3333,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3333 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3333 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -19287,9 +19287,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3244,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3244 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3244 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -20048,9 +20048,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3294,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3294 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3294 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -20793,9 +20793,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3218,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3218 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3218 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -21538,9 +21538,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3323,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3323 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3323 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -22275,9 +22275,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3394,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3394 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3394 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -23045,7 +23045,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5032) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5032) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -23803,7 +23803,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4549) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4549) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -24561,7 +24561,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5081) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5081) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -25319,7 +25319,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4877) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4877) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -26077,7 +26077,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5097) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5097) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -26835,7 +26835,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4618) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4618) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -27593,7 +27593,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4684) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4684) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -28351,7 +28351,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5083) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5083) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -29109,7 +29109,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.483) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.483) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -29867,7 +29867,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4899) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4899) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -30625,7 +30625,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5149) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5149) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -31375,7 +31375,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4817) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4817) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -32133,7 +32133,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5016) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5016) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -32883,7 +32883,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4968) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4968) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -33625,7 +33625,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -34375,7 +34375,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4613) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4613) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -35133,7 +35133,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4728) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4728) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -35891,7 +35891,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5064) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5064) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -36649,7 +36649,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5067) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5067) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -37407,7 +37407,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5217) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5217) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -38165,7 +38165,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5151) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5151) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -38923,7 +38923,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.471) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.471) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -39681,7 +39681,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5032) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5032) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -40439,7 +40439,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4816) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4816) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -41197,7 +41197,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5184) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5184) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -41947,7 +41947,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5186) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5186) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -42705,7 +42705,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5097) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5097) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -43463,7 +43463,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5188) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5188) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -44221,7 +44221,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4863) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4863) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -44979,7 +44979,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4948) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.4948) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -45642,5 +45642,6 @@
     }
   },
   "assembled_utc": "2026-10-31T02:20:59.593005+00:00",
-  "assembly_note": "Re-assembled from the 60 checkpointed unit files to correct the command field. status, seeds, results, audits and analysis are identical to the first assembly; no measurement, protocol constant or engine file changed."
+  "assembly_note": "Re-assembled from the 60 checkpointed unit files to correct the command field. status, seeds, results, audits and analysis are identical to the first assembly; no measurement, protocol constant or engine file changed.",
+  "correction_note": "The Gate 13 precision ceiling is 0.3438 (the maximum of the 36 measurements in docs/gate13_allocation_rule.json), not 0.3443. The A3 block's prose and its derived band_upper were corrected on 2026-10-31. No measurement was changed and no audit verdict moved: the highest arm-B Layer-1 precision on T2 is 0.3394, below both band edges. The original is preserved as formation_utilization_pre_correction.json."
 }

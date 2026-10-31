@@ -81,13 +81,13 @@ On T1 revision the bar is worse than A (Replay 0.4893 against A's 0.4602), so a 
 
 ## 4. Audits
 
-On every unit, every audit is either a pass or not applicable. The two not-applicable audits are design-scoped and were recorded before the campaign: A3's 0.3443 precision band was measured on T2, and A6's size-matched wrong filter does not exist on T1.
+On every unit, every audit is either a pass or not applicable. The two not-applicable audits are design-scoped and were recorded before the campaign: A3's 0.3438 precision band was measured on T2, and A6's size-matched wrong filter does not exist on T1.
 
 | Audit | T1 | T2 |
 |---|---|---|
 | A1 arm differential | A 0.1553–0.2549, B/C 0.8812–0.9935 | A 0.0000–0.0625, B/C 0.9643–1.0000 |
 | A2 oracle exactness | 612,005 permitted candidates over 160 cycles/unit, 0 mismatches, cap never bound | 473,351 over 121–160 cycles/unit, 0 mismatches, cap never bound |
-| A3 precision premise | not gated (B precision 0.4549–0.5217, C admission 1.0) | B 0.3182–0.3394 ≤ 0.3543; C admission 1.0 |
+| A3 precision premise | not gated (B precision 0.4549–0.5217, C admission 1.0) | B 0.3182–0.3394 ≤ 0.3538; C admission 1.0 |
 | A4 denominators | 319 / 399 / 399 events, 0 excluded | 319 / 399 / 399 events, 0 excluded |
 | A5 readout construct | 30/30 pass | 30/30 pass |
 | A6 no leakage | not applicable (the shuffled filter retains 52.9 % of permitted pairs and cannot be size-matched) | shuffled 0.4957–0.5052 vs C 0.3569–0.3726; Layer-1 coverage 0.0 |

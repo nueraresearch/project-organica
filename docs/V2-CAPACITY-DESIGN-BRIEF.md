@@ -21,7 +21,7 @@ not the budget, and not the allocation rule either. It is precision.**
 | The engine's asserted structure at the frozen cap | **0–3 of 112** — inter-cell (law-bearing) edges **0–3**, intra-cell **28–39** |
 | Coverage vs the global cap (20 / 40 / 80 / uncapped) | **0.00 → 0.04–0.07 → 0.09–0.18 → 0.99–1.00** — a steep monotone dose-response needing **240–244** asserted edges, ~12× the budget |
 | Coverage vs a **per-source** allocation rule (objective 1 below) | **not** the fix — per-source K=10 retains 258–286 edges for coverage 0.72–0.77, where the global rule reaches 0.95–0.97 at 320 |
-| Precision at every budget and under both rules | **never exceeds 0.3443** |
+| Precision at every budget and under both rules | **never exceeds 0.3438** |
 | A world-vocabulary filter (oracle) | precision **0.35 → 0.5333** at **unchanged coverage 1.0000** |
 
 **Two of this brief's design objectives are now measured and must be restated.**
@@ -87,7 +87,7 @@ of the real question are therefore:
 >
 > **Requirement 3 is the one with no precedent in the engine, and it is the one
 > the capacity sweep showed cannot be bought with budget** — precision never
-> exceeds 0.3443 at any budget under either allocation rule. **Requirement 1
+> exceeds 0.3438 at any budget under either allocation rule. **Requirement 1
 > is the cheapest and is a single query filter.**
 >
 > **No build is authorised by this addendum.** It replaces one requirement

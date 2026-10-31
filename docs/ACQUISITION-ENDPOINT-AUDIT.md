@@ -454,7 +454,7 @@ not a property of the world.
 > clear the gate; switching from a global to a **per-source** allocation rule
 > does not help (per-source K=10 retains 258–286 edges for coverage 0.72–0.77
 > where the global rule reaches 0.95–0.97 at 320); and **precision never
-> exceeds 0.3443** at any budget under either rule. A 1-tag stimulus removes
+> exceeds 0.3438** at any budget under either rule. A 1-tag stimulus removes
 > the within-cell pairs by construction and still fails on 0 of 6 seeds
 > (asserted coverage 0.1719–0.1953). The deeper constraint is therefore
 > **precision** — in a candidate space where the world's edges are about a

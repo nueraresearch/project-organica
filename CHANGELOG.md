@@ -28,7 +28,118 @@ there is nothing to check out.
 
 ---
 
-## [0.10.0] — (unreleased)
+## [0.10.0] — 2026-10-31
+
+### Measured — the candidate-membership audit: the eight failing seeds are a hash-order artifact (2026-10-31)
+
+- **The question.** The use-path diagnostic returned AUDIT REQUIRED; D0 failed
+  on 18 seed-limbs across eight seeds. The candidate **counts** were known;
+  the candidate **identity** was not. This is the identity, per seed.
+- **The pivotal unknown, settled.** The campaign artifact carries no candidate
+  ID — `docs/formation_utilization.json` records a per-type table of
+  `unique_count` and `edge_weight` and nothing else — so the campaign side
+  had to be regenerated. The harness is re-run under each `PYTHONHASHSEED`
+  and the run whose fingerprint equals the campaign's IS the campaign's
+  population.
+- **The code is excluded.** `git diff a95305d HEAD -- organica/` is empty: the
+  engine is byte-identical to the state the campaign ran against. Every file
+  the harness executes was last modified before the campaign ran, and the one
+  whose campaign-time state is unpinned — `benchmarks/
+  formation_utilization.py`, committed 89 minutes after the campaign finished
+  — is closed by measurement: the committed code reproduces the campaign's
+  own table exactly once the hash seed is varied.
+- **The environment is responsible.** The engine iterates sets of strings and
+  CPython randomises string hashing per process unless `PYTHONHASHSEED` is
+  pinned. The audit and the diagnostic pinned `PYTHONHASHSEED=0`; the campaign
+  ran with `--workers 10`, so each of its ten worker processes carried its own
+  hash seed. The campaign's per-type table is reproduced exactly on **8 of
+  8** failing seeds by varying only the hash seed; the control seed's
+  population is identical at all 16 hash seeds swept.
+- **The membership.** **252** candidate IDs are the campaign's and absent from
+  the current reconstruction; **288** are the reconstruction's and absent from
+  the campaign; **1804** are on both sides. The IDs are named in
+  `docs/candidate_membership_audit.json`.
+  - `T1 / 20261125` — 254 both, **35** missing, **65** added; first differing cycle **11**
+  - `T1 / 20261128` — 234 both, **63** missing, **75** added; first differing cycle **3**
+  - `T1 / 20261129` — 231 both, **62** missing, **64** added; first differing cycle **2**
+  - `T2 / 20261118` — 227 both, **9** missing, **7** added; first differing cycle **5**
+  - `T2 / 20261120` — 215 both, **21** missing, **11** added; first differing cycle **5**
+  - `T2 / 20261121` — 210 both, **32** missing, **36** added; first differing cycle **5**
+  - `T2 / 20261123` — 212 both, **20** missing, **14** added; first differing cycle **5**
+  - `T2 / 20261130` — 221 both, **10** missing, **16** added; first differing cycle **5**
+- **The controls.** The baseline at the pinned hash seed reproduces the
+  use-path audit's recorded reconstruction on every type of every seed; the
+  control seed's population is identical at every hash seed swept, with no
+  membership difference at all; and the runs that reproduce the campaign agree
+  with one another on the candidate IDs, so the membership is determined by
+  the artifact rather than by a guess.
+- **A correction to the earlier reading.** One cached run from an earlier sweep
+  carried the campaign's per-type table instead of a measurement; recomputed,
+  it agrees with the use-path audit's independently recorded reconstruction and
+  not with the earlier reading. The rebuilt artifact supersedes the earlier
+  one.
+- **What this does not do.** It does not re-score D0 and does not change the
+  campaign's verdict. It names where the two populations came from.
+- **Added** — `benchmarks/candidate_membership_audit.py`,
+  `docs/candidate_membership_audit.json`,
+  `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`; manual finding 41 and a revision-log
+  row; `docs/FACTS-SHEET.md` AD11; journal §71.
+
+
+### Corrected — the Gate 13 precision ceiling was 0.3438, not 0.3443 (2026-10-31)
+
+- **The artifact.** `docs/gate13_allocation_rule.json` measures precision for
+  both allocation rules across three seeds and every budget — **36**
+  measurements — and the maximum is **0.3438** (seed `20261101`, global
+  rule, `k=160`, coverage **0.4911**). The string `0.3443` occurs in **no**
+  Gate 13 artifact.
+- **Where the wrong number had spread.** The formation-utilization campaign
+  artifact's own A3 blocks (30 units' prose and 30 derived `band_upper`
+  values), `benchmarks/formation_utilization.py`'s `PRECISION_CEILING`,
+  `benchmarks/formation_utilization_results.py`,
+  `benchmarks/figure_papers.py`'s Figure 5 caption,
+  `tests/test_formation_utilization.py`, and **fourteen documents**:
+  `AGENTS.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`, `docs/FACTS-SHEET.md`,
+  `docs/GATE13-CAUSAL-ACCOUNT.md`, `docs/GATE13-RELATION-SEPARATION.md`,
+  `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`,
+  `docs/V2-CAPACITY-DESIGN-BRIEF.md`,
+  `docs/FORMATION-UTILIZATION-PREREGISTRATION.md`,
+  `docs/formation_utilization_results.md`, `docs/formation_utilization_timing.md`,
+  `papers/01_developmental_structure_formation.md` and
+  `research-journal/phase_g_findings_20261021.md`.
+- **No verdict moved.** Audit A3 holds arm B's Layer-1 precision to
+  `ceiling ± 0.01`; the highest arm-B Layer-1 precision across all **30**
+  T2 campaign units is **0.3394**, below the lower edge under either
+  constant. The campaign's verdicts stand unchanged.
+- **The obvious repair would have corrupted measurements.** `0.3343` is both
+  the derived lower band edge and the *measured* Layer-1 precision of four
+  units; six further measurements merely begin with `0.3443` (`0.344397`,
+  `0.344345`, `0.344324`, `0.344364`) or `0.3543` (`0.354312`). The result
+  artifacts were corrected **by field path**, the originals preserved beside
+  them as `docs/formation_utilization_pre_correction.json` and
+  `docs/formation_utilization_timing_pre_correction.json` with a
+  `correction_note`, and every measurement compared before and after.
+  `docs/formation_utilization_timing_pre_amendment.json` and its rendered
+  document were left as the historical record they are.
+- **Added** — `AGENTS.md` rule 29; manual finding 40 and a revision-log
+  row; `docs/FACTS-SHEET.md` AD10; journal §70.
+### Corrected — three Phase L adjacent-difference intervals in Paper 01 were stale (2026-10-31)
+
+- **Paper 01's §4.3 quoted three intervals that `docs/phase_l_results.json`
+  does not support.** The artifact's n=30 values are `+0.204 [+0.150, +0.261]`
+  (DI, 1:1 → 2:1), `+0.502 [+0.441, +0.557]` (DI, 2:1 → 3:1) and
+  `−0.039 [−0.061, −0.020]` (PI, 3:1 → 4:1); the manuscript
+  quoted `[+0.148, +0.261]`, `[+0.443, +0.559]` and `[−0.059, −0.020]`.
+- **The quoted means were already correct, and so is every conclusion.** All
+  three steps still exclude zero, and the plateau edges still contain zero.
+  The 4:1 → 6:1 DI (`−0.007 [−0.037, +0.022]`) and the 1:4 →
+  1:3 PI (`+0.011 [−0.026, +0.044]`) were already right.
+- **Why it happened.** The intervals were transcribed by hand from the
+  artifact's six-decimal values and rounded inconsistently.
+  `tests/test_paper_numbers.py` resolves every interval the manuscripts quote
+  back to its artifact entry by parsing the manuscripts' own quoted steps, so
+  the next drift fails a test rather than a reader.
+
 
 ### Decided — Phase K H2 remains binding; one bounded Gate 13 diagnostic is authorized (2026-10-30)
 
@@ -279,7 +390,7 @@ seeds) is untouched.**
 - **The V2 requirement list is now three, not two:** provenance separation,
   relation-family separation, and **a ranking that is not raw frequency**. The
   third is the hard one, and the capacity sweep showed it cannot be bought
-  with budget — precision never exceeds 0.3443 at any budget under either
+  with budget — precision never exceeds 0.3438 at any budget under either
   allocation rule.
 - **Added** — `docs/GATE13-RELATION-SEPARATION.md`,
   `benchmarks/probe_relation_separation.py`,
@@ -594,7 +705,7 @@ confirmatory sample (`20261106`–`20261130`, 25 seeds) is untouched.**
   high-count rows.** The `precedes` table has **366–518 rows** for a 16-tag
   world; only **232–240** are world-tag pairs; the world's 112 edges are about
   a third of what any selection must retain. **Precision never exceeds
-  0.3443** at any budget under either allocation rule.
+  0.3438** at any budget under either allocation rule.
 - **A 1-tag stimulus does not rescue it** — it removes the within-cell pairs by
   construction, quintuples coverage to **0.1719–0.1953**, and still fails
   **0 of 6** seeds. The top of the table is internal vocabulary

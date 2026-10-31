@@ -299,7 +299,7 @@ def test_amendment_table_matches_the_pre_amendment_artifact():
 # ---------------------------------------------------------------------------
 
 def test_a3_passes_inside_the_band_with_exact_admission():
-    a = fu.audit_precision_premise(0.3443, 1.0)
+    a = fu.audit_precision_premise(0.3438, 1.0)
     assert a["passed"], a["reason"]
 
 

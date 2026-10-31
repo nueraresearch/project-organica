@@ -378,7 +378,7 @@ def render(artifact: dict) -> str:
     add()
     add("On every unit, every audit is either a pass or not applicable. The two "
         "not-applicable audits are design-scoped and were recorded before the "
-        "campaign: A3's 0.3443 precision band was measured on T2, and A6's "
+        "campaign: A3's 0.3438 precision band was measured on T2, and A6's "
         "size-matched wrong filter does not exist on T1.")
     add()
     add("| Audit | T1 | T2 |")

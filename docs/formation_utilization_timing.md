@@ -71,7 +71,7 @@ A8 checks the graph each admission arm actually read and the eligible pair strea
 
 The bar row names the comparator selected per limb on the calibration seed. One seed cannot produce a verdict: the decision rule needs a paired bootstrap over seeds, and `analyse()` refuses to run below two. Nothing in this table may be quoted as a win, a loss or a tie.
 
-A1's coverage is the Gate 13 quantity over the world edges derived from the training stream, on the all-structure basis the gate pins. A3's precision is the Layer-1 quantity on which the 0.3443 ceiling was measured. Arm C's all-structure readout precision is reported in the artifact and is not 1.0, because the readout still aggregates all six structure types; only its Layer-1 admission is exact.
+A1's coverage is the Gate 13 quantity over the world edges derived from the training stream, on the all-structure basis the gate pins. A3's precision is the Layer-1 quantity on which the 0.3438 ceiling was measured. Arm C's all-structure readout precision is reported in the artifact and is not 1.0, because the readout still aggregates all six structure types; only its Layer-1 admission is exact.
 
 ## 5. Disclosures
 
@@ -89,7 +89,7 @@ A1's coverage is the Gate 13 quantity over the world edges derived from the trai
 
 **amendment 1 — fixed temporal evidence.** The pre-amendment timing pass measured that an admission filter changed the next cycle's temporal graph: the engine's lookback window is the last three rows of `events`, and sleep rows are rows. Arms C and S now read arm B's per-cycle graph, recorded at the start of each sleep cycle, instead of their own; A and B are unchanged. This closes the feedback path into Layer 1 but does not make the engine sleep-blind: B's graph still contains B's own sleep rows, and C's own payload and prior still differ (that is the treatment). C is therefore a counterfactual trajectory on B's evidence, and a C result is admission filtering at fixed temporal evidence, not 'the engine with this filter installed'. See protocol §12 and the preserved pre-amendment artifact.
 
-**A3's band is T2's.** The 0.3443 precision ceiling was measured on the compositional world. A3 applies it on T2 and reports T1's precision without gating, because T1 has no committed band. Applying a T2 constant to T1 would measure the wrong population.
+**A3's band is T2's.** The 0.3438 precision ceiling was measured on the compositional world. A3 applies it on T2 and reports T1's precision without gating, because T1 has no committed band. Applying a T2 constant to T1 would measure the wrong population.
 
 **orientation of the decision difference.** §7 writes d = score(arm) − score(baseline) and calls a positive lower bound a win. With log-loss, lower is better, so the orientation that makes the rule coherent is d = baseline log-loss − arm log-loss. That is the quantity bootstrapped, and it is named in every artifact.
 

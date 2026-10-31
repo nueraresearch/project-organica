@@ -48,14 +48,14 @@ so the numbers are comparable; the cell matrix is new.
 | Asserted coverage at cap 20 | **0.0 %–2.7 %** (0–3 of 112), five seeds | `docs/GATE13-PAIRED-CAPACITY-TEST.md` |
 | Asserted coverage at cap 1,000 | **98.2 %–100 %**, five seeds, 110 cycles | same |
 | Downstream selection discards cross-cell predictions? | **No** — they persist to the final store | same |
-| Precision of the asserted set at any budget | **never above 0.3443**; per-source allocation does not help | `docs/GATE13-RANKING-CRITERION.md` |
+| Precision of the asserted set at any budget | **never above 0.3438**; per-source allocation does not help | `docs/GATE13-RANKING-CRITERION.md` |
 | Readout | backoff-smoothed conditional, α = **256.0**, calibrated on seed `20261099` | `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` §4.3, §6.4 |
 | Readout's span on the compositional task | **0.978** of the achievable span; not the limiter | same, §4.3 |
 | Seeds | **20261101–20261130**, 30 independent worlds, no raising n | same, §6.1 |
 | Limbs and windows | retention 110–149, transfer 150–199, revision 200–249, revision held-out 250–299 | same, §4.4 |
 
 **These are inputs. None of them is a prediction of this experiment's outcome.** In
-particular, the 0.3443 precision ceiling is a *premise check* (A3), not a threshold on the
+particular, the 0.3438 precision ceiling is a *premise check* (A3), not a threshold on the
 result.
 
 ---
@@ -97,7 +97,7 @@ result that flips between the two shapes is reported as flipping.
 | Arm | `MAX_PREDICTIONS` | Admission filter | What it is | What it leaves behind |
 |---|---|---|---|---|
 | **A — control** | 20 | none | the frozen engine as published | the published failure: 0–3 of 112 asserted |
-| **B — raw formation** | 1,000 | none | the Gate 13 treatment, run to the limbs | 98–100 % coverage at precision ≤ 0.3443; **no state change beyond the cap** |
+| **B — raw formation** | 1,000 | none | the Gate 13 treatment, run to the limbs | 98–100 % coverage at precision ≤ 0.3438; **no state change beyond the cap** |
 | **C — oracle admission** | 1,000 | only the generator's support enters Layer 1 | utilization **given** correct structure | Layer-1 prediction candidates are exactly the world's permitted transitions; all other layers and all counts are untouched |
 
 **What arm C is not.** It is not a learner competing with the baselines — it receives the
@@ -184,7 +184,7 @@ The campaign does not report a score until all seven pass. Each audit ships with
 |---|---|---|---|
 | **A1** | **Arm differential** | coverage(A) < 0.50 and coverage(B) ≥ 0.50 and coverage(C) ≥ 0.50, per seed | any arm's coverage sits on the wrong side; then the arms did not differ and the campaign **stops** |
 | **A2** | **Oracle exactness** | C's admitted set equals the generator's support, with no extra and no missing pair above the count threshold | a single injected false edge is admitted, or a permitted edge is dropped |
-| **A3** | **Precision premise** | B's precision ≤ 0.3443 + 0.01 on every seed; C's admitted precision = 1.0 by construction | B's precision leaves the measured band — the premise changed and the mapping is void |
+| **A3** | **Precision premise** | B's precision ≤ 0.3438 + 0.01 on every seed; C's admitted precision = 1.0 by construction | B's precision leaves the measured band — the premise changed and the mapping is void |
 | **A4** | **Denominators** | every limb has ≥ 1 scored event on every seed; exclusions counted and reported | a limb is empty; that limb is reported **not measurable**, never zero |
 | **A5** | **Readout matches construct** | the readout's score on a synthetic world with a known answer recovers that answer | the readout can manufacture a loss (the failure §9.3 records) |
 | **A6** | **No leakage** | shuffling the oracle set makes C collapse to B's coverage and precision | C still scores well with a shuffled oracle — the oracle is not doing the work, or the readout is reading ground truth |
@@ -224,7 +224,7 @@ not by hand.
 |---|---|
 | 112 world edges | `docs/GATE13-RANKING-CRITERION.md` |
 | 0.0–2.7 % / 98.2–100 % coverage | `docs/GATE13-PAIRED-CAPACITY-TEST.md` |
-| 0.3443 precision ceiling | `docs/GATE13-RANKING-CRITERION.md` |
+| 0.3438 precision ceiling | `docs/GATE13-RANKING-CRITERION.md` |
 | α = 256.0; Replay `(1, None, 0.5)`; Statistical `(0.1, None, None)` | `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` §6.4; `docs/acquisition_alpha_calibration.json`; `docs/acquisition_baseline_calibration.json` |
 | 0.978 of span | `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md` §4.3 |
 | Windows 110–149 / 150–199 / 200–249 / 250–299 | same, §4.4 |
@@ -291,7 +291,7 @@ before the cap; S uses the size-matched shuffled set.
 
 **Why not make every arm sleep-blind instead.** That would change B, and with
 it the calibration this protocol committed: A1's 98–100 % premise and A3's
-0.3443 band were measured on B as shipped, and re-measuring either on the
+0.3438 band were measured on B as shipped, and re-measuring either on the
 campaign's own data is forbidden by AGENTS rule 19. It would also change what
 A measures. Holding B fixed and giving the admission arms B's evidence fixes
 the contrast without re-opening the calibration.

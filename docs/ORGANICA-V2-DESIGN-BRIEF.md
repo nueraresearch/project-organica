@@ -502,7 +502,7 @@ they are admitted: they survive natural selection and decay across 110 cycles.
 > needing **240–244** asserted edges, ~12× the budget. A **per-source**
 > allocation rule does **not** help (258–286 edges for coverage 0.72–0.77,
 > where global reaches 0.95–0.97 at 320), and **precision never exceeds
-> 0.3443** at any budget under either rule. A 1-tag stimulus removes the
+> 0.3438** at any budget under either rule. A 1-tag stimulus removes the
 > within-cell pairs by construction and still fails **0 of 6** seeds. **The
 > deeper constraint is precision** — no frequency-based selection can find
 > edges that are a third of the rows and not clustered at the top of any

@@ -1,0 +1,154 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 630 322.5] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 3344 >>
+stream
+1 1 1 rg
+0 0 840 430 re f
+0.102 0.102 0.102 rg
+BT /F2 16 Tf 36 392 Td (Every Phase K family is a clean loss) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11.5 Tf 36 370 Td (Paired difference \(Organica minus the best simple baseline\), 10 seeds paired by seed, 98.33% decision interval.) Tj ET
+0.5412 0.5412 0.5412 rg
+BT /F1 10 Tf 36 16 Td (Source: docs/phase_k_results.json -> summaries  |  drawn by benchmarks/figure_papers.py) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+327.8 318 m 327.8 124 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 318.7543 106 Td (-0.9) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+458.6 318 m 458.6 124 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 449.5543 106 Td (-0.6) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+589.4 318 m 589.4 124 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 580.3542 106 Td (-0.3) Tj ET
+0.902 0.902 0.902 RG
+1 w
+1 J
+720.2 318 m 720.2 124 l S
+0.3725 0.3725 0.3725 rg
+BT /F1 10.5 Tf 709.8365 106 Td (+0.0) Tj ET
+0.102 0.102 0.102 RG
+1.3 w
+1 J
+720.2 324 m 720.2 122 l S
+0.102 0.102 0.102 rg
+BT /F2 12 Tf 36 299.7 Td (K1 -- Incremental world modeling) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 36 282.7 Td (Organica 0.5923  |  best baseline 0.9360) Tj ET
+0.7529 0.3137 0.302 rg
+BT /F2 11 Tf 36 266.7 Td (REVERSED) Tj ET
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+555.7 285.7 m 584 285.7 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+555.7 290.7 m 555.7 280.7 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+584 290.7 m 584 280.7 l S
+575.4 285.7 m
+575.4 288.4614 573.1614 290.7 570.4 290.7 c
+567.6386 290.7 565.4 288.4614 565.4 285.7 c
+565.4 282.9386 567.6386 280.7 570.4 280.7 c
+573.1614 280.7 575.4 282.9386 575.4 285.7 c
+0.7529 0.3137 0.302 rg f
+0.102 0.102 0.102 rg
+BT /F2 12 Tf 36 235 Td (K2 -- Belief revision) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 36 218 Td (Organica 0.4111  |  best baseline 0.9846) Tj ET
+0.7529 0.3137 0.302 rg
+BT /F2 11 Tf 36 202 Td (REVERSED) Tj ET
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+451.5 221 m 488.7 221 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+451.5 226 m 451.5 216 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+488.7 226 m 488.7 216 l S
+475.1 221 m
+475.1 223.7614 472.8614 226 470.1 226 c
+467.3386 226 465.1 223.7614 465.1 221 c
+465.1 218.2386 467.3386 216 470.1 216 c
+472.8614 216 475.1 218.2386 475.1 221 c
+0.7529 0.3137 0.302 rg f
+0.102 0.102 0.102 rg
+BT /F2 12 Tf 36 170.3 Td (K3 -- Longitudinal knowledge integration) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11 Tf 36 153.3 Td (Organica 0.0000  |  best baseline 0.8578) Tj ET
+0.7529 0.3137 0.302 rg
+BT /F2 11 Tf 36 137.3 Td (REVERSED) Tj ET
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+345.3 156.3 m 346.5 156.3 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+345.3 161.3 m 345.3 151.3 l S
+0.7529 0.3137 0.302 RG
+2.4 w
+1 J
+346.5 161.3 m 346.5 151.3 l S
+351.2 156.3 m
+351.2 159.0614 348.9614 161.3 346.2 161.3 c
+343.4386 161.3 341.2 159.0614 341.2 156.3 c
+341.2 153.5386 343.4386 151.3 346.2 151.3 c
+348.9614 151.3 351.2 153.5386 351.2 156.3 c
+0.7529 0.3137 0.302 rg f
+0.3725 0.3725 0.3725 rg
+BT /F1 11.5 Tf 338.9708 82 Td (Organica minus best simple baseline \(paired difference, 98.33% interval\)) Tj ET
+0.102 0.102 0.102 rg
+BT /F1 11.5 Tf 36 56 Td (All three intervals lie wholly below zero: each family is an excluded family, not an ambiguous one.) Tj ET
+0.3725 0.3725 0.3725 rg
+BT /F1 11.5 Tf 36 38 Td (Positive would favor Organica. The interval is Bonferroni-adjusted across the three candidate families.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<< /Title (Phase K families: Organica minus the strongest simple baseline) /Producer (benchmarks/svg_to_pdf.py) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000259 00000 n 
+0000003654 00000 n 
+0000003751 00000 n 
+0000003853 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+3983
+%%EOF

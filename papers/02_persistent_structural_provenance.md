@@ -1,7 +1,7 @@
 # Paper 2: Reconstructing Evidence and Selection from Organica's Surviving State
 
-**Authors:** Jeremy et al. (Nuera Research)
-**Draft status:** Evidence-alignment revision, 2026-10-27; A5/A6 closed and the audit layer frozen at `audit-trace-v1` on 2026-10-28. Academic-grade revision, 2026-10-29: the abstract and §3 still stated that A5 and A6 "remain pending" and that the instrumentation "is not yet frozen", contradicting this line and the conclusion of the same document; the contradiction is corrected here and recorded in this line rather than applied silently. References added 2026-10-29: §2's five sourcing notes now carry named references, each retrieved and read at its cited URL on 2026-10-29, and the section's "Open for submission" note is replaced by the reference list; the note's forward-looking requirement — that the citations be supplied before submission — is met rather than restated. Not submitted or published.
+**Author:** Jeremy Beebe (Nuera RDL) — https://orcid.org/0009-0009-2394-9714 — jeremy@nueraresearch.com
+**Draft status:** Evidence-alignment revision, 2026-10-27; A5/A6 closed and the audit layer frozen at `audit-trace-v1` on 2026-10-28. Academic-grade revision, 2026-10-29: the abstract and §3 still stated that A5 and A6 "remain pending" and that the instrumentation "is not yet frozen", contradicting this line and the conclusion of the same document; the contradiction is corrected here and recorded in this line rather than applied silently. References added 2026-10-29: §2's five sourcing notes now carry named references, each retrieved and read at its cited URL on 2026-10-29, and the section's "Open for submission" note is replaced by the reference list; the note's forward-looking requirement — that the citations be supplied before submission — is met rather than restated. Declarations and sole authorship set for submission, 2026-10-31. Not submitted or published.
 **Scope:** Reconstruction fidelity for tested probes and surviving current structures.
 **Repository:** [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica), branch `master`; instrumentation frozen at tag `audit-trace-v1`.
 
@@ -253,3 +253,13 @@ Moreau, L., & Missier, P. (Eds.). (2013). *PROV-DM: The PROV data model*. W3C Re
 Shumailov, I., Shumaylov, Z., Zhao, Y., Papernot, N., Anderson, R., & Gal, Y. (2024). AI models collapse when trained on recursively generated data. *Nature, 631*(8022), 755–759. https://doi.org/10.1038/s41586-024-07566-y
 
 **Source notes.** All five sources were retrieved and read at the URLs above on 2026-10-29; the quoted phrases in §2 are verbatim from those sources, and the metadata (authors, venue, date, volume, pages) was checked against the arXiv record, the Transformer Circuits Thread page, the Crossref record, and the W3C Recommendation header respectively. Each source carries one specific distinction and is not cited for anything else: ACM Publications for reconstruction-versus-replication, Elhage et al. for the framing of external reconstruction and the bounding of its reach, Bau et al. for a worked instance of external rule localization and editing, Moreau & Missier for provenance as a standard external record, and Shumailov et al. for the literature parallel to Organica's measured self-sourced relations. An author correction to Shumailov et al. was published in *Nature, 640*(8058):E6 (2025); it corrects a notation error in that paper's theoretical-intuition section and does not alter the empirical result cited here. No claim in this paper depends on a source that has not been read.
+
+## Declarations
+
+**Funding.** This research received no external funding.
+
+**Competing interests.** The author declares no competing interests.
+
+**Ethics approval.** Not applicable. The study used no human participants, no identifiable human data, and no animal subjects.
+
+**Use of AI tools.** An AI coding assistant was used throughout this project — in the implementation of the instrumentation, in the analysis of results, and in the drafting and revision of this manuscript. Every quantitative claim here was checked mechanically against the committed artifact it was taken from, and every figure is drawn by a generator that asserts its own values. The author is responsible for the content of the work.

@@ -1,0 +1,55 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% The manuscripts are written with typographic punctuation.  pdfLaTeX has no
+% declaration for these characters by default, so each is declared here; the
+% mathematical ones are wrapped in \ensuremath so they are correct in text
+% and in math mode alike.
+\DeclareUnicodeCharacter{00A7}{\S}
+\DeclareUnicodeCharacter{00B1}{\ensuremath{\pm}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\DeclareUnicodeCharacter{00F2}{\^o}
+\DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha}}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{calc}   % pandoc writes column widths as \real{...}
+
+% Code blocks.  Pandoc wraps a code block that carries a class in a "Shaded"
+% environment and gives the block itself a "Highlighting" environment; both
+% come from pandoc's own default template, which this one replaces, so they
+% are supplied here.  fancyvrb must be loaded first: the highlighting macros
+% define "Highlighting" in terms of it.
+\usepackage{fancyvrb}
+$highlighting-macros$
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parskip}{0.35em}
+\setlength{\emergencystretch}{3em}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$author$}
+$endif$
+\date{}
+
+\begin{document}
+\maketitle
+$body$
+\end{document}

@@ -598,7 +598,7 @@ def fig_p01_capacity_sweep():
            "At the frozen cap of 20 the organism asserts almost nothing; raising the budget "
            "restores coverage.", size=11.5)
     s.text(36, 468,
-           "The budget is the proximate bound: precision never exceeds 0.3443 at any budget "
+           "The budget is the proximate bound: precision never exceeds 0.3438 at any budget "
            "under either allocation rule.", size=11.5, fill=MUTED)
 
     out = DOCS / "figure_p01_capacity_sweep.svg"

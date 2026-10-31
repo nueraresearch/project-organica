@@ -4967,7 +4967,7 @@ fix which merely spends more budget is visible as such.
 per-source allocation does *not* rescue the benchmark at a modest budget: it
 needs **258–286 retained edges** to pass, and reaches only **0.72–0.77** where
 the global rule reaches **0.95–0.97** at 320. At every budget and under both
-rules, **precision never exceeds 0.3443**.
+rules, **precision never exceeds 0.3438**.
 
 ### The causal account
 
@@ -4976,7 +4976,7 @@ rules, **precision never exceeds 0.3443**.
 2. **They are a minority of the table, and they are not the high-count rows.**
    366–518 rows for a 16-tag world; only 232–240 are world-tag pairs; the
    world's edges are roughly **a third** of what any selection must retain
-   (precision ≤ 0.3443 at every budget, under both rules). The top of the table
+   (precision ≤ 0.3438 at every budget, under both rules). The top of the table
    is internal-vocabulary edges and intra-cell pairs.
 3. **Layer 1 selects on frequency, and the world is not organized by
    frequency.** At the global top-20 cut, **0–3 of 112** world edges survive
@@ -5290,7 +5290,7 @@ through the table rather than clustered at its top (the table above).
 
 **Requirement 3 is the one with no precedent in the engine, and it is the one
 §52's capacity sweep showed cannot be bought with budget:** precision never
-exceeds 0.3443 at any budget under either allocation rule. Requirement 1 is
+exceeds 0.3438 at any budget under either allocation rule. Requirement 1 is
 the cheapest and is a single query filter.
 
 **No V2 build is authorised.** The target narrowed from "relation-family
@@ -6447,3 +6447,127 @@ The structural checkpoint is pre-committed **in the audit**. It is not retrofitt
 **The lesson.** An intervention must vary the thing it claims to vary. The self-test proved the tiebreak fires on a synthetic tie — that proved the hook, not the hypothesis. The hypothesis only became testable when the same intervention was run on the real seeds and the object was compared before and after; and then it failed, because the intervention made no difference. The second lesson is about missing metadata: when the record is incomplete, enumerate every unrecorded upstream quantity, not only the one the first story names. Here the tie order, the hash seed and the campaign-time code were all unrecorded, and the audit can exclude only the first.
 
 → `docs/USE-PATH-AUDIT.md`; `docs/use_path_audit.json`; `benchmarks/use_path_audit.py`; `tests/test_use_path_audit.py`; `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`; `docs/use_path_diagnostic_structure.json`; `docs/USER-MANUAL.md` §8.22 and actions 15–16; §67; §68; AGENTS rules 13, 19, 23, 24.
+
+## §70 — Correction (2026-10-31): the Gate 13 precision ceiling was 0.3438, and a number that starts with the same digits is not that number
+
+**What this section records.** A ceiling that had been quoted as **0.3443** in fourteen documents, in four code files, and inside the formation-utilization campaign artifact's own A3 blocks was **0.3438**. The correction is recorded here with the evidence that it is a transcription error, the evidence that it changed no verdict, and the evidence that the obvious repair would have corrupted real measurements.
+
+**The artifact.** `docs/gate13_allocation_rule.json` measures precision for both allocation rules, `global_top_k` and `per_source_top_k`, across three seeds and every budget: **36** measurements. The maximum is **0.3438** — seed `20261101`, global rule, `k=160`, coverage **0.4911**. The string `0.3443` occurs in **no** Gate 13 artifact. The value the project had been quoting was therefore a hand transcription, and it had been copied into the campaign artifact's A3 blocks, into `benchmarks/formation_utilization.py`'s `PRECISION_CEILING`, into `benchmarks/figure_papers.py`'s Figure 5 caption, into `tests/test_formation_utilization.py`, and into fourteen documents.
+
+**The correction changed no verdict.** Audit A3 holds arm B's Layer-1 precision to the band `ceiling ± 0.01`. Across all **30** T2 campaign units the highest arm-B Layer-1 precision is **0.3394** — below the lower edge of the band under either constant (**0.3343** under 0.3443, **0.3338** under 0.3438). Every A3 verdict is unchanged, and the campaign's verdicts stand.
+
+**The obvious repair would have corrupted measurements.** `0.3343` is both the derived lower band edge and the *measured* Layer-1 precision of four campaign units; six further measurements merely *begin* with `0.3443` (`0.344397`, `0.344345`, `0.344324`, `0.344364`) or `0.3543` (`0.354312`). A blanket string replacement would have rewritten eight real numbers. The result artifacts were therefore corrected **by field path** — the A3 block's prose and its derived `band_upper` only — the originals were preserved beside them (`docs/formation_utilization_pre_correction.json`, `docs/formation_utilization_timing_pre_correction.json`) with a `correction_note`, and every measurement was compared before and after. `docs/formation_utilization_timing_pre_amendment.json` and its rendered document were left as they are: they are a preserved historical record, not a statement about the ceiling.
+
+**The lesson.** A ceiling is a measurement like any other and inherits the same failure: written once by hand and then copied, it becomes a number nobody measured. Rule 29 now says so, and it adds the second half — that a number which merely *begins* with the same digits is not that number, and that a correction to a published artifact must be made by field path, with the original kept and the measurements compared.
+
+→ `docs/gate13_allocation_rule.json`; `docs/formation_utilization.json`; `docs/formation_utilization_pre_correction.json`; `docs/formation_utilization_timing.json`; `benchmarks/formation_utilization.py`; `benchmarks/figure_papers.py`; `docs/GATE13-CAUSAL-ACCOUNT.md`; `docs/FACTS-SHEET.md` AD10; `docs/USER-MANUAL.md` finding 40; AGENTS rule 29.
+
+## §71 — The eight failing seeds are a hash-order artifact: the campaign's candidate population is now named
+
+**What this section records.** The use-path diagnostic returned AUDIT REQUIRED: D0 failed on 18 seed-limbs across eight seeds. The per-type candidate **counts** were known; the candidate **identity** was not. This section records the answer to the owner's question of 2026-10-31 — *why does the campaign artifact contain a C-arm candidate population that no current deterministic reconstruction reproduces?* — and the membership audit that answers it.
+
+**The campaign artifact carries no candidate identity.** Not one candidate ID appears in `docs/formation_utilization.json`, `docs/use_path_diagnostic.json` or `docs/use_path_audit.json`; the campaign artifact records a per-type table of `unique_count` and `edge_weight` and nothing more. The campaign-side population is therefore recoverable only by re-running the campaign harness and keeping the run whose fingerprint equals the campaign's. That was the pivotal unknown, and it is now settled.
+
+**The code is excluded, by provenance and then by measurement.** `git diff a95305d HEAD -- organica/` is empty: the engine is byte-identical to the state the campaign ran against, and `a95305d` (2026-10-25 09:21 -0600) precedes the campaign's generation stamp (2026-10-31T02:09:33Z). Every file the harness executes was last modified before the campaign ran. The one file whose campaign-time state is not pinned by a commit — `benchmarks/formation_utilization.py`, committed 89 minutes after the campaign finished — is closed by measurement rather than by argument: under the committed code, with the hash seed varied, the campaign's own per-type table is reproduced **exactly** on **8 of the 8 failing seeds**. The code state is sufficient to produce the campaign's population, so the divergence is not in the code.
+
+**The environment is the hash seed.** The engine iterates sets of strings, and CPython randomises string hashing per process unless `PYTHONHASHSEED` is pinned. The use-path audit and the diagnostic pinned `PYTHONHASHSEED=0`; the campaign artifact records neither the hash seed nor the tie order, and the campaign ran with `--workers 10`, so each of its worker processes carried its own hash seed. Sweeping the hash seed reproduces the campaign's population exactly on **8 of 8** failing seeds, and the control seed's population is the same at every one of the 16 hash seeds swept.
+
+**The membership.** Across the eight failing seeds, **252** candidate IDs are present in the campaign and absent from the current reconstruction, and **288** are present in the reconstruction and absent from the campaign; **1804** are on both sides. The names are in `docs/candidate_membership_audit.json` and in `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`.
+
+| Task | Seed | Hash seeds that reproduce the campaign | Both | Missing (campaign only) | Added (reconstruction only) | First differing cycle |
+|---|---|---|---|---|---|---|
+| T1 | 20261125 | 2, 5, 9, 15 | 254 | 35 | 65 | 11 |
+| T1 | 20261128 | 7, 8, 10, 12, 13, 14 | 234 | 63 | 75 | 3 |
+| T1 | 20261129 | 2, 5, 9, 15 | 231 | 62 | 64 | 2 |
+| T2 | 20261118 | 1, 2, 4, 5, 9, 10, 14 | 227 | 9 | 7 | 5 |
+| T2 | 20261120 | 13 | 215 | 21 | 11 | 5 |
+| T2 | 20261121 | 2, 4, 5, 6, 8, 9 | 210 | 32 | 36 | 5 |
+| T2 | 20261123 | 8, 10, 12, 14 | 212 | 20 | 14 | 5 |
+| T2 | 20261130 | 2, 3, 9, 15 | 221 | 10 | 16 | 5 |
+
+The differences, by type:
+
+| Task | Seed | Type | Missing | Added |
+|---|---|---|---|---|
+| T1 | 20261125 | anomaly | 6 | 7 |
+| T1 | 20261125 | dream | 5 | 9 |
+| T1 | 20261125 | experiment | 2 | 4 |
+| T1 | 20261125 | hypothesis | 3 | 6 |
+| T1 | 20261125 | investigation | 2 | 4 |
+| T1 | 20261125 | loop_candidate | 3 | 9 |
+| T1 | 20261125 | prediction_candidate | 0 | 9 |
+| T1 | 20261125 | process_candidate | 5 | 5 |
+| T1 | 20261125 | question | 2 | 3 |
+| T1 | 20261125 | theory | 2 | 4 |
+| T1 | 20261125 | workflow_concept | 5 | 5 |
+| T1 | 20261128 | anomaly | 12 | 11 |
+| T1 | 20261128 | dream | 8 | 14 |
+| T1 | 20261128 | experiment | 5 | 5 |
+| T1 | 20261128 | hypothesis | 5 | 8 |
+| T1 | 20261128 | investigation | 5 | 5 |
+| T1 | 20261128 | loop_candidate | 3 | 7 |
+| T1 | 20261128 | meta_concept | 1 | 0 |
+| T1 | 20261128 | prediction_candidate | 3 | 4 |
+| T1 | 20261128 | process_candidate | 5 | 5 |
+| T1 | 20261128 | question | 5 | 5 |
+| T1 | 20261128 | theory | 6 | 6 |
+| T1 | 20261128 | workflow_concept | 5 | 5 |
+| T1 | 20261129 | anomaly | 6 | 8 |
+| T1 | 20261129 | dream | 8 | 8 |
+| T1 | 20261129 | experiment | 6 | 6 |
+| T1 | 20261129 | hypothesis | 10 | 12 |
+| T1 | 20261129 | investigation | 6 | 6 |
+| T1 | 20261129 | loop_candidate | 2 | 0 |
+| T1 | 20261129 | meta_concept | 1 | 1 |
+| T1 | 20261129 | prediction_candidate | 2 | 2 |
+| T1 | 20261129 | process_candidate | 4 | 4 |
+| T1 | 20261129 | question | 5 | 6 |
+| T1 | 20261129 | theory | 6 | 7 |
+| T1 | 20261129 | workflow_concept | 6 | 4 |
+| T2 | 20261118 | anomaly | 0 | 1 |
+| T2 | 20261118 | dream | 2 | 0 |
+| T2 | 20261118 | experiment | 2 | 1 |
+| T2 | 20261118 | hypothesis | 1 | 1 |
+| T2 | 20261118 | investigation | 2 | 1 |
+| T2 | 20261118 | loop_candidate | 1 | 2 |
+| T2 | 20261118 | meta_concept | 1 | 1 |
+| T2 | 20261120 | anomaly | 1 | 1 |
+| T2 | 20261120 | dream | 4 | 2 |
+| T2 | 20261120 | experiment | 5 | 2 |
+| T2 | 20261120 | investigation | 5 | 2 |
+| T2 | 20261120 | loop_candidate | 2 | 2 |
+| T2 | 20261120 | process_candidate | 2 | 1 |
+| T2 | 20261120 | workflow_concept | 2 | 1 |
+| T2 | 20261121 | anomaly | 6 | 5 |
+| T2 | 20261121 | dream | 5 | 7 |
+| T2 | 20261121 | experiment | 6 | 8 |
+| T2 | 20261121 | hypothesis | 1 | 1 |
+| T2 | 20261121 | investigation | 6 | 8 |
+| T2 | 20261121 | loop_candidate | 5 | 4 |
+| T2 | 20261121 | meta_concept | 1 | 1 |
+| T2 | 20261121 | process_candidate | 1 | 1 |
+| T2 | 20261121 | workflow_concept | 1 | 1 |
+| T2 | 20261123 | anomaly | 2 | 2 |
+| T2 | 20261123 | dream | 2 | 1 |
+| T2 | 20261123 | experiment | 4 | 2 |
+| T2 | 20261123 | investigation | 4 | 2 |
+| T2 | 20261123 | loop_candidate | 2 | 1 |
+| T2 | 20261123 | process_candidate | 3 | 3 |
+| T2 | 20261123 | workflow_concept | 3 | 3 |
+| T2 | 20261130 | anomaly | 3 | 2 |
+| T2 | 20261130 | dream | 1 | 4 |
+| T2 | 20261130 | experiment | 1 | 2 |
+| T2 | 20261130 | investigation | 1 | 2 |
+| T2 | 20261130 | loop_candidate | 4 | 4 |
+| T2 | 20261130 | process_candidate | 0 | 1 |
+| T2 | 20261130 | workflow_concept | 0 | 1 |
+
+**Where the two sets first diverge.** The two populations part company early — cycle **2** (T1/20261129); cycle **3** (T1/20261128); cycle **5** (T2/20261118, T2/20261120, T2/20261121, T2/20261123, T2/20261130); cycle **11** (T1/20261125) — measured from arm C's per-cycle admitted candidate stream, which is the membership as it was decided, cycle by cycle. Arm B's own table matches the campaign's under the reproducing hash seed on **8 of the 8** failing seeds, and differs from it under the pinned hash seed on **8 of the 8**. Arm C reads arm B's recorded temporal graphs, so on those seeds the divergence enters in the shared acquisition-and-sleep path and arm C inherits it through the graphs it reads, rather than in arm C's admission filter.
+
+**The controls.** The baseline run at the pinned hash seed reproduces the use-path audit's recorded reconstruction on **every** type of **every** seed (no), the control seed's population is identical at every hash seed swept with **0** candidate-ID differences in total, and the runs that reproduce the campaign agree with one another on the candidate IDs (yes). The audit is therefore able to return "identical" as well as "different", and the membership it reports is determined by the artifact rather than by a guess.
+
+**A correction to the earlier reading.** An earlier build of this audit reported T1/20261125 as reproducing the campaign at the pinned hash seed, with no membership difference and no first differing cycle. The cached run it read for that pair was not a measurement: it carried the campaign's per-type table. Recomputed, it disagrees — and it agrees, on every type, with the reconstruction the use-path audit had already recorded independently. The rebuilt artifact is the one of record; the earlier one is superseded.
+
+**What this does not establish.** It does not re-score D0, and it does not change the campaign's verdict. It says where the two candidate populations came from; it does not say what the D0 limb scores would be under the campaign's hash seed, which is a separate measurement that has not been made, and it does not name a single order-dependent code path. The sweep covers hash seeds 0–15; a seed outside that range would produce a different population, and the campaign's own hash seeds are not recoverable, only its population.
+
+→ `docs/candidate_membership_audit.json`; `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`; `benchmarks/candidate_membership_audit.py`; `docs/formation_utilization.json`; `docs/use_path_audit.json`; `docs/USE-PATH-AUDIT.md`; `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`.

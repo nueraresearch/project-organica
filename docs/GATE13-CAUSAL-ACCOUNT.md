@@ -147,7 +147,7 @@ visible as such.
 per-source allocation does *not* rescue the benchmark at a modest budget: it
 needs **258–286 retained edges** to pass, and it reaches only **0.72–0.77**
 where the global rule reaches **0.95–0.97** at 320. At every budget and under
-both rules, **precision never exceeds 0.3443**.
+both rules, **precision never exceeds 0.3438**.
 
 ## 6. The causal account
 
@@ -157,7 +157,7 @@ both rules, **precision never exceeds 0.3443**.
 2. **The world's relations are a minority of the table, and they are not the
    high-count rows.** The table has 366–518 rows for a 16-tag world; only
    232–240 are world-tag pairs, and the world edges are roughly **a third** of
-   what any selection must retain (precision ≤ 0.3443 at every budget and
+   what any selection must retain (precision ≤ 0.3438 at every budget and
    under both rules). The highest-count rows are internal-vocabulary edges
    (`type → olive`, `generation → olive`) and intra-cell pairs.
 3. **Layer 1 selects on frequency, and the world is not organized by

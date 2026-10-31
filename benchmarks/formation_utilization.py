@@ -76,7 +76,7 @@ subset) was implemented first and failed; it is not the committed audit, and
 folding it in would have been a stronger criterion wearing A2's name.  Under
 Amendment 1 the stronger comparison is audit A8, which gates the run.
 
-A3's 0.3443 band was measured on T2.  It is applied on T2 and reported, not
+A3's 0.3438 band was measured on T2.  It is applied on T2 and reported, not
 gated, on T1, which has no committed band; applying a T2 constant to a
 different world is the wrong-metric defect of AGENTS rule 23(a).
 
@@ -196,7 +196,7 @@ CAP_A = 20
 CAP_B = 1_000
 
 COVERAGE_GATE = 0.50            # Gate 13 / A1
-PRECISION_CEILING = 0.3443      # GATE13-RANKING-CRITERION
+PRECISION_CEILING = 0.3438      # GATE13-RANKING-CRITERION
 PRECISION_TOL = 0.01            # A3's band
 ATTRIBUTION_MIN = 0.50          # A7
 A6_SCORE_TOL = 0.01             # nats; A6's "not as good as C"
@@ -593,7 +593,7 @@ def run_arm(prep: dict, label: str, cap: int,
         readout_precision = len(covered) / len(asserted) if asserted else 0.0
 
         # Layer 1 alone — the layer the oracle controls, and the basis on which
-        # the 0.3443 precision ceiling was measured (GATE13-RANKING-CRITERION).
+        # the 0.3438 precision ceiling was measured (GATE13-RANKING-CRITERION).
         layer1_covered = triggered & world_edges
         layer1_coverage = (len(layer1_covered) / len(world_edges)
                            if world_edges else 0.0)
@@ -914,11 +914,11 @@ def audit_precision_premise(precision_b_layer1: float | None,
     """A3: B's Layer-1 precision stays in the measured band; C's is exact.
 
     Both quantities are Layer-1 quantities, because that is the layer the
-    oracle controls and the basis on which 0.3443 was measured.  The readout's
+    oracle controls and the basis on which 0.3438 was measured.  The readout's
     all-structure precision is reported elsewhere and is NOT 1.0 for C.
 
     ``band_applies`` is False on a world where the band has no provenance.  The
-    0.3443 ceiling was measured on the compositional world (T2); T1 is the
+    0.3438 ceiling was measured on the compositional world (T2); T1 is the
     calibration/control task and has no committed band, so its precision is
     reported and the band is not applied.  Applying a T2 constant to T1 would
     be the wrong-metric defect AGENTS rule 23(a) records.
@@ -931,7 +931,7 @@ def audit_precision_premise(precision_b_layer1: float | None,
                              "layer1_precision_c_support":
                                  layer1_precision_c_support,
                              "committed_band": None},
-                "reason": ("the 0.3443 ceiling was measured on T2; this world "
+                "reason": ("the 0.3438 ceiling was measured on T2; this world "
                            "has no committed band, so precision is reported "
                            f"(B {precision_b_layer1}) and not gated")}
     checks = {
@@ -1526,7 +1526,7 @@ def render_timing_markdown(artifact: dict) -> str:
     lines.append("A1's coverage is the Gate 13 quantity over the world edges "
                  "derived from the training stream, on the all-structure basis "
                  "the gate pins. A3's precision is the Layer-1 quantity on which "
-                 "the 0.3443 ceiling was measured. Arm C's all-structure readout "
+                 "the 0.3438 ceiling was measured. Arm C's all-structure readout "
                  "precision is reported in the artifact and is not 1.0, because "
                  "the readout still aggregates all six structure types; only its "
                  "Layer-1 admission is exact.")
@@ -1679,7 +1679,7 @@ DISCLOSURES = [
               "temporal evidence, not 'the engine with this filter installed'. "
               "See protocol §12 and the preserved pre-amendment artifact.")},
     {"id": "A3's band is T2's",
-     "text": ("The 0.3443 precision ceiling was measured on the compositional "
+     "text": ("The 0.3438 precision ceiling was measured on the compositional "
               "world. A3 applies it on T2 and reports T1's precision without "
               "gating, because T1 has no committed band. Applying a T2 constant "
               "to T1 would measure the wrong population.")},

@@ -84,6 +84,9 @@ The diagnostic's structure check supplies the constraint on the remaining candid
 
 A hash-seed sensitivity sweep on one failing seed is the cheapest next test: if the per-type table moves across hash seeds, the campaign's unrecorded environment is sufficient to explain the mismatch; if it does not, the remaining candidate is the campaign-time code, which needs a campaign-time copy rather than another re-run. The sweep was not run here: the audit's stop condition is the three layers above, and adding a fourth after seeing the result would be a new instrument.
 
+
+**Addendum (2026-10-31).** The sweep this section named has since been run, as a separate instrument and at the owner’s direction: `benchmarks/candidate_membership_audit.py` sweeps `PYTHONHASHSEED` over 0–15 for all 8 failing seeds and the control seed, and names the candidate IDs on each side. **The per-type table does move across hash seeds**, so the campaign’s unrecorded environment is sufficient to explain the mismatch: under the committed code the campaign’s own table is reproduced exactly on **8 of the 8** failing seeds once the hash seed is varied, and the control seed’s population is the same at all 16 hash seeds swept. The campaign artifact records no candidate ID, so the campaign side was regenerated and matched by its per-type fingerprint; the membership is in `docs/candidate_membership_audit.json` and `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`, and the reasoning is at journal §71. The audit’s own verdict above is unchanged.
+
 ## 7. What is not claimed
 
 No mechanism, no room estimate, no component, no V2 brief and no re-score of the campaign or the diagnostic. The campaign's recorded verdicts stand. The diagnostic's D0 gate fired and its `AUDIT REQUIRED` outcome stands; this audit tests one hypothesis about why it fired and does not support that hypothesis as the cause, which is not the same as passing D0.

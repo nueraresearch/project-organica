@@ -1,0 +1,38 @@
+{
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "access_right": "open",
+  "title": "Developmental structure formation in Organica 1: a preregistered account of what the engine grows, and what it does not",
+  "description": "A preregistered empirical account of whether developmental structure emerges in Organica 1, a minimal engine that grows a graph of typed structural candidates across sleep cycles. The paper reports the displacement and preservation indices over a preregistered support-ratio sweep, the failed criteria and the adjacent-difference diagnostic behind them, and an acquisition benchmark that was rebuilt after an endpoint audit and then stopped at its own gate. Negative results are reported as results: the belief-revision comparison against simple baselines came out reversed on all three task families, and the one measured cross-domain transfer result was negative. Every quantitative claim is checked mechanically against the committed artifact it was taken from.",
+  "creators": [
+    {
+      "name": "Beebe, Jeremy Blain Thompson",
+      "affiliation": "Nuera RDL",
+      "orcid": "0009-0009-2394-9714"
+    }
+  ],
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "developmental structure",
+    "structural descent",
+    "displacement index",
+    "preservation index",
+    "belief revision",
+    "negative results",
+    "preregistration"
+  ],
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/nueraresearch/project-organica",
+      "relation": "isSupplementedBy",
+      "resource_type": "software"
+    }
+  ],
+  "communities": [
+    {
+      "identifier": "a08bc0ac-2893-4afd-870a-a77bd348c84c"
+    }
+  ],
+  "notes": "Files: the manuscript as PDF, the manuscript source (Markdown), and the five figures as PDF. The supporting evidence artifacts are in the software record for v0.9.0 and in the repository. Unfunded; no competing interests; ethics not applicable; AI-tool use disclosed in the manuscript's Declarations block."
+}

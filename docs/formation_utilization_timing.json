@@ -605,9 +605,9 @@
           "evidence": {
             "precision_b_layer1_world": 0.3373,
             "layer1_precision_c_support": 1.0,
-            "band_upper": 0.3543
+            "band_upper": 0.3538
           },
-          "reason": "B Layer-1 precision 0.3373 <= 0.3543; C's admission precision is 1.0"
+          "reason": "B Layer-1 precision 0.3373 <= 0.3538; C's admission precision is 1.0"
         },
         "A4": {
           "audit": "A4",
@@ -1376,7 +1376,7 @@
             "layer1_precision_c_support": 1.0,
             "committed_band": null
           },
-          "reason": "the 0.3443 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5404) and not gated"
+          "reason": "the 0.3438 ceiling was measured on T2; this world has no committed band, so precision is reported (B 0.5404) and not gated"
         },
         "A4": {
           "audit": "A4",
@@ -1591,5 +1591,6 @@
   "campaign_ready_reasons": {
     "T2": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle",
     "T1": "all eight audits pass or are not applicable, and the admission arms read arm B's temporal graph at every cycle"
-  }
+  },
+  "correction_note": "The Gate 13 precision ceiling is 0.3438 (the maximum of the 36 measurements in docs/gate13_allocation_rule.json), not 0.3443. The A3 block's prose and its derived band_upper were corrected on 2026-10-31. No measurement was changed and no audit verdict moved: the highest arm-B Layer-1 precision on T2 is 0.3394, below both band edges. The original is preserved as formation_utilization_timing_pre_correction.json."
 }

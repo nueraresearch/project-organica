@@ -510,6 +510,53 @@ def _verdict_lines(counts: dict, n: int, repeats: int) -> list[str]:
     return lines
 
 
+#: The candidate-membership audit, when it has been run.  Section 6 named
+#: the hash-seed sweep as the cheapest next test and said it had not been run
+#: here, because adding a fourth layer after seeing the result would be a new
+#: instrument.  It has since been run as a separate instrument, so the
+#: section says so and says where the result lives.  The coupling is real:
+#: the addendum is present when that artifact is present, and absent when it
+#: is not.
+MEMBERSHIP_ARTIFACT = REPO / "docs" / "candidate_membership_audit.json"
+
+
+def membership_addendum() -> list[str]:
+    """The section 6 addendum, with every number read from that artifact."""
+    if not MEMBERSHIP_ARTIFACT.exists():
+        return []
+    with open(MEMBERSHIP_ARTIFACT, "r", encoding="utf-8") as f:
+        a = json.load(f)
+    failing = [e for e in a["results"]
+               if not (e["task"] == "T1" and e["seed"] == 20261101)]
+    reproduced = [e for e in failing if e.get("campaign_reproduced")]
+    control = [e for e in a["results"]
+               if e["task"] == "T1" and e["seed"] == 20261101]
+    control_hashes = len(control[0]["matching_hash_seeds"]) if control else 0
+    swept = a["hash_seeds_swept"]
+    return [
+        "",
+        "**Addendum (2026-10-31).** The sweep this section named has since "
+        "been run, as a separate instrument and at the owner\u2019s "
+        "direction: `benchmarks/candidate_membership_audit.py` sweeps "
+        "`PYTHONHASHSEED` over %d\u2013%d for all %d failing seeds and the "
+        "control seed, and names the candidate IDs on each side. **The "
+        "per-type table does move across hash seeds**, so the campaign\u2019s "
+        "unrecorded environment is sufficient to explain the mismatch: under "
+        "the committed code the campaign\u2019s own table is reproduced "
+        "exactly on **%d of the %d** failing seeds once the hash seed is "
+        "varied, and the control seed\u2019s population is the same at all %d "
+        "hash seeds swept. The campaign artifact records no candidate ID, so "
+        "the campaign side was regenerated and matched by its per-type "
+        "fingerprint; the membership is in "
+        "`docs/candidate_membership_audit.json` and "
+        "`docs/CANDIDATE-MEMBERSHIP-AUDIT.md`, and the reasoning is at "
+        "journal \u00a771. The audit\u2019s own verdict above is unchanged."
+        % (min(swept), max(swept), len(failing), len(reproduced), len(failing),
+           control_hashes),
+        "",
+    ]
+
+
 def render_markdown(artifact: dict) -> str:
     """Render the result document from the artifact; every count is derived."""
     summary = artifact["summary"]
@@ -697,6 +744,10 @@ def render_markdown(artifact: dict) -> str:
         "checks: `tests/test_use_path_audit.py`.",
         "",
     ]
+    addendum = membership_addendum()
+    if addendum:
+        at = lines.index("## 7. What is not claimed")
+        lines[at:at] = addendum
     text = "\n".join(lines)
     _assert_no_placeholder(text)
     return text

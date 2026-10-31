@@ -195,7 +195,7 @@ It is now **three** requirements, and they are concrete:
 
 **Requirement 3 is the one with no precedent in the engine, and it is the
 one that yesterday's capacity sweep showed cannot be bought with budget:**
-precision never exceeds 0.3443 at any budget under either allocation rule.
+precision never exceeds 0.3438 at any budget under either allocation rule.
 
 **No V2 build is authorised by this document.** It narrows the target from
 "relation-family separation" — one requirement — to three, and identifies
