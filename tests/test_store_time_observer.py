@@ -158,3 +158,17 @@ def test_f5_refuses_a_degenerate_split():
     passed, verdict = f5_decision(attributed, ["pool:a", "pool:b"],
                                   {"10": {"reconciled": False}}, (10,))
     assert passed is False and "did not reconcile" in verdict
+
+
+def test_classify_cell_has_no_fifth_bucket():
+    """Every cell lands in the pre-registered space, and partial is not a bucket."""
+    from benchmarks.store_time_observer import classify_cell
+
+    assert classify_cell(True, 0, 0, []) == "no_difference_at_pair"
+    assert classify_cell(True, 4, 4, ["ingest"] * 4) == "A"
+    assert classify_cell(True, 4, 4, ["pool:phrase_candidate"] * 4) == "B_restated"
+    assert classify_cell(True, 4, 4, ["pool:dream"] * 4) == \
+        "construction_other:pool:dream"
+    assert classify_cell(True, 4, 0, []) == "C_accounted"
+    assert classify_cell(True, 4, 2, ["pool:dream"] * 2) == "indeterminate"
+    assert classify_cell(False, 4, 4, ["pool:dream"] * 4) == "indeterminate"

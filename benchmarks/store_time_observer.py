@@ -234,7 +234,9 @@ def reconcile(deltas: list[int]) -> dict[str, Any]:
 
 def record_run(task: str, seed: int, cap: int, wrap: bool = True,
                trace: Path | None = None,
-               windows_at: set[int] | None = None) -> dict[str, Any]:
+               windows_at: set[int] | None = None,
+               arm_label: str = "B",
+               fixed_temporal: Any = None) -> dict[str, Any]:
     """Run arm B once and return a compact record of every write.
 
     With ``wrap=False`` the run is unobserved; that is what the neutrality check
@@ -354,12 +356,18 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
             MemoryService.recent = teed_recent
     try:
         prep = fu.prepare_world(task, seed)
-        arm = fu.run_arm(prep, "B", cap, None)
+        # Arm C is not standalone: it filters the support pairs and reads arm B's
+        # per-cycle temporal graphs, exactly as the campaign runs it
+        # (formation_utilization.py:1273-1277).
+        admission = prep.get("support") if arm_label == "C" else None
+        arm = fu.run_arm(prep, arm_label, cap, admission,
+                         fixed_temporal=fixed_temporal)
     finally:
         MemoryService.store = original_store
         MemoryService.recent = original_recent
 
     raw = arm.get("_raw", {}) or {}
+    graphs = raw.get("temporal_reads")
     comparable = {k: raw[k] for k in ("admitted", "temporal_reads") if k in raw}
     for key, d in per_cycle.items():
         d.update(reconcile(deltas.get(key, [])))
@@ -387,6 +395,9 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
                       "bytes": trace.stat().st_size}
     return {
         "observer_version": OBSERVER_VERSION,
+        "arm": arm_label,
+        "graphs_captured": bool(graphs),
+        "_graphs": graphs,
         "task": task,
         "seed": seed,
         "cap": cap,
@@ -659,8 +670,218 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
     return result
 
 
+#: The five pre-registered cells: (task, seed, arm, divergence cycle, staged arms).
+VERDICT_CELLS: tuple[tuple[str, int, str, int, tuple[str, ...]], ...] = (
+    ("T1", 20261125, "B", 12, ("B", "C")),
+    ("T1", 20261125, "C", 12, ("B", "C")),
+    ("T2", 20261120, "B", 6, ("B", "C")),
+    ("T2", 20261120, "C", 6, ("B", "C")),
+    ("T2", 20261121, "B", 6, ("B",)),
+)
+
+VERDICT_HASH_SEEDS = (0, 1)
+
+
+def cell_part_path(task: str, seed: int, hash_seed: int) -> Path:
+    return PARTS_DIR / ("cell_%s_%d_hs%d.json" % (task, seed, hash_seed))
+
+
+def classify_cell(reconciled: bool, differences: int, attributed: int,
+                  labels: list[str]) -> str:
+    """One cell's outcome, in the pre-registered space (brief section 10).
+
+    Reconciliation is decided first: an unreconciled cell cannot separate "no
+    write explains it" from "the observer missed the write", so it is
+    ``indeterminate`` whatever it might have found. A difference with no write
+    behind it is ``C_accounted`` only when the writes fully reconcile; a partial
+    explanation is ``indeterminate``, never "mostly explained".
+    """
+    if not reconciled:
+        return "indeterminate"
+    if differences == 0:
+        return "no_difference_at_pair"
+    if attributed == 0:
+        return "C_accounted"
+    if attributed < differences:
+        return "indeterminate"
+    labs = sorted({str(l) for l in labels})
+    if set(labs) & set(TAG_SCORED_LABELS):
+        return "B_restated"
+    if labs == ["ingest"]:
+        return "A"
+    return "construction_other:" + "+".join(labs)
+
+
+def run_cell(task: str, seed: int, hash_seed: int, cycle: int,
+             arms: tuple[str, ...], cap: int) -> Path:
+    """One hash seed's staged run: arm B, then arm C reading B's own graphs."""
+    out = cell_part_path(task, seed, hash_seed)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.unlink(missing_ok=True)
+    parts: dict[str, Any] = {}
+    graphs: Any = None
+    for arm in arms:
+        rec = record_run(task, seed, cap, windows_at={cycle},
+                         arm_label=arm, fixed_temporal=graphs)
+        if arm == "B":
+            graphs = rec.get("_graphs")
+        rec.pop("_graphs", None)
+        rec["hash_seed"] = hash_seed
+        rec["requested_cycle"] = cycle
+        parts[arm] = rec
+    out.write_text(json.dumps({"task": task, "seed": seed,
+                               "hash_seed": hash_seed, "cycle": cycle,
+                               "parts": parts}, indent=1, sort_keys=True,
+                              default=str) + "\n", encoding="utf-8")
+    return out
+
+
+def verdict_cell(task: str, seed: int, arm: str, cycle: int,
+                 sides: dict[int, dict[str, Any]]) -> dict[str, Any]:
+    """Compare the two hash seeds at one cycle and name the write behind each gap."""
+    win = {}
+    for hs in VERDICT_HASH_SEEDS:
+        part = (sides.get(hs) or {}).get("parts", {}).get(arm) or {}
+        win[hs] = ((part.get("windows") or {}).get(str(cycle))
+                   or (part.get("windows") or {}).get(cycle))
+    left, right = win.get(0), win.get(1)
+    entry: dict[str, Any] = {"task": task, "seed": seed, "arm": arm,
+                             "cycle": cycle}
+    if not left or not right or not left.get("addressed") or not right.get("addressed"):
+        entry.update({"outcome": "indeterminate", "reason": "window not addressed",
+                      "addressed": {str(hs): bool(win[hs] and win[hs].get("addressed"))
+                                    for hs in VERDICT_HASH_SEEDS}})
+        return entry
+    ids = {0: {c["id"] for c in left["candidates"]},
+           1: {c["id"] for c in right["candidates"]}}
+    only = {0: sorted(ids[0] - ids[1]), 1: sorted(ids[1] - ids[0])}
+    differences = len(only[0]) + len(only[1])
+    found = []
+    for hs, other in ((0, 1), (1, 0)):
+        for cid in only[hs]:
+            here = find_offered(sides[hs]["parts"][arm], cycle, cid)
+            there = find_offered(sides[other]["parts"][arm], cycle, cid)
+            found.append({"candidate": cid, "present_in": "hs%d" % hs,
+                          "offered_here": here, "offered_there": there,
+                          "label": (here or {}).get("label"),
+                          "resolved": bool(here and not there)})
+    resolved = [f for f in found if f["resolved"]]
+    reconciled = all(
+        bool((((sides.get(hs) or {}).get("parts", {}).get(arm) or {})
+              .get("per_cycle", {}).get(str(cycle), {}) or {}).get("reconciled"))
+        for hs in VERDICT_HASH_SEEDS)
+    labels = [f["label"] for f in resolved]
+    entry.update({
+        "sizes": {"hs0": len(ids[0]), "hs1": len(ids[1])},
+        "differences": differences,
+        "attributed": len(resolved),
+        "labels": sorted({str(l) for l in labels}),
+        "reconciled": reconciled,
+        "candidates": found,
+        "outcome": classify_cell(reconciled, differences, len(resolved), labels),
+    })
+    return entry
+
+
+def verdicts(cap: int = fu.CAP_B) -> dict[str, Any]:
+    """Run the five pre-registered cells and write the verdict artifacts."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    started = time.time()
+    jobs = []
+    for task, seed, _arm, cycle, arms in VERDICT_CELLS:
+        for hs in VERDICT_HASH_SEEDS:
+            jobs.append((task, seed, hs, cycle, arms))
+
+    def spawn(job) -> Path:
+        task, seed, hs, cycle, arms = job
+        env = dict(os.environ)
+        env["PYTHONHASHSEED"] = str(hs)
+        cmd = [sys.executable, "-X", "utf8",
+               str(REPO / "benchmarks" / "store_time_observer.py"),
+               "--cell", "--task", task, "--seed", str(seed),
+               "--cycle", str(cycle), "--arms", ",".join(arms),
+               "--out", str(cell_part_path(task, seed, hs))]
+        proc = subprocess.run(cmd, cwd=str(REPO), env=env,
+                              capture_output=True, text=True)
+        if proc.returncode != 0:
+            sys.stderr.write("cell worker failed (%s %s hs%s):\n%s\n"
+                             % (task, seed, hs, proc.stderr[-2000:]))
+        return cell_part_path(task, seed, hs)
+
+    with ThreadPoolExecutor(max_workers=len(jobs)) as pool:
+        list(pool.map(spawn, jobs))
+
+    sides: dict[tuple[str, int], dict[int, dict[str, Any]]] = {}
+    for task, seed, _arm, _cycle, _arms in VERDICT_CELLS:
+        sides.setdefault((task, seed), {})
+        for hs in VERDICT_HASH_SEEDS:
+            path = cell_part_path(task, seed, hs)
+            if path.exists():
+                sides[(task, seed)][hs] = json.loads(path.read_text(encoding="utf-8"))
+
+    cells = [verdict_cell(task, seed, arm, cycle, sides[(task, seed)])
+             for task, seed, arm, cycle, _arms in VERDICT_CELLS]
+    counts: dict[str, int] = {}
+    for c in cells:
+        counts[c["outcome"]] = counts.get(c["outcome"], 0) + 1
+    result = {
+        "kind": "store_time_observer_verdicts",
+        "observer_version": OBSERVER_VERSION,
+        "preregistration": "docs/STORE-TIME-OBSERVER-BRIEF.md section 10",
+        "hash_seeds": list(VERDICT_HASH_SEEDS),
+        "cells": cells,
+        "outcome_counts": counts,
+        "seconds": round(time.time() - started, 1),
+    }
+    Path("docs/store_time_observer_verdicts.json").write_text(
+        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        encoding="utf-8")
+    Path("docs/STORE-TIME-OBSERVER-VERDICTS.md").write_text(
+        render_verdicts(result), encoding="utf-8")
+    return result
+
+
+def render_verdicts(result: dict[str, Any]) -> str:
+    """The verdict table, written from the artifact and nothing else."""
+    lines = ["# The store-time observer: verdicts over the five search cases", "",
+             "**Status: frozen on generation.** Written by `--verdict` from",
+             "`docs/store_time_observer_verdicts.json`. Pre-registration:",
+             "`docs/STORE-TIME-OBSERVER-BRIEF.md` section 10, committed before the run.", "",
+             "Hash seeds " + " and ".join(str(h) for h in result["hash_seeds"]) +
+             ". Arm C is run as a staged pair: arm B first, its per-cycle temporal",
+             "graphs handed to C, both observed.", "",
+             "| Case | Cycle | Pool sizes | Differences | Attributed | Labels | Outcome |",
+             "|---|---|---|---|---|---|---|"]
+    for c in result["cells"]:
+        size = c.get("sizes")
+        lines.append("| %s / %s / %s | %s | %s | %s | %s | %s | **%s** |" % (
+            c["task"], c["seed"], c["arm"], c["cycle"],
+            ("%d/%d" % (size["hs0"], size["hs1"])) if size else "not measured",
+            c.get("differences", "not measured"), c.get("attributed", "0"),
+            ", ".join("`%s`" % l for l in c.get("labels") or []) or "none",
+            c["outcome"]))
+    lines += ["", "## Outcome counts", ""]
+    for outcome, n in sorted(result["outcome_counts"].items()):
+        lines.append("- `%s`: %d" % (outcome, n))
+    lines += ["", "## What the buckets mean", "",
+              "`no_difference_at_pair` - the windows were identical at this hash-seed",
+              "pair, so the cell measured nothing; it is not `C_accounted`.",
+              "`C_accounted` - differences exist, no write explains them, and the",
+              "writes fully reconciled. `indeterminate` - unreconciled, or only",
+              "partially explained. A partial explanation is never folded into",
+              "`C_accounted`.", ""]
+    return "\n".join(lines)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--cell", action="store_true",
+                    help="run one hash seed's staged cell (arm B, then C) and write a part")
+    ap.add_argument("--verdict", action="store_true",
+                    help="run the five pre-registered cells and write the verdicts")
+    ap.add_argument("--arms", default="B")
+    ap.add_argument("--cycle", type=int, default=0)
     ap.add_argument("--worker", action="store_true",
                     help="capture one arm at this process's hash seed and write a part")
     ap.add_argument("--known-positive", action="store_true",
@@ -679,6 +900,23 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     trace = Path(args.trace) if args.trace else None
+
+    if args.cell:
+        arms = tuple(a.strip() for a in str(args.arms).split(",") if a.strip())
+        run_cell(args.task, args.seed,
+                 int(os.environ.get("PYTHONHASHSEED", "0")),
+                 args.cycle, arms, args.cap)
+        return 0
+
+    if args.verdict:
+        result = verdicts(args.cap)
+        print(json.dumps({"outcome_counts": result["outcome_counts"],
+                          "seconds": result["seconds"],
+                          "cells": [{k: c.get(k) for k in
+                                     ("task", "seed", "arm", "cycle", "outcome")}
+                                    for c in result["cells"]]},
+                         indent=1, sort_keys=True))
+        return 0
 
     if args.worker:
         cycles = tuple(int(c) for c in str(args.cycles).split(",") if c.strip())

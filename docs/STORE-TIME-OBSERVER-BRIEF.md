@@ -306,3 +306,56 @@ conditions 1-3 hold: F5 tests the *instrument*, and the label is the measurement
 **Stop condition.** This build closes when F5 passes. No further sub-division of
 construction may be added afterwards; a finer split is a new pre-registration.
 
+---
+
+## 10. Pre-registration, committed before the verdict pass ran
+
+**Cells.** The five search cases, with the divergence cycle each already has on
+record in `docs/divergence_onset.json`:
+
+| Case | Task | Seed | Arm | Divergence cycle | Entered |
+|---|---|---|---|---|---|
+| 1 | T1 | 20261125 | B | 12 | 70 |
+| 2 | T1 | 20261125 | C | 12 | 70 |
+| 3 | T2 | 20261120 | B | 6 | 11 |
+| 4 | T2 | 20261120 | C | 6 | 5 |
+| 5 | T2 | 20261121 | B | 6 | 23 |
+
+**Hash seeds: 0 and 1**, the pair F4 and F5 ran on.
+
+**Arm C is not standalone.** `run_arm` for arm C requires `admission = prep["support"]`
+and `fixed_temporal = <arm B's per-cycle temporal graphs>`; the campaign runs B
+first and hands its graphs to C (`benchmarks/formation_utilization.py:1273-1277`).
+So a C cell is run as a **staged pair inside one process per hash seed**: B, its
+graphs captured, then C reading them. Both stages are observed, and the C cell's
+verdict is read from the C run's writes.
+
+**The comparison.** At the recorded cycle, the two hash seeds' write-back windows
+are compared by candidate id. A candidate present on one side only is looked for
+in that side's write record at the cycle **or the cycle before** (the brief's
+window), and must be **absent** from the other side's record in the same window to
+count as attributed.
+
+**Reconciliation, first.** A cell is interpretable only if both sides reconcile at
+the cycle (`observed == accepted == net`). Otherwise its outcome is
+`indeterminate`, whatever it might have attributed.
+
+**The outcome space, and no fifth bucket:**
+
+| Outcome | Condition |
+|---|---|
+| `no_difference_at_pair` | the windows are identical at this hash-seed pair |
+| `A` | every difference attributed, all labels `ingest` |
+| `B_restated` | every difference attributed, at least one label tag-scored |
+| `construction_other:<labels>` | every difference attributed, none tag-scored |
+| `C_accounted` | differences exist, none attributed, writes fully reconciled |
+| `indeterminate` | unreconciled, or **partially** attributed |
+
+`no_difference_at_pair` is declared here, before the run, because it is a real
+possible result and must not be silently folded into `C_accounted`: if the
+divergence does not reproduce at hash seeds 0 and 1, the cell measured nothing and
+says so. A partial explanation is `indeterminate`, never "mostly explained".
+
+**Stop condition.** This pass runs once, over these five cells. No cell is added,
+dropped or re-run on the basis of its outcome, and no sixth bucket is introduced.
+
