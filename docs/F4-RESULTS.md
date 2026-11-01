@@ -104,3 +104,57 @@ split being finer than it is.
 admissibility, and it is recorded rather than edited away because the label is
 what a later reader would quote.
 
+## 8. F5, appended 2026-11-01: the finer split, and the restatement of (B)
+
+The correction in §7 said the stage split would have to reach inside construction
+before (B) could be a verdict bucket. This section records that build and the
+check it had to pass. Pre-registration: `docs/STORE-TIME-OBSERVER-BRIEF.md` §9,
+committed before the run.
+
+**The restatement, and why it was needed.** `_score_tags` issues **no store
+call**: it takes `(freqs, cooc, temporal)`, builds `_TagScore` records, sorts on
+`frequency` and returns the list (`organica/sleep.py:904-922`). Bucket (B) as
+originally worded — *the `_score_tags` write is identified* — names a write that
+does not exist, so no instrument could ever report it. §9 restates it to the two
+builders that consume this cycle's tag scores, `_build_concepts` and
+`_build_phrases`: **(B-restated) = a `pool:concept_candidate` or
+`pool:phrase_candidate` write.**
+
+**The split.** Every write is labelled on two engine-derived axes: **phase**
+(whether the call passed through `_store_candidates`, i.e. a cycle-pool write, or
+outside it, i.e. a survivor re-store during natural selection) and **type** (the
+`sleep:<ctype>` source the engine already stamps). The phase axis is necessary
+because natural selection re-stores survivors through the same per-type writer.
+
+**F5.** Reconciliation first, then: at least two distinct `pool:` labels in the
+run (a scheme returning one value measures nothing), and no attributed candidate
+without a label.
+
+| Check | Result |
+|---|---|
+| Neutrality re-proven with the frame walk installed (C2) | **identical** on `admitted` and `temporal_reads`; 349,502 accepted calls; 0 unreconciled cycles |
+| Distinct labels observed | **17** (`pool:concept_candidate` absent in this run; `pool:phrase_candidate` present) |
+| Attributed candidates labelled | **12/12** |
+| Cycles 10-12 reconcile | yes, both sides |
+
+**F5: PASS. F4: still PASS.**
+
+**The measurement.** All **12** attributed candidates carry the label
+**`pool:dream`** — none is tag-scored, so **outcome (B-restated) is not reached on
+the control seed**. That was the pre-registered prediction (dreams are built from
+`workflows, processes, meta_concepts, questions, cooc, temporal`, not from tag
+scores), and `prediction_met: true`. The control's difference therefore resolves as
+*construction, Layer 6, not tag-scored*.
+
+**The gate fired first on my own wiring.** The first F5 run returned `failed: 12
+attributed candidate(s) carry no label`: the label was computed and stored in the
+per-candidate record but the attributed entry carried only `stage`. The instrument
+was right and the report was wrong, which is the failure mode this whole line
+keeps finding — and it was caught before any seed was measured, by a condition
+that could fail.
+
+**What this does not establish.** That tag scores do or do not matter to D0. The
+control's difference is a dream candidate, on one seed, at one hash-seed pair; a
+different difference on a different seed may well be tag-scored. What is now true
+is narrower and useful: the observer can name the **builder** behind a differing
+candidate, and (B-restated) is a bucket that can actually be reached.

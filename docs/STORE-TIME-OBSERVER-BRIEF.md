@@ -18,8 +18,11 @@ engine is a reading of the frozen source at `v0.9.0`.
 > now passes**: on the control seed at hash seeds 0 and 1 it attributes all
 > twelve candidate differences at cycles 10-12 to construction-stage writes, with
 > every window witnessed by its own marker
-> (`docs/store_time_observer_f4.json`). The **verdict pass is still not built**, so
-> no divergence verdict has been read. Controls are committed as
+> (`docs/store_time_observer_f4.json`). **F5 passes too:** with the finer split of
+> §9 installed and neutrality re-proved, 17 distinct labels were observed and all
+> twelve attributed candidates carry `pool:dream` — the pre-registered finding that
+> on the control seed (B-restated) is not reached. The **verdict pass over the
+> seeds is still not built**, so no divergence verdict has been read. Controls are committed as
 > `docs/store_time_observer_self_test.json` and `docs/store_time_observer_f4.json`.
 
 **Why this instrument and not another correction.** The divergence line is frozen

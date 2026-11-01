@@ -6923,3 +6923,56 @@ needs (B) proper, the stage split has to reach inside construction first — whi
 is a build change, to be pre-registered before it is run, not a reading of this
 result. `docs/F4-RESULTS.md` §7 carries the correction; §4's PASS stands.
 
+## §82 — F5 passes the finer split, and (B) is restated because it named a write that does not exist
+
+**The defect was in the bucket, not the instrument.** Bucket **(B)** of the
+observer brief is *"the `_score_tags` write is identified"*. Reading the frozen
+engine to build the split settled it: `_score_tags` makes **no store call**
+(`organica/sleep.py:904-922`) — it builds `_TagScore` records, sorts them on
+`frequency`, returns the list. There is no such write on any seed, in any cycle.
+An observer reporting (B) would be reporting a write that does not exist, and the
+brief had been carrying an unsatisfiable bucket since it was written.
+
+**The restatement, pre-registered before the run** (`docs/STORE-TIME-OBSERVER-BRIEF.md`
+§9, committed first): (B) becomes *a write emitted by one of the two builders that
+consume this cycle's tag scores*, `_build_concepts` or `_build_phrases`. Those are
+the only construction steps taking `tag_scores` as an argument. The restatement is
+narrower than "construction" and it is not a causal claim: both builders also
+consume the graphs, so it locates the write and says nothing about which input
+made the difference.
+
+**The split.** Two engine-derived axes per write: **phase** — whether the call
+passed through `_store_candidates` (a cycle-pool write) or outside it (a survivor
+re-store during natural selection, `sleep.py:453-460`) — and **type**, from the
+`sleep:<ctype>` source the engine already stamps. Phase is read from the frame
+stack at the wrapped call, never from a counter, and it is needed because natural
+selection re-stores survivors through the same per-type writer: type alone cannot
+separate a candidate built this cycle from one carried over.
+
+**F5, and its result.** Neutrality was re-proven with the frame walk installed
+(C2 re-run: `admitted` and `temporal_reads` identical to the unobserved run,
+**349,502** accepted calls, 0 unreconciled cycles, 136.5 s). The control run then
+reported **17** distinct labels across both hash seeds, and all **12** attributed
+candidates carry **`pool:dream`**. Conditions 1-3 hold, so **F5 passes**, and F4
+still passes.
+
+**The prediction was recorded and it held.** §9 predicted `pool:dream` because
+`_generate_categorized_dreams` consumes workflows, processes, meta_concepts,
+questions and the two graphs — **not** tag scores. `prediction_met: true`. So on
+the control seed **outcome (B-restated) is not reached**: the differing candidate
+is construction at Layer 6 and carries no tag-score dependence.
+
+**The gate fired first on my own wiring, and that is the reason to trust it.** The
+first F5 run returned `failed: 12 attributed candidate(s) carry no label` — the
+label existed in the per-candidate record but the attributed entry carried only
+`stage`. Had the gate passed when labels were missing, this run would have
+produced a fine-looking table of `(B-restated): no` for the wrong reason.
+
+**What this does not establish.** Nothing about D0. One seed, one hash-seed pair,
+one differing type; a differing candidate on a failing seed may be tag-scored, and
+the control's answer does not constrain it. What is established is an instrument
+property: the observer can name the builder behind a differing candidate, and
+(B-restated) is a reachable bucket rather than an unreachable name.
+
+→ `docs/F4-RESULTS.md` §7-§8; `docs/STORE-TIME-OBSERVER-BRIEF.md` §9;
+`docs/store_time_observer_f4.json`; `benchmarks/store_time_observer.py` (version 2).
