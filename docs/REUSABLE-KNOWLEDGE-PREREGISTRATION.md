@@ -196,8 +196,8 @@ check exists so that decision cannot be made after seeing a score.
 | Arm | Capacity | Label in every artifact |
 |---|---|---|
 | `V1` | 20 (as published) | frozen reference |
-| `V1.1-cap` | the variant's declared cap | **variant**, never V1 |
-| `oracle-admitted` | as `V1.1-cap` | **mechanism arm** — admission filtering at fixed evidence; never the ceiling (§14) |
+| `V1.1-cap(1000)` | **1,000, fixed** (§15) | **variant**, never V1 |
+| ~~`oracle-admitted`~~ | not run | **deferred** — no reproducible candidate-level rule yet; no verdict may reference it (§15) |
 
 **Primary comparators — the same-experience set.** Each is swept over a declared
 hyperparameter grid, its **best** score selected on a tuning split, and each is reported
@@ -247,6 +247,9 @@ The study stops, and reports what it has, if **any** of the following occurs:
    outside its declared band → the unit is reported as not attributable, not as a result.
 4. **The readout's span is inadequate** on the world as built → the endpoint cannot see
    the effect and the study does not proceed to scoring.
+5. **Calibration Gate F fails on any of the five calibration seeds** (V1.1-cap(1000) only)
+   → stop before any confirmatory seed; report *formation not achieved at the calibration
+   operating point*, never a transfer result (§15).
 
 And, after the run begins: **no raising n**, no re-reading a criterion, no restating a
 gate after seeing it, and no limb added to rescue a verdict.
@@ -317,10 +320,17 @@ the result.
 
 ## 10. Build, cost, and what is not built yet
 
-**Not built.** No harness extension exists for this protocol. The draft implies three
-pieces of work, all in `benchmarks/`: a held-out scoring pass at the variant capacity,
-the Gate F audit with its precision companion, and the comparator sweep under the
-naming rule of §4.
+**Not built.** No harness extension exists for this protocol. Five pieces of work,
+all in `benchmarks/` (§15):
+
+1. the **conditioned sampler** — two declared cell transitions withheld across warmup *and*
+   acquisition, no skipped events; the existing one-transition mask is **not** reused;
+2. the **Gate F audit** over the available-relation denominator, with its precision companion;
+3. the **held-out scoring pass** at the variant capacity, on the real transfer window;
+4. the **latent-rule holder**, implementing the closed-form ceiling of §14;
+5. the **comparator sweep** under the naming rule of §4, with the oracle arm deferred.
+
+Machine-readable parameters: `docs/reusable_knowledge_variant.json`.
 
 **Cost, as a design input rather than a promise.** The utilization campaign measured
 72.2 s per isolated arm run, 205–225 s under contention, and 12.72 worker-hours for a
@@ -442,3 +452,55 @@ law itself rather than the support of the answer.
 
 **What the amendment leaves in place.** §9's limits gain one line: a result here may not
 be reported as clearing the ceiling, only as being measured against it.
+
+---
+
+## 15. Amendment 2 — the variant's capacity, the calibration gate, and the deferred arm
+
+**Why an amendment.** §4 left V1.1-cap's capacity as "the variant's declared cap" and
+carried an oracle-admitted arm whose candidate-level rule was never specified. Both are
+settled here, before the harness is built, together with how Gate F governs calibration.
+**§15 supersedes §4's capacity column and oracle row, and adds a fifth stop rule**;
+everything else stands, including §3.1's transfer definition and §14's ceiling.
+
+**1. The variant is fixed at `MAX_PREDICTIONS = 1,000`.** This is the capacity at which
+formation has been demonstrated — the paired capacity test measured asserted coverage of
+0.0–2.7 % at 20 against 98.2–100 % at 1,000 — so it is the only capacity with a precedent
+behind the Gate F operating point. The value is fixed **now**, not tuned later: the
+variant is `V1.1-cap(1000)`, a capacity change and nothing else, built in `benchmarks/`
+as a subclass. `organica/` is untouched and `v0.9.0` stays the reference. **A different
+capacity is a different variant and needs its own amendment.**
+
+**2. Gate F governs the calibration pass on V1.1 only, and all five calibration seeds
+must pass.** Calibration runs `V1.1-cap(1000)` alone on `20261201–20261205`, and Gate F
+must clear **≥ 0.95 on all five**. One failure stops the study before any confirmatory
+seed is touched, and is reported as *formation not achieved at the calibration operating
+point* — never as a transfer result. The confirmatory rule is unchanged: ≥ 0.95 on at
+least **15 of 20** seeds, every seed contributing, with the rate reported against its
+denominator.
+
+**The asymmetry is deliberate and stated so it cannot be read as convenience.**
+Calibration is a **go/no-go with n = 5**, where a single seed is a fifth of the evidence,
+so a single failure is disqualifying. Confirmatory is a **measurement with n = 20**, where
+one seed is not, so the criterion is a rate with a majority floor — fixed in §2 and not
+moved here. Neither rule may be swapped for the other after a result.
+
+**3. The oracle-admitted arm is deferred and is not run.** Its candidate-level admission
+rule has never been specified precisely enough to reproduce, and an arm whose mechanism is
+a label is precisely how the divergence work lost a generation (journal §87). It is
+removed from calibration and confirmatory, **not replaced, not approximated, and no
+verdict may reference it**. If it returns, it returns through an amendment that states the
+rule and its provenance **before** any cell runs. The comparator set is otherwise
+unchanged: **replay, bigram, decayed bigram** as the primary same-experience set, the
+**latent-rule holder** as the ceiling, and the **cell counter** as a privileged reference
+reported separately.
+
+**4. A build consequence recorded now.** The existing generator and runner use the earlier
+**one-transition** mask — one held cell's flip-P transitions, 1 of 8 — together with the
+storage-skip pattern §3.1 rejects. The conditioned sampler (two declared transitions, both
+formation phases, no skipped events) is therefore **new work in `benchmarks/`**, and the
+old mask must not be reused. The five build items are listed in §10.
+
+**What this leaves in place.** The seed sets, §3.1's transfer rule and feasibility result,
+the 0.95 threshold, the 98.33 % paired bootstrap, the four existing stop rules, and every
+§9 limit. **No cell has run and the harness is still not built.**

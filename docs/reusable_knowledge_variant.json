@@ -1,0 +1,57 @@
+{
+ "amendment": "REUSABLE-KNOWLEDGE-PREREGISTRATION section 15",
+ "capacity_change_only": true,
+ "capacity_is_fixed": true,
+ "comparators": {
+  "ceiling": "full latent-rule holder",
+  "primary_same_experience": [
+   "replay",
+   "bigram",
+   "decayed_bigram"
+  ],
+  "privileged_reference": "cell-level latent-state counter (reported separately)"
+ },
+ "existing_mask_reusable": false,
+ "frozen_reference": "v0.9.0",
+ "gate_f_calibration": {
+  "all_seeds_must_pass": true,
+  "denominator": 96,
+  "on_failure": "stop before any confirmatory seed; report formation not achieved",
+  "scope": "V1.1-cap(1000) only",
+  "seed_count": 5,
+  "seeds": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ],
+  "threshold": 0.95
+ },
+ "gate_f_confirmatory": {
+  "denominator": 96,
+  "min_seeds_passing": 15,
+  "seed_count": 20,
+  "seeds": "20261207-20261226",
+  "threshold": 0.95
+ },
+ "implemented_as": "harness subclass in benchmarks/; organica/ untouched",
+ "kind": "reusable_knowledge_variant",
+ "max_predictions": 1000,
+ "name": "V1.1-cap(1000)",
+ "no_cell_has_run": true,
+ "oracle_admitted_arm": {
+  "may_be_referenced_by_a_verdict": false,
+  "return_requires": "an amendment stating the candidate-level admission rule before any cell",
+  "run_in_calibration": false,
+  "run_in_confirmatory": false,
+  "status": "deferred"
+ },
+ "requires_new_harness_work": [
+  "conditioned sampler withholding two declared cell transitions across warmup and acquisition",
+  "Gate F audit over the available-relation denominator, with precision companion",
+  "held-out scoring pass at the variant capacity",
+  "latent-rule holder ceiling",
+  "comparator sweep under the naming rule"
+ ]
+}

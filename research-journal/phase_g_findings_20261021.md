@@ -7439,3 +7439,34 @@ amendment that says what it supersedes, is the only point at which the choice is
 → `docs/reusable_knowledge_gate_definitions.json`;
 `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §2, §4, §9, §14.
 
+## §93 — The variant fixed at 1,000, calibration gated on all five, and one arm deferred rather than approximated
+
+**Capacity fixed at `MAX_PREDICTIONS = 1,000`.** Formation has been demonstrated at that
+capacity (asserted coverage 98.2–100 %) and not at the published 20 (0.0–2.7 %), so it is
+the only value at which this protocol's Gate F has a precedent. Fixing it before the build
+means the capacity cannot be re-chosen after a result; a different value is a different
+variant.
+
+**Gate F governs calibration on V1.1 only, all five seeds required.** Calibration is a
+go/no-go at n = 5, where each seed is a fifth of the evidence, so one failure stops the
+study before a confirmatory seed is touched. Confirmatory keeps the rate rule already in
+§2 — 15 of 20. The two rules are deliberately different and neither may be swapped for the
+other afterwards; writing both down here is what makes that checkable.
+
+**The oracle-admitted arm is deferred, not approximated.** Its candidate-level rule was
+never specified to a reproducible standard, and the B-prime failure (§87) was an arm whose
+mechanism existed only as a label. It is excluded from both passes, no verdict may cite it,
+and it can only return through an amendment that states the rule before any cell runs.
+
+**A build fact, so the harness cannot quietly reuse the wrong machinery.** The existing
+generator and runner carry the earlier **one-transition** mask (1 of 8) and the
+storage-skip pattern §3.1 rejects; the conditioned sampler is new work in `benchmarks/`.
+Five build items are now enumerated in §10, with the parameters in
+`docs/reusable_knowledge_variant.json`.
+
+**Still not started.** No harness, no calibration, no cells. Organica 1 stays frozen at
+`v0.9.0`.
+
+→ `docs/reusable_knowledge_variant.json`;
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §4, §6, §10, §15.
+
