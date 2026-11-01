@@ -7147,3 +7147,21 @@ that the intervention is admissible to be tested: it does not move the control a
 fixed hash seed, it does not change behaviour when merely observed, and it is
 deterministic. P3 is answered by gate 4 or not at all.
 
+## §86 — Arm B-prime across the eight seeds: F1 fires
+
+**The order channel, canonicalised at all three sites, is not sufficient.** At
+least one failing seed still records tables that differ across its own hash-seed
+pair: **0 of 8 seeds invariant**, so **F1 fires and H2 is refuted in its strong
+form**.
+
+**Where it still varies.** T1/20261125 still differs at 90 cycles ({'arm': 'B', 'cycle': 1, 'membership_same': True, 'type': 'score_tags'}). The seeds that still differ, and by how much, are in
+`docs/divergence_arm_b_prime_sweep.json`; the largest is listed first. Under the
+brief's stop rule this closes the order channel rather than inviting a re-tuned
+intervention, and the search moves on.
+
+**What F1 firing does not say.** That order is irrelevant — the control and the
+record's earlier reproduction results stand — only that canonicalising these three
+sites does not remove the variation. It does not re-score D0 and does not touch
+V1's deficits.
+
+→ `docs/divergence_arm_b_prime_sweep.json`; journal §74, §79, §85.
