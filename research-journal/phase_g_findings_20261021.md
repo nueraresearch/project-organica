@@ -7333,3 +7333,44 @@ finding. Three things it fixes that the earlier campaigns got wrong or left impl
 No cell has run, no harness has been extended for it, and the draft is not a
 preregistration until the owner signs §0.
 
+## §90 — The transfer manipulation is feasible, but not the way the draft proposed
+
+**The review was right on three counts.** (a) The draft pointed at
+`organica/ground_truth_worlds.py`, the older hidden-cause generator; the transition
+worlds are `benchmarks/acquisition_world.py` (four groups) and
+`benchmarks/acquisition_compositional.py` (four cells, the one the utilization campaign
+ran). (b) The compositional generator's existing `trainable` mask withholds the
+**stored** event while still generating it and advancing the hidden state, so stored
+events end up adjacent across a gap the world never had — not a conditioned stream, and
+reusing it would have manufactured adjacency and called it a world. (c) The unit was
+ambiguous: the law has **eight** directed cell transitions and **128** tag pairs, while
+the **112** is the *group* world's tag-level count, so "25 %" meant two of eight or 28
+of 112 depending on which document a reader had.
+
+**What the generator-only check found.** Six criteria were fixed before any subset was
+evaluated. The draft's own rule — every fourth transition, `(0,1)` flip_q with `(1,1)`
+flip_q — **fails**: the permitted graph is not strongly connected, cells `(0,0)` and
+`(1,0)` are unreachable, and two permitted transitions drop to 0–1 instances in 720
+events. All **28** two-transition subsets were evaluated, **16 are feasible**, and the
+adopted rule is the first of them — withhold `(0,0)` flip_p with `(0,1)` flip_q — with
+strong connectivity, every cell in and out, all four contexts present, the sparsest
+permitted transition seen **36** times, consecutive pairs genuine, and **130** and **66**
+instances of the two withheld transitions in a 100-cycle test window against a floor of
+20.
+
+**What this is, and is not.** A feasibility result about a generator, established
+without an engine or a study cell. It is **not** evidence about the organism, and it does
+not begin the campaign: no harness exists, and the rule is now declared in advance
+rather than assumed. The fallback — report the limb as held-out generalization if no
+subset were feasible — was written before the enumeration and did not need to be used.
+
+**One check of my own was wrong, and is corrected here.** The first version of the
+consecutive-event check compared each event's successor against the *next* event's
+successor rather than against its own start, so it returned false on a stream that was
+consecutive. Recorded because a broken check that fails loudly is luck, and the same bug
+in a check that happened to pass would have gone unnoticed.
+
+→ `benchmarks/reusable_knowledge_feasibility.py`;
+`docs/reusable_knowledge_feasibility.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
+§3.1.
+

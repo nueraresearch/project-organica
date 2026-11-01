@@ -104,10 +104,14 @@ the gate is defined so that it can fail loudly.
 
 ## 3. The world, and why this one
 
-- A latent-cell world in the T1/T2 family, reusing the acquisition protocol's
-  generator so results are comparable to the record: a **learnable law** over cells,
-  of which **112 cross-cell edges** carry the relation, plus law-governed
-  self-recurrence.
+- **The compositional world** (`benchmarks/acquisition_compositional.py`) — not the
+  group world, and not `organica/ground_truth_worlds.py`, which is the older
+  hidden-cause generator: four cells from two latent factors, four tags per cell, and a
+  law in which the successor differs from the context in exactly one factor. Its law is
+  **eight directed cell transitions**, which expand to **128 distinct tag pairs**. The
+  **112 cross-cell edges** belong to the other task's generator
+  (`benchmarks/acquisition_world.py`, four groups); the two counts must never stand in
+  for each other.
 - **Scored events are outside the formation window**, with the same endpoint for every
   learner: log-loss over a fixed denominator (`|contexts| × |vocabulary|`), the same
   labels throughout, the readout calibrated on calibration seeds and frozen before the
@@ -128,29 +132,51 @@ seeds, not assumed from the world's design.
 The distinction is fixed here so it cannot be made in the write-up:
 
 - **Held-out generalization** — events drawn from the **same** law as formation, after the
-  formation window. Nothing about the relation was withheld; only the individual events
-  are new. This is worth measuring, and it is **not** called transfer.
+  formation window. Nothing about the relation was withheld; only individual events are
+  new. This is worth measuring, and it is **not** called transfer.
 - **Transfer** — prediction on combinations the organism **never had the opportunity to
   observe**. To earn the word, the design must **withhold a declared set of the law's
   transitions from the formation stream entirely** and score prediction on those.
 
-**The withholding rule, fixed in advance.** From the generator's permitted transition
-set, a **declared 25 %** of the law's cross-cell edges is withheld, selected by a rule
-stated before the run (every fourth edge in the generator's own edge ordering) and never
-by anything the organism did. The formation stream contains **no** event instantiating a
-withheld edge — the generator is conditioned to avoid them — and the withheld set is
-never scored during formation.
+**The unit, settled on the generator's own terms.** A *transition* here is a **directed
+cell transition** — one context cell plus one flip type — of which the compositional law
+has **eight**, expanding to **128** distinct tag pairs. Withholding 25 % therefore means
+**two of the eight**, not 28 of 112: the 112 is a tag-level count of the *group* world and
+is not a quantity of this world at all.
 
-**Denominator requirement.** The withheld set must contain at least **20** transitions on
-every confirmatory seed. If a seed's withheld set is smaller, that seed contributes
-**no transfer score**, and the limb reports its denominator beside its rate — a rate over
-three cases is not a transfer result.
+**Conditioned sampling, not a mask.** The generator already carries a `trainable` mask
+(`benchmarks/acquisition_compositional.py:210`), and it cannot be reused: it still
+generates the withheld event and advances the hidden state, and the runner skips storing
+it afterwards, so stored events become adjacent across a gap the world never had. This
+protocol requires the sampler to **resample among the permitted transitions of the current
+cell** whenever the law would emit a withheld one, and to store every event it generates.
 
-**If the rule cannot be honoured** on the world as built, the limb is reported as
-**held-out generalization** and the word *transfer* is not used anywhere in the
-result. Naming the limb after what was manipulated is not optional: the project has
-already published one naming defect of exactly this shape (`docs/formation_utilization_results.md`
-§6, "data-only").
+**Feasibility, generator-only, run before any build.**
+`benchmarks/reusable_knowledge_feasibility.py` imports the generator and walks its law —
+no engine, no study cell — and writes `docs/reusable_knowledge_feasibility.json`. Six
+criteria were fixed before any subset was evaluated: strong connectivity of the permitted
+graph; in-degree and out-degree at least 1 for every cell; all four cells present as
+contexts; every permitted transition instantiated at least once; stored events genuinely
+consecutive; and at least 20 instances of each withheld transition in a 100-cycle test
+window.
+
+**The rule this section first proposed fails.** Withholding every fourth transition in the
+generator's ordering — `(0, 1)` flip_q and `(1, 1)` flip_q — leaves the permitted graph **not strongly
+connected**: cells `(0,0)` and `(1,0)` become unreachable, two permitted transitions fall
+to 0–1 instances in 720 events, and the failure is recorded rather than smoothed.
+
+**The rule adopted.** All **28** two-transition subsets were
+evaluated against those six criteria, and **16 are feasible**.
+The adopted rule is the lexicographically first feasible subset in the generator's own
+ordering — withhold **`(0, 0)` flip_p and `(0, 1)` flip_q** — selected by those criteria and by no study
+outcome. Its check: strongly connected; every cell in and out; all four contexts present;
+every permitted transition instantiated, the sparsest **36** times in 720
+events; consecutive pairs genuine; and **130** and **66** instances of the two withheld
+transitions in the test window, against a floor of 20.
+
+**The fallback, unchanged.** Had the enumeration returned no feasible subset, the limb
+would be reported as **held-out generalization** and the word *transfer* would not appear
+in the result. The check exists so that this decision cannot be made after seeing a score.
 
 ## 4. Arms and comparators — same experience, named grants
 
