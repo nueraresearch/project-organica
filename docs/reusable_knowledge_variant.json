@@ -73,17 +73,41 @@
  "per_claim_provenance": {
   "all_seeds_passed": false,
   "claims_failing_per_seed": [
-   264,
-   592
+   254,
+   576
   ],
   "claims_measurable_per_seed": [
    604,
    1277
   ],
-  "criterion": "each claim's distinct support must be mostly world-derived and no more self-sourced than the frozen reference",
+  "claims_unmeasurable_per_seed": [
+   16,
+   36
+  ],
+  "control": {
+   "claims": 1313,
+   "failed": 1313,
+   "max_share": 1.0
+  },
+  "criterion": "each asserted claim's distinct support must be mostly world-derived and no more self-sourced than the frozen reference",
+  "measurable_floor": 0.5,
+  "population": "every asserted Layer-1 prediction and hypothesis",
   "reference": 0.179,
   "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
-  "resolution": "per claim, distinct support (prior event ids)"
+  "resolution": "per claim, distinct transitions (prior event, target event)",
+  "supersedes": "the \u00a719 counts, computed on a collapsed transition unit",
+  "withheld_subpopulation": {
+   "claims_per_seed": [
+    0,
+    20
+   ],
+   "measurable_per_seed": [
+    0,
+    20
+   ],
+   "role": "diagnostic; cannot be the criterion",
+   "seeds_with_none_measurable": 2
+  }
  },
  "reproducibility": {
   "observed_divergence": "seed 20261204 scored 0.60055 and 0.6025 in two runs before the pin",

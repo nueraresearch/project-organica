@@ -137,6 +137,12 @@ SELF_SOURCED_MAX = 0.25
 #: arm (`docs/AUDIT-TRACE-SPEC.md` §10).  A claim may be no more self-sourced
 #: than that, and its distinct support must be mostly world-derived.
 SELF_SOURCED_REFERENCE = 0.179
+
+#: The measurement floor: the rule is only *evaluable* when at least half of the
+#: asserted claims carry measurable support.  Unmeasurable claims are excluded
+#: from the pass/fail count (AGENTS rule 13) but reported, and a population that
+#: is mostly unmeasurable is reported not evaluable rather than as a pass.
+MEASURABLE_FLOOR = 0.5
 REFERENCE_PROVENANCE = ("docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct "
                         "evidence transitions, default arm")
 
@@ -555,7 +561,11 @@ def _support_observer(mem: MemoryService):
     each edge, split world / self: the spec's disqualifier reads distinct
     evidence, and a cumulative count would count one transition per cycle.
     """
-    support: dict[tuple[str, str], dict[int, bool]] = defaultdict(dict)
+    #: (from, to) -> {(prior_event_id, to_event_id): was_self}.  The identity is
+    #: the TRANSITION, not the source event: transitions from one prior event to
+    #: different targets are distinct evidence, as the audit-trace observer
+    #: defines it (spec §3.3).
+    support: dict[tuple[str, str], dict[tuple[int, int], bool]] = defaultdict(dict)
     state = {"windows_with_sleep": 0}
 
     def record(new_tags: list[str]) -> None:
@@ -563,13 +573,14 @@ def _support_observer(mem: MemoryService):
             "SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3"
         ).fetchall()
         slept = False
+        to_id = int(rows[0][0]) if rows else None
         for rid, tags_str, etype in rows:
             prior = [t for t in (tags_str or "").split(",") if t]
             for u in prior:
                 for v in new_tags:
                     if u == v:
                         continue
-                    support[(u, v)][int(rid)] = (etype == "sleep")
+                    support[(u, v)][(int(rid), to_id)] = (etype == "sleep")
             slept = slept or etype == "sleep"
         state["windows_with_sleep"] += int(slept)
 
@@ -604,41 +615,32 @@ def support_provenance(support: dict, asserted: set[tuple[str, str]],
     }
 
 
-def _claim_passes(world: int, self_: int, reference: float) -> bool:
-    total = world + self_
-    if total <= 0:
-        return False
-    return (self_ / total) <= reference and world > self_
+def _claim_edges(candidates: list[dict],
+                 withheld_relations: frozenset = frozenset()) -> list[dict[str, Any]]:
+    """The claims the readout asserts: Layer-1 predictions and hypotheses.
 
-
-def _claim_edges(candidates: list[dict]) -> list[dict[str, Any]]:
-    """The claims the readout asserts: Layer-1 predictions and hypotheses."""
+    `on_withheld` marks a claim whose own edge is one of the withheld relations —
+    a claim about a relation the transfer limb scores.  Both populations are
+    reported; §20 fixes which one the criterion governs.
+    """
     out = []
-    for c in candidates:
-        t = c.get("type")
-        if t == "prediction_candidate":
-            src, tgt = c.get("source"), c.get("target")
-        elif t == "hypothesis":
-            src, tgt = c.get("subject"), c.get("expectation")
+    for item in candidates:
+        t = item.get("type") or item.get("event_type") or ""
+        if "prediction" in t:
+            src, tgt = item.get("source"), item.get("target")
+        elif "hypothesis" in t:
+            src, tgt = item.get("subject"), item.get("expectation")
         else:
-            continue
+            src = tgt = None
         if src and tgt:
-            out.append({"type": t, "source": src, "target": tgt})
+            out.append({"type": t, "source": src, "target": tgt,
+                        "on_withheld": (src, tgt) in withheld_relations})
     return out
 
 
-def per_claim_provenance(claims: list[dict], support: dict,
-                         reference: float = SELF_SOURCED_REFERENCE
-                         ) -> dict[str, Any]:
-    """The disqualifier of spec §11, at the resolution it is written at.
-
-    For **each claim**, its own distinct supporting transitions are split world /
-    self.  A claim passes when it has measurable support, no more of it is
-    self-sourced than the frozen reference, and its distinct support is mostly
-    world-derived.  A run-level share cannot substitute for this: it averages
-    claims whose evidence is almost entirely world-derived with claims whose
-    evidence is almost entirely the organism's own output.
-    """
+def _evaluate_claims(claims: list[dict], support: dict,
+                     reference: float) -> dict[str, Any]:
+    """Apply the per-claim rule to one claim set and one support map."""
     rows = []
     for c in claims:
         recs = support.get((c["source"], c["target"])) or {}
@@ -647,7 +649,7 @@ def per_claim_provenance(claims: list[dict], support: dict,
         total = world + self_
         share = (self_ / total) if total else None
         rows.append({**c, "world": world, "self": self_,
-                     "distinct_support": total,
+                     "distinct_transitions": total,
                      "share_self_sourced": None if share is None else round(share, 6),
                      "passed": (share is not None and share <= reference
                                 and world > self_)})
@@ -655,26 +657,64 @@ def per_claim_provenance(claims: list[dict], support: dict,
     failing = [r for r in measurable if not r["passed"]]
     shares = [r["share_self_sourced"] for r in measurable]
     return {
-        "resolution": "per claim, distinct support (prior event ids)",
-        "reference": reference,
-        "reference_provenance": REFERENCE_PROVENANCE,
         "claims_total": len(rows),
         "claims_measurable": len(measurable),
+        "claims_unmeasurable": len(rows) - len(measurable),
         "claims_passed": len(measurable) - len(failing),
         "claims_failed": len(failing),
         "min_share": min(shares) if shares else None,
         "max_share": max(shares) if shares else None,
         "failing_examples": failing[:5],
-        "measurable": bool(measurable),
-        "control_all_self_fails": not _claim_passes(0, 1, reference),
-        "all_claims_passed": bool(measurable) and not failing,
-        "reason": ("each claim's own support must be mostly world-derived and no "
-                   "more self-sourced than the frozen reference"),
     }
 
 
+def per_claim_provenance(claims: list[dict], support: dict,
+                         reference: float = SELF_SOURCED_REFERENCE,
+                         measurable_floor: float = MEASURABLE_FLOOR
+                         ) -> dict[str, Any]:
+    """The disqualifier of spec §11, at the resolution it is written at.
+
+    For **each claim**, its own distinct transitions — identified by (prior event,
+    target event), as the audit-trace observer defines them — are split world /
+    self.  A claim passes when it has measurable support, no more of it is
+    self-sourced than the frozen reference, and its distinct support is mostly
+    world-derived.
+
+    **The control runs the evaluator.** An all-self support map is passed through
+    this same function and every claim in it must fail.  Comparing a constant
+    would prove nothing about the code that judges the real claims.
+    """
+    real = _evaluate_claims(claims, support, reference)
+    synthetic = {(c["source"], c["target"]): {(0, 1): True} for c in claims}
+    control = _evaluate_claims(claims, synthetic, reference)
+    control_fails = (control["claims_measurable"] > 0
+                     and control["claims_failed"] == control["claims_measurable"])
+    real.update({
+        "resolution": "per claim, distinct transitions (prior event, target event)",
+        "reference": reference,
+        "reference_provenance": REFERENCE_PROVENANCE,
+        "measurable_floor": measurable_floor,
+        "measurable_fraction": (round(real["claims_measurable"] / real["claims_total"], 6)
+                                if real["claims_total"] else None),
+        "evaluable": (real["claims_total"] > 0
+                      and real["claims_measurable"] >= measurable_floor
+                      * real["claims_total"]),
+        "withheld_claims": _evaluate_claims(
+            [c for c in claims if c.get("on_withheld")], support, reference),
+        "control": {"claims": control["claims_measurable"],
+                    "failed": control["claims_failed"],
+                    "max_share": control["max_share"]},
+        "control_all_self_fails": control_fails,
+        "reason": ("each claim's own support must be mostly world-derived and no "
+                   "more self-sourced than the frozen reference"),
+    })
+    real["all_claims_passed"] = bool(real["evaluable"] and real["claims_failed"] == 0)
+    return real
+
+
 def run_engine(formation: dict, revision: dict, seed: int,
-               cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
+               cap: int = MAX_PREDICTIONS,
+               withheld_relations: frozenset = frozenset()) -> dict[str, Any]:
     """Formation, then revision learning under the rotated law; two snapshots.
 
     The variant differs from V1 in the Layer-1 truncation only and `organica/` is
@@ -704,7 +744,7 @@ def run_engine(formation: dict, revision: dict, seed: int,
             by_type[c.get("type", "")].append(c)
         return {"rows": rows,
                 "asserted": {(u, v) for u, ts in rows.items() for v in ts},
-                "claims": _claim_edges(frozen),
+                "claims": _claim_edges(frozen, withheld_relations),
                 "type_rows": {t: structure_edges(cs) for t, cs in by_type.items()}}
 
     try:
@@ -774,7 +814,8 @@ def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
     base_rate = base_rate_of(rows)
     base_rate_rev = base_rate_of(rev_all)
 
-    engine = run_engine(formation, revision, seed, cap)
+    engine = run_engine(formation, revision, seed, cap,
+                        frozenset(relations["withheld"]))
     gate = gate_f(engine["asserted"], relations)
 
     comps = comparator_sweep(rows, fit_rows, vocab, world["tag_to_cell"])
@@ -932,9 +973,20 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
           and prov["control_share"] > prov.get("maximum", SELF_SOURCED_MAX))
 
     pcp = (cell.get("per_claim_provenance") or {}).get("formation") or {}
-    e8 = (pcp.get("measurable") is True
+    ctrl = pcp.get("control") or {}
+    # E8 is a check on the instrument: the rule must be evaluable on a real
+    # population, and the all-self control must actually go through the evaluator
+    # and fail every claim it contains.  Whether the measured claims pass belongs
+    # to the criterion, not to this check.
+    e8 = (pcp.get("evaluable") is True
+          and (pcp.get("claims_measurable") or 0) > 0
+          and ctrl.get("claims") == pcp.get("claims_total")
+          and ctrl.get("claims", 0) > 0
+          and ctrl.get("failed") == ctrl.get("claims")
+          and ctrl.get("max_share") == 1.0
           and pcp.get("control_all_self_fails") is True
-          and pcp.get("reference") == SELF_SOURCED_REFERENCE)
+          and pcp.get("reference") == SELF_SOURCED_REFERENCE
+          and str(pcp.get("resolution", "")).startswith("per claim"))
 
     att = cell.get("attribution") or {}
     e5 = (bool(att.get("passed"))
@@ -981,8 +1033,13 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
         "E8_per_claim_rule_is_measurable": {
             "passed": e8,
             "reference": pcp.get("reference"),
+            "resolution": pcp.get("resolution"),
+            "claims_total": pcp.get("claims_total"),
             "claims_measurable": pcp.get("claims_measurable"),
+            "claims_unmeasurable": pcp.get("claims_unmeasurable"),
             "claims_failed": pcp.get("claims_failed"),
+            "evaluable": pcp.get("evaluable"),
+            "control": pcp.get("control"),
             "control_all_self_fails": pcp.get("control_all_self_fails"),
             "reason": ("the per-claim rule must have measurable claims and its "
                        "all-self control must fail")},

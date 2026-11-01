@@ -7663,3 +7663,37 @@ reports.
 → `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §19;
 `docs/AUDIT-TRACE-SPEC.md` §11.
 
+## §98 — Three defects in the per-claim measurement, and what survived them
+
+**The unit was wrong.** §97 keyed each claim's support by the source event, so repeated transitions
+out of one prior event collapsed into one. The audit-trace observer defines a distinct transition as
+the pair (prior event, target event) — spec §3.3 — and the frozen 17.9 % reference is a count of
+those. Comparing a source-event count against a transition-pair reference is the offence rule 19
+prohibits, one level down: the numbers are not of the same kind. Keyed correctly, distinct support
+rises to 12,076–12,157 and the run-level share falls to 0.4092–0.4155.
+
+**The control did not run the code.** `control_all_self_fails` compared a boolean built from two
+literal arguments, and the audit checked the boolean. It never passed a claim through the evaluator,
+so it could not fail for the reason a control exists. It now builds an all-self support map over the
+same claim set and judges it with the same function; `E8` checks that the control's claims equal the
+population, all fail, and reach a maximum share of 1.0. The rebuilt check reported failure the moment
+the population's field names changed, which is the behaviour an instrument check should have.
+
+**The scope is decided rather than assumed.** The rule governs every claim the readout asserts,
+because a prediction for a scored pair comes from the asserted structure through smoothing, not from
+a claim about that pair. The narrower population — claims about the withheld relations themselves —
+has 0–20 claims, 0–20 of them measurable, and on 2 of
+5 seeds none at all, so it cannot be the criterion; it is reported beside it. Unmeasurable
+claims are excluded and reported, with a declared 50% measurable floor below which the rule
+is reported not evaluable rather than passed; the measured fraction is 0.9711–0.9765.
+
+**What survives.** 254–576 of 604–1277 measurable claims still fail per
+seed (4205.3–5210.8 %), shares still reach 1.0000, the revision limb adds
+282–510 failures, and `authorises_confirmatory` is still false. The 264–592 count is
+withdrawn rather than quietly updated: on the corrected unit every seed fails slightly fewer claims
+(592, 348, 332, 264, 336 → 576, 346, 326, 254, 332), so the defect did not
+manufacture the failure — and the record should show the defect and its repair, not a number that
+moved without explanation. The instrument passes 8 of 8 checks; the criterion fails.
+
+→ `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.
+

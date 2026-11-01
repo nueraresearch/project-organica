@@ -752,6 +752,13 @@ output, and the two can be equally wrong for different reasons.
 
 ### 19.2 The result
 
+> **Withdrawn.** The counts in this subsection were computed on a *collapsed* transition
+> unit — support keyed by the source event alone — so repeated transitions from one prior
+> event to different targets were counted once. The audit-trace specification defines a
+> distinct transition by the pair (prior event, target event) (§3.3), so these figures are
+> not on the same unit as the frozen reference. §20 restates the measurement on the correct
+> unit and supersedes every count below; they are kept only as the record of the defect.
+
 | seed | measurable claims | failing | self-sourced share, min–max |
 |---|---|---|---|
 | 20261201 | 1277 | 592 (46.4 %) | 0.0000–1.0000 |
@@ -789,3 +796,93 @@ does, and the corrected quantity is the one the spec's rule reads.
 **What this leaves in place.** §14's ceiling and denominator, §15's decisions, §17's attribution
 share, §18's revision limb and provenance layer, the 0.95 threshold, the 15-of-20 rule and both
 stop rules. **No confirmatory seed has been run.**
+
+---
+
+## 20. Amendment 6 — the transition identity, a control that runs the evaluator, and the population the rule governs
+
+§19 got the resolution right and three details wrong. This section corrects the measurement, fixes
+the control, and settles the two scope choices §19 left implicit. **No threshold, limb, seed or
+hypothesis changes; the stop of §18.3 and §19.3 is preserved and still binding.**
+
+### 20.1 The unit was wrong: a distinct transition is (prior event, target event)
+
+§19 keyed a claim's support by the **source event id** alone, so two transitions out of the same
+prior event to different targets counted once. The audit-trace observer identifies a distinct
+transition by the pair — `(tag_from, tag_to, prior_event_id, to_event_id)` — and
+`docs/AUDIT-TRACE-SPEC.md` §3.3 defines distinct evidence that way. The comparator was therefore
+the number the specification freezes, applied to a **different unit**: the same defect rule 19
+prohibits in its usual form, one level down. A reference cannot govern a count that is not of the
+same kind.
+
+Support is now stored under `(prior_event_id, to_event_id)`. Distinct support rises from about
+10,400 to **12,076–12,157** transitions per seed, and the run-level share falls to
+**0.4092–0.4155** (7,106–7,143 world against 4,947–5,051
+self).
+
+### 20.2 The control must judge claims, not compare a constant
+
+§19's `control_all_self_fails` evaluated `_claim_passes` on two literal arguments and compared the
+result to a boolean constant, and `E8` then checked that constant. It could not fail for the reason
+a control exists, because it never passed a claim through the evaluator — it was a second inventory
+of the expression it was supposed to test.
+
+The control now **builds an all-self support map over the same claim set and passes it through the
+same evaluator**, and `E8` checks the arithmetic rather than a flag: the control's claim count must
+equal the population's, every one of them must fail, and its maximum share must be 1.0. Measured on
+seed 20261201: **1,313 control claims, all
+1,313 failing, maximum share 1.0**, and
+the same on every seed. `tests/test_reusable_knowledge.py` proves the case directly with a
+single-claim all-self map, so the control cannot regress to a constant comparison unnoticed. The
+rebuilt `E8` also caught its own breakage during this work — the audit reported failure the moment
+the population's field names changed, which is what a check on an instrument should do.
+
+### 20.3 Which claims the rule governs
+
+**Decided: every claim the readout asserts — Layer-1 predictions and hypotheses.** The justification,
+stated because the narrower alternative is defensible: the readout's prediction for a *scored* pair
+is not computed from a claim about that pair. An unasserted relation falls back through smoothing to
+the structure that *is* asserted, so the evidence behind a withheld-pair prediction is the asserted
+population, not a claim object that does not exist. A rule governing only claims about the withheld
+relations would measure almost nothing and, on this run, sometimes literally nothing: that
+sub-population has 0–20 claims, of which 0–20 are measurable, and on
+**2 of 5 seeds it has none at all**. A criterion that is unevaluable on two seeds
+cannot be the rule that decides the study (rule 13b).
+
+The withheld sub-population is **reported beside it** with its own denominator, as a diagnostic: it
+answers "are the scored relations themselves carried by world evidence?" without pretending to be
+the criterion. Where it is measurable it fails too (0–20 of 0–20).
+
+### 20.4 How unmeasurable claims count
+
+Unmeasurable claims are **excluded** from the pass/fail count and **reported** (rule 13b: an
+unmeasurable quantity is not a zero). Because exclusion can also hide a broken measurement, a
+declared floor accompanies it: the rule is **evaluable** only when measurable claims are at least
+**50%** of the asserted population, and below that it is reported not evaluable — which
+cannot authorise a confirmatory run. Measured fraction **0.9711–0.9765**, with
+16–36 unmeasurable claims per seed, so the rule is evaluable on all five.
+
+### 20.5 The result on the corrected unit
+
+| seed | asserted claims | measurable | unmeasurable | failing | withheld sub-population, measurable / total |
+|---|---|---|---|---|---|
+| 20261201 | 1313 | 1277 (97.3 %) | 36 | 576 (45.1 %) | 20 / 20 |
+| 20261202 | 680 | 664 (97.6 %) | 16 | 346 (52.1 %) | 14 / 14 |
+| 20261203 | 658 | 642 (97.6 %) | 16 | 326 (50.8 %) | 4 / 4 |
+| 20261204 | 622 | 604 (97.1 %) | 18 | 254 (42.1 %) | 0 / 0 |
+| 20261205 | 669 | 653 (97.6 %) | 16 | 332 (50.8 %) | 0 / 0 |
+
+The failure survives both corrections, and this is the final calibration result of this protocol:
+**254–576 of 604–1277 measurable claims fail per seed**
+(4205.3–5210.8 %), with per-claim shares reaching **1.0000**, and the
+revision limb adds 282–510 failing claims per seed. §19.2's 264–592 is **withdrawn**
+rather than silently replaced: every seed's count falls slightly on the correct unit
+(592, 348, 332, 264, 336 → 576, 346, 326, 254, 332), so the defect was not
+flattering the failure — which is exactly why it still had to be fixed. The conclusion does not rest
+on the exact number either way: the best seed fails 254 of 604
+measurable claims (4205.3 %) against a reference an ordinary belief met.
+
+**The instrument passes; the criterion fails.** Gate F 5 of 5, audit 8 of 8
+checks on every seed including the rebuilt `E8`, `authorises_confirmatory: false`. No confirmatory
+seed has run, and none may run until a variant whose readout is world-carried passes this rule on
+calibration.

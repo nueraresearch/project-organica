@@ -254,29 +254,55 @@ def test_revision_limbs_have_denominators(world):
         "the law must actually rotate at the revision boundary"
 
 
-def test_support_provenance_is_a_distinct_share():
-    support = {("alpha", "beta"): {1: False, 2: False, 3: True}}
+def test_support_provenance_counts_distinct_transitions():
+    # Two transitions from the SAME prior event to different targets are two
+    # pieces of evidence: the identity is (prior event, target event).
+    support = {("alpha", "beta"): {(1, 2): False, (1, 3): True}}
     prov = rk.support_provenance(support, {("alpha", "beta")}, windows_with_sleep=5)
-    assert prov["distinct_support"] == 3, "one transition is counted once"
-    assert prov["share_self_sourced"] == pytest.approx(1 / 3)
+    assert prov["distinct_support"] == 2, "one prior event, two transitions"
+    assert prov["share_self_sourced"] == pytest.approx(0.5)
 
 
 def test_per_claim_rule_is_the_disqualifier():
-    claim = [{"type": "prediction_candidate", "source": "alpha", "target": "beta"}]
-    dirty = rk.per_claim_provenance(claim, {("alpha", "beta"): {1: False, 2: False, 3: True}})
+    claim = [{"type": "prediction_candidate", "source": "alpha", "target": "beta",
+              "on_withheld": True}]
+    dirty = rk.per_claim_provenance(
+        claim, {("alpha", "beta"): {(1, 2): False, (1, 3): False, (2, 4): True}})
     assert dirty["claims_measurable"] == 1
     assert dirty["max_share"] == pytest.approx(1 / 3)
     assert dirty["all_claims_passed"] is False, \
         "a third self-sourced exceeds the 17.9 % reference"
-    assert dirty["control_all_self_fails"] is True
+    assert dirty["evaluable"] is True
 
     clean = rk.per_claim_provenance(
-        claim, {("alpha", "beta"): {1: False, 2: False, 3: False}})
+        claim, {("alpha", "beta"): {(1, 2): False, (1, 3): False, (2, 4): False}})
     assert clean["all_claims_passed"] is True
 
     empty = rk.per_claim_provenance(claim, {})
     assert empty["claims_measurable"] == 0
-    assert empty["all_claims_passed"] is False, "no evidence is not a pass"
+    assert empty["evaluable"] is False, "a mostly unmeasurable population is not a pass"
+    assert empty["all_claims_passed"] is False
+
+
+def test_the_all_self_control_runs_the_evaluator():
+    claim = [{"type": "prediction_candidate", "source": "a", "target": "b",
+              "on_withheld": False}]
+    got = rk.per_claim_provenance(claim, {("a", "b"): {(1, 2): True}})
+    assert got["control"] == {"claims": 1, "failed": 1, "max_share": 1.0}
+    assert got["control_all_self_fails"] is True, \
+        "the control must judge claims through the evaluator"
+
+
+def test_withheld_claims_are_reported_separately():
+    claims = [{"type": "prediction_candidate", "source": "a", "target": "b",
+               "on_withheld": True},
+              {"type": "prediction_candidate", "source": "b", "target": "a",
+               "on_withheld": False}]
+    support = {("a", "b"): {(1, 2): True, (1, 3): False},
+               ("b", "a"): {(2, 3): False}}
+    got = rk.per_claim_provenance(claims, support)
+    assert got["withheld_claims"]["claims_measurable"] == 1
+    assert got["withheld_claims"]["claims_failed"] == 1
 
 
 def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):
