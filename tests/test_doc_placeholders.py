@@ -147,3 +147,54 @@ def test_the_spec_states_the_frozen_reference_rate_as_a_number():
     spec = (REPO / "docs/AUDIT-TRACE-SPEC.md").read_text(encoding="utf-8")
     assert "Reference rate: 17.9%" in spec, "the frozen reference rate is not stated as a number"
     assert "{share" not in spec, "the reference rate is still a template"
+
+# --- printf-style placeholders -------------------------------------------
+#
+# The brace guard above did not see the same defect in its other dialect.  On
+# 2026-11-01 a finding shipped into docs/USER-MANUAL.md as `| %d | **The next
+# instrument is planned...` -- a literal conversion spec standing in for the
+# finding number, inside a table cell, in a guarded document, and the whole
+# suite stayed green because nothing looked for `%d`.  A placeholder is silent
+# in every dialect.
+
+# `%d`, `%s`, `%r`, `%i`, `%f` followed by something that is not an identifier
+# character.  Prose percentages ("100 %", "100%") never match: a conversion
+# character has to follow the sign directly and the percent must introduce it.
+PRINTF_PLACEHOLDER = re.compile(r"%[dsrif](?![A-Za-z0-9_])")
+
+FENCE = re.compile(r"^\s*(```|~~~)")
+
+
+def _prose_lines(text: str):
+    """Yield (lineno, line) for lines outside fenced code blocks."""
+    in_fence = False
+    for lineno, line in enumerate(text.splitlines(), 1):
+        if FENCE.match(line):
+            in_fence = not in_fence
+            continue
+        if not in_fence:
+            yield lineno, line
+
+
+def test_no_unsubstituted_printf_placeholders():
+    offenders = []
+    for rel in GUARDED:
+        path = REPO / rel
+        if not path.exists():
+            continue
+        for lineno, line in _prose_lines(path.read_text(encoding="utf-8")):
+            prose = CODE_SPAN.sub("", line)
+            for match in PRINTF_PLACEHOLDER.finditer(prose):
+                offenders.append("%s:%d: %s" % (rel, lineno, match.group(0)))
+    assert not offenders, "unsubstituted printf placeholders:\n" + "\n".join(offenders)
+
+
+def test_the_printf_guard_can_fail():
+    # The exact shape that shipped: a table cell whose number was never applied.
+    assert PRINTF_PLACEHOLDER.search("| %d | **The next instrument is planned**")
+    assert PRINTF_PLACEHOLDER.search("the same set in %d of %d arm-pairs")
+    # And it must not fire on prose percentages or on a named example in code font.
+    assert not PRINTF_PLACEHOLDER.search("the headroom is 100% of the budget")
+    # Code-span filtering is the collector's job, not the regex's, so the
+    # negative case is stated against the same transformation the scan uses.
+    assert not PRINTF_PLACEHOLDER.search(CODE_SPAN.sub("", "`%d` in backticks is an example"))
