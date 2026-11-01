@@ -7040,3 +7040,41 @@ line was built to look for.
 
 → `docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`; journal §82; brief §10-§11.
 
+## §84 — The six unattributed differences were written two cycles before the window opened
+
+**A post-hoc diagnostic, and it is not a verdict.** T2/20261120 at hash seeds 0/13
+resolved 8 of its 14 differences and was left `indeterminate` (§83). This section
+asks one question about the other six: were they written earlier in the run, after
+the cycle, or never written at all? Artifact:
+`docs/store_time_observer_lineage.json`; instrument:
+`benchmarks/store_time_observer.py --lineage`. **The cell remains
+`indeterminate`.** Nothing here converts it, and nothing here is causal.
+
+**The answer, and it is uniform.** All **6** unattributed candidates were written
+at cycle **4**, exactly one write each, on the side whose pool holds them, and
+**never on the other side at any cycle of the run**. The pre-registered search
+window is the divergence cycle and the one before it — cycles **6 and 5** — so
+their write sits **two cycles outside** the window the brief fixed.
+
+**The contrast inside the same cell.** The eight that *were* attributed include two
+whose first write is at cycle **5**, the window's outer edge, and 4 that are
+re-stored every cycle (155–213 write cycles each) so their records exist on both
+sides. So the window is not systematically blind: it catches writes at the cycle
+and the one before, including ones that persist. It misses a candidate written once,
+two cycles earlier, that then simply stayed in the pool.
+
+**What this changes.** Not the cell's outcome — `indeterminate` is what the
+pre-registration says for a partial explanation, and re-reading it as "explained by
+an earlier write" would be re-scoring a protocol after seeing the result (rule 14).
+What it changes is the **diagnosis of the limitation**: this is not an observer that
+could not see the write. It is a search window narrower than the lead time between
+a candidate being stored and the pool diverging. A wide-window rule would have to be
+pre-registered and applied to **all** cells, not just this one, and it is not run
+here.
+
+**What this does not establish.** Anything about mechanism, H2, or D0. It is a
+statement about where in the write record six candidates appear, on one seed, at one
+pair, at one cycle.
+
+→ `docs/store_time_observer_lineage.json`; journal §83; brief §10-§11.
+

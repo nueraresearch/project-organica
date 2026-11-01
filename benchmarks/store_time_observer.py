@@ -1064,10 +1064,96 @@ def render_verdicts(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def lineage_report(task: str = "T2", seed: int = 20261120, arm: str = "B",
+                   cycle: int = 6, pair: tuple[int, int] = (0, 13)) -> dict[str, Any]:
+    """Where each differing candidate was written across the whole run, both sides.
+
+    A **post-hoc diagnostic**, not a test. It answers one question about an
+    unattributed difference: was the candidate written earlier in the run (so the
+    two-cycle search window is the wrong place to look), written only after the
+    cycle, or never written at all in this observer's record? It cannot turn an
+    ``indeterminate`` cell into a verdict, and it makes no causal claim.
+    """
+    parts: dict[int, dict[str, Any]] = {}
+    for hs in pair:
+        path = cell_part_path(task, seed, hs)
+        parts[hs] = json.loads(path.read_text(encoding="utf-8"))
+    verdicts_doc = json.loads(
+        Path("docs/store_time_observer_verdicts_pairs.json").read_text(encoding="utf-8"))
+    cell = next(c for c in verdicts_doc["cells"]
+                if c["task"] == task and c["seed"] == seed and c["arm"] == arm
+                and c.get("pair") == list(pair))
+
+    def stores(hs: int, cid: str) -> list[dict[str, Any]]:
+        found = []
+        per_cycle = ((parts[hs].get("parts") or {}).get(arm) or {}).get("per_cycle") or {}
+        for key, entry in per_cycle.items():
+            for _did, cand in (entry.get("candidates") or {}).items():
+                if cand.get("id") == cid:
+                    found.append({"bucket": key,
+                                  "cycle": int(key) if str(key).isdigit() else None,
+                                  "label": cand.get("label"),
+                                  "count": cand.get("count")})
+        found.sort(key=lambda r: (r["cycle"] is None, r["cycle"] or 0))
+        return found
+
+    rows = []
+    for f in cell.get("candidates") or []:
+        cid = f["candidate"]
+        holder = int(str(f["present_in"]).replace("hs", ""))
+        other = [h for h in pair if h != holder][0]
+        here, there = stores(holder, cid), stores(other, cid)
+        cycles = [r["cycle"] for r in here if r["cycle"] is not None]
+        labels = sorted({str(r["label"]) for r in here})
+        first = min(cycles) if cycles else None
+        if not here:
+            category = "never_written_in_record"
+        elif first is not None and first > cycle:
+            category = "written_after_cycle"
+        elif all(str(l).startswith("restore:") for l in labels):
+            category = "restore_only"
+        elif first is not None and first <= cycle - 1:
+            category = "written_before_window"
+        else:
+            category = "written_in_window_but_not_offered"
+        rows.append({
+            "candidate": cid,
+            "holder": "hs%d" % holder,
+            "resolved": bool(f.get("resolved")),
+            "first_write_cycle": first,
+            "write_cycles": cycles[:12],
+            "n_write_cycles": len(cycles),
+            "labels": labels,
+            "written_on_other_side": bool(there),
+            "other_side_cycles": [r["cycle"] for r in there if r["cycle"] is not None][:12],
+            "category": category,
+        })
+    counts: dict[str, int] = {}
+    for r in rows:
+        if r["resolved"]:
+            continue
+        counts[r["category"]] = counts.get(r["category"], 0) + 1
+    result = {
+        "kind": "store_time_observer_lineage",
+        "status": "post-hoc diagnostic; makes no causal claim",
+        "task": task, "seed": seed, "arm": arm, "cycle": cycle, "pair": list(pair),
+        "differences": cell.get("differences"),
+        "attributed": cell.get("attributed"),
+        "unattributed_categories": counts,
+        "rows": rows,
+    }
+    Path("docs/store_time_observer_lineage.json").write_text(
+        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        encoding="utf-8")
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--cell", action="store_true",
                     help="run one hash seed's staged cell (arm B, then C) and write a part")
+    ap.add_argument("--lineage", action="store_true",
+                    help="post-hoc lineage of the unattributed differences in one cell")
     ap.add_argument("--aggregate-pairs", action="store_true",
                     help="score the corrected pass from parts already on disk")
     ap.add_argument("--verdict-pairs", action="store_true",
@@ -1101,6 +1187,21 @@ def main(argv: list[str] | None = None) -> int:
                  int(os.environ.get("PYTHONHASHSEED", "0")),
                  args.cycle, arms, args.cap,
                  out=Path(args.out) if args.out else None)
+        return 0
+
+    if args.lineage:
+        result = lineage_report(cycle=args.cycle or 6)
+        print(json.dumps({"unattributed_categories": result["unattributed_categories"],
+                          "differences": result["differences"],
+                          "attributed": result["attributed"]}, indent=1,
+                         sort_keys=True))
+        for r in result["rows"]:
+            print("%-26s %-5s resolved=%-5s first=%-4s n=%-2d %-26s other=%-5s %s"
+                  % (r["candidate"], r["holder"], r["resolved"],
+                     r["first_write_cycle"], r["n_write_cycles"],
+                     ",".join(l.replace("pool:", "p:").replace("restore:", "r:")
+                              for l in r["labels"])[:26],
+                     r["written_on_other_side"], r["category"]))
         return 0
 
     if args.aggregate_pairs:
