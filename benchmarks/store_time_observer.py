@@ -586,6 +586,9 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
                     "offered_here": here,
                     "offered_there": there,
                     "stage": here["stage"] if here else None,
+                    # The label is the F5 measurement; carry it at the top level
+                    # as well, so the gate reads the same field a reader sees.
+                    "label": here.get("label") if here else None,
                 })
         resolved = [f for f in found if f["offered_here"] and not f["offered_there"]]
         per_cycle[str(cycle)] = {

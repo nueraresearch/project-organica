@@ -3,10 +3,12 @@
   {
    "candidate": "dream_mut_210cd9fc",
    "cycle": 10,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "10",
     "digest": "78ecb0423ea17c8b",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -17,10 +19,12 @@
   {
    "candidate": "dream_mut_75a93e31",
    "cycle": 10,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "10",
     "digest": "5200bed16e113c33",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -31,10 +35,12 @@
   {
    "candidate": "dream_mut_73753134",
    "cycle": 10,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "10",
     "digest": "3646f2f92c2b63c4",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -45,10 +51,12 @@
   {
    "candidate": "dream_mut_b082c1ac",
    "cycle": 10,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "10",
     "digest": "acb41560ee928767",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -59,10 +67,12 @@
   {
    "candidate": "dream_mut_210cd9fc",
    "cycle": 11,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "78ecb0423ea17c8b",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -73,10 +83,12 @@
   {
    "candidate": "dream_mut_75a93e31",
    "cycle": 11,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "5200bed16e113c33",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -87,10 +99,12 @@
   {
    "candidate": "dream_mut_73753134",
    "cycle": 11,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "3646f2f92c2b63c4",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -101,10 +115,12 @@
   {
    "candidate": "dream_mut_b082c1ac",
    "cycle": 11,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "acb41560ee928767",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -115,10 +131,12 @@
   {
    "candidate": "dream_mut_210cd9fc",
    "cycle": 12,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "78ecb0423ea17c8b",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -129,10 +147,12 @@
   {
    "candidate": "dream_mut_75a93e31",
    "cycle": 12,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "5200bed16e113c33",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -143,10 +163,12 @@
   {
    "candidate": "dream_mut_73753134",
    "cycle": 12,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "3646f2f92c2b63c4",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -157,10 +179,12 @@
   {
    "candidate": "dream_mut_b082c1ac",
    "cycle": 12,
+   "label": "pool:dream",
    "offered_here": {
     "count": 1,
     "cycle": "11",
     "digest": "acb41560ee928767",
+    "label": "pool:dream",
     "stage": "construction",
     "type": "dream"
    },
@@ -198,8 +222,39 @@
    "reads": 162
   }
  },
+ "f5": {
+  "passed": true,
+  "verdict": "labelled"
+ },
  "kind": "store_time_observer_f4",
- "observer_version": 1,
+ "labels": {
+  "attributed": [
+   "pool:dream"
+  ],
+  "prediction": "pool:dream (see brief section 9)",
+  "prediction_met": true,
+  "seen": [
+   "ingest",
+   "marker",
+   "pool:anomaly",
+   "pool:dream",
+   "pool:experiment",
+   "pool:hypothesis",
+   "pool:investigation",
+   "pool:loop_candidate",
+   "pool:meta_concept",
+   "pool:phrase_candidate",
+   "pool:prediction_candidate",
+   "pool:process_candidate",
+   "pool:question",
+   "pool:theory",
+   "pool:workflow_concept",
+   "restore:loop_candidate",
+   "restore:phrase_candidate"
+  ],
+  "tag_scored": []
+ },
+ "observer_version": 2,
  "passed": true,
  "per_cycle": {
   "10": {
@@ -207,10 +262,12 @@
    "candidates": [
     {
      "candidate": "dream_mut_210cd9fc",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "10",
       "digest": "78ecb0423ea17c8b",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -220,10 +277,12 @@
     },
     {
      "candidate": "dream_mut_75a93e31",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "10",
       "digest": "5200bed16e113c33",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -233,10 +292,12 @@
     },
     {
      "candidate": "dream_mut_73753134",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "10",
       "digest": "3646f2f92c2b63c4",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -246,10 +307,12 @@
     },
     {
      "candidate": "dream_mut_b082c1ac",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "10",
       "digest": "acb41560ee928767",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -273,10 +336,12 @@
    "candidates": [
     {
      "candidate": "dream_mut_210cd9fc",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "78ecb0423ea17c8b",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -286,10 +351,12 @@
     },
     {
      "candidate": "dream_mut_75a93e31",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "5200bed16e113c33",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -299,10 +366,12 @@
     },
     {
      "candidate": "dream_mut_73753134",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "3646f2f92c2b63c4",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -312,10 +381,12 @@
     },
     {
      "candidate": "dream_mut_b082c1ac",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "acb41560ee928767",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -339,10 +410,12 @@
    "candidates": [
     {
      "candidate": "dream_mut_210cd9fc",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "78ecb0423ea17c8b",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -352,10 +425,12 @@
     },
     {
      "candidate": "dream_mut_75a93e31",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "5200bed16e113c33",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -365,10 +440,12 @@
     },
     {
      "candidate": "dream_mut_73753134",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "3646f2f92c2b63c4",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -378,10 +455,12 @@
     },
     {
      "candidate": "dream_mut_b082c1ac",
+     "label": "pool:dream",
      "offered_here": {
       "count": 1,
       "cycle": "11",
       "digest": "acb41560ee928767",
+      "label": "pool:dream",
       "stage": "construction",
       "type": "dream"
      },
@@ -454,7 +533,7 @@
    }
   }
  },
- "seconds": 96.3,
+ "seconds": 98.8,
  "seed": 20261101,
  "task": "T1",
  "verdict": "attributed"
