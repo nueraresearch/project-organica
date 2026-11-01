@@ -1,0 +1,95 @@
+{
+ "cells": [
+  {
+   "arm": "B",
+   "attributed": 0,
+   "candidates": [],
+   "cycle": 12,
+   "differences": 0,
+   "labels": [],
+   "outcome": "no_difference_at_pair",
+   "reconciled": true,
+   "seed": 20261125,
+   "sizes": {
+    "hs0": 268,
+    "hs1": 268
+   },
+   "task": "T1"
+  },
+  {
+   "arm": "C",
+   "attributed": 0,
+   "candidates": [],
+   "cycle": 12,
+   "differences": 0,
+   "labels": [],
+   "outcome": "no_difference_at_pair",
+   "reconciled": true,
+   "seed": 20261125,
+   "sizes": {
+    "hs0": 268,
+    "hs1": 268
+   },
+   "task": "T1"
+  },
+  {
+   "arm": "B",
+   "attributed": 0,
+   "candidates": [],
+   "cycle": 6,
+   "differences": 0,
+   "labels": [],
+   "outcome": "no_difference_at_pair",
+   "reconciled": true,
+   "seed": 20261120,
+   "sizes": {
+    "hs0": 98,
+    "hs1": 98
+   },
+   "task": "T2"
+  },
+  {
+   "arm": "C",
+   "attributed": 0,
+   "candidates": [],
+   "cycle": 6,
+   "differences": 0,
+   "labels": [],
+   "outcome": "no_difference_at_pair",
+   "reconciled": true,
+   "seed": 20261120,
+   "sizes": {
+    "hs0": 98,
+    "hs1": 98
+   },
+   "task": "T2"
+  },
+  {
+   "arm": "B",
+   "attributed": 0,
+   "candidates": [],
+   "cycle": 6,
+   "differences": 0,
+   "labels": [],
+   "outcome": "no_difference_at_pair",
+   "reconciled": true,
+   "seed": 20261121,
+   "sizes": {
+    "hs0": 82,
+    "hs1": 82
+   },
+   "task": "T2"
+  }
+ ],
+ "hash_seeds": [
+  0,
+  1
+ ],
+ "kind": "store_time_observer_verdicts",
+ "observer_version": 2,
+ "outcome_counts": {
+  "no_difference_at_pair": 5
+ },
+ "preregistration": "docs/STORE-TIME-OBSERVER-BRIEF.md section 10",
+ "seconds": 893.7
+}

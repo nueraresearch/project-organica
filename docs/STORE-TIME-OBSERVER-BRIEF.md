@@ -359,3 +359,46 @@ says so. A partial explanation is `indeterminate`, never "mostly explained".
 **Stop condition.** This pass runs once, over these five cells. No cell is added,
 dropped or re-run on the basis of its outcome, and no sixth bucket is introduced.
 
+---
+
+## 11. Correction of the verdict pass's hash-seed input, pre-registered before the corrected run
+
+**What happened.** The pass pre-registered in §10 ran as written and returned
+`no_difference_at_pair` on **all five** cells: at hash seeds 0 and 1 the write-back
+windows were identical at every recorded cycle (268/268 at T1 cycle 12, 98/98 at
+T2/20261120 cycle 6, 82/82 at T2/20261121 cycle 6). The windows were addressed, so
+the instrument ran; there was simply no difference to explain. Those artifacts stay
+on the record unchanged: `docs/store_time_observer_verdicts.json`,
+`docs/STORE-TIME-OBSERVER-VERDICTS.md`.
+
+**The input was wrong, and the record says so.** Not every hash-seed pair
+diverges. `docs/candidate_membership_audit.json` names, per seed, the pair it
+actually compared: baseline hash seed **0** against campaign-side hash seed
+
+| Task | Seed | Campaign-side hash seed | Matching seeds |
+|---|---|---|---|
+| T1 | 20261125 | **2** | 2, 5, 9, 15 |
+| T2 | 20261120 | **13** | 13 |
+| T2 | 20261121 | **2** | 2, 4, 5, 6, 8, 9 |
+
+I chose 0/1 by analogy with F4 and F5 instead of reading the audit's own field, so
+the first pass measured a pair at which these seeds do not differ. That is an input
+error, not a result about the organism, and it is recorded rather than quietly
+corrected.
+
+**The corrected pass, pre-registered here.** Same five cells, same cycles, same
+outcome space, same reconciliation-first rule, with each case run at the pair the
+audit recorded: 0/2, 0/13, 0/2. Artifacts are new files so the first pass is not
+overwritten: `docs/store_time_observer_verdicts_pairs.json` and
+`docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`.
+
+**What the first pass does establish.** That the divergence is pair-specific: at
+0/1 these five cells have identical candidate populations at their recorded cycles.
+That is worth having and is not withdrawn. It does **not** establish that the
+divergence is unreproducible, and it does not touch the audit's own reproduction
+record.
+
+**Stop condition.** The corrected pass runs once over the five cells at their
+recorded pairs. If a cell again reports `no_difference_at_pair`, that is reported as
+the measurement, not worked around by trying further seeds.
+

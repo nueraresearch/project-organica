@@ -842,6 +842,156 @@ def verdicts(cap: int = fu.CAP_B) -> dict[str, Any]:
     return result
 
 
+#: The same five cells at the hash-seed pairs the membership audit measured them at.
+VERDICT_CELLS_PAIRS: tuple[tuple[str, int, str, int, tuple[str, ...],
+                            tuple[int, int]], ...] = (
+    ("T1", 20261125, "B", 12, ("B", "C"), (0, 2)),
+    ("T1", 20261125, "C", 12, ("B", "C"), (0, 2)),
+    ("T2", 20261120, "B", 6, ("B", "C"), (0, 13)),
+    ("T2", 20261120, "C", 6, ("B", "C"), (0, 13)),
+    ("T2", 20261121, "B", 6, ("B",), (0, 2)),
+)
+
+
+def paire_part_path(task: str, seed: int, hash_seed: int) -> Path:
+    """A corrected-pass part. Distinct from the first pass, which is on record."""
+    return PARTS_DIR / ("cellp_%s_%d_hs%d.json" % (task, seed, hash_seed))
+
+
+def verdict_cell_pair(task: str, seed: int, arm: str, cycle: int,
+                      sides: dict[int, dict[str, Any]],
+                      pair: tuple[int, int]) -> dict[str, Any]:
+    """One cell at its recorded hash-seed pair."""
+    a, b = pair
+    win = {}
+    for hs in pair:
+        part = (sides.get(hs) or {}).get("parts", {}).get(arm) or {}
+        win[hs] = ((part.get("windows") or {}).get(str(cycle))
+                   or (part.get("windows") or {}).get(cycle))
+    left, right = win.get(a), win.get(b)
+    entry: dict[str, Any] = {"task": task, "seed": seed, "arm": arm,
+                             "cycle": cycle, "pair": list(pair)}
+    if not left or not right or not left.get("addressed") or not right.get("addressed"):
+        entry.update({"outcome": "indeterminate", "reason": "window not addressed",
+                      "addressed": {str(hs): bool(win[hs] and win[hs].get("addressed"))
+                                    for hs in pair}})
+        return entry
+    ids = {a: {c["id"] for c in left["candidates"]},
+           b: {c["id"] for c in right["candidates"]}}
+    only = {a: sorted(ids[a] - ids[b]), b: sorted(ids[b] - ids[a])}
+    differences = len(only[a]) + len(only[b])
+    found = []
+    for hs, other in ((a, b), (b, a)):
+        for cid in only[hs]:
+            here = find_offered(sides[hs]["parts"][arm], cycle, cid)
+            there = find_offered(sides[other]["parts"][arm], cycle, cid)
+            found.append({"candidate": cid, "present_in": "hs%d" % hs,
+                          "offered_here": here, "offered_there": there,
+                          "label": (here or {}).get("label"),
+                          "resolved": bool(here and not there)})
+    resolved = [f for f in found if f["resolved"]]
+    reconciled = all(
+        bool((((sides.get(hs) or {}).get("parts", {}).get(arm) or {})
+              .get("per_cycle", {}).get(str(cycle), {}) or {}).get("reconciled"))
+        for hs in pair)
+    labels = [f["label"] for f in resolved]
+    entry.update({
+        "sizes": {"hs%d" % a: len(ids[a]), "hs%d" % b: len(ids[b])},
+        "differences": differences,
+        "attributed": len(resolved),
+        "labels": sorted({str(l) for l in labels}),
+        "reconciled": reconciled,
+        "candidates": found,
+        "outcome": classify_cell(reconciled, differences, len(resolved), labels),
+    })
+    return entry
+
+
+def verdicts_pairs(cap: int = fu.CAP_B) -> dict[str, Any]:
+    """The corrected pass: the five cells at the pairs the audit recorded."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    started = time.time()
+    jobs = []
+    for task, seed, _arm, cycle, arms, pair in VERDICT_CELLS_PAIRS:
+        for hs in pair:
+            jobs.append((task, seed, hs, cycle, arms))
+
+    def spawn(job) -> Path:
+        task, seed, hs, cycle, arms = job
+        env = dict(os.environ)
+        env["PYTHONHASHSEED"] = str(hs)
+        cmd = [sys.executable, "-X", "utf8",
+               str(REPO / "benchmarks" / "store_time_observer.py"),
+               "--cell", "--task", task, "--seed", str(seed),
+               "--cycle", str(cycle), "--arms", ",".join(arms),
+               "--out", str(paire_part_path(task, seed, hs))]
+        proc = subprocess.run(cmd, cwd=str(REPO), env=env,
+                              capture_output=True, text=True)
+        if proc.returncode != 0:
+            sys.stderr.write("cell worker failed (%s %s hs%s):\n%s\n"
+                             % (task, seed, hs, proc.stderr[-2000:]))
+        return paire_part_path(task, seed, hs)
+
+    with ThreadPoolExecutor(max_workers=len(jobs)) as pool:
+        list(pool.map(spawn, jobs))
+
+    sides: dict[tuple[str, int], dict[int, dict[str, Any]]] = {}
+    for task, seed, _arm, _cycle, _arms, pair in VERDICT_CELLS_PAIRS:
+        sides.setdefault((task, seed), {})
+        for hs in pair:
+            path = paire_part_path(task, seed, hs)
+            if path.exists():
+                sides[(task, seed)][hs] = json.loads(path.read_text(encoding="utf-8"))
+
+    cells = [verdict_cell_pair(task, seed, arm, cycle, sides[(task, seed)], pair)
+             for task, seed, arm, cycle, _arms, pair in VERDICT_CELLS_PAIRS]
+    counts: dict[str, int] = {}
+    for c in cells:
+        counts[c["outcome"]] = counts.get(c["outcome"], 0) + 1
+    result = {
+        "kind": "store_time_observer_verdicts_pairs",
+        "observer_version": OBSERVER_VERSION,
+        "preregistration": "docs/STORE-TIME-OBSERVER-BRIEF.md section 11",
+        "pairs_source": "docs/candidate_membership_audit.json campaign_side_hash_seed",
+        "cells": cells,
+        "outcome_counts": counts,
+        "seconds": round(time.time() - started, 1),
+    }
+    Path("docs/store_time_observer_verdicts_pairs.json").write_text(
+        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        encoding="utf-8")
+    Path("docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md").write_text(
+        render_verdicts_pairs(result), encoding="utf-8")
+    return result
+
+
+def render_verdicts_pairs(result: dict[str, Any]) -> str:
+    lines = ["# The store-time observer: verdicts at the recorded hash-seed pairs", "",
+             "**Status: frozen on generation.** Written by `--verdict-pairs` from",
+             "`docs/store_time_observer_verdicts_pairs.json`. Pre-registration:",
+             "`docs/STORE-TIME-OBSERVER-BRIEF.md` section 11.", "",
+             "Each case runs at the pair `docs/candidate_membership_audit.json`",
+             "measured it at. The earlier pass at hash seeds 0/1 is kept separately in",
+             "`docs/STORE-TIME-OBSERVER-VERDICTS.md` and is not reinterpreted here.", "",
+             "| Case | Pair | Cycle | Pool sizes | Differences | Attributed | Labels | Outcome |",
+             "|---|---|---|---|---|---|---|---|"]
+    for c in result["cells"]:
+        size = c.get("sizes")
+        lines.append("| %s / %s / %s | %s / %s | %s | %s | %s | %s | %s | **%s** |" % (
+            c["task"], c["seed"], c["arm"],
+            c["pair"][0], c["pair"][1], c["cycle"],
+            ("%d/%d" % tuple(size.values())) if size else "not measured",
+            c.get("differences", "not measured"), c.get("attributed", "0"),
+            ", ".join("`%s`" % l for l in c.get("labels") or []) or "none",
+            c["outcome"]))
+    lines += ["", "## Outcome counts", ""]
+    for outcome, n in sorted(result["outcome_counts"].items()):
+        lines.append("- `%s`: %d" % (outcome, n))
+    lines += [""]
+    return "\n".join(lines)
+
+
 def render_verdicts(result: dict[str, Any]) -> str:
     """The verdict table, written from the artifact and nothing else."""
     lines = ["# The store-time observer: verdicts over the five search cases", "",
@@ -878,6 +1028,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--cell", action="store_true",
                     help="run one hash seed's staged cell (arm B, then C) and write a part")
+    ap.add_argument("--verdict-pairs", action="store_true",
+                    help="run the five cells at the pairs the audit recorded")
     ap.add_argument("--verdict", action="store_true",
                     help="run the five pre-registered cells and write the verdicts")
     ap.add_argument("--arms", default="B")
@@ -906,6 +1058,17 @@ def main(argv: list[str] | None = None) -> int:
         run_cell(args.task, args.seed,
                  int(os.environ.get("PYTHONHASHSEED", "0")),
                  args.cycle, arms, args.cap)
+        return 0
+
+    if args.verdict_pairs:
+        result = verdicts_pairs(args.cap)
+        print(json.dumps({"outcome_counts": result["outcome_counts"],
+                          "seconds": result["seconds"],
+                          "cells": [{k: c.get(k) for k in
+                                     ("task", "seed", "arm", "cycle", "pair",
+                                      "outcome", "labels")}
+                                    for c in result["cells"]]},
+                         indent=1, sort_keys=True))
         return 0
 
     if args.verdict:
