@@ -6723,6 +6723,8 @@ The differences, by type:
 
 **Controls.** **C1** the control seed shows identical pools at every cycle and an onset of none. **C2** every window used carries the marker that addresses it, and the count of addressed windows equals the count used. **C3** the parts are written twice by independent processes and compared field by field. **C4** the cycles *k* and *k−1* pools equal the existing artifact's on IDs, not merely on counts.
 
+**Reporting rules, fixed 2026-11-01 before any run.** The eleven bracketed arm-pairs are **witness cases**, not findings: their onset is arithmetic once the bracket holds, so they belong beside F1 as instrumentation validation, and a summary that cites "onset = k in 11 of 16" as a result repeats the defect this pass removed. For any search case that bottoms out at cycle 1 the admissible claim is **onset ≤ 1**, present from the first observable cycle, never "introduced at cycle 1" — there is no cycle 0 window, and claiming resolution the instrument does not possess is the error the indexing corrections were about. The five search cases carry the scientific content.
+
 **What it will not establish.** It will not name the operation that introduces the difference. A candidate entering the pool at cycle *c* is evidence that an upstream write changed at *c*, not that a named function is responsible; locating the operation is a separate observer and is not attempted here. No engine change, no D0 re-scoring, no H2 test, and the mechanism experiment is not reopened. Organica 1 stays frozen at `v0.9.0`.
 
 → `docs/ONSET-INSTRUMENT-BRIEF.md`; `docs/divergence_cycle_capture.json`; journal §72; journal §74.

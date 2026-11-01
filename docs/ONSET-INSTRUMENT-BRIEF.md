@@ -145,6 +145,15 @@ is a separate observer and is not attempted here.
 It does not re-score D0, does not change any verdict, does not test H2, does not
 reopen the mechanism experiment, and does not change a single engine file.
 
+## 7a. Reporting rules for the onset report
+
+Two sentences must not appear in the write-up, whatever the numbers turn out to be. They are fixed here, before any measurement, because a reporting rule written afterwards is a rule the result has already shaped.
+
+- **"Onset = *k* in 11 of 16 arm-pairs" is not a finding.** The eleven are **witness cases**: their onset is fixed by arithmetic once the bracket holds, and their only job is to show that the generalised instrument reproduces what the existing capture already established. They belong beside F1 in an instrumentation section, not in the findings. A summary that reports them as a result repeats the defect the correction pass removed, in a new coat.
+- **"Introduced at cycle 1" is not an admissible claim for a search case that bottoms out there.** There is no cycle 0 window, so the strongest statement the instrument supports is **onset ≤ 1** — *present from the first observable cycle*. Anything stronger smuggles in an unobservable cycle 0, which is the same error as reporting a window the instrument never addressed.
+
+The **five search cases** carry the scientific content. If the report has more to say about the eleven than about the five, it is describing the instrument and should say so in its title.
+
 ## 8. Cost and order of work
 
 | Step | Cost |
