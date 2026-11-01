@@ -7165,3 +7165,28 @@ sites does not remove the variation. It does not re-score D0 and does not touch
 V1's deficits.
 
 → `docs/divergence_arm_b_prime_sweep.json`; journal §74, §79, §85.
+
+**An open anomaly, appended before this section is relied on.** Every seed's first
+difference sits at **cycle 1**, in `score_tags`, with **identical membership** — which
+is Arm A's signature, not what a total order on tag scores should produce. Inspecting
+one seed's cycle-1 record makes the anomaly concrete: T1/20261125 records
+`... indigo, fern, cedar` at hash seed 0 and `... indigo, cedar, fern` at hash seed 2,
+diverging first at position **5**.
+
+Under the intervention's own key, `(-frequency, tag)`, those two orders can only
+differ if the two sides' **frequency values differ**: equal frequencies are broken
+alphabetically, and `cedar` precedes `fern` in that order. If that is what the parts
+show, then at cycle 1 the divergence enters in the **counts the tags are scored on**,
+not in the order they are iterated — a different quantity from the one this arm was
+built to move — and F1's firing would be a statement that the intervention addresses
+the wrong quantity rather than a refutation of the order channel.
+
+**The check that settles it has not been run.** It is one comparison — the two sides'
+`frequency` for those tags at cycle 1 — and it is the next thing to do. Until it is,
+F1 stands as *fired by the pre-registered code* and is **not** read as closing the
+order channel. This paragraph exists because the alternative was to let a
+suspicious-looking result become a conclusion by being written down first.
+
+→ `.scratch/divergence_mechanism_parts/canonical_score_T1_20261125_hs{0,2}.json`
+(regenerable); `docs/divergence_arm_b_prime_sweep.json`.
+
