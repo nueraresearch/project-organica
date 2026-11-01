@@ -15,7 +15,7 @@
   ]
  },
  "audit_all_passed": true,
- "authorises_confirmatory": true,
+ "authorises_confirmatory": false,
  "burned": [
   20261206
  ],
@@ -78,8 +78,32 @@
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
       "share": 0.986553,
       "without_layer1_share": 0.0
+     },
+     "E6_revision_limb_is_held_out_under_the_new_law": {
+      "held_out_pairs": 98,
+      "passed": true,
+      "reason": "the revision limb must exist, follow the rotated law, and withhold the same transitions",
+      "regimes_at_switch": [
+       0,
+       1
+      ]
+     },
+     "E7_support_provenance_can_fire": {
+      "control_share": 1.0,
+      "criterion_passed": false,
+      "maximum": 0.25,
+      "passed": true,
+      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
+      "share_self_sourced": 0.41297,
+      "windows_with_a_sleep_row": 218
      }
     }
+   },
+   "best_primary_by_limb": {
+    "retention": "replay",
+    "revision": "replay",
+    "revision_held_out": "replay",
+    "transfer": "decayed_bigram"
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
@@ -88,6 +112,9 @@
    "engine": {
     "asserted_pairs": 327,
     "cap": 1000,
+    "formation_events": 880,
+    "revision_asserted_pairs": 328,
+    "revision_events": 400,
     "temporal_pairs": 393
    },
    "formation": {
@@ -132,6 +159,9 @@
    },
    "held_out": {
     "retention_pairs": 319,
+    "revision_held_out_pairs": 98,
+    "revision_pairs": 399,
+    "transfer_full_pairs": 399,
     "transfer_instances": {
      "flip_p": 72,
      "flip_q": 40
@@ -140,7 +170,12 @@
    },
    "kind": "reusable_knowledge_cell",
    "organica_minus_best_primary": 0.175186,
-   "organica_minus_ceiling": -0.223096,
+   "organica_minus_best_primary_by_limb": {
+    "retention": -0.030878,
+    "revision": -0.056654,
+    "revision_held_out": 0.109122,
+    "transfer": 0.175186
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -148,33 +183,100 @@
     "total": 128,
     "withheld": 32
    },
+   "revision": {
+    "compensated_events": 64,
+    "events": 400,
+    "held_out_instances": {
+     "flip_p": 39,
+     "flip_q": 59
+    },
+    "held_out_pairs": 98,
+    "learn_cycles": [
+     200,
+     250
+    ],
+    "regimes_at_switch": [
+     0,
+     1
+    ],
+    "test_cycles": [
+     250,
+     300
+    ],
+    "transitions_observed": {
+     "(0, 0)|flip_q": 40,
+     "(0, 1)|flip_p": 91,
+     "(1, 0)|flip_p": 40,
+     "(1, 0)|flip_q": 69,
+     "(1, 1)|flip_p": 51,
+     "(1, 1)|flip_q": 109
+    }
+   },
    "scores": {
     "bigram": {
      "retention": 0.461957,
+     "revision": 0.426546,
+     "revision_held_out": 0.885531,
      "transfer": 0.975956
     },
     "ceiling": {
      "retention": 0.369059,
+     "revision": 0.324071,
+     "revision_held_out": 0.326584,
      "transfer": 0.372569
     },
     "cell_counter": {
      "retention": 0.554363,
+     "revision": 0.508353,
+     "revision_held_out": 1.229454,
      "transfer": 1.321857
     },
     "decayed_bigram": {
      "retention": 0.414393,
+     "revision": 0.399306,
+     "revision_held_out": 0.766496,
      "transfer": 0.770851
     },
     "organica": {
      "retention": 0.441561,
+     "revision": 0.451464,
+     "revision_held_out": 0.630907,
      "transfer": 0.595665
     },
     "replay": {
      "retention": 0.410683,
+     "revision": 0.39481,
+     "revision_held_out": 0.740029,
      "transfer": 0.780221
     }
    },
    "seed": 20261201,
+   "support_provenance": {
+    "formation": {
+     "control_share": 1.0,
+     "edges_with_support": 315,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 4999,
+     "share_self_sourced": 0.41297,
+     "support_transitions": 12105,
+     "windows_with_a_sleep_row": 218,
+     "world_support": 7106
+    },
+    "revision": {
+     "control_share": 1.0,
+     "edges_with_support": 316,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 7359,
+     "share_self_sourced": 0.415575,
+     "support_transitions": 17708,
+     "windows_with_a_sleep_row": 318,
+     "world_support": 10349
+    }
+   },
    "variant": "V1.1-cap(1000)"
   },
   {
@@ -233,8 +335,32 @@
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
       "share": 0.985957,
       "without_layer1_share": 0.0
+     },
+     "E6_revision_limb_is_held_out_under_the_new_law": {
+      "held_out_pairs": 110,
+      "passed": true,
+      "reason": "the revision limb must exist, follow the rotated law, and withhold the same transitions",
+      "regimes_at_switch": [
+       0,
+       1
+      ]
+     },
+     "E7_support_provenance_can_fire": {
+      "control_share": 1.0,
+      "criterion_passed": false,
+      "maximum": 0.25,
+      "passed": true,
+      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
+      "share_self_sourced": 0.411312,
+      "windows_with_a_sleep_row": 218
      }
     }
+   },
+   "best_primary_by_limb": {
+    "retention": "decayed_bigram",
+    "revision": "replay",
+    "revision_held_out": "replay",
+    "transfer": "decayed_bigram"
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
@@ -243,6 +369,9 @@
    "engine": {
     "asserted_pairs": 341,
     "cap": 1000,
+    "formation_events": 880,
+    "revision_asserted_pairs": 340,
+    "revision_events": 400,
     "temporal_pairs": 390
    },
    "formation": {
@@ -287,6 +416,9 @@
    },
    "held_out": {
     "retention_pairs": 319,
+    "revision_held_out_pairs": 110,
+    "revision_pairs": 399,
+    "transfer_full_pairs": 399,
     "transfer_instances": {
      "flip_p": 65,
      "flip_q": 48
@@ -295,7 +427,12 @@
    },
    "kind": "reusable_knowledge_cell",
    "organica_minus_best_primary": 0.168396,
-   "organica_minus_ceiling": -0.223831,
+   "organica_minus_best_primary_by_limb": {
+    "retention": -0.042834,
+    "revision": -0.0517,
+    "revision_held_out": 0.097682,
+    "transfer": 0.168396
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -303,33 +440,100 @@
     "total": 128,
     "withheld": 32
    },
+   "revision": {
+    "compensated_events": 72,
+    "events": 400,
+    "held_out_instances": {
+     "flip_p": 36,
+     "flip_q": 74
+    },
+    "held_out_pairs": 110,
+    "learn_cycles": [
+     200,
+     250
+    ],
+    "regimes_at_switch": [
+     0,
+     1
+    ],
+    "test_cycles": [
+     250,
+     300
+    ],
+    "transitions_observed": {
+     "(0, 0)|flip_q": 31,
+     "(0, 1)|flip_p": 96,
+     "(1, 0)|flip_p": 31,
+     "(1, 0)|flip_q": 73,
+     "(1, 1)|flip_p": 65,
+     "(1, 1)|flip_q": 104
+    }
+   },
    "scores": {
     "bigram": {
      "retention": 0.43404,
+     "revision": 0.444226,
+     "revision_held_out": 0.887075,
      "transfer": 0.985852
     },
     "ceiling": {
      "retention": 0.372271,
+     "revision": 0.325355,
+     "revision_held_out": 0.319341,
      "transfer": 0.3795
     },
     "cell_counter": {
      "retention": 0.511525,
+     "revision": 0.512984,
+     "revision_held_out": 1.149051,
      "transfer": 1.330937
     },
     "decayed_bigram": {
      "retention": 0.389826,
+     "revision": 0.413364,
+     "revision_held_out": 0.765663,
      "transfer": 0.771727
     },
     "organica": {
      "retention": 0.43266,
+     "revision": 0.458429,
+     "revision_held_out": 0.646527,
      "transfer": 0.603331
     },
     "replay": {
      "retention": 0.391261,
+     "revision": 0.406729,
+     "revision_held_out": 0.744209,
      "transfer": 0.789825
     }
    },
    "seed": 20261202,
+   "support_provenance": {
+    "formation": {
+     "control_share": 1.0,
+     "edges_with_support": 327,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 4967,
+     "share_self_sourced": 0.411312,
+     "support_transitions": 12076,
+     "windows_with_a_sleep_row": 218,
+     "world_support": 7109
+    },
+    "revision": {
+     "control_share": 1.0,
+     "edges_with_support": 329,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 7328,
+     "share_self_sourced": 0.41448,
+     "support_transitions": 17680,
+     "windows_with_a_sleep_row": 318,
+     "world_support": 10352
+    }
+   },
    "variant": "V1.1-cap(1000)"
   },
   {
@@ -386,8 +590,32 @@
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
       "share": 0.984848,
       "without_layer1_share": 0.0
+     },
+     "E6_revision_limb_is_held_out_under_the_new_law": {
+      "held_out_pairs": 108,
+      "passed": true,
+      "reason": "the revision limb must exist, follow the rotated law, and withhold the same transitions",
+      "regimes_at_switch": [
+       0,
+       1
+      ]
+     },
+     "E7_support_provenance_can_fire": {
+      "control_share": 1.0,
+      "criterion_passed": false,
+      "maximum": 0.25,
+      "passed": true,
+      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
+      "share_self_sourced": 0.409181,
+      "windows_with_a_sleep_row": 218
      }
     }
+   },
+   "best_primary_by_limb": {
+    "retention": "replay",
+    "revision": "decayed_bigram",
+    "revision_held_out": "decayed_bigram",
+    "transfer": "decayed_bigram"
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
@@ -396,6 +624,9 @@
    "engine": {
     "asserted_pairs": 331,
     "cap": 1000,
+    "formation_events": 880,
+    "revision_asserted_pairs": 336,
+    "revision_events": 400,
     "temporal_pairs": 397
    },
    "formation": {
@@ -440,6 +671,9 @@
    },
    "held_out": {
     "retention_pairs": 319,
+    "revision_held_out_pairs": 108,
+    "revision_pairs": 399,
+    "transfer_full_pairs": 399,
     "transfer_instances": {
      "flip_p": 69,
      "flip_q": 33
@@ -448,7 +682,12 @@
    },
    "kind": "reusable_knowledge_cell",
    "organica_minus_best_primary": 0.169898,
-   "organica_minus_ceiling": -0.229365,
+   "organica_minus_best_primary_by_limb": {
+    "retention": -0.045917,
+    "revision": -0.044528,
+    "revision_held_out": 0.137768,
+    "transfer": 0.169898
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -456,33 +695,100 @@
     "total": 128,
     "withheld": 32
    },
+   "revision": {
+    "compensated_events": 79,
+    "events": 400,
+    "held_out_instances": {
+     "flip_p": 40,
+     "flip_q": 68
+    },
+    "held_out_pairs": 108,
+    "learn_cycles": [
+     200,
+     250
+    ],
+    "regimes_at_switch": [
+     0,
+     1
+    ],
+    "test_cycles": [
+     250,
+     300
+    ],
+    "transitions_observed": {
+     "(0, 0)|flip_q": 40,
+     "(0, 1)|flip_p": 98,
+     "(1, 0)|flip_p": 40,
+     "(1, 0)|flip_q": 62,
+     "(1, 1)|flip_p": 58,
+     "(1, 1)|flip_q": 102
+    }
+   },
    "scores": {
     "bigram": {
      "retention": 0.427494,
+     "revision": 0.444365,
+     "revision_held_out": 0.893975,
      "transfer": 0.971605
     },
     "ceiling": {
      "retention": 0.372271,
+     "revision": 0.320733,
+     "revision_held_out": 0.323757,
      "transfer": 0.369125
     },
     "cell_counter": {
      "retention": 0.441837,
+     "revision": 0.466856,
+     "revision_held_out": 0.962237,
      "transfer": 1.025524
     },
     "decayed_bigram": {
      "retention": 0.391819,
+     "revision": 0.418508,
+     "revision_held_out": 0.781424,
      "transfer": 0.768388
     },
     "organica": {
      "retention": 0.433627,
+     "revision": 0.463036,
+     "revision_held_out": 0.643656,
      "transfer": 0.59849
     },
     "replay": {
      "retention": 0.38771,
+     "revision": 0.4241,
+     "revision_held_out": 0.79777,
      "transfer": 0.775957
     }
    },
    "seed": 20261203,
+   "support_provenance": {
+    "formation": {
+     "control_share": 1.0,
+     "edges_with_support": 317,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 4947,
+     "share_self_sourced": 0.409181,
+     "support_transitions": 12090,
+     "windows_with_a_sleep_row": 218,
+     "world_support": 7143
+    },
+    "revision": {
+     "control_share": 1.0,
+     "edges_with_support": 323,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 7321,
+     "share_self_sourced": 0.412916,
+     "support_transitions": 17730,
+     "windows_with_a_sleep_row": 318,
+     "world_support": 10409
+    }
+   },
    "variant": "V1.1-cap(1000)"
   },
   {
@@ -539,8 +845,32 @@
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
       "share": 0.986323,
       "without_layer1_share": 0.0
+     },
+     "E6_revision_limb_is_held_out_under_the_new_law": {
+      "held_out_pairs": 82,
+      "passed": true,
+      "reason": "the revision limb must exist, follow the rotated law, and withhold the same transitions",
+      "regimes_at_switch": [
+       0,
+       1
+      ]
+     },
+     "E7_support_provenance_can_fire": {
+      "control_share": 1.0,
+      "criterion_passed": false,
+      "maximum": 0.25,
+      "passed": true,
+      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
+      "share_self_sourced": 0.411638,
+      "windows_with_a_sleep_row": 218
      }
     }
+   },
+   "best_primary_by_limb": {
+    "retention": "decayed_bigram",
+    "revision": "decayed_bigram",
+    "revision_held_out": "decayed_bigram",
+    "transfer": "decayed_bigram"
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
@@ -549,6 +879,9 @@
    "engine": {
     "asserted_pairs": 313,
     "cap": 1000,
+    "formation_events": 880,
+    "revision_asserted_pairs": 319,
+    "revision_events": 400,
     "temporal_pairs": 362
    },
    "formation": {
@@ -593,6 +926,9 @@
    },
    "held_out": {
     "retention_pairs": 319,
+    "revision_held_out_pairs": 82,
+    "revision_pairs": 399,
+    "transfer_full_pairs": 399,
     "transfer_instances": {
      "flip_p": 50,
      "flip_q": 32
@@ -601,7 +937,12 @@
    },
    "kind": "reusable_knowledge_cell",
    "organica_minus_best_primary": 0.161632,
-   "organica_minus_ceiling": -0.224589,
+   "organica_minus_best_primary_by_limb": {
+    "retention": -0.036258,
+    "revision": -0.06389,
+    "revision_held_out": 0.116459,
+    "transfer": 0.161632
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -609,33 +950,100 @@
     "total": 128,
     "withheld": 32
    },
+   "revision": {
+    "compensated_events": 85,
+    "events": 400,
+    "held_out_instances": {
+     "flip_p": 32,
+     "flip_q": 50
+    },
+    "held_out_pairs": 82,
+    "learn_cycles": [
+     200,
+     250
+    ],
+    "regimes_at_switch": [
+     0,
+     1
+    ],
+    "test_cycles": [
+     250,
+     300
+    ],
+    "transitions_observed": {
+     "(0, 0)|flip_q": 37,
+     "(0, 1)|flip_p": 96,
+     "(1, 0)|flip_p": 37,
+     "(1, 0)|flip_q": 67,
+     "(1, 1)|flip_p": 59,
+     "(1, 1)|flip_q": 104
+    }
+   },
    "scores": {
     "bigram": {
      "retention": 0.452267,
+     "revision": 0.391981,
+     "revision_held_out": 0.797215,
      "transfer": 0.979722
     },
     "ceiling": {
      "retention": 0.368738,
+     "revision": 0.323301,
+     "revision_held_out": 0.325793,
      "transfer": 0.375961
     },
     "cell_counter": {
      "retention": 0.541785,
+     "revision": 0.451196,
+     "revision_held_out": 1.138344,
      "transfer": 1.325478
     },
     "decayed_bigram": {
      "retention": 0.402602,
+     "revision": 0.381714,
+     "revision_held_out": 0.7646,
      "transfer": 0.762182
     },
     "organica": {
      "retention": 0.43886,
+     "revision": 0.445604,
+     "revision_held_out": 0.648141,
      "transfer": 0.60055
     },
     "replay": {
      "retention": 0.403011,
+     "revision": 0.38874,
+     "revision_held_out": 0.79043,
      "transfer": 0.783859
     }
    },
    "seed": 20261204,
+   "support_provenance": {
+    "formation": {
+     "control_share": 1.0,
+     "edges_with_support": 300,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 4987,
+     "share_self_sourced": 0.411638,
+     "support_transitions": 12115,
+     "windows_with_a_sleep_row": 218,
+     "world_support": 7128
+    },
+    "revision": {
+     "control_share": 1.0,
+     "edges_with_support": 306,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 7374,
+     "share_self_sourced": 0.415554,
+     "support_transitions": 17745,
+     "windows_with_a_sleep_row": 318,
+     "world_support": 10371
+    }
+   },
    "variant": "V1.1-cap(1000)"
   },
   {
@@ -694,8 +1102,32 @@
       "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
       "share": 0.985649,
       "without_layer1_share": 0.0
+     },
+     "E6_revision_limb_is_held_out_under_the_new_law": {
+      "held_out_pairs": 106,
+      "passed": true,
+      "reason": "the revision limb must exist, follow the rotated law, and withhold the same transitions",
+      "regimes_at_switch": [
+       0,
+       1
+      ]
+     },
+     "E7_support_provenance_can_fire": {
+      "control_share": 1.0,
+      "criterion_passed": false,
+      "maximum": 0.25,
+      "passed": true,
+      "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
+      "share_self_sourced": 0.415481,
+      "windows_with_a_sleep_row": 218
      }
     }
+   },
+   "best_primary_by_limb": {
+    "retention": "decayed_bigram",
+    "revision": "replay",
+    "revision_held_out": "replay",
+    "transfer": "decayed_bigram"
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
@@ -704,6 +1136,9 @@
    "engine": {
     "asserted_pairs": 334,
     "cap": 1000,
+    "formation_events": 880,
+    "revision_asserted_pairs": 334,
+    "revision_events": 400,
     "temporal_pairs": 371
    },
    "formation": {
@@ -748,6 +1183,9 @@
    },
    "held_out": {
     "retention_pairs": 319,
+    "revision_held_out_pairs": 106,
+    "revision_pairs": 399,
+    "transfer_full_pairs": 399,
     "transfer_instances": {
      "flip_p": 63,
      "flip_q": 30
@@ -756,7 +1194,12 @@
    },
    "kind": "reusable_knowledge_cell",
    "organica_minus_best_primary": 0.143583,
-   "organica_minus_ceiling": -0.229164,
+   "organica_minus_best_primary_by_limb": {
+    "retention": -0.041316,
+    "revision": -0.076449,
+    "revision_held_out": -0.001571,
+    "transfer": 0.143583
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -764,33 +1207,100 @@
     "total": 128,
     "withheld": 32
    },
+   "revision": {
+    "compensated_events": 65,
+    "events": 400,
+    "held_out_instances": {
+     "flip_p": 39,
+     "flip_q": 67
+    },
+    "held_out_pairs": 106,
+    "learn_cycles": [
+     200,
+     250
+    ],
+    "regimes_at_switch": [
+     0,
+     1
+    ],
+    "test_cycles": [
+     250,
+     300
+    ],
+    "transitions_observed": {
+     "(0, 0)|flip_q": 36,
+     "(0, 1)|flip_p": 84,
+     "(1, 0)|flip_p": 36,
+     "(1, 0)|flip_q": 80,
+     "(1, 1)|flip_p": 48,
+     "(1, 1)|flip_q": 116
+    }
+   },
    "scores": {
     "bigram": {
      "retention": 0.436355,
+     "revision": 0.421142,
+     "revision_held_out": 0.786748,
      "transfer": 0.860975
     },
     "ceiling": {
      "retention": 0.368738,
+     "revision": 0.326382,
+     "revision_held_out": 0.323506,
      "transfer": 0.369028
     },
     "cell_counter": {
      "retention": 0.526374,
+     "revision": 0.489154,
+     "revision_held_out": 1.079181,
      "transfer": 1.203575
     },
     "decayed_bigram": {
      "retention": 0.406294,
+     "revision": 0.408341,
+     "revision_held_out": 0.752876,
      "transfer": 0.741775
     },
     "organica": {
      "retention": 0.44761,
+     "revision": 0.462028,
+     "revision_held_out": 0.661794,
      "transfer": 0.598192
     },
     "replay": {
      "retention": 0.409585,
+     "revision": 0.385579,
+     "revision_held_out": 0.660223,
      "transfer": 0.759031
     }
    },
    "seed": 20261205,
+   "support_provenance": {
+    "formation": {
+     "control_share": 1.0,
+     "edges_with_support": 322,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 5051,
+     "share_self_sourced": 0.415481,
+     "support_transitions": 12157,
+     "windows_with_a_sleep_row": 218,
+     "world_support": 7106
+    },
+    "revision": {
+     "control_share": 1.0,
+     "edges_with_support": 322,
+     "maximum": 0.25,
+     "passed": false,
+     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
+     "self_support": 7406,
+     "share_self_sourced": 0.416723,
+     "support_transitions": 17772,
+     "windows_with_a_sleep_row": 318,
+     "world_support": 10366
+    }
+   },
    "variant": "V1.1-cap(1000)"
   }
  ],
@@ -804,6 +1314,18 @@
  "kind": "reusable_knowledge_calibration",
  "note": "Calibration is a go/no-go at n = 5 (section 15.2). A failure here is reported as formation not achieved at the calibration operating point and stops the study before any confirmatory seed.",
  "pythonhashseed": "0",
+ "revision": {
+  "all_seeds_passed": true,
+  "rule": "every calibration seed must have both revision limbs",
+  "scope": "V1.1-cap(1000) only",
+  "seeds_passing": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ]
+ },
  "seeds": [
   20261201,
   20261202,
@@ -818,5 +1340,13 @@
   20261204,
   20261205
  ],
+ "support_provenance": {
+  "all_seeds_passed": false,
+  "layer": "store-time observer over the engine's own lookback",
+  "maximum": 0.25,
+  "rule": "every calibration seed must be at or below the maximum",
+  "scope": "V1.1-cap(1000) only",
+  "seeds_passing": []
+ },
  "variant": "V1.1-cap(1000)"
 }

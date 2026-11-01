@@ -651,3 +651,70 @@ third variant that has no results here.
 **What this leaves in place.** §14's ceiling and denominator, §15's three decisions, the
 0.95 threshold, the 15-of-20 confirmatory rule, the four original stop rules and §15's
 fifth. **No confirmatory seed has been run.**
+
+---
+
+## 18. Amendment 4 — the revision limb, the trace-derived diagnostic, and the stop it produced
+
+**Why this is an amendment.** §5 defines three limbs and names a revision-held-out window as a
+co-primary, but the harness scored only retention and transfer — an omission, not a decision.
+And AGENTS rule 18 requires this protocol's criteria to contain a **trace-derived** diagnostic,
+while §17's attribution share is a structure-type count that cannot distinguish world-derived
+from self-sourced support. Both are fixed here, before any confirmatory seed. **No hypothesis,
+limb definition, threshold or seed set is changed; one limb is implemented as §5 already
+defined it, and one diagnostic is added.**
+
+### 18.1 The revision limb
+
+The law rotates at cycle 200 (`LAW_R1`). After the formation snapshot the organism is exposed to
+the **revision-learning window 200–250** under the rotated law, with the **same two transitions
+withheld** by the same conditioned sampler, and its readout is frozen again. It is then scored on
+the **revision-test window 250–300**, which it never sees:
+
+- **`revision`** — every pair in that window;
+- **`revision_held_out`** — the co-primary: only pairs whose transition was withheld from both
+  formation and revision learning.
+
+Conditioning the learning window is what keeps the co-primary held out; without it the window
+would show the pair and the limb would be a retention measurement under a new name. Held-out
+pairs per seed: **82–110**. Comparators are fitted on formation **plus** revision
+learning, so every arm sees the same stream, and the ceiling is the rotated law's closed form.
+
+| arm | revision | revision_held_out |
+|---|---|---|
+| Organica | 0.4456–0.4630 | 0.6309–0.6618 |
+| replay | — | 0.6602–0.7978 |
+| bigram | — | 0.7867–0.8940 |
+| decayed bigram | — | 0.7529–0.7814 |
+| ceiling (rotated law) | — | 0.3193–0.3266 |
+
+### 18.2 The trace-derived diagnostic (D2)
+
+A store-time observer repeats the engine's **own** lookback query
+(`SELECT tags, event_type FROM events ORDER BY time DESC LIMIT 3`, which includes the event just
+stored) after every write and labels each support transition **world** or **self**, where *self*
+means the prior event was the organism's own sleep payload. The reported quantity is the share of
+self-sourced support over the edges the readout actually asserts. It is a transition-resolution
+measurement, not an aggregate and not an event-level lineage (AGENTS rule 17d).
+
+**The maximum is 0.25, declared before this measurement** and chosen so that no more than a
+quarter of a claim's support can be the organism's own output. An unmeasurable share is reported
+as not measurable, never as zero.
+
+**The result fails it on every calibration seed.** Formation readout **0.4092–0.4155**;
+revision readout **0.4129–0.4167**; sleep rows reached the lookback window
+in **218–218** stores per seed, so the mechanism is present and measured rather than
+vacuous. At roughly two-fifths self-sourced, the transfer margin cannot be reported as a transfer
+result: per AGENTS rule 18 the supporting evidence is not world evidence.
+
+### 18.3 The stop, recorded before any confirmatory seed
+
+The canonical calibration now reads: Gate F **5 of 5**, harness audit **7 of 7 checks on every seed**, revision limbs present on every seed, attribution share clear at 0.9848–0.9866 — and **support provenance 0.4092–0.4155 against a maximum of 0.25**. The artifact therefore records `authorises_confirmatory: false` and the confirmatory set **stays closed**.
+
+This is §6 stop rule 3 operating: an audit outside its declared band means the unit is reported as
+**not attributable**, not as a result. §16's sentence that Gate F cleared and the study proceeds is
+superseded on this one point and nothing else: it cleared, and the diagnostic stopped the study
+before a single confirmatory seed. **No threshold was relaxed after seeing the number**, and no
+confirmatory seed was run. Resolving this — for instance by a variant whose readout excludes
+self-sourced support, which would be a new amendment and a new measurement — is a decision for the
+owner, not a fix to be applied quietly.

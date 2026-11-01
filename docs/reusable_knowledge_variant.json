@@ -11,6 +11,7 @@
   "minimum": 0.5,
   "rule": "every seed must reach the minimum; a failure reports the endpoint as not attributable"
  },
+ "authorises_confirmatory": false,
  "calibration_has_run": true,
  "capacity_change_only": true,
  "capacity_is_fixed": true,
@@ -31,6 +32,7 @@
   "the harness audit on all five calibration seeds",
   "the attribution share on all five calibration seeds"
  ],
+ "confirmatory_blocked_by": "support provenance above its declared maximum",
  "confirmatory_has_run": false,
  "existing_mask_reusable": false,
  "frozen_reference": "v0.9.0",
@@ -79,5 +81,52 @@
   "held-out scoring pass at the variant capacity",
   "latent-rule holder ceiling",
   "comparator sweep under the naming rule"
- ]
+ ],
+ "revision_limb": {
+  "calibration_scores": {
+   "ceiling_revision_held_out": [
+    0.319341,
+    0.326584
+   ],
+   "organica_revision": [
+    0.445604,
+    0.463036
+   ],
+   "organica_revision_held_out": [
+    0.630907,
+    0.661794
+   ]
+  },
+  "co_primary": "revision_held_out",
+  "held_out_pairs_per_seed": [
+   82,
+   110
+  ],
+  "learn_cycles": [
+   200,
+   250
+  ],
+  "test_cycles": [
+   250,
+   300
+  ],
+  "withheld_in_learning": true
+ },
+ "support_provenance": {
+  "all_seeds_passed": false,
+  "layer": "store-time observer over the engine's own lookback",
+  "maximum": 0.25,
+  "measured_formation": [
+   0.409181,
+   0.415481
+  ],
+  "measured_revision": [
+   0.412916,
+   0.416723
+  ],
+  "windows_with_a_sleep_row": [
+   218,
+   218
+  ]
+ }
 }

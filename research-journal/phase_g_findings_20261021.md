@@ -7573,3 +7573,53 @@ be able to fail; attribution share at or above the minimum on all five; artifact
 → `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
 §17; `benchmarks/reusable_knowledge.py`; `tests/test_reusable_knowledge.py`.
 
+## §96 — The revision limb is implemented, the trace-derived diagnostic is measured, and it closes the study
+
+**What was missing.** §5 of the protocol defines three limbs and calls a revision-held-out window a
+co-primary; the harness scored two. And the protocol had no **trace-derived** diagnostic, which
+AGENTS rule 18 requires of the next study's criteria — §17's attribution share counts structure
+types, not evidence provenance, and those are different questions.
+
+**Revision, implemented as §5 defined it.** After formation the organism is exposed to the
+revision-learning window (200–250) under the rotated law with the same two transitions withheld, the
+readout is frozen again, and the revision-test window (250–300) is scored. `revision` covers the
+whole window; `revision_held_out` is the co-primary and covers only the withheld transitions, which
+stay held out because the learning window is conditioned as well. Held-out pairs per seed:
+82–110. Organica scores 0.6309–0.6618 on the co-primary against
+0.7529–0.7814 for the best comparator and
+0.3193–0.3266 for the rotated law's ceiling. That is the same shape as
+transfer: better than the comparators, well short of the law. **It is calibration, not a result.**
+
+**The diagnostic, and the stop.** A store-time observer repeats the engine's own lookback query —
+`SELECT tags, event_type FROM events ORDER BY time DESC LIMIT 3`, which includes the event just
+stored — after every write, and labels each support transition world or self. On the asserted edges
+of the readout, **0.4092–0.4155 of the formation readout's supporting
+transitions are self-sourced**, and 0.4129–0.4167 for the revision readout;
+sleep payloads reached the lookback window in 218–218 stores per seed, so the
+mechanism is present and the measurement is not vacuous. The maximum was declared at **0.25** before
+it was measured, and it fails on all five seeds. The artifact records
+`authorises_confirmatory: false` and the confirmatory set stays closed.
+
+**Why this is the right outcome rather than a setback.** The study exists to ask whether formed
+structure is usable on evidence it never saw. Roughly two-fifths of the readout's support for those
+predictions comes from the organism's own previous sleep payload rather than from the world. By the
+project's own pre-committed rule, a predicted-correct result resting on self-sourced support is not
+a transfer result — so the honest state is *not attributable*, and the alternative is to relax a
+threshold the moment it binds, which is precisely the failure rule 14 records. §16 said Gate F
+cleared and the study proceeds; it did clear, and the diagnostic stopped the study before any
+confirmatory seed. No threshold moved, and no confirmatory seed ran.
+
+**A defect found while building it.** The first revision patch let the formation readout's base rate
+be computed over formation **plus** revision events — a denominator that had seen a window the
+readout is later scored on. It was caught by comparing against the committed calibration (transfer
+moved from 0.5957 to 0.5725 on seed 20261201) and fixed by smoothing each readout only on what the
+organism had seen at the time it was frozen; the transfer numbers returned exactly to their
+committed values.
+
+**State.** Gate F 5 of 5; audit 7 of 7 checks on every seed, each shown able
+to fail; attribution 0.9848–0.9866; support provenance 0.4092–0.4155 against 0.25 →
+**confirmatory closed**. `tests/test_reusable_knowledge.py` covers the revision stream, its
+denominators, the provenance control and the hash-seed guard.
+
+→ `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §18.
+

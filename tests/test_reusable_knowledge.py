@@ -11,8 +11,9 @@ import pytest
 
 from benchmarks import reusable_knowledge as rk
 from benchmarks.acquisition_compositional import (
-    CELLS, EVENTS_PER_CYCLE, LAW_R0, PHASE_RETENTION, PHASE_TRANSFER,
-    TAGS_PER_CELL, flip_p, flip_q, generate_compositional_world, score,
+    CELLS, EVENTS_PER_CYCLE, LAW_R0, PHASE_RETENTION, PHASE_REVISION_LEARN,
+    PHASE_REVISION_TEST, PHASE_TRANSFER, TAGS_PER_CELL, flip_p, flip_q,
+    generate_compositional_world, score,
 )
 
 SEED = 20261201
@@ -119,15 +120,19 @@ def _artifact(**over):
         "cap": rk.MAX_PREDICTIONS,
         "seeds": list(rk.CALIBRATION_SEEDS),
         "cells": [],
+        "pythonhashseed": "0",
         "all_seeds_passed": True,
         "audit_all_passed": True,
         "attribution": {"all_seeds_passed": True},
+        "revision": {"all_seeds_passed": True},
+        "support_provenance": {"all_seeds_passed": True},
     }
     art.update(over)
     return art
 
 
 def test_confirmatory_guard_refuses_without_calibration(monkeypatch):
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
     monkeypatch.setattr(rk, "_load_calibration", lambda: None)
     ok, why = rk.confirmatory_allowed()
     assert ok is False and "no calibration" in why
@@ -142,6 +147,7 @@ def test_confirmatory_guard_refuses_without_calibration(monkeypatch):
 
 def test_confirmatory_guard_checks_cap_label_and_seeds(monkeypatch):
     """A pass flag alone must not authorise seeds under another variant."""
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
     monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(cap=250))
     ok, why = rk.confirmatory_allowed()
     assert ok is False and "cap 250" in why
@@ -207,3 +213,59 @@ def test_attribution_share_is_measured_and_can_fire():
     assert empty["share"] is None, "no evidence is not a zero share"
     assert empty["passed"] is False
     assert empty["without_layer1_share"] is None, "no control without evidence"
+
+
+def test_confirmatory_guard_requires_the_calibrated_hash_seed(monkeypatch):
+    """Calibration is hash-sensitive, so a different pin is a different run."""
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(pythonhashseed="0"))
+    monkeypatch.delenv("PYTHONHASHSEED", raising=False)
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "unset" in why
+    monkeypatch.setenv("PYTHONHASHSEED", "7")
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "run at" in why
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
+    assert rk.confirmatory_allowed()[0] is True
+
+
+def test_revision_stream_withholds_the_pair_under_the_new_law():
+    world = generate_compositional_world(seed=SEED)
+    stream = rk.conditioned_revision_stream(world, SEED, (0, 0))
+    span = (PHASE_REVISION_LEARN[1] - PHASE_REVISION_LEARN[0]) * EVENTS_PER_CYCLE
+    assert len(stream["events"]) == span
+    assert stream["compensated"] > 0, "the revision manipulation must fire"
+    for cell, kind in rk.WITHHELD:
+        assert stream["observed"].get(f"{cell}|{kind}", 0) == 0
+    permitted = [(c, k) for c in CELLS for k in rk.KINDS
+                 if (c, k) not in set(rk.WITHHELD)]
+    for cell, kind in permitted:
+        assert stream["observed"].get(f"{cell}|{kind}", 0) > 0
+
+
+def test_revision_limbs_have_denominators(world):
+    held = rk.limbs(world)
+    span = (PHASE_REVISION_TEST[1] - PHASE_REVISION_TEST[0]) * EVENTS_PER_CYCLE
+    assert len(held["revision"][0]) == span - 1
+    assert len(held["revision_held_out"][0]) == held["revision_pairs"] > 0
+    assert set(held["revision_instances"]) <= set(rk.KINDS)
+    switch = PHASE_REVISION_LEARN[0] * EVENTS_PER_CYCLE
+    assert world["regimes"][switch - 1] == 0 and world["regimes"][switch] == 1, \
+        "the law must actually rotate at the revision boundary"
+
+
+def test_support_provenance_is_measured_and_can_fire():
+    prov = rk.support_provenance({("alpha", "beta"): 9},
+                                 {("alpha", "beta"): 1},
+                                 {("alpha", "beta")}, windows_with_sleep=5)
+    assert prov["share_self_sourced"] == pytest.approx(0.1)
+    assert prov["passed"] is True
+    assert prov["control_share"] > prov["maximum"], "the control must fire"
+
+    mostly_self = rk.support_provenance({}, {("alpha", "beta"): 4},
+                                        {("alpha", "beta")}, windows_with_sleep=5)
+    assert mostly_self["share_self_sourced"] == 1.0
+    assert mostly_self["passed"] is False
+
+    empty = rk.support_provenance({}, {}, {("alpha", "beta")}, windows_with_sleep=0)
+    assert empty["share_self_sourced"] is None, "no support is not a zero share"
+    assert empty["passed"] is False

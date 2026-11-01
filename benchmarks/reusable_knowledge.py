@@ -114,6 +114,22 @@ ATTRIBUTION_MINIMUM = 0.50
 LAYER1_TYPE = "prediction_candidate"
 
 KINDS = ("flip_p", "flip_q")
+from benchmarks.acquisition_compositional import (  # noqa: E402
+    LAW_R1, PHASE_REVISION_LEARN, PHASE_REVISION_TEST,
+)
+
+HASH_SEED_ENV = "PYTHONHASHSEED"
+
+#: The revision limb of §5: the law rotates at cycle 200, the organism is
+#: exposed to the revision-learning window under the new law with the same two
+#: transitions withheld, and scored on the revision-test window.  The
+#: withheld-only revision limb is the co-primary.
+REVISION_WITHHELD = WITHHELD
+
+#: The trace-derived diagnostic (AGENTS rule 18, spec D2): the share of the
+#: readout's supporting transitions whose prior event was the organism's own
+#: sleep payload.  Declared before any confirmatory seed.
+SELF_SOURCED_MAX = 0.25
 
 
 # ---------------------------------------------------------------------------
@@ -255,35 +271,82 @@ def _pairs(events: list[str], lo: int, hi: int,
 
 
 def limbs(world: dict, withheld=WITHHELD) -> dict[str, Any]:
-    """Retention (all pairs) and transfer (only the withheld relations).
+    """Retention, transfer, and the two revision windows.
 
-    The transfer limb is the point of the study: a pair is scored there only if
-    its cell transition was withheld from every formation exposure, so a count
-    of that transition has no support and a learner holding the law does.
+    Transfer scores only pairs whose cell transition was withheld from every
+    formation exposure.  The revision limbs score the revision-test window under
+    the rotated law: `revision` scores all of it, and `revision_held_out` — the
+    co-primary — scores only the transitions withheld from **both** formation
+    and revision learning, so the held-out property survives the law change.
     """
     blocked = set(withheld)
     events = world["events"]
     ret_ctx, ret_obs = _pairs(events, *PHASE_RETENTION)
     tr_ctx, tr_obs = _pairs(events, *PHASE_TRANSFER)
     names = [_coord(c) for c in world["cells"]]
-    lo, hi = PHASE_TRANSFER[0] * EVENTS_PER_CYCLE, PHASE_TRANSFER[1] * EVENTS_PER_CYCLE
-    keep_ctx, keep_obs, kinds = [], [], defaultdict(int)
-    for i in range(lo, hi - 1):
-        src, dst = names[i], names[i + 1]
-        kind = ("flip_p" if dst == flip_p(src)
-                else "flip_q" if dst == flip_q(src) else None)
-        if kind is None or (src, kind) not in blocked:
-            continue
-        keep_ctx.append(sorted(events[i].split()))
-        keep_obs.append(sorted(events[i + 1].split()))
-        kinds[kind] += 1
+
+    def held_only(phase):
+        lo, hi = phase[0] * EVENTS_PER_CYCLE, phase[1] * EVENTS_PER_CYCLE
+        keep_ctx, keep_obs, kinds = [], [], defaultdict(int)
+        for i in range(lo, hi - 1):
+            src, dst = names[i], names[i + 1]
+            kind = ("flip_p" if dst == flip_p(src)
+                    else "flip_q" if dst == flip_q(src) else None)
+            if kind is None or (src, kind) not in blocked:
+                continue
+            keep_ctx.append(sorted(events[i].split()))
+            keep_obs.append(sorted(events[i + 1].split()))
+            kinds[kind] += 1
+        return keep_ctx, keep_obs, dict(kinds)
+
+    keep_ctx, keep_obs, kinds = held_only(PHASE_TRANSFER)
+    rev_ctx, rev_obs = _pairs(events, *PHASE_REVISION_TEST)
+    rkeep_ctx, rkeep_obs, rkinds = held_only(PHASE_REVISION_TEST)
     return {
         "retention": (ret_ctx, ret_obs),
         "transfer": (keep_ctx, keep_obs),
         "transfer_full": (tr_ctx, tr_obs),
-        "transfer_instances": dict(kinds),
+        "transfer_instances": kinds,
         "transfer_pairs": len(keep_ctx),
+        "revision": (rev_ctx, rev_obs),
+        "revision_held_out": (rkeep_ctx, rkeep_obs),
+        "revision_instances": rkinds,
+        "revision_pairs": len(rkeep_ctx),
     }
+
+
+def conditioned_revision_stream(world: dict, seed: int,
+                                start_cell: tuple[int, int],
+                                withheld=WITHHELD) -> dict[str, Any]:
+    """Revision-learning exposure: the rotated law, same two transitions withheld.
+
+    §5 gives revision its own window and the law rotates at cycle 200 (`LAW_R1`).
+    This generates the learning window from the formation stream's last cell,
+    conditioned exactly as formation was, so the co-primary is still held out
+    under the new law and the revision-test window is never shown.
+    """
+    blocked = set(withheld)
+    cell_tags = {_coord(name): tags for name, tags in world["cell_tags"].items()}
+    rng = random.Random(seed * 31 + 11)
+    state = start_cell
+    events: list[str] = []
+    observed: dict[str, int] = defaultdict(int)
+    compensated = 0
+    span = (PHASE_REVISION_LEARN[1] - PHASE_REVISION_LEARN[0]) * EVENTS_PER_CYCLE
+    for _ in range(span):
+        kind = rng.choices(list(KINDS), weights=[LAW_R1[k] for k in KINDS], k=1)[0]
+        if (state, kind) in blocked:
+            compensated += 1
+            here = [k for k in KINDS if (state, k) not in blocked]
+            if not here:
+                raise AssertionError(f"cell {state} has no permitted transition")
+            kind = rng.choices(here, weights=[LAW_R1[k] for k in here], k=1)[0]
+        nxt = _succ(state, kind)
+        observed[f"{state}|{kind}"] += 1
+        events.append(" ".join(sorted(rng.sample(cell_tags[nxt], 2))))
+        state = nxt
+    return {"events": events, "compensated": compensated,
+            "observed": dict(observed), "final_cell": state}
 
 
 # ---------------------------------------------------------------------------
@@ -472,89 +535,211 @@ def attribution_share(engine: dict) -> dict[str, Any]:
     }
 
 
-def run_engine(formation: dict, seed: int, cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
-    """Formation exposure on the conditioned stream, then the frozen readout.
+def _support_observer(mem: MemoryService):
+    """A store-time observer that mirrors the engine's own lookback window.
 
-    The variant differs from V1 in the Layer-1 truncation only.  `organica/` is
-    untouched; the subclass is `acquisition_harness.CapOverrideSleepService`,
-    the same instrument the paired capacity diagnostic used.
+    `MemoryService._record_temporal_edges` reads the last three event rows —
+    including the one just stored — and links every prior tag to every tag of
+    the new event.  It does not filter by `event_type`, so a support transition
+    can come from the organism's own sleep payload (spec D2).  This repeats that
+    query one call after each store and labels each increment world or self.
+    """
+    world_support: dict[tuple[str, str], int] = defaultdict(int)
+    self_support: dict[tuple[str, str], int] = defaultdict(int)
+    state = {"windows_with_sleep": 0}
+
+    def record(new_tags: list[str]) -> None:
+        rows = mem._conn.execute(
+            "SELECT tags, event_type FROM events ORDER BY time DESC LIMIT 3"
+        ).fetchall()
+        slept = False
+        for tags_str, etype in rows:
+            prior = [t for t in (tags_str or "").split(",") if t]
+            for u in prior:
+                for v in new_tags:
+                    if u == v:
+                        continue
+                    if etype == "sleep":
+                        self_support[(u, v)] += 1
+                        slept = True
+                    else:
+                        world_support[(u, v)] += 1
+        state["windows_with_sleep"] += int(slept)
+
+    return record, world_support, self_support, state
+
+
+def support_provenance(world_support: dict, self_support: dict,
+                       asserted: set[tuple[str, str]],
+                       windows_with_sleep: int) -> dict[str, Any]:
+    """D2: how much of the readout's support came from the organism itself.
+
+    Restricted to the edges the readout actually asserts, because an edge it does
+    not use cannot support its predictions.  A readout with no support at all is
+    **not measurable** (`None`), never zero (AGENTS rule 13).
+    """
+    edges = [e for e in asserted if e in world_support or e in self_support]
+    w = sum(world_support.get(e, 0) for e in edges)
+    sf = sum(self_support.get(e, 0) for e in edges)
+    total = w + sf
+    share = (sf / total) if total else None
+    return {
+        "edges_with_support": len(edges),
+        "world_support": w,
+        "self_support": sf,
+        "support_transitions": total,
+        "share_self_sourced": None if share is None else round(share, 6),
+        "maximum": SELF_SOURCED_MAX,
+        "windows_with_a_sleep_row": windows_with_sleep,
+        "control_share": (1.0 if total else None),
+        "passed": share is not None and share <= SELF_SOURCED_MAX,
+        "reason": ("a transfer claim may not rest mostly on the organism's own "
+                   "sleep payloads (AGENTS rule 18, spec D2)"),
+    }
+
+
+def run_engine(formation: dict, revision: dict, seed: int,
+               cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
+    """Formation, then revision learning under the rotated law; two snapshots.
+
+    The variant differs from V1 in the Layer-1 truncation only and `organica/` is
+    untouched.  The readout is frozen twice — after formation for retention and
+    transfer, after revision learning for the revision limbs — so no scored
+    window is ever shown to the organism.
     """
     db = _scratch(seed)
     mem = MemoryService(str(db))
     svc = CapOverrideSleepService(mem, max_predictions=cap)
     epc = EVENTS_PER_CYCLE
-    try:
-        for i, text in enumerate(formation["events"]):
-            mem.store(text, event_type="observe", source="env")
+    record, world_support, self_support, obs = _support_observer(mem)
+
+    def feed(events: list[str], source: str) -> None:
+        for i, text in enumerate(events):
+            mem.store(text, event_type="observe", source=source)
+            record(sorted(text.split()))
             if (i + 1) % epc == 0:
                 svc.run_sleep_cycle()
                 mem.prune_sleep_candidates()
+
+    def snapshot() -> dict[str, Any]:
         frozen = svc._load_prior_candidates()
         rows = structure_edges(frozen)
-        asserted = {(u, v) for u, targets in rows.items() for v in targets}
-        temporal = {(u, v) for u, v, _n in mem.temporal_edges(min_count=1)}
         by_type: dict[str, list[dict]] = defaultdict(list)
         for c in frozen:
             by_type[c.get("type", "")].append(c)
-        type_rows = {t: structure_edges(cs) for t, cs in by_type.items()}
+        return {"rows": rows,
+                "asserted": {(u, v) for u, ts in rows.items() for v in ts},
+                "type_rows": {t: structure_edges(cs) for t, cs in by_type.items()}}
+
+    try:
+        feed(formation["events"], "env")
+        first = snapshot()
+        form_world, form_self = dict(world_support), dict(self_support)
+        form_windows = obs["windows_with_sleep"]
+        feed(revision["events"], "env_rev")
+        second = snapshot()
+        temporal = {(u, v) for u, v, _n in mem.temporal_edges(min_count=1)}
     finally:
         mem._conn.close()
         try:
             db.unlink(missing_ok=True)
         except PermissionError:
             pass
-    return {"asserted_rows": rows, "asserted": asserted, "temporal": temporal,
-            "type_rows": type_rows, "cap": cap,
-            "formation_events": len(formation["events"])}
+
+    return {
+        "asserted_rows": first["rows"], "asserted": first["asserted"],
+        "type_rows": first["type_rows"],
+        "revision_rows": second["rows"], "revision_asserted": second["asserted"],
+        "revision_type_rows": second["type_rows"],
+        "temporal": temporal, "cap": cap,
+        "formation_events": len(formation["events"]),
+        "revision_events": len(revision["events"]),
+        "support": {
+            "formation": support_provenance(form_world, form_self,
+                                            first["asserted"], form_windows),
+            "revision": support_provenance(dict(world_support),
+                                           dict(self_support),
+                                           second["asserted"],
+                                           obs["windows_with_sleep"]),
+        },
+    }
 
 
 def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
              withheld=WITHHELD) -> dict[str, Any]:
-    """One seed: conditioned formation, Gate F, and every arm on both limbs."""
+    """One seed: formation, revision learning, and every arm on every limb."""
     world = generate_compositional_world(seed=seed, cycles=CYCLES)
     formation = conditioned_formation_stream(world, seed, withheld)
+    revision = conditioned_revision_stream(world, seed,
+                                           formation["raw_cells"][-1], withheld)
     relations = relation_sets(world, withheld)
     held = limbs(world, withheld)
 
     rows = formation["events"]
-    split = len(rows) - TUNE_CYCLES * EVENTS_PER_CYCLE
-    fit_rows = rows[:split]
-    vocab = {t for r in rows for t in r.split()}
+    rev_rows = revision["events"]
+    vocab = {t for r in rows + rev_rows for t in r.split()}
+    fit_rows = rows[:len(rows) - TUNE_CYCLES * EVENTS_PER_CYCLE]
+    rev_all = rows + rev_rows
+    rev_fit = rev_all[:len(rev_all) - TUNE_CYCLES * EVENTS_PER_CYCLE]
 
-    counts: dict[str, int] = defaultdict(int)
-    for r in rows:
-        for t in r.split():
-            counts[t] += 1
-    total = sum(counts.values()) or 1
-    base_rate = {t: n / total for t, n in counts.items()}
+    def base_rate_of(row_list: list[str]) -> dict[str, float]:
+        counts: dict[str, int] = defaultdict(int)
+        for r in row_list:
+            for t in r.split():
+                counts[t] += 1
+        total = sum(counts.values()) or 1
+        return {t: n / total for t, n in counts.items()}
 
-    engine = run_engine(formation, seed, cap)
+    # The formation readout is smoothed on formation only: its denominator may
+    # not see events from a window it is later scored on.  The revision readout
+    # is smoothed on everything the organism has seen by then.
+    base_rate = base_rate_of(rows)
+    base_rate_rev = base_rate_of(rev_all)
+
+    engine = run_engine(formation, revision, seed, cap)
     gate = gate_f(engine["asserted"], relations)
 
-    arms: dict[str, Any] = {}
-    organica_prob = make_organica_backoff(engine["asserted_rows"], base_rate, ALPHA)
-    arms["organica"] = {"prob": organica_prob, "privileged": False,
-                        "config": {"alpha": ALPHA, "cap": cap}}
     comps = comparator_sweep(rows, fit_rows, vocab, world["tag_to_cell"])
+    comps_rev = comparator_sweep(rev_all, rev_fit, vocab, world["tag_to_cell"])
+
+    arms: dict[str, Any] = {}
+    arms["organica"] = {
+        "prob": make_organica_backoff(engine["asserted_rows"], base_rate, ALPHA),
+        "prob_revision": make_organica_backoff(engine["revision_rows"],
+                                               base_rate_rev, ALPHA),
+        "privileged": False, "config": {"alpha": ALPHA, "cap": cap}}
     for name in ("replay", "bigram", "decayed_bigram", "cell_counter"):
         arms[name] = {"prob": comps[name]["prob"],
+                      "prob_revision": comps_rev[name]["prob"],
                       "privileged": name == "cell_counter",
                       "config": comps[name]["config"],
-                      "tuning_log_loss": comps[name]["tuning_log_loss"]}
-    arms["ceiling"] = {"prob": latent_rule_holder(world), "privileged": False,
-                       "config": {"holder": "full latent rule"}}
+                      "config_revision": comps_rev[name]["config"],
+                      "tuning_log_loss": comps[name]["tuning_log_loss"],
+                      "tuning_log_loss_revision": comps_rev[name]["tuning_log_loss"]}
+    arms["ceiling"] = {"prob": latent_rule_holder(world, 0),
+                       "prob_revision": latent_rule_holder(world, 1),
+                       "privileged": False,
+                       "config": {"holder": "full latent rule, per regime"}}
 
+    pairs = {
+        "retention": held["retention"],
+        "transfer": held["transfer"],
+        "revision": held["revision"],
+        "revision_held_out": held["revision_held_out"],
+    }
     scores: dict[str, dict] = {}
     for name, arm in arms.items():
-        scores[name] = {
-            limb: score(arm["prob"], ctx, obs, vocab)["log_loss"]
-            for limb, (ctx, obs) in (("retention", held["retention"]),
-                                     ("transfer", held["transfer"]))
-        }
-    # The comparison the protocol asks for: the best NON-privileged comparator.
-    primary = ["replay", "bigram", "decayed_bigram"]
-    best_primary = min(primary, key=lambda n: scores[n]["transfer"])
+        scores[name] = {}
+        for limb, (ctx, obs) in pairs.items():
+            key = "prob_revision" if limb.startswith("revision") else "prob"
+            scores[name][limb] = score(arm[key], ctx, obs, vocab)["log_loss"]
 
+    primary = ["replay", "bigram", "decayed_bigram"]
+    bars = {limb: min(primary, key=lambda n: scores[n][limb]) for limb in pairs}
+    margins = {limb: round(scores[bars[limb]][limb] - scores["organica"][limb], 6)
+               for limb in pairs}
+
+    switch = PHASE_REVISION_LEARN[0] * EVENTS_PER_CYCLE
     return {
         "kind": "reusable_knowledge_cell",
         "variant": variant_label(cap),
@@ -564,12 +749,24 @@ def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
         "seed": seed,
         "gate_f": gate,
         "attribution": attribution_share(engine),
+        "support_provenance": engine["support"],
         "formation": {
             "events": len(rows),
             "cycles": formation_cycles(),
             "withheld": formation["withheld"],
             "compensated_events": formation["compensated"],
             "transitions_observed": formation["observed"],
+        },
+        "revision": {
+            "learn_cycles": list(PHASE_REVISION_LEARN),
+            "test_cycles": list(PHASE_REVISION_TEST),
+            "events": len(rev_rows),
+            "compensated_events": revision["compensated"],
+            "transitions_observed": revision["observed"],
+            "held_out_pairs": held["revision_pairs"],
+            "held_out_instances": held["revision_instances"],
+            "regimes_at_switch": [world["regimes"][switch - 1],
+                                  world["regimes"][switch]],
         },
         "relations": {
             "available": len(relations["available"]),
@@ -579,18 +776,24 @@ def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
         "held_out": {
             "retention_pairs": len(held["retention"][0]),
             "transfer_pairs": held["transfer_pairs"],
+            "transfer_full_pairs": len(held["transfer_full"][0]),
             "transfer_instances": held["transfer_instances"],
+            "revision_pairs": len(held["revision"][0]),
+            "revision_held_out_pairs": held["revision_pairs"],
         },
-        "engine": {"cap": engine["cap"], "asserted_pairs": len(engine["asserted"]),
-                   "temporal_pairs": len(engine["temporal"])},
-        "scores": {name: {limb: round(v, 6) for limb, v in s.items()}
-                   for name, s in scores.items()},
+        "engine": {"cap": engine["cap"],
+                   "asserted_pairs": len(engine["asserted"]),
+                   "revision_asserted_pairs": len(engine["revision_asserted"]),
+                   "temporal_pairs": len(engine["temporal"]),
+                   "formation_events": engine["formation_events"],
+                   "revision_events": engine["revision_events"]},
+        "scores": {name: {limb: round(v, 6) for limb, v in sc.items()}
+                   for name, sc in scores.items()},
         "privileged_reference": "cell_counter",
-        "best_primary_comparator": best_primary,
-        "organica_minus_best_primary": round(
-            scores[best_primary]["transfer"] - scores["organica"]["transfer"], 6),
-        "organica_minus_ceiling": round(
-            scores["ceiling"]["transfer"] - scores["organica"]["transfer"], 6),
+        "best_primary_comparator": bars["transfer"],
+        "best_primary_by_limb": bars,
+        "organica_minus_best_primary": margins["transfer"],
+        "organica_minus_best_primary_by_limb": margins,
         "calibration_passed": bool(gate["passed"]),
     }
 
@@ -607,6 +810,8 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
     E3  the conditioning actually removed the withheld transitions
     E4  every limb has a denominator to be scored against
     E5  the attribution share is measured, and its gate can fire
+    E6  the revision limb exists, follows the rotated law, and holds out the pair
+    E7  the support-provenance diagnostic is measurable and can fire
     """
     held = limbs(world, withheld)
     vocab = {t for r in world["events"] for t in r.split()}
@@ -627,7 +832,24 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
         cell["formation"]["compensated_events"] > 0
 
     e4 = (cell["held_out"]["retention_pairs"] > 0
-          and cell["held_out"]["transfer_pairs"] > 0)
+          and cell["held_out"]["transfer_pairs"] > 0
+          and cell["held_out"].get("revision_pairs", 0) > 0
+          and cell["held_out"].get("revision_held_out_pairs", 0) > 0)
+
+    rev = cell.get("revision") or {}
+    e6 = (cell["held_out"].get("revision_held_out_pairs", 0) > 0
+          and rev.get("regimes_at_switch") == [0, 1]
+          and all(rev.get("transitions_observed", {}).get(f"{c}|{k}", 0) == 0
+                  for c, k in withheld))
+
+    prov = (cell.get("support_provenance") or {}).get("formation") or {}
+    # E7 is a check on the instrument, not the criterion: the measurement must be
+    # live (a sleep row must reach the window) and the control must be able to
+    # fail.  Whether the measured share passes belongs to the criterion below.
+    e7 = (prov.get("share_self_sourced") is not None
+          and prov.get("windows_with_a_sleep_row", 0) > 0
+          and prov.get("control_share") is not None
+          and prov["control_share"] > prov.get("maximum", SELF_SOURCED_MAX))
 
     att = cell.get("attribution") or {}
     e5 = (bool(att.get("passed"))
@@ -656,6 +878,21 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
             "minimum": att.get("minimum", ATTRIBUTION_MINIMUM),
             "reason": ("a readout with no Layer-1 evidence must fall below the "
                        "minimum, or the gate is decoration")},
+        "E6_revision_limb_is_held_out_under_the_new_law": {
+            "passed": e6,
+            "regimes_at_switch": rev.get("regimes_at_switch"),
+            "held_out_pairs": cell["held_out"].get("revision_held_out_pairs"),
+            "reason": ("the revision limb must exist, follow the rotated law, and "
+                       "withhold the same transitions")},
+        "E7_support_provenance_can_fire": {
+            "passed": e7,
+            "share_self_sourced": prov.get("share_self_sourced"),
+            "control_share": prov.get("control_share"),
+            "windows_with_a_sleep_row": prov.get("windows_with_a_sleep_row"),
+            "maximum": prov.get("maximum", SELF_SOURCED_MAX),
+            "criterion_passed": prov.get("passed"),
+            "reason": ("the diagnostic must be live and its control must be able "
+                       "to fail; the measured share is judged separately")},
     }
     return {"all_passed": all(c["passed"] for c in checks.values()),
             "checks": checks}
@@ -675,11 +912,10 @@ def _load_calibration() -> dict | None:
 def confirmatory_allowed() -> tuple[bool, str]:
     """Confirmatory seeds are refused unless the CANONICAL calibration passed.
 
-    The guard checks the artifact's **capacity, variant and seed set**, not only
-    its pass flag.  A calibration run at another cap carries another label
-    (§15.1), and authorising the confirmatory set from it would attribute those
-    cells to a variant that was never calibrated — the same class of defect as
-    two gates sharing one name (AGENTS rule 25).
+    The guard reads the artifact rather than only its pass flag: capacity, label,
+    seed set, hash seed and the three diagnostics.  A confirmatory run under a
+    different `PYTHONHASHSEED` is a different measurement, so it is refused even
+    when the artifact authorises the set.
     """
     cal = _load_calibration()
     if cal is None:
@@ -692,6 +928,14 @@ def confirmatory_allowed() -> tuple[bool, str]:
                        f"{VARIANT_NAME!r}")
     if list(cal.get("seeds") or []) != list(CALIBRATION_SEEDS):
         return False, "the artifact's seed set is not the five calibration seeds"
+    recorded = cal.get("pythonhashseed")
+    if hash_seed() is None:
+        return False, (f"{HASH_SEED_ENV} is unset, but calibration was run at "
+                       f"{recorded!r}; a run without the same pin is a different "
+                       f"measurement")
+    if str(hash_seed()) != str(recorded):
+        return False, (f"{HASH_SEED_ENV} is {hash_seed()!r}, but calibration was run at "
+                       f"{recorded!r}")
     if not cal.get("all_seeds_passed"):
         failed = [c["seed"] for c in cal.get("cells", []) if not c["calibration_passed"]]
         return False, f"calibration did not pass on seeds {failed}"
@@ -700,7 +944,13 @@ def confirmatory_allowed() -> tuple[bool, str]:
     if not (cal.get("attribution") or {}).get("all_seeds_passed"):
         return False, ("the attribution share did not reach its minimum on every "
                        "calibration seed")
-    return True, "calibration passed on all five seeds, at the canonical cap and label"
+    if not (cal.get("revision") or {}).get("all_seeds_passed"):
+        return False, "the revision limbs had no denominator on every calibration seed"
+    if not (cal.get("support_provenance") or {}).get("all_seeds_passed"):
+        return False, ("the support-provenance diagnostic did not pass on every "
+                       "calibration seed")
+    return True, ("calibration passed on all five seeds, at the canonical cap, label "
+                  "and hash seed")
 
 
 def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
@@ -727,12 +977,32 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         cells.append(cell)
     passed = [c["seed"] for c in cells if c["calibration_passed"]]
     attribution_passed = [c["seed"] for c in cells if c["attribution"]["passed"]]
+    revision_ok = [c["seed"] for c in cells
+                   if c["held_out"]["revision_pairs"] > 0
+                   and c["held_out"]["revision_held_out_pairs"] > 0]
+    provenance_passed = [c["seed"] for c in cells
+                         if c["support_provenance"]["formation"]["passed"]
+                         and c["support_provenance"]["revision"]["passed"]]
     art = {
         "kind": "reusable_knowledge_calibration",
         "variant": variant_label(cap),
         "cap": cap,
         "canonical_cap": cap == MAX_PREDICTIONS,
         "pythonhashseed": hash_seed(),
+        "revision": {
+            "rule": "every calibration seed must have both revision limbs",
+            "seeds_passing": revision_ok,
+            "all_seeds_passed": len(revision_ok) == len(CALIBRATION_SEEDS),
+            "scope": "V1.1-cap(1000) only",
+        },
+        "support_provenance": {
+            "rule": "every calibration seed must be at or below the maximum",
+            "maximum": SELF_SOURCED_MAX,
+            "layer": "store-time observer over the engine's own lookback",
+            "seeds_passing": provenance_passed,
+            "all_seeds_passed": len(provenance_passed) == len(CALIBRATION_SEEDS),
+            "scope": "V1.1-cap(1000) only",
+        },
         "attribution": {
             "rule": "every calibration seed must reach the minimum share",
             "layer1_type": LAYER1_TYPE,
@@ -758,6 +1028,8 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
             cap == MAX_PREDICTIONS
             and len(passed) == len(CALIBRATION_SEEDS)
             and len(attribution_passed) == len(CALIBRATION_SEEDS)
+            and len(revision_ok) == len(CALIBRATION_SEEDS)
+            and len(provenance_passed) == len(CALIBRATION_SEEDS)
             and all(c["audit"]["all_passed"] for c in cells)),
         "note": (
             "Calibration is a go/no-go at n = 5 (section 15.2). A failure here "
