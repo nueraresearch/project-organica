@@ -6706,3 +6706,21 @@ The differences, by type:
 **What this does not decide.** H2 is **untested in an admissible form**. No D0 re-scoring, no V2, no acquisition cells, no engine change; Organica 1 stays frozen at `v0.9.0`. The next instrument needs an intervention at the **first** order-sensitive site — a total order on the tag scores or a canonical iteration order for the tag set — and a control that holds before its tables are read.
 
 → `docs/divergence_mechanism.json`; `docs/DIVERGENCE-MECHANISM-RESULTS.md`; `benchmarks/divergence_mechanism.py`; `docs/DIVERGENCE-MECHANISM-BRIEF.md`; journal §73.
+
+## §75 — The onset question is pre-registered: when do the candidate populations first differ?
+
+**What this section records.** A plan, committed before any run, for the next observer in the D0 reproduction line. The brief is `docs/ONSET-INSTRUMENT-BRIEF.md`; nothing in it has been run. **This section is the pre-registration**, and it is written before the instrument exists.
+
+**Why the question changed.** §74's correction removed the observation the construction-order experiment was pre-registered to explain. At the divergence cycle the two sides do not hold the same set of candidates (0 of 16 arm-pairs), so the question *why do identical pools admit differently* no longer has a subject. What survives is narrower and is directly supported by the artifact in hand: **at what earliest cycle do the two candidate populations first differ, and what entered or left at that cycle?**
+
+**What brackets it.** In `docs/divergence_cycle_capture.json` (`OBSERVER_VERSION` 3), 11 of 16 arm-pairs hold the same set at *k−1* and a different set at *k*, so for those the onset lies in **(k−1, k]**. Five arm-pairs already differ at *k−1* — T1/20261125 both arms (k=11), T2/20261120 both arms (k=5) and T2/20261121 arm B (k=5) — so for those the onset is at or before *k−1* and no existing measurement bounds it. Zero arm-pairs hold the same set at *k*.
+
+**Predictions, fixed in advance.** **P1** the 11 bracketed arm-pairs reach onset at exactly *k*. **P2** the five unbracketed arm-pairs reach onset strictly before *k−1*, and a specific cycle is located for at least 4 of the 5. **P3** more than half of the arm-pairs reach onset later than cycle 1.
+
+**Falsification criteria.** **F1** if re-capturing cycles *k* and *k−1* does not reproduce the artifact's `set_identical` values on all 16 arm-pairs, the instrument is inadmissible and no onset may be reported from it. **F2** if the control seed's two hash-seed runs differ in membership at any cycle, the membership difference is generic to hash-seeded construction and carries no information about the D0 divergence. **F3** a window that fails its marker check is reported as **not measured**, never as a differing pool. **F4** if the onset cycle's transition record is empty while the sets are reported as differing, the finding is withdrawn rather than explained.
+
+**Controls.** **C1** the control seed shows identical pools at every cycle and an onset of none. **C2** every window used carries the marker that addresses it, and the count of addressed windows equals the count used. **C3** the parts are written twice by independent processes and compared field by field. **C4** the cycles *k* and *k−1* pools equal the existing artifact's on IDs, not merely on counts.
+
+**What it will not establish.** It will not name the operation that introduces the difference. A candidate entering the pool at cycle *c* is evidence that an upstream write changed at *c*, not that a named function is responsible; locating the operation is a separate observer and is not attempted here. No engine change, no D0 re-scoring, no H2 test, and the mechanism experiment is not reopened. Organica 1 stays frozen at `v0.9.0`.
+
+→ `docs/ONSET-INSTRUMENT-BRIEF.md`; `docs/divergence_cycle_capture.json`; journal §72; journal §74.
