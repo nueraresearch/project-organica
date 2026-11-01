@@ -21,8 +21,12 @@ engine is a reading of the frozen source at `v0.9.0`.
 > (`docs/store_time_observer_f4.json`). **F5 passes too:** with the finer split of
 > §9 installed and neutrality re-proved, 17 distinct labels were observed and all
 > twelve attributed candidates carry `pool:dream` — the pre-registered finding that
-> on the control seed (B-restated) is not reached. The **verdict pass over the
-> seeds is still not built**, so no divergence verdict has been read. Controls are committed as
+> on the control seed (B-restated) is not reached. **The verdict pass has now run**
+> (§10-§11): at the recorded pairs, every resolving cell attributed all its
+> differences to construction writes and **none to a tag-scored builder**, and one
+> cell resolved only partially and is `indeterminate`. A first pass at hash seeds 0/1
+> returned `no_difference_at_pair` on all five cells and is kept on the record.
+> Results: `docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`. Controls are committed as
 > `docs/store_time_observer_self_test.json` and `docs/store_time_observer_f4.json`.
 
 **Why this instrument and not another correction.** The divergence line is frozen

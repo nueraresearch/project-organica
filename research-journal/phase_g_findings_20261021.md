@@ -6976,3 +6976,67 @@ property: the observer can name the builder behind a differing candidate, and
 
 → `docs/F4-RESULTS.md` §7-§8; `docs/STORE-TIME-OBSERVER-BRIEF.md` §9;
 `docs/store_time_observer_f4.json`; `benchmarks/store_time_observer.py` (version 2).
+
+## §83 — The verdict pass ran, and the answer is not `_score_tags`
+
+**Two passes, and why.** The pre-registered pass (§10) ran at hash seeds 0 and 1
+and returned `no_difference_at_pair` on **all five** cells — the windows were
+addressed and identical (268/268, 98/98, 82/82). That is an input error, not a
+result: `docs/candidate_membership_audit.json` records the pair each seed was
+measured at, and I had taken 0/1 by analogy with F4/F5 instead of reading it. The
+correction is pre-registered in brief §11 and the null-pair artifacts are kept
+unchanged. **The divergence is pair-specific**, which is itself a fact worth
+having: at 0/1 these five cells have identical candidate populations.
+
+**The corrected pass** ran the same five cells at the recorded pairs (0/2, 0/13,
+0/2). Artifacts: `docs/store_time_observer_verdicts_pairs.json`,
+`docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`.
+
+| Cell | Pair | Cycle | Diff/attributed | Labels | Reconciled | Outcome |
+|---|---|---|---|---|---|---|
+T1 / 20261125 / B | 0/2 | 12 | 27/27 | `pool:anomaly`, `pool:dream`, `pool:experiment`, `pool:hypothesis`, `pool:investigation`, `pool:loop_candidate`, `pool:prediction_candidate`, `pool:question`, `pool:theory` | yes | construction_other:pool:anomaly+pool:dream+pool:experiment+pool:hypothesis+pool:investigation+pool:loop_candidate+pool:prediction_candidate+pool:question+pool:theory
+T1 / 20261125 / C | 0/2 | 12 | 27/27 | `pool:anomaly`, `pool:dream`, `pool:experiment`, `pool:hypothesis`, `pool:investigation`, `pool:loop_candidate`, `pool:prediction_candidate`, `pool:question`, `pool:theory` | yes | construction_other:pool:anomaly+pool:dream+pool:experiment+pool:hypothesis+pool:investigation+pool:loop_candidate+pool:prediction_candidate+pool:question+pool:theory
+T2 / 20261120 / B | 0/13 | 6 | 14/8 | `pool:anomaly`, `pool:dream`, `pool:experiment`, `pool:investigation`, `pool:prediction_candidate`, `restore:loop_candidate` | yes | indeterminate
+T2 / 20261120 / C | 0/13 | 6 | 14/8 | `pool:anomaly`, `pool:dream`, `pool:experiment`, `pool:investigation`, `pool:prediction_candidate`, `restore:loop_candidate` | yes | indeterminate
+T2 / 20261121 / B | 0/2 | 6 | 6/6 | `pool:anomaly`, `pool:dream`, `pool:prediction_candidate` | yes | construction_other:pool:anomaly+pool:dream+pool:prediction_candidate
+
+**What it found.** Every reconciling cell that could be resolved attributed **all**
+of its differences to a write: 88 differences across the cells, 76 attributed, with
+no cell landing in `C_accounted`. The labels are construction writers —
+`pool:anomaly`, `pool:dream`, `pool:experiment`, `pool:hypothesis`, `pool:investigation`, `pool:loop_candidate`, `pool:prediction_candidate`, `pool:question`, `pool:theory`, `restore:loop_candidate` — and **not one of them is tag-scored**: `pool:concept_candidate` and
+`pool:phrase_candidate` appear in **no** cell's attributed set. On these three
+seeds, at the cycles where their populations part company, **(B-restated) is not
+reached**. The writes that differ are the higher-layer builders (predictions,
+anomalies, loops, hypotheses, dreams, investigations, experiments) plus the
+question and theory writers.
+
+**The cell that did not resolve, and it is reported as such.** T2/20261120 at
+0/13 has **14** differences and only **8** attributed, with its writes fully
+reconciling. By the pre-registration that is **`indeterminate`**, not "mostly
+explained" and not `C_accounted`. Its labels include `restore:loop_candidate` —
+the first measured instance of a **survivor re-store** offered on one side only,
+which is exactly the case the phase axis was built to separate from a cycle-pool
+write. That single label is the reason to keep the two-axis split.
+
+**Arm C is not independent evidence.** The C cells reproduce the B cells exactly
+(268/271 and 27/27; 98/98 and 8/14), which is expected rather than reassuring: arm
+C reads arm B's per-cycle temporal graphs and filters on the support set, so where
+B's writes differ, C inherits the difference. The agreement confirms the write
+record is consistent across the staged run; it says nothing extra about C's filter.
+
+**What this does not establish.** That `_score_tags` is or is not causal. It does
+not appear as a write in any resolved cell — because it writes nothing at all —
+and the builders that do differ consume graphs and prior structures as well as, or
+instead of, tag scores. **H2 remains untested**; D0 is not re-scored; Organica 1
+stays frozen at `v0.9.0`. The measurement is one cycle per cell, three seeds, one
+hash-seed pair each, and a window comparison — not the admitted stream, whose
+counts differ from the window's by construction.
+
+**The instrument's own record.** Both controls passed before this ran (§78-§82),
+the first pass's failure was diagnosed as an input error within the hour, and the
+one cell that could not be resolved was left `indeterminate`. That is the shape the
+brief asked for, including the part where the answer is not the one the mechanism
+line was built to look for.
+
+→ `docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`; journal §82; brief §10-§11.
+

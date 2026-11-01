@@ -1,0 +1,1393 @@
+{
+ "cells": [
+  {
+   "arm": "B",
+   "attributed": 27,
+   "candidates": [
+    {
+     "candidate": "anomaly_02502914",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "a12a75342eabfc00",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_46973ab1",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "0608e097da73d018",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_fea6cc1b",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "18f72dc075e8e429",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_0f32fe15",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "8b613421ca3a1221",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_45ba4f3d",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "2cd28f0cb7ad5278",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_2e3a7c5f",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "b72299770bc21505",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_80d6e0b7",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "77938b8657592bac",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_777a5a3f",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "ae058cff18fee88d",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_b85f57f1",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "b32a55286a3030cd",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_76eafd70",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "d97d160fafdc2e7c",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "question_477196e4",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "204431e48193fc58",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_d73713a5",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "eb86da188101e839",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_ae98fe13",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3cf5981b69109f10",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_188d0d36",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "9866d14387cbe34e",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_bbedbdd9",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "239b35b971908810",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_6a2dbdd3",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3ca85af996e1a22f",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_810b7597",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "c0606ab391d65a4f",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_f52c7b1e",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "249f2ee15d575c20",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "hyp_abc3c91a",
+     "label": "pool:hypothesis",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "c89edd27cf9d2aa3",
+      "label": "pool:hypothesis",
+      "stage": "construction",
+      "type": "hypothesis"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_2177d7b0",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "6012bb4467f569db",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_69c5feca",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "d2dc90b69a93a4e1",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_a7825392",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "a22a328097057c66",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "loop_5be3da66",
+     "label": "pool:loop_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "075676862ca6a9ca",
+      "label": "pool:loop_candidate",
+      "stage": "construction",
+      "type": "loop_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "question_6eef169e",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "74dd291dcb18d759",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "question_f88106c4",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "234efa58405a17ce",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_6eef169e",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "cbdd917bb7599561",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_f88106c4",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "b17e2b0b46753e81",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    }
+   ],
+   "cycle": 12,
+   "differences": 27,
+   "labels": [
+    "pool:anomaly",
+    "pool:dream",
+    "pool:experiment",
+    "pool:hypothesis",
+    "pool:investigation",
+    "pool:loop_candidate",
+    "pool:prediction_candidate",
+    "pool:question",
+    "pool:theory"
+   ],
+   "outcome": "construction_other:pool:anomaly+pool:dream+pool:experiment+pool:hypothesis+pool:investigation+pool:loop_candidate+pool:prediction_candidate+pool:question+pool:theory",
+   "pair": [
+    0,
+    2
+   ],
+   "reconciled": true,
+   "seed": 20261125,
+   "sizes": {
+    "hs0": 268,
+    "hs2": 271
+   },
+   "task": "T1"
+  },
+  {
+   "arm": "C",
+   "attributed": 27,
+   "candidates": [
+    {
+     "candidate": "anomaly_02502914",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "a12a75342eabfc00",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_46973ab1",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "0608e097da73d018",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_fea6cc1b",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "18f72dc075e8e429",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_0f32fe15",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "8b613421ca3a1221",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_45ba4f3d",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "2cd28f0cb7ad5278",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_2e3a7c5f",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "b72299770bc21505",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_80d6e0b7",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "77938b8657592bac",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_777a5a3f",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "ae058cff18fee88d",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_b85f57f1",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "b32a55286a3030cd",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_76eafd70",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "d97d160fafdc2e7c",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "question_477196e4",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "204431e48193fc58",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_d73713a5",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "eb86da188101e839",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_ae98fe13",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3cf5981b69109f10",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_188d0d36",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "9866d14387cbe34e",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_cond_bbedbdd9",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "239b35b971908810",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_6a2dbdd3",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3ca85af996e1a22f",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_810b7597",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "c0606ab391d65a4f",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "exp_f52c7b1e",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "249f2ee15d575c20",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "hyp_abc3c91a",
+     "label": "pool:hypothesis",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "c89edd27cf9d2aa3",
+      "label": "pool:hypothesis",
+      "stage": "construction",
+      "type": "hypothesis"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_2177d7b0",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "6012bb4467f569db",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_69c5feca",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "d2dc90b69a93a4e1",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_a7825392",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "a22a328097057c66",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "loop_5be3da66",
+     "label": "pool:loop_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "075676862ca6a9ca",
+      "label": "pool:loop_candidate",
+      "stage": "construction",
+      "type": "loop_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "question_6eef169e",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "74dd291dcb18d759",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "question_f88106c4",
+     "label": "pool:question",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "234efa58405a17ce",
+      "label": "pool:question",
+      "stage": "construction",
+      "type": "question"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_6eef169e",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "12",
+      "digest": "cbdd917bb7599561",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "theory_f88106c4",
+     "label": "pool:theory",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "b17e2b0b46753e81",
+      "label": "pool:theory",
+      "stage": "construction",
+      "type": "theory"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    }
+   ],
+   "cycle": 12,
+   "differences": 27,
+   "labels": [
+    "pool:anomaly",
+    "pool:dream",
+    "pool:experiment",
+    "pool:hypothesis",
+    "pool:investigation",
+    "pool:loop_candidate",
+    "pool:prediction_candidate",
+    "pool:question",
+    "pool:theory"
+   ],
+   "outcome": "construction_other:pool:anomaly+pool:dream+pool:experiment+pool:hypothesis+pool:investigation+pool:loop_candidate+pool:prediction_candidate+pool:question+pool:theory",
+   "pair": [
+    0,
+    2
+   ],
+   "reconciled": true,
+   "seed": 20261125,
+   "sizes": {
+    "hs0": 268,
+    "hs2": 271
+   },
+   "task": "T1"
+  },
+  {
+   "arm": "B",
+   "attributed": 8,
+   "candidates": [
+    {
+     "candidate": "dream_analogy_7fd9b8ba",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "4c6b5260a21d6199",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_analogy_ae902b2a",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_4b8bb67f",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_d7c5ea03",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "5",
+      "digest": "9a66a397775a8d54",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_494e629a",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "5",
+      "digest": "f9d9d49371639586",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_85f71f22",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "pred_0f32fe15",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "254bb7219eb91076",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_92221878",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "7867921a5c19babe",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_9ac06e8c",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_1b0b3869",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "inv_81f1ef91",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "loop_a816b62b",
+     "label": "restore:loop_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "0cf01b7d0f4c6781",
+      "label": "restore:loop_candidate",
+      "stage": "construction",
+      "type": "loop_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_4dc93d10",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "ab67c1b52a7308ca",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_f419a820",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "a224a5a9f0c6cb74",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    }
+   ],
+   "cycle": 6,
+   "differences": 14,
+   "labels": [
+    "pool:anomaly",
+    "pool:dream",
+    "pool:experiment",
+    "pool:investigation",
+    "pool:prediction_candidate",
+    "restore:loop_candidate"
+   ],
+   "outcome": "indeterminate",
+   "pair": [
+    0,
+    13
+   ],
+   "reconciled": true,
+   "seed": 20261120,
+   "sizes": {
+    "hs0": 98,
+    "hs13": 98
+   },
+   "task": "T2"
+  },
+  {
+   "arm": "C",
+   "attributed": 8,
+   "candidates": [
+    {
+     "candidate": "dream_analogy_7fd9b8ba",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "4c6b5260a21d6199",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_analogy_ae902b2a",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_4b8bb67f",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_d7c5ea03",
+     "label": "pool:experiment",
+     "offered_here": {
+      "count": 1,
+      "cycle": "5",
+      "digest": "9a66a397775a8d54",
+      "label": "pool:experiment",
+      "stage": "construction",
+      "type": "experiment"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_494e629a",
+     "label": "pool:investigation",
+     "offered_here": {
+      "count": 1,
+      "cycle": "5",
+      "digest": "f9d9d49371639586",
+      "label": "pool:investigation",
+      "stage": "construction",
+      "type": "investigation"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "inv_85f71f22",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": false
+    },
+    {
+     "candidate": "pred_0f32fe15",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "254bb7219eb91076",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_92221878",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "7867921a5c19babe",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_9ac06e8c",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "exp_1b0b3869",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "inv_81f1ef91",
+     "label": null,
+     "offered_here": null,
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": false
+    },
+    {
+     "candidate": "loop_a816b62b",
+     "label": "restore:loop_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "0cf01b7d0f4c6781",
+      "label": "restore:loop_candidate",
+      "stage": "construction",
+      "type": "loop_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_4dc93d10",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "ab67c1b52a7308ca",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_f419a820",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "a224a5a9f0c6cb74",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs13",
+     "resolved": true
+    }
+   ],
+   "cycle": 6,
+   "differences": 14,
+   "labels": [
+    "pool:anomaly",
+    "pool:dream",
+    "pool:experiment",
+    "pool:investigation",
+    "pool:prediction_candidate",
+    "restore:loop_candidate"
+   ],
+   "outcome": "indeterminate",
+   "pair": [
+    0,
+    13
+   ],
+   "reconciled": true,
+   "seed": 20261120,
+   "sizes": {
+    "hs0": 98,
+    "hs13": 98
+   },
+   "task": "T2"
+  },
+  {
+   "arm": "B",
+   "attributed": 6,
+   "candidates": [
+    {
+     "candidate": "anomaly_c8edf4ca",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "0ab83235f57e48f1",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_analogy_b38b643c",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "5a8b709ebf07d188",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "pred_3c1f4563",
+     "label": "pool:prediction_candidate",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "3a9d7aa9f4b801dd",
+      "label": "pool:prediction_candidate",
+      "stage": "construction",
+      "type": "prediction_candidate"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "resolved": true
+    },
+    {
+     "candidate": "anomaly_a0072b14",
+     "label": "pool:anomaly",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "f5a3d55cb97c1604",
+      "label": "pool:anomaly",
+      "stage": "construction",
+      "type": "anomaly"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_analogy_a6f80540",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "6e83d4f086cb37f5",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    },
+    {
+     "candidate": "dream_analogy_b8830751",
+     "label": "pool:dream",
+     "offered_here": {
+      "count": 1,
+      "cycle": "6",
+      "digest": "28417dbb8c350fa7",
+      "label": "pool:dream",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs2",
+     "resolved": true
+    }
+   ],
+   "cycle": 6,
+   "differences": 6,
+   "labels": [
+    "pool:anomaly",
+    "pool:dream",
+    "pool:prediction_candidate"
+   ],
+   "outcome": "construction_other:pool:anomaly+pool:dream+pool:prediction_candidate",
+   "pair": [
+    0,
+    2
+   ],
+   "reconciled": true,
+   "seed": 20261121,
+   "sizes": {
+    "hs0": 82,
+    "hs2": 82
+   },
+   "task": "T2"
+  }
+ ],
+ "kind": "store_time_observer_verdicts_pairs",
+ "observer_version": 2,
+ "outcome_counts": {
+  "construction_other:pool:anomaly+pool:dream+pool:experiment+pool:hypothesis+pool:investigation+pool:loop_candidate+pool:prediction_candidate+pool:question+pool:theory": 2,
+  "construction_other:pool:anomaly+pool:dream+pool:prediction_candidate": 1,
+  "indeterminate": 2
+ },
+ "pairs_source": "docs/candidate_membership_audit.json campaign_side_hash_seed",
+ "parts_missing": [],
+ "preregistration": "docs/STORE-TIME-OBSERVER-BRIEF.md section 11"
+}

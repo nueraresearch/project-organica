@@ -713,9 +713,10 @@ def classify_cell(reconciled: bool, differences: int, attributed: int,
 
 
 def run_cell(task: str, seed: int, hash_seed: int, cycle: int,
-             arms: tuple[str, ...], cap: int) -> Path:
+             arms: tuple[str, ...], cap: int,
+             out: Path | None = None) -> Path:
     """One hash seed's staged run: arm B, then arm C reading B's own graphs."""
-    out = cell_part_path(task, seed, hash_seed)
+    out = out or cell_part_path(task, seed, hash_seed)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.unlink(missing_ok=True)
     parts: dict[str, Any] = {}
@@ -966,6 +967,45 @@ def verdicts_pairs(cap: int = fu.CAP_B) -> dict[str, Any]:
     return result
 
 
+def aggregate_pairs(path_for=cell_part_path) -> dict[str, Any]:
+    """Score the corrected pass from parts already on disk.
+
+    The measurement is the engine run; this only reads it. It exists because the
+    first aggregation looked for a filename the workers had not written, and
+    re-running 250 s of engine to fix a path would have been the wrong repair.
+    """
+    sides: dict[tuple[str, int], dict[int, dict[str, Any]]] = {}
+    missing = []
+    for task, seed, _arm, _cycle, _arms, pair in VERDICT_CELLS_PAIRS:
+        sides.setdefault((task, seed), {})
+        for hs in pair:
+            path = path_for(task, seed, hs)
+            if path.exists():
+                sides[(task, seed)][hs] = json.loads(path.read_text(encoding="utf-8"))
+            else:
+                missing.append(str(path))
+    cells = [verdict_cell_pair(task, seed, arm, cycle, sides[(task, seed)], pair)
+             for task, seed, arm, cycle, _arms, pair in VERDICT_CELLS_PAIRS]
+    counts: dict[str, int] = {}
+    for c in cells:
+        counts[c["outcome"]] = counts.get(c["outcome"], 0) + 1
+    result = {
+        "kind": "store_time_observer_verdicts_pairs",
+        "observer_version": OBSERVER_VERSION,
+        "preregistration": "docs/STORE-TIME-OBSERVER-BRIEF.md section 11",
+        "pairs_source": "docs/candidate_membership_audit.json campaign_side_hash_seed",
+        "parts_missing": missing,
+        "cells": cells,
+        "outcome_counts": counts,
+    }
+    Path("docs/store_time_observer_verdicts_pairs.json").write_text(
+        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        encoding="utf-8")
+    Path("docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md").write_text(
+        render_verdicts_pairs(result), encoding="utf-8")
+    return result
+
+
 def render_verdicts_pairs(result: dict[str, Any]) -> str:
     lines = ["# The store-time observer: verdicts at the recorded hash-seed pairs", "",
              "**Status: frozen on generation.** Written by `--verdict-pairs` from",
@@ -1028,6 +1068,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--cell", action="store_true",
                     help="run one hash seed's staged cell (arm B, then C) and write a part")
+    ap.add_argument("--aggregate-pairs", action="store_true",
+                    help="score the corrected pass from parts already on disk")
     ap.add_argument("--verdict-pairs", action="store_true",
                     help="run the five cells at the pairs the audit recorded")
     ap.add_argument("--verdict", action="store_true",
@@ -1057,7 +1099,20 @@ def main(argv: list[str] | None = None) -> int:
         arms = tuple(a.strip() for a in str(args.arms).split(",") if a.strip())
         run_cell(args.task, args.seed,
                  int(os.environ.get("PYTHONHASHSEED", "0")),
-                 args.cycle, arms, args.cap)
+                 args.cycle, arms, args.cap,
+                 out=Path(args.out) if args.out else None)
+        return 0
+
+    if args.aggregate_pairs:
+        result = aggregate_pairs()
+        print(json.dumps({"outcome_counts": result["outcome_counts"],
+                          "parts_missing": result["parts_missing"],
+                          "cells": [{k: c.get(k) for k in
+                                     ("task", "seed", "arm", "pair", "cycle",
+                                      "sizes", "differences", "attributed",
+                                      "labels", "reconciled", "outcome", "reason")}
+                                    for c in result["cells"]]},
+                         indent=1, sort_keys=True))
         return 0
 
     if args.verdict_pairs:
