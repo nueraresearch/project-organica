@@ -159,6 +159,45 @@ def audit(withheld):
     }
 
 
+def definitions(out):
+    """Gate F's denominator and the ceiling, as numbers a harness can gate on."""
+    total_pairs = len(ORDER) * TAGS_PER_CELL * TAGS_PER_CELL          # 128
+    withheld_pairs = WANT * TAGS_PER_CELL * TAGS_PER_CELL             # 2 x 16 = 32
+    available = total_pairs - withheld_pairs                          # 96
+    ceiling = {k: round(LAW_R0[k] * 2 / TAGS_PER_CELL, 6) for k in KINDS}
+    return {
+        "kind": "reusable_knowledge_gate_definitions",
+        "amendment": "REUSABLE-KNOWLEDGE-PREREGISTRATION section 14",
+        "unit": "tag-pair relation",
+        "total_relations": total_pairs,
+        "withheld_relations": withheld_pairs,
+        "available_during_formation": available,
+        "gate_f": {
+            "numerator": "asserted relations in the available set",
+            "denominator": available,
+            "coverage_formula": "|asserted AND available| / 96",
+            "threshold": 0.95,
+            "threshold_on_seeds": "at least 15 of 20 confirmatory seeds",
+            "max_coverage_if_denominator_were_total": round(available / total_pairs, 6),
+            "withheld_in_gate": False,
+            "withheld_scored_in": "the transfer limb only",
+        },
+        "ceiling": {
+            "holder": "full latent-rule holder (given the law; no learning, no engine)",
+            "rule": "successor is flip_p with 0.65 and flip_q with 0.35; each tag of the successor cell appears with 2/4",
+            "p_tag_given_context_cell": ceiling,
+            "closed_form_exact": True,
+        },
+        "oracle_admitted_arm": {
+            "label": "mechanism arm (admission filtering at fixed evidence)",
+            "is_ceiling": False,
+        },
+        "calibration_seeds": list(CALIBRATION_SEEDS),
+        "confirmatory_seeds": "20261207-20261226 (n = 20)",
+        "burned_seeds": list(BURNED_SEEDS),
+    }
+
+
 def main():
     combos = list(itertools.combinations(ORDER, WANT))
     results = []
@@ -218,8 +257,11 @@ def main():
         },
     }
     out["feasible_as_transfer"] = bool(chosen)
+    out["gate_definitions"] = definitions(out)
     pathlib.Path(ROOT / "docs/reusable_knowledge_feasibility.json").write_text(
         json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    pathlib.Path(ROOT / "docs/reusable_knowledge_gate_definitions.json").write_text(
+        json.dumps(out["gate_definitions"], indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return out
 
 
