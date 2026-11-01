@@ -429,6 +429,14 @@ def render(artifact: dict[str, Any]) -> str:
                "construction, not specific to the divergence; no onset below "
                "is informative.**"))
     add("")
+    if control.get("identical_at_every_cycle") is False:
+        add("**F2 — the criterion that governs C1.** F2 says the membership "
+            "difference is *generic to hash-seeded construction* if a seed that "
+            "does not diverge shows one too. It does, so **F2 fires and this "
+            "instrument is inadmissible by its own pre-registration**: the onsets "
+            "below are measured facts about these arm-pairs and may not be "
+            "attributed to the divergence.")
+        add("")
 
     add("## 2. Onset per arm-pair")
     add("")
@@ -549,6 +557,12 @@ def render(artifact: dict[str, Any]) -> str:
     add("- Command: `%s` — %d run(s), %d cached, %.1f s."
         % (artifact["command"], artifact["runs"], artifact["cached"],
            artifact["seconds"]))
+    rerun = artifact.get("control_rerun")
+    if rerun:
+        add("- Control re-run: `%s` — %d run(s), %d cached; the hash-seed "
+            "pair was declared before it (%s and %s)."
+            % (rerun["command"], rerun["runs"], rerun["cached"],
+               rerun["declared_pair"][0], rerun["declared_pair"][1]))
     add("")
     return "\n".join(lines)
 

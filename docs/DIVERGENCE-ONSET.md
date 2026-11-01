@@ -10,6 +10,8 @@
 
 **C1 — the control seed.** T1/20261101 at hash seeds 0 and 1, both arms, every captured cycle: the two runs hold **different** sets (21 of 24 measured cycles identical). **The membership difference is generic to hash-seeded construction, not specific to the divergence; no onset below is informative.**
 
+**F2 — the criterion that governs C1.** F2 says the membership difference is *generic to hash-seeded construction* if a seed that does not diverge shows one too. It does, so **F2 fires and this instrument is inadmissible by its own pre-registration**: the onsets below are measured facts about these arm-pairs and may not be attributed to the divergence.
+
 ## 2. Onset per arm-pair
 
 **Witness cases** have an onset already fixed by arithmetic and are instrumentation validation; **search cases** were already divergent at *k−1* and carry the scientific content.
@@ -86,4 +88,5 @@ It does not name the operation that introduces the difference. A candidate enter
 - Instrument: `benchmarks/divergence_onset.py`; the worker is `benchmarks/divergence_cycle_capture.py`, reused unchanged.
 - Observer version: 1.
 - Command: `python benchmarks/divergence_onset.py --workers 4` — 18 run(s), 0 cached, 637.1 s.
+- Control re-run: `python benchmarks/divergence_onset.py --control-only --control-seeds 0,1 --workers 2` — 2 run(s), 0 cached; the hash-seed pair was declared before it (0 and 1).
 
