@@ -6760,3 +6760,19 @@ The differences, by type:
 **What this costs and what it does not change.** It costs the divergence-specific reading of the onset measurement, which was never secured. It does not change F1's reproduction, the insertion observation as a fact about pools, the withdrawn identical-pool premise, the mechanism experiment's status, H2's untested status, or the frozen engine. **No engine file changed. D0 is not re-scored.**
 
 → `docs/divergence_onset.json`; `docs/DIVERGENCE-ONSET.md`; journal §76; `docs/ONSET-INSTRUMENT-BRIEF.md`.
+
+## §78 — Freeze point: the divergence line stops on a record that was narrowed four times
+
+**The decision.** The owner called the freeze point on **2026-11-01**, after the fourth correction in this line. Nothing further is read out of the existing artifacts. The next question is a new instrument and a new observation target, not another reinterpretation of measurements already in hand.
+
+**What the four corrections had in common.** Identical pools at divergence (withdrawn); the one-cycle lag (withdrawn); the divergence-specific reading of the onset measurement (inadmissible, F2 fired); and C1 as a passed mechanism control (failed as pre-registered, P2 not met, and reported as held by substituting a different quantity). **None of them was a failed replication.** In every case the artifact already carried the narrower fact, and the wider claim was added on top of it — rule 24's defect, at the headline. That the same failure recurred four times is a property of how the record was being written, not of the measurements, and it is the reason the surviving claims are worth something.
+
+**What stands, at its scope.** The development audit and its reconstructions (evidence, selection, surviving lineage, revision); path dependence and the stable revision regimes; candidate populations diverge under hash-seeded variation, and those cycles are analytically reproducible (F1 16/16); pool divergence appears as insertion rather than replacement; `_score_tags` is the earliest hash-sensitive builder **observed by the current instrumentation**, including on the control seed (`criteria/P2/per_type/B/score_tags: false`, and `criteria/F2/per_type_unchanged/B/score_tags: true` for the intervention). The admitted-stream invariance on the control seed is an observation on **one seed at hash seeds 0 and 2**, recorded post hoc, not a passed control.
+
+**What the record no longer says.** Identical pools at divergence; a one-cycle lag; a systematic offset; an inside-the-cycle account of divergence; a divergence-specific reading of the onset measurements; and C1 as a passed control.
+
+**The next question, and why it is a different kind of question.** Which upstream write admits candidate tags at cycles 3–6? Answering it requires an observer that does not yet exist: one that names the **store-time write**, rather than the earliest builder that consumes its ordering. `_score_tags` is the earliest hash-sensitive builder the instrumentation can see, and whether it is **causal or merely earliest-visible** is explicitly open. No existing artifact can settle it, which is exactly the condition for a freeze rather than another reading.
+
+**Vocabulary, per rule 26.** Nothing withdrawn here is *refuted*. Those items are **not established**, which is a weaker and different statement; C1 is **failed as pre-registered**, which says the control did not meet its own criterion and says nothing about whether the admitted stream is invariant — it is.
+
+No run was made in this turn. No measurement changed.
