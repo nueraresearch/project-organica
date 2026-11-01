@@ -7088,7 +7088,7 @@ pair, at one cycle.
 
 → `docs/store_time_observer_lineage.json`; journal §83; brief §10-§11.
 
-## §85 — The mechanism plan re-run: Arm A is unchanged, and Arm B-prime stops at its own control
+## §85 — The mechanism plan re-run: Arm A is unchanged, and Arm B-prime passes its first gate
 
 **Arm A, across its planned cases, adds nothing new — and that is the result.** The
 eight failing seeds and the control at their recorded pairs are all cached from
@@ -7112,24 +7112,38 @@ manufacture a confirmation.
 `canonical_score`, 168 comparisons over arms B and C, cycles 1-12: **0
 differences** (none), the first in arm B at none. **F2 does not fire.**
 
-**What that means, and it is a protocol result rather than a measurement of the
-organism.** §11 recorded this outcome in advance: F2 requires the control's table to
-be unchanged at a fixed hash seed, but the control's builders are *not* hash-seed
-invariant — that is what P2 failing as pre-registered established (§74, §79) — so its
-order depends on the hash seed and any canonicalising intervention must move it. **F2
-and P2 cannot both hold.** Arm B-prime is therefore inadmissible by its own control,
-and no conclusion about H2 may be drawn from it — not because the order channel is
-refuted, but because the protocol cannot license the test that would decide it.
+**Gate 1 passes, and the conflict I predicted did not occur.** §11 recorded in
+advance that F2 would probably fire, on the reasoning that the control's builders
+are not hash-seed invariant (P2 failed as pre-registered, §74/§79) so a
+canonicalising intervention must move its order. **That prediction was wrong, and it
+is recorded as wrong rather than deleted.** At hash seed 0 the control's recorded
+tables are identical across all 168 comparisons, `score_tags` included: the engine's
+own order there already coincides with the total order `(-frequency, tag)`.
 
-**What needs deciding, and by whom.** The owner, not the instrument: either F2 is
-restated in **membership** terms (the control's *set* of candidates unchanged, order
-free), which makes Arm B-prime admissible and keeps the guard meaningful, or Arm
-B-prime is abandoned and the order channel stays untested in an admissible form. No
-third option is invented here, and no criterion is relaxed on my own authority.
+**What that does and does not license.** F2 does not fire, so Arm B-prime is
+admissible at gate 1 and the plan proceeds to C2 and C3 before any failing seed is
+measured. It does **not** license anything about H2: one control seed, one hash seed,
+cycles 1-12, and an intervention that happened to be a no-op there. The lesson is in
+the prediction, not the gate — the control's hash-seed dependence is a statement
+about *two seeds compared*, and it does not tell you what an intervention does at
+*one* seed, which is why deriving the second from the first was a mistake.
 
 **Unchanged.** The T2/20261120 cell stays `indeterminate`; the window is not widened;
 D0 is not re-scored; Organica 1 stays frozen at `v0.9.0`.
 
 → `docs/divergence_arm_b_prime_f2.json`; `docs/DIVERGENCE-MECHANISM-BRIEF.md` §11;
 journal §74, §79.
+
+**Gates 2 and 3, appended the same day.** **C2** — observer neutrality: a `quiet` run
+and an `observe` run at the same hash seed produce identical admitted streams on both
+arms. **C3** — determinism: a repeat `observe` run at hash seed 0 is identical in the
+recorded tables and in the admitted streams. No part was refused by the addressing
+rule in any of the four runs. With F2, that is all three pre-gates passed, so gate 4 —
+the eight failing seeds at their recorded pairs, under the intervention — is what the
+plan calls for next. Artifact: `docs/divergence_arm_b_prime_gates.json`.
+
+**What three passing pre-gates still do not establish.** That H2 holds. They establish
+that the intervention is admissible to be tested: it does not move the control at a
+fixed hash seed, it does not change behaviour when merely observed, and it is
+deterministic. P3 is answered by gate 4 or not at all.
 
