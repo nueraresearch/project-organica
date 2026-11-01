@@ -1,0 +1,408 @@
+{
+ "attributed": [
+  {
+   "candidate": "dream_mut_210cd9fc",
+   "cycle": 10,
+   "offered_here": {
+    "count": 1,
+    "cycle": "10",
+    "digest": "78ecb0423ea17c8b",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_75a93e31",
+   "cycle": 10,
+   "offered_here": {
+    "count": 1,
+    "cycle": "10",
+    "digest": "5200bed16e113c33",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_73753134",
+   "cycle": 10,
+   "offered_here": {
+    "count": 1,
+    "cycle": "10",
+    "digest": "3646f2f92c2b63c4",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_b082c1ac",
+   "cycle": 10,
+   "offered_here": {
+    "count": 1,
+    "cycle": "10",
+    "digest": "acb41560ee928767",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_210cd9fc",
+   "cycle": 11,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "78ecb0423ea17c8b",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_75a93e31",
+   "cycle": 11,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "5200bed16e113c33",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_73753134",
+   "cycle": 11,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "3646f2f92c2b63c4",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_b082c1ac",
+   "cycle": 11,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "acb41560ee928767",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_210cd9fc",
+   "cycle": 12,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "78ecb0423ea17c8b",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_75a93e31",
+   "cycle": 12,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "5200bed16e113c33",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs0",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_73753134",
+   "cycle": 12,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "3646f2f92c2b63c4",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  },
+  {
+   "candidate": "dream_mut_b082c1ac",
+   "cycle": 12,
+   "offered_here": {
+    "count": 1,
+    "cycle": "11",
+    "digest": "acb41560ee928767",
+    "stage": "construction",
+    "type": "dream"
+   },
+   "offered_there": null,
+   "present_in": "hs1",
+   "stage": "construction"
+  }
+ ],
+ "control": "C1 / F4 - the control seed's known cycles 10-12",
+ "cycles": [
+  10,
+  11,
+  12
+ ],
+ "cycles_differing": [
+  "10",
+  "11",
+  "12"
+ ],
+ "diagnostics": {
+  "0": {
+   "marker_seen": {
+    "10": 10,
+    "11": 11,
+    "12": 12
+   },
+   "reads": 162
+  },
+  "1": {
+   "marker_seen": {
+    "10": 10,
+    "11": 11,
+    "12": 12
+   },
+   "reads": 162
+  }
+ },
+ "kind": "store_time_observer_f4",
+ "observer_version": 1,
+ "passed": true,
+ "per_cycle": {
+  "10": {
+   "attributed": 4,
+   "candidates": [
+    {
+     "candidate": "dream_mut_210cd9fc",
+     "offered_here": {
+      "count": 1,
+      "cycle": "10",
+      "digest": "78ecb0423ea17c8b",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_75a93e31",
+     "offered_here": {
+      "count": 1,
+      "cycle": "10",
+      "digest": "5200bed16e113c33",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_73753134",
+     "offered_here": {
+      "count": 1,
+      "cycle": "10",
+      "digest": "3646f2f92c2b63c4",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_b082c1ac",
+     "offered_here": {
+      "count": 1,
+      "cycle": "10",
+      "digest": "acb41560ee928767",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    }
+   ],
+   "differences": {
+    "only_in_hs0": 2,
+    "only_in_hs1": 2
+   },
+   "sizes": {
+    "hs0": 230,
+    "hs1": 230
+   },
+   "status": "differ"
+  },
+  "11": {
+   "attributed": 4,
+   "candidates": [
+    {
+     "candidate": "dream_mut_210cd9fc",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "78ecb0423ea17c8b",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_75a93e31",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "5200bed16e113c33",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_73753134",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3646f2f92c2b63c4",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_b082c1ac",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "acb41560ee928767",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    }
+   ],
+   "differences": {
+    "only_in_hs0": 2,
+    "only_in_hs1": 2
+   },
+   "sizes": {
+    "hs0": 250,
+    "hs1": 250
+   },
+   "status": "differ"
+  },
+  "12": {
+   "attributed": 4,
+   "candidates": [
+    {
+     "candidate": "dream_mut_210cd9fc",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "78ecb0423ea17c8b",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_75a93e31",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "5200bed16e113c33",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs0",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_73753134",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "3646f2f92c2b63c4",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    },
+    {
+     "candidate": "dream_mut_b082c1ac",
+     "offered_here": {
+      "count": 1,
+      "cycle": "11",
+      "digest": "acb41560ee928767",
+      "stage": "construction",
+      "type": "dream"
+     },
+     "offered_there": null,
+     "present_in": "hs1",
+     "stage": "construction"
+    }
+   ],
+   "differences": {
+    "only_in_hs0": 2,
+    "only_in_hs1": 2
+   },
+   "sizes": {
+    "hs0": 283,
+    "hs1": 283
+   },
+   "status": "differ"
+  }
+ },
+ "seconds": 93.3,
+ "seed": 20261101,
+ "task": "T1",
+ "verdict": "attributed"
+}

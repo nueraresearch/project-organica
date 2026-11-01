@@ -6864,3 +6864,39 @@ question would need. `--trace` now writes every admitting call to
 row is five fields: cycle, accepted, digest index, stage, source. `load_trace()` in
 the observer reads it back with the digests resolved. The trace corresponds to
 `docs/store_time_observer_self_test.json`, which records the same run.
+
+## §81 — The known-positive control passes: the observer explains the control seed's own difference
+
+**What ran.** `--known-positive`: the control seed T1/20261101, arm B, at hash seeds
+**0 and 1**, capturing the read-back window at engine cycles **10, 11 and 12** and
+every write to the store in the same runs. **2 runs, 0 cached**, 93.3 s in
+parallel. Artifact: `docs/store_time_observer_f4.json`.
+
+**Addressing is witnessed, not assumed.** The windows carry their own markers: hs0 and
+hs1 both report markers **10, 11, 12** at reads 10, 11
+and 12, over 162 sleeps reads each.
+
+**The result.** All three cycles differ, with the pool sizes equal on each side:
+10 (230/230), 11 (250/250), 12 (283/283). The differences are **10: 4, 11: 4, 12: 4** candidates respectively — an equal number each
+way, which is what an insertion-plus-removal pair looks like from the pool's side.
+
+**Every difference is attributed.** 12 candidate-writes across the
+three cycles were found in the offering side's write record at that cycle and **absent
+from the other side's**, with stage **construction** and type **dream**.
+So on this known-positive case the observer names the write, and the answer is a
+**construction write**, not an earlier ingest write — outcome **(B)** in the brief's
+result space.
+
+**What this does and does not mean.** It means the observer can resolve a membership
+difference the record already contains, which is what C1 / F4 was for: without it an
+"indeterminate" or "no write explains it" verdict would be uninterpretable. It is
+**not** a result about D0: this is the control seed's own hash-seed difference at
+cycles 10–12, and the failing seeds' divergence is untouched. The verdict pass over
+those seeds is **not built**, and no divergence verdict has been read.
+
+**The control earned its keep before it passed.** The first F4 attempt returned
+`not_measured` on every cycle: the window index was incremented **before** the read, so
+every window sat one read off its own marker and was refused. A control that could not
+fire would have let the verdict pass run against an instrument that never addressed a
+cycle. This is the second time in this build that an off-by-one at the observation
+boundary was caught by a check rather than by a result.

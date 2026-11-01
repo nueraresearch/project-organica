@@ -33,6 +33,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -43,9 +44,14 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks import formation_utilization as fu          # noqa: E402
 from organica.memory import MemoryService                   # noqa: E402
+from benchmarks.divergence_cycle_capture import (                 # noqa: E402
+    newest_marker_cycle, window_candidates)
 
 #: Bumped when the record shape changes.  A part from another version is stale.
 OBSERVER_VERSION = 1
+
+#: Where per-run parts live between invocations.
+PARTS_DIR = REPO / ".scratch" / "store_time_observer_parts"
 
 #: The control seed, whose own cycles 10-12 hold a known membership difference.
 CONTROL_SEED = ("T1", 20261101)
@@ -155,7 +161,8 @@ def reconcile(deltas: list[int]) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def record_run(task: str, seed: int, cap: int, wrap: bool = True,
-               trace: Path | None = None) -> dict[str, Any]:
+               trace: Path | None = None,
+               windows_at: set[int] | None = None) -> dict[str, Any]:
     """Run arm B once and return a compact record of every write.
 
     With ``wrap=False`` the run is unobserved; that is what the neutrality check
@@ -168,7 +175,8 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
     where the content is a candidate payload) and the accepted-row totals.
     """
     fu._fresh_db = fresh_db
-    state: dict[str, Any] = {"marker": None, "markers": [], "unattributed": 0}
+    state: dict[str, Any] = {"marker": None, "markers": [], "unattributed": 0,
+                             "reads": 0}
     per_cycle: dict[str, dict[str, Any]] = {}
     deltas: dict[str, list[int]] = {}
     # The full per-call trace, kept for later observational use: a run's database
@@ -176,6 +184,7 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
     calls: list[list[Any]] = []
     digest_table: list[dict[str, Any]] = []
     digest_index: dict[str, int] = {}
+    windows: dict[int, dict[str, Any]] = {}
     totals = {"construction": 0, "ingest": 0, "accepted_rows": 0, "net_delta": 0}
     original_recent = MemoryService.recent
     original_store = MemoryService.store
@@ -193,6 +202,34 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
         # Labelled by the cycle it precedes, so an ingest write lands inside
         # the search window of the cycle whose pool it can change.
         return "pre-%d" % (state["marker"] + 1)
+
+    def teed_recent(self, n=50, event_type=None):
+        """Witness the read-back window at the requested cycles.
+
+        The i-th sleep read of an arm is its i-th cycle for every index before
+        the harness's two trailing reads, and that is **witnessed** rather than
+        assumed: the window carries the newest ``sleep:meta`` marker, and a
+        window whose marker is not its own index is reported unaddressed.
+        """
+        events = original_recent(self, n, event_type)
+        if event_type == "sleep":
+            # The read index is taken before it is counted: the first sleep read
+            # is index 0 and carries no marker yet, and read k carries marker k.
+            # Counting first put every window one read off its own marker.
+            index = state["reads"]
+            state["reads"] = index + 1
+            if windows_at and index in windows_at:
+                rows = [{"time": e.time, "source": e.source, "content": e.content}
+                        for e in events]
+                marker = newest_marker_cycle(rows)
+                windows[index] = {
+                    "index": index,
+                    "rows": len(rows),
+                    "marker_cycle": marker,
+                    "addressed": marker == index,
+                    "candidates": window_candidates(rows),
+                }
+        return events
 
     def teed_store(self, content, event_type="observe", source="env"):
         before = self.count()
@@ -238,6 +275,8 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
 
     if wrap:
         MemoryService.store = teed_store
+        if windows_at:
+            MemoryService.recent = teed_recent
     try:
         prep = fu.prepare_world(task, seed)
         arm = fu.run_arm(prep, "B", cap, None)
@@ -282,6 +321,8 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
         "per_cycle": per_cycle,
         "totals": totals,
         "trace": trace_info,
+        "windows": windows,
+        "reads": state["reads"],
     }
 
 
@@ -365,8 +406,134 @@ def summarise(per_cycle: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+#: The cycles the control seed is known to differ on, arm B, hash seeds 0 and 1.
+KNOWN_POSITIVE_CYCLES = (10, 11, 12)
+
+
+def f4_part(task: str, seed: int, hash_seed: int) -> Path:
+    return PARTS_DIR / ("f4_%s_%d_hs%d.json" % (task, seed, hash_seed))
+
+
+def find_offered(part: dict[str, Any], cycle: int,
+                 candidate_id: str) -> dict[str, Any] | None:
+    """Where a candidate id was offered to the store, inside the brief's window."""
+    for c in (str(cycle), str(cycle - 1)):
+        entry = (part.get("per_cycle") or {}).get(c) or {}
+        for did, cand in (entry.get("candidates") or {}).items():
+            if cand.get("id") == candidate_id:
+                return {"cycle": c, "digest": did, "stage": cand.get("stage"),
+                        "type": cand.get("type"), "count": cand.get("count")}
+    return None
+
+
+def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str, Any]:
+    """C1 / F4: explain the control seed's own known membership difference.
+
+    The control seed at hash seeds 0 and 1 differs in membership at cycles 10-12
+    on arm B.  An observer that cannot locate the write behind at least one of
+    those differences is blind to the thing it was built to see, and no verdict
+    may be read from it.
+    """
+    from concurrent.futures import ThreadPoolExecutor
+
+    task, seed = CONTROL_SEED
+    started = time.time()
+
+    def spawn(hash_seed: int) -> Path:
+        out = f4_part(task, seed, hash_seed)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.unlink(missing_ok=True)
+        env = dict(os.environ)
+        env["PYTHONHASHSEED"] = str(hash_seed)
+        cmd = [sys.executable, "-X", "utf8",
+               str(REPO / "benchmarks" / "store_time_observer.py"),
+               "--worker", "--task", task, "--seed", str(seed),
+               "--cycles", ",".join(str(c) for c in cycles), "--out", str(out)]
+        subprocess.run(cmd, cwd=str(REPO), env=env, capture_output=True, text=True)
+        return out
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        paths = list(pool.map(spawn, (0, 1)))
+    sides = {hs: json.loads(path.read_text(encoding="utf-8"))
+             for hs, path in zip((0, 1), paths)}
+
+    per_cycle: dict[str, Any] = {}
+    attributed: list[dict[str, Any]] = []
+    for cycle in cycles:
+        left = sides[0]["windows"].get(str(cycle))
+        right = sides[1]["windows"].get(str(cycle))
+        if not left or not right or not left["addressed"] or not right["addressed"]:
+            per_cycle[str(cycle)] = {
+                "status": "not_measured",
+                "left_addressed": bool(left and left["addressed"]),
+                "right_addressed": bool(right and right["addressed"]),
+            }
+            continue
+        ids_left = {c["id"] for c in left["candidates"]}
+        ids_right = {c["id"] for c in right["candidates"]}
+        only = {"only_in_hs0": sorted(ids_left - ids_right),
+                "only_in_hs1": sorted(ids_right - ids_left)}
+        found = []
+        for side_hs, other_hs, key in ((0, 1, "only_in_hs0"), (1, 0, "only_in_hs1")):
+            for cid in only[key]:
+                here = find_offered(sides[side_hs], cycle, cid)
+                there = find_offered(sides[other_hs], cycle, cid)
+                found.append({
+                    "candidate": cid,
+                    "present_in": "hs%d" % side_hs,
+                    "offered_here": here,
+                    "offered_there": there,
+                    "stage": here["stage"] if here else None,
+                })
+        resolved = [f for f in found if f["offered_here"] and not f["offered_there"]]
+        per_cycle[str(cycle)] = {
+            "status": "differ",
+            "sizes": {"hs0": len(ids_left), "hs1": len(ids_right)},
+            "differences": {k: len(v) for k, v in only.items()},
+            "candidates": found,
+            "attributed": len(resolved),
+        }
+        attributed.extend([{"cycle": cycle, **f} for f in resolved])
+
+    differing = [c for c, v in per_cycle.items() if v.get("status") == "differ"]
+    result = {
+        "kind": "store_time_observer_f4",
+        "observer_version": OBSERVER_VERSION,
+        "control": "C1 / F4 - the control seed's known cycles 10-12",
+        "task": task,
+        "seed": seed,
+        "cycles": list(cycles),
+        "seconds": round(time.time() - started, 1),
+        "cycles_differing": differing,
+        "diagnostics": {
+            str(hs): {
+                "reads": sides[hs].get("reads"),
+                "marker_seen": {str(c): (sides[hs]["windows"].get(str(c)) or {})
+                                .get("marker_cycle") for c in cycles},
+            } for hs in (0, 1)
+        },
+        "attributed": attributed,
+        "per_cycle": per_cycle,
+        "passed": bool(attributed),
+        "verdict": ("attributed" if attributed else
+                    "failed: no membership difference could be traced to a write"),
+    }
+    Path("docs/store_time_observer_f4.json").write_text(
+        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        encoding="utf-8")
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--worker", action="store_true",
+                    help="capture one arm at this process's hash seed and write a part")
+    ap.add_argument("--known-positive", action="store_true",
+                    help="run C1 / F4 on the control seed and write the result")
+    ap.add_argument("--task", default=CONTROL_SEED[0])
+    ap.add_argument("--seed", type=int, default=CONTROL_SEED[1])
+    ap.add_argument("--cycles", default="10,11,12")
+    ap.add_argument("--out", default=None)
     ap.add_argument("--self-test", action="store_true",
                     help="run the neutrality and comparator checks and exit")
     ap.add_argument("--trace", default=None,
@@ -376,10 +543,31 @@ def main(argv: list[str] | None = None) -> int:
                          "fixes its own cycle count, and the self-test reports it")
     args = ap.parse_args(argv)
 
-    if not args.self_test:
-        ap.error("only --self-test is implemented so far; the verdict pass is not built")
-
     trace = Path(args.trace) if args.trace else None
+
+    if args.worker:
+        cycles = tuple(int(c) for c in str(args.cycles).split(",") if c.strip())
+        out = Path(args.out or PARTS_DIR / ("worker_%s_%d.json" % (args.task, args.seed)))
+        out.parent.mkdir(parents=True, exist_ok=True)
+        part = record_run(args.task, args.seed, args.cap,
+                          trace=None, windows_at=set(cycles))
+        part["hash_seed"] = int(os.environ.get("PYTHONHASHSEED", "0"))
+        part["requested_cycles"] = list(cycles)
+        out.write_text(json.dumps(part, indent=1, sort_keys=True, default=str) + "\n",
+                       encoding="utf-8")
+        print(json.dumps({"part": str(out)}, sort_keys=True))
+        return 0
+
+    if args.known_positive:
+        result = known_positive()
+        print(json.dumps({k: result[k] for k in
+                          ("verdict", "passed", "cycles_differing", "seconds")},
+                         indent=1, sort_keys=True))
+        return 0 if result["passed"] else 1
+
+    if not args.self_test:
+        ap.error("choose --self-test, --known-positive or --worker")
+
     result = self_test(args.cap, trace=trace)
     print(json.dumps(result, indent=1, sort_keys=True))
     return 0 if result["passed"] else 1

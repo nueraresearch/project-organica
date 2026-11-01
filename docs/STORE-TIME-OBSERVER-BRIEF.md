@@ -14,10 +14,13 @@ engine is a reading of the frozen source at `v0.9.0`.
 > **core is now built** (`benchmarks/store_time_observer.py`) and its neutrality
 > control has passed: the observed and unobserved runs agree on the admitted
 > stream and the temporal reads, the comparator is proved to fire on an injected
-> difference, and every cycle reconciles. The **verdict pass and the
-> known-positive control (C1 / F4) are not built**, so no divergence verdict has
-> been read from this instrument. The control result is committed as
-> `docs/store_time_observer_self_test.json`.
+> difference, and every cycle reconciles. The **known-positive control (C1 / F4)
+> now passes**: on the control seed at hash seeds 0 and 1 it attributes all
+> twelve candidate differences at cycles 10-12 to construction-stage writes, with
+> every window witnessed by its own marker
+> (`docs/store_time_observer_f4.json`). The **verdict pass is still not built**, so
+> no divergence verdict has been read. Controls are committed as
+> `docs/store_time_observer_self_test.json` and `docs/store_time_observer_f4.json`.
 
 **Why this instrument and not another correction.** The divergence line is frozen
 (journal §78). Four corrections removed claims that were wider than their checks,

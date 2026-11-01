@@ -90,3 +90,18 @@ def test_load_trace_resolves_the_digest_table(tmp_path):
     assert rows[0]["cycle"] == "3" and rows[0]["id"] == "concept:1"
     assert rows[0]["stage"] == "construction" and rows[0]["source"] == "sleep:concept"
     assert rows[1]["stage"] == "ingest" and rows[1]["id"] is None
+
+
+def test_find_offered_uses_only_the_declared_window():
+    """The brief fixes the search window: the cycle and the one before it."""
+    from benchmarks.store_time_observer import find_offered
+
+    part = {"per_cycle": {
+        "5": {"candidates": {"d1": {"id": "c1", "stage": "construction",
+                                    "type": "concept", "count": 1}}},
+        "9": {"candidates": {"d2": {"id": "c9", "stage": "ingest",
+                                    "type": None, "count": 1}}},
+    }}
+    assert find_offered(part, 6, "c1")["cycle"] == "5"
+    assert find_offered(part, 5, "c1")["stage"] == "construction"
+    assert find_offered(part, 12, "c9") is None
