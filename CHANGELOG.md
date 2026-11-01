@@ -186,9 +186,7 @@ there is nothing to check out.
   untested in an admissible form. The cause is identified: the intervention
   canonicalised the temporal graph and the composites, while the first order
   channel is `_score_tags`, upstream of both.
-- **C1 held.** The control seed's admitted stream is identical at every cycle
-  across hash seeds *while its builder sequences differ* — a build can be
-  order-invariant in what it decides and order-dependent in how it constructs.
+- **C1 failed, and that is now stated where it was reported as held.** The brief's control required the control seed's *assembled lists* to be identical at every hash seed (P2); the artifact records `P2.met: false`. The admitted stream is identical across hash seeds, which the report had named C1 and called its sharpest positive result; that is a different quantity, read after the criterion failed, and it is now recorded as a post-hoc observation on one seed. No measurement changed.
 - **Added** — `benchmarks/divergence_mechanism.py`, `docs/divergence_mechanism.json`
   (36 parts with checksums), `docs/DIVERGENCE-MECHANISM-RESULTS.md`, journal §74,
   manual finding 44.

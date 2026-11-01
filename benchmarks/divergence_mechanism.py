@@ -951,20 +951,39 @@ def render(artifact: dict[str, Any]) -> str:
         "F1\u2019s firing is evidence about the **intervention\u2019s scope**, not "
         "about H2.")
     add("")
-    add("## 6. The other controls")
+    add("## 6. The controls")
     add("")
+    p2_met = crit["P2"]["met"]
+    admitted_same = crit["P2"]["admitted_stream_identical"]
     add("| | Control | Result |")
     add("|---|---|---|")
-    add("| **C1** | the control seed\u2019s admitted stream across hash seeds | "
-        "**%s** \u2014 identical at every cycle, while its builder sequences differ"
-        % ("invariant" if crit["P2"]["admitted_stream_identical"] else "differs"))
+    add("| **C1** | the control seed (T1/20261101) across hash seeds | %s |"
+        % ("**FAILED as pre-registered**: C1 required the control's *assembled "
+           "lists* to be identical at every hash seed (P2), and P2 is **NOT MET**"
+           if not p2_met else "**held**: P2 is met"))
     add("| **C3** | determinism: one part rewritten by a second process | "
         "**identical**, field for field |")
     add("")
-    add("C1 is the sharpest positive result here: **the same build can be "
-        "order-invariant in what it decides and order-dependent in how it "
-        "constructs**, and only the second is visible if you stop at the admitted "
-        "stream.")
+    add("**A narrower observation, recorded post hoc and not as a held control.** "
+        "The control seed's *admitted stream* is %s across hash seeds while its "
+        "builder sequences differ. That is a real, artifact-backed fact: the "
+        "artifact carries `P2.admitted_stream_identical: %s` beside "
+        "`P2.met: %s`. It is a **different quantity from the one C1 "
+        "pre-registered**, and it was read after P2 had already failed, so the "
+        "admissible statement is: on this one seed, at one hash-seed pair, the "
+        "build was observed to be order-invariant in what it decides and "
+        "order-dependent in how it constructs. An observation, not a passed "
+        "control, and not a general law (on the eight failing seeds the two "
+        "coincided)."
+        % ("identical at every cycle" if admitted_same else "not identical",
+           "true" if admitted_same else "false",
+           "true" if p2_met else "false"))
+    add("")
+    add("**The defect in this section, disclosed rather than overwritten.** An "
+        "earlier version reported C1 as *invariant* and called it the sharpest "
+        "positive result. C1's name was kept while the quantity behind it was "
+        "changed to one that passes. A control re-specified after it fails has "
+        "measured nothing.")
     add("")
     add("## 7. What this establishes, and what it does not")
     add("")
@@ -972,7 +991,7 @@ def render(artifact: dict[str, Any]) -> str:
         "the first cycle of every seed, including the seed the campaign calls "
         "stable; a fresh capture reproduces the audit\u2019s divergence cycle on "
         "all eight seeds; and the pre-registered intervention is confounded by "
-        "its own control.")
+        "its own control; and the control the brief named for that invariance did not hold (P2 failed).")
     add("")
     add("**Does not establish.** That the order channel is or is not sufficient "
         "\u2014 H2 is **untested in an admissible form**, because F2 fired before "

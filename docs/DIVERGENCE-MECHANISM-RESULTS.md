@@ -70,18 +70,20 @@ The replacement field is falsifiable and it fired: the fresh capture does **not*
 
 F1 fired as well, and Arm A explains why it had to: the intervention canonicalises the **temporal graph** and the **composites**, while the figure above shows the earliest order-sensitive builder is `_score_tags`, which the intervention deliberately leaves untouched (`§5.2` of the brief chose the two smallest changes, not every sort). An intervention that starts downstream of the first order channel cannot remove it, so F1’s firing is evidence about the **intervention’s scope**, not about H2.
 
-## 6. The other controls
+## 6. The controls
 
 | | Control | Result |
 |---|---|---|
-| **C1** | the control seed’s admitted stream across hash seeds | **invariant** — identical at every cycle, while its builder sequences differ
+| **C1** | the control seed (T1/20261101) across hash seeds | **FAILED as pre-registered**: C1 required the control's *assembled lists* to be identical at every hash seed (P2), and P2 is **NOT MET** |
 | **C3** | determinism: one part rewritten by a second process | **identical**, field for field |
 
-C1 is the sharpest positive result here: **the same build can be order-invariant in what it decides and order-dependent in how it constructs**, and only the second is visible if you stop at the admitted stream.
+**A narrower observation, recorded post hoc and not as a held control.** The control seed's *admitted stream* is identical at every cycle across hash seeds while its builder sequences differ. That is a real, artifact-backed fact: the artifact carries `P2.admitted_stream_identical: true` beside `P2.met: false`. It is a **different quantity from the one C1 pre-registered**, and it was read after P2 had already failed, so the admissible statement is: on this one seed, at one hash-seed pair, the build was observed to be order-invariant in what it decides and order-dependent in how it constructs. An observation, not a passed control, and not a general law (on the eight failing seeds the two coincided).
+
+**The defect in this section, disclosed rather than overwritten.** An earlier version reported C1 as *invariant* and called it the sharpest positive result. C1's name was kept while the quantity behind it was changed to one that passes. A control re-specified after it fails has measured nothing.
 
 ## 7. What this establishes, and what it does not
 
-**Establishes.** Order enters candidate construction at `_score_tags` on the first cycle of every seed, including the seed the campaign calls stable; a fresh capture reproduces the audit’s divergence cycle on all eight seeds; and the pre-registered intervention is confounded by its own control.
+**Establishes.** Order enters candidate construction at `_score_tags` on the first cycle of every seed, including the seed the campaign calls stable; a fresh capture reproduces the audit’s divergence cycle on all eight seeds; and the pre-registered intervention is confounded by its own control; and the control the brief named for that invariance did not hold (P2 failed).
 
 **Does not establish.** That the order channel is or is not sufficient — H2 is **untested in an admissible form**, because F2 fired before Arm B could speak. It does not re-score D0, modify the engine, or say anything about the campaign’s own numbers.
 
