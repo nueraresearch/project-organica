@@ -7090,6 +7090,15 @@ pair, at one cycle.
 
 ## §85 — The mechanism plan re-run: Arm A is unchanged, and Arm B-prime passes its first gate
 
+**Correction, same day: this section's gate-1 result is void.** `canonical_score`
+was never implemented at `e2206e5` — the mode was an argparse choice with no code
+behind it, so the "0 differences in 168 comparisons" below compared `observe` against
+`observe`. The paragraph that follows calling my advance prediction wrong is itself
+wrong: with the intervention actually applied, **F2 fires, 125 of 168 comparisons**, as
+§11 predicted. See §87 and `docs/divergence_arm_b_prime_AUDIT.md`. The text below is
+kept as written rather than deleted, because it is the record of what I concluded from
+an instrument that was not running.
+
 **Arm A, across its planned cases, adds nothing new — and that is the result.** The
 eight failing seeds and the control at their recorded pairs are all cached from
 §74: the sweep reported **0 runs, 18 cached**. Its finding therefore stands
@@ -7149,6 +7158,13 @@ deterministic. P3 is answered by gate 4 or not at all.
 
 ## §86 — Arm B-prime across the eight seeds: F1 fires
 
+**Correction, same day: this section's result is void.** It measured the unimplemented
+mode, so "F1 fires" is an observe-against-observe comparison that reproduces Arm A's
+signature exactly. With the intervention implemented, gate 4 returns **8 of 8 seeds
+invariant, 0 differences — P3 holds and F1 does not fire** — and the control gate F2
+fires, so under §11's pre-recorded stop rule **no conclusion may be drawn from the
+arm**. Both readings are in §87; neither is a verdict about H2.
+
 **The order channel, canonicalised at all three sites, is not sufficient.** At
 least one failing seed still records tables that differ across its own hash-seed
 pair: **0 of 8 seeds invariant**, so **F1 fires and H2 is refuted in its strong
@@ -7189,4 +7205,75 @@ suspicious-looking result become a conclusion by being written down first.
 
 → `.scratch/divergence_mechanism_parts/canonical_score_T1_20261125_hs{0,2}.json`
 (regenerable); `docs/divergence_arm_b_prime_sweep.json`.
+
+## §87 — Implementation-to-artifact audit: the arm that was a label
+
+**The finding.** Arm B-prime's mode `canonical_score` existed only as an argparse
+choice. `CANONICAL_MODES` did not appear in the file at all; `_load_temporal` gated
+the graph on `self.MODE == "canonical"`; `_compose_meta_concepts` gated on
+`self.MODE != "canonical"`; and `_score_tags` recorded `[s.tag for s in out]` from
+`super()` and returned it untouched, with no sort by `(-frequency, tag)` anywhere on
+the path. The mode was therefore **behaviourally identical to `observe`**, and every
+generation-1 artifact inherited a label with no mechanism behind it: F2's 0 of 168,
+C2's and C3's passes, and gate 4's "F1 fires".
+
+**How it was caught, and by what.** Not by a gate — by reading a result that looked
+wrong for a reason. Every seed's first difference sat at cycle 1 in `score_tags` with
+identical membership, which is Arm A's signature; and one seed's sides ordered
+`fern`/`cedar` differently, which under the intervention's own key required the
+*frequencies* to differ. The frequency check showed they do not: `cedar = 1` and
+`fern = 1` on both sides, and the documented order collapses the two lists. So the
+differences were hash order among tied scores, and the intervention that was supposed
+to break those ties was not running.
+
+**The correction to my own correction.** §85 as committed on the day declared my §11
+prediction wrong, on the strength of the 0-of-168 gate. That reading was itself
+produced by the broken instrument, and it is the more embarrassing of the two errors:
+I explained a null result by my own reasoning rather than by checking whether the
+intervention had executed. The lesson is the one this record keeps relearning — **a
+measurement that contradicts a prediction is a reason to audit the instrument before
+rewriting the prediction.**
+
+**What now runs, and the telemetry that proves it.** `CANONICAL_MODES` exists and both
+canonical branches test membership; `_score_tags` sorts the engine's returned value by
+`(-frequency, tag)` *before* recording; every score record carries `score_intervention`
+with `total_order_applied`, `graph_canonical` and `adjacent_ties`; and
+`ORGANICA_NO_RECORD=1` disables recording so C2 can compare the same build with the
+trace on and off. Measured: `total_order_applied` true in every record, **153**
+adjacent ties broken on the control and **203** on the sweep seeds — the
+intervention has work to do, and it did it.
+
+**Generation 2.** C2 neutral on both arms; C3 deterministic; **F2 fires, 125
+of 168 comparisons**; gate 4 returns **8 of 8 seeds
+invariant, 0 differences — P3 holds, F1 does not fire.**
+
+**Why that is not a result about H2.** §11 pre-registered the stop rule and the
+conflict in the same section: F2 requires the control's table unchanged at a fixed
+hash seed; the control's order is itself hash-seed dependent (P2 failed as
+pre-registered, §74/§79); so a real canonicalisation must move it, and F2 and P2
+cannot both hold. **They cannot both hold, and F2 is the one that fired.** Under the
+gate as written, the arm is inadmissible by its own control and no conclusion may be
+drawn from it — including, importantly, **no conclusion against H2**.
+
+**What the numbers look like, stated as fact and not as a softened verdict.** Of the
+125 control differences, 79 are order-only and 46 change membership;
+by type (order-only / membership-changing): `loops` 0/22, `meta` 0/22, `anomalies`
+14/2, `predictions` 19/0, `score_tags` 22/0, `temporal_read` 24/0, `concepts` 0/0.
+A membership-restated F2 would therefore return a **different** gate result, which is
+exactly why restating it now is the owner's decision and not mine — doing it after
+seeing that P3 holds would be choosing a criterion after seeing the data.
+
+**Decision open (owner).** Restate F2 in membership terms, or abandon Arm B-prime.
+Until one is chosen, the arm stays inadmissible, `T2/20261120` stays `indeterminate`,
+the window stays unwidened, and D0 stays unscored.
+
+**The repository-level lesson.** The defect was not a wrong number; it was a
+**name** — a mode, a docstring and an artifact label that all described an
+intervention nobody had written. A record cannot catch that by being careful. It
+catches it by requiring every artifact to carry telemetry of its own mechanism, which
+is now what `score_intervention` does at this site, and by treating a
+prediction-contradicting null as a prompt to audit the instrument first.
+
+→ `docs/divergence_arm_b_prime_AUDIT.md`; `docs/divergence_arm_b_prime_{f2,gates,sweep}_v2.json`;
+`benchmarks/divergence_mechanism.py`.
 

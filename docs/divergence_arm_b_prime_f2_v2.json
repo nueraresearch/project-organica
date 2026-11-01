@@ -1,0 +1,54 @@
+{
+ "by_type": {
+  "anomalies": 16,
+  "concepts": 0,
+  "loops": 22,
+  "meta": 22,
+  "predictions": 19,
+  "score_tags": 22,
+  "temporal_read": 24
+ },
+ "comparisons": 168,
+ "control": [
+  "T1",
+  20261101
+ ],
+ "differences": 125,
+ "f2_fired": true,
+ "first": [
+  {
+   "arm": "B",
+   "cycle": 1,
+   "membership_same": true,
+   "type": "temporal_read"
+  },
+  {
+   "arm": "B",
+   "cycle": 2,
+   "membership_same": true,
+   "type": "temporal_read"
+  },
+  {
+   "arm": "B",
+   "cycle": 2,
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "arm": "B",
+   "cycle": 2,
+   "membership_same": false,
+   "type": "loops"
+  },
+  {
+   "arm": "B",
+   "cycle": 2,
+   "membership_same": true,
+   "type": "predictions"
+  }
+ ],
+ "generation": 2,
+ "hash_seed": 0,
+ "kind": "divergence_arm_b_prime_f2",
+ "note": "generation 1 (e2206e5) ran with canonical_score unimplemented"
+}

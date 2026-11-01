@@ -1,0 +1,308 @@
+{
+ "F1_fires": false,
+ "P3_holds": true,
+ "generation": 2,
+ "intervention": "canonical graph + canonical composites + total order (-frequency, tag) on tag scores",
+ "invariant_seeds": 8,
+ "kind": "divergence_arm_b_prime_sweep",
+ "preregistration": "docs/DIVERGENCE-MECHANISM-BRIEF.md section 11",
+ "rows": [
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 11,
+   "first": null,
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261125,
+   "task": "T1",
+   "telemetry_a": {
+    "adjacent_ties": 203,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 203,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 3,
+   "first": null,
+   "pair": [
+    0,
+    7
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261128,
+   "task": "T1",
+   "telemetry_a": {
+    "adjacent_ties": 232,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 232,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 2,
+   "first": null,
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261129,
+   "task": "T1",
+   "telemetry_a": {
+    "adjacent_ties": 158,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 158,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 5,
+   "first": null,
+   "pair": [
+    0,
+    1
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261118,
+   "task": "T2",
+   "telemetry_a": {
+    "adjacent_ties": 215,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 215,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 5,
+   "first": null,
+   "pair": [
+    0,
+    13
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261120,
+   "task": "T2",
+   "telemetry_a": {
+    "adjacent_ties": 205,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 205,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 5,
+   "first": null,
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261121,
+   "task": "T2",
+   "telemetry_a": {
+    "adjacent_ties": 212,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 212,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 5,
+   "first": null,
+   "pair": [
+    0,
+    8
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261123,
+   "task": "T2",
+   "telemetry_a": {
+    "adjacent_ties": 204,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 204,
+    "total_order_applied": [
+     true
+    ]
+   }
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 0,
+    "meta": 0,
+    "predictions": 0,
+    "score_tags": 0,
+    "temporal_read": 0
+   },
+   "detail": [],
+   "differences": 0,
+   "divergence_cycle": 5,
+   "first": null,
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261130,
+   "task": "T2",
+   "telemetry_a": {
+    "adjacent_ties": 232,
+    "total_order_applied": [
+     true
+    ]
+   },
+   "telemetry_b": {
+    "adjacent_ties": 232,
+    "total_order_applied": [
+     true
+    ]
+   }
+  }
+ ],
+ "seeds": 8
+}

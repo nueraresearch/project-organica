@@ -102,6 +102,17 @@ TYPE_LABEL = {
 # the observer, and the intervention
 # ---------------------------------------------------------------------------
 
+# Modes that apply the Arm B canonicalisation to the engine's inputs.  Arm
+# B-prime is ``canonical_score``: the same sites as ``canonical``, plus a total
+# order on the tag scores, so ties the engine's frequency-only sort leaves in
+# hash order are broken by tag.
+CANONICAL_MODES = ("canonical", "canonical_score")
+
+# Recording is switched off for the C2 neutrality run only: the same build and
+# the same intervention, with the trace simply not written.  If the observer is
+# neutral, the admitted streams must be identical either way.
+_NO_RECORD = os.environ.get("ORGANICA_NO_RECORD") == "1"
+
 _CURRENT: dict[str, Any] = {"label": None}
 _CAPTURED: dict[str, Any] = {}
 
@@ -128,7 +139,7 @@ class _Base(fu._AdmissionSleepService):
         return self.records[-1]
 
     def _keep(self, index: int) -> bool:
-        return index <= MAX_RECORDED_CYCLE
+        return index <= MAX_RECORDED_CYCLE and not _NO_RECORD
 
     def run(self):
         report = super().run()
@@ -147,7 +158,7 @@ class _Base(fu._AdmissionSleepService):
         self._index += 1
         if self.fixed_temporal is not None:
             graph = super()._load_temporal()
-        elif self.MODE == "canonical":
+        elif self.MODE in CANONICAL_MODES:
             # The intervention, at its source: canonical order among the rows.
             edges = sorted(self.memory.temporal_edges(min_count=1),
                            key=lambda e: (e[0], e[1]))
@@ -172,10 +183,25 @@ class _Base(fu._AdmissionSleepService):
         # so this is the engine's own pre-sort sequence, not a reconstruction.
         pre = list(set(freqs) | set(cooc) | set(temporal))
         out = super()._score_tags(freqs, cooc, temporal)
+        if self.MODE == "canonical_score":
+            # Arm B-prime's third site, and the reason this override exists: a
+            # total order on the scores themselves.  The engine sorts on
+            # frequency alone, so equal-frequency tags keep whatever order the
+            # set iteration produced.  This sorts the value the frozen engine
+            # returned, before anything is recorded, so both the record below
+            # and the builders downstream receive the intervened order.
+            out = sorted(out, key=lambda s: (-s.frequency, s.tag))
         if self._keep(self._index):
             rec = self._rec()
             rec["score_pre_sort"] = pre
             rec["score_tags"] = [s.tag for s in out]
+            rec["score_intervention"] = {
+                "mode": self.MODE,
+                "total_order_applied": self.MODE == "canonical_score",
+                "graph_canonical": self.MODE in CANONICAL_MODES,
+                "adjacent_ties": sum(1 for a, b in zip(out, out[1:])
+                                     if a.frequency == b.frequency),
+            }
         return out
 
     def _build_concepts(self, tag_scores, communities, cooc):
@@ -209,7 +235,7 @@ class _Base(fu._AdmissionSleepService):
         return out
 
     def _compose_meta_concepts(self, stable_prior):
-        if self.MODE != "canonical":
+        if self.MODE not in CANONICAL_MODES:
             out = super()._compose_meta_concepts(stable_prior)
             if self._keep(self._index):
                 self._rec()["meta"] = [
