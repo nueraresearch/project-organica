@@ -63,7 +63,11 @@ PARTS_DIR = REPO / ".scratch" / "divergence_capture_parts"
 
 #: The version of this observer.  A part written by a different observer is
 #: recomputed rather than reused.
-OBSERVER_VERSION = 2
+# Bumped 2 -> 3 on 2026-11-01: the cycle base was wrong.  The audit's
+# first_cycle is a ZERO-BASED index and a window's index here is a one-based
+# engine cycle, so every part captured under version 2 holds windows one
+# cycle early.  part_is_current compares this field and nothing else.
+OBSERVER_VERSION = 3
 
 #: The control seed: the campaign reproduces it at every hash seed.
 CONTROL_SEED = ("T1", 20261101)
@@ -376,13 +380,49 @@ def first_difference(left: list[str], right: list[str]) -> int | None:
     return None
 
 
+def capture_cycles(audit_index: int) -> tuple[int, int]:
+    """The two engine cycles to capture for a divergence the audit reported.
+
+    ``audit_index`` is ``first_cycle`` from the candidate-membership audit,
+    which is a **zero-based index** into that audit's ``c_cycle_digests``.  A
+    window's index here is an **engine cycle**, one-based, and the alignment
+    witness in ``run_worker`` ties window *i* to cycle marker *i*.  The
+    divergence is therefore engine cycle ``audit_index + 1``, and the cycle to
+    compare it against is ``audit_index``.
+
+    Reading ``audit_index`` as a cycle is the defect this instrument shipped
+    with on 2026-10-31: it captured the cycle *before* the divergence and
+    labelled it with the divergence cycle's number.  Returns
+    ``(divergence, previous)``.
+    """
+    if audit_index < 1:
+        raise ValueError(
+            "a divergence at index %r has no preceding cycle to capture"
+            % (audit_index,))
+    divergence = audit_index + 1
+    return divergence, divergence - 1
+
+
+def pool_identity(camp_ids: list[str], ours_ids: list[str],
+                  captured: bool) -> tuple[bool | None, bool | None]:
+    """Whether two pools are identical in set and in order, or not measured.
+
+    ``pool_ids`` returns an empty list for a window the capture refused, so an
+    unaddressed window compares equal to an empty one and would report
+    "identical pools".  A refused window is **not measured**, never an empty
+    pool: both fields return ``None`` and the renderer says so.
+    """
+    if not captured:
+        return None, None
+    return set(camp_ids) == set(ours_ids), camp_ids == ours_ids
+
+
 def build(args: argparse.Namespace) -> dict[str, Any]:
     inputs = membership_inputs()
     jobs: list[tuple[str, int, int, list[int]]] = []
     for item in inputs:
-        cycles = [item["divergence_cycle"]]
-        if item["divergence_cycle"] > 0:
-            cycles.append(item["divergence_cycle"] - 1)
+        divergence, previous = capture_cycles(int(item["divergence_cycle"]))
+        cycles = [divergence, previous]
         for hash_seed in (item["campaign_hash_seed"], item["baseline_hash_seed"]):
             jobs.append((item["task"], item["seed"], hash_seed, sorted(cycles)))
 
@@ -410,9 +450,10 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
         baseline_part = json.loads(part_path(item["task"], item["seed"],
                                              item["baseline_hash_seed"])
                                    .read_text(encoding="utf-8"))
-        cycle = item["divergence_cycle"]
-        previous = cycle - 1
+        cycle, previous = capture_cycles(int(item["divergence_cycle"]))
         entry: dict[str, Any] = dict(item)
+        entry["captured_cycle"] = cycle
+        entry["previous_cycle_number"] = previous
         entry["arms"] = {}
         for arm in ("B", "C"):
             camp_ids = pool_ids(campaign_part, arm, cycle)
@@ -427,6 +468,16 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
             }
             prev_captured = bool(prev_window["campaign"].get("addressed")
                                  and prev_window["current"].get("addressed"))
+            window = {
+                "campaign": campaign_part.get("arms", {})
+                             .get(arm, {}).get(str(cycle), {}),
+                "current": baseline_part.get("arms", {})
+                            .get(arm, {}).get(str(cycle), {}),
+            }
+            captured = bool(window["campaign"].get("addressed")
+                            and window["current"].get("addressed"))
+            set_identical, order_identical = pool_identity(camp_ids, ours_ids,
+                                                          captured)
             entry["arms"][arm] = {
                 "campaign_pool_size": len(camp_ids),
                 "current_pool_size": len(ours_ids),
@@ -437,9 +488,10 @@ def build(args: argparse.Namespace) -> dict[str, Any]:
                 "current_pool_types": pool_types(baseline_part, arm, cycle),
                 "campaign_pool_order": camp_ids,
                 "current_pool_order": ours_ids,
-                "set_identical": set(camp_ids) == set(ours_ids),
-                "order_identical": camp_ids == ours_ids,
-                "first_order_difference": first_difference(camp_ids, ours_ids),
+                "set_identical": set_identical,
+                "order_identical": order_identical,
+                "first_order_difference": (first_difference(camp_ids, ours_ids)
+                                           if captured else None),
                 "previous_cycle": {
                     "captured": prev_captured,
                     "campaign_pool_size": len(camp_prev),
@@ -512,14 +564,18 @@ def render(artifact: dict[str, Any]) -> str:
     add = lines.append
     results = artifact["results"]
 
-    add("# Divergence-cycle capture \u2014 the candidate pool at the cycle "
-        "where the populations part company")
+    add("# Divergence-cycle capture \u2014 the pool just before the divergence "
+        "and the transition into it")
     add("")
-    add("**Status.** Measured 2026-10-31. It is the instrument the "
+    add("**Status.** Measured 2026-10-31; **cycle base corrected and "
+        "re-measured 2026-11-01**. It is the instrument the "
         "candidate-membership audit named as the next one: the membership "
         "audit found *where* the two candidate populations diverge, and this "
-        "names *which candidates* were in the pool at that cycle. It does not "
-        "re-score D0 and it does not change any verdict.")
+        "names *which candidates* were in the pool at the divergence cycle and "
+        "in the cycle before it, and what entered or left on the way in. The "
+        "2026-10-31 run read the cycle before the divergence and labelled it "
+        "with the divergence cycle's number; \u00a71 states the correction. It "
+        "does not re-score D0 and it does not change any verdict.")
     add("")
     add("## 1. Why a second capture was needed")
     add("")
@@ -531,7 +587,12 @@ def render(artifact: dict[str, Any]) -> str:
         "shows the population *near the snapshot point*; it cannot show the "
         "pool *at the divergence*.")
     add("")
-    add("This instrument captures the window at the divergence cycle itself.")
+    add("The 2026-10-31 run did not do that. The audit stores `first_cycle` "
+        "as a **zero-based index**, and a window's index here is an engine "
+        "cycle counted from one, so the capture read the cycle **before** the "
+        "divergence and labelled it with the divergence cycle's own number. "
+        "The 2026-11-01 re-measurement reads the divergence cycle and the "
+        "cycle before it.")
     add("")
     add("## 2. How the capture is addressed, and how that is proved")
     add("")
@@ -554,7 +615,7 @@ def render(artifact: dict[str, Any]) -> str:
     add("**%d of %d** captured window pairs are addressed by their own "
         "marker." % (addressed, total))
     add("")
-    add("## 3. The pool at the divergence cycle")
+    add("## 3. The pool at the divergence cycle, and the cycle before it")
     add("")
     add("**Campaign side** is the run whose fingerprint equals the "
         "campaign\u2019s; **current side** is the run at the pinned hash seed, "
@@ -562,25 +623,29 @@ def render(artifact: dict[str, Any]) -> str:
         "verdict was scored on; arm B is shown alongside it because arm C "
         "reads arm B\u2019s recorded temporal graphs.")
     add("")
-    add("| Task | Seed | Divergence cycle | Arm | Campaign pool | Current pool "
-        "| Both | Campaign only | Current only | Same set | Same order |")
-    add("|---|---|---|---|---|---|---|---|---|---|---|")
+    add("| Task | Seed | Audit index | Cycle captured | Arm | Campaign pool "
+        "| Current pool | Both | Campaign only | Current only | Same set "
+        "| Same order |")
+    add("|---|---|---|---|---|---|---|---|---|---|---|---|")
     for entry in results:
         for arm in ("B", "C"):
             a = entry["arms"][arm]
-            add("| %s | %d | %d | %s | %d | %d | %d | %d | %d | %s | %s |"
+            add("| %s | %d | %d | %d | %s | %d | %d | %d | %d | %d | %s | %s |"
                 % (entry["task"], entry["seed"], entry["divergence_cycle"],
-                   arm, a["campaign_pool_size"], a["current_pool_size"],
+                   entry["captured_cycle"], arm, a["campaign_pool_size"],
+                   a["current_pool_size"],
                    a["both"], len(a["campaign_only"]), len(a["current_only"]),
-                   "yes" if a["set_identical"] else "no",
-                   "yes" if a["order_identical"] else "no"))
+                   "yes" if a["set_identical"] else
+                   ("no" if a["set_identical"] is False else "not measured"),
+                   "yes" if a["order_identical"] else
+                   ("no" if a["order_identical"] is False else "not measured")))
     add("")
     for entry in results:
         for arm in ("B", "C"):
             a = entry["arms"][arm]
-            add("### %s / %d, cycle %d, arm %s"
-                % (entry["task"], entry["seed"], entry["divergence_cycle"],
-                   arm))
+            add("### %s / %d, cycle %d (audit index %d), arm %s"
+                % (entry["task"], entry["seed"], entry["captured_cycle"],
+                   entry["divergence_cycle"], arm))
             add("")
             if a["campaign_only"]:
                 add("- **In the campaign\u2019s pool and not ours (%d):** %s"
@@ -597,10 +662,11 @@ def render(artifact: dict[str, Any]) -> str:
             add("")
             entered = a["entered_from_previous_cycle"]
             left = a["left_since_previous_cycle"]
-            add("**Since the previous cycle.** The campaign side gained %d "
-                "candidate(s) and lost %d; the current side gained %d and lost "
-                "%d."
-                % (len(entered["campaign"]), len(left["campaign"]),
+            add("**From cycle %d into cycle %d, the divergence.** The "
+                "campaign side gained %d candidate(s) and lost %d; the current "
+                "side gained %d and lost %d."
+                % (entry["previous_cycle_number"], entry["captured_cycle"],
+                   len(entered["campaign"]), len(left["campaign"]),
                    len(entered["current"]), len(left["current"])))
             add("")
             for label, ids in (("gained by the campaign side",
@@ -692,16 +758,28 @@ def render(artifact: dict[str, Any]) -> str:
     identical = [e for e in results
                  if e["arms"]["C"]["set_identical"]
                  and e["arms"]["C"]["order_identical"]]
-    add("**%d arm-C pairs show the pool identical in set *and* order, and the "
-        "admitted stream differs anyway.** For %s in arm C, the two sides\u2019 "
-        "pools at the divergence cycle are identical candidate-for-candidate "
-        "and in the same sequence, and arm C\u2019s admitted stream still "
-        "differs at that cycle. For those, the divergence cannot be "
-        "attributed to the pool at the divergence cycle at all: the same "
-        "candidates, read back in the same order, were available, and the "
-        "difference arose inside the cycle."
-        % (len(identical),
-           ", ".join("%s / %d" % (e["task"], e["seed"]) for e in identical)))
+    if identical:
+        add("**%d arm-C pairs show the pool identical in set *and* "
+            "order, and the admitted stream differs anyway.** For %s "
+            "in arm C, the two sides' pools at the divergence cycle "
+            "are identical candidate-for-candidate and in the same "
+            "sequence, and arm C's admitted stream still differs at "
+            "that cycle."
+            % (len(identical),
+               ", ".join("%s / %d" % (e["task"], e["seed"])
+                         for e in identical)))
+    else:
+        add("**No arm-C pair shows the pool identical in set *and* "
+            "order at the divergence cycle.** Across all %d arm-pairs, "
+            "on both arms, the two sides differ in membership at the "
+            "cycle where the admitted streams part company, so on "
+            "these seeds the divergence is a difference in which "
+            "candidates were in the pool, not in the order they were "
+            "read in. The identical-pool pairs this section reported "
+            "on 2026-10-31 were measured one cycle early (see the "
+            "correction at the head of this document); re-measured at "
+            "the divergence cycle they are gone."
+            % total_pairs)
     add("")
     add("**Two orders, and this capture measures one of them.** The engine "
         "reads its window back with `ORDER BY time DESC` and no rowid "
@@ -715,12 +793,15 @@ def render(artifact: dict[str, Any]) -> str:
         "follows the process\u2019s hash seed, so two processes reading the "
         "*same* pool assemble it in *different* orders.")
     add("")
-    add("That is the mechanism the identical-pool pairs point at, and it is "
-        "consistent with the whole table: the pool\u2019s membership differs "
-        "on some seeds, its read-back order differs on most, and where even "
-        "the read-back order is identical the divergence is still there \u2014 "
-        "which is what an order-sensitive assembly step inside the cycle "
-        "predicts.")
+    add("**What the pairs point at.** Set iteration order over strings "
+        "is hash-seeded, so two processes reading the *same* pool can "
+        "assemble it in different orders, and that step is active from "
+        "cycle 1 on every seed including the control "
+        "(`docs/DIVERGENCE-MECHANISM-RESULTS.md`). This capture reports "
+        "the narrower fact: the membership difference is present at "
+        "the cycle where the admitted streams part company, so there "
+        "is no identical pool here from which to attribute the "
+        "divergence to order alone.")
     add("")
     add("**What it does not establish.** That the order difference *caused* the "
         "admitted-stream difference, and it does not measure the order the "
@@ -728,10 +809,11 @@ def render(artifact: dict[str, Any]) -> str:
         "ranking of the pool; this capture observes the pool and the admitted "
         "stream, and does not decompose the ranking between them, nor the "
         "assembly step that precedes it. The supported claim is the narrower "
-        "one: **at the cycle where the populations part company, the pool "
-        "differs in membership on some seeds and in read-back order on most, "
-        "and on %d seeds the pool is identical and the divergence is still "
-        "there.**" % len(identical))
+        "one: **at the cycle where the populations part company, the two "
+        "sides hold the same set in **%d** of %d arm-pairs and the same "
+        "order in **%d** of %d, so the membership difference is present "
+        "wherever the admitted streams diverge.**"
+        % (same_set, total_pairs, same_order, total_pairs))
     add("")
     add("## 5. What this does not establish")
     add("")
@@ -750,8 +832,14 @@ def render(artifact: dict[str, Any]) -> str:
     add("- Membership reference: `docs/candidate_membership_audit.json` "
         "(sha256 `%s`)." % artifact["membership_artifact_sha256"])
     add("- Observer version: %s." % artifact["observer_version"])
-    add("- Capture command: `%s` \u2014 %d worker runs, %d cached."
-        % (artifact["command"], artifact["runs"], artifact["cached"]))
+    add("- Capture command: `%s`." % artifact["command"])
+    add("- Seeds in the artifact: **%d** (16 arm-pairs), all regenerated by the "
+        "worker processes under observer version %s after the cycle "
+        "base changed; the parent process records %s run(s) and %s "
+        "part(s) found current, because under `--workers` it "
+        "assembles parts the workers wrote."
+        % (len(results), artifact["observer_version"],
+           artifact.get("runs", 0), artifact.get("cached", 0)))
     add("- Re-render from the artifact: "
         "`python benchmarks/divergence_cycle_capture.py --render-only`.")
     add("- The capture\u2019s own determinism control: "

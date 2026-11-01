@@ -89,6 +89,100 @@ there is nothing to check out.
   asserted there as a search term for a claim this repository does not make.
   It is replaced by `explainable ai`, which is what the project is for.
 
+### Corrected — both divergence instruments read the audit's cycle base one cycle early (2026-11-01)
+
+- **What was wrong.** `candidate_membership_audit.first_divergence()` sets
+  `first_cycle = index` over `c_cycle_digests`, a **zero-based** list. Both
+  instruments that consume it number cycles from one, and both, as first
+  shipped, read that index as a cycle. `benchmarks/divergence_cycle_capture.py`
+  (2026-10-31) therefore captured the window one cycle **before** the
+  divergence and labelled it with the divergence cycle's number;
+  `benchmarks/divergence_mechanism.py` (2026-11-01) inherited the same base and
+  reported a "+1 systematic offset" between the instruments.
+- **The field that could not be false.** `admitted_same_at_divergence` read
+  `admitted[cycle - 1]` — the cycle the audit *defines* as the divergence — so
+  it was true on every seed by construction. Deleted, and replaced by
+  `audit_cycle_reproduced`, which compares the fresh capture's one-based
+  first-difference cycle with `index + 1` and can return `False`.
+- **What changed in the record.** The mechanism report and journal §74 now
+  state **reproduction** of the audit's cycle on 8 of 8 seeds — analytical
+  reproduction, not independent replication — and **no delay** between
+  construction order and admission is claimed in either direction. Journal §74
+  keeps the false claim, why it was wrong, how the correction was derived and
+  what remains.
+- **The capture re-measured.** `OBSERVER_VERSION` 2 → 3 (the cache keys on that
+  field alone), windows read at `(index + 1, index)` instead of
+  `(index, index - 1)`, so the report now covers the cycle before the
+  divergence cycle and the cycle before it, and the transition between them. A window the capture refuses is
+  reported as **not measured**, never as an empty pool: `pool_identity` returns
+  `None` and the table says so, where the old code would have compared two
+  empty lists and printed "identical".
+- **The measurement changed the finding, not only the label.** At the divergence
+  cycle the two sides hold the **same set** of candidate IDs in **0 of 16**
+  arm-pairs and the **same order** in **0 of 16**: membership differs
+  everywhere. The 2026-10-31 table (11 of 16 the same set; 3 seeds identical in
+  set *and* order while the admitted stream differed) is what the **preceding**
+  cycle shows, so journal §72's order-only reading and §73's premise that the
+  difference arose *inside* the cycle are withdrawn. The renderer was repaired
+  in the same pass: its zero-identical-pairs branch printed an empty seed list
+  and still attributed the divergence to identical pools, and its provenance
+  line printed the parent process's counters (0 runs, 16 parts current) as the
+  work done.
+- **Nothing else moved.** No engine file was touched (`git diff -- organica/`
+  is empty), the 36 mechanism parts were reused (0 new runs), C1, H2, Arm B and
+  the frozen engine keep their previous status, and no verdict, criterion or
+  pre-registered hypothesis was re-read.
+
+### Measured — the construction-order experiment, and a control that stopped it (2026-11-01)
+
+- **What ran.** Arm A (observational) and Arm B (interventional) of the experiment
+  pre-registered in `docs/DIVERGENCE-MECHANISM-BRIEF.md` and journal §73, on the
+  eight failing seeds plus the control seed, at each seed's campaign-side and
+  pinned-baseline hash seeds. **No engine file was modified**: the observer and
+  the intervention are subclasses in `benchmarks/divergence_mechanism.py`.
+- **Arm A.** The first builder whose assembled sequence differs between hash
+  seeds is `_score_tags`, at **cycle 1**, on **8 of 8** seeds — and on the
+  control too. That is set iteration order, not the divergence site.
+- **The divergence.** The admitted prediction streams first differ at the
+  membership audit's divergence cycle **+1** on 8 of 8 seeds, so the two
+  instruments' cycle numbering is one apart.
+- **Arm B.** P3 **not met** (0 of 8 seeds became hash-seed invariant), **F1
+  fired**, and **F2 fired** — the canonicalisation changed the control seed's
+  builder sequences at a fixed hash seed. By the pre-registration F2 takes
+  precedence, so **no conclusion may be drawn from Arm B** and H2 remains
+  untested in an admissible form. The cause is identified: the intervention
+  canonicalised the temporal graph and the composites, while the first order
+  channel is `_score_tags`, upstream of both.
+- **C1 held.** The control seed's admitted stream is identical at every cycle
+  across hash seeds *while its builder sequences differ* — a build can be
+  order-invariant in what it decides and order-dependent in how it constructs.
+- **Added** — `benchmarks/divergence_mechanism.py`, `docs/divergence_mechanism.json`
+  (36 parts with checksums), `docs/DIVERGENCE-MECHANISM-RESULTS.md`, journal §74,
+  manual finding 44.
+
+### Corrected — the release guard compared a tag object to a commit (2026-11-01)
+
+- **What was wrong.** `test_a_released_version_is_checkable` asks the remote
+  which commit a release tag names, and it asked with
+  `git ls-remote --tags origin v0.10.0`. Against an **annotated** tag that
+  query returns **one** line — the tag object — and omits the peeled `^{}`
+  line, so the parser could only ever return the tag object (`843247b`)
+  while the comparison it feeds is against a commit. On a correct release
+  the check therefore had a wrong answer available to it in the
+  shallow-clone path: two different kinds of object compared to each other.
+- **The fix.** The query uses a `*` pattern, which makes git emit both
+  lines, and a pure `_parse_tag_refs` prefers the peeled commit and matches
+  names exactly, so a prefix neighbour cannot be admitted. Measured on this
+  repository on 2026-11-01: the bare form returns one line, the pattern form
+  returns two, and `_remote_ref("v0.10.0")` now returns `f3a42a7` — the
+  commit — rather than `843247b`, the tag object.
+- **Proof it can still fire.** Five tests: peeled preference, a lightweight
+  tag, an absent tag beside a prefix neighbour, the bare-query output
+  reproduced as the defect it was, and a monkeypatched run in which the tag
+  is behind master and the real test body must fail.
+- **Also.** `.venv/` is now ignored: a checkout may create one to run the
+  tests, and `git add -A` would otherwise stage it.
+
 ### Corrected — the release statement named a tag as a release (2026-10-31)
 
 - **What was wrong.** The README said "0.10.0 is the latest release" and

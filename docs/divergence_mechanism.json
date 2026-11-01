@@ -1,0 +1,1252 @@
+{
+ "arm_b_sites": [
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  },
+  {
+   "cycle": 1,
+   "kind": "order",
+   "membership_same": true,
+   "type": "score_tags"
+  }
+ ],
+ "cached": 36,
+ "command": "python benchmarks/divergence_mechanism.py --arm BOTH --workers 4",
+ "control_canonical": {
+  "B": {
+   "admitted_same_every_cycle": true,
+   "anomalies": true,
+   "concepts": true,
+   "loops": true,
+   "meta": true,
+   "predictions": true,
+   "score_tags": false,
+   "temporal_read": true
+  },
+  "C": {
+   "admitted_same_every_cycle": true,
+   "anomalies": true,
+   "concepts": true,
+   "loops": true,
+   "meta": true,
+   "predictions": true,
+   "score_tags": false,
+   "temporal_read": true
+  }
+ },
+ "control_observed": {
+  "B": {
+   "admitted_same_every_cycle": true,
+   "anomalies": true,
+   "concepts": true,
+   "loops": true,
+   "meta": false,
+   "predictions": true,
+   "score_tags": false,
+   "temporal_read": true
+  },
+  "C": {
+   "admitted_same_every_cycle": true,
+   "anomalies": true,
+   "concepts": true,
+   "loops": true,
+   "meta": false,
+   "predictions": true,
+   "score_tags": false,
+   "temporal_read": true
+  }
+ },
+ "criteria": {
+  "F1": {
+   "fired": true,
+   "question": "if canonicalisation leaves the tables varying, H2 is refuted",
+   "seeds": [
+    "T1/20261125",
+    "T1/20261128",
+    "T1/20261129",
+    "T2/20261118",
+    "T2/20261120",
+    "T2/20261121",
+    "T2/20261123",
+    "T2/20261130"
+   ]
+  },
+  "F2": {
+   "fired": true,
+   "per_type_unchanged": {
+    "B": {
+     "anomalies": false,
+     "concepts": true,
+     "loops": false,
+     "meta": false,
+     "predictions": false,
+     "score_tags": true,
+     "temporal_read": false
+    },
+    "C": {
+     "anomalies": false,
+     "concepts": true,
+     "loops": false,
+     "meta": false,
+     "predictions": false,
+     "score_tags": true,
+     "temporal_read": false
+    }
+   },
+   "question": "if canonicalisation changes the control seed's table at a fixed hash seed, the intervention is confounded"
+  },
+  "F3": {
+   "excluded_per_seed": {
+    "T1/20261125": [
+     "concepts"
+    ],
+    "T1/20261128": [
+     "concepts",
+     "anomalies"
+    ],
+    "T1/20261129": [
+     "concepts"
+    ],
+    "T2/20261118": [
+     "concepts",
+     "loops",
+     "meta"
+    ],
+    "T2/20261120": [
+     "concepts"
+    ],
+    "T2/20261121": [
+     "concepts",
+     "loops",
+     "meta"
+    ],
+    "T2/20261123": [
+     "concepts",
+     "loops",
+     "anomalies",
+     "meta"
+    ],
+    "T2/20261130": [
+     "concepts"
+    ]
+   },
+   "question": "a type identical in membership and order at every cycle up to the divergence is excluded as the site"
+  },
+  "P1": {
+   "met": true,
+   "question": "at the divergence cycle, at least one type differs between the two hash seeds, and the difference is present in a builder's pre-sort sequence",
+   "seeds": 8,
+   "sites_located": 8
+  },
+  "P2": {
+   "admitted_stream_identical": true,
+   "met": false,
+   "per_type": {
+    "B": {
+     "admitted_same_every_cycle": true,
+     "anomalies": true,
+     "concepts": true,
+     "loops": true,
+     "meta": false,
+     "predictions": true,
+     "score_tags": false,
+     "temporal_read": true
+    },
+    "C": {
+     "admitted_same_every_cycle": true,
+     "anomalies": true,
+     "concepts": true,
+     "loops": true,
+     "meta": false,
+     "predictions": true,
+     "score_tags": false,
+     "temporal_read": true
+    }
+   },
+   "question": "the control seed's assembled lists are identical at every hash seed, for every type (pre-registered resolution: the builders' own sequences)"
+  },
+  "P3": {
+   "met": false,
+   "question": "under canonicalised order the eight seeds' per-type tables become hash-seed invariant",
+   "seeds": 8,
+   "seeds_invariant": 0
+  },
+  "arm_B_admissible": false
+ },
+ "engine_head": "711f04dde00ed0d0d293a1f425e63342b53823ab",
+ "generated_utc": "2026-11-01T15:19:19Z",
+ "kind": "divergence_mechanism",
+ "membership_artifact_sha256": "544ebd87bf86a7b38e98815449cd86e66a9ed75dbc3ffb1431cae34c76365e17",
+ "observer_version": 1,
+ "parts": [
+  {
+   "bytes": 535325,
+   "part": "observe_T1_20261125_hs2.json",
+   "sha256": "ed81018647a5288dfdce76d434b5ee37862a3bdcc85cad560c27f405a7ef28bc"
+  },
+  {
+   "bytes": 534670,
+   "part": "canonical_T1_20261125_hs2.json",
+   "sha256": "172e26a84a29082a01c71fd67aa9cf86fc019fb6c6c2d3cc0521df6a9c3081d3"
+  },
+  {
+   "bytes": 536010,
+   "part": "observe_T1_20261125_hs0.json",
+   "sha256": "ea0a5d4facb2858005245457c906fc8fda89ded55b3098b79cf2f1af324f2877"
+  },
+  {
+   "bytes": 534670,
+   "part": "canonical_T1_20261125_hs0.json",
+   "sha256": "e01537a19fd6b9de574e244c778e8b6db48ceb0df8df0bdf1b2698964e3152e9"
+  },
+  {
+   "bytes": 413216,
+   "part": "observe_T1_20261128_hs7.json",
+   "sha256": "b0d7f3bcbe3f1684f091aef407cfb12e5da99a231f47467cdc7c0a7cb7c2d31a"
+  },
+  {
+   "bytes": 418205,
+   "part": "canonical_T1_20261128_hs7.json",
+   "sha256": "be249221ca52e04a08dfb8bd0e4eab28e9782cb8a978cc1d51a1e88fe978a926"
+  },
+  {
+   "bytes": 414501,
+   "part": "observe_T1_20261128_hs0.json",
+   "sha256": "70049d862ff6a4c25b7f4b3c4ccfd6f00c42fb5dddc7d747a6ce70e901852eae"
+  },
+  {
+   "bytes": 418205,
+   "part": "canonical_T1_20261128_hs0.json",
+   "sha256": "566bffc110d90240f90fa27529ccd4ba76438d6761b946cb30b8083b4f950182"
+  },
+  {
+   "bytes": 480550,
+   "part": "observe_T1_20261129_hs2.json",
+   "sha256": "2cabed82808673d895ea136cbd024fac0b5b12e6aaeff44f10f301ca219e95a0"
+  },
+  {
+   "bytes": 483393,
+   "part": "canonical_T1_20261129_hs2.json",
+   "sha256": "7aa371ad3914bfa16ab528956976e9821fced41f032e919b85af7c565fabce88"
+  },
+  {
+   "bytes": 482124,
+   "part": "observe_T1_20261129_hs0.json",
+   "sha256": "1f28621bec2892765486764ba1c169faff4885c2e80461fa6efdca62985f5a11"
+  },
+  {
+   "bytes": 483393,
+   "part": "canonical_T1_20261129_hs0.json",
+   "sha256": "cf4bb4907b3e1111f752c223fb8b62c9d9aceee2cc55e4081d62eee98ee9aad3"
+  },
+  {
+   "bytes": 510194,
+   "part": "observe_T2_20261118_hs1.json",
+   "sha256": "54de237f38bb0380ae01f744cc66c10e37298ef23ae5ae7c478f040f1ee4071f"
+  },
+  {
+   "bytes": 512570,
+   "part": "canonical_T2_20261118_hs1.json",
+   "sha256": "48a6f7a45212592498d52399dd8a91e54e9a87b3d566982007406b50b6307ba8"
+  },
+  {
+   "bytes": 509393,
+   "part": "observe_T2_20261118_hs0.json",
+   "sha256": "e85f3df8613a47cbf748a5e0edc13f8619677b19f25f7e1d75426151dff7a585"
+  },
+  {
+   "bytes": 512570,
+   "part": "canonical_T2_20261118_hs0.json",
+   "sha256": "2b22809bc0f5887ce3a36ee3e7b0cb724b990f53abc2eb4b491f360185e06bad"
+  },
+  {
+   "bytes": 541055,
+   "part": "observe_T2_20261120_hs13.json",
+   "sha256": "c63c98be8f468a705ebbc2ed2c14db7b9e45e539fa1ce678f34a170eaef1fbd7"
+  },
+  {
+   "bytes": 543857,
+   "part": "canonical_T2_20261120_hs13.json",
+   "sha256": "a66a8893fcf9ff53634660d24091b4c11a7661badaf339f8efee7e8eafd4591b"
+  },
+  {
+   "bytes": 542873,
+   "part": "observe_T2_20261120_hs0.json",
+   "sha256": "a45e195cd3fb126cdcb674a7ae1ed47c4b15fa600fb8dd7b0b5dabe5a3040dbe"
+  },
+  {
+   "bytes": 543856,
+   "part": "canonical_T2_20261120_hs0.json",
+   "sha256": "f665eaa5cbc7645ffcddac90d0bb383765b061d99b9ff34d936afa48c54309ff"
+  },
+  {
+   "bytes": 537566,
+   "part": "observe_T2_20261121_hs2.json",
+   "sha256": "6f2f327cf8e5a38320bb8f472ef1c563d3262334267fa7e5bb4d395fb4dba56c"
+  },
+  {
+   "bytes": 543485,
+   "part": "canonical_T2_20261121_hs2.json",
+   "sha256": "ffdd9148318d50195d8406c3fe66c328fe9f27d777f59279dbc306f1ff757d9b"
+  },
+  {
+   "bytes": 536834,
+   "part": "observe_T2_20261121_hs0.json",
+   "sha256": "280bf6a10cf4152567b857ea82530dac9510ba18488755995b9938949bb62387"
+  },
+  {
+   "bytes": 543485,
+   "part": "canonical_T2_20261121_hs0.json",
+   "sha256": "4f17f7c6a9533d9a37205cdf95c80d170335efe340425403c8de8601bf4562bc"
+  },
+  {
+   "bytes": 525044,
+   "part": "observe_T2_20261123_hs8.json",
+   "sha256": "53c5d143dd71a4c619eb0edfce4d50f05f503427b1c11cbd128ed091e9227527"
+  },
+  {
+   "bytes": 528524,
+   "part": "canonical_T2_20261123_hs8.json",
+   "sha256": "77be9d54dbac43ff2eb6385d20695a7934df2320a7c137ad36a534fbdf5daaa3"
+  },
+  {
+   "bytes": 525285,
+   "part": "observe_T2_20261123_hs0.json",
+   "sha256": "94e65467fb5b7fc4c99ab820cc9bc58bb7645455455cc142a7665c4e691332a5"
+  },
+  {
+   "bytes": 528524,
+   "part": "canonical_T2_20261123_hs0.json",
+   "sha256": "f4ed6965a285be6f1c0507738948ba86e76f671750a2093a86eed52169247111"
+  },
+  {
+   "bytes": 539347,
+   "part": "observe_T2_20261130_hs2.json",
+   "sha256": "8e741a08eefd8234aa0b52689d8569a7362056792560ee9ba072f2164ab885da"
+  },
+  {
+   "bytes": 545511,
+   "part": "canonical_T2_20261130_hs2.json",
+   "sha256": "28a3edc2153342f4a9d2c64924c3dbb8f3e04e62f0254291e4bb633d07483707"
+  },
+  {
+   "bytes": 543169,
+   "part": "observe_T2_20261130_hs0.json",
+   "sha256": "52f304f9b480a33d9ebaf37ef6fdf1277ed5c4fa04c62da84698ef9a318faade"
+  },
+  {
+   "bytes": 545511,
+   "part": "canonical_T2_20261130_hs0.json",
+   "sha256": "1731ebbf4052361317ab5482ec15b93e6b85e502028160a66088a26fd672e595"
+  },
+  {
+   "bytes": 372238,
+   "part": "observe_T1_20261101_hs2.json",
+   "sha256": "0097a35cf3dcdc57340b7757f3cebf959d713da96a690c4904d341cded849a60"
+  },
+  {
+   "bytes": 374346,
+   "part": "canonical_T1_20261101_hs2.json",
+   "sha256": "e8533e5e40722ab387e7e99b9d3ddca82fc486ced0e80387b461911661e6a351"
+  },
+  {
+   "bytes": 371608,
+   "part": "observe_T1_20261101_hs0.json",
+   "sha256": "0b9bc1f4a67b47174077d5287f9ed2780f416a56d6586b52ac08bc07ca2e9abc"
+  },
+  {
+   "bytes": 374346,
+   "part": "canonical_T1_20261101_hs0.json",
+   "sha256": "eded73376f0b6bd19a7af5a86f7bd1d58226c8e8fadf6463ea338e96586a3e08"
+  }
+ ],
+ "preregistration": "docs/DIVERGENCE-MECHANISM-BRIEF.md",
+ "results": [
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 12,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 12,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 10,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 11,
+      "predictions": 1,
+      "score_tags": 12,
+      "temporal_read": 10
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 12,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 12,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 10,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 11,
+      "predictions": 1,
+      "score_tags": 12,
+      "temporal_read": 10
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 2,
+   "divergence_cycle": 11,
+   "seed": 20261125,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 4,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "order",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "anomalies"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 4,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 4,
+      "temporal_read": 1
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 4,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "order",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "anomalies"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 4,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 4,
+      "temporal_read": 1
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 7,
+   "divergence_cycle": 3,
+   "seed": 20261128,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 3,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "order",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 3,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 3,
+      "temporal_read": 1
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 3,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "order",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 3,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 3,
+      "temporal_read": 1
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 2,
+   "divergence_cycle": 2,
+   "seed": 20261129,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "meta": "membership",
+      "predictions": "order",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "predictions": "order",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops",
+      "meta"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions",
+      "anomalies"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 1,
+   "divergence_cycle": 5,
+   "seed": 20261118,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 4,
+     "audit_cycle_reproduced": false,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 2,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 4,
+      "predictions": 3,
+      "score_tags": 6,
+      "temporal_read": 3
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 2,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 1,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 3
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 13,
+   "divergence_cycle": 5,
+   "seed": 20261120,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 2,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 3,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 2
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops",
+      "meta"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions",
+      "anomalies"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 2,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 2
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 2,
+   "divergence_cycle": 5,
+   "seed": 20261121,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops",
+      "anomalies"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts",
+      "loops",
+      "anomalies",
+      "meta"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "predictions"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 8,
+   "divergence_cycle": 5,
+   "seed": 20261123,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 2,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    },
+    "C": {
+     "admitted_first_difference_cycle": 6,
+     "audit_cycle_reproduced": true,
+     "canonical_invariant": false,
+     "site": {
+      "cycle": 1,
+      "kind": "order",
+      "membership_same": true,
+      "type": "score_tags"
+     },
+     "tag_order_varies": true,
+     "types_differing_at_divergence": {
+      "anomalies": "membership",
+      "loops": "membership",
+      "meta": "membership",
+      "predictions": "membership",
+      "score_tags": "order",
+      "temporal_read": "membership"
+     },
+     "types_excluded": [
+      "concepts"
+     ],
+     "types_live": [
+      "temporal_read",
+      "score_tags",
+      "loops",
+      "predictions",
+      "anomalies",
+      "meta"
+     ],
+     "types_varying_canonical": {
+      "anomalies": 0,
+      "concepts": 0,
+      "loops": 0,
+      "meta": 0,
+      "predictions": 0,
+      "score_tags": 6,
+      "temporal_read": 0
+     },
+     "types_varying_observed": {
+      "anomalies": 1,
+      "concepts": 0,
+      "loops": 1,
+      "meta": 1,
+      "predictions": 1,
+      "score_tags": 6,
+      "temporal_read": 1
+     }
+    }
+   },
+   "baseline_hash_seed": 0,
+   "campaign_hash_seed": 2,
+   "divergence_cycle": 5,
+   "seed": 20261130,
+   "task": "T2"
+  }
+ ],
+ "runs": 0,
+ "seconds": 0.1,
+ "seeds": 8,
+ "status": "measured"
+}
