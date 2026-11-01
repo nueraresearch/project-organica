@@ -1,39 +1,44 @@
 {
- "acquisition": {
-  "cycles": 90,
-  "events_per_cycle": 8,
-  "seeds": {
-   "acquisition": 20261201
-  }
- },
  "all_results": [
   {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 0,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
    "withheld": [
     [
      "(0, 0)",
@@ -43,37 +48,47 @@
      "(0, 0)",
      "flip_q"
     ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
+   ]
   },
   {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    }
+   ],
    "withheld": [
     [
      "(0, 0)",
@@ -83,49 +98,218 @@
      "(0, 1)",
      "flip_p"
     ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
+   ]
   },
   {
-   "checks": {
+   "checks_all_seeds": {
     "all_cells_in_and_out": true,
     "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
     "consecutive_pairs_genuine": true,
     "every_permitted_instantiated": true,
     "strongly_connected": true,
     "withheld_floor_met": true
    },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
    "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 36,
-   "min_withheld_instances": 66,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_q')": 78,
-    "((0, 1), 'flip_p')": 247,
-    "((1, 0), 'flip_p')": 77,
-    "((1, 0), 'flip_q')": 36,
-    "((1, 1), 'flip_p')": 169,
-    "((1, 1), 'flip_q')": 113
-   },
-   "strongly_connected": true,
+   "min_permitted_instance": 38,
+   "min_withheld_instance": 30,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 47,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 72,
+       "((0, 1), 'flip_q')": 40
+      }
+     },
+     "withheld_events_compensated": 146
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 39,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 65,
+       "((0, 1), 'flip_q')": 48
+      }
+     },
+     "withheld_events_compensated": 161
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 50,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 69,
+       "((0, 1), 'flip_q')": 33
+      }
+     },
+     "withheld_events_compensated": 159
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 48,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 50,
+       "((0, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 176
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 38,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 63,
+       "((0, 1), 'flip_q')": 30
+      }
+     },
+     "withheld_events_compensated": 189
+    }
+   ],
    "withheld": [
     [
      "(0, 0)",
@@ -136,1224 +320,3827 @@
      "flip_q"
     ]
    ],
-   "withheld_events_compensated": 130,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_p')": 130,
-    "((0, 1), 'flip_q')": 66
-   }
+   "withheld_events_compensated": 831
   },
   {
-   "checks": {
+   "checks_all_seeds": {
     "all_cells_in_and_out": true,
     "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
     "consecutive_pairs_genuine": true,
     "every_permitted_instantiated": true,
     "strongly_connected": true,
     "withheld_floor_met": true
    },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
    "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
+   "min_permitted_instance": 95,
+   "min_withheld_instance": 50,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 112,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 72,
+       "((1, 0), 'flip_p')": 70
+      }
+     },
+     "withheld_events_compensated": 163
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 103,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 65,
+       "((1, 0), 'flip_p')": 53
+      }
+     },
+     "withheld_events_compensated": 156
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 107,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 69,
+       "((1, 0), 'flip_p')": 72
+      }
+     },
+     "withheld_events_compensated": 136
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 116,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 50,
+       "((1, 0), 'flip_p')": 55
+      }
+     },
+     "withheld_events_compensated": 145
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 95,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 63,
+       "((1, 0), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 160
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_p"
+    ],
+    [
+     "(1, 0)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 760
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
    },
+   "feasible": true,
+   "min_permitted_instance": 84,
+   "min_withheld_instance": 25,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 84,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 72,
+       "((1, 0), 'flip_q')": 33
+      }
+     },
+     "withheld_events_compensated": 180
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 93,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 65,
+       "((1, 0), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 179
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 93,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 69,
+       "((1, 0), 'flip_q')": 25
+      }
+     },
+     "withheld_events_compensated": 175
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 85,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 50,
+       "((1, 0), 'flip_q')": 37
+      }
+     },
+     "withheld_events_compensated": 164
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 85,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 63,
+       "((1, 0), 'flip_q')": 36
+      }
+     },
+     "withheld_events_compensated": 176
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_p"
+    ],
+    [
+     "(1, 0)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 874
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 69,
+   "min_withheld_instance": 50,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 72,
+       "((1, 1), 'flip_p')": 57
+      }
+     },
+     "withheld_events_compensated": 289
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 70,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 65,
+       "((1, 1), 'flip_p')": 71
+      }
+     },
+     "withheld_events_compensated": 278
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 69,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 69,
+       "((1, 1), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 284
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 50,
+       "((1, 1), 'flip_p')": 69
+      }
+     },
+     "withheld_events_compensated": 293
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 72,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_p')": 63,
+       "((1, 1), 'flip_p')": 65
+      }
+     },
+     "withheld_events_compensated": 280
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_p"
+    ],
+    [
+     "(1, 1)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 1424
+  },
+  {
+   "feasible": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_p"
+    ],
+    [
+     "(1, 1)",
+     "flip_q"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 37,
+   "min_withheld_instance": 32,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 47,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 39,
+       "((0, 1), 'flip_p')": 56
+      }
+     },
+     "withheld_events_compensated": 145
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 39,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 36,
+       "((0, 1), 'flip_p')": 60
+      }
+     },
+     "withheld_events_compensated": 160
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 50,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 37,
+       "((0, 1), 'flip_p')": 69
+      }
+     },
+     "withheld_events_compensated": 160
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 48,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 38,
+       "((0, 1), 'flip_p')": 75
+      }
+     },
+     "withheld_events_compensated": 177
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 37,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 32,
+       "((0, 1), 'flip_p')": 68
+      }
+     },
+     "withheld_events_compensated": 188
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(0, 1)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 830
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 88,
+   "min_withheld_instance": 30,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 96,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 39,
+       "((0, 1), 'flip_q')": 40
+      }
+     },
+     "withheld_events_compensated": 114
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 88,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 36,
+       "((0, 1), 'flip_q')": 48
+      }
+     },
+     "withheld_events_compensated": 122
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 90,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 37,
+       "((0, 1), 'flip_q')": 33
+      }
+     },
+     "withheld_events_compensated": 127
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 97,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 38,
+       "((0, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 113
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 92,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 32,
+       "((0, 1), 'flip_q')": 30
+      }
+     },
+     "withheld_events_compensated": 133
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(0, 1)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 609
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 84,
+   "min_withheld_instance": 32,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 84,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 39,
+       "((1, 0), 'flip_p')": 70
+      }
+     },
+     "withheld_events_compensated": 179
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 93,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 36,
+       "((1, 0), 'flip_p')": 53
+      }
+     },
+     "withheld_events_compensated": 178
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 94,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 37,
+       "((1, 0), 'flip_p')": 72
+      }
+     },
+     "withheld_events_compensated": 176
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 85,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 38,
+       "((1, 0), 'flip_p')": 55
+      }
+     },
+     "withheld_events_compensated": 165
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 84,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 32,
+       "((1, 0), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 175
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 0)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 873
+  },
+  {
+   "feasible": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 0)",
+     "flip_q"
+    ]
+   ]
+  },
+  {
+   "feasible": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 1)",
+     "flip_p"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 76,
+   "min_withheld_instance": 27,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 77,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 39,
+       "((1, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 145
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 80,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 36,
+       "((1, 1), 'flip_q')": 27
+      }
+     },
+     "withheld_events_compensated": 142
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 81,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 37,
+       "((1, 1), 'flip_q')": 28
+      }
+     },
+     "withheld_events_compensated": 148
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 38,
+       "((1, 1), 'flip_q')": 43
+      }
+     },
+     "withheld_events_compensated": 163
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 78,
+     "out_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 0), 'flip_q')": 32,
+       "((1, 1), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 162
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 1)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 760
+  },
+  {
+   "feasible": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_p"
+    ],
+    [
+     "(0, 1)",
+     "flip_q"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 70,
+   "min_withheld_instance": 53,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 56,
+       "((1, 0), 'flip_p')": 70
+      }
+     },
+     "withheld_events_compensated": 288
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 70,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 60,
+       "((1, 0), 'flip_p')": 53
+      }
+     },
+     "withheld_events_compensated": 277
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 70,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 69,
+       "((1, 0), 'flip_p')": 72
+      }
+     },
+     "withheld_events_compensated": 285
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 79,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 75,
+       "((1, 0), 'flip_p')": 55
+      }
+     },
+     "withheld_events_compensated": 292
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 71,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 68,
+       "((1, 0), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 282
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_p"
+    ],
+    [
+     "(1, 0)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 1424
+  },
+  {
+   "feasible": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_p"
+    ],
+    [
+     "(1, 0)",
+     "flip_q"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
    "min_permitted_instance": 94,
-   "min_withheld_instances": 130,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_q')": 102,
-    "((0, 1), 'flip_p')": 165,
-    "((0, 1), 'flip_q')": 101,
-    "((1, 0), 'flip_q')": 94,
-    "((1, 1), 'flip_p')": 164,
-    "((1, 1), 'flip_q')": 94
-   },
-   "strongly_connected": true,
+   "min_withheld_instance": 56,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 113,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 56,
+       "((1, 1), 'flip_p')": 57
+      }
+     },
+     "withheld_events_compensated": 163
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 103,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 60,
+       "((1, 1), 'flip_p')": 71
+      }
+     },
+     "withheld_events_compensated": 155
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 107,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 69,
+       "((1, 1), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 137
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 117,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 75,
+       "((1, 1), 'flip_p')": 69
+      }
+     },
+     "withheld_events_compensated": 146
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 94,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 68,
+       "((1, 1), 'flip_p')": 65
+      }
+     },
+     "withheld_events_compensated": 159
+    }
+   ],
    "withheld": [
     [
-     "(1, 0)",
+     "(0, 1)",
      "flip_p"
     ],
-    [
-     "(0, 0)",
-     "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 141,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_p')": 130,
-    "((1, 0), 'flip_p')": 142
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 67,
-   "min_withheld_instances": 58,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_q')": 176,
-    "((0, 1), 'flip_p')": 184,
-    "((0, 1), 'flip_q')": 109,
-    "((1, 0), 'flip_p')": 67,
-    "((1, 1), 'flip_p')": 117,
-    "((1, 1), 'flip_q')": 67
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_q"
-    ],
-    [
-     "(0, 0)",
-     "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 149,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_p')": 130,
-    "((1, 0), 'flip_q')": 58
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 63,
-   "min_withheld_instances": 122,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_q')": 178,
-    "((0, 1), 'flip_p')": 115,
-    "((0, 1), 'flip_q')": 63,
-    "((1, 0), 'flip_p')": 114,
-    "((1, 0), 'flip_q')": 68,
-    "((1, 1), 'flip_q')": 182
-   },
-   "strongly_connected": true,
-   "withheld": [
     [
      "(1, 1)",
      "flip_p"
-    ],
-    [
-     "(0, 0)",
-     "flip_p"
     ]
    ],
-   "withheld_events_compensated": 236,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_p')": 130,
-    "((1, 1), 'flip_p')": 122
-   }
+   "withheld_events_compensated": 760
   },
   {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
    },
-   "contexts_seen": [],
+   "feasible": true,
+   "min_permitted_instance": 85,
+   "min_withheld_instance": 27,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 86,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 56,
+       "((1, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 179
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 92,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 60,
+       "((1, 1), 'flip_q')": 27
+      }
+     },
+     "withheld_events_compensated": 178
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 93,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 69,
+       "((1, 1), 'flip_q')": 28
+      }
+     },
+     "withheld_events_compensated": 176
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 85,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 75,
+       "((1, 1), 'flip_q')": 43
+      }
+     },
+     "withheld_events_compensated": 165
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 85,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_p')": 68,
+       "((1, 1), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 175
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_p"
+    ],
+    [
+     "(1, 1)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 873
+  },
+  {
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 0,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(0, 0)",
-     "flip_p"
-    ],
-    [
-     "(1, 1)",
-     "flip_q"
-    ]
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
    ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 36,
-   "min_withheld_instances": 78,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 246,
-    "((0, 1), 'flip_q')": 78,
-    "((1, 0), 'flip_p')": 168,
-    "((1, 0), 'flip_q')": 114,
-    "((1, 1), 'flip_p')": 78,
-    "((1, 1), 'flip_q')": 36
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_p"
-    ],
-    [
-     "(0, 0)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 129,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_q')": 78,
-    "((0, 1), 'flip_p')": 134
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 79,
-   "min_withheld_instances": 66,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 125,
-    "((0, 1), 'flip_p')": 156,
-    "((1, 0), 'flip_p')": 124,
-    "((1, 0), 'flip_q')": 80,
-    "((1, 1), 'flip_p')": 156,
-    "((1, 1), 'flip_q')": 79
-   },
-   "strongly_connected": true,
    "withheld": [
     [
      "(0, 1)",
      "flip_q"
     ],
-    [
-     "(0, 0)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 97,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_q')": 78,
-    "((0, 1), 'flip_q')": 66
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 67,
-   "min_withheld_instances": 78,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 67,
-    "((0, 1), 'flip_p')": 117,
-    "((0, 1), 'flip_q')": 67,
-    "((1, 0), 'flip_q')": 176,
-    "((1, 1), 'flip_p')": 184,
-    "((1, 1), 'flip_q')": 109
-   },
-   "strongly_connected": true,
-   "withheld": [
     [
      "(1, 0)",
      "flip_p"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 76,
+   "min_withheld_instance": 25,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 40,
+       "((1, 0), 'flip_q')": 33
+      }
+     },
+     "withheld_events_compensated": 146
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 80,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 48,
+       "((1, 0), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 141
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 81,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 33,
+       "((1, 0), 'flip_q')": 25
+      }
+     },
+     "withheld_events_compensated": 147
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 76,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 32,
+       "((1, 0), 'flip_q')": 37
+      }
+     },
+     "withheld_events_compensated": 162
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 77,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 30,
+       "((1, 0), 'flip_q')": 36
+      }
+     },
+     "withheld_events_compensated": 164
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_q"
     ],
     [
-     "(0, 0)",
+     "(1, 0)",
      "flip_q"
     ]
    ],
-   "withheld_events_compensated": 147,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_q')": 78,
-    "((1, 0), 'flip_p')": 142
-   }
+   "withheld_events_compensated": 760
   },
   {
-   "checks": {
+   "checks_all_seeds": {
     "all_cells_in_and_out": true,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
    },
-   "contexts_seen": [],
+   "feasible": true,
+   "min_permitted_instance": 84,
+   "min_withheld_instance": 30,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 84,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 40,
+       "((1, 1), 'flip_p')": 57
+      }
+     },
+     "withheld_events_compensated": 180
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 91,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 48,
+       "((1, 1), 'flip_p')": 71
+      }
+     },
+     "withheld_events_compensated": 177
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 94,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 33,
+       "((1, 1), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 175
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 86,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 32,
+       "((1, 1), 'flip_p')": 69
+      }
+     },
+     "withheld_events_compensated": 164
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 84,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((0, 1), 'flip_q')": 30,
+       "((1, 1), 'flip_p')": 65
+      }
+     },
+     "withheld_events_compensated": 173
+    }
+   ],
+   "withheld": [
+    [
+     "(0, 1)",
+     "flip_q"
+    ],
+    [
+     "(1, 1)",
+     "flip_p"
+    ]
+   ],
+   "withheld_events_compensated": 869
+  },
+  {
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    }
+   ],
    "withheld": [
     [
-     "(0, 0)",
+     "(0, 1)",
      "flip_q"
     ],
     [
-     "(1, 0)",
+     "(1, 1)",
      "flip_q"
     ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
+   ]
   },
   {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 0,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
+   ],
    "withheld": [
     [
-     "(0, 0)",
-     "flip_q"
-    ],
-    [
-     "(1, 1)",
+     "(1, 0)",
      "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 63,
-   "min_withheld_instances": 70,
-   "out_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 172,
-    "((0, 1), 'flip_p')": 125,
-    "((0, 1), 'flip_q')": 63,
-    "((1, 0), 'flip_p')": 108,
-    "((1, 0), 'flip_q')": 64,
-    "((1, 1), 'flip_p')": 188
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 1)",
-     "flip_q"
     ],
     [
-     "(0, 0)",
+     "(1, 0)",
      "flip_q"
     ]
-   ],
-   "withheld_events_compensated": 120,
-   "withheld_instances_test_window": {
-    "((0, 0), 'flip_q')": 78,
-    "((1, 1), 'flip_q')": 70
-   }
+   ]
   },
   {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 0,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_p"
-    ],
-    [
-     "(0, 1)",
-     "flip_q"
-    ]
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": true,
+      "strongly_connected": false
+     }
+    }
    ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 63,
-   "min_withheld_instances": 134,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 115,
-    "((0, 0), 'flip_q')": 67,
-    "((0, 1), 'flip_q')": 182,
-    "((1, 0), 'flip_q')": 178,
-    "((1, 1), 'flip_p')": 115,
-    "((1, 1), 'flip_q')": 63
-   },
-   "strongly_connected": true,
    "withheld": [
     [
      "(1, 0)",
      "flip_p"
     ],
     [
-     "(0, 1)",
+     "(1, 1)",
+     "flip_p"
+    ]
+   ]
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 38,
+   "min_withheld_instance": 27,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 47,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_p')": 70,
+       "((1, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 145
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 39,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_p')": 53,
+       "((1, 1), 'flip_q')": 27
+      }
+     },
+     "withheld_events_compensated": 160
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 50,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_p')": 72,
+       "((1, 1), 'flip_q')": 28
+      }
+     },
+     "withheld_events_compensated": 160
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 50,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_p')": 55,
+       "((1, 1), 'flip_q')": 43
+      }
+     },
+     "withheld_events_compensated": 175
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 1,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 2
+     },
+     "min_permitted_instance": 38,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_p')": 66,
+       "((1, 1), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 188
+    }
+   ],
+   "withheld": [
+    [
+     "(1, 0)",
+     "flip_p"
+    ],
+    [
+     "(1, 1)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 828
+  },
+  {
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
+   },
+   "feasible": true,
+   "min_permitted_instance": 38,
+   "min_withheld_instance": 25,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 47,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 33,
+       "((1, 1), 'flip_p')": 57
+      }
+     },
+     "withheld_events_compensated": 146
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 40,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 39,
+       "((1, 1), 'flip_p')": 71
+      }
+     },
+     "withheld_events_compensated": 159
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 49,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 25,
+       "((1, 1), 'flip_p')": 66
+      }
+     },
+     "withheld_events_compensated": 161
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 48,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 37,
+       "((1, 1), 'flip_p')": 69
+      }
+     },
+     "withheld_events_compensated": 176
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 1,
+      "(1, 0)": 2,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 38,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 36,
+       "((1, 1), 'flip_p')": 65
+      }
+     },
+     "withheld_events_compensated": 187
+    }
+   ],
+   "withheld": [
+    [
+     "(1, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 1)",
      "flip_p"
     ]
    ],
-   "withheld_events_compensated": 235,
-   "withheld_instances_test_window": {
-    "((0, 1), 'flip_p')": 134,
-    "((1, 0), 'flip_p')": 142
-   }
+   "withheld_events_compensated": 829
   },
   {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
+   "checks_all_seeds": {
+    "all_cells_in_and_out": true,
+    "all_contexts_seen": true,
+    "all_formation_beats_conditioned": true,
+    "consecutive_pairs_genuine": true,
+    "every_permitted_instantiated": true,
+    "strongly_connected": true,
+    "withheld_floor_met": true
    },
-   "contexts_seen": [],
+   "feasible": true,
+   "min_permitted_instance": 86,
+   "min_withheld_instance": 25,
+   "per_seed": [
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 97,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261201,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 33,
+       "((1, 1), 'flip_q')": 32
+      }
+     },
+     "withheld_events_compensated": 114
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 86,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261202,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 39,
+       "((1, 1), 'flip_q')": 27
+      }
+     },
+     "withheld_events_compensated": 124
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 90,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261203,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 25,
+       "((1, 1), 'flip_q')": 28
+      }
+     },
+     "withheld_events_compensated": 126
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 99,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261204,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 37,
+       "((1, 1), 'flip_q')": 43
+      }
+     },
+     "withheld_events_compensated": 109
+    },
+    {
+     "checks": {
+      "all_cells_in_and_out": true,
+      "all_contexts_seen": true,
+      "all_formation_beats_conditioned": true,
+      "consecutive_pairs_genuine": true,
+      "every_permitted_instantiated": true,
+      "strongly_connected": true,
+      "withheld_floor_met": true
+     },
+     "contexts_seen": [
+      "(0, 0)",
+      "(0, 1)",
+      "(1, 0)",
+      "(1, 1)"
+     ],
+     "in_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "min_permitted_instance": 91,
+     "out_degree": {
+      "(0, 0)": 2,
+      "(0, 1)": 2,
+      "(1, 0)": 1,
+      "(1, 1)": 1
+     },
+     "seed": 20261205,
+     "transfer_window": {
+      "cycles": 50,
+      "instances": {
+       "((1, 0), 'flip_q')": 36,
+       "((1, 1), 'flip_q')": 39
+      }
+     },
+     "withheld_events_compensated": 135
+    }
+   ],
+   "withheld": [
+    [
+     "(1, 0)",
+     "flip_q"
+    ],
+    [
+     "(1, 1)",
+     "flip_q"
+    ]
+   ],
+   "withheld_events_compensated": 608
+  },
+  {
    "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 0
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_p"
-    ],
-    [
-     "(1, 0)",
-     "flip_q"
-    ]
+   "per_seed": [
+    {
+     "seed": 20261201,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261202,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261203,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261204,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    },
+    {
+     "seed": 20261205,
+     "static": {
+      "all_cells_in_and_out": false,
+      "strongly_connected": false
+     }
+    }
    ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 94,
-   "min_withheld_instances": 122,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 164,
-    "((0, 0), 'flip_q')": 94,
-    "((0, 1), 'flip_q')": 94,
-    "((1, 0), 'flip_p')": 164,
-    "((1, 0), 'flip_q')": 102,
-    "((1, 1), 'flip_q')": 102
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 1)",
-     "flip_p"
-    ],
-    [
-     "(0, 1)",
-     "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 141,
-   "withheld_instances_test_window": {
-    "((0, 1), 'flip_p')": 134,
-    "((1, 1), 'flip_p')": 122
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 68,
-   "min_withheld_instances": 70,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 185,
-    "((0, 0), 'flip_q')": 107,
-    "((0, 1), 'flip_q')": 175,
-    "((1, 0), 'flip_p')": 116,
-    "((1, 0), 'flip_q')": 69,
-    "((1, 1), 'flip_p')": 68
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_p"
-    ],
-    [
-     "(1, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 147,
-   "withheld_instances_test_window": {
-    "((0, 1), 'flip_p')": 134,
-    "((1, 1), 'flip_q')": 70
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
-   "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 0,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_q"
-    ],
-    [
-     "(1, 0)",
-     "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 63,
-   "min_withheld_instances": 58,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 126,
-    "((0, 0), 'flip_q')": 63,
-    "((0, 1), 'flip_p')": 171,
-    "((1, 0), 'flip_p')": 189,
-    "((1, 1), 'flip_p')": 108,
-    "((1, 1), 'flip_q')": 63
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_q"
-    ],
-    [
-     "(0, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 122,
-   "withheld_instances_test_window": {
-    "((0, 1), 'flip_q')": 66,
-    "((1, 0), 'flip_q')": 58
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 67,
-   "min_withheld_instances": 66,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 117,
-    "((0, 0), 'flip_q')": 67,
-    "((0, 1), 'flip_p')": 67,
-    "((1, 0), 'flip_p')": 183,
-    "((1, 0), 'flip_q')": 110,
-    "((1, 1), 'flip_q')": 176
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 1)",
-     "flip_p"
-    ],
-    [
-     "(0, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 149,
-   "withheld_instances_test_window": {
-    "((0, 1), 'flip_q')": 66,
-    "((1, 1), 'flip_p')": 122
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
-   "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(0, 1)",
-     "flip_q"
-    ],
-    [
-     "(1, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
-   "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 0,
-    "(1, 1)": 2
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_p"
-    ],
-    [
-     "(1, 0)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
-   "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_p"
-    ],
-    [
-     "(1, 1)",
-     "flip_p"
-    ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 1,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 36,
-   "min_withheld_instances": 70,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 78,
-    "((0, 0), 'flip_q')": 36,
-    "((0, 1), 'flip_p')": 169,
-    "((0, 1), 'flip_q')": 113,
-    "((1, 0), 'flip_q')": 78,
-    "((1, 1), 'flip_p')": 246
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_p"
-    ],
-    [
-     "(1, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 129,
-   "withheld_instances_test_window": {
-    "((1, 0), 'flip_p')": 142,
-    "((1, 1), 'flip_q')": 70
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 2,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 36,
-   "min_withheld_instances": 58,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 170,
-    "((0, 0), 'flip_q')": 113,
-    "((0, 1), 'flip_p')": 77,
-    "((0, 1), 'flip_q')": 36,
-    "((1, 0), 'flip_p')": 247,
-    "((1, 1), 'flip_q')": 77
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 1)",
-     "flip_p"
-    ],
-    [
-     "(1, 0)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 130,
-   "withheld_instances_test_window": {
-    "((1, 0), 'flip_q')": 58,
-    "((1, 1), 'flip_p')": 122
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": true,
-    "all_contexts_seen": true,
-    "consecutive_pairs_genuine": true,
-    "every_permitted_instantiated": true,
-    "strongly_connected": true,
-    "withheld_floor_met": true
-   },
-   "contexts_seen": [
-    "(0, 0)",
-    "(0, 1)",
-    "(1, 0)",
-    "(1, 1)"
-   ],
-   "feasible": true,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "min_permitted_instance": 80,
-   "min_withheld_instances": 58,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 1,
-    "(1, 1)": 1
-   },
-   "permitted_transition_instances": {
-    "((0, 0), 'flip_p')": 157,
-    "((0, 0), 'flip_q')": 80,
-    "((0, 1), 'flip_p')": 123,
-    "((0, 1), 'flip_q')": 80,
-    "((1, 0), 'flip_p')": 157,
-    "((1, 1), 'flip_p')": 123
-   },
-   "strongly_connected": true,
-   "withheld": [
-    [
-     "(1, 0)",
-     "flip_q"
-    ],
-    [
-     "(1, 1)",
-     "flip_q"
-    ]
-   ],
-   "withheld_events_compensated": 97,
-   "withheld_instances_test_window": {
-    "((1, 0), 'flip_q')": 58,
-    "((1, 1), 'flip_q')": 70
-   }
-  },
-  {
-   "checks": {
-    "all_cells_in_and_out": false,
-    "all_contexts_seen": false,
-    "consecutive_pairs_genuine": false,
-    "every_permitted_instantiated": false,
-    "strongly_connected": false,
-    "withheld_floor_met": false
-   },
-   "contexts_seen": [],
-   "feasible": false,
-   "in_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 1,
-    "(1, 0)": 1,
-    "(1, 1)": 2
-   },
-   "min_permitted_instance": 0,
-   "min_withheld_instances": 0,
-   "out_degree_permitted": {
-    "(0, 0)": 2,
-    "(0, 1)": 2,
-    "(1, 0)": 2,
-    "(1, 1)": 0
-   },
-   "permitted_transition_instances": {},
-   "strongly_connected": false,
    "withheld": [
     [
      "(1, 1)",
@@ -1363,50 +4150,219 @@
      "(1, 1)",
      "flip_q"
     ]
-   ],
-   "withheld_events_compensated": 0,
-   "withheld_instances_test_window": {}
+   ]
   }
  ],
  "chosen": {
-  "checks": {
+  "checks_all_seeds": {
    "all_cells_in_and_out": true,
    "all_contexts_seen": true,
+   "all_formation_beats_conditioned": true,
    "consecutive_pairs_genuine": true,
    "every_permitted_instantiated": true,
    "strongly_connected": true,
    "withheld_floor_met": true
   },
-  "contexts_seen": [
-   "(0, 0)",
-   "(0, 1)",
-   "(1, 0)",
-   "(1, 1)"
-  ],
   "feasible": true,
-  "in_degree_permitted": {
-   "(0, 0)": 1,
-   "(0, 1)": 2,
-   "(1, 0)": 1,
-   "(1, 1)": 2
-  },
-  "min_permitted_instance": 36,
-  "min_withheld_instances": 66,
-  "out_degree_permitted": {
-   "(0, 0)": 1,
-   "(0, 1)": 1,
-   "(1, 0)": 2,
-   "(1, 1)": 2
-  },
-  "permitted_transition_instances": {
-   "((0, 0), 'flip_q')": 78,
-   "((0, 1), 'flip_p')": 247,
-   "((1, 0), 'flip_p')": 77,
-   "((1, 0), 'flip_q')": 36,
-   "((1, 1), 'flip_p')": 169,
-   "((1, 1), 'flip_q')": 113
-  },
-  "strongly_connected": true,
+  "min_permitted_instance": 38,
+  "min_withheld_instance": 30,
+  "per_seed": [
+   {
+    "checks": {
+     "all_cells_in_and_out": true,
+     "all_contexts_seen": true,
+     "all_formation_beats_conditioned": true,
+     "consecutive_pairs_genuine": true,
+     "every_permitted_instantiated": true,
+     "strongly_connected": true,
+     "withheld_floor_met": true
+    },
+    "contexts_seen": [
+     "(0, 0)",
+     "(0, 1)",
+     "(1, 0)",
+     "(1, 1)"
+    ],
+    "in_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 2,
+     "(1, 0)": 1,
+     "(1, 1)": 2
+    },
+    "min_permitted_instance": 47,
+    "out_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 1,
+     "(1, 0)": 2,
+     "(1, 1)": 2
+    },
+    "seed": 20261201,
+    "transfer_window": {
+     "cycles": 50,
+     "instances": {
+      "((0, 0), 'flip_p')": 72,
+      "((0, 1), 'flip_q')": 40
+     }
+    },
+    "withheld_events_compensated": 146
+   },
+   {
+    "checks": {
+     "all_cells_in_and_out": true,
+     "all_contexts_seen": true,
+     "all_formation_beats_conditioned": true,
+     "consecutive_pairs_genuine": true,
+     "every_permitted_instantiated": true,
+     "strongly_connected": true,
+     "withheld_floor_met": true
+    },
+    "contexts_seen": [
+     "(0, 0)",
+     "(0, 1)",
+     "(1, 0)",
+     "(1, 1)"
+    ],
+    "in_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 2,
+     "(1, 0)": 1,
+     "(1, 1)": 2
+    },
+    "min_permitted_instance": 39,
+    "out_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 1,
+     "(1, 0)": 2,
+     "(1, 1)": 2
+    },
+    "seed": 20261202,
+    "transfer_window": {
+     "cycles": 50,
+     "instances": {
+      "((0, 0), 'flip_p')": 65,
+      "((0, 1), 'flip_q')": 48
+     }
+    },
+    "withheld_events_compensated": 161
+   },
+   {
+    "checks": {
+     "all_cells_in_and_out": true,
+     "all_contexts_seen": true,
+     "all_formation_beats_conditioned": true,
+     "consecutive_pairs_genuine": true,
+     "every_permitted_instantiated": true,
+     "strongly_connected": true,
+     "withheld_floor_met": true
+    },
+    "contexts_seen": [
+     "(0, 0)",
+     "(0, 1)",
+     "(1, 0)",
+     "(1, 1)"
+    ],
+    "in_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 2,
+     "(1, 0)": 1,
+     "(1, 1)": 2
+    },
+    "min_permitted_instance": 50,
+    "out_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 1,
+     "(1, 0)": 2,
+     "(1, 1)": 2
+    },
+    "seed": 20261203,
+    "transfer_window": {
+     "cycles": 50,
+     "instances": {
+      "((0, 0), 'flip_p')": 69,
+      "((0, 1), 'flip_q')": 33
+     }
+    },
+    "withheld_events_compensated": 159
+   },
+   {
+    "checks": {
+     "all_cells_in_and_out": true,
+     "all_contexts_seen": true,
+     "all_formation_beats_conditioned": true,
+     "consecutive_pairs_genuine": true,
+     "every_permitted_instantiated": true,
+     "strongly_connected": true,
+     "withheld_floor_met": true
+    },
+    "contexts_seen": [
+     "(0, 0)",
+     "(0, 1)",
+     "(1, 0)",
+     "(1, 1)"
+    ],
+    "in_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 2,
+     "(1, 0)": 1,
+     "(1, 1)": 2
+    },
+    "min_permitted_instance": 48,
+    "out_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 1,
+     "(1, 0)": 2,
+     "(1, 1)": 2
+    },
+    "seed": 20261204,
+    "transfer_window": {
+     "cycles": 50,
+     "instances": {
+      "((0, 0), 'flip_p')": 50,
+      "((0, 1), 'flip_q')": 32
+     }
+    },
+    "withheld_events_compensated": 176
+   },
+   {
+    "checks": {
+     "all_cells_in_and_out": true,
+     "all_contexts_seen": true,
+     "all_formation_beats_conditioned": true,
+     "consecutive_pairs_genuine": true,
+     "every_permitted_instantiated": true,
+     "strongly_connected": true,
+     "withheld_floor_met": true
+    },
+    "contexts_seen": [
+     "(0, 0)",
+     "(0, 1)",
+     "(1, 0)",
+     "(1, 1)"
+    ],
+    "in_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 2,
+     "(1, 0)": 1,
+     "(1, 1)": 2
+    },
+    "min_permitted_instance": 38,
+    "out_degree": {
+     "(0, 0)": 1,
+     "(0, 1)": 1,
+     "(1, 0)": 2,
+     "(1, 1)": 2
+    },
+    "seed": 20261205,
+    "transfer_window": {
+     "cycles": 50,
+     "instances": {
+      "((0, 0), 'flip_p')": 63,
+      "((0, 1), 'flip_q')": 30
+     }
+    },
+    "withheld_events_compensated": 189
+   }
+  ],
   "withheld": [
    [
     "(0, 0)",
@@ -1417,11 +4373,7 @@
     "flip_q"
    ]
   ],
-  "withheld_events_compensated": 130,
-  "withheld_instances_test_window": {
-   "((0, 0), 'flip_p')": 130,
-   "((0, 1), 'flip_q')": 66
-  }
+  "withheld_events_compensated": 831
  },
  "chosen_rule": [
   [
@@ -1433,71 +4385,78 @@
    "flip_q"
   ]
  ],
- "chosen_rule_index": 2,
+ "corrections": [
+  "confirmatory seed 20261206 was used to select the rule and is now burned",
+  "schedule now matches the module: formation = warmup + acquisition",
+  "floor checked in the real 50-cycle transfer window"
+ ],
  "criteria_fixed_before_enumeration": [
   "strong connectivity of the permitted graph",
   "every cell keeps in-degree >= 1 and out-degree >= 1",
   "all four cells appear as contexts in the formation stream",
   "every permitted transition is instantiated at least once",
   "stored events are consecutive in the world (no skipped-event jumps)",
-  "each withheld transition occurs at least 20 times in a 100-cycle test window"
+  "every formation phase contributes conditioned events",
+  "each withheld transition occurs at least 20 times in the 50-cycle transfer window"
  ],
  "edge_unit": "directed cell transition (context cell -> successor cell), one per flip type",
  "feasible_as_transfer": true,
- "generation": 2,
+ "generation": 3,
  "kind": "reusable_knowledge_feasibility",
  "method": "generator-only, conditioned sampling; no engine, no study cell",
- "proposed_rule_every_fourth": {
-  "checks": {
-   "all_cells_in_and_out": true,
-   "all_contexts_seen": false,
-   "consecutive_pairs_genuine": false,
-   "every_permitted_instantiated": false,
-   "strongly_connected": false,
-   "withheld_floor_met": false
-  },
-  "contexts_seen": [],
-  "feasible": false,
-  "in_degree_permitted": {
-   "(0, 0)": 1,
-   "(0, 1)": 2,
-   "(1, 0)": 1,
-   "(1, 1)": 2
-  },
-  "min_permitted_instance": 0,
-  "min_withheld_instances": 0,
-  "out_degree_permitted": {
-   "(0, 0)": 2,
-   "(0, 1)": 1,
-   "(1, 0)": 2,
-   "(1, 1)": 1
-  },
-  "permitted_transition_instances": {},
-  "strongly_connected": false,
-  "withheld": [
-   [
-    "(0, 1)",
-    "flip_q"
-   ],
-   [
-    "(1, 1)",
-    "flip_q"
-   ]
+ "previous_rule_generation_2": [
+  [
+   "(0, 0)",
+   "flip_p"
   ],
-  "withheld_events_compensated": 0,
-  "withheld_instances_test_window": {}
+  [
+   "(0, 1)",
+   "flip_q"
+  ]
+ ],
+ "previous_rule_still_feasible": true,
+ "schedule": {
+  "acquisition": [
+   20,
+   110
+  ],
+  "events_per_cycle": 8,
+  "formation_cycles": 110,
+  "retention": [
+   110,
+   150
+  ],
+  "retention_cycles": 40,
+  "total_cycles": 300,
+  "transfer": [
+   150,
+   200
+  ],
+  "transfer_cycles": 50,
+  "warmup": [
+   0,
+   20
+  ]
+ },
+ "seeds": {
+  "burned": [
+   20261206
+  ],
+  "note": "no confirmatory seed informed this check",
+  "used_for_design": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ]
  },
  "subsets_evaluated": 28,
  "subsets_feasible": 16,
  "tag_level": {
   "distinct_tag_pairs_from_cell_law": 128,
   "gate13_cross_cell_edges": 112,
-  "note": "the 112 is a tag-level count of the GROUP world (benchmarks/acquisition_world.py); the compositional law yields 128 distinct tag pairs"
- },
- "test_window": {
-  "cycles": 100,
-  "floor": 20,
-  "seed": 20261206
+  "note": "the 112 is the GROUP world's tag-level count and is not a quantity of this world"
  },
  "transitions_total": 8,
  "withheld_count": 2,

@@ -1,7 +1,10 @@
 # Reusable knowledge — protocol draft, for owner decision
 
-**Status: DRAFT, 2026-11-01. This is not a preregistration and nothing in it may be
-built or run until §0 is signed.** No cell of this study has run, no harness has been
+**Status: PREREGISTRATION, Revision 2 — committed 2026-11-01.** §0 is signed (Option A),
+the four review points are closed (§12), and two defects found in the feasibility record
+are corrected here (§13): a seed designated confirmatory had informed the rule selection,
+and the check's windows did not match this protocol's schedule. **No cell has run and the
+harness is not built.** No cell of this study has run, no harness has been
 extended for it, and no engine file may change for it. Organica 1 stays frozen at
 `v0.9.0`.
 
@@ -136,47 +139,50 @@ The distinction is fixed here so it cannot be made in the write-up:
   new. This is worth measuring, and it is **not** called transfer.
 - **Transfer** — prediction on combinations the organism **never had the opportunity to
   observe**. To earn the word, the design must **withhold a declared set of the law's
-  transitions from the formation stream entirely** and score prediction on those.
+  transitions from all formation exposure** and score prediction on those.
 
-**The unit, settled on the generator's own terms.** A *transition* here is a **directed
-cell transition** — one context cell plus one flip type — of which the compositional law
-has **eight**, expanding to **128** distinct tag pairs. Withholding 25 % therefore means
-**two of the eight**, not 28 of 112: the 112 is a tag-level count of the *group* world and
-is not a quantity of this world at all.
+**The unit, settled on the generator's terms.** A *transition* is a **directed cell
+transition** — one context cell plus one flip type — of which the compositional law has
+**8**, expanding to **128** distinct tag pairs. Withholding 25 % therefore means **two of
+the eight**; the **112** is the group world's tag-level count and is not a quantity of this
+world.
 
-**Conditioned sampling, not a mask.** The generator already carries a `trainable` mask
-(`benchmarks/acquisition_compositional.py:210`), and it cannot be reused: it still
-generates the withheld event and advances the hidden state, and the runner skips storing
-it afterwards, so stored events become adjacent across a gap the world never had. This
-protocol requires the sampler to **resample among the permitted transitions of the current
-cell** whenever the law would emit a withheld one, and to store every event it generates.
+**Conditioned sampling, not a mask.** The generator's `trainable` mask
+(`benchmarks/acquisition_compositional.py:210`) is rejected: it still generates the withheld
+event and advances the hidden state, and the runner only skips *storing* it, so stored
+events become adjacent across a gap the world never had. The sampler must **resample among
+the permitted transitions** of the current cell and store every event it generates.
+
+**The schedule the check uses is this protocol's schedule**, taken from the module rather
+than assumed: warmup cycles 0–20 and
+acquisition cycles 20–110 are
+**all** formation exposure — **110 cycles**, 8 events per cycle — and the transfer limb is scored on cycles
+150–200, a **50-cycle window**. Withheld transitions must be absent from every formation phase, not only
+from acquisition.
 
 **Feasibility, generator-only, run before any build.**
-`benchmarks/reusable_knowledge_feasibility.py` imports the generator and walks its law —
-no engine, no study cell — and writes `docs/reusable_knowledge_feasibility.json`. Six
-criteria were fixed before any subset was evaluated: strong connectivity of the permitted
-graph; in-degree and out-degree at least 1 for every cell; all four cells present as
-contexts; every permitted transition instantiated at least once; stored events genuinely
-consecutive; and at least 20 instances of each withheld transition in a 100-cycle test
-window.
+`benchmarks/reusable_knowledge_feasibility.py` imports the generator and walks its law — no
+engine, no study cell — and writes `docs/reusable_knowledge_feasibility.json`. It uses only
+the **calibration seeds `20261201–20261205`** (§8), never a confirmatory seed. Seven criteria
+were fixed before any subset was evaluated: strong connectivity; in-degree and out-degree at
+least 1 for every cell; all four cells present as contexts; every permitted transition
+instantiated at least once; stored events genuinely consecutive; every formation phase
+conditioned; and at least **20** instances of each withheld
+transition in the **real 50-cycle transfer window** of the generated world.
 
-**The rule this section first proposed fails.** Withholding every fourth transition in the
-generator's ordering — `(0, 1)` flip_q and `(1, 1)` flip_q — leaves the permitted graph **not strongly
-connected**: cells `(0,0)` and `(1,0)` become unreachable, two permitted transitions fall
-to 0–1 instances in 720 events, and the failure is recorded rather than smoothed.
+**Result.** All **28** two-transition subsets were evaluated against those
+criteria and **16 are feasible** on every calibration seed. The rule is
+**`(0, 0)` flip_p and `(0, 1)` flip_q**, the first feasible subset in the generator's own ordering, and it is the
+same pair the earlier generation selected — now confirmed on design seeds under this
+schedule rather than on a confirmatory seed under a mismatched one. Its check: connected;
+every cell in and out; all four contexts present; the sparsest permitted transition seen
+**38** times; consecutive pairs genuine; 831 formation events conditioned across
+the five seeds; and **at least 30** instances of each withheld transition in the
+transfer window, against a floor of 20.
 
-**The rule adopted.** All **28** two-transition subsets were
-evaluated against those six criteria, and **16 are feasible**.
-The adopted rule is the lexicographically first feasible subset in the generator's own
-ordering — withhold **`(0, 0)` flip_p and `(0, 1)` flip_q** — selected by those criteria and by no study
-outcome. Its check: strongly connected; every cell in and out; all four contexts present;
-every permitted transition instantiated, the sparsest **36** times in 720
-events; consecutive pairs genuine; and **130** and **66** instances of the two withheld
-transitions in the test window, against a floor of 20.
-
-**The fallback, unchanged.** Had the enumeration returned no feasible subset, the limb
-would be reported as **held-out generalization** and the word *transfer* would not appear
-in the result. The check exists so that this decision cannot be made after seeing a score.
+**The fallback, unchanged.** Had no subset been feasible, the limb would be reported as
+**held-out generalization** and the word *transfer* would not appear in the result. The
+check exists so that decision cannot be made after seeing a score.
 
 ## 4. Arms and comparators — same experience, named grants
 
@@ -262,13 +268,20 @@ gate after seeing it, and no limb added to rescue a verdict.
 
 ## 8. Population, seeds, and what counts as fresh
 
-**Calibration split — seeds `20261201–20261205`, five seeds.** Used only to fix Gate F's
-operating point, the readout's smoothing constant, and each comparator's hyperparameters.
-**No confirmatory score is ever computed on them.**
+**Calibration split — seeds `20261201–20261205`, five seeds.** Used to fix Gate F's
+operating point, the readout's smoothing constant and each comparator's hyperparameters.
+They are also the **only** seeds the generator-only feasibility check (§3.1) used, so no
+confirmatory seed informed any design choice. **No confirmatory score is ever computed on
+them.**
 
-**Confirmatory split — seeds `20261206–20261225`, twenty seeds, n = 20, fixed.** These
-are the only seeds any scored limb uses. All are disjoint from `20261101–20261130`
-(formation vs. utilization) and from every seed in the divergence pairs.
+**Diagnostic and burned — seed `20261206`.** The first published generation of the
+feasibility check used this seed to select the withholding rule, so it cannot serve as a
+confirmatory seed. It is recorded as **diagnostic**, excluded from every scored limb, and
+not replaced by re-labelling any seed that has already been touched.
+
+**Confirmatory split — seeds `20261207–20261226`, twenty seeds, n = 20, fixed.** These are
+the only seeds any scored limb uses. All are disjoint from `20261101–20261130` (formation
+vs. utilization), from every seed in the divergence pairs, and from the burned seed above.
 
 **Uncertainty method, fixed in advance.** Paired percentile bootstrap over the twenty
 confirmatory seeds, **10,000 replicates**, **98.33 % intervals** — the level used for
@@ -346,3 +359,36 @@ same law is no longer allowed to carry the word.
 **What remains open.** Nothing in this section; the four items the owner required are
 closed. What is *not* done is the build (§10), and it begins only after this document is
 promoted to a preregistration.
+
+---
+
+## 13. Corrective revision and promotion — 2026-11-01
+
+**Defect 1 — a confirmatory seed selected the rule.** The first published feasibility
+generation used `20261206` as its test seed while checking all 28 candidate rules, and
+§8 had designated `20261206–20261225` as confirmatory. A seed that informed a design
+choice cannot then serve as an untouched confirmatory seed, so the check was re-run on
+the **calibration seeds only** (`20261201–20261205`), and `20261206` is now marked
+**diagnostic and burned**, with the confirmatory set moved to `20261207–20261226` so that
+**n = 20 is preserved** rather than quietly reduced to 19.
+
+**Defect 2 — the check's schedule was not this protocol's schedule.** The first
+generation used 90 formation cycles and a 100-cycle test window. The module's schedule is
+warmup `0–19` **plus** acquisition `20–109` as formation exposure — 110 cycles — and a
+transfer window of cycles `150–199`, 50 cycles. The check now derives formation cover
+from `PHASE_ACQUISITION[1]`, conditions **both** formation phases, and verifies the
+20-instance floor inside the **real generated world's** transfer window rather than in a
+100-cycle synthetic one.
+
+**What survived, and what that means.** Under the corrected conditions — design seeds
+only, formation = warmup + acquisition, floor in the real 50-cycle window — **16 of 28**
+subsets remain feasible and the adopted pair is unchanged: `(0,0)` flip_p with `(0,1)`
+flip_q, the sparsest permitted transition seen **38** times, and at least **30** instances
+of each withheld transition in the transfer window. The pair therefore survives on
+evidence that is independent of the burned seed; its earlier selection is superseded, not
+silently reused.
+
+**Promotion.** §0 is signed, §12 closes the four review points, and §13 closes the two
+defects. This document is a **preregistration**. The next steps, in order: build the
+harness (§10), run the calibration pass on `20261201–20261205`, and only then run the
+confirmatory cells on `20261207–20261226`. **No cell has run and no harness exists.**

@@ -7374,3 +7374,43 @@ in a check that happened to pass would have gone unnoticed.
 `docs/reusable_knowledge_feasibility.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
 §3.1.
 
+## §91 — A seed leak and a schedule mismatch, and the promotion they delayed
+
+**Two defects in the feasibility record, both found on review of the pushed version.**
+
+**(a) A confirmatory seed selected the rule.** The check used `20261206` as its test seed
+while selecting among all 28 candidate withholding rules, and the protocol had designated
+`20261206–20261225` as confirmatory. A seed that informed a design choice is burnt for
+confirmatory use; keeping it would have meant a rule chosen on a seed that later counted
+as untouched evidence. Fixed by re-running the check on the **calibration seeds only**
+(`20261201–20261205`), marking `20261206` **diagnostic**, and moving the confirmatory set
+to `20261207–20261226` so n = 20 is preserved instead of quietly becoming 19.
+
+**(b) The schedule was not the protocol's schedule.** The check used 90 formation cycles
+and a 100-cycle test window. The module's own schedule is warmup `0–19` plus acquisition
+`20–109` — 110 cycles of formation exposure — with the transfer limb scored on cycles
+`150–199`, a 50-cycle window. The check now conditions **both** formation phases and
+verifies the floor inside the **real generated world's** transfer window.
+
+**Result under corrected conditions.** 16 of 28 subsets remain feasible and the adopted
+pair is unchanged — `(0,0)` flip_p with `(0,1)` flip_q — with the sparsest permitted
+transition seen **38** times and at least **30** instances of each withheld transition in
+the 50-cycle transfer window, met on every calibration seed. The pair therefore survives
+on evidence independent of the burnt seed; its earlier selection is superseded rather than
+reused.
+
+**Promotion.** §0 was already signed, §12 closed the four review points, and §13 closes
+these two defects, so `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` is now a
+**preregistration** (Revision 2). Next, in order: build the harness, run the calibration
+pass on the five calibration seeds, then the confirmatory cells. **No cell has run and no
+harness exists**; Organica 1 stays frozen at `v0.9.0`.
+
+**Why this is the second time in two days.** The B-prime audit (§87) was the same shape —
+a label that outran its mechanism. Here the label was a seed's status: a number that had
+already been spent still being described as fresh. Cheap to fix now, unrecoverable after
+the campaign.
+
+→ `benchmarks/reusable_knowledge_feasibility.py`;
+`docs/reusable_knowledge_feasibility.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
+§3.1, §8, §13.
+
