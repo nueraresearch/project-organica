@@ -1,0 +1,30 @@
+{
+ "by_type": {
+  "anomalies": 0,
+  "concepts": 0,
+  "loops": 0,
+  "meta": 0,
+  "predictions": 0,
+  "score_tags": 0,
+  "temporal_read": 0
+ },
+ "comparisons": 168,
+ "detail": [],
+ "differences": 0,
+ "f2_fired": false,
+ "first_difference_arm_b": null,
+ "gate": "C1 / F2 - control seed unchanged at a fixed hash seed",
+ "hash_seed": 0,
+ "kind": "divergence_arm_b_prime_f2",
+ "modes": [
+  "observe",
+  "canonical_score"
+ ],
+ "preregistration": "docs/DIVERGENCE-MECHANISM-BRIEF.md section 11",
+ "refused": {
+  "canonical_score": [],
+  "observe": []
+ },
+ "seed": 20261101,
+ "task": "T1"
+}

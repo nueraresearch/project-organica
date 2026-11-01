@@ -7088,3 +7088,48 @@ pair, at one cycle.
 
 → `docs/store_time_observer_lineage.json`; journal §83; brief §10-§11.
 
+## §85 — The mechanism plan re-run: Arm A is unchanged, and Arm B-prime stops at its own control
+
+**Arm A, across its planned cases, adds nothing new — and that is the result.** The
+eight failing seeds and the control at their recorded pairs are all cached from
+§74: the sweep reported **0 runs, 18 cached**. Its finding therefore stands
+unamended — `_score_tags` is the earliest order-sensitive builder on 8 of 8 failing
+seeds *and on the control*, from cycle 1 — and §74's reading of it stands with it:
+that is a property of candidate construction, not evidence about where the
+divergence begins. Re-running the arm would not have changed that, so it was not
+re-run.
+
+**Arm B-prime, pre-registered in brief §11 before it ran.** Arm B canonicalised the
+temporal graph and the composites, both *downstream* of `_score_tags`, which is why
+§74 could not attribute anything to it. B-prime extends the same harness-side
+intervention to the site Arm A located: in canonical modes the tag scores get a
+total order (`(-frequency, tag)`). Gate 1 is F2 — the control seed's per-type table
+must be unchanged at a **fixed** hash seed — and it runs **before any failing seed
+is measured**, because an intervention that moves the control is the classic way to
+manufacture a confirmation.
+
+**Gate 1's result.** Control seed T1/20261101, hash seed 0, `observe` against
+`canonical_score`, 168 comparisons over arms B and C, cycles 1-12: **0
+differences** (none), the first in arm B at none. **F2 does not fire.**
+
+**What that means, and it is a protocol result rather than a measurement of the
+organism.** §11 recorded this outcome in advance: F2 requires the control's table to
+be unchanged at a fixed hash seed, but the control's builders are *not* hash-seed
+invariant — that is what P2 failing as pre-registered established (§74, §79) — so its
+order depends on the hash seed and any canonicalising intervention must move it. **F2
+and P2 cannot both hold.** Arm B-prime is therefore inadmissible by its own control,
+and no conclusion about H2 may be drawn from it — not because the order channel is
+refuted, but because the protocol cannot license the test that would decide it.
+
+**What needs deciding, and by whom.** The owner, not the instrument: either F2 is
+restated in **membership** terms (the control's *set* of candidates unchanged, order
+free), which makes Arm B-prime admissible and keeps the guard meaningful, or Arm
+B-prime is abandoned and the order channel stays untested in an admissible form. No
+third option is invented here, and no criterion is relaxed on my own authority.
+
+**Unchanged.** The T2/20261120 cell stays `indeterminate`; the window is not widened;
+D0 is not re-scored; Organica 1 stays frozen at `v0.9.0`.
+
+→ `docs/divergence_arm_b_prime_f2.json`; `docs/DIVERGENCE-MECHANISM-BRIEF.md` §11;
+journal §74, §79.
+

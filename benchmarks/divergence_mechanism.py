@@ -1022,7 +1022,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--worker", action="store_true")
     parser.add_argument("--task")
     parser.add_argument("--seed", type=int)
-    parser.add_argument("--mode", default="observe", choices=["observe", "canonical", "quiet"])
+    parser.add_argument("--mode", default="observe", choices=["observe", "canonical", "canonical_score", "quiet"])
     parser.add_argument("--out")
     parser.add_argument("--arm", default="BOTH", choices=["A", "B", "BOTH"])
     parser.add_argument("--workers", type=int, default=4)
