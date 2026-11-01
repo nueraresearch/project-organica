@@ -123,3 +123,38 @@ def test_f4_needs_reconciliation_before_attribution():
 
     passed, verdict = f4_decision([], ok, (10, 11, 12))
     assert passed is False and "no membership difference" in verdict
+
+
+def test_label_separates_pool_writes_from_survivor_restores():
+    """Same source, same type: only the engine's call path tells them apart."""
+    from benchmarks.store_time_observer import label_of
+
+    assert label_of("sleep:concept_candidate", ("run", "_store_candidates")) == \
+        "pool:concept_candidate"
+    assert label_of("sleep:concept_candidate", ("run", "_prune")) == \
+        "restore:concept_candidate"
+    assert label_of("sleep:meta", ("run", "_store_candidates")) == "marker"
+    assert label_of("env", ()) == "ingest"
+
+
+def test_f5_refuses_a_degenerate_split():
+    """One pool label everywhere measures nothing; the gate must be able to fire."""
+    from benchmarks.store_time_observer import f5_decision
+
+    ok_rec = {"10": {"reconciled": True}}
+    attributed = [{"cycle": 10, "candidate": "c1", "label": "pool:dream"}]
+
+    passed, verdict = f5_decision(
+        attributed, ["pool:concept_candidate", "pool:dream"], ok_rec, (10,))
+    assert passed is True and verdict == "labelled"
+
+    passed, verdict = f5_decision(attributed, ["pool:dream"], ok_rec, (10,))
+    assert passed is False and "degenerate" in verdict
+
+    passed, verdict = f5_decision([{"cycle": 10, "candidate": "c1"}],
+                                  ["pool:a", "pool:b"], ok_rec, (10,))
+    assert passed is False and "no label" in verdict
+
+    passed, verdict = f5_decision(attributed, ["pool:a", "pool:b"],
+                                  {"10": {"reconciled": False}}, (10,))
+    assert passed is False and "did not reconcile" in verdict

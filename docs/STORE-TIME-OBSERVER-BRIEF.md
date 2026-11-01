@@ -230,3 +230,76 @@ journal §§74–79. No engine file was modified to write this plan.
 → `docs/divergence_onset.json`; `docs/DIVERGENCE-ONSET.md`;
 `docs/divergence_mechanism.json`; `docs/DIVERGENCE-MECHANISM-RESULTS.md`;
 journal §78; journal §79; `organica/memory.py`; `organica/sleep.py`.
+
+---
+
+## 9. Amendment, pre-registered before F5 ran: the finer split, and a restatement of (B)
+
+**Why this amendment exists.** Writing the F4 result exposed a defect in the
+brief's own result space, not in the observer. Bucket **(B)** is defined as *"the
+`_score_tags` write is identified"*. **`_score_tags` issues no store call.** It
+takes `(freqs, cooc, temporal)`, builds `_TagScore` records, sorts them on
+`frequency` and returns the list (`organica/sleep.py:904-922`). There is no write
+there to identify, on any seed, in any cycle, ever. Bucket (B) as worded is
+therefore **unsatisfiable by construction**, and an instrument that reported it
+would be reporting a write that does not exist.
+
+**What (B) is restated to mean, before any seed is measured.** A write emitted by
+one of the two builders that consume this cycle's tag scores:
+`_build_concepts` and `_build_phrases` (`organica/sleep.py:447-448`). Those are the
+only construction steps that take `tag_scores` as an argument; `_build_loops`,
+`_build_predictions` and `_build_anomalies` take the graphs, and every higher
+layer takes prior candidate structures. So:
+
+> **(B-restated):** the differing candidate's write is emitted by a builder whose
+> content derives from this cycle's tag scores — source
+> `sleep:concept_candidate` or `sleep:phrase_candidate`.
+
+This is narrower than "construction" and it is the narrowest claim the engine's
+call structure supports. It is **not** a causal claim about the scoring function:
+those builders also consume the graphs, so (B-restated) locates the write, and
+says nothing about which of the builder's inputs made the difference.
+
+**The split.** Every sleep write is labelled on two engine-derived axes:
+
+- **phase**, from the engine's own call structure — whether the call passed
+  through `_store_candidates` (a cycle-pool write) or not (a re-store of a
+  survivor during natural selection, `organica/sleep.py:453-460`). Read from the
+  Python frame stack at the wrapped call; no engine change, no disk patch.
+- **type**, from the source tag the engine already stamps: `sleep:<ctype>`.
+
+Labels are therefore `pool:<ctype>`, `restore:<ctype>`, `marker`, `ingest`. The
+`pool`/`restore` distinction matters because natural selection re-stores decayed
+survivors **through the same per-type writer**, so type alone cannot tell a
+candidate built this cycle from one carried over.
+
+**F5, the check this split must pass before any seed is measured.** Run on the
+control seed at hash seeds 0 and 1, cycles 10-12, exactly as F4:
+
+1. **Reconciliation first**, as in F4: every affected cycle reconciles on both
+   sides, or the observer is inadmissible regardless of labels.
+2. **The split is live**: at least **two** distinct `pool:` labels occur in the
+   run. A label scheme that collapses to one value measures nothing (rule 13c),
+   and this condition can fail.
+3. **No attributed candidate is unlabelled**, and none carries two labels.
+4. **The outcome is read in the restated space**: (A) ingest write;
+   (B-restated) `pool:concept_candidate` or `pool:phrase_candidate`;
+   otherwise the write is construction at a named layer; C-accounted and
+   Indeterminate unchanged.
+
+**Prediction, recorded before the run.** The F4 control's differing candidates are
+`dream_mut_*`, built by `_generate_categorized_dreams`, which consumes
+`workflows, processes, meta_concepts, questions, cooc, temporal`
+(`organica/sleep.py:575-583`) — **not** tag scores. So the prediction is:
+
+> the control's differing candidates are labelled **`pool:dream`**, i.e. outcome
+> **(B-restated) is NOT reached on the control seed**, and the control resolves as
+> "construction, Layer 6, not tag-scored".
+
+If instead they come back as `pool:concept_candidate` or `pool:phrase_candidate`,
+the prediction is **wrong** and is recorded as wrong. Either result passes F5 if
+conditions 1-3 hold: F5 tests the *instrument*, and the label is the measurement.
+
+**Stop condition.** This build closes when F5 passes. No further sub-division of
+construction may be added afterwards; a finer split is a new pre-registration.
+

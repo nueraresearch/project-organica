@@ -48,7 +48,7 @@ from benchmarks.divergence_cycle_capture import (                 # noqa: E402
     newest_marker_cycle, window_candidates)
 
 #: Bumped when the record shape changes.  A part from another version is stale.
-OBSERVER_VERSION = 1
+OBSERVER_VERSION = 2
 
 #: Where per-run parts live between invocations.
 PARTS_DIR = REPO / ".scratch" / "store_time_observer_parts"
@@ -96,6 +96,75 @@ def stage_of(source: str) -> str:
     return "construction" if str(source).startswith("sleep:") else "ingest"
 
 
+#: The two builders that consume this cycle's tag scores (sleep.py:447-448).
+#: (B-restated) is a write emitted by one of them; see brief section 9.
+TAG_SCORED_LABELS = ("pool:concept_candidate", "pool:phrase_candidate")
+
+
+def stack_names(limit: int = 6) -> tuple[str, ...]:
+    """The engine functions on the stack at this store call, innermost first.
+
+    Read-only introspection: it changes nothing the engine does, and it is the
+    only way to tell a cycle-pool write from a survivor re-store, because both go
+    through the same per-type writer and stamp the same source.
+    """
+    names: list[str] = []
+    try:
+        frame = sys._getframe(2)
+    except (ValueError, AttributeError):        # pragma: no cover - no frames
+        return tuple(names)
+    while frame is not None and len(names) < limit:
+        names.append(frame.f_code.co_name)
+        frame = frame.f_back
+    return tuple(names)
+
+
+def label_of(source: str, names: tuple[str, ...] = ()) -> str:
+    """A write's label: phase from the engine's call structure, type from source.
+
+    ``pool:<ctype>`` - admitted through ``_store_candidates``, a cycle-pool write.
+    ``restore:<ctype>`` - the same writer outside it, i.e. natural selection
+    re-storing a survivor (``organica/sleep.py:453-460``).
+    ``marker`` - the ``sleep:meta`` cycle marker. ``ingest`` - everything else.
+    """
+    src = str(source)
+    if not src.startswith("sleep:"):
+        return "ingest"
+    if src == "sleep:meta":
+        return "marker"
+    phase = "pool" if "_store_candidates" in names else "restore"
+    return "%s:%s" % (phase, src.split(":", 1)[1])
+
+
+def f5_decision(attributed: list[dict[str, Any]],
+                labels_seen: list[str],
+                reconciliation: dict[str, Any],
+                cycles: tuple[int, ...]) -> tuple[bool, str]:
+    """F5: the finer split is admissible only if it reconciles and can discriminate.
+
+    A label scheme that returns one value everywhere is a measurement defect, not
+    a fine instrument (rule 13c), so the split must show at least two distinct
+    ``pool:`` labels. An attributed candidate with no label, or with two, cannot
+    be read in the restated space at all.
+    """
+    unreconciled = [str(c) for c in cycles
+                    if not (reconciliation.get(str(c)) or {}).get("reconciled")]
+    if unreconciled:
+        return False, ("failed: cycle(s) %s did not reconcile; observer inadmissible"
+                       % ", ".join(unreconciled))
+    pool_labels = sorted({l for l in labels_seen if str(l).startswith("pool:")})
+    if len(pool_labels) < 2:
+        return False, ("failed: the split is degenerate (%d distinct pool labels)"
+                       % len(pool_labels))
+    if not attributed:
+        return False, "failed: no membership difference could be traced to a write"
+    unlabelled = [a for a in attributed if not a.get("label")]
+    if unlabelled:
+        return False, ("failed: %d attributed candidate(s) carry no label"
+                       % len(unlabelled))
+    return True, "labelled"
+
+
 def load_trace(path: Path):
     """Read a trace written by ``--trace``.
 
@@ -113,7 +182,9 @@ def load_trace(path: Path):
     def rows():
         try:
             for line in handle:
-                cycle, accepted, didx, stage, source = json.loads(line)
+                row = json.loads(line)
+                cycle, accepted, didx, stage, source = row[:5]
+                label = row[5] if len(row) > 5 else None
                 entry = table[didx] if 0 <= didx < len(table) else {}
                 yield {
                     "cycle": cycle,
@@ -123,6 +194,7 @@ def load_trace(path: Path):
                     "type": entry.get("type"),
                     "stage": codes.get(str(stage), str(stage)),
                     "source": source,
+                    "label": label,
                 }
         finally:
             handle.close()
@@ -237,6 +309,7 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
         after = self.count()
         accepted = int(after - before)
         stage = stage_of(source)
+        label = label_of(source, stack_names())
         payload = parse(content)
         if str(source) == "sleep:meta" and isinstance(payload, dict):
             if payload.get("cycle") is not None:
@@ -245,8 +318,9 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
         bucket = cycle_of(stage, payload)
         key = bucket if bucket is not None else "unattributed"
         d = per_cycle.setdefault(key, {"construction": 0, "ingest": 0,
-                                       "candidates": {}})
+                                       "labels": {}, "candidates": {}})
         d[stage] += 1
+        d["labels"][label] = d["labels"].get(label, 0) + 1
         deltas.setdefault(key, []).append(accepted)
         totals[stage] += 1
         totals["accepted_rows"] += max(0, accepted)
@@ -267,10 +341,11 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
                 "id": str(payload.get("id")),
                 "type": str(payload.get("type")),
                 "stage": stage,
+                "label": label,
             })
             entry["count"] = entry.get("count", 0) + 1
         calls.append([key, accepted, digest_index[did],
-                      1 if stage == "construction" else 0, str(source)])
+                      1 if stage == "construction" else 0, str(source), label])
         return event
 
     if wrap:
@@ -300,7 +375,8 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True,
                 "task": task,
                 "seed": seed,
                 "cap": cap,
-                "fields": ["cycle", "accepted", "digest_index", "stage", "source"],
+                "fields": ["cycle", "accepted", "digest_index", "stage", "source",
+                           "label"],
                 "stage_codes": {"0": "ingest", "1": "construction"},
                 "digests": digest_table,
             }, sort_keys=True) + "\n")
@@ -422,7 +498,8 @@ def find_offered(part: dict[str, Any], cycle: int,
         for did, cand in (entry.get("candidates") or {}).items():
             if cand.get("id") == candidate_id:
                 return {"cycle": c, "digest": did, "stage": cand.get("stage"),
-                        "type": cand.get("type"), "count": cand.get("count")}
+                        "label": cand.get("label"), "type": cand.get("type"),
+                        "count": cand.get("count")}
     return None
 
 
@@ -534,6 +611,14 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
         }
 
     differing = [c for c, v in per_cycle.items() if v.get("status") == "differ"]
+    labels_seen: list[str] = []
+    for hs in (0, 1):
+        for entry in (sides[hs].get("per_cycle") or {}).values():
+            labels_seen.extend(list((entry.get("labels") or {}).keys()))
+    labels_seen = sorted(set(labels_seen))
+    attributed_labels = sorted({a.get("label") for a in attributed if a.get("label")})
+    f5_passed, f5_verdict = f5_decision(attributed, labels_seen, reconciliation, cycles)
+    tag_scored = [l for l in attributed_labels if l in TAG_SCORED_LABELS]
     passed, verdict = f4_decision(attributed, reconciliation, cycles)
     result = {
         "kind": "store_time_observer_f4",
@@ -552,6 +637,14 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
             } for hs in (0, 1)
         },
         "attributed": attributed,
+        "labels": {
+            "seen": labels_seen,
+            "attributed": attributed_labels,
+            "tag_scored": tag_scored,
+            "prediction": "pool:dream (see brief section 9)",
+            "prediction_met": (attributed_labels == ["pool:dream"]),
+        },
+        "f5": {"passed": f5_passed, "verdict": f5_verdict},
         "per_cycle": per_cycle,
         "reconciliation": reconciliation,
         "passed": passed,
