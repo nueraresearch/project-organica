@@ -6776,3 +6776,28 @@ The differences, by type:
 **Vocabulary, per rule 26.** Nothing withdrawn here is *refuted*. Those items are **not established**, which is a weaker and different statement; C1 is **failed as pre-registered**, which says the control did not meet its own criterion and says nothing about whether the admitted stream is invariant — it is.
 
 No run was made in this turn. No measurement changed.
+
+## §79 — The claim map at the freeze point, and the limit the observer must keep
+
+**The map, in three buckets plus one.** Supplied by the owner on 2026-11-01 after the C1 correction, and checked here against the artifacts rather than accepted.
+
+*Supported within scope.* Development; path dependence; revision; stable revision regimes; the four audit reconstructions (evidence, selection, surviving lineage, revision); candidate populations diverge under hash-seeded variation; those cycles are analytically reproduced (F1 16/16); pool divergence appears as insertion rather than replacement; `_score_tags` is the earliest hash-sensitive builder **observed by the current instrumentation**, including on the control seed (`criteria/P2/per_type/B/score_tags: false`, with `criteria/F2/per_type_unchanged/B/score_tags: true`); admitted-stream invariance on **one control seed at hash seeds 0 and 2**.
+
+*Not established.* That `_score_tags` is causal; the divergence-specific interpretation of the pool-onset measurements; H2; the early/both-arm versus late/single-arm pattern as an explanatory mechanism; any timing claim about when the causal write occurs.
+
+*Withdrawn.* Identical pools at divergence; the one-cycle lag; a systematic offset; the inside-the-cycle divergence premise; C1 as a passed control.
+
+**A fourth bucket, kept separate from the third.** The owner's map files C1 under *withdrawn*. It is not that: *withdrawn* means a claim was made and the evidence stopped supporting it, while C1 is a **control verdict** — the criterion was evaluated once by the committed code and was not met (`P2.met: false`), and a control's failure says nothing about the organism. The record therefore keeps *failed as pre-registered* as its own bucket, which is the only arrangement in which both statements below can be made plainly.
+
+**The separation that must not be collapsed again.**
+
+- The **control failed**: C1 required the control seed's assembled lists to be identical at every hash seed; P2 is not met; the control's builders differ from cycle 1.
+- The **observation survives**: the control seed's admitted stream is identical at every cycle across hash seeds 0 and 2 (`P2.admitted_stream_identical: true`).
+
+Both are artifact facts, they concern different quantities, and they are now separate sentences in `docs/DIVERGENCE-MECHANISM-RESULTS.md` §6, journal §74 and manual finding 44. The observation is supported **within scope** — one seed, one hash-seed pair, read post hoc — and it is not evidence that the control passed.
+
+**Earliest observed is not earliest causal.** The capture observer wraps `MemoryService.recent` (the sleep-window read) and `fu.run_arm` (the arm runner); the mechanism instrument records the builders' own sequences. What this sees is therefore: the rows a cycle's window returned, the candidate sets derived from them, the builders' outputs, and the admitted stream. What it does not see: how the store ordered those rows before returning them, how the sets feeding `_score_tags` were assembled upstream, and **which write admitted a tag into the store in the first place**. `_score_tags` being the earliest hash-sensitive builder in every artifact the project has is a statement about the instrument's reach; it cannot be promoted to where the divergence originates, and this section is where that promotion is refused.
+
+**What the next instrument's success condition is.** Not *"`_score_tags` caused it"* — that would repeat the defect this line has spent four corrections removing, one level down. It is: **"`_score_tags` did not cause it"**, stated by a store-time observer that can name the admitting write or name a different one. An instrument that can only confirm the earliest builder it is already built to see measures its own construction.
+
+No run was made in this turn and nothing here is a new measurement.
