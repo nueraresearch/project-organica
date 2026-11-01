@@ -10,6 +10,15 @@
 statement about the record cites a committed artifact; every statement about the
 engine is a reading of the frozen source at `v0.9.0`.
 
+> **Status note, 2026-11-01 (appended; the plan above is unchanged).** The
+> **core is now built** (`benchmarks/store_time_observer.py`) and its neutrality
+> control has passed: the observed and unobserved runs agree on the admitted
+> stream and the temporal reads, the comparator is proved to fire on an injected
+> difference, and every cycle reconciles. The **verdict pass and the
+> known-positive control (C1 / F4) are not built**, so no divergence verdict has
+> been read from this instrument. The control result is committed as
+> `docs/store_time_observer_self_test.json`.
+
 **Why this instrument and not another correction.** The divergence line is frozen
 (journal §78). Four corrections removed claims that were wider than their checks,
 and the one that survived — pool divergence appears as **insertion** rather than

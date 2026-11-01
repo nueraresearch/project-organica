@@ -6809,3 +6809,49 @@ Both are artifact facts, they concern different quantities, and they are now sep
 **Naming caution, before it ships.** The two readings must **not** be labelled (C1) and (C2). This line already uses **C1**, **C2** and **C3** for the mechanism brief's three controls (the control seed, the observer's behaviour-neutrality, and determinism), so both proposed labels would have collided, not just one; a third C1 in the same documents would be the defect rule 8 describes, a name a reader takes literally that means something else. Use words - *C-accounted* and *C-unaccounted* - so the distinction survives being quoted without its surrounding paragraph.
 
 No run was made in this turn and nothing here is a new measurement.
+
+## §80 — The store-time observer's core is built, and its neutrality control passed
+
+**What was built.** `benchmarks/store_time_observer.py` wraps `MemoryService.store`
+in process (no engine file touched, restored in `finally`), records every admitting
+call with the cycle it belongs to, its **stage** (ingest or cycle construction), a
+digest of the content and whether the store accepted a row, and reconciles observed
+calls against accepted rows per cycle. Planned in
+`docs/STORE-TIME-OBSERVER-BRIEF.md`; the plan is unchanged.
+
+**Two defects were caught before any verdict could be read, and both are the same
+family the line has been correcting.**
+
+- **Cycle attribution.** The first draft used the number of sleep-window reads as
+  the cycle number and reported **162 cycles for a six-cycle run**: a window read
+  is not a cycle. Attribution now comes off the engine's own `sleep:meta` marker,
+  which carries the cycle number and is written before that cycle's candidates, and
+  a construction write with no marker before it is reported **unattributed** rather
+  than given a guessed number. On the control run: **349,502 writes**, every
+  one attributed, **1,280 ingest writes** in **160**
+  pre-cycle buckets of **8** each.
+- **A reconciliation rule that could not fire.** The first rule compared the net
+  delta against the accepted rows. A call that stored nothing contributes zero to
+  both sides, so a silently empty write *reconciled*: a unit test in
+  `tests/test_store_time_observer.py` caught it. The rule now requires
+  `net == accepted == observed` per cycle, and it holds on the real run —
+  **349,502 accepted** against **349,502 observed**, no
+  removals.
+
+**What passed.** Neutrality is **identical** on the admitted stream and the temporal
+reads with and without the wrapper (127.8 s for the pair); the
+comparator is proved to fire on an injected difference; the markers are contiguous
+from cycle 1 to **160**; and every cycle reconciles. Full record:
+`docs/store_time_observer_self_test.json`.
+
+**What this is not.** It is **not** a result about divergence, and no verdict has
+been read. The verdict pass (attribution of a pool difference to a named write) and
+the **known-positive control (C1 / F4)** — the control seed's own cycles 10–12 —
+are **not built**. Until F4 passes, the brief's rule stands: the observer is
+inadmissible for verdicts, and the freeze on the divergence findings is untouched.
+
+**Method note, since this is the first stage-4 correction in the line.** Both defects
+above were found with **no artifact and no measurement affected**: the cycle error by
+noticing that a six-cycle run reported 162 cycles, and the reconciliation rule by a
+unit test written before the control was run. That is the cost difference the freeze
+point predicted, observed rather than asserted.
