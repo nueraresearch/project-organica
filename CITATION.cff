@@ -12,17 +12,19 @@ abstract: >-
   natural selection.
 type: software
 version: 0.11.0
-# 0.10.0 is NOT yet published; 0.9.0 is the latest release, and its tag is
-# the archival reference for the frozen Organica 1 engine.
-# This date is the day the version was cut -- update it on the day 0.10.0 is
-# actually tagged, or cite 0.9.0 instead.
-date-released: "2026-10-24"
+# 0.10.0 IS cut: dated, tagged and pushed on 2026-10-31. It has no GitHub
+# release page, so v0.9.0 is still the latest published release, and the
+# v0.9.0 tag remains the archival reference for the frozen engine alone.
+# The version above is the package version on master, and it is UNRELEASED;
+# the date below is the day the last cut version was tagged. Update it when
+# 0.11.0 is released.
+date-released: "2026-10-31"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"
 url: "https://github.com/nueraresearch/project-organica"
 keywords:
   - developmental machine intelligence
-  - artificial general intelligence
+  - explainable ai
   - continual learning
   - computational cognitive science
   - emergent structure

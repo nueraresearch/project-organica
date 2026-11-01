@@ -59,6 +59,45 @@ python build.py          # builds an organism from nothing -- ~30 seconds
 
 ---
 
+## What this project is for
+
+**The objective is explainable AI. It is not a general-intelligence claim, and
+it is not an AI that competes with the systems it critiques.**
+
+Most of what is sold as explainable AI explains a decision *after* the fact: a
+saliency map over a prediction, a feature attribution, a transcript of reasoning
+that another opaque process produced. Those are descriptions of a decision
+that has already been made. The problem this project is for sits one level
+down: **an AI whose decisions are explainable because the decision-making is
+inspectable** — where the reason is a thing you can read, check and disagree
+with, rather than a thing reconstructed for you afterwards.
+
+That means explainability in **three layers**, and a project that cannot hold
+all three is not finished:
+
+| Layer | The question | What it takes |
+|---|---|---|
+| **Decisions** | Why did it do that? | The decision is a recorded object, not a summary of one — what it took in, what else was available, and the bound that chose among them. |
+| **Knowledge** | What does it believe, and where did that come from? | Every belief carries a lineage back to the evidence that produced it, and the lineage is checkable rather than asserted. |
+| **Cognition** | How does it change? | Development is a recorded process, so a change in the mind is a difference you can point to in the record, not a claim about what "learned". |
+
+**The architecture is the bet, not the claim.** A developmental machine
+intelligence that grows its structures from memory, structure, sleep, curiosity
+and experimentation rather than pre-trained weights is one way of building
+those three layers. It is testable, because every mechanism it relies on is
+specified in advance and the record of whether it works lives in this
+repository's artifacts. It is **not** a claim to be a generally intelligent
+system, and this repository does not make one.
+
+**How the project answers its own objective.** It is built to be audited from
+the outside. The frozen engine records what it did and why; every claim here
+is checked by an instrument that can fail it; and where the evidence does not
+carry a claim, the record says *not established* rather than leaving the claim
+standing. A project that wanted explainable AI and could not explain its own
+results would be making the problem worse.
+
+---
+
 ## The idea
 
 Most modern AI architectures follow a top-down paradigm:
@@ -423,7 +462,7 @@ The pre-committed terminal outcome fired: **no confirmed family means no V2.**
 
 ## Current state
 
-**Package version 0.11.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.11.0 is unreleased and **0.10.0 is the latest release**). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
+**Package version 0.11.0** (Semantic Versioning 2.0.0 — the project is pre-1.0, so the public API is not declared stable; 0.11.0 is unreleased and **0.10.0 is the latest cut version** — dated, tagged and pushed — while **v0.9.0 is the latest published release**, because v0.10.0 has no GitHub release page yet). The **architecture generation is Organica 1**, frozen. The **research campaign is Phase K**, now complete.
 
 Phases A–E covered the architecture, reproduction pack, growth benchmarks, research-paper drafts, and community infrastructure. The `papers/` directory contains seven manuscript files: four from the original agenda, one philosophical framing, and two later concepts; none has been published. See [`papers/README.md`](papers/README.md) for their current evidence and publication status. Phase F (cross-domain validation) passes. Phase G (endurance) is complete and the live study is **paused after 5,396 sleep cycles** pending a stable V1.0.0 build and review. Phase H found no overall advantage over simple baselines on its tested tasks. Phase I's preregistered regime-shift campaign did not meet its success rule. Phase J found substantially higher Organica NLL than Markov and decayed association in both gradual-transition families; neither primary gate passed. Phase K searched three candidate task families against the strongest simple baseline that could plausibly solve each, and **all three came back REVERSED**. See [`research-journal/phase_g_findings_20261021.md`](research-journal/phase_g_findings_20261021.md) §§27–33.
 
@@ -432,7 +471,7 @@ Phases A–E covered the architecture, reproduction pack, growth benchmarks, res
 
 > **Which "v1"?** This repository uses three separate version namespaces, and they are deliberately distinct: the **package version** (`0.11.0`, SemVer 2), the **architecture generation** (*Organica 1*, *Organica 2*), and the **research campaigns** (*Ablation Study 1*, *Ablation Study 2*, *Phase H/I/J/K*). The table is in [`CHANGELOG.md`](CHANGELOG.md).
 
-**The project is not at "v1" or "v2" as a release.** It is at 0.11.0, pre-1.0; **0.10.0 is the latest release**, and **the v0.9.0 tag is the archival reference for the frozen Organica 1 engine** — under v0.10.0 the engine is byte-identical to it apart from the package version string. **Organica 1 is frozen**: no more architectural modifications to the engine; everything afterwards measures it. See [`docs/V1-FREEZE.md`](docs/V1-FREEZE.md).
+**The project is not at "v1" or "v2" as a release.** It is at 0.11.0, pre-1.0; **0.10.0 is the latest cut version** (dated, tagged and pushed — its GitHub release page is not yet published, so the latest published release is still v0.9.0), and **the v0.9.0 tag is the archival reference for the frozen Organica 1 engine** — under v0.10.0 the engine is byte-identical to it apart from the package version string. **Organica 1 is frozen**: no more architectural modifications to the engine; everything afterwards measures it. See [`docs/V1-FREEZE.md`](docs/V1-FREEZE.md).
 
 **Generation 9 is not available yet, deliberately.** The project exists to earn it.
 

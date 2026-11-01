@@ -30,6 +30,116 @@ there is nothing to check out.
 
 ## [0.11.0] — (unreleased)
 
+### Recorded — the deposit package is decided, bundled, and not deposited (2026-10-31)
+
+- **The owner's direction:** *"do not deposit yet; use your best judgement on
+  the rest"*. So every decision the deposit checklist left open is now made,
+  and **nothing has been uploaded**. Publishing is still the owner's action
+  alone.
+- **The papers' licence: CC-BY-4.0.** Zenodo's default for a textual work and
+  the expected licence for a preprint. The engine stays Apache-2.0.
+- **The route: manual deposit** through the Zenodo web form. Two facts were
+  verified live and both bear on it: the repository has **zero webhooks**, so
+  Zenodo's GitHub app is **not authorised** and nothing would be minted
+  automatically; and there is **no v0.10.0 GitHub release** —
+  `gh release list` shows releases only for v0.6.0 to v0.9.0. Standing the
+  app up would create an automatic minting pipeline nobody asked for.
+- **No GitHub release is cut for v0.10.0.** It is the owner's act and one
+  step from publishing.
+- **The order: the papers first**, so their DOIs exist before the software
+  record links to them.
+- **The bundles are built.** `benchmarks/deposit_bundle.py` writes
+  `.scratch/deposit/`: the source tree at `v0.10.0` as one archive for the
+  software record, and for each paper the manuscript as PDF and Markdown with
+  its figures as vector PDF — each with `SHA256SUMS` and a
+  `DEPOSIT-MANIFEST.json`.
+- **The file list is checked against the manuscripts.**
+  `benchmarks/deposit_bundle.py --check` parses both manuscripts for the
+  `docs/` artifacts they name and asks whether each is inside the tree the
+  software record carries: **36 cited, 36 present.** A manuscript cannot cite
+  evidence the deposit does not carry.
+- **Still the owner's:** publish, and update the ORCID record's GitHub URL
+  (`github.com/nuerainc` → `github.com/nueraresearch`). Nothing in this
+  repository can change an ORCID record.
+- **Added** — `benchmarks/deposit_bundle.py`,
+  `tests/test_deposit_bundle.py`; `docs/ZENODO-DEPOSIT.md` rewritten with the
+  decisions, the verified states, the file lists and the reduced checklist.
+
+
+### Recorded — the project's objective, in the README (2026-10-31)
+
+- **What changed.** The README now carries a **What this project is for**
+  section above the architecture it describes. It states the objective
+  plainly: **explainable AI, in three layers — decisions, knowledge,
+  cognition** — and it says what that means in testable terms. A decision is
+  a recorded object, not a summary of one. A belief carries a lineage back to
+  the evidence that produced it, and the lineage is checkable rather than
+  asserted. A change in the mind is a difference you can point to in the
+  record, not a claim about what "learned".
+- **What did not change.** The headline stays. "A Developmental Machine
+  Intelligence" names the architecture the papers are about and the name is
+  load-bearing. What changes is that the section above it now says the
+  architecture is **the bet, not the claim**, and that the repository makes
+  **no general-intelligence claim** — an outside reader had taken the
+  headline for one.
+- **The wording is the project's own.** It is re-voiced in the register the
+  repository already uses. The objective is the owner's; the phrasing here is
+  this project's, and it cites no borrowed text.
+- **`CITATION.cff` loses a keyword.** `artificial general intelligence` was
+  asserted there as a search term for a claim this repository does not make.
+  It is replaced by `explainable ai`, which is what the project is for.
+
+### Corrected — the release statement named a tag as a release (2026-10-31)
+
+- **What was wrong.** The README said "0.10.0 is the latest release" and
+  `CITATION.cff` carried the comment "0.10.0 is NOT yet published; 0.9.0 is
+  the latest release". Neither was true: `v0.10.0` **is** tagged and pushed,
+  and `v0.10.0` has **no GitHub release page** — `gh release list` shows
+  releases only for v0.6.0 to v0.9.0, and v0.9.0 is still the latest
+  published one. The two statements disagreed with each other and with the
+  repository.
+- **What it is now.** The README and `CITATION.cff` say which one they mean:
+  **0.10.0 is the latest cut version** — dated, tagged and pushed — and
+  **v0.9.0 is the latest published release**, because v0.10.0 has no release
+  page yet. `CITATION.cff`'s `date-released` moves from 2026-10-24 to
+  2026-10-31, the day the last cut version was tagged.
+- **Not done, and deliberately.** Cutting a GitHub release for v0.10.0 is the
+  owner's act, and it is one step from publishing, so it was not done here.
+  The repository now says the true thing either way.
+
+### Planned — the next instrument, and its pre-registered falsification criteria (2026-10-31)
+
+- **The brief.** `docs/DIVERGENCE-MECHANISM-BRIEF.md` plans the next
+  observer in the D0 reproduction line: **at the cycle where the two admitted
+  streams first differ, where in the engine's candidate construction do they
+  first differ — in which type, in which builder, and is the difference in
+  the order, in the membership, or in a candidate's content?**
+- **Why now.** The capture established that on three seeds the pool at the
+  divergence cycle is identical **in set and in order** and the admitted
+  stream still differs — so the difference arose inside the cycle, in a step
+  nobody has looked at.
+- **What the source shows.** Four order-dependent sites in the construction:
+  `_score_tags` iterates a set of strings and stable-sorts on a tying integer
+  (`organica/sleep.py:904-920`); the temporal graph is read with `ORDER BY
+  count DESC` and no tiebreak over a table with no index on `count`
+  (`organica/memory.py:379-385`); `_build_predictions` stable-sorts on
+  `temporal_count` alone (`organica/sleep.py:1139-1160`); and
+  `_build_anomalies` picks the anomaly's expected tag among equal counts by
+  graph order, so that one changes a candidate's **content**
+  (`organica/sleep.py:1167`).
+- **What does not bind.** The harness overrides the predictions cap only
+  (`CAP_A = 20`, `CAP_B = 1_000`), so the `MAX_PREDICTIONS = 20` truncation
+  **does not bind** in the campaign's arms. The eight failing seeds are not
+  eight seeds whose predictions were cut at twenty.
+- **Pre-registered, before any run.** H1 (the divergence enters through
+  order-sensitive construction), H2 (canonicalising the order removes it),
+  three predictions (P1-P3), three falsification criteria (F1-F3) and four
+  controls (C1-C4) are committed in the brief and in journal §73, so that
+  they can be checked against what the instrument actually found. A
+  refutation is a result.
+- **Scope.** No engine file changes, no D0 re-scoring, no V2, no acquisition
+  cells, and Organica 1 stays frozen.
+
 ### Measured — the candidate pool at the divergence cycle (2026-10-31)
 
 - **Why.** The candidate-membership audit found *where* the campaign's

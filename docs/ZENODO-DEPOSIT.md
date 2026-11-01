@@ -1,8 +1,11 @@
 # Zenodo deposit package
 
-**Status: prepared, not deposited.** Every field below is filled in and every
-file is staged, but publishing is the owner's action: Zenodo mints a DOI when a
-record is published, and a DOI is public. Nothing here has been uploaded.
+**Status: prepared, decided, not deposited.** Every field below is filled in,
+every bundle is built and checksummed, and every decision the checklist used
+to leave open has been made — the owner's standing direction on 2026-10-31 was
+*"do not deposit yet; use your best judgement on the rest"*. **Nothing here has
+been uploaded.** Publishing remains the owner's action alone: Zenodo mints a
+DOI when a record is published, and a DOI is public.
 
 **Why Zenodo and not arXiv.** The owner's decision of 2026-10-30 was arXiv
 first; the later decision superseded it, and Zenodo is the current venue. The
@@ -49,30 +52,76 @@ creator, license and community as the software record.
 The engine is **Apache-2.0**: `LICENSE` in the repository is Apache-2.0 and
 `CITATION.cff` already declares it.
 
-The two papers are pre-filled with **CC-BY-4.0**, which is Zenodo's default for
-a textual work and the usual choice for a preprint. **This one is not yet the
-owner's decision** — it is a stated assumption, and it must be confirmed
-before the papers are deposited. If the owner prefers the repository's
-Apache-2.0 for the papers too, change the `license` field in both paper
-metadata files and re-run `python benchmarks/zenodo_metadata.py`.
+The two papers carry **CC-BY-4.0**, which is Zenodo's default for a textual
+work and the usual choice for a preprint. **Decided on 2026-10-31** under the
+owner's delegation: the papers are textual works, not software, and CC-BY is
+the licence a reader expects of a preprint — reuse permitted, attribution
+required. The engine stays **Apache-2.0**, which is what `LICENSE` and
+`CITATION.cff` already declare. If the owner later prefers Apache-2.0 for the
+manuscripts too, change the `license` field in both paper metadata files and
+re-run `python benchmarks/zenodo_metadata.py`.
 
-### Files
+**Decided: the deposit order is the papers first.** A preprint DOI establishes
+priority and can be cited in a journal submission, and the software record can
+then carry `isDocumentedBy` links back to both papers. The reverse order would
+leave the paper records pointing at a DOI that does not exist yet.
 
-**Software record (v0.10.0).** The earlier GitHub releases carry **no
-assets** — `gh release view v0.9.0` reports zero — so a deposit made from
-one of them would have no file of its own. The v0.10.0 release is the one
-that can carry them. Two ways forward, both the owner's:
+### The route — decided: manual deposit
 
-1. **Attach assets to the release, then let the integration mint the DOI.**
-   The minimum is the source tree at the tag plus the evidence artifacts the
-   paper cites. This is the better route: the release already exists, and the
-   minted DOI is version-scoped for free.
-2. **Deposit manually** through the Zenodo web form and paste the metadata
-   from `zenodo/software-v0.10.0.json`. Use this when the record must carry
-   files that are not in the release.
+Two facts were verified live on 2026-10-31, and both bear on the route:
 
-**Paper records.** Each carries the manuscript as PDF, the manuscript source
-as Markdown, and its figures as PDF. The PDF build is
+- **The repository has zero webhooks.** Zenodo's GitHub integration installs
+  a webhook on the repository it watches. There is none, so **the Zenodo
+  GitHub app is not authorised**, and no release would be picked up
+  automatically.
+- **There is no v0.10.0 GitHub release.** `gh release list` shows releases
+  only for v0.6.0, v0.7.0, v0.8.0 and v0.9.0; the `v0.10.0` *tag* is on the
+  remote, but the release object was never created.
+
+The release-based route therefore cannot mint anything today, and it would
+require the owner to authorise the app — which is a step that would make
+future releases mint DOIs without a further decision each time. **The manual
+route is the decision:** deposit through the Zenodo web form, with the
+metadata from the record files and the files from the bundles below. It
+yields the same version-scoped DOI, it leaves the file list under the
+owner's eyes, and it does not stand up an automatic minting pipeline that
+nobody has asked for.
+
+**A GitHub release for v0.10.0 is not cut.** Cutting one is the owner's act
+and it is one step from publishing, so it was not done here. The repository's
+own statements say which thing they mean, so the gap is recorded rather than
+papered over: **0.10.0 is the latest cut version — dated, tagged and pushed —
+and v0.9.0 is the latest published release.**
+
+### The files
+
+The bundles are built by one command:
+
+```
+python benchmarks/deposit_bundle.py
+```
+
+which writes `.scratch/deposit/`, one directory per record, each with its
+files, a `SHA256SUMS` and a `DEPOSIT-MANIFEST.json`. The manifest is
+`.scratch/deposit/MANIFEST.json`.
+
+**Software record (v0.10.0).** the source tree at the tag, as one archive,
+plus the checksums and the manifest:
+
+| File | |
+|---|---|
+| `project-organica-v0.10.0.tar.gz` | `git archive` of the tree at `v0.10.0` |
+| `SHA256SUMS` | checksums of the record's files |
+| `DEPOSIT-MANIFEST.json` | the record's metadata and its file list |
+
+**Paper records.** Each carries the manuscript as PDF and as Markdown, its
+figures as vector PDF, the checksums and the manifest. Paper 01 carries
+`figure_p01_acquisition`, `figure_p01_adjacent_differences`,
+`figure_p01_capacity_sweep`, `figure_p01_displacement_curve` and
+`figure_p01_phase_k_families`; Paper 02 carries `figure_p02_cognition_window`,
+`figure_p02_reconstruction_arms` and `figure_p02_self_sourcing`.
+
+The PDF build is
 
 ```
 python benchmarks/render_papers.py
@@ -83,6 +132,19 @@ which writes `papers/build/01_developmental_structure_formation.pdf` and
 `docs/PDF-PIPELINE.md`); the figures are the same SVGs the repository holds,
 converted to vector PDF by the same tool.
 
+**The file list is checked against the manuscripts.** The deposit checklist
+asked whether the deposit carries the artifacts the manuscript actually
+cites. `benchmarks/deposit_bundle.py --check` parses both manuscripts for the
+`docs/` artifacts they name and asks whether each is inside the tree the
+software record carries:
+
+```
+python benchmarks/deposit_bundle.py --check
+```
+
+**36 artifacts are cited and 36 are present** in the `v0.10.0` tree. A
+manuscript cannot cite evidence the software record does not carry.
+
 ### After the paper DOIs exist
 
 Add each preprint DOI to the software record as `isDocumentedBy`, and add the
@@ -92,24 +154,49 @@ exist yet and a guessed DOI is a false claim.
 
 ## Before publishing — checklist
 
-- [ ] Confirm the papers' license (CC-BY-4.0 assumed; Apache-2.0 if the
-      owner prefers the repository's licence for the manuscripts too).
-- [ ] Authorise the Zenodo GitHub app on the repository, if the version DOIs
-      are to be minted from the releases.
-- [ ] Decide whether to attach assets to the `v0.10.0` release (and to the
-      earlier tags) or to deposit the software record manually.
-- [ ] Decide whether the paper preprints are deposited before or after the
-      journal route is attempted. Depositing first is the safer order: it
-      establishes priority and the DOI can be cited in a journal submission.
-- [ ] Update the ORCID record's GitHub URL. It still points at
+**Decided and done on 2026-10-31** (the owner's delegation, *"do not deposit
+yet; use your best judgement on the rest"*):
+
+- [x] **The papers' licence: CC-BY-4.0.** Zenodo's default for a textual
+      work and the expected licence for a preprint. The engine stays
+      Apache-2.0.
+- [x] **The route: manual deposit** through the Zenodo web form. The Zenodo
+      GitHub app is **not** authorised — the repository has **zero
+      webhooks**, verified live — so the release-based route could not mint
+      anything, and standing the app up would create an automatic minting
+      pipeline nobody asked for.
+- [x] **No GitHub release is cut for v0.10.0.** It is the owner's act and
+      one step from publishing. The repository now says plainly that 0.10.0
+      is the latest *cut version* and v0.9.0 the latest *published release*.
+- [x] **The order: the papers first**, so their DOIs exist before the
+      software record links to them with `isDocumentedBy`.
+- [x] **`python benchmarks/zenodo_metadata.py` passes.** All four metadata
+      files conform to Zenodo's published deposit schema.
+- [x] **The file list is checked against the manuscripts.**
+      `python benchmarks/deposit_bundle.py --check`: **36 artifacts cited,
+      36 present** in the `v0.10.0` tree.
+- [x] **The bundles are built and checksummed** by
+      `python benchmarks/deposit_bundle.py`, under `.scratch/deposit/`.
+
+**Still the owner's, and only these:**
+
+- [ ] **Publish.** Upload the three bundles and the four metadata files
+      through the Zenodo form. This is the step that mints public DOIs.
+- [ ] **Update the ORCID record's GitHub URL.** It still points at
       `github.com/nuerainc`; the live organization is
-      `github.com/nueraresearch`. **This is an owner action in the ORCID
-      interface** and nothing in this repository can change it.
-- [ ] Run `python benchmarks/zenodo_metadata.py` and confirm it passes.
-- [ ] Confirm the deposit's file list against the artifacts the manuscript
-      actually cites.
-- [ ] After publishing, record each DOI in `CITATION.cff`, in the manuscript's
-      own header, and in `CHANGELOG.md`.
+      `github.com/nueraresearch`. This is an owner action in the ORCID
+      interface and nothing in this repository can change it. The repository
+      itself is consistent — `nuerainc` appears nowhere but in one historical
+      session transcript and in this line.
+- [ ] **After publishing**, record each DOI in `CITATION.cff`, in the
+      manuscript's own header, and in `CHANGELOG.md`, and add the software
+      record's DOI to each paper record as `isSupplementedBy` and each paper's
+      DOI to the software record as `isDocumentedBy`.
+
+**Not needed for this deposit, and therefore not done:** authorising the
+Zenodo GitHub app, and cutting a GitHub release for v0.10.0. Both become
+worth doing when the owner decides that releases should mint DOIs
+automatically — which is a separate decision with a lasting effect.
 
 ## What was read, and how far
 
@@ -152,6 +239,9 @@ identifier was read from Zenodo's API.
 - `benchmarks/zenodo_metadata.py` — validates every metadata file against
   Zenodo's published schema, fetching the schema from Zenodo's repository and
   caching it under `.scratch/`.
+- `benchmarks/deposit_bundle.py` — builds the three bundles, their checksums
+  and their manifests, and checks the deposit's file list against the
+  artifacts the manuscripts cite.
 - `docs/PDF-PIPELINE.md` — how the PDFs are built.
 
 → `.zenodo.json`; `zenodo/`; `benchmarks/zenodo_metadata.py`;
