@@ -7623,3 +7623,43 @@ denominators, the provenance control and the hash-seed guard.
 
 → `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §18.
 
+## §97 — The provenance measure is reconciled with the per-claim rule, and the stop survives the correction
+
+**What was wrong with §96's measure.** It summed all of the readout's asserted edges into one
+share, and the audit-trace specification says in as many words that a run-level figure is not a
+per-claim share (§3.3) and writes its disqualifier as a per-claim rule (§11). It also counted
+support references — one increment per store — where the spec reserves the **distinct** count for
+the disqualifier. So the finding was narrower than §96 implied: about two-fifths of the measured
+**transition support associated with asserted edges** was self-sourced. It did not establish that
+the transfer predictions relied on self-sourced evidence claim by claim.
+
+**Reconciled.** The observer now keeps distinct prior event ids per edge, split world/self, and the
+criterion is applied claim by claim — every Layer-1 prediction and every hypothesis the readout
+asserts — against the reference **frozen from the audit-trace build at 17.9 %** (802 of 4,481
+distinct transitions, default arm), never recomputed on this run. A claim must have measurable
+support, be no more self-sourced than that reference, and be mostly world-derived.
+
+**The corrected measurement is worse for the study, not better.** 604–1277 measurable
+claims per seed, of which 264–592 fail
+(43.7–52.4 %); the maximum per-claim share is 1.0000, so some claims
+rest entirely on the organism's own output. The run-level distinct share is
+0.4209–0.4287 (6,732–6,806 world vs 4,947–5,051 self
+transitions), which replaces §96's reference-counted 0.4092–0.4155 as the diagnostic figure.
+
+**What survives, and what it costs.** `authorises_confirmatory` is false; the confirmatory set
+stays closed; Gate F still passes 5 of 5 and the audit passes 8 of 8 checks on every
+seed, including a new `E8` that checks the per-claim rule is measurable and that its all-self
+control fails. The rule that now blocks the study is the one that was committed for this purpose
+before the study existed — not a threshold invented after a number arrived. §18.3's stop is
+unchanged; only the measure it rested on has been corrected to the resolution the rule is written
+at.
+
+**The timing is recorded, not argued.** The §17 attribution threshold was added after the transfer
+margin was visible; the §18 aggregate band was declared before *its* measurement but after that
+margin too; the per-claim reference is frozen from a different build and predates this protocol.
+Their weights are not equal, and the artifact now records which figure gates and which merely
+reports.
+
+→ `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §19;
+`docs/AUDIT-TRACE-SPEC.md` §11.
+

@@ -32,7 +32,7 @@
   "the harness audit on all five calibration seeds",
   "the attribution share on all five calibration seeds"
  ],
- "confirmatory_blocked_by": "support provenance above its declared maximum",
+ "confirmatory_blocked_by": "the per-claim support-provenance rule fails against the frozen 17.9 % reference",
  "confirmatory_has_run": false,
  "existing_mask_reusable": false,
  "frozen_reference": "v0.9.0",
@@ -69,6 +69,21 @@
   "run_in_calibration": false,
   "run_in_confirmatory": false,
   "status": "deferred"
+ },
+ "per_claim_provenance": {
+  "all_seeds_passed": false,
+  "claims_failing_per_seed": [
+   264,
+   592
+  ],
+  "claims_measurable_per_seed": [
+   604,
+   1277
+  ],
+  "criterion": "each claim's distinct support must be mostly world-derived and no more self-sourced than the frozen reference",
+  "reference": 0.179,
+  "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+  "resolution": "per claim, distinct support (prior event ids)"
  },
  "reproducibility": {
   "observed_divergence": "seed 20261204 scored 0.60055 and 0.6025 in two runs before the pin",
@@ -120,10 +135,15 @@
    0.409181,
    0.415481
   ],
+  "measured_formation_distinct": [
+   0.420914,
+   0.428668
+  ],
   "measured_revision": [
    0.412916,
    0.416723
   ],
+  "role": "run-level diagnostic, not the disqualifier",
   "windows_with_a_sleep_row": [
    218,
    218

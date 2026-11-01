@@ -126,6 +126,7 @@ def _artifact(**over):
         "attribution": {"all_seeds_passed": True},
         "revision": {"all_seeds_passed": True},
         "support_provenance": {"all_seeds_passed": True},
+        "per_claim_provenance": {"all_seeds_passed": True},
     }
     art.update(over)
     return art
@@ -253,19 +254,34 @@ def test_revision_limbs_have_denominators(world):
         "the law must actually rotate at the revision boundary"
 
 
-def test_support_provenance_is_measured_and_can_fire():
-    prov = rk.support_provenance({("alpha", "beta"): 9},
-                                 {("alpha", "beta"): 1},
-                                 {("alpha", "beta")}, windows_with_sleep=5)
-    assert prov["share_self_sourced"] == pytest.approx(0.1)
-    assert prov["passed"] is True
-    assert prov["control_share"] > prov["maximum"], "the control must fire"
+def test_support_provenance_is_a_distinct_share():
+    support = {("alpha", "beta"): {1: False, 2: False, 3: True}}
+    prov = rk.support_provenance(support, {("alpha", "beta")}, windows_with_sleep=5)
+    assert prov["distinct_support"] == 3, "one transition is counted once"
+    assert prov["share_self_sourced"] == pytest.approx(1 / 3)
 
-    mostly_self = rk.support_provenance({}, {("alpha", "beta"): 4},
-                                        {("alpha", "beta")}, windows_with_sleep=5)
-    assert mostly_self["share_self_sourced"] == 1.0
-    assert mostly_self["passed"] is False
 
-    empty = rk.support_provenance({}, {}, {("alpha", "beta")}, windows_with_sleep=0)
-    assert empty["share_self_sourced"] is None, "no support is not a zero share"
-    assert empty["passed"] is False
+def test_per_claim_rule_is_the_disqualifier():
+    claim = [{"type": "prediction_candidate", "source": "alpha", "target": "beta"}]
+    dirty = rk.per_claim_provenance(claim, {("alpha", "beta"): {1: False, 2: False, 3: True}})
+    assert dirty["claims_measurable"] == 1
+    assert dirty["max_share"] == pytest.approx(1 / 3)
+    assert dirty["all_claims_passed"] is False, \
+        "a third self-sourced exceeds the 17.9 % reference"
+    assert dirty["control_all_self_fails"] is True
+
+    clean = rk.per_claim_provenance(
+        claim, {("alpha", "beta"): {1: False, 2: False, 3: False}})
+    assert clean["all_claims_passed"] is True
+
+    empty = rk.per_claim_provenance(claim, {})
+    assert empty["claims_measurable"] == 0
+    assert empty["all_claims_passed"] is False, "no evidence is not a pass"
+
+
+def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
+    monkeypatch.setattr(rk, "_load_calibration",
+                        lambda: _artifact(per_claim_provenance={"all_seeds_passed": False}))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "per-claim" in why

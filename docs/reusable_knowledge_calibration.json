@@ -94,8 +94,16 @@
       "maximum": 0.25,
       "passed": true,
       "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.41297,
+      "share_self_sourced": 0.426136,
       "windows_with_a_sleep_row": 218
+     },
+     "E8_per_claim_rule_is_measurable": {
+      "claims_failed": 592,
+      "claims_measurable": 1277,
+      "control_all_self_fails": true,
+      "passed": true,
+      "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
+      "reference": 0.179
      }
     }
    },
@@ -176,6 +184,142 @@
     "revision_held_out": 0.109122,
     "transfer": 0.175186
    },
+   "per_claim_provenance": {
+    "formation": {
+     "all_claims_passed": false,
+     "claims_failed": 592,
+     "claims_measurable": 1277,
+     "claims_passed": 685,
+     "claims_total": 1313,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 106,
+       "passed": false,
+       "self": 20,
+       "share_self_sourced": 0.188679,
+       "source": "indigo",
+       "target": "maple",
+       "type": "hypothesis",
+       "world": 86
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "cedar",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "amber",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "willow",
+       "target": "slate",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "willow",
+       "target": "amber",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    },
+    "revision": {
+     "all_claims_passed": false,
+     "claims_failed": 316,
+     "claims_measurable": 638,
+     "claims_passed": 322,
+     "claims_total": 656,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "cedar",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "slate",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "teal",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "willow",
+       "target": "slate",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "willow",
+       "target": "fern",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    }
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -254,27 +398,27 @@
    "support_provenance": {
     "formation": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 11731,
      "edges_with_support": 315,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 4999,
-     "share_self_sourced": 0.41297,
-     "support_transitions": 12105,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 4999,
+     "share_self_sourced": 0.426136,
      "windows_with_a_sleep_row": 218,
-     "world_support": 7106
+     "within_band": false,
+     "world_distinct": 6732
     },
     "revision": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 17177,
      "edges_with_support": 316,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 7359,
-     "share_self_sourced": 0.415575,
-     "support_transitions": 17708,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 7359,
+     "share_self_sourced": 0.428422,
      "windows_with_a_sleep_row": 318,
-     "world_support": 10349
+     "within_band": false,
+     "world_distinct": 9818
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -351,8 +495,16 @@
       "maximum": 0.25,
       "passed": true,
       "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.411312,
+      "share_self_sourced": 0.42424,
       "windows_with_a_sleep_row": 218
+     },
+     "E8_per_claim_rule_is_measurable": {
+      "claims_failed": 348,
+      "claims_measurable": 664,
+      "control_all_self_fails": true,
+      "passed": true,
+      "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
+      "reference": 0.179
      }
     }
    },
@@ -433,6 +585,142 @@
     "revision_held_out": 0.097682,
     "transfer": 0.168396
    },
+   "per_claim_provenance": {
+    "formation": {
+     "all_claims_passed": false,
+     "claims_failed": 348,
+     "claims_measurable": 664,
+     "claims_passed": 316,
+     "claims_total": 680,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "maple",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "ochre",
+       "target": "birch",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "ochre",
+       "target": "willow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "umber",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    },
+    "revision": {
+     "all_claims_passed": false,
+     "claims_failed": 358,
+     "claims_measurable": 668,
+     "claims_passed": 310,
+     "claims_total": 684,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "maple",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "ochre",
+       "target": "birch",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "ochre",
+       "target": "willow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "umber",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    }
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -511,27 +799,27 @@
    "support_provenance": {
     "formation": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 11708,
      "edges_with_support": 327,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 4967,
-     "share_self_sourced": 0.411312,
-     "support_transitions": 12076,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 4967,
+     "share_self_sourced": 0.42424,
      "windows_with_a_sleep_row": 218,
-     "world_support": 7109
+     "within_band": false,
+     "world_distinct": 6741
     },
     "revision": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 17148,
      "edges_with_support": 329,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 7328,
-     "share_self_sourced": 0.41448,
-     "support_transitions": 17680,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 7328,
+     "share_self_sourced": 0.427338,
      "windows_with_a_sleep_row": 318,
-     "world_support": 10352
+     "within_band": false,
+     "world_distinct": 9820
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -606,8 +894,16 @@
       "maximum": 0.25,
       "passed": true,
       "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.409181,
+      "share_self_sourced": 0.420914,
       "windows_with_a_sleep_row": 218
+     },
+     "E8_per_claim_rule_is_measurable": {
+      "claims_failed": 332,
+      "claims_measurable": 642,
+      "control_all_self_fails": true,
+      "passed": true,
+      "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
+      "reference": 0.179
      }
     }
    },
@@ -688,6 +984,142 @@
     "revision_held_out": 0.137768,
     "transfer": 0.169898
    },
+   "per_claim_provenance": {
+    "formation": {
+     "all_claims_passed": false,
+     "claims_failed": 332,
+     "claims_measurable": 642,
+     "claims_passed": 310,
+     "claims_total": 658,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "maple",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "mutation",
+       "target": "willow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "slate",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "mutation",
+       "target": "yarrow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 7,
+       "passed": false,
+       "self": 7,
+       "share_self_sourced": 1.0,
+       "source": "mutation",
+       "target": "maple",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    },
+    "revision": {
+     "all_claims_passed": false,
+     "claims_failed": 516,
+     "claims_measurable": 978,
+     "claims_passed": 462,
+     "claims_total": 1002,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "umber",
+       "target": "willow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "willow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "maple",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "umber",
+       "target": "yarrow",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "sable",
+       "target": "yarrow",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    }
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -766,27 +1198,27 @@
    "support_provenance": {
     "formation": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 11753,
      "edges_with_support": 317,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 4947,
-     "share_self_sourced": 0.409181,
-     "support_transitions": 12090,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 4947,
+     "share_self_sourced": 0.420914,
      "windows_with_a_sleep_row": 218,
-     "world_support": 7143
+     "within_band": false,
+     "world_distinct": 6806
     },
     "revision": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 17255,
      "edges_with_support": 323,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 7321,
-     "share_self_sourced": 0.412916,
-     "support_transitions": 17730,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 7321,
+     "share_self_sourced": 0.424283,
      "windows_with_a_sleep_row": 318,
-     "world_support": 10409
+     "within_band": false,
+     "world_distinct": 9934
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -861,8 +1293,16 @@
       "maximum": 0.25,
       "passed": true,
       "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.411638,
+      "share_self_sourced": 0.423956,
       "windows_with_a_sleep_row": 218
+     },
+     "E8_per_claim_rule_is_measurable": {
+      "claims_failed": 264,
+      "claims_measurable": 604,
+      "control_all_self_fails": true,
+      "passed": true,
+      "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
+      "reference": 0.179
      }
     }
    },
@@ -943,6 +1383,142 @@
     "revision_held_out": 0.116459,
     "transfer": 0.161632
    },
+   "per_claim_provenance": {
+    "formation": {
+     "all_claims_passed": false,
+     "claims_failed": 264,
+     "claims_measurable": 604,
+     "claims_passed": 340,
+     "claims_total": 622,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "indigo",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "umber",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "mutation",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "subject",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "dream",
+       "target": "crimson",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    },
+    "revision": {
+     "all_claims_passed": false,
+     "claims_failed": 290,
+     "claims_measurable": 614,
+     "claims_passed": 324,
+     "claims_total": 632,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "indigo",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 6,
+       "passed": false,
+       "self": 6,
+       "share_self_sourced": 1.0,
+       "source": "conditional",
+       "target": "umber",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 8,
+       "passed": false,
+       "self": 8,
+       "share_self_sourced": 1.0,
+       "source": "mutation",
+       "target": "teal",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 8,
+       "passed": false,
+       "self": 8,
+       "share_self_sourced": 1.0,
+       "source": "subject",
+       "target": "teal",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 8,
+       "passed": false,
+       "self": 8,
+       "share_self_sourced": 1.0,
+       "source": "dream",
+       "target": "teal",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    }
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -1021,27 +1597,27 @@
    "support_provenance": {
     "formation": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 11763,
      "edges_with_support": 300,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 4987,
-     "share_self_sourced": 0.411638,
-     "support_transitions": 12115,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 4987,
+     "share_self_sourced": 0.423956,
      "windows_with_a_sleep_row": 218,
-     "world_support": 7128
+     "within_band": false,
+     "world_distinct": 6776
     },
     "revision": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 17236,
      "edges_with_support": 306,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 7374,
-     "share_self_sourced": 0.415554,
-     "support_transitions": 17745,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 7374,
+     "share_self_sourced": 0.427825,
      "windows_with_a_sleep_row": 318,
-     "world_support": 10371
+     "within_band": false,
+     "world_distinct": 9862
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -1118,8 +1694,16 @@
       "maximum": 0.25,
       "passed": true,
       "reason": "the diagnostic must be live and its control must be able to fail; the measured share is judged separately",
-      "share_self_sourced": 0.415481,
+      "share_self_sourced": 0.428668,
       "windows_with_a_sleep_row": 218
+     },
+     "E8_per_claim_rule_is_measurable": {
+      "claims_failed": 336,
+      "claims_measurable": 653,
+      "control_all_self_fails": true,
+      "passed": true,
+      "reason": "the per-claim rule must have measurable claims and its all-self control must fail",
+      "reference": 0.179
      }
     }
    },
@@ -1200,6 +1784,142 @@
     "revision_held_out": -0.001571,
     "transfer": 0.143583
    },
+   "per_claim_provenance": {
+    "formation": {
+     "all_claims_passed": false,
+     "claims_failed": 336,
+     "claims_measurable": 653,
+     "claims_passed": 317,
+     "claims_total": 669,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 131,
+       "passed": false,
+       "self": 31,
+       "share_self_sourced": 0.236641,
+       "source": "amber",
+       "target": "sable",
+       "type": "hypothesis",
+       "world": 100
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "umber",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "cedar",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "sable",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "yarrow",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    },
+    "revision": {
+     "all_claims_passed": false,
+     "claims_failed": 338,
+     "claims_measurable": 650,
+     "claims_passed": 312,
+     "claims_total": 666,
+     "control_all_self_fails": true,
+     "failing_examples": [
+      {
+       "distinct_support": 181,
+       "passed": false,
+       "self": 39,
+       "share_self_sourced": 0.21547,
+       "source": "amber",
+       "target": "sable",
+       "type": "hypothesis",
+       "world": 142
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "umber",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "cedar",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "sable",
+       "type": "prediction_candidate",
+       "world": 0
+      },
+      {
+       "distinct_support": 5,
+       "passed": false,
+       "self": 5,
+       "share_self_sourced": 1.0,
+       "source": "question",
+       "target": "yarrow",
+       "type": "prediction_candidate",
+       "world": 0
+      }
+     ],
+     "max_share": 1.0,
+     "measurable": true,
+     "min_share": 0.0,
+     "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
+     "reference": 0.179,
+     "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+     "resolution": "per claim, distinct support (prior event ids)"
+    }
+   },
    "privileged_reference": "cell_counter",
    "pythonhashseed": "0",
    "relations": {
@@ -1278,27 +1998,27 @@
    "support_provenance": {
     "formation": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 11783,
      "edges_with_support": 322,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 5051,
-     "share_self_sourced": 0.415481,
-     "support_transitions": 12157,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 5051,
+     "share_self_sourced": 0.428668,
      "windows_with_a_sleep_row": 218,
-     "world_support": 7106
+     "within_band": false,
+     "world_distinct": 6732
     },
     "revision": {
      "control_share": 1.0,
+     "declared_band": 0.25,
+     "distinct_support": 17258,
      "edges_with_support": 322,
-     "maximum": 0.25,
-     "passed": false,
-     "reason": "a transfer claim may not rest mostly on the organism's own sleep payloads (AGENTS rule 18, spec D2)",
-     "self_support": 7406,
-     "share_self_sourced": 0.416723,
-     "support_transitions": 17772,
+     "reason": "run-level diagnostic only; the disqualifier is per claim",
+     "self_distinct": 7406,
+     "share_self_sourced": 0.429134,
      "windows_with_a_sleep_row": 318,
-     "world_support": 10366
+     "within_band": false,
+     "world_distinct": 9852
     }
    },
    "variant": "V1.1-cap(1000)"
@@ -1313,6 +2033,15 @@
  },
  "kind": "reusable_knowledge_calibration",
  "note": "Calibration is a go/no-go at n = 5 (section 15.2). A failure here is reported as formation not achieved at the calibration operating point and stops the study before any confirmatory seed.",
+ "per_claim_provenance": {
+  "all_seeds_passed": false,
+  "reference": 0.179,
+  "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
+  "resolution": "per claim, distinct support (prior event ids)",
+  "rule": "every measurable claim must be mostly world-derived and no more self-sourced than the frozen reference",
+  "scope": "V1.1-cap(1000) only",
+  "seeds_passing": []
+ },
  "pythonhashseed": "0",
  "revision": {
   "all_seeds_passed": true,
@@ -1341,12 +2070,11 @@
   20261205
  ],
  "support_provenance": {
-  "all_seeds_passed": false,
+  "declared_band": 0.25,
   "layer": "store-time observer over the engine's own lookback",
-  "maximum": 0.25,
-  "rule": "every calibration seed must be at or below the maximum",
+  "role": "run-level diagnostic, not the disqualifier",
   "scope": "V1.1-cap(1000) only",
-  "seeds_passing": []
+  "seeds_within_band": []
  },
  "variant": "V1.1-cap(1000)"
 }

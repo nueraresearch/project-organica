@@ -131,6 +131,15 @@ REVISION_WITHHELD = WITHHELD
 #: sleep payload.  Declared before any confirmatory seed.
 SELF_SOURCED_MAX = 0.25
 
+#: The per-claim rule's reference, frozen from the audit-trace build and **not**
+#: recomputed on this run (AGENTS rule 19): 802 of 4,481 distinct evidence
+#: transitions behind reported beliefs were self-sourced in that probe's default
+#: arm (`docs/AUDIT-TRACE-SPEC.md` §10).  A claim may be no more self-sourced
+#: than that, and its distinct support must be mostly world-derived.
+SELF_SOURCED_REFERENCE = 0.179
+REFERENCE_PROVENANCE = ("docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct "
+                        "evidence transitions, default arm")
+
 
 # ---------------------------------------------------------------------------
 # 1. The conditioned sampler
@@ -539,62 +548,128 @@ def _support_observer(mem: MemoryService):
     """A store-time observer that mirrors the engine's own lookback window.
 
     `MemoryService._record_temporal_edges` reads the last three event rows —
-    including the one just stored — and links every prior tag to every tag of
-    the new event.  It does not filter by `event_type`, so a support transition
-    can come from the organism's own sleep payload (spec D2).  This repeats that
-    query one call after each store and labels each increment world or self.
+    including the one just stored — and links every prior tag to every tag of the
+    new event.  It does not filter by `event_type`, so a support transition can
+    come from the organism's own sleep payload (spec D2).  This repeats that
+    query one call after each store and keeps the DISTINCT prior event ids behind
+    each edge, split world / self: the spec's disqualifier reads distinct
+    evidence, and a cumulative count would count one transition per cycle.
     """
-    world_support: dict[tuple[str, str], int] = defaultdict(int)
-    self_support: dict[tuple[str, str], int] = defaultdict(int)
+    support: dict[tuple[str, str], dict[int, bool]] = defaultdict(dict)
     state = {"windows_with_sleep": 0}
 
     def record(new_tags: list[str]) -> None:
         rows = mem._conn.execute(
-            "SELECT tags, event_type FROM events ORDER BY time DESC LIMIT 3"
+            "SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3"
         ).fetchall()
         slept = False
-        for tags_str, etype in rows:
+        for rid, tags_str, etype in rows:
             prior = [t for t in (tags_str or "").split(",") if t]
             for u in prior:
                 for v in new_tags:
                     if u == v:
                         continue
-                    if etype == "sleep":
-                        self_support[(u, v)] += 1
-                        slept = True
-                    else:
-                        world_support[(u, v)] += 1
+                    support[(u, v)][int(rid)] = (etype == "sleep")
+            slept = slept or etype == "sleep"
         state["windows_with_sleep"] += int(slept)
 
-    return record, world_support, self_support, state
+    return record, support, state
 
 
-def support_provenance(world_support: dict, self_support: dict,
-                       asserted: set[tuple[str, str]],
+def support_provenance(support: dict, asserted: set[tuple[str, str]],
                        windows_with_sleep: int) -> dict[str, Any]:
-    """D2: how much of the readout's support came from the organism itself.
+    """D2 aggregate: the share of the readout's DISTINCT support that is self-sourced.
 
-    Restricted to the edges the readout actually asserts, because an edge it does
-    not use cannot support its predictions.  A readout with no support at all is
-    **not measurable** (`None`), never zero (AGENTS rule 13).
+    Deduplicated by prior event id, restricted to the edges the readout asserts.
+    This is a **population-level diagnostic**, not the disqualifier: one claim's
+    own support can be far more or far less self-sourced than the run-level share
+    (`docs/AUDIT-TRACE-SPEC.md` §3.3).  The criterion is `per_claim_provenance`.
     """
-    edges = [e for e in asserted if e in world_support or e in self_support]
-    w = sum(world_support.get(e, 0) for e in edges)
-    sf = sum(self_support.get(e, 0) for e in edges)
-    total = w + sf
-    share = (sf / total) if total else None
+    edges = [e for e in asserted if e in support]
+    world = sum(1 for e in edges for is_self in support[e].values() if not is_self)
+    self_ = sum(1 for e in edges for is_self in support[e].values() if is_self)
+    total = world + self_
+    share = (self_ / total) if total else None
     return {
         "edges_with_support": len(edges),
-        "world_support": w,
-        "self_support": sf,
-        "support_transitions": total,
+        "world_distinct": world,
+        "self_distinct": self_,
+        "distinct_support": total,
         "share_self_sourced": None if share is None else round(share, 6),
-        "maximum": SELF_SOURCED_MAX,
+        "declared_band": SELF_SOURCED_MAX,
         "windows_with_a_sleep_row": windows_with_sleep,
         "control_share": (1.0 if total else None),
-        "passed": share is not None and share <= SELF_SOURCED_MAX,
-        "reason": ("a transfer claim may not rest mostly on the organism's own "
-                   "sleep payloads (AGENTS rule 18, spec D2)"),
+        "within_band": share is not None and share <= SELF_SOURCED_MAX,
+        "reason": "run-level diagnostic only; the disqualifier is per claim",
+    }
+
+
+def _claim_passes(world: int, self_: int, reference: float) -> bool:
+    total = world + self_
+    if total <= 0:
+        return False
+    return (self_ / total) <= reference and world > self_
+
+
+def _claim_edges(candidates: list[dict]) -> list[dict[str, Any]]:
+    """The claims the readout asserts: Layer-1 predictions and hypotheses."""
+    out = []
+    for c in candidates:
+        t = c.get("type")
+        if t == "prediction_candidate":
+            src, tgt = c.get("source"), c.get("target")
+        elif t == "hypothesis":
+            src, tgt = c.get("subject"), c.get("expectation")
+        else:
+            continue
+        if src and tgt:
+            out.append({"type": t, "source": src, "target": tgt})
+    return out
+
+
+def per_claim_provenance(claims: list[dict], support: dict,
+                         reference: float = SELF_SOURCED_REFERENCE
+                         ) -> dict[str, Any]:
+    """The disqualifier of spec §11, at the resolution it is written at.
+
+    For **each claim**, its own distinct supporting transitions are split world /
+    self.  A claim passes when it has measurable support, no more of it is
+    self-sourced than the frozen reference, and its distinct support is mostly
+    world-derived.  A run-level share cannot substitute for this: it averages
+    claims whose evidence is almost entirely world-derived with claims whose
+    evidence is almost entirely the organism's own output.
+    """
+    rows = []
+    for c in claims:
+        recs = support.get((c["source"], c["target"])) or {}
+        world = sum(1 for is_self in recs.values() if not is_self)
+        self_ = sum(1 for is_self in recs.values() if is_self)
+        total = world + self_
+        share = (self_ / total) if total else None
+        rows.append({**c, "world": world, "self": self_,
+                     "distinct_support": total,
+                     "share_self_sourced": None if share is None else round(share, 6),
+                     "passed": (share is not None and share <= reference
+                                and world > self_)})
+    measurable = [r for r in rows if r["share_self_sourced"] is not None]
+    failing = [r for r in measurable if not r["passed"]]
+    shares = [r["share_self_sourced"] for r in measurable]
+    return {
+        "resolution": "per claim, distinct support (prior event ids)",
+        "reference": reference,
+        "reference_provenance": REFERENCE_PROVENANCE,
+        "claims_total": len(rows),
+        "claims_measurable": len(measurable),
+        "claims_passed": len(measurable) - len(failing),
+        "claims_failed": len(failing),
+        "min_share": min(shares) if shares else None,
+        "max_share": max(shares) if shares else None,
+        "failing_examples": failing[:5],
+        "measurable": bool(measurable),
+        "control_all_self_fails": not _claim_passes(0, 1, reference),
+        "all_claims_passed": bool(measurable) and not failing,
+        "reason": ("each claim's own support must be mostly world-derived and no "
+                   "more self-sourced than the frozen reference"),
     }
 
 
@@ -611,7 +686,7 @@ def run_engine(formation: dict, revision: dict, seed: int,
     mem = MemoryService(str(db))
     svc = CapOverrideSleepService(mem, max_predictions=cap)
     epc = EVENTS_PER_CYCLE
-    record, world_support, self_support, obs = _support_observer(mem)
+    record, support, obs = _support_observer(mem)
 
     def feed(events: list[str], source: str) -> None:
         for i, text in enumerate(events):
@@ -629,12 +704,13 @@ def run_engine(formation: dict, revision: dict, seed: int,
             by_type[c.get("type", "")].append(c)
         return {"rows": rows,
                 "asserted": {(u, v) for u, ts in rows.items() for v in ts},
+                "claims": _claim_edges(frozen),
                 "type_rows": {t: structure_edges(cs) for t, cs in by_type.items()}}
 
     try:
         feed(formation["events"], "env")
         first = snapshot()
-        form_world, form_self = dict(world_support), dict(self_support)
+        form_support = {e: dict(r) for e, r in support.items()}
         form_windows = obs["windows_with_sleep"]
         feed(revision["events"], "env_rev")
         second = snapshot()
@@ -655,12 +731,14 @@ def run_engine(formation: dict, revision: dict, seed: int,
         "formation_events": len(formation["events"]),
         "revision_events": len(revision["events"]),
         "support": {
-            "formation": support_provenance(form_world, form_self,
-                                            first["asserted"], form_windows),
-            "revision": support_provenance(dict(world_support),
-                                           dict(self_support),
-                                           second["asserted"],
+            "formation": support_provenance(form_support, first["asserted"],
+                                            form_windows),
+            "revision": support_provenance(support, second["asserted"],
                                            obs["windows_with_sleep"]),
+        },
+        "per_claim": {
+            "formation": per_claim_provenance(first["claims"], form_support),
+            "revision": per_claim_provenance(second["claims"], support),
         },
     }
 
@@ -750,6 +828,7 @@ def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
         "gate_f": gate,
         "attribution": attribution_share(engine),
         "support_provenance": engine["support"],
+        "per_claim_provenance": engine["per_claim"],
         "formation": {
             "events": len(rows),
             "cycles": formation_cycles(),
@@ -812,6 +891,7 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
     E5  the attribution share is measured, and its gate can fire
     E6  the revision limb exists, follows the rotated law, and holds out the pair
     E7  the support-provenance diagnostic is measurable and can fire
+    E8  the per-claim rule is measurable and its control fails
     """
     held = limbs(world, withheld)
     vocab = {t for r in world["events"] for t in r.split()}
@@ -851,6 +931,11 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
           and prov.get("control_share") is not None
           and prov["control_share"] > prov.get("maximum", SELF_SOURCED_MAX))
 
+    pcp = (cell.get("per_claim_provenance") or {}).get("formation") or {}
+    e8 = (pcp.get("measurable") is True
+          and pcp.get("control_all_self_fails") is True
+          and pcp.get("reference") == SELF_SOURCED_REFERENCE)
+
     att = cell.get("attribution") or {}
     e5 = (bool(att.get("passed"))
           and att.get("without_layer1_share") is not None
@@ -889,10 +974,18 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
             "share_self_sourced": prov.get("share_self_sourced"),
             "control_share": prov.get("control_share"),
             "windows_with_a_sleep_row": prov.get("windows_with_a_sleep_row"),
-            "maximum": prov.get("maximum", SELF_SOURCED_MAX),
-            "criterion_passed": prov.get("passed"),
-            "reason": ("the diagnostic must be live and its control must be able "
+            "maximum": prov.get("declared_band", SELF_SOURCED_MAX),
+            "criterion_passed": prov.get("within_band"),
+                        "reason": ("the diagnostic must be live and its control must be able "
                        "to fail; the measured share is judged separately")},
+        "E8_per_claim_rule_is_measurable": {
+            "passed": e8,
+            "reference": pcp.get("reference"),
+            "claims_measurable": pcp.get("claims_measurable"),
+            "claims_failed": pcp.get("claims_failed"),
+            "control_all_self_fails": pcp.get("control_all_self_fails"),
+            "reason": ("the per-claim rule must have measurable claims and its "
+                       "all-self control must fail")},
     }
     return {"all_passed": all(c["passed"] for c in checks.values()),
             "checks": checks}
@@ -946,8 +1039,8 @@ def confirmatory_allowed() -> tuple[bool, str]:
                        "calibration seed")
     if not (cal.get("revision") or {}).get("all_seeds_passed"):
         return False, "the revision limbs had no denominator on every calibration seed"
-    if not (cal.get("support_provenance") or {}).get("all_seeds_passed"):
-        return False, ("the support-provenance diagnostic did not pass on every "
+    if not (cal.get("per_claim_provenance") or {}).get("all_seeds_passed"):
+        return False, ("the per-claim support-provenance rule did not pass on every "
                        "calibration seed")
     return True, ("calibration passed on all five seeds, at the canonical cap, label "
                   "and hash seed")
@@ -981,8 +1074,11 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
                    if c["held_out"]["revision_pairs"] > 0
                    and c["held_out"]["revision_held_out_pairs"] > 0]
     provenance_passed = [c["seed"] for c in cells
-                         if c["support_provenance"]["formation"]["passed"]
-                         and c["support_provenance"]["revision"]["passed"]]
+                         if c["support_provenance"]["formation"]["within_band"]
+                         and c["support_provenance"]["revision"]["within_band"]]
+    per_claim_passed = [c["seed"] for c in cells
+                        if c["per_claim_provenance"]["formation"]["all_claims_passed"]
+                        and c["per_claim_provenance"]["revision"]["all_claims_passed"]]
     art = {
         "kind": "reusable_knowledge_calibration",
         "variant": variant_label(cap),
@@ -996,11 +1092,20 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
             "scope": "V1.1-cap(1000) only",
         },
         "support_provenance": {
-            "rule": "every calibration seed must be at or below the maximum",
-            "maximum": SELF_SOURCED_MAX,
+            "role": "run-level diagnostic, not the disqualifier",
+            "declared_band": SELF_SOURCED_MAX,
             "layer": "store-time observer over the engine's own lookback",
-            "seeds_passing": provenance_passed,
-            "all_seeds_passed": len(provenance_passed) == len(CALIBRATION_SEEDS),
+            "seeds_within_band": provenance_passed,
+            "scope": "V1.1-cap(1000) only",
+        },
+        "per_claim_provenance": {
+            "rule": ("every measurable claim must be mostly world-derived and no "
+                     "more self-sourced than the frozen reference"),
+            "reference": SELF_SOURCED_REFERENCE,
+            "reference_provenance": REFERENCE_PROVENANCE,
+            "resolution": "per claim, distinct support (prior event ids)",
+            "seeds_passing": per_claim_passed,
+            "all_seeds_passed": len(per_claim_passed) == len(CALIBRATION_SEEDS),
             "scope": "V1.1-cap(1000) only",
         },
         "attribution": {
@@ -1029,7 +1134,7 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
             and len(passed) == len(CALIBRATION_SEEDS)
             and len(attribution_passed) == len(CALIBRATION_SEEDS)
             and len(revision_ok) == len(CALIBRATION_SEEDS)
-            and len(provenance_passed) == len(CALIBRATION_SEEDS)
+            and len(per_claim_passed) == len(CALIBRATION_SEEDS)
             and all(c["audit"]["all_passed"] for c in cells)),
         "note": (
             "Calibration is a go/no-go at n = 5 (section 15.2). A failure here "

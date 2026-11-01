@@ -718,3 +718,74 @@ before a single confirmatory seed. **No threshold was relaxed after seeing the n
 confirmatory seed was run. Resolving this — for instance by a variant whose readout excludes
 self-sourced support, which would be a new amendment and a new measurement — is a decision for the
 owner, not a fix to be applied quietly.
+
+---
+
+## 19. Amendment 5 — the per-claim rule is the criterion, and the run-level share is a diagnostic
+
+**Why this is an amendment.** §18.2 measured a **run-level** share: all of the readout's asserted
+edges summed into one number. The audit-trace specification's disqualifier is not written that way
+— it is a **per-claim rule** (`docs/AUDIT-TRACE-SPEC.md` §11, four fixed conditions), and §3.3
+says explicitly that a run-level figure "is **not** a per-claim share". §18.2 also counted
+**support references** (one increment per store) rather than **distinct** evidence, which the spec
+reserves for the disqualifier. Both are corrected here. **No threshold, limb, seed or hypothesis is
+changed; the criterion is replaced with the one that was already committed, and the stop from §18.3
+is preserved.**
+
+### 19.1 What is measured
+
+For **each claim** — every Layer-1 prediction and every hypothesis the readout asserts — the
+distinct prior events behind its support are split world / self, deduplicated by event id. A claim
+passes when all three hold:
+
+1. it has measurable support;
+2. **no more of that support is self-sourced than the frozen reference, 17.9 %**;
+3. **a majority of it is world-derived.**
+
+The reference is the audit-trace probe's distinct-evidence figure — **802 of 4,481** transitions,
+default arm — and it is **not recomputed on this run** (AGENTS rule 19). It is a provisional
+calibration value from one world, one policy and one run, and it is labelled as such.
+
+**A run-level average cannot stand in for this.** It averages claims whose evidence is
+almost entirely world-derived with claims whose evidence is almost entirely the organism's own
+output, and the two can be equally wrong for different reasons.
+
+### 19.2 The result
+
+| seed | measurable claims | failing | self-sourced share, min–max |
+|---|---|---|---|
+| 20261201 | 1277 | 592 (46.4 %) | 0.0000–1.0000 |
+| 20261202 | 664 | 348 (52.4 %) | 0.0000–1.0000 |
+| 20261203 | 642 | 332 (51.7 %) | 0.0000–1.0000 |
+| 20261204 | 604 | 264 (43.7 %) | 0.0000–1.0000 |
+| 20261205 | 653 | 336 (51.5 %) | 0.0000–1.0000 |
+
+Every seed fails, and the failures are not marginal: the maximum per-claim share is **1.0000**
+(some claims rest entirely on the organism's own output), and roughly half of the measurable claims
+exceed a 17.9 % reference that an ordinary belief met during the audit-trace build. On the revision
+readout the counts are 290–516 failing claims per seed.
+
+**The run-level diagnostic, restated on distinct evidence:** 0.4209–0.4287 of the
+readout's distinct support is self-sourced (6,732–6,806 world vs
+4,947–5,051 self transitions), which supersedes §18.2's 0.4092–0.4155 — that figure
+counted support references, not distinct evidence. The conclusion does not change; the quantity
+does, and the corrected quantity is the one the spec's rule reads.
+
+### 19.3 What this changes, and what it does not
+
+- **The criterion is now the per-claim rule.** `authorises_confirmatory` depends on it; the
+  run-level share is reported as a diagnostic and keeps its declared 0.25 band without gating.
+- **The stop stands.** The artifact records `authorises_confirmatory: false`; no confirmatory seed
+  has run, and none may run until a variant whose readout is world-carried passes this rule on
+  calibration.
+- **It does not claim harm.** Nothing here shows that self-sourced support caused a wrong
+  prediction. It shows that the support behind these claims is not predominantly world-derived, so
+  by the pre-committed rule the margins cannot be reported as transfer. That distinction is the
+  spec's own and is not blurred here.
+- **The audit gained a check, not a verdict.** `E8` verifies that the per-claim rule has measurable
+  claims and that its all-self control fails; the audit passes 8 of 8 checks on
+  every seed. The failure is the criterion, not the instrument.
+
+**What this leaves in place.** §14's ceiling and denominator, §15's decisions, §17's attribution
+share, §18's revision limb and provenance layer, the 0.95 threshold, the 15-of-20 rule and both
+stop rules. **No confirmatory seed has been run.**
