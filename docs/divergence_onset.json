@@ -1,0 +1,1205 @@
+{
+ "cached": 0,
+ "capture_artifact_sha256": "dce105bf5dab8f5ac2b85517cc7c27d28bd51fb44832c0e002ccf3ef7c885aa0",
+ "command": "python benchmarks/divergence_onset.py --workers 4",
+ "control": {
+  "baseline_hash_seed": 0,
+  "campaign_hash_seed": 0,
+  "cycles": [
+   {
+    "arm": "B",
+    "cycle": 1,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 2,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 3,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 4,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 5,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 6,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 7,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 8,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 9,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 10,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 11,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "B",
+    "cycle": 12,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 1,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 2,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 3,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 4,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 5,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 6,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 7,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 8,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 9,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 10,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 11,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   },
+   {
+    "arm": "C",
+    "cycle": 12,
+    "measured": true,
+    "same_order": true,
+    "same_set": true
+   }
+  ],
+  "hash_seeds_equal": true,
+  "identical_at_every_cycle": true,
+  "onset": null,
+  "seed": 20261101,
+  "task": "T1"
+ },
+ "f1": {
+  "cycles_checked": [
+   12,
+   4,
+   3,
+   6,
+   6,
+   6,
+   6,
+   6
+  ],
+  "mismatches": [],
+  "passed": true
+ },
+ "generated_utc": "2026-11-01T16:09:57Z",
+ "kind": "divergence_onset",
+ "membership_artifact_sha256": "544ebd87bf86a7b38e98815449cd86e66a9ed75dbc3ffb1431cae34c76365e17",
+ "observer_version": 1,
+ "provenance_note": "Derived fields added 2026-11-01 after the run: the control's two hash seeds and whether they are equal. The run counters are the original measurement's (18 runs, 0 cached) and were not recomputed.",
+ "results": [
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 12,
+     "f1": {
+      "11": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      },
+      "12": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "dream_analogy_1082cbdc",
+       "dream_analogy_4b43bbec",
+       "dream_analogy_68b6162d",
+       "dream_cond_45ba4f3d",
+       "dream_cond_aeff9bcd",
+       "dream_cond_c86f2f15",
+       "dream_mut_55337662",
+       "dream_mut_aa7e1065",
+       "exp_4963470c",
+       "exp_695edb13",
+       "exp_80d6e0b7",
+       "exp_813a642e",
+       "exp_a7926761",
+       "hyp_188d0d36",
+       "hyp_1e90ba45",
+       "hyp_21019ffd",
+       "hyp_29982b00",
+       "hyp_44c9dff5",
+       "hyp_45ba4f3d",
+       "hyp_5711aaab",
+       "hyp_642bc75f",
+       "hyp_6ea36d82",
+       "hyp_7fa4e5dd",
+       "hyp_9d441b50",
+       "hyp_aa517900",
+       "hyp_ad3bd3c0",
+       "hyp_aeff9bcd",
+       "hyp_b1b5b638",
+       "hyp_b516bed8",
+       "hyp_bafeaa55",
+       "hyp_c86f2f15",
+       "inv_055ad1c2",
+       "inv_2f44b500",
+       "inv_777a5a3f",
+       "inv_7c1ea7a8",
+       "inv_943684a9",
+       "meta_aecdef99",
+       "meta_da454b02",
+       "meta_efd764d8",
+       "meta_f0a5da17",
+       "phrase_11d0166c",
+       "pred_0f32fe15",
+       "pred_63603176",
+       "pred_8f1c7481",
+       "process_188d0d36",
+       "process_1e90ba45",
+       "process_29982b00",
+       "process_6eef169e",
+       "process_8e76c158",
+       "process_b1b5b638",
+       "process_b516bed8",
+       "process_c9409791",
+       "process_e70d60c0",
+       "question_0cc6644f",
+       "question_477196e4",
+       "question_c9409791",
+       "question_e70d60c0",
+       "theory_17655226",
+       "theory_bef66e35",
+       "theory_d73713a5",
+       "theory_f2459dc9",
+       "workflow_188d0d36",
+       "workflow_1e90ba45",
+       "workflow_29982b00",
+       "workflow_6eef169e",
+       "workflow_7ff50e2b",
+       "workflow_b1b5b638",
+       "workflow_b516bed8",
+       "workflow_c9409791",
+       "workflow_e70d60c0"
+      ],
+      "left": [],
+      "onset_cycle": 3,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": true
+    },
+    "C": {
+     "divergence_cycle": 12,
+     "f1": {
+      "11": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      },
+      "12": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "dream_analogy_1082cbdc",
+       "dream_analogy_4b43bbec",
+       "dream_analogy_68b6162d",
+       "dream_cond_45ba4f3d",
+       "dream_cond_aeff9bcd",
+       "dream_cond_c86f2f15",
+       "dream_mut_55337662",
+       "dream_mut_aa7e1065",
+       "exp_4963470c",
+       "exp_695edb13",
+       "exp_80d6e0b7",
+       "exp_813a642e",
+       "exp_a7926761",
+       "hyp_188d0d36",
+       "hyp_1e90ba45",
+       "hyp_21019ffd",
+       "hyp_29982b00",
+       "hyp_44c9dff5",
+       "hyp_45ba4f3d",
+       "hyp_5711aaab",
+       "hyp_642bc75f",
+       "hyp_6ea36d82",
+       "hyp_7fa4e5dd",
+       "hyp_9d441b50",
+       "hyp_aa517900",
+       "hyp_ad3bd3c0",
+       "hyp_aeff9bcd",
+       "hyp_b1b5b638",
+       "hyp_b516bed8",
+       "hyp_bafeaa55",
+       "hyp_c86f2f15",
+       "inv_055ad1c2",
+       "inv_2f44b500",
+       "inv_777a5a3f",
+       "inv_7c1ea7a8",
+       "inv_943684a9",
+       "meta_aecdef99",
+       "meta_da454b02",
+       "meta_efd764d8",
+       "meta_f0a5da17",
+       "phrase_11d0166c",
+       "pred_0f32fe15",
+       "pred_63603176",
+       "pred_8f1c7481",
+       "process_188d0d36",
+       "process_1e90ba45",
+       "process_29982b00",
+       "process_6eef169e",
+       "process_8e76c158",
+       "process_b1b5b638",
+       "process_b516bed8",
+       "process_c9409791",
+       "process_e70d60c0",
+       "question_0cc6644f",
+       "question_477196e4",
+       "question_c9409791",
+       "question_e70d60c0",
+       "theory_17655226",
+       "theory_bef66e35",
+       "theory_d73713a5",
+       "theory_f2459dc9",
+       "workflow_188d0d36",
+       "workflow_1e90ba45",
+       "workflow_29982b00",
+       "workflow_6eef169e",
+       "workflow_7ff50e2b",
+       "workflow_b1b5b638",
+       "workflow_b516bed8",
+       "workflow_c9409791",
+       "workflow_e70d60c0"
+      ],
+      "left": [],
+      "onset_cycle": 3,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": true
+    }
+   },
+   "audit_index": 11,
+   "divergence_cycle": 12,
+   "seed": 20261125,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 4,
+     "f1": {
+      "3": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "4": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "dream_analogy_fabff6cc",
+       "dream_cond_18e1d6f5",
+       "dream_cond_313a43d6",
+       "dream_cond_972d3173",
+       "dream_mut_760fc7e7",
+       "dream_mut_e71ad475",
+       "exp_036d5ff8",
+       "exp_0b49e797",
+       "exp_69fefc7c",
+       "exp_72ed1e29",
+       "exp_ab789ab9",
+       "hyp_417da26f",
+       "hyp_70f7c838",
+       "hyp_b38b643c",
+       "hyp_c1ff7ade",
+       "hyp_c8225c8d",
+       "hyp_d22148a4",
+       "hyp_fc1dfe44",
+       "inv_1efb3c2a",
+       "inv_23f27572",
+       "inv_4c3f9caf",
+       "inv_6683982e",
+       "inv_d358fa26",
+       "loop_18e1d6f5",
+       "loop_1908f98b",
+       "loop_2f69dab0",
+       "loop_313a43d6",
+       "loop_d66d0d78",
+       "loop_e8b925e0",
+       "meta_b62f3b3b",
+       "meta_e0592018",
+       "pred_050eeda2",
+       "pred_18e1d6f5",
+       "pred_313a43d6",
+       "pred_972d3173",
+       "process_417da26f",
+       "process_90cf00ae",
+       "process_fc1dfe44",
+       "question_1c53486b",
+       "question_9a93b25b",
+       "question_d81bba30",
+       "theory_1c53486b",
+       "theory_9a93b25b",
+       "theory_d81bba30",
+       "workflow_417da26f",
+       "workflow_9a93b25b",
+       "workflow_fc1dfe44"
+      ],
+      "left": [],
+      "onset_cycle": 4,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    },
+    "C": {
+     "divergence_cycle": 4,
+     "f1": {
+      "3": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "4": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "dream_analogy_fabff6cc",
+       "dream_cond_18e1d6f5",
+       "dream_cond_313a43d6",
+       "dream_cond_972d3173",
+       "dream_mut_760fc7e7",
+       "dream_mut_e71ad475",
+       "exp_036d5ff8",
+       "exp_0b49e797",
+       "exp_69fefc7c",
+       "exp_72ed1e29",
+       "exp_ab789ab9",
+       "hyp_417da26f",
+       "hyp_70f7c838",
+       "hyp_b38b643c",
+       "hyp_c1ff7ade",
+       "hyp_c8225c8d",
+       "hyp_d22148a4",
+       "hyp_fc1dfe44",
+       "inv_1efb3c2a",
+       "inv_23f27572",
+       "inv_4c3f9caf",
+       "inv_6683982e",
+       "inv_d358fa26",
+       "loop_18e1d6f5",
+       "loop_1908f98b",
+       "loop_2f69dab0",
+       "loop_313a43d6",
+       "loop_d66d0d78",
+       "loop_e8b925e0",
+       "meta_b62f3b3b",
+       "meta_e0592018",
+       "pred_050eeda2",
+       "pred_18e1d6f5",
+       "pred_313a43d6",
+       "pred_972d3173",
+       "process_417da26f",
+       "process_90cf00ae",
+       "process_fc1dfe44",
+       "question_1c53486b",
+       "question_9a93b25b",
+       "question_d81bba30",
+       "theory_1c53486b",
+       "theory_9a93b25b",
+       "theory_d81bba30",
+       "workflow_417da26f",
+       "workflow_9a93b25b",
+       "workflow_fc1dfe44"
+      ],
+      "left": [],
+      "onset_cycle": 4,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 3,
+   "divergence_cycle": 4,
+   "seed": 20261128,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 3,
+     "f1": {
+      "2": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "3": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_aa6b1046",
+       "anomaly_e5a539be",
+       "anomaly_fb6ccd1e",
+       "dream_analogy_2996247c",
+       "dream_analogy_a9ca2e7b",
+       "dream_analogy_fabff6cc",
+       "dream_mut_1a1cab04",
+       "dream_mut_6c81b628",
+       "exp_08858048",
+       "exp_481eaeea",
+       "exp_71deae9f",
+       "exp_8c58ab2d",
+       "exp_e241856f",
+       "hyp_1908f98b",
+       "hyp_21019ffd",
+       "hyp_313a43d6",
+       "hyp_417da26f",
+       "hyp_5242671c",
+       "hyp_972d3173",
+       "hyp_9d441b50",
+       "hyp_c1ff7ade",
+       "hyp_c8225c8d",
+       "hyp_d22148a4",
+       "hyp_ecfe4694",
+       "inv_0bd24d28",
+       "inv_56fe9728",
+       "inv_7c7d3b4d",
+       "inv_9c9b4b8b",
+       "inv_e534a813",
+       "loop_27da00e9",
+       "loop_31b9db0e",
+       "loop_41f383df",
+       "loop_abc3c91a",
+       "loop_b13b5e52",
+       "loop_dc1ceb15",
+       "loop_ed9d7ae1",
+       "meta_2655399a",
+       "meta_b62f3b3b",
+       "meta_e0592018",
+       "phrase_49ead2b1",
+       "pred_31b9db0e",
+       "pred_7498423f",
+       "pred_a04f50f2",
+       "pred_abc3c91a",
+       "pred_cf11d4d4",
+       "pred_d04fa6f7",
+       "pred_e9822ccf",
+       "pred_ed9d7ae1",
+       "process_1908f98b",
+       "process_313a43d6",
+       "process_417da26f",
+       "process_f0e2067b",
+       "question_b58e2626",
+       "question_d0a0293b",
+       "question_d9230abf",
+       "theory_b58e2626",
+       "theory_d0a0293b",
+       "theory_d9230abf",
+       "workflow_1908f98b",
+       "workflow_313a43d6",
+       "workflow_417da26f",
+       "workflow_b58e2626"
+      ],
+      "left": [],
+      "onset_cycle": 3,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    },
+    "C": {
+     "divergence_cycle": 3,
+     "f1": {
+      "2": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "3": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_aa6b1046",
+       "anomaly_e5a539be",
+       "anomaly_fb6ccd1e",
+       "dream_analogy_2996247c",
+       "dream_analogy_a9ca2e7b",
+       "dream_analogy_fabff6cc",
+       "dream_mut_1a1cab04",
+       "dream_mut_6c81b628",
+       "exp_08858048",
+       "exp_481eaeea",
+       "exp_71deae9f",
+       "exp_8c58ab2d",
+       "exp_e241856f",
+       "hyp_1908f98b",
+       "hyp_21019ffd",
+       "hyp_313a43d6",
+       "hyp_417da26f",
+       "hyp_5242671c",
+       "hyp_972d3173",
+       "hyp_9d441b50",
+       "hyp_c1ff7ade",
+       "hyp_c8225c8d",
+       "hyp_d22148a4",
+       "hyp_ecfe4694",
+       "inv_0bd24d28",
+       "inv_56fe9728",
+       "inv_7c7d3b4d",
+       "inv_9c9b4b8b",
+       "inv_e534a813",
+       "loop_27da00e9",
+       "loop_31b9db0e",
+       "loop_41f383df",
+       "loop_abc3c91a",
+       "loop_b13b5e52",
+       "loop_dc1ceb15",
+       "loop_ed9d7ae1",
+       "meta_2655399a",
+       "meta_b62f3b3b",
+       "meta_e0592018",
+       "phrase_49ead2b1",
+       "pred_31b9db0e",
+       "pred_7498423f",
+       "pred_a04f50f2",
+       "pred_abc3c91a",
+       "pred_cf11d4d4",
+       "pred_d04fa6f7",
+       "pred_e9822ccf",
+       "pred_ed9d7ae1",
+       "process_1908f98b",
+       "process_313a43d6",
+       "process_417da26f",
+       "process_f0e2067b",
+       "question_b58e2626",
+       "question_d0a0293b",
+       "question_d9230abf",
+       "theory_b58e2626",
+       "theory_d0a0293b",
+       "theory_d9230abf",
+       "workflow_1908f98b",
+       "workflow_313a43d6",
+       "workflow_417da26f",
+       "workflow_b58e2626"
+      ],
+      "left": [],
+      "onset_cycle": 3,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 2,
+   "divergence_cycle": 3,
+   "seed": 20261129,
+   "task": "T1"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_29b7be02",
+       "anomaly_842c5bcc",
+       "dream_mut_70e14748",
+       "dream_mut_f06ec067",
+       "exp_107d054c",
+       "exp_e128d375",
+       "hyp_120eb70a",
+       "hyp_2ff50859",
+       "hyp_70f7c838",
+       "hyp_e6f8a3e6",
+       "inv_c53ffe1f",
+       "inv_e2d7bf47",
+       "meta_1f543cef",
+       "meta_efd764d8",
+       "pred_1908f98b",
+       "pred_331be2d4",
+       "pred_d22148a4",
+       "pred_dc361b05",
+       "process_e6f8a3e6",
+       "workflow_e6f8a3e6"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    },
+    "C": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_29b7be02",
+       "anomaly_842c5bcc"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 5,
+   "divergence_cycle": 6,
+   "seed": 20261118,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_1c6de26c",
+       "anomaly_28f69a24",
+       "anomaly_7d77c40c",
+       "anomaly_82441e05",
+       "anomaly_9ac06e8c",
+       "dream_analogy_e5c75b28",
+       "exp_1b0b3869",
+       "hyp_9d441b50",
+       "hyp_a3c4b048",
+       "inv_81f1ef91",
+       "pred_57b28f60"
+      ],
+      "left": [],
+      "onset_cycle": 4,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": true
+    },
+    "C": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_1c6de26c",
+       "anomaly_28f69a24",
+       "anomaly_7d77c40c",
+       "anomaly_82441e05",
+       "anomaly_9ac06e8c"
+      ],
+      "left": [],
+      "onset_cycle": 4,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": true
+    }
+   },
+   "audit_index": 5,
+   "divergence_cycle": 6,
+   "seed": 20261120,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_2cb3d759",
+       "anomaly_3b873ad2",
+       "anomaly_a382afab",
+       "dream_analogy_b8830751",
+       "dream_mut_9edcf1b0",
+       "dream_mut_e8ebfc53",
+       "exp_2f41537f",
+       "exp_da612387",
+       "exp_deaf7644",
+       "hyp_7fa4e5dd",
+       "hyp_b1b5b638",
+       "hyp_c86f2f15",
+       "hyp_ecfe4694",
+       "inv_578ae685",
+       "inv_a9c92401",
+       "inv_f2956ebf",
+       "loop_a5f498cc",
+       "meta_f0a5da17",
+       "pred_70575cbc",
+       "process_b1b5b638",
+       "question_49e76748",
+       "theory_49e76748",
+       "workflow_b1b5b638"
+      ],
+      "left": [],
+      "onset_cycle": 5,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": true
+    },
+    "C": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_1a1b1338",
+       "anomaly_8352ad0d",
+       "anomaly_8c8e09e6",
+       "anomaly_9db5184e",
+       "anomaly_a0072b14",
+       "loop_dc361b05"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 5,
+   "divergence_cycle": 6,
+   "seed": 20261121,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_21df6694",
+       "anomaly_3b1e873d",
+       "anomaly_41012317",
+       "anomaly_677c03f0",
+       "anomaly_7ad942e0",
+       "anomaly_9719b7a0",
+       "anomaly_9acd947b",
+       "anomaly_e6dced8c",
+       "anomaly_f5244467",
+       "anomaly_fe1ef7a5",
+       "hyp_2ff50859",
+       "hyp_c1ff7ade",
+       "loop_40d1fa1e",
+       "loop_5e4af209",
+       "pred_40d1fa1e",
+       "pred_5e4af209",
+       "pred_974c6a02",
+       "pred_bc95dc38",
+       "pred_d98266c8"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    },
+    "C": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_21df6694",
+       "anomaly_3b1e873d",
+       "anomaly_41012317",
+       "anomaly_677c03f0",
+       "anomaly_7ad942e0",
+       "anomaly_9719b7a0",
+       "anomaly_9acd947b",
+       "anomaly_e6dced8c",
+       "anomaly_f5244467",
+       "anomaly_fe1ef7a5",
+       "loop_40d1fa1e",
+       "loop_5e4af209",
+       "pred_974c6a02",
+       "pred_bc95dc38"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 5,
+   "divergence_cycle": 6,
+   "seed": 20261123,
+   "task": "T2"
+  },
+  {
+   "arms": {
+    "B": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_98de25a9",
+       "anomaly_9d31c463",
+       "anomaly_a8af7322",
+       "anomaly_beb97bfb",
+       "anomaly_cf7c2929",
+       "dream_analogy_68b6162d",
+       "dream_mut_64b4d86f",
+       "dream_mut_859d957b",
+       "exp_85461809",
+       "exp_9cdfc6aa",
+       "hyp_21019ffd",
+       "hyp_5fa8f2d2",
+       "hyp_c8225c8d",
+       "hyp_dc7da818",
+       "inv_7f10e8f8",
+       "inv_f01a0351",
+       "loop_78029800",
+       "loop_93632860",
+       "loop_a72ccfd6",
+       "loop_d3d58048",
+       "meta_49ead2b1",
+       "meta_da454b02",
+       "meta_efd764d8",
+       "pred_2dcbe185",
+       "pred_a240a7be",
+       "pred_a32a9909",
+       "pred_a72ccfd6",
+       "pred_c7846f44",
+       "pred_d3d58048",
+       "pred_e5c75b28",
+       "process_63ac32e2",
+       "workflow_63ac32e2"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    },
+    "C": {
+     "divergence_cycle": 6,
+     "f1": {
+      "5": {
+       "computed": true,
+       "ids_match": true,
+       "recorded": true,
+       "reproduced": true
+      },
+      "6": {
+       "computed": false,
+       "ids_match": true,
+       "recorded": false,
+       "reproduced": true
+      }
+     },
+     "onset": {
+      "entered": [
+       "anomaly_98de25a9",
+       "anomaly_9d31c463",
+       "anomaly_a8af7322",
+       "anomaly_beb97bfb",
+       "anomaly_cf7c2929",
+       "dream_analogy_1082cbdc",
+       "dream_analogy_36e8eb9f",
+       "dream_analogy_6399c069",
+       "dream_analogy_68b6162d",
+       "dream_analogy_8b383d73",
+       "exp_14f62bf0",
+       "exp_2c10c6c8",
+       "exp_2ebafecf",
+       "exp_d31ecf56",
+       "exp_ed2c60fa",
+       "inv_0a1a36b6",
+       "inv_6111b8d8",
+       "inv_93a919ca",
+       "inv_b28ec89c",
+       "inv_c2cd4e42",
+       "loop_78029800",
+       "loop_93632860",
+       "loop_a72ccfd6",
+       "loop_d3d58048",
+       "meta_49ead2b1",
+       "meta_e0592018",
+       "pred_a72ccfd6",
+       "pred_c7846f44"
+      ],
+      "left": [],
+      "onset_cycle": 6,
+      "state": "onset",
+      "unmeasured_cycles": []
+     },
+     "search_case": false
+    }
+   },
+   "audit_index": 5,
+   "divergence_cycle": 6,
+   "seed": 20261130,
+   "task": "T2"
+  }
+ ],
+ "runs": 18,
+ "seconds": 637.1
+}

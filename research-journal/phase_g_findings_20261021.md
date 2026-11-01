@@ -6728,3 +6728,21 @@ The differences, by type:
 **What it will not establish.** It will not name the operation that introduces the difference. A candidate entering the pool at cycle *c* is evidence that an upstream write changed at *c*, not that a named function is responsible; locating the operation is a separate observer and is not attempted here. No engine change, no D0 re-scoring, no H2 test, and the mechanism experiment is not reopened. Organica 1 stays frozen at `v0.9.0`.
 
 → `docs/ONSET-INSTRUMENT-BRIEF.md`; `docs/divergence_cycle_capture.json`; journal §72; journal §74.
+
+## §76 — The onset was measured: every pool divergence is an insertion, and the gauge that should have checked it cannot fire
+
+**What this section records.** The experiment pre-registered in §75 and `docs/ONSET-INSTRUMENT-BRIEF.md` was run on 2026-11-01 against the frozen engine at `711f04d`: **18 worker runs, 0 cached**. Artifact `docs/divergence_onset.json`, report `docs/DIVERGENCE-ONSET.md`, instrument `benchmarks/divergence_onset.py`, which reuses the corrected capture's worker and its marker-witnessed addressing rule unchanged. **No engine file changed.**
+
+**F1 passed.** Re-capturing cycles *k* and *k−1* reproduced `docs/divergence_cycle_capture.json`'s `set_identical` values **and its pool IDs** on **16 of 16 arm-pairs**. The onset instrument is therefore measuring the same thing the corrected capture measured, and the walk-back is licensed.
+
+**C1 is void, and that is the most important defect in this run.** The audit records the control seed T1/20261101's campaign hash seed and baseline hash seed as **0 and 0** — the same seed. The two control runs are one configuration, so the comparison is a run against itself and cannot fail; it returned "identical pools in 24 of 24 measured cycles", which is what comparing a run with itself must return. **F2 is therefore not adjudicated**, and the onsets below are characterised, not yet shown to be specific to the failing seeds. This is AGENTS rule 25's defect — a check that cannot fire is decoration — caught by the run it was supposed to guard.
+
+**P2, as pre-committed.** Of the **five** search arm-pairs, **four** reached onset strictly before *k−1*: T1/20261125 both arms at **cycle 3** (against *k* = 12), T2/20261120 both arms at **cycle 4** (against *k* = 6). The fifth — T2/20261121 arm B — reached onset at **cycle 5**, which *is* *k−1*, so it is located earlier than the divergence cycle but not strictly before *k−1*. The clause "at least 4 of 5 located" is met; the blanket "strictly before *k−1*" holds for 4 of 5. All five were located at a specific cycle.
+
+**P3 met.** Every one of the 16 arm-pairs has its onset at cycles **3–6**; none bottoms out at cycle 1, so no claim depends on the unobservable cycle 0.
+
+**The finding: divergence is insertion, never replacement.** Across the 16 arm-pairs with a located onset, **zero candidates left a pool** at the cycle it first differed. Every onset is the pool *gaining* candidates — 70, 47, 62 at the largest T1 transitions, 2–32 across T2 — and the two arms of a seed transition at the same cycle while differing in how many candidates enter (T2/20261118: arm B 20, arm C 2; T2/20261130: B 32, C 28). Members are not displaced by hash order; candidates are *admitted into* the pool that the other side never produced.
+
+**What this does not establish.** It does not name the operation. A candidate entering at cycle *c* means an upstream write changed at *c*; the write's identity is a separate observer, and the fact that `_score_tags` is order-sensitive from cycle 1 is not evidence that it causes an insertion at cycle 3 or 4. With C1 void, the onsets are also not yet shown to be absent on a seed that does not diverge. H2 remains untested, D0 is not re-scored, and Organica 1 stays frozen at `v0.9.0`.
+
+→ `docs/divergence_onset.json`; `docs/DIVERGENCE-ONSET.md`; `benchmarks/divergence_onset.py`; `docs/ONSET-INSTRUMENT-BRIEF.md`; journal §75.

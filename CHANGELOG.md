@@ -133,6 +133,30 @@ there is nothing to check out.
   the frozen engine keep their previous status, and no verdict, criterion or
   pre-registered hypothesis was re-read.
 
+### Measured — the membership onset, and a control that could not fire (2026-11-01)
+
+- **What ran.** The experiment pre-registered in `docs/ONSET-INSTRUMENT-BRIEF.md`
+  and journal §75: `benchmarks/divergence_onset.py` captures cycles `1…k` per arm
+  with the corrected capture's worker and its marker-witnessed addressing rule,
+  and reports the first cycle at which the two candidate pools differ in
+  membership. **18 runs, 0 cached. No engine file changed.**
+- **What it found.** Every one of the 16 located onsets is an **insertion**:
+  zero candidates left a pool at the cycle it first differed, and the pools
+  diverge by gaining candidates (70, 47, 62 at the T1 transitions; 2–32 across
+  T2). Onsets are at cycles 3–6. Four of the five search arm-pairs reach onset
+  strictly before `k-1` — T1/20261125 at cycle 3 against `k` = 12, T2/20261120
+  at cycle 4 against `k` = 6 — and the fifth at `k-1` itself, so P2's "at least
+  4 of 5" holds while its blanket "strictly before" does not. P3 is met.
+- **F1 passed.** Cycles `k` and `k-1` reproduce the corrected capture's
+  `set_identical` values and pool IDs on **16 of 16** arm-pairs.
+- **C1 is void, and that is a defect in the protocol as executed.** The audit
+  records the control seed's campaign and baseline hash seeds as **0 and 0**, so
+  the two control runs are one configuration: the comparison is a run against
+  itself, cannot fail, and returned "identical in 24 of 24 cycles" as it must.
+  **F2 is not adjudicated** and the onsets are a characterisation, not yet a
+  divergence-specific result. The report now says so instead of claiming the
+  gauge holds.
+
 ### Measured — the construction-order experiment, and a control that stopped it (2026-11-01)
 
 - **What ran.** Arm A (observational) and Arm B (interventional) of the experiment
