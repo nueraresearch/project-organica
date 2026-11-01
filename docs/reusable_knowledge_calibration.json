@@ -1,0 +1,644 @@
+{
+ "all_seeds_passed": true,
+ "audit_all_passed": true,
+ "burned": [
+  20261206
+ ],
+ "cap": 1000,
+ "cells": [
+  {
+   "audit": {
+    "all_passed": true,
+    "checks": {
+     "E1_endpoint_separates_the_law": {
+      "broken_rule_transfer": 0.580767,
+      "ceiling_transfer": 0.372569,
+      "passed": true,
+      "reason": "a one-transition learner must score worse than the ceiling"
+     },
+     "E2_gate_f_can_fire": {
+      "degraded_coverage": 0.90625,
+      "degraded_passed": false,
+      "passed": true,
+      "reason": "dropping ~10 % of the available relations must fail Gate F"
+     },
+     "E3_conditioning_removed_the_withheld": {
+      "compensated_events": 163,
+      "passed": true,
+      "reason": "no withheld transition may appear in any formation exposure"
+     },
+     "E4_limbs_have_denominators": {
+      "passed": true,
+      "reason": "a limb with no pairs is not measurable, not zero",
+      "retention_pairs": 319,
+      "transfer_pairs": 112
+     }
+    }
+   },
+   "best_primary_comparator": "decayed_bigram",
+   "calibration_passed": true,
+   "engine": {
+    "asserted_pairs": 327,
+    "cap": 1000,
+    "temporal_pairs": 393
+   },
+   "formation": {
+    "compensated_events": 163,
+    "cycles": 110,
+    "events": 880,
+    "transitions_observed": {
+     "(0, 0)|flip_q": 87,
+     "(0, 1)|flip_p": 320,
+     "(1, 0)|flip_p": 86,
+     "(1, 0)|flip_q": 34,
+     "(1, 1)|flip_p": 233,
+     "(1, 1)|flip_q": 120
+    },
+    "withheld": [
+     [
+      [
+       0,
+       0
+      ],
+      "flip_p"
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      "flip_q"
+     ]
+    ]
+   },
+   "gate_f": {
+    "asserted_in_available": 96,
+    "asserted_outside_world": 226,
+    "asserted_total": 327,
+    "coverage": 1.0,
+    "covered": 96,
+    "denominator": 96,
+    "passed": true,
+    "precision": 0.293578,
+    "threshold": 0.95
+   },
+   "held_out": {
+    "retention_pairs": 319,
+    "transfer_instances": {
+     "flip_p": 72,
+     "flip_q": 40
+    },
+    "transfer_pairs": 112
+   },
+   "kind": "reusable_knowledge_cell",
+   "organica_minus_best_primary": 0.175186,
+   "organica_minus_ceiling": -0.223096,
+   "privileged_reference": "cell_counter",
+   "relations": {
+    "available": 96,
+    "total": 128,
+    "withheld": 32
+   },
+   "scores": {
+    "bigram": {
+     "retention": 0.461957,
+     "transfer": 0.975956
+    },
+    "ceiling": {
+     "retention": 0.369059,
+     "transfer": 0.372569
+    },
+    "cell_counter": {
+     "retention": 0.554363,
+     "transfer": 1.321857
+    },
+    "decayed_bigram": {
+     "retention": 0.414393,
+     "transfer": 0.770851
+    },
+    "organica": {
+     "retention": 0.441561,
+     "transfer": 0.595665
+    },
+    "replay": {
+     "retention": 0.410683,
+     "transfer": 0.780221
+    }
+   },
+   "seed": 20261201,
+   "variant": "V1.1-cap(1000)"
+  },
+  {
+   "audit": {
+    "all_passed": true,
+    "checks": {
+     "E1_endpoint_separates_the_law": {
+      "broken_rule_transfer": 0.62535,
+      "ceiling_transfer": 0.3795,
+      "passed": true,
+      "reason": "a one-transition learner must score worse than the ceiling"
+     },
+     "E2_gate_f_can_fire": {
+      "degraded_coverage": 0.90625,
+      "degraded_passed": false,
+      "passed": true,
+      "reason": "dropping ~10 % of the available relations must fail Gate F"
+     },
+     "E3_conditioning_removed_the_withheld": {
+      "compensated_events": 165,
+      "passed": true,
+      "reason": "no withheld transition may appear in any formation exposure"
+     },
+     "E4_limbs_have_denominators": {
+      "passed": true,
+      "reason": "a limb with no pairs is not measurable, not zero",
+      "retention_pairs": 319,
+      "transfer_pairs": 113
+     }
+    }
+   },
+   "best_primary_comparator": "decayed_bigram",
+   "calibration_passed": true,
+   "engine": {
+    "asserted_pairs": 341,
+    "cap": 1000,
+    "temporal_pairs": 390
+   },
+   "formation": {
+    "compensated_events": 165,
+    "cycles": 110,
+    "events": 880,
+    "transitions_observed": {
+     "(0, 0)|flip_q": 85,
+     "(0, 1)|flip_p": 318,
+     "(1, 0)|flip_p": 84,
+     "(1, 0)|flip_q": 38,
+     "(1, 1)|flip_p": 233,
+     "(1, 1)|flip_q": 122
+    },
+    "withheld": [
+     [
+      [
+       0,
+       0
+      ],
+      "flip_p"
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      "flip_q"
+     ]
+    ]
+   },
+   "gate_f": {
+    "asserted_in_available": 94,
+    "asserted_outside_world": 240,
+    "asserted_total": 341,
+    "coverage": 0.979167,
+    "covered": 94,
+    "denominator": 96,
+    "passed": true,
+    "precision": 0.27566,
+    "threshold": 0.95
+   },
+   "held_out": {
+    "retention_pairs": 319,
+    "transfer_instances": {
+     "flip_p": 65,
+     "flip_q": 48
+    },
+    "transfer_pairs": 113
+   },
+   "kind": "reusable_knowledge_cell",
+   "organica_minus_best_primary": 0.168396,
+   "organica_minus_ceiling": -0.223831,
+   "privileged_reference": "cell_counter",
+   "relations": {
+    "available": 96,
+    "total": 128,
+    "withheld": 32
+   },
+   "scores": {
+    "bigram": {
+     "retention": 0.43404,
+     "transfer": 0.985852
+    },
+    "ceiling": {
+     "retention": 0.372271,
+     "transfer": 0.3795
+    },
+    "cell_counter": {
+     "retention": 0.511525,
+     "transfer": 1.330937
+    },
+    "decayed_bigram": {
+     "retention": 0.389826,
+     "transfer": 0.771727
+    },
+    "organica": {
+     "retention": 0.43266,
+     "transfer": 0.603331
+    },
+    "replay": {
+     "retention": 0.391261,
+     "transfer": 0.789825
+    }
+   },
+   "seed": 20261202,
+   "variant": "V1.1-cap(1000)"
+  },
+  {
+   "audit": {
+    "all_passed": true,
+    "checks": {
+     "E1_endpoint_separates_the_law": {
+      "broken_rule_transfer": 0.55861,
+      "ceiling_transfer": 0.369125,
+      "passed": true,
+      "reason": "a one-transition learner must score worse than the ceiling"
+     },
+     "E2_gate_f_can_fire": {
+      "degraded_coverage": 0.90625,
+      "degraded_passed": false,
+      "passed": true,
+      "reason": "dropping ~10 % of the available relations must fail Gate F"
+     },
+     "E3_conditioning_removed_the_withheld": {
+      "compensated_events": 141,
+      "passed": true,
+      "reason": "no withheld transition may appear in any formation exposure"
+     },
+     "E4_limbs_have_denominators": {
+      "passed": true,
+      "reason": "a limb with no pairs is not measurable, not zero",
+      "retention_pairs": 319,
+      "transfer_pairs": 102
+     }
+    }
+   },
+   "best_primary_comparator": "decayed_bigram",
+   "calibration_passed": true,
+   "engine": {
+    "asserted_pairs": 331,
+    "cap": 1000,
+    "temporal_pairs": 397
+   },
+   "formation": {
+    "compensated_events": 141,
+    "cycles": 110,
+    "events": 880,
+    "transitions_observed": {
+     "(0, 0)|flip_q": 88,
+     "(0, 1)|flip_p": 319,
+     "(1, 0)|flip_p": 87,
+     "(1, 0)|flip_q": 34,
+     "(1, 1)|flip_p": 231,
+     "(1, 1)|flip_q": 121
+    },
+    "withheld": [
+     [
+      [
+       0,
+       0
+      ],
+      "flip_p"
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      "flip_q"
+     ]
+    ]
+   },
+   "gate_f": {
+    "asserted_in_available": 95,
+    "asserted_outside_world": 234,
+    "asserted_total": 331,
+    "coverage": 0.989583,
+    "covered": 95,
+    "denominator": 96,
+    "passed": true,
+    "precision": 0.287009,
+    "threshold": 0.95
+   },
+   "held_out": {
+    "retention_pairs": 319,
+    "transfer_instances": {
+     "flip_p": 69,
+     "flip_q": 33
+    },
+    "transfer_pairs": 102
+   },
+   "kind": "reusable_knowledge_cell",
+   "organica_minus_best_primary": 0.169898,
+   "organica_minus_ceiling": -0.229365,
+   "privileged_reference": "cell_counter",
+   "relations": {
+    "available": 96,
+    "total": 128,
+    "withheld": 32
+   },
+   "scores": {
+    "bigram": {
+     "retention": 0.427494,
+     "transfer": 0.971605
+    },
+    "ceiling": {
+     "retention": 0.372271,
+     "transfer": 0.369125
+    },
+    "cell_counter": {
+     "retention": 0.441837,
+     "transfer": 1.025524
+    },
+    "decayed_bigram": {
+     "retention": 0.391819,
+     "transfer": 0.768388
+    },
+    "organica": {
+     "retention": 0.433627,
+     "transfer": 0.59849
+    },
+    "replay": {
+     "retention": 0.38771,
+     "transfer": 0.775957
+    }
+   },
+   "seed": 20261203,
+   "variant": "V1.1-cap(1000)"
+  },
+  {
+   "audit": {
+    "all_passed": true,
+    "checks": {
+     "E1_endpoint_separates_the_law": {
+      "broken_rule_transfer": 0.602586,
+      "ceiling_transfer": 0.375961,
+      "passed": true,
+      "reason": "a one-transition learner must score worse than the ceiling"
+     },
+     "E2_gate_f_can_fire": {
+      "degraded_coverage": 0.90625,
+      "degraded_passed": false,
+      "passed": true,
+      "reason": "dropping ~10 % of the available relations must fail Gate F"
+     },
+     "E3_conditioning_removed_the_withheld": {
+      "compensated_events": 159,
+      "passed": true,
+      "reason": "no withheld transition may appear in any formation exposure"
+     },
+     "E4_limbs_have_denominators": {
+      "passed": true,
+      "reason": "a limb with no pairs is not measurable, not zero",
+      "retention_pairs": 319,
+      "transfer_pairs": 82
+     }
+    }
+   },
+   "best_primary_comparator": "decayed_bigram",
+   "calibration_passed": true,
+   "engine": {
+    "asserted_pairs": 313,
+    "cap": 1000,
+    "temporal_pairs": 362
+   },
+   "formation": {
+    "compensated_events": 159,
+    "cycles": 110,
+    "events": 880,
+    "transitions_observed": {
+     "(0, 0)|flip_q": 86,
+     "(0, 1)|flip_p": 314,
+     "(1, 0)|flip_p": 85,
+     "(1, 0)|flip_q": 41,
+     "(1, 1)|flip_p": 228,
+     "(1, 1)|flip_q": 126
+    },
+    "withheld": [
+     [
+      [
+       0,
+       0
+      ],
+      "flip_p"
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      "flip_q"
+     ]
+    ]
+   },
+   "gate_f": {
+    "asserted_in_available": 96,
+    "asserted_outside_world": 217,
+    "asserted_total": 313,
+    "coverage": 1.0,
+    "covered": 96,
+    "denominator": 96,
+    "passed": true,
+    "precision": 0.306709,
+    "threshold": 0.95
+   },
+   "held_out": {
+    "retention_pairs": 319,
+    "transfer_instances": {
+     "flip_p": 50,
+     "flip_q": 32
+    },
+    "transfer_pairs": 82
+   },
+   "kind": "reusable_knowledge_cell",
+   "organica_minus_best_primary": 0.161632,
+   "organica_minus_ceiling": -0.224589,
+   "privileged_reference": "cell_counter",
+   "relations": {
+    "available": 96,
+    "total": 128,
+    "withheld": 32
+   },
+   "scores": {
+    "bigram": {
+     "retention": 0.452267,
+     "transfer": 0.979722
+    },
+    "ceiling": {
+     "retention": 0.368738,
+     "transfer": 0.375961
+    },
+    "cell_counter": {
+     "retention": 0.541785,
+     "transfer": 1.325478
+    },
+    "decayed_bigram": {
+     "retention": 0.402602,
+     "transfer": 0.762182
+    },
+    "organica": {
+     "retention": 0.43886,
+     "transfer": 0.60055
+    },
+    "replay": {
+     "retention": 0.403011,
+     "transfer": 0.783859
+    }
+   },
+   "seed": 20261204,
+   "variant": "V1.1-cap(1000)"
+  },
+  {
+   "audit": {
+    "all_passed": true,
+    "checks": {
+     "E1_endpoint_separates_the_law": {
+      "broken_rule_transfer": 0.557985,
+      "ceiling_transfer": 0.369028,
+      "passed": true,
+      "reason": "a one-transition learner must score worse than the ceiling"
+     },
+     "E2_gate_f_can_fire": {
+      "degraded_coverage": 0.90625,
+      "degraded_passed": false,
+      "passed": true,
+      "reason": "dropping ~10 % of the available relations must fail Gate F"
+     },
+     "E3_conditioning_removed_the_withheld": {
+      "compensated_events": 163,
+      "passed": true,
+      "reason": "no withheld transition may appear in any formation exposure"
+     },
+     "E4_limbs_have_denominators": {
+      "passed": true,
+      "reason": "a limb with no pairs is not measurable, not zero",
+      "retention_pairs": 319,
+      "transfer_pairs": 93
+     }
+    }
+   },
+   "best_primary_comparator": "decayed_bigram",
+   "calibration_passed": true,
+   "engine": {
+    "asserted_pairs": 334,
+    "cap": 1000,
+    "temporal_pairs": 371
+   },
+   "formation": {
+    "compensated_events": 163,
+    "cycles": 110,
+    "events": 880,
+    "transitions_observed": {
+     "(0, 0)|flip_q": 71,
+     "(0, 1)|flip_p": 317,
+     "(1, 0)|flip_p": 70,
+     "(1, 0)|flip_q": 53,
+     "(1, 1)|flip_p": 246,
+     "(1, 1)|flip_q": 123
+    },
+    "withheld": [
+     [
+      [
+       0,
+       0
+      ],
+      "flip_p"
+     ],
+     [
+      [
+       0,
+       1
+      ],
+      "flip_q"
+     ]
+    ]
+   },
+   "gate_f": {
+    "asserted_in_available": 96,
+    "asserted_outside_world": 238,
+    "asserted_total": 334,
+    "coverage": 1.0,
+    "covered": 96,
+    "denominator": 96,
+    "passed": true,
+    "precision": 0.287425,
+    "threshold": 0.95
+   },
+   "held_out": {
+    "retention_pairs": 319,
+    "transfer_instances": {
+     "flip_p": 63,
+     "flip_q": 30
+    },
+    "transfer_pairs": 93
+   },
+   "kind": "reusable_knowledge_cell",
+   "organica_minus_best_primary": 0.143583,
+   "organica_minus_ceiling": -0.229164,
+   "privileged_reference": "cell_counter",
+   "relations": {
+    "available": 96,
+    "total": 128,
+    "withheld": 32
+   },
+   "scores": {
+    "bigram": {
+     "retention": 0.436355,
+     "transfer": 0.860975
+    },
+    "ceiling": {
+     "retention": 0.368738,
+     "transfer": 0.369028
+    },
+    "cell_counter": {
+     "retention": 0.526374,
+     "transfer": 1.203575
+    },
+    "decayed_bigram": {
+     "retention": 0.406294,
+     "transfer": 0.741775
+    },
+    "organica": {
+     "retention": 0.44761,
+     "transfer": 0.598192
+    },
+    "replay": {
+     "retention": 0.409585,
+     "transfer": 0.759031
+    }
+   },
+   "seed": 20261205,
+   "variant": "V1.1-cap(1000)"
+  }
+ ],
+ "confirmatory_seeds_touched": false,
+ "gate": {
+  "denominator": 96,
+  "rule": "all five calibration seeds must pass",
+  "scope": "V1.1-cap(1000) only",
+  "threshold": 0.95
+ },
+ "kind": "reusable_knowledge_calibration",
+ "note": "Calibration is a go/no-go at n = 5 (section 15.2). A failure here is reported as formation not achieved at the calibration operating point and stops the study before any confirmatory seed.",
+ "seeds": [
+  20261201,
+  20261202,
+  20261203,
+  20261204,
+  20261205
+ ],
+ "seeds_passed": [
+  20261201,
+  20261202,
+  20261203,
+  20261204,
+  20261205
+ ],
+ "variant": "V1.1-cap(1000)"
+}

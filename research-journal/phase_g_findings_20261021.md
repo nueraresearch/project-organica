@@ -7470,3 +7470,45 @@ Five build items are now enumerated in §10, with the parameters in
 → `docs/reusable_knowledge_variant.json`;
 `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §4, §6, §10, §15.
 
+## §94 — The harness exists, the calibration gate passes on five of five, and the margin is partial
+
+**Built.** `benchmarks/reusable_knowledge.py` implements the five items of §10:
+the conditioned sampler (the withheld transitions are never *generated*, so no
+event is skipped and no adjacency is manufactured — the `trainable` mask is
+retired), the Gate F audit over the 96 available relations with its precision
+companion, the retention and withheld-only transfer limbs, the closed-form
+latent-rule holder, and the comparator sweep with the cell counter kept
+privileged. The oracle-admitted arm was not implemented, as §15.3 requires.
+
+**The audit can fail, and was shown to.** Four checks: the endpoint separates the
+ceiling from a one-transition learner; Gate F fires when ~10 % of the available
+relations are dropped; no withheld transition appears in any formation exposure;
+no limb has an empty denominator. All four pass on every calibration seed, and
+`tests/test_reusable_knowledge.py` pins them at the generator level.
+
+**Calibration, V1.1-cap(1000), `20261201–20261205` — 5 of 5 pass Gate F.**
+Minimum coverage 0.9792 (seed 20261202, 94 of 96); the other four are
+0.9896–1.0000. Per §15.2 this is a go/no-go and it cleared, so the study may
+proceed to the confirmatory set. **No confirmatory seed was run.**
+
+**What the transfer limb showed, stated at calibration strength only.**
+
+| seed | Gate F (covered / 96) | Organica transfer | best primary | ceiling | Organica − best primary |
+|---|---|---|---|---|---|
+| 20261201 | 1.0000 (96/96) | 0.5957 | decayed_bigram 0.7709 | 0.3726 | +0.1752 |
+| 20261202 | 0.9792 (94/96) | 0.6033 | decayed_bigram 0.7717 | 0.3795 | +0.1684 |
+| 20261203 | 0.9896 (95/96) | 0.5985 | decayed_bigram 0.7684 | 0.3691 | +0.1699 |
+| 20261204 | 1.0000 (96/96) | 0.6006 | decayed_bigram 0.7622 | 0.3760 | +0.1616 |
+| 20261205 | 1.0000 (96/96) | 0.5982 | decayed_bigram 0.7418 | 0.3690 | +0.1436 |
+
+Organica is better than the best primary comparator on every calibration seed
+(worst margin +0.1752 nats) and worse than the ceiling on every one
+(-0.2294 to -0.2231 nats). So the readout recovers part of the law's
+advantage on the withheld transitions and not all of it — a partial margin, not a
+transfer result. Calibration is n = 5 and one seed is a fifth of the evidence;
+the 15-of-20 confirmatory rate is the measurement, and it has not been run.
+
+→ `docs/reusable_knowledge_calibration.json`;
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §16;
+`benchmarks/reusable_knowledge.py`; `tests/test_reusable_knowledge.py`.
+

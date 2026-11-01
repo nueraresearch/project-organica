@@ -504,3 +504,60 @@ old mask must not be reused. The five build items are listed in §10.
 **What this leaves in place.** The seed sets, §3.1's transfer rule and feasibility result,
 the 0.95 threshold, the 98.33 % paired bootstrap, the four existing stop rules, and every
 §9 limit. **No cell has run and the harness is still not built.**
+
+---
+
+## 16. Build record and calibration (post-promotion)
+
+**Status statement, not an amendment.** §10's "Not built" described the state
+before the harness existed. This section records what was built and what the
+Gate F calibration returned. **No hypothesis, gate, arm, seed set or stop rule
+is changed here**, and §14's ceiling, §15's three decisions and the 15-of-20
+confirmatory rule all stand exactly as committed.
+
+**The five items of §10 are built in `benchmarks/reusable_knowledge.py`.**
+
+1. **The conditioned sampler** generates the formation stream *under* the
+   condition: when the law would take a withheld transition the other
+   transition from the same context is taken instead, weighted by the law. No
+   event is skipped, the hidden state never jumps, and the rejected
+   `trainable` mask is not used.
+2. **Gate F** counts asserted relations in the **available** set over **96**,
+   with its precision companion.
+3. **The held-out limbs**: retention over the whole window, and transfer over
+   the **withheld relations only** — the study's endpoint.
+4. **The latent-rule holder** of §14, closed form.
+5. **The comparator sweep**: replay, bigram and decayed bigram, each swept over
+   its declared grid with the best configuration selected on a tuning split
+   excluded from the fitting rows; the cell counter is the **privileged
+   reference**, reported separately. The oracle-admitted arm is **not
+   implemented**, per §15.3.
+
+**The harness audit passes, and each check can fail** (`harness_audit`): the
+endpoint separates the ceiling from a one-transition learner; Gate F fires on a
+readout with ~10 % of the available relations dropped; no withheld transition
+appears in any formation exposure; every limb has a denominator. Generator-level
+tests are `tests/test_reusable_knowledge.py`.
+
+**Calibration (V1.1-cap(1000), `20261201–20261205`, all five must pass).**
+
+| seed | Gate F (covered / 96) | Organica transfer | best primary | ceiling | Organica − best primary |
+|---|---|---|---|---|---|
+| 20261201 | 1.0000 (96/96) | 0.5957 | decayed_bigram 0.7709 | 0.3726 | +0.1752 |
+| 20261202 | 0.9792 (94/96) | 0.6033 | decayed_bigram 0.7717 | 0.3795 | +0.1684 |
+| 20261203 | 0.9896 (95/96) | 0.5985 | decayed_bigram 0.7684 | 0.3691 | +0.1699 |
+| 20261204 | 1.0000 (96/96) | 0.6006 | decayed_bigram 0.7622 | 0.3760 | +0.1616 |
+| 20261205 | 1.0000 (96/96) | 0.5982 | decayed_bigram 0.7418 | 0.3690 | +0.1436 |
+
+Gate F passes **5 of 5** (minimum coverage 0.9792); the study therefore
+proceeds under §15.2. The calibration is a **go/no-go, not a result**: n = 5, one
+seed is a fifth of the evidence, and no confirmatory seed was touched
+(`{"confirmatory_seeds_touched": false}` is the literal value in the artifact — it reads *false*).
+On the transfer limb Organica is below every primary comparator on all five seeds
+(worst margin +0.1752 nats) and above the ceiling on all five by
+-0.2294 to -0.2231 nats, so a substantial part of the ceiling's
+advantage is **not** recovered. **That is a characterization of five calibration
+seeds and nothing more** — the confirmatory set, not calibration, is what may
+carry a verdict.
+
+Artifact: `docs/reusable_knowledge_calibration.json`.
