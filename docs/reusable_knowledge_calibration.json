@@ -1,12 +1,51 @@
 {
  "all_seeds_passed": true,
+ "attribution": {
+  "all_seeds_passed": true,
+  "layer1_type": "prediction_candidate",
+  "minimum": 0.5,
+  "rule": "every calibration seed must reach the minimum share",
+  "scope": "V1.1-cap(1000) only",
+  "seeds_passing": [
+   20261201,
+   20261202,
+   20261203,
+   20261204,
+   20261205
+  ]
+ },
  "audit_all_passed": true,
+ "authorises_confirmatory": true,
  "burned": [
   20261206
  ],
+ "canonical_cap": true,
  "cap": 1000,
  "cells": [
   {
+   "attribution": {
+    "layer1_type": "prediction_candidate",
+    "minimum": 0.5,
+    "passed": true,
+    "per_type_weight": {
+     "anomaly": 0.0,
+     "dream": 12.0,
+     "experiment": 0.0,
+     "hypothesis": 14.0,
+     "investigation": 0.0,
+     "loop_candidate": 98.0,
+     "meta_concept": 0.0,
+     "prediction_candidate": 12105.0,
+     "process_candidate": 26.0,
+     "question": 0.0,
+     "theory": 0.0,
+     "workflow_concept": 15.0
+    },
+    "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
+    "share": 0.986553,
+    "total_weight": 12270.0,
+    "without_layer1_share": 0.0
+   },
    "audit": {
     "all_passed": true,
     "checks": {
@@ -32,11 +71,20 @@
       "reason": "a limb with no pairs is not measurable, not zero",
       "retention_pairs": 319,
       "transfer_pairs": 112
+     },
+     "E5_attribution_share_can_fire": {
+      "minimum": 0.5,
+      "passed": true,
+      "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
+      "share": 0.986553,
+      "without_layer1_share": 0.0
      }
     }
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
+   "cap": 1000,
+   "cap_is_canonical": true,
    "engine": {
     "asserted_pairs": 327,
     "cap": 1000,
@@ -94,6 +142,7 @@
    "organica_minus_best_primary": 0.175186,
    "organica_minus_ceiling": -0.223096,
    "privileged_reference": "cell_counter",
+   "pythonhashseed": "0",
    "relations": {
     "available": 96,
     "total": 128,
@@ -129,6 +178,29 @@
    "variant": "V1.1-cap(1000)"
   },
   {
+   "attribution": {
+    "layer1_type": "prediction_candidate",
+    "minimum": 0.5,
+    "passed": true,
+    "per_type_weight": {
+     "anomaly": 0.0,
+     "dream": 13.0,
+     "experiment": 0.0,
+     "hypothesis": 13.0,
+     "investigation": 0.0,
+     "loop_candidate": 104.0,
+     "meta_concept": 0.0,
+     "prediction_candidate": 12076.0,
+     "process_candidate": 28.0,
+     "question": 0.0,
+     "theory": 0.0,
+     "workflow_concept": 14.0
+    },
+    "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
+    "share": 0.985957,
+    "total_weight": 12248.0,
+    "without_layer1_share": 0.0
+   },
    "audit": {
     "all_passed": true,
     "checks": {
@@ -154,11 +226,20 @@
       "reason": "a limb with no pairs is not measurable, not zero",
       "retention_pairs": 319,
       "transfer_pairs": 113
+     },
+     "E5_attribution_share_can_fire": {
+      "minimum": 0.5,
+      "passed": true,
+      "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
+      "share": 0.985957,
+      "without_layer1_share": 0.0
      }
     }
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
+   "cap": 1000,
+   "cap_is_canonical": true,
    "engine": {
     "asserted_pairs": 341,
     "cap": 1000,
@@ -216,6 +297,7 @@
    "organica_minus_best_primary": 0.168396,
    "organica_minus_ceiling": -0.223831,
    "privileged_reference": "cell_counter",
+   "pythonhashseed": "0",
    "relations": {
     "available": 96,
     "total": 128,
@@ -251,6 +333,27 @@
    "variant": "V1.1-cap(1000)"
   },
   {
+   "attribution": {
+    "layer1_type": "prediction_candidate",
+    "minimum": 0.5,
+    "passed": true,
+    "per_type_weight": {
+     "anomaly": 0.0,
+     "dream": 14.0,
+     "experiment": 0.0,
+     "hypothesis": 12.0,
+     "investigation": 0.0,
+     "loop_candidate": 126.0,
+     "meta_concept": 0.0,
+     "prediction_candidate": 12090.0,
+     "process_candidate": 22.0,
+     "workflow_concept": 12.0
+    },
+    "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
+    "share": 0.984848,
+    "total_weight": 12276.0,
+    "without_layer1_share": 0.0
+   },
    "audit": {
     "all_passed": true,
     "checks": {
@@ -276,11 +379,20 @@
       "reason": "a limb with no pairs is not measurable, not zero",
       "retention_pairs": 319,
       "transfer_pairs": 102
+     },
+     "E5_attribution_share_can_fire": {
+      "minimum": 0.5,
+      "passed": true,
+      "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
+      "share": 0.984848,
+      "without_layer1_share": 0.0
      }
     }
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
+   "cap": 1000,
+   "cap_is_canonical": true,
    "engine": {
     "asserted_pairs": 331,
     "cap": 1000,
@@ -338,6 +450,7 @@
    "organica_minus_best_primary": 0.169898,
    "organica_minus_ceiling": -0.229365,
    "privileged_reference": "cell_counter",
+   "pythonhashseed": "0",
    "relations": {
     "available": 96,
     "total": 128,
@@ -373,6 +486,27 @@
    "variant": "V1.1-cap(1000)"
   },
   {
+   "attribution": {
+    "layer1_type": "prediction_candidate",
+    "minimum": 0.5,
+    "passed": true,
+    "per_type_weight": {
+     "anomaly": 0.0,
+     "dream": 10.0,
+     "experiment": 0.0,
+     "hypothesis": 11.0,
+     "investigation": 0.0,
+     "loop_candidate": 110.0,
+     "meta_concept": 0.0,
+     "prediction_candidate": 12115.0,
+     "process_candidate": 25.0,
+     "workflow_concept": 12.0
+    },
+    "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
+    "share": 0.986323,
+    "total_weight": 12283.0,
+    "without_layer1_share": 0.0
+   },
    "audit": {
     "all_passed": true,
     "checks": {
@@ -398,11 +532,20 @@
       "reason": "a limb with no pairs is not measurable, not zero",
       "retention_pairs": 319,
       "transfer_pairs": 82
+     },
+     "E5_attribution_share_can_fire": {
+      "minimum": 0.5,
+      "passed": true,
+      "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
+      "share": 0.986323,
+      "without_layer1_share": 0.0
      }
     }
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
+   "cap": 1000,
+   "cap_is_canonical": true,
    "engine": {
     "asserted_pairs": 313,
     "cap": 1000,
@@ -460,6 +603,7 @@
    "organica_minus_best_primary": 0.161632,
    "organica_minus_ceiling": -0.224589,
    "privileged_reference": "cell_counter",
+   "pythonhashseed": "0",
    "relations": {
     "available": 96,
     "total": 128,
@@ -495,6 +639,29 @@
    "variant": "V1.1-cap(1000)"
   },
   {
+   "attribution": {
+    "layer1_type": "prediction_candidate",
+    "minimum": 0.5,
+    "passed": true,
+    "per_type_weight": {
+     "anomaly": 0.0,
+     "dream": 13.0,
+     "experiment": 0.0,
+     "hypothesis": 13.0,
+     "investigation": 0.0,
+     "loop_candidate": 110.0,
+     "meta_concept": 0.0,
+     "prediction_candidate": 12157.0,
+     "process_candidate": 26.0,
+     "question": 0.0,
+     "theory": 0.0,
+     "workflow_concept": 15.0
+    },
+    "reason": "the structure type the study is about must carry the majority of the readout's edge weight",
+    "share": 0.985649,
+    "total_weight": 12334.0,
+    "without_layer1_share": 0.0
+   },
    "audit": {
     "all_passed": true,
     "checks": {
@@ -520,11 +687,20 @@
       "reason": "a limb with no pairs is not measurable, not zero",
       "retention_pairs": 319,
       "transfer_pairs": 93
+     },
+     "E5_attribution_share_can_fire": {
+      "minimum": 0.5,
+      "passed": true,
+      "reason": "a readout with no Layer-1 evidence must fall below the minimum, or the gate is decoration",
+      "share": 0.985649,
+      "without_layer1_share": 0.0
      }
     }
    },
    "best_primary_comparator": "decayed_bigram",
    "calibration_passed": true,
+   "cap": 1000,
+   "cap_is_canonical": true,
    "engine": {
     "asserted_pairs": 334,
     "cap": 1000,
@@ -582,6 +758,7 @@
    "organica_minus_best_primary": 0.143583,
    "organica_minus_ceiling": -0.229164,
    "privileged_reference": "cell_counter",
+   "pythonhashseed": "0",
    "relations": {
     "available": 96,
     "total": 128,
@@ -626,6 +803,7 @@
  },
  "kind": "reusable_knowledge_calibration",
  "note": "Calibration is a go/no-go at n = 5 (section 15.2). A failure here is reported as formation not achieved at the calibration operating point and stops the study before any confirmatory seed.",
+ "pythonhashseed": "0",
  "seeds": [
   20261201,
   20261202,

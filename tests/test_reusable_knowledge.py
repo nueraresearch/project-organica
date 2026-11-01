@@ -112,15 +112,98 @@ def test_endpoint_separates_the_law_from_a_one_transition_learner(world):
     assert broken > ceiling, "the transfer limb must be able to see the law"
 
 
+def _artifact(**over):
+    art = {
+        "kind": "reusable_knowledge_calibration",
+        "variant": rk.VARIANT_NAME,
+        "cap": rk.MAX_PREDICTIONS,
+        "seeds": list(rk.CALIBRATION_SEEDS),
+        "cells": [],
+        "all_seeds_passed": True,
+        "audit_all_passed": True,
+        "attribution": {"all_seeds_passed": True},
+    }
+    art.update(over)
+    return art
+
+
 def test_confirmatory_guard_refuses_without_calibration(monkeypatch):
     monkeypatch.setattr(rk, "_load_calibration", lambda: None)
     ok, why = rk.confirmatory_allowed()
     assert ok is False and "no calibration" in why
-    monkeypatch.setattr(rk, "_load_calibration",
-                        lambda: {"all_seeds_passed": False, "cells": [
-                            {"seed": 20261201, "calibration_passed": False}]})
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(
+        all_seeds_passed=False,
+        cells=[{"seed": 20261201, "calibration_passed": False}]))
     ok, why = rk.confirmatory_allowed()
     assert ok is False and "20261201" in why
-    monkeypatch.setattr(rk, "_load_calibration",
-                        lambda: {"all_seeds_passed": True, "cells": []})
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact())
     assert rk.confirmatory_allowed()[0] is True
+
+
+def test_confirmatory_guard_checks_cap_label_and_seeds(monkeypatch):
+    """A pass flag alone must not authorise seeds under another variant."""
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(cap=250))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "cap 250" in why
+    monkeypatch.setattr(rk, "_load_calibration",
+                        lambda: _artifact(variant="V1.1-cap(250)"))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "V1.1-cap(250)" in why
+    monkeypatch.setattr(rk, "_load_calibration",
+                        lambda: _artifact(seeds=[20261201, 20261202]))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "seed set" in why
+    monkeypatch.setattr(rk, "_load_calibration", lambda: _artifact(audit_all_passed=False))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "audit" in why
+    monkeypatch.setattr(rk, "_load_calibration",
+                        lambda: _artifact(attribution={"all_seeds_passed": False}))
+    ok, why = rk.confirmatory_allowed()
+    assert ok is False and "attribution" in why
+
+
+def test_variant_label_follows_the_capacity():
+    assert rk.variant_label() == rk.VARIANT_NAME
+    assert rk.variant_label(1_000) == rk.VARIANT_NAME
+    assert rk.variant_label(250) == "V1.1-cap(250)"
+
+
+def test_calibration_refuses_a_noncanonical_cap(monkeypatch, tmp_path):
+    with pytest.raises(ValueError, match="different variant"):
+        rk.run_calibration(250)
+    called = []
+    monkeypatch.setattr(rk, "run_calibration", lambda cap: called.append(cap))
+    assert rk.main(["--calibration", "--cap", "250"]) == 4
+    assert called == [], "a refused calibration must not run a cell"
+
+
+def test_calibration_requires_a_fixed_hash_seed(monkeypatch):
+    """An unset hash seed makes two identical calibrations disagree."""
+    monkeypatch.delenv("PYTHONHASHSEED", raising=False)
+    with pytest.raises(ValueError, match="PYTHONHASHSEED"):
+        rk.run_calibration()
+    assert rk.main(["--calibration"]) == 5
+    monkeypatch.setenv("PYTHONHASHSEED", "0")
+    assert rk.hash_seed() == "0"
+
+
+def test_attribution_share_is_measured_and_can_fire():
+    layer1 = {"prediction_candidate": {"alpha": {"beta": 3.0}}}
+    other = {"concept_candidate": {"alpha": {"beta": 1.0}}}
+    dominant = rk.attribution_share({"type_rows": {**layer1, **other}})
+    assert dominant["share"] == pytest.approx(0.75)
+    assert dominant["passed"] is True
+    assert dominant["without_layer1_share"] == 0.0
+    assert dominant["without_layer1_share"] < rk.ATTRIBUTION_MINIMUM, \
+        "the control must fire, or the gate is decoration"
+
+    reversed_ = rk.attribution_share({"type_rows": {
+        "prediction_candidate": {"alpha": {"beta": 1.0}},
+        "concept_candidate": {"alpha": {"beta": 3.0}}}})
+    assert reversed_["share"] == pytest.approx(0.25)
+    assert reversed_["passed"] is False, "a majority outside Layer 1 must fail"
+
+    empty = rk.attribution_share({"type_rows": {}})
+    assert empty["share"] is None, "no evidence is not a zero share"
+    assert empty["passed"] is False
+    assert empty["without_layer1_share"] is None, "no control without evidence"

@@ -7502,8 +7502,8 @@ proceed to the confirmatory set. **No confirmatory seed was run.**
 | 20261205 | 1.0000 (96/96) | 0.5982 | decayed_bigram 0.7418 | 0.3690 | +0.1436 |
 
 Organica is better than the best primary comparator on every calibration seed
-(worst margin +0.1752 nats) and worse than the ceiling on every one
-(-0.2294 to -0.2231 nats). So the readout recovers part of the law's
+(worst margin +0.1752 nats) and worse than the ceiling on every one, the ceiling
+lying 0.2231 to 0.2294 nats below it. So the readout recovers part of the law's
 advantage on the withheld transitions and not all of it — a partial margin, not a
 transfer result. Calibration is n = 5 and one seed is a fifth of the evidence;
 the 15-of-20 confirmatory rate is the measurement, and it has not been run.
@@ -7511,4 +7511,65 @@ the 15-of-20 confirmatory rate is the measurement, and it has not been run.
 → `docs/reusable_knowledge_calibration.json`;
 `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §16;
 `benchmarks/reusable_knowledge.py`; `tests/test_reusable_knowledge.py`.
+
+## §95 — The calibration now names its variant, the attribution share is a criterion, and the engine is hash-sensitive
+
+**Two protocol defects closed before the confirmatory set.** Both were found by review,
+not by a failure, and both would have authorised a campaign the protocol did not describe.
+
+**1. A capacity override could authorise seeds under a label it never ran.** The harness
+took `--cap` and labelled every artifact `V1.1-cap(1000)`, and `confirmatory_allowed()`
+read only `all_seeds_passed`. A calibration at another capacity would therefore have
+unlocked the confirmatory seeds and been written up as the calibrated variant. Fixed on
+three sides: the label is now derived from the capacity (`variant_label`), calibration
+refuses any capacity but 1,000 with a non-zero exit, and the guard checks the artifact's
+`cap`, `variant` and seed set as well as its Gate F, audit and attribution flags, naming
+the field that fails. This is AGENTS rule 25's "two gates with one name" defect one level
+up: one name, two quantities.
+
+**2. The readout's evidence had no attribution rule.** The readout sums edge weight over
+every structure type, so a transfer margin could rest on concepts, loops, phrases or
+hypotheses rather than on the Layer-1 predictions the study forms. §17 now makes the
+**attribution share** — Layer-1 weight over total weight — a criterion with a **0.50**
+minimum, the formation-utilization campaign's A7 operating point, adopted before any
+confirmatory seed and not chosen from these numbers. On the five calibration seeds the
+share is 0.9848–0.9866 (Layer-1 carries 12,076–12,157 of
+12,248–12,334 total weight), so the margin that was measured is at least
+carried by the structure type it is attributed to. That is a diagnostic at n = 5, not a
+transfer result, and the criterion still has to be met on all twenty confirmatory seeds.
+
+**The first control for it could not fire, and was replaced.** The initial companion cut
+Layer-1's weight to a tenth of itself and recomputed the share; on a real cell that returns
+**0.88**, still far above the minimum, because Layer-1 is most of the weight — decoration
+of exactly the kind rule 25 describes. The control is now the counterfactual in which the
+readout holds no Layer-1 evidence at all, which returns 0.0 by construction and is asserted
+at the generator level. Audit `E5` checks it on every cell.
+
+**3. A calibration that passes twice can pass differently.** Adding the attribution
+measurement re-ran the five calibration seeds, and seed `20261204` returned transfer
+**0.6025** where the committed artifact said **0.6006**; the other four reproduced exactly.
+A same-process probe ruled out ordering and repeat effects — the same seed run four times
+in one process returned 0.60055 every time — and fixed hash seeds reproduce bit-identically
+across values. The engine's candidate ordering is built from sets of strings, so the score
+is hash-sensitive: an unset `PYTHONHASHSEED` gives a nominal seed that is not one seed.
+Calibration now refuses to run without a fixed hash seed and records its value in the
+artifact (canonical artifact: `0`). The divergence is disclosed rather than smoothed away,
+and the figures in §16, §94 and §17 are regenerated from the artifact the guard actually
+checks — which is worth stating plainly: before this fix, the committed calibration table
+was a number no one could reproduce exactly.
+
+**Consolidation.** There is one worktree and one branch in this checkout, and
+`HEAD == FETCH_HEAD == fe5f056` after the previous push, so there was nothing to reconcile
+and no duplicate implementation to retire: the "second clone" was this session's earlier
+state at `95fc329`, and the harness it lacked is the one committed here. V1 stays frozen at
+`v0.9.0`; V1.1-cap(1000) remains a benchmark-side variant with its own label, artifact and
+protocol, and the two are not pooled (§17.3).
+
+**State after this work.** Gate F 5 of 5; audit 5 of 5 checks on every seed, each shown to
+be able to fail; attribution share at or above the minimum on all five; artifact records
+`authorises_confirmatory: true`, cap 1,000, label `V1.1-cap(1000)`, hash seed `0`.
+**No confirmatory seed has been run.**
+
+→ `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
+§17; `benchmarks/reusable_knowledge.py`; `tests/test_reusable_knowledge.py`.
 

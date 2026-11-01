@@ -554,10 +554,100 @@ proceeds under §15.2. The calibration is a **go/no-go, not a result**: n = 5, o
 seed is a fifth of the evidence, and no confirmatory seed was touched — the artifact records
 `confirmatory_seeds_touched` as false.
 On the transfer limb Organica is below every primary comparator on all five seeds
-(worst margin +0.1752 nats) and above the ceiling on all five by
--0.2294 to -0.2231 nats, so a substantial part of the ceiling's
-advantage is **not** recovered. **That is a characterization of five calibration
+(worst margin +0.1752 nats) and **above** the ceiling on all five — the ceiling
+sits 0.2231 to 0.2294 nats below it — so a substantial part of the
+ceiling's advantage is **not** recovered. **That is a characterization of five calibration
 seeds and nothing more** — the confirmatory set, not calibration, is what may
 carry a verdict.
 
 Artifact: `docs/reusable_knowledge_calibration.json`.
+
+---
+
+## 17. Amendment 3 — the attribution share, and a calibration that names its variant
+
+**Why this is an amendment.** Two things were missing before a campaign could run, and
+neither is a change to a hypothesis. First, §4.3's readout sums evidence over **every**
+structure type, so a transfer margin can be carried by concepts, loops, phrases or
+hypotheses rather than by the Layer-1 transition structure this study forms — and this
+protocol had no rule making that share explicit, unlike the formation-utilization
+campaign's A7. Second, the harness accepted a capacity override while labelling every
+result `V1.1-cap(1000)`, so a calibration at another capacity could have authorised the
+confirmatory seeds under a variant label it never ran. **This section adds one criterion
+and two guards. It changes no hypothesis, no existing gate, no threshold and no seed.**
+
+### 17.1 The attribution share
+
+**Definition.** On each seed, let `w(type)` be the readout's total edge weight contributed
+by candidates of that structure type, taken from the same deduplicated candidate set the
+readout uses. Then
+
+    attribution share = w(prediction_candidate) / Σ w(type)
+
+**The minimum is 0.50**, the operating point A7 used for the same question in the
+formation-utilization campaign. It is adopted **before any confirmatory seed** and was not
+chosen by looking at these numbers; the calibration measurement below is reported as a
+diagnostic, and the threshold stands whatever it returned.
+
+**Where it applies.** Calibration: every one of the five seeds must reach the minimum, on
+the same all-must-pass logic as Gate F, and a failure stops the study before any
+confirmatory seed. Confirmatory: the share is reported for every seed and **every** seed
+must reach the minimum; if any seed falls below it, the endpoint is reported as **not
+attributable to the learned transition structure**, whatever its margin, and the
+per-type decomposition is published beside the failure.
+
+**What it is not.** It measures *where* the readout's evidence sits by structure type. It
+does not measure whether that evidence is correct, and it is not a causal attribution: a
+high share is necessary for the margin to be about Layer-1, not sufficient for the margin
+to be about the law. An unmeasurable share — a readout with no edge weight at all — is
+reported as **not measurable and excluded**, never as `0.0` (§9 and AGENTS rule 13).
+
+**The control, and it fires.** A readout holding no Layer-1 evidence at all returns a share
+of exactly 0.0, below the minimum. That counterfactual is checked on every cell (audit
+`E5`), so the gate is shown to be wired to Layer-1 rather than to a constant. The first
+version of this control cut Layer-1's weight to a tenth of itself and returned 0.88 on a
+real cell — a control that could not fire, because Layer-1 is most of the weight; it was
+replaced, and the replacement is asserted in `tests/test_reusable_knowledge.py`.
+
+**Calibration measurement (diagnostic, not a result).**
+
+| seed | attribution share | Layer-1 weight of total | gate |
+|---|---|---|---|
+| 20261201 | 0.9866 | 12,105 of 12,270 | PASS |
+| 20261202 | 0.9860 | 12,076 of 12,248 | PASS |
+| 20261203 | 0.9848 | 12,090 of 12,276 | PASS |
+| 20261204 | 0.9863 | 12,115 of 12,283 | PASS |
+| 20261205 | 0.9856 | 12,157 of 12,334 | PASS |
+
+### 17.2 The calibration names its variant
+
+- **The label is derived from the capacity.** `variant_label(cap)` returns
+  `V1.1-cap(1000)` only at 1,000 and `V1.1-cap(<cap>)` otherwise, so a diagnostic run
+  cannot borrow the calibrated name.
+- **Calibration refuses another capacity.** A capacity other than 1,000 is a different
+  variant (§15.1) and would need its own amendment; `--calibration` exits non-zero instead
+  of producing an artifact.
+- **The confirmatory guard reads the artifact, not only its pass flag.** Confirmatory seeds
+  are refused unless the artifact's `cap` is 1,000, its `variant` is `V1.1-cap(1000)`, its
+  seed set is exactly the five calibration seeds, Gate F passed on all five, the harness
+  audit passed on all five, and the attribution share reached its minimum on all five.
+  Otherwise the refusal names the field that failed.
+- **Calibration is reproducible or it is refused.** The engine's candidate ordering is
+  hash-sensitive: seed `20261204` scored **0.60055** in one calibration and **0.6025** in
+  another, with the code unchanged, and reproduces bit-identically under a fixed
+  `PYTHONHASHSEED`. Calibration therefore requires `PYTHONHASHSEED` to be set and records
+  its value in the artifact; the canonical artifact records `0`.
+
+### 17.3 The V1 / V1.1 boundary
+
+**V1 is frozen at `v0.9.0`** and remains the archival reference; `organica/` is untouched by
+this study and `tests/test_v1_freeze.py` enforces it. **V1.1-cap(1000)** is a
+benchmark-side variant: a Layer-1 truncation change only, living entirely in
+`benchmarks/`, with its own label, its own artifact (`docs/reusable_knowledge_calibration.json`)
+and its own protocol (this document). The two are never pooled: a V1.1 measurement is not a
+V1 result, a V1 result is not evidence about V1.1, and a capacity other than 1,000 is a
+third variant that has no results here.
+
+**What this leaves in place.** §14's ceiling and denominator, §15's three decisions, the
+0.95 threshold, the 15-of-20 confirmatory rule, the four original stop rules and §15's
+fifth. **No confirmatory seed has been run.**

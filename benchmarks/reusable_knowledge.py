@@ -104,6 +104,15 @@ TUNE_CYCLES = 15
 
 CALIBRATION_OUT = "docs/reusable_knowledge_calibration.json"
 
+#: The attribution share (§17): the share of the readout's edge weight carried
+#: by the structure type this study is about.  A margin whose evidence sits
+#: mostly in other structure types is not attributable to the learned transition
+#: rule, whatever its size.  The minimum is the formation-utilization campaign's
+#: A7 operating point, adopted **before** any confirmatory seed and not chosen
+#: from these numbers.
+ATTRIBUTION_MINIMUM = 0.50
+LAYER1_TYPE = "prediction_candidate"
+
 KINDS = ("flip_p", "flip_q")
 
 
@@ -402,6 +411,67 @@ def _scratch(seed: int) -> pathlib.Path:
     return path
 
 
+def hash_seed() -> str | None:
+    """The interpreter's string-hash seed, which the engine's ordering depends on.
+
+    Candidate selection orders structures built from sets of strings, so two runs
+    of the same seed can disagree unless the hash seed is fixed: calibration seed
+    20261204 scored 0.60055 in one run and 0.6025 in another before this was
+    pinned (journal §95).  The calibration that authorises the campaign therefore
+    requires it.
+    """
+    import os
+    return os.environ.get("PYTHONHASHSEED")
+
+
+def variant_label(cap: int = MAX_PREDICTIONS) -> str:
+    """The label is derived from the capacity, so a cap cannot borrow the name.
+
+    §15.1 fixes the variant at 1,000 and says a different capacity is a
+    different variant.  A diagnostic run at another cap therefore carries its
+    own label; it must never be written up as `V1.1-cap(1000)`.
+    """
+    return VARIANT_NAME if cap == MAX_PREDICTIONS else f"V1.1-cap({cap})"
+
+
+def _edge_weight(rows: dict[str, dict[str, float]]) -> float:
+    return float(sum(w for targets in rows.values() for w in targets.values()))
+
+
+def attribution_share(engine: dict) -> dict[str, Any]:
+    """Share of the readout's edge weight carried by Layer-1 predictions.
+
+    The readout sums evidence over every structure type, so a transfer margin
+    can in principle be carried by concepts, loops, phrases or hypotheses
+    rather than by the learned transition structure.  This measures where the
+    evidence is (§17).
+
+    A readout with no edge weight has **no** share: it is reported as not
+    measurable (`None`) and fails the gate — never as `0.0` (AGENTS rule 13).
+    The `without_layer1_share` companion is the counterfactual in which the
+    readout holds no Layer-1 evidence at all: it must fall below the minimum, or
+    the gate is not wired to Layer-1 and is decoration (AGENTS rule 25).
+    """
+    per_type = {t: _edge_weight(rows)
+                for t, rows in (engine.get("type_rows") or {}).items()}
+    total = sum(per_type.values())
+    layer1 = per_type.get(LAYER1_TYPE, 0.0)
+    other = total - layer1
+    share = (layer1 / total) if total > 0 else None
+    without = 0.0 if other > 0 else None
+    return {
+        "layer1_type": LAYER1_TYPE,
+        "share": None if share is None else round(share, 6),
+        "per_type_weight": {t: round(w, 6) for t, w in sorted(per_type.items())},
+        "total_weight": round(total, 6),
+        "minimum": ATTRIBUTION_MINIMUM,
+        "without_layer1_share": without,
+        "passed": share is not None and share >= ATTRIBUTION_MINIMUM,
+        "reason": ("the structure type the study is about must carry the majority "
+                   "of the readout's edge weight"),
+    }
+
+
 def run_engine(formation: dict, seed: int, cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
     """Formation exposure on the conditioned stream, then the frozen readout.
 
@@ -423,6 +493,10 @@ def run_engine(formation: dict, seed: int, cap: int = MAX_PREDICTIONS) -> dict[s
         rows = structure_edges(frozen)
         asserted = {(u, v) for u, targets in rows.items() for v in targets}
         temporal = {(u, v) for u, v, _n in mem.temporal_edges(min_count=1)}
+        by_type: dict[str, list[dict]] = defaultdict(list)
+        for c in frozen:
+            by_type[c.get("type", "")].append(c)
+        type_rows = {t: structure_edges(cs) for t, cs in by_type.items()}
     finally:
         mem._conn.close()
         try:
@@ -430,7 +504,8 @@ def run_engine(formation: dict, seed: int, cap: int = MAX_PREDICTIONS) -> dict[s
         except PermissionError:
             pass
     return {"asserted_rows": rows, "asserted": asserted, "temporal": temporal,
-            "cap": cap, "formation_events": len(formation["events"])}
+            "type_rows": type_rows, "cap": cap,
+            "formation_events": len(formation["events"])}
 
 
 def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
@@ -482,9 +557,13 @@ def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
 
     return {
         "kind": "reusable_knowledge_cell",
-        "variant": VARIANT_NAME,
+        "variant": variant_label(cap),
+        "cap": cap,
+        "cap_is_canonical": cap == MAX_PREDICTIONS,
+        "pythonhashseed": hash_seed(),
         "seed": seed,
         "gate_f": gate,
+        "attribution": attribution_share(engine),
         "formation": {
             "events": len(rows),
             "cycles": formation_cycles(),
@@ -527,6 +606,7 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
     E2  Gate F fires on a degraded readout (coverage, not a rubber stamp)
     E3  the conditioning actually removed the withheld transitions
     E4  every limb has a denominator to be scored against
+    E5  the attribution share is measured, and its gate can fire
     """
     held = limbs(world, withheld)
     vocab = {t for r in world["events"] for t in r.split()}
@@ -549,6 +629,11 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
     e4 = (cell["held_out"]["retention_pairs"] > 0
           and cell["held_out"]["transfer_pairs"] > 0)
 
+    att = cell.get("attribution") or {}
+    e5 = (bool(att.get("passed"))
+          and att.get("without_layer1_share") is not None
+          and att["without_layer1_share"] < att.get("minimum", ATTRIBUTION_MINIMUM))
+
     checks = {
         "E1_endpoint_separates_the_law": {
             "passed": e1, "ceiling_transfer": round(ceil, 6),
@@ -565,6 +650,12 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
             "passed": e4, "retention_pairs": cell["held_out"]["retention_pairs"],
             "transfer_pairs": cell["held_out"]["transfer_pairs"],
             "reason": "a limb with no pairs is not measurable, not zero"},
+        "E5_attribution_share_can_fire": {
+            "passed": e5, "share": att.get("share"),
+            "without_layer1_share": att.get("without_layer1_share"),
+            "minimum": att.get("minimum", ATTRIBUTION_MINIMUM),
+            "reason": ("a readout with no Layer-1 evidence must fall below the "
+                       "minimum, or the gate is decoration")},
     }
     return {"all_passed": all(c["passed"] for c in checks.values()),
             "checks": checks}
@@ -582,18 +673,52 @@ def _load_calibration() -> dict | None:
 
 
 def confirmatory_allowed() -> tuple[bool, str]:
-    """Confirmatory seeds are refused unless all five calibration seeds passed."""
+    """Confirmatory seeds are refused unless the CANONICAL calibration passed.
+
+    The guard checks the artifact's **capacity, variant and seed set**, not only
+    its pass flag.  A calibration run at another cap carries another label
+    (§15.1), and authorising the confirmatory set from it would attribute those
+    cells to a variant that was never calibrated — the same class of defect as
+    two gates sharing one name (AGENTS rule 25).
+    """
     cal = _load_calibration()
     if cal is None:
         return False, f"no calibration artifact at {CALIBRATION_OUT}"
+    if cal.get("cap") != MAX_PREDICTIONS:
+        return False, (f"calibration artifact is at cap {cal.get('cap')}, not "
+                       f"{MAX_PREDICTIONS}: a different capacity is a different variant")
+    if cal.get("variant") != VARIANT_NAME:
+        return False, (f"calibration artifact is labelled {cal.get('variant')!r}, not "
+                       f"{VARIANT_NAME!r}")
+    if list(cal.get("seeds") or []) != list(CALIBRATION_SEEDS):
+        return False, "the artifact's seed set is not the five calibration seeds"
     if not cal.get("all_seeds_passed"):
         failed = [c["seed"] for c in cal.get("cells", []) if not c["calibration_passed"]]
         return False, f"calibration did not pass on seeds {failed}"
-    return True, "calibration passed on all five seeds"
+    if not cal.get("audit_all_passed"):
+        return False, "the harness audit did not pass on every calibration seed"
+    if not (cal.get("attribution") or {}).get("all_seeds_passed"):
+        return False, ("the attribution share did not reach its minimum on every "
+                       "calibration seed")
+    return True, "calibration passed on all five seeds, at the canonical cap and label"
 
 
 def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
-    """The gate of §15.2: V1.1-cap(1000) alone, all five seeds must pass."""
+    """The gate of §15.2: V1.1-cap(1000) alone, all five seeds must pass.
+
+    A different capacity is a different variant (§15.1), so it may not run the
+    calibration that authorises the confirmatory set.  The artifact records the
+    cap, the label derived from it, and whether it authorises anything.
+    """
+    if cap != MAX_PREDICTIONS:
+        raise ValueError(
+            f"calibration runs at MAX_PREDICTIONS={MAX_PREDICTIONS} only; cap {cap} "
+            f"is a different variant and needs its own amendment (§15.1)")
+    if hash_seed() is None:
+        raise ValueError(
+            "set PYTHONHASHSEED to a fixed value before calibrating: the engine's "
+            "candidate ordering is hash-sensitive, and two identical runs were "
+            "observed to disagree (journal §95)")
     cells = []
     for seed in CALIBRATION_SEEDS:
         world = generate_compositional_world(seed=seed, cycles=CYCLES)
@@ -601,10 +726,21 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         cell["audit"] = harness_audit(cell, world)
         cells.append(cell)
     passed = [c["seed"] for c in cells if c["calibration_passed"]]
+    attribution_passed = [c["seed"] for c in cells if c["attribution"]["passed"]]
     art = {
         "kind": "reusable_knowledge_calibration",
-        "variant": VARIANT_NAME,
+        "variant": variant_label(cap),
         "cap": cap,
+        "canonical_cap": cap == MAX_PREDICTIONS,
+        "pythonhashseed": hash_seed(),
+        "attribution": {
+            "rule": "every calibration seed must reach the minimum share",
+            "layer1_type": LAYER1_TYPE,
+            "minimum": ATTRIBUTION_MINIMUM,
+            "seeds_passing": attribution_passed,
+            "all_seeds_passed": len(attribution_passed) == len(CALIBRATION_SEEDS),
+            "scope": "V1.1-cap(1000) only",
+        },
         "gate": {
             "denominator": GATE_F_DENOMINATOR,
             "threshold": GATE_F_THRESHOLD,
@@ -618,6 +754,11 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         "all_seeds_passed": len(passed) == len(CALIBRATION_SEEDS),
         "audit_all_passed": all(c["audit"]["all_passed"] for c in cells),
         "confirmatory_seeds_touched": False,
+        "authorises_confirmatory": (
+            cap == MAX_PREDICTIONS
+            and len(passed) == len(CALIBRATION_SEEDS)
+            and len(attribution_passed) == len(CALIBRATION_SEEDS)
+            and all(c["audit"]["all_passed"] for c in cells)),
         "note": (
             "Calibration is a go/no-go at n = 5 (section 15.2). A failure here "
             "is reported as formation not achieved at the calibration operating "
@@ -637,6 +778,20 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--cap", type=int, default=MAX_PREDICTIONS)
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
+
+    if args.calibration and args.cap != MAX_PREDICTIONS:
+        print(f"refusing to calibrate at cap {args.cap}: calibration runs at "
+              f"MAX_PREDICTIONS={MAX_PREDICTIONS} only, cap {args.cap} is a different "
+              f"variant (§15.1), and the label {variant_label(args.cap)!r} authorises "
+              f"nothing.", file=sys.stderr)
+        return 4
+
+    if args.calibration and hash_seed() is None:
+        print("refusing to calibrate with PYTHONHASHSEED unset: the engine's candidate "
+              "ordering is hash-sensitive, so the gate would not be reproducible "
+              "(journal §95). Re-run as `PYTHONHASHSEED=0 python -m "
+              "benchmarks.reusable_knowledge --calibration`.", file=sys.stderr)
+        return 5
 
     if args.calibration:
         art = run_calibration(args.cap)
@@ -665,7 +820,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.json:
         print(json.dumps(cell, indent=1, sort_keys=True))
     else:
-        print(f"{VARIANT_NAME} seed {seed}")
+        print(f"{variant_label(args.cap)} seed {seed}")
         print(f"  Gate F {cell['gate_f']['coverage']:.4f} "
               f"({cell['gate_f']['covered']}/{cell['gate_f']['denominator']}) "
               f"{'PASS' if cell['gate_f']['passed'] else 'FAIL'}"

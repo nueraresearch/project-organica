@@ -1,5 +1,17 @@
 {
  "amendment": "REUSABLE-KNOWLEDGE-PREREGISTRATION section 15",
+ "attribution_share": {
+  "calibration_all_seeds_passed": true,
+  "calibration_measured": {
+   "max": 0.986553,
+   "min": 0.984848
+  },
+  "criterion": "Layer-1 prediction_candidate edge weight over total readout edge weight",
+  "layer1_type": "prediction_candidate",
+  "minimum": 0.5,
+  "rule": "every seed must reach the minimum; a failure reports the endpoint as not attributable"
+ },
+ "calibration_has_run": true,
  "capacity_change_only": true,
  "capacity_is_fixed": true,
  "comparators": {
@@ -11,6 +23,15 @@
   ],
   "privileged_reference": "cell-level latent-state counter (reported separately)"
  },
+ "confirmatory_authorisation_requires": [
+  "cap == 1000",
+  "variant == V1.1-cap(1000)",
+  "seeds == the five calibration seeds",
+  "Gate F on all five calibration seeds",
+  "the harness audit on all five calibration seeds",
+  "the attribution share on all five calibration seeds"
+ ],
+ "confirmatory_has_run": false,
  "existing_mask_reusable": false,
  "frozen_reference": "v0.9.0",
  "gate_f_calibration": {
@@ -39,13 +60,18 @@
  "kind": "reusable_knowledge_variant",
  "max_predictions": 1000,
  "name": "V1.1-cap(1000)",
- "no_cell_has_run": true,
+ "no_cell_has_run": false,
  "oracle_admitted_arm": {
   "may_be_referenced_by_a_verdict": false,
   "return_requires": "an amendment stating the candidate-level admission rule before any cell",
   "run_in_calibration": false,
   "run_in_confirmatory": false,
   "status": "deferred"
+ },
+ "reproducibility": {
+  "observed_divergence": "seed 20261204 scored 0.60055 and 0.6025 in two runs before the pin",
+  "recorded_in_artifact": "0",
+  "requires_env": "PYTHONHASHSEED"
  },
  "requires_new_harness_work": [
   "conditioned sampler withholding two declared cell transitions across warmup and acquisition",
