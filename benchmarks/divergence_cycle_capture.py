@@ -810,10 +810,11 @@ def render(artifact: dict[str, Any]) -> str:
         "stream, and does not decompose the ranking between them, nor the "
         "assembly step that precedes it. The supported claim is the narrower "
         "one: **at the cycle where the populations part company, the two "
-        "sides hold the same set in **%d** of %d arm-pairs and the same "
-        "order in **%d** of %d, so the membership difference is present "
-        "wherever the admitted streams diverge.**"
-        % (same_set, total_pairs, same_order, total_pairs))
+        "sides differ in membership in %d of %d arm-pairs and in read-back "
+        "order in %d of %d, so membership differs wherever the admitted "
+        "streams do.**"
+        % (total_pairs - same_set, total_pairs,
+           total_pairs - same_order, total_pairs))
     add("")
     add("## 5. What this does not establish")
     add("")
