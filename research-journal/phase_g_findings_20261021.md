@@ -6746,3 +6746,17 @@ The differences, by type:
 **What this does not establish.** It does not name the operation. A candidate entering at cycle *c* means an upstream write changed at *c*; the write's identity is a separate observer, and the fact that `_score_tags` is order-sensitive from cycle 1 is not evidence that it causes an insertion at cycle 3 or 4. With C1 void, the onsets are also not yet shown to be absent on a seed that does not diverge. H2 remains untested, D0 is not re-scored, and Organica 1 stays frozen at `v0.9.0`.
 
 → `docs/divergence_onset.json`; `docs/DIVERGENCE-ONSET.md`; `benchmarks/divergence_onset.py`; `docs/ONSET-INSTRUMENT-BRIEF.md`; journal §75.
+
+## §77 — The distinct-seed control ran, F2 fired, and the onset result is inadmissible by its own pre-registration
+
+**What ran.** `--control-only --control-seeds 0,1`: the control seed T1/20261101 captured at two hash seeds — **2 runs, 0 cached**. The pair was declared before the run because the audit's own control pair is hash seed 0 on both sides, which cannot fail.
+
+**The result.** The control seed's pools **differ**. Of 24 measured cycles, **3 differ in membership** — all on **arm B**, at **cycles 10, 11 and 12** — and 4 differ in order. The other 21 are identical.
+
+**F2 fires, and by the pre-registration the instrument is inadmissible.** F2 says: *if the control seed's two hash-seed runs differ in membership at any cycle, the membership difference is generic to hash-seeded construction and carries no information about the D0 divergence.* That is what happened. The onset numbers remain measured facts about these 16 arm-pairs, and the insertion observation remains a fact about pool construction — but neither may now be attributed to the divergence, because a seed that does not diverge also produces membership differences under two hash seeds.
+
+**What is left, stated precisely and not more strongly.** The control differs at cycles **10–12 on one arm**; the failing seeds differ at cycles **3–6 on both arms**. That is a difference in *pattern*, and it is the only basis on which a further test could be built — as its own pre-registration with its own control, not as a reinterpretation of this run. **A result that has just failed its control cannot be rescued by noticing that the failure looks different in shape**; that observation is a hypothesis, and it is recorded as one.
+
+**What this costs and what it does not change.** It costs the divergence-specific reading of the onset measurement, which was never secured. It does not change F1's reproduction, the insertion observation as a fact about pools, the withdrawn identical-pool premise, the mechanism experiment's status, H2's untested status, or the frozen engine. **No engine file changed. D0 is not re-scored.**
+
+→ `docs/divergence_onset.json`; `docs/DIVERGENCE-ONSET.md`; journal §76; `docs/ONSET-INSTRUMENT-BRIEF.md`.

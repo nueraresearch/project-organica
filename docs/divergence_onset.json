@@ -3,7 +3,7 @@
  "capture_artifact_sha256": "dce105bf5dab8f5ac2b85517cc7c27d28bd51fb44832c0e002ccf3ef7c885aa0",
  "command": "python benchmarks/divergence_onset.py --workers 4",
  "control": {
-  "baseline_hash_seed": 0,
+  "baseline_hash_seed": 1,
   "campaign_hash_seed": 0,
   "cycles": [
    {
@@ -73,22 +73,22 @@
     "arm": "B",
     "cycle": 10,
     "measured": true,
-    "same_order": true,
-    "same_set": true
+    "same_order": false,
+    "same_set": false
    },
    {
     "arm": "B",
     "cycle": 11,
     "measured": true,
-    "same_order": true,
-    "same_set": true
+    "same_order": false,
+    "same_set": false
    },
    {
     "arm": "B",
     "cycle": 12,
     "measured": true,
-    "same_order": true,
-    "same_set": true
+    "same_order": false,
+    "same_set": false
    },
    {
     "arm": "C",
@@ -157,7 +157,7 @@
     "arm": "C",
     "cycle": 10,
     "measured": true,
-    "same_order": true,
+    "same_order": false,
     "same_set": true
    },
    {
@@ -175,11 +175,25 @@
     "same_set": true
    }
   ],
-  "hash_seeds_equal": true,
-  "identical_at_every_cycle": true,
-  "onset": null,
+  "hash_seeds_equal": false,
+  "identical_at_every_cycle": false,
+  "onset": {
+   "arm": "B",
+   "cycle": 10
+  },
   "seed": 20261101,
   "task": "T1"
+ },
+ "control_rerun": {
+  "cached": 0,
+  "command": "python benchmarks/divergence_onset.py --control-only --control-seeds 0,1 --workers 2",
+  "declared_pair": [
+   0,
+   1
+  ],
+  "reason": "The audit's control pair is one hash seed twice, so C1 could not fail. This pair is declared before the run and is the smallest change that gives the comparison two configurations.",
+  "runs": 2,
+  "seconds": 76.2
  },
  "f1": {
   "cycles_checked": [
@@ -195,11 +209,43 @@
   "mismatches": [],
   "passed": true
  },
+ "f2": {
+  "consequence": "inadmissible: the onsets are measured facts but may not be attributed to the divergence",
+  "control_differing_cycles": [
+   {
+    "arm": "B",
+    "cycle": 10,
+    "measured": true,
+    "same_order": false,
+    "same_set": false
+   },
+   {
+    "arm": "B",
+    "cycle": 11,
+    "measured": true,
+    "same_order": false,
+    "same_set": false
+   },
+   {
+    "arm": "B",
+    "cycle": 12,
+    "measured": true,
+    "same_order": false,
+    "same_set": false
+   }
+  ],
+  "control_seeds": [
+   0,
+   1
+  ],
+  "fired": true,
+  "rule": "F2: if the control seed's two hash-seed runs differ in membership at any cycle, the membership difference is generic to hash-seeded construction and carries no information about the D0 divergence."
+ },
  "generated_utc": "2026-11-01T16:09:57Z",
  "kind": "divergence_onset",
  "membership_artifact_sha256": "544ebd87bf86a7b38e98815449cd86e66a9ed75dbc3ffb1431cae34c76365e17",
  "observer_version": 1,
- "provenance_note": "Derived fields added 2026-11-01 after the run: the control's two hash seeds and whether they are equal. The run counters are the original measurement's (18 runs, 0 cached) and were not recomputed.",
+ "provenance_note": "Derived fields added 2026-11-01 after the run: the control's two hash seeds and whether they are equal. The run counters are the original measurement's (18 runs, 0 cached) and were not recomputed. The control was then re-run at the declared pair 0 and 1 (2 runs, 0 cached); F2 fired and that is recorded here.",
  "results": [
   {
    "arms": {

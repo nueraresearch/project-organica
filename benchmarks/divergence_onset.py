@@ -338,6 +338,44 @@ def analyse(meta: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def control_block(c_entry: dict[str, Any], seeds: list[int]) -> dict[str, Any]:
+    """The control comparison at a declared pair of hash seeds.
+
+    Kept as one function so a re-run cannot compute the control differently
+    from the analysis that reported it void in the first place.
+    """
+    parts = [json.loads(part_path(c_entry["task"], c_entry["seed"], s).read_text("utf-8"))
+             for s in seeds]
+    control: dict[str, Any] = {
+        "task": c_entry["task"],
+        "seed": c_entry["seed"],
+        "campaign_hash_seed": seeds[0],
+        "baseline_hash_seed": seeds[1],
+        "hash_seeds_equal": not control_is_valid(seeds[0], seeds[1]),
+        "cycles": [],
+        "identical_at_every_cycle": True,
+        "onset": None,
+    }
+    for arm in ARMS:
+        keys = set.intersection(*[{int(k) for k in part.get("arms", {}).get(arm, {})}
+                                 for part in parts])
+        for cycle in sorted(keys):
+            pools = [pool(part, arm, cycle) for part in parts]
+            if not all(ok for _, ok in pools):
+                control["cycles"].append({"arm": arm, "cycle": cycle,
+                                          "measured": False})
+                continue
+            ids = [x for x, _ in pools]
+            same = set(ids[0]) == set(ids[1])
+            control["cycles"].append({"arm": arm, "cycle": cycle, "measured": True,
+                                      "same_set": same, "same_order": ids[0] == ids[1]})
+            if not same:
+                control["identical_at_every_cycle"] = False
+                if control["onset"] is None:
+                    control["onset"] = {"arm": arm, "cycle": cycle}
+    return control
+
+
 def render(artifact: dict[str, Any]) -> str:
     lines: list[str] = []
     add = lines.append
@@ -483,11 +521,23 @@ def render(artifact: dict[str, Any]) -> str:
         "test H2, does not reopen the mechanism experiment, does not re-score "
         "D0, and changes no engine file.")
     add("")
-    add("**C1 being void matters for scope.** The onset numbers below the void "
-        "control are measurements of a real difference between two hash seeds; "
-        "what is missing is the check that a *non-diverging* seed shows none. "
-        "Until that is run at two distinct hash seeds, the onsets are "
-        "characterised, not yet shown to be specific to the failing seeds.")
+    if control.get("hash_seeds_equal"):
+        add("**C1 being void matters for scope.** The onsets are measurements of "
+            "a real difference between two hash seeds; what is missing is the "
+            "check that a *non-diverging* seed shows none. Until that is run at "
+            "two distinct hash seeds, the onsets are characterised, not yet "
+            "shown to be specific to the failing seeds.")
+    else:
+        add("**What C1 now licenses.** The control was re-run at the declared "
+            "pair %s and %s — the audit's own pair is one seed twice, which is "
+            "why the first pass could not adjudicate it. %s"
+            % (control["campaign_hash_seed"], control["baseline_hash_seed"],
+               "Its pools are **identical at every measured cycle**, so the "
+               "onsets are specific to the failing seeds rather than a generic "
+               "consequence of hash-seeded construction." if control["identical_at_every_cycle"]
+               else "Its pools **differ**, so a membership difference is a "
+                    "generic consequence of hash-seeded construction and the "
+                    "onsets carry no divergence-specific weight."))
     add("")
     add("## Provenance")
     add("")
@@ -508,9 +558,50 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--render-only", action="store_true")
+    parser.add_argument("--control-only", action="store_true")
+    parser.add_argument("--control-seeds", default="")
     args = parser.parse_args(argv)
 
     PARTS_DIR.mkdir(parents=True, exist_ok=True)
+    if args.control_only:
+        seeds = [int(x) for x in (args.control_seeds or "0,1").split(",")]
+        if len(seeds) != 2 or seeds[0] == seeds[1]:
+            raise SystemExit("--control-seeds needs two distinct seeds")
+        c_entry = control_input()
+        spans = max(engine_cycle(i["audit_index"]) for i in membership_inputs())
+        started = time.time()
+        ran = cached = 0
+        with ThreadPoolExecutor(max_workers=args.workers) as ex:
+            futs = []
+            for seed in seeds:
+                if part_is_current(part_path(c_entry["task"], c_entry["seed"], seed)):
+                    cached += 1
+                    continue
+                futs.append(ex.submit(spawn_worker, c_entry["task"],
+                                      c_entry["seed"], seed,
+                                      list(range(1, spans + 1))))
+            for f in futs:
+                task, seed, hs, _ = f.result()
+                ran += 1
+                print("  ran %s/%d hs=%d" % (task, seed, hs), flush=True)
+        artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+        artifact["control"] = control_block(c_entry, seeds)
+        artifact["control_rerun"] = {
+            "declared_pair": seeds,
+            "reason": "The audit's control pair is one hash seed twice, so C1 "
+                      "could not fail. This pair is declared before the run and "
+                      "is the smallest change that gives the comparison two "
+                      "configurations.",
+            "runs": ran, "cached": cached, "seconds": round(time.time() - started, 1),
+            "command": "python benchmarks/divergence_onset.py --control-only "
+                       "--control-seeds %d,%d --workers %d"
+                       % (seeds[0], seeds[1], args.workers),
+        }
+        ARTIFACT.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n",
+                            encoding="utf-8")
+        REPORT.write_text(render(artifact) + "\n", encoding="utf-8")
+        print("control re-run at %r: %d run(s), %d cached" % (seeds, ran, cached))
+        return 0
     if args.render_only:
         artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     else:

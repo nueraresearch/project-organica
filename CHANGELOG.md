@@ -156,6 +156,15 @@ there is nothing to check out.
   **F2 is not adjudicated** and the onsets are a characterisation, not yet a
   divergence-specific result. The report now says so instead of claiming the
   gauge holds.
+- **The control was then re-run at seeds 0 and 1, and it fired against the
+  result.** 2 runs, 0 cached, with the pair declared before the run. The control
+  seed's own pools **differ** — 3 of 24 measured cycles, arm B, cycles 10–12 — so
+  **F2 fires and the instrument is inadmissible by its own pre-registration**:
+  the onsets and the insertion observation are facts about pools under two hash
+  seeds, and may not be attributed to the D0 divergence. The residual difference
+  in pattern (control at 10–12 on one arm, failing seeds at 3–6 on both) is
+  recorded as a hypothesis for a new pre-registration and was not used to rescue
+  the result.
 
 ### Measured — the construction-order experiment, and a control that stopped it (2026-11-01)
 

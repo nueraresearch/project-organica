@@ -8,7 +8,7 @@
 
 **F1 — reproduction of the corrected capture.** Cycles *k* and *k−1* captured here must reproduce `docs/divergence_cycle_capture.json`'s `set_identical` values **and** its pool IDs, on every arm-pair. **Passed on all 16 arm-pairs.**
 
-**C1 — the control seed. VOID, and that is a defect in the protocol as executed.** The audit records campaign hash seed **0** and baseline hash seed **0** for T1/20261101 — the *same* seed. The two runs are therefore one configuration, and the comparison is a run against itself: it cannot fail. It is **not** evidence that the gauge holds, and **F2 is not adjudicated by this run.** The pools it compared were identical in 24 of 24 measured cycles, which is precisely what comparing a run with itself must return.
+**C1 — the control seed.** T1/20261101 at hash seeds 0 and 1, both arms, every captured cycle: the two runs hold **different** sets (21 of 24 measured cycles identical). **The membership difference is generic to hash-seeded construction, not specific to the divergence; no onset below is informative.**
 
 ## 2. Onset per arm-pair
 
@@ -78,7 +78,7 @@
 
 It does not name the operation that introduces the difference. A candidate entering the pool at cycle *c* says an upstream write changed at *c*, not that a named function is responsible. It does not test H2, does not reopen the mechanism experiment, does not re-score D0, and changes no engine file.
 
-**C1 being void matters for scope.** The onset numbers below the void control are measurements of a real difference between two hash seeds; what is missing is the check that a *non-diverging* seed shows none. Until that is run at two distinct hash seeds, the onsets are characterised, not yet shown to be specific to the failing seeds.
+**What C1 now licenses.** The control was re-run at the declared pair 0 and 1 — the audit's own pair is one seed twice, which is why the first pass could not adjudicate it. Its pools **differ**, so a membership difference is a generic consequence of hash-seeded construction and the onsets carry no divergence-specific weight.
 
 ## Provenance
 
