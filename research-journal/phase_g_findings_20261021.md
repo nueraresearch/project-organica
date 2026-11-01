@@ -7414,3 +7414,28 @@ the campaign.
 `docs/reusable_knowledge_feasibility.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md`
 §3.1, §8, §13.
 
+## §92 — Two definitions fixed before the harness, because one would have made a gate unreachable
+
+**Gate F's denominator.** Counting coverage against the law's whole 128 tag-pair relations
+would have capped the achievable value at 0.75, since the 32 withheld
+relations are absent from formation by design — so a 0.95 threshold would have failed
+every arm and measured nothing. Gate F therefore counts the **96 available** relations,
+with the withheld 32 excluded from numerator and denominator and scored only by the
+transfer limb. This is the same defect as a gate that cannot fire, inverted: a gate that
+cannot pass. Either way the study would have been unmeasurable, and it would have looked
+like a result.
+
+**The ceiling.** The ceiling is the **full latent-rule holder** — the law plus the
+generator's two-tags-per-event rule, giving 0.325 for a flip_p successor and 0.175 for a
+flip_q successor, in closed form with nothing to estimate. The oracle-admitted arm is
+demoted to a **mechanism arm**: informative about admission filtering at fixed evidence,
+and never a ceiling, because it receives the support of the answer rather than the law.
+
+**Why both had to be settled first.** Both are definitions a harness encodes, and either
+could have been chosen after seeing a number — the denominator by noticing which one the
+arms pass, the ceiling by preferring the comparator the arms beat. Fixing them now, in an
+amendment that says what it supersedes, is the only point at which the choice is free.
+
+→ `docs/reusable_knowledge_gate_definitions.json`;
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §2, §4, §9, §14.
+
