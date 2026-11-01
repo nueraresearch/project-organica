@@ -709,6 +709,13 @@ def per_claim_provenance(claims: list[dict], support: dict,
                    "more self-sourced than the frozen reference"),
     })
     real["all_claims_passed"] = bool(real["evaluable"] and real["claims_failed"] == 0)
+    # A pass is a pass over the *measurable* sub-population.  The floor bounds how
+    # much of the population may be excluded; it does not stop a pass from
+    # speaking about a minority of it, so the share a pass covers travels with it.
+    real["pass_coverage"] = (round(real["claims_passed"] / real["claims_total"], 6)
+                             if real["claims_total"] else None)
+    real["excluded_share"] = (round(real["claims_unmeasurable"] / real["claims_total"], 6)
+                              if real["claims_total"] else None)
     return real
 
 
@@ -986,7 +993,9 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
           and ctrl.get("max_share") == 1.0
           and pcp.get("control_all_self_fails") is True
           and pcp.get("reference") == SELF_SOURCED_REFERENCE
-          and str(pcp.get("resolution", "")).startswith("per claim"))
+          and str(pcp.get("resolution", "")).startswith("per claim")
+          and pcp.get("pass_coverage") is not None
+          and pcp.get("excluded_share") is not None)
 
     att = cell.get("attribution") or {}
     e5 = (bool(att.get("passed"))
@@ -1039,6 +1048,8 @@ def harness_audit(cell: dict, world: dict, withheld=WITHHELD) -> dict[str, Any]:
             "claims_unmeasurable": pcp.get("claims_unmeasurable"),
             "claims_failed": pcp.get("claims_failed"),
             "evaluable": pcp.get("evaluable"),
+            "pass_coverage": pcp.get("pass_coverage"),
+            "excluded_share": pcp.get("excluded_share"),
             "control": pcp.get("control"),
             "control_all_self_fails": pcp.get("control_all_self_fails"),
             "reason": ("the per-claim rule must have measurable claims and its "

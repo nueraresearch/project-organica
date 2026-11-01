@@ -305,6 +305,22 @@ def test_withheld_claims_are_reported_separately():
     assert got["withheld_claims"]["claims_failed"] == 1
 
 
+def test_a_pass_reports_how_much_of_the_population_it_covers():
+    """The measurable floor bounds exclusion; it does not stop a pass covering a
+    minority.  The worst case is pinned here so a pass cannot be quoted as if it
+    spoke for the whole asserted population."""
+    claims = [{"type": "prediction_candidate", "source": "a", "target": "b",
+               "on_withheld": False},
+              {"type": "prediction_candidate", "source": "c", "target": "d",
+               "on_withheld": False}]
+    got = rk.per_claim_provenance(claims, {("a", "b"): {(1, 2): False}})
+    assert got["claims_measurable"] == 1 and got["claims_unmeasurable"] == 1
+    assert got["evaluable"] is True, "exactly at the floor"
+    assert got["all_claims_passed"] is True, "a half-unjudged population can pass"
+    assert got["pass_coverage"] == pytest.approx(0.5)
+    assert got["excluded_share"] == pytest.approx(0.5)
+
+
 def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):
     monkeypatch.setenv("PYTHONHASHSEED", "0")
     monkeypatch.setattr(rk, "_load_calibration",

@@ -7688,7 +7688,7 @@ claims are excluded and reported, with a declared 50% measurable floor below whi
 is reported not evaluable rather than passed; the measured fraction is 0.9711–0.9765.
 
 **What survives.** 254–576 of 604–1277 measurable claims still fail per
-seed (4205.3–5210.8 %), shares still reach 1.0000, the revision limb adds
+seed (42.1–52.1 %), shares still reach 1.0000, the revision limb adds
 282–510 failures, and `authorises_confirmatory` is still false. The 264–592 count is
 withdrawn rather than quietly updated: on the corrected unit every seed fails slightly fewer claims
 (592, 348, 332, 264, 336 → 576, 346, 326, 254, 332), so the defect did not

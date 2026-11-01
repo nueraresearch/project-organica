@@ -208,6 +208,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.027418,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -269,6 +270,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.972582,
      "min_share": 0.0,
+     "pass_coverage": 0.533892,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -354,6 +356,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.027439,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -415,6 +418,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.972561,
      "min_share": 0.0,
+     "pass_coverage": 0.503049,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -776,6 +780,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.023529,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -837,6 +842,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.976471,
      "min_share": 0.0,
+     "pass_coverage": 0.467647,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -922,6 +928,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.023392,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -983,6 +990,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.976608,
      "min_share": 0.0,
+     "pass_coverage": 0.45614,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -1342,6 +1350,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.024316,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -1403,6 +1412,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.975684,
      "min_share": 0.0,
+     "pass_coverage": 0.480243,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -1477,6 +1487,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.023952,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -1538,6 +1549,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.976048,
      "min_share": 0.0,
+     "pass_coverage": 0.467066,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -1897,6 +1909,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.028939,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -1958,6 +1971,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.971061,
      "min_share": 0.0,
+     "pass_coverage": 0.562701,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -1987,6 +2001,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.028481,
      "failing_examples": [
       {
        "distinct_transitions": 5,
@@ -2048,6 +2063,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.971519,
      "min_share": 0.0,
+     "pass_coverage": 0.525316,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -2353,6 +2369,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.023916,
      "failing_examples": [
       {
        "distinct_transitions": 156,
@@ -2414,6 +2431,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.976084,
      "min_share": 0.0,
+     "pass_coverage": 0.479821,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",
@@ -2443,6 +2461,7 @@
      },
      "control_all_self_fails": true,
      "evaluable": true,
+     "excluded_share": 0.024024,
      "failing_examples": [
       {
        "distinct_transitions": 214,
@@ -2504,6 +2523,7 @@
      "measurable_floor": 0.5,
      "measurable_fraction": 0.975976,
      "min_share": 0.0,
+     "pass_coverage": 0.471471,
      "reason": "each claim's own support must be mostly world-derived and no more self-sourced than the frozen reference",
      "reference": 0.179,
      "reference_provenance": "docs/AUDIT-TRACE-SPEC.md section 10: 802 of 4,481 distinct evidence transitions, default arm",

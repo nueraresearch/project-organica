@@ -856,11 +856,24 @@ the criterion. Where it is measurable it fails too (0–20 of 0–20).
 ### 20.4 How unmeasurable claims count
 
 Unmeasurable claims are **excluded** from the pass/fail count and **reported** (rule 13b: an
-unmeasurable quantity is not a zero). Because exclusion can also hide a broken measurement, a
-declared floor accompanies it: the rule is **evaluable** only when measurable claims are at least
-**50%** of the asserted population, and below that it is reported not evaluable — which
-cannot authorise a confirmatory run. Measured fraction **0.9711–0.9765**, with
-16–36 unmeasurable claims per seed, so the rule is evaluable on all five.
+unmeasurable quantity is not a zero). **The floor is not refusal-only, and §20 originally said it was — that was wrong.** A floor bounds
+how much of the population may be excluded; it does not forbid a pass over what remains. At 50 %, a
+pass may cover as little as **half** the asserted claims, and the code would then report
+`all_claims_passed: true` with half the readout unjudged. That is a permissive rule, not a
+conservative one, and it is stated here as such before it governs anything.
+
+**What the criterion now records, and why 50 %.** Beside `all_seeds_passed` it reports
+`pass_coverage` — the share of asserted claims that were measurable and passed — and
+`excluded_share`. A unit test pins the worst case: one measurable passing claim beside one
+unmeasurable claim yields `evaluable: true`, `all_claims_passed: true` and `pass_coverage: 0.5`, so
+the permissive reading is a recorded property rather than an inference. Any future pass must be
+quoted with its coverage: a pass at 0.50 is a statement about half the readout, not about the
+organism. The value 50 % is chosen because below it the criterion would speak about a minority of the
+population the readout actually asserts — the shape of claim rule 24 forbids — and it is a declared
+parameter of this protocol, not a derivation from data. On this run it is not binding: measured
+fraction **97.11–97.65 %**,
+with 16–36 unmeasurable claims per seed, so the rule is
+evaluable on all five.
 
 ### 20.5 The result on the corrected unit
 
@@ -874,13 +887,13 @@ cannot authorise a confirmatory run. Measured fraction **0.9711–0.9765**, with
 
 The failure survives both corrections, and this is the final calibration result of this protocol:
 **254–576 of 604–1277 measurable claims fail per seed**
-(4205.3–5210.8 %), with per-claim shares reaching **1.0000**, and the
+(42.1–52.1 %), with per-claim shares reaching **1.0000**, and the
 revision limb adds 282–510 failing claims per seed. §19.2's 264–592 is **withdrawn**
 rather than silently replaced: every seed's count falls slightly on the correct unit
 (592, 348, 332, 264, 336 → 576, 346, 326, 254, 332), so the defect was not
 flattering the failure — which is exactly why it still had to be fixed. The conclusion does not rest
 on the exact number either way: the best seed fails 254 of 604
-measurable claims (4205.3 %) against a reference an ordinary belief met.
+measurable claims (42.1 %) against a reference an ordinary belief met.
 
 **The instrument passes; the criterion fails.** Gate F 5 of 5, audit 8 of 8
 checks on every seed including the rebuilt `E8`, `authorises_confirmatory: false`. No confirmatory
