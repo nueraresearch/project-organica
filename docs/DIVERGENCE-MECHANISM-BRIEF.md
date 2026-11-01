@@ -319,6 +319,16 @@ their gate.
 
 ---
 
+## 8a. Disclosure (2026-11-01) — appended after the run; sections 1-8 are unchanged
+
+**What this plan started from was measured one cycle early.** The record it cites is the 2026-10-31 divergence-cycle capture, which reported the two sides holding the **same set** of candidate IDs in **11 of 16** arm-pairs, the **same order** in **3**, and identical in set *and* order on **3** seeds while the admitted streams still differed. That was `OBSERVER_VERSION` 2. `candidate_membership_audit.first_divergence()` stores `first_cycle` as a **zero-based** index and window index *i* is engine cycle *i*, so those pools are the cycle **before** the divergence and the capture labelled them with the divergence cycle's number.
+
+Re-measured at the divergence cycle itself (`OBSERVER_VERSION` 3, 16 runs), the two sides hold the same set in **0 of 16** arm-pairs and the same order in **0 of 16**: membership differs everywhere. **There are no identical pools at the divergence cycle for this experiment to explain**, so the premise that the difference must arise *inside* the cycle is withdrawn rather than refuted.
+
+**This plan is left exactly as committed.** Its hypothesis, two forms, three predictions, three falsification criteria and four controls were fixed before the run and are judged against it; the record of that run is journal §74 and `docs/DIVERGENCE-MECHANISM-RESULTS.md`. What the run located — `_score_tags`, order-sensitive from cycle 1 on every seed including the control — stands as a property of candidate **construction**, and is not evidence about where the divergence begins. The question this brief would have to be rewritten to ask is narrower: **at what earliest cycle do the two candidate populations first differ, and which operation introduces that difference?**
+
+---
+
 ## 9. Cost and order of work
 
 | Step | Cost |
