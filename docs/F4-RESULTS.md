@@ -79,3 +79,28 @@ that failure is the reason this pass means something.
 `docs/store_time_observer_f4.json` (this run), `docs/store_time_observer_self_test.json`
 (neutrality, C2), `docs/store_time_observer_trace.jsonl.gz` (per-call trace of the
 observed run), journal §81, `docs/STORE-TIME-OBSERVER-BRIEF.md`.
+
+## 7. Correction, 2026-11-01 (appended; §3 is not rewritten)
+
+Sections 3 and 4 first described the result as "outcome **(B)**". That label was
+too narrow a claim and is corrected here.
+
+The brief's **(B)** is *the `_score_tags` write is identified*. What the control
+actually established is weaker and more precise: the differing candidate is
+written during **the cycle's own construction**, not by ingest, and the write is
+absent from the other side's record at that cycle. The observer's stage split is
+binary — **ingest vs construction** — so "construction" covers the whole of
+`_store_candidates`, and it does **not** by itself isolate `_score_tags` from the
+rest of the cycle's construction.
+
+So the control's outcome is: **a construction-stage write, identified at cycle
+resolution; the scoring step is not separated from the rest of construction.**
+That is outcome (B) *unlocalized* — admissible as a control, because the question
+F4 asks is whether the observer can see the thing it was built to see, and it can.
+It would not be reportable as a (B) verdict on a failing seed without the stage
+split being finer than it is.
+
+**The decision in §4 is unchanged.** The correction is to the label, not to
+admissibility, and it is recorded rather than edited away because the label is
+what a later reader would quote.
+

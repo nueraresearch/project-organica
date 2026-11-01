@@ -6911,3 +6911,15 @@ write. Re-run under that rule the control still **passes**: all three cycles
 reconcile, all twelve differences remain attributed, outcome (B). The stronger rule
 did not change the verdict, which is what makes it usable. The frozen record is
 `docs/F4-RESULTS.md`.
+
+**Correction, same day: the control's outcome is (B) *unlocalized*, not (B).** I
+first wrote outcome (B), which in the brief means *the `_score_tags` write was
+identified*. The observer's stage split is binary — ingest vs construction — so it
+establishes that the differing candidate is written by the cycle's own
+construction rather than by ingest, and it does **not** separate `_score_tags`
+from the rest of `_store_candidates`. That is enough for a control (can it see the
+thing?) and not enough for a verdict label on a failing seed. If the measurement
+needs (B) proper, the stage split has to reach inside construction first — which
+is a build change, to be pre-registered before it is run, not a reading of this
+result. `docs/F4-RESULTS.md` §7 carries the correction; §4's PASS stands.
+
