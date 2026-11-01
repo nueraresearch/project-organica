@@ -401,7 +401,60 @@
    "status": "differ"
   }
  },
- "seconds": 93.3,
+ "reconciliation": {
+  "10": {
+   "reconciled": true,
+   "sides": {
+    "hs0": {
+     "accepted_rows": 647,
+     "net_delta": 647,
+     "observed_writes": 647,
+     "reconciled": true
+    },
+    "hs1": {
+     "accepted_rows": 647,
+     "net_delta": 647,
+     "observed_writes": 647,
+     "reconciled": true
+    }
+   }
+  },
+  "11": {
+   "reconciled": true,
+   "sides": {
+    "hs0": {
+     "accepted_rows": 1148,
+     "net_delta": 1148,
+     "observed_writes": 1148,
+     "reconciled": true
+    },
+    "hs1": {
+     "accepted_rows": 1148,
+     "net_delta": 1148,
+     "observed_writes": 1148,
+     "reconciled": true
+    }
+   }
+  },
+  "12": {
+   "reconciled": true,
+   "sides": {
+    "hs0": {
+     "accepted_rows": 2137,
+     "net_delta": 2137,
+     "observed_writes": 2137,
+     "reconciled": true
+    },
+    "hs1": {
+     "accepted_rows": 2137,
+     "net_delta": 2137,
+     "observed_writes": 2137,
+     "reconciled": true
+    }
+   }
+  }
+ },
+ "seconds": 96.3,
  "seed": 20261101,
  "task": "T1",
  "verdict": "attributed"

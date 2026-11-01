@@ -426,6 +426,31 @@ def find_offered(part: dict[str, Any], cycle: int,
     return None
 
 
+def f4_decision(attributed: list[dict[str, Any]],
+                reconciliation: dict[str, Any],
+                cycles: tuple[int, ...]) -> tuple[bool, str]:
+    """The control's verdict, from the brief's two conditions, in order.
+
+    **First** every affected cycle must reconcile: the calls the observer saw must
+    equal the rows the store accepted, and nothing may have been removed. A cycle
+    that does not reconcile makes the observer inadmissible whatever it claims to
+    have attributed, because such a cycle cannot distinguish "no write explains
+    it" from "the observer missed the write".
+
+    **Second**, at least one known membership difference must be traced to a named
+    write. Attribution without reconciliation is not a verdict, and reconciliation
+    without attribution is not a control.
+    """
+    unreconciled = [str(c) for c in cycles
+                    if not (reconciliation.get(str(c)) or {}).get("reconciled")]
+    if unreconciled:
+        return False, ("failed: cycle(s) %s did not reconcile; observer inadmissible"
+                       % ", ".join(unreconciled))
+    if not attributed:
+        return False, "failed: no membership difference could be traced to a write"
+    return True, "attributed"
+
+
 def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str, Any]:
     """C1 / F4: explain the control seed's own known membership difference.
 
@@ -495,7 +520,21 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
         }
         attributed.extend([{"cycle": cycle, **f} for f in resolved])
 
+    reconciliation: dict[str, Any] = {}
+    for cycle in cycles:
+        sides_ok: dict[str, Any] = {}
+        for hs in (0, 1):
+            entry = (sides[hs].get("per_cycle") or {}).get(str(cycle)) or {}
+            sides_ok["hs%d" % hs] = {k: entry.get(k) for k in
+                                     ("observed_writes", "accepted_rows",
+                                      "net_delta", "reconciled")}
+        reconciliation[str(cycle)] = {
+            "sides": sides_ok,
+            "reconciled": all(bool(v.get("reconciled")) for v in sides_ok.values()),
+        }
+
     differing = [c for c, v in per_cycle.items() if v.get("status") == "differ"]
+    passed, verdict = f4_decision(attributed, reconciliation, cycles)
     result = {
         "kind": "store_time_observer_f4",
         "observer_version": OBSERVER_VERSION,
@@ -514,9 +553,9 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
         },
         "attributed": attributed,
         "per_cycle": per_cycle,
-        "passed": bool(attributed),
-        "verdict": ("attributed" if attributed else
-                    "failed: no membership difference could be traced to a write"),
+        "reconciliation": reconciliation,
+        "passed": passed,
+        "verdict": verdict,
     }
     Path("docs/store_time_observer_f4.json").write_text(
         json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",

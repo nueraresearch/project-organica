@@ -6900,3 +6900,14 @@ every window sat one read off its own marker and was refused. A control that cou
 fire would have let the verdict pass run against an instrument that never addressed a
 cycle. This is the second time in this build that an off-by-one at the observation
 boundary was caught by a check rather than by a result.
+
+**Amendment, same day: F4 is now gated on reconciliation as well as attribution.**
+The first decision was taken on attribution alone, which is the defect this line
+keeps removing: a cycle whose write counts do not reconcile cannot tell "no write
+explains it" from "the observer missed the write", so attribution from such a cycle
+is uninterpretable. `f4_decision()` now requires both, in order — every affected
+cycle reconciles on both sides, then at least one difference is traced to a named
+write. Re-run under that rule the control still **passes**: all three cycles
+reconcile, all twelve differences remain attributed, outcome (B). The stronger rule
+did not change the verdict, which is what makes it usable. The frozen record is
+`docs/F4-RESULTS.md`.

@@ -105,3 +105,21 @@ def test_find_offered_uses_only_the_declared_window():
     assert find_offered(part, 6, "c1")["cycle"] == "5"
     assert find_offered(part, 5, "c1")["stage"] == "construction"
     assert find_offered(part, 12, "c9") is None
+
+
+def test_f4_needs_reconciliation_before_attribution():
+    """Both conditions, in order: an unreconciled cycle is fatal on its own."""
+    from benchmarks.store_time_observer import f4_decision
+
+    attributed = [{"cycle": 10, "candidate": "c1"}]
+    ok = {"10": {"reconciled": True}, "11": {"reconciled": True}, "12": {"reconciled": True}}
+    bad = {"10": {"reconciled": True}, "11": {"reconciled": False}, "12": {"reconciled": True}}
+
+    passed, verdict = f4_decision(attributed, ok, (10, 11, 12))
+    assert passed is True and verdict == "attributed"
+
+    passed, verdict = f4_decision(attributed, bad, (10, 11, 12))
+    assert passed is False and "did not reconcile" in verdict
+
+    passed, verdict = f4_decision([], ok, (10, 11, 12))
+    assert passed is False and "no membership difference" in verdict
