@@ -90,6 +90,40 @@ def stage_of(source: str) -> str:
     return "construction" if str(source).startswith("sleep:") else "ingest"
 
 
+def load_trace(path: Path):
+    """Read a trace written by ``--trace``.
+
+    Returns ``(header, rows)``.  ``rows`` is a generator of dicts with the digest
+    table already resolved, so a later analysis reads calls as
+    ``cycle, accepted, digest, id, type, stage, source`` instead of re-deriving
+    the index.  The file is gzip JSONL: one header line, then one array per call.
+    """
+    import gzip
+    handle = gzip.open(path, "rt", encoding="utf-8")
+    header = json.loads(handle.readline())
+    table = header.get("digests", [])
+    codes = {"0": "ingest", "1": "construction"}
+
+    def rows():
+        try:
+            for line in handle:
+                cycle, accepted, didx, stage, source = json.loads(line)
+                entry = table[didx] if 0 <= didx < len(table) else {}
+                yield {
+                    "cycle": cycle,
+                    "accepted": accepted,
+                    "digest": entry.get("digest"),
+                    "id": entry.get("id"),
+                    "type": entry.get("type"),
+                    "stage": codes.get(str(stage), str(stage)),
+                    "source": source,
+                }
+        finally:
+            handle.close()
+
+    return header, rows()
+
+
 def reconcile(deltas: list[int]) -> dict[str, Any]:
     """One cycle's reconciliation record, from its per-call accepted deltas.
 
@@ -120,7 +154,8 @@ def reconcile(deltas: list[int]) -> dict[str, Any]:
 # the observer
 # ---------------------------------------------------------------------------
 
-def record_run(task: str, seed: int, cap: int, wrap: bool = True) -> dict[str, Any]:
+def record_run(task: str, seed: int, cap: int, wrap: bool = True,
+               trace: Path | None = None) -> dict[str, Any]:
     """Run arm B once and return a compact record of every write.
 
     With ``wrap=False`` the run is unobserved; that is what the neutrality check
@@ -136,6 +171,11 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True) -> dict[str, A
     state: dict[str, Any] = {"marker": None, "markers": [], "unattributed": 0}
     per_cycle: dict[str, dict[str, Any]] = {}
     deltas: dict[str, list[int]] = {}
+    # The full per-call trace, kept for later observational use: a run's database
+    # is disposable, so a discarded call record cannot be recovered afterwards.
+    calls: list[list[Any]] = []
+    digest_table: list[dict[str, Any]] = []
+    digest_index: dict[str, int] = {}
     totals = {"construction": 0, "ingest": 0, "accepted_rows": 0, "net_delta": 0}
     original_recent = MemoryService.recent
     original_store = MemoryService.store
@@ -174,14 +214,26 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True) -> dict[str, A
         totals[stage] += 1
         totals["accepted_rows"] += max(0, accepted)
         totals["net_delta"] += accepted
+        did = digest(content)
+        if did not in digest_index:
+            digest_index[did] = len(digest_table)
+            digest_table.append({
+                "digest": did,
+                "id": (str(payload.get("id"))
+                       if isinstance(payload, dict) and payload.get("id") is not None
+                       else None),
+                "type": (str(payload.get("type"))
+                         if isinstance(payload, dict) else None),
+            })
         if isinstance(payload, dict) and payload.get("id") is not None:
-            did = digest(content)
             entry = d["candidates"].setdefault(did, {
                 "id": str(payload.get("id")),
                 "type": str(payload.get("type")),
                 "stage": stage,
             })
             entry["count"] = entry.get("count", 0) + 1
+        calls.append([key, accepted, digest_index[did],
+                      1 if stage == "construction" else 0, str(source)])
         return event
 
     if wrap:
@@ -197,6 +249,27 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True) -> dict[str, A
     comparable = {k: raw[k] for k in ("admitted", "temporal_reads") if k in raw}
     for key, d in per_cycle.items():
         d.update(reconcile(deltas.get(key, [])))
+
+    trace_info: dict[str, Any] = {}
+    if trace is not None:
+        import gzip
+        trace.parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(trace, "wt", encoding="utf-8") as f:
+            f.write(json.dumps({
+                "kind": "store_time_observer_trace",
+                "observer_version": OBSERVER_VERSION,
+                "task": task,
+                "seed": seed,
+                "cap": cap,
+                "fields": ["cycle", "accepted", "digest_index", "stage", "source"],
+                "stage_codes": {"0": "ingest", "1": "construction"},
+                "digests": digest_table,
+            }, sort_keys=True) + "\n")
+            for c in calls:
+                f.write(json.dumps(c, separators=(",", ":")) + "\n")
+        trace_info = {"path": str(trace), "calls": len(calls),
+                      "digests": len(digest_table),
+                      "bytes": trace.stat().st_size}
     return {
         "observer_version": OBSERVER_VERSION,
         "task": task,
@@ -208,10 +281,11 @@ def record_run(task: str, seed: int, cap: int, wrap: bool = True) -> dict[str, A
         "unattributed_writes": state["unattributed"],
         "per_cycle": per_cycle,
         "totals": totals,
+        "trace": trace_info,
     }
 
 
-def self_test(cap: int) -> dict[str, Any]:
+def self_test(cap: int, trace: Path | None = None) -> dict[str, Any]:
     """C2: the wrapper must not change the run, and the check must be able to fire.
 
     Three results are reported separately, because they answer different
@@ -221,7 +295,7 @@ def self_test(cap: int) -> dict[str, Any]:
     """
     started = time.time()
     unobserved = record_run(*CONTROL_SEED, cap, wrap=False)
-    observed = record_run(*CONTROL_SEED, cap, wrap=True)
+    observed = record_run(*CONTROL_SEED, cap, wrap=True, trace=trace)
 
     keys = ("admitted", "temporal_reads")
     measured = [k for k in keys if k in observed["comparable"]]
@@ -268,6 +342,7 @@ def self_test(cap: int) -> dict[str, Any]:
         "unreconciled_cycles": unreconciled,
         "totals": observed["totals"],
         "cycle_summary": summarise(observed["per_cycle"]),
+        "trace": observed["trace"],
         "passed": passed,
     }
 
@@ -294,6 +369,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--self-test", action="store_true",
                     help="run the neutrality and comparator checks and exit")
+    ap.add_argument("--trace", default=None,
+                    help="write the full per-call trace, gzip JSONL, to this path")
     ap.add_argument("--cap", type=int, default=fu.CAP_B,
                     help="the harness cap passed through to the arm; the arm "
                          "fixes its own cycle count, and the self-test reports it")
@@ -302,7 +379,8 @@ def main(argv: list[str] | None = None) -> int:
     if not args.self_test:
         ap.error("only --self-test is implemented so far; the verdict pass is not built")
 
-    result = self_test(args.cap)
+    trace = Path(args.trace) if args.trace else None
+    result = self_test(args.cap, trace=trace)
     print(json.dumps(result, indent=1, sort_keys=True))
     return 0 if result["passed"] else 1
 

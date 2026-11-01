@@ -6855,3 +6855,12 @@ above were found with **no artifact and no measurement affected**: the cycle err
 noticing that a six-cycle run reported 162 cycles, and the reconciliation rule by a
 unit test written before the control was run. That is the cost difference the freeze
 point predicted, observed rather than asserted.
+
+**Amendment, same day: the per-call record is kept, not just summarised.** The run's
+database is disposable, so a summarised record loses exactly the detail a later
+question would need. `--trace` now writes every admitting call to
+`docs/store_time_observer_trace.jsonl.gz` — **349,502 calls**, gzip JSONL, **1.12 MB**, with
+**48,672 distinct content digests** factored into a header table so each
+row is five fields: cycle, accepted, digest index, stage, source. `load_trace()` in
+the observer reads it back with the digests resolved. The trace corresponds to
+`docs/store_time_observer_self_test.json`, which records the same run.

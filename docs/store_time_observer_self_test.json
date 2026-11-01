@@ -188,12 +188,18 @@
  },
  "observer_version": 1,
  "passed": true,
- "seconds": 127.8,
+ "seconds": 133.2,
  "totals": {
   "accepted_rows": 349502,
   "construction": 348222,
   "ingest": 1280,
   "net_delta": 349502
+ },
+ "trace": {
+  "bytes": 1121938,
+  "calls": 349502,
+  "digests": 48672,
+  "path": ".scratch/store_time_observer_trace.jsonl.gz"
  },
  "unattributed_writes": 0,
  "unreconciled_cycles": []

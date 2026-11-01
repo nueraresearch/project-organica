@@ -64,3 +64,29 @@ def test_summarise_names_markers_and_unreconciled_cycles():
     assert s["unreconciled"] == ["2"]
     assert s["ingest_buckets"] == 1
     assert s["ingest_per_bucket"] == [8]
+
+
+def test_load_trace_resolves_the_digest_table(tmp_path):
+    """A saved trace must be readable without re-deriving its digest index."""
+    import gzip
+    import json
+
+    from benchmarks.store_time_observer import load_trace
+
+    path = tmp_path / "trace.jsonl.gz"
+    header = {"kind": "store_time_observer_trace", "observer_version": 1,
+              "fields": ["cycle", "accepted", "digest_index", "stage", "source"],
+              "digests": [{"digest": "abc123", "id": "concept:1", "type": "concept"},
+                          {"digest": "def456", "id": None, "type": None}]}
+    with gzip.open(path, "wt", encoding="utf-8") as f:
+        f.write(json.dumps(header) + "\n")
+        f.write(json.dumps(["3", 1, 0, 1, "sleep:concept"]) + "\n")
+        f.write(json.dumps(["pre-4", 1, 1, 0, "env"]) + "\n")
+
+    got_header, rows = load_trace(path)
+    rows = list(rows)
+    assert got_header["observer_version"] == 1
+    assert len(rows) == 2
+    assert rows[0]["cycle"] == "3" and rows[0]["id"] == "concept:1"
+    assert rows[0]["stage"] == "construction" and rows[0]["source"] == "sleep:concept"
+    assert rows[1]["stage"] == "ingest" and rows[1]["id"] is None
