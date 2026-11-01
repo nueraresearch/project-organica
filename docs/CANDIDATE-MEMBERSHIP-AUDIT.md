@@ -665,10 +665,12 @@ It does not re-score D0, and it does not change the campaign’s verdict. It say
 
 It does not identify a single mechanism. Hash-order sensitivity is the measured *difference in the environment* that reproduces the campaign’s population; which of the engine’s order-dependent code paths turns that difference into a different candidate set is a separate question. The per-cycle admitted-stream digests localise it to a cycle, and the arm B comparison localises it upstream of arm C’s admission filter, but neither names the code path, and the sleep window cannot name the candidate.
 
+**What this says about the campaign artifact itself.** The control seed’s per-type table is the same at every hash seed swept; each of the 8 failing seeds’ is not — for them the campaign holds one of several hash-order-dependent tables, and it does not record which one. So the campaign artifact’s per-type table cannot be regenerated from this repository alone: the hash seed it ran under was never written down. That is a statement about the artifact’s reproducibility, not about its correctness, and it does not mean the artifact’s own numbers are wrong. Whether the *verdicts* computed from that table move with the hash seed is a separate measurement, which has not been made — the owner’s standing direction is not to re-score D0.
+
 ## Provenance
 
 - Artifact: `docs/candidate_membership_audit.json`.
-- Command: `python benchmarks/candidate_membership_audit.py --hash-seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 --workers 4`.
+- Command: `python benchmarks/candidate_membership_audit.py --hash-seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 --workers 3`.
 - Observer version: 2.
 - Campaign reference: `docs/formation_utilization.json` (sha256 `7c78215ea785ad7d384b3bb8dd17964a04a3e00f1681b60dc797ea4e822a2e65`), generated `2026-10-31T02:09:33.631084+00:00`, assembled `2026-10-31T02:20:59.593005+00:00`.
 - Audit reference: `docs/use_path_audit.json` (sha256 `08f0f0137e71fa3855f3d632e170732b4ced5797f0649c9b16b0b4a2c7cb135f`).

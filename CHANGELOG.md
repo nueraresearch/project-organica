@@ -30,6 +30,63 @@ there is nothing to check out.
 
 ## [0.11.0] — (unreleased)
 
+### Measured — the candidate pool at the divergence cycle (2026-10-31)
+
+- **Why.** The candidate-membership audit found *where* the campaign's
+  candidate population and the current reconstruction's part company — sleep
+  cycles 2 to 11, depending on the seed — and named the candidate IDs that
+  differ. It could not say *what was in the pool at that cycle*, because the
+  engine's 4,000-row sleep window is a snapshot of the read-back near the
+  arm's snapshot point, two or three cycles before the end of the run.
+- **The instrument.** `benchmarks/divergence_cycle_capture.py` captures the
+  window at the divergence cycle itself.
+- **The addressing is proved, not assumed.** The engine stores one
+  `sleep:meta` event per cycle carrying that cycle's number, and the window
+  is read newest-first, so the newest marker in the i-th window read of an arm
+  must carry cycle *i*. The instrument refuses to report a window whose
+  marker does not say so. **16 of 16** captured window pairs are addressed by
+  their own marker.
+- **The pool at the divergence cycle.** Across the 16 arm-pairs, the two
+  sides hold the **same set** of candidate IDs in **11** and the **same
+  order** in only **3**; in **8** the candidates are identical and the
+  order is not. The divergence is mostly a difference in the order the
+  candidates were read in, not in which candidates existed.
+- **Where the order parts company.** The reordering coincides with the
+  divergence in **6** of the 16 arm-pairs: the two sides' pools were
+  identical in set and order at the cycle before, and identical in set but
+  different in order at the divergence cycle.
+- **A negative result about the pool, and a localisation.** For **T2 / 20261118, T2 / 20261123, T2 / 20261130** in
+  arm C the two sides' pools at the divergence cycle are identical
+  candidate-for-candidate *and* in the same sequence, and arm C's admitted
+  stream still differs there. For those the divergence cannot be attributed
+  to the pool at all; it arose inside the cycle.
+- **The engine.** The pool is read back by timestamp with no rowid tiebreak
+  (`organica/memory.py:390`) and the candidate list is assembled from sets
+  of strings (`organica/sleep.py:1201`, `:1223`) — both hash-seed sensitive.
+- **The capture reproduces.** Its sixteen parts were written twice by two
+  independent processes at the same hash seeds and compared field by field:
+  16 of 16 identical.
+- **Two limits, stated.** Where the window had already reached the engine's
+  4,000-row cap, the pool is a truncated view of the candidate history rather
+  than the whole of it, and the artifact records which. And a pool is the
+  **input** to the decision: this names what the organism had in front of it
+  when the two populations parted company, and does not decompose the ranking
+  that turned that pool into an admitted set.
+  - `T1 / 20261125` — divergence cycle **11**; campaign pool 260, current pool 255, 252 on both sides; **8** campaign-only, **3** current-only; same set: **no**, same order: **no**
+  - `T1 / 20261128` — divergence cycle **3**; campaign pool 37, current pool 37, 37 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **no**
+  - `T1 / 20261129` — divergence cycle **2**; campaign pool 39, current pool 39, 39 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **no**
+  - `T2 / 20261118` — divergence cycle **5**; campaign pool 8, current pool 8, 8 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **yes**
+  - `T2 / 20261120` — divergence cycle **5**; campaign pool 23, current pool 22, 22 on both sides; **1** campaign-only, **0** current-only; same set: **no**, same order: **no**
+  - `T2 / 20261121` — divergence cycle **5**; campaign pool 18, current pool 18, 18 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **no**
+  - `T2 / 20261123` — divergence cycle **5**; campaign pool 4, current pool 4, 4 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **yes**
+  - `T2 / 20261130` — divergence cycle **5**; campaign pool 10, current pool 10, 10 on both sides; **0** campaign-only, **0** current-only; same set: **yes**, same order: **yes**
+- **Added** — `benchmarks/divergence_cycle_capture.py`,
+  `docs/divergence_cycle_capture.json`,
+  `docs/DIVERGENCE-CYCLE-CAPTURE.md`,
+  `tests/test_divergence_cycle_capture.py`; manual finding 42 and a
+  revision-log row; `docs/FACTS-SHEET.md` AD12; journal §72.
+
+
 ### Fixed — the README described the repository's release state incorrectly (2026-10-31)
 
 The v0.10.0 tag was cut after the README was written, which left three

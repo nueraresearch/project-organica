@@ -1,9 +1,9 @@
 {
   "kind": "candidate_membership_audit",
   "status": "measured",
-  "generated_utc": "2026-10-31T22:22:33.860499+00:00",
-  "engine_version": "0.10.0",
-  "command": "python benchmarks/candidate_membership_audit.py --hash-seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 --workers 4",
+  "generated_utc": "2026-10-31T23:23:37.166364+00:00",
+  "engine_version": "0.11.0",
+  "command": "python benchmarks/candidate_membership_audit.py --hash-seeds 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 --workers 3",
   "baseline_hash_seed": 0,
   "hash_seeds_swept": [
     0,
@@ -30,7 +30,7 @@
   "observer_version": 2,
   "audit_artifact": "docs/use_path_audit.json",
   "audit_artifact_sha256": "08f0f0137e71fa3855f3d632e170732b4ced5797f0649c9b16b0b4a2c7cb135f",
-  "seconds": 19.96,
+  "seconds": 32.501,
   "seeds": [
     {
       "task": "T1",

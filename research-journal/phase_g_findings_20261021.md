@@ -6571,3 +6571,88 @@ The differences, by type:
 **What this does not establish.** It does not re-score D0, and it does not change the campaign's verdict. It says where the two candidate populations came from; it does not say what the D0 limb scores would be under the campaign's hash seed, which is a separate measurement that has not been made, and it does not name a single order-dependent code path. The sweep covers hash seeds 0–15; a seed outside that range would produce a different population, and the campaign's own hash seeds are not recoverable, only its population.
 
 → `docs/candidate_membership_audit.json`; `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`; `benchmarks/candidate_membership_audit.py`; `docs/formation_utilization.json`; `docs/use_path_audit.json`; `docs/USE-PATH-AUDIT.md`; `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`.
+
+## §72 — The candidate pool at the divergence cycle, named
+
+**What this section records.** §71 established where the campaign's candidate population and the current reconstruction's part company — at sleep cycles 2 to 11, depending on the seed — and named the candidate IDs that differ. It could not say **which candidates were in the pool at that cycle**, because the engine's 4,000-row sleep window it captured is a snapshot of the read-back at the arm's snapshot point, two or three cycles before the end of the run, while the divergences are early. This section records the instrument that closes that gap, and what it found.
+
+**The capture is addressed, and the addressing is proved.** The sleep service reads its window once per cycle, and the harness's arm loop adds exactly two reads outside the cycle loop, so the i-th window read of an arm is the i-th cycle of that arm. That correspondence is not assumed: the engine stores one `sleep:meta` event per cycle carrying that cycle's number, and the window is read newest-first, so **the newest cycle marker in the i-th window must carry cycle i**. The instrument refuses to report a window whose marker does not say so, and **16 of 16** captured window pairs here are addressed by their own marker.
+
+**The pool at the divergence cycle.** | T1 | 20261125 | 11 | B | 280 | 274 | 272 | 8 | 2 | no | no |
+| T1 | 20261125 | 11 | C | 260 | 255 | 252 | 8 | 3 | no | no |
+| T1 | 20261128 | 3 | B | 37 | 37 | 37 | 0 | 0 | yes | no |
+| T1 | 20261128 | 3 | C | 37 | 37 | 37 | 0 | 0 | yes | no |
+| T1 | 20261129 | 2 | B | 39 | 39 | 39 | 0 | 0 | yes | no |
+| T1 | 20261129 | 2 | C | 39 | 39 | 39 | 0 | 0 | yes | no |
+| T2 | 20261118 | 5 | B | 28 | 28 | 28 | 0 | 0 | yes | no |
+| T2 | 20261118 | 5 | C | 8 | 8 | 8 | 0 | 0 | yes | yes |
+| T2 | 20261120 | 5 | B | 59 | 61 | 55 | 4 | 6 | no | no |
+| T2 | 20261120 | 5 | C | 23 | 22 | 22 | 1 | 0 | no | no |
+| T2 | 20261121 | 5 | B | 62 | 61 | 61 | 1 | 0 | no | no |
+| T2 | 20261121 | 5 | C | 18 | 18 | 18 | 0 | 0 | yes | no |
+| T2 | 20261123 | 5 | B | 23 | 23 | 23 | 0 | 0 | yes | no |
+| T2 | 20261123 | 5 | C | 4 | 4 | 4 | 0 | 0 | yes | yes |
+| T2 | 20261130 | 5 | B | 37 | 37 | 37 | 0 | 0 | yes | no |
+| T2 | 20261130 | 5 | C | 10 | 10 | 10 | 0 | 0 | yes | yes |
+
+**The pool holds the same candidates and a different order — for most seeds.** This is a different finding from the membership one, because a pool is a sequence and not just a set. Across the 16 arm-pairs, the two sides hold the **same set** of candidate IDs at the divergence cycle in **11** of them and the **same order** in only **3**; in **8** the candidates are identical and the order is not. By arm: arm B holds the same set in 5 of 8 and the same order in 0 of 8; arm C holds the same set in 6 of 8 and the same order in 3 of 8. So the divergence between the two populations is, for most seeds, **not a difference in which candidates existed — it is a difference in the order they were read in**.
+
+**Three seeds show the pool identical in set *and* order — and the divergence is still there.** For T2 / 20261118, T2 / 20261123, T2 / 20261130 in arm C, the two sides' pools at the divergence cycle are identical candidate-for-candidate and in the same sequence, and arm C's admitted stream still differs at that cycle. For those, the divergence cannot be attributed to the pool at the divergence cycle at all: the same candidates, read back in the same order, were available, and the difference arose inside the cycle. This is the sharpest thing the capture says, because it is a negative result about the pool and a positive localisation of the divergence at the same time.
+
+**Two orders, and the capture measures one of them.** The engine reads its window back with `ORDER BY time DESC` and no rowid tiebreak (`organica/memory.py:390`), so the pool arrives as a sequence and the capture measures that sequence. Inside the cycle, the candidate list is assembled from that sequence in an order that is *not* the sequence: the tags of each prior candidate are collected into a `set` (`organica/sleep.py:1201`) and the candidates of each tag into another (`organica/sleep.py:1223`, `distinct_ids = list(set(cid for cid, _ in refs))`). Set iteration order over strings follows the process's hash seed, so two processes reading the *same* pool assemble it in *different* orders. That is the mechanism the identical-pool seeds point at, and it is the same mechanism §71 identified from the outside.
+
+**The order parts company at the divergence cycle.** The capture holds the window for the cycle before the divergence as well, so it can say whether the reordering *is* the divergence or merely preceded it. Where the two sides' pools were identical in set and order at the previous cycle and identical in set but different in order at the divergence cycle, the two are the same event. That holds in **6** of the 16 arm-pairs.
+
+| Task | Seed | Cycle | Arm | Previous cycle — same set / same order | This cycle — same set / same order | The reordering coincides with the divergence |
+|---|---|---|---|---|---|---|
+| T1 | 20261125 | 11 | B | no / no | no / no | no |
+| T1 | 20261125 | 11 | C | no / no | no / no | no |
+| T1 | 20261128 | 3 | B | yes / no | yes / no | no |
+| T1 | 20261128 | 3 | C | yes / no | yes / no | no |
+| T1 | 20261129 | 2 | B | yes / yes | yes / no | yes |
+| T1 | 20261129 | 2 | C | yes / yes | yes / no | yes |
+| T2 | 20261118 | 5 | B | yes / yes | yes / no | yes |
+| T2 | 20261118 | 5 | C | yes / yes | yes / yes | no |
+| T2 | 20261120 | 5 | B | no / no | no / no | no |
+| T2 | 20261120 | 5 | C | no / no | no / no | no |
+| T2 | 20261121 | 5 | B | yes / no | no / no | no |
+| T2 | 20261121 | 5 | C | yes / yes | yes / no | yes |
+| T2 | 20261123 | 5 | B | yes / yes | yes / no | yes |
+| T2 | 20261123 | 5 | C | yes / yes | yes / yes | no |
+| T2 | 20261130 | 5 | B | yes / yes | yes / no | yes |
+| T2 | 20261130 | 5 | C | yes / yes | yes / yes | no |
+
+**What entered and what left, since the cycle before.** - **T1 / 20261125, cycle 11** — since the cycle before, the campaign side gained 48 and lost 45; the current side gained 43 and lost 44.
+  - campaign side gained: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_ae98fe13`, `anomaly_c9ea3d58`, `dream_cond_81149fad`, `dream_cond_bbedbdd9`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_6a2dbdd3`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_2177d7b0`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `question_f88106c4`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `theory_f88106c4`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
+  - current side gained: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_c9ea3d58`, `dream_cond_0f32fe15`, `dream_cond_81149fad`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
+  - campaign side lost: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_d1f50b4c`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `question_0cc6644f`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
+  - current side lost: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_e3f06f4a`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
+- **T1 / 20261128, cycle 3** — since the cycle before, the campaign side gained 28 and lost 0; the current side gained 28 and lost 0.
+  - campaign side gained: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
+  - current side gained: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
+- **T1 / 20261129, cycle 2** — since the cycle before, the campaign side gained 32 and lost 0; the current side gained 32 and lost 0.
+  - campaign side gained: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
+  - current side gained: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
+- **T2 / 20261118, cycle 5** — since the cycle before, the campaign side gained 7 and lost 0; the current side gained 7 and lost 0.
+  - campaign side gained: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `loop_e6f8a3e6`, `pred_53a54188`, `pred_a908d7e0`
+  - current side gained: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `loop_e6f8a3e6`, `pred_53a54188`, `pred_a908d7e0`
+- **T2 / 20261120, cycle 5** — since the cycle before, the campaign side gained 6 and lost 0; the current side gained 6 and lost 0.
+  - campaign side gained: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_fc1dfe44`
+  - current side gained: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_fc1dfe44`
+- **T2 / 20261121, cycle 5** — since the cycle before, the campaign side gained 4 and lost 0; the current side gained 4 and lost 0.
+  - campaign side gained: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `loop_a5f498cc`
+  - current side gained: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `loop_a5f498cc`
+- **T2 / 20261123, cycle 5** — since the cycle before, the campaign side gained 3 and lost 0; the current side gained 3 and lost 0.
+  - campaign side gained: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`
+  - current side gained: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`
+- **T2 / 20261130, cycle 5** — since the cycle before, the campaign side gained 8 and lost 0; the current side gained 8 and lost 0.
+  - campaign side gained: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `loop_63ac32e2`, `pred_7498423f`, `pred_a6f80540`, `pred_c39ad859`
+  - current side gained: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `loop_63ac32e2`, `pred_7498423f`, `pred_a6f80540`, `pred_c39ad859`
+
+**The capture reproduces.** The sixteen parts were written twice, by two independent processes at the same hash seeds, and compared field by field: **16 of 16 identical**. The capture is a measurement that can be taken again.
+
+**Two limits, stated.** 2 of the 16 captured window pairs were already at the engine's 4,000-row cap, so for those the pool is a truncated view of the candidate history rather than the whole of it; the artifact records which, and the reader can tell the two apart. And a pool is the **input** to the decision, not the decision: this names what the organism had in front of it when the two populations parted company, and it does not decompose the ranking that turned that pool into an admitted set.
+
+**What this does not establish.** It does not re-score D0 and it does not change any verdict. It does not name a single causal candidate, and it does not establish that the order difference *caused* the admitted-stream difference: the pool differs in order, and the admitted stream differs, but the link between them is the engine's ranking, which this instrument observes and does not decompose — nor the assembly step that precedes the ranking. The supported claim is the narrower one: **at the cycle where the populations part company, the pool differs in membership on some seeds and in read-back order on most, and on three seeds the pool is identical and the divergence is still there.**
+
+→ `docs/divergence_cycle_capture.json`; `docs/DIVERGENCE-CYCLE-CAPTURE.md`; `benchmarks/divergence_cycle_capture.py`; `docs/candidate_membership_audit.json`; `docs/CANDIDATE-MEMBERSHIP-AUDIT.md`; journal §71.

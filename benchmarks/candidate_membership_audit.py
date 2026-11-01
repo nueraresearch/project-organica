@@ -1054,6 +1054,19 @@ def render(artifact: dict[str, Any]) -> str:
         "it upstream of arm C\u2019s admission filter, but neither names the "
         "code path, and the sleep window cannot name the candidate.")
     add("")
+    add("**What this says about the campaign artifact itself.** The control "
+        "seed\u2019s per-type table is the same at every hash seed swept; "
+        "each of the %d failing seeds\u2019 is not \u2014 for them the "
+        "campaign holds one of several hash-order-dependent tables, and it "
+        "does not record which one. So the campaign artifact\u2019s per-type "
+        "table cannot be regenerated from this repository alone: the hash seed "
+        "it ran under was never written down. That is a statement about the "
+        "artifact\u2019s reproducibility, not about its correctness, and it "
+        "does not mean the artifact\u2019s own numbers are wrong. Whether "
+        "the *verdicts* computed from that table move with the hash seed is a "
+        "separate measurement, which has not been made \u2014 the owner\u2019s "
+        "standing direction is not to re-score D0." % len(failing))
+    add("")
     add("## Provenance")
     add("")
     add("- Artifact: `docs/candidate_membership_audit.json`.")
