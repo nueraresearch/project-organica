@@ -7040,7 +7040,7 @@ line was built to look for.
 
 → `docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md`; journal §82; brief §10-§11.
 
-## §84 — The six unattributed differences were written two cycles before the window opened
+## §84 — The six unattributed differences were written one cycle before the window opened
 
 **A post-hoc diagnostic, and it is not a verdict.** T2/20261120 at hash seeds 0/13
 resolved 8 of its 14 differences and was left `indeterminate` (§83). This section
@@ -7054,14 +7054,24 @@ the cycle, or never written at all? Artifact:
 at cycle **4**, exactly one write each, on the side whose pool holds them, and
 **never on the other side at any cycle of the run**. The pre-registered search
 window is the divergence cycle and the one before it — cycles **6 and 5** — so
-their write sits **two cycles outside** the window the brief fixed.
+their write sits **one cycle before the window opens** (its earliest searched
+cycle is 5) and **two cycles before the divergence itself** at cycle 6.
 
-**The contrast inside the same cell.** The eight that *were* attributed include two
-whose first write is at cycle **5**, the window's outer edge, and 4 that are
-re-stored every cycle (155–213 write cycles each) so their records exist on both
-sides. So the window is not systematically blind: it catches writes at the cycle
-and the one before, including ones that persist. It misses a candidate written once,
-two cycles earlier, that then simply stayed in the pool.
+**The contrast inside the same cell, read from the artifact.** What separates the six is not
+their first write — three attributed candidates are *also* first written at cycle 4 — but
+whether the candidate is written **again** inside the window. All six unresolved candidates
+have exactly **one** write, at cycle 4, and are never written again in the run. The three
+cycle-4 candidates that *did* resolve were written two or three times, reaching cycles 5 or 6.
+Of the remaining five attributed: exactly **one** first appears at cycle **5** (the window's
+outer edge) and **four** are re-stored on more than a hundred cycles (155, 155, 156, 213), so their records
+exist on both sides; the other starts at cycle 6.
+
+**Correction, same day, against the artifact.** This section first said the writes lay two
+cycles outside the window, that two attributed candidates first appear at cycle 5 and that
+six are re-stored every cycle. The artifact says one cycle before the window, one candidate,
+and four. Every figure above is read from `docs/store_time_observer_lineage.json`; the
+reading is unchanged — a candidate written once, before the window, and never again, is
+invisible to a two-cycle search.
 
 **What this changes.** Not the cell's outcome — `indeterminate` is what the
 pre-registration says for a partial explanation, and re-reading it as "explained by
