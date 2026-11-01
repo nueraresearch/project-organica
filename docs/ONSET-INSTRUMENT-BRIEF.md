@@ -77,7 +77,10 @@ counted.
 
 ## 4. Predictions, fixed in advance
 
-**P1 — the bracket holds.** For the 11 arm-pairs bracketed at `(k−1, k]`, the
+**Amendment (2026-11-01, before any run; the original P1 is retained below rather than deleted).** P1 as first written cannot fail. The bracket in §2 already establishes that the two pools are identical at *k−1* and differ at *k*, and cycles are integers, so for those eleven arm-pairs the onset is *k* by arithmetic — it is a **consistency check on the instrument**, not a prediction, and it belongs with F1. The predictions are **P2 and P3**; the eleven are reported as a reproduction of the bracket, not as a finding. This is the same defect the correction pass removed from the mechanism instrument: a field that is true by construction is not evidence.
+
+
+**Original P1 (reclassified above as a consistency check and retained here) — the bracket holds.** For the 11 arm-pairs bracketed at `(k−1, k]`, the
 onset is exactly *k*. The membership change and the admission change are the
 same event, one cycle, and the pool does not drift earlier.
 
