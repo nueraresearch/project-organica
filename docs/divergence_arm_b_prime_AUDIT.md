@@ -107,3 +107,27 @@ inadmissible arm is not evidence against a claim either.
 `divergence_arm_b_prime_f2_v2.json`, `divergence_arm_b_prime_gates_v2.json`,
 `divergence_arm_b_prime_sweep_v2.json` (generation 2); the `_v2`-less files are
 generation 1 and are void. `.scratch/run_bprime_v2.py` is the runner.
+
+## 7. Closed by decision — 2026-11-01
+
+**The owner closed Arm B-prime as inadmissible under its pre-registered stop rule.
+F2 is not restated, and the arm is not run again.**
+
+- **The stop rule fired and stands.** Canonicalisation changed the control's output at
+  a fixed hash seed (125 of 168 comparisons, including
+  membership changes), so under §11 no conclusion may be drawn from the arm. Rewriting
+  F2 afterwards would be re-scoring a gate after seeing its result; it is not done.
+- **The eight-seed result is kept as a diagnostic observation, not evidence.** All
+  8 of 8 seeds became hash-seed invariant under the
+  intervention, and that is recorded as what it is: a statement about this
+  intervention on these seeds. **Hash-invariant does not mean correct**, and the
+  protocol does not license reading stability as an explanation of the divergence,
+  in either direction.
+- **The line is stopped.** No further runs on this arm. The question of hash-order
+  effects is not abandoned, but it may only return under a **new protocol** that
+  measures both hash-seed invariance *and* the intervention's effect on candidate
+  membership, on **fresh seeds**, with acceptance criteria written before the run.
+- **What this leaves in place.** `T2/20261120` stays `indeterminate`, the search window
+  stays unwidened, D0 stays unscored, the onset/mechanism/V2 work stays closed, and
+  Organica 1 stays frozen at `v0.9.0`.
+

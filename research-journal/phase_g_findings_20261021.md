@@ -7277,3 +7277,59 @@ prediction-contradicting null as a prompt to audit the instrument first.
 → `docs/divergence_arm_b_prime_AUDIT.md`; `docs/divergence_arm_b_prime_{f2,gates,sweep}_v2.json`;
 `benchmarks/divergence_mechanism.py`.
 
+## §88 — Arm B-prime closed by decision, and the record it leaves
+
+**Closed, not resolved.** The owner closed the arm as inadmissible under §11's
+pre-registered stop rule. F2 is **not** restated and the arm is **not** run again. The
+tempting move — rewrite the gate in membership terms now that 125 of
+168 control comparisons are known to split 79 order-only to 46
+membership-changing, and now that the sweep returned 8 of 8 invariant —
+is refused, because a gate chosen after the data is not a gate.
+
+**What is kept, and in what category.** The 8-of-8 invariance is
+recorded as a **diagnostic observation**: this intervention, on these seeds, at these
+pairs, removed the cross-hash-seed variation the instrument can see. It is **not**
+evidence for H2 (the control moved, so the arm is inadmissible) and **not** evidence
+against it (an inadmissible arm tests nothing). **Hash-invariant is not correct** —
+stability under an arbitrary total order says nothing about whether the order is the
+one the organism should have.
+
+**The line is stopped.** Hash-order effects may return only under a new protocol that
+measures invariance *and* membership effects on fresh seeds with criteria fixed
+beforehand. Until such a protocol exists, no further B-prime runs.
+
+**What this cost, and what it bought.** Two days of instrumentation, one void
+generation, and one lesson the record did not previously hold in this form: **a
+contradiction between a prediction and a measurement is a reason to audit the
+instrument before rewriting the prediction.** §85 committed the opposite reflex in
+writing, which is why it is corrected there rather than quietly dropped.
+
+→ `docs/divergence_arm_b_prime_AUDIT.md` §7.
+
+## §89 — A protocol draft for reusable knowledge, and nothing run
+
+The owner's next target is the question the acquisition study never reached: **can
+Organica's formed structure be used as reusable knowledge?** The answer is not in the
+record — the acquisition study stopped at its acquisition gate and reported transfer
+*not measurable*, which is neither a failure nor a success.
+
+`docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` is a **draft**, labelled as such: it
+commits no run, and §0 asks the owner to choose between a formally named diagnostic
+variant (`V1.1-cap`) and leaving V1 frozen with its capacity limit recorded as a
+finding. Three things it fixes that the earlier campaigns got wrong or left implicit:
+
+- **The formation gate must be able to fail, and its failure must be informative** —
+  coverage against the generator's support, measured on the final store, with the
+  threshold fixed from calibration data rather than from the run it judges.
+- **The baselines must be named for what they are granted.** The utilization campaign's
+  T2 bar was a cell counter handed the latent cell map; calling that "data-only" was
+  recorded as a naming defect. The draft forbids the phrase and requires each
+  comparator's grant to be stated beside its score.
+- **Capacity and ordering changes are variants, never adjustments.** Any change to
+  `MAX_PREDICTIONS` or to the ordering of candidate construction is formally named,
+  built in `benchmarks/`, labelled in every artifact, and may never be described as
+  V1 or folded into the frozen reference.
+
+No cell has run, no harness has been extended for it, and the draft is not a
+preregistration until the owner signs §0.
+
