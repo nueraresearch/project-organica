@@ -551,8 +551,8 @@ tests are `tests/test_reusable_knowledge.py`.
 
 Gate F passes **5 of 5** (minimum coverage 0.9792); the study therefore
 proceeds under §15.2. The calibration is a **go/no-go, not a result**: n = 5, one
-seed is a fifth of the evidence, and no confirmatory seed was touched
-(`{"confirmatory_seeds_touched": false}` is the literal value in the artifact — it reads *false*).
+seed is a fifth of the evidence, and no confirmatory seed was touched — the artifact records
+`confirmatory_seeds_touched` as false.
 On the transfer limb Organica is below every primary comparator on all five seeds
 (worst margin +0.1752 nats) and above the ceiling on all five by
 -0.2294 to -0.2231 nats, so a substantial part of the ceiling's
