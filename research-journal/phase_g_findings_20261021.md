@@ -8556,3 +8556,41 @@ The publication index records the same two rows and updates Paper 01's status on
 stays deferred** until the manuscript states plainly what V1.1 did and did not demonstrate — which
 §4.10 now does; the deferral is the owner's sequencing, not a conclusion of this entry.
 
+## §120 The structural-contribution question, fixed before a harness exists
+
+The frozen study left the project with a gap it could not close with the instrument it had. The
+withheld relations showed a large favorable score and the provenance measure could not attribute
+it, because relations withheld from formation cannot carry world-source support — a property of
+the measure, not a verdict on the engine. One question survives that, and it needs no provenance
+row at all: **is the advantage carried by which edge is where?**
+
+The draft in `docs/STRUCTURAL-CONTRIBUTION-PREREGISTRATION.md` answers it by ablation. Four arms,
+one formation stream, one scoring rule: the full readout; the same readout with an empty edge table,
+which is the base-rate backoff and is checked to equal `m(b)` rather than asserted; a
+degree-preserving rewiring of the same table; and the tuned bigram. The edge-removed arm measures
+the contribution of having edges at all. The rewired arm measures the contribution of the pairing.
+The bigram sits beside the criterion, not inside it, because a degree-matched graph can beat a
+tuned bigram as easily as a learned relation can.
+
+The rewiring rule is the part that had to be written first, and it is written as code rather than
+described: Maslov–Sneppen double-edge swaps, ten attempts per edge, targets exchanged and
+weights left with their sources. That preserves the node set, the edge count, per-source out-degree,
+per-target in-degree and the weight multiset, and it does **not** preserve the pairing or, therefore,
+each row's total weight. The asymmetry is deliberate and disclosed: `W(a)` is not one of the
+structural statistics this graph declares, and preserving it would mean preserving something no
+one claimed as structure. Twenty-five draws per seed, mean pre-specified, the best draw never used,
+the draw distribution reported so a mean cannot hide a bimodal set of graphs.
+
+Two things in the draft are there to stop it flattering itself. First, the control is gated: if more
+than a fifth of the `(source, target)` pairs survive the rewiring, the graph is too close to the
+original for the comparison to mean anything and the study stops. Second, the outcome table names
+all five combinations of the three bounds before a number exists, including the one that would
+require the current interpretation to be rethought — content mattering against a rewired graph
+while edges in general do not help. That row is the hardest to explain away later, which is why it
+is fixed now.
+
+None of this reopens the frozen study. Its finding stands in three statements, its numbers are not
+re-read, and the draft says so. The seeds are fresh (`20270301`–`20270305` design,
+`20270306`–`20270320` confirmatory), the bar, the table and the rewiring rule are frozen in the
+text, and no harness is built. The order is the one that worked before: fix the rule, build and
+audit, spend the design block, and only then the one confirmatory run.
