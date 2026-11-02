@@ -9050,3 +9050,62 @@ boxes in each), the deposit bundle regenerated, `sha256sum -c` clean inside it, 
 archive rebuilt from the new files. Verified mechanically on both PDFs: no literal backslash pair on
 a title page, no page carrying a doubled caption, no span past the right text margin, and every
 figure page's drawing extent inside the page box.
+
+## §132 — The scaling ladder: resolution or replication (2026-11-02)
+
+**Question.** The owner's diagnosis was that the experimental unit may be too
+small per run to separate a real structural effect from noise, and their
+insistence was that scaling data per run is not scaling runs. That is answerable
+without a larger experiment: from one world you can estimate the within-run
+sampling error, and from several you can estimate the between-world spread. The
+two are different numbers and only the first responds to a longer window.
+
+**Protocol first.** `docs/SCALING-LADDER.md` §1–§6 were fixed before any cell ran:
+the scaled unit is the **scored window** at constant 110-cycle exposure (a longer
+formation stream is a different intervention and is not tested); the endpoint is
+the paired per-event-pair log-loss delta against the strongest tuned comparator;
+`rho` = within-run SE / between-world SD decides the verdict at ≤ 0.50, ≥ 1.00, or
+between; the curve is expected at exponent −0.5 ± 0.15; and the required number
+of runs is derived from `sqrt(between²/n + within²)`, reported as unreachable when
+the within-run term alone exceeds the target.
+
+**The curve (five fresh methodology worlds, 20270501–20270505).** Within-run SE
+falls 0.008830 → 0.001450 as pairs grow 399 → 6,399; the fitted exponent is
+**−0.577** (r² 0.928), inside the band. Between-world SD is 0.012157 at 1× and
+0.010247 at 16×: sixteen times the data moved it 16 %, inside what five worlds can
+resolve. So `rho` falls 0.726 → 0.296 → 0.276 → 0.243 → 0.142 for one reason —
+the numerator shrank — and the between-world term, which is a property of the
+worlds, does not respond to window length at all. Block-to-i.i.d. ratios of
+0.54–0.85 rule out positive temporal clustering, so the per-observation error bar
+was not optimistic.
+
+**The verdict is "both", and the ordering is the finding.** At 1× the within-run
+SE (0.008830) is 1.18× its own delta (0.007468) — a single run cannot establish
+the sign of what it measured — and the derived n is **not reachable**: no number
+of runs reaches half the between-world SD, because one run's noise already floors
+it. From 2× on, `rho` ≤ 0.30 and 6.16 → 4.35 worlds suffice. Fix resolution once
+(score ≥ 100 cycles), then spend on worlds. Running more worlds on the frozen
+50-cycle window would multiply an estimate each run cannot resolve.
+
+**What it does not say.** Not that the readout beats the comparator: at 16× the
+delta is +0.004817 against a between-world SD of 0.010247 over five worlds, a
+pooled SE of 0.004582 — about 1.05× the delta. One world (20270504) is negative at
+every scale; 4 of 5 worlds and 15 of 20 quarters are positive. That is a
+description of five worlds, not evidence of an advantage, and the between-world SD
+is itself uncertain at n = 5. The 1× cell is also not the frozen world's 150–200
+window: the law is held at LAW_R0 throughout so no generating process rotates
+inside a scored window (declared in the artifact's caveats).
+
+**A defect found while building it.** The first run scored nothing: `SCALES` gives
+a window *length* (50 × factor) and `_pairs` takes an *end cycle*, so the 1× window
+was `150 → 50` — empty. Empty per-pair lists then averaged to a `StatisticsError`,
+which is the only reason it was not read as a null. The module now raises on an
+empty window, because a dead axis that returns no observations looks exactly like
+an axis with no effect (rule 13c).
+
+**Consequence for the plan.** Any study whose margin is compared across worlds
+carries seed-level noise of about this size on this endpoint — 0.011–0.013, so a
+pooled margin over k worlds is ± ~0.012/√k, ~0.0031 at k = 15. That is planning
+arithmetic on a different contrast, not a measured property of the
+strength-assignment endpoint, and it is recorded as such.
+
