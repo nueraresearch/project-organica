@@ -173,7 +173,7 @@ Two cautions belong with it. The relation is **not monotone**: `4x` (0.961) and 
 
 - **It is the same five worlds re-analysed.** It inherits their selection and is not out of sample; it can refine a measurement decision, not create evidence.
 - **The reference is an estimate too.** Treating the world's effect as normal around its reference cell means a biased reference biases both the number and the sign it is judged against.
-- **It says nothing about conditions.** The third axis — whether the effect survives a change of generating configuration — is still untouched, as §8 of the artifact's `not_measured` list records.
+- **It says nothing about conditions.** The third axis — whether the effect survives a change of generating configuration — is still untouched, and that is recorded in the artifact's `not_measured` list rather than only in prose.
 
 **Status, added with §9:** provisional, not a validated minimum. The audit below shows that the reference rule and the 0.90 target each move which worlds qualify, so the number is a declared convention rather than an established requirement.
 
@@ -284,3 +284,20 @@ A synthetic world family with **known** effects, where a fresh run's sign is che
 directly rather than against a reference estimate. The calibration in §3 is the engine-free first step;
 a world generator that gives the truth by construction is the second. Until then the five-world
 limitation stands, and no confirmatory seed has been spent.
+
+## 9. Decision, 2026-11-02: the scoring window for future blocks
+
+The owner adopted the criterion in §8 on 2026-11-02. This section records what that binds, and its limits.
+
+**The rule.** A new methodology block scores at `2x` — the **100-cycle** window (110 cycles of formation exposure, 100 scored) — unless that block's own design record, written before the block opens, states the sign-resolution probability it predicts for the window it proposes and why the `2x` default is wrong for it. `rho` (within-run SE over between-world SD) stays in the report as a description of the two uncertainties; it no longer sets the threshold.
+
+**The criterion that defends it.** Per-world sign resolution as defined in §8: `p(w, s)` at or above 0.90 for **every** world, with each world's effect drawn from a scale other than the one being judged. On these five worlds `2x` is the smallest window meeting that bar: 0.917–0.997 at `2x`, against 0.780–0.917 at `1x`, where one world of five qualifies.
+
+**What every block reports.** Both numbers, because they answer different questions and neither substitutes for the other:
+
+- sign resolution **per world** at the window used — what a run can say about its own world;
+- agreement with the block's **pooled** sign — 0.694–0.780 across every window measured here, fixed by the spread of true effects across worlds rather than by the window.
+
+A claim about an average effect therefore has to carry the pooled estimate over worlds and its uncertainty. It must not be reported as the outcome of a single run, however well that run resolves its own world.
+
+**Not authorised.** No confirmatory seed allocation, no change to V1's frozen window, and no re-scoring: results produced at the frozen 50-cycle window keep that label. The adoption binds blocks that have not yet run, and the third axis — whether the effect survives a change of generating configuration — remains untested.

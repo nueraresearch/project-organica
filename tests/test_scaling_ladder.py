@@ -202,6 +202,39 @@ def test_the_sign_estimate_separates_a_strong_world_from_a_weak_one():
     assert out["all_worlds_at_target_from"] is None
 
 
+def test_the_decision_section_records_the_adopted_rule():
+    """Adoption makes the window a convention, so it is checked, not asserted."""
+    doc = (ROOT / "docs/SCALING-LADDER.md").read_text(encoding="utf-8")
+    if "## 9." not in doc:
+        pytest.skip("the decision section has not been written yet")
+    block = doc.split("## 9.", 1)[1]
+    for phrase in ("100-cycle", "`2x`", "0.90", "`rho`",
+                   "No confirmatory seed allocation"):
+        assert phrase in block, phrase
+    art_path = ROOT / sl.OUT
+    if not art_path.exists():
+        pytest.skip("the ladder has not been run yet")
+    sign = json.loads(art_path.read_text(encoding="utf-8")).get("sign_resolution")
+    if not sign:
+        pytest.skip("the derived sign analysis has not been computed yet")
+    row = sign["scales"]["2x"]
+    assert f"{row['p_correct_min']:.3f}" in block
+    assert f"{row['p_correct_max']:.3f}" in block
+
+
+def test_the_manual_records_the_adoption():
+    """A decision the manual recommends has to stop reading as unadopted."""
+    manual = (ROOT / "docs/USER-MANUAL.md").read_text(encoding="utf-8")
+    rows = [l for l in manual.split("\n")
+            if l.startswith("| 12 | **Decide the scaling rule")]
+    assert len(rows) == 1
+    assert "Adopted on 2026-11-02" in rows[0]
+    assert "SCALING-LADDER.md` \u00a79" in rows[0]
+    assert "not acted on" not in rows[0]
+    revs = [l for l in manual.split("\n") if l.startswith("| 2026-11-02 |")]
+    assert any("adopt" in l.lower() and "\u00a79" in l for l in revs)
+
+
 def test_the_sign_simulation_is_reproducible_and_needs_data():
     ses = {l: 0.004 for l in sl.SCALES}
     cells = [_cell(1, 0.006, ses), _cell(2, 0.004, ses)]
