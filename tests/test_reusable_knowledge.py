@@ -357,7 +357,7 @@ def test_a_tied_window_still_names_the_event_the_store_inserted(tmp_path):
     not_come_from_the_window_order`).
     """
     mem = rk.MemoryService(str(tmp_path / "tied.db"))
-    record, support, _state = rk._support_observer(mem)
+    record, support, _state, _classes = rk._support_observer(mem)
     clock = _TieClock(group=4)
     tied_windows = first_row_disagreements = stores = 0
     try:
@@ -428,7 +428,7 @@ def test_target_identity_does_not_come_from_the_window_order(tmp_path):
     test supplies is one SQLite leaves open rather than one the schema fixes.
     """
     mem = rk.MemoryService(str(tmp_path / "rotated.db"))
-    record, support, _state = rk._support_observer(mem)
+    record, support, _state, _classes = rk._support_observer(mem)
     clock = _TieClock(group=4)
     real = mem._conn
     order = _WindowOrder(real)
@@ -468,9 +468,72 @@ def test_target_identity_does_not_come_from_the_window_order(tmp_path):
         mem._conn.close()
 
 
+def test_self_support_is_classified_by_what_the_payload_carries():
+    payload = {"type": "prediction_candidate", "id": "pred_1",
+               "parent_ids": [], "source": "willow", "target": "teal",
+               "strength": 1.0, "evidence": {"temporal_count": 5}}
+    assert rk.transition_class("willow", "teal", payload) == "claim_restated"
+    assert rk.transition_class("source", "willow", payload) == "schema"
+    assert rk.transition_class("willow", "cedar", payload) == "content_relayed"
+    meta = {"type": "_sleep_meta", "cycle": 2}
+    assert rk.transition_class("type", "cycle", meta) == "meta"
+    assert rk.transition_class("willow", "teal", None) == "opaque"
+
+
+def test_the_postmortem_can_never_authorise_or_change_the_rule():
+    with pytest.raises(AssertionError):
+        rk._assert_diagnostic({"authorises_confirmatory": True,
+                               "rule_unchanged": True})
+    with pytest.raises(AssertionError):
+        rk._assert_diagnostic({"authorises_confirmatory": False,
+                               "rule_unchanged": False})
+    rk._assert_diagnostic({"authorises_confirmatory": False,
+                           "rule_unchanged": True})
+
+
+def test_encoding_blind_recount_is_a_diagnostic_and_not_a_recount_of_the_rule():
+    """A claim whose self support is the payload encoding still FAILS the rule.
+
+    The counterfactual is recorded so the next design can see what the encoding
+    contributes; it never becomes the verdict.
+    """
+    claims = [{"type": "prediction_candidate", "source": "a", "target": "b",
+               "on_withheld": False}]
+    support = {("a", "b"): {(1, 2): True, (3, 2): True, (4, 2): False}}
+    classes = {("a", "b"): {(1, 2): "schema", (3, 2): "schema"}}
+    got = rk._claim_breakdown(claims, support, classes)
+    assert got["failing"] == 1, "the preregistered rule still fails this claim"
+    assert got["passed"] == 0
+    assert got["self_transitions_by_class"] == {"schema": 2}
+    assert got["failing_that_pass_when_encoding_excluded"] == 1
+    assert got["examples"][0]["encoding_blind_passed"] is True
+
+
 def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):
     monkeypatch.setenv("PYTHONHASHSEED", "0")
     monkeypatch.setattr(rk, "_load_calibration",
                         lambda: _artifact(per_claim_provenance={"all_seeds_passed": False}))
     ok, why = rk.confirmatory_allowed()
     assert ok is False and "per-claim" in why
+
+
+def test_the_postmortem_matches_the_calibration_it_reads():
+    """The diagnostic must reproduce the rule's own counts, artifact to artifact."""
+    import json
+    import pathlib as _pathlib
+    root = _pathlib.Path(__file__).resolve().parent.parent
+    pm_path = root / rk.POSTMORTEM_OUT
+    cal_path = root / rk.CALIBRATION_OUT
+    if not pm_path.exists() or not cal_path.exists():
+        pytest.skip("artifacts not present in this checkout")
+    pm = json.loads(pm_path.read_text(encoding="utf-8"))
+    cal = json.loads(cal_path.read_text(encoding="utf-8"))
+    assert pm["rule_unchanged"] is True and pm["authorises_confirmatory"] is False
+    assert pm["verdict_kept"]["per_claim_rule_all_seeds_passed"] is False
+    assert [s["seed"] for s in pm["seeds_detail"]] == [c["seed"] for c in cal["cells"]]
+    for seed_pm, seed_cal in zip(pm["seeds_detail"], cal["cells"]):
+        for limb in ("formation", "revision"):
+            pcp = seed_cal["per_claim_provenance"][limb]
+            assert seed_pm[limb]["claims"] == pcp["claims_total"]
+            assert seed_pm[limb]["measurable"] == pcp["claims_measurable"]
+            assert seed_pm[limb]["failing"] == pcp["claims_failed"]

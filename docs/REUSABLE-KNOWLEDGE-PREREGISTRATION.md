@@ -937,3 +937,58 @@ tied window occurred — and the counts of §20.5 stand unchanged: 254–576 of 
 claims failing per seed, `authorises_confirmatory: false`, audit 8 of 8. The repair replaces an
 implementation observation with a guarantee; the study stays stopped on the criterion, not on the
 instrument.
+
+### 20.7 The study is closed at calibration, and the postmortem says what the failures are made of
+
+**Closed.** The per-claim rule failed on all five calibration seeds, so this protocol ends here: no
+confirmatory seed runs under it, no threshold is changed, and §20.5's verdict and §19.2's withdrawal
+stand exactly as written. The closure is a recorded decision, not an inference from the numbers:
+`authorises_confirmatory` stays `false`, and the confirmatory seeds have not been touched.
+
+**The postmortem** (`docs/reusable_knowledge_postmortem.json`, produced by
+`--postmortem`) re-reads the same five calibration cells and classifies every self-sourced transition
+by what the sleep row actually carries. A sleep row is a candidate serialised as JSON, so the
+engine's own tag extractor turns its field names into tags as well as its content; the classifier
+distinguishes five cases — `claim_restated` (the payload asserts this very pair: circular),
+`content_relayed` (the payload carries a tag of the pair from some other structure), `schema` (the
+transition is between the payload's own field names), `meta` (the cycle marker) and `opaque` (not
+candidate JSON). The classifier is **not** preregistered and is not a criterion; it exists to tell
+the next design which problem it has.
+
+Nothing about the rule moves: the per-seed failing counts reproduced the calibration exactly
+(576, 346, 326, 254, 332), `rule_unchanged: true`,
+`authorises_confirmatory: false`, and `_assert_diagnostic` refuses to write an artifact that would
+authorise anything.
+
+Self-sourced transitions across the five seeds, formation / revision: `content_relayed`
+44,897 / 60,695,
+`schema` 15,576 / 20,876,
+`meta` 44 / 46,
+`claim_restated` 8 / 7.
+Of 3,942 formation claims, 3,840 are measurable and 1,834 fail;
+of 3,640 revision claims, 3,548 are measurable and 1,792 fail.
+The failing population is dominated by `prediction_candidate`
+(1,832 at formation) and by large support
+(1378 of 1,834 failing formation claims have 16 or more
+distinct transitions).
+
+**The answer.** The failures are not circular self-restatement — the organism citing its own
+assertion of a pair as evidence for that pair accounts for
+8 and
+7 transitions across five seeds — and they
+are not the payload encoding either: excluding every `schema` and `meta` transition rescues
+**0 of the 1,834 failing formation claims
+and 0 of the 1,792 failing revision
+claims**. What dominates is `content_relayed`, 44,897
+of 60,525 formation and 60,695 of
+81,624 revision self transitions: world vocabulary carried in the organism's own serialised
+structures, which the lookback window reads back as evidence. The disqualifier as written therefore
+measures **whether the immediately preceding event was the world's**, not whether the evidence
+originated in the world — the distinction the audit-trace specification raises as D2.
+
+That distinction is a design question, not a licence. It does not make any failing claim pass, it
+does not change the verdict, and it does not relax the rule. What it does is name the problem a
+successor protocol has to solve: either a readout that does not let the organism's own structures
+into the evidence path, or a provenance rule that follows a tag back to the world event that
+introduced it. Either one is a **separately named variant with its own preregistration and fresh
+calibration seeds**, and neither may be scored against these cells.

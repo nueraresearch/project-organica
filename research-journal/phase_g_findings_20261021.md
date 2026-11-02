@@ -7726,3 +7726,50 @@ measurable claims still fail per seed, `authorises_confirmatory` is still false,
 still 8 of 8. The confirmatory seeds have not been touched.
 
 → `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.6; `tests/test_reusable_knowledge.py`.
+
+## §100 — The study closes at calibration, and the failures are relayed world content rather than circular support
+
+The per-claim rule failed on all five calibration seeds, so the study is **closed at calibration**:
+no confirmatory seed runs under this protocol, no threshold is revised, and §98's verdict stands. That
+closure is now recorded in the protocol (§20.7) instead of being left to be inferred from an
+`authorises_confirmatory: false` field.
+
+Closing the study is not the same as understanding it, so the five calibration cells were re-read
+with a support classifier (`--postmortem`, `docs/reusable_knowledge_postmortem.json`). The question
+was narrow: **are the claims failing because they rest on circular self-support, because world content
+is relayed through the organism's own stored structures, or because of the payload encoding?** A sleep
+row is a candidate serialised as JSON, and the engine's extractor turns its field names into tags, so
+all three were live possibilities and none had been separated.
+
+The answer is unambiguous and it is not the one the rule's name suggests.
+
+- **Circular self-support is negligible.** Across five seeds there are
+  8 formation and
+  7 revision transitions in which the sleep
+  payload asserts the very pair the claim is about. The organism is not citing its own assertion.
+- **The encoding is not what fails the claims.** Removing every `schema` and `meta` transition
+  rescues **0 of 1,834** failing formation
+  claims and **0 of 1,792** failing revision
+  claims. The JSON field names are a real contribution to the transition count
+  (15,576 at formation) and no contribution to the
+  failure.
+- **What dominates is relayed world content.** `content_relayed` accounts for
+  44,897 of 60,525 formation and
+  60,695 of 81,624 revision self
+  transitions: world vocabulary carried in the organism's own stored candidates, read back by the
+  lookback window as evidence for the next event.
+
+So the disqualifier, as written, measures **whether the immediately preceding event was the world's**.
+That is a fact about the organism's own output sitting in the lookback window, not a demonstration
+that its beliefs are unfounded — and it was never demonstrable from the criterion alone, which is
+exactly why the postmortem was worth running before designing a successor.
+
+**What this does not do.** It does not pass a claim, move a threshold, or soften §98. The rule failed,
+the study is closed, and the postmortem is labelled diagnostic on every field it writes
+(`rule_unchanged: true`, `authorises_confirmatory: false`, asserted before the file is written and
+checked by a test). The next step is a **separately named variant with its own preregistration and
+fresh calibration seeds** — either a readout whose evidence path cannot include the organism's own
+structures, or a provenance rule that follows a tag to the world event that introduced it. Both are
+design decisions, and neither may be scored against the cells that closed this study.
+
+→ `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.7; `docs/reusable_knowledge_postmortem.json`.

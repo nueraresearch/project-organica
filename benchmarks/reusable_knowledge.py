@@ -66,7 +66,7 @@ from benchmarks.acquisition_runner import (  # noqa: E402
 from benchmarks.acquisition_harness import (  # noqa: E402
     _CapOverrideSleepService as CapOverrideSleepService,
 )
-from organica.memory import MemoryService  # noqa: E402
+from organica.memory import MemoryService, _extract_tags  # noqa: E402
 from organica.paths import LIVE_DB, temp_db  # noqa: E402
 
 # ---------------------------------------------------------------------------
@@ -103,6 +103,11 @@ BURNED_SEEDS: tuple[int, ...] = (20261206,)
 TUNE_CYCLES = 15
 
 CALIBRATION_OUT = "docs/reusable_knowledge_calibration.json"
+
+#: The calibration postmortem.  A DIAGNOSTIC artifact: it reads the same five
+#: seeds and asks what the failures are made of.  It can never authorise a run
+#: and never changes the rule (`_assert_diagnostic` on every write).
+POSTMORTEM_OUT = "docs/reusable_knowledge_postmortem.json"
 
 #: The attribution share (§17): the share of the readout's edge weight carried
 #: by the structure type this study is about.  A margin whose evidence sits
@@ -550,6 +555,56 @@ def attribution_share(engine: dict) -> dict[str, Any]:
     }
 
 
+SELF_CLASSES = ("claim_restated", "content_relayed", "schema", "meta", "opaque")
+
+#: The two self classes that carry content rather than the encoding itself.
+CONTENT_CLASSES = ("claim_restated", "content_relayed")
+
+
+def _payload_of(event_type: str, content: str | None) -> dict | None:
+    """The candidate JSON a sleep row carries, or None when it is not one."""
+    if event_type != "sleep":
+        return None
+    try:
+        obj = json.loads(content or "")
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return None
+    return obj if isinstance(obj, dict) else None
+
+
+def _payload_schema_words(payload: dict) -> set[str]:
+    """The tags the payload's own FIELD NAMES produce, by the engine's extractor."""
+    return set(_extract_tags(" ".join(str(k) for k in payload)))
+
+
+def transition_class(prior_tag: str, target_tag: str, payload: dict | None) -> str:
+    """Classify one self-sourced transition by what the sleep row carries.
+
+    A sleep row is a candidate serialised as JSON, so the engine's extractor turns
+    its field names into tags as well as its content: `type`, `generation`,
+    `source`, `target`, `strength` and `evidence` are tags, and a transition
+    between two of them records the ENCODING rather than the organism.  This
+    separates that from the two ways a self row can carry content:
+
+      `claim_restated`   the payload asserts this very pair -- circular support;
+      `content_relayed`  the payload mentions a tag of the pair from some other
+                         structure -- world content relayed through a sleep row.
+
+    `meta` is the cycle marker and `opaque` a sleep row whose payload is not
+    candidate JSON.
+    """
+    if payload is None:
+        return "opaque"
+    if payload.get("type") == "_sleep_meta":
+        return "meta"
+    if payload.get("source") == prior_tag and payload.get("target") == target_tag:
+        return "claim_restated"
+    schema = _payload_schema_words(payload)
+    if prior_tag in schema or target_tag in schema:
+        return "schema"
+    return "content_relayed"
+
+
 def _support_observer(mem: MemoryService):
     """A store-time observer that mirrors the engine's own lookback window.
 
@@ -574,25 +629,35 @@ def _support_observer(mem: MemoryService):
     # target from the window attributes a store's whole transition set to
     # whichever tied row happened to sort first.
     support: dict[tuple[str, str], dict[tuple[int, int], bool]] = defaultdict(dict)
+    #: (from, to) -> {(prior_event_id, to_event_id): class}.  Only self-sourced
+    #: transitions are classified; a world transition is direct evidence and
+    #: carries no class.  This is for the postmortem, and the rule does not read
+    #: it: `per_claim_provenance` judges the boolean map, unchanged.
+    classes: dict[tuple[str, str], dict[tuple[int, int], str]] = defaultdict(dict)
     state = {"windows_with_sleep": 0}
 
     def record(new_tags: list[str], to_event_rowid: int) -> None:
         rows = mem._conn.execute(
-            "SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3"
+            "SELECT rowid, tags, event_type, content FROM events "
+            "ORDER BY time DESC LIMIT 3"
         ).fetchall()
         slept = False
         to_id = int(to_event_rowid)
-        for rid, tags_str, etype in rows:
+        for rid, tags_str, etype, content in rows:
             prior = [t for t in (tags_str or "").split(",") if t]
+            payload = _payload_of(etype, content)
             for u in prior:
                 for v in new_tags:
                     if u == v:
                         continue
-                    support[(u, v)][(int(rid), to_id)] = (etype == "sleep")
+                    key = (int(rid), to_id)
+                    support[(u, v)][key] = (etype == "sleep")
+                    if etype == "sleep":
+                        classes[(u, v)][key] = transition_class(u, v, payload)
             slept = slept or etype == "sleep"
         state["windows_with_sleep"] += int(slept)
 
-    return record, support, state
+    return record, support, state, classes
 
 
 def stored_rowid(mem: MemoryService, event_id: str) -> int:
@@ -741,9 +806,193 @@ def per_claim_provenance(claims: list[dict], support: dict,
     return real
 
 
+def _size_bucket(n: int) -> str:
+    if n <= 1:
+        return "1"
+    if n <= 3:
+        return "2-3"
+    if n <= 7:
+        return "4-7"
+    if n <= 15:
+        return "8-15"
+    return "16+"
+
+
+def _claim_breakdown(claims: list[dict], support: dict, classes: dict,
+                     reference: float = SELF_SOURCED_REFERENCE) -> dict[str, Any]:
+    """Per-claim support classes, and what the rule would say without the encoding.
+
+    `passed` is the PREREGISTERED rule, unchanged.  The `encoding_blind_*` fields
+    are a diagnostic: they recount each claim with `schema` and `meta`
+    transitions removed, because those transitions are the serialisation's own
+    field names rather than anything the organism asserted.  They inform the next
+    design and never re-score this one.
+    """
+    self_by_class: dict[str, int] = defaultdict(int)
+    failing_by_type: dict[str, int] = defaultdict(int)
+    failing_by_size: dict[str, int] = defaultdict(int)
+    failing_by_class: dict[str, int] = defaultdict(int)
+    failing_blind_pass = 0
+    examples: list[dict] = []
+    measurable = failing = 0
+    for c in claims:
+        edge = (c["source"], c["target"])
+        recs = support.get(edge) or {}
+        cls = classes.get(edge) or {}
+        world = sum(1 for is_self in recs.values() if not is_self)
+        self_ = sum(1 for is_self in recs.values() if is_self)
+        total = world + self_
+        share = (self_ / total) if total else None
+        by_class: dict[str, int] = defaultdict(int)
+        for key, is_self in recs.items():
+            if is_self:
+                by_class[cls.get(key, "unclassified")] += 1
+        content_self = sum(by_class.get(k, 0) for k in CONTENT_CLASSES)
+        blind_total = world + content_self
+        blind_share = (content_self / blind_total) if blind_total else None
+        passed = share is not None and share <= reference and world > self_
+        blind_passed = (blind_share is not None and blind_share <= reference
+                        and world > content_self)
+        dominant = max(by_class, key=by_class.get) if by_class else None
+        if total:
+            measurable += 1
+            for k, n in by_class.items():
+                self_by_class[k] += n
+        if share is not None and not passed:
+            failing += 1
+            failing_by_type[c["type"]] += 1
+            failing_by_size[_size_bucket(total)] += 1
+            failing_by_class[dominant or "none"] += 1
+            failing_blind_pass += int(blind_passed)
+            if len(examples) < 3:
+                examples.append({"type": c["type"], "edge": [c["source"], c["target"]],
+                                 "world": world, "self": self_,
+                                 "share": round(share, 6),
+                                 "self_classes": dict(by_class),
+                                 "encoding_blind_passed": blind_passed})
+    return {
+        "claims": len(claims),
+        "measurable": measurable,
+        "unmeasurable": len(claims) - measurable,
+        "failing": failing,
+        "passed": measurable - failing,
+        "self_transitions_by_class": dict(sorted(self_by_class.items())),
+        "failing_by_type": dict(sorted(failing_by_type.items())),
+        "failing_by_size": dict(sorted(failing_by_size.items())),
+        "failing_by_dominant_self_class": dict(sorted(failing_by_class.items())),
+        "failing_that_pass_when_encoding_excluded": failing_blind_pass,
+        "examples": examples,
+    }
+
+
+def _assert_diagnostic(art: dict) -> None:
+    """A postmortem may never authorise a run or change the rule."""
+    if art.get("authorises_confirmatory") is not False:
+        raise AssertionError("the postmortem may not authorise a confirmatory run")
+    if art.get("rule_unchanged") is not True:
+        raise AssertionError("the postmortem may not change the preregistered rule")
+
+
+def _postmortem_summary(per_seed: list[dict]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for limb in ("formation", "revision"):
+        agg: dict[str, int] = defaultdict(int)
+        by_class: dict[str, int] = defaultdict(int)
+        by_type: dict[str, int] = defaultdict(int)
+        by_size: dict[str, int] = defaultdict(int)
+        for entry in per_seed:
+            d = entry[limb]
+            for key in ("claims", "measurable", "unmeasurable", "failing", "passed",
+                        "failing_that_pass_when_encoding_excluded"):
+                agg[key] += d[key]
+            for key, n in d["self_transitions_by_class"].items():
+                by_class[key] += n
+            for key, n in d["failing_by_type"].items():
+                by_type[key] += n
+            for key, n in d["failing_by_size"].items():
+                by_size[key] += n
+        out[limb] = {**{k: int(v) for k, v in agg.items()},
+                     "self_transitions_by_class": dict(sorted(by_class.items())),
+                     "failing_by_type": dict(sorted(by_type.items())),
+                     "failing_by_size": dict(sorted(by_size.items()))}
+    return out
+
+
+def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
+    """Read the five calibration seeds again and ask what the failures are made of.
+
+    This is a postmortem, not a run of the study: same seeds, same cap, same hash
+    pin, and the rule is not re-evaluated as a criterion -- `rule_unchanged` and
+    `authorises_confirmatory: false` are asserted on every write.
+    """
+    if cap != MAX_PREDICTIONS:
+        raise ValueError(f"the postmortem reads the calibration cells at cap "
+                         f"{MAX_PREDICTIONS}; cap {cap} is a different variant")
+    if hash_seed() is None:
+        raise ValueError("set PYTHONHASHSEED to the calibration value before the "
+                         "postmortem: it re-reads the calibration cells")
+    per_seed = []
+    for seed in CALIBRATION_SEEDS:
+        world = generate_compositional_world(seed=seed, cycles=CYCLES)
+        formation = conditioned_formation_stream(world, seed, WITHHELD)
+        revision = conditioned_revision_stream(world, seed,
+                                               formation["raw_cells"][-1], WITHHELD)
+        relations = relation_sets(world, WITHHELD)
+        engine = run_engine(formation, revision, seed, cap,
+                            frozenset(relations["withheld"]), collect_postmortem=True)
+        per_seed.append({"seed": seed, **engine["postmortem"]})
+    summary = _postmortem_summary(per_seed)
+    form = summary["formation"]
+    classes = form["self_transitions_by_class"]
+    dominant = max(classes, key=classes.get) if classes else None
+    cal = _load_calibration() or {}
+    art = {
+        "kind": "reusable_knowledge_postmortem",
+        "variant": variant_label(cap),
+        "cap": cap,
+        "pythonhashseed": hash_seed(),
+        "seeds": list(CALIBRATION_SEEDS),
+        "confirms_seeds_touched": False,
+        "question": ("are claims failing on circular self-support, on world content "
+                     "relayed through sleep rows, or on the payload encoding itself?"),
+        "rule_unchanged": True,
+        "authorises_confirmatory": False,
+        "verdict_kept": {
+            "per_claim_rule_all_seeds_passed": bool(
+                (cal.get("per_claim_provenance") or {}).get("all_seeds_passed")),
+            "calibration_authorises_confirmatory": cal.get("authorises_confirmatory"),
+            "source": CALIBRATION_OUT,
+        },
+        "classification": {
+            "claim_restated": "the sleep payload asserts this very pair (circular)",
+            "content_relayed": "the sleep payload mentions a tag of the pair from "
+                               "another structure (world content, relayed)",
+            "schema": "the transition is between the payload's own field names",
+            "meta": "the sleep row is the cycle marker",
+            "opaque": "the sleep row's payload is not candidate JSON",
+            "world": "direct evidence; carries no self class",
+        },
+        "summary": summary,
+        "answer": (
+            f"On the formation limb {form['failing']} of {form['measurable']} "
+            f"measurable claims fail. Their self-sourced transitions are dominated "
+            f"by {dominant!r}; {form['failing_that_pass_when_encoding_excluded']} "
+            f"of the failing claims would pass if `schema` and `meta` transitions "
+            f"were excluded, which is a diagnostic and not a recount of the rule."),
+        "seeds_detail": per_seed,
+        "note": ("Diagnostic only. The preregistered per-claim rule and its verdict "
+                 "are unchanged, and no confirmatory seed was run or touched."),
+    }
+    _assert_diagnostic(art)
+    (ROOT / POSTMORTEM_OUT).write_text(
+        json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    return art
+
+
 def run_engine(formation: dict, revision: dict, seed: int,
                cap: int = MAX_PREDICTIONS,
-               withheld_relations: frozenset = frozenset()) -> dict[str, Any]:
+               withheld_relations: frozenset = frozenset(),
+               collect_postmortem: bool = False) -> dict[str, Any]:
     """Formation, then revision learning under the rotated law; two snapshots.
 
     The variant differs from V1 in the Layer-1 truncation only and `organica/` is
@@ -755,7 +1004,7 @@ def run_engine(formation: dict, revision: dict, seed: int,
     mem = MemoryService(str(db))
     svc = CapOverrideSleepService(mem, max_predictions=cap)
     epc = EVENTS_PER_CYCLE
-    record, support, obs = _support_observer(mem)
+    record, support, obs, classes = _support_observer(mem)
 
     def feed(events: list[str], source: str) -> None:
         for i, text in enumerate(events):
@@ -780,6 +1029,7 @@ def run_engine(formation: dict, revision: dict, seed: int,
         feed(formation["events"], "env")
         first = snapshot()
         form_support = {e: dict(r) for e, r in support.items()}
+        form_classes = {e: dict(r) for e, r in classes.items()}
         form_windows = obs["windows_with_sleep"]
         feed(revision["events"], "env_rev")
         second = snapshot()
@@ -791,7 +1041,7 @@ def run_engine(formation: dict, revision: dict, seed: int,
         except PermissionError:
             pass
 
-    return {
+    out = {
         "asserted_rows": first["rows"], "asserted": first["asserted"],
         "type_rows": first["type_rows"],
         "revision_rows": second["rows"], "revision_asserted": second["asserted"],
@@ -810,6 +1060,14 @@ def run_engine(formation: dict, revision: dict, seed: int,
             "revision": per_claim_provenance(second["claims"], support),
         },
     }
+    if collect_postmortem:
+        # Diagnostic only.  `post_claim` is the rule's own verdict and
+        # `encoding_blind_*` is the counterfactual that informs the next design.
+        out["postmortem"] = {
+            "formation": _claim_breakdown(first["claims"], form_support, form_classes),
+            "revision": _claim_breakdown(second["claims"], support, classes),
+        }
+    return out
 
 
 def run_cell(seed: int, cap: int = MAX_PREDICTIONS,
@@ -1244,7 +1502,25 @@ def main(argv: list[str] | None = None) -> int:
                     help="run one seed (must not be a confirmatory seed)")
     ap.add_argument("--cap", type=int, default=MAX_PREDICTIONS)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--postmortem", action="store_true",
+                    help="classify the calibration failures by support provenance "
+                         "(diagnostic; cannot authorise anything)")
     args = ap.parse_args(argv)
+
+    if args.postmortem:
+        if args.cap != MAX_PREDICTIONS:
+            print(f"refusing a postmortem at cap {args.cap}: it re-reads the "
+                  f"calibration cells at MAX_PREDICTIONS={MAX_PREDICTIONS}.",
+                  file=sys.stderr)
+            return 4
+        if hash_seed() is None:
+            print("refusing a postmortem with PYTHONHASHSEED unset: it re-reads "
+                  "cells produced under the calibration pin.", file=sys.stderr)
+            return 5
+        art = run_postmortem(args.cap)
+        print(json.dumps({"answer": art["answer"], **art["summary"]},
+                         indent=1, sort_keys=True))
+        return 0
 
     if args.calibration and args.cap != MAX_PREDICTIONS:
         print(f"refusing to calibrate at cap {args.cap}: calibration runs at "
