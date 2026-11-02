@@ -3,14 +3,14 @@
  "alpha_note": "calibrated on 20261099; a constant across both arms, not an intervention",
  "artifact_written": true,
  "authorises_confirmatory": false,
- "capacity_note": "SleepService truncates predictions to self.MAX_PREDICTIONS (20 baseline, 1,000 diagnostic). The end-to-end counter this run recorded covered all candidate types and is not evidence that the cap bound.",
+ "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
  "checks": {
-  "capacity_binding": null,
-  "capacity_note": "the committed counter summed prior candidates of all types (3,998 in both arms), so it cannot show the prediction cap bound; verified structurally only",
+  "cap_binding": null,
+  "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
   "provenance_filter_bit": true
  },
  "confirmatory_seeds_touched": false,
- "correction_2026_11_02": "The capacity check as first committed counted all candidate types (3,998 in both arms) and did not test the prediction cap. It is recorded as not measured; scores were not recomputed and are unchanged. The paired result stands for the combined condition only and is not decomposed by intervention.",
+ "correction_2026_11_02": "The capacity check as first committed counted all candidate types (3,998 in both arms) and did not test the prediction cap. It is recorded as not measured everywhere, including per seed; scores were not recomputed and are unchanged.",
  "engine_files_edited": false,
  "interventions": {
   "capacity": 1000,
@@ -23,8 +23,14 @@
  "no_verdict": true,
  "per_seed": [
   {
+   "all_candidates_max": {
+    "baseline": 3998,
+    "g13d": 3998
+   },
+   "all_candidates_max_note": "prior candidates of all types, never a prediction count",
    "checks": {
-    "cap_binding": true,
+    "cap_binding": null,
+    "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
     "provenance_filter_bit": true
    },
    "deltas_g13d_minus_baseline": {
@@ -34,10 +40,6 @@
     "revision.self_cells_shape": -0.043539,
     "transfer_diagnostic.house_shape": -0.033174,
     "transfer_diagnostic.self_cells_shape": -0.033174
-   },
-   "max_candidates": {
-    "baseline": 3998,
-    "g13d": 3998
    },
    "memory": {
     "baseline": {
@@ -250,8 +252,14 @@
    "seed": 20261101
   },
   {
+   "all_candidates_max": {
+    "baseline": 3998,
+    "g13d": 3998
+   },
+   "all_candidates_max_note": "prior candidates of all types, never a prediction count",
    "checks": {
-    "cap_binding": true,
+    "cap_binding": null,
+    "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
     "provenance_filter_bit": true
    },
    "deltas_g13d_minus_baseline": {
@@ -261,10 +269,6 @@
     "revision.self_cells_shape": -0.041283,
     "transfer_diagnostic.house_shape": -0.029394,
     "transfer_diagnostic.self_cells_shape": -0.029394
-   },
-   "max_candidates": {
-    "baseline": 3998,
-    "g13d": 3998
    },
    "memory": {
     "baseline": {
@@ -477,8 +481,14 @@
    "seed": 20261102
   },
   {
+   "all_candidates_max": {
+    "baseline": 3998,
+    "g13d": 3997
+   },
+   "all_candidates_max_note": "prior candidates of all types, never a prediction count",
    "checks": {
-    "cap_binding": true,
+    "cap_binding": null,
+    "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
     "provenance_filter_bit": true
    },
    "deltas_g13d_minus_baseline": {
@@ -488,10 +498,6 @@
     "revision.self_cells_shape": -0.042879,
     "transfer_diagnostic.house_shape": -0.031206,
     "transfer_diagnostic.self_cells_shape": -0.031206
-   },
-   "max_candidates": {
-    "baseline": 3998,
-    "g13d": 3997
    },
    "memory": {
     "baseline": {
@@ -704,8 +710,14 @@
    "seed": 20261103
   },
   {
+   "all_candidates_max": {
+    "baseline": 3998,
+    "g13d": 3998
+   },
+   "all_candidates_max_note": "prior candidates of all types, never a prediction count",
    "checks": {
-    "cap_binding": true,
+    "cap_binding": null,
+    "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
     "provenance_filter_bit": true
    },
    "deltas_g13d_minus_baseline": {
@@ -715,10 +727,6 @@
     "revision.self_cells_shape": -0.041013,
     "transfer_diagnostic.house_shape": -0.029592,
     "transfer_diagnostic.self_cells_shape": -0.029592
-   },
-   "max_candidates": {
-    "baseline": 3998,
-    "g13d": 3998
    },
    "memory": {
     "baseline": {
@@ -931,8 +939,14 @@
    "seed": 20261104
   },
   {
+   "all_candidates_max": {
+    "baseline": 3998,
+    "g13d": 3998
+   },
+   "all_candidates_max_note": "prior candidates of all types, never a prediction count",
    "checks": {
-    "cap_binding": true,
+    "cap_binding": null,
+    "capacity_note": "the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)",
     "provenance_filter_bit": true
    },
    "deltas_g13d_minus_baseline": {
@@ -942,10 +956,6 @@
     "revision.self_cells_shape": -0.047113,
     "transfer_diagnostic.house_shape": -0.029301,
     "transfer_diagnostic.self_cells_shape": -0.029301
-   },
-   "max_candidates": {
-    "baseline": 3998,
-    "g13d": 3998
    },
    "memory": {
     "baseline": {

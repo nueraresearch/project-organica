@@ -54,6 +54,17 @@ DIAGNOSTIC_OUT = "docs/g13d_diagnostic.json"
 DIAGNOSTIC_DOC = "docs/G13D-DIAGNOSTIC.md"
 PLAN_DOC = "docs/G13-D-DIAGNOSTIC-PLAN.md"
 
+CAPACITY_NOTE = (
+    "the committed counter covers prior candidates of all types, not predictions, so "
+    "it cannot show that the prediction cap bound; the cap is verified structurally "
+    "only (MAX_PREDICTIONS 1,000 vs 20)"
+)
+CORRECTION_NOTE = (
+    "The capacity check as first committed counted all candidate types (3,998 in both "
+    "arms) and did not test the prediction cap. It is recorded as not measured "
+    "everywhere, including per seed; scores were not recomputed and are unchanged."
+)
+
 
 class WorldOnlyMemory(MemoryService):
     """The engine's memory with the lookback restricted to world events.
@@ -239,19 +250,34 @@ def _score_arms(seed: int) -> dict[str, Any]:
         "references": references,
         "memory": {"baseline": arms["baseline"]["memory"],
                    "g13d": arms["g13d"]["memory"]},
-        "max_candidates": {"baseline": arms["baseline"]["max_candidates"],
-                           "g13d": arms["g13d"]["max_candidates"]},
+        "all_candidates_max": {"baseline": arms["baseline"]["max_candidates"],
+                               "g13d": arms["g13d"]["max_candidates"]},
+        "all_candidates_max_note": ("prior candidates of all types, never a "
+                                    "prediction count"),
         "checks": {
             "provenance_filter_bit": (
                 arms["baseline"]["memory"]["sleep_only_source_pairs"] > 0
                 and arms["g13d"]["memory"]["sleep_only_source_pairs"] == 0),
-            "cap_binding": arms["g13d"]["max_candidates"] > BASELINE_CAP,
+            # Never inferred from the all-type counter: it cannot see the cap.
+            "cap_binding": None,
+            "capacity_note": CAPACITY_NOTE,
         },
     }
 
 
 def _cache_path(seed: int) -> pathlib.Path:
     return ROOT / ".scratch" / f"g13d_{seed}.json"
+
+
+def _aggregate_checks(per_seed: list[dict[str, Any]]) -> dict[str, Any]:
+    """Pool the per-seed checks.  Capacity stays unmeasured unless every seed measured it."""
+    caps = [entry["checks"].get("cap_binding") for entry in per_seed]
+    return {
+        "provenance_filter_bit": all(e["checks"]["provenance_filter_bit"]
+                                     for e in per_seed),
+        "cap_binding": None if any(c is None for c in caps) else all(caps),
+        "capacity_note": CAPACITY_NOTE,
+    }
 
 
 def run_diagnostic(budget_seconds: float = 200.0) -> dict[str, Any]:
@@ -298,13 +324,9 @@ def run_diagnostic(budget_seconds: float = 200.0) -> dict[str, Any]:
                         "windows; house shape is primary, self-cells co-primary"),
         "per_seed": per_seed,
         "pooled_delta_g13d_minus_baseline": pooled,
-        "checks": {
-            "provenance_filter_bit": all(e["checks"]["provenance_filter_bit"]
-                                         for e in per_seed),
-            "cap_binding": (None if any(e["checks"].get("cap_binding") is None
-                                        for e in per_seed)
-                            else all(e["checks"]["cap_binding"] for e in per_seed)),
-        },
+        "checks": _aggregate_checks(per_seed),
+        "capacity_note": CAPACITY_NOTE,
+        "correction_2026_11_02": CORRECTION_NOTE,
         "artifact_written": True,
     }
     (ROOT / DIAGNOSTIC_OUT).write_text(

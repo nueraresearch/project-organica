@@ -8079,7 +8079,10 @@ check as *not measured*. What is verified about capacity is structural only:
 `SleepService` truncates predictions to `self.MAX_PREDICTIONS` (20 in the baseline, 1,000
 in the diagnostic subclass). The paired result is therefore a statement about the
 **combined** condition; it is not decomposed into a capacity part and a provenance part,
-and no second run was made to recover that decomposition.
+and no second run was made to recover that decomposition. The per-seed artifact entries,
+the five per-seed caches and the aggregation code were normalised the same day so the
+capacity check reads *not measured* everywhere rather than only at the top level;
+regenerating the artifact from cache reproduces identical scores.
 
 Paired difference, g13d minus baseline, house shape (negative is better):
 
@@ -8091,7 +8094,8 @@ Paired difference, g13d minus baseline, house shape (negative is better):
 | 20261104 | -0.0258 | -0.0296 | -0.0410 |
 | 20261105 | -0.0280 | -0.0293 | -0.0471 |
 
-All 30 of 30 per-seed cells across both metric shapes are negative; the pooled means are
+All **15 of 15** unique seed × window comparisons are negative — 30 of 30 counting the
+metric shape, which coincides exactly here; the pooled means are
 retention **-0.0296**, transfer-diagnostic
 **-0.0305** and revision
 **-0.0432** log-loss. The two metric shapes coincide exactly

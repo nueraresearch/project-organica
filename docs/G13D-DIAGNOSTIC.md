@@ -59,7 +59,7 @@ Negative means the combined condition scored better. No threshold is applied.
 ## Intervention checks
 
 - provenance filter bit on every seed: **True**
-- capacity bound reached above 20 on every seed: **not measured** — the committed counter summed prior candidates of all types (3,998 in both arms), so it cannot show the prediction cap bound; verified structurally only
+- capacity bound reached above 20 on every seed: **not measured** — the committed counter covers prior candidates of all types, not predictions, so it cannot show that the prediction cap bound; the cap is verified structurally only (MAX_PREDICTIONS 1,000 vs 20)
 
 ## What this is not
 

@@ -44,3 +44,27 @@ def test_the_plan_and_the_seed_set_are_the_authorized_ones():
 def test_no_confirmatory_seed_is_in_the_diagnostic():
     closed_confirmatory = set(range(20261207, 20261227))
     assert closed_confirmatory.isdisjoint(g.SEEDS)
+
+
+def test_capacity_is_recorded_as_not_measured_everywhere():
+    """A per-seed field must not assert a verdict the run never measured."""
+    import json
+    art = json.loads(pathlib.Path(g.DIAGNOSTIC_OUT).read_text(encoding="utf-8"))
+    assert art["checks"]["cap_binding"] is None
+    assert art["capacity_note"]
+    for entry in art["per_seed"]:
+        assert entry["checks"]["cap_binding"] is None
+        assert entry["checks"]["capacity_note"]
+        assert "max_candidates" not in entry, "the all-type counter must not read as a cap"
+        assert entry["all_candidates_max_note"]
+
+
+def test_aggregation_never_infers_capacity_from_the_all_type_counter():
+    unmeasured = [{"checks": {"provenance_filter_bit": True, "cap_binding": None}}]
+    assert g._aggregate_checks(unmeasured)["cap_binding"] is None
+    mixed = [{"checks": {"provenance_filter_bit": True, "cap_binding": True}},
+             {"checks": {"provenance_filter_bit": True, "cap_binding": None}}]
+    assert g._aggregate_checks(mixed)["cap_binding"] is None
+    measured = [{"checks": {"provenance_filter_bit": True, "cap_binding": False}},
+                {"checks": {"provenance_filter_bit": True, "cap_binding": True}}]
+    assert g._aggregate_checks(measured)["cap_binding"] is False

@@ -123,3 +123,6 @@ What remains verified about capacity is structural: `organica/sleep.py:1160` tru
 baseline of 20. The paired result therefore describes the **combined** condition and is not
 decomposed into a capacity effect and a provenance effect. This note changes no threshold,
 no seed and no number; it corrects a check that claimed more than it measured.
+The per-seed artifact entries, the caches and the aggregation path were normalised on
+the same day; regeneration from cache reproduces the same scores with the check
+recorded as not measured at every level.
