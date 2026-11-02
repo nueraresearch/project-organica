@@ -140,3 +140,65 @@ def test_a_diamond_beside_a_real_cycle_still_reports_the_cycle():
     assert got["cycle"] is True
     assert "cycle" in got["defects"]
     assert got["status"].endswith("_incomplete")
+
+
+def test_dedupe_keeps_the_newest_snapshot_of_a_candidate():
+    """The engine re-stores a survivor each cycle; one lineage is counted once."""
+    older = {"id": "c1", "generation": 1, "parent_ids": []}
+    newer = {"id": "c1", "generation": 3, "parent_ids": ["a"]}
+    kept = pt.dedupe_candidates([older, newer, {"id": "c2", "generation": 1}])
+    by_id = {p["id"]: p for p in kept}
+    assert len(kept) == 2
+    assert by_id["c1"]["generation"] == 3
+
+
+def test_only_claim_typed_structures_are_traced():
+    payloads = [{"id": "p", "type": "prediction_candidate"},
+                {"id": "h", "type": "hypothesis_candidate"},
+                {"id": "c", "type": "concept_candidate"}]
+    assert [p["id"] for p in pt.claim_structures(payloads)] == ["p", "h"]
+
+
+def test_incomplete_lineages_are_never_counted_as_rooted():
+    rows = [{"status": "world_rooted", "type": "prediction_candidate", "ancestor_depth": 2},
+            {"status": "world_rooted_incomplete", "type": "prediction_candidate",
+             "ancestor_depth": 2},
+            {"status": "unresolved_cycle", "type": "prediction_candidate",
+             "ancestor_depth": 1}]
+    summary = pt.summarise_rows(rows)
+    assert summary["complete_world_rooted"] == 1
+    assert summary["incomplete_total"] == 1
+    assert summary["unresolved_total"] == 1
+    assert (sum(summary["complete"].values()) + summary["incomplete_total"]
+            + summary["unresolved_total"]) == 3
+
+
+def test_depth_buckets_split_shallow_from_deep():
+    assert [pt.depth_bucket(d) for d in (0, 1, 2, 3, 4, 6, 7, 9)] == \
+        ["0", "1", "2", "3", "4-6", "4-6", "7+", "7+"]
+
+
+def test_a_diagnostic_may_not_carry_a_verdict():
+    art = {"no_threshold": True, "no_verdict": True,
+           "authorises_confirmatory": False, "study_reopened": False}
+    pt._assert_diagnostic(art)
+    for bad in ({"no_threshold": False}, {"no_verdict": False},
+                {"authorises_confirmatory": True}, {"study_reopened": True}):
+        with pytest.raises(AssertionError):
+            pt._assert_diagnostic({**art, **bad})
+
+
+def test_the_report_is_generated_without_placeholders():
+    rows = [{"status": "world_rooted", "type": "prediction_candidate", "ancestor_depth": 1}]
+    summary = pt.summarise_rows(rows)
+    summary.update({"claims_with_asserted_edge": 1, "structures_indexed": 2})
+    art = {"plan_doc": pt.PLAN_DOC, "plan_frozen_at_commit": "abc123",
+           "seeds": [424242], "cap": 1000, "variant": "V",
+           "controls": {"all_passed": True, "count": len(pt._fixtures()) + 1},
+           "totals": {"formation": summary, "revision": summary},
+           "seeds_detail": [{"seed": 424242, "formation": summary,
+                             "revision": summary}]}
+    doc = pt.render_report(art)
+    assert "{" not in doc and "}" not in doc, "a leftover placeholder is silent"
+    assert doc == pt.render_report(art), "the report must be a function of the artifact"
+    assert doc.count("| 424242 | formation |") == 1, "the per-seed section is missing"

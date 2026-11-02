@@ -1070,13 +1070,19 @@ def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
 def run_engine(formation: dict, revision: dict, seed: int,
                cap: int = MAX_PREDICTIONS,
                withheld_relations: frozenset = frozenset(),
-               collect_postmortem: bool = False) -> dict[str, Any]:
+               collect_postmortem: bool = False,
+               collect_structures: bool = False) -> dict[str, Any]:
     """Formation, then revision learning under the rotated law; two snapshots.
 
     The variant differs from V1 in the Layer-1 truncation only and `organica/` is
     untouched.  The readout is frozen twice — after formation for retention and
     transfer, after revision learning for the revision limbs — so no scored
     window is ever shown to the organism.
+
+    `collect_structures` returns the frozen candidate payloads themselves, for a
+    reader that needs their parent links (the provenance tracer).  It is off by
+    default and changes nothing the study scores: the payloads are what the
+    readout was already loaded from.
     """
     db = _scratch(seed)
     mem = MemoryService(str(db))
@@ -1098,10 +1104,13 @@ def run_engine(formation: dict, revision: dict, seed: int,
         by_type: dict[str, list[dict]] = defaultdict(list)
         for c in frozen:
             by_type[c.get("type", "")].append(c)
-        return {"rows": rows,
-                "asserted": {(u, v) for u, ts in rows.items() for v in ts},
-                "claims": _claim_edges(frozen, withheld_relations),
-                "type_rows": {t: structure_edges(cs) for t, cs in by_type.items()}}
+        out = {"rows": rows,
+               "asserted": {(u, v) for u, ts in rows.items() for v in ts},
+               "claims": _claim_edges(frozen, withheld_relations),
+               "type_rows": {t: structure_edges(cs) for t, cs in by_type.items()}}
+        if collect_structures:
+            out["structures"] = frozen
+        return out
 
     try:
         feed(formation["events"], "env")
@@ -1138,6 +1147,9 @@ def run_engine(formation: dict, revision: dict, seed: int,
             "revision": per_claim_provenance(second["claims"], support),
         },
     }
+    if collect_structures:
+        out["structures"] = {"formation": first.get("structures", []),
+                             "revision": second.get("structures", [])}
     if collect_postmortem:
         # Diagnostic only.  `post_claim` is the rule's own verdict and
         # `encoding_blind_*` is the counterfactual that informs the next design.

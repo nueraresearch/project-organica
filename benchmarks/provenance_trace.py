@@ -32,13 +32,31 @@ from __future__ import annotations
 
 import argparse
 import json
+import pathlib
+import subprocess
 import sys
+import time
 from collections import defaultdict
 from typing import Any, Iterable
 
 from organica.memory import _extract_tags  # noqa: E402
 
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
 MAX_DEPTH = 7          # the engine's own get_ancestry(max_depth=7)
+
+#: The diagnostic's plan, committed before the run, and its two artifacts.
+PLAN_DOC = "docs/PROVENANCE-ANALYSIS-PLAN.md"
+DIAGNOSTIC_OUT = "docs/provenance_diagnostic.json"
+DIAGNOSTIC_DOC = "docs/PROVENANCE-DIAGNOSTIC.md"
+
+#: A claim, for the tracer, is any structure of these types.  Same test the
+#: study's own claim selector applies (`_claim_edges`), which keeps the traced
+#: population equal to the study's claim population.
+CLAIM_TYPE_WORDS = ("prediction", "hypothesis")
+
+#: Ancestor depth, bucketed so a shallow result cannot read as a deep one.
+DEPTH_BUCKETS = ("0", "1", "2", "3", "4-6", "7+")
 
 STATUSES = ("world_rooted", "mixed", "self_only",
             "world_rooted_incomplete", "mixed_incomplete", "self_only_incomplete",
@@ -119,6 +137,53 @@ def build_index(payloads: Iterable[dict]) -> dict[str, dict]:
         if isinstance(node_id, str) and node_id:
             index[node_id] = payload
     return index
+
+
+def dedupe_candidates(payloads: Iterable[dict]) -> list[dict]:
+    """One payload per candidate id: the highest-generation snapshot of it.
+
+    The engine re-stores every living candidate each sleep cycle, so the frozen
+    snapshot holds the same logical structure many times.  Tracing every copy
+    would count one lineage once per cycle it survived; this keeps the newest
+    state of each, which is the state the readout reads.
+    """
+    best: dict[str, tuple[int, int, dict]] = {}
+    for order, payload in enumerate(payloads):
+        node_id = payload.get("id")
+        if not isinstance(node_id, str) or not node_id:
+            continue
+        gen = payload.get("generation")
+        rank = (int(gen) if isinstance(gen, int) else 1, order)
+        if node_id not in best or rank > best[node_id][:2]:
+            best[node_id] = (*rank, payload)
+    return [payload for _rank, payload in
+            ((v[:2], v[2]) for v in best.values())]
+
+
+def claim_structures(payloads: Iterable[dict]) -> list[dict]:
+    """The claim-typed structures of a snapshot, for tracing."""
+    out = []
+    for payload in payloads:
+        kind = payload.get("type") or payload.get("event_type") or ""
+        if any(word in kind for word in CLAIM_TYPE_WORDS):
+            out.append(payload)
+    return out
+
+
+def has_asserted_edge(claim: dict) -> bool:
+    """Whether the claim names the pair it asserts, as `_claim_edges` requires."""
+    kind = claim.get("type") or claim.get("event_type") or ""
+    if "prediction" in kind:
+        return bool(claim.get("source") and claim.get("target"))
+    if "hypothesis" in kind:
+        return bool(claim.get("subject") and claim.get("expectation"))
+    return False
+
+
+def depth_bucket(depth: int) -> str:
+    if depth <= 3:
+        return str(max(depth, 0))
+    return "4-6" if depth <= 6 else "7+"
 
 
 def trace(claim: dict, index: dict[str, dict], vocabulary: set[str],
@@ -344,19 +409,357 @@ def trace_claims(claims: Iterable[dict], payloads: Iterable[dict],
         got = trace(claim, index, world_vocabulary)
         rows.append({"id": claim.get("id"), "type": claim.get("type"),
                      **{k: got[k] for k in ("status", "reason", "missing", "cycle")},
-                     "depth": len(got["nodes"])})
-    counts: dict[str, int] = {s: 0 for s in STATUSES}
+                     "depth": len(got["nodes"]),
+                     "ancestor_depth": max(0, len(got["nodes"]) - 1)})
+    summary = summarise_rows(rows)
+    summary.update({"rows": rows,
+                    "note": "instrument diagnostic; no threshold and no verdict"})
+    return summary
+
+
+def _empty() -> dict[str, int]:
+    return {s: 0 for s in STATUSES}
+
+
+def summarise_rows(rows: Iterable[dict]) -> dict[str, Any]:
+    """Count statuses overall, by claim type and by lineage depth.
+
+    The complete, incomplete and unresolved families are reported side by side
+    and are never summed into one number: only `complete_world_rooted` may be
+    described as rooted, and an incomplete lineage is not a rooted one with a
+    note attached.
+    """
+    rows = list(rows)
+    statuses = _empty()
+    by_type: dict[str, dict[str, int]] = {}
+    by_depth: dict[str, dict[str, int]] = {b: _empty() for b in DEPTH_BUCKETS}
     for row in rows:
-        counts[row["status"]] = counts.get(row["status"], 0) + 1
-    return {"claims": len(rows), "statuses": counts, "rows": rows,
-            "note": "instrument diagnostic; no threshold and no verdict"}
+        status = row["status"]
+        statuses[status] = statuses.get(status, 0) + 1
+        kind = row.get("type") or "unknown"
+        by_type.setdefault(kind, _empty())[status] += 1
+        by_depth[depth_bucket(row.get("ancestor_depth", 0))][status] += 1
+    complete = {s: n for s, n in statuses.items()
+                if not s.startswith("unresolved_") and not s.endswith(INCOMPLETE_SUFFIX)}
+    incomplete = {s: n for s, n in statuses.items() if s.endswith(INCOMPLETE_SUFFIX)}
+    unresolved = {s: n for s, n in statuses.items() if s.startswith("unresolved_")}
+    return {"claims": len(rows), "statuses": statuses,
+            "complete": complete, "incomplete": incomplete, "unresolved": unresolved,
+            "complete_world_rooted": statuses["world_rooted"],
+            "incomplete_total": sum(incomplete.values()),
+            "unresolved_total": sum(unresolved.values()),
+            "by_type": by_type, "by_depth": by_depth}
+
+
+def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
+    """Pool per-seed summaries without collapsing their families together."""
+    pooled = _empty()
+    by_type: dict[str, dict[str, int]] = {}
+    by_depth: dict[str, dict[str, int]] = {b: _empty() for b in DEPTH_BUCKETS}
+    claims = with_edge = indexed = 0
+    for summary in summaries:
+        claims += summary.get("claims", 0)
+        with_edge += summary.get("claims_with_asserted_edge", 0)
+        indexed += summary.get("structures_indexed", 0)
+        for status, n in summary["statuses"].items():
+            pooled[status] = pooled.get(status, 0) + n
+        for kind, row in summary.get("by_type", {}).items():
+            target = by_type.setdefault(kind, _empty())
+            for status, n in row.items():
+                target[status] = target.get(status, 0) + n
+        for bucket, row in summary.get("by_depth", {}).items():
+            target = by_depth.setdefault(bucket, _empty())
+            for status, n in row.items():
+                target[status] = target.get(status, 0) + n
+    complete = {s: n for s, n in pooled.items()
+                if not s.startswith("unresolved_") and not s.endswith(INCOMPLETE_SUFFIX)}
+    incomplete = {s: n for s, n in pooled.items() if s.endswith(INCOMPLETE_SUFFIX)}
+    unresolved = {s: n for s, n in pooled.items() if s.startswith("unresolved_")}
+    return {"claims": claims, "claims_with_asserted_edge": with_edge,
+            "structures_indexed": indexed, "statuses": pooled,
+            "complete": complete, "incomplete": incomplete, "unresolved": unresolved,
+            "complete_world_rooted": pooled["world_rooted"],
+            "incomplete_total": sum(incomplete.values()),
+            "unresolved_total": sum(unresolved.values()),
+            "by_type": by_type, "by_depth": by_depth}
+
+
+# ---------------------------------------------------------------------------
+# The diagnostic: the instrument pointed at the five already-used calibration
+# seeds, under a plan committed before the run.
+# ---------------------------------------------------------------------------
+
+def _assert_diagnostic(art: dict) -> None:
+    """A diagnostic may not carry a threshold, a verdict or an authorisation."""
+    if art.get("no_threshold") is not True or art.get("no_verdict") is not True:
+        raise AssertionError("the diagnostic must declare no threshold and no verdict")
+    if art.get("authorises_confirmatory") is not False:
+        raise AssertionError("the diagnostic may not authorise a confirmatory run")
+    if art.get("study_reopened") is not False:
+        raise AssertionError("the diagnostic may not reopen the closed study")
+
+
+def _git_head_for(path: str) -> str | None:
+    """The commit a document was last changed at, or None outside a checkout."""
+    try:
+        out = subprocess.run(["git", "log", "-1", "--format=%H", "--", path],
+                             cwd=ROOT, capture_output=True, text=True, check=False)
+    except OSError:
+        return None
+    head = out.stdout.strip()
+    return head or None
+
+
+def _trace_seed(rk: Any, seed: int, cap: int) -> dict[str, Any]:
+    """One calibration cell: two snapshots, their claim structures traced."""
+    world = rk.generate_compositional_world(seed=seed, cycles=rk.CYCLES)
+    formation = rk.conditioned_formation_stream(world, seed, rk.WITHHELD)
+    revision = rk.conditioned_revision_stream(world, seed,
+                                              formation["raw_cells"][-1], rk.WITHHELD)
+    relations = rk.relation_sets(world, rk.WITHHELD)
+    engine = rk.run_engine(formation, revision, seed, cap,
+                           frozenset(relations["withheld"]),
+                           collect_structures=True)
+    vocabulary = {t for row in formation["events"] + revision["events"]
+                  for t in row.split()}
+    entry: dict[str, Any] = {"seed": seed}
+    for limb in ("formation", "revision"):
+        payloads = dedupe_candidates(engine["structures"][limb])
+        claims = claim_structures(payloads)
+        summary = trace_claims(claims, payloads, vocabulary)
+        summary.pop("rows", None)
+        summary["claims_with_asserted_edge"] = sum(
+            1 for c in claims if has_asserted_edge(c))
+        summary["structures_indexed"] = len(payloads)
+        entry[limb] = summary
+    return entry
+
+
+def _seed_cache(seed: int, cap: int, hashseed: str | None) -> pathlib.Path:
+    return ROOT / ".scratch" / f"provenance_{seed}_{cap}_{hashseed or 'unpinned'}.json"
+
+
+def run_diagnostic(seeds: tuple[int, ...] | None = None,
+                   budget_seconds: float = 210.0) -> dict[str, Any]:
+    """Trace the claims of the five calibration cells.  Descriptive, not a study.
+
+    Same seeds, same cap, same hash pin as the calibration and the postmortem, so
+    the snapshots are the ones those artifacts already describe.  Nothing here
+    evaluates a criterion: there is no threshold to pass and no verdict to reach.
+    """
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from benchmarks import reusable_knowledge as rk
+
+    if rk.hash_seed() is None:
+        raise ValueError("set PYTHONHASHSEED to the calibration value: this re-reads "
+                         "the calibration cells")
+    controls = run_controls()
+    if not controls["all_passed"]:
+        raise RuntimeError("the tracer's controls must pass before it is pointed at "
+                           "real data")
+    target = tuple(seeds) if seeds else rk.CALIBRATION_SEEDS
+    cap = rk.MAX_PREDICTIONS
+    started = time.monotonic()
+    per_seed: list[dict] = []
+    for seed in target:
+        # A cell takes minutes, longer than one command may run, so each cell is
+        # cached and a re-invocation resumes rather than restarting.  The artifact
+        # is written only when every requested seed is present.
+        cache = _seed_cache(seed, cap, rk.hash_seed())
+        if cache.exists():
+            per_seed.append(json.loads(cache.read_text(encoding="utf-8")))
+            continue
+        if per_seed and time.monotonic() - started > budget_seconds:
+            break
+        entry = _trace_seed(rk, seed, cap)
+        cache.write_text(json.dumps(entry, sort_keys=True) + "\n", encoding="utf-8")
+        per_seed.append(entry)
+    done = [entry["seed"] for entry in per_seed]
+    if len(done) < len(target):
+        return {"artifact_written": False, "computed": done,
+                "pending": [s for s in target if s not in done],
+                "note": "resumable: rerun the same command, finished cells are cached"}
+
+    totals = {limb: merge_summaries(entry[limb] for entry in per_seed)
+              for limb in ("formation", "revision")}
+    art = {
+        "kind": "provenance_diagnostic",
+        "instrument": "benchmarks/provenance_trace.py",
+        "plan_doc": PLAN_DOC,
+        "plan_frozen_at_commit": _git_head_for(PLAN_DOC),
+        "controls": {"all_passed": controls["all_passed"],
+                     "count": len(controls["controls"])},
+        "seeds": list(target),
+        "seed_set": ("the five already-used calibration seeds; no confirmatory seed "
+                     "was run or touched"),
+        "cap": cap,
+        "variant": rk.variant_label(cap),
+        "pythonhashseed": rk.hash_seed(),
+        "confirmatory_seeds_touched": False,
+        "study_reopened": False,
+        "authorises_confirmatory": False,
+        "no_threshold": True,
+        "no_verdict": True,
+        "question": ("do the stored structures carry usable parent chains, and how "
+                     "often can the tracer resolve them?"),
+        "resolution": ("world_rooted means vocabulary overlap across a complete "
+                       "ancestor chain; it is not observation-level provenance"),
+        "totals": totals,
+        "seeds_detail": per_seed,
+        "note": ("Descriptive diagnostic on already-used seeds. The closed study's "
+                 "verdict is unchanged, no criterion is evaluated here, and nothing "
+                 "in this artifact authorises a confirmatory run."),
+        "artifact_written": True,
+    }
+    _assert_diagnostic(art)
+    (ROOT / DIAGNOSTIC_OUT).write_text(json.dumps(art, indent=1, sort_keys=True) + "\n",
+                                       encoding="utf-8")
+    (ROOT / DIAGNOSTIC_DOC).write_text(render_report(art), encoding="utf-8")
+    return art
+
+
+def _family_row(summary: dict, limb: str) -> str:
+    return f"| {limb} | {summary['claims']} | {summary['claims_with_asserted_edge']} | " \
+           f"{summary['complete_world_rooted']} | {summary['incomplete_total']} | " \
+           f"{summary['unresolved_total']} |"
+
+
+def render_report(art: dict) -> str:
+    """The results document, generated from the artifact.  Never typed by hand."""
+    totals = art["totals"]
+    lines = [
+        "# Provenance diagnostic — five already-used calibration seeds",
+        "",
+        "**Generated from [`docs/provenance_diagnostic.json`](provenance_diagnostic.json);",
+        "do not edit by hand.** Regenerate with",
+        "`PYTHONHASHSEED=0 python -m benchmarks.provenance_trace --report`.",
+        "",
+        f"Plan: [`{art['plan_doc']}`](PROVENANCE-ANALYSIS-PLAN.md), frozen at commit",
+        f"`{art['plan_frozen_at_commit']}` before this run. Seeds:",
+        f"{', '.join(str(s) for s in art['seeds'])} (calibration only), cap",
+        f"`{art['cap']}`, variant `{art['variant']}`.",
+        "",
+        "## What this is, and what it is not",
+        "",
+        "A descriptive diagnostic of the instrument and of the lineage the engine",
+        "records. **There is no threshold, no pass mark and no verdict in this",
+        "document.** `world_rooted` means vocabulary overlap across a complete",
+        "ancestor chain; it is not observation-level provenance, and nothing here",
+        "validates transfer or reopens the closed study.",
+        "",
+        f"The tracer's {art['controls']['count']} controls passed before the run",
+        "(`all_passed: " + str(art["controls"]["all_passed"]).lower() + "`).",
+        "",
+        "## Statuses, by limb",
+        "",
+        "| status | formation | revision |",
+        "|---|---|---|",
+    ]
+    for status in STATUSES:
+        lines.append(f"| `{status}` | {totals['formation']['statuses'].get(status, 0)} "
+                     f"| {totals['revision']['statuses'].get(status, 0)} |")
+    lines += [
+        "",
+        "The three families are counted separately and are never summed: a lineage",
+        "with a resolvable branch and a missing, cyclic or truncated one is not a",
+        "rooted lineage with a note attached.",
+        "",
+        "| family | limb | claims | with asserted edge | complete `world_rooted` | incomplete | unresolved |",
+        "|---|---|---|---|---|---|---|",
+        _family_row(totals["formation"], "formation"),
+        _family_row(totals["revision"], "revision"),
+        "",
+        "## By claim type",
+        "",
+        "| type | limb | claims | complete `world_rooted` | incomplete | unresolved |",
+        "|---|---|---|---|---|---|",
+    ]
+    for limb in ("formation", "revision"):
+        for kind, row in sorted(totals[limb]["by_type"].items()):
+            claims = sum(row.values())
+            rooted = row.get("world_rooted", 0)
+            incomplete = sum(n for s, n in row.items() if s.endswith(INCOMPLETE_SUFFIX))
+            unresolved = sum(n for s, n in row.items() if s.startswith("unresolved_"))
+            lines.append(f"| `{kind}` | {limb} | {claims} | {rooted} | {incomplete} | {unresolved} |")
+    lines += [
+        "",
+        "## By lineage depth (ancestors resolved)",
+        "",
+        "| depth | limb | claims | complete `world_rooted` | incomplete | unresolved |",
+        "|---|---|---|---|---|---|",
+    ]
+    for limb in ("formation", "revision"):
+        for bucket in DEPTH_BUCKETS:
+            row = totals[limb]["by_depth"].get(bucket) or {}
+            claims = sum(row.values())
+            if not claims:
+                continue
+            rooted = row.get("world_rooted", 0)
+            incomplete = sum(n for s, n in row.items() if s.endswith(INCOMPLETE_SUFFIX))
+            unresolved = sum(n for s, n in row.items() if s.startswith("unresolved_"))
+            lines.append(f"| {bucket} | {limb} | {claims} | {rooted} | {incomplete} | {unresolved} |")
+    lines += [
+        "",
+        "## Per seed",
+        "",
+        "| seed | limb | claims | complete `world_rooted` | incomplete | unresolved |",
+        "|---|---|---|---|---|---|",
+    ]
+    for entry in art["seeds_detail"]:
+        for limb in ("formation", "revision"):
+            summary = entry[limb]
+            lines.append(f"| {entry['seed']} | {limb} | {summary['claims']} "
+                         f"| {summary['complete_world_rooted']} "
+                         f"| {summary['incomplete_total']} "
+                         f"| {summary['unresolved_total']} |")
+    lines += [
+        "",
+        "## What each outcome means, agreed in advance",
+        "",
+        "As fixed in the plan before the run: a mostly unresolved result points to",
+        "missing lineage in the recorded structures, and the next instrument would",
+        "need a store-time record of the content's origin. A mostly vocabulary-overlap",
+        "result says useful chains exist, which is consistent with world inheritance",
+        "*and* with self-generated content that reuses world words, so it does not",
+        "establish that the links track world evidence. Either way, the next",
+        "confirmatory study needs its own preregistration and fresh seeds; the closed",
+        "study's failure stays intact.",
+        "",
+    ]
+    return "\n".join(lines)
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Provenance tracer (controls only).")
     ap.add_argument("--controls", action="store_true",
                     help="run the known-ancestry controls and exit non-zero on failure")
+    ap.add_argument("--diagnostic", action="store_true",
+                    help="trace the five calibration cells; descriptive only")
+    ap.add_argument("--budget", type=float, default=210.0,
+                    help="seconds of cells to compute before returning progress")
+    ap.add_argument("--report", action="store_true",
+                    help="regenerate the results document from the committed artifact")
     args = ap.parse_args(argv)
+    if args.report:
+        art = json.loads((ROOT / DIAGNOSTIC_OUT).read_text(encoding="utf-8"))
+        (ROOT / DIAGNOSTIC_DOC).write_text(render_report(art), encoding="utf-8")
+        print(json.dumps({"wrote": DIAGNOSTIC_DOC,
+                          "claims": art["totals"]["formation"]["claims"]},
+                         indent=1, sort_keys=True))
+        return 0
+    if args.diagnostic:
+        art = run_diagnostic(budget_seconds=args.budget)
+        if not art.get("artifact_written", True):
+            print(json.dumps(art, indent=1, sort_keys=True))
+            return 0
+        print(json.dumps({"wrote": [DIAGNOSTIC_OUT, DIAGNOSTIC_DOC],
+                          "totals": {limb: {k: art["totals"][limb][k] for k in
+                                            ("claims", "complete_world_rooted",
+                                             "incomplete_total", "unresolved_total")}
+                                     for limb in ("formation", "revision")}},
+                         indent=1, sort_keys=True))
+        return 0
     if not args.controls:
         ap.print_help()
         return 2
