@@ -52,6 +52,14 @@ $highlighting-macros$
 \fvset{fontsize=\footnotesize}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage[hidelinks]{hyperref}
+% The PDF's own document properties: what a viewer's title bar, a reference
+% manager's import and a preprint server's metadata block read.  The values
+% arrive as plain text because hyperref's pdfusetitle would copy the typeset
+% \title, which is a \parbox here, markup and all.
+$if(pdf-title)$
+\hypersetup{pdftitle={$pdf-title$},pdfauthor={$pdf-author$},%
+  pdfsubject={$pdf-subject$},pdfkeywords={$pdf-keywords$}}
+$endif$
 % fi and fl ligatures extract as nothing from a T1-encoded PDF, so the deposited text
 % reads "con rmed".  Disabling them keeps the text searchable at no visual cost.
 \usepackage{microtype}

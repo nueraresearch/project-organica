@@ -47,6 +47,30 @@ PAPERS = [
     "papers/02_persistent_structural_provenance.md",
 ]
 
+#: The deposited PDFs' own document properties.  Without these the file opens
+#: with an empty title bar and imports into a reference manager as an untitled,
+#: unattributed document, because hyperref only fills them from ``\title`` and
+#: ``\author`` when asked -- and this template's title is a ``\parbox``, so
+#: ``pdfusetitle`` would copy the markup instead of the words.  The titles are
+#: the papers' own titles, not the project's "Paper 1/2" labels.
+PDF_INFO = {
+    "01_developmental_structure_formation": {
+        "title": "Developmental Structure Formation in Organica 1",
+        "subject": "Organica 1: whether developmental structure forms, what "
+                   "it confers on external tasks, and where its claims stop",
+        "keywords": "developmental machine intelligence; structure formation; "
+                    "curriculum dependence; preregistration; negative results",
+    },
+    "02_persistent_structural_provenance": {
+        "title": "Reconstructing Evidence and Selection from Organica's "
+                 "Surviving State",
+        "subject": "Organica 1: what a reconstruction from surviving state "
+                   "can recover, and the boundaries of that claim",
+        "keywords": "developmental machine intelligence; audit trace; "
+                    "provenance; reconstruction; preregistration",
+    },
+}
+
 IMAGE_RE = re.compile(r"!\[(?P<alt>[^\]]*)\]\((?P<path>\.\./docs/[^)]+?)\.svg\)")
 TITLE_RE = re.compile(r"^#\s+(?P<title>.+?)\s*$", re.M)
 AUTHOR_RE = re.compile(r"^\*\*Author:\*\*\s*(?P<author>.+?)\s*$", re.M)
@@ -62,12 +86,17 @@ def find_tool(candidates: list[Path], name: str) -> str | None:
     return None
 
 
-def prepare(markdown: str) -> tuple[str, str, str]:
-    """Return (build copy, title, author) with the figure references rewritten."""
+def prepare(markdown: str) -> tuple[str, str, str, str]:
+    """Return (build copy, title, author, plain author) for the manuscript.
+
+    The plain author is the name alone, for the PDF's document properties;
+    the typeset one also carries the ORCID and the address.
+    """
     title_match = TITLE_RE.search(markdown)
     author_match = AUTHOR_RE.search(markdown)
     title = title_match.group("title") if title_match else ""
     author = author_match.group("author") if author_match else ""
+    plain_author = author.split(" \u2014 ")[0].strip()
     # The author line is a single hbox in a LaTeX title block, so a name, an
     # ORCID URL and an address on one line run 63 pt into the margin.  Split
     # it at the em dashes the manuscript already uses as separators.
@@ -89,7 +118,7 @@ def prepare(markdown: str) -> tuple[str, str, str]:
     # body typesets the title twice, the second time as a section heading that
     # runs into the margin.
     body = TITLE_RE.sub("", body, count=1).lstrip("\n")
-    return body, title, author
+    return body, title, author, plain_author
 
 
 def run(command: list[str], cwd: Path, what: str) -> None:
@@ -223,10 +252,61 @@ def landscape_wide_tables(tex_path: Path, min_columns: int = 7) -> list[int]:
     return wrapped
 
 
+def read_pdf_info(pdf: Path, field: str) -> str | None:
+    """Return one Info-dictionary string from the PDF's bytes, or None.
+
+    pdfTeX writes the Info dictionary uncompressed as literal strings, with
+    every byte above ASCII -- and every space -- as an octal escape.  A
+    metadata string of ASCII text therefore arrives UTF-16BE behind a byte
+    order mark, and a reader is a dozen lines rather than a dependency.
+    """
+    raw = pdf.read_bytes()
+    marker = ("/%s(" % field).encode("ascii")
+    start = raw.find(marker)
+    if start < 0:
+        return None
+    out = bytearray()
+    i = start + len(marker)
+    while i < len(raw):
+        char = raw[i:i + 1]
+        if char == b")":
+            break
+        if char == b"\\":
+            octal = raw[i + 1:i + 4]
+            if re.fullmatch(rb"[0-7]{3}", octal):
+                out.append(int(octal, 8))
+                i += 4
+                continue
+            out.extend(raw[i + 1:i + 2])
+            i += 2
+            continue
+        out.extend(char)
+        i += 1
+    if out.startswith(b"\xfe\xff"):
+        return out[2:].decode("utf-16-be")
+    return out.decode("latin-1")
+
+
+def verify_pdf_info(pdf: Path, expected: dict[str, str]) -> None:
+    """Assert the document properties are in the PDF, not only in the source.
+
+    The check exists because "the PDF has a title" is otherwise an assumption
+    about what hyperref did with a variable it was merely offered.
+    """
+    wrong = []
+    for field, value in expected.items():
+        actual = read_pdf_info(pdf, field)
+        if actual != value:
+            wrong.append("%s was %r" % (field, actual))
+    if wrong:
+        raise SystemExit("%s: document properties %s"
+                         % (pdf.name, "; ".join(wrong)))
+
+
 def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     source = REPO / rel
     markdown = source.read_text(encoding="utf-8")
-    body, title, author = prepare(markdown)
+    body, title, author, plain_author = prepare(markdown)
 
     BUILD.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
@@ -235,10 +315,20 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     build_tex = BUILD / (stem + ".tex")
     build_md.write_text(body, encoding="utf-8")
 
-    run([pandoc, str(build_md), "--from", "markdown+pipe_tables",
-         "--to", "latex", "--standalone", "--template", str(TEMPLATE),
-         "--metadata", "title:%s" % title, "--metadata", "author:%s" % author,
-         "--output", str(build_tex)], BUILD, "pandoc")
+    info = PDF_INFO[stem]
+    metadata = [
+        ("title", title),
+        ("author", author),
+        ("pdf-title", info["title"]),
+        ("pdf-author", plain_author),
+        ("pdf-subject", info["subject"]),
+        ("pdf-keywords", info["keywords"]),
+    ]
+    command = [pandoc, str(build_md), "--from", "markdown+pipe_tables",
+               "--to", "latex", "--standalone", "--template", str(TEMPLATE)]
+    for key, value in metadata:
+        command += ["--metadata", "%s:%s" % (key, value)]
+    run(command + ["--output", str(build_tex)], BUILD, "pandoc")
 
     make_code_spans_breakable(build_tex)
     fix_table_captype(build_tex)
@@ -253,6 +343,10 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
         raise SystemExit("no PDF was produced for %s" % rel)
     target = OUT / (stem + ".pdf")
     shutil.copy2(produced, target)
+    verify_pdf_info(target, {"Title": info["title"],
+                             "Author": plain_author,
+                             "Subject": info["subject"],
+                             "Keywords": info["keywords"]})
     print("wrote %s (%d bytes)" % (target, target.stat().st_size))
     return target
 

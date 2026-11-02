@@ -86,6 +86,7 @@ template carried. Each of these was a build failure before it was a repair.
 | `\def\LTcaptype{}` | Pandoc wraps a table in `{\def\LTcaptype{none} % do not increment counter}`. longtable reads `\LTcaptype` as the **name of a counter** and steps it unless the value is empty, so `none` is read as a counter that does not exist. The empty value is exactly what pandoc means, so the generated file is rewritten to say it — on the build copy only. |
 | `\DeclareUnicodeCharacter` for eleven characters | The manuscripts are written with typographic punctuation: em dash, en dash, minus sign, rightwards arrow, almost-equal, greater-or-equal, multiplication sign, plus-minus, section sign, Greek alpha, and `o` with grave. pdfLaTeX has no declaration for these by default. The mathematical ones are wrapped in `\ensuremath` so they are correct in text and in math mode alike. |
 | `\usepackage{fancyvrb}` and `$highlighting-macros$` | Pandoc emits a code block that carries a class as `\begin{Shaded}\begin{Highlighting}[] ... \end{Highlighting}\end{Shaded}`. Both environments come from pandoc's default template. |
+| `\hypersetup{pdftitle, pdfauthor, pdfsubject, pdfkeywords}` | hyperref fills none of these unless it is asked, so both PDFs opened with an **empty** title bar and imported into a reference manager as an untitled, unattributed document. `pdfusetitle` is not the repair here: this template's `\title` is a `\parbox`, and hyperref would copy the markup. The values arrive as pandoc metadata from `PDF_INFO` in the renderer — the paper's own title, not the project's "Paper 1/2" label — and `verify_pdf_info` reads all four back out of the built file, so "the PDF has a title" is a checked claim rather than an assumption about what hyperref did. |
 
 ## Build-copy rewrites
 
@@ -134,6 +135,14 @@ use. Nothing in the pipeline needs them.
   numbers. `tests/test_paper_numbers.py` does that, against the artifacts
   rather than against the PDF.
 - It does not submit anything. The PDF is a deposit artifact.
+- **It does not look at the pages.** The log proves there are no overfull
+  boxes, the extraction proves the words are on them, and
+  `verify_pdf_info` proves the file carries its title and author — but
+  nothing in this pipeline rasterises a page, so figure placement, caption
+  collisions, page breaks and Paper 02's two landscape tables are
+  **unverified visually** until a person opens the PDF. No text check
+  substitutes for that, and none of the checks above should be read as if it
+  had.
 
 → `benchmarks/svg_to_pdf.py`; `benchmarks/make_font_widths.py`;
 `benchmarks/helvetica_widths.json`; `benchmarks/render_papers.py`;

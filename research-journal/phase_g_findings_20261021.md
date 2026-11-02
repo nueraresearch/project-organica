@@ -8745,3 +8745,33 @@ numbers are frozen in committed artifacts, and the upload. `tests/test_deposit_b
 grew from three bundles to four and asserts that the PDFs it carries are byte-identical to
 the ones the paper records list.
 
+## §125 — The deposited PDFs carried no title in their own metadata (2026-11-02)
+
+The two PDFs were read as files, not as sources, and both opened with `/Title`, `/Author`, `/Subject` and
+`/Keywords` **empty** — only pdfTeX's producer string and hyperref's creator line were set. The words were
+all on page 1, which is why nothing had caught it: a manuscript can look complete and still arrive
+untitled. What an empty Info dictionary costs is not cosmetic. A viewer's title bar, a reference manager's
+import, and the metadata block a preprint server or repository displays all read those four fields, so the
+deposited artifact would have been filed as an untitled, unattributed document whose searchable record
+said nothing about what it was.
+
+The cause is that hyperref sets none of them unless it is asked. The tempting one-word repair is the
+`pdfusetitle` package option, and it is wrong here: it copies `\title` and `\author`, this template's title
+is a `\parbox{0.86\textwidth}`, and the metadata would have received the markup instead of the words. The
+values are therefore passed explicitly — `PDF_INFO` in `benchmarks/render_papers.py` carries a title,
+subject and keywords per paper, the plain author name is taken from the `**Author:**` line before the ORCID
+and address are typeset into it, and the template sets all four with `\hypersetup`.
+
+The check matters more than the repair. `verify_pdf_info` reads the four strings back out of the built
+PDF — pdfTeX writes the Info dictionary uncompressed as literal strings, so a reader for its escapes is a
+dozen lines of standard library and no new dependency — and raises if any of them is missing or different
+from what was asked for. It was made to fire on a deliberately wrong title before it was trusted, because
+a check that has only ever passed is a check that has not been tested. Both papers then rebuilt identically
+in layout: **23** and **17** pages, **0** LaTeX errors, **0** overfull boxes, with the same 34 of 34 section
+signs extracting and the same figures in the same places.
+
+One thing this does **not** establish, and the pipeline document now says so where a reader will meet it:
+nothing in this build has ever rendered a page to an image. The log says there are no overfull boxes and
+the extraction says the words are there, and neither is a person looking at the page — so figure placement,
+caption collisions, page breaks, and Paper 02's two landscape tables remain **unverified visually**, and are
+recorded as such rather than as passed.
