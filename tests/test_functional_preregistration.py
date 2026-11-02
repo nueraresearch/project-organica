@@ -86,6 +86,13 @@ def test_design_boundary_and_limb_status_are_stated():
     assert "not attributable under the current provenance measure" in sec10
     assert "It does **not** say Organica failed to transfer" in sec10
     assert "endpoint_boundary" in sec10
+    assert "What was actually computed and inspected" in sec10
+    assert "**Computed.**" in sec10 and "**Withheld.**" in sec10
+    assert "**Inspected.**" in sec10 and "**Concluded.**" in sec10
+    # The two statements that contradicted the measurement must not return.
+    assert "before any score is read" not in sec10
+    assert "cannot make or withhold a claim on a design seed" not in sec10
+    assert "instrument reading" in sec10
     # The recommendation is labelled as the owner's decision, never as an authorisation.
     assert "for the owner" in sec10
     assert "Nothing in this section authorises it" in sec10

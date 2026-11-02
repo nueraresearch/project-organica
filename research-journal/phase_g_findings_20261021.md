@@ -8437,3 +8437,34 @@ unseen relations, and that question is unanswerable under this measure whether o
 runs. Not running leaves §1 unmeasured too. What the run cannot do is support the word transfer,
 and a report of it must say so on the first line rather than in a footnote.
 
+## §116 Two sentences that could not both be true
+
+§10 step 2 said the disqualifier could not make or withhold a claim on a design seed. §10.1, three
+paragraphs later, reported that it withheld. §10.2 said the co-primary unattributed share was above
+0.50 "before any score is read", when the share is computed from per-cell paired losses and those
+losses had been read, by the code and by the write-up.
+
+Both are the same defect: a sentence written to keep the endpoint out of reach, describing a
+boundary the measurement cannot have. §11.3's share is a ratio over paired losses. There is no
+version of the diagnostic that does not require them, so there is no version of the design run that
+does not compute the endpoint's building block. The honest boundary is on the statistic — the
+pooled `delta`, the comparison with §4's bar, any direction — and it was already operating; what
+was wrong was the description of it.
+
+What is now recorded, in four lines in §10.3: computed, per-cell paired losses for both arms on
+realised cells of both windows, plus window and tuning losses; withheld, the pooled `delta`, the
+bar comparison, direction, and every confirmatory statistic; inspected, those losses, by the
+attribution, by G3 and by this document; concluded, that the current measure cannot certify the
+co-primary claim, a statement about the instrument that the coverage counts support on their own.
+
+One consequence is worth naming, because it is why the distinction matters rather than being
+pedantic. A lock announced as absolute invites a reader to assume that a diagnostic built on the
+locked quantity cannot have been run — so the finding of §114 would look like it came from
+nowhere, or worse, like it came from a rule the record says was never applied. The reconciliation
+is what makes the finding traceable to a measurement instead of an inference.
+
+For the record: the transfer measure's status is `not attributable under the current provenance
+measure`; a design-seed status is labelled an instrument reading in the artifact
+(`verdict_on_the_study: false`), because no confirmatory claim exists yet for it to withhold; and
+nothing in the correction changes a threshold, a score, a seed or a gate.
+

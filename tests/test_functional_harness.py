@@ -84,6 +84,12 @@ def test_design_artifact_forms_no_endpoint():
     assert limb["status"] == "not attributable under the current provenance measure"
     assert limb["claim_available"] is False
     assert "not evidence that Organica failed to transfer" in limb["meaning"]
+    # A design-seed status is an instrument reading, not a verdict on the study.
+    assert limb["design_seed_status_is_a_verdict"] is False
+    for cell in art["cells"]:
+        for wiring in cell["disqualifier_wiring"].values():
+            assert wiring["verdict_on_the_study"] is False
+            assert "instrument reading" in wiring["reason"]
     # And the 0.50 withholding on that window is structural: no withheld relation
     # is world-majority on any design seed.
     for cell in art["cells"]:

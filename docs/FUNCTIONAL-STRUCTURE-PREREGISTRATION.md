@@ -209,13 +209,15 @@ to produce.
    the failure is disclosed, the defect is fixed, the fixed harness is re-audited on the same
    five design seeds, and no confirmatory seed is touched.
 
-**What a design seed may and may not produce.** The design run forms gate diagnostics and
-nothing else. The endpoint of §4 — `delta` against the strongest baseline, per seed or pooled —
-is **not formed on design seeds**, and no design-seed score is read against §4's bar, quoted as
-a result, or carried into the language of §9. §11.5's disqualifier status is recorded as a
-wiring check because the amendment pre-commits it; it is not reported as a share, and it
-cannot make or withhold a claim on a design seed. A design number may appear only inside a gate
-diagnostic that is labelled as one.
+**What a design seed may and may not produce.** The design run forms gate and wiring diagnostics.
+It computes Organica's loss and the baseline's loss on every realised cell of both windows,
+because §11.3's share is defined on that difference; what the lock withholds is the **pooled**
+`delta` of §4, not the per-cell losses it is built from. No design-seed margin is compared with
+§4's bar, quoted as a result, or carried into the language of §9. §11.5's disqualifier status is
+computed and recorded as an **instrument reading**: on a design seed there is no study claim yet
+for the rule to withhold, so its output is not a verdict about Organica in either direction, and
+its shares are not reported. A design number may appear only inside a diagnostic that is labelled
+as one.
 
 **The endpoint stays locked until step 3.** No confirmatory seed is generated, no arm is fitted
 on one, and no preliminary look at the endpoint is taken until every design gate has passed and
@@ -246,8 +248,10 @@ withheld pairs per seed, so neither gate is measuring an empty set.
 **The disqualifier wiring works, and it reports something the protocol did not anticipate.** On
 the first seed the primary window's positive-margin cells split 7 world-majority,
 113 self-majority and 291 unattributed; the co-primary window splits
-0, 113 and 291. Both exceed the 0.50 unattributed threshold, so
-§11.3 withholds the transfer claim on this seed whatever the score.
+0, 113 and 291. Both exceed the 0.50 unattributed threshold, so on this
+seed §11.3 returns `not_attributable` and withholds whatever the score. That status is an
+instrument reading: it is not a verdict about Organica, and no confirmatory claim exists yet for
+it to withhold.
 
 That is structural, not a property of the seed. The reason is visible in the formation record:
 all 96 available relations are recorded on every seed, 92–96 of them world-majority;
@@ -278,8 +282,11 @@ relations appear and 92–96 are world-majority, while only 12–16 of the 32 wi
 relations appear at all and **0–0** of them is world-majority on any seed. A withheld relation
 could not have been carried by a world row, because formation never took it. Under §11.3 a pair
 with sleep support only is self-majority and a pair with no record is unattributed; both withhold.
-The unattributed share on the co-primary window is therefore above 0.50 before any score is read,
-on every world, so the limb can be scored but cannot establish transfer. Evidence that the engine
+The unattributed share on the co-primary window is therefore above 0.50 **by construction** on
+every world: it follows from which relations formation was denied, not from any margin. The limb
+can be scored but cannot establish transfer. That share was obtained by computing per-cell paired
+losses on the design seeds — §10.3 says exactly what that means — and the derivation does not
+depend on the losses, because a relation formation never carried cannot acquire world support. Evidence that the engine
 did *not* transfer would need a measure that could attribute those pairs, and this one cannot.
 
 Three consequences are recorded rather than acted on:
@@ -306,6 +313,31 @@ that test is unavailable under this measure whether or not the block runs. Decli
 leave §1 unmeasured as well, and running it cannot make the transfer claim worse than not running.
 What the run must not be reported as is a transfer result. Nothing in this section authorises it,
 and no confirmatory seed has been generated.
+
+### 10.3 What was actually computed and inspected (2026-11-02)
+
+Plainly, so that nothing above has to be read between the lines.
+
+- **Computed.** Per-cell paired losses for Organica and for the tuning-selected baseline, on the
+  realised cells of both windows, for all five design seeds; arm-level window losses and
+  tuning-split losses, for G3 and for the baseline-family choice. These are **endpoint-derived
+  diagnostics** — the same cells and the same losses the endpoint aggregates.
+- **Withheld.** The pooled `delta` of §4, any comparison of a design margin with §4's bar, any
+  statement of direction, and every confirmatory statistic. `delta` is `null` in the artifact for
+  exactly that reason.
+- **Inspected.** The per-cell losses were read: by the attribution, which is how the share that
+  §10.2 reports was produced; by G3, for the degraded-readout control; and in this document, for
+  the split in §10.1 and the coverage in §10.2. The transfer measure was classified as
+  un-attributable from those diagnostics.
+- **Concluded.** That the current provenance measure cannot certify a claim on the co-primary
+  window. That conclusion is about the instrument. It is derivable from the coverage counts alone
+  — 12–16 of 32 withheld relations recorded, none world-majority — and it is not a statement about
+  whether Organica transferred.
+
+The distinction the earlier wording blurred is between a lock on a *statistic* and a lock on all
+the arithmetic beneath it. With a share defined on paired losses only the first is possible.
+Claiming the second was inaccurate, and the correction narrows the claim rather than widening the
+permission: more is now said about what was read, and nothing new is permitted.
 
 ---
 

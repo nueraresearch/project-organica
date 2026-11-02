@@ -87,9 +87,10 @@
       "world": 7
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     },
     "transfer": {
@@ -99,9 +100,10 @@
       "world": 0
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     }
    },
@@ -165,7 +167,7 @@
     "withheld_relations": 32,
     "withheld_world_majority": 0
    },
-   "seconds": 54.6,
+   "seconds": 52.1,
    "seed": 20270201,
    "variant": {
     "alpha": 256.0,
@@ -212,9 +214,10 @@
       "world": 9
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     },
     "transfer": {
@@ -224,9 +227,10 @@
       "world": 0
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     }
    },
@@ -283,7 +287,7 @@
     "withheld_relations": 32,
     "withheld_world_majority": 0
    },
-   "seconds": 27.2,
+   "seconds": 26.5,
    "seed": 20270202,
    "variant": {
     "alpha": 256.0,
@@ -330,9 +334,10 @@
       "world": 58
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     },
     "transfer": {
@@ -342,9 +347,10 @@
       "world": 0
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     }
    },
@@ -401,7 +407,7 @@
     "withheld_relations": 32,
     "withheld_world_majority": 0
    },
-   "seconds": 27.0,
+   "seconds": 26.5,
    "seed": 20270203,
    "variant": {
     "alpha": 256.0,
@@ -448,9 +454,10 @@
       "world": 40
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     },
     "transfer": {
@@ -460,9 +467,10 @@
       "world": 0
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     }
    },
@@ -519,7 +527,7 @@
     "withheld_relations": 32,
     "withheld_world_majority": 0
    },
-   "seconds": 28.1,
+   "seconds": 30.6,
    "seed": 20270204,
    "variant": {
     "alpha": 256.0,
@@ -566,9 +574,10 @@
       "world": 20
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     },
     "transfer": {
@@ -578,9 +587,10 @@
       "world": 0
      },
      "measure": "temporal source rows: world events versus sleep payloads",
-     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "reason": "instrument reading on a design seed: the status is computed, but no study claim exists yet for it to withhold",
      "shares_reported": false,
      "status": "not_attributable",
+     "verdict_on_the_study": false,
      "withheld": true
     }
    },
@@ -637,7 +647,7 @@
     "withheld_relations": 32,
     "withheld_world_majority": 0
    },
-   "seconds": 27.2,
+   "seconds": 29.9,
    "seed": 20270205,
    "variant": {
     "alpha": 256.0,
@@ -685,7 +695,7 @@
  "failures": [],
  "kind": "functional_structure_design_audit",
  "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md \u00a76, \u00a710",
- "seconds": 164.2,
+ "seconds": 165.8,
  "seeds": [
   20270201,
   20270202,
@@ -696,6 +706,7 @@
  "status": "design block passed: the confirmatory block may run",
  "transfer_limb": {
   "claim_available": false,
+  "design_seed_status_is_a_verdict": false,
   "meaning": "the measure cannot certify a transfer claim on the withheld relations; this is not evidence that Organica failed to transfer",
   "status": "not attributable under the current provenance measure",
   "structural": "the withheld relations are withheld from formation, so they cannot carry world-source support: sleep-only pairs are self-majority, absent pairs unattributed"

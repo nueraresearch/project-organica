@@ -377,7 +377,9 @@ def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]
                 "cells_by_group": got["counts"],
                 "measure": "temporal source rows: world events versus sleep payloads",
                 "shares_reported": False,
-                "reason": "design-seed wiring check only (§11.5 gate use)"}
+                "verdict_on_the_study": False,
+                "reason": ("instrument reading on a design seed: the status is computed, "
+                           "but no study claim exists yet for it to withhold")}
 
     return {
         "kind": "functional_structure_design_cell",
@@ -452,6 +454,7 @@ def run_design_audit(seeds: Sequence[int] = DESIGN_SEEDS) -> dict[str, Any]:
                      "aggregates; it forms no pooled delta and no verdict."),
         },
         "transfer_limb": {
+            "design_seed_status_is_a_verdict": False,
             "status": "not attributable under the current provenance measure",
             "meaning": ("the measure cannot certify a transfer claim on the withheld "
                         "relations; this is not evidence that Organica failed to "
