@@ -39,6 +39,9 @@ OUT = ROOT / "docs" / "di_transition_construct.json"
 
 ARRIVAL = 150            # cycles before the late group exists at all
 SUSTAINED = 10           # consecutive non-zero readings that count as onset
+SUSTAINED_SWEEP = (5, 10, 20)  # the sustention rule is a declared constant: sweep it
+MIN_DEFINED_SHARE = 0.9  # Stage B criterion 1: onset defined in >= 90% of a config
+MIN_SD_CYCLES = 3.0      # Stage B criterion 2: within-configuration SD floor
 MIN_SUPPORT = 30         # cycles needed before a slope is fitted
 BAND_PAIRS = 1           # the one-pair tolerance band
 PERSIST = (30, 50, 100)  # band durations reported
@@ -90,10 +93,67 @@ def _ols_slope(values: list[float], start: int, end: int) -> float:
     return num / den if den else 0.0
 
 
-def _onset(t: list[float]) -> int | None:
+def _positive(v) -> bool:
+    """A reading qualifies only if it is present and non-zero.
+
+    A missing reading is not a non-zero reading: it breaks the run. This is the
+    convention the artifact reports under ``conventions``, implemented here so
+    that the stated rule and the executed rule are the same rule.
+    """
+    return v is not None and v > 0
+
+
+def _onset(t: list, sustained: int = SUSTAINED) -> int | None:
     n = len(t)
-    return next((k for k in range(n - SUSTAINED)
-                 if all(t[k + m] > 0 for m in range(SUSTAINED))), None)
+    return next((k for k in range(n - sustained)
+                 if all(_positive(t[k + m]) for m in range(sustained))), None)
+
+
+def _onset_detail(t: list) -> dict:
+    """The onset convention applied to one trajectory: anchor, confirmation, censoring.
+
+    The event is the **first cycle of the qualifying run**, not the first non-zero
+    reading, and it is confirmed only once the tenth consecutive reading has been
+    recorded. A run interrupted before it qualifies does not count and does not
+    move the anchor -- the search resumes at the cycle after the zero -- so an
+    isolated blip can never be back-dated into an onset.
+    """
+    n = len(t)
+    first_nonzero = next((k for k in range(n) if _positive(t[k])), None)
+    anchor = _onset(t)
+    interrupted = 0
+    if first_nonzero is not None:
+        limit = anchor if anchor is not None else n
+        k = first_nonzero
+        while k < limit:
+            j = k
+            while j < limit and _positive(t[j]):
+                j += 1
+            if j - k < SUSTAINED:
+                interrupted += 1
+            k = j + 1
+    trailing = 0
+    k = n - 1
+    while k >= 0 and _positive(t[k]):
+        trailing += 1
+        k -= 1
+    if anchor is not None:
+        reason = None
+    elif first_nonzero is None:
+        reason = "no_nonzero_reading"
+    elif trailing:
+        reason = "end_of_record"
+    else:
+        reason = "interrupted"
+    return {
+        "anchor": anchor,
+        "confirmation_cycle": None if anchor is None else anchor + SUSTAINED - 1,
+        "first_nonzero_cycle": first_nonzero,
+        "interrupted_attempts": interrupted,
+        "trailing_nonzero": trailing,
+        "censored_because": reason,
+        "missing_readings": sum(1 for v in t if v is None),
+    }
 
 
 def _slope(t: list[float], denom: int) -> float | None:
@@ -141,6 +201,30 @@ def _agg(values: list, round_to: int = 6) -> dict:
     }
 
 
+def _onset_distribution(values: list, tol: float = MIN_SD_CYCLES) -> dict:
+    """SD *and* the distribution behind it, so a few unusual worlds cannot hide a clump."""
+    vals = sorted(v for v in values if v is not None)
+    if len(vals) < 2:
+        return {"n": len(vals), "median": None, "sd": None, "min": None, "max": None,
+                "p25": None, "p75": None, "iqr": None, "distinct": len(set(vals)),
+                "share_within_sd_threshold_of_median": None}
+    q = statistics.quantiles(vals, n=4, method="inclusive")
+    med = statistics.median(vals)
+    return {
+        "n": len(vals),
+        "median": round(med, 6),
+        "sd": round(_pstd(vals), 6),
+        "min": min(vals),
+        "max": max(vals),
+        "p25": round(q[0], 6),
+        "p75": round(q[2], 6),
+        "iqr": round(q[2] - q[0], 6),
+        "distinct": len(set(vals)),
+        "share_within_sd_threshold_of_median": round(
+            sum(1 for v in vals if abs(v - med) <= tol) / len(vals), 6),
+    }
+
+
 def build() -> dict:
     payload = json.loads(SOURCE.read_text(encoding="utf-8"))
     recs = payload["records"]
@@ -149,8 +233,10 @@ def build() -> dict:
     pair = 1 / denom
 
     rows = []
+    trajs: list[list] = []
     for r in recs:
         t = r["results"]["secondary"]["di_trajectory"]
+        trajs.append(t)
         full = _measures(t, denom)
         short = _measures(t, denom, end=TRUNCATE_AT)
         onset = full["onset"]
@@ -167,6 +253,7 @@ def build() -> dict:
             "band_persistence_cycles": len(t) - entry if onset is not None else None,
             "remaining_trend_pairs_last_100": (
                 (t[-1] - t[-1 - TREND_SPAN]) * denom if onset is not None else None),
+            "onset_detail": _onset_detail(t),
         })
 
     movers = [x for x in rows if x["full"]["onset"] is not None]
@@ -185,6 +272,146 @@ def build() -> dict:
             "area_pair_cycles": _agg([x["full"]["area_pair_cycles"] for x in rs]),
             "censored_onset": sum(1 for x in rs if x["full"]["onset"] is None),
         }
+
+    # ---- the onset convention, applied ------------------------------------
+    details = [x["onset_detail"] for x in rows]
+    onset_distribution = {lab: _onset_distribution(
+        [x["full"]["onset"] for x in rows if x["config"] == lab]) for lab in configs}
+
+    conventions = {
+        "sustained_cycles": SUSTAINED,
+        "anchor": "first cycle of the qualifying run, never the first non-zero reading",
+        "confirmation": "the anchor is confirmed only once the %dth consecutive "
+                        "reading has been recorded" % SUSTAINED,
+        "available_from": "the confirmation cycle (anchor + %d) onward; the "
+                          "predictor does not exist before then" % (SUSTAINED - 1),
+        "assigned_retrospectively": True,
+        "interruption_before_confirmation": "a run shorter than %d ended by a zero "
+                                            "does not qualify, does not move the "
+                                            "anchor, and the search resumes at the "
+                                            "cycle after the zero" % SUSTAINED,
+        "interruption_after_confirmation": "does not move a confirmed onset; the "
+                                           "event is the first sustained emergence",
+        "missing_reading": "counts as not qualifying, so it breaks the run; a "
+                           "missing reading is never read as non-zero",
+        "end_boundary": "a run still non-zero where the record ends, with fewer "
+                        "than %d readings since its last zero, is censored -- "
+                        "never an onset at the boundary" % SUSTAINED,
+    }
+    convention_counts = {
+        "records": len(rows),
+        "trajectory_lengths": sorted({len(t) for t in trajs}),
+        "records_with_missing_readings": sum(1 for d in details if d["missing_readings"]),
+        "records_with_no_nonzero_reading": sum(
+            1 for d in details if d["first_nonzero_cycle"] is None),
+        "records_where_anchor_is_first_nonzero": sum(
+            1 for d in details if d["anchor"] is not None
+            and d["anchor"] == d["first_nonzero_cycle"]),
+        "records_where_anchor_follows_first_nonzero": sum(
+            1 for d in details if d["anchor"] is not None
+            and d["first_nonzero_cycle"] is not None
+            and d["first_nonzero_cycle"] < d["anchor"]),
+        "max_anchor_lag_cycles": max(
+            (d["anchor"] - d["first_nonzero_cycle"] for d in details
+             if d["anchor"] is not None and d["first_nonzero_cycle"] is not None),
+            default=None),
+        "interrupted_attempts_total": sum(d["interrupted_attempts"] for d in details),
+        "records_with_an_interrupted_attempt": sum(
+            1 for d in details if d["interrupted_attempts"]),
+        "censored_end_of_record": sum(
+            1 for d in details if d["censored_because"] == "end_of_record"),
+        "censored_interrupted": sum(
+            1 for d in details if d["censored_because"] == "interrupted"),
+        "censored_no_nonzero_reading": sum(
+            1 for d in details if d["censored_because"] == "no_nonzero_reading"),
+        "latest_confirmation_cycle": max(
+            (d["confirmation_cycle"] for d in details
+             if d["confirmation_cycle"] is not None), default=None),
+    }
+
+    # ---- the sustention rule is a constant, so sweep it -------------------
+    base_onsets = [_onset(t) for t in trajs]
+    sustention: dict[str, dict] = {}
+    for k in SUSTAINED_SWEEP:
+        got = [_onset(t, k) for t in trajs]
+        vals = [v for v in got if v is not None]
+        diffs = [g - b for g, b in zip(got, base_onsets)
+                 if g is not None and b is not None]
+        sustention[str(k)] = {
+            "defined": len(vals),
+            "median": round(statistics.median(vals), 6) if vals else None,
+            "sd": round(_pstd(vals), 6) if vals else None,
+            "min": min(vals) if vals else None,
+            "max": max(vals) if vals else None,
+            "median_shift_cycles_vs_10": (round(statistics.median(diffs), 6)
+                                         if diffs else None),
+            "max_abs_shift_cycles_vs_10": max((abs(d) for d in diffs), default=None),
+            "records_whose_onset_moves": sum(1 for d in diffs if d != 0),
+        }
+
+    # ---- eligibility is a measurement fact; scope is the claim -----------
+    eligibility: dict[str, dict] = {}
+    for lab in configs:
+        rs = [x for x in rows if x["config"] == lab]
+        defined = per_config[lab]["onset_cycles"]["n"]
+        share = defined / len(rs)
+        ok = share >= MIN_DEFINED_SHARE
+        eligibility[lab] = {
+            "records": len(rs),
+            "runs_that_ever_move": sum(1 for x in rs if x["moves_at_all"]),
+            "runs_with_sustained_onset": defined,
+            "defined_share": round(share, 6),
+            "class": ("configurations with sustained structural emergence" if ok
+                      else "configurations without sustained structural emergence"),
+            "eligible": ok,
+            "excluded_from_construct": not ok,
+            "reason_if_excluded": None if ok else (
+                "no run sustains %d consecutive non-zero readings: the manipulated "
+                "quantity produces no sustained DI in this world (AGENTS 13a), which "
+                "is a property of the world, not a null about the organism" % SUSTAINED),
+        }
+
+    accounting = {
+        "records_total": sum(e["records"] for e in eligibility.values()),
+        "records_in_eligible_configurations": sum(
+            e["records"] for e in eligibility.values() if e["eligible"]),
+        "records_in_ineligible_configurations": sum(
+            e["records"] for e in eligibility.values() if not e["eligible"]),
+        "records_dropped": 0,
+        "records_with_onset": sum(e["runs_with_sustained_onset"]
+                                  for e in eligibility.values()),
+        "note": "Every stored record is counted; none is dropped. The 1:x "
+                "configurations stay in the accounting and are excluded from the "
+                "construct's claim, not from the study.",
+    }
+
+    # ---- Stage B's two measurement criteria, evaluated per configuration --
+    stage_b_criteria: dict[str, dict] = {}
+    for lab in configs:
+        if not eligibility[lab]["eligible"]:
+            continue
+        dist = onset_distribution[lab]
+        stage_b_criteria[lab] = {
+            "defined_share": eligibility[lab]["defined_share"],
+            "defined_share_threshold": MIN_DEFINED_SHARE,
+            "defined_share_pass": eligibility[lab]["defined_share"] >= MIN_DEFINED_SHARE,
+            "sd_cycles": dist["sd"],
+            "sd_threshold_cycles": MIN_SD_CYCLES,
+            "sd_pass": (dist["sd"] or 0.0) >= MIN_SD_CYCLES,
+            "iqr_cycles": dist["iqr"],
+            "range_cycles": [dist["min"], dist["max"]],
+        }
+        stage_b_criteria[lab]["pass"] = bool(
+            stage_b_criteria[lab]["defined_share_pass"]
+            and stage_b_criteria[lab]["sd_pass"])
+    criteria_block = {
+        "evaluated_per_configuration": True,
+        "min_defined_share": MIN_DEFINED_SHARE,
+        "min_sd_cycles": MIN_SD_CYCLES,
+        "per_config": stage_b_criteria,
+        "all_pass": bool(stage_b_criteria)
+        and all(c["pass"] for c in stage_b_criteria.values()),
+    }
 
     # ---- within- vs between-configuration variance, per measure -----------
     def _share(key: str) -> float:
@@ -320,6 +547,13 @@ def build() -> dict:
         "overlap": overlap,
         "truncation": truncation,
         "settling_criteria": settling,
+        "onset_conventions": conventions,
+        "onset_convention_counts": convention_counts,
+        "onset_distribution": onset_distribution,
+        "sustention_sensitivity": sustention,
+        "eligibility": eligibility,
+        "accounting": accounting,
+        "stage_b_measurement_criteria": criteria_block,
         "candidates": candidates,
         "no_behaviour_read": "No correlation between any summary and Phase L's "
                              "behavioural endpoint was computed, by design: the "
@@ -348,6 +582,13 @@ def main() -> dict:
     print("truncation:", {k: (round(v, 3) if isinstance(v, float) else v)
                           for k, v in result["truncation"].items()})
     print("settling:", json.dumps(result["settling_criteria"], indent=2))
+    print("\nonset conventions:", json.dumps(result["onset_convention_counts"], indent=2))
+    print("\nsustention:", json.dumps(result["sustention_sensitivity"], indent=2))
+    print("\nonset distribution:", json.dumps(result["onset_distribution"], indent=2))
+    print("\neligibility:", json.dumps(result["eligibility"], indent=2))
+    print("\naccounting:", json.dumps(result["accounting"], indent=2))
+    print("\nstage B measurement criteria:",
+          json.dumps(result["stage_b_measurement_criteria"], indent=2))
     for name, c in result["candidates"].items():
         print("  %-8s defined-for-all=%-5s censored=%-3d within-SD=%s stability=%s"
               % (name, c["defined_for_every_record"], c["censored_records"],

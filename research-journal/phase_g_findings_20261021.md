@@ -9762,3 +9762,57 @@ advance.
 onset SD of at least 3 cycles, the stopping criterion met in every claimed configuration, and the ordering with
 no behavioural cycle in any predictor). No seed, no world, no run. The 240 records, the protocol's window, the
 construct audit's verdict on `DI` as a state at a time, and the review gate are all untouched.
+
+## §152 — Onset is defined precisely enough to run, and the `1:x` arms are classified rather than dropped (2026-11-02)
+
+**The owner endorsed onset and asked for three closures before authorisation.** The audit had argued for onset
+on measurement grounds; what it had not done was write the event in a form a second person could apply without
+asking a question, separate measurement eligibility from scientific scope, and evaluate the resolution criterion
+where it is claimed rather than on the pool. All three are now in §3 of the construct record, and the artifact
+carries them as computed quantities rather than prose: `benchmarks/di_transition_construct.py` writes
+`onset_conventions`, `onset_convention_counts`, `sustention_sensitivity`, `eligibility`, `accounting` and
+`stage_b_measurement_criteria` into `docs/di_transition_construct.json`.
+
+**The event.** Onset is the first cycle of the qualifying sustained run — not the first cycle on which `DI` is
+non-zero. The distinction is not pedantic in this record: **99** of the 119 onsets are also the record's first
+non-zero cycle and **20 are not**, one of them by **279 cycles**. A convention anchored at the first non-zero
+reading would have moved a sixth of the values, and one world by nearly half a trajectory. The anchor is
+confirmed only when the tenth consecutive reading lands, so the predictor's availability cycle is nine cycles
+later and the latest confirmation is cycle **598** of 600. Before confirmation, a short run ended by a zero does
+not qualify and does not move the anchor — **2,353** such interrupted attempts occur across 24 records, which is
+`DI` oscillating around zero — and the search resumes after the zero rather than being back-dated. A missing
+reading breaks the run and is never read as non-zero; no record contains one, so that convention is declared for
+future runs and is vacuous here. A run still non-zero where the record ends with fewer than ten readings is
+censored: **0** records are censored that way, **4** are censored with an interrupted attempt (the one-cycle
+arrival blips in `1:x`), and **117** never produce a reading to qualify. 119 + 4 + 117 = 240.
+
+**The rule is swept, because it is part of the measure.** Halving the sustention rule to 5 changes three onsets
+by at most 25 cycles; doubling it to 20 changes one by 13 and loses two definitions. The medians move by two
+cycles at most. The rule does not manufacture the ordering, and it remains a declared constant Stage B must
+freeze — the sweep bounds its influence, it does not license choosing it later.
+
+**Eligibility is a measurement fact; scope is the claim.** All eight configurations are now reported, with the
+ineligible four counted rather than removed: **240 records, 120 in the four configurations with sustained
+emergence, 120 in the four without, 0 dropped.** The claim is written as *evaluated among configurations in
+which sustained structure emerges*, and the `1:x` classification stays a property of those worlds (AGENTS 13a)
+rather than a missing denominator. This is rule 24 applied before the fact: the claim is cut to what the
+measurement reaches, and what it does not reach stays visible.
+
+**The criterion is evaluated where it is claimed.** The 3-cycle SD floor and the 90 % defined-share criterion are
+computed inside each of the four configurations, with IQR, range and distinct-value counts beside them. All four
+pass, and not narrowly — smallest SD 12.4 cycles against a floor of 3, tightest defined share 0.967 against
+0.90. The distribution keeps the pass honest in the other direction: only **17–27 %** of onsets lie within ±3
+cycles of their own configuration's median, and 18–27 of each 30 are distinct values, so the SD is broad spread
+rather than a floor plus a few outliers. `6:1` is closest to the floor and would be the first to fail.
+
+**The boundary is now written against availability, not the anchor.** Because the anchor is retrospective, the
+behavioural limb may not begin at the anchor cycle; it begins after the confirmation cycle, and the run must
+then extend through the protocol's 50-cycle learning and 50-cycle test. The run length is set by the organism's
+emergence plus a fixed margin — the property the settled-state window lacked, because that window had to be
+chosen before anything had emerged.
+
+**Stage B is still not authorised.** No seed, no world, no run. The four criteria, the failure rule, the 240
+records, the protocol's 110–150 window, the construct audit's verdict and the empty review gate are untouched.
+The owner's instruction was that the study can be authorised against a fixed, independently measurable predictor
+rather than an evolving interpretation of one. The predictor is now fixed in code and in counts; the next
+decision is his.

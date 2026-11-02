@@ -351,6 +351,318 @@
     },
     "satisfy_persistence_50_and_zero_trend": 4
   },
+  "onset_conventions": {
+    "sustained_cycles": 10,
+    "anchor": "first cycle of the qualifying run, never the first non-zero reading",
+    "confirmation": "the anchor is confirmed only once the 10th consecutive reading has been recorded",
+    "available_from": "the confirmation cycle (anchor + 9) onward; the predictor does not exist before then",
+    "assigned_retrospectively": true,
+    "interruption_before_confirmation": "a run shorter than 10 ended by a zero does not qualify, does not move the anchor, and the search resumes at the cycle after the zero",
+    "interruption_after_confirmation": "does not move a confirmed onset; the event is the first sustained emergence",
+    "missing_reading": "counts as not qualifying, so it breaks the run; a missing reading is never read as non-zero",
+    "end_boundary": "a run still non-zero where the record ends, with fewer than 10 readings since its last zero, is censored -- never an onset at the boundary"
+  },
+  "onset_convention_counts": {
+    "records": 240,
+    "trajectory_lengths": [
+      600
+    ],
+    "records_with_missing_readings": 0,
+    "records_with_no_nonzero_reading": 117,
+    "records_where_anchor_is_first_nonzero": 99,
+    "records_where_anchor_follows_first_nonzero": 20,
+    "max_anchor_lag_cycles": 279,
+    "interrupted_attempts_total": 2353,
+    "records_with_an_interrupted_attempt": 24,
+    "censored_end_of_record": 0,
+    "censored_interrupted": 4,
+    "censored_no_nonzero_reading": 117,
+    "latest_confirmation_cycle": 598
+  },
+  "onset_distribution": {
+    "1:1": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:2": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:3": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "1:4": {
+      "n": 0,
+      "median": null,
+      "sd": null,
+      "min": null,
+      "max": null,
+      "p25": null,
+      "p75": null,
+      "iqr": null,
+      "distinct": 0,
+      "share_within_sd_threshold_of_median": null
+    },
+    "2:1": {
+      "n": 29,
+      "median": 539,
+      "sd": 27.339022,
+      "min": 475,
+      "max": 589,
+      "p25": 518.0,
+      "p75": 555.0,
+      "iqr": 37.0,
+      "distinct": 22,
+      "share_within_sd_threshold_of_median": 0.206897
+    },
+    "3:1": {
+      "n": 30,
+      "median": 404.0,
+      "sd": 25.093071,
+      "min": 342,
+      "max": 445,
+      "p25": 388.75,
+      "p75": 414.75,
+      "iqr": 26.0,
+      "distinct": 23,
+      "share_within_sd_threshold_of_median": 0.266667
+    },
+    "4:1": {
+      "n": 30,
+      "median": 362.0,
+      "sd": 19.300432,
+      "min": 310,
+      "max": 391,
+      "p25": 351.25,
+      "p75": 368.5,
+      "iqr": 17.25,
+      "distinct": 27,
+      "share_within_sd_threshold_of_median": 0.266667
+    },
+    "6:1": {
+      "n": 30,
+      "median": 329.0,
+      "sd": 12.430965,
+      "min": 289,
+      "max": 354,
+      "p25": 322.0,
+      "p75": 336.0,
+      "iqr": 14.0,
+      "distinct": 18,
+      "share_within_sd_threshold_of_median": 0.166667
+    }
+  },
+  "sustention_sensitivity": {
+    "5": {
+      "defined": 119,
+      "median": 376,
+      "sd": 81.606338,
+      "min": 289,
+      "max": 589,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 25,
+      "records_whose_onset_moves": 3
+    },
+    "10": {
+      "defined": 119,
+      "median": 376,
+      "sd": 82.000816,
+      "min": 289,
+      "max": 589,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 0,
+      "records_whose_onset_moves": 0
+    },
+    "20": {
+      "defined": 117,
+      "median": 374,
+      "sd": 79.311908,
+      "min": 289,
+      "max": 574,
+      "median_shift_cycles_vs_10": 0,
+      "max_abs_shift_cycles_vs_10": 13,
+      "records_whose_onset_moves": 1
+    }
+  },
+  "eligibility": {
+    "1:1": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:2": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:3": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "1:4": {
+      "records": 30,
+      "runs_that_ever_move": 1,
+      "runs_with_sustained_onset": 0,
+      "defined_share": 0.0,
+      "class": "configurations without sustained structural emergence",
+      "eligible": false,
+      "excluded_from_construct": true,
+      "reason_if_excluded": "no run sustains 10 consecutive non-zero readings: the manipulated quantity produces no sustained DI in this world (AGENTS 13a), which is a property of the world, not a null about the organism"
+    },
+    "2:1": {
+      "records": 30,
+      "runs_that_ever_move": 29,
+      "runs_with_sustained_onset": 29,
+      "defined_share": 0.966667,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "3:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "4:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    },
+    "6:1": {
+      "records": 30,
+      "runs_that_ever_move": 30,
+      "runs_with_sustained_onset": 30,
+      "defined_share": 1.0,
+      "class": "configurations with sustained structural emergence",
+      "eligible": true,
+      "excluded_from_construct": false,
+      "reason_if_excluded": null
+    }
+  },
+  "accounting": {
+    "records_total": 240,
+    "records_in_eligible_configurations": 120,
+    "records_in_ineligible_configurations": 120,
+    "records_dropped": 0,
+    "records_with_onset": 119,
+    "note": "Every stored record is counted; none is dropped. The 1:x configurations stay in the accounting and are excluded from the construct's claim, not from the study."
+  },
+  "stage_b_measurement_criteria": {
+    "evaluated_per_configuration": true,
+    "min_defined_share": 0.9,
+    "min_sd_cycles": 3.0,
+    "per_config": {
+      "2:1": {
+        "defined_share": 0.966667,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 27.339022,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 37.0,
+        "range_cycles": [
+          475,
+          589
+        ],
+        "pass": true
+      },
+      "3:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 25.093071,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 26.0,
+        "range_cycles": [
+          342,
+          445
+        ],
+        "pass": true
+      },
+      "4:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 19.300432,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 17.25,
+        "range_cycles": [
+          310,
+          391
+        ],
+        "pass": true
+      },
+      "6:1": {
+        "defined_share": 1.0,
+        "defined_share_threshold": 0.9,
+        "defined_share_pass": true,
+        "sd_cycles": 12.430965,
+        "sd_threshold_cycles": 3.0,
+        "sd_pass": true,
+        "iqr_cycles": 14.0,
+        "range_cycles": [
+          289,
+          354
+        ],
+        "pass": true
+      }
+    },
+    "all_pass": true
+  },
   "candidates": {
     "onset": {
       "defined_for_every_record": false,

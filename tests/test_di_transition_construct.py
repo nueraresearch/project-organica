@@ -156,3 +156,123 @@ def test_the_stage_a_floor_claim_is_corrected_in_place(text):
 def test_stage_b_is_still_not_authorised(text):
     assert "not authorised here" in text
     assert "no seed is allocated" in text
+
+
+def test_the_onset_convention_is_the_one_the_code_applies(stage, text):
+    """Anchor, confirmation, interruptions, missing readings and the end boundary."""
+    conv = stage["onset_conventions"]
+    assert conv["sustained_cycles"] == 10
+    assert "first cycle of the qualifying run" in conv["anchor"]
+    assert "never the first non-zero reading" in conv["anchor"]
+    assert "confirmed only once" in conv["confirmation"]
+    assert conv["assigned_retrospectively"] is True
+    assert "resumes at the cycle after the zero" in conv["interruption_before_confirmation"]
+    assert "does not move a confirmed onset" in conv["interruption_after_confirmation"]
+    assert "breaks the run" in conv["missing_reading"]
+    assert "never an onset at the boundary" in conv["end_boundary"]
+
+    c = stage["onset_convention_counts"]
+    assert c["records"] == 240
+    assert c["trajectory_lengths"] == [600]
+    assert c["records_with_missing_readings"] == 0
+    assert c["records_where_anchor_is_first_nonzero"] == 99
+    assert c["records_where_anchor_follows_first_nonzero"] == 20
+    assert c["max_anchor_lag_cycles"] == 279
+    assert c["latest_confirmation_cycle"] == 598
+    assert c["interrupted_attempts_total"] == 2353
+    assert c["records_with_an_interrupted_attempt"] == 24
+    assert c["censored_end_of_record"] == 0
+    assert c["censored_interrupted"] == 4
+    assert c["censored_no_nonzero_reading"] == 117
+    # Every record is accounted for: onsets, interrupted short runs, no reading at all.
+    assert (c["records_where_anchor_is_first_nonzero"]
+            + c["records_where_anchor_follows_first_nonzero"]
+            + c["censored_interrupted"]
+            + c["censored_no_nonzero_reading"]) == c["records"]
+
+    assert "first cycle of the qualifying sustained run" in text
+    assert ("**%d are later**, one by as much as %d cycles"
+            % (c["records_where_anchor_follows_first_nonzero"],
+               c["max_anchor_lag_cycles"])) in text
+    assert "latest confirmation cycle **%d**" % c["latest_confirmation_cycle"] in text
+    assert ("**%d** such attempts across %d records"
+            % (c["interrupted_attempts_total"],
+               c["records_with_an_interrupted_attempt"])) in text
+
+
+def test_the_sustention_rule_is_swept_and_the_document_quotes_it(stage, text):
+    sw = stage["sustention_sensitivity"]
+    assert set(sw) == {"5", "10", "20"}
+    assert sw["10"]["records_whose_onset_moves"] == 0
+    for k in ("5", "20"):
+        r = sw[k]
+        row = ("| %s | %d | %s | %.1f | %s | %d |"
+               % (k, r["defined"], r["median"], r["sd"],
+                  r["max_abs_shift_cycles_vs_10"], r["records_whose_onset_moves"]))
+        assert row in text, row
+    b = sw["10"]
+    assert ("| **10 (declared)** | **%d** | **%s** | **%.1f** | — | — |"
+            % (b["defined"], b["median"], b["sd"])) in text
+
+
+def test_eligibility_is_reported_for_every_configuration_without_drops(stage, text):
+    el = stage["eligibility"]
+    assert sorted(el) == ["1:1", "1:2", "1:3", "1:4", "2:1", "3:1", "4:1", "6:1"]
+    for lab, e in el.items():
+        assert e["excluded_from_construct"] is not e["eligible"], lab
+        assert e["eligible"] is (e["runs_with_sustained_onset"] / e["records"]
+                                >= stage["stage_b_measurement_criteria"]["min_defined_share"]), lab
+        row = ("| `%s` | %d | %d | %d | %.3f | %s | %s |"
+               % (lab, e["records"], e["runs_that_ever_move"],
+                  e["runs_with_sustained_onset"], e["defined_share"],
+                  "without sustained emergence" if e["excluded_from_construct"]
+                  else "with sustained emergence",
+                  "no" if e["excluded_from_construct"] else "yes"))
+        assert row in text, row
+
+    acc = stage["accounting"]
+    assert acc["records_total"] == 240
+    assert acc["records_in_eligible_configurations"] == 120
+    assert acc["records_in_ineligible_configurations"] == 120
+    assert acc["records_dropped"] == 0
+    assert (acc["records_in_eligible_configurations"]
+            + acc["records_in_ineligible_configurations"]) == acc["records_total"]
+    flat = " ".join(text.split())   # the sentence wraps across a line in the document
+    assert ("240 records — %d in the four configurations with sustained emergence, "
+            "%d in the four without, %d dropped"
+            % (acc["records_in_eligible_configurations"],
+               acc["records_in_ineligible_configurations"],
+               acc["records_dropped"])) in flat
+
+
+def test_the_claim_is_scoped_to_configurations_that_emerge(text):
+    assert ("evaluated among configurations in which sustained structure "
+            "emerges") in text
+    assert "not a claim across configurations" in text
+
+
+def test_resolution_is_evaluated_per_configuration_with_the_distribution(stage, text):
+    blk = stage["stage_b_measurement_criteria"]
+    assert blk["evaluated_per_configuration"] is True
+    assert sorted(blk["per_config"]) == ["2:1", "3:1", "4:1", "6:1"]
+    for lab, c in blk["per_config"].items():
+        assert c["pass"] is True, lab
+        assert c["defined_share_pass"] is True, lab
+        assert c["sd_pass"] is True, lab
+        assert c["sd_cycles"] >= c["sd_threshold_cycles"], lab
+        assert c["range_cycles"][0] < c["range_cycles"][1], lab
+        assert c["iqr_cycles"] > 0, lab
+        dist = stage["onset_distribution"][lab]
+        row = ("| `%s` | %.3f | %.0f | %.1f | %.2f | %.0f–%.0f | %d | %.2f |"
+               % (lab, c["defined_share"], dist["median"], dist["sd"], dist["iqr"],
+                  dist["min"], dist["max"], dist["distinct"],
+                  dist["share_within_sd_threshold_of_median"]))
+        assert row in text, row
+    assert blk["all_pass"] is True
+    # The pass is not vacuous: the closest approach is still four times the floor.
+    assert min(c["sd_cycles"] for c in blk["per_config"].values()) > 4 * 3.0
+    assert min(c["defined_share"] for c in blk["per_config"].values()) > 0.96
+    # ... and the distributions are broad, so no clump is hiding behind the SD.
+    for dist in stage["onset_distribution"].values():
+        if dist["n"]:
+            assert dist["share_within_sd_threshold_of_median"] < 0.3

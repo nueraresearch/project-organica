@@ -69,12 +69,76 @@ in advance.
 
 ---
 
-## 3. Onset: definition, scope and limits
+## 3. Onset: the event, the conventions, and the scope
 
-**Definition.** Onset is the first cycle from which **10 consecutive** cycles report a non-zero `DI`. The
-constant (10), the arrival cycle (150) and the record length are declared in the artifact. A single-cycle
-non-zero reading does not constitute onset, which is why the four one-cycle arrival blips in the `1:x` arms do
-not produce one.
+### 3.1 The event, and the conventions that define it
+
+**The event is the first cycle of the qualifying sustained run** — not the first cycle on which `DI` is
+non-zero, and not the first cycle at which the emergence was visible. The anchor is assigned retrospectively:
+only once the tenth consecutive non-zero reading has been recorded is the earlier cycle confirmed as onset. The
+quantity is therefore a cycle index whose *availability* comes nine cycles later, and §6's boundary is written
+against that availability rather than against the anchor.
+
+| question | convention | what it does in this record |
+| --- | --- | --- |
+| which cycle is onset? | the first cycle of the qualifying run | 99 of 119 onsets are also the record's first non-zero cycle; **20 are later**, one by as much as 279 cycles |
+| when is it known? | at the tenth consecutive reading | latest confirmation cycle **598** of 600 |
+| is it assigned retrospectively? | yes — the anchor is back-dated once the run qualifies | all 119 |
+| a run interrupted before the tenth reading? | does not qualify, does not move the anchor; the search resumes at the cycle after the zero | **2353** such attempts across 24 records |
+| an interruption after confirmation? | does not move a confirmed onset | — |
+| a missing reading? | counts as not qualifying, so it breaks the run; never read as non-zero | 0 records contain one, so the convention is declared for future runs and is vacuous here |
+| too few cycles left to confirm? | censored, never an onset at the boundary | **0** censored this way; **4** censored with an interrupted attempt; **117** have no non-zero reading at all |
+
+The last row fixes the denominator: 240 = **119** onsets + **4** interrupted short runs + **117** with no
+reading to qualify. The four in the middle are the one-cycle arrival blips in the `1:x` arms, and they are why
+a single non-zero reading is not an onset: without the sustention rule they would each become one, at the
+arrival cycle, in a world where nothing then persists.
+
+### 3.2 The sustention rule is part of the measure, so it is swept
+
+Ten cycles is a declared constant, not a natural boundary. Its effect is bounded here rather than asserted:
+
+| sustention rule | onsets defined | median | SD | worst single-record shift | records whose onset moves |
+| --- | --- | --- | --- | --- | --- |
+| 5 | 119 | 376 | 81.6 | 25 | 3 |
+| **10 (declared)** | **119** | **376** | **82.0** | — | — |
+| 20 | 117 | 374 | 79.3 | 13 | 1 |
+
+The medians and SDs in that table pool all four configurations, which is why the SD is 82 cycles and why no
+pooled figure may be reported as a finding (§3.5, limit 2); the per-configuration distributions are in §3.4.
+What the sweep shows is that the rule does not manufacture the ordering: halving or doubling it moves three of
+119 onsets, by at most 25 cycles. Stage B must still freeze the rule and report it beside every onset value,
+because a constant that is part of the measure is part of the claim.
+
+### 3.3 Measurement eligibility is not scientific scope
+
+Eligibility is decided by measurement, for every configuration, and reported whether or not the construct claims
+it. A configuration is **eligible** when at least 90 % of its runs produce a sustained onset — the same threshold
+Stage B's first criterion uses, applied here to the record already in hand.
+
+| configuration | records | runs that ever move | sustained onsets | defined share | classification | in the claim |
+| --- | --- | --- | --- | --- | --- | --- |
+| `1:1` | 30 | 1 | 0 | 0.000 | without sustained emergence | no |
+| `1:2` | 30 | 1 | 0 | 0.000 | without sustained emergence | no |
+| `1:3` | 30 | 1 | 0 | 0.000 | without sustained emergence | no |
+| `1:4` | 30 | 1 | 0 | 0.000 | without sustained emergence | no |
+| `2:1` | 30 | 29 | 29 | 0.967 | with sustained emergence | yes |
+| `3:1` | 30 | 30 | 30 | 1.000 | with sustained emergence | yes |
+| `4:1` | 30 | 30 | 30 | 1.000 | with sustained emergence | yes |
+| `6:1` | 30 | 30 | 30 | 1.000 | with sustained emergence | yes |
+
+**Accounting: 240 records — 120 in the four configurations with sustained emergence, 120 in the four without,
+0 dropped.** The ineligible four are not missing data and are not silently removed: they are counted here, their
+runs appear in every aggregate in §2, and their classification is a property of those worlds under this rule
+(the AGENTS 13a condition in its exact form). They are **out of scope for this construct**, and a run of one is a
+statement about the world, never a null about the organism.
+
+The construct's claim is therefore stated as **evaluated among configurations in which sustained structure
+emerges** — narrower than a universal claim, and the only form the measurement supports. A relation found inside
+one of these four configurations does not extend to the others by itself, and no relation is claimed across
+them.
+
+### 3.4 Distribution per configuration, and the resolution criterion it feeds
 
 | configuration | runs with an onset | median onset | SD | range | exposure, mean ± SD (pairs) |
 | --- | --- | --- | --- | --- | --- |
@@ -84,17 +148,40 @@ not produce one.
 | `2:1` | 29 | 539 | 27.3 | 475–589 | 0.31 ± 0.25 |
 | `1:1`–`1:4` | 0 | — | — | — | 0.00 ± 0.00 |
 
-**Scope.** Onset is defined in the four configurations where the late structure is expressed at all — 119 of
-their 120 runs. In `1:1`–`1:4` it is not undefined because data is missing; it is undefined because the
-manipulated quantity produces no sustained `DI` in those worlds, which is the project's AGENTS 13a condition in
-its exact form. Those four configurations are **out of scope for this construct**, and a run of them is a
-statement about the world, not a null result about the organism.
+A standard deviation over 30 values can be carried by a handful of unusual worlds, so the distribution behind it
+is reported beside it:
 
-**Limits, stated before any use:**
+| configuration | defined share | median | SD | IQR | range | distinct onsets | share within ±3 cycles of the median |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `6:1` | 1.000 | 329 | 12.4 | 14.00 | 289–354 | 18 | 0.17 |
+| `4:1` | 1.000 | 362 | 19.3 | 17.25 | 310–391 | 27 | 0.27 |
+| `3:1` | 1.000 | 404 | 25.1 | 26.00 | 342–445 | 23 | 0.27 |
+| `2:1` | 0.967 | 539 | 27.3 | 37.00 | 475–589 | 22 | 0.21 |
 
-1. **The sustention rule is part of the measure.** Ten cycles is a declared constant, not a natural boundary;
-   changing it shifts every onset. Stage B must freeze it, report it beside every onset value, and treat a
-   world whose onset sits on the rule's boundary as unresolved rather than as a precise number.
+The resolution criterion is evaluated **within each configuration**, at a floor of 3 cycles, alongside the 90 %
+defined-share criterion — never on the pooled set, where the arm differences would dominate:
+
+| configuration | defined share ≥ 0.90 | SD ≥ 3 cycles | pass |
+| --- | --- | --- | --- |
+| `6:1` | yes (1.000) | yes (12.4) | yes |
+| `4:1` | yes (1.000) | yes (19.3) | yes |
+| `3:1` | yes (1.000) | yes (25.1) | yes |
+| `2:1` | yes (0.967) | yes (27.3) | yes |
+
+All four pass, and not narrowly: the smallest within-configuration SD is 12.4 cycles against a 3-cycle floor,
+and the tightest defined share is 0.967 against 0.90. The clump column is what keeps that from being a false
+pass in the other direction — only 17–27 % of onsets sit within ±3 cycles of their own configuration's median,
+and 18–27 of each 30 onsets are distinct values, so the spread is broad rather than a floor plus a few outliers.
+The one quantity that sits at all near its threshold is `6:1`'s SD: it is the configuration with the least onset
+spread, it would be the first to fail if a future run tightened the rule, and its value is reported above with
+the IQR and range rather than on its own.
+
+### 3.5 Limits, stated before any use
+
+1. **The sustention rule is part of the measure.** Ten cycles is a declared constant, not a natural boundary.
+   §3.2 bounds its effect in this record — halving it moves three onsets by at most 25 cycles — but Stage B must
+   still freeze it, report it beside every onset value, and treat a world whose confirmation cycle falls outside
+   the record as unresolved rather than as a precise number.
 2. **Onset is a timing, so it is confounded with the pace of the arm.** It can only be interpreted *within* a
    configuration, where the pace is held fixed. A pooled relation between onset and behaviour would restate the
    fact that the arms differ, which is why §5's fourth falsifier exists.
@@ -144,6 +231,9 @@ a pair and two pairs. Only **4 of 119** runs satisfy (b) at 50 cycles and (c) to
 emerges earlier behave differently afterwards from worlds whose structure emerges later — in the direction that
 structure available earlier supports later revision.*
 
+The claim is **evaluated among configurations in which sustained structure emerges** (§3.3). It is not a claim
+about the `1:x` worlds, where the quantity is not produced, and it is not a claim across configurations.
+
 Pre-committed falsifiers, written before any behavioural endpoint is read:
 
 1. **Absence.** A within-configuration interval for the relation that contains zero → the construct is not
@@ -162,10 +252,12 @@ Pre-committed falsifiers, written before any behavioural endpoint is read:
 The ordering the owner required — structural measurement, then held-out behavioural observation — is preserved
 by construction here, and the boundary is stricter than a window's:
 
-- Onset is a **cycle index**, and its sustention rule means the measurement is not complete until 10 cycles
-  after it. So the run must extend at least 10 cycles past onset, then the protocol's 50-cycle learning and
-  50-cycle test — the same ordering as before, with the measurement point set by the organism rather than by a
-  constant.
+- Onset is a **cycle index assigned retrospectively**, so the predictor does not exist at the anchor cycle: it
+  becomes available at the confirmation cycle, nine cycles later, and the latest confirmation in this record is
+  cycle **598** of 600 (§3.1). The behavioural limb may not begin before the confirmation cycle, and a Stage B run
+  must then extend through the protocol's 50-cycle learning and 50-cycle test. The run length is therefore set by
+  the organism's own emergence plus a fixed margin, not by a window chosen for the measurement — which is the
+  property the settled-state window lacked.
 - **No behavioural cycle may contribute to onset.** Onset is derived from the structural trajectory up to its
   own event; the behavioural limb begins afterwards and its test set is withheld.
 - If exposure is co-reported, its integration interval **must be declared in advance and must end before
@@ -186,16 +278,24 @@ it.
 
 The four Stage B criteria carry over, with the resolution criterion restated for a cycle-valued predictor:
 
-1. **Non-degenerate.** Onset is defined in at least 90 % of the runs of each configuration the construct claims.
-2. **Resolution.** Within-configuration SD of onset is at least 3 cycles, so the ordering is not being set by
-   the sustention rule's own boundary.
+1. **Non-degenerate.** Onset is defined in at least 90 % of the runs of **each** configuration the construct
+   claims — evaluated configuration by configuration, never on the pooled set.
+2. **Resolution.** Within-configuration SD of onset is at least 3 cycles **in each claimed configuration**,
+   reported beside that configuration's IQR, range and distinct-value count so that a concentrated distribution
+   cannot pass on a few unusual worlds.
 3. **Consistency.** The stopping criterion of §4 — persistence plus no remaining trend — is met in every
    configuration claimed, with its parameters declared in advance.
 4. **Ordering.** Onset and the sustention window complete strictly before revision learning begins, and no
    behavioural cycle contributes to any predictor.
 
+Both measurement criteria are evaluated per configuration because a pooled SD would be dominated by the arm
+differences — the pooled SD of 82.0 cycles in §3.2 is between-configuration spread, not resolution. On the record
+in hand all four claimed configurations pass both (§3.4), so no criterion is being met by the pool while failing
+inside a configuration.
+
 **Failure rule unchanged:** if any criterion fails, the construct is rejected and no confirmatory seed is
-allocated. A rejection is the design's result and is not renegotiated into a smaller claim.
+allocated. A rejection is the design's result and is not renegotiated into a smaller claim, and a configuration
+that fails criterion 1 or 2 is dropped from the claim rather than from the accounting (§3.3).
 
 **Cost.** Stage B spends methodology seeds, so it is **not authorised here**: no seed is allocated, no world is
 generated, and the owner decides whether and when to run it. Nothing in this document commits the project to it.
@@ -222,4 +322,7 @@ generated, and the owner decides whether and when to run it. Nothing in this doc
 
 The test recomputes the artifact, asserts every number quoted here against it, asserts that onset is the named
 primary with exposure and slope labelled exploratory, and asserts that the artifact records no behavioural
-correlation — the guarantee that the construct was not chosen on an outcome.
+correlation — the guarantee that the construct was not chosen on an outcome. It also asserts that the onset
+convention quoted in §3.1 is the convention the code applies, that eligibility is reported for all eight
+configurations with no record dropped, and that the resolution criterion is evaluated per configuration with the
+distribution beside it.
