@@ -54,7 +54,7 @@ def test_the_protocol_has_its_nine_elements_and_can_reject():
                     "## 6.", "## 7.", "## 10."):
         assert section in text, section
     assert "Spearman rank" in text
-    assert "Sign resolution, required before seeds" in text
+    assert "Sign resolution, computed before seeds" in text
     assert "## 10. Rejection and acceptance" in text
     assert "reserved for a" in text and "Level 3 design" in text
     assert "98.33" in text and "10,000-replicate" in text

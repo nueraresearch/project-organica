@@ -1,0 +1,207 @@
+{
+  "kind": "sign resolution for the structure -> behavior block",
+  "subject": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a76; synthetic worlds; no engine run, no seed",
+  "question": "at n worlds per configuration, how often does this block's decision rule recover the relation with the correct sign, for a relation of size rho?",
+  "decision_rule_simulated": "Spearman rank correlation across worlds; interval by resampling worlds; resolved only when the interval excludes zero with the predicted sign",
+  "reference_rule": {
+    "name": "smallest relation of interest",
+    "rho": 0.5,
+    "why": "the bar is set at the weakest relation the design would call predictive. Setting it at a guessed effect size would make the answer depend on a number no artifact supplies; setting it at the smallest effect worth detecting makes the block's size a consequence of the claim instead of the claim a consequence of the size."
+  },
+  "threshold": 0.9,
+  "level": 0.9833,
+  "grid": {
+    "ns": [
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      40,
+      50,
+      60,
+      80,
+      100
+    ],
+    "rhos": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "analytic": {
+      "5": {
+        "0.30": 0.0253,
+        "0.40": 0.0364,
+        "0.50": 0.053,
+        "0.60": 0.0788,
+        "0.70": 0.1217
+      },
+      "10": {
+        "0.30": 0.0577,
+        "0.40": 0.1016,
+        "0.50": 0.1736,
+        "0.60": 0.288,
+        "0.70": 0.4607
+      },
+      "15": {
+        "0.30": 0.0932,
+        "0.40": 0.1773,
+        "0.50": 0.3119,
+        "0.60": 0.5031,
+        "0.70": 0.7295
+      },
+      "20": {
+        "0.30": 0.132,
+        "0.40": 0.259,
+        "0.50": 0.4489,
+        "0.60": 0.6789,
+        "0.70": 0.8815
+      },
+      "25": {
+        "0.30": 0.1732,
+        "0.40": 0.3423,
+        "0.50": 0.5727,
+        "0.60": 0.8045,
+        "0.70": 0.953
+      },
+      "30": {
+        "0.30": 0.2162,
+        "0.40": 0.4239,
+        "0.50": 0.6776,
+        "0.60": 0.8866,
+        "0.70": 0.9827
+      },
+      "40": {
+        "0.30": 0.3048,
+        "0.40": 0.5729,
+        "0.50": 0.8284,
+        "0.60": 0.9658,
+        "0.70": 0.998
+      },
+      "50": {
+        "0.30": 0.3931,
+        "0.40": 0.6954,
+        "0.50": 0.9151,
+        "0.60": 0.9908,
+        "0.70": 0.9998
+      },
+      "60": {
+        "0.30": 0.4775,
+        "0.40": 0.7897,
+        "0.50": 0.9603,
+        "0.60": 0.9977,
+        "0.70": 1.0
+      },
+      "80": {
+        "0.30": 0.6266,
+        "0.40": 0.9073,
+        "0.50": 0.9924,
+        "0.60": 0.9999,
+        "0.70": 1.0
+      },
+      "100": {
+        "0.30": 0.7438,
+        "0.40": 0.9624,
+        "0.50": 0.9987,
+        "0.60": 1.0,
+        "0.70": 1.0
+      }
+    }
+  },
+  "bootstrap_validation": {
+    "rows": [
+      {
+        "n": 10,
+        "rho": 0.5,
+        "analytic": 0.1736,
+        "simulated": 0.14,
+        "difference": -0.0336,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0245
+      },
+      {
+        "n": 48,
+        "rho": 0.5,
+        "analytic": 0.9018,
+        "simulated": 0.85,
+        "difference": -0.0518,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0252
+      },
+      {
+        "n": 32,
+        "rho": 0.6,
+        "analytic": 0.9098,
+        "simulated": 0.865,
+        "difference": -0.0448,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0242
+      },
+      {
+        "n": 21,
+        "rho": 0.7,
+        "analytic": 0.9008,
+        "simulated": 0.865,
+        "difference": -0.0358,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0242
+      },
+      {
+        "n": 79,
+        "rho": 0.4,
+        "analytic": 0.9032,
+        "simulated": 0.88,
+        "difference": -0.0232,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.023
+      },
+      {
+        "n": 30,
+        "rho": 0.3,
+        "analytic": 0.2162,
+        "simulated": 0.2,
+        "difference": -0.0162,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0283
+      }
+    ],
+    "worst_abs_difference": 0.0518,
+    "note": "the analytic column is Fisher's z on Spearman's r; the simulated column applies the protocol's bootstrap. They are two different interval constructions, so the difference is a check that the closed form is not doing the work alone, not an error estimate of either."
+  },
+  "minimum_n": {
+    "0.30": 144,
+    "0.40": 79,
+    "0.50": 48,
+    "0.60": 32,
+    "0.70": 21
+  },
+  "verdict": {
+    "reference_n": 48,
+    "p_at_reference_n": 0.9018,
+    "p_at_reference_n_without_bar": null,
+    "reading": "at a true rank relation of 0.50, a block of 48 worlds per configuration resolves the sign with probability 0.902 at the 0.90 bar. Smaller blocks resolve only larger relations.",
+    "smallest_relation_at_n": {
+      "5": null,
+      "10": null,
+      "20": null,
+      "30": "0.70"
+    }
+  },
+  "limits": [
+    "The worlds are synthetic. This measures the estimator, not the size of the real relation.",
+    "Attenuation from DI's own measurement error is not modelled, so the computed probability is an upper bound on the real one. A noisy predictor shrinks the observed rank correlation before the interval is built.",
+    "The Gaussian copula assumes worlds are exchangeable draws. If configurations cluster as \u00a75 suggests, the effective number of independent worlds is smaller than n and the probability is again an upper bound.",
+    "Only the primary configuration's rule is simulated. A secondary configuration with its own withheld set has its own outcome distribution and no number is transferred to it.",
+    "The 98.33 % level and the 0.90 bar are conventions. The artifact reports the grid so a different bar can be read off without recomputation."
+  ],
+  "generated_by": "python -m benchmarks.sign_resolution_behavior"
+}

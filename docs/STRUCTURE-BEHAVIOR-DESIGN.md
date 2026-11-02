@@ -21,7 +21,7 @@ required elements, and each has one home:
 | estimand and statistical model | §6 |
 | null hypothesis and permutation control | §6 |
 | held-out transition methodology | §4 |
-| sign-resolution criterion | §6 |
+| sign-resolution criterion, and its computed value | §6 |
 | conditions under which the hypothesis is rejected | §10 |
 | what a positive result would and would not license | §7 |
 
@@ -189,16 +189,49 @@ many pairs were predicted) in place of `DI`. If the size baseline's interval exc
 not survive beside it, the result is reported as a **size effect**: structure quantity, not structural
 content.
 
-**Sign resolution, required before seeds.** The confirmatory block may not open until the probability that a
-world's true relation is recovered **with the correct sign** at the planned window and number of worlds has
-been computed from design-block cells under a **named reference rule**, and recorded in this section. The
-estimator is the ladder's `sign_resolution` applied to this endpoint: the world's relation is drawn from a
-reference cell, the run's estimate from its own standard error, and agreement counted by sign. If the
-predicted probability is below 0.90 for the weakest world at the planned window, the window or the number of
-worlds changes before any seed is named; if the quantity cannot be computed for this endpoint, the block does
-not proceed on that window. **No value is recorded here yet, which is why no seed exists.**
+**Sign resolution, computed before seeds.** The confirmatory block may not open until the
+probability that it returns the relation **with the correct sign** at its planned window and number of
+worlds has been computed under a named reference rule. That computation is done:
+`docs/sign_resolution_structure_behavior.json`, produced by `python -m benchmarks.sign_resolution_behavior`.
+No engine ran and no seed was spent.
 
+*The reference rule is named: the smallest relation of interest.* The bar is evaluated at a rank
+correlation of **0.50**, the weakest relation this design would call predictive. Carrying an
+assumed effect size instead would make the answer depend on a number no artifact supplies, and would let
+the block size be chosen by guessing the effect and then testing for it. Setting the reference at the
+smallest effect worth detecting makes the block's size a consequence of the claim.
 
+*The estimator is the protocol's own decision rule, simulated.* Worlds are drawn from a Gaussian copula
+with the stated rank correlation; the interval is built by resampling worlds (98.33 %, the project's
+convention); a block counts as resolved only when that interval excludes zero **with the predicted sign**.
+Fisher's z on Spearman's rho is computed beside it as a second construction, and over six cells the two
+agree to within 0.052 (Monte-Carlo standard error up to 0.028). The closed form is not doing the
+work alone.
+
+*The result.* At a true relation of 0.50, the block needs **48** worlds per configuration
+to clear the 0.90 bar (p = 0.902). The full ladder is:
+
+| True rank relation | 0.30 | 0.40 | 0.50 | 0.60 | 0.70 |
+| --- | --- | --- | --- | --- | --- |
+| Worlds per configuration for p ≥ 0.90 | 144 | 79 | 48 | 32 | 21 |
+
+Read the other way: at 20 worlds per configuration the block resolves only relations of 0.70 and above; at
+30 worlds, 0.60 and above. A block sized for convenience would be testing a claim nobody made.
+
+*What this forces, and it is not a rounding decision.* Three configurations at 48 worlds each is
+**144 runs**. That is the size the claim requires, and it is larger than any block this project has run.
+Two ways to make it smaller exist and both are protocol changes, not choices: shrink the claim to a larger
+relation (which is a different hypothesis and must be written as one), or lower the bar (which must be done
+before the block opens and recorded with its own justification). Choosing n = 20 after seeing this table
+would let the design pick its own effect size, which is exactly the defect §10 exists to prevent.
+**No seed is allocated by this document; the block size is a decision for the record, not a parameter
+of the analysis.**
+
+*What the computation does not do.* It does not measure the real relation — it is a property of the
+estimator under a declared generative model. Three things make its output an **upper bound**: attenuation
+from `DI`'s own measurement error is not modelled, exchangeability across worlds is assumed where §5's
+block structure may not provide it, and a secondary configuration's outcome distribution is not the
+primary's. All three are stated in the artifact's `limits`, not only here.
 **Null:** no relation — the slope is zero, or the sign of the relation is at chance across worlds.
 
 **Falsifier A — direction.** The relation is absent or reversed *where the structure is present*: worlds

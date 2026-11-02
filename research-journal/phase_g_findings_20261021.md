@@ -9417,3 +9417,49 @@ what it deliberately omits, the commands that check it, and the reviewer's readi
 **No paper.** A protocol paper would invite a proposal to be read as a finding, and the project has spent
 enough of its history learning that lesson. The decision is deferred until there is something substantive to
 report.
+
+## §143 — The sign resolution is computed, and it says the block must be 48 worlds per configuration (2026-11-02)
+
+The protocol left one number unrecorded: the probability that a block recovers the relation with the correct
+sign. Computing it was the gate on seeds, and it has now been computed without an engine and without a seed.
+
+**The estimator had to be rebuilt for this endpoint, not borrowed.** The ladder's `sign_resolution` asks a
+per-world question — if this run scored one world, how often would it report that world's sign correctly —
+because its estimand is a within-world delta. This block's estimand is a rank correlation *across* worlds, so
+the unit of inference is the block. Borrowing the per-world formula would have produced a number that looked
+like the ladder's and answered a different question, which is the failure rule 23(a) records. What is
+simulated instead is the protocol's own decision rule: worlds from a Gaussian copula at a stated rank
+relation, an interval by resampling worlds at 98.33 %, resolved only when the interval excludes zero
+with the predicted sign. Fisher's z is computed beside it over six cells and agrees to within 0.052, so
+the closed form is a check rather than the answer.
+
+**The reference rule is named and it is deliberately not an effect size.** It is *the smallest relation of
+interest*, 0.50: the weakest relation the design would call predictive. Anything else — a
+plausible-looking 0.4 carried over from some other artifact — would have made the answer a function of a
+guessed effect, and the block would then have been sized by a guess and tested for it.
+
+**The result is larger than the project's habits.** 48 worlds per configuration to clear
+0.90 at 0.50 (p = 0.902); 21 worlds for 0.70, 32 for
+0.60, 79 for 0.40, 144 for 0.30. Three configurations therefore need **144 runs**. At
+20 worlds the block could only resolve relations of 0.70 and above, which is a different hypothesis than the
+one the design states.
+
+**So the size is a decision, and it is now written as one.** Shrinking the block means either shrinking the
+claim to a larger relation or lowering the bar, and both are protocol changes made before the block opens and
+recorded with their own justification. If the size were chosen after this table, the design would have picked
+its own effect size — the defect §10 exists to prevent.
+
+**Three reasons the number is an upper bound**, all in the artifact's `limits`: `DI`'s own measurement error
+attenuates the observed correlation and is not modelled; worlds are treated as exchangeable where §5's block
+structure may not provide it; and a secondary configuration's outcome distribution is not the primary's, so no
+number transfers. The honest reading is "at best 0.902", not "90 %".
+
+No seed is allocated. The new action row puts the size decision in front of the owner.
+
+**One defect caught while writing this entry, recorded because it is the kind that hides.** The first version
+of the edit replaced §6 from the sign-resolution paragraph to the §7 heading by index, which silently
+deleted the null hypothesis, the permutation control and both falsifiers — the paragraphs that make the
+protocol falsifiable at all. Nothing about the diff looked wrong: the section still ended under a header and
+still read as prose. `tests/test_structure_behavior_design.py` failed on the missing phrases and the tail was
+restored from the committed version. The lesson is the standing one: the guard found it, and it was found only
+because the guard asserts phrases rather than reading for sense.
