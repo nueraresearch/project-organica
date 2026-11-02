@@ -8068,20 +8068,28 @@ Authorized by `docs/DECISION-V2-SCOPE.md` D2; the dated plan
 20261101, 20261102, 20261103, 20261104, 20261105 only; `alpha = 256.0` held fixed in both arms as a constant, not an intervention;
 both overrides in process; `git diff --stat -- organica/` empty.
 
-**The interventions were verified before any score was read.** The world-only lookback
-removed every `precedes` source tag that occurs in no world event — the baseline arm has
-them on every seed, the g13d arm has zero — and the capacity bound was reached above 20 on
-every seed. A perturbation that did not occur would not be a null result.
+**The provenance intervention was verified before any score was read.** The world-only
+lookback removed every `precedes` source tag that occurs in no world event: the baseline
+arm carries 11–18 such source tags on every seed, the g13d arm carries zero.
+
+**Correction, recorded the same day and before any interpretation.** The capacity check
+did not test what it claimed. It counted prior candidates of all types — 3,998 in both
+arms — so it cannot show that the prediction cap bound, and the artifact now records that
+check as *not measured*. What is verified about capacity is structural only:
+`SleepService` truncates predictions to `self.MAX_PREDICTIONS` (20 in the baseline, 1,000
+in the diagnostic subclass). The paired result is therefore a statement about the
+**combined** condition; it is not decomposed into a capacity part and a provenance part,
+and no second run was made to recover that decomposition.
 
 Paired difference, g13d minus baseline, house shape (negative is better):
 
-| seed | retention | transfer-diagnostic | revision | max candidates |
-|---|---|---|---|---|
-| 20261101 | -0.0311 | -0.0332 | -0.0435 | 3998 |
-| 20261102 | -0.0333 | -0.0294 | -0.0413 | 3998 |
-| 20261103 | -0.0299 | -0.0312 | -0.0429 | 3997 |
-| 20261104 | -0.0258 | -0.0296 | -0.0410 | 3998 |
-| 20261105 | -0.0280 | -0.0293 | -0.0471 | 3998 |
+| seed | retention | transfer-diagnostic | revision |
+|---|---|---|---|
+| 20261101 | -0.0311 | -0.0332 | -0.0435 |
+| 20261102 | -0.0333 | -0.0294 | -0.0413 |
+| 20261103 | -0.0299 | -0.0312 | -0.0429 |
+| 20261104 | -0.0258 | -0.0296 | -0.0410 |
+| 20261105 | -0.0280 | -0.0293 | -0.0471 |
 
 All 30 of 30 per-seed cells across both metric shapes are negative; the pooled means are
 retention **-0.0296**, transfer-diagnostic
@@ -8101,9 +8109,9 @@ Fixed references, transfer-diagnostic:
 
 | reference | 20261101, 20261102, 20261103, 20261104, 20261105 |
 |---|---|
-| replay | 0.3430 | 0.3446 | 0.3358 | 0.3349 | 0.3424 |
-| cell_counter | 0.3406 | 0.3430 | 0.3341 | 0.3327 | 0.3404 |
-| bayes_ceiling | 0.2744 | 0.2742 | 0.2683 | 0.2714 | 0.2711 |
+| replay learner (reference) | 0.3430 | 0.3446 | 0.3358 | 0.3349 | 0.3424 |
+| cell counter (reference) | 0.3406 | 0.3430 | 0.3341 | 0.3327 | 0.3404 |
+| Bayes ceiling (reference) | 0.2744 | 0.2742 | 0.2683 | 0.2714 | 0.2711 |
 
 **What this is, and what it is not.** It is a diagnostic of the frozen engine's failure
 mode under the two confounds the decision record named: on these five seeds the combined

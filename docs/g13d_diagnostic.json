@@ -3,11 +3,14 @@
  "alpha_note": "calibrated on 20261099; a constant across both arms, not an intervention",
  "artifact_written": true,
  "authorises_confirmatory": false,
+ "capacity_note": "SleepService truncates predictions to self.MAX_PREDICTIONS (20 baseline, 1,000 diagnostic). The end-to-end counter this run recorded covered all candidate types and is not evidence that the cap bound.",
  "checks": {
-  "cap_binding": true,
+  "capacity_binding": null,
+  "capacity_note": "the committed counter summed prior candidates of all types (3,998 in both arms), so it cannot show the prediction cap bound; verified structurally only",
   "provenance_filter_bit": true
  },
  "confirmatory_seeds_touched": false,
+ "correction_2026_11_02": "The capacity check as first committed counted all candidate types (3,998 in both arms) and did not test the prediction cap. It is recorded as not measured; scores were not recomputed and are unchanged. The paired result stands for the combined condition only and is not decomposed by intervention.",
  "engine_files_edited": false,
  "interventions": {
   "capacity": 1000,

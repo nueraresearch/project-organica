@@ -112,3 +112,14 @@ confounds and leaves relation-family separation and frequency-based ranking
 unresolved. A favorable result authorizes a question for the owner, not a V2 build
 and not a confirmatory campaign; an unfavorable result does not by itself
 establish that either intervention is irrelevant.
+
+## 10. Post-run amendment (2026-11-02, same day, after the run, before interpretation)
+
+P2 as built counted prior candidates of **all types** — 3,998 in both arms — so it could
+not show that the prediction cap bound. The committed artifact records the capacity check
+as **not measured**, not as passed. Scores were not recomputed and no second run was made.
+What remains verified about capacity is structural: `organica/sleep.py:1160` truncates to
+`self.MAX_PREDICTIONS`, and the diagnostic subclass sets that constant to 1,000 against a
+baseline of 20. The paired result therefore describes the **combined** condition and is not
+decomposed into a capacity effect and a provenance effect. This note changes no threshold,
+no seed and no number; it corrects a check that claimed more than it measured.

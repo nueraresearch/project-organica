@@ -301,7 +301,9 @@ def run_diagnostic(budget_seconds: float = 200.0) -> dict[str, Any]:
         "checks": {
             "provenance_filter_bit": all(e["checks"]["provenance_filter_bit"]
                                          for e in per_seed),
-            "cap_binding": all(e["checks"]["cap_binding"] for e in per_seed),
+            "cap_binding": (None if any(e["checks"].get("cap_binding") is None
+                                        for e in per_seed)
+                            else all(e["checks"]["cap_binding"] for e in per_seed)),
         },
         "artifact_written": True,
     }
@@ -377,7 +379,9 @@ def render_report(art: dict) -> str:
         "## Intervention checks",
         "",
         f"- provenance filter bit on every seed: **{art['checks']['provenance_filter_bit']}**",
-        f"- capacity bound reached above {art['interventions']['capacity_baseline']} on every seed: **{art['checks']['cap_binding']}**",
+        f"- capacity bound reached above {art['interventions']['capacity_baseline']} on every seed: "
+        f"**{'not measured' if art['checks'].get('cap_binding') is None else art['checks']['cap_binding']}**"
+        + (f" — {art['checks']['capacity_note']}" if art['checks'].get('capacity_note') else ""),
         "",
         "## What this is not",
         "",
