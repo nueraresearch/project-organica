@@ -9531,3 +9531,38 @@ project stopped being able to say it had no way to ask.
 **What this entry does not claim.** No reviewer exists. Section 7 of the brief is still empty. No seed is
 allocated, no size chosen, and the two papers remain unpublished and out of this lane. The remaining work is
 someone else's decision to accept, and the project's to record.
+
+## §146 — Why the review needs a person, and what a machine pass is worth (2026-11-02)
+
+The owner asked the direct question: why not have another AI do the independent review, since the package
+already exists. Two things are true and they point in different directions, so both are recorded.
+
+**The machine pass is worth having.** A model that did not write the design is not anchored by the reasoning
+that produced it. It will read all 373 lines and every cited artifact, it costs nothing to run twice, and it
+cannot be talked into a view by the author, because the author is not in the room. The prompt for it is
+`docs/AI-REVIEW-PROMPT.md`: five rubric questions, verdicts with the supporting artifact quoted, severity,
+the check that would settle each objection, and three closing sections including the strongest single
+objection to running the experiment at all.
+
+**It cannot be the review, and the reason is accountability rather than ability.** §2 asks for a reviewer
+who can say no and is answerable for it; §7 records an affiliation, declared conflicts and a signature.
+A model approves at no risk, cannot be asked to defend the approval a year later, cannot decline to
+approve, and has no standing to be cited as the person who examined the design before it ran. Filling
+§7's fields from a model would be a fabricated provenance — the same defect class as the hand-copied
+precision ceiling in §29, where a number looked right and named nothing.
+
+**A gate that cannot refuse is decoration.** Rule 25(c) is about gates that pass while the protocol's gate of
+the same name fails; this is the degenerate case, a gate whose only possible answers are yes and yes with
+caveats. The human review is asynchronous, slow, and can end in refusal; that is not a cost of the process,
+it is the mechanism.
+
+**What the machine pass may not do**, now written into the brief as §9: discharge the gate, be cited as
+the review, see anything that requires the engine or the six months of history behind the design, or fill
+§7. A blocking finding is fixed and logged with the model's wording attached; a clean pass is recorded as
+a fact about one failure mode, not as a certificate.
+
+**A false objection avoided.** Before writing the prompt, the outcome's denominator was checked rather than
+assumed: `revision_held_out` is scored on 98–110 held-out pairs per seed (`docs/reusable_knowledge_calibration.json`),
+not on the two `WITHHELD` entries, so the "outcome is measured on two items" objection that would have been
+the first thing a reviewer raised is simply false. The general point stands and is why the prompt's first
+rule is *check artifacts, not prose*.

@@ -59,3 +59,20 @@ def test_the_manual_and_journal_record_the_review():
     assert "cannot be me" in row[0]
     journal = (ROOT / "research-journal/phase_g_findings_20261021.md").read_text(encoding="utf-8")
     assert "## \u00a7141" in journal
+
+
+def test_the_machine_pass_is_offered_and_cannot_take_the_record():
+    root = Path(__file__).resolve().parent.parent
+    prompt = (root / "docs/AI-REVIEW-PROMPT.md").read_text(encoding="utf-8")
+    brief = (root / "docs/INDEPENDENT-METHODS-REVIEW.md").read_text(encoding="utf-8")
+    # the prompt must demand artifact checks and forbid both approval and the record
+    assert "Check artifacts, not prose" in prompt
+    assert "Do not output an approval or a rejection" in prompt
+    assert "Do not fill in the report form" in prompt
+    assert "It cannot discharge the review gate" in prompt
+    # and the brief must not let it be upgraded later
+    assert "## 9. Machine review is a pre-pass" in brief
+    assert "never the record" in brief
+    assert "fabricated provenance" in brief
+    # the form stays empty: no model may have signed it
+    assert "*(to be completed)*" in brief

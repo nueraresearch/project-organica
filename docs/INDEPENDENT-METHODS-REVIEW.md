@@ -124,3 +124,24 @@ a floor rather than a budget.
 - **It cannot be conducted by the author of the design record.** That is the whole of §2.
 - **It is not peer review of conclusions.** There are no conclusions yet; the review is of a plan.
 - **It cannot be waived for schedule.** An unrecorded review is an absent one.
+
+## 9. Machine review is a pre-pass, and never the record
+
+A review run by a language model other than the one that wrote the design is **worth doing and cannot
+discharge this gate**. `docs/AI-REVIEW-PROMPT.md` holds the prompt for it.
+
+It is worth doing because a cold reader is not anchored by the reasoning that produced the protocol, will
+read every cited artifact, and costs nothing to run twice. It cannot be the review for four reasons, and
+they are about accountability rather than capability:
+
+1. **It approves at no risk.** Independence in §2 means someone who can say no and is answerable for having
+   said it. A model that approves has risked nothing and cannot be asked to defend the approval later.
+2. **It has no standing.** §7 asks for an affiliation, declared conflicts and a signature. Filling those
+   from a model would be a fabricated provenance, which is the defect class this project has spent months
+   finding in its own numbers.
+3. **It cannot be wrong in public**, so its approval changes no one's incentives, including the author's.
+4. **It cannot refuse.** Asked whether a plan it has just read is acceptable, it will find reasons to say
+   yes — and a gate that cannot fire is decoration (rule 25c).
+
+Its findings are recorded in a transcript named for the model and the commit, and a blocking finding is
+fixed and logged like any other defect. The gate itself stays open until a person signs §7.
