@@ -1,0 +1,442 @@
+"""The engine binding for the functional structure study (§10, step 2).
+
+`benchmarks/functional_structure.py` is the measurement contract: cells, per-cell
+loss, the four attribution outcomes, G6. This module is the part that needs the
+engine — it develops one arm over the formation stream, freezes its readout,
+scores the two windows of §2, and runs the instrument gates of §6.
+
+What it deliberately does **not** do
+------------------------------------
+
+**It does not form the endpoint.** §4's `delta` is Organica minus the strongest
+baseline on the primary window, pooled over the confirmatory seeds. On design
+seeds it is not computed, not printed and not stored: `delta: None` with the
+reason beside it. What the gates need is a readout that exists (G1), a
+denominator (G2), and a comparison that *can fail* (G3) — none of which is the
+endpoint, and the last of which is a task-level control that runs no engine at
+all.
+
+**It refuses any seed outside the design block.** `20270201`–`20270205` only.
+The confirmatory block is not generated, not fitted and not referenced by value
+anywhere in this module; a seed from it raises before a database is opened.
+
+Two implementation choices the protocol leaves open, both fixed here before any
+confirmatory seed exists and disclosed in the journal:
+
+* **Which baseline family supplies the bar.** §3 says each family is swept and
+  its best configuration chosen on the tuning split; it does not say how the
+  family is chosen. Here the family is also chosen on the tuning split
+  (`tuning_log_loss`), so the choice never sees the held-out window. The closed
+  protocol chose per limb instead; this study does not, because choosing on the
+  window the arm is scored on is selection on the endpoint.
+* **What "measurable support" means for G1.** A realised held-out cell whose
+  source tag has at least one non-zero edge in the frozen readout. A readout
+  with edges but no edge on any source tag that occurs in the window is not
+  live, whatever its total weight.
+
+Standard library only; scratch DBs only; `organica/` is never touched.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import pathlib
+import sys
+import time
+from collections import defaultdict
+from typing import Any, Sequence
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from benchmarks import functional_structure as fs  # noqa: E402
+from benchmarks.acquisition_compositional import (  # noqa: E402
+    CYCLES, EVENTS_PER_CYCLE, PHASE_TRANSFER, generate_compositional_world,
+)
+from benchmarks.acquisition_harness import (  # noqa: E402
+    _CapOverrideSleepService as CapOverrideSleepService,
+)
+from benchmarks.acquisition_runner import (  # noqa: E402
+    CALIBRATED_ORGANICA_ALPHA, make_organica_backoff,
+)
+from benchmarks.formation_provenance import FormationRecorder  # noqa: E402
+from benchmarks.reusable_knowledge import (  # noqa: E402
+    MAX_PREDICTIONS, TUNE_CYCLES, broken_rule_holder, comparator_sweep,
+    conditioned_formation_stream, latent_rule_holder, limbs, stored_rowid,
+    structure_edges,
+)
+from organica.memory import MemoryService  # noqa: E402
+from organica.paths import LIVE_DB, temp_db  # noqa: E402
+
+# ---------------------------------------------------------------------------
+# Fixed constants (§3, §5, §11.1).  None of these is a parameter of this module.
+# ---------------------------------------------------------------------------
+
+DESIGN_SEEDS: tuple[int, ...] = (20270201, 20270202, 20270203, 20270204, 20270205)
+#: Referenced only so `refuse_confirmatory` can name what it protects; never
+#: generated, fitted or scored here.
+CONFIRMATORY_SEEDS: tuple[int, ...] = tuple(range(20270206, 20270221))
+
+CAP = MAX_PREDICTIONS                 # 1,000 — §3, from the G13-D scope
+ALPHA = CALIBRATED_ORGANICA_ALPHA     # 256.0 — §3, calibrated on 20261099
+TUNING_CYCLES = TUNE_CYCLES           # 15  — §11.1
+
+PRIMARY_CYCLES = PHASE_TRANSFER       # 150–200 — §2
+ENDPOINT_NOT_FORMED = (
+    "not formed on design seeds (§10, step 2): the endpoint of §4 is Organica "
+    "minus the strongest baseline on the primary window, pooled over the "
+    "confirmatory block"
+)
+
+DESIGN_OUT = "docs/functional_structure_design_audit.json"
+
+BASELINE_FAMILIES = ("replay", "bigram", "decayed_bigram")
+PRIVILEGED_REFERENCE = "cell_counter"
+
+
+# ---------------------------------------------------------------------------
+# Guards
+# ---------------------------------------------------------------------------
+
+def refuse_confirmatory(seed: int) -> int:
+    """Only the design block may be run at step 2.
+
+    The refusal is the point: a run of a confirmatory seed here would spend the
+    one confirmatory run on an unaudited harness, and §8 allows exactly one.
+    """
+    if seed not in DESIGN_SEEDS:
+        if seed in CONFIRMATORY_SEEDS:
+            raise SystemExit(
+                f"seed {seed} is in the confirmatory block: §10 step 3 only, "
+                "after every design gate has passed")
+        raise SystemExit(f"seed {seed} is not in the design block {DESIGN_SEEDS}")
+    return seed
+
+
+def require_hash_seed() -> str:
+    """The engine's ordering depends on the string-hash seed (journal §95)."""
+    value = os.environ.get("PYTHONHASHSEED")
+    if value != "0":
+        raise SystemExit(
+            "PYTHONHASHSEED must be 0: candidate selection orders structures "
+            f"built from sets of strings, and it is {value!r}")
+    return value
+
+
+def _scratch(seed: int) -> pathlib.Path:
+    path = temp_db(f"functional_{seed}.db")
+    if path.resolve() == LIVE_DB.resolve():
+        raise AssertionError("refusing to write to the live DB")
+    return path
+
+
+# ---------------------------------------------------------------------------
+# The formation run
+# ---------------------------------------------------------------------------
+
+def run_formation(formation: dict, seed: int, cap: int = CAP,
+                  recorder: FormationRecorder | None = None) -> dict[str, Any]:
+    """Feed the formation stream through the engine and freeze the readout.
+
+    The formation stream is 110 cycles (warmup + acquisition).  No revision
+    window is fed: this study's primary window is cycles 150–200 of the world,
+    which the organism never sees, and the revision study's rotated law is not
+    this question.
+
+    `recorder` is the provenance instrument of §7 — a store-time record of which
+    row type supplied each transition.  It is read-only, and G4 proves it leaves
+    the frozen candidates unchanged.
+    """
+    db = _scratch(seed)
+    mem = MemoryService(str(db))
+    svc = CapOverrideSleepService(mem, max_predictions=cap)
+    try:
+        for i, text in enumerate(formation["events"]):
+            event = mem.store(text, event_type="observe", source="env")
+            if recorder is not None:
+                recorder.record(mem, sorted(text.split()), stored_rowid(mem, event.id))
+            if (i + 1) % EVENTS_PER_CYCLE == 0:
+                svc.run_sleep_cycle()
+                mem.prune_sleep_candidates()
+        frozen = svc._load_prior_candidates()
+    finally:
+        mem._conn.close()
+        try:
+            db.unlink(missing_ok=True)
+        except PermissionError:
+            pass
+    rows = structure_edges(frozen)
+    return {"rows": rows, "frozen": frozen,
+            "asserted": {(u, v) for u, ts in rows.items() for v in ts},
+            "events": len(formation["events"]), "cap": cap}
+
+
+def base_rates(rows: Sequence[str]) -> dict[str, float]:
+    """The readout's backoff distribution, from formation rows only."""
+    counts: dict[str, int] = defaultdict(int)
+    for row in rows:
+        for tag in row.split():
+            counts[tag] += 1
+    total = sum(counts.values()) or 1
+    return {tag: n / total for tag, n in counts.items()}
+
+
+# ---------------------------------------------------------------------------
+# The gates (§6)
+# ---------------------------------------------------------------------------
+
+def gate_liveness(engine: dict, org_cells: Sequence[dict]) -> dict[str, Any]:
+    """G1: at least one realised held-out cell with measurable support.
+
+    "Measurable" is a non-zero edge out of the cell's source tag.  Total edge
+    weight is not enough: a readout can be heavy and still say nothing about any
+    tag that occurs in the window.
+    """
+    supported = {a for a, ts in engine["rows"].items() if ts}
+    live = sum(1 for c in org_cells if c["y"] == 1 and c["source"] in supported)
+    return {"edges": sum(len(t) for t in engine["rows"].values()),
+            "source_tags": len(engine["rows"]),
+            "realised_cells": sum(1 for c in org_cells if c["y"] == 1),
+            "realised_cells_with_support": live,
+            "passed": bool(engine["rows"]) and live > 0}
+
+
+def gate_denominators(primary_ctx: Sequence[Sequence[str]],
+                      org_cells: Sequence[dict], base_cells: Sequence[dict],
+                      transfer_ctx: Sequence[Sequence[str]],
+                      vocab: set[str]) -> dict[str, Any]:
+    """G2: same non-zero denominator for every arm, in both windows.
+
+    Also checks the §11.2 arithmetic: the denominator is
+    `pairs × source tags × vocabulary`, including the `b = a` cell.
+    """
+    expected = sum(len(c) for c in primary_ctx) * len(vocab)
+    ok = (len(org_cells) == len(base_cells) == expected
+          and len(primary_ctx) > 0 and len(transfer_ctx) > 0)
+    return {"primary_pairs": len(primary_ctx), "transfer_pairs": len(transfer_ctx),
+            "cells_organica": len(org_cells), "cells_baseline": len(base_cells),
+            "cells_expected": expected, "vocab": len(vocab),
+            "passed": bool(ok)}
+
+
+def gate_can_fail(world: dict, held: dict, vocab: set[str],
+                  org_prob, org_rows: dict, base_rate: dict) -> dict[str, Any]:
+    """G3: the harness separates the law, and rejects a degraded readout.
+
+    Two comparisons, both required, both able to fail:
+
+    * the ceiling (knows the law) must beat the one-transition learner on the
+      same window — if it does not, the window cannot detect the law at all;
+    * a readout with half its edges dropped must score **worse** than the full
+      one — if it does not, the readout is not what the score is reading.
+    """
+    ctx, obs = held["transfer_full"]
+    ceiling = fs.score(latent_rule_holder(world), ctx, obs, vocab)
+    broken = fs.score(broken_rule_holder(world), ctx, obs, vocab)
+    full = fs.score(org_prob, ctx, obs, vocab)
+
+    degraded_rows = {a: {b: w for i, (b, w) in enumerate(sorted(ts.items()))
+                         if i % 2 == 0}
+                     for a, ts in sorted(org_rows.items())}
+    degraded = fs.score(make_organica_backoff(degraded_rows, base_rate, ALPHA),
+                        ctx, obs, vocab)
+    kept = sum(len(t) for t in degraded_rows.values())
+    total = sum(len(t) for t in org_rows.values())
+    return {"label": "gate diagnostic — not an endpoint",
+            "ceiling_log_loss": round(ceiling["log_loss"], 6),
+            "one_transition_log_loss": round(broken["log_loss"], 6),
+            "ceiling_beats_one_transition": broken["log_loss"] > ceiling["log_loss"],
+            "organica_log_loss": round(full["log_loss"], 6),
+            "degraded_log_loss": round(degraded["log_loss"], 6),
+            "edges_kept": f"{kept}/{total}",
+            "degraded_is_worse": degraded["log_loss"] > full["log_loss"],
+            "passed": (broken["log_loss"] > ceiling["log_loss"]
+                       and degraded["log_loss"] > full["log_loss"])}
+
+
+def gate_neutrality(seed: int, formation: dict, with_rows: dict,
+                    with_frozen: list[dict]) -> dict[str, Any]:
+    """G4: the recording hook does not change what the engine forms.
+
+    The same seed is run twice — once with the provenance recorder, once without
+    — and the frozen candidates and the readout table must be identical.  An
+    observer that changes behaviour is not an observer (AGENTS rule 17c).
+    """
+    plain = run_formation(formation, seed, CAP, None)
+    ids = lambda frozen: [(str(c.get("id")), str(c.get("source")), str(c.get("target")))  # noqa: E731
+                          for c in frozen]
+    same_candidates = ids(with_frozen) == ids(plain["frozen"])
+    same_rows = with_rows == plain["rows"]
+    return {"candidates_with_hook": len(with_frozen),
+            "candidates_without_hook": len(plain["frozen"]),
+            "candidates_identical": same_candidates,
+            "readout_identical": same_rows,
+            "passed": same_candidates and same_rows}
+
+
+def gate_constants(seed: int) -> dict[str, Any]:
+    """G5: every fixed constant is the committed one, and the hash seed is pinned."""
+    checks = {
+        "cap_is_1000": CAP == MAX_PREDICTIONS == 1000,
+        "alpha_is_256": ALPHA == CALIBRATED_ORGANICA_ALPHA == 256.0,
+        "tuning_cycles_is_15": TUNING_CYCLES == 15,
+        "seed_in_design_block": seed in DESIGN_SEEDS,
+        "pythonhashseed_is_0": os.environ.get("PYTHONHASHSEED") == "0",
+    }
+    # A count of zero is not a failed check: keep it out of the conjunction.
+    return {**checks, "confirmatory_seeds_read": 0,
+            "passed": all(checks.values())}
+
+
+# ---------------------------------------------------------------------------
+# One design cell
+# ---------------------------------------------------------------------------
+
+def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]:
+    """One design seed: formation, readout, both windows, gates. No endpoint."""
+    refuse_confirmatory(seed)
+    started = time.time()
+    world = generate_compositional_world(seed=seed, cycles=CYCLES)
+    formation = conditioned_formation_stream(world, seed)
+    held = limbs(world)
+    vocab = {t for r in world["events"] for t in r.split()}
+
+    recorder = FormationRecorder()
+    engine = run_formation(formation, seed, CAP, recorder)
+    rate = base_rates(formation["events"])
+    org_prob = make_organica_backoff(engine["rows"], rate, ALPHA)
+
+    rows = formation["events"]
+    fit_rows = rows[:len(rows) - TUNING_CYCLES * EVENTS_PER_CYCLE]
+    comps = comparator_sweep(rows, fit_rows, vocab, world["tag_to_cell"])
+    family = min(BASELINE_FAMILIES, key=lambda n: comps[n]["tuning_log_loss"])
+    base_prob = comps[family]["prob"]
+
+    # §11.3 pair support: world and self counts per ordered tag pair.
+    provenance: dict[tuple[str, str], tuple[int, int]] = {}
+    for pair in recorder.transitions:
+        origin = recorder.origins(pair)
+        provenance[pair] = (origin["world"], origin["self"])
+
+    primary_ctx, primary_obs = held["transfer_full"]
+    transfer_ctx, transfer_obs = held["transfer"]
+    org_primary = fs.cells(org_prob, primary_ctx, primary_obs, vocab)
+    base_primary = fs.cells(base_prob, primary_ctx, primary_obs, vocab)
+    org_transfer = fs.cells(org_prob, transfer_ctx, transfer_obs, vocab)
+    base_transfer = fs.cells(base_prob, transfer_ctx, transfer_obs, vocab)
+
+    gates = {
+        "G1": gate_liveness(engine, org_primary),
+        "G2": gate_denominators(primary_ctx, org_primary, base_primary,
+                                transfer_ctx, vocab),
+        "G3": gate_can_fail(world, held, vocab, org_prob, engine["rows"], rate),
+        "G5": gate_constants(seed),
+    }
+    if check_neutrality:
+        gates["G4"] = gate_neutrality(seed, formation, engine["rows"], engine["frozen"])
+
+    # The attribution is wired (§11.5) and only its status is recorded: the
+    # share is the headline, and §10 keeps design seeds out of the headline.
+    def wiring(base_cells, org_cells):
+        got = fs.attribute(base_cells, org_cells, provenance)
+        return {"status": got["status"], "withheld": got["withheld"],
+                "cells_by_group": got["counts"],
+                "shares_reported": False,
+                "reason": "design-seed wiring check only (§11.5 gate use)"}
+
+    return {
+        "kind": "functional_structure_design_cell",
+        "seed": seed,
+        "variant": {"cap": CAP, "alpha": ALPHA, "pythonhashseed": os.environ.get("PYTHONHASHSEED")},
+        "world": {"cycles": CYCLES, "primary_cycles": list(PRIMARY_CYCLES),
+                  "vocab": len(vocab),
+                  "withheld_pairs": held["transfer_pairs"],
+                  "withheld_instances": held["transfer_instances"]},
+        "formation": {"events": engine["events"], "cycles": 110,
+                      "compensated_events": formation["compensated"]},
+        "gates": gates,
+        "denominators": {
+            "primary_pairs": len(primary_ctx), "primary_cells": len(org_primary),
+            "transfer_pairs": len(transfer_ctx), "transfer_cells": len(org_transfer),
+        },
+        "baseline_family_selected_on_tuning": {
+            "family": family,
+            "config": comps[family]["config"],
+            "tuning_log_loss": comps[family]["tuning_log_loss"],
+            "rule": "chosen on the tuning split, never on a scored window",
+        },
+        "disqualifier_wiring": {"primary": wiring(base_primary, org_primary),
+                                "transfer": wiring(base_transfer, org_transfer)},
+        "endpoint": ENDPOINT_NOT_FORMED,
+        "delta": None,
+        "seconds": round(time.time() - started, 1),
+    }
+
+
+# ---------------------------------------------------------------------------
+# The design audit (§10, step 2)
+# ---------------------------------------------------------------------------
+
+def run_design_audit(seeds: Sequence[int] = DESIGN_SEEDS) -> dict[str, Any]:
+    """Run the design block and require every gate to pass."""
+    require_hash_seed()
+    for seed in seeds:
+        refuse_confirmatory(seed)
+    started = time.time()
+    cells = [run_design_cell(seed, check_neutrality=(i == 0))
+             for i, seed in enumerate(seeds)]
+    fixtures = fs.gate_fixtures()          # G6, before anything is read as a result
+    # G4 belongs to the instrument, not to a seed: it runs once, on the first
+    # design seed, and the block passes it or does not.  A gate that was not run
+    # is a failure, so its absence is reported rather than skipped.
+    per_seed = ("G1", "G2", "G3", "G5")
+    failures = []
+    for cell in cells:
+        for name in per_seed:
+            gate = cell["gates"].get(name)
+            if gate is None or not gate["passed"]:
+                failures.append({"seed": cell["seed"], "gate": name,
+                                 "detail": gate})
+    neutrality = cells[0]["gates"].get("G4")
+    if neutrality is None or not neutrality["passed"]:
+        failures.append({"seed": cells[0]["seed"], "gate": "G4", "detail": neutrality})
+    artifact = {
+        "kind": "functional_structure_design_audit",
+        "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md §6, §10",
+        "status": ("design block passed: the confirmatory block may run"
+                   if not failures else "design block FAILED: the protocol stops here"),
+        "seeds": list(seeds),
+        "confirmatory_seeds_run": 0,
+        "endpoint": ENDPOINT_NOT_FORMED,
+        "constants": {"cap": CAP, "alpha": ALPHA, "tuning_cycles": TUNING_CYCLES,
+                      "pythonhashseed": os.environ.get("PYTHONHASHSEED")},
+        "G6": {"passed": True, "cases": fixtures},
+        "failures": failures,
+        "cells": cells,
+        "seconds": round(time.time() - started, 1),
+    }
+    return artifact
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--design", action="store_true",
+                    help="run the design block (the only block this module may run)")
+    ap.add_argument("--only", type=int, default=None,
+                    help="debug: one design seed, artifact written to /tmp")
+    args = ap.parse_args(argv)
+    if not (args.design or args.only):
+        ap.error("pass --design (or --only SEED for a single-seed debug run)")
+
+    artifact = run_design_audit((args.only,) if args.only else DESIGN_SEEDS)
+    out = pathlib.Path("/tmp/functional_design_only.json") if args.only else ROOT / DESIGN_OUT
+    out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps({k: artifact[k] for k in ("status", "seeds", "failures", "seconds")},
+                     indent=1))
+    print(f"wrote {out}")
+    return 0 if not artifact["failures"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

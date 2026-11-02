@@ -185,13 +185,13 @@ diagnostic would say whether the support behind the readout was mostly self-sour
 
 ## 10. Build status and run order
 
-**The scoring layer is built; the engine binding is not.**
-`benchmarks/functional_structure.py` implements the measurement contract of §11.2 and
-§11.3 — cells, per-cell loss, the four attribution outcomes — and its G6 fixtures fire with
-no engine module imported and no study seed read. What is missing is the binding: a runner
-that develops one arm over the 110-cycle formation stream, builds its readout, scores the two
-windows and records formation provenance. The provenance runner measures occurrence, not
-probability, and is not this harness.
+**Built, and the design block has run once.** `benchmarks/functional_structure.py` implements
+the measurement contract of §11.2 and §11.3 — cells, per-cell loss, the four attribution
+outcomes — and its G6 fixtures fire with no engine module imported and no study seed read.
+`benchmarks/functional_harness.py` is the engine binding: one formation run per seed over the
+110-cycle stream, the calibrated readout, both windows, and gates G1–G5.
+`docs/functional_structure_design_audit.json` is the audit artifact of step 2. It records no
+`delta`, and `confirmatory_seeds_run` is 0.
 
 **Run order, fixed now.** The earlier wording of this section forbade a run that the design
 block *is*: it said no cell of any block may run until the harness and its gates are
@@ -220,6 +220,38 @@ diagnostic that is labelled as one.
 **The endpoint stays locked until step 3.** No confirmatory seed is generated, no arm is fitted
 on one, and no preliminary look at the endpoint is taken until every design gate has passed and
 that passing run is committed.
+
+### 10.1 What the design block found (2026-11-02, before any confirmatory seed)
+
+**Every gate passed on all 5 design seeds.** The readout is live (G1: 325–340
+edges, every window's realised cells supported), every arm scores the same 12768-cell denominator in
+both windows (G2), the harness separates the law from a one-transition learner and rejects a
+readout with half its edges dropped (G3), the recording hook leaves the frozen candidates
+identical (3995 with the hook and 3995 without, same
+readout table — G4, run once on the first seed), and every fixed constant is the committed one
+with the hash seed pinned (G5). The windows hold 399 primary pairs and 93–127
+withheld pairs per seed, so neither gate is measuring an empty set.
+
+**The disqualifier wiring works, and it reports something the protocol did not anticipate.** On
+the first seed the primary window's positive-margin cells split 7 world-majority,
+113 self-majority and 291 unattributed; the co-primary window splits
+0, 113 and 291. Both exceed the 0.50 unattributed threshold, so
+§11.3 withholds the transfer claim on this seed whatever the score.
+
+That is structural, not a property of the seed. The reason is visible in the formation record:
+all 96 available relations are recorded (92 of them world-majority), but the 32 withheld
+relations are withheld **from formation**, so they cannot have a world count — the record holds
+13 of them, and those 13 carry sleep rows only. A rule that withholds whenever the unattributed
+share reaches 0.50 therefore withholds on the co-primary window by construction, on every world,
+because the relations that window scores are exactly the ones formation never carried.
+
+**Consequence, recorded rather than repaired.** §11.3 as committed makes the co-primary claim
+unattributable by construction, and the primary window's margin is concentrated on the same
+cells, so the rule would withhold there too. Changing the threshold, dropping unattributed cells
+from the denominator, or exempting the co-primary window would each be a re-scoring of a
+pre-committed rule after seeing a number. That decision belongs to the owner as an amendment;
+nothing in this document, and nothing in the harness, has been changed to make the rule fire
+differently. No confirmatory seed has been generated, fitted or scored.
 
 ---
 

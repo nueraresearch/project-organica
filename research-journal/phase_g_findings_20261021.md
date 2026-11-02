@@ -8365,3 +8365,42 @@ kind: a sentence that reads as strict while removing the ability to execute it. 
 three-line ordering assertion, because the defect is invisible to a careful read — the sentence
 looked like exactly the discipline it was undoing.
 
+## §114 Built, gated, and the rule it was built to enforce is broken
+
+The engine binding exists: one formation run per design seed, the calibrated readout frozen at
+the end of 110 cycles, both windows of §2 scored, gates G1–G5 around the instrument. The design
+block ran once, on `20270201`–`20270205`, in 164 seconds, and passed every gate. That is the
+first half of this note and the less interesting half.
+
+The second half is what the wiring reported. The disqualifier of §11.3 wants, for every realised
+held-out cell the readout improves, a share of that improvement carried by self-sourced support,
+and it withholds when that share reaches 0.50. On the first design seed the primary window's
+positive-margin cells split 7 world-majority, 113 self-majority,
+291 unattributed; the co-primary window splits 0, 113,
+291. Both withhold.
+
+The co-primary result is not a surprise about this world — it is a consequence of what that
+window *is*. The 32 withheld relations are withheld from formation, so no formation record can
+carry them as world transitions; the provenance map holds 13 of them and all 13 are sleep rows.
+Every improvement the readout makes on those relations is therefore unattributed **by
+construction**, the unattributed share is 1.0 before a single number is read, and the rule
+withholds on every world. The instrument is not broken; the rule, applied to that window, cannot
+return anything else. §11.5 defined the co-primary window and the share separately and this
+interaction was not followed through.
+
+The primary window is the same defect in weaker form. All 96 available relations are recorded,
+but the margin concentrates on the rare pairs — the same cells that carry the transfer window —
+so 291 of 411 positive-margin cells are unattributed.
+
+Three ways out exist and every one of them is a re-scoring: lower the unattributed threshold
+(forbidden by §4's spirit and by rule 19's logic), drop unattributed cells from the denominator
+(after seeing that they dominate), or exempt the co-primary window from the unattributed clause
+(after seeing that it always trips). None is taken here. The harness, the protocol's constants,
+the seeds and the bar are unchanged; no confirmatory seed has been generated, fitted or scored;
+and the decision is recorded as the owner's, because it is an amendment to a rule committed
+before the numbers existed.
+
+What the design block was for is exactly this: the §10 sequence put the instrument ahead of the
+endpoint so that a defect in the *rule* could surface before the one confirmatory run rather
+than after it. It did.
+

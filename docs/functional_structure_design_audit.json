@@ -1,0 +1,632 @@
+{
+ "G6": {
+  "cases": [
+   {
+    "case": "world_passes",
+    "share_self": 0.0,
+    "share_unattributed": 0.0,
+    "status": "world_attributable",
+    "withheld": false
+   },
+   {
+    "case": "self_withholds",
+    "share_self": 0.6,
+    "share_unattributed": 0.0,
+    "status": "not_a_transfer_result",
+    "withheld": true
+   },
+   {
+    "case": "unattributed_withholds",
+    "share_self": 0.0,
+    "share_unattributed": 0.75,
+    "status": "not_attributable",
+    "withheld": true
+   },
+   {
+    "case": "empty_is_not_evaluable",
+    "share_self": null,
+    "share_unattributed": null,
+    "status": "not_evaluable",
+    "withheld": null
+   },
+   {
+    "case": "boundary_fires_at_half",
+    "share_self": 0.5000000000000001,
+    "share_unattributed": 0.0,
+    "status": "not_a_transfer_result",
+    "withheld": true
+   },
+   {
+    "case": "just_below_boundary_passes",
+    "share_self": 0.49989999999988693,
+    "share_unattributed": 0.0,
+    "status": "world_attributable",
+    "withheld": false
+   },
+   {
+    "case": "relaxed_threshold_stops_withholding",
+    "share_self": 0.6,
+    "share_unattributed": 0.0,
+    "status": "world_attributable",
+    "withheld": false
+   },
+   {
+    "case": "tie_is_self_majority",
+    "share_self": null,
+    "share_unattributed": null,
+    "status": "classified",
+    "withheld": null
+   }
+  ],
+  "passed": true
+ },
+ "cells": [
+  {
+   "baseline_family_selected_on_tuning": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "rule": "chosen on the tuning split, never on a scored window",
+    "tuning_log_loss": 0.268258
+   },
+   "delta": null,
+   "denominators": {
+    "primary_cells": 12768,
+    "primary_pairs": 399,
+    "transfer_cells": 3232,
+    "transfer_pairs": 101
+   },
+   "disqualifier_wiring": {
+    "primary": {
+     "cells_by_group": {
+      "self": 113,
+      "unattributed": 291,
+      "world": 7
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    },
+    "transfer": {
+     "cells_by_group": {
+      "self": 113,
+      "unattributed": 291,
+      "world": 0
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    }
+   },
+   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "formation": {
+    "compensated_events": 153,
+    "cycles": 110,
+    "events": 880
+   },
+   "gates": {
+    "G1": {
+     "edges": 325,
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    },
+    "G2": {
+     "cells_baseline": 12768,
+     "cells_expected": 12768,
+     "cells_organica": 12768,
+     "passed": true,
+     "primary_pairs": 399,
+     "transfer_pairs": 101,
+     "vocab": 16
+    },
+    "G3": {
+     "ceiling_beats_one_transition": true,
+     "ceiling_log_loss": 0.370387,
+     "degraded_is_worse": true,
+     "degraded_log_loss": 0.45539,
+     "edges_kept": "168/325",
+     "label": "gate diagnostic \u2014 not an endpoint",
+     "one_transition_log_loss": 0.566725,
+     "organica_log_loss": 0.43901,
+     "passed": true
+    },
+    "G4": {
+     "candidates_identical": true,
+     "candidates_with_hook": 3995,
+     "candidates_without_hook": 3995,
+     "passed": true,
+     "readout_identical": true
+    },
+    "G5": {
+     "alpha_is_256": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true
+    }
+   },
+   "kind": "functional_structure_design_cell",
+   "seconds": 53.3,
+   "seed": 20270201,
+   "variant": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "pythonhashseed": "0"
+   },
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 65,
+     "flip_q": 36
+    },
+    "withheld_pairs": 101
+   }
+  },
+  {
+   "baseline_family_selected_on_tuning": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "rule": "chosen on the tuning split, never on a scored window",
+    "tuning_log_loss": 0.266258
+   },
+   "delta": null,
+   "denominators": {
+    "primary_cells": 12768,
+    "primary_pairs": 399,
+    "transfer_cells": 2976,
+    "transfer_pairs": 93
+   },
+   "disqualifier_wiring": {
+    "primary": {
+     "cells_by_group": {
+      "self": 144,
+      "unattributed": 228,
+      "world": 9
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    },
+    "transfer": {
+     "cells_by_group": {
+      "self": 144,
+      "unattributed": 228,
+      "world": 0
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    }
+   },
+   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "formation": {
+    "compensated_events": 159,
+    "cycles": 110,
+    "events": 880
+   },
+   "gates": {
+    "G1": {
+     "edges": 335,
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    },
+    "G2": {
+     "cells_baseline": 12768,
+     "cells_expected": 12768,
+     "cells_organica": 12768,
+     "passed": true,
+     "primary_pairs": 399,
+     "transfer_pairs": 93,
+     "vocab": 16
+    },
+    "G3": {
+     "ceiling_beats_one_transition": true,
+     "ceiling_log_loss": 0.368846,
+     "degraded_is_worse": true,
+     "degraded_log_loss": 0.444266,
+     "edges_kept": "172/335",
+     "label": "gate diagnostic \u2014 not an endpoint",
+     "one_transition_log_loss": 0.556812,
+     "organica_log_loss": 0.435605,
+     "passed": true
+    },
+    "G5": {
+     "alpha_is_256": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true
+    }
+   },
+   "kind": "functional_structure_design_cell",
+   "seconds": 26.7,
+   "seed": 20270202,
+   "variant": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "pythonhashseed": "0"
+   },
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 57,
+     "flip_q": 36
+    },
+    "withheld_pairs": 93
+   }
+  },
+  {
+   "baseline_family_selected_on_tuning": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "rule": "chosen on the tuning split, never on a scored window",
+    "tuning_log_loss": 0.254266
+   },
+   "delta": null,
+   "denominators": {
+    "primary_cells": 12768,
+    "primary_pairs": 399,
+    "transfer_cells": 3008,
+    "transfer_pairs": 94
+   },
+   "disqualifier_wiring": {
+    "primary": {
+     "cells_by_group": {
+      "self": 101,
+      "unattributed": 275,
+      "world": 58
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    },
+    "transfer": {
+     "cells_by_group": {
+      "self": 101,
+      "unattributed": 275,
+      "world": 0
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    }
+   },
+   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "formation": {
+    "compensated_events": 181,
+    "cycles": 110,
+    "events": 880
+   },
+   "gates": {
+    "G1": {
+     "edges": 330,
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 23
+    },
+    "G2": {
+     "cells_baseline": 12768,
+     "cells_expected": 12768,
+     "cells_organica": 12768,
+     "passed": true,
+     "primary_pairs": 399,
+     "transfer_pairs": 94,
+     "vocab": 16
+    },
+    "G3": {
+     "ceiling_beats_one_transition": true,
+     "ceiling_log_loss": 0.369103,
+     "degraded_is_worse": true,
+     "degraded_log_loss": 0.443937,
+     "edges_kept": "171/330",
+     "label": "gate diagnostic \u2014 not an endpoint",
+     "one_transition_log_loss": 0.558464,
+     "organica_log_loss": 0.434614,
+     "passed": true
+    },
+    "G5": {
+     "alpha_is_256": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true
+    }
+   },
+   "kind": "functional_structure_design_cell",
+   "seconds": 26.8,
+   "seed": 20270203,
+   "variant": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "pythonhashseed": "0"
+   },
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 60,
+     "flip_q": 34
+    },
+    "withheld_pairs": 94
+   }
+  },
+  {
+   "baseline_family_selected_on_tuning": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "rule": "chosen on the tuning split, never on a scored window",
+    "tuning_log_loss": 0.260406
+   },
+   "delta": null,
+   "denominators": {
+    "primary_cells": 12768,
+    "primary_pairs": 399,
+    "transfer_cells": 3392,
+    "transfer_pairs": 106
+   },
+   "disqualifier_wiring": {
+    "primary": {
+     "cells_by_group": {
+      "self": 142,
+      "unattributed": 282,
+      "world": 40
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    },
+    "transfer": {
+     "cells_by_group": {
+      "self": 142,
+      "unattributed": 282,
+      "world": 0
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    }
+   },
+   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "formation": {
+    "compensated_events": 162,
+    "cycles": 110,
+    "events": 880
+   },
+   "gates": {
+    "G1": {
+     "edges": 337,
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 24
+    },
+    "G2": {
+     "cells_baseline": 12768,
+     "cells_expected": 12768,
+     "cells_organica": 12768,
+     "passed": true,
+     "primary_pairs": 399,
+     "transfer_pairs": 106,
+     "vocab": 16
+    },
+    "G3": {
+     "ceiling_beats_one_transition": true,
+     "ceiling_log_loss": 0.371414,
+     "degraded_is_worse": true,
+     "degraded_log_loss": 0.457401,
+     "edges_kept": "175/337",
+     "label": "gate diagnostic \u2014 not an endpoint",
+     "one_transition_log_loss": 0.573333,
+     "organica_log_loss": 0.444837,
+     "passed": true
+    },
+    "G5": {
+     "alpha_is_256": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true
+    }
+   },
+   "kind": "functional_structure_design_cell",
+   "seconds": 27.5,
+   "seed": 20270204,
+   "variant": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "pythonhashseed": "0"
+   },
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 67,
+     "flip_q": 39
+    },
+    "withheld_pairs": 106
+   }
+  },
+  {
+   "baseline_family_selected_on_tuning": {
+    "config": {
+     "alpha": 0.1,
+     "half_life": null,
+     "window": null
+    },
+    "family": "bigram",
+    "rule": "chosen on the tuning split, never on a scored window",
+    "tuning_log_loss": 0.255946
+   },
+   "delta": null,
+   "denominators": {
+    "primary_cells": 12768,
+    "primary_pairs": 399,
+    "transfer_cells": 4064,
+    "transfer_pairs": 127
+   },
+   "disqualifier_wiring": {
+    "primary": {
+     "cells_by_group": {
+      "self": 127,
+      "unattributed": 381,
+      "world": 20
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    },
+    "transfer": {
+     "cells_by_group": {
+      "self": 127,
+      "unattributed": 381,
+      "world": 0
+     },
+     "reason": "design-seed wiring check only (\u00a711.5 gate use)",
+     "shares_reported": false,
+     "status": "not_attributable",
+     "withheld": true
+    }
+   },
+   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "formation": {
+    "compensated_events": 144,
+    "cycles": 110,
+    "events": 880
+   },
+   "gates": {
+    "G1": {
+     "edges": 340,
+     "passed": true,
+     "realised_cells": 1596,
+     "realised_cells_with_support": 1596,
+     "source_tags": 24
+    },
+    "G2": {
+     "cells_baseline": 12768,
+     "cells_expected": 12768,
+     "cells_organica": 12768,
+     "passed": true,
+     "primary_pairs": 399,
+     "transfer_pairs": 127,
+     "vocab": 16
+    },
+    "G3": {
+     "ceiling_beats_one_transition": true,
+     "ceiling_log_loss": 0.367819,
+     "degraded_is_worse": true,
+     "degraded_log_loss": 0.468457,
+     "edges_kept": "175/340",
+     "label": "gate diagnostic \u2014 not an endpoint",
+     "one_transition_log_loss": 0.550204,
+     "organica_log_loss": 0.45791,
+     "passed": true
+    },
+    "G5": {
+     "alpha_is_256": true,
+     "cap_is_1000": true,
+     "confirmatory_seeds_read": 0,
+     "passed": true,
+     "pythonhashseed_is_0": true,
+     "seed_in_design_block": true,
+     "tuning_cycles_is_15": true
+    }
+   },
+   "kind": "functional_structure_design_cell",
+   "seconds": 29.7,
+   "seed": 20270205,
+   "variant": {
+    "alpha": 256.0,
+    "cap": 1000,
+    "pythonhashseed": "0"
+   },
+   "world": {
+    "cycles": 300,
+    "primary_cycles": [
+     150,
+     200
+    ],
+    "vocab": 16,
+    "withheld_instances": {
+     "flip_p": 92,
+     "flip_q": 35
+    },
+    "withheld_pairs": 127
+   }
+  }
+ ],
+ "confirmatory_seeds_run": 0,
+ "constants": {
+  "alpha": 256.0,
+  "cap": 1000,
+  "pythonhashseed": "0",
+  "tuning_cycles": 15
+ },
+ "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+ "failures": [],
+ "kind": "functional_structure_design_audit",
+ "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md \u00a76, \u00a710",
+ "seconds": 164.2,
+ "seeds": [
+  20270201,
+  20270202,
+  20270203,
+  20270204,
+  20270205
+ ],
+ "status": "design block passed: the confirmatory block may run"
+}
