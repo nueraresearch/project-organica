@@ -1,8 +1,11 @@
 """The functional protocol must stay executable and pre-committed."""
 from __future__ import annotations
 
+import json
 import pathlib
 import re
+
+import pytest
 
 DOC = pathlib.Path("docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md")
 
@@ -96,3 +99,20 @@ def test_design_boundary_and_limb_status_are_stated():
     # The recommendation is labelled as the owner's decision, never as an authorisation.
     assert "for the owner" in sec10
     assert "Nothing in this section authorises it" in sec10
+
+
+def test_confirmatory_record_matches_the_artifact():
+    """§10.4's figures are read off the artifact; a drift between them is a defect."""
+    art_path = pathlib.Path("docs/functional_structure_confirmatory.json")
+    if not art_path.exists():
+        pytest.skip("confirmatory artifact not present in this checkout")
+    art = json.loads(art_path.read_text(encoding="utf-8"))
+    doc = DOC.read_text(encoding="utf-8")
+    sec = " ".join(doc.split("### 10.4", 1)[1].split("## 11.", 1)[0].split())
+    for window in ("primary", "co_primary"):
+        block = art[window]
+        for value in (block["pooled_delta"], block["interval"]["low"], block["interval"]["high"]):
+            assert f"{value:.6f}" in sec, (window, value)
+    assert f"{art['n']}" in sec
+    assert art["status"] == art["primary"]["outcome"]
+    assert art["primary"]["passed"] is False or art["primary"]["outcome"] == "improvement"

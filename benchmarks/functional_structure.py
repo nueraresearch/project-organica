@@ -123,7 +123,8 @@ def attribute(base: Sequence[Cell], org: Sequence[Cell],
     if positive <= 0:
         return {"status": STATUS_EMPTY, "withheld": None, "threshold": threshold,
                 "margin_positive": 0.0, "share_world": None, "share_self": None,
-                "share_unattributed": None, "counts": count}
+                "share_unattributed": None, "counts": count,
+                "margins": {**margin, "positive": 0.0}}
 
     share = {g: margin[g] / positive for g in margin}
     if share["self"] >= threshold:
@@ -135,7 +136,10 @@ def attribute(base: Sequence[Cell], org: Sequence[Cell],
     return {"status": status, "withheld": withheld, "threshold": threshold,
             "margin_positive": positive, "share_world": share["world"],
             "share_self": share["self"], "share_unattributed": share["unattributed"],
-            "counts": count}
+            "counts": count,
+            # The margins themselves, so a pooled share can sum them (§11.5 pools
+            # 15 seeds; summing cell counts would not be the same ratio).
+            "margins": {**margin, "positive": positive}}
 
 
 # ---------------------------------------------------------------------------

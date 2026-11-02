@@ -339,6 +339,38 @@ the arithmetic beneath it. With a share defined on paired losses only the first 
 Claiming the second was inaccurate, and the correction narrows the claim rather than widening the
 permission: more is now said about what was read, and nothing new is permitted.
 
+### 10.4 The confirmatory run (2026-11-02, one run, no re-run)
+
+The block ran once: seeds `20270206`–`20270220`, n = 15, 432 s, artifact
+`docs/functional_structure_confirmatory.json`. All 15 seeds selected the same baseline family
+(bigram) on their tuning split, so §4's bar was supplied by one comparator throughout.
+
+**Primary window — the bar was not met.** Pooled `delta` = -0.003818 nats (Organica minus
+baseline); 98.33 % percentile interval from 10000 cluster-bootstrap resamples over seeds,
+[-0.010802, 0.002863]. The interval contains zero, so the outcome is **no
+improvement detected**. Per-seed deltas run from -0.027099 to 0.015468: the
+sign flips across seeds, which is what "no improvement detected" looks like at this n rather than a
+near miss in one direction. §8 fixes one run; this was it, and it is not re-run.
+
+**Co-primary window — a large score improvement that is not a transfer result.** Pooled `delta` =
+-0.359327 nats, interval [-0.369382, -0.345823], which is **improvement** on the score:
+the readout assigns much better probability to the withheld relations than the tuned bigram does.
+The disqualifier reports `not_attributable` on that window (world 0.000000, self
+0.299193, unattributed 0.700807 of the positive margin), exactly as
+§10.2 predicted from construction, and **the transfer claim is withheld whatever the score**.
+
+**Provenance on the primary window.** Its positive margin splits world 0.003292, self
+0.298208, unattributed 0.698500, status `not_attributable`. The compulsory diagnostic of §7
+therefore certifies neither window's margin, and it is reported for the null result as §7 requires.
+
+**In §9's language, and no further.** This is **no improvement detected** on the primary window: not
+equivalence, and not evidence that the engine forms nothing useful. It says that under this scoring
+rule, at capacity 1,000 with smoothing 256.0, on these worlds, the formed structure did not beat the
+tuned bigram by a detectable margin on held-out prediction. The co-primary improvement is a score,
+not a transfer: it is not attributable under this measure (§10.2), and §4 gives it no power to turn a
+failed primary into a pass. Reading it as one would be the protocol becoming convenient after the
+fact, which is exactly what §8 forbids.
+
 ---
 
 ## 11. Amendment 1 — executable definitions (2026-11-02, before the build)

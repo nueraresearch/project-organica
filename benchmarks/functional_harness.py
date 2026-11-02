@@ -42,6 +42,7 @@ import argparse
 import json
 import os
 import pathlib
+import random
 import sys
 import time
 from collections import defaultdict
@@ -412,6 +413,204 @@ def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]
 
 
 # ---------------------------------------------------------------------------
+# The confirmatory block (§4, §10 step 3)
+# ---------------------------------------------------------------------------
+
+CONFIRMATORY_OUT = "docs/functional_structure_confirmatory.json"
+BOOTSTRAP_RESAMPLES = 10_000
+INTERVAL_LEVEL = 0.9833
+#: Fixed before any confirmatory seed is read, and not a study seed.
+BOOTSTRAP_SEED = 20261102
+
+
+def refuse_design(seed: int) -> int:
+    """The confirmatory block may not spend itself on a design seed."""
+    if seed in DESIGN_SEEDS:
+        raise SystemExit(f"seed {seed} is a design seed: its diagnostics are an audit, "
+                         "not evidence")
+    if seed not in CONFIRMATORY_SEEDS:
+        raise SystemExit(f"seed {seed} is not in the confirmatory block")
+    return seed
+
+
+def _cell_losses(seed: int) -> dict[str, Any]:
+    """One confirmatory seed: both arms, both windows, per-seed paired delta."""
+    refuse_design(seed)
+    started = time.time()
+    world = generate_compositional_world(seed=seed, cycles=CYCLES)
+    formation = conditioned_formation_stream(world, seed)
+    held = limbs(world)
+    vocab = {t for r in world["events"] for t in r.split()}
+    recorder = FormationRecorder()
+    engine = run_formation(formation, seed, CAP, recorder)
+    rate = base_rates(formation["events"])
+    org_prob = make_organica_backoff(engine["rows"], rate, ALPHA)
+
+    rows = formation["events"]
+    fit_rows = rows[:len(rows) - TUNING_CYCLES * EVENTS_PER_CYCLE]
+    comps = comparator_sweep(rows, fit_rows, vocab, world["tag_to_cell"])
+    family = min(BASELINE_FAMILIES, key=lambda n: comps[n]["tuning_log_loss"])
+    base_prob = comps[family]["prob"]
+
+    provenance: dict[tuple[str, str], tuple[int, int]] = {}
+    for pair in recorder.transitions:
+        origin = recorder.origins(pair)
+        provenance[pair] = (origin["world"], origin["self"])
+
+    windows: dict[str, Any] = {}
+    for name, key in (("primary", "transfer_full"), ("co_primary", "transfer")):
+        ctx, obs = held[key]
+        org = fs.score(org_prob, ctx, obs, vocab)
+        base = fs.score(base_prob, ctx, obs, vocab)
+        share = fs.attribute(fs.cells(base_prob, ctx, obs, vocab),
+                             fs.cells(org_prob, ctx, obs, vocab), provenance)
+        windows[name] = {
+            "organica_log_loss": org["log_loss"],
+            "baseline_log_loss": base["log_loss"],
+            "delta": org["log_loss"] - base["log_loss"],
+            "cells": org["cells"],
+            "pairs": len(ctx),
+            "attribution": {"status": share["status"], "withheld": share["withheld"],
+                            "share_world": share["share_world"],
+                            "share_self": share["share_self"],
+                            "share_unattributed": share["share_unattributed"],
+                            "margin_positive": share["margin_positive"],
+                            "margins": share["margins"],
+                            "by_group": share["counts"]},
+        }
+    return {"seed": seed, "baseline_family": family, "windows": windows,
+            "seconds": round(time.time() - started, 1)}
+
+
+def _pool(weighted: Sequence[tuple[float, int]]) -> float:
+    """Pooled delta: total loss difference over total cells, as §11.2 pools its denominators."""
+    denominator = sum(c for _, c in weighted)
+    if denominator <= 0:
+        raise ValueError("a zero denominator is not measurable")
+    return sum(d * c for d, c in weighted) / denominator
+
+
+def _percentile(sorted_values: Sequence[float], p: float) -> float:
+    """Nearest-rank percentile on the resample distribution."""
+    if not sorted_values:
+        raise ValueError("no resamples")
+    index = int(round(p * (len(sorted_values) - 1)))
+    return sorted_values[min(len(sorted_values) - 1, max(0, index))]
+
+
+def interval(weighted: Sequence[tuple[float, int]],
+             resamples: int = BOOTSTRAP_RESAMPLES,
+             seed: int = BOOTSTRAP_SEED,
+             level: float = INTERVAL_LEVEL) -> dict[str, Any]:
+    """Percentile interval from a cluster bootstrap over seeds (§4's method)."""
+    rng = random.Random(seed)
+    n = len(weighted)
+    draws = sorted(_pool([weighted[rng.randrange(n)] for _ in range(n)])
+                   for _ in range(resamples))
+    tail = (1.0 - level) / 2.0
+    return {"low": _percentile(draws, tail),
+            "high": _percentile(draws, 1.0 - tail),
+            "level": level, "resamples": resamples, "bootstrap_seed": seed,
+            "pooled_delta": _pool(weighted),
+            "method": "percentile interval, cluster (seed) bootstrap, nearest-rank"}
+
+
+def outcome(inter: dict[str, Any]) -> str:
+    """§4/§9 in one place: the upper bound is what decides a pass."""
+    if inter["high"] < 0:
+        return "improvement"
+    if inter["low"] > 0:
+        return "reversed"
+    return "no improvement detected"
+
+
+def _pooled_attribution(cells: Sequence[dict]) -> dict[str, Any]:
+    """§11.5: pool the share as total margin over total positive margin.
+
+    The per-seed margins are summed, not the per-seed cell counts: the share is a
+    ratio of loss improvements, and counts are a different quantity.
+    """
+    groups = ("world", "self", "unattributed")
+    margin = {g: 0.0 for g in groups}
+    counts = {g: 0 for g in groups}
+    for c in cells:
+        for g in groups:
+            margin[g] += c["attribution"]["margins"].get(g, 0.0)
+            counts[g] += c["attribution"]["by_group"].get(g, 0) or 0
+    positive = sum(c["attribution"]["margins"].get("positive", 0.0) for c in cells)
+    if positive <= 0:
+        return {"status": fs.STATUS_EMPTY, "withheld": None, "share_world": None,
+                "share_self": None, "share_unattributed": None,
+                "note": "no positive margin on any realised cell"}
+    shares = {g: margin[g] / positive for g in groups}
+    if shares["self"] >= fs.THRESHOLD:
+        status, withheld = fs.STATUS_SELF, True
+    elif shares["unattributed"] >= fs.THRESHOLD:
+        status, withheld = fs.STATUS_UNATTRIBUTED, True
+    else:
+        status, withheld = fs.STATUS_WORLD, False
+    return {"status": status, "withheld": withheld,
+            "share_world": round(shares["world"], 6),
+            "share_self": round(shares["self"], 6),
+            "share_unattributed": round(shares["unattributed"], 6),
+            "cells_by_group": counts}
+
+
+def run_confirmatory(seeds: Sequence[int] = CONFIRMATORY_SEEDS) -> dict[str, Any]:
+    """The one confirmatory run: pooled endpoint, interval, bar, attribution, claim."""
+    require_hash_seed()
+    for seed in seeds:
+        refuse_design(seed)
+    started = time.time()
+    cells = [_cell_losses(seed) for seed in seeds]
+    results: dict[str, Any] = {}
+    for window in ("primary", "co_primary"):
+        weighted = [(c["windows"][window]["delta"], c["windows"][window]["cells"])
+                    for c in cells]
+        inter = interval(weighted)
+        results[window] = {
+            "pooled_delta": round(inter["pooled_delta"], 6),
+            "interval": {k: (round(v, 6) if isinstance(v, float) else v)
+                         for k, v in inter.items() if k != "pooled_delta"},
+            "outcome": outcome(inter),
+            "bar": "upper bound below zero",
+            "passed": inter["high"] < 0,
+            "per_seed_delta": {str(c["seed"]): round(c["windows"][window]["delta"], 6)
+                               for c in cells},
+            "attribution_pooled": _pooled_attribution(
+                [{"attribution": c["windows"][window]["attribution"]} for c in cells]),
+        }
+
+    primary, co = results["primary"], results["co_primary"]
+    if not primary["passed"]:
+        claim = f"no improvement detected on the primary window ({primary['outcome']})"
+    elif co["passed"] and co["attribution_pooled"]["status"] == fs.STATUS_WORLD:
+        claim = "transfer, within this design"
+    else:
+        claim = ("held-out generalization only: the transfer limb is not attributable "
+                 "under the current provenance measure")
+    artifact = {
+        "kind": "functional_structure_confirmatory",
+        "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md §4, §9, §10 step 3",
+        "status": primary["outcome"],
+        "claim": claim,
+        "transfer_limb": "not attributable under the current provenance measure; "
+                         "reported whatever its score",
+        "seeds": list(seeds), "n": len(cells),
+        "constants": {"cap": CAP, "alpha": ALPHA, "tuning_cycles": TUNING_CYCLES,
+                      "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
+                      "bootstrap_resamples": BOOTSTRAP_RESAMPLES,
+                      "interval_level": INTERVAL_LEVEL,
+                      "bootstrap_seed": BOOTSTRAP_SEED},
+        "baseline_family_by_seed": {str(c["seed"]): c["baseline_family"] for c in cells},
+        "primary": primary, "co_primary": co,
+        "cells": cells,
+        "seconds": round(time.time() - started, 1),
+    }
+    return artifact
+
+
+# ---------------------------------------------------------------------------
 # The design audit (§10, step 2)
 # ---------------------------------------------------------------------------
 
@@ -477,12 +676,28 @@ def run_design_audit(seeds: Sequence[int] = DESIGN_SEEDS) -> dict[str, Any]:
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--design", action="store_true",
-                    help="run the design block (the only block this module may run)")
+                    help="run the design block (§10 step 2)")
     ap.add_argument("--only", type=int, default=None,
                     help="debug: one design seed, artifact written to /tmp")
+    ap.add_argument("--confirmatory", action="store_true",
+                    help="run the confirmatory block once (§10 step 3)")
     args = ap.parse_args(argv)
-    if not (args.design or args.only):
-        ap.error("pass --design (or --only SEED for a single-seed debug run)")
+    if not (args.design or args.only or args.confirmatory):
+        ap.error("pass --design, --confirmatory, or --only SEED")
+
+    if args.confirmatory:
+        artifact = run_confirmatory()
+        out = ROOT / CONFIRMATORY_OUT
+        out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n",
+                       encoding="utf-8")
+        print(json.dumps({"status": artifact["status"], "claim": artifact["claim"],
+                          "primary": {k: artifact["primary"][k]
+                                      for k in ("pooled_delta", "outcome", "passed")},
+                          "co_primary": {k: artifact["co_primary"][k]
+                                         for k in ("pooled_delta", "outcome", "passed")},
+                          "seconds": artifact["seconds"]}, indent=1))
+        print(f"wrote {out}")
+        return 0
 
     artifact = run_design_audit((args.only,) if args.only else DESIGN_SEEDS)
     out = pathlib.Path("/tmp/functional_design_only.json") if args.only else ROOT / DESIGN_OUT

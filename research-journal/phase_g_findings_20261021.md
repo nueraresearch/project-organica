@@ -8468,3 +8468,40 @@ measure`; a design-seed status is labelled an instrument reading in the artifact
 (`verdict_on_the_study: false`), because no confirmatory claim exists yet for it to withhold; and
 nothing in the correction changes a threshold, a score, a seed or a gate.
 
+## §117 The confirmatory run: no detectable advantage on the whole window, a large one where it cannot be certified
+
+The block ran once, on `20270206`–`20270220`, n = 15, in 432 s. Every seed chose the
+same baseline family on its tuning split, so one comparator supplied the bar throughout.
+
+**Primary: no improvement detected.** Pooled `delta` -0.003818 nats, interval
+[-0.010802, 0.002863] over 10000 cluster-bootstrap resamples. Per-seed deltas
+span -0.027099 to 0.015468 with both signs present, so this is a null
+result and not a near miss: the formed structure did not beat a tuned bigram on held-out prediction
+by a detectable margin.
+
+**Co-primary: -0.359327 nats the other way, and not a transfer result.** The interval
+[-0.369382, -0.345823] lies entirely below zero, so the readout is much better than the
+baseline on the withheld relations. The attribution then returns `not_attributable` — world
+0.000000, self 0.299193, unattributed 0.700807 — which is the outcome §10.2 predicted
+before the block ran, for the reason it gave: those relations were withheld from formation and
+cannot acquire world-source support. The transfer claim is withheld.
+
+The asymmetry is the finding, and it needs care rather than enthusiasm. The engine's readout is far
+better where the world's combination was never shown, and indistinguishable where it was. Two
+readings are available and only one is supported: (a) the readout carries an inductive advantage on
+the withheld relations that a counting baseline cannot have, or (b) the readout is better wherever
+the baseline is starved of counts, which is the same statement with no advantage at all. The
+provenance share cannot separate them, because it is exactly the measure whose blind spot is these
+cells. What can be said is narrower and still interesting: the advantage is concentrated on the
+cells the baseline cannot count, and it is large there.
+
+**What is not claimed.** No transfer; no equivalence; no statement that the engine forms nothing
+useful. The primary window's own margin is 0.698500 unattributed, so the
+diagnostic cannot certify that one either. The closed reusable-knowledge study is untouched, and its
+transfer failure is neither confirmed nor reversed here.
+
+**The process point.** The design block earned its place: it found that the co-primary could never
+be attributed before the confirmatory run spent itself, and the run then produced exactly the
+outcome the audit predicted for that limb. The verdict language was fixed in §4 and §9 before any
+number existed, and it has not been re-read since.
+

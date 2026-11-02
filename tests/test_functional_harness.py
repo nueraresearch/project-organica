@@ -110,3 +110,87 @@ def test_artifact_counts_are_what_the_protocol_quotes():
     assert str(first["world"]) in sec
     assert str(first["unattributed"]) in sec
     assert str(len(art["seeds"])) in sec
+
+
+# ---------------------------------------------------------------------------
+# The confirmatory block's arithmetic (§4)
+# ---------------------------------------------------------------------------
+
+def test_pooling_weights_by_cells_not_by_seeds():
+    """§11.2 pools over cells, so a seed with twice the cells carries twice the weight."""
+    assert fh._pool([(0.0, 100), (1.0, 100)]) == pytest.approx(0.5)
+    assert fh._pool([(0.0, 300), (1.0, 100)]) == pytest.approx(0.25)
+    with pytest.raises(ValueError):
+        fh._pool([(0.0, 0)])
+
+
+def test_outcome_uses_the_upper_bound_only():
+    """§4: the bar is the upper bound below zero, and the wrong direction is named."""
+    assert fh.outcome({"low": -0.2, "high": -0.1}) == "improvement"
+    assert fh.outcome({"low": 0.1, "high": 0.2}) == "reversed"
+    assert fh.outcome({"low": -0.1, "high": 0.1}) == "no improvement detected"
+    assert fh.outcome({"low": -0.1, "high": 0.0}) == "no improvement detected"
+
+
+def test_interval_is_ordered_and_deterministic():
+    weighted = [(0.10, 100), (0.12, 100), (0.15, 100), (0.05, 100), (0.30, 100)]
+    first = fh.interval(weighted, resamples=500)
+    again = fh.interval(weighted, resamples=500)
+    assert first == again                      # the bootstrap seed is fixed
+    assert first["low"] <= first["pooled_delta"] <= first["high"]
+    assert first["level"] == fh.INTERVAL_LEVEL == 0.9833
+    assert first["resamples"] == 500
+
+
+def test_pooled_share_sums_margins_not_counts():
+    """§11.5 pools the share as margin over margin; a count ratio is a different number."""
+    def cell(margins, by_group):
+        return {"attribution": {"margins": margins, "by_group": by_group}}
+    # Counts say self-majority (9 of 10); margins say world-majority (0.9 of 1.0).
+    pooled = fh._pooled_attribution([
+        cell({"world": 0.9, "self": 0.0, "unattributed": 0.1, "positive": 1.0},
+             {"world": 1, "self": 9, "unattributed": 0}),
+    ])
+    assert pooled["status"] == fh.fs.STATUS_WORLD
+    assert pooled["share_world"] == pytest.approx(0.9)
+    empty = fh._pooled_attribution([
+        cell({"world": 0.0, "self": 0.0, "unattributed": 0.0, "positive": 0.0},
+             {"world": 0, "self": 0, "unattributed": 0}),
+    ])
+    assert empty["status"] == fh.fs.STATUS_EMPTY
+
+
+def test_confirmatory_mode_refuses_design_seeds():
+    with pytest.raises(SystemExit):
+        fh.refuse_design(fh.DESIGN_SEEDS[0])
+    with pytest.raises(SystemExit):
+        fh.refuse_design(20261201)
+    assert fh.refuse_design(fh.CONFIRMATORY_SEEDS[0]) == fh.CONFIRMATORY_SEEDS[0]
+
+
+def test_confirmatory_artifact_is_consistent():
+    """The one confirmatory run's arithmetic must be internally coherent."""
+    path = pathlib.Path("docs/functional_structure_confirmatory.json")
+    if not path.exists():
+        pytest.skip("confirmatory artifact not present in this checkout")
+    art = json.loads(path.read_text(encoding="utf-8"))
+    assert art["seeds"] == list(fh.CONFIRMATORY_SEEDS) and art["n"] == 15
+    for window in ("primary", "co_primary"):
+        block = art[window]
+        assert block["interval"]["low"] <= block["pooled_delta"] <= block["interval"]["high"]
+        assert block["passed"] == (block["interval"]["high"] < 0)
+        assert block["outcome"] == fh.outcome(block["interval"])
+        weighted = [(c["windows"][window]["delta"], c["windows"][window]["cells"])
+                    for c in art["cells"]]
+        assert block["pooled_delta"] == pytest.approx(fh._pool(weighted), abs=1e-6)
+        # The share is a ratio of margins, and the status follows from it.
+        att = block["attribution_pooled"]
+        if att["share_self"] >= 0.5:
+            assert att["status"] == fh.fs.STATUS_SELF
+        elif att["share_unattributed"] >= 0.5:
+            assert att["status"] == fh.fs.STATUS_UNATTRIBUTED
+        else:
+            assert att["status"] == fh.fs.STATUS_WORLD
+    # A withheld transfer claim must be reflected in the headline, not only a field.
+    if art["co_primary"]["attribution_pooled"]["withheld"]:
+        assert "held-out generalization" in art["claim"] or "no improvement" in art["claim"]
