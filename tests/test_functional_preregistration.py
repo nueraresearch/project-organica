@@ -118,3 +118,15 @@ def test_confirmatory_record_matches_the_artifact():
     assert f"{art['n']}" in sec
     assert art["status"] == art["primary"]["outcome"]
     assert art["primary"]["passed"] is False or art["primary"]["outcome"] == "improvement"
+
+
+def test_no_stale_pre_run_statements_survive():
+    """The record must not still say no cell has run, or that design losses were unformed."""
+    text = DOC.read_text(encoding="utf-8")
+    assert "No cell has run" not in text
+    assert "has run under it.** The scoring layer" not in text
+    assert "**Frozen.**" in text
+    harness = pathlib.Path("benchmarks/functional_harness.py").read_text(encoding="utf-8")
+    assert "it is not computed, not printed and not stored" not in harness
+    assert "endpoint-derived diagnostic" in harness
+    assert "Each block refuses the other's seeds." in harness

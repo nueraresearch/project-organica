@@ -8505,3 +8505,29 @@ be attributed before the confirmatory run spent itself, and the run then produce
 outcome the audit predicted for that limb. The verdict language was fixed in §4 and §9 before any
 number existed, and it has not been re-read since.
 
+## §118 Closing the record: statements written before the run
+
+The result is frozen. Nothing here touches it, and the freeze is now a sentence in §10.4 rather
+than an intention: no re-run, no seed added or dropped, no threshold, constant or gate adjusted in
+the light of the numbers.
+
+Two statements had not caught up, and both fail the same way as §116 — a sentence that reads as
+discipline while describing a state that has passed. **§11.4**, written with the amendment, said
+"No cell has run, and none may run until the harness and these definitions are committed
+together". True when written, false by the time anyone would read it next. It now says it in the
+past tense and points at the two records, so a pre-commitment clause cannot be mistaken for a
+claim that nothing happened. **The harness docstring** said the endpoint's losses are "not
+computed, not printed and not stored" on a design seed. §10.3 had already corrected that in the
+protocol and the docstring had not — which matters more, because the docstring is what a person
+reads immediately before running the file.
+
+Two further sentences were stale for the same reason and went in the same pass: the status header
+still said the engine binding was not built, and the docstring described a design-only module. All
+four are corrections of description, not of measurement: no number, threshold, seed or gate
+moved, which is exactly why they could be made after the run without re-scoring it.
+
+The pattern across §115, §116 and §118 is the same defect three times: documents written to
+constrain a future, and then the future arrives. Each correction narrowed a claim rather than
+widening a permission, and each was disclosed in the manual the same day. A record allowed to
+drift once the numbers exist is not a preregistration, so the drift is repaired in the open.
+

@@ -1,4 +1,4 @@
-"""The engine binding for the functional structure study (§10, step 2).
+"""The engine binding for the functional structure study (§10, steps 2 and 3).
 
 `benchmarks/functional_structure.py` is the measurement contract: cells, per-cell
 loss, the four attribution outcomes, G6. This module is the part that needs the
@@ -8,20 +8,22 @@ scores the two windows of §2, and runs the instrument gates of §6.
 What it deliberately does **not** do
 ------------------------------------
 
-**It does not form the endpoint.** §4's `delta` is Organica minus the strongest
-baseline on the primary window, pooled over the confirmatory seeds. On design
-seeds it is not computed, not printed and not stored: `delta: None` with the
-reason beside it. What the gates need is a readout that exists (G1), a
-denominator (G2), and a comparison that *can fail* (G3) — none of which is the
-endpoint, and the last of which is a task-level control that runs no engine at
-all.
+**It does not form the pooled endpoint on a design seed.** §4's `delta` is Organica
+minus the strongest baseline on the primary window, pooled over the confirmatory
+seeds; on a design seed that statistic is not formed, and `delta` is `None` with the
+reason beside it. What *is* computed there is the per-cell paired loss, because
+§11.3's share is defined on the difference between the two arms' losses — those
+differences are the endpoint's building block, and calling them unformed was the
+over-claim §10.3 corrects. The gate arithmetic that needs them is labelled an
+endpoint-derived diagnostic, and no design margin is compared with §4's bar.
 
-**It refuses any seed outside the design block.** `20270201`–`20270205` only.
-The confirmatory block is not generated, not fitted and not referenced by value
-anywhere in this module; a seed from it raises before a database is opened.
+**Each block refuses the other's seeds.** `--design` accepts `20270201`–`20270205`
+and raises before a database is opened for anything else; `--confirmatory` accepts
+`20270206`–`20270220` and refuses a design seed the same way. Neither can spend the
+other's one run.
 
-Two implementation choices the protocol leaves open, both fixed here before any
-confirmatory seed exists and disclosed in the journal:
+Two implementation choices the protocol leaves open, both fixed before any confirmatory
+seed was read and disclosed in the journal:
 
 * **Which baseline family supplies the bar.** §3 says each family is swept and
   its best configuration chosen on the tuning split; it does not say how the

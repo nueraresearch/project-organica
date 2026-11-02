@@ -1,9 +1,10 @@
 # Functional structure — pre-registration (V1)
 
-**Status: committed before any cell has run under it.** The scoring layer of
-§11.2–§11.3 is built and gated; the engine binding is not, and no seed — design or
-confirmatory — has been read by it. No seed named here has been read by any study in
-this repository. Nothing
+**Status: committed before any cell had run under it; both blocks have since run once.**
+The scoring layer of §11.2–§11.3 and the engine binding of §10 are built and gated, the design
+block passed every gate (§10.1), and the confirmatory block ran once (§10.4). When the
+constants below were fixed, no seed named here had been read by any study in this repository;
+that pre-commitment is what the run tests, and the run did not revise it. Nothing
 below was chosen from a result of this protocol; the constants it fixes are carried
 over from protocols that are already closed, and they are named with their source.
 
@@ -366,6 +367,10 @@ The disqualifier reports `not_attributable` on that window (world 0.000000, self
 0.298208, unattributed 0.698500, status `not_attributable`. The compulsory diagnostic of §7
 therefore certifies neither window's margin, and it is reported for the null result as §7 requires.
 
+**Frozen.** This result is final for this protocol: no re-run, no seed added or dropped, no
+threshold, constant or gate adjusted in its light (§8). A different question needs a new
+pre-registration and a fresh seed block.
+
 **In §9's language, and no further.** This is **no improvement detected** on the primary window: not
 equivalence, and not evidence that the engine forms nothing useful. It says that under this scoring
 rule, at capacity 1,000 with smoothing 256.0, on these worlds, the formed structure did not beat the
@@ -467,8 +472,10 @@ same scale as the endpoint, so "carried mainly by" is a computable share.
 ### 11.4 What is unchanged
 
 Seeds and blocks (§5), gates (§6), capacity, alpha, the endpoint and its bar (§4),
-the stop rules (§8) and the build status (§10) are unchanged by this amendment. No cell has run, and
-none may run until the harness and these definitions are committed together.
+the stop rules (§8) and the build status (§10) are unchanged by this amendment. No cell had run
+when these definitions were committed, and none could run until the harness and the definitions
+were committed together. Both blocks have since run — §10.1 and §10.4 record them — and this
+amendment was not revised afterwards.
 
 **Note on §10 (added afterwards, disclosed).** §10's run order was revised on
 2026-11-02 in a separate commit, because its original wording forbade the design run it
