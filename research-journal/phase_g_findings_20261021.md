@@ -8040,3 +8040,78 @@ the data is still a claim that had no check behind it.
 No threshold, no verdict and no new cell: the same five calibration cells were re-read, and
 the closed study's status is untouched.
 
+## §104 A prospective formation-provenance instrument, and the study it licenses
+
+The ancestry tracer answered its narrow question and cannot answer the next one: prediction
+structures on the calibration cells never recorded parent links, so no walk reaches their
+origins. `benchmarks/formation_provenance.py` records origins instead of reconstructing
+them — at the sleep cycle that forms a candidate, it writes down which stored events
+supplied the asserted tag pair and whether their source rows were world events or the
+organism's own sleep payloads. The hook calls the engine's own `_build_predictions` and
+returns its list unchanged; 8 synthetic controls pass, including three
+that can fail (deleting the world transitions flips `pair_mixed` to `pair_self_sourced`; a
+mutating subclass is caught by the neutrality comparison; reinforcing an edge raises its
+recorded world transitions from 6 to 9). The unit is a transition, and
+`pair_unattributed` is reported as its own category rather than as zero support.
+
+`docs/FORMATION-PROVENANCE-PREREGISTRATION.md` then fixes the study: the difference in
+held-out success between `pair_world_attributed` candidates and candidates whose origin
+includes a self-sourced row, 98.33 % interval, lower bound above zero, a permutation arm
+that must fail, and four gates. Seeds are fresh (`20270101`–`20270120`), and no closed seed
+is read. An association there would not mean the knowledge is useful or reusable, and
+nothing in it reopens the closed study. No cell has run under it.
+
+## §105 G13-D: capacity and world-only provenance together, once
+
+Authorized by `docs/DECISION-V2-SCOPE.md` D2; the dated plan
+(`docs/G13-D-DIAGNOSTIC-PLAN.md`) was committed at `c1c46dd` **before** the run. Seeds
+20261101, 20261102, 20261103, 20261104, 20261105 only; `alpha = 256.0` held fixed in both arms as a constant, not an intervention;
+both overrides in process; `git diff --stat -- organica/` empty.
+
+**The interventions were verified before any score was read.** The world-only lookback
+removed every `precedes` source tag that occurs in no world event — the baseline arm has
+them on every seed, the g13d arm has zero — and the capacity bound was reached above 20 on
+every seed. A perturbation that did not occur would not be a null result.
+
+Paired difference, g13d minus baseline, house shape (negative is better):
+
+| seed | retention | transfer-diagnostic | revision | max candidates |
+|---|---|---|---|---|
+| 20261101 | -0.0311 | -0.0332 | -0.0435 | 3998 |
+| 20261102 | -0.0333 | -0.0294 | -0.0413 | 3998 |
+| 20261103 | -0.0299 | -0.0312 | -0.0429 | 3997 |
+| 20261104 | -0.0258 | -0.0296 | -0.0410 | 3998 |
+| 20261105 | -0.0280 | -0.0293 | -0.0471 | 3998 |
+
+All 30 of 30 per-seed cells across both metric shapes are negative; the pooled means are
+retention **-0.0296**, transfer-diagnostic
+**-0.0305** and revision
+**-0.0432** log-loss. The two metric shapes coincide exactly
+on this readout, so the self-cells column adds no separate information here.
+
+Absolute house-shape log-loss, baseline / g13d:
+
+| window | 20261101, 20261102, 20261103, 20261104, 20261105 |
+|---|---|
+| retention | 0.4467 / 0.4156 | 0.4552 / 0.4219 | 0.4544 / 0.4245 | 0.4534 / 0.4276 | 0.4556 / 0.4276 |
+| transfer_diagnostic | 0.4554 / 0.4223 | 0.4546 / 0.4252 | 0.4522 / 0.4210 | 0.4485 / 0.4189 | 0.4575 / 0.4282 |
+| revision | 0.4697 / 0.4262 | 0.4617 / 0.4205 | 0.4650 / 0.4221 | 0.4628 / 0.4218 | 0.4718 / 0.4247 |
+
+Fixed references, transfer-diagnostic:
+
+| reference | 20261101, 20261102, 20261103, 20261104, 20261105 |
+|---|---|
+| replay | 0.3430 | 0.3446 | 0.3358 | 0.3349 | 0.3424 |
+| cell_counter | 0.3406 | 0.3430 | 0.3341 | 0.3327 | 0.3404 |
+| bayes_ceiling | 0.2744 | 0.2742 | 0.2683 | 0.2714 | 0.2711 |
+
+**What this is, and what it is not.** It is a diagnostic of the frozen engine's failure
+mode under the two confounds the decision record named: on these five seeds the combined
+condition scored better than the frozen baseline in every paired cell, which is a
+statement about log-loss on three windows and nothing wider. It applies no threshold,
+establishes no acquisition or transfer result, does not reach relation-family separation
+or a non-frequency ranking, and authorizes no V2 build and no confirmatory campaign. The
+closed acquisition preregistration, its Gate 13 threshold, the Task 2 stopped verdict and
+every confirmatory seed assignment are unchanged. This thread stops here; broader work
+needs a new recorded owner decision.
+
