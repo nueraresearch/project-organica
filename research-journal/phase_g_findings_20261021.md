@@ -8127,3 +8127,51 @@ closed acquisition preregistration, its Gate 13 threshold, the Task 2 stopped ve
 every confirmatory seed assignment are unchanged. This thread stops here; broader work
 needs a new recorded owner decision.
 
+## §106 The provenance study ran: an association, and only an association
+
+The preregistered design block ran first, on `20270101`–`20270105`, and evaluated no
+endpoint. All three design gates passed: at least one non-`pair_unattributed` candidate
+formed on every seed; the design-mean yield projects to **4422**
+world-attributed and **8874** self-including candidates over the
+fifteen confirmatory seeds, against the 30-per-arm floor; and the recording hook reproduced
+the engine's own candidates exactly on the study build — **3998** candidates
+compared by id, strength and count, identical. The first neutrality check failed on a list
+versus tuple difference introduced by caching; that was a defect in the check, not in the
+engine, and it is fixed rather than absorbed.
+
+The confirmatory run then held on `20270106`–`20270120`, once, under the committed protocol.
+Held-out success was the preregistered binary: the asserted pair occurs at least once in
+cycles 150–200, a window the organism is never shown.
+
+| arm | hits | n | rate |
+|---|---|---|---|
+| `pair_world_attributed` | 1938 | 4280 | 0.4528 |
+| `origin_includes_self` | 2036 | 8528 | 0.2387 |
+
+Difference **+0.2141**, 98.33 % interval **[+0.1959, +0.2281]**, lower bound above zero.
+The interval is a percentile interval from 10,000 cluster-bootstrap resamples of the fifteen
+seeds, because candidates within a seed are not independent; that method is recorded in the
+artifact. The permutation control, which shuffles origin labels within seed and cycle,
+returned **+0.000359** with interval **[-0.016244, +0.016023]**
+— it includes zero, as it must. `pair_unattributed` never occurred in this run
+(**0** candidates), so the exclusion rule was idle and the two arms are the
+whole population.
+
+**What this means.** Among the candidates this engine formed on these worlds, the recorded
+provenance of a prediction's pair is associated with whether that pair occurs in a window the
+organism was never shown: world-attributed pairs appear in that window about twice as often
+as pairs whose origin includes the organism's own sleep payload. That is the endpoint the
+protocol pre-committed, and it cleared its bar without a threshold being touched.
+
+**What it does not mean, and the protocol said so before the run.** It does not mean the
+knowledge is useful or reusable — an association with held-out occurrence is not the closed
+study's margin, and provenance alone is never evidence of usefulness. It does not mean the
+content originated in the world: `pair_world_attributed` says the source rows were world
+events, not that the tags were first learned there. It does not reopen the closed study, whose
+verdict, seeds and thresholds are untouched. It is not a functional test of whether developed
+structure helps: the outcome is occurrence in a held-out window, not predictive performance
+against an equally exposed baseline. And it is an observation, not an intervention.
+
+The functional question therefore remains open, and it needs its own protocol: origins captured
+at formation, held-out prediction scored against baselines given the same exposure, and an
+external-use outcome. Nothing here authorizes it.
