@@ -285,13 +285,15 @@ directly rather than against a reference estimate. The calibration in §3 is the
 a world generator that gives the truth by construction is the second. Until then the five-world
 limitation stands, and no confirmatory seed has been spent.
 
-## 9. Decision, 2026-11-02: the scoring window for future blocks
+## 10. Decision, 2026-11-02: the scoring window for future blocks
 
 The owner adopted the criterion in §8 on 2026-11-02. This section records what that binds, and its limits.
 
 **The rule.** A new methodology block scores at `2x` — the **100-cycle** window (110 cycles of formation exposure, 100 scored) — unless that block's own design record, written before the block opens, states the sign-resolution probability it predicts for the window it proposes and why the `2x` default is wrong for it. `rho` (within-run SE over between-world SD) stays in the report as a description of the two uncertainties; it no longer sets the threshold.
 
 **The criterion that defends it.** Per-world sign resolution as defined in §8: `p(w, s)` at or above 0.90 for **every** world, with each world's effect drawn from a scale other than the one being judged. On these five worlds `2x` is the smallest window meeting that bar: 0.917–0.997 at `2x`, against 0.780–0.917 at `1x`, where one world of five qualifies.
+
+The audit in §9 qualifies the bar without moving it: the target is a convention (0.95 is cleared by four of five worlds at `2x`), and the reference rule is decisive — a fixed `4x` reference gives 0.898 and three of five worlds. The rule above names the reference rule for that reason, and the window is **provisional**, as §9 states, not a validated minimum.
 
 **What every block reports.** Both numbers, because they answer different questions and neither substitutes for the other:
 

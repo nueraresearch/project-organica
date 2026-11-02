@@ -9177,3 +9177,36 @@ convention naming a reference rule and a threshold, not a validated minimum. The
 run resolves its own world's sign after 100 cycles"; the claim it does not support is "the effect is
 established", because block-level agreement stays near 0.78 and only more worlds move that. No seed spent,
 no engine run, no confirmatory block authorised.
+
+## §135 — The 100-cycle window is adopted as a provisional convention, and both ceilings are reported (2026-11-02)
+
+§133 established the sign criterion; §134 audited it and found the target convention-dependent and the
+reference rule decisive. The owner adopted the criterion anyway. This entry records what was written down
+and, more importantly, what it does not claim.
+
+**The rule** (`docs/SCALING-LADDER.md` §10): a new methodology block scores at `2x` — 110 cycles of
+formation exposure, 100 scored — unless that block's design record, written before it opens, predicts the
+sign-resolution probability of the window it proposes under a **named reference rule** and says why the
+`2x` default is wrong for it. The bar is per-world: `p` at or above 0.90 for every world.
+
+**It is provisional, and the record says so in the same breath.** §9 puts `2x` at 0.976 with the
+leave-one-out reference (0.977 where §8 ran it; the difference is Monte Carlo, not a correction), 0.946
+with a fixed `8x` reference and 0.898 with a fixed `4x` one — five, three and three worlds clearing. At a
+0.95 target four of five clear. Naming the reference rule in the rule itself is the consequence: "all five
+worlds clear" holds only against the most precise reference available, so a block that uses another one
+has to say so before it runs.
+
+**`rho` is demoted.** Within-run SE over between-world SD stays in the report because it describes the two
+uncertainties in one number, but it no longer sets the threshold: §133 showed it is a t-statistic whose
+numerator moves with the pooled delta.
+
+**Both numbers are mandatory**, because they differ in ceiling rather than in efficiency: per-world sign
+resolution (0.917–0.997 across worlds at `2x`) and agreement with the pooled sign (0.780, never above 0.78
+at any window). A claim about an average effect must carry the pooled estimate over worlds with its
+uncertainty; it must not be reported as one run's outcome.
+
+**What the adoption does not do.** It re-scores nothing, keeps V1's frozen 50-cycle labels intact,
+allocates no confirmatory seed, and leaves the third axis untested — whether an effect survives a change
+of generating configuration is still unknown, and the artifact's `not_measured` list (three items) says so.
+The decision is cheap because it is a measurement convention: it buys a defensible window without
+spending a seed.

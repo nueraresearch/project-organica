@@ -205,9 +205,11 @@ def test_the_sign_estimate_separates_a_strong_world_from_a_weak_one():
 def test_the_decision_section_records_the_adopted_rule():
     """Adoption makes the window a convention, so it is checked, not asserted."""
     doc = (ROOT / "docs/SCALING-LADDER.md").read_text(encoding="utf-8")
-    if "## 9." not in doc:
+    if "## 10. Decision" not in doc:
         pytest.skip("the decision section has not been written yet")
-    block = doc.split("## 9.", 1)[1]
+    nums = re.findall(r"^## (\d+)\.", doc, re.M)
+    assert len(nums) == len(set(nums)), nums  # a duplicate § sends this test to the wrong block
+    block = doc.split("## 10. Decision", 1)[1]
     for phrase in ("100-cycle", "`2x`", "0.90", "`rho`",
                    "No confirmatory seed allocation"):
         assert phrase in block, phrase
@@ -229,10 +231,10 @@ def test_the_manual_records_the_adoption():
             if l.startswith("| 12 | **Decide the scaling rule")]
     assert len(rows) == 1
     assert "Adopted on 2026-11-02" in rows[0]
-    assert "SCALING-LADDER.md` \u00a79" in rows[0]
+    assert "SCALING-LADDER.md` \u00a710" in rows[0]
     assert "not acted on" not in rows[0]
     revs = [l for l in manual.split("\n") if l.startswith("| 2026-11-02 |")]
-    assert any("adopt" in l.lower() and "\u00a79" in l for l in revs)
+    assert any("adopt" in l.lower() and "\u00a710" in l and "\u00a7135" in l for l in revs)
 
 
 def test_the_sign_simulation_is_reproducible_and_needs_data():
