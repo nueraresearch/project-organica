@@ -107,6 +107,15 @@ and it is not "understanding". The project's belief-revision task returned REVER
   to be *measured* and printed, because "disjoint by construction" is the kind of claim that is right
   until an index is off by one.
 
+- **The instrument is shared, and that is a second, harder guard.** `DI` counts pairs the organism's readout
+  predicted; the outcome scores what that same readout predicts. Disjoint pair sets do not make the two
+  measurements independent, because one instrument produces both. Two checks are therefore required and
+  reported beside the relation: a **mechanical baseline** — the outcome regressed on structural *size*
+  alone (how many pairs were predicted) and on the base rate, with no reference to which pairs — which must
+  not already explain the relation; and the **permutation control** in §6. A relation that survives the pair
+  guard but not the size baseline is a statement about how much structure exists, not about which structure
+  it is, and must be reported that way.
+
 If the overlap is non-empty, the run does not produce a result: it produces a design defect and stops.
 
 ## 5. The generating configurations
@@ -154,6 +163,12 @@ measured identically. This is the sharper outcome: it would show the behavior is
 configuration rather than by the measured structure, and it is the result the design is built to be able
 to report rather than explain away.
 
+**Permutation control, which must fail.** `DI` is shuffled across worlds within a configuration, the slope
+is refitted, and its interval must include zero — the design the formation-provenance study used for its
+gate G3, where the permuted difference was 0.000359 on an interval spanning zero. A control that cannot
+produce a null is decoration (AGENTS 25c), so the control's own result is reported whether or not the main
+relation holds.
+
 **Pre-committed outcomes**, each reported as the finding, in the project's own vocabulary: *persists*,
 *weakens*, *disappears*, *reverses*. "Weakens across conditions" is a publishable result here; it is not a
 failure to be re-analysed into a stronger claim.
@@ -184,3 +199,42 @@ Before any seed is named, an independent reviewer must examine, and be recorded 
 
 Until that review is recorded, this document authorises **nothing**: no seed, no run, no analysis of new
 data.
+
+## 9. Verifying this record without trusting its author
+
+Every number quoted here comes from a committed artifact, and the claims that reading cannot settle are
+checkable by running. A reviewer who does not trust this document should run exactly these:
+
+```bash
+# 1. the artifact behind 2a, printed rather than paraphrased
+python -c "import json;d=json.load(open('docs/formation_provenance_study.json'));\
+print(d['verdict'],d['difference'],d['interval'],d['all_gates_passed']);\
+[print(k,v['hits'],v['n'],round(v['rate'],6)) for k,v in d['arms'].items()]"
+```
+
+expected:
+
+```
+association detected 0.214061 [0.195886, 0.228119] True
+pair_world_attributed 1938 4280 0.452804
+origin_includes_self 2036 8528 0.238743
+```
+
+```bash
+# 2. the guards on this document itself
+python -m pytest tests/test_structure_behavior_design.py -q
+```
+
+expected: all pass — the level wording and the causal refusal, the six required items, the windows
+imported from code, no seed from an unspent block named, the prior result quoted from the artifact, the two
+independence guards, this verification section, and the manual/journal cross-reference.
+
+```bash
+# 3. the text that carries the result, at the commit that committed it
+git log --oneline -1 -- docs/STRUCTURE-BEHAVIOR-DESIGN.md
+```
+
+If (1) prints a number that differs from 2a, the document is wrong and the artifact is right. If (2) fails,
+a guard has been broken — a required phrase removed, a seed named, or a quoted number drifted — and none of
+those is excusable as a documentation slip, because they are the mechanisms by which a design record stops
+being a constraint.

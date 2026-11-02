@@ -9334,3 +9334,27 @@ stability of either across generating configurations is not established at all. 
 neither a first association test nor a repetition of one, and the sentence it would license if positive is
 the one the project has never been able to write — that structure predicts what the organism does, not
 merely what the world contains. No seed allocated; the review gate and the declared deviation stand.
+
+## §140 — The design record was missing the two guards the prior study already had (2026-11-02)
+
+Comparing §2a against the study it cites found a defect in §138's record. The formation-provenance study
+passed four gates, one of them a permutation control; the design record had a null and two falsifiers but no
+permutation control, and it treated disjoint pair sets as though they made the predictor and the outcome
+independent.
+
+**They do not, because one instrument produces both.** `DI` counts pairs the readout predicted, and
+`revision_held_out` scores what that same readout predicts, so a relation could be a statement about how much
+structure exists rather than which structure it is. §4 now requires a **mechanical baseline** — the outcome
+regressed on structural size and the base rate — and says that a relation surviving the pair guard but not
+the size baseline must be reported as a size effect. §6 carries a **permutation control** that shuffles `DI`
+across worlds and must return an interval containing zero, with the provenance study's G3 as the template
+(its permuted difference was 0.000359 on an interval spanning zero).
+
+**The record can now be checked rather than believed.** §9 lists three commands: one printing the
+artifact's verdict, difference, interval and arm rates; one running this document's own tests; one showing
+the commit that carries it. That is the cheapest part of the review packet and the part that does not depend
+on anyone's good faith.
+
+This is the second defect found by comparing the design against an existing artifact rather than against its
+own intentions — the first was §139's premise. Both were in the record, not in the hypothesis. No seed
+allocated.

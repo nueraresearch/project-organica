@@ -72,3 +72,18 @@ def test_the_prior_result_is_quoted_and_kept_distinct():
         assert f"{arm['rate']:.4f}" in text, arm["rate"]
     assert "occurrence" in text and "response" in text
     assert "useful or reusable" in text
+
+
+def test_the_two_independence_guards_are_stated():
+    """Disjoint pairs are not independence; the size baseline and permutation are required."""
+    text = _doc()
+    assert "mechanical baseline" in text
+    assert "permutation control" in text.lower()
+    assert "interval must include zero" in text
+
+
+def test_the_record_documents_how_to_verify_it():
+    text = _doc()
+    assert "## 9. Verifying this record" in text
+    assert "docs/formation_provenance_study.json" in text
+    assert "tests/test_structure_behavior_design.py" in text
