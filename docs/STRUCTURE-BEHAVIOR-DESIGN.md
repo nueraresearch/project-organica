@@ -69,6 +69,13 @@ enters the criterion.
 > paragraph as settled. The Stage A measurement design in `docs/DI-MEASUREMENT-WINDOW.md` records what the
 > same records say about a replacement, and proposes none: the transition had not finished at cycle 599, so
 > any cycle number taken from them would encode where the run stopped.
+>
+> **Decision of 2026-11-02, beside that note rather than over it:** the owner moved the primary candidate
+> predictor off the settled state and onto a **transition summary**, keeping the settled state as a separate,
+> unresolved construct. `docs/DI-TRANSITION-CONSTRUCT.md` records the audit that decision required and names
+> **onset of `DI`** as the primary — the only candidate whose value cannot change because the run stopped
+> early. Stage B is still not authorised and no seed is allocated; the window recorded above is unchanged by
+> this decision.
 
 Two properties are fixed, not adjustable:
 

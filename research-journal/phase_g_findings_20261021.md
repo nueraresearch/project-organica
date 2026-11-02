@@ -9713,3 +9713,52 @@ every confirmatory block, four pre-committed criteria judged whole (non-degenera
 pairs; asymptote consistency; measurement before learning with an empty pair overlap), and a failure rule that
 rejects the window rather than shrinking the claim. No seed allocated, V1 untouched, the sample-size discussion
 still paused, and the review gate unchanged.
+
+## §151 — The primary predictor becomes onset, and "settle" is separated into three criteria (2026-11-02)
+
+The owner decided that the next design phase should treat **transition dynamics** as the primary candidate
+construct and keep the settled state as a separate, unresolved construct. `docs/DI-TRANSITION-CONSTRUCT.md` is
+the audit that decision requires, with `benchmarks/di_transition_construct.py` writing every number to
+`docs/di_transition_construct.json`. It reads **no behavioural endpoint**: the summary is chosen on measurement
+grounds, before any outcome is examined, so the choice cannot be a selection on results.
+
+**Why onset, and why not the other two.** Measured on the same 240 records: **slope** is not estimable from a
+record whose transition may still be running — its rank correlation between the full fit and a fit truncated at
+cycle 450 is **-0.315**, i.e. the ordering of worlds by rate *reverses* when the observation ends early.
+**Exposure** (mean `DI` over the run, in pairs) is defined for every record and rank-stable under truncation
+(0.925), but its value is defined *relative to an integration interval*, and the interval's length is the one
+parameter this project has not been able to fix; keeping it primary would build the open question into the
+predictor. **Onset** (first cycle from which ten consecutive readings are non-zero) is defined in 119 of 120 runs
+of the four configurations that express structure at all, varies within `6:1` with SD **12.4 cycles** over a
+range of 65 on a one-cycle grid, and cannot change because the run stopped early. Onset and exposure
+rank-correlate at **-0.932** across configurations, so choosing onset keeps the ordering and discards only the
+interval dependence.
+
+**A correction to §150's row.** Stage A compared the settled window's within-configuration SD of 0.44 pairs to
+"a resolution of one pair". That compared a **40-cycle mean** to a **single-cycle quantum**: the mean moves in
+steps of 1/(18 x 40) pairs, so 0.44 pairs is real spread of about eight single-cycle quanta, not a value sitting
+on a floor, and the "removes the dynamic range" conclusion is **withdrawn**. What survives from that section is
+narrower and still true — the settled window is 98 % arm-determined, so a *pooled* relation would be an arm
+effect restated. The decisive defect is not the spread but that there is no settled state to measure. This is
+rule 24's failure mode in the project's own work: the measurement was right and the sentence around it was
+wider than the check.
+
+**Settling, separated into the three criteria it had been conflating.** (a) entry into a one-pair band around
+the run's own final value: median **587** of 600, max 599 — retrospective, since the final value is where the
+observation stopped. (b) persistence in that band: median **13 cycles**; 37 runs reach 30, 17 reach 50, 4 reach
+100. (c) no meaningful remaining trend over the last 100 cycles: median **2.0 pairs** (range -4.0 to +9.0), with
+**23** of 119 runs below half a pair and **96** at two pairs or more, none between. Only **4 of 119** runs satisfy
+(b) at 50 cycles and (c) together. So the project's "settle" statistic was measuring a short quiet patch, and
+the word **asymptote** is retired: a future run may claim one only if both conditions are declared before it runs
+and both are met afterwards.
+
+**Scope and boundary.** Onset is out of scope in `1:1`-`1:4` because those worlds express no sustained `DI` at
+all (AGENTS 13a), which is a statement about the world, not a null about the organism. The ordering is preserved
+and made stricter: onset is a cycle index, its ten-cycle sustention must complete before revision learning
+begins, no behavioural cycle may contribute to it, and any co-reported exposure interval must be declared in
+advance.
+
+**Stage B remains unauthorised**, with its four criteria restated for a cycle-valued predictor (non-degenerate,
+onset SD of at least 3 cycles, the stopping criterion met in every claimed configuration, and the ordering with
+no behavioural cycle in any predictor). No seed, no world, no run. The 240 records, the protocol's window, the
+construct audit's verdict on `DI` as a state at a time, and the review gate are all untouched.
