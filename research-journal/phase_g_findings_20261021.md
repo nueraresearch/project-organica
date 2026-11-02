@@ -8970,3 +8970,56 @@ beside it at build time (`IMAGE_RE`), so what ships and what is typeset are the 
 
 **Cost.** Paper 01 now renders to **25 pages**, not 23 — the two added tables — with 0 LaTeX
 errors and 0 overfull boxes. Paper 02 is unchanged at 14.
+
+## §130 — The strength-assignment harness now passes its end-to-end audit, and it failed once first (2026-11-02)
+
+The replacement for the closed structural-contribution study exists: `docs/STRENGTH-ASSIGNMENT-PREREGISTRATION.md`,
+`benchmarks/strength_assignment.py` (the intervention, its invariants, its plants and its outcome
+table) and `benchmarks/strength_assignment_harness.py` (the engine binding), with the design block
+run on `20270401`–`20270405`. **No confirmatory seed has been read**; the block `20270406`–`20270420`
+is untouched.
+
+**The intervention.** Each source row's weights are permuted among that row's own targets. Node set,
+edge pairs, out-degree, in-degree, every row's weight multiset and every row total are identical by
+construction and asserted on every draw; only which target inside a row carries which weight changes.
+That is the question the closed study could not ask, because its null had to change the graph while
+preserving degrees and at this density those requirements are mutually unsatisfiable — 95–96 % of
+pairs survived rewiring.
+
+**It failed its first audit, and the failure was worth having.** S2 failed on all five seeds with the
+readout unchanged while 90 % of edges moved. The cause was not the permutation: on the
+**withheld-relation** window the readout is nearly all backoff — **372** realised cells, **6 (1.6 %)**
+with a formed edge from source to observed target — so only six cells could respond to any
+permutation, and 3 of 25 draws left the one informative weight in place by chance. Gate S2 had been
+written as "every draw must change the readout", which is the wrong statistic for a random
+permutation, and the window was the wrong window for this question — the closed study used the
+withheld window because a counting baseline has no counts there, but a weight permutation needs
+weights on the observed pairs, and on that window there are almost none.
+
+**Amendment A1, pre-outcome and disclosed.** The primary window became the **full** held-out window
+(cycles 150–200), the withheld window became a secondary diagnostic that gates nothing, and S2 gained
+a **coverage floor of 0.50** — a design-identifiability floor, not a result threshold — while its
+per-draw minimum became a reported quantity. Both changes were made with the coverage numbers
+(1.6 % against 77.1 %) in hand, which the amendment states rather than presenting as anticipation.
+The bar (lower bound of the 98.33 % interval on `d_shuffled` strictly above zero), the direction, the
+four outcome labels, the intervention, the draws and the seed blocks did not move.
+
+**The re-run passed every gate on every seed:** coverage **77.1 %–81.4 %**, median largest
+probability change **0.0926–0.1125**, moved share **0.898–0.906**, **zero** draws that moved nothing,
+and the layer's **11 fixtures** — including a negative plant with **nonconstant** weights whose
+observation set is closed under the permutation, which changes the loss by **exactly zero** and fails
+when that closure is broken (0.603 nats). The artifact carries `deltas: null`: the design block forms
+no contrast and reads no label.
+
+**One diagnostic is recorded rather than interpreted.** On `20270401` the full window scored
+**0.433694** against a shuffled mean of **0.444691** — the shuffled assignment scored *better* by
+0.011 nats on that one seed. It is one design seed, it is not the endpoint, and if it survives the
+confirmatory block it lands in §6's fourth row, which was written before the number existed. Recording
+it is the point: a design block that reports only its passes is a design block that has started
+selecting.
+
+**What this does and does not establish.** The harness now demonstrates, end to end and on the frozen
+engine, that the intervention changes the intended variable and only it, that it can detect a
+contribution that is present, that it can reach zero when the design is exchangeable, and that its
+arms share one denominator and one engine run. It establishes **nothing about Organica**: the
+confirmatory block is unspent, and a result there would still be narrower than a topology claim.
