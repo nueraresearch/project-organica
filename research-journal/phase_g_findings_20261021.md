@@ -8235,3 +8235,32 @@ reusing it would silently substitute the old question for the new one. The build
 §2–§7 of the preregistration, has a stop condition, and may not start before this document is
 committed.
 
+## §109 The functional protocol's three undefined clauses, fixed before the build
+
+The preregistration was sound in its question and incomplete in its measurement contract, and
+the review said so before any code existed. Three clauses could not be implemented without
+interpretation; all three are now settled in Amendment 1, committed with the protocol and
+before the harness.
+
+**Exposure and tuning.** The text said every arm was fitted on 110 cycles and that the last
+15 were excluded from every fit. Both cannot hold. The rule now follows the closed protocol's
+comparator: the 15 cycles are excluded from *selection* only, the winning baseline
+configuration is refit on all 110 rows, and Organica develops online over the same 110 cycles
+with no fit step. No arm is fitted on fewer rows than another, and the tuning split buys
+selection honesty rather than a data advantage.
+
+**The score.** "Log-loss per held-out tag pair" was imprecise. The endpoint adopts the closed
+`score(exclude_self=True)` unchanged: one cell per source tag against every vocabulary tag,
+the source-equals-target cell kept in the denominator with label zero, and the mean taken over
+event pairs times source tags times vocabulary. Two-tag events contribute two source tags, not
+two pairs; there are no sampled negatives.
+
+**The disqualifier.** The share is computed on the same scale as the endpoint: per-cell
+improvement on realised held-out transitions, split by the pair's recorded world and self
+counts. A pair is world-majority only if `world > self`, so a tie counts against the claim; a
+self-majority share of 0.50 or more withholds the transfer claim, and an unattributed share of
+0.50 or more reports the margin as not attributable. `P = 0` is not evaluable, never zero.
+
+None of this changes a seed, a gate, the capacity, alpha, the endpoint or its bar. The build
+still does not exist, and no cell has run.
+

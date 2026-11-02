@@ -169,3 +169,99 @@ occurrence, not probability, and is not this harness.
 
 Nothing in this document authorizes running that build, and no cell of any block may
 run until the harness and its gates are committed and the design block has passed.
+
+---
+
+## 11. Amendment 1 — executable definitions (2026-11-02, before the build)
+
+**Why this amendment exists.** A review found three clauses that could not be
+implemented without interpretation: the tuning/exposure rule, the probability score,
+and the self-sourced disqualifier. A protocol that needs interpretation at build time
+is not yet a protocol. This amendment fixes all three, is committed **before the
+harness exists and before any cell has run**, and changes no seed, no gate, no
+capacity, no alpha and no statistical bar. Where it contradicts §3 or §2, it
+supersedes them and says so.
+
+### 11.1 Exposure and tuning
+
+The earlier text said every arm is fitted on the 110-cycle stream *and* that the last
+15 cycles are excluded from every fit. Those cannot both hold.
+
+**The rule now.** All 110 formation cycles are exposure for every arm. The prescribed
+last 15 cycles are **excluded from hyperparameter selection only**; they are not
+excluded from any fit. Concretely, and following the closed protocol's
+`comparator_sweep`:
+
+1. Baseline configurations are ranked by their log-loss on the tuning split (the last
+   15 formation cycles, 120 events).
+2. The winning configuration for each baseline family is then **refit on all 110
+   cycles** before scoring. This is what the closed protocol already does, and it
+   gives the baseline the larger sample, never the smaller one.
+3. Organica has no fit step: it develops online over the same 110 cycles, including
+   the tuning cycles, and its readout is frozen at the end of them.
+
+So every arm sees the identical rows; the tuning cycles are held out from *selection*
+and from nothing else. An arm is never fitted on fewer rows than another.
+
+### 11.2 The probability score
+
+"Log-loss per held-out tag pair" was imprecise. The score is the closed protocol's
+`benchmarks/acquisition_baselines.py::score` with `exclude_self=True`, adopted
+unchanged:
+
+- For each consecutive held-out event pair (current event, next event), let `C` be the
+  current event's tags and `T` the next event's tags intersected with the vocabulary
+  `V`.
+- For every `a` in `C` and **every** `b` in `V`, form one scored cell: `p = clamp(p(b|a))`
+  and `y = 1` if `b` is in `T` and `b != a`, else `0`. The cell's loss is
+  `-[y ln p + (1 - y) ln(1 - p)]`.
+- The `b = a` cell is **kept in the denominator with label zero**, exactly as `score`
+  does; it is not dropped.
+- The score is the total loss over all cells divided by the number of cells. The
+  denominator is therefore the number of event pairs times `|C|` times `|V|`, and it
+  is reported per window.
+
+Two-tag events therefore contribute two source tags against the whole vocabulary, not
+two "pairs". There are no sampled negative examples: every vocabulary tag is scored,
+and the mass on the others is the implicit negative set. This is one score, fixed
+here, and it is the same quantity the closed protocol reported as log-loss in nats.
+
+**Co-primary window.** Same cells and same denominator rule, but only over the
+consecutive event pairs whose cell transition was withheld from every formation
+exposure, selected by the closed protocol's own held-out filter.
+
+### 11.3 The self-sourced disqualifier, as a rule
+
+The earlier text named a disqualifier without defining it. It is defined here on the
+same scale as the endpoint, so "carried mainly by" is a computable share.
+
+1. **Pair support.** For an ordered tag pair `(a, b)`, the formation record gives the
+   cumulative counts `world(a,b)` and `self(a,b)` of transitions whose source row was
+   a world event or a sleep payload. The pair is **world-majority** if
+   `world > self`; **self-majority** if `self > 0 and self >= world` (ties count
+   against the claim); **unattributed** if both are zero.
+2. **Per-cell contribution.** For every scored cell with `y = 1` — a transition that
+   actually occurred in the held-out window — define its contribution as
+   `delta = loss(baseline) - loss(Organica)` on that cell. Positive means Organica
+   assigned the observed tag a better probability than the baseline did. Cells with
+   `y = 0` are excluded from the attribution (they are still in the score), because
+   the question is what carried the improvement on realised transitions.
+3. **The share.** Let `S` be the sum of positive `delta` over cells whose pair is
+   self-majority, and `P` the sum of positive `delta` over all `y = 1` cells. The
+   disqualifying share is `S / P`, reported with the world-majority and unattributed
+   shares and their cell counts.
+4. **The rule.** If `S / P >= 0.50`, the transfer claim is **withheld** and the result
+   is reported as **not a transfer result**, whatever the score. If the unattributed
+   share is `>= 0.50`, the margin is reported as **not attributable** and the transfer
+   claim is withheld for the same reason: provenance that was never recorded cannot
+   certify a claim. Otherwise the transfer claim may be made, subject to §4.
+5. **What it cannot do.** The share is a diagnostic. It can withhold a transfer
+   claim; it cannot create one, cannot change the endpoint, cannot move the bar, and
+   is reported for a null result as well as a positive one. `P = 0` is reported as
+   **not evaluable**, never as a share of zero.
+
+### 11.4 What is unchanged
+
+Seeds and blocks (§5), gates (§6), capacity, alpha, the endpoint and its bar (§4),
+the stop rules (§8) and the build status (§10) are unchanged. No cell has run, and
+none may run until the harness and these definitions are committed together.
