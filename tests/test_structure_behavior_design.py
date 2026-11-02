@@ -87,3 +87,11 @@ def test_the_record_documents_how_to_verify_it():
     assert "## 9. Verifying this record" in text
     assert "docs/formation_provenance_study.json" in text
     assert "tests/test_structure_behavior_design.py" in text
+
+
+def test_the_shared_instrument_limitation_is_in_the_limits_section():
+    """The guards bound the shared-readout explanation; the record must say so where limits live."""
+    text = _doc()
+    limits = text.split("## 7.", 1)[1].split("## 8.", 1)[0]
+    assert "shared instrument" in limits
+    assert "bound" in limits

@@ -185,6 +185,11 @@ not the claim; the relation between `DI` and the score is.
 - **No average-effect claim.** A pooled statement would need the pooling rules of
   `docs/SCALING-LADDER.md` §10 and more worlds than this design proposes.
 - **Nothing about intelligence**, capability, or comparison with other systems.
+- **Not the shared instrument.** `DI` and the outcome are produced by the same readout, so the mechanical
+  baseline and the permutation control *bound* that explanation rather than removing it. A fully
+  independent operationalization — a different readout for the structure and for the behavior — is not
+  designed here. If the relation survives both guards it is still reported as one readout predicting its
+  own later output, which is weaker than two instruments agreeing.
 
 ## 8. The review gate, and what comes before seeds
 
