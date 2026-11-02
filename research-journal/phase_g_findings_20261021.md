@@ -9262,3 +9262,45 @@ Naming the choice is the record's job here; making it is the owner's, so §137 s
 the recommendation that (3) is the one the frozen engine can actually test. Standing constraints restated
 and not relaxed: no confirmatory seed allocated, V1 frozen, the conditions axis untested, and the
 100-cycle convention still provisional (§§135–136).
+
+## §138 — The structure-to-behavior claim is adopted at Level 2, and its design record exists before a seed does (2026-11-02)
+
+§137 recorded the framework freeze and named four candidate ambitions. The owner confirmed the third —
+changes in internal structure produce identifiable changes in behavior — as a **working** hypothesis, with
+one refinement that changes what the experiment may conclude: distinguish association, prediction, and
+causal influence, and make **prediction** the objective. `docs/STRUCTURE-BEHAVIOR-DESIGN.md` is that
+record, written with no seed named.
+
+**What it fixes.** The predictor is Phase L's `DI = late_retained / late_available`, with the
+zero-denominator cell reported not measurable and excluded (the defect that produced the pilot's fake
+`DI = 0.000` sweep). The outcome is `revision_held_out` — next-tag prediction on cycles 250–300 under the
+rotated law, restricted to transitions withheld from formation **and** revision learning, named for what
+it measures rather than for what it evokes. The predictor is measured at cycle 110–150, the outcome on a
+later window, and the design requires the disjointness of the two pair sets to be *measured and printed*
+rather than asserted, because disjointness-by-construction is right until an index is off by one.
+
+**The level discipline is the substantive addition.** Level 1 is a correlation between structure and
+behavior; Level 2 adds that the structure was measured earlier and the behavior on genuinely held-out
+events; Level 3 requires manipulating the structural variable while controlling the rest. This design
+reaches Level 2 and says so in the document that will carry the result, because a stable relation here
+licenses "predicts" and nothing stronger. Level 3 needs an in-process arm that changes the structural
+quantity and nothing else — the strength-assignment pattern — and is named as later work rather than
+smuggled into the analysis.
+
+**Configurations, and the gate that keeps them honest.** Three secondary configurations reuse the frozen
+engine: presentation (block versus burst), hub structure, and cause-world ambiguity. Each needs its own
+withheld-transition set enumerated under the same pre-written criteria; a configuration whose analogue
+cannot be enumerated is dropped with the omission reported, never given the primary set, which would score
+a different quantity under the same name.
+
+**Falsifiers, both directions.** A: the relation is absent or reversed where the structure is present.
+B: the relation's sign flips across configurations while `DI` is measured identically — the outcome that
+would locate the behavior in the configuration rather than the structure. Persists, weakens, disappears
+and reverses are all pre-committed findings; "weakens across conditions" is a result, not a failure to be
+re-analysed.
+
+**Nothing is authorised.** No seed is named; the 100-cycle convention is a declared deviation for this
+endpoint and requires a predicted sign resolution under a named reference rule before seeds; and the
+independent review of §8 — `DI`'s denominator policy, the `WITHHELD` set surviving the rotation, the
+readout calibration, the comparator sweep, the overlap guard's ability to fail, and the level wording —
+must be recorded before anything runs.
