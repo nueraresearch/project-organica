@@ -98,7 +98,9 @@ def test_design_boundary_and_limb_status_are_stated():
     assert "instrument reading" in sec10
     # The recommendation is labelled as the owner's decision, never as an authorisation.
     assert "for the owner" in sec10
-    assert "Nothing in this section authorises it" in sec10
+    # Authorisation came from the owner, not from the recommendation.
+    assert "The recommendation above did not authorise it" in sec10
+    assert "no confirmatory seed has been generated" not in sec10
 
 
 def test_confirmatory_record_matches_the_artifact():

@@ -205,7 +205,7 @@ to produce.
    (G1), denominators (G2), the harness-can-fail control (G3), instrument neutrality (G4) and
    the recorded disqualifier wiring of §11.5. They are an **instrument audit, not a result**.
 3. **Confirmatory block, only if the design block passes — `20270206`–`20270220`.** One run,
-   no seed added, dropped or re-drawn. If any design gate fails, the protocol stops at step 2:
+   no seed added, dropped or re-drawn. **This step has since run: see §10.4.** If any design gate fails, the protocol stops at step 2:
    the failure is disclosed, the defect is fixed, the fixed harness is re-audited on the same
    five design seeds, and no confirmatory seed is touched.
 
@@ -268,7 +268,8 @@ cells, so the rule would withhold there too. Changing the threshold, dropping un
 from the denominator, or exempting the co-primary window would each be a re-scoring of a
 pre-committed rule after seeing a number. That decision belongs to the owner as an amendment;
 nothing in this document, and nothing in the harness, has been changed to make the rule fire
-differently. No confirmatory seed has been generated, fitted or scored.
+differently. At the time of the design step no confirmatory seed had been generated,
+fitted or scored; §10.4 is the run that followed.
 
 ### 10.2 Recorded status of the transfer limb (2026-11-02)
 
@@ -311,8 +312,9 @@ transfer claim is available either way. **Recommendation: run it.** §1 asks abo
 prediction; the co-primary was added to test whether a margin survives on unseen relations, and
 that test is unavailable under this measure whether or not the block runs. Declining the run would
 leave §1 unmeasured as well, and running it cannot make the transfer claim worse than not running.
-What the run must not be reported as is a transfer result. Nothing in this section authorises it,
-and no confirmatory seed has been generated.
+What the run must not be reported as is a transfer result. That decision was the owner's, taken on 2026-11-02 in favour of running it for the
+primary question alone, and §10.4 records the result. The recommendation above did not
+authorise it:
 
 ### 10.3 What was actually computed and inspected (2026-11-02)
 
