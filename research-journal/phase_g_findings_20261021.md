@@ -8775,3 +8775,18 @@ nothing in this build has ever rendered a page to an image. The log says there a
 the extraction says the words are there, and neither is a person looking at the page — so figure placement,
 caption collisions, page breaks, and Paper 02's two landscape tables remain **unverified visually**, and are
 recorded as such rather than as passed.
+
+## §126 — The PDF title could drift from the paper's own title (2026-11-02)
+
+Setting the document properties moved the title into a second place. The manuscript's level-one heading still
+says what the paper is called, and `PDF_INFO` says it again for the PDF, so a future retitle would have to
+remember both — and a stale half looks exactly like a correct one. The cheap guard is to stop keeping the
+second copy independent: `verify_title_matches` derives the expected title from the heading, strips the
+project's "Paper N:" label (which is the repository's name for the manuscript, not the paper's name), and
+fails the build on a mismatch before pandoc or pdflatex run. The heading is the source of truth, so the
+repair when it fires is either the heading or `PDF_INFO`, and the message names which.
+
+It was made to fire on a deliberately stale title before being trusted, and `tests/test_pdf_titles.py` keeps
+that case alongside the two assertions that both papers currently agree and that the declared titles are
+distinct. Both PDFs then rebuilt byte-identical to the previous build (385,296 and 302,835 bytes), which is
+the point: a guard that changes nothing about the artifact it guards.

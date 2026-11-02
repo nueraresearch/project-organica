@@ -303,6 +303,32 @@ def verify_pdf_info(pdf: Path, expected: dict[str, str]) -> None:
                          % (pdf.name, "; ".join(wrong)))
 
 
+PAPER_LABEL_RE = re.compile(r"^Paper\s+\d+\s*[:.\u2014-]\s*")
+
+
+def manuscript_title(heading: str) -> str:
+    """The manuscript's own title, with the project's "Paper N:" label off."""
+    return PAPER_LABEL_RE.sub("", heading).strip()
+
+
+def verify_title_matches(stem: str, heading: str) -> None:
+    """Assert PDF_INFO declares the title the manuscript currently has.
+
+    The title lives in two places -- the level-one heading and ``PDF_INFO`` --
+    so a retitle can leave the PDF claiming a title the paper no longer has,
+    and neither half looks wrong on its own.  The heading is the source of
+    truth; the label ("Paper 1:") is the project's, not the paper's, and does
+    not belong in the document properties.
+    """
+    declared = PDF_INFO[stem]["title"]
+    expected = manuscript_title(heading)
+    if declared != expected:
+        raise SystemExit(
+            "%s: PDF_INFO title %r does not match the manuscript heading %r; "
+            "update PDF_INFO, or the heading if the retitle is wrong"
+            % (stem, declared, expected))
+
+
 def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     source = REPO / rel
     markdown = source.read_text(encoding="utf-8")
@@ -315,6 +341,7 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     build_tex = BUILD / (stem + ".tex")
     build_md.write_text(body, encoding="utf-8")
 
+    verify_title_matches(stem, title)
     info = PDF_INFO[stem]
     metadata = [
         ("title", title),
