@@ -84,3 +84,28 @@ Two outcomes and what they would mean, stated in advance:
 Either way, any confirmatory study of provenance needs its **own preregistration
 and fresh seeds**. The closed study's failure stays intact and is not reopened by
 anything here.
+
+## Amendment 1 (2026-11-02, after the first run): three counting units
+
+The run exposed a unit mismatch this plan did not name, and it is disclosed here rather
+than corrected in place. The tracer deduplicates a structure's per-cycle snapshots by id
+before counting; the study's per-claim rule passes the **raw** candidate list to
+`_claim_edges`, which drops ids and counts one row per cycle a structure survived. The
+two counts were therefore never the same unit, and the diagnostic's header said so
+implicitly by reporting "claims" without saying which.
+
+From now on the diagnostic reports **three levels** and the mapping between them:
+
+1. **raw stored claim rows** — the study's own unit, and the count `_claim_edges`
+   produces. Reconciled mechanically: `_claim_edges` run on the same raw payloads must
+   equal the tracer's raw-row count, or the run aborts.
+2. **unique structure ids** — what the tracer walks, one per logical structure.
+3. **unique asserted edges** — how many distinct tag pairs the claim structures assert,
+   since several structures can assert the same pair.
+
+The lineage statuses are reported at level 2, because that is the level with an id to
+walk. A level-3 count of "edges whose claim is complete `world_rooted`" is reported
+beside it. **No count at one level may be quoted as a count at another**, and in
+particular the tracer's structure counts may not be presented as the study's claim
+counts. Nothing else in this plan changes: no threshold, no verdict, the five
+calibration seeds only, and the closed study's failure stays intact.

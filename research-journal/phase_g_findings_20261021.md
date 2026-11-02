@@ -7967,4 +7967,51 @@ rather than asserted: seed 20261201 re-run with the flag off reproduced the comm
 asserted pairs 327, revision-asserted 328,
 temporal 393.
 
+### Amendment, same day: three counting units, and a sentence withdrawn
+
+A review found a unit mismatch in the section above, and it is real. The tracer
+deduplicates a structure's per-cycle snapshots by id before counting, while the study's
+per-claim rule passes the **raw** candidate list to `_claim_edges`, which drops ids and
+counts one row per cycle a structure survived. For seed 20261201 the study counts
+1313 formation and
+656 revision claim rows,
+where this trace reported 329
+and 328
+unique claim structures. Those were never the same quantity.
+
+**The sentence "the population the per-claim rule and the transfer limb are about is
+exactly the population this walk cannot enter" is withdrawn.** It was wider than the
+check behind it: the structure types overlap, the counting units do not, and the study's
+rows also include `hypothesis` structures, which do carry lineage.
+
+What stands, at the resolution it was measured: every unique `prediction_candidate`
+structure carries no parent links, and deduplication only collapses rows that share an
+id, so no raw prediction row can have had them either ── the structural observation is
+unchanged, its scope is now stated.
+
+The diagnostic reports all three levels, and it reconciles the lowest against the study's
+own selector: `_claim_edges` on the same raw payloads must equal the tracer's raw-row
+count, or the run aborts. Summed over the five cells:
+
+| unit | formation | revision |
+|---|---|---|
+| raw stored claim rows with an asserted edge (the study's count) | 3942 | 3640 |
+| raw stored claim rows (all claim-typed rows) | 3942 | 3640 |
+| unique structure ids | 1644 | 1653 |
+| unique asserted edges | 1623 | 1638 |
+| unique asserted edges with a complete `world_rooted` claim | 14 | 13 |
+
+| seed | study claim rows (f / r) | unique structure ids (f / r) | unique asserted edges (f / r) | rows per structure, max |
+|---|---|---|---|---|
+| 20261201 | 1313 / 656 | 329 / 328 | 324 / 325 | 4 |
+| 20261202 | 680 / 684 | 340 / 342 | 335 / 337 | 2 |
+| 20261203 | 658 / 1002 | 329 / 334 | 325 / 331 | 2 |
+| 20261204 | 622 / 632 | 311 / 316 | 309 / 315 | 2 |
+| 20261205 | 669 / 666 | 335 / 333 | 330 / 330 | 2 |
+
+No new cell was run: the same five calibration cells were re-read. The closed study's
+verdict, the confirmatory set and every threshold are untouched, and there is still no
+threshold here to touch.
+
+
 

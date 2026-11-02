@@ -62,6 +62,18 @@ DEPTH_BUCKETS = ("0", "1", "2", "3", "4-6", "7+")
 #: cap is not a chain whose ancestors were pruned.
 DEFECTS = ("missing_records", "cycle", "depth_truncated")
 
+#: The counting units, in the order they nest.  Named as what they count.
+LEVEL_ROWS = (
+    ("study_claim_rows",
+     "raw stored claim rows with an asserted edge (the study's `_claim_edges` count)"),
+    ("raw_claim_rows", "raw stored claim rows (all claim-typed rows)"),
+    ("unique_structures", "unique structure ids"),
+    ("unique_structures_with_edge", "unique structure ids with an asserted edge"),
+    ("unique_asserted_edges", "unique asserted edges"),
+    ("edges_with_complete_rooted_claim",
+     "unique asserted edges with a complete `world_rooted` claim"),
+)
+
 STATUSES = ("world_rooted", "mixed", "self_only",
             "world_rooted_incomplete", "mixed_incomplete", "self_only_incomplete",
             "unresolved_missing_records", "unresolved_cycle",
@@ -174,14 +186,70 @@ def claim_structures(payloads: Iterable[dict]) -> list[dict]:
     return out
 
 
-def has_asserted_edge(claim: dict) -> bool:
-    """Whether the claim names the pair it asserts, as `_claim_edges` requires."""
+def edge_key(claim: dict) -> tuple[str, str] | None:
+    """The pair a claim asserts, or None.  Same rule `_claim_edges` applies."""
     kind = claim.get("type") or claim.get("event_type") or ""
     if "prediction" in kind:
-        return bool(claim.get("source") and claim.get("target"))
-    if "hypothesis" in kind:
-        return bool(claim.get("subject") and claim.get("expectation"))
-    return False
+        pair = (claim.get("source"), claim.get("target"))
+    elif "hypothesis" in kind:
+        pair = (claim.get("subject"), claim.get("expectation"))
+    else:
+        pair = (None, None)
+    if all(isinstance(v, str) and v for v in pair):
+        return pair  # type: ignore[return-value]
+    return None
+
+
+def has_asserted_edge(claim: dict) -> bool:
+    """Whether the claim names the pair it asserts, as `_claim_edges` requires."""
+    return edge_key(claim) is not None
+
+
+def counting_levels(raw_claims: Iterable[dict], claims: Iterable[dict],
+                    status_by_id: dict[str, str]) -> dict[str, Any]:
+    """The same lineage question at three resolutions, and how they map.
+
+    A survivor is re-stored every sleep cycle, so the raw snapshot holds the same
+    logical claim many times: the study's per-claim rule counts those **rows**
+    (`_claim_edges`), the tracer walks **unique structure ids**, and a pair of
+    tags may be asserted by several structures.  Three counts, three units.  None
+    may stand in for another, and the tracer says which one it walked.
+    """
+    raw = list(raw_claims)
+    unique = list(claims)
+    per_id: dict[str, int] = defaultdict(int)
+    for claim in raw:
+        node_id = claim.get("id")
+        if isinstance(node_id, str) and node_id:
+            per_id[node_id] += 1
+    edges: dict[tuple[str, str], set[str]] = defaultdict(set)
+    for claim in unique:
+        key = edge_key(claim)
+        node_id = claim.get("id")
+        if key and isinstance(node_id, str) and node_id:
+            edges[key].add(node_id)
+
+    def stat(values: list[int]) -> dict[str, Any]:
+        if not values:
+            return {"min": 0, "median": 0.0, "max": 0, "mean": 0.0}
+        middle = len(values) // 2
+        median = (values[middle] if len(values) % 2 else
+                  (values[middle - 1] + values[middle]) / 2)
+        return {"min": values[0], "median": median, "max": values[-1],
+                "mean": round(sum(values) / len(values), 3)}
+
+    return {
+        "raw_claim_rows": len(raw),
+        "raw_claim_rows_with_edge": sum(1 for c in raw if edge_key(c)),
+        "unique_structures": len(unique),
+        "unique_structures_with_edge": sum(1 for c in unique if edge_key(c)),
+        "unique_asserted_edges": len(edges),
+        "edges_with_complete_rooted_claim": sum(
+            1 for ids in edges.values()
+            if any(status_by_id.get(i) == "world_rooted" for i in ids)),
+        "rows_per_structure": stat(sorted(per_id.values())),
+        "structures_per_edge": stat(sorted(len(ids) for ids in edges.values())),
+    }
 
 
 def depth_bucket(depth: int) -> str:
@@ -466,9 +534,13 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
     by_depth: dict[str, dict[str, int]] = {b: _empty() for b in DEPTH_BUCKETS}
     claims = with_edge = indexed = 0
     defects = {name: 0 for name in DEFECTS}
+    levels: dict[str, int] = defaultdict(int)
     for summary in summaries:
         for name, n in (summary.get("defects") or {}).items():
             defects[name] = defects.get(name, 0) + n
+        for name, n in (summary.get("levels") or {}).items():
+            if isinstance(n, int):
+                levels[name] += n
         claims += summary.get("claims", 0)
         with_edge += summary.get("claims_with_asserted_edge", 0)
         indexed += summary.get("structures_indexed", 0)
@@ -492,7 +564,8 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
             "complete_world_rooted": pooled["world_rooted"],
             "incomplete_total": sum(incomplete.values()),
             "unresolved_total": sum(unresolved.values()),
-            "by_type": by_type, "by_depth": by_depth, "defects": defects}
+            "by_type": by_type, "by_depth": by_depth, "defects": defects,
+            "levels": dict(levels)}
 
 
 # ---------------------------------------------------------------------------
@@ -534,20 +607,33 @@ def _trace_seed(rk: Any, seed: int, cap: int) -> dict[str, Any]:
     vocabulary = {t for row in formation["events"] + revision["events"]
                   for t in row.split()}
     entry: dict[str, Any] = {"seed": seed}
+    withheld = frozenset(relations["withheld"])
     for limb in ("formation", "revision"):
-        payloads = dedupe_candidates(engine["structures"][limb])
+        raw = engine["structures"][limb]
+        payloads = dedupe_candidates(raw)
         claims = claim_structures(payloads)
         summary = trace_claims(claims, payloads, vocabulary)
-        summary.pop("rows", None)
-        summary["claims_with_asserted_edge"] = sum(
-            1 for c in claims if has_asserted_edge(c))
+        rows = summary.pop("rows")
+        status_by_id = {r["id"]: r["status"] for r in rows if r.get("id")}
+        levels = counting_levels(claim_structures(raw), claims, status_by_id)
+        # The study's own claim count, from the study's own selector, must equal
+        # this tracer's raw-row count at the same resolution.  If it does not, the
+        # two instruments are counting different things again.
+        levels["study_claim_rows"] = len(rk._claim_edges(raw, withheld))
+        if levels["study_claim_rows"] != levels["raw_claim_rows_with_edge"]:
+            raise AssertionError(
+                f"{limb}: the study's claim count "
+                f"({levels['study_claim_rows']}) and this tracer's raw-row count "
+                f"({levels['raw_claim_rows_with_edge']}) disagree")
+        summary["levels"] = levels
+        summary["claims_with_asserted_edge"] = levels["unique_structures_with_edge"]
         summary["structures_indexed"] = len(payloads)
         entry[limb] = summary
     return entry
 
 
 def _seed_cache(seed: int, cap: int, hashseed: str | None) -> pathlib.Path:
-    return ROOT / ".scratch" / f"provenance_v2_{seed}_{cap}_{hashseed or 'unpinned'}.json"
+    return ROOT / ".scratch" / f"provenance_v3_{seed}_{cap}_{hashseed or 'unpinned'}.json"
 
 
 def run_diagnostic(seeds: tuple[int, ...] | None = None,
@@ -630,6 +716,12 @@ def run_diagnostic(seeds: tuple[int, ...] | None = None,
     return art
 
 
+def _lvl(entry: dict, limb: str, key: str, field: str) -> Any:
+    """One counting level from a per-seed entry, or 0 when it was not recorded."""
+    node = ((entry.get(limb) or {}).get("levels") or {}).get(key) or {}
+    return node.get(field, 0)
+
+
 def _family_row(summary: dict, limb: str) -> str:
     return f"| {limb} | {summary['claims']} | {summary['claims_with_asserted_edge']} | " \
            f"{summary['complete_world_rooted']} | {summary['incomplete_total']} | " \
@@ -688,6 +780,28 @@ def render_report(art: dict) -> str:
         *[f"| `{name}` | {totals['formation'].get('defects', {}).get(name, 0)} "
           f"| {totals['revision'].get('defects', {}).get(name, 0)} |"
           for name in DEFECTS],
+        "",
+        "## Counting units",
+        "",
+        "The same lineage question at three resolutions. A survivor is re-stored every",
+        "sleep cycle, so the study's per-claim rule counts **raw snapshot rows**, while",
+        "the tracer walks **unique structure ids**; a pair of tags may also be asserted",
+        "by more than one structure, which is a third unit. None of the three may stand",
+        "in for another.",
+        "",
+        "| unit | formation | revision |",
+        "|---|---|---|",
+        *[f"| {label} | {totals['formation'].get('levels', {}).get(key, 0)} "
+          f"| {totals['revision'].get('levels', {}).get(key, 0)} |"
+          for key, label in LEVEL_ROWS],
+        "",
+        "| seed | rows per structure (median / max) | structures per asserted edge (median / max) |",
+        "|---|---|---|",
+        *[f"| {entry['seed']} | {_lvl(entry, 'formation', 'rows_per_structure', 'median')} / "
+          f"{_lvl(entry, 'formation', 'rows_per_structure', 'max')} | "
+          f"{_lvl(entry, 'formation', 'structures_per_edge', 'median')} / "
+          f"{_lvl(entry, 'formation', 'structures_per_edge', 'max')} |"
+          for entry in art["seeds_detail"]],
         "",
         "## By claim type",
         "",

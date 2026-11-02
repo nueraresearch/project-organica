@@ -155,6 +155,27 @@
      "world_rooted_incomplete": 11
     },
     "incomplete_total": 11,
+    "levels": {
+     "edges_with_complete_rooted_claim": 3,
+     "raw_claim_rows": 1313,
+     "raw_claim_rows_with_edge": 1313,
+     "rows_per_structure": {
+      "max": 4,
+      "mean": 3.991,
+      "median": 4,
+      "min": 1
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.015,
+      "median": 1.0,
+      "min": 1
+     },
+     "study_claim_rows": 1313,
+     "unique_asserted_edges": 324,
+     "unique_structures": 329,
+     "unique_structures_with_edge": 329
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -307,6 +328,27 @@
      "world_rooted_incomplete": 9
     },
     "incomplete_total": 9,
+    "levels": {
+     "edges_with_complete_rooted_claim": 3,
+     "raw_claim_rows": 656,
+     "raw_claim_rows_with_edge": 656,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2.0,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.009,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 656,
+     "unique_asserted_edges": 325,
+     "unique_structures": 328,
+     "unique_structures_with_edge": 328
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -462,6 +504,27 @@
      "world_rooted_incomplete": 12
     },
     "incomplete_total": 12,
+    "levels": {
+     "edges_with_complete_rooted_claim": 1,
+     "raw_claim_rows": 680,
+     "raw_claim_rows_with_edge": 680,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2.0,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.015,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 680,
+     "unique_asserted_edges": 335,
+     "unique_structures": 340,
+     "unique_structures_with_edge": 340
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -614,6 +677,27 @@
      "world_rooted_incomplete": 10
     },
     "incomplete_total": 10,
+    "levels": {
+     "edges_with_complete_rooted_claim": 3,
+     "raw_claim_rows": 684,
+     "raw_claim_rows_with_edge": 684,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2.0,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.015,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 684,
+     "unique_asserted_edges": 337,
+     "unique_structures": 342,
+     "unique_structures_with_edge": 342
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -769,6 +853,27 @@
      "world_rooted_incomplete": 7
     },
     "incomplete_total": 7,
+    "levels": {
+     "edges_with_complete_rooted_claim": 5,
+     "raw_claim_rows": 658,
+     "raw_claim_rows_with_edge": 658,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.012,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 658,
+     "unique_asserted_edges": 325,
+     "unique_structures": 329,
+     "unique_structures_with_edge": 329
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -921,6 +1026,27 @@
      "world_rooted_incomplete": 9
     },
     "incomplete_total": 9,
+    "levels": {
+     "edges_with_complete_rooted_claim": 2,
+     "raw_claim_rows": 1002,
+     "raw_claim_rows_with_edge": 1002,
+     "rows_per_structure": {
+      "max": 3,
+      "mean": 3.0,
+      "median": 3.0,
+      "min": 3
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.009,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 1002,
+     "unique_asserted_edges": 331,
+     "unique_structures": 334,
+     "unique_structures_with_edge": 334
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -1076,6 +1202,27 @@
      "world_rooted_incomplete": 9
     },
     "incomplete_total": 9,
+    "levels": {
+     "edges_with_complete_rooted_claim": 2,
+     "raw_claim_rows": 622,
+     "raw_claim_rows_with_edge": 622,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.006,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 622,
+     "unique_asserted_edges": 309,
+     "unique_structures": 311,
+     "unique_structures_with_edge": 311
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -1228,6 +1375,27 @@
      "world_rooted_incomplete": 8
     },
     "incomplete_total": 8,
+    "levels": {
+     "edges_with_complete_rooted_claim": 2,
+     "raw_claim_rows": 632,
+     "raw_claim_rows_with_edge": 632,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2.0,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.003,
+      "median": 1,
+      "min": 1
+     },
+     "study_claim_rows": 632,
+     "unique_asserted_edges": 315,
+     "unique_structures": 316,
+     "unique_structures_with_edge": 316
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -1383,6 +1551,27 @@
      "world_rooted_incomplete": 10
     },
     "incomplete_total": 10,
+    "levels": {
+     "edges_with_complete_rooted_claim": 3,
+     "raw_claim_rows": 669,
+     "raw_claim_rows_with_edge": 669,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 1.997,
+      "median": 2,
+      "min": 1
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.015,
+      "median": 1.0,
+      "min": 1
+     },
+     "study_claim_rows": 669,
+     "unique_asserted_edges": 330,
+     "unique_structures": 335,
+     "unique_structures_with_edge": 335
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -1535,6 +1724,27 @@
      "world_rooted_incomplete": 8
     },
     "incomplete_total": 8,
+    "levels": {
+     "edges_with_complete_rooted_claim": 3,
+     "raw_claim_rows": 666,
+     "raw_claim_rows_with_edge": 666,
+     "rows_per_structure": {
+      "max": 2,
+      "mean": 2.0,
+      "median": 2,
+      "min": 2
+     },
+     "structures_per_edge": {
+      "max": 2,
+      "mean": 1.009,
+      "median": 1.0,
+      "min": 1
+     },
+     "study_claim_rows": 666,
+     "unique_asserted_edges": 330,
+     "unique_structures": 333,
+     "unique_structures_with_edge": 333
+    },
     "note": "instrument diagnostic; no threshold and no verdict",
     "statuses": {
      "mixed": 0,
@@ -1692,6 +1902,15 @@
     "world_rooted_incomplete": 49
    },
    "incomplete_total": 49,
+   "levels": {
+    "edges_with_complete_rooted_claim": 14,
+    "raw_claim_rows": 3942,
+    "raw_claim_rows_with_edge": 3942,
+    "study_claim_rows": 3942,
+    "unique_asserted_edges": 1623,
+    "unique_structures": 1644,
+    "unique_structures_with_edge": 1644
+   },
    "statuses": {
     "mixed": 0,
     "mixed_incomplete": 0,
@@ -1843,6 +2062,15 @@
     "world_rooted_incomplete": 44
    },
    "incomplete_total": 44,
+   "levels": {
+    "edges_with_complete_rooted_claim": 13,
+    "raw_claim_rows": 3640,
+    "raw_claim_rows_with_edge": 3640,
+    "study_claim_rows": 3640,
+    "unique_asserted_edges": 1638,
+    "unique_structures": 1653,
+    "unique_structures_with_edge": 1653
+   },
    "statuses": {
     "mixed": 0,
     "mixed_incomplete": 0,

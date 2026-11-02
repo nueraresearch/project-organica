@@ -202,6 +202,7 @@ def test_the_report_is_generated_without_placeholders():
     assert "{" not in doc and "}" not in doc, "a leftover placeholder is silent"
     assert doc == pt.render_report(art), "the report must be a function of the artifact"
     assert doc.count("| 424242 | formation |") == 1, "the per-seed section is missing"
+    assert "Counting units" in doc, "the three units must be reported"
 
 
 def test_incomplete_lineages_report_why_they_are_incomplete():
@@ -214,3 +215,23 @@ def test_incomplete_lineages_report_why_they_are_incomplete():
              "ancestor_depth": 2}]
     summary = pt.summarise_rows(rows)
     assert summary["defects"] == {"missing_records": 1, "cycle": 1, "depth_truncated": 1}
+
+
+def test_the_three_counting_units_are_reported_separately_and_map():
+    """Rows, unique ids and unique edges are three units; none stands in for another."""
+    raw = [{"id": "p1", "type": "prediction_candidate", "source": "anna", "target": "bert"},
+           {"id": "p1", "type": "prediction_candidate", "source": "anna", "target": "bert"},
+           {"id": "p2", "type": "prediction_candidate", "source": "anna", "target": "bert"},
+           {"id": "p3", "type": "prediction_candidate"}]
+    claims = pt.claim_structures(pt.dedupe_candidates(raw))
+    status = {"p1": "world_rooted", "p2": "unresolved_no_ancestry",
+              "p3": "unresolved_no_ancestry"}
+    levels = pt.counting_levels(raw, claims, status)
+    assert levels["raw_claim_rows"] == 4
+    assert levels["raw_claim_rows_with_edge"] == 3
+    assert levels["unique_structures"] == 3
+    assert levels["unique_structures_with_edge"] == 2
+    assert levels["unique_asserted_edges"] == 1, "two structures assert one edge"
+    assert levels["edges_with_complete_rooted_claim"] == 1
+    assert levels["rows_per_structure"]["max"] == 2
+    assert levels["structures_per_edge"]["max"] == 2

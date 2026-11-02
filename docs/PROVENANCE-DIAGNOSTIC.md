@@ -53,6 +53,31 @@ rooted lineage with a note attached.
 | `cycle` | 39 | 41 |
 | `depth_truncated` | 0 | 0 |
 
+## Counting units
+
+The same lineage question at three resolutions. A survivor is re-stored every
+sleep cycle, so the study's per-claim rule counts **raw snapshot rows**, while
+the tracer walks **unique structure ids**; a pair of tags may also be asserted
+by more than one structure, which is a third unit. None of the three may stand
+in for another.
+
+| unit | formation | revision |
+|---|---|---|
+| raw stored claim rows with an asserted edge (the study's `_claim_edges` count) | 3942 | 3640 |
+| raw stored claim rows (all claim-typed rows) | 3942 | 3640 |
+| unique structure ids | 1644 | 1653 |
+| unique structure ids with an asserted edge | 1644 | 1653 |
+| unique asserted edges | 1623 | 1638 |
+| unique asserted edges with a complete `world_rooted` claim | 14 | 13 |
+
+| seed | rows per structure (median / max) | structures per asserted edge (median / max) |
+|---|---|---|
+| 20261201 | 4 / 4 | 1.0 / 2 |
+| 20261202 | 2.0 / 2 | 1 / 2 |
+| 20261203 | 2 / 2 | 1 / 2 |
+| 20261204 | 2 / 2 | 1 / 2 |
+| 20261205 | 2 / 2 | 1.0 / 2 |
+
 ## By claim type
 
 | type | limb | claims | complete `world_rooted` | incomplete | unresolved |
