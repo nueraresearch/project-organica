@@ -7776,3 +7776,64 @@ The rule did not move: the per-seed failing counts reproduced calibration exactl
 asserted before the artifact is written and checked by a test.
 
 → `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.7; `docs/reusable_knowledge_postmortem.json`.
+
+## §101 — The next instrument is a provenance tracer, and its controls found two bugs before any real data
+
+The closed study's rule asked whether the immediately preceding **event** was the world's. The
+postmortem then showed that the largest class of self-sourced support carries non-schema content
+whose origin the payloads do not record. So the next question is not "which learner variant", it is
+"can support be traced from a claim, through the parent structures it names, back to world
+observations?" — and that question gets an instrument before it gets a protocol.
+
+`benchmarks/provenance_trace.py` follows `parent_ids` breadth-first from a claim, cycle-safe and
+depth-capped at the engine's own `get_ancestry(max_depth=7)`, and classifies the chain by whether its
+**ancestors** carry tags the world also uses:
+
+- `world_rooted` — every ancestor carries world vocabulary and at least one terminal exists;
+- `mixed` — some ancestors do, some do not;
+- `self_only` — none does;
+- `unresolved_missing_records` / `unresolved_cycle` / `unresolved_depth_truncated` /
+  `unresolved_nothing_resolved` / `unresolved_no_ancestry` — with the reason kept, because a chain
+  that silently drops an unresolvable ancestor would look complete when it is not.
+
+**The resolution is the point, so it is stated rather than implied.** Structures reference each other
+by **structure id**, never by event id. So `world_rooted` means *every ancestor carries tags the world
+uses* — not *descends from observation X*. That is weaker than event-level provenance and stronger
+than "the row was stored during sleep", and the status vocabulary keeps the difference visible instead
+of compressing it into a boolean.
+
+**Controls first, and they earned it.** The instrument was run on ancestry known by construction
+before touching data:
+
+| control | status | expected |
+|---|---|---|
+| `cycle` | `unresolved_cycle` | `unresolved_cycle` |
+| `depth_capped` | `unresolved_depth_truncated` | `unresolved_depth_truncated` |
+| `missing_parent` | `unresolved_missing_records` | `unresolved_missing_records` |
+| `mixed` | `mixed` | `mixed` |
+| `self_only` | `self_only` | `self_only` |
+| `vocabulary_removed_flips_control` | `self_only` | `self_only` |
+| `world_derived` | `world_rooted` | `world_rooted` |
+
+Two design defects were caught by those controls, neither of which a real-data run would have made
+obvious:
+
+1. **The index has to include the claim itself.** Built from ancestors only, every claim resolved to
+   "nothing", which looks like a data absence rather than an instrument bug.
+2. **Grounding must exclude the claim's own words.** Judged on all nodes, a claim that names a world
+   tag is `world_rooted` by definition — the fixture labelled self-only came back `mixed`, and the
+   cause was the claim's own surface words counting as its ancestry. Grounding is now judged on
+   ancestors, and a claim with no parent links is `unresolved_no_ancestry`, not `self_only`.
+
+The mutation control matters as much as the fixtures: emptying the world vocabulary flips the
+world-derived control to `self_only`. A tracer that cannot change its answer would be decoration
+(AGENTS rule 25).
+
+**What this is not.** No threshold, no verdict, no seeds, no artifact claiming a finding: the module's
+own summary says `instrument diagnostic; no threshold and no verdict`. The closed study stays closed,
+its failure stays a failure, and the confirmatory seeds stay untouched. The next step is a **new
+preregistration with fresh seeds**, written after deciding which status distribution would count as
+evidence — a decision that has to be made before the tracer is pointed at a world, not after.
+
+→ `benchmarks/provenance_trace.py`, `tests/test_provenance_trace.py`;
+`python -m benchmarks.provenance_trace --controls`.
