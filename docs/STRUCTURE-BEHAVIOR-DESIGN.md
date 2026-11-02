@@ -47,6 +47,43 @@ The variable is made to vary by the strength manipulation K3 already exercised: 
 weight at 3:1 versus 1:3 against the early group, with `DI` the measured consequence. A design whose
 `DI` values do not vary is a dead axis and stops the run before any outcome is read (AGENTS 13a).
 
+## 2a. The closest prior result, and the noun that keeps this hypothesis open
+
+`docs/formation_provenance_study.json` is the nearest existing test and it must be named here, because
+reading it carelessly would either overstate this design or erase it.
+
+Its confirmatory block (15 seeds, `20270106`–`20270120`, run once under a preregistration, all four gates
+passed) found that the **recorded provenance of a formed candidate** is associated with whether that
+candidate's asserted pair **occurs** in the window the organism was never shown:
+
+| arm | hits | n | rate |
+| --- | --- | --- | --- |
+| `pair_world_attributed` | 1938 | 4280 | 0.4528 |
+| `origin_includes_self` | 2036 | 8528 | 0.2387 |
+
+Difference **0.214061**, 98.33 % interval **[0.195886, 0.228119]**, lower bound above zero; the
+permutation control's interval includes zero (gate G3 passed). That is a real result and it is about
+**structure and the world's later content**.
+
+**It is not this hypothesis, and the reason is one noun.** Its outcome is *occurrence*: a property of the
+event stream — did the pair appear in cycles 150–200. This design's outcome is *response*: what the
+organism's readout predicts on transitions it never saw. The study's own record says the same thing in its
+`does_not_establish` list, first item: *"that the knowledge is useful or reusable"*. A structure can track
+what the world will contain and still not be what the organism uses when it acts; those are different
+claims, and only the second one is behavioural.
+
+So the position is:
+
+- **structure ↔ future world content:** established once, for provenance, at candidate level, in one
+  configuration (0.214, interval above zero);
+- **structure → the organism's own later behaviour:** not established for any structural variable, and it
+  is what §1 states;
+- **stability of either across generating configurations:** not established at all.
+
+This also sets the right expectation for the result. If `DI` predicts `revision_held_out`, the finding is
+not "structure tracks the world" — that is already in the record — but "structure predicts what the
+organism does", which is the sentence the project has never been able to write.
+
 ## 3. The behavioral outcome
 
 **`revision_held_out`** — next-tag prediction on the revision-test window (cycles 250–300) under the rotated

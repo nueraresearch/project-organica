@@ -9304,3 +9304,33 @@ endpoint and requires a predicted sign resolution under a named reference rule b
 independent review of §8 — `DI`'s denominator policy, the `WITHHELD` set surviving the rotation, the
 readout calibration, the comparator sweep, the overlap guard's ability to fail, and the level wording —
 must be recorded before anything runs.
+
+## §139 — The premise “structure has not been shown to predict anything held out” was too strong by one noun (2026-11-02)
+
+The owner's assessment of §138 was that the project has the ingredients of the structure-to-behavior
+hypothesis but has never tested it. Checked against the artifacts, that is right about the behaviour and
+wrong as stated: `docs/formation_provenance_study.json` is a confirmatory, preregistered, 15-seed, run-once
+result with all four gates passed, and it reports an **association detected** —
+
+| arm | rate | hits / n |
+| --- | --- | --- |
+| `pair_world_attributed` | 0.4528 | 1938 / 4280 |
+| `origin_includes_self` | 0.2387 | 2036 / 8528 |
+
+difference **0.214061**, 98.33 % interval **[0.195886, 0.228119]**, permutation control including zero.
+
+**What that study established is structure and the world's later content**, not structure and behaviour.
+Its outcome is *occurrence* — whether the candidate's asserted pair appears in cycles 150–200, a window
+the organism was never shown — which is a property of the event stream. This design's outcome is
+*response*: what the organism's readout predicts on transitions it never saw. The study's own
+`does_not_establish` list opens with “that the knowledge is useful or reusable”, which is exactly the
+behavioural half that remains open.
+
+**Consequence for the record, not for the hypothesis.** §2a of
+`docs/STRUCTURE-BEHAVIOR-DESIGN.md` now states the position in three lines: structure ↔ future world content
+is established once for provenance at candidate level in one configuration (0.214, interval above
+zero); structure → the organism's own later behaviour is established for no structural variable; and the
+stability of either across generating configurations is not established at all. The design is therefore
+neither a first association test nor a repetition of one, and the sentence it would license if positive is
+the one the project has never been able to write — that structure predicts what the organism does, not
+merely what the world contains. No seed allocated; the review gate and the declared deviation stand.

@@ -58,3 +58,17 @@ def test_the_manual_points_at_the_record_and_the_journal_entry():
     assert "no seed" in row[0].lower()
     journal = (ROOT / "research-journal/phase_g_findings_20261021.md").read_text(encoding="utf-8")
     assert "## \u00a7138" in journal
+
+
+def test_the_prior_result_is_quoted_and_kept_distinct():
+    """The provenance result is the nearest prior test; its numbers come from the artifact."""
+    import json
+    text = _doc()
+    prov = json.loads((ROOT / "docs/formation_provenance_study.json").read_text(encoding="utf-8"))
+    assert "## 2a." in text
+    for value in (prov["difference"], *prov["interval"]):
+        assert f"{value:.6f}" in text, value
+    for arm in prov["arms"].values():
+        assert f"{arm['rate']:.4f}" in text, arm["rate"]
+    assert "occurrence" in text and "response" in text
+    assert "useful or reusable" in text
