@@ -8264,3 +8264,27 @@ self-majority share of 0.50 or more withholds the transfer claim, and an unattri
 None of this changes a seed, a gate, the capacity, alpha, the endpoint or its bar. The build
 still does not exist, and no cell has run.
 
+## §110 The disqualifier earns a gate of its own
+
+Amendment 1 made the provenance rule computable but left it unproven able to fire. G3 tests the
+ceiling against a one-transition learner and a degraded readout; G4 tests that recording is
+neutral. Neither could show the new rule withholding a claim, so the one clause that exists to
+constrain the headline result was, in gate terms, decoration — the defect rule 25(c) names.
+
+G6 now requires synthetic fixtures, before any study seed: world-majority passes; self-majority
+withholds and labels the result *not a transfer result*; unattributed withholds as *not
+attributable*; an empty positive margin is *not evaluable*. The boundary fires at exactly 0.50
+and not at 0.4999; ties (`world == self`) count as self-majority; and relaxing the threshold to
+0.90 must stop the self-majority fixture from withholding. That last assertion is what
+distinguishes a working rule from a fixture that trivially passes: if the fixture cannot be made
+to stop withholding, it was never driving the outcome.
+
+The review also caught that §11.3 named a "baseline" while the study has two windows. §11.5 fixes
+both: attribution runs against the same strongest comparator that supplies the §4 bar, at its
+selected configuration and refit on all 110 rows, per cell, with no per-seed re-selection; and
+the primary and co-primary windows are computed separately, never pooled, with the claim withheld
+if either window's share reaches the threshold. Design-seed statuses audit the function; they are
+never a result.
+
+No cell has run; the build remains unstarted.
+

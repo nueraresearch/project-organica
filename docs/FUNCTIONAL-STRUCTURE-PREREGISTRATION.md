@@ -112,6 +112,17 @@ Each gate can fail, and a failure stops the protocol rather than shrinking it.
 - **G5 calibration independence.** `alpha`, the capacity, the comparator grids and
   the tuning split are fixed in this document. No value is chosen, adjusted or
   re-selected on a confirmatory seed.
+- **G6 the disqualifier can fire.** Before any study seed is touched, the attribution
+  rule in §11.3 must demonstrate on synthetic fixtures, with no engine run, that it can
+  return each of its four outcomes: a world-majority margin **passes**; a self-majority
+  margin **withholds** and labels the result **not a transfer result**; an unattributed
+  margin **withholds as not attributable**; and an empty positive margin is **not
+  evaluable**, never a share of zero. The fixtures must also show the rule firing at
+  exactly 0.50 and not firing at 0.4999, must classify `world == self` as self-majority,
+  and must show that relaxing the threshold to 0.90 stops the self-majority fixture from
+  withholding. That last check is the point: it proves the fixture carries the signal,
+  rather than the rule being unable to fire at all. A disqualifier that cannot withhold
+  is not a disqualifier, and the provenance clause would be decoration.
 
 ## 7. The provenance diagnostic (compulsory, never the success measure)
 
@@ -265,3 +276,29 @@ same scale as the endpoint, so "carried mainly by" is a computable share.
 Seeds and blocks (§5), gates (§6), capacity, alpha, the endpoint and its bar (§4),
 the stop rules (§8) and the build status (§10) are unchanged. No cell has run, and
 none may run until the harness and these definitions are committed together.
+
+### 11.5 Which baseline, which window
+
+§11.3 says "baseline" without naming one, and the study has two windows. Both are fixed
+here.
+
+**Baseline.** The attribution uses the single strongest simple comparator — the arm that
+supplies the endpoint's bar in §4 — at its selected configuration, refit on all 110 rows,
+scored on exactly the cells it is compared on there. It is not recomputed per cell, not
+re-chosen per seed, and no cell is attributed against whichever baseline happens to favour
+Organica on that cell. The `loss(baseline)` of §11.3 is that arm's loss on that cell.
+
+**Window.** The primary window (formation cycles 150–200) supplies the headline share; the
+co-primary withheld-relation window supplies its own share over its own cells. The two are
+computed **separately and never pooled** — no cell, pair or margin crosses between them,
+because the co-primary window exists precisely to ask whether the margin survives on
+relations no arm was exposed to.
+
+**Decision rule.** Within a window the share is pooled over the 15 confirmatory seeds, with
+per-seed shares reported beside it. The disqualifier is evaluated in **both** windows, and
+the transfer claim is withheld if **either** reaches the threshold. A claim therefore needs
+the primary and the co-primary margin to both be world-majority attributable.
+
+**Gate use.** On design seeds the same function is run and its status recorded. G6's
+fixtures are what prove it can fire; design-seed statuses are an audit, not a result.
+

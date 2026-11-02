@@ -16,6 +16,10 @@ def test_amendment_fixes_the_three_open_clauses():
     assert "kept in the denominator with label zero" in text
     assert "0.50" in text and "self-majority" in text
     assert "not attributable" in text
+    assert "G6 the disqualifier can fire" in text
+    assert "### 11.5 Which baseline, which window" in text
+    assert "not evaluable" in text
+    assert "never pooled" in text
 
 
 def test_seed_blocks_are_fresh_and_disjoint():
@@ -27,6 +31,14 @@ def test_seed_blocks_are_fresh_and_disjoint():
         assert str(block[0]) in text and str(block[-1]) in text
     closed = set(range(20261201, 20261227)) | set(range(20270101, 20270121))
     assert closed.isdisjoint(set(design) | set(confirmatory))
+
+
+def test_disqualifier_outcomes_are_all_named():
+    """Every status the attribution can return must be fixed in the protocol."""
+    text = DOC.read_text(encoding="utf-8")
+    for status in ("not a transfer result", "not attributable", "not evaluable"):
+        assert status in text
+    assert "0.50" in text and "0.4999" in text and "0.90" in text
 
 
 def test_no_cell_artifact_exists_yet():
