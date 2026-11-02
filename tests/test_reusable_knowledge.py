@@ -473,8 +473,9 @@ def test_self_support_is_classified_by_what_the_payload_carries():
                "parent_ids": [], "source": "willow", "target": "teal",
                "strength": 1.0, "evidence": {"temporal_count": 5}}
     assert rk.transition_class("willow", "teal", payload) == "claim_restated"
-    assert rk.transition_class("source", "willow", payload) == "schema"
-    assert rk.transition_class("willow", "cedar", payload) == "content_relayed"
+    assert rk.transition_class("source", "target", payload) == "field_name_both"
+    assert rk.transition_class("source", "willow", payload) == "field_name_one"
+    assert rk.transition_class("willow", "cedar", payload) == "content_unresolved"
     meta = {"type": "_sleep_meta", "cycle": 2}
     assert rk.transition_class("type", "cycle", meta) == "meta"
     assert rk.transition_class("willow", "teal", None) == "opaque"
@@ -500,13 +501,31 @@ def test_encoding_blind_recount_is_a_diagnostic_and_not_a_recount_of_the_rule():
     claims = [{"type": "prediction_candidate", "source": "a", "target": "b",
                "on_withheld": False}]
     support = {("a", "b"): {(1, 2): True, (3, 2): True, (4, 2): False}}
-    classes = {("a", "b"): {(1, 2): "schema", (3, 2): "schema"}}
+    classes = {("a", "b"): {(1, 2): "field_name_both", (3, 2): "field_name_both"}}
     got = rk._claim_breakdown(claims, support, classes)
     assert got["failing"] == 1, "the preregistered rule still fails this claim"
     assert got["passed"] == 0
-    assert got["self_transitions_by_class"] == {"schema": 2}
-    assert got["failing_that_pass_when_encoding_excluded"] == 1
-    assert got["examples"][0]["encoding_blind_passed"] is True
+    assert got["self_transitions_by_class"] == {"field_name_both": 2}
+    assert got["failing_that_pass_when_pure_encoding_excluded"] == 1
+    assert got["failing_that_pass_when_all_field_name_transitions_excluded"] == 1
+    assert got["examples"][0]["passes_without_pure_encoding"] is True
+
+
+def test_a_mixed_field_name_transition_is_not_the_encoding_alone():
+    """One endpoint a field name is reported apart from two.
+
+    The two are different defects: `field_name_both` is the encoding talking to
+    itself, `field_name_one` still carries a content tag.  Collapsing them would
+    have let an encoding-blind recount drop evidence it should have kept.
+    """
+    claims = [{"type": "prediction_candidate", "source": "a", "target": "b",
+               "on_withheld": False}]
+    support = {("a", "b"): {(1, 2): True, (3, 2): True, (4, 2): False}}
+    classes = {("a", "b"): {(1, 2): "field_name_one", (3, 2): "field_name_one"}}
+    got = rk._claim_breakdown(claims, support, classes)
+    assert got["failing"] == 1
+    assert got["failing_that_pass_when_pure_encoding_excluded"] == 0
+    assert got["failing_that_pass_when_all_field_name_transitions_excluded"] == 1
 
 
 def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):

@@ -555,10 +555,27 @@ def attribution_share(engine: dict) -> dict[str, Any]:
     }
 
 
-SELF_CLASSES = ("claim_restated", "content_relayed", "schema", "meta", "opaque")
+SELF_CLASSES = ("claim_restated", "field_name_both", "field_name_one",
+                "content_unresolved", "meta", "opaque")
 
-#: The two self classes that carry content rather than the encoding itself.
-CONTENT_CLASSES = ("claim_restated", "content_relayed")
+#: Field-name involvement.  `field_name_both` is the encoding on its own: both
+#: endpoints are the payload's own field names.  `field_name_one` mixes one field
+#: name with one content tag -- not evidence about the content, and NOT the same
+#: defect as the encoding talking to itself, which is why they are reported apart.
+PURE_ENCODING = ("field_name_both", "meta")
+ENCODING_INVOLVED = ("field_name_both", "field_name_one", "meta")
+
+#: Self classes that carry content rather than a field name.  `content_unresolved`
+#: says only that non-schema content appeared in a sleep payload: these cells carry
+#: no reference from a payload to the world events behind it, so the ORIGIN of that
+#: content is not established here (see the artifact's `content_origin`).
+CONTENT_CLASSES = ("claim_restated", "content_unresolved")
+
+
+def _carries_event_reference(value: Any) -> bool:
+    """Whether a payload field appears to name an event, rather than a count."""
+    text = str(value).lower()
+    return "evt" in text or "event" in text
 
 
 def _payload_of(event_type: str, content: str | None) -> dict | None:
@@ -586,9 +603,15 @@ def transition_class(prior_tag: str, target_tag: str, payload: dict | None) -> s
     between two of them records the ENCODING rather than the organism.  This
     separates that from the two ways a self row can carry content:
 
-      `claim_restated`   the payload asserts this very pair -- circular support;
-      `content_relayed`  the payload mentions a tag of the pair from some other
-                         structure -- world content relayed through a sleep row.
+      `claim_restated`      the payload asserts this very pair -- circular support;
+      `field_name_both`     BOTH endpoints are the payload's own field names, so
+                            the transition is the encoding talking to itself;
+      `field_name_one`      one endpoint is a field name, the other is content;
+      `content_unresolved`  neither endpoint is a field name and the payload does
+                            not restate the pair.  This records that non-schema
+                            content appeared in a sleep row.  It does NOT record
+                            that the content is world-rooted: nothing in the
+                            payload traces back to a world event.
 
     `meta` is the cycle marker and `opaque` a sleep row whose payload is not
     candidate JSON.
@@ -600,9 +623,13 @@ def transition_class(prior_tag: str, target_tag: str, payload: dict | None) -> s
     if payload.get("source") == prior_tag and payload.get("target") == target_tag:
         return "claim_restated"
     schema = _payload_schema_words(payload)
-    if prior_tag in schema or target_tag in schema:
-        return "schema"
-    return "content_relayed"
+    prior_is_field = prior_tag in schema
+    target_is_field = target_tag in schema
+    if prior_is_field and target_is_field:
+        return "field_name_both"
+    if prior_is_field or target_is_field:
+        return "field_name_one"
+    return "content_unresolved"
 
 
 def _support_observer(mem: MemoryService):
@@ -634,7 +661,8 @@ def _support_observer(mem: MemoryService):
     #: carries no class.  This is for the postmortem, and the rule does not read
     #: it: `per_claim_provenance` judges the boolean map, unchanged.
     classes: dict[tuple[str, str], dict[tuple[int, int], str]] = defaultdict(dict)
-    state = {"windows_with_sleep": 0}
+    state = {"windows_with_sleep": 0, "payload_keys": set(), "evidence_keys": set(),
+             "payloads_with_parent_ids": 0, "payloads_with_event_reference": 0}
 
     def record(new_tags: list[str], to_event_rowid: int) -> None:
         rows = mem._conn.execute(
@@ -646,6 +674,15 @@ def _support_observer(mem: MemoryService):
         for rid, tags_str, etype, content in rows:
             prior = [t for t in (tags_str or "").split(",") if t]
             payload = _payload_of(etype, content)
+            if payload is not None:
+                state["payload_keys"].update(str(k) for k in payload)
+                evidence = payload.get("evidence")
+                if isinstance(evidence, dict):
+                    state["evidence_keys"].update(str(k) for k in evidence)
+                    if any(_carries_event_reference(v) for v in evidence.values()):
+                        state["payloads_with_event_reference"] += 1
+                if payload.get("parent_ids"):
+                    state["payloads_with_parent_ids"] += 1
             for u in prior:
                 for v in new_tags:
                     if u == v:
@@ -832,7 +869,7 @@ def _claim_breakdown(claims: list[dict], support: dict, classes: dict,
     failing_by_type: dict[str, int] = defaultdict(int)
     failing_by_size: dict[str, int] = defaultdict(int)
     failing_by_class: dict[str, int] = defaultdict(int)
-    failing_blind_pass = 0
+    failing_pure_pass = failing_all_pass = 0
     examples: list[dict] = []
     measurable = failing = 0
     for c in claims:
@@ -848,11 +885,17 @@ def _claim_breakdown(claims: list[dict], support: dict, classes: dict,
             if is_self:
                 by_class[cls.get(key, "unclassified")] += 1
         content_self = sum(by_class.get(k, 0) for k in CONTENT_CLASSES)
-        blind_total = world + content_self
-        blind_share = (content_self / blind_total) if blind_total else None
+        pure_self = sum(n for k, n in by_class.items() if k not in PURE_ENCODING)
+        all_self = sum(n for k, n in by_class.items() if k not in ENCODING_INVOLVED)
+        pure_total = world + pure_self
+        pure_share = (pure_self / pure_total) if pure_total else None
+        all_total = world + all_self
+        all_share = (all_self / all_total) if all_total else None
         passed = share is not None and share <= reference and world > self_
-        blind_passed = (blind_share is not None and blind_share <= reference
-                        and world > content_self)
+        pure_passed = (pure_share is not None and pure_share <= reference
+                       and world > pure_self)
+        all_passed = (all_share is not None and all_share <= reference
+                      and world > all_self)
         dominant = max(by_class, key=by_class.get) if by_class else None
         if total:
             measurable += 1
@@ -863,13 +906,15 @@ def _claim_breakdown(claims: list[dict], support: dict, classes: dict,
             failing_by_type[c["type"]] += 1
             failing_by_size[_size_bucket(total)] += 1
             failing_by_class[dominant or "none"] += 1
-            failing_blind_pass += int(blind_passed)
+            failing_pure_pass += int(pure_passed)
+            failing_all_pass += int(all_passed)
             if len(examples) < 3:
                 examples.append({"type": c["type"], "edge": [c["source"], c["target"]],
                                  "world": world, "self": self_,
                                  "share": round(share, 6),
                                  "self_classes": dict(by_class),
-                                 "encoding_blind_passed": blind_passed})
+                                 "passes_without_pure_encoding": pure_passed,
+                                 "passes_without_field_names": all_passed})
     return {
         "claims": len(claims),
         "measurable": measurable,
@@ -880,7 +925,8 @@ def _claim_breakdown(claims: list[dict], support: dict, classes: dict,
         "failing_by_type": dict(sorted(failing_by_type.items())),
         "failing_by_size": dict(sorted(failing_by_size.items())),
         "failing_by_dominant_self_class": dict(sorted(failing_by_class.items())),
-        "failing_that_pass_when_encoding_excluded": failing_blind_pass,
+        "failing_that_pass_when_pure_encoding_excluded": failing_pure_pass,
+        "failing_that_pass_when_all_field_name_transitions_excluded": failing_all_pass,
         "examples": examples,
     }
 
@@ -903,7 +949,8 @@ def _postmortem_summary(per_seed: list[dict]) -> dict[str, Any]:
         for entry in per_seed:
             d = entry[limb]
             for key in ("claims", "measurable", "unmeasurable", "failing", "passed",
-                        "failing_that_pass_when_encoding_excluded"):
+                        "failing_that_pass_when_pure_encoding_excluded",
+                        "failing_that_pass_when_all_field_name_transitions_excluded"):
                 agg[key] += d[key]
             for key, n in d["self_transitions_by_class"].items():
                 by_class[key] += n
@@ -945,6 +992,15 @@ def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
     form = summary["formation"]
     classes = form["self_transitions_by_class"]
     dominant = max(classes, key=classes.get) if classes else None
+    fields: dict[str, Any] = {"keys": set(), "evidence_keys": set(),
+                              "payloads_with_parent_ids": 0,
+                              "payloads_with_event_reference": 0}
+    for entry in per_seed:
+        pf = entry["payload_fields"]
+        fields["keys"].update(pf["keys"])
+        fields["evidence_keys"].update(pf["evidence_keys"])
+        fields["payloads_with_parent_ids"] += pf["payloads_with_parent_ids"]
+        fields["payloads_with_event_reference"] += pf["payloads_with_event_reference"]
     cal = _load_calibration() or {}
     art = {
         "kind": "reusable_knowledge_postmortem",
@@ -965,20 +1021,42 @@ def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
         },
         "classification": {
             "claim_restated": "the sleep payload asserts this very pair (circular)",
-            "content_relayed": "the sleep payload mentions a tag of the pair from "
-                               "another structure (world content, relayed)",
-            "schema": "the transition is between the payload's own field names",
+            "field_name_both": "BOTH endpoints are the payload's own field names",
+            "field_name_one": "one endpoint is a field name, the other is content",
+            "content_unresolved": "non-schema content in a sleep payload, origin "
+                                  "NOT traced to a world event",
             "meta": "the sleep row is the cycle marker",
             "opaque": "the sleep row's payload is not candidate JSON",
             "world": "direct evidence; carries no self class",
         },
         "summary": summary,
+        "content_origin": {
+            "status": "unresolved",
+            "why": ("a payload records its content but not the world events behind "
+                    "it, so `content_unresolved` establishes only that non-schema "
+                    "content appeared in a sleep row; it does not establish that "
+                    "the content is world-rooted"),
+            "payload_fields": {
+                "keys": sorted(fields["keys"]),
+                "evidence_keys": sorted(fields["evidence_keys"]),
+                "payloads_with_parent_ids": fields["payloads_with_parent_ids"],
+                "payloads_with_event_reference": fields["payloads_with_event_reference"],
+            },
+        },
         "answer": (
             f"On the formation limb {form['failing']} of {form['measurable']} "
-            f"measurable claims fail. Their self-sourced transitions are dominated "
-            f"by {dominant!r}; {form['failing_that_pass_when_encoding_excluded']} "
-            f"of the failing claims would pass if `schema` and `meta` transitions "
-            f"were excluded, which is a diagnostic and not a recount of the rule."),
+            f"measurable claims fail. Excluding every transition that involves a "
+            f"payload field name rescues "
+            f"{form['failing_that_pass_when_all_field_name_transitions_excluded']} "
+            f"of them; excluding only transitions between two field names rescues "
+            f"{form['failing_that_pass_when_pure_encoding_excluded']}. The largest "
+            f"self class is {dominant!r} "
+            f"({form['self_transitions_by_class'].get(dominant, 0)} of "
+            f"{sum(form['self_transitions_by_class'].values())} formation self "
+            f"transitions), and its origin is unresolved: the payloads carry "
+            f"{fields['payloads_with_parent_ids']} parent ids and "
+            f"{fields['payloads_with_event_reference']} event references, so these "
+            f"cells cannot say whether that content is world-rooted."),
         "seeds_detail": per_seed,
         "note": ("Diagnostic only. The preregistered per-claim rule and its verdict "
                  "are unchanged, and no confirmatory seed was run or touched."),
@@ -1066,6 +1144,12 @@ def run_engine(formation: dict, revision: dict, seed: int,
         out["postmortem"] = {
             "formation": _claim_breakdown(first["claims"], form_support, form_classes),
             "revision": _claim_breakdown(second["claims"], support, classes),
+            "payload_fields": {
+                "keys": sorted(obs["payload_keys"]),
+                "evidence_keys": sorted(obs["evidence_keys"]),
+                "payloads_with_parent_ids": obs["payloads_with_parent_ids"],
+                "payloads_with_event_reference": obs["payloads_with_event_reference"],
+            },
         }
     return out
 

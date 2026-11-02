@@ -7727,49 +7727,48 @@ still 8 of 8. The confirmatory seeds have not been touched.
 
 → `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.6; `tests/test_reusable_knowledge.py`.
 
-## §100 — The study closes at calibration, and the failures are relayed world content rather than circular support
+## §100 — The study closes at calibration, and the postmortem's first labels claimed more than the data
 
 The per-claim rule failed on all five calibration seeds, so the study is **closed at calibration**:
-no confirmatory seed runs under this protocol, no threshold is revised, and §98's verdict stands. That
-closure is now recorded in the protocol (§20.7) instead of being left to be inferred from an
-`authorises_confirmatory: false` field.
+no confirmatory seed runs under this protocol, no threshold is revised, §98's verdict stands, and the
+closure is recorded in the protocol (§20.7) rather than inferred from an `authorises_confirmatory`
+field. That part is settled.
 
-Closing the study is not the same as understanding it, so the five calibration cells were re-read
-with a support classifier (`--postmortem`, `docs/reusable_knowledge_postmortem.json`). The question
-was narrow: **are the claims failing because they rest on circular self-support, because world content
-is relayed through the organism's own stored structures, or because of the payload encoding?** A sleep
-row is a candidate serialised as JSON, and the engine's extractor turns its field names into tags, so
-all three were live possibilities and none had been separated.
+**The postmortem, and its own correction.** The five cells were re-read with a support classifier that
+separates circular restatement, field-name involvement and non-schema content
+(`docs/reusable_knowledge_postmortem.json`). Its first version labelled any transition with *one*
+field-name endpoint as `schema` — which reads as "the transition is between two field names" — and
+labelled the remaining content `content_relayed`, which asserts a world origin. Neither label was
+supported by the code or the data, and both were replaced before the artifact informed any design
+decision: `field_name_both` is the encoding alone, `field_name_one` mixes one field name with one
+content tag, and `content_unresolved` records non-schema content whose origin is **not traced**.
 
-The answer is unambiguous and it is not the one the rule's name suggests.
+With the corrected labels, on the same five cells:
 
-- **Circular self-support is negligible.** Across five seeds there are
-  8 formation and
-  7 revision transitions in which the sleep
-  payload asserts the very pair the claim is about. The organism is not citing its own assertion.
-- **The encoding is not what fails the claims.** Removing every `schema` and `meta` transition
-  rescues **0 of 1,834** failing formation
-  claims and **0 of 1,792** failing revision
-  claims. The JSON field names are a real contribution to the transition count
-  (15,576 at formation) and no contribution to the
-  failure.
-- **What dominates is relayed world content.** `content_relayed` accounts for
+- **Circular self-support is negligible**: 8 formation and
+  7 revision transitions have the payload asserting the very pair.
+- **Pure encoding does not fail the claims**: excluding transitions between two field names rescues
+  0 of 1,834 failing formation claims and 0 of 1,792 revision
+  claims.
+- **Field-name involvement is not negligible**: excluding every transition that touches a field name
+  rescues 0 and 0. The difference is the `field_name_one` class, which the earlier single
+  `schema` label would have swept into one number.
+- **The largest class is unresolved in origin**: `content_unresolved` accounts for
   44,897 of 60,525 formation and
-  60,695 of 81,624 revision self
-  transitions: world vocabulary carried in the organism's own stored candidates, read back by the
-  lookback window as evidence for the next event.
+  60,695 of 81,624 revision self transitions, and the payloads
+  carry 2340 parent ids and 0 event
+  references — no path from a payload back to the world events behind it. So these cells cannot say
+  whether that content is world-rooted.
 
-So the disqualifier, as written, measures **whether the immediately preceding event was the world's**.
-That is a fact about the organism's own output sitting in the lookback window, not a demonstration
-that its beliefs are unfounded — and it was never demonstrable from the criterion alone, which is
-exactly why the postmortem was worth running before designing a successor.
+**What that leaves.** The disqualifier measures whether the immediately preceding event was the
+world's; that stands, and it is why the study stops. It does not show circular support, and — after the
+correction — it does not show world-rooted relayed support either. The next move is a separately named
+variant with its own preregistration and fresh calibration seeds, and the measurement that would
+separate the two designs is a provenance rule that follows a support tag to the world event that
+introduced it. These cells cannot supply that; they can only say that the current rule cannot.
 
-**What this does not do.** It does not pass a claim, move a threshold, or soften §98. The rule failed,
-the study is closed, and the postmortem is labelled diagnostic on every field it writes
-(`rule_unchanged: true`, `authorises_confirmatory: false`, asserted before the file is written and
-checked by a test). The next step is a **separately named variant with its own preregistration and
-fresh calibration seeds** — either a readout whose evidence path cannot include the organism's own
-structures, or a provenance rule that follows a tag to the world event that introduced it. Both are
-design decisions, and neither may be scored against the cells that closed this study.
+The rule did not move: the per-seed failing counts reproduced calibration exactly
+(576, 346, 326, 254, 332), `rule_unchanged: true`, `authorises_confirmatory: false`,
+asserted before the artifact is written and checked by a test.
 
 → `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.7; `docs/reusable_knowledge_postmortem.json`.

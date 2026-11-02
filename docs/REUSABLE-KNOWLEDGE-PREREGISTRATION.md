@@ -938,57 +938,67 @@ claims failing per seed, `authorises_confirmatory: false`, audit 8 of 8. The rep
 implementation observation with a guarantee; the study stays stopped on the criterion, not on the
 instrument.
 
-### 20.7 The study is closed at calibration, and the postmortem says what the failures are made of
+### 20.7 The study is closed at calibration, and what the postmortem can and cannot say
 
 **Closed.** The per-claim rule failed on all five calibration seeds, so this protocol ends here: no
 confirmatory seed runs under it, no threshold is changed, and §20.5's verdict and §19.2's withdrawal
-stand exactly as written. The closure is a recorded decision, not an inference from the numbers:
-`authorises_confirmatory` stays `false`, and the confirmatory seeds have not been touched.
+stand exactly as written. `authorises_confirmatory` stays `false` and the confirmatory seeds have not
+been touched.
 
-**The postmortem** (`docs/reusable_knowledge_postmortem.json`, produced by
-`--postmortem`) re-reads the same five calibration cells and classifies every self-sourced transition
-by what the sleep row actually carries. A sleep row is a candidate serialised as JSON, so the
-engine's own tag extractor turns its field names into tags as well as its content; the classifier
-distinguishes five cases — `claim_restated` (the payload asserts this very pair: circular),
-`content_relayed` (the payload carries a tag of the pair from some other structure), `schema` (the
-transition is between the payload's own field names), `meta` (the cycle marker) and `opaque` (not
-candidate JSON). The classifier is **not** preregistered and is not a criterion; it exists to tell
-the next design which problem it has.
+**The postmortem** (`docs/reusable_knowledge_postmortem.json`, `--postmortem`) re-reads the same five
+calibration cells and classifies every self-sourced transition by what the sleep row actually carries.
+A sleep row is a candidate serialised as JSON, so the engine's own tag extractor turns its field names
+into tags as well as its content:
+
+| class | what it establishes |
+|---|---|
+| `claim_restated` | the payload asserts this very pair — circular support |
+| `field_name_both` | **both** endpoints are the payload's own field names — the encoding alone |
+| `field_name_one` | **one** endpoint is a field name, the other is content — encoding mixed with content, reported apart because it is a different defect |
+| `content_unresolved` | neither endpoint is a field name and the payload does not restate the pair — non-schema content, **origin not traced** |
+| `meta` | the sleep row is the cycle marker |
+
+**This classifier was corrected before it informed any design decision, and the first version was
+too strong.** It called any transition with *one* field-name endpoint `schema`, which read as though
+the transition were between two field names; and it called non-schema content `relayed`, which
+asserted that the content was world-rooted when nothing in a payload traces back to a world event. The
+classes above replace those labels and the two field-name cases are now counted separately, because
+the counterfactual depends on which one is excluded.
 
 Nothing about the rule moves: the per-seed failing counts reproduced the calibration exactly
-(576, 346, 326, 254, 332), `rule_unchanged: true`,
-`authorises_confirmatory: false`, and `_assert_diagnostic` refuses to write an artifact that would
-authorise anything.
+(576, 346, 326, 254, 332), `rule_unchanged: true`, `authorises_confirmatory: false`,
+and `_assert_diagnostic` refuses to write an artifact that would authorise anything.
 
-Self-sourced transitions across the five seeds, formation / revision: `content_relayed`
-44,897 / 60,695,
-`schema` 15,576 / 20,876,
-`meta` 44 / 46,
-`claim_restated` 8 / 7.
-Of 3,942 formation claims, 3,840 are measurable and 1,834 fail;
-of 3,640 revision claims, 3,548 are measurable and 1,792 fail.
-The failing population is dominated by `prediction_candidate`
-(1,832 at formation) and by large support
-(1378 of 1,834 failing formation claims have 16 or more
-distinct transitions).
+Self-sourced transitions across the five seeds, formation / revision: `field_name_both` 0 / 0;
+`field_name_one` 15,576 / 20,876; `content_unresolved` 44,897 / 60,695; `claim_restated` 8 / 7;
+`meta` 44 / 46. Of 3,942 formation claims, 3,840 are measurable and
+1,834 fail; of 3,640 revision claims, 3,548 are measurable and
+1,792 fail.
 
-**The answer.** The failures are not circular self-restatement — the organism citing its own
-assertion of a pair as evidence for that pair accounts for
-8 and
-7 transitions across five seeds — and they
-are not the payload encoding either: excluding every `schema` and `meta` transition rescues
-**0 of the 1,834 failing formation claims
-and 0 of the 1,792 failing revision
-claims**. What dominates is `content_relayed`, 44,897
-of 60,525 formation and 60,695 of
-81,624 revision self transitions: world vocabulary carried in the organism's own serialised
-structures, which the lookback window reads back as evidence. The disqualifier as written therefore
-measures **whether the immediately preceding event was the world's**, not whether the evidence
-originated in the world — the distinction the audit-trace specification raises as D2.
+**What the classes support.**
 
-That distinction is a design question, not a licence. It does not make any failing claim pass, it
-does not change the verdict, and it does not relax the rule. What it does is name the problem a
-successor protocol has to solve: either a readout that does not let the organism's own structures
-into the evidence path, or a provenance rule that follows a tag back to the world event that
-introduced it. Either one is a **separately named variant with its own preregistration and fresh
-calibration seeds**, and neither may be scored against these cells.
+- **Circular self-support is negligible.** 8 formation and
+  7 revision transitions are the payload asserting the very pair the
+  claim is about.
+- **Pure encoding is not what fails the claims.** Excluding only transitions between two field names
+  rescues **0 of 1,834** failing formation claims and **0 of
+  1,792** failing revision claims.
+- **But field-name involvement is not nothing.** Excluding every transition that *touches* a field
+  name rescues **0** and **0** respectively. The gap between the two numbers is the
+  `field_name_one` class, and it is why the two are not reported as one.
+
+**What the classes do not support.** `content_unresolved` is the largest self class
+(44,897 of 60,525 formation and
+60,695 of 81,624 revision self transitions), and it establishes
+**only** that non-schema content appeared in a sleep row. Its origin is **unresolved**: across the
+five seeds the payloads carry 2340 parent ids and
+0 event references, and their fields are
+`action_type, composites_created, confidence, context, cost, cycle, evidence, expected, expected_outcomes, generation, id, investigation_id, members, observed, parent_ids, priority, probe_payload, ran_at, source, status, strength, target, target_id, target_type, type` with evidence keys `avg_clustering, avg_predictive_reach, cost, decay_cycle, decayed_from, dominance_ratio, edge_count, expected_count, formula, investigation_eig, observed_count, ratio, source_frequency, target_frequency, temporal_count`. Nothing there
+names the world events behind the content, so these cells cannot say whether it is world-rooted,
+whether it is the organism's own prior assertion in another form, or neither.
+
+**The honest reading.** The disqualifier measures **whether the immediately preceding event was the
+world's**. It does not establish that the organism's support is circular, and the postmortem does not
+establish that it is world-rooted either — the earlier phrasing claimed more than the data. Both
+remain open, and that is the question the next design has to answer, in a separately named variant
+with its own preregistration and fresh calibration seeds.
