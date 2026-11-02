@@ -9233,3 +9233,32 @@ the shrinkage. `tests/test_scaling_ladder.py` asserts the note is present and th
 match the artifact, so neither the limitation nor its arithmetic can disappear in a later edit.
 
 No rule was relaxed, no seed was spent, and the confirmatory block remains unauthorised.
+
+## §137 — The measurement framework is frozen, and the next experiment waits on a claim choice (2026-11-02)
+
+The owner's review accepted the methodological work and named the risk it now carries: apparatus growth
+outpacing the question. Between §130 and §136 the project added candidate-membership auditing,
+strength-assignment controls, sign-resolution estimation, scaling analysis, reference-sensitivity
+auditing and record safeguards. Each earned its place on its own; together they are now large enough that
+another tool is more likely to be a refinement than a test.
+
+**Recorded as given, not as a preference:** freeze the methodological baseline — no change to the
+measurement framework without a justification tied to a scientific question; define the next claim before
+designing anything; obtain independent review of the definitions, estimators, comparator selection,
+controls and interpretation; then design the conditions experiment; then preregister, execute once and
+evaluate without re-scoring.
+
+**The question this leaves open, and why nothing was designed this turn.** Four ambitions are on the
+table: (1) structural organisation produces measurable behavioral advantage; (2) the architecture produces
+explainable, traceable decisions; (3) changes in internal structure produce identifiable changes in
+behavior; (4) these combine into a different model of machine intelligence. They are nested, not
+interchangeable, and the record supports them unequally. (1) is exactly where six task families came back
+negative against baselines given the tuning advantage. (2) is partially established — Paper 02's claim is
+that surviving state is reconstructible, not that complete history is. (3) already has a measurable
+relation: K3's displacement result and the audit trace both tie a structural property to a behavior.
+(4) is a framing claim, and no experiment settles it.
+
+Naming the choice is the record's job here; making it is the owner's, so §137 stops at naming it, with
+the recommendation that (3) is the one the frozen engine can actually test. Standing constraints restated
+and not relaxed: no confirmatory seed allocated, V1 frozen, the conditions axis untested, and the
+100-cycle convention still provisional (§§135–136).
