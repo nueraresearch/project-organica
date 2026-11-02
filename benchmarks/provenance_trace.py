@@ -205,6 +205,37 @@ def has_asserted_edge(claim: dict) -> bool:
     return edge_key(claim) is not None
 
 
+def parent_link_levels(raw_claims: Iterable[dict],
+                       latest_claims: Iterable[dict]) -> dict[str, dict[str, int]]:
+    """Whether an id EVER had parents, versus whether its latest snapshot does.
+
+    Deduplication keeps the highest-generation snapshot of a structure, so "this
+    structure has no parents" describes that snapshot only.  An earlier snapshot
+    of the same id may have carried links, and only the raw rows can say so.  The
+    two questions are counted separately and never merged: a structure that lost
+    its links is not a structure that never had any.
+    """
+    out: dict[str, dict[str, int]] = {}
+    for word in CLAIM_TYPE_WORDS:
+        raw = [c for c in raw_claims
+               if word in (c.get("type") or c.get("event_type") or "")]
+        latest = [c for c in latest_claims
+                  if word in (c.get("type") or c.get("event_type") or "")]
+        ever = {c["id"] for c in raw
+                if isinstance(c.get("id"), str) and (c.get("parent_ids") or [])}
+        now = {c["id"] for c in latest
+               if isinstance(c.get("id"), str) and (c.get("parent_ids") or [])}
+        out[word] = {
+            "raw_rows": len(raw),
+            "raw_rows_with_parents": sum(1 for c in raw if c.get("parent_ids")),
+            "unique_ids": len({c["id"] for c in raw if isinstance(c.get("id"), str)}),
+            "ids_ever_with_parents": len(ever),
+            "ids_latest_with_parents": len(now),
+            "ids_with_parents_only_in_earlier_snapshots": len(ever - now),
+        }
+    return out
+
+
 def counting_levels(raw_claims: Iterable[dict], claims: Iterable[dict],
                     status_by_id: dict[str, str]) -> dict[str, Any]:
     """The same lineage question at three resolutions, and how they map.
@@ -535,12 +566,18 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
     claims = with_edge = indexed = 0
     defects = {name: 0 for name in DEFECTS}
     levels: dict[str, int] = defaultdict(int)
+    parent_links: dict[str, dict[str, int]] = {}
     for summary in summaries:
         for name, n in (summary.get("defects") or {}).items():
             defects[name] = defects.get(name, 0) + n
         for name, n in (summary.get("levels") or {}).items():
             if isinstance(n, int):
                 levels[name] += n
+        for kind, row in (summary.get("parent_links") or {}).items():
+            target = parent_links.setdefault(kind, {})
+            for name, n in row.items():
+                if isinstance(n, int):
+                    target[name] = target.get(name, 0) + n
         claims += summary.get("claims", 0)
         with_edge += summary.get("claims_with_asserted_edge", 0)
         indexed += summary.get("structures_indexed", 0)
@@ -565,7 +602,7 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
             "incomplete_total": sum(incomplete.values()),
             "unresolved_total": sum(unresolved.values()),
             "by_type": by_type, "by_depth": by_depth, "defects": defects,
-            "levels": dict(levels)}
+            "levels": dict(levels), "parent_links": parent_links}
 
 
 # ---------------------------------------------------------------------------
@@ -626,6 +663,7 @@ def _trace_seed(rk: Any, seed: int, cap: int) -> dict[str, Any]:
                 f"({levels['study_claim_rows']}) and this tracer's raw-row count "
                 f"({levels['raw_claim_rows_with_edge']}) disagree")
         summary["levels"] = levels
+        summary["parent_links"] = parent_link_levels(claim_structures(raw), claims)
         summary["claims_with_asserted_edge"] = levels["unique_structures_with_edge"]
         summary["structures_indexed"] = len(payloads)
         entry[limb] = summary
@@ -633,7 +671,7 @@ def _trace_seed(rk: Any, seed: int, cap: int) -> dict[str, Any]:
 
 
 def _seed_cache(seed: int, cap: int, hashseed: str | None) -> pathlib.Path:
-    return ROOT / ".scratch" / f"provenance_v3_{seed}_{cap}_{hashseed or 'unpinned'}.json"
+    return ROOT / ".scratch" / f"provenance_v4_{seed}_{cap}_{hashseed or 'unpinned'}.json"
 
 
 def run_diagnostic(seeds: tuple[int, ...] | None = None,
@@ -802,6 +840,23 @@ def render_report(art: dict) -> str:
           f"{_lvl(entry, 'formation', 'structures_per_edge', 'median')} / "
           f"{_lvl(entry, 'formation', 'structures_per_edge', 'max')} |"
           for entry in art["seeds_detail"]],
+        "",
+        "## Parent links in the raw snapshots",
+        "",
+        "Deduplication keeps the highest-generation snapshot of a structure, so a",
+        "statement that a structure has no parents describes that snapshot only. These",
+        "counts ask both questions separately: whether **any** raw snapshot of an id",
+        "carried parent links, and whether the **latest** one does. A structure that",
+        "lost its links is not a structure that never had any.",
+        "",
+        "| type | limb | raw rows | raw rows with parents | unique ids | ids ever with parents | ids with parents in the latest snapshot | ids whose parents appear only in earlier snapshots |",
+        "|---|---|---|---|---|---|---|---|",
+        *[f"| `{kind}` | {limb} | {row.get('raw_rows', 0)} | {row.get('raw_rows_with_parents', 0)} "
+          f"| {row.get('unique_ids', 0)} | {row.get('ids_ever_with_parents', 0)} "
+          f"| {row.get('ids_latest_with_parents', 0)} "
+          f"| {row.get('ids_with_parents_only_in_earlier_snapshots', 0)} |"
+          for limb in ("formation", "revision")
+          for kind, row in sorted((totals[limb].get("parent_links") or {}).items())],
         "",
         "## By claim type",
         "",

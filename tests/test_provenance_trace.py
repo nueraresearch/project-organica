@@ -235,3 +235,19 @@ def test_the_three_counting_units_are_reported_separately_and_map():
     assert levels["edges_with_complete_rooted_claim"] == 1
     assert levels["rows_per_structure"]["max"] == 2
     assert levels["structures_per_edge"]["max"] == 2
+
+
+def test_parent_links_are_counted_per_snapshot_not_per_structure():
+    """A structure that lost its links is not a structure that never had any."""
+    raw = [{"id": "p1", "type": "prediction_candidate", "generation": 1,
+            "parent_ids": ["anc"]},
+           {"id": "p1", "type": "prediction_candidate", "generation": 2,
+            "parent_ids": []},
+           {"id": "p2", "type": "prediction_candidate", "generation": 2,
+            "parent_ids": []}]
+    levels = pt.parent_link_levels(raw, pt.dedupe_candidates(raw))["prediction"]
+    assert levels["raw_rows"] == 3
+    assert levels["raw_rows_with_parents"] == 1
+    assert levels["ids_ever_with_parents"] == 1
+    assert levels["ids_latest_with_parents"] == 0
+    assert levels["ids_with_parents_only_in_earlier_snapshots"] == 1

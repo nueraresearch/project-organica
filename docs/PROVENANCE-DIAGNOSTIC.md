@@ -5,7 +5,7 @@ do not edit by hand.** Regenerate with
 `PYTHONHASHSEED=0 python -m benchmarks.provenance_trace --report`.
 
 Plan: [`docs/PROVENANCE-ANALYSIS-PLAN.md`](PROVENANCE-ANALYSIS-PLAN.md), frozen at commit
-`c5b4d49e8075b7076d54c24cea436fa32c16b882` before this run. Seeds:
+`7d8f34d4b5280009a55609b9af7d631bf25ffaa8` before this run. Seeds:
 20261201, 20261202, 20261203, 20261204, 20261205 (calibration only), cap
 `1000`, variant `V1.1-cap(1000)`.
 
@@ -77,6 +77,21 @@ in for another.
 | 20261203 | 2 / 2 | 1 / 2 |
 | 20261204 | 2 / 2 | 1 / 2 |
 | 20261205 | 2 / 2 | 1.0 / 2 |
+
+## Parent links in the raw snapshots
+
+Deduplication keeps the highest-generation snapshot of a structure, so a
+statement that a structure has no parents describes that snapshot only. These
+counts ask both questions separately: whether **any** raw snapshot of an id
+carried parent links, and whether the **latest** one does. A structure that
+lost its links is not a structure that never had any.
+
+| type | limb | raw rows | raw rows with parents | unique ids | ids ever with parents | ids with parents in the latest snapshot | ids whose parents appear only in earlier snapshots |
+|---|---|---|---|---|---|---|---|
+| `hypothesis` | formation | 150 | 150 | 63 | 63 | 63 | 0 |
+| `prediction` | formation | 3792 | 0 | 1581 | 0 | 0 | 0 |
+| `hypothesis` | revision | 125 | 125 | 57 | 57 | 57 | 0 |
+| `prediction` | revision | 3515 | 0 | 1596 | 0 | 0 | 0 |
 
 ## By claim type
 

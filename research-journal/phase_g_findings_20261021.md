@@ -8013,5 +8013,30 @@ No new cell was run: the same five calibration cells were re-read. The closed st
 verdict, the confirmatory set and every threshold are untouched, and there is still no
 threshold here to touch.
 
+### Amendment 2, same day: parent links counted per snapshot, not per structure
 
+The previous amendment closed by saying "no raw prediction row can have had them either".
+That was not established by the check offered: deduplication keeps the highest-generation
+snapshot of an id, and says nothing about what its earlier snapshots held. The review that
+raised it was right, and every raw `prediction_candidate` and `hypothesis` snapshot from the
+same five cells has now been counted, with the two questions kept apart — did an id **ever**
+carry parent links, and does its **latest** snapshot carry them:
+
+| type | limb | raw rows | rows with parents | unique ids | ids ever with parents | ids with parents in the latest snapshot | ids whose parents appear only in earlier snapshots |
+|---|---|---|---|---|---|---|---|
+| `prediction` | formation | 3792 | 0 | 1581 | 0 | 0 | 0 |
+| `hypothesis` | formation | 150 | 150 | 63 | 63 | 63 | 0 |
+| `prediction` | revision | 3515 | 0 | 1596 | 0 | 0 | 0 |
+| `hypothesis` | revision | 125 | 125 | 57 | 57 | 57 | 0 |
+
+**The count agrees with the withdrawn sentence, and it is now measured rather than
+inferred.** No raw `prediction_candidate` snapshot carries parent links at any cycle,
+so every one of the 7307 raw prediction rows has none —
+the deduplicated walk was evidence for the structure it walked, and this is evidence
+for the population. The distinction still mattered: the sentence was withdrawn because
+the check behind it could not support it, and a claim that turns out true by luck of
+the data is still a claim that had no check behind it.
+
+No threshold, no verdict and no new cell: the same five calibration cells were re-read, and
+the closed study's status is untouched.
 

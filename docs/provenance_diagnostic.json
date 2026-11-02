@@ -13,7 +13,7 @@
  "no_verdict": true,
  "note": "Descriptive diagnostic on already-used seeds. The closed study's verdict is unchanged, no criterion is evaluated here, and nothing in this artifact authorises a confirmatory run.",
  "plan_doc": "docs/PROVENANCE-ANALYSIS-PLAN.md",
- "plan_frozen_at_commit": "c5b4d49e8075b7076d54c24cea436fa32c16b882",
+ "plan_frozen_at_commit": "7d8f34d4b5280009a55609b9af7d631bf25ffaa8",
  "pythonhashseed": "0",
  "question": "do the stored structures carry usable parent chains, and how often can the tracer resolve them?",
  "resolution": "world_rooted means vocabulary overlap across a complete ancestor chain; it is not observation-level provenance",
@@ -177,6 +177,24 @@
      "unique_structures_with_edge": 329
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 14,
+      "ids_latest_with_parents": 14,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 53,
+      "raw_rows_with_parents": 53,
+      "unique_ids": 14
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 1260,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 315
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -350,6 +368,24 @@
      "unique_structures_with_edge": 328
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 12,
+      "ids_latest_with_parents": 12,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 24,
+      "raw_rows_with_parents": 24,
+      "unique_ids": 12
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 632,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 316
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -526,6 +562,24 @@
      "unique_structures_with_edge": 340
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 13,
+      "ids_latest_with_parents": 13,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 26,
+      "raw_rows_with_parents": 26,
+      "unique_ids": 13
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 654,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 327
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -699,6 +753,24 @@
      "unique_structures_with_edge": 342
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 13,
+      "ids_latest_with_parents": 13,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 26,
+      "raw_rows_with_parents": 26,
+      "unique_ids": 13
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 658,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 329
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -875,6 +947,24 @@
      "unique_structures_with_edge": 329
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 12,
+      "ids_latest_with_parents": 12,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 24,
+      "raw_rows_with_parents": 24,
+      "unique_ids": 12
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 634,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 317
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1048,6 +1138,24 @@
      "unique_structures_with_edge": 334
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 11,
+      "ids_latest_with_parents": 11,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 33,
+      "raw_rows_with_parents": 33,
+      "unique_ids": 11
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 969,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 323
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1224,6 +1332,24 @@
      "unique_structures_with_edge": 311
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 11,
+      "ids_latest_with_parents": 11,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 22,
+      "raw_rows_with_parents": 22,
+      "unique_ids": 11
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 600,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 300
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1397,6 +1523,24 @@
      "unique_structures_with_edge": 316
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 10,
+      "ids_latest_with_parents": 10,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 20,
+      "raw_rows_with_parents": 20,
+      "unique_ids": 10
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 612,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 306
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1573,6 +1717,24 @@
      "unique_structures_with_edge": 335
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 13,
+      "ids_latest_with_parents": 13,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 25,
+      "raw_rows_with_parents": 25,
+      "unique_ids": 13
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 644,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 322
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1746,6 +1908,24 @@
      "unique_structures_with_edge": 333
     },
     "note": "instrument diagnostic; no threshold and no verdict",
+    "parent_links": {
+     "hypothesis": {
+      "ids_ever_with_parents": 11,
+      "ids_latest_with_parents": 11,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 22,
+      "raw_rows_with_parents": 22,
+      "unique_ids": 11
+     },
+     "prediction": {
+      "ids_ever_with_parents": 0,
+      "ids_latest_with_parents": 0,
+      "ids_with_parents_only_in_earlier_snapshots": 0,
+      "raw_rows": 644,
+      "raw_rows_with_parents": 0,
+      "unique_ids": 322
+     }
+    },
     "statuses": {
      "mixed": 0,
      "mixed_incomplete": 0,
@@ -1911,6 +2091,24 @@
     "unique_structures": 1644,
     "unique_structures_with_edge": 1644
    },
+   "parent_links": {
+    "hypothesis": {
+     "ids_ever_with_parents": 63,
+     "ids_latest_with_parents": 63,
+     "ids_with_parents_only_in_earlier_snapshots": 0,
+     "raw_rows": 150,
+     "raw_rows_with_parents": 150,
+     "unique_ids": 63
+    },
+    "prediction": {
+     "ids_ever_with_parents": 0,
+     "ids_latest_with_parents": 0,
+     "ids_with_parents_only_in_earlier_snapshots": 0,
+     "raw_rows": 3792,
+     "raw_rows_with_parents": 0,
+     "unique_ids": 1581
+    }
+   },
    "statuses": {
     "mixed": 0,
     "mixed_incomplete": 0,
@@ -2070,6 +2268,24 @@
     "unique_asserted_edges": 1638,
     "unique_structures": 1653,
     "unique_structures_with_edge": 1653
+   },
+   "parent_links": {
+    "hypothesis": {
+     "ids_ever_with_parents": 57,
+     "ids_latest_with_parents": 57,
+     "ids_with_parents_only_in_earlier_snapshots": 0,
+     "raw_rows": 125,
+     "raw_rows_with_parents": 125,
+     "unique_ids": 57
+    },
+    "prediction": {
+     "ids_ever_with_parents": 0,
+     "ids_latest_with_parents": 0,
+     "ids_with_parents_only_in_earlier_snapshots": 0,
+     "raw_rows": 3515,
+     "raw_rows_with_parents": 0,
+     "unique_ids": 1596
+    }
    },
    "statuses": {
     "mixed": 0,
