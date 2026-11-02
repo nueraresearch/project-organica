@@ -102,7 +102,9 @@ word the deposited text could not spell before it was a rewrite.
 | figure references point at the SVG's PDF | LaTeX cannot include an SVG. The committed Markdown keeps pointing at the committed SVG. |
 | `\allowbreak` inside `\texttt` | inline code has no break opportunity, so ten paths were single unbreakable boxes, the widest 140 pt over. A span over 24 characters is broken between characters, as `\seqsplit` does, **whether or not it contains a slash**; shorter spans break only at a slash or an underscore escape. Length, not shape, decides: the earlier version of this rule skipped every slash-free span, and Paper 02's four-column table of 40-character test names then ran 209 pt into the margin with no break opportunity anywhere in the column. |
 | `\LTcaptype` is emptied | longtable reads pandoc's `none` as the name of a counter and steps a counter that does not exist. |
-| tables of seven columns or more are wrapped in `landscape` | pandoc divides the measure evenly, so a nine-column table gives each column 41 pt while its header word "Reachability" is 58 pt and has nothing to hyphenate against. No portrait size that is still readable recovers that; a landscape page does, and the column fractions follow `\linewidth`. Each column also loses 1.5 pt, because the fractions sum to the measure and the table's own box then sat 0.13 pt over it. |
+| tables of seven columns or more are set a size or two down, in a narrower gutter | pandoc divides the measure evenly, so a nine-column table gives each column 41 pt while its header word "Reachability" is 58 pt. Rotating those tables onto landscape pages removed the overrun and cost three page-flow defects: `pdflscape` breaks the page at both ends, so the heading arrived alone on the page before and each three-row table sat at the top of an otherwise blank rotated sheet. Setting the table down and narrowing `\tabcolsep` from 6 pt to 4 pt returns 32 pt of text across nine columns, which is enough — `\footnotesize` for seven or eight columns, `\scriptsize` for nine or more, where the widest header word is 38 pt in a 43 pt column. |
+| a heading is kept with the table beneath it | a longtable may break between the heading and its first row, and a `\filbreak` before the heading loses that contest: the heading fits, the table does not, and the heading stays behind — which is the defect the landscape pages were traded for. `\keepwithnext{110pt}` measures what is left on the page, the technique `needspace.sty` uses, written into the template because that package is not in this installation; when the heading and table cannot both fit it takes a forced break before the heading. |
+| a code block is set with `samepage=true` | a verbatim block is a sequence of ordinary lines, so LaTeX will split it anywhere. Paper 02's reproduction block broke after eight lines and left two orphaned lines above the next heading; `samepage` moves the block whole instead. |
 | code blocks are set at `footnotesize` | Paper 02's longest comment line is 103 characters and ran 61 pt over. Wrapping it would put a break into a block a reader may copy, so the block is set one size down instead. |
 
 ## The tools
@@ -119,7 +121,7 @@ so a missing package is fetched on first use.
 
 Those are the Windows paths the script was written against. The build recorded with this
 deposit ran in a Linux container with pandoc 3.5 and TinyTeX on `PATH`, after
-`tlmgr install caption lm microtype pdflscape`. The versions that actually built the PDFs
+`tlmgr install caption lm microtype`. The versions that actually built the PDFs
 are recorded in the reproduction bundle's `ENVIRONMENT.json`, so the pipeline states what
 it ran on instead of assuming it.
 
@@ -146,12 +148,16 @@ use. Nothing in the pipeline needs them.
   `/tmp/pdfrender/bin/pip install pymupdf`) and inspect the images. **Done
   2026-11-02 for all 40 pages:** Paper 01 renders clean — both multi-page
   tables break at row boundaries with the header repeated, and all five
-  figures carry their captions and source lines. Paper 02 has **three open
-  layout defects**: a code block split across pages 7–8 leaving two orphaned
-  lines, a heading-only page 12, and two captionless, mostly blank landscape
-  table pages (9 and 13), all downstream of `landscape_wide_tables()`. It
-  therefore stays **unverified visually** until they are fixed and the pages
-  are looked at again. No text check substitutes for looking, and none of the
+  figures carry their captions and source lines. Paper 02 had **three layout
+  defects** found in that review — a code block split across pages 7–8
+  leaving two orphaned lines, a heading-only page 12, and two captionless,
+  mostly blank landscape table pages (9 and 13) — all downstream of the
+  landscape pass. They are fixed: those tables are set in portrait, the code
+  block is unbreakable, and a heading now breaks the page rather than being
+  left above its table (Journal §128). The rebuilt Paper 02 is 14 pages, 0
+  errors, 0 overfull boxes. It still stays **unverified visually** until the
+  owner looks at the new pages, because a machine check found the old defects
+  only after they were looked at. No text check substitutes for looking, and none of the
   checks above should be read as if it had.
 
 → `benchmarks/svg_to_pdf.py`; `benchmarks/make_font_widths.py`;

@@ -8835,3 +8835,61 @@ overrun the page box are the rotated page numbers, not overflow.
 
 Paper 02 stays labelled unverified visually until those three are fixed and looked at again, and a human
 confirmation of the renders is still owed for both papers.
+
+## §128 — Paper 02's three layout defects were all one decision, and fixing it properly took three attempts (2026-11-02)
+
+The 40-page review in §127 found three defects in Paper 02 and located all three downstream of one
+function. This is the repair, and what it cost.
+
+**One cause.** `landscape_wide_tables()` existed because pandoc divides the measure evenly, so the
+nine-column ancestry table gave each column 41 pt at 11 pt while its header word "Reachability" is
+58 pt, and the table ran 17 pt into the margin. Wrapping it in `pdflscape`'s `landscape` environment
+removed the overrun. `pdflscape` breaks the page at both ends of that environment, and every defect
+the review found follows from that single property: the `4.3 Ancestry honesty (A3)` heading was
+typeset at the foot of the portrait page and its table began the next, because the break came
+immediately after the heading; and each three-row table sat at the top of an otherwise blank rotated
+sheet whose page number was rotated with it. The table never needed a wider page. It needed a smaller
+size, and the page break was the price of getting one.
+
+**The measurement that settles it.** Nine columns at `\footnotesize` with `\tabcolsep` at 4 pt gain
+32 pt of text over the original setting, and the widest header word is 38 pt in a 43 pt column at
+`\scriptsize`. Nothing is dropped, no column is merged, and the table stays in the running text.
+
+**Two of the three attempts were wrong, and the second was wrong in the way that matters.** The first
+portrait attempt applied `\footnotesize` to every wide table and produced exactly one overfull box:
+`Reachability`, 4.31 pt over, because a p-column cannot hyphenate a word into a width with no room
+for any of its pieces. Size is now a function of column count — seven and eight columns get
+`\footnotesize`, nine or more get `\scriptsize` — which is a rule about the measure rather than a
+patch for one word. The second attempt kept the heading with its table by putting a `\filbreak`
+before the heading, and the rebuilt PDF still had the heading alone at the foot of page 9 with its
+table overleaf: `\filbreak`'s −200 penalty is a *suggestion*, the heading fitted where it was, and
+the break between the heading and the table's first row won. That is the same defect the landscape
+pages were traded for, reintroduced by a plausible-looking primitive. It is only visible in a render.
+
+**What works.** `\keepwithnext{110pt}`, in the template, measures the space left on the page and takes
+a forced break before the heading when the heading and table cannot both fit — the technique
+`needspace.sty` uses, written out because that package is not in this TinyTeX installation. Applied
+to both wide tables, both headings now sit on the same page as their table (8 and 10), verified by
+locating the heading and the table's first column in the extracted text of each page rather than by
+eye. Code blocks are set with fancyvrb's `samepage=true`, so the reproduction block that split after
+its eighth line now sits whole on page 8.
+
+**The result.** Paper 02 goes from 17 pages to **14** — the three pages that landscape cost are gone —
+with 0 LaTeX errors and 0 overfull boxes, no landscape page, no page under 120 extracted characters,
+and no page whose last line is a section heading. Paper 01 is byte-identical at 23 pages, 0 and 0:
+it has no table of seven columns or more, so nothing in this pass touches it.
+
+**Two defects were found while looking and are not fixed, because neither is layout downstream of the
+landscape decision.** First, every figure carries *two* captions: pandoc's `implicit_figures` gives
+each image a numbered caption from its alt text, and the manuscript also carries its own bold
+`**Figure N.**` paragraph, so the page shows "Figure 2: Figure 2. The self-sourced share…" above the
+author's real caption. The fix is a pandoc reader flag, but it changes figure placement in **both**
+papers — Paper 01 would need its 23 pages re-reviewed — so it is not a Paper 02 edit. Second, Figure
+3's annotation text is clipped at the image's right edge: the figure PDF's page is 810 pt wide and its
+extracted text reaches x = 812.3, but the visible cut is well inside that, so a clip region in the
+figure is cutting a sentence mid-word. That lives in `benchmarks/figure_papers.py` and
+`benchmarks/svg_to_pdf.py`, not in the manuscript.
+
+Paper 02 remains **unverified visually** by this repository's own standard: the defects were found by
+looking at renders, the fixes were confirmed by looking at renders, and the owner's confirmation is
+still what turns "checked here" into "verified".

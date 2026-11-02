@@ -206,50 +206,115 @@ LONGTABLE_RE = re.compile(
     r"\\end\{longtable\}", re.S)
 
 
-def landscape_wide_tables(tex_path: Path, min_columns: int = 7) -> list[int]:
-    """Typeset the wide tables on landscape pages.
+HIGHLIGHTING_RE = re.compile(r"\\begin\{Highlighting\}\[(?P<opts>[^\]]*)\]")
 
-    Pandoc divides the measure evenly between the columns, so a nine-column
-    table gets 41 pt per column while its header says "Reachability" --- 58 pt
-    of word with no break in it and nothing to hyphenate against.  The table
-    ran 17 pt into the margin, and shrinking the font cannot recover a 40%
-    shortfall without making the table unreadable.  A landscape page gives the
-    same fractions of a much wider measure, which is what these audit tables
-    need; the alternative was dropping a column and losing a measured quantity.
 
-    The threshold is seven columns, not the six at which the measure starts to
-    pinch: Paper 01 has two six-column tables that set perfectly well in
-    portrait, and rotating them cost three pages for no gain.  At seven columns
-    a portrait column is at most a seventh of the measure (67 pt), which cannot
-    hold an ordinary fifteen-character word, and that is the point at which a
-    portrait setting stops being a choice.
+def keep_code_blocks_whole(tex_path: Path) -> int:
+    """Stop a code block from being split across a page break.
 
-    The column fractions are recomputed by pandoc from ``\\linewidth``, so
-    wrapping the table is enough: longtable measures the landscape measure at
-    the point it starts.  Each column also loses 1.5 pt, because the widths sum
-    to the measure exactly and the table's own box then sits 0.13 pt over it.
+    Paper 02's reproduction block broke after its eighth line and left two
+    orphaned lines alone above the next heading.  A verbatim block is a
+    sequence of ordinary lines, so LaTeX is free to break it anywhere; a
+    reader copying the commands off the page gets a block that continues on a
+    page they may not have.  fancyvrb's ``samepage`` option keeps the block in
+    one piece, moving it whole to the next page rather than dividing it.
 
-    Returns the column counts of the tables wrapped.
+    Applied to every highlighted block rather than to the one that broke: the
+    defect is a property of the environment, and the manuscript that broke is
+    only the one whose block was long enough to show it.
+
+    Returns the number of blocks examined.
     """
     text = tex_path.read_text(encoding="utf-8")
-    wrapped: list[int] = []
 
     def replace(match: re.Match) -> str:
-        spec = match.group("spec")
-        columns = spec.count("p{")
-        if columns < min_columns:
-            return match.group(0)
-        spec = re.sub(r"\\linewidth - (\d+)\\tabcolsep",
-                      r"\\linewidth - \1\\tabcolsep - 1.5pt", spec)
-        table = ("\\begin{longtable}[]{@{}%s@{}}%s\\end{longtable}"
-                 % (spec, match.group("body")))
-        wrapped.append(columns)
-        return "\\begin{landscape}\n%s\n\\end{landscape}" % table
+        opts = match.group("opts").strip()
+        opts = (opts + "," if opts else "") + "samepage=true"
+        return "\\begin{Highlighting}[%s]" % opts
 
-    out = LONGTABLE_RE.sub(replace, text)
+    out = HIGHLIGHTING_RE.sub(replace, text)
     if out != text:
         tex_path.write_text(out, encoding="utf-8")
-    return wrapped
+    return len(HIGHLIGHTING_RE.findall(text))
+
+
+#: The heading a wide table belongs to, so the two stay on one page.  Pandoc
+#: emits ``#``, ``##`` and ``###`` as section, subsection and subsubsection, so
+#: all three are matched: Paper 02's numbered sections are ``###``.
+HEADING_BEFORE_TABLE_RE = re.compile(
+    r"(?P<head>\\(?:sub)*section\{[^}]*\}(?:\s*\\label\{[^}]*\})?)"
+    r"(?P<gap>\s*)\\begin\{samepage\}")
+
+#: Enough vertical space for a heading plus a header row and the three data
+#: rows these audit tables carry, with room over.
+WIDE_TABLE_RESERVE = "110pt"
+
+
+def _wide_table_size(columns: int) -> str:
+    r"""One size down for seven or eight columns, two for nine or more.
+
+    Measured, not guessed: at ``\footnotesize`` the nine-column ancestry table
+    still put "Reachability" 4.31 pt into the margin, because a p-column cannot
+    hyphenate a word into a width that has no room for any of its pieces.  At
+    ``\scriptsize`` the same word is 38 pt in a 43 pt column.  Seven- and
+    eight-column tables fit at ``\footnotesize`` and are left larger.
+    """
+    return "\\scriptsize" if columns >= 9 else "\\footnotesize"
+
+
+def fit_wide_tables(tex_path: Path, min_columns: int = 7) -> list[int]:
+    r"""Set the wide tables small enough to stay in the portrait measure.
+
+    Pandoc divides the measure evenly between columns, so the nine-column
+    ancestry table gives each column 41 pt at 11 pt while its header word
+    "Reachability" is 58 pt.  The first fix rotated those tables onto landscape
+    pages, which removed the overflow and introduced three standing defects
+    instead: ``pdflscape`` breaks the page at both ends of the environment, so
+    the heading arrived alone on the page before, and each three-row table sat
+    at the top of an otherwise blank rotated sheet whose page number was
+    rotated with it.
+
+    The shortfall is about a third of the measure.  Setting the table a size or
+    two down and narrowing the gutter from 6 pt to 4 pt recovers it inside the
+    measure: nine columns gain 32 pt of text, and at ``\scriptsize`` the widest
+    header word is 38 pt in a 43 pt column.  Nothing in the table is dropped,
+    no column is merged, and the table stays in the flow beneath its heading.
+
+    The heading is kept with its table by reserving the space it needs, not by
+    asking politely.  A ``\filbreak`` before the block was not enough: the
+    heading fitted at the foot of the page, the table did not, and the break
+    between them won, leaving the heading alone --- which is the defect this
+    pass exists to remove.  ``\keepwithnext`` measures what is left on the page
+    and breaks before the heading when the block cannot fit, so the heading and
+    its table always travel together.
+
+    The threshold stays at seven columns, for the reason it was set: Paper 01's
+    six-column tables set perfectly well at full size.
+
+    Returns the column counts of the tables treated.
+    """
+    text = tex_path.read_text(encoding="utf-8")
+    fitted: list[int] = []
+
+    def replace(match: re.Match) -> str:
+        columns = match.group("spec").count("p{")
+        if columns < min_columns:
+            return match.group(0)
+        table = ("\\begin{longtable}[]{@{}%s@{}}%s\\end{longtable}"
+                 % (match.group("spec"), match.group("body")))
+        fitted.append(columns)
+        return ("\\begin{samepage}\n\\begingroup%s\n"
+                "\\setlength{\\tabcolsep}{4pt}\n%s\n"
+                "\\endgroup\n\\end{samepage}"
+                % (_wide_table_size(columns), table))
+
+    out = LONGTABLE_RE.sub(replace, text)
+    out = HEADING_BEFORE_TABLE_RE.sub(
+        lambda m: "\\keepwithnext{%s}\n\\begin{samepage}\n%s%s" % (
+            WIDE_TABLE_RESERVE, m.group("head"), m.group("gap")), out)
+    if out != text:
+        tex_path.write_text(out, encoding="utf-8")
+    return fitted
 
 
 def read_pdf_info(pdf: Path, field: str) -> str | None:
@@ -359,7 +424,8 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
 
     make_code_spans_breakable(build_tex)
     fix_table_captype(build_tex)
-    landscape_wide_tables(build_tex)
+    keep_code_blocks_whole(build_tex)
+    fit_wide_tables(build_tex)
 
     for _ in range(2):
         run([pdflatex, "-interaction=nonstopmode", "-halt-on-error",
