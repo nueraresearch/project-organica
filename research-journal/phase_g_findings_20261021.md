@@ -9388,3 +9388,32 @@ review and are not discharged by approval: the endpoint sign-resolution computat
 requires, and the withheld-set enumeration for whichever secondary configurations survive.
 
 No reviewer has been appointed. The record's §7 is empty, and the manual row says so.
+
+## §142 — The protocol is finished and the review package is assembled; the paper is deliberately not written (2026-11-02)
+
+The owner separated three things that serve different purposes — the protocol, the review package, the paper
+— and asked for the first two before any seed. Writing them found what the design record had been missing
+for a reviewer: not the hypothesis, which was precise, but the **statistical model** a referee would ask for.
+
+**What the protocol gained.** Its nine required elements now open the document with pointers to their homes.
+§6 carries the model: Spearman rank correlation as the primary statistic (n is small, the relation need not
+be linear), the standardized OLS slope as an effect size beside it, a 10,000-replicate bootstrap over worlds
+at 98.33 %, reported per configuration and never pooled. It carries the decision rule (present / absent /
+reversed, and persists / weakens / disappears / reverses), the size baseline as a *competing predictor* rather
+than a diagnostic, and the sign-resolution clause: the block may not open until the probability of recovering
+a world's true relation with the correct sign is computed from design-block cells under a named reference
+rule, with 0.90 on the weakest world as the bar, and no value recorded yet.
+
+**§10 is new and is the part that makes the protocol falsifiable in practice.** Seven observed outcomes are
+mapped to the sentence the record may carry: supported, mixed, not supported, reversed, size effect, design
+defect, inconclusive. Two of those forbid a result outright — a non-null permutation control or a non-empty
+pair overlap means the defect is the finding. A positive result licenses *predicts*, and *causes*, *produces*
+and *drives* are reserved for a Level 3 design.
+
+**The package** is `docs/REVIEW-PACKAGE.md`: five components with paths, the prior-evidence summary with
+artifact pointers (0.214061 for structure ↔ world content, −0.5735 for the reversed belief-revision task),
+what it deliberately omits, the commands that check it, and the reviewer's reading order.
+
+**No paper.** A protocol paper would invite a proposal to be read as a finding, and the project has spent
+enough of its history learning that lesson. The decision is deferred until there is something substantive to
+report.

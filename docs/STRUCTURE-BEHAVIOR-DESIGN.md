@@ -7,6 +7,28 @@ question and an analysis but may not add apparatus to answer it. Independent rev
 seeds are named (§8), and the reviewer must not have written the estimator or selected the historical
 result.
 
+## 0. What this document is
+
+A complete experimental protocol, written so that a reviewer who did not build these measurements can
+assess it without reconstructing the project. It is **not** a paper and it reports no result. It has nine
+required elements, and each has one home:
+
+| Element | Section |
+| --- | --- |
+| research question and falsifiable hypothesis | §1 |
+| the structural variable and how it is measured | §2 |
+| the behavioural endpoint | §3 |
+| estimand and statistical model | §6 |
+| null hypothesis and permutation control | §6 |
+| held-out transition methodology | §4 |
+| sign-resolution criterion | §6 |
+| conditions under which the hypothesis is rejected | §10 |
+| what a positive result would and would not license | §7 |
+
+**Independent pre-experiment review is not journal peer review.** The first asks whether this experiment
+deserves to be run; the second asks whether a finished contribution deserves publication. This protocol
+exists for the first, and a paper is a later decision that this record does not take.
+
 ## 1. The hypothesis, and the level of evidence it targets
 
 Adopted as the project's **working** hypothesis on 2026-11-02, at Level 2:
@@ -148,9 +170,34 @@ prediction cannot be computed for this endpoint, the block does not proceed on t
 
 ## 6. Analysis, null, and both directions of falsification
 
-**Unit:** one world (seed), one configuration. **Estimand:** the slope of `revision_held_out` on `DI`
-across worlds within a configuration — reported per configuration, never pooled across configurations
-into one number.
+**Unit, estimator, interval.** The unit is one world (seed) within one configuration. The primary statistic is
+the **Spearman rank correlation** between `DI` and `revision_held_out` across worlds in that configuration;
+the **OLS slope** of standardized outcome on standardized `DI` is reported beside it as an effect size. Rank
+first because the number of worlds is small and the relation need not be linear; slope second because both a
+direction and a magnitude are wanted. Uncertainty comes from a 10,000-replicate bootstrap resampling worlds
+within the configuration, at the project's 98.33 % level, and is reported per configuration. Nothing is
+pooled across configurations into a single number.
+
+**Decision rule, fixed before data.** *Present*: the interval excludes zero with the predicted sign.
+*Absent*: the interval includes zero. *Reversed*: the interval excludes zero with the opposite sign. Across
+configurations, the four pre-committed outcomes follow from those: **persists** (present with the same sign
+everywhere), **weakens** (present in some), **disappears** (absent in the rest), **reverses** (reversed in
+any).
+
+**The size baseline competes with the predictor.** The same estimator is run with structural *size* (how
+many pairs were predicted) in place of `DI`. If the size baseline's interval excludes zero and `DI`'s does
+not survive beside it, the result is reported as a **size effect**: structure quantity, not structural
+content.
+
+**Sign resolution, required before seeds.** The confirmatory block may not open until the probability that a
+world's true relation is recovered **with the correct sign** at the planned window and number of worlds has
+been computed from design-block cells under a **named reference rule**, and recorded in this section. The
+estimator is the ladder's `sign_resolution` applied to this endpoint: the world's relation is drawn from a
+reference cell, the run's estimate from its own standard error, and agreement counted by sign. If the
+predicted probability is below 0.90 for the weakest world at the planned window, the window or the number of
+worlds changes before any seed is named; if the quantity cannot be computed for this endpoint, the block does
+not proceed on that window. **No value is recorded here yet, which is why no seed exists.**
+
 
 **Null:** no relation — the slope is zero, or the sign of the relation is at chance across worlds.
 
@@ -243,3 +290,18 @@ If (1) prints a number that differs from 2a, the document is wrong and the artif
 a guard has been broken — a required phrase removed, a seed named, or a quoted number drifted — and none of
 those is excusable as a documentation slip, because they are the mechanisms by which a design record stops
 being a constraint.
+
+## 10. Rejection and acceptance, stated before any data
+
+| Observed | Conclusion | The sentence the record may carry |
+| --- | --- | --- |
+| present in every configuration with the predicted sign, intervals excluding zero, size baseline and permutation both null | **supported at Level 2** | "the organism's displacement index predicts its held-out revision behavior in the configurations tested" |
+| present in some configurations, absent in others | **mixed / context-limited** | "the relation is configuration-dependent in the tested set" |
+| absent in every configuration | **not supported** | "no predictive relation was detected" |
+| reversed in any configuration | **reversed there** | "the relation runs opposite to the hypothesis in that configuration" |
+| explained by the size baseline | **size effect** | "structure quantity, not structural content, predicts the outcome" |
+| permutation control non-null, or the pair overlap non-empty | **design defect** | no result is reported; the defect is the finding |
+| fewer worlds than the declared minimum after exclusions | **inconclusive** | "inconclusive", never "null" |
+
+A positive result licenses **predicts**. The words *causes*, *produces* and *drives* are reserved for a
+Level 3 design and may not appear in the result's summary or abstract.
