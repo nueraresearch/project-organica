@@ -304,3 +304,22 @@ def test_the_audit_section_quotes_the_artifact():
     for rule, r in audit["reference_sensitivity"].items():
         assert f"{r['scales']['2x']['p_correct']:.3f}" in block, rule
     assert f"{audit['calibration']['max_abs_calibration_error']:.3f}" in block
+
+
+def test_the_conjunction_limitation_is_recorded_and_arithmetic_checked():
+    """A per-world "every" tightens with n; the note must stay, and stay true."""
+    doc = (ROOT / "docs/SCALING-LADDER.md").read_text(encoding="utf-8")
+    if "## 10. Decision" not in doc:
+        pytest.skip("the decision section has not been written yet")
+    block = doc.split("## 10. Decision", 1)[1]
+    assert "conjunction" in block
+    assert "recorded, not changed" in block
+    art_path = ROOT / sl.OUT
+    if not art_path.exists():
+        pytest.skip("the ladder has not been run yet")
+    sign = json.loads(art_path.read_text(encoding="utf-8")).get("sign_resolution")
+    if not sign:
+        pytest.skip("the derived sign analysis has not been computed yet")
+    weakest = sign["scales"]["2x"]["p_correct_min"]
+    for worlds in (5, 10, 20):
+        assert f"{weakest ** worlds:.3f}" in block, (worlds, weakest ** worlds)

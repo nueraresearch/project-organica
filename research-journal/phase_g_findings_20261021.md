@@ -9210,3 +9210,26 @@ allocates no confirmatory seed, and leaves the third axis untested — whether a
 of generating configuration is still unknown, and the artifact's `not_measured` list (three items) says so.
 The decision is cheap because it is a measurement convention: it buys a defensible window without
 spending a seed.
+
+## §136 — The per-world criterion is a conjunction, and that is recorded as a known limitation (2026-11-02)
+
+The owner accepted §135's adoption and raised the consequence the rule does not handle: `every world at
+or above 0.90` is a **conjunction**. Worlds are separate runs, so if the distribution of per-world
+resolution is unchanged, adding worlds lowers the probability that the criterion is satisfied. Taking the
+weakest value measured at `2x` (0.917) as every world's value, a five-world block clears with
+probability **0.648**, a ten-world block **0.420**, a twenty-world block **0.177**. Planning arithmetic, labelled
+as such: it assumes independence across worlds and an identical per-world probability, which is exactly
+the assumption that would hold if the criterion's difficulty were purely a counting effect.
+
+That matters because the rule exists to certify that a study's own runs are resolved, and larger studies
+need that certification more, not less. A bar that tightens with n therefore works against its own
+purpose, and §10 now says so.
+
+**What was done: recorded, not changed.** The owner's instruction was to keep the adopted rule and log the
+limitation for the next methodological review rather than quietly altering the convention mid-study, and
+that is what `docs/SCALING-LADDER.md` §10 does. The review's options are named without being adopted: place
+the bar on the mean, the median or a lower quantile of per-world resolution, or keep the minimum and accept
+the shrinkage. `tests/test_scaling_ladder.py` asserts the note is present and that its three probabilities
+match the artifact, so neither the limitation nor its arithmetic can disappear in a later edit.
+
+No rule was relaxed, no seed was spent, and the confirmatory block remains unauthorised.
