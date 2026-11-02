@@ -219,9 +219,10 @@ for the rule to withhold, so its output is not a verdict about Organica in eithe
 its shares are not reported. A design number may appear only inside a diagnostic that is labelled
 as one.
 
-**The endpoint stays locked until step 3.** No confirmatory seed is generated, no arm is fitted
-on one, and no preliminary look at the endpoint is taken until every design gate has passed and
-that passing run is committed.
+**The endpoint stayed locked until step 3.** No confirmatory seed was generated, no arm was fitted
+on one, and no preliminary look at the endpoint was taken until every design gate had passed and
+that passing run was committed. Step 3 has since run (§10.4); that lock was released by the owner's
+authorisation, not by anything in this section.
 
 **What that lock covers, corrected (2026-11-02).** Its first wording said the endpoint is "not
 formed" on a design seed, and that was too strong to be true. §11.3's share is defined on per-cell
@@ -312,9 +313,9 @@ transfer claim is available either way. **Recommendation: run it.** §1 asks abo
 prediction; the co-primary was added to test whether a margin survives on unseen relations, and
 that test is unavailable under this measure whether or not the block runs. Declining the run would
 leave §1 unmeasured as well, and running it cannot make the transfer claim worse than not running.
-What the run must not be reported as is a transfer result. That decision was the owner's, taken on 2026-11-02 in favour of running it for the
-primary question alone, and §10.4 records the result. The recommendation above did not
-authorise it:
+What the run must not be reported as is a transfer result. **Taken:** the owner authorised that
+one run on 2026-11-02, for the primary question alone, and §10.4 records it. The recommendation did
+not authorise it — the owner did.
 
 ### 10.3 What was actually computed and inspected (2026-11-02)
 

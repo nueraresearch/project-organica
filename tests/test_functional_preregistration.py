@@ -76,7 +76,7 @@ def test_run_order_is_explicit_and_not_circular():
     assert "20270206" in sec10 and "20270220" in sec10
     # The lock is explicit: the design block does not form the endpoint.
     assert "not formed on design seeds" in sec10
-    assert "**The endpoint stays locked until step 3.**" in sec10
+    assert "**The endpoint stayed locked until step 3.**" in sec10
 
 
 
@@ -99,7 +99,7 @@ def test_design_boundary_and_limb_status_are_stated():
     # The recommendation is labelled as the owner's decision, never as an authorisation.
     assert "for the owner" in sec10
     # Authorisation came from the owner, not from the recommendation.
-    assert "The recommendation above did not authorise it" in sec10
+    assert "The recommendation did\nnot authorise it" in sec10 or "The recommendation did not authorise it" in sec10
     assert "no confirmatory seed has been generated" not in sec10
 
 
