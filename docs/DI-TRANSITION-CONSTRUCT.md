@@ -110,6 +110,44 @@ What the sweep shows is that the rule does not manufacture the ordering: halving
 119 onsets, by at most 25 cycles. Stage B must still freeze the rule and report it beside every onset value,
 because a constant that is part of the measure is part of the claim.
 
+A stable median is not a stable predictor, so the sweep is also checked at the level of the individual world: the
+rank correlation between the onsets the three rules produce, within each claimed configuration, the pairwise
+rank inversions among the runs both rules define, and whether the two measurement criteria reach the same verdict
+under each rule.
+
+| configuration | ρ (5, 10) | ρ (10, 20) | ρ (5, 20) | pass under 5 | pass under 10 | pass under 20 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `6:1` | 1.000 | 1.000 | 1.000 | yes | yes | yes |
+| `4:1` | 1.000 | 1.000 | 1.000 | yes | yes | yes |
+| `3:1` | 0.979 | 1.000 | 0.979 | yes | yes | yes |
+| `2:1` | 0.990 | 0.987 | 0.972 | yes | yes | yes |
+
+| configuration | inversions 5 vs 10 | inversions 10 vs 20 | inversions 5 vs 20 | worst rank shift | records whose eligibility changes |
+| --- | --- | --- | --- | --- | --- |
+| `6:1` | 0.000 | 0.000 | 0.000 | 0 | 0 |
+| `4:1` | 0.000 | 0.000 | 0.000 | 0 | 0 |
+| `3:1` | 0.023 | 0.000 | 0.023 | 9 | 0 |
+| `2:1` | 0.012 | 0.014 | 0.028 | 6 | 2 |
+
+Inversion columns are the share of pairwise orderings that reverse. **No configuration's verdict changes** under
+either alternative rule, and the ordering is stable in the way that matters for a within-configuration test: in
+`6:1` and `4:1` the three rules produce the identical ordering (ρ 1.000, no inversions), and in the two slower
+configurations the ordering is preserved at ρ ≥ 0.972 with at most 10 of 435 pairwise orderings reversing.
+
+Three things in that table are worth stating rather than smoothing:
+
+- **Stable is not identical.** In `3:1` and `2:1`, individual worlds move by up to 9 and 6 rank positions of 30.
+  A future within-configuration relation estimated on ranks would keep its sign under a different rule but would
+  not be led by exactly the same worlds at the top and bottom, so the rule must be frozen before the run rather
+  than chosen afterwards.
+- **Eligibility is rule-dependent at the margin.** No run changes status between 5 and 10, but **2 runs** defined
+  at 10 are undefined at 20 — both in `2:1`, where the defined share then sits at exactly **0.900**, the criterion
+  itself. Its criterion-1 pass under a 20-cycle rule is therefore marginal, not comfortable, and that is a second
+  reason the rule is frozen rather than swept at analysis time.
+- **The pooled SD is untouched by the rule** (81.6, 82.0, 79.3 in §3.2's table) while the within-configuration SDs
+  move by less than 2.7 cycles in every configuration. A rule that changed the dispersion would have been the
+  problem; this one does not.
+
 ### 3.3 Measurement eligibility is not scientific scope
 
 Eligibility is decided by measurement, for every configuration, and reported whether or not the construct claims
@@ -179,9 +217,10 @@ the IQR and range rather than on its own.
 ### 3.5 Limits, stated before any use
 
 1. **The sustention rule is part of the measure.** Ten cycles is a declared constant, not a natural boundary.
-   §3.2 bounds its effect in this record — halving it moves three onsets by at most 25 cycles — but Stage B must
-   still freeze it, report it beside every onset value, and treat a world whose confirmation cycle falls outside
-   the record as unresolved rather than as a precise number.
+   §3.2 bounds its effect in this record — halving it moves three onsets by at most 25 cycles, and the ordering it
+   produces survives the rule at ρ ≥ 0.972 in every claimed configuration — but Stage B must still freeze it,
+   report it beside every onset value, and treat a world whose confirmation cycle falls outside the record as
+   unresolved rather than as a precise number.
 2. **Onset is a timing, so it is confounded with the pace of the arm.** It can only be interpreted *within* a
    configuration, where the pace is held fixed. A pooled relation between onset and behaviour would restate the
    fact that the arms differ, which is why §5's fourth falsifier exists.
@@ -247,25 +286,61 @@ Pre-committed falsifiers, written before any behavioural endpoint is read:
 
 ---
 
-## 6. The temporal boundary
+## 6. The temporal boundary and the behavioural clock
 
-The ordering the owner required — structural measurement, then held-out behavioural observation — is preserved
-by construction here, and the boundary is stricter than a window's:
+### 6.1 Where the ordering is enforced
 
 - Onset is a **cycle index assigned retrospectively**, so the predictor does not exist at the anchor cycle: it
   becomes available at the confirmation cycle, nine cycles later, and the latest confirmation in this record is
-  cycle **598** of 600 (§3.1). The behavioural limb may not begin before the confirmation cycle, and a Stage B run
-  must then extend through the protocol's 50-cycle learning and 50-cycle test. The run length is therefore set by
-  the organism's own emergence plus a fixed margin, not by a window chosen for the measurement — which is the
-  property the settled-state window lacked.
-- **No behavioural cycle may contribute to onset.** Onset is derived from the structural trajectory up to its
-  own event; the behavioural limb begins afterwards and its test set is withheld.
+  cycle **598** of 600 (§3.1). The behavioural limb may not begin before the confirmation cycle.
+- **No behavioural cycle may contribute to onset.** The onset rule reads structural readings up to and including
+  its own confirmation cycle. The behavioural limb opens after it, and its test set is withheld.
 - If exposure is co-reported, its integration interval **must be declared in advance and must end before
   learning begins.** An interval chosen after seeing the behaviour would make the dose a function of the
   outcome.
 - The late-pair overlap measured for the settled-state window is not the binding overlap for onset — onset is
   not computed from a pair set — but any pair contributing to *any* predictor in the run must be withheld from
   the behavioural test set, and that requirement is unchanged.
+- **Verified, not asserted:** with the margin of §6.2 the number of behavioural cycles falling at or before a
+  world's confirmation cycle is **0 of 119** runs.
+
+### 6.2 The clock, fixed before the run
+
+| element | value | why this value |
+| --- | --- | --- |
+| post-confirmation margin | **1 cycle** | the earliest legal cycle: confirmation is the last structural reading the onset rule reads, so behaviour may begin the cycle after it. A larger margin is a free parameter that must be paid for in run length and cannot be justified from this record |
+| learning phase | 50 cycles | the protocol's existing learning phase |
+| held-out test phase | 50 cycles | the protocol's existing test phase |
+| behavioural follow-up | **100 cycles** | fixed, and identical in every world |
+| first behavioural cycle | confirmation + 1 | derived, not chosen |
+| last behavioural cycle | confirmation + 100 | derived, not chosen |
+| reported with every behavioural observation | absolute cycle **and** cycles since confirmation | so that the two clocks can always be separated in analysis |
+
+| configuration | runs | confirmation cycle (min–median–max) | first behavioural cycle (min–median–max) | run length needed | runs that fit a 600-cycle run |
+| --- | --- | --- | --- | --- | --- |
+| `6:1` | 30 | 298–338–363 | 299–339–364 | 464 | 30 of 30 |
+| `4:1` | 30 | 319–371–400 | 320–372–401 | 501 | 30 of 30 |
+| `3:1` | 30 | 351–413–454 | 352–414–455 | 555 | 30 of 30 |
+| `2:1` | 29 | 484–548–598 | 485–549–599 | 699 | 1 of 29 |
+
+**The two clocks are separated, deliberately.** The behavioural *opportunity* is equal in every world — 100
+cycles, the same margin, the same phases. The absolute cycle at which it opens is not: across the 119 moving runs
+the first behavioural cycle ranges from **299 to 599**, a span of **300 cycles**. That is a property of the worlds
+and not a defect of the design, and it is the estimand: the claim is about behaviour over a fixed window *after
+structure emerges*, so the window is anchored to the event rather than to a schedule. What the design must not do
+is compare **different amounts** of behavioural opportunity, and it does not. A predictor of developmental age
+would compare unequal windows at equal absolute time; this design compares equal windows at unequal developmental
+age, which is the quantity the claim is about. Both clocks are recorded with every observation so that a reader
+can see which one a result is stated in.
+
+**What the clock costs, measured on the record in hand.** Each world's run must extend through
+confirmation + 101 cycles. Here the slowest world confirms at cycle 598, so its run would need **699 cycles**, and
+only **91 of 119** runs would fit a post-confirmation follow-up inside a 600-cycle run — in `2:1` only **1 of 29**.
+A Stage B run therefore cannot use a fixed 600-cycle horizon: the horizon must be each world's own confirmation
+cycle plus 101, or a pre-declared maximum confirmation cycle plus 101 applied to every world. A fixed horizon that
+ends mid-follow-up reproduces exactly the Phase L defect that made the late structure unmeasurable (AGENTS 13),
+and here it would be worse than a null: the follow-up would be *shortest* for the worlds that emerged latest,
+which are precisely the worlds a relation between late emergence and behaviour is most informative about.
 
 ---
 
@@ -285,8 +360,11 @@ The four Stage B criteria carry over, with the resolution criterion restated for
    cannot pass on a few unusual worlds.
 3. **Consistency.** The stopping criterion of §4 — persistence plus no remaining trend — is met in every
    configuration claimed, with its parameters declared in advance.
-4. **Ordering.** Onset and the sustention window complete strictly before revision learning begins, and no
-   behavioural cycle contributes to any predictor.
+4. **Ordering and clock.** Onset and its confirmation complete strictly before revision learning begins; no
+   behavioural cycle contributes to any predictor; the margin and the follow-up are the constants declared in
+   §6.2; and every behavioural observation reports both its absolute cycle and its cycles since confirmation.
+   The run horizon is set **per world** from its own confirmation cycle — a fixed horizon that ends mid-follow-up
+   fails this criterion rather than shortening the follow-up.
 
 Both measurement criteria are evaluated per configuration because a pooled SD would be dominated by the arm
 differences — the pooled SD of 82.0 cycles in §3.2 is between-configuration spread, not resolution. On the record
@@ -324,5 +402,7 @@ The test recomputes the artifact, asserts every number quoted here against it, a
 primary with exposure and slope labelled exploratory, and asserts that the artifact records no behavioural
 correlation — the guarantee that the construct was not chosen on an outcome. It also asserts that the onset
 convention quoted in §3.1 is the convention the code applies, that eligibility is reported for all eight
-configurations with no record dropped, and that the resolution criterion is evaluated per configuration with the
-distribution beside it.
+configurations with no record dropped, that the resolution criterion is evaluated per configuration with the
+distribution beside it, that the sustention sweep is checked on the rank ordering and the per-configuration
+verdicts rather than on the median alone, and that the behavioural clock is fixed, disjoint from the onset window
+and quoted with the run length it forces.

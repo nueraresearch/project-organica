@@ -276,3 +276,96 @@ def test_resolution_is_evaluated_per_configuration_with_the_distribution(stage, 
     for dist in stage["onset_distribution"].values():
         if dist["n"]:
             assert dist["share_within_sd_threshold_of_median"] < 0.3
+
+
+def test_the_sweep_is_checked_on_the_ordering_not_the_median(stage, text):
+    """A stable median says nothing about whether a world keeps its rank."""
+    t = stage["threshold_rank_sensitivity"]
+    assert t["rules_swept"] == [5, 10, 20]
+    assert t["declared_rule"] == 10
+    # No configuration reaches a different verdict under a different rule.
+    assert t["configurations_whose_conclusions_change"] == []
+    assert t["records_whose_eligibility_changes_by_rule"] == {
+        "5_vs_10": 0, "10_vs_20": 2, "5_vs_20": 2}
+
+    pass_marks = {k: ("yes" if c["pass"] else "no")
+                  for k, c in t["per_config"]["6:1"]["criteria_under_each_rule"].items()}
+    for lab in ("6:1", "4:1", "3:1", "2:1"):
+        r = t["per_config"][lab]
+        assert r["conclusions_change"] is False, lab
+        for pair in ("5_vs_10", "10_vs_20", "5_vs_20"):
+            c = r["comparisons"][pair]
+            assert c["spearman"] > 0.96, (lab, pair)
+            # an inversion per twenty orderings is the most any configuration shows
+            assert c["pairwise_rank_inversions"] * 20 < c["comparable_pairs"], (lab, pair)
+
+        marks = {k: ("yes" if c["pass"] else "no")
+                 for k, c in r["criteria_under_each_rule"].items()}
+        row = ("| `%s` | %.3f | %.3f | %.3f | %s | %s | %s |"
+               % (lab, r["comparisons"]["5_vs_10"]["spearman"],
+                  r["comparisons"]["10_vs_20"]["spearman"],
+                  r["comparisons"]["5_vs_20"]["spearman"],
+                  marks["5"], marks["10"], marks["20"]))
+        assert row in text, row
+
+        changes = max(r["comparisons"][p]["records_whose_eligibility_changes"]
+                      for p in ("5_vs_10", "10_vs_20"))
+        shift = max(r["comparisons"][p]["max_rank_shift"] for p in r["comparisons"])
+        row = ("| `%s` | %.3f | %.3f | %.3f | %d | %d |"
+               % (lab,
+                  r["comparisons"]["5_vs_10"]["inversion_share_of_comparable_pairs"],
+                  r["comparisons"]["10_vs_20"]["inversion_share_of_comparable_pairs"],
+                  r["comparisons"]["5_vs_20"]["inversion_share_of_comparable_pairs"],
+                  shift, changes))
+        assert row in text, row
+
+    # The marginal case is named, not averaged away: at 20 cycles the slow
+    # configuration sits exactly on the 90% share criterion.
+    assert t["per_config"]["2:1"]["criteria_under_each_rule"]["20"]["defined_share"] == 0.9
+    assert "0.900", "the document must name the marginal share" not in ()
+    assert "**0.900**" in text
+    assert "0.900" in text and "marginal" in text
+    assert pass_marks == {"5": "yes", "10": "yes", "20": "yes"}
+
+
+def test_the_behavioural_clock_is_fixed_and_disjoint_from_onset(stage, text):
+    """Equal opportunity, unequal developmental age, and both clocks reported."""
+    b = stage["behavioural_clock"]
+    assert b["post_confirmation_margin_cycles"] == 1
+    assert (b["learn_cycles"], b["test_cycles"], b["follow_up_cycles"]) == (50, 50, 100)
+    assert b["first_behavioural_cycle"] == "confirmation_cycle + 1"
+    assert b["last_behavioural_cycle"] == "confirmation_cycle + 100"
+    assert b["follow_up_length_is_identical_in_every_world"] is True
+    assert b["first_behavioural_cycle_differs_by_world"] is True
+    assert b["exposure_interval_must_end_before_first_behavioural_cycle"] is True
+    assert b["reporting_required_per_observation"] == [
+        "absolute cycle", "cycles since confirmation"]
+
+    # No behavioural cycle can feed the predictor.
+    assert b["behavioural_cycles_at_or_before_confirmation"] == 0
+    assert b["runs_with_a_clock"] == 119
+
+    assert b["absolute_start_min"] == 299
+    assert b["absolute_start_max"] == 599
+    assert b["absolute_start_span_cycles"] == 300
+    assert b["run_length_needed_cycles"] == 699
+    assert b["runs_that_fit_a_600_cycle_run"] == 91
+
+    for lab, c in b["per_config"].items():
+        assert c["first_behavioural_cycle_min"] == c["confirmation_cycle_min"] + 1, lab
+        assert c["first_behavioural_cycle_max"] == c["confirmation_cycle_max"] + 1, lab
+        assert c["run_length_needed_cycles"] == c["first_behavioural_cycle_max"] + 100, lab
+        row = ("| `%s` | %d | %.0f–%.0f–%.0f | %.0f–%.0f–%.0f | %d | %d of %d |"
+               % (lab, c["runs_with_a_clock"],
+                  c["confirmation_cycle_min"], c["confirmation_cycle_median"],
+                  c["confirmation_cycle_max"],
+                  c["first_behavioural_cycle_min"], c["first_behavioural_cycle_median"],
+                  c["first_behavioural_cycle_max"], c["run_length_needed_cycles"],
+                  c["runs_that_fit_a_600_cycle_run"], c["runs_with_a_clock"]))
+        assert row in text, row
+
+    assert "confirmation + 1" in text and "confirmation + 100" in text
+    assert "**0 of 119**" in text
+    # The record's own runs mostly could not host the follow-up in 600 cycles.
+    assert ("**%d of %d**" % (b["runs_that_fit_a_600_cycle_run"], b["runs_with_a_clock"])) in text
+    assert "per world" in text

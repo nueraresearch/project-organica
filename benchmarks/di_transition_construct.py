@@ -48,6 +48,15 @@ PERSIST = (30, 50, 100)  # band durations reported
 TREND_SPAN = 100         # cycles over which "remaining trend" is measured
 TRUNCATE_AT = 450        # a shorter run, to test rank stability of each measure
 
+# The behavioural clock. The predictor is available at the confirmation cycle, so the
+# earliest legal behavioural cycle is the one after it: a margin of one cycle, not a
+# taste parameter. The follow-up is the protocol's own 50 + 50, fixed here so that every
+# world receives the same amount of behavioural opportunity after emergence.
+POST_CONFIRMATION_MARGIN = 1
+LEARN_CYCLES = 50
+TEST_CYCLES = 50
+FOLLOW_UP_CYCLES = LEARN_CYCLES + TEST_CYCLES
+
 
 def _pvar(values: list[float]) -> float:
     return statistics.pvariance(values) if len(values) > 1 else 0.0
@@ -349,6 +358,145 @@ def build() -> dict:
             "records_whose_onset_moves": sum(1 for d in diffs if d != 0),
         }
 
+    # ---- the sweep at the level of the predictor, not of the median -------
+    # A sweep that leaves the median in place has said nothing about whether an
+    # individual world keeps its rank, so the ordering is measured too: Spearman
+    # across the records defined under both rules, the pairwise inversions among
+    # them, the records whose eligibility appears or disappears, and whether the
+    # two measurement criteria reach a different verdict under a different rule.
+    threshold_ranks: dict[str, dict] = {}
+    for lab in configs:
+        idx = [i for i, x in enumerate(rows) if x["config"] == lab]
+        per_k = {k: [_onset(trajs[i], k) for i in idx] for k in SUSTAINED_SWEEP}
+        comparisons: dict[str, dict] = {}
+        for a, b in ((5, 10), (10, 20), (5, 20)):
+            va, vb = per_k[a], per_k[b]
+            both = [(x, y) for x, y in zip(va, vb)
+                    if x is not None and y is not None]
+            inv = 0
+            for i in range(len(both)):
+                for j in range(i + 1, len(both)):
+                    if (both[i][0] - both[j][0]) * (both[i][1] - both[j][1]) < 0:
+                        inv += 1
+            comparable = len(both) * (len(both) - 1) // 2
+            ra = _rank([x for x, _ in both])
+            rb = _rank([y for _, y in both])
+            comparisons["%d_vs_%d" % (a, b)] = {
+                "spearman": _spearman(va, vb),
+                "records_defined_under_both": len(both),
+                "records_defined_under_the_shorter_rule_only": sum(
+                    1 for x, y in zip(va, vb) if x is not None and y is None),
+                "records_defined_under_the_longer_rule_only": sum(
+                    1 for x, y in zip(va, vb) if x is None and y is not None),
+                "records_whose_eligibility_changes": sum(
+                    1 for x, y in zip(va, vb) if (x is None) != (y is None)),
+                "comparable_pairs": comparable,
+                "pairwise_rank_inversions": inv,
+                "inversion_share_of_comparable_pairs": (
+                    round(inv / comparable, 6) if comparable else None),
+                "max_rank_shift": (round(max(abs(x - y) for x, y in zip(ra, rb)), 6)
+                                   if ra else None),
+            }
+        conclusions: dict[str, dict] = {}
+        for k in SUSTAINED_SWEEP:
+            vals = [v for v in per_k[k] if v is not None]
+            share = len(vals) / len(idx) if idx else 0.0
+            dist = _onset_distribution(vals)
+            conclusions[str(k)] = {
+                "defined_share": round(share, 6),
+                "defined_share_pass": share >= MIN_DEFINED_SHARE,
+                "median": dist["median"],
+                "sd_cycles": dist["sd"],
+                "sd_pass": (dist["sd"] or 0.0) >= MIN_SD_CYCLES,
+            }
+            conclusions[str(k)]["pass"] = bool(
+                conclusions[str(k)]["defined_share_pass"]
+                and conclusions[str(k)]["sd_pass"])
+        threshold_ranks[lab] = {
+            "records": len(idx),
+            "comparisons": comparisons,
+            "criteria_under_each_rule": conclusions,
+            "conclusions_change": len({c["pass"] for c in conclusions.values()}) > 1,
+        }
+
+    threshold_sensitivity = {
+        "rules_swept": list(SUSTAINED_SWEEP),
+        "declared_rule": SUSTAINED,
+        "per_config": threshold_ranks,
+        "records_whose_eligibility_changes_by_rule": {
+            "%d_vs_%d" % (a, b): sum(
+                1 for t in trajs
+                if (_onset(t, a) is None) != (_onset(t, b) is None))
+            for a, b in ((5, 10), (10, 20), (5, 20))},
+        "configurations_whose_conclusions_change": sorted(
+            lab for lab, r in threshold_ranks.items() if r["conclusions_change"]),
+        "note": "This does not reopen the ten-cycle decision. It measures whether the "
+                "ordering of individual worlds, and the eligibility of individual "
+                "runs, survive a different sustention rule; the rule stays frozen for "
+                "Stage B either way.",
+    }
+
+    # ---- the behavioural clock -------------------------------------------
+    # The predictor is available at the confirmation cycle, so the behavioural limb
+    # opens the cycle after it, runs a fixed number of cycles, and never overlaps the
+    # onset window. Absolute cycles differ across worlds; post-confirmation elapsed
+    # time does not, and both are reported for every behavioural observation.
+    clock: dict[str, dict] = {}
+    for lab in configs:
+        rs = [x for x in rows if x["config"] == lab]
+        confs = sorted(x["onset_detail"]["confirmation_cycle"] for x in rs
+                       if x["onset_detail"]["confirmation_cycle"] is not None)
+        if not confs:
+            continue
+        starts = [c + POST_CONFIRMATION_MARGIN for c in confs]
+        clock[lab] = {
+            "runs_with_a_clock": len(confs),
+            "confirmation_cycle_min": min(confs),
+            "confirmation_cycle_median": statistics.median(confs),
+            "confirmation_cycle_max": max(confs),
+            "first_behavioural_cycle_min": min(starts),
+            "first_behavioural_cycle_median": statistics.median(starts),
+            "first_behavioural_cycle_max": max(starts),
+            "run_length_needed_cycles": max(starts) + FOLLOW_UP_CYCLES,
+            "runs_that_fit_a_600_cycle_run": sum(
+                1 for s in starts if s + FOLLOW_UP_CYCLES <= 600),
+        }
+    all_confs = [x["onset_detail"]["confirmation_cycle"] for x in rows
+                 if x["onset_detail"]["confirmation_cycle"] is not None]
+    all_starts = [c + POST_CONFIRMATION_MARGIN for c in all_confs]
+    behavioural_clock = {
+        "post_confirmation_margin_cycles": POST_CONFIRMATION_MARGIN,
+        "learn_cycles": LEARN_CYCLES,
+        "test_cycles": TEST_CYCLES,
+        "follow_up_cycles": FOLLOW_UP_CYCLES,
+        "first_behavioural_cycle": "confirmation_cycle + %d" % POST_CONFIRMATION_MARGIN,
+        "last_behavioural_cycle": "confirmation_cycle + %d"
+                                  % (POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES - 1),
+        "follow_up_length_is_identical_in_every_world": True,
+        "first_behavioural_cycle_differs_by_world": True,
+        "estimand": "behaviour over a fixed window after structural emergence: the "
+                    "amount of behavioural opportunity is equalised, the developmental "
+                    "age at which it opens is a property of the world and is reported "
+                    "rather than equalised",
+        "runs_with_a_clock": len(all_starts),
+        "absolute_start_min": min(all_starts) if all_starts else None,
+        "absolute_start_max": max(all_starts) if all_starts else None,
+        "absolute_start_span_cycles": (max(all_starts) - min(all_starts))
+                                      if all_starts else None,
+        "run_length_needed_cycles": (max(all_starts) + FOLLOW_UP_CYCLES)
+                                    if all_starts else None,
+        "runs_that_fit_a_600_cycle_run": sum(
+            1 for s in all_starts if s + FOLLOW_UP_CYCLES <= 600),
+        "behavioural_cycles_at_or_before_confirmation": sum(
+            1 for s, c in zip(all_starts, all_confs) if s <= c),
+        "onset_window_ends": "the confirmation cycle -- the last reading the onset rule "
+                             "itself reads",
+        "exposure_interval_must_end_before_first_behavioural_cycle": True,
+        "reporting_required_per_observation": ["absolute cycle",
+                                                "cycles since confirmation"],
+        "per_config": clock,
+    }
+
     # ---- eligibility is a measurement fact; scope is the claim -----------
     eligibility: dict[str, dict] = {}
     for lab in configs:
@@ -551,9 +699,11 @@ def build() -> dict:
         "onset_convention_counts": convention_counts,
         "onset_distribution": onset_distribution,
         "sustention_sensitivity": sustention,
+        "threshold_rank_sensitivity": threshold_sensitivity,
         "eligibility": eligibility,
         "accounting": accounting,
         "stage_b_measurement_criteria": criteria_block,
+        "behavioural_clock": behavioural_clock,
         "candidates": candidates,
         "no_behaviour_read": "No correlation between any summary and Phase L's "
                              "behavioural endpoint was computed, by design: the "
@@ -584,6 +734,9 @@ def main() -> dict:
     print("settling:", json.dumps(result["settling_criteria"], indent=2))
     print("\nonset conventions:", json.dumps(result["onset_convention_counts"], indent=2))
     print("\nsustention:", json.dumps(result["sustention_sensitivity"], indent=2))
+    print("\nthreshold rank sensitivity:",
+          json.dumps(result["threshold_rank_sensitivity"], indent=2))
+    print("\nbehavioural clock:", json.dumps(result["behavioural_clock"], indent=2))
     print("\nonset distribution:", json.dumps(result["onset_distribution"], indent=2))
     print("\neligibility:", json.dumps(result["eligibility"], indent=2))
     print("\naccounting:", json.dumps(result["accounting"], indent=2))

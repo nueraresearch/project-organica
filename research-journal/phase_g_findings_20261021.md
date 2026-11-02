@@ -9816,3 +9816,65 @@ records, the protocol's 110–150 window, the construct audit's verdict and the 
 The owner's instruction was that the study can be authorised against a fixed, independently measurable predictor
 rather than an evolving interpretation of one. The predictor is now fixed in code and in counts; the next
 decision is his.
+
+---
+
+## 153. The threshold sweep is checked on the ordering, and the behavioural clock is fixed
+
+**Why this section exists.** The owner accepted the three closures of §152 as a defensible completion of the
+Stage A construct-definition work — onset reproducible, eligibility accounted, dispersion meaningful — and did
+**not** treat the predictor as validated. Two items remained before the design could go to the review gate: the
+sustention sweep established that the *median* was stable, which says nothing about whether an individual world
+keeps its rank; and the boundary written against the confirmation cycle means behavioural learning begins at a
+different absolute cycle in different worlds, which is an exposure-time problem if it is left unstated.
+
+**The sweep, checked where it matters.** The rank ordering of onset is now compared across the 5-, 10- and
+20-cycle rules within each claimed configuration, with the pairwise inversions and the records whose eligibility
+appears or disappears:
+
+| configuration | ρ 5 vs 10 | ρ 10 vs 20 | ρ 5 vs 20 | worst rank shift | records whose eligibility changes |
+| --- | --- | --- | --- | --- | --- |
+| `6:1` | 1.000 | 1.000 | 1.000 | 0 | 0 |
+| `4:1` | 1.000 | 1.000 | 1.000 | 0 | 0 |
+| `3:1` | 0.979 | 1.000 | 0.979 | 9 | 0 |
+| `2:1` | 0.990 | 0.987 | 0.972 | 6 | 2 |
+
+**No configuration's verdict changes** under either alternative rule — the two measurement criteria pass in all
+four configurations at all three rules — so the ordering of worlds is reproducible under a rule the study did not
+choose. But reproducible is not identical: in `3:1` and `2:1` individual worlds move by up to 9 and 6 rank
+positions of 30, and **2 runs** defined at ten cycles are undefined at twenty, both in `2:1`, where the defined
+share under the doubled rule lands on exactly **0.900** — the criterion itself. That is a marginal pass, not a
+comfortable one, and it is the second reason the ten-cycle rule is frozen before the run rather than swept during
+analysis: a sweep performed after the outcome is visible could move two runs out of a denominator and turn a
+criterion into a judgement call.
+
+**The clock, fixed before the run.** The predictor is available at the confirmation cycle, so the behavioural
+limb opens the cycle after it: a **one-cycle** margin, which is the earliest legal cycle rather than a taste
+parameter, because confirmation is the last structural reading the onset rule reads. With the protocol's 50-cycle
+learning and 50-cycle test the follow-up is **100** cycles, identical in every world, and every behavioural
+observation reports both its absolute cycle and its cycles since confirmation. Disjointness is checked, not
+asserted: **0 of 119** behavioural cycles fall at or before a world's confirmation.
+
+**The two clocks are separated on purpose, and the separation is the estimand.** The behavioural *opportunity* is
+equal — same margin, same phases, same duration. The developmental *age* at which it opens is not: across the 119
+moving runs the first behavioural cycle ranges from **299 to 599**, a span of 300 cycles. A predictor of
+developmental age would compare unequal windows at equal absolute time; this design compares equal windows at
+unequal developmental age, which is what a claim about behaviour *after structure emerges* is about. Both clocks
+travel with every observation so that a reader can see which one a result is stated in, and no result may be
+reported in both.
+
+**The clock's cost is measured on the record rather than assumed.** Each world's run must extend through
+confirmation + 101 cycles. The slowest world in hand confirms at 598, so its run needs **699** cycles, and only
+**91 of 119** runs would fit a post-confirmation follow-up inside a 600-cycle run — in `2:1`, **1 of 29**. A
+Stage B run therefore cannot use a fixed 600-cycle horizon. The horizon must be each world's own confirmation
+cycle plus 101, or a pre-declared maximum confirmation cycle plus 101 applied to every world. A fixed horizon that
+ends mid-follow-up would reproduce the Phase L defect that made late structure unmeasurable (AGENTS 13) in a
+worse form: the follow-up would be *shortest* for the worlds that emerged latest, which are exactly the worlds a
+relation between late emergence and behaviour is most informative about.
+
+**What is claimed, and what is not.** The measurement properties are established: onset is reproducible, its
+eligibility and per-configuration dispersion are accounted for, its ordering survives the sustention rule, and
+its clock is declared and disjoint from the outcome. **No relation to behaviour has been computed** — by design,
+because the construct must be chosen before the outcome is read. **Stage B remains unauthorised**: no seed, no
+world, no run; the 240 records, the protocol's 110–150 window, the construct audit's verdict and the empty review
+gate are untouched. The next step the owner named is the independent review gate, not the run.
