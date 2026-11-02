@@ -983,9 +983,15 @@ Self-sourced transitions across the five seeds, formation / revision: `field_nam
 - **Pure encoding is not what fails the claims.** Excluding only transitions between two field names
   rescues **0 of 1,834** failing formation claims and **0 of
   1,792** failing revision claims.
-- **But field-name involvement is not nothing.** Excluding every transition that *touches* a field
-  name rescues **0** and **0** respectively. The gap between the two numbers is the
-  `field_name_one` class, and it is why the two are not reported as one.
+- **Field-name involvement is real but cannot rescue a claim either.** Excluding every transition
+  that *touches* a field name rescues **0** and **0** as well. There is no gap between the
+  two counterfactuals on these cells, and the reason is structural: `field_name_both` is **0**
+  formation and **0** revision transitions, because the observer records only after a **world**
+  store and a transition's target is therefore always a tag of the event just stored — a field name
+  can only ever sit on the prior side. The encoding's entire footprint is `field_name_one`
+  (15,576 / 20,876), so the split changes no count here; what it changes is the description,
+  because "either endpoint" was never the same claim as "both endpoints" and the old label said the
+  latter.
 
 **What the classes do not support.** `content_unresolved` is the largest self class
 (44,897 of 60,525 formation and

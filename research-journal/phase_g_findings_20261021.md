@@ -7750,9 +7750,13 @@ With the corrected labels, on the same five cells:
 - **Pure encoding does not fail the claims**: excluding transitions between two field names rescues
   0 of 1,834 failing formation claims and 0 of 1,792 revision
   claims.
-- **Field-name involvement is not negligible**: excluding every transition that touches a field name
-  rescues 0 and 0. The difference is the `field_name_one` class, which the earlier single
-  `schema` label would have swept into one number.
+- **Field-name involvement is real, and structurally one-sided**: excluding every transition that
+  touches a field name also rescues 0 and 0, so the two counterfactuals agree on these
+  cells. `field_name_both` is 0 / 0 because a transition's target is always a tag of the
+  world event just stored (the observer records only after world stores), so a field name can only ever
+  be the prior tag. The encoding's footprint is entirely `field_name_one` (15,576 / 20,876); the
+  old label's error was descriptive rather than numerical, which is exactly the kind of error that
+  survives a check that only compares counts.
 - **The largest class is unresolved in origin**: `content_unresolved` accounts for
   44,897 of 60,525 formation and
   60,695 of 81,624 revision self transitions, and the payloads
