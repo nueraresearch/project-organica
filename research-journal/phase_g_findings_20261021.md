@@ -7837,3 +7837,35 @@ evidence — a decision that has to be made before the tracer is pointed at a wo
 
 → `benchmarks/provenance_trace.py`, `tests/test_provenance_trace.py`;
 `python -m benchmarks.provenance_trace --controls`.
+
+### Extension, same day: a resolved branch must not hide an unresolved one
+
+The first control set tested **isolated** defects, and that was not enough. A claim with one valid
+world-tagged parent and one missing parent still reached a terminal, so `trace()` returned
+`world_rooted` and reported the missing record only in a field nobody reads as a status. The same
+masking applies to a cycle or a truncation on a second branch. The controls now include the mixed
+lineages, and **10 controls** run:
+
+| control | status | expected |
+|---|---|---|
+| `cycle` | `unresolved_cycle` | `unresolved_cycle` |
+| `depth_capped` | `unresolved_depth_truncated` | `unresolved_depth_truncated` |
+| `missing_parent` | `unresolved_missing_records` | `unresolved_missing_records` |
+| `mixed` | `mixed` | `mixed` |
+| `self_only` | `self_only` | `self_only` |
+| `self_only_with_cycle` | `self_only_incomplete` | `self_only_incomplete` |
+| `vocabulary_removed_flips_control` | `self_only` | `self_only` |
+| `world_derived` | `world_rooted` | `world_rooted` |
+| `world_rooted_with_depth_truncation` | `world_rooted_incomplete` | `world_rooted_incomplete` |
+| `world_rooted_with_missing_parent` | `world_rooted_incomplete` | `world_rooted_incomplete` |
+
+The fix is in the status, not in a footnote. Any missing, cyclic or truncation-cut branch appends
+`_incomplete` to the grounding verdict — `world_rooted_incomplete`, `mixed_incomplete`,
+`self_only_incomplete` — and the result carries `defects` (which branch failed and how) and
+`complete`. `nodes` and `terminals` still summarise what resolved, because losing the resolved
+branch would be the opposite error; but **only a complete lineage may be read as `world_rooted`.**
+A test pins that: the three clean fixtures come back with `complete: true` and no defects, and the
+three mixed ones never do.
+
+This is still an instrument, not a study: no threshold, no verdict, no seeds, and the tracer has not
+been pointed at real data.

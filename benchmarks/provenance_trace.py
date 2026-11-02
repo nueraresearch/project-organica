@@ -20,10 +20,13 @@ That is weaker than "descends from a particular observation" and stronger than
 instrument, so the status vocabulary keeps it visible rather than compressing it
 into a boolean.
 
-The controls are the load-bearing part: four fixtures with **known** ancestry, run
-before any real data, plus a check that emptying the world vocabulary flips the
+The controls are the load-bearing part: fixtures with **known** ancestry, run before
+any real data, plus a check that emptying the world vocabulary flips the
 world-derived control to `self_only` -- a control that could not fire would prove
-nothing (AGENTS rule 25).
+nothing (AGENTS rule 25).  Isolated defects are not enough: a claim may have one
+resolvable branch and one missing, cyclic or truncation-cut branch, and a tracer
+that reports the first as `world_rooted` has hidden the second.  Those mixed
+lineages have their own controls, and any defect marks the status `_incomplete`.
 """
 from __future__ import annotations
 
@@ -37,9 +40,18 @@ from organica.memory import _extract_tags  # noqa: E402
 MAX_DEPTH = 7          # the engine's own get_ancestry(max_depth=7)
 
 STATUSES = ("world_rooted", "mixed", "self_only",
+            "world_rooted_incomplete", "mixed_incomplete", "self_only_incomplete",
             "unresolved_missing_records", "unresolved_cycle",
             "unresolved_depth_truncated", "unresolved_nothing_resolved",
             "unresolved_no_ancestry")
+
+#: A resolved branch does not make a lineage complete.  When any part of the
+#: ancestry is missing, cyclic or truncation-cut, the status carries
+#: `_incomplete` and `defects` names the reason, while `terminals` and `nodes`
+#: still report what did resolve.  A summary of the resolved branch and a
+#: statement about the whole lineage are different things, and only the second
+#: may be read as `world_rooted`.
+INCOMPLETE_SUFFIX = "_incomplete"
 
 
 def _strings(obj: Any) -> Iterable[str]:
@@ -125,6 +137,13 @@ def trace(claim: dict, index: dict[str, dict], vocabulary: set[str],
     # every claim that names a world tag "world_rooted" by definition.
     ancestors = nodes[1:]
     grounded = [n for n in ancestors if n["world_tags"]]
+    defects = []
+    if missing:
+        defects.append("missing_records")
+    if cycle:
+        defects.append("cycle")
+    if depth_hit:
+        defects.append("depth_truncated")
     if not nodes:
         if missing:
             status = "unresolved_missing_records"
@@ -140,15 +159,27 @@ def trace(claim: dict, index: dict[str, dict], vocabulary: set[str],
     elif not ancestors:
         status, reason = ("unresolved_no_ancestry",
                           "the claim is itself a terminal: it has no parent links")
-    elif len(grounded) == len(ancestors):
-        status, reason = "world_rooted", "every ancestor carries world vocabulary"
-    elif not grounded:
-        status, reason = "self_only", "no ancestor carries world vocabulary"
     else:
-        status, reason = "mixed", "some ancestors carry world vocabulary, some do not"
+        if len(grounded) == len(ancestors):
+            base, base_reason = ("world_rooted",
+                                 "every resolved ancestor carries world vocabulary")
+        elif not grounded:
+            base, base_reason = ("self_only",
+                                 "no resolved ancestor carries world vocabulary")
+        else:
+            base, base_reason = ("mixed",
+                                 "some resolved ancestors carry world vocabulary, "
+                                 "some do not")
+        if defects:
+            status = base + INCOMPLETE_SUFFIX
+            reason = (f"{base_reason}; ancestry incomplete ({', '.join(defects)}), so "
+                      f"this describes the resolved branch only")
+        else:
+            status, reason = base, base_reason
     return {"status": status, "reason": reason, "nodes": nodes,
             "terminals": [n["id"] for n in terminals], "missing": missing,
-            "cycle": cycle, "depth_hit": depth_hit}
+            "cycle": cycle, "depth_hit": depth_hit, "defects": defects,
+            "complete": not defects}
 
 
 # ---------------------------------------------------------------------------
@@ -180,6 +211,22 @@ def _fixtures() -> dict[str, tuple[dict, dict[str, dict], set[str], str]]:
     deep.append({"id": f"d{MAX_DEPTH + 2}", "type": "concept_candidate",
                  "members": ["willow"], "parent_ids": []})
     claim_deep = {"id": "d0", "type": "process_candidate", "parent_ids": ["d1"]}
+    # Mixed-lineage fixtures: one resolvable branch plus one defective branch, so a
+    # resolved terminal can no longer hide the defect.
+    claim_wm = {"id": "pred_wm", "type": "prediction_candidate",
+                "source": "willow", "target": "teal",
+                "parent_ids": ["phrase_1", "ghost_1"]}
+    claim_sc = {"id": "pred_sc", "type": "prediction_candidate",
+                "source": "willow", "target": "teal",
+                "parent_ids": ["pred_s0", "cyc_a"]}
+    deep_tagged = [{"id": f"d{i}", "type": "process_candidate",
+                    "members": ["maple"], "parent_ids": [f"d{i + 1}"]}
+                   for i in range(MAX_DEPTH + 2)]
+    deep_tagged.append({"id": f"d{MAX_DEPTH + 2}", "type": "concept_candidate",
+                        "members": ["maple"], "parent_ids": []})
+    claim_wd = {"id": "pred_wd", "type": "prediction_candidate",
+                "source": "willow", "target": "teal",
+                "parent_ids": ["phrase_1", "d0"]}
     return {
         "world_derived": (claim_world,
                           build_index([claim_world, world_phrase, world_concept]),
@@ -194,6 +241,15 @@ def _fixtures() -> dict[str, tuple[dict, dict[str, dict], set[str], str]]:
                   "unresolved_cycle"),
         "depth_capped": (claim_deep, build_index([claim_deep, *deep]), vocab,
                          "unresolved_depth_truncated"),
+        "world_rooted_with_missing_parent": (
+            claim_wm, build_index([claim_wm, world_phrase]), vocab,
+            "world_rooted_incomplete"),
+        "self_only_with_cycle": (
+            claim_sc, build_index([claim_sc, self_parent, cyc_a, cyc_b]), vocab,
+            "self_only_incomplete"),
+        "world_rooted_with_depth_truncation": (
+            claim_wd, build_index([claim_wd, world_phrase, *deep_tagged]), vocab,
+            "world_rooted_incomplete"),
     }
 
 

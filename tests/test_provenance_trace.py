@@ -76,3 +76,37 @@ def test_a_claim_without_ancestors_is_not_self_only():
     got = pt.trace(bare, pt.build_index([bare]), {"willow", "teal"})
     assert got["status"] == "unresolved_no_ancestry"
     assert "unresolved_no_ancestry" in pt.STATUSES
+
+
+def test_a_resolved_branch_cannot_hide_a_missing_one():
+    claim, index, vocab, _ = pt._fixtures()["world_rooted_with_missing_parent"]
+    got = pt.trace(claim, index, vocab)
+    assert got["status"] == "world_rooted_incomplete"
+    assert "missing_records" in got["defects"]
+    assert got["complete"] is False
+    assert got["terminals"], "the resolved branch must still be summarised"
+
+
+def test_a_resolved_branch_cannot_hide_a_cycle():
+    claim, index, vocab, _ = pt._fixtures()["self_only_with_cycle"]
+    got = pt.trace(claim, index, vocab)
+    assert got["status"] == "self_only_incomplete"
+    assert "cycle" in got["defects"]
+    assert got["complete"] is False
+
+
+def test_a_resolved_branch_cannot_hide_a_truncated_branch():
+    claim, index, vocab, _ = pt._fixtures()["world_rooted_with_depth_truncation"]
+    got = pt.trace(claim, index, vocab)
+    assert got["status"] == "world_rooted_incomplete"
+    assert "depth_truncated" in got["defects"]
+    assert got["complete"] is False
+
+
+def test_only_a_complete_lineage_may_be_read_as_world_rooted():
+    for name in ("world_derived", "self_only", "mixed"):
+        claim, index, vocab, expected = pt._fixtures()[name]
+        got = pt.trace(claim, index, vocab)
+        assert got["status"] == expected
+        assert got["complete"] is True
+        assert got["defects"] == []
