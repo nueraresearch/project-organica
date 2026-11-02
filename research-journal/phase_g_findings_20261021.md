@@ -7869,3 +7869,37 @@ three mixed ones never do.
 
 This is still an instrument, not a study: no threshold, no verdict, no seeds, and the tracer has not
 been pointed at real data.
+
+### Extension 2, same day: convergence is not a cycle
+
+The traversal marked **any** repeated node as a cycle. A diamond lineage — two parents sharing one
+ancestor — revisits that ancestor legitimately, so a complete multi-parent chain was reported
+`_incomplete`. That is the worse direction of error for this instrument: it would have under-counted
+`world_rooted` on exactly the multi-parent graphs the engine produces most.
+
+Cycle detection is now a colour DFS over the collected edges. Only an edge into a node that is still
+on the current path is a loop; a node reached again after it has been fully explored is convergence,
+explored once and recorded black. **11 controls** run:
+
+| control | status | expected |
+|---|---|---|
+| `cycle` | `unresolved_cycle` | `unresolved_cycle` |
+| `depth_capped` | `unresolved_depth_truncated` | `unresolved_depth_truncated` |
+| `diamond_shared_ancestor` | `world_rooted` | `world_rooted` |
+| `missing_parent` | `unresolved_missing_records` | `unresolved_missing_records` |
+| `mixed` | `mixed` | `mixed` |
+| `self_only` | `self_only` | `self_only` |
+| `self_only_with_cycle` | `self_only_incomplete` | `self_only_incomplete` |
+| `vocabulary_removed_flips_control` | `self_only` | `self_only` |
+| `world_derived` | `world_rooted` | `world_rooted` |
+| `world_rooted_with_depth_truncation` | `world_rooted_incomplete` | `world_rooted_incomplete` |
+| `world_rooted_with_missing_parent` | `world_rooted_incomplete` | `world_rooted_incomplete` |
+
+The diamond control requires `world_rooted`, `complete: true`, `cycle: false`, and the shared ancestor
+counted exactly once in `nodes`. A second control puts a genuine loop beside a diamond and requires
+the loop still to be reported — convergence must not be able to mask a cycle either. Both are tests,
+not remarks.
+
+`world_rooted` keeps the meaning it was given: **vocabulary overlap along a complete ancestor chain**,
+not proof of descent from a particular world observation. Nothing here has been run on real data.
+

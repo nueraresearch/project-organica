@@ -110,3 +110,33 @@ def test_only_a_complete_lineage_may_be_read_as_world_rooted():
         assert got["status"] == expected
         assert got["complete"] is True
         assert got["defects"] == []
+
+
+def test_a_shared_ancestor_is_convergence_not_a_cycle():
+    """A diamond lineage is complete: two parents sharing an ancestor is not a loop."""
+    claim, index, vocab, _ = pt._fixtures()["diamond_shared_ancestor"]
+    got = pt.trace(claim, index, vocab)
+    assert got["status"] == "world_rooted"
+    assert got["cycle"] is False, "convergence must not be reported as a cycle"
+    assert got["complete"] is True and got["defects"] == []
+    assert [n["id"] for n in got["nodes"]].count("dia_root") == 1
+
+
+def test_a_diamond_beside_a_real_cycle_still_reports_the_cycle():
+    """Convergence and a loop do not cancel: the loop is still a defect."""
+    vocab = {"willow", "teal"}
+    left = {"id": "l", "type": "phrase_candidate", "members": ["willow"],
+            "parent_ids": ["root"]}
+    right = {"id": "r", "type": "phrase_candidate", "members": ["teal"],
+             "parent_ids": ["root"]}
+    root = {"id": "root", "type": "concept_candidate", "members": ["willow"],
+            "parent_ids": []}
+    loop_a = {"id": "loopa", "type": "hypothesis", "parent_ids": ["loopb"]}
+    loop_b = {"id": "loopb", "type": "hypothesis", "parent_ids": ["loopa"]}
+    claim = {"id": "c", "type": "prediction_candidate", "source": "willow",
+             "target": "teal", "parent_ids": ["l", "r", "loopa"]}
+    got = pt.trace(claim, pt.build_index([claim, left, right, root, loop_a, loop_b]),
+                   vocab)
+    assert got["cycle"] is True
+    assert "cycle" in got["defects"]
+    assert got["status"].endswith("_incomplete")

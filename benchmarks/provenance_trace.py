@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import defaultdict
 from typing import Any, Iterable
 
 from organica.memory import _extract_tags  # noqa: E402
@@ -80,6 +81,36 @@ def content_tags(payload: dict, vocabulary: set[str]) -> set[str]:
     return found
 
 
+def _detect_cycle(root: str, edges: dict[str, list[str]]) -> bool:
+    """True only for a back edge to a node on the CURRENT path.
+
+    Convergence is not a loop.  In a diamond lineage two parents share an ancestor:
+    that ancestor is reached twice, but it is fully explored by the time the second
+    branch arrives, so no path returns to a node it is still inside.  Treating every
+    repeated visit as a cycle marks a complete multi-parent lineage `_incomplete`,
+    which is why this tracks colour rather than a visited set.
+    """
+    white, grey, black = 0, 1, 2
+    colour: dict[str, int] = defaultdict(int)
+    colour[root] = grey
+    stack: list[tuple[str, Any]] = [(root, iter(edges.get(root, ())))]
+    while stack:
+        node, children = stack[-1]
+        advanced = False
+        for parent in children:
+            if colour[parent] == grey:
+                return True
+            if colour[parent] == white:
+                colour[parent] = grey
+                stack.append((parent, iter(edges.get(parent, ()))))
+                advanced = True
+                break
+        if not advanced:
+            colour[node] = black
+            stack.pop()
+    return False
+
+
 def build_index(payloads: Iterable[dict]) -> dict[str, dict]:
     """id -> payload, for every stored structure that carries an id."""
     index: dict[str, dict] = {}
@@ -105,9 +136,9 @@ def trace(claim: dict, index: dict[str, dict], vocabulary: set[str],
                 "depth_hit": False}
     nodes: list[dict] = []
     seen: set[str] = set()
+    edges: dict[str, list[str]] = {}
+    missing_ids: set[str] = set()
     frontier = [root]
-    missing = 0
-    cycle = False
     depth_hit = False
     depth = 0
     while frontier:
@@ -117,20 +148,27 @@ def trace(claim: dict, index: dict[str, dict], vocabulary: set[str],
         nxt: list[str] = []
         for node_id in frontier:
             if node_id in seen:
-                cycle = True
                 continue
             seen.add(node_id)
             node = index.get(node_id)
             if node is None:
-                missing += 1
+                missing_ids.add(node_id)
                 continue
             parents = [p for p in (node.get("parent_ids") or []) if isinstance(p, str)]
             nodes.append({"id": node_id, "type": node.get("type"),
                           "world_tags": sorted(content_tags(node, vocabulary)),
                           "parents": len(parents)})
-            nxt.extend(parents)
+            edges[node_id] = []
+            for parent in parents:
+                if parent in index:
+                    edges[node_id].append(parent)
+                else:
+                    missing_ids.add(parent)
+                nxt.append(parent)
         frontier = nxt
         depth += 1
+    cycle = _detect_cycle(root, edges) if root in edges else False
+    missing = len(missing_ids)
     terminals = [n for n in nodes if n["parents"] == 0]
     # Grounding is judged on ANCESTORS only.  A claim's own surface words are the
     # thing being explained, not evidence for its origin: crediting them would make
@@ -227,6 +265,17 @@ def _fixtures() -> dict[str, tuple[dict, dict[str, dict], set[str], str]]:
     claim_wd = {"id": "pred_wd", "type": "prediction_candidate",
                 "source": "willow", "target": "teal",
                 "parent_ids": ["phrase_1", "d0"]}
+    # Diamond lineage: two parents sharing one ancestor.  The ancestor is reached by
+    # two paths, which is convergence and must stay complete.
+    diamond_left = {"id": "dia_l", "type": "phrase_candidate",
+                    "members": ["willow"], "parent_ids": ["dia_root"]}
+    diamond_right = {"id": "dia_r", "type": "phrase_candidate",
+                     "members": ["teal"], "parent_ids": ["dia_root"]}
+    diamond_root = {"id": "dia_root", "type": "concept_candidate",
+                    "members": ["cedar"], "parent_ids": []}
+    claim_diamond = {"id": "pred_dia", "type": "prediction_candidate",
+                     "source": "willow", "target": "teal",
+                     "parent_ids": ["dia_l", "dia_r"]}
     return {
         "world_derived": (claim_world,
                           build_index([claim_world, world_phrase, world_concept]),
@@ -250,6 +299,10 @@ def _fixtures() -> dict[str, tuple[dict, dict[str, dict], set[str], str]]:
         "world_rooted_with_depth_truncation": (
             claim_wd, build_index([claim_wd, world_phrase, *deep_tagged]), vocab,
             "world_rooted_incomplete"),
+        "diamond_shared_ancestor": (
+            claim_diamond,
+            build_index([claim_diamond, diamond_left, diamond_right, diamond_root]),
+            vocab, "world_rooted"),
     }
 
 
