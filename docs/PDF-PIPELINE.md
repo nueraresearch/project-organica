@@ -135,14 +135,24 @@ use. Nothing in the pipeline needs them.
   numbers. `tests/test_paper_numbers.py` does that, against the artifacts
   rather than against the PDF.
 - It does not submit anything. The PDF is a deposit artifact.
-- **It does not look at the pages.** The log proves there are no overfull
-  boxes, the extraction proves the words are on them, and
+- **It does not look at the pages by itself.** The log proves there are no
+  overfull boxes, the extraction proves the words are on them, and
   `verify_pdf_info` proves the file carries its title and author — but
   nothing in this pipeline rasterises a page, so figure placement, caption
-  collisions, page breaks and Paper 02's two landscape tables are
-  **unverified visually** until a person opens the PDF. No text check
-  substitutes for that, and none of the checks above should be read as if it
-  had.
+  collisions and page breaks are **not** covered by any check above. A
+  rasteriser is not a build dependency and is not installed on this machine;
+  to look at the pages, render them in a scratch environment
+  (`python3 -m venv /tmp/pdfrender` then
+  `/tmp/pdfrender/bin/pip install pymupdf`) and inspect the images. **Done
+  2026-11-02 for all 40 pages:** Paper 01 renders clean — both multi-page
+  tables break at row boundaries with the header repeated, and all five
+  figures carry their captions and source lines. Paper 02 has **three open
+  layout defects**: a code block split across pages 7–8 leaving two orphaned
+  lines, a heading-only page 12, and two captionless, mostly blank landscape
+  table pages (9 and 13), all downstream of `landscape_wide_tables()`. It
+  therefore stays **unverified visually** until they are fixed and the pages
+  are looked at again. No text check substitutes for looking, and none of the
+  checks above should be read as if it had.
 
 → `benchmarks/svg_to_pdf.py`; `benchmarks/make_font_widths.py`;
 `benchmarks/helvetica_widths.json`; `benchmarks/render_papers.py`;

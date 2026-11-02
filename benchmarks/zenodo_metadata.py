@@ -27,13 +27,16 @@ SCHEMA_URL = ("https://raw.githubusercontent.com/zenodo/zenodo/master/"
                "legacyrecord.json")
 SCHEMA_CACHE = REPO / ".scratch" / "zenodo_legacyrecord.json"
 
-#: Every file that carries deposit metadata.
-METADATA_FILES = [
-    ".zenodo.json",
-    "zenodo/software-v0.10.0.json",
-    "zenodo/paper-01-preprint.json",
-    "zenodo/paper-02-preprint.json",
-]
+#: Every file that carries deposit metadata: the GitHub-integration file and
+#: every record under ``zenodo/``.  The list is read from the directory rather
+#: than written out here because the software record's filename carries a
+#: version, and a hard-coded copy of that version goes stale silently: this
+#: check went on listing ``software-v0.10.0.json`` after the record had moved
+#: to ``v0.11.0``, so it failed on a missing file instead of validating the
+#: metadata it exists to validate -- a check that is red for the wrong reason
+#: is a check nobody reads.
+METADATA_FILES = [".zenodo.json"] + sorted(
+    str(path.relative_to(REPO)) for path in (REPO / "zenodo").glob("*.json"))
 
 
 def fetch_schema() -> dict:
@@ -126,6 +129,9 @@ def main(argv: list[str] | None = None) -> int:
         schema = fetch_schema()
 
     problems: list[str] = []
+    if not any("software-v" in rel for rel in METADATA_FILES):
+        problems.append("zenodo/software-v<version>.json: missing -- no "
+                        "software record to validate")
     for rel in METADATA_FILES:
         path = REPO / rel
         if not path.exists():

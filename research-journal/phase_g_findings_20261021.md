@@ -8790,3 +8790,48 @@ It was made to fire on a deliberately stale title before being trusted, and `tes
 that case alongside the two assertions that both papers currently agree and that the declared titles are
 distinct. Both PDFs then rebuilt byte-identical to the previous build (385,296 and 302,835 bytes), which is
 the point: a guard that changes nothing about the artifact it guards.
+
+## §127 — The deposit records named the papers by titles the papers do not carry (2026-11-02)
+
+Two records had drifted in the one field a citation prints. `zenodo/paper-01-preprint.json` said
+*"Developmental structure formation in Organica 1: a preregistered account of what the engine grows, and what
+it does not"*, and `zenodo/paper-02-preprint.json` said *"Persistent structural provenance in Organica 1: what
+survives, what is reconstructable, and what is not"*. Neither string appears anywhere in the PDF it describes:
+the documents carry *Developmental Structure Formation in Organica 1* and *Reconstructing Evidence and
+Selection from Organica's Surviving State*. The record is what a DOI resolves to and what a reference manager
+imports, so the drift would have published two papers under names their own first pages contradict — the defect
+§126 closed between the heading and `PDF_INFO`, one layer out, in the metadata that leaves the repository.
+
+The repair keeps the descriptive phrase where it belongs. Both titles are now the documents' titles, and the
+subtitle material lives in `description`, where it is not a claim about what the document is called. Paper 01's
+description also predated §4.10 — it described the acquisition benchmark stopping at its gate and said nothing
+about the confirmed capacity-1,000 test — so it now reports that result with its numbers: pooled margin
+-0.003818 nats, 98.33 % interval [-0.010802, 0.002863] crossing zero, per-seed margins of both signs, and a
+withheld-relation margin of -0.359327 that the preregistered provenance measure returns as *not attributable*,
+so no transfer claim in either direction. A record that omitted that would have advertised the paper as older
+than it is.
+
+`tests/test_pdf_titles.py` now asserts that each paper's record title equals `PDF_INFO`'s, which is itself
+asserted equal to the manuscript heading. The title therefore has one source of truth and two generated
+dependents, and `docs/ZENODO-DEPOSIT.md` states the rule where a depositor will read it.
+
+**And the pages, at last, were looked at.** A rasteriser (PyMuPDF in a scratch virtual environment — not a build
+dependency; the build still needs nothing beyond pandoc and pdflatex) rendered all 40 pages of both PDFs to
+images, and each was inspected. **Paper 01 is visually clean:** the page 4→5 boundary is table 3.1 closing and
+table 3.2 opening with its header repeated, every table keeps its rules intact across the break, the
+claim-status table repeats its header on page 16, and all five figures render as vectors with captions and
+source lines. Its only blemish is cosmetic: page 9 leaves about a third of the sheet blank because Figure 2's
+float could not fit beside its caption.
+
+**Paper 02 is not clean, and its defects are layout, not content.** A fenced code block splits across pages 7–8
+and leaves two orphaned lines above "4. Results". Page 12 carries the heading "4.3 Ancestry honesty (A3)" and
+nothing else, because the section's table was moved to a landscape page. The two landscape pages (9 and 13) set
+their table at the top of an otherwise empty sheet, with the page number rotated to the table's orientation, and
+neither carries a caption — and no table in the document has a numbered caption, which for a paper whose tables
+carry its results is the defect that matters most. All of it is downstream of `landscape_wide_tables()`, which
+exists because the acceptance-criterion table otherwise ran 209 pt into the margin: that fix removed the overrun
+and cost the section flow. Two suspected defects were checked and dismissed — the text blocks that appear to
+overrun the page box are the rotated page numbers, not overflow.
+
+Paper 02 stays labelled unverified visually until those three are fixed and looked at again, and a human
+confirmation of the renders is still owed for both papers.

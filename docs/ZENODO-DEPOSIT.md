@@ -46,6 +46,7 @@ creator, license and community as the software record.
 
 | Field | Value |
 |---|---|
+| Title | **the manuscript's own title, exactly as the PDF carries it.** A longer descriptive variant belongs in `description`: a record title that appears nowhere in the document is the drift the title guard exists to prevent, and `tests/test_pdf_titles.py` now fails if a record and its document disagree. The records for both papers carried such variants until 2026-11-02 and were reconciled. |
 | Upload type | `software` for the engine; `publication` / `preprint` for the papers |
 | Access right | `open` |
 | Creators | Beebe, Jeremy Blain Thompson — Nuera RDL — ORCID `0009-0009-2394-9714` |

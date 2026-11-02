@@ -9,6 +9,7 @@ properties.
 """
 
 import importlib.util
+import json
 import re
 from pathlib import Path
 
@@ -74,6 +75,21 @@ def test_the_check_fires_on_a_stale_title():
     finally:
         mod.PDF_INFO[stem]["title"] = original
     assert "does not match" in str(raised.value)
+
+
+def test_each_deposit_record_carries_the_documents_own_title():
+    """A DOI must not name a paper by a title the paper does not carry.
+
+    The deposit record's title is what a citation generator prints, so a longer
+    descriptive variant there cites a title that appears nowhere in the
+    document.  The descriptive subtitle belongs in the description.
+    """
+    for rel in mod.PAPERS:
+        stem = Path(rel).stem
+        record = REPO / "zenodo" / ("paper-%s-preprint.json" % stem[:2])
+        assert record.exists(), record
+        record_title = json.loads(record.read_text(encoding="utf-8"))["title"]
+        assert record_title == mod.PDF_INFO[stem]["title"], (record.name, record_title)
 
 
 def test_the_label_rule_handles_the_headings_in_this_repository():
