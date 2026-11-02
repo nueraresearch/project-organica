@@ -214,3 +214,52 @@ def test_the_reviewer_gets_the_corrections_too(stage, text):
     assert "**withdrawal in place**" in text
     # the published design's rounded table is the source of the ladder's mapping
     assert "104" in DESIGN.read_text(encoding="utf-8")
+
+
+def test_the_endpoint_granularity_is_measured_not_assumed(stage, text):
+    """A non-zero count is not a resolution test; the quantum is what decides."""
+    res = stage["endpoint_resolution"]
+    assert res["confirmed"] is False
+    assert res["evidence_kind"].startswith("design-block")
+    counts = res["held_out_transitions"]
+    assert counts["min"] == 82
+    assert counts["median"] == 106
+    assert counts["max"] == 110
+    assert counts["cells"] == 5
+    assert res["quantum_at_median"] == pytest.approx(1 / 106, abs=1e-6)
+    assert res["distinguishable_levels_at_median"] == 107
+    assert res["effect_gap_at_rho_0_50"] == pytest.approx(0.05, abs=1e-9)
+    assert res["quantum_relative_to_effect_gap"] == pytest.approx(5.3, abs=0.05)
+    assert res["resolves_the_declared_effect_on_this_evidence"] is True
+    assert set(res["rules"]) == {"too_coarse", "too_sparse", "saturated",
+                                 "undefined", "screening"}
+    # the document carries the same numbers, and the four failure rules
+    assert "**82 to 110**, median **106**" in text
+    assert "**0.009434**" in text
+    assert "**107**" in text
+    assert "**5.3**" in text
+    for word in ("**too coarse**", "**too sparse**", "**saturated**", "**undefined**"):
+        assert word in text, word
+    assert "`resolution_confirmed` stays **false**" in text
+    # and it stays a gate, not a conclusion
+    assert "is** the gate" in text
+
+
+def test_pre_assigned_allocated_and_reserved_are_distinguished(stage, text):
+    """The protocol must not use 'assigned' and 'allocated' as synonyms."""
+    glossary = stage["glossary"]
+    assert set(glossary) == {"pre-assigned", "allocated", "reserved"}
+    assert "No seed is allocated by this document" in glossary["allocated"]
+    assert "| **pre-assigned** |" in text
+    assert "| **allocated** |" in text
+    assert "| **reserved** |" in text
+    assert "both be true" in text
+
+
+def test_the_assumption_is_not_presented_as_an_established_bound(stage, text):
+    s = stage["sample_size"]
+    assert s["planning_assumption_is_established_lower_bound"] is False
+    assert s["block_is_conditional_on_the_assumption"] is True
+    assert "**declared planning assumption, not an established lower bound**" in text
+    assert "conditional on this assumption" in text
+    assert "may reject the assumption without" in text

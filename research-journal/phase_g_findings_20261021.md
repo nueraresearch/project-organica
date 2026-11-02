@@ -10010,3 +10010,55 @@ onset and behaviour has been computed**. **Stage B is not authorised**, and §7 
 `docs/INDEPENDENT-METHODS-REVIEW.md` is still empty. The withdrawal is recorded in the protocol, the artifact, the
 manual and the reviewer's history, because a design record that shows only its final numbers has hidden its
 reasoning.
+
+---
+
+## 157. A non-zero count is not a resolution test
+
+**What the review demanded.** The owner accepted the reliability correction and moved the critical question to
+the endpoint: is `revision_held_out` fine enough, and variable enough, to resolve the smallest effect the protocol
+claims? The request was specific — the quantum computed from the scoring implementation, the distribution of
+available withheld transitions, a demonstration that ρ = 0.50 is resolvable, and a rule for an endpoint that
+turns out coarse, sparse or undefined.
+
+**What the cells say.** The design-block cells in `docs/reusable_knowledge_calibration.json` carry **82 to 110**
+withheld transitions per world, median **106**. The outcome is a proportion over those transitions, so the
+quantum is one divided by the count: **0.009434** at the median, with **107** distinguishable levels. Against a
+deliberately *tight* outcome spread — an SD of 0.05, about a tenth of what a proportion near one half would have,
+so the comparison is a floor rather than a flattering case — the effect gap at ρ = 0.50 is **0.05**, which is
+**5.3 quanta**. On this evidence the endpoint is **not too coarse** for the claim.
+
+**What that does not show, stated in the same paragraph.** Two limits, both of which a favourable reading would
+want to skip. The cells are **design-block**, declared as such and not confirmatory, so the number describes the
+instrument on the worlds that already exist, not on Stage B's worlds. And **granularity is not variability**: the
+count bounds how finely the score *can* move and says nothing about whether it *does* move across worlds. A
+perfectly resolved endpoint on which every world scores the same produces no relation and no power. Only the run
+can show that, which is why the gate stays open.
+
+**So the gate stays open, and gets rules instead of a paragraph.** Four failures are now pre-committed: **too
+coarse** (a quantum larger than the effect gap) and **too sparse** (fewer than half the planned worlds at 40 or
+more withheld transitions) each stop the run before it starts; **saturated** (a configuration whose realised
+outcome SD is below two quanta) is unmeasurable there and is excluded and reported, never scored as a null; and
+**undefined** (zero withheld transitions) is excluded by the existing `E6` gate and never zeroed, per AGENTS 13b.
+The four-configuration enumeration **is** the gate; §3.1 is the reason to expect it to pass, not the pass.
+`resolution_confirmed` remains `false`.
+
+**Three words the owner asked to have separated.** The previous revision said the seeds were "assigned" in one
+paragraph and that no seed was "allocated" in another, and both were true of different things: **pre-assigned**
+means mapped to a configuration in the protocol, as a plan, with nothing spent; **allocated** means released for an
+executed run; **reserved** means deliberately not used, which is what the four spares are. The glossary now says so
+in the protocol and in the artifact, because a reader who has to decide whether a protocol contradicts itself has
+already stopped trusting it.
+
+**And a qualification on the assumption itself.** 0.50 is a **declared planning assumption, not an established
+lower bound**. The argument that reliability below 0.50 leaves more error than signal lives inside the assumed
+model; it does not establish that onset's true reliability is at least 0.50, which is unmeasured and unmeasurable
+here. **104 worlds per configuration is therefore the requirement conditional on that assumption**, and the
+protocol now says so in those words, with the reviewer free to reject the assumption without proposing a
+replacement — the ladder prints the consequence of every row so a rejection is a recorded change rather than a
+negotiation.
+
+**State unchanged.** No seed is allocated, no world is generated, no run is started, and **no relation between
+onset and behaviour has been computed**. **Stage B is not authorised**; §7 of
+`docs/INDEPENDENT-METHODS-REVIEW.md` remains empty, and the endpoint gate remains the first thing a reviewer
+should interrogate.

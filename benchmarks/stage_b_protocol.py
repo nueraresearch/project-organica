@@ -177,6 +177,68 @@ def build() -> dict:
 
     signres = json.loads(SIGNRES.read_text(encoding="utf-8"))
 
+    # ---- the endpoint's granularity, from the cells that already exist -----
+    # A non-zero held-out count is not a resolution test. The quantum is one / the
+    # number of withheld transitions, so the count decides how finely the outcome can
+    # be scored at all. This uses design-block cells, declared as such; it informs the
+    # gate and does not discharge it, because Stage B's own enumeration does not exist.
+    calib = json.loads((ROOT / "docs" / "reusable_knowledge_calibration.json")
+                       .read_text(encoding="utf-8"))
+    counts: list[int] = []
+
+    def _collect(node, key: str) -> None:
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k == key and isinstance(v, int) and not isinstance(v, bool):
+                    counts.append(v)
+                else:
+                    _collect(v, key)
+        elif isinstance(node, list):
+            for item in node:
+                _collect(item, key)
+
+    _collect(calib, "revision_held_out_pairs")
+    assert counts, "no design-block held-out counts to reason from"
+    counts.sort()
+    n_min, n_max = counts[0], counts[-1]
+    n_med = counts[len(counts) // 2]
+    quantum = 1.0 / n_med
+    assumed_sd = 0.05                      # a deliberately tight outcome spread
+    gap = 2.0 * SMALLEST_EFFECT * assumed_sd   # top-vs-bottom gap at rho = 0.50
+
+    resolution = {
+        "status": "informed by design-block cells; not discharged for Stage B",
+        "confirmed": False,
+        "what_would_confirm_it": "the withheld enumeration for the four claimed "
+                                  "configurations, reporting the quantum and the "
+                                  "count per planned world before any world runs",
+        "evidence_source": "docs/reusable_knowledge_calibration.json",
+        "evidence_kind": "design-block cells, declared as such and not confirmatory",
+        "held_out_transitions": {"cells": len(counts), "min": n_min,
+                                 "median": n_med, "max": n_max},
+        "quantum_at_median": round(quantum, 6),
+        "distinguishable_levels_at_median": n_med + 1,
+        "assumed_outcome_sd": assumed_sd,
+        "effect_gap_at_rho_0_50": round(gap, 6),
+        "quantum_relative_to_effect_gap": round(gap / quantum, 3),
+        "resolves_the_declared_effect_on_this_evidence": bool(gap >= 4 * quantum),
+        "rules": {
+            "too_coarse": "quantum larger than the effect gap at the declared "
+                          "smallest effect -> design defect, the run does not start",
+            "too_sparse": "fewer than half the planned worlds at 40 or more "
+                          "held-out transitions -> design defect, run does not start",
+            "saturated": "a configuration whose realised outcome SD is below two "
+                         "quanta is unmeasurable there: excluded and reported, never "
+                         "scored as a null",
+            "undefined": "zero withheld transitions -> excluded by the existing E6 "
+                        "gate, never zeroed (AGENTS 13b)",
+            "screening": "the enumeration runs before any world, and its own report "
+                         "is the gate -- not this paragraph",
+        },
+        "limit": "this bounds granularity; it does not show that the outcome varies "
+                 "across worlds, which only the run can show",
+    }
+
     return {
         "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon "
                         "and seed block, assembled from the construct record and "
@@ -203,6 +265,17 @@ def build() -> dict:
                          "prediction score after learning",
         },
         "claimed_configurations": list(CLAIMED),
+        "glossary": {
+            "pre-assigned": "mapped to a configuration in the protocol, in advance, "
+                            "with a specific seed. It is a plan: no world runs, and "
+                            "nothing is spent, until the review records an outcome",
+            "allocated": "released for an executed run. No seed is allocated by "
+                         "this document, which is why pre-assignment and allocation "
+                         "are different words here and are never used as synonyms",
+            "reserved": "deliberately not used: the four spares are reserved and "
+                        "never drawn, and a censored world does not release its seed",
+        },
+        "endpoint_resolution": resolution,
         "eligibility": {
             "rule": "onset defined in >= %s of runs, within each claimed "
                     "configuration, never on the pooled set"
@@ -262,6 +335,8 @@ def build() -> dict:
                                                "replication and no test-retest "
                                                "estimate exists",
             "reliability_planning_assumption": PLANNING_RELIABILITY,
+            "planning_assumption_is_established_lower_bound": False,
+            "block_is_conditional_on_the_assumption": True,
             "why_this_assumption": "no reliability estimate exists, so one is "
                                    "declared rather than inferred. 0.50 is the "
                                    "weakest predictor still worth testing -- below it "

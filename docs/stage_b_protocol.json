@@ -22,6 +22,38 @@
     "4:1",
     "6:1"
   ],
+  "glossary": {
+    "pre-assigned": "mapped to a configuration in the protocol, in advance, with a specific seed. It is a plan: no world runs, and nothing is spent, until the review records an outcome",
+    "allocated": "released for an executed run. No seed is allocated by this document, which is why pre-assignment and allocation are different words here and are never used as synonyms",
+    "reserved": "deliberately not used: the four spares are reserved and never drawn, and a censored world does not release its seed"
+  },
+  "endpoint_resolution": {
+    "status": "informed by design-block cells; not discharged for Stage B",
+    "confirmed": false,
+    "what_would_confirm_it": "the withheld enumeration for the four claimed configurations, reporting the quantum and the count per planned world before any world runs",
+    "evidence_source": "docs/reusable_knowledge_calibration.json",
+    "evidence_kind": "design-block cells, declared as such and not confirmatory",
+    "held_out_transitions": {
+      "cells": 5,
+      "min": 82,
+      "median": 106,
+      "max": 110
+    },
+    "quantum_at_median": 0.009434,
+    "distinguishable_levels_at_median": 107,
+    "assumed_outcome_sd": 0.05,
+    "effect_gap_at_rho_0_50": 0.05,
+    "quantum_relative_to_effect_gap": 5.3,
+    "resolves_the_declared_effect_on_this_evidence": true,
+    "rules": {
+      "too_coarse": "quantum larger than the effect gap at the declared smallest effect -> design defect, the run does not start",
+      "too_sparse": "fewer than half the planned worlds at 40 or more held-out transitions -> design defect, run does not start",
+      "saturated": "a configuration whose realised outcome SD is below two quanta is unmeasurable there: excluded and reported, never scored as a null",
+      "undefined": "zero withheld transitions -> excluded by the existing E6 gate, never zeroed (AGENTS 13b)",
+      "screening": "the enumeration runs before any world, and its own report is the gate -- not this paragraph"
+    },
+    "limit": "this bounds granularity; it does not show that the outcome varies across worlds, which only the run can show"
+  },
   "eligibility": {
     "rule": "onset defined in >= 0.9 of runs, within each claimed configuration, never on the pooled set",
     "resolution_rule": "within-configuration SD >= 3.0 cycles, reported with the IQR, range and distinct-value count",
@@ -61,6 +93,8 @@
     "reliability_measured": false,
     "why_reliability_is_not_measured": "the engine is deterministic per seed, so re-running a world is not a replication and no test-retest estimate exists",
     "reliability_planning_assumption": 0.5,
+    "planning_assumption_is_established_lower_bound": false,
+    "block_is_conditional_on_the_assumption": true,
     "why_this_assumption": "no reliability estimate exists, so one is declared rather than inferred. 0.50 is the weakest predictor still worth testing -- below it the measure carries less signal than error -- so the block is sized at the worst instrument the claim could survive rather than at a flattering one",
     "attenuation_ladder": {
       "1.00": {

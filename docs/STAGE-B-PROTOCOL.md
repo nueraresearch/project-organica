@@ -101,6 +101,39 @@ the endpoint cannot resolve that effect, the design is unmeasurable for its own 
 start (AGENTS 13). This is not a documentation detail: it determines whether the experiment can measure its
 stated outcome at all, and it is the check that would have caught the Phase L design defect before the campaign.
 
+### 3.1 What the endpoint's granularity looks like in the cells that exist
+
+A non-zero count is not a resolution test, so the count is turned into the quantity that matters. The outcome is
+a proportion over the withheld transitions, so the endpoint's **quantum is one divided by that count** — the
+smallest difference it can represent. Measured on the design-block cells already in the record:
+
+| quantity | value |
+| --- | --- |
+| withheld transitions per world | **82 to 110**, median **106** |
+| quantum at the median | **0.009434** |
+| distinguishable outcome levels at the median | **107** |
+| effect gap assumed at ρ = 0.50, outcome SD 0.05 | **0.05** |
+| effect gap in quanta | **5.3** |
+
+The comparison uses a deliberately **tight** outcome spread — an SD of 0.05, roughly a tenth of what a proportion
+near one half would have — so the gap is a floor on the effect the claim asserts, and it is still more than five
+quanta wide. **On this evidence the endpoint is not too coarse for the claim.** That conclusion is bounded by
+two honest limits: the cells are design-block cells, declared as such and not confirmatory, and granularity is
+not variability — the count bounds how finely the score can move, and says nothing about whether it does move
+across worlds, which only the run can show.
+
+**The gate therefore stays open, with four rules attached rather than a paragraph:**
+
+| failure | rule |
+| --- | --- |
+| **too coarse** | a quantum larger than the effect gap at the declared smallest effect is a design defect, and the run does not start |
+| **too sparse** | fewer than half the planned worlds at 40 or more withheld transitions is a design defect, and the run does not start |
+| **saturated** | a configuration whose realised outcome SD is below two quanta is unmeasurable there: excluded and reported, never scored as a null |
+| **undefined** | zero withheld transitions is excluded by the existing `E6` gate, and never scored as zero (AGENTS 13b) |
+
+`resolution_confirmed` stays **false** in the artifact. These numbers *inform* the gate; the enumeration for the
+four claimed configurations **is** the gate, and it runs before any world does.
+
 ---
 
 ## 4. Run horizon and the follow-up clock
@@ -214,6 +247,14 @@ assuming a good instrument. If the reviewer accepts a higher reliability, the bl
 worlds in total**, and that substitution is a reviewer decision recorded in §7 of the review, not an author's
 convenience.
 
+**What 0.50 is not.** It is a **declared planning assumption, not an established lower bound**. The argument
+that reliability below 0.50 leaves more error than signal is a statement inside the assumed model; it does not
+establish that onset's true reliability is at least 0.50, because that quantity is unmeasured. So **104 worlds
+per configuration is the requirement conditional on this assumption** — not a demonstration that the experiment
+has adequate resolution under the actual measurement properties. The reviewer may reject the assumption without
+proposing a replacement, and the ladder gives the consequence of every row so that rejection is a recorded
+change rather than a negotiation.
+
 **The count is a floor, not a budget.** Unmodelled dependence between worlds and any further measurement error
 lower the real resolution probability, so 104 is the least number this claim can be tested with, not the most.
 
@@ -297,6 +338,17 @@ becomes a search for 104 that worked.
   margin.
 - **The candidate block is not an allocation.** It is proved *unused*, which is not the same as *spent*. No seed
   in it is allocated by this document.
+
+**Three words, defined so they are never used as synonyms:**
+
+| word | means |
+| --- | --- |
+| **pre-assigned** | mapped to a configuration in this protocol, in advance, with a specific seed. It is a *plan*: no world runs on it and nothing is spent until the review records an outcome |
+| **allocated** | released for an *executed* run. No seed is allocated by this document |
+| **reserved** | deliberately not used: the four spares are reserved and never drawn, and a censored world does not release its seed |
+
+That distinction is what lets "the 416 worlds are pre-assigned" and "no seed is allocated" both be true, and
+saying it once here is cheaper than a reviewer having to decide whether the protocol contradicts itself.
 - **The engine is the frozen one.** Organica 1 at `v0.9.0`, unchanged, enforced by `tests/test_v1_freeze.py`.
 
 ---
