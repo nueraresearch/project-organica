@@ -137,5 +137,24 @@ def test_design_audit_record_matches_the_artifact():
     assert f"{art['seconds']}" in sec
 
 
+def test_the_study_is_closed_and_the_weight_shift_is_not_substituted():
+    """The closure is the record; an amendment chosen after the failure would be a new study."""
+    text = DOC.read_text(encoding="utf-8")
+    flat = " ".join(text.split())
+    assert "### 12.6 Decision (owner, 2026-11-02): closed at the design gate" in text
+    assert "Keep this preregistration unchanged, and close the study at the failed design gate." in flat
+    assert "No confirmatory run." in flat
+    assert "The 0.20 limit stays at 0.20." in flat
+    assert "is not substituted into this study" in flat
+    assert "shuffle weights **within each source row**" in flat
+    assert "needs its own preregistration and its own success criterion" in flat
+    assert "not identifiable with this readout and remains null" in flat
+    assert "no confirmatory result" in flat
+    # The header must not still describe the decision as outstanding.
+    head = " ".join(text.split("## 1. Question", 1)[0].split())
+    assert "neither has been chosen" not in head
+    assert "\u00a712.6" in head
+
+
 def test_no_placeholder_survives():
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))

@@ -4,7 +4,9 @@
 (`benchmarks/structural_contribution.py` and `benchmarks/structural_contribution_harness.py`) and
 the design block ran on `20270301`–`20270305`: **it failed gate S3b on all five seeds** (§12). §10's
 stop rule applies, so **no confirmatory seed has been read, no contrast has been formed, and the
-next move is the owner's** — two amendments are named in §12.4, and neither has been chosen.
+study is closed at the design gate** — the owner's decision of 2026-11-02 (§12.6) keeps
+§1–§10 unchanged, declines the weight-level substitute, and makes the density finding the
+result. No further work happens under this preregistration.
 
 The question, arms, rewiring rule, bar, outcome table and seeds below are the ones committed before
 the harness existed. Nothing in §1–§10 changed after the audit; §11 and §12 were added by it.
@@ -307,8 +309,9 @@ null, and that the study cannot be spent as written.
 losses recorded in the artifact are labelled gate diagnostics, not results. It does not revise the
 frozen study's §10.4 finding, and it makes no transfer claim in either direction.
 
-Two amendments would make the question answerable. Both change a rule committed before the audit,
-both are disclosed here, and neither may be chosen after a contrast is seen — none has been:
+Two amendments would have made the question answerable. Both change a rule committed before the
+audit and both are disclosed here for the record; **neither was applied**, and the owner's
+decision between them is §12.6:
 
 - **(a) A weight-level null.** Keep the formed pairs, keep the weight multiset, keep every
   out-degree, and permute *which pair carries which weight*. That destroys relation strength while
@@ -327,3 +330,32 @@ the summed context tags, so it was half the true denominator. It was corrected t
 protocol's own formula and the block re-run; no arm loss, seed or gate outcome other than S2's
 changed. The artifact's readout block also gained `distinct_targets` and `possible_pairs_over_vocab`,
 because §12.3's argument needs the density and the first pass did not record it.
+
+### 12.6 Decision (owner, 2026-11-02): closed at the design gate
+
+**Keep this preregistration unchanged, and close the study at the failed design gate. No
+confirmatory run.**
+
+The reasoning, recorded because it is what the closed record rests on:
+
+- **The density finding is the result.** §12.3 is not a defect to be worked around; it is the
+  answer this study can give: the formed readout is too close to a complete bipartite graph for the
+  preregistered degree-preserving rewiring to produce a sufficiently different control, so the
+  topology-level question is not identifiable with this readout at this capacity.
+- **The 0.20 limit stays at 0.20.** Relaxing the overlap limit after seeing that the control failed
+  would turn a failed control into a different experiment — the threshold would have been chosen by
+  the failure it was written to guard. §10's *no threshold movement* rule and the repository's own
+  threshold rule both forbid it, and neither admits an exception for an inconvenient gate.
+- **The weight-level null is not substituted into this study.** It preserves every formed pair, so it
+  tests whether edge **strengths** matter, not whether the learned **pairings** matter. That is a
+  different question, it supports a different claim, and it needs its own preregistration and its own
+  success criterion. It is named here as a possible future study and it is **not** this one.
+  If it is pursued, the owner specified the design: shuffle weights **within each source row**,
+  preserving `W(a)` together with the topology, so that the test isolates **which existing pair
+  carries which strength** rather than which pairs exist. No protocol for it has been written, and
+  this study contributes nothing to it except the readout code in §12.3's harness.
+
+**The clean record:** the structural-contribution study stopped at gate **S3b**; topology-level
+contribution is **not identifiable with this readout and remains null**; there is **no confirmatory
+result**; and no number computed after this decision changes anything in §1–§12.5. The `--confirmatory`
+path refuses to run, and it stays refusing — the campaign is closed, not paused.

@@ -8638,3 +8638,35 @@ the pairs and permutes which one carries which weight, or closing the study at t
 limit — and both are stated in §12.4 as the owner's decision. Neither the frozen study nor its
 numbers moved, and the second-world-family clause is now §11: a result here would be a result about
 one world family, and a broader claim needs its own preregistration.
+
+## §122 — The structural-contribution study is closed at the design gate (2026-11-02)
+
+The decision on §121's open question, recorded before any further number was computed.
+
+**The decision:** keep the preregistration unchanged and close the study at the failed design gate.
+No confirmatory run. The owner's reasons, in their own structure:
+
+1. **The density finding is the result.** The readout is too close to a complete bipartite graph for
+   the preregistered degree-preserving rewiring to produce a sufficiently different control.
+2. **The 20 % overlap limit is not relaxed.** Relaxing it after seeing that the control failed would
+   turn a failed control into a different experiment — the bar would then have been set by the
+   result it guards, which is the one thing §10 and the repository's threshold rule exist to prevent.
+3. **The weight-level shuffle is not substituted into this study.** It preserves every pair, so it
+   tests whether edge *strengths* matter rather than whether the learned *pairings* matter. That is a
+   worthwhile and different question, and it needs its own preregistration and success criterion. If
+   pursued, the owner's design is to shuffle weights **within each source row**, preserving `W(a)`
+   together with the topology, so the test isolates which existing pair carries which strength.
+
+So the record is: stopped at **S3b**; topology-level contribution **not identifiable with this
+readout and null**; **no confirmatory result**; nothing spent. This is the outcome §10's stop rule
+was written to produce — a design that cannot build its own control, found before the confirmatory
+seeds were touched, and closed rather than amended into a different experiment.
+
+Two things it is not. It is not a null about the formed structure: no contrast was formed, so the
+question is *unavailable*, not answered against. And it does not reopen anything frozen — the
+functional-structure study's §10.4 result stands, and no transfer claim exists in either direction.
+
+The edge-strength question is now named and deliberately not opened. If it is opened later it gets
+its own document, its own gates and its own seeds; the formulation above is recorded so it does not
+have to be reconstructed from this one.
+
