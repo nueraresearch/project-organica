@@ -9566,3 +9566,30 @@ assumed: `revision_held_out` is scored on 98–110 held-out pairs per seed (`doc
 not on the two `WITHHELD` entries, so the "outcome is measured on two items" objection that would have been
 the first thing a reviewer raised is simply false. The general point stands and is why the prompt's first
 rule is *check artifacts, not prose*.
+
+## §147 — The owner offered to sign, then offered his partner; the primer is the part that helps (2026-11-02)
+
+Two offers arrived in one breath, and both are worth answering precisely because both are generous.
+
+**"I will stake my name."** The owner chose the hypothesis, the level and the sequence, so a signature from
+him would have the record say that the reviewer of his own judgement found his judgement sound. §2 already
+forbids that, and the paragraph was written before this conversation, which is the only reason it is not
+just a preference being overruled now.
+
+**"My partner will sign."** This one is worse rather than better, and the reason is not a technicality: the
+fifth eligibility rule is *no stake in a positive result*, and a partner's stake is not an undeclared
+interest that disclosure could cure — it is the relationship. Recording it would produce a review that
+looks independent and is the least independent reading available, and every later citation of it would carry
+that unstated fact.
+
+**What was useful in the request.** "Metabolisable" is the real problem with the package, and it is not about
+the partner: the document set was written by people deep inside the project, for people deep inside the
+project. `docs/REVIEW-PRIMER.md` now states the claim in one sentence, defines both measurements without
+jargon, names the shared instrument and the 48-run floor with its attenuation rather than softening either,
+lists what would count against the hypothesis before anyone runs it, and says in as many words that "no" is
+an available answer. The package, the brief and the request letter all point at it first.
+
+**What this does not change.** No signature exists, §7 is empty, no seed is allocated, no size is chosen.
+If the owner decides to run without the review, that is a waiver and will be recorded as one — the protocol
+says a review cannot be waived for schedule, so a waiver has to be an explicit decision with its cost
+written next to it, not an absence that later reads like an approval.

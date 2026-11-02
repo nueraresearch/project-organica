@@ -52,6 +52,7 @@ and any prior public position on this project. A conflict is not disqualifying; 
 
 | Artifact | Why it is in the package |
 | --- | --- |
+| `docs/REVIEW-PRIMER.md` | the same protocol in plain language, for a reviewer outside this field or short of time; it names the shared instrument and the run floor rather than softening them |
 | `docs/STRUCTURE-BEHAVIOR-DESIGN.md` | the proposal under review: hypothesis, level, predictor, outcome, guards, falsifiers |
 | `docs/formation_provenance_study.json` | the one confirmatory structure-to-outcome result, with its arms, interval and gates |
 | `docs/FORMATION-PROVENANCE-PREREGISTRATION.md` | what that study predicted before it ran, to check the record against the promise |

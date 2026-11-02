@@ -36,7 +36,7 @@ is deliberately empty.
 **What you would receive.** The protocol (`docs/STRUCTURE-BEHAVIOR-DESIGN.md`), a cover sheet with the
 prior-evidence summary and the reading order (`docs/REVIEW-PACKAGE.md`), and an artifact list with the
 underlying evidence. Nothing is a summary of anything else: where a document restates a result, the
-artifact that owns it is in the list.
+artifact that owns it is in the list. If you are not in this field, or are short of time, `docs/REVIEW-PRIMER.md` gets you the whole thing in five minutes and does not soften the two hard parts.
 
 **What I am not asking for.** Co-authorship, a letter of support, or a verdict on conclusions — there are
 none. I am also not asking you to fix the design; a defect you can name is more useful to me than a

@@ -55,6 +55,8 @@ record still states the three outcomes and the exclusion of the author.
 
 ## 5. What the reviewer should do, in order
 
+0. If you are not in this field, or are short of time, read `docs/REVIEW-PRIMER.md` first —
+   five minutes, no jargon, and it names the two hard things rather than hiding them.
 1. Read the protocol once without the rest, and mark anything that is not measurable as written.
 2. Check the prior-evidence summary against `docs/formation_provenance_study.json` and `docs/phase_k_results.json`.
 3. Work through the five questions in the rubric, marking PASS, CONDITIONAL or DEFECT, with a pointer.

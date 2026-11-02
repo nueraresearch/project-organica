@@ -85,3 +85,17 @@ def test_the_package_carries_the_feasibility_result_and_a_pinned_record():
     for row in art["attenuation"]["rows"]:
         cell = f"| {row['reliability']:.2f} | {row['measured_rho']:.2f} | {row['worlds_required']} |"
         assert cell in package, cell
+
+
+def test_the_primer_is_plain_and_names_the_hard_parts():
+    root = Path(__file__).resolve().parent.parent
+    primer = (root / "docs/REVIEW-PRIMER.md").read_text(encoding="utf-8")
+    art = json.loads((root / "docs/sign_resolution_structure_behavior.json").read_text(encoding="utf-8"))
+    assert "One instrument produces both numbers" in primer
+    assert "floor, not a target" in primer
+    assert f"{art['verdict']['reference_n']} runs per setup" in primer
+    assert f"{art['attenuation']['rows'][2]['worlds_required']} runs per setup" in primer
+    assert '\"no\" is one of them' in primer
+    for match in re.finditer(r"`(docs/[A-Za-z0-9_.\-/]+\.(?:md|json))`", primer):
+        assert (root / match.group(1)).exists(), match.group(1)
+    assert len(primer.split()) < 1100, len(primer.split())
