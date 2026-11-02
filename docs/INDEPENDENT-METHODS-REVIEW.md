@@ -60,6 +60,7 @@ and any prior public position on this project. A conflict is not disqualifying; 
 | `docs/phase_k_results.json` | the K3 displacement-priority evidence the design leans on for its predictor |
 | `docs/V1-SYNTHESIS.md` | the negative behavioural results the hypothesis must live beside |
 | `docs/SCALING-LADDER.md` | the sign-resolution estimator and the 100-cycle convention this design deviates from |
+| `docs/sign_resolution_structure_behavior.json` | the endpoint's sign resolution: the 48-world floor, its attenuation table and the exchangeability diagnostic |
 | `docs/V1-FREEZE.md` | what may not change, so the reviewer knows the design's degrees of freedom |
 
 Read the design record first. The package is the minimum, not the maximum: the reviewer may ask for any
@@ -90,9 +91,12 @@ this design, because none exists and none may be produced until the outcome is r
 assessed without data, the reviewer receives **design-block** data only, declared as such, and never the
 confirmatory block. No seed may be named, and no run started, until §7 carries an outcome.
 
-Two further gates sit outside this review and are not discharged by it: the endpoint-specific
-sign-resolution computation the 100-cycle deviation requires (§5 of the design record), and the
-withheld-transition enumeration for whichever secondary configurations survive their own criteria.
+One further gate sits outside this review and is not discharged by it: the withheld-transition
+enumeration for whichever secondary configurations survive their own criteria. The other — the
+endpoint-specific sign-resolution computation the deviation requires — **is discharged and is part
+of the package** (`docs/sign_resolution_structure_behavior.json`). It is included because a reviewer
+asked to approve a block of a given size must be able to see why that size was chosen, and why it is
+a floor rather than a budget.
 
 ## 7. The record to be filled by the reviewer
 

@@ -9502,3 +9502,32 @@ allocated and the block's size remains undecided. The status is provisional, and
 floor and the attenuation table together — not the floor alone, which is how a constraint becomes a budget.
 The owner also did not certify the implementation, having read the report rather than `af1f74c`; the review
 that matters is still the independent one, and this entry is a correction, not a completion.
+
+## §145 — The package is finished and the request is written, and it is unsent (2026-11-02)
+
+The owner asked how the independent review is actually obtained, and offered the hypothesis that one writes
+a paper and requests review in it. That is the wrong instrument and the reason is worth recording: journal
+review asks whether a contribution is publishable, arrives after the data, and takes months; this gate asks
+whether the experiment should be run, must arrive before the data, and needs three hours from one person. A
+paper about the protocol would also invite it to be read as a finding, which is the reading the project has
+refused twice.
+
+**What changed is the handover, not the claim.** `docs/REVIEW-PACKAGE.md` now carries the feasibility result
+as a component rather than leaving it in the protocol: the 48-world floor at a 0.50 relation, the
+attenuation table (1.00 → 48, 0.90 → 61, 0.80 → 79, 0.70 → 105, 0.60 → 144 worlds per
+configuration), the admission that `DI`'s reliability is measured nowhere, and the exchangeability
+diagnostic. The package also states the command that reproduces its own claims from a pinned commit, because
+the repository is public and a reviewer should not have to accept a bundle.
+
+**The review brief is reconciled with that.** The sign-resolution computation was listed as a gate outside
+the review; it is now discharged, recorded in the package, and the reviewer is asked to check it. One gate
+remains outside: the withheld-transition enumeration for whichever secondary configurations survive.
+
+**A letter exists and has not been sent.** `docs/REVIEW-REQUEST.md` is the one-page request, with the five
+fields the sender must fill, the two facts a reviewer should see before forming a view, the eligibility
+rules, and the statement that a rejection will be recorded verbatim. Writing it was the point at which the
+project stopped being able to say it had no way to ask.
+
+**What this entry does not claim.** No reviewer exists. Section 7 of the brief is still empty. No seed is
+allocated, no size chosen, and the two papers remain unpublished and out of this lane. The remaining work is
+someone else's decision to accept, and the project's to record.

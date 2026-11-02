@@ -31,6 +31,7 @@ carries it.
 | A structural property predicting the organism's **own later behaviour** | **not established for any structural variable** | this protocol is the first test |
 | Stability of any such relation across generating configurations | **not established** | — |
 | Within-run resolution versus between-world replication | **measured**; the 100-cycle window is the adopted, provisional convention | `docs/SCALING-LADDER.md` §§8–10 |
+| Whether this block can resolve the relation it proposes to test | **computed before any seed**: a rank relation of 0.50 needs **48 worlds per configuration** at the 0.90 bar (p = 0.902), and that is a **floor**; at reliability 0.80 it is 79. No engine ran, no seed was spent | `docs/sign_resolution_structure_behavior.json` |
 | A causal role for structure | **not attempted** | §1 of the protocol |
 
 ## 3. What the package deliberately does not contain
@@ -58,3 +59,48 @@ record still states the three outcomes and the exclusion of the author.
 2. Check the prior-evidence summary against `docs/formation_provenance_study.json` and `docs/phase_k_results.json`.
 3. Work through the five questions in the rubric, marking PASS, CONDITIONAL or DEFECT, with a pointer.
 4. Write the report into `docs/INDEPENDENT-METHODS-REVIEW.md` §7, including what was not reviewed.
+
+## 6. The feasibility result, and how to read it
+
+The protocol's §6 carries this, and it belongs in the package rather than in the protocol alone, because a
+reviewer asked to approve a block of a given size must be able to see where the size came from.
+
+- **What the number is.** `0.902` is the simulated frequency with which this protocol's decision rule
+  resolves a rank relation of 0.50 at 48 worlds per configuration — Spearman rho, an interval from
+  resampling worlds at 98.33 %, resolved only when that interval excludes zero with the predicted sign. It
+  is not a posterior probability, not a p-value, and not a claim about the engine: no engine ran.
+- **It is a floor, not a target.** Measurement error in `DI` attenuates the observed relation, and
+  dependence between worlds narrows the interval. Both raise the worlds required:
+
+| `DI` reliability | Measured relation | Worlds per configuration |
+| --- | --- | --- |
+| 1.00 | 0.50 | 48 |
+| 0.90 | 0.45 | 61 |
+| 0.80 | 0.40 | 79 |
+| 0.70 | 0.35 | 105 |
+| 0.60 | 0.30 | 144 |
+
+- **The predictor's reliability is unmeasured.** That column is the price of a quantity nobody in this
+  project has measured, and measuring it is a prerequisite the reviewer should expect to see discharged
+  before a block of this size is bought.
+- **Exchangeability is an assumption with a diagnostic.** Per-configuration analysis removes
+  across-configuration clustering and says nothing about dependence within a configuration; the block must
+  report lag-1 dependence of `DI` and of the outcome on seed order, and resample contiguous blocks of seeds
+  if it is non-negligible.
+- **No size has been chosen.** The computation constrains the claim; it does not authorise spending.
+
+## 7. Reading the record directly
+
+The repository is public, so nothing here has to be taken on trust and nothing has to be attached:
+
+```bash
+git clone https://github.com/nueraresearch/project-organica
+cd project-organica && git checkout 1051313
+python -m pytest tests/test_structure_behavior_design.py tests/test_sign_resolution_behavior.py \
+                  tests/test_independent_methods_review.py tests/test_review_package.py -q
+```
+
+`1051313` is the commit at which the numbers in this package were computed. Read the repository at the
+commit you are sent, not at whatever `master` happens to be: later commits may correct wording, and the
+correction is recorded rather than absorbed, but a reviewer checking a number should know which state they
+checked it in.

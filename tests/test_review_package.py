@@ -58,3 +58,30 @@ def test_the_protocol_has_its_nine_elements_and_can_reject():
     assert "## 10. Rejection and acceptance" in text
     assert "reserved for a" in text and "Level 3 design" in text
     assert "98.33" in text and "10,000-replicate" in text
+
+
+def test_the_request_letter_exists_and_cannot_be_sent_unfilled():
+    root = Path(__file__).resolve().parent.parent
+    letter = (root / "docs/REVIEW-REQUEST.md").read_text(encoding="utf-8")
+    assert "github.com/nueraresearch/project-organica" in letter
+    # the two inconvenient numbers have to be in front of the reviewer, not behind a link
+    assert "48 worlds per configuration" in letter
+    assert "floor, not a target" in letter
+    assert "rejected" in letter.lower()
+    # every artifact it names must exist
+    for match in re.finditer(r"`(docs/[A-Za-z0-9_.\-/]+\.(?:md|json))`", letter):
+        assert (root / match.group(1)).exists(), match.group(1)
+    # the sender's fields are visibly unfilled, so the letter cannot go out by accident
+    assert "[name]" in letter and "[sender name]" in letter
+
+
+def test_the_package_carries_the_feasibility_result_and_a_pinned_record():
+    root = Path(__file__).resolve().parent.parent
+    package = (root / "docs/REVIEW-PACKAGE.md").read_text(encoding="utf-8")
+    assert "sign_resolution_structure_behavior.json" in package
+    assert "floor, not a target" in package
+    assert "git checkout 1051313" in package
+    art = json.loads((root / "docs/sign_resolution_structure_behavior.json").read_text(encoding="utf-8"))
+    for row in art["attenuation"]["rows"]:
+        cell = f"| {row['reliability']:.2f} | {row['measured_rho']:.2f} | {row['worlds_required']} |"
+        assert cell in package, cell
