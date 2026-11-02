@@ -8203,3 +8203,35 @@ intervention. No claim of usefulness: held-out occurrence is still not predictiv
 against an equally exposed baseline. No reopening of the closed study. If anything, the
 uniformity raises the bar for the next protocol — an association this stable across seeds and
 counts is worth testing functionally, and not worth calling utility.
+
+## §108 The next protocol is functional, and it is committed before the harness exists
+
+The provenance thread ended where it had to: an association with held-out occurrence, stable
+across seeds, folds and evidence counts, and explicitly not a measure of usefulness. The
+project's open question is the functional one, and `docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md`
+now fixes it before anything runs.
+
+Three choices matter, and each is defensive. **The score is a probability, not an occurrence
+count:** mean log-loss per held-out tag pair, in nats, on the closed protocol's window
+(cycles 150–200) as the primary and the withheld-relation subset as the co-primary. **The
+baselines are tuned and equally exposed:** the comparator sweep with its declared grid, best
+configuration selected on a tuning split excluded from the fit, and every arm fitted on the
+same 110-cycle stream. **The bar is the upper bound:** the 98.33 % interval on Organica minus
+the strongest baseline must lie below zero, so an interval containing zero is reported as no
+improvement detected rather than as equivalence.
+
+Capacity 1,000 and `alpha = 256.0` are carried over unchanged, from the G13-D scope and from
+calibration on `20261099`; neither is retuned. Seeds are fresh (`20270201`–`20270220`, design
+and confirmatory), disjoint from every seed this repository has used, and the design block
+evaluates no endpoint.
+
+The provenance instrument appears here only as a diagnostic, with a pre-committed
+disqualifier: if the margin is carried mainly by support whose source rows are the organism's
+own sleep payloads, the result is not a transfer result even if it clears the bar. The
+diagnostic can disqualify a claim; it can never manufacture one.
+
+**The harness is not built.** The provenance runner scores occurrence, not probability, and
+reusing it would silently substitute the old question for the new one. The build is defined by
+§2–§7 of the preregistration, has a stop condition, and may not start before this document is
+committed.
+
