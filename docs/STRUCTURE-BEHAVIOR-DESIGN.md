@@ -66,7 +66,9 @@ enters the criterion.
 > window measures the floor. **The window is therefore not fixed: it is recorded as unresolved and no seed
 > is allocated.** Correcting it is an owner decision on that evidence; this note does not rewrite the
 > parameter, and the independent review in §8 must be told the window is contested rather than handed this
-> paragraph as settled.
+> paragraph as settled. The Stage A measurement design in `docs/DI-MEASUREMENT-WINDOW.md` records what the
+> same records say about a replacement, and proposes none: the transition had not finished at cycle 599, so
+> any cycle number taken from them would encode where the run stopped.
 
 Two properties are fixed, not adjustable:
 

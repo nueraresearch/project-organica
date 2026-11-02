@@ -9671,3 +9671,45 @@ calculation needs for a reason that does not survive inspection. None was report
 **What did not change.** No seed allocated, V1 and its results untouched, the sample-size discussion still
 paused, `docs/INDEPENDENT-METHODS-REVIEW.md` §7 still empty, no reviewer approached. The review gate has one
 more thing it must be told: the predictor's window is contested.
+
+## §150 — Stage A of the measurement window: the transition had not finished, and the endpoint has a pair of range (2026-11-02)
+
+The owner separated window selection from validation and asked five Stage A questions of the existing records
+before any confirmatory run. `docs/DI-MEASUREMENT-WINDOW.md` answers them, with
+`benchmarks/di_window_design.py` writing every number to `docs/di_window_design.json`; no engine, no seed, no
+coefficient, no window adopted.
+
+**Emergence is arm-dependent, and four arms are dead.** Median first sustained non-zero reading: 329 (`6:1`),
+362 (`4:1`), 404 (`3:1`), 539 (`2:1`). The four late-disadvantaged arms show **one** non-zero reading in 30 runs,
+at the arrival boundary, and none sustained: **117 of the 240 runs never leave zero at all**. That is AGENTS 13a
+in its exact form — on those arms the endpoint measures nothing — so they are out of scope for this measurement
+rather than a low-`DI` condition.
+
+**The record contains no asymptote.** Among the 119 runs that move, the median settle cycle (the last cycle
+differing from the run's own final value by a pair) is **586 of 600**, the maximum is 599, and **25 to 27 of 30
+runs per arm are still changing in the last 50 cycles**. The run ends inside the transition. This is why Stage A
+proposes no cycle number: any number read off these records encodes where the run stopped, which is the same
+error as 110-150 in the other direction.
+
+**The dynamic range is the larger finding.** Within-configuration SD of the 40-cycle window mean never exceeds
+2.02 pairs and is **0.44 pairs** at the settled window, against a one-pair floor; **at least 97 %** of predictor
+variance is between configurations at every window from 460 cycles on. A within-configuration rank correlation
+would rest on about one pair of spread while the same predictor moves six or more pairs across arms. The ICC of
+0.890 is **not a repeatability coefficient** — each world is read once — and this is the concrete reason it could
+not be one.
+
+**Schedule.** A settled measurement followed by the protocol's 50-cycle learning and 50-cycle test needs **686**
+cycles against a 150-cycle run: 4.6x too short for the sequence the protocol specifies.
+
+**What Stage A proposes instead of a window:** runs long enough to contain the asymptote (length declared
+before, asymptote demonstrated after), a window placed after it with a declared tolerance, two disjoint late-pair
+sets so reliability can eventually be asked as parallel forms and resolution can be finer than 1/18, and the
+predictor's within-configuration spread reported beside every relation. The trajectory-summary alternative
+(onset, slope, area) is named as scientifically attractive and as a **different construct** that requires its own
+audit: it must not arrive as a side effect of moving a window.
+
+**Stage B is specified and not authorised.** Fresh methodology worlds on seeds disjoint from Phase L and from
+every confirmatory block, four pre-committed criteria judged whole (non-degenerate; resolution of at least two
+pairs; asymptote consistency; measurement before learning with an empty pair overlap), and a failure rule that
+rejects the window rather than shrinking the claim. No seed allocated, V1 untouched, the sample-size discussion
+still paused, and the review gate unchanged.

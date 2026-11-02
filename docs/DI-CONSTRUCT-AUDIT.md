@@ -121,6 +121,12 @@ median within-run SD is `0.0` (maximum `0.293`, so a minority are still moving).
 | `4:1` | 0.628 |
 | `6:1` | 0.698 |
 
+**That ICC is not a repeatability coefficient.** Each world is read once, so nothing in these records can say
+whether the same world scored twice would agree; what 0.890 says is that `DI` separates configurations, and
+`docs/DI-MEASUREMENT-WINDOW.md` §4 shows the consequence — 98 % of the predictor's variance is between
+configurations, leaving about one pair of spread inside one. A coefficient computed across arms would have
+looked excellent while the variance a within-configuration test needs was almost absent.
+
 Four of the eight configurations never leave zero. A variable whose values are almost entirely a function
 of the condition that generated the world is a *state the condition fixes*, and — importantly for §6 — a
 reliability coefficient computed on it would largely report the separation between arms.
