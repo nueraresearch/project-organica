@@ -36,6 +36,7 @@ BOOTSTRAP_REPS = 300
 SIMS = 200
 VALIDATION = ((10, 0.50), (48, 0.50), (32, 0.60), (21, 0.70), (79, 0.40), (30, 0.30))
 MAX_N = 400
+RELIABILITIES = (1.0, 0.9, 0.8, 0.7, 0.6)
 
 
 def ranks(values):
@@ -154,6 +155,14 @@ def build():
 
     n_ref = mins[f"{RHO_REF:.2f}"]
     p_ref = analytic_p(n_ref, RHO_REF)
+    attenuation = []
+    for reliability in RELIABILITIES:
+        measured = RHO_REF * reliability
+        attenuation.append({
+            "reliability": reliability,
+            "measured_rho": round(measured, 4),
+            "worlds_required": minimum_n(measured),
+        })
     block = {
         "kind": "sign resolution for the structure -> behavior block",
         "subject": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a76; synthetic worlds; no engine run, no seed",
@@ -195,10 +204,53 @@ def build():
                 "30": next((f"{r:.2f}" for r in RHOS if analytic_p(30, r) >= THRESHOLD), None),
             },
         },
+        "bound_direction": {
+            "statement": ("The computed PROBABILITY is an upper bound, and the computed MINIMUM N is therefore a "
+                          "floor. Every unmodelled defect - measurement error in DI, dependence between worlds - "
+                          "makes the real probability lower than the computed one, so a block of that size "
+                          "resolves the relation LESS often than the table says, and the worlds required are AT "
+                          "LEAST those listed."),
+            "probability": "upper bound",
+            "minimum_n": "floor: a lower bound on the worlds required, not a ceiling on the block's size",
+            "correction": ("The first version of this artifact called the output an upper bound without saying of "
+                           "what, so the 48-world figure could be read as a maximum. Corrected 2026-11-02 after "
+                           "the owner pointed out that attenuation implies the opposite direction for the world "
+                           "count."),
+        },
+        "what_the_number_is_not": [
+            "not a posterior probability that the hypothesis is true",
+            "not a p-value, not a false-positive rate, and not a power figure in the Neyman-Pearson sense",
+            "not a property of the engine: no engine ran, and no seed was spent",
+            "not a statement about a latent relation - it concerns the relation as measured, handled in `attenuation`",
+        ],
+        "attenuation": {
+            "model": ("No measurement-error model is fitted. The table is the consequence of one stated assumption: "
+                      "a latent relation of RHO_REF appears in the measured data as RHO_REF * reliability, the "
+                      "classical-errors-in-one-variable result under bivariate normality."),
+            "latent_rho": RHO_REF,
+            "rows": attenuation,
+            "reading": ("reliability is not measured anywhere in this project for DI, so the table states the price "
+                        "of an unmeasured quantity rather than a corrected answer. It moves the requirement up, "
+                        "never down."),
+        },
+        "exchangeability": {
+            "assumption": "worlds within one configuration are exchangeable draws, so the interval resamples them individually.",
+            "what_breaks_it": ("state carried between seeds, or worlds drawn from related conditions. Analysing each "
+                               "configuration separately removes across-configuration clustering; it says nothing "
+                               "about dependence within a configuration."),
+            "required_diagnostic": ("before the relation is read, report the dependence of DI and of the outcome on "
+                                    "seed order (lag-1 correlation across the block's seed sequence), and if it is "
+                                    "non-negligible resample contiguous blocks of seeds instead of individual "
+                                    "worlds, reporting both intervals."),
+            "direction_if_violated": ("the interval is too narrow, so the probability is overstated and the worlds "
+                                      "required are at least those in the grid. Same direction as attenuation."),
+        },
+        "status": ("provisional. The block's size is withheld pending independent review, and the reviewer is to see "
+                   "the 48-world floor and the attenuation table together, not the floor alone."),
         "limits": [
             "The worlds are synthetic. This measures the estimator, not the size of the real relation.",
-            "Attenuation from DI's own measurement error is not modelled, so the computed probability is an upper bound on the real one. A noisy predictor shrinks the observed rank correlation before the interval is built.",
-            "The Gaussian copula assumes worlds are exchangeable draws. If configurations cluster as §5 suggests, the effective number of independent worlds is smaller than n and the probability is again an upper bound.",
+            "Attenuation from DI's own measurement error is not fitted; the attenuation table prices it under one stated assumption. The effect is to raise the worlds required, so 48 is a floor.",
+            "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence would narrow the interval and overstate the probability, so this again raises the worlds required and never lowers them.",
             "Only the primary configuration's rule is simulated. A secondary configuration with its own withheld set has its own outcome distribution and no number is transferred to it.",
             "The 98.33 % level and the 0.90 bar are conventions. The artifact reports the grid so a different bar can be read off without recomputation.",
         ],
@@ -215,6 +267,8 @@ def main():
     print(f"reference rho {block['reference_rule']['rho']:.2f} -> n = {v['reference_n']}, "
           f"p = {v['p_at_reference_n']:.4f}")
     print(f"worst analytic-vs-bootstrap difference: {block['bootstrap_validation']['worst_abs_difference']}")
+    print("attenuation:", [(r["reliability"], r["measured_rho"], r["worlds_required"])
+                           for r in block["attenuation"]["rows"]])
     print(f"written: {ART.relative_to(ART.parents[1])}")
 
 

@@ -9463,3 +9463,42 @@ protocol falsifiable at all. Nothing about the diff looked wrong: the section st
 still read as prose. `tests/test_structure_behavior_design.py` failed on the missing phrases and the tail was
 restored from the committed version. The lesson is the standing one: the guard found it, and it was found only
 because the guard asserts phrases rather than reading for sense.
+
+## §144 — The bound was stated backwards for the world count, and attenuation is now priced (2026-11-02)
+
+The owner's review of §143 found one substantive defect and it was in the sentence that told a reader how to
+use the number. The artifact had said the computed probability is "an upper bound" without saying of what,
+and it was printed beside a world count. Read as a claim about the count, that inverts the result: a bound
+on how many worlds you might need, when the truth is a floor on how many you need.
+
+**The direction, stated properly.** Measurement error in `DI` attenuates the observed relation. A run that
+would show 0.50 with a perfect instrument shows less with a noisy one, so a block of 48 resolves the
+relation *less* often than the simulation says, and more worlds are needed — not fewer. The computed
+probability is an upper bound; the computed minimum n is a floor. The same holds for dependence between
+worlds, which narrows the interval and overstates the probability. Both omissions push one way, and it is
+the direction that costs runs.
+
+**Attenuation, priced rather than waved at.** No error model is fitted, and pretending one is would be a
+worse defect than the omission. What the artifact now carries is one stated assumption — classical error in
+one variable, bivariate normal, a latent 0.50 appearing as 0.50 × reliability — and its consequence:
+reliability 1.00 needs 48 worlds per configuration, 0.90 needs 61, 0.80 needs 79, 0.70 needs 105,
+0.60 needs 144. `DI`'s reliability is measured nowhere in this project, so the table is the price of an
+unmeasured quantity, and measuring it is now a prerequisite the record owes the reviewer rather than a
+detail for later. At 0.80 the block is 79 worlds per configuration, not 48.
+
+**What 0.902 is not.** Not a posterior probability that the hypothesis is true, not a p-value, not a
+false-positive rate, not a property of the engine, and not a statement about a latent relation. It is the
+simulated frequency with which this decision rule resolves a relation of that size under the stated
+assumptions, on the relation as measured.
+
+**Exchangeability is now an assumption with a diagnostic attached.** Per-configuration analysis removes
+across-configuration clustering and says nothing about dependence within a configuration, which would
+arrive as state carried between seeds or as worlds drawn from related conditions. So the block must report,
+before reading the relation, the dependence of `DI` and of the outcome on seed order, and resample
+contiguous blocks of seeds if that dependence is non-negligible, reporting both intervals.
+
+**What did not change.** The numbers 48 / 79 / 32 / 21 / 144 stand; the reference rule stands; no seed is
+allocated and the block's size remains undecided. The status is provisional, and the reviewer is to see the
+floor and the attenuation table together — not the floor alone, which is how a constraint becomes a budget.
+The owner also did not certify the implementation, having read the report rather than `af1f74c`; the review
+that matters is still the independent one, and this entry is a correction, not a completion.

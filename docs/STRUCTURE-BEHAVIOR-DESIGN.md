@@ -227,12 +227,45 @@ would let the design pick its own effect size, which is exactly the defect §10 
 **No seed is allocated by this document; the block size is a decision for the record, not a parameter
 of the analysis.**
 
-*What the computation does not do.* It does not measure the real relation — it is a property of the
-estimator under a declared generative model. Three things make its output an **upper bound**: attenuation
-from `DI`'s own measurement error is not modelled, exchangeability across worlds is assumed where §5's
-block structure may not provide it, and a secondary configuration's outcome distribution is not the
-primary's. All three are stated in the artifact's `limits`, not only here.
-**Null:** no relation — the slope is zero, or the sign of the relation is at chance across worlds.
+*What 0.902 is, and what it is not.* It is the simulated probability that this decision rule resolves
+a relation of that size, under the stated data-generating assumptions. It is not a posterior probability
+that the hypothesis is true, not a p-value, not a false-positive rate, and not a property of the engine —
+no engine ran. It describes the relation **as measured**, not a latent relation, and the difference is
+priced in the next paragraph.
+
+*Which way the omissions cut: 48 is a floor, not a ceiling.* Every unmodelled defect — measurement error in
+`DI`, dependence between worlds — makes the real probability **lower** than the computed one. The computed
+probability is therefore an **upper bound**, and the computed world count is a **lower bound on the worlds
+required**: a block of 48 resolves the relation *less* often than the table says, and 48 is the least
+number the claim can be tested with, not the most. An earlier version of this paragraph said "upper bound"
+without saying of what, and standing next to a world count it could be read as a maximum; corrected
+2026-11-02 after the owner pointed out that the direction for the count is the opposite one.
+
+*The measurement-error assumption, stated explicitly.* No error model is fitted. If a latent relation of
+0.50 appears in the measured data as 0.50 × reliability — classical error in one
+variable, bivariate normal — the requirement becomes:
+
+| `DI` reliability | Measured relation | Worlds per configuration |
+| --- | --- | --- |
+| 1.00 | 0.50 | 48 |
+| 0.90 | 0.45 | 61 |
+| 0.80 | 0.40 | 79 |
+| 0.70 | 0.35 | 105 |
+| 0.60 | 0.30 | 144 |
+
+`DI`'s reliability is not measured anywhere in this project, so this is the price of an unmeasured
+quantity rather than a correction to it. The practical consequence is direct: at reliability 0.80 the block
+is 79 worlds per configuration, not 48, and at 0.60 it is 144. Measuring `DI`'s reliability is a
+cheap prerequisite the record now owes the reviewer.
+
+*Exchangeability, and the diagnostic that must be reported.* The interval resamples worlds individually,
+which assumes they are exchangeable draws within a configuration. Analysing each configuration separately
+removes across-configuration clustering; it says nothing about dependence *within* one, which would arrive
+as state carried between seeds or as worlds drawn from related conditions. Violating the assumption
+narrows the interval and overstates the probability — the same direction as attenuation, never the safe
+one. So before the relation is read, the block reports the dependence of `DI` and of the outcome on seed
+order (lag-1 correlation across its seed sequence), and if that is non-negligible it resamples contiguous
+blocks of seeds and reports both intervals.
 
 **Falsifier A — direction.** The relation is absent or reversed *where the structure is present*: worlds
 with high `DI` do not score above the comparator on the withheld transitions. This is a failure of the

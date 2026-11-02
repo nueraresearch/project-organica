@@ -60,3 +60,35 @@ def test_the_protocol_quotes_the_artifact_rather_than_a_memory():
     for key, value in art["minimum_n"].items():
         assert f"| {value} |" in text or f"{value} |" in text, (key, value)
     assert "No seed is allocated by this document" in text
+
+
+def test_the_bound_is_stated_in_both_directions():
+    """A probability upper bound is a floor on the worlds required, and the artifact must say so."""
+    art = _art()
+    assert art["bound_direction"]["probability"] == "upper bound"
+    assert "floor" in art["bound_direction"]["minimum_n"]
+    assert art["status"].startswith("provisional")
+    assert any("posterior" in item for item in art["what_the_number_is_not"])
+
+
+def test_attenuation_prices_the_error_and_only_ever_raises_the_requirement():
+    art = _art()
+    rows = art["attenuation"]["rows"]
+    assert len(rows) >= 4
+    req = [r["worlds_required"] for r in rows]
+    assert req == sorted(req), req          # weaker instrument, more worlds
+    assert rows[0]["worlds_required"] == art["verdict"]["reference_n"]
+    for row in rows:
+        assert abs(row["measured_rho"] - art["reference_rule"]["rho"] * row["reliability"]) < 1e-3
+        assert row["worlds_required"] == srb.minimum_n(row["measured_rho"])
+
+
+def test_the_protocol_carries_the_corrected_direction_and_the_table():
+    art = _art()
+    text = PROTOCOL.read_text(encoding="utf-8")
+    assert "floor, not a ceiling" in text
+    assert "not a posterior probability" in text
+    assert "lag-1 correlation" in text
+    for row in art["attenuation"]["rows"]:
+        cell = f"| {row['reliability']:.2f} | {row['measured_rho']:.2f} | {row['worlds_required']} |"
+        assert cell in text, cell
