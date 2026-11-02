@@ -7903,3 +7903,68 @@ not remarks.
 `world_rooted` keeps the meaning it was given: **vocabulary overlap along a complete ancestor chain**,
 not proof of descent from a particular world observation. Nothing here has been run on real data.
 
+## §102 The tracer pointed at the calibration cells: the claims it scores carry no ancestry
+
+The plan was committed first — `docs/PROVENANCE-ANALYSIS-PLAN.md` at `c5b4d49e` — so the reading of
+these counts was fixed before the counts existed. All 11 controls passed
+before the tracer was pointed at a cell. Seeds `20261201–20261205`, cap
+`1000`, `PYTHONHASHSEED=0`. Artifact: `docs/provenance_diagnostic.json`; the results
+document beside it is rendered from that artifact by `--report`, not typed. No threshold, no
+verdict, no confirmatory seed touched.
+
+### What the snapshots hold
+
+| type | limb | claims | complete `world_rooted` | incomplete | unresolved |
+|---|---|---|---|---|---|
+| `prediction_candidate` | formation | 1581 | 0 | 0 | 1581 |
+| `hypothesis` | formation | 63 | 14 | 49 | 0 |
+| `prediction_candidate` | revision | 1596 | 0 | 0 | 1596 |
+| `hypothesis` | revision | 57 | 13 | 44 | 0 |
+
+**The claim type the study scores is stored without parent links.** All 1581 formation and
+1596 revision `prediction_candidate` structures resolve zero ancestors — `unresolved_no_ancestry`
+at depth 0 — and no claim in either snapshot is `unresolved_missing_records`
+(0 / 0). So this is
+not a dangling-parent defect: those structures record no parents at all. `LAYER1_TYPE` is
+`prediction_candidate`, which means the population the per-claim rule and the transfer limb are
+about is exactly the population this walk cannot enter, and the postmortem's
+`content_origin: unresolved` now has a structural mechanism behind it rather than only a missing
+event reference: the readout's own structures do not record what they were built from.
+
+`hypothesis` structures do carry lineage. 63 formation and 57 revision, each a
+seven-ancestor chain that resolves to terminals inside the cap — 0 /
+0 cut by our own depth cap, which is to say none.
+14 formation and 13 revision are complete
+`world_rooted`; the rest are `world_rooted_incomplete`: 39 formation and
+41 revision carry a cyclic branch, 23 and
+9 a parent absent from the snapshot (a claim can carry both).
+No claim anywhere is `self_only` and none is `mixed`.
+
+### What that does not show
+
+Every resolved ancestor carried world vocabulary, and that is the whole of it. A hypothesis is
+composed from its members, so a chain reaching world tags is close to true *by construction* for
+that type; and a chain that shares vocabulary with the world is consistent with descent from an
+observation **and** with self-generated content that reuses world words. The plan fixed this
+reading before the numbers arrived: `world_rooted` is vocabulary overlap across a complete ancestor
+chain, not observation-level provenance. Nothing here shows the links track world evidence.
+
+### The branch the plan pre-committed
+
+96.2 % of formation claim-typed structures (1581 of 1644) and 96.6 % of revision ones
+(1596 of 1653) cannot be traced at all. By the plan's own reading, written in advance,
+this is the **mostly-unresolved** branch: the missing lineage is in what the engine records, not in
+the walk, and the next instrument would have to record a structure's origin at store time instead of
+reconstructing it from ids. Nothing here licenses a confirmatory study, and the closed study is
+untouched — `confirmatory_allowed()` still returns `(False, 'the per-claim support-provenance rule
+did not pass on every calibration seed')`.
+
+### One instrument change, and its check
+
+The harness gained `run_engine(collect_structures=...)`, off by default, so the read-only walk can
+see the payloads the readout already loads. It cannot change a scored quantity, and that is checked
+rather than asserted: seed 20261201 re-run with the flag off reproduced the committed counts —
+asserted pairs 327, revision-asserted 328,
+temporal 393.
+
+

@@ -58,6 +58,10 @@ CLAIM_TYPE_WORDS = ("prediction", "hypothesis")
 #: Ancestor depth, bucketed so a shallow result cannot read as a deep one.
 DEPTH_BUCKETS = ("0", "1", "2", "3", "4-6", "7+")
 
+#: Why a lineage is incomplete, counted separately: a chain cut by our own depth
+#: cap is not a chain whose ancestors were pruned.
+DEFECTS = ("missing_records", "cycle", "depth_truncated")
+
 STATUSES = ("world_rooted", "mixed", "self_only",
             "world_rooted_incomplete", "mixed_incomplete", "self_only_incomplete",
             "unresolved_missing_records", "unresolved_cycle",
@@ -410,7 +414,8 @@ def trace_claims(claims: Iterable[dict], payloads: Iterable[dict],
         rows.append({"id": claim.get("id"), "type": claim.get("type"),
                      **{k: got[k] for k in ("status", "reason", "missing", "cycle")},
                      "depth": len(got["nodes"]),
-                     "ancestor_depth": max(0, len(got["nodes"]) - 1)})
+                     "ancestor_depth": max(0, len(got["nodes"]) - 1),
+                     "defects": got["defects"]})
     summary = summarise_rows(rows)
     summary.update({"rows": rows,
                     "note": "instrument diagnostic; no threshold and no verdict"})
@@ -433,12 +438,15 @@ def summarise_rows(rows: Iterable[dict]) -> dict[str, Any]:
     statuses = _empty()
     by_type: dict[str, dict[str, int]] = {}
     by_depth: dict[str, dict[str, int]] = {b: _empty() for b in DEPTH_BUCKETS}
+    defects = {name: 0 for name in DEFECTS}
     for row in rows:
         status = row["status"]
         statuses[status] = statuses.get(status, 0) + 1
         kind = row.get("type") or "unknown"
         by_type.setdefault(kind, _empty())[status] += 1
         by_depth[depth_bucket(row.get("ancestor_depth", 0))][status] += 1
+        for defect in row.get("defects") or ():
+            defects[defect] = defects.get(defect, 0) + 1
     complete = {s: n for s, n in statuses.items()
                 if not s.startswith("unresolved_") and not s.endswith(INCOMPLETE_SUFFIX)}
     incomplete = {s: n for s, n in statuses.items() if s.endswith(INCOMPLETE_SUFFIX)}
@@ -448,7 +456,7 @@ def summarise_rows(rows: Iterable[dict]) -> dict[str, Any]:
             "complete_world_rooted": statuses["world_rooted"],
             "incomplete_total": sum(incomplete.values()),
             "unresolved_total": sum(unresolved.values()),
-            "by_type": by_type, "by_depth": by_depth}
+            "by_type": by_type, "by_depth": by_depth, "defects": defects}
 
 
 def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
@@ -457,7 +465,10 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
     by_type: dict[str, dict[str, int]] = {}
     by_depth: dict[str, dict[str, int]] = {b: _empty() for b in DEPTH_BUCKETS}
     claims = with_edge = indexed = 0
+    defects = {name: 0 for name in DEFECTS}
     for summary in summaries:
+        for name, n in (summary.get("defects") or {}).items():
+            defects[name] = defects.get(name, 0) + n
         claims += summary.get("claims", 0)
         with_edge += summary.get("claims_with_asserted_edge", 0)
         indexed += summary.get("structures_indexed", 0)
@@ -481,7 +492,7 @@ def merge_summaries(summaries: Iterable[dict]) -> dict[str, Any]:
             "complete_world_rooted": pooled["world_rooted"],
             "incomplete_total": sum(incomplete.values()),
             "unresolved_total": sum(unresolved.values()),
-            "by_type": by_type, "by_depth": by_depth}
+            "by_type": by_type, "by_depth": by_depth, "defects": defects}
 
 
 # ---------------------------------------------------------------------------
@@ -536,7 +547,7 @@ def _trace_seed(rk: Any, seed: int, cap: int) -> dict[str, Any]:
 
 
 def _seed_cache(seed: int, cap: int, hashseed: str | None) -> pathlib.Path:
-    return ROOT / ".scratch" / f"provenance_{seed}_{cap}_{hashseed or 'unpinned'}.json"
+    return ROOT / ".scratch" / f"provenance_v2_{seed}_{cap}_{hashseed or 'unpinned'}.json"
 
 
 def run_diagnostic(seeds: tuple[int, ...] | None = None,
@@ -669,6 +680,14 @@ def render_report(art: dict) -> str:
         "|---|---|---|---|---|---|---|",
         _family_row(totals["formation"], "formation"),
         _family_row(totals["revision"], "revision"),
+        "",
+        "### Why a lineage is incomplete",
+        "",
+        "| defect | formation | revision |",
+        "|---|---|---|",
+        *[f"| `{name}` | {totals['formation'].get('defects', {}).get(name, 0)} "
+          f"| {totals['revision'].get('defects', {}).get(name, 0)} |"
+          for name in DEFECTS],
         "",
         "## By claim type",
         "",

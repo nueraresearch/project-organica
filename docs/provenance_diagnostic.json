@@ -1,0 +1,1871 @@
+{
+ "artifact_written": true,
+ "authorises_confirmatory": false,
+ "cap": 1000,
+ "confirmatory_seeds_touched": false,
+ "controls": {
+  "all_passed": true,
+  "count": 11
+ },
+ "instrument": "benchmarks/provenance_trace.py",
+ "kind": "provenance_diagnostic",
+ "no_threshold": true,
+ "no_verdict": true,
+ "note": "Descriptive diagnostic on already-used seeds. The closed study's verdict is unchanged, no criterion is evaluated here, and nothing in this artifact authorises a confirmatory run.",
+ "plan_doc": "docs/PROVENANCE-ANALYSIS-PLAN.md",
+ "plan_frozen_at_commit": "c5b4d49e8075b7076d54c24cea436fa32c16b882",
+ "pythonhashseed": "0",
+ "question": "do the stored structures carry usable parent chains, and how often can the tracer resolve them?",
+ "resolution": "world_rooted means vocabulary overlap across a complete ancestor chain; it is not observation-level provenance",
+ "seed_set": "the five already-used calibration seeds; no confirmatory seed was run or touched",
+ "seeds": [
+  20261201,
+  20261202,
+  20261203,
+  20261204,
+  20261205
+ ],
+ "seeds_detail": [
+  {
+   "formation": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 315,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 11
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 11
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 315,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 329,
+    "claims_with_asserted_edge": 329,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 3
+    },
+    "complete_world_rooted": 3,
+    "defects": {
+     "cycle": 11,
+     "depth_truncated": 0,
+     "missing_records": 0
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 11
+    },
+    "incomplete_total": 11,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 315,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 3,
+     "world_rooted_incomplete": 11
+    },
+    "structures_indexed": 418,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 315,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 315
+   },
+   "revision": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 316,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 9
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 9
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 316,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 328,
+    "claims_with_asserted_edge": 328,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 3
+    },
+    "complete_world_rooted": 3,
+    "defects": {
+     "cycle": 8,
+     "depth_truncated": 0,
+     "missing_records": 5
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 9
+    },
+    "incomplete_total": 9,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 316,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 3,
+     "world_rooted_incomplete": 9
+    },
+    "structures_indexed": 401,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 316,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 316
+   },
+   "seed": 20261201
+  },
+  {
+   "formation": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 327,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 1,
+      "world_rooted_incomplete": 12
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 1,
+      "world_rooted_incomplete": 12
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 327,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 340,
+    "claims_with_asserted_edge": 340,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 1
+    },
+    "complete_world_rooted": 1,
+    "defects": {
+     "cycle": 4,
+     "depth_truncated": 0,
+     "missing_records": 9
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 12
+    },
+    "incomplete_total": 12,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 327,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 1,
+     "world_rooted_incomplete": 12
+    },
+    "structures_indexed": 423,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 327,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 327
+   },
+   "revision": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 329,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 10
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 10
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 329,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 342,
+    "claims_with_asserted_edge": 342,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 3
+    },
+    "complete_world_rooted": 3,
+    "defects": {
+     "cycle": 10,
+     "depth_truncated": 0,
+     "missing_records": 0
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 10
+    },
+    "incomplete_total": 10,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 329,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 3,
+     "world_rooted_incomplete": 10
+    },
+    "structures_indexed": 421,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 329,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 329
+   },
+   "seed": 20261202
+  },
+  {
+   "formation": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 317,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 5,
+      "world_rooted_incomplete": 7
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 5,
+      "world_rooted_incomplete": 7
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 317,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 329,
+    "claims_with_asserted_edge": 329,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 5
+    },
+    "complete_world_rooted": 5,
+    "defects": {
+     "cycle": 7,
+     "depth_truncated": 0,
+     "missing_records": 1
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 7
+    },
+    "incomplete_total": 7,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 317,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 5,
+     "world_rooted_incomplete": 7
+    },
+    "structures_indexed": 415,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 317,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 317
+   },
+   "revision": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 323,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 9
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 9
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 323,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 334,
+    "claims_with_asserted_edge": 334,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 2
+    },
+    "complete_world_rooted": 2,
+    "defects": {
+     "cycle": 7,
+     "depth_truncated": 0,
+     "missing_records": 3
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 9
+    },
+    "incomplete_total": 9,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 323,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 2,
+     "world_rooted_incomplete": 9
+    },
+    "structures_indexed": 411,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 323,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 323
+   },
+   "seed": 20261203
+  },
+  {
+   "formation": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 300,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 9
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 9
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 300,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 311,
+    "claims_with_asserted_edge": 311,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 2
+    },
+    "complete_world_rooted": 2,
+    "defects": {
+     "cycle": 7,
+     "depth_truncated": 0,
+     "missing_records": 4
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 9
+    },
+    "incomplete_total": 9,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 300,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 2,
+     "world_rooted_incomplete": 9
+    },
+    "structures_indexed": 394,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 300,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 300
+   },
+   "revision": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 306,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 8
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 2,
+      "world_rooted_incomplete": 8
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 306,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 316,
+    "claims_with_asserted_edge": 316,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 2
+    },
+    "complete_world_rooted": 2,
+    "defects": {
+     "cycle": 8,
+     "depth_truncated": 0,
+     "missing_records": 0
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 8
+    },
+    "incomplete_total": 8,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 306,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 2,
+     "world_rooted_incomplete": 8
+    },
+    "structures_indexed": 395,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 306,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 306
+   },
+   "seed": 20261204
+  },
+  {
+   "formation": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 322,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 10
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 10
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 322,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 335,
+    "claims_with_asserted_edge": 335,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 3
+    },
+    "complete_world_rooted": 3,
+    "defects": {
+     "cycle": 10,
+     "depth_truncated": 0,
+     "missing_records": 9
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 10
+    },
+    "incomplete_total": 10,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 322,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 3,
+     "world_rooted_incomplete": 10
+    },
+    "structures_indexed": 419,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 322,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 322
+   },
+   "revision": {
+    "by_depth": {
+     "0": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 322,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "1": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "2": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "3": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "4-6": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     },
+     "7+": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 8
+     }
+    },
+    "by_type": {
+     "hypothesis": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 0,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 3,
+      "world_rooted_incomplete": 8
+     },
+     "prediction_candidate": {
+      "mixed": 0,
+      "mixed_incomplete": 0,
+      "self_only": 0,
+      "self_only_incomplete": 0,
+      "unresolved_cycle": 0,
+      "unresolved_depth_truncated": 0,
+      "unresolved_missing_records": 0,
+      "unresolved_no_ancestry": 322,
+      "unresolved_nothing_resolved": 0,
+      "world_rooted": 0,
+      "world_rooted_incomplete": 0
+     }
+    },
+    "claims": 333,
+    "claims_with_asserted_edge": 333,
+    "complete": {
+     "mixed": 0,
+     "self_only": 0,
+     "world_rooted": 3
+    },
+    "complete_world_rooted": 3,
+    "defects": {
+     "cycle": 8,
+     "depth_truncated": 0,
+     "missing_records": 1
+    },
+    "incomplete": {
+     "mixed_incomplete": 0,
+     "self_only_incomplete": 0,
+     "world_rooted_incomplete": 8
+    },
+    "incomplete_total": 8,
+    "note": "instrument diagnostic; no threshold and no verdict",
+    "statuses": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 322,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 3,
+     "world_rooted_incomplete": 8
+    },
+    "structures_indexed": 409,
+    "unresolved": {
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 322,
+     "unresolved_nothing_resolved": 0
+    },
+    "unresolved_total": 322
+   },
+   "seed": 20261205
+  }
+ ],
+ "study_reopened": false,
+ "totals": {
+  "formation": {
+   "by_depth": {
+    "0": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 1581,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "1": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "2": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "3": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "4-6": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "7+": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 14,
+     "world_rooted_incomplete": 49
+    }
+   },
+   "by_type": {
+    "hypothesis": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 14,
+     "world_rooted_incomplete": 49
+    },
+    "prediction_candidate": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 1581,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    }
+   },
+   "claims": 1644,
+   "claims_with_asserted_edge": 1644,
+   "complete": {
+    "mixed": 0,
+    "self_only": 0,
+    "world_rooted": 14
+   },
+   "complete_world_rooted": 14,
+   "defects": {
+    "cycle": 39,
+    "depth_truncated": 0,
+    "missing_records": 23
+   },
+   "incomplete": {
+    "mixed_incomplete": 0,
+    "self_only_incomplete": 0,
+    "world_rooted_incomplete": 49
+   },
+   "incomplete_total": 49,
+   "statuses": {
+    "mixed": 0,
+    "mixed_incomplete": 0,
+    "self_only": 0,
+    "self_only_incomplete": 0,
+    "unresolved_cycle": 0,
+    "unresolved_depth_truncated": 0,
+    "unresolved_missing_records": 0,
+    "unresolved_no_ancestry": 1581,
+    "unresolved_nothing_resolved": 0,
+    "world_rooted": 14,
+    "world_rooted_incomplete": 49
+   },
+   "structures_indexed": 2069,
+   "unresolved": {
+    "unresolved_cycle": 0,
+    "unresolved_depth_truncated": 0,
+    "unresolved_missing_records": 0,
+    "unresolved_no_ancestry": 1581,
+    "unresolved_nothing_resolved": 0
+   },
+   "unresolved_total": 1581
+  },
+  "revision": {
+   "by_depth": {
+    "0": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 1596,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "1": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "2": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "3": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "4-6": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    },
+    "7+": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 13,
+     "world_rooted_incomplete": 44
+    }
+   },
+   "by_type": {
+    "hypothesis": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 0,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 13,
+     "world_rooted_incomplete": 44
+    },
+    "prediction_candidate": {
+     "mixed": 0,
+     "mixed_incomplete": 0,
+     "self_only": 0,
+     "self_only_incomplete": 0,
+     "unresolved_cycle": 0,
+     "unresolved_depth_truncated": 0,
+     "unresolved_missing_records": 0,
+     "unresolved_no_ancestry": 1596,
+     "unresolved_nothing_resolved": 0,
+     "world_rooted": 0,
+     "world_rooted_incomplete": 0
+    }
+   },
+   "claims": 1653,
+   "claims_with_asserted_edge": 1653,
+   "complete": {
+    "mixed": 0,
+    "self_only": 0,
+    "world_rooted": 13
+   },
+   "complete_world_rooted": 13,
+   "defects": {
+    "cycle": 41,
+    "depth_truncated": 0,
+    "missing_records": 9
+   },
+   "incomplete": {
+    "mixed_incomplete": 0,
+    "self_only_incomplete": 0,
+    "world_rooted_incomplete": 44
+   },
+   "incomplete_total": 44,
+   "statuses": {
+    "mixed": 0,
+    "mixed_incomplete": 0,
+    "self_only": 0,
+    "self_only_incomplete": 0,
+    "unresolved_cycle": 0,
+    "unresolved_depth_truncated": 0,
+    "unresolved_missing_records": 0,
+    "unresolved_no_ancestry": 1596,
+    "unresolved_nothing_resolved": 0,
+    "world_rooted": 13,
+    "world_rooted_incomplete": 44
+   },
+   "structures_indexed": 2037,
+   "unresolved": {
+    "unresolved_cycle": 0,
+    "unresolved_depth_truncated": 0,
+    "unresolved_missing_records": 0,
+    "unresolved_no_ancestry": 1596,
+    "unresolved_nothing_resolved": 0
+   },
+   "unresolved_total": 1596
+  }
+ },
+ "variant": "V1.1-cap(1000)"
+}

@@ -202,3 +202,15 @@ def test_the_report_is_generated_without_placeholders():
     assert "{" not in doc and "}" not in doc, "a leftover placeholder is silent"
     assert doc == pt.render_report(art), "the report must be a function of the artifact"
     assert doc.count("| 424242 | formation |") == 1, "the per-seed section is missing"
+
+
+def test_incomplete_lineages_report_why_they_are_incomplete():
+    """A chain cut by our own depth cap is not a chain whose ancestors were pruned."""
+    rows = [{"status": "world_rooted_incomplete", "type": "hypothesis",
+             "ancestor_depth": 7, "defects": ["depth_truncated"]},
+            {"status": "world_rooted_incomplete", "type": "hypothesis",
+             "ancestor_depth": 3, "defects": ["missing_records", "cycle"]},
+            {"status": "world_rooted", "type": "prediction_candidate",
+             "ancestor_depth": 2}]
+    summary = pt.summarise_rows(rows)
+    assert summary["defects"] == {"missing_records": 1, "cycle": 1, "depth_truncated": 1}
