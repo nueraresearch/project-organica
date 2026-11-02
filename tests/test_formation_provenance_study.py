@@ -57,3 +57,22 @@ def test_artifact_records_the_endpoint_and_its_limits():
     assert art["interval_method"] and art["bootstrap_replicates"] == 10_000
     assert art["gates"]["G3_permutation_includes_zero"] is True
     assert art["does_not_establish"]
+
+
+def test_stratum_weighting_uses_pooled_candidate_counts():
+    from benchmarks.formation_provenance_robustness import _standardise
+    strata = [{"difference": 0.5, "world_n": 10, "self_n": 10},
+              {"difference": -0.5, "world_n": 1, "self_n": 1},
+              {"difference": None, "world_n": 5, "self_n": 5}]
+    assert _standardise(strata) == 0.409091
+
+
+def test_robustness_artifact_is_descriptive_only():
+    from benchmarks.formation_provenance_robustness import OUT
+    rob = json.loads(pathlib.Path(OUT).read_text(encoding="utf-8"))
+    reg = json.loads(pathlib.Path(s.RESULT_OUT).read_text(encoding="utf-8"))
+    assert rob["changes_verdict"] is False
+    assert rob["creates_success_rule"] is False
+    assert rob["registered"]["difference"] == reg["difference"]
+    assert rob["registered"]["interval"] == reg["interval"]
+    assert rob["standardised_difference"] is not None

@@ -8175,3 +8175,31 @@ against an equally exposed baseline. And it is an observation, not an interventi
 The functional question therefore remains open, and it needs its own protocol: origins captured
 at formation, held-out prediction scored against baselines given the same exposure, and an
 external-use outcome. Nothing here authorizes it.
+
+## §107 Robustness of the provenance association: descriptive only, verdict unchanged
+
+These checks read the cached per-candidate records the confirmatory run wrote. No cell was
+re-run, no threshold was applied, and no new success rule was created; the registered
+difference, interval and verdict are untouched. Their purpose is narrower: does the pooled
+association depend on one seed, and does it survive comparing candidates at the same recorded
+evidence count? The registered permutation preserved seed and cycle but not `temporal_count`,
+so frequency and provenance were not separated by the control.
+
+**Per seed.** All **15 of 15** confirmatory seeds show a positive difference, ranging
+**+0.1461** to **+0.2435**; the pooled value is **+0.2141**. The
+association is not carried by a single world.
+
+**Leave one seed out.** Removing any one seed leaves the pooled difference between
+**+0.2117** and **+0.2187**, positive in **15 of 15** folds.
+
+**By evidence count.** Across the **17** strata that hold both arms, the
+within-stratum difference is positive in **17 of 17**, and the
+stratum-weighted difference is **+0.2384**. So the direction is present at
+comparable transition counts, not only where world-attributed candidates happen to carry more
+evidence. This is the closest the existing data come to separating provenance from frequency.
+
+**What it does not add.** No causal claim: these are observational strata, not an
+intervention. No claim of usefulness: held-out occurrence is still not predictive performance
+against an equally exposed baseline. No reopening of the closed study. If anything, the
+uniformity raises the bar for the next protocol — an association this stable across seeds and
+counts is worth testing functionally, and not worth calling utility.
