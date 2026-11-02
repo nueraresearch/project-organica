@@ -9109,3 +9109,36 @@ pooled margin over k worlds is ± ~0.012/√k, ~0.0031 at k = 15. That is planni
 arithmetic on a different contrast, not a measured property of the
 strength-assignment endpoint, and it is recorded as such.
 
+## §133 — The sign criterion replaces the ratio, and the 100-cycle threshold survives on a different argument (2026-11-02)
+
+The owner challenged §132's threshold: within-run SE over delta is above one at 100 and
+200 cycles and first falls below at 400, so a ratio-based reading does not support 100. The
+challenge is right that the ratio is not a criterion, and wrong that 100 cycles fails.
+
+`SE/delta` is a t-statistic. Through the normal CDF the five ratios read **0.80, 0.82, 0.74,
+0.79, 0.62**, so a ratio of 1.18 is not a run that cannot resolve itself - it is 0.80 - and
+the 200-cycle row is worse than the 50-cycle row only because the *pooled* delta fell there
+(0.003536 - 0.002085). That is a between-world movement in the numerator, and dividing it by
+a shrinking denominator mixes the two scalings the ladder exists to separate.
+
+`benchmarks/scaling_ladder.sign_resolution` answers the owner's question directly and costs
+no seed: `--reanalyse` reads the stored cells of the same five worlds (20,000 replicates).
+Both uncertainties are propagated - the run's own `se_block`, and the world's effect, drawn
+from the widest scale **other than the one being judged**, so no cell is graded against its
+own estimate and the 16x row is judged against 8x rather than against itself. The estimate
+of P(a run reports its own world's sign) is **0.855 at 50 cycles (worlds 0.780-0.917; one of
+five at 0.90)**, **0.977 at 100 (0.917-0.997; five of five)**, then 0.961, 0.974 and 0.944.
+The relation is not monotone beyond 2x, and 0.95 would not be met by 2x (minimum world
+0.917); both are disclosed rather than smoothed.
+
+The second question is the one the ladder's between-world wall predicts. Agreement with the
+**block's** sign is 0.694, 0.780, 0.761, 0.770, 0.720 - never above 0.78, and lower at 16x
+than at 2x. One world's effect is negative, so a run inside it can be perfectly resolved and
+still disagree with the average, and no amount of observing that world changes it. The two
+scalings differ in **ceiling**, not only in efficiency.
+
+**Amendment.** The recommendation stands at 2x (100 cycles); its justification is replaced
+by the sign criterion. `docs/SCALING-LADDER.md` §8 carries the analysis; rows 1-7 and the
+verdict are unchanged. This is a re-analysis of the same five worlds: it refines a
+measurement decision and creates no evidence, and the third axis - changing the generating
+configuration - remains untested.

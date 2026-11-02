@@ -866,5 +866,134 @@
         "reachable": true
       }
     }
+  },
+  "sign_resolution": {
+    "kind": "derived after the run; a re-analysis of the same five worlds",
+    "question": "Would one run at each window report the sign of its own world's effect?",
+    "target": 0.9,
+    "replicates": 20000,
+    "reseed": 20270506,
+    "reference_rule": "the widest scale other than the one judged, propagated with that scale's own standard error, so no cell is judged against its own estimate",
+    "scales": {
+      "1x": {
+        "cycles": 200,
+        "p_correct": 0.8546,
+        "p_correct_min": 0.7801,
+        "p_correct_max": 0.917,
+        "worlds_at_target": 1,
+        "runs": 5,
+        "p_pooled_sign": 0.6935,
+        "plugin_mean": 0.8362,
+        "phi_of_pooled_ratio": 0.8012
+      },
+      "2x": {
+        "cycles": 250,
+        "p_correct": 0.9768,
+        "p_correct_min": 0.917,
+        "p_correct_max": 0.9968,
+        "worlds_at_target": 5,
+        "runs": 5,
+        "p_pooled_sign": 0.7801,
+        "plugin_mean": 0.8943,
+        "phi_of_pooled_ratio": 0.8237
+      },
+      "4x": {
+        "cycles": 350,
+        "p_correct": 0.9612,
+        "p_correct_min": 0.8217,
+        "p_correct_max": 1.0,
+        "worlds_at_target": 4,
+        "runs": 5,
+        "p_pooled_sign": 0.7609,
+        "plugin_mean": 0.9128,
+        "phi_of_pooled_ratio": 0.7385
+      },
+      "8x": {
+        "cycles": 550,
+        "p_correct": 0.9743,
+        "p_correct_min": 0.9247,
+        "p_correct_max": 1.0,
+        "worlds_at_target": 5,
+        "runs": 5,
+        "p_pooled_sign": 0.7704,
+        "plugin_mean": 0.949,
+        "phi_of_pooled_ratio": 0.8951
+      },
+      "16x": {
+        "cycles": 950,
+        "p_correct": 0.9438,
+        "p_correct_min": 0.8528,
+        "p_correct_max": 1.0,
+        "worlds_at_target": 3,
+        "runs": 5,
+        "p_pooled_sign": 0.7197,
+        "plugin_mean": 0.9898,
+        "phi_of_pooled_ratio": 0.9996
+      }
+    },
+    "worlds": [
+      {
+        "seed": 20270501,
+        "p_by_scale": {
+          "1x": 0.7878,
+          "2x": 0.917,
+          "4x": 0.8217,
+          "8x": 0.9247,
+          "16x": 0.8528
+        },
+        "window_for_target": "2x",
+        "reference_at_widest": "8x"
+      },
+      {
+        "seed": 20270502,
+        "p_by_scale": {
+          "1x": 0.8895,
+          "2x": 0.9968,
+          "4x": 1.0,
+          "8x": 1.0,
+          "16x": 1.0
+        },
+        "window_for_target": "2x",
+        "reference_at_widest": "8x"
+      },
+      {
+        "seed": 20270503,
+        "p_by_scale": {
+          "1x": 0.7801,
+          "2x": 0.9959,
+          "4x": 0.9909,
+          "8x": 1.0,
+          "16x": 1.0
+        },
+        "window_for_target": "2x",
+        "reference_at_widest": "8x"
+      },
+      {
+        "seed": 20270504,
+        "p_by_scale": {
+          "1x": 0.8984,
+          "2x": 0.9841,
+          "4x": 0.9949,
+          "8x": 1.0,
+          "16x": 1.0
+        },
+        "window_for_target": "2x",
+        "reference_at_widest": "8x"
+      },
+      {
+        "seed": 20270505,
+        "p_by_scale": {
+          "1x": 0.917,
+          "2x": 0.9904,
+          "4x": 0.9984,
+          "8x": 0.9469,
+          "16x": 0.8662
+        },
+        "window_for_target": "1x",
+        "reference_at_widest": "8x"
+      }
+    ],
+    "all_worlds_at_target_from": "2x",
+    "any_world_at_target_from": "2x"
   }
 }

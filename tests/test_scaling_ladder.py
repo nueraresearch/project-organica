@@ -128,3 +128,84 @@ def test_the_document_quotes_the_artifact():
                       row["delta_sd_between"]):
             assert f"{value:.6f}".lstrip("-") in block, (label, value)
         assert re.search(rf"`{re.escape(label)}`", block), label
+
+
+def test_the_sign_section_quotes_the_artifact():
+    """§8 restates the derived numbers, so they are checked, not remembered."""
+    art_path = ROOT / sl.OUT
+    if not art_path.exists():
+        pytest.skip("the ladder has not been run yet")
+    art = json.loads(art_path.read_text(encoding="utf-8"))
+    if "sign_resolution" not in art:
+        pytest.skip("the derived sign analysis has not been computed yet")
+    doc = (ROOT / "docs/SCALING-LADDER.md").read_text(encoding="utf-8")
+    if "## 8." not in doc:
+        pytest.skip("the sign section has not been written yet")
+    block = doc.split("## 8.", 1)[1]
+    sign = art["sign_resolution"]
+    for label, row in sign["scales"].items():
+        for value in (row["p_correct"], row["p_correct_min"],
+                      row["p_correct_max"], row["p_pooled_sign"]):
+            assert f"{value:.3f}".lstrip("-") in block, (label, value)
+        assert re.search(rf"`{re.escape(label)}`", block), label
+    for world in sign["worlds"]:
+        assert str(world["seed"]) in block, world["seed"]
+
+
+# ---------------------------------------------------------------------------
+# The sign question (docs §8)
+# ---------------------------------------------------------------------------
+
+def test_a_ratio_is_not_a_probability():
+    """SE/delta is a t-statistic: 1 is 0.84, and 1.57 is still 0.74.
+
+    The threshold was first read off that ratio, so the conversion is pinned: a
+    ratio above one was taken to mean a run cannot resolve its own sign, which
+    is not what a ratio of one implies.
+    """
+    assert sl.sign_probability(1.0, 1.0) == pytest.approx(0.8413, abs=5e-4)
+    assert sl.sign_probability(1.0 / 1.57, 1.0) == pytest.approx(0.7379, abs=5e-4)
+    assert sl.sign_probability(0.0, 1.0) == pytest.approx(0.5)
+    assert sl.sign_probability(-3.0, 1.0) == sl.sign_probability(3.0, 1.0)
+    assert sl.sign_probability(5.0, 0.0) == 1.0
+    assert sl.sign_probability(0.5, None) == 0.0
+
+
+def test_the_reference_scale_is_never_the_scale_it_judges():
+    """A cell judged against its own estimate would manufacture the answer."""
+    for label in sl.SCALES:
+        ref = sl._reference_scale(label)
+        assert ref != label and ref in sl.SCALES
+    assert sl._reference_scale("16x") == "8x"
+
+
+def _cell(seed, delta, ses):
+    return {"seed": seed,
+            "scales": {l: {"delta": delta, "se_block": ses[l]} for l in sl.SCALES}}
+
+
+def test_the_sign_estimate_separates_a_strong_world_from_a_weak_one():
+    """The statistic must rise with the effect and fall with the error."""
+    ses = {"1x": 0.0088, "2x": 0.0038, "4x": 0.0033, "8x": 0.0026, "16x": 0.00145}
+    out = sl.sign_resolution([_cell(1, 0.008, ses), _cell(2, 0.0004, ses)],
+                             replicates=4_000)
+    wide = out["scales"]["8x"]
+    assert wide["p_correct_max"] > 0.97
+    # Propagation lifts the weak world above its plug-in value (0.55 -> 0.67),
+    # because a reference with its own error sometimes draws a larger effect.
+    assert wide["p_correct_min"] < 0.72
+    assert wide["p_correct_min"] < wide["plugin_mean"]
+    assert wide["worlds_at_target"] == 1
+    assert out["worlds"][0]["p_by_scale"]["16x"] > out["worlds"][0]["p_by_scale"]["1x"]
+    # A world the window cannot resolve is reported, not rounded up to the target.
+    assert out["worlds"][1]["window_for_target"] is None
+    assert out["all_worlds_at_target_from"] is None
+
+
+def test_the_sign_simulation_is_reproducible_and_needs_data():
+    ses = {l: 0.004 for l in sl.SCALES}
+    cells = [_cell(1, 0.006, ses), _cell(2, 0.004, ses)]
+    assert sl.sign_resolution(cells, replicates=500) == sl.sign_resolution(
+        cells, replicates=500)
+    with pytest.raises(AssertionError):
+        sl.sign_resolution([])

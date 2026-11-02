@@ -38,7 +38,7 @@ import pathlib
 import random
 import sys
 import time
-from statistics import mean, stdev
+from statistics import NormalDist, mean, stdev
 from typing import Any, Sequence
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -108,6 +108,14 @@ RHO_REPLICATE = 0.5      # within-run error at most half the between-run SD
 RHO_RESOLUTION = 1.0     # within-run error at least the between-run SD
 EXPECTED_SLOPE = -0.5    # independent observations: SE falls as n^-1/2
 SLOPE_BAND = 0.15        # pre-committed band on the fitted log-log slope
+
+#: Added after the run was read (`docs/SCALING-LADDER.md` §8): the probability
+#: that one run at a given window reports the sign of its own world's effect.
+#: It is a measurement-design diagnostic, not part of §5's rule, and it cannot
+#: re-score the verdict that rule produced.
+SIGN_TARGET = 0.90
+SIGN_REPLICATES = 20_000
+SIGN_RESEED = 20270506
 
 FORBIDDEN_SEEDS: frozenset[int] = frozenset(
     set(FS_DESIGN) | set(FS_CONFIRMATORY) | set(SA_DESIGN) | set(SA_CONFIRMATORY)
@@ -403,6 +411,142 @@ def decide(summary: dict[str, Any]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
+# Derived after the run: does a run identify its own sign? (docs §8)
+# ---------------------------------------------------------------------------
+
+def sign_probability(theta: float, se: float) -> float:
+    """P(a run whose estimate is N(theta, se^2) lands on theta's side of zero).
+
+    `se` is the run's own standard error, so this is what the owner's SE/delta
+    ratio is a crude proxy for. The ratio is a t-statistic, not a probability:
+    a ratio of 1 is 0.84, not a coin flip, and a ratio of 1.57 is still 0.74.
+    """
+    if se is None:
+        return 0.0
+    if se <= 0.0:
+        return 0.5 if theta == 0 else 1.0
+    return NormalDist(0, 1).cdf(abs(theta) / se)
+
+
+def _reference_scale(label: str) -> str:
+    """The widest scale other than the one being judged.
+
+    Judging a cell against the same cell's estimate would manufacture the answer
+    at the widest window, where truth and estimate share their noise. For `16x`
+    the reference is therefore `8x`, which is noisier and makes that row the
+    conservative one rather than the flattering one.
+    """
+    order = [other for other in SCALES if other != label]
+    if not order:
+        raise AssertionError("a single scale cannot provide its own reference")
+    return order[-1]
+
+
+def sign_resolution(per_seed: Sequence[dict], target: float = SIGN_TARGET,
+                    replicates: int = SIGN_REPLICATES,
+                    seed: int = SIGN_RESEED) -> dict[str, Any]:
+    """How often one run reports the sign of its own world's underlying effect.
+
+    Two uncertainties are propagated, because both are real and only one of them
+    scales with the window: the run's estimate of its world (`se_block` at that
+    scale), and what that world's true effect *is* (the reference scale's delta
+    and its own `se_block`). Treating the second as known is what makes a
+    plug-in `sign_probability(delta, se)` optimistic; `plugin_mean` is reported
+    beside the propagated number so the size of that optimism is visible rather
+    than argued about.
+
+    `p_pooled_sign` asks the different question a study actually needs: does the
+    run agree with what the whole block says, not with its own world?
+    """
+    if not per_seed:
+        raise AssertionError("no worlds: the sign question has no data")
+    labels = list(SCALES)
+    worlds = []
+    for cell in per_seed:
+        worlds.append({
+            "seed": cell["seed"],
+            "cells": {l: (cell["scales"][l]["delta"], cell["scales"][l]["se_block"])
+                      for l in labels},
+            "references": {l: (cell["scales"][_reference_scale(l)]["delta"],
+                               cell["scales"][_reference_scale(l)]["se_block"])
+                           for l in labels},
+        })
+
+    rng = random.Random(seed)
+    hits = {l: 0 for l in labels}
+    pooled = {l: 0 for l in labels}
+    by_world = {w["seed"]: {l: 0 for l in labels} for w in worlds}
+    for _ in range(replicates):
+        thetas = []
+        for w in worlds:
+            drawn = {}
+            for l in labels:
+                mu, sd = w["references"][l]
+                drawn[l] = rng.gauss(mu, sd) if sd else mu
+            thetas.append(drawn)
+        # What the block as a whole says, from the same draws.
+        bar = {l: mean(t[l] for t in thetas) for l in labels}
+        for w, theta in zip(worlds, thetas):
+            for l in labels:
+                _, se = w["cells"][l]
+                if not se:
+                    continue
+                estimate = rng.gauss(theta[l], se)
+                agree = (estimate > 0) == (theta[l] > 0)
+                hits[l] += agree
+                by_world[w["seed"]][l] += agree
+                pooled[l] += (estimate > 0) == (bar[l] > 0)
+
+    total = replicates * len(worlds)
+    scales: dict[str, Any] = {}
+    for l in labels:
+        rates = sorted(by_world[w["seed"]][l] / replicates for w in worlds)
+        deltas = [w["cells"][l][0] for w in worlds]
+        errors = [w["cells"][l][1] for w in worlds]
+        plug = [sign_probability(d, s) for d, s in zip(deltas, errors)]
+        scales[l] = {
+            "cycles": window_end(SCALES[l]),
+            "p_correct": round(hits[l] / total, 4),
+            "p_correct_min": round(rates[0], 4),
+            "p_correct_max": round(rates[-1], 4),
+            "worlds_at_target": sum(1 for r in rates if r >= target),
+            "runs": len(worlds),
+            "p_pooled_sign": round(pooled[l] / total, 4),
+            "plugin_mean": round(mean(plug), 4),
+            "phi_of_pooled_ratio": round(
+                sign_probability(mean(deltas), mean(errors)), 4),
+        }
+
+    rows = []
+    for w in worlds:
+        p = {l: round(by_world[w["seed"]][l] / replicates, 4) for l in labels}
+        reached = [l for l in labels if p[l] >= target]
+        rows.append({
+            "seed": w["seed"],
+            "p_by_scale": p,
+            "window_for_target": reached[0] if reached else None,
+            "reference_at_widest": _reference_scale(labels[-1]),
+        })
+
+    return {
+        "kind": "derived after the run; a re-analysis of the same five worlds",
+        "question": "Would one run at each window report the sign of its own world's effect?",
+        "target": target,
+        "replicates": replicates,
+        "reseed": seed,
+        "reference_rule": ("the widest scale other than the one judged, propagated with "
+                           "that scale's own standard error, so no cell is judged "
+                           "against its own estimate"),
+        "scales": scales,
+        "worlds": rows,
+        "all_worlds_at_target_from": next(
+            (l for l in labels if scales[l]["worlds_at_target"] == len(worlds)), None),
+        "any_world_at_target_from": next(
+            (l for l in labels if scales[l]["worlds_at_target"] > 3), None),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
@@ -437,6 +581,7 @@ def run(seeds: Sequence[int] = SEEDS) -> dict[str, Any]:
             f"se={cell['scales'][label]['se_block']:.6f}"
             for label in SCALES), flush=True)
     summary = summarise(per_seed)
+    sign = sign_resolution(per_seed)
     art = {
         "kind": "scaling_ladder",
         "question": ("Is a run scored on too little of the world to establish what "
@@ -473,6 +618,7 @@ def run(seeds: Sequence[int] = SEEDS) -> dict[str, Any]:
         "summary": summary,
         "slope": slope_of(summary),
         "verdict": decide(summary),
+        "sign_resolution": sign,
         "runs_for_half_between_sd": runs_for_precision(
             summary["1x"]["delta_sd_between"], summary["1x"]["within_se_block_mean"]),
         "caveats": list(CAVEATS),
@@ -495,7 +641,31 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--seeds", type=int, nargs="*", default=None,
                         help="subset for a resumable run; the artifact is marked incomplete")
     parser.add_argument("--out", default=OUT)
+    parser.add_argument("--reanalyse", action="store_true",
+                        help="recompute the derived §8 analysis from an existing artifact")
     args = parser.parse_args(argv)
+    if args.reanalyse:
+        path = ROOT / args.out
+        if not path.exists():
+            raise SystemExit(f"{args.out} does not exist; run the ladder first")
+        art = json.loads(path.read_text(encoding="utf-8"))
+        art["sign_resolution"] = sign_resolution(art["per_seed"])
+        write(art, args.out)
+        s = art["sign_resolution"]
+        print(f"wrote {args.out} ({s['kind']})")
+        for label in SCALES:
+            row = s["scales"][label]
+            print(f"  {label:>3}  p={row['p_correct']:.3f}  min={row['p_correct_min']:.3f}  "
+                  f"max={row['p_correct_max']:.3f}  at_target={row['worlds_at_target']}/"
+                  f"{row['runs']}  pooled={row['p_pooled_sign']:.3f}  "
+                  f"plugin={row['plugin_mean']:.3f}  "
+                  f"phi(pooled ratio)={row['phi_of_pooled_ratio']:.3f}")
+        print(f"  all worlds at {s['target']:.2f}: {s['all_worlds_at_target_from']}")
+        for w in s["worlds"]:
+            print(f"    {w['seed']}: "
+                  + ", ".join(f"{k}={v:.2f}" for k, v in w["p_by_scale"].items())
+                  + f"  -> {w['window_for_target']}")
+        return 0
     seeds = tuple(args.seeds) if args.seeds else SEEDS
     for seed in seeds:
         refuse_study_seed(seed)

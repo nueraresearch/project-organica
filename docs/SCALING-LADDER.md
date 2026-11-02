@@ -114,3 +114,63 @@ So the two diagnoses are not alternatives here, they are **ordered**: fix resolu
 ### The answer
 
 The project is not short of observations in the way that a bigger run would fix. It is short of **worlds**, with one qualification that matters: the frozen 50-cycle window is too short for a single run to resolve its own estimate, and more seeds on that window cannot repair it. The cheap remedy is one measurement decision — score at least `2x` (100 cycles) — after which the binding constraint is the number of independent worlds, and it stays that way at every window length tested, because the between-world spread does not shrink with the window.
+
+## 8. Added after the run: does a run identify its own sign?
+
+This section was written **after §7 was read**, at the owner's request, and it re-analyses the same five worlds' stored cells (`python -m benchmarks.scaling_ladder --reanalyse`). It runs no world, spends no seed and touches no study block. It is a measurement-design diagnostic: **§1–§6 and §7 stand as committed, and nothing here re-scores the verdict**, which was produced once by the rule in §5.
+
+### The criterion
+
+Let `p(w, s)` be the probability that world `w`'s run at window `s` lands on the same side of zero as **that world's true effect**, not as the block average. It is estimated by Monte Carlo (20,000 replicates), propagating both uncertainties:
+
+1. draw the world's effect from its **reference cell** — the widest scale *other than* the one being judged — with that cell's own standard error;
+2. draw the run's estimate from `N(effect, se)` with `se` the block-bootstrap error at scale `s`;
+3. count sign agreement.
+
+The leave-one-out reference is the point of the exercise: judging `16x` against `16x` would make the widest row perfect by construction, so `16x` is judged against `8x` and is the conservative row. The 0.90 target is a convention fixed for this section, not a validated requirement.
+
+### The numbers
+
+| Scale | Cycles | Mean `p` | Min world | Max world | Worlds ≥ 0.90 | Sign of the block | Plug-in mean | Φ(pooled ratio) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `1x` | 200 | 0.855 | 0.780 | 0.917 | 1 / 5 | 0.694 | 0.836 | 0.801 |
+| `2x` | 250 | 0.977 | 0.917 | 0.997 | 5 / 5 | 0.780 | 0.894 | 0.824 |
+| `4x` | 350 | 0.961 | 0.822 | 1.000 | 4 / 5 | 0.761 | 0.913 | 0.739 |
+| `8x` | 550 | 0.974 | 0.925 | 1.000 | 5 / 5 | 0.770 | 0.949 | 0.895 |
+| `16x` | 950 | 0.944 | 0.853 | 1.000 | 3 / 5 | 0.720 | 0.990 | 1.000 |
+
+| World | `1x` | `2x` | `4x` | `8x` | `16x` | First window at 0.90 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 20270501 | 0.79 | 0.92 | 0.82 | 0.92 | 0.85 | `2x` |
+| 20270502 | 0.89 | 1.00 | 1.00 | 1.00 | 1.00 | `2x` |
+| 20270503 | 0.78 | 1.00 | 0.99 | 1.00 | 1.00 | `2x` |
+| 20270504 | 0.90 | 0.98 | 0.99 | 1.00 | 1.00 | `2x` |
+| 20270505 | 0.92 | 0.99 | 1.00 | 0.95 | 0.87 | `1x` |
+
+The 0.90 target is reached for every world from `2x`. At `1x` it is reached for one world in five: the frozen window leaves a run unable to report its own world's sign with the reliability the project would want to assume.
+
+### What it corrects about the ratio
+
+`SE / delta` is a t-statistic, not a probability. Through Φ its values read **0.80, 0.82, 0.74, 0.79, 0.62** at the five scales — so a ratio above one (the 200-cycle row, 1.57) is not “a coin flip”, it is about 0.74, and a ratio of 1.18 is not a failure, it is 0.80. Two further problems with reading the threshold off that ratio:
+
+- **The numerator moves for reasons that have nothing to do with the window.** The ratio falls from 1.57 at `4x` to 0.80 at `8x` because the *pooled* delta rose (0.002085 → 0.003233), not because the window improved. The pooled delta is an average of five noisy world effects; dividing it by a shrinking denominator mixes between-world variation into a within-run criterion.
+- **It separates neither question.** Per-world, the plug-in numbers are optimistic (0.894 at `2x` against 0.977 propagated); the propagated figure is the one that answers “would this run have told me what happened in this world?”.
+
+### Two criteria, two answers
+
+- **Does a run resolve its own world's sign?** Yes from `2x`: mean `p` 0.977, every world at or above 0.917. This is the criterion the owner proposed, and `2x` meets it.
+- **Does a run agree with what the block says?** No, and no window fixes it: 0.694 → 0.780 → 0.761 → 0.770 → 0.720. It is *below* the per-world figure at every scale and it falls again at `16x`. That is the between-world wall expressed as a probability: one world's effect is negative, so a run in it can be perfectly resolved and still disagree with the average. More observations of that world will never make it agree.
+
+So the two scalings are not merely different in efficiency; they have **different ceilings**. Per-world resolution has a ceiling of 1 and buys it with window length. Block-level agreement has a ceiling set by the spread of true effects across worlds, and only more — or different — worlds move it.
+
+### The recommendation, amended
+
+Score at `2x` (100 cycles) — the smallest window where every tested world reaches 0.90 — and stop lengthening the window for *this* reason. The number is unchanged from §7; the **argument** is replaced. It now rests on the sign criterion, not on `rho ≤ 0.30`, and it survives the test the owner applied.
+
+Two cautions belong with it. The relation is **not monotone**: `4x` (0.961) and `16x` (0.944) sit below `2x` (0.977). Part of that is mechanical — `16x`'s reference is `8x` and each scale's SE is itself estimated — and all of it is inside what five worlds can separate, so it is disclosed rather than smoothed. And 0.90 is a convention: at 0.95, `2x` would not qualify (its minimum world is 0.917).
+
+### What this analysis cannot do
+
+- **It is the same five worlds re-analysed.** It inherits their selection and is not out of sample; it can refine a measurement decision, not create evidence.
+- **The reference is an estimate too.** Treating the world's effect as normal around its reference cell means a biased reference biases both the number and the sign it is judged against.
+- **It says nothing about conditions.** The third axis — whether the effect survives a change of generating configuration — is still untouched, as §8 of the artifact's `not_measured` list records.
