@@ -348,13 +348,27 @@ def test_the_behavioural_clock_is_fixed_and_disjoint_from_onset(stage, text):
     assert b["absolute_start_min"] == 299
     assert b["absolute_start_max"] == 599
     assert b["absolute_start_span_cycles"] == 300
+    assert b["last_behavioural_index_max"] == 698
     assert b["run_length_needed_cycles"] == 699
     assert b["runs_that_fit_a_600_cycle_run"] == 91
+
+    # The span is inclusive; the horizon is an index plus one, not a longer duration.
+    assert b["behavioural_cycle_count"] == 100
+    assert b["inclusive_span_cycles"] == 100
+    assert b["last_behavioural_cycle_index_offset"] == 100
+    assert b["run_length_offset_from_confirmation_index"] == 101
+    assert (b["run_length_needed_cycles"]
+            == b["last_behavioural_index_max"] + 1)
+    assert "zero-based indices" in b["cycle_indexing"]
+    assert "same span" in b["run_length_is_one_more_than_the_last_index"]
+    assert "**100**" in text and "**698**" in text and "**699 readings**" in text
+    assert "zero-based indices" in text
 
     for lab, c in b["per_config"].items():
         assert c["first_behavioural_cycle_min"] == c["confirmation_cycle_min"] + 1, lab
         assert c["first_behavioural_cycle_max"] == c["confirmation_cycle_max"] + 1, lab
-        assert c["run_length_needed_cycles"] == c["first_behavioural_cycle_max"] + 100, lab
+        assert c["last_behavioural_cycle_index_max"] == c["first_behavioural_cycle_max"] + 99, lab
+        assert c["run_length_needed_cycles"] == c["last_behavioural_cycle_index_max"] + 1, lab
         row = ("| `%s` | %d | %.0f–%.0f–%.0f | %.0f–%.0f–%.0f | %d | %d of %d |"
                % (lab, c["runs_with_a_clock"],
                   c["confirmation_cycle_min"], c["confirmation_cycle_median"],

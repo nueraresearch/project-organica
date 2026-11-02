@@ -449,6 +449,10 @@ def build() -> dict:
         if not confs:
             continue
         starts = [c + POST_CONFIRMATION_MARGIN for c in confs]
+        # The last behavioural cycle is an *index*; a run holds indices 0..L-1, so the
+        # length needed is one larger than the last index. Keeping the two apart is the
+        # whole point of this block.
+        last = max(starts) + FOLLOW_UP_CYCLES - 1
         clock[lab] = {
             "runs_with_a_clock": len(confs),
             "confirmation_cycle_min": min(confs),
@@ -457,13 +461,20 @@ def build() -> dict:
             "first_behavioural_cycle_min": min(starts),
             "first_behavioural_cycle_median": statistics.median(starts),
             "first_behavioural_cycle_max": max(starts),
-            "run_length_needed_cycles": max(starts) + FOLLOW_UP_CYCLES,
+            "last_behavioural_cycle_index_max": last,
+            "run_length_needed_cycles": last + 1,
             "runs_that_fit_a_600_cycle_run": sum(
-                1 for s in starts if s + FOLLOW_UP_CYCLES <= 600),
+                1 for s in starts if s + FOLLOW_UP_CYCLES - 1 <= 599),
         }
     all_confs = [x["onset_detail"]["confirmation_cycle"] for x in rows
                  if x["onset_detail"]["confirmation_cycle"] is not None]
     all_starts = [c + POST_CONFIRMATION_MARGIN for c in all_confs]
+
+    # The arithmetic that was previously only implied: the span is inclusive, the length
+    # is the last index plus one, and the horizon is NOT the duration.
+    assert ((POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES - 1)
+            - POST_CONFIRMATION_MARGIN + 1) == FOLLOW_UP_CYCLES
+    assert FOLLOW_UP_CYCLES + POST_CONFIRMATION_MARGIN != FOLLOW_UP_CYCLES
     behavioural_clock = {
         "post_confirmation_margin_cycles": POST_CONFIRMATION_MARGIN,
         "learn_cycles": LEARN_CYCLES,
@@ -478,15 +489,37 @@ def build() -> dict:
                     "amount of behavioural opportunity is equalised, the developmental "
                     "age at which it opens is a property of the world and is reported "
                     "rather than equalised",
+        "cycle_indexing": "counter values are zero-based indices into the stored "
+                          "trajectory: a run of 600 readings holds indices 0-599, so the "
+                          "confirmation index 598 quoted in section 3.1 is the 599th "
+                          "reading. Every offset added to an index is an index too.",
+        "behavioural_cycle_count": FOLLOW_UP_CYCLES,
+        "inclusive_span_cycles": (POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES - 1)
+                                 - POST_CONFIRMATION_MARGIN + 1,
+        "last_behavioural_cycle_index_offset": (POST_CONFIRMATION_MARGIN
+                                                + FOLLOW_UP_CYCLES - 1),
+        "run_length_offset_from_confirmation_index": (POST_CONFIRMATION_MARGIN
+                                                     + FOLLOW_UP_CYCLES),
+        "run_length_is_one_more_than_the_last_index": (
+            "the follow-up is %d behavioural cycles, from index c+%d through c+%d "
+            "inclusive. The run must contain index c+%d, and a run of length L holds "
+            "indices 0..L-1, so its length is c+%d. The two numbers are the same span "
+            "counted from zero and from one, not a disagreement about duration"
+            % (FOLLOW_UP_CYCLES, POST_CONFIRMATION_MARGIN,
+               POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES - 1,
+               POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES - 1,
+               POST_CONFIRMATION_MARGIN + FOLLOW_UP_CYCLES)),
         "runs_with_a_clock": len(all_starts),
         "absolute_start_min": min(all_starts) if all_starts else None,
         "absolute_start_max": max(all_starts) if all_starts else None,
         "absolute_start_span_cycles": (max(all_starts) - min(all_starts))
                                       if all_starts else None,
+        "last_behavioural_index_max": (max(all_starts) + FOLLOW_UP_CYCLES - 1)
+                                      if all_starts else None,
         "run_length_needed_cycles": (max(all_starts) + FOLLOW_UP_CYCLES)
                                     if all_starts else None,
         "runs_that_fit_a_600_cycle_run": sum(
-            1 for s in all_starts if s + FOLLOW_UP_CYCLES <= 600),
+            1 for s in all_starts if s + FOLLOW_UP_CYCLES - 1 <= 599),
         "behavioural_cycles_at_or_before_confirmation": sum(
             1 for s, c in zip(all_starts, all_confs) if s <= c),
         "onset_window_ends": "the confirmation cycle -- the last reading the onset rule "

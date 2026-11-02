@@ -1210,10 +1210,17 @@
     "follow_up_length_is_identical_in_every_world": true,
     "first_behavioural_cycle_differs_by_world": true,
     "estimand": "behaviour over a fixed window after structural emergence: the amount of behavioural opportunity is equalised, the developmental age at which it opens is a property of the world and is reported rather than equalised",
+    "cycle_indexing": "counter values are zero-based indices into the stored trajectory: a run of 600 readings holds indices 0-599, so the confirmation index 598 quoted in section 3.1 is the 599th reading. Every offset added to an index is an index too.",
+    "behavioural_cycle_count": 100,
+    "inclusive_span_cycles": 100,
+    "last_behavioural_cycle_index_offset": 100,
+    "run_length_offset_from_confirmation_index": 101,
+    "run_length_is_one_more_than_the_last_index": "the follow-up is 100 behavioural cycles, from index c+1 through c+100 inclusive. The run must contain index c+100, and a run of length L holds indices 0..L-1, so its length is c+101. The two numbers are the same span counted from zero and from one, not a disagreement about duration",
     "runs_with_a_clock": 119,
     "absolute_start_min": 299,
     "absolute_start_max": 599,
     "absolute_start_span_cycles": 300,
+    "last_behavioural_index_max": 698,
     "run_length_needed_cycles": 699,
     "runs_that_fit_a_600_cycle_run": 91,
     "behavioural_cycles_at_or_before_confirmation": 0,
@@ -1232,6 +1239,7 @@
         "first_behavioural_cycle_min": 485,
         "first_behavioural_cycle_median": 549,
         "first_behavioural_cycle_max": 599,
+        "last_behavioural_cycle_index_max": 698,
         "run_length_needed_cycles": 699,
         "runs_that_fit_a_600_cycle_run": 1
       },
@@ -1243,6 +1251,7 @@
         "first_behavioural_cycle_min": 352,
         "first_behavioural_cycle_median": 414.0,
         "first_behavioural_cycle_max": 455,
+        "last_behavioural_cycle_index_max": 554,
         "run_length_needed_cycles": 555,
         "runs_that_fit_a_600_cycle_run": 30
       },
@@ -1254,6 +1263,7 @@
         "first_behavioural_cycle_min": 320,
         "first_behavioural_cycle_median": 372.0,
         "first_behavioural_cycle_max": 401,
+        "last_behavioural_cycle_index_max": 500,
         "run_length_needed_cycles": 501,
         "runs_that_fit_a_600_cycle_run": 30
       },
@@ -1265,6 +1275,7 @@
         "first_behavioural_cycle_min": 299,
         "first_behavioural_cycle_median": 339.0,
         "first_behavioural_cycle_max": 364,
+        "last_behavioural_cycle_index_max": 463,
         "run_length_needed_cycles": 464,
         "runs_that_fit_a_600_cycle_run": 30
       }

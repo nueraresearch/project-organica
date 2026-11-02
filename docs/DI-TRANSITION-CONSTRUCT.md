@@ -89,6 +89,11 @@ against that availability rather than against the anchor.
 | a missing reading? | counts as not qualifying, so it breaks the run; never read as non-zero | 0 records contain one, so the convention is declared for future runs and is vacuous here |
 | too few cycles left to confirm? | censored, never an onset at the boundary | **0** censored this way; **4** censored with an interrupted attempt; **117** have no non-zero reading at all |
 
+**Cycle numbers in this record are zero-based indices into the stored trajectory.** A run of 600 readings holds
+indices 0–599, so the latest confirmation above — index **598** of a 600-reading run — is the 599th reading. Every
+offset added to a cycle number is an index as well. The convention is stated once here because §6.2 depends on it,
+and an index quoted as if it were a count is exactly how a one-cycle discrepancy is manufactured.
+
 The last row fixes the denominator: 240 = **119** onsets + **4** interrupted short runs + **117** with no
 reading to qualify. The four in the middle are the one-cycle arrival blips in the `1:x` arms, and they are why
 a single non-zero reading is not an onset: without the sustention rule they would each become one, at the
@@ -313,8 +318,18 @@ Pre-committed falsifiers, written before any behavioural endpoint is read:
 | held-out test phase | 50 cycles | the protocol's existing test phase |
 | behavioural follow-up | **100 cycles** | fixed, and identical in every world |
 | first behavioural cycle | confirmation + 1 | derived, not chosen |
-| last behavioural cycle | confirmation + 100 | derived, not chosen |
+| last behavioural cycle | confirmation + 100 | index, inclusive |
+| behavioural cycles observed | **100** | (c + 100) − (c + 1) + 1 = 100 |
+| readings the run must contain | **c + 101** | the last behavioural cycle is *index* c + 100, and a run of length L holds indices 0 … L − 1 |
 | reported with every behavioural observation | absolute cycle **and** cycles since confirmation | so that the two clocks can always be separated in analysis |
+
+**One span, two counts, and the arithmetic that joins them.** The follow-up is **100 behavioural cycles**, from
+index c + 1 through index c + 100 inclusive. The horizon is **101 readings** measured from the confirmation index,
+and it is larger for one reason only: a run of length L holds indices 0 … L − 1, so a run containing index c + 100
+has length c + 101. Both numbers describe the same span; the second counts readings and the first counts cycles.
+This is stated as arithmetic rather than left to the reader because the two conventions are one apart, and the
+code derives the length from the last index rather than adding the duration again — `run_length_needed_cycles` is
+`last index + 1`, and the test asserts that identity, so the discrepancy cannot silently return.
 
 | configuration | runs | confirmation cycle (min–median–max) | first behavioural cycle (min–median–max) | run length needed | runs that fit a 600-cycle run |
 | --- | --- | --- | --- | --- | --- |
@@ -333,9 +348,10 @@ would compare unequal windows at equal absolute time; this design compares equal
 age, which is the quantity the claim is about. Both clocks are recorded with every observation so that a reader
 can see which one a result is stated in.
 
-**What the clock costs, measured on the record in hand.** Each world's run must extend through
-confirmation + 101 cycles. Here the slowest world confirms at cycle 598, so its run would need **699 cycles**, and
-only **91 of 119** runs would fit a post-confirmation follow-up inside a 600-cycle run — in `2:1` only **1 of 29**.
+**What the clock costs, measured on the record in hand.** Each world's run must contain the index of its last
+behavioural cycle, c + 100. For the slowest world in hand that index is **698**, so its run needs **699 readings**
+— the last index plus one, not an extra cycle of observation. Only **91 of 119** runs would fit a
+post-confirmation follow-up inside a 600-reading run — in `2:1` only **1 of 29**.
 A Stage B run therefore cannot use a fixed 600-cycle horizon: the horizon must be each world's own confirmation
 cycle plus 101, or a pre-declared maximum confirmation cycle plus 101 applied to every world. A fixed horizon that
 ends mid-follow-up reproduces exactly the Phase L defect that made the late structure unmeasurable (AGENTS 13),

@@ -9878,3 +9878,32 @@ its clock is declared and disjoint from the outcome. **No relation to behaviour 
 because the construct must be chosen before the outcome is read. **Stage B remains unauthorised**: no seed, no
 world, no run; the 240 records, the protocol's 110–150 window, the construct audit's verdict and the empty review
 gate are untouched. The next step the owner named is the independent review gate, not the run.
+
+---
+
+## 154. The behavioural horizon: an index is not a count
+
+**What was questioned.** The record said the follow-up runs from confirmation + 1 through confirmation + 100 —
+100 cycles inclusive — and that the run horizon is confirmation + 101. Those two statements read as one cycle
+apart, and the owner asked for the difference to be reconciled against the code rather than smoothed in prose.
+
+**What the code says.** The follow-up is **100 behavioural cycles**, from index c + 1 through index c + 100
+inclusive: (c + 100) − (c + 1) + 1 = 100. The horizon is **101 readings** measured from the confirmation index, for
+one reason only: a run of length L holds indices 0 … L − 1, so a run that contains index c + 100 has length
+c + 101. The slowest world in hand confirms at index 598, its last behavioural cycle is **index 698**, and its run
+needs **699 readings**. So the owner's 698 and the record's 699 are the same span counted from zero and from one —
+the count of behavioural cycles was never wrong, and no number in the record changed.
+
+**Why it is still worth fixing.** The discrepancy was manufactured by unstated indexing, which is the cheapest way
+for a one-cycle error to enter a protocol and the hardest to see afterwards: both sentences were true of the code
+and false of each other. Four changes make it mechanical rather than remembered. The artifact now carries
+`last_behavioural_index_max`, `behavioural_cycle_count`, `inclusive_span_cycles` and the two offset fields beside
+`run_length_needed_cycles`. The code derives each horizon as that run's own last index plus one rather than as its
+start plus a duration. The build asserts the inclusive-span identity, and the test asserts that the run length
+equals the last index plus one, so the two conventions cannot drift apart in a later edit. And §3.1 states the
+convention once — cycle numbers are zero-based indices into the stored trajectory, so "598 of 600" is index 598 of
+a 600-reading run — with §6.2 tabulating the 100 cycles and the 101 readings side by side.
+
+**What this does not change.** The 600-reading record still cannot host a post-confirmation follow-up in 28 of its
+119 moving runs (`2:1`: 28 of 29), the horizon must still be set per world from its own confirmation cycle rather
+than fixed, and **Stage B remains unauthorised**. The reconciliation resolved a representation, not a finding.
