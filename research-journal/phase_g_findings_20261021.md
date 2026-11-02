@@ -9957,3 +9957,56 @@ rather than re-scored. A record that shows only its final favourable numbers has
 **no relation between onset and behaviour has been computed** — that remains the whole point of fixing the
 predictor first. **Stage B is not authorised**, and §7 of `docs/INDEPENDENT-METHODS-REVIEW.md` is still empty.
 The next act is a review, not a run.
+
+---
+
+## 156. A robustness statistic is not a reliability coefficient
+
+**What was wrong.** §155 sized the Stage B block by treating the construct record's **0.972** as a reliability
+coefficient in a classical attenuation model: 0.50 was attenuated to 0.4757, and 48 worlds per configuration
+became 54. The owner's review caught the substitution, and it does not survive contact with what the number is.
+The 0.972 is the rank agreement between onset measured under a 5-cycle and a 20-cycle sustention rule. Those two
+measurements come from **the same trajectories**, share nearly all their measurement information, and differ in
+*operational definition* rather than through independent random error. The statistic therefore bounds the
+rule-choice component of measurement error and nothing else. It establishes that **the ordering of worlds is
+robust to the sustention rule**, which is a real and useful fact about the predictor; it does not establish the
+reliability of onset, and using it as though it did was a substitution the calculation could not detect because
+it is arithmetically well-formed.
+
+**Why there is no measurement to fall back on.** The engine is deterministic per seed, so re-running a world is
+not a replication. Onset cannot be given a test–retest estimate, in principle rather than for want of effort.
+Any protocol that needs a reliability coefficient here must **declare** one, and declaring one silently — inside a
+derivation that looks like arithmetic — is how an assumption acquires the authority of a measurement.
+
+**What the protocol does instead.** It states that reliability is unmeasured, declares a planning assumption,
+and prints the entire ladder so the assumption can be replaced rather than argued: reliability 1.00 → 48 worlds
+per configuration, 0.90 → 54, 0.80 → 62, 0.70 → 72, 0.60 → 85, 0.50 → 104, 0.40 → 131, 0.30 → 177. The block is
+sized at **0.50**, the weakest predictor still worth testing — below it the measure carries less signal than
+error — so the block cannot be accused of assuming a good instrument. **416 worlds** in total, at an estimated
+**215,696** cycles, **1.4979×** Phase L: larger than the withdrawn 216-world figure, which is exactly the cost of
+not assuming a good instrument. If the reviewer accepts 0.70, the block is 288 worlds; that substitution is the
+reviewer's to record, not the author's to choose.
+
+**A check found on the way, worth keeping.** The ladder is computed from the copula mapping in
+`docs/STRUCTURE-BEHAVIOR-DESIGN.md` §6, `rho_s = (6/pi) asin(rho_g / 2)`, attenuating the *latent* correlation
+and mapping back. Implementing it the other way round — attenuating the observed value directly — moves the
+target at full reliability and silently asks for 52 worlds where the published floor says 48. Done correctly, the
+recomputed ladder reproduces the published table at **every** row (48, 54, 62, 72, 85, 104, 131, 177), which is a
+check on both documents; the test asserts each row, so a drift in either the mapping or the rounding shows up as a
+failure rather than as a plausible-looking table.
+
+**The two other items, closed as asked.** The candidate block is now **700000001**–**700000420** — a plain
+integer block, deliberately not date-like, so no reader mistakes it for calendar values. The **416** worlds are
+**pre-assigned** 104 per configuration before any run, the **four** spares (`700000417`–`700000420`) are recorded
+as **unused**, and **substitution is prohibited**: a censored world does not release its seed, and the spares are
+never drawn. Without that rule the gap between 416 planned worlds and 420 candidate seeds would have been an
+ambiguity in the attrition policy rather than a margin. And §3 of the protocol now names the code that defines the
+endpoint — `benchmarks/reusable_knowledge.py` for what is scored and `benchmarks/formation_provenance_study.py`
+for which transitions are withheld — with the quantum/count gate explicitly still open, because a reviewer is
+being asked whether the endpoint can resolve the claim at all.
+
+**State unchanged.** No seed is allocated, no world is generated, no run is started, and **no relation between
+onset and behaviour has been computed**. **Stage B is not authorised**, and §7 of
+`docs/INDEPENDENT-METHODS-REVIEW.md` is still empty. The withdrawal is recorded in the protocol, the artifact, the
+manual and the reviewer's history, because a design record that shows only its final numbers has hidden its
+reasoning.

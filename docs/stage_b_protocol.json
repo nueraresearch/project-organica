@@ -4,7 +4,7 @@
     "authorised": false,
     "seeds_allocated": 0,
     "worlds_run": 0,
-    "statement": "Stage B is not authorised. The seed block below is candidate only: it is proved unused, which is not the same as being spent. Nothing may be allocated until the independent review records an outcome."
+    "statement": "Stage B is not authorised. The seed block is candidate only, and the pre-assignment inside it is a plan: it is proved unused, which is not the same as being spent."
   },
   "predictor": {
     "name": "confirmed onset of DI",
@@ -33,7 +33,12 @@
     "inherited_from": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a73",
     "learn_cycles": 50,
     "test_cycles": 50,
-    "resolution_requirement": "the endpoint's quantum (one held-out transition) and the number of held-out transitions must be reported before the run; a quantum coarser than the smallest effect the claim asserts makes the endpoint unmeasurable for that claim and stops the run"
+    "implementation_to_inspect": [
+      "benchmarks/reusable_knowledge.py -- revision_held_out and held_out['revision_held_out_pairs'] define what is scored",
+      "benchmarks/formation_provenance_study.py -- held_out_pairs() and PHASE_TRANSFER define which transitions are withheld"
+    ],
+    "resolution_requirement": "the endpoint's quantum (one held-out transition) and the number of held-out transitions must be reported before the run; a quantum coarser than the smallest effect the claim asserts makes the endpoint unmeasurable for that claim and the run does not start",
+    "resolution_confirmed": false
   },
   "clock": {
     "post_confirmation_margin_cycles": 1,
@@ -53,8 +58,62 @@
     "decision_level": 0.9833,
     "resolution_bar": 0.9,
     "smallest_effect_spearman": 0.5,
-    "reliability_proxy": "agreement between the 5-, 10- and 20-cycle sustention rules on the same worlds, taken at its worst pair. Test-retest is unavailable: the engine is deterministic per seed, so a re-run is not a replication",
-    "agreement_by_config": {
+    "reliability_measured": false,
+    "why_reliability_is_not_measured": "the engine is deterministic per seed, so re-running a world is not a replication and no test-retest estimate exists",
+    "reliability_planning_assumption": 0.5,
+    "why_this_assumption": "no reliability estimate exists, so one is declared rather than inferred. 0.50 is the weakest predictor still worth testing -- below it the measure carries less signal than error -- so the block is sized at the worst instrument the claim could survive rather than at a flattering one",
+    "attenuation_ladder": {
+      "1.00": {
+        "observed_effect_spearman": 0.5,
+        "worlds_per_configuration": 48
+      },
+      "0.90": {
+        "observed_effect_spearman": 0.473786,
+        "worlds_per_configuration": 54
+      },
+      "0.80": {
+        "observed_effect_spearman": 0.44617,
+        "worlds_per_configuration": 62
+      },
+      "0.70": {
+        "observed_effect_spearman": 0.41687,
+        "worlds_per_configuration": 72
+      },
+      "0.60": {
+        "observed_effect_spearman": 0.385502,
+        "worlds_per_configuration": 85
+      },
+      "0.50": {
+        "observed_effect_spearman": 0.35151,
+        "worlds_per_configuration": 104
+      },
+      "0.40": {
+        "observed_effect_spearman": 0.314041,
+        "worlds_per_configuration": 131
+      },
+      "0.30": {
+        "observed_effect_spearman": 0.271659,
+        "worlds_per_configuration": 177
+      }
+    },
+    "worlds_per_configuration_at_reliability_1": 48,
+    "worlds_per_configuration": 104,
+    "worlds_total": 416,
+    "reportable_floor_per_configuration": 48,
+    "a_higher_reliability_would_shrink_the_block": true,
+    "worlds_total_if_reviewer_accepts_0_70": 288,
+    "why_this_size": "The block is sized so the decision rule resolves a relation of the declared smallest size in 90 % of blocks at the declared reliability assumption. The assumption is stated, not derived, and every alternative row is printed beside it.",
+    "it_is_a_floor": "unmodelled dependence between worlds and any further measurement error lower the real resolution probability, so this is the least number the claim can be tested with, not the most",
+    "below_the_floor": "a configuration whose usable n falls below 48 after censoring is reported inconclusive, never null",
+    "no_replacement": "a censored world is not replaced: the denominator is reported as realised"
+  },
+  "sustention_rule_agreement": {
+    "worst_pair_spearman": 0.9721290474245746,
+    "where": {
+      "configuration": "2:1",
+      "comparison": "5_vs_20"
+    },
+    "by_config": {
       "2:1": {
         "5_vs_10": 0.9897468252253238,
         "10_vs_20": 0.9872953742629126,
@@ -76,26 +135,14 @@
         "5_vs_20": 1.0
       }
     },
-    "agreement_worst": 0.9721290474245746,
-    "agreement_worst_at": {
-      "configuration": "2:1",
-      "comparison": "5_vs_20"
-    },
-    "assumed_reliability_row": 0.9,
-    "attenuated_effect_at_proxy": 0.475666,
-    "attenuated_effect_at_row": 0.457321,
-    "worlds_per_configuration_at_reliability_1": 48,
-    "worlds_per_configuration": 54,
-    "worlds_total": 216,
-    "reportable_floor_per_configuration": 48,
-    "why_this_size": "The block is sized so that the decision rule resolves a relation of the declared smallest size in 90 % of blocks, after attenuation by the measured agreement between sustention rules. It is a floor, not a target: unmodelled dependence between worlds and any further measurement error lower the real resolution probability.",
-    "below_the_floor": "a configuration whose usable n falls below 48 after censoring is reported inconclusive, never null",
-    "no_replacement": "a censored world is not replaced: the denominator is reported as realised"
+    "establishes": "the ordering of worlds is robust to the sustention rule, and the predictor's ranking does not depend on the declared 10-cycle choice",
+    "does_not_establish": "a reliability coefficient. The two measurements come from the same trajectories, share nearly all their measurement information, and differ in operational definition rather than through independent random error, so the statistic bounds only the rule-choice component of measurement error -- not the reliability of onset",
+    "used_in_the_block_size": false
   },
   "cost": {
-    "cycles_total": 111996.0,
+    "cycles_total": 215696,
     "cycles_if_every_world_ran_600": 144000,
-    "relative_to_phase_l": 0.7778,
+    "relative_to_phase_l": 1.4979,
     "note": "Estimated from the median confirmation cycle per configuration in the Phase L record, which is the best available estimate of where fresh worlds will emerge. It is an estimate, not a measurement."
   },
   "seeds": {
@@ -775,14 +822,43 @@
     },
     "consumed_total": 192,
     "candidate_block": [
-      20270601,
-      20270820
+      700000001,
+      700000420
     ],
-    "candidate_count": 220,
+    "candidate_count": 420,
+    "preassigned": {
+      "2:1": {
+        "first": 700000001,
+        "last": 700000104,
+        "count": 104
+      },
+      "3:1": {
+        "first": 700000105,
+        "last": 700000208,
+        "count": 104
+      },
+      "4:1": {
+        "first": 700000209,
+        "last": 700000312,
+        "count": 104
+      },
+      "6:1": {
+        "first": 700000313,
+        "last": 700000416,
+        "count": 104
+      }
+    },
+    "preassigned_total": 416,
+    "unused": {
+      "first": 700000417,
+      "last": 700000420,
+      "count": 4
+    },
+    "substitution_allowed": false,
     "overlap_with_consumed": [],
     "disjoint_proved_against": 71,
     "allocated": false,
-    "note": "Disjointness is checked against every integer filed under a key naming a seed in every docs/ artifact, at build time. The block is candidate only: no seed in it is allocated, and the independent review must report before any is."
+    "note": "Every configuration's seeds are pre-assigned before any world runs, the spare seeds are named as unused, and substitution is prohibited: a censored world does not release its seed to another world, and the spare seeds are never drawn."
   },
   "analysis": {
     "unit": "one world (seed) within one configuration",
@@ -822,14 +898,22 @@
     "not_supported": "absent in every configuration",
     "reversed": "reversed in any configuration, recorded there",
     "size_effect": "explained by structural size rather than onset",
-    "design_defect": "permutation control non-null, or a predictor built from behavioural cycles; no result is reported",
-    "inconclusive": "fewer usable worlds than the floor after censoring"
+    "design_defect": "permutation control non-null, a predictor built from behavioural cycles, or an endpoint whose quantum cannot resolve the declared effect",
+    "inconclusive": "fewer usable worlds than the floor after censoring",
+    "underpowered_for_the_claim": "the reviewer or the power computation concludes the block is too small; that is a design limitation found before any cycle is spent, not a failure of the project"
   },
   "review_gate": {
     "document": "docs/INDEPENDENT-METHODS-REVIEW.md",
     "outcome_recorded": false,
     "may_reject": true,
     "authority": "Approved / Approved with conditions / Rejected; a rejection is recorded verbatim and is not argued into an approval",
+    "questions_for_the_reviewer": [
+      "is the block size adequately justified at the declared reliability assumption, and is the ladder the right way to handle an unmeasured reliability?",
+      "is the sustention-rule agreement correctly described as robustness rather than reliability, and is it right to exclude it from the arithmetic?",
+      "does the behavioural endpoint have sufficient resolution, and is its operational definition unambiguous in the code named in section 3?",
+      "are the pre-assigned seeds, the four unused seeds and the no-substitution rule sufficient to keep attrition from becoming a search?",
+      "does the aggregation rule, which requires the relation in every claimed configuration, prevent a favourable but misleading reading?"
+    ],
     "send_with_the_package": [
       "docs/DI-MEASUREMENT-WINDOW.md",
       "docs/DI-TRANSITION-CONSTRUCT.md",
@@ -844,7 +928,8 @@
       "the Stage A dynamic-range claim (\"0.44 pairs against a one-pair floor\") and its withdrawal: it compared a 40-cycle mean to a single-cycle quantum",
       "the 20 of 119 onsets that are not the first non-zero reading, and the 2 runs whose eligibility depends on the sustention rule",
       "the behavioural horizon's index-versus-count reconciliation",
-      "the four blocks whose criteria failed and were reported rather than re-scored"
+      "the 0.972 agreement statistic first presented as a reliability proxy, and its correction: it is robustness of the ordering, and the block is now sized at a declared assumption instead",
+      "the four block-level criteria that failed in earlier phases and were reported rather than re-scored"
     ]
   },
   "withdrawn_claims": [
@@ -859,6 +944,12 @@
       "status": "never claimed, and not established",
       "why": "no relation between onset and any behavioural endpoint has been computed, by design",
       "where": "docs/DI-TRANSITION-CONSTRUCT.md \u00a75"
+    },
+    {
+      "claim": "onset has a reliability of 0.972, so the 54-world block is attenuation-corrected",
+      "status": "withdrawn in place",
+      "why": "the 0.972 is the agreement between two sustention rules on the same trajectories; it is robustness of the ordering, not a reliability coefficient, and using it as one required an unjustified substitution",
+      "where": "docs/STAGE-B-PROTOCOL.md \u00a76"
     }
   ],
   "inherited_sign_resolution": {
