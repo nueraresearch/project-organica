@@ -1,7 +1,9 @@
 # Functional structure — pre-registration (V1)
 
-**Status: committed before any cell has run under it, and before the harness is
-built.** No seed named here has been read by any study in this repository. Nothing
+**Status: committed before any cell has run under it.** The scoring layer of
+§11.2–§11.3 is built and gated; the engine binding is not, and no seed — design or
+confirmatory — has been read by it. No seed named here has been read by any study in
+this repository. Nothing
 below was chosen from a result of this protocol; the constants it fixes are carried
 over from protocols that are already closed, and they are named with their source.
 
@@ -181,16 +183,43 @@ that under this scoring rule, at this capacity, on these worlds, the formed stru
 did not beat a tuned simple baseline by the pre-committed margin — and the provenance
 diagnostic would say whether the support behind the readout was mostly self-sourced.
 
-## 10. Build status
+## 10. Build status and run order
 
-**Not built.** The endpoint needs a scoring harness that does not exist yet: a
-log-loss readout over held-out pairs for every arm on one exposure stream, the
-comparator sweep with its tuning split, the gate audit with its failing controls, and
-the formation recorder wired in as a diagnostic. The provenance runner measures
-occurrence, not probability, and is not this harness.
+**The scoring layer is built; the engine binding is not.**
+`benchmarks/functional_structure.py` implements the measurement contract of §11.2 and
+§11.3 — cells, per-cell loss, the four attribution outcomes — and its G6 fixtures fire with
+no engine module imported and no study seed read. What is missing is the binding: a runner
+that develops one arm over the 110-cycle formation stream, builds its readout, scores the two
+windows and records formation provenance. The provenance runner measures occurrence, not
+probability, and is not this harness.
 
-Nothing in this document authorizes running that build, and no cell of any block may
-run until the harness and its gates are committed and the design block has passed.
+**Run order, fixed now.** The earlier wording of this section forbade a run that the design
+block *is*: it said no cell of any block may run until the harness and its gates are
+committed and the design block has passed, and the design block cannot pass without running
+its five seeds. The sequence is therefore three steps, and each step names what it is allowed
+to produce.
+
+1. **Build and commit.** The harness, its gates and their failing controls are committed and
+   passing. No confirmatory seed is read at this step.
+2. **Design block only — `20270201`–`20270205`.** These five seeds are run once, for liveness
+   (G1), denominators (G2), the harness-can-fail control (G3), instrument neutrality (G4) and
+   the recorded disqualifier wiring of §11.5. They are an **instrument audit, not a result**.
+3. **Confirmatory block, only if the design block passes — `20270206`–`20270220`.** One run,
+   no seed added, dropped or re-drawn. If any design gate fails, the protocol stops at step 2:
+   the failure is disclosed, the defect is fixed, the fixed harness is re-audited on the same
+   five design seeds, and no confirmatory seed is touched.
+
+**What a design seed may and may not produce.** The design run forms gate diagnostics and
+nothing else. The endpoint of §4 — `delta` against the strongest baseline, per seed or pooled —
+is **not formed on design seeds**, and no design-seed score is read against §4's bar, quoted as
+a result, or carried into the language of §9. §11.5's disqualifier status is recorded as a
+wiring check because the amendment pre-commits it; it is not reported as a share, and it
+cannot make or withhold a claim on a design seed. A design number may appear only inside a gate
+diagnostic that is labelled as one.
+
+**The endpoint stays locked until step 3.** No confirmatory seed is generated, no arm is fitted
+on one, and no preliminary look at the endpoint is taken until every design gate has passed and
+that passing run is committed.
 
 ---
 
@@ -285,8 +314,13 @@ same scale as the endpoint, so "carried mainly by" is a computable share.
 ### 11.4 What is unchanged
 
 Seeds and blocks (§5), gates (§6), capacity, alpha, the endpoint and its bar (§4),
-the stop rules (§8) and the build status (§10) are unchanged. No cell has run, and
+the stop rules (§8) and the build status (§10) are unchanged by this amendment. No cell has run, and
 none may run until the harness and these definitions are committed together.
+
+**Note on §10 (added afterwards, disclosed).** §10's run order was revised on
+2026-11-02 in a separate commit, because its original wording forbade the design run it
+depended on. The revision sequences the blocks and locks the endpoint; it changes no seed,
+gate, capacity, alpha or bar, so nothing in this amendment is affected.
 
 ### 11.5 Which baseline, which window
 

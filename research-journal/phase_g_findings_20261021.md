@@ -8339,3 +8339,29 @@ never withholds must make the gate raise.
 The engine binding is not written. A design seed has not been scored and the harness is not complete;
 what exists is the part that can be proved before the expensive part runs.
 
+## §113 A stop rule that forbade its own precondition
+
+§10 said no cell of any block may run until the harness and its gates are committed and the design
+block has passed. The design block is five seeds; it cannot pass without running them. The rule was
+written to keep the endpoint out of reach, and what it actually did was make step one unstatable:
+either the design run is a violation of the protocol, or the protocol's own gate is unreachable.
+
+The fix is to say what the blocks are for, in order, rather than to name one condition that covers
+both. Step one builds and commits the harness and proves the gates fire. Step two runs the design
+block only, and is explicitly an instrument audit: liveness, denominators, the harness-can-fail
+control, instrument neutrality, the recorded disqualifier status. Step three is the confirmatory
+block, and it is conditional on step two, which is what the original sentence was reaching for.
+
+The substantive clause is the one about what a design seed may produce. A design run still computes
+scores — a liveness gate needs a readout to be live, and a denominator gate needs a denominator — so
+"scores are not read as a result" cannot be left as a promise. §10 now says the endpoint of §4 is
+**not formed** on a design seed: no `delta` against the strongest baseline, per seed or pooled, and
+no design number quoted outside a gate diagnostic labelled as one. §11.5's disqualifier status is
+the single exception, because the amendment pre-commits recording it; it is recorded as a wiring
+check, not as a share.
+
+This is the second wording defect found in the same part of the protocol, and both were the same
+kind: a sentence that reads as strict while removing the ability to execute it. The guard is a
+three-line ordering assertion, because the defect is invisible to a careful read — the sentence
+looked like exactly the discipline it was undoing.
+

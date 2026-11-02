@@ -56,5 +56,22 @@ def test_no_cell_artifact_exists_yet():
     """The protocol says no cell has run; a result artifact appearing early is a defect."""
     assert not pathlib.Path("docs/functional_structure_study.json").exists()
     text = DOC.read_text(encoding="utf-8")
-    assert "**Not built.**" in text
     assert not re.search(r"\{[a-z_]+\}", text)
+
+
+def test_run_order_is_explicit_and_not_circular():
+    """§10 must sequence the blocks rather than require the design block to have passed itself."""
+    text = DOC.read_text(encoding="utf-8")
+    # The superseded rule forbade the design run that the design block is.
+    assert ("no cell of any block may run until the harness and its gates are committed "
+            "and the design block has passed") not in text
+    sec10 = text.split("## 10.", 1)[1].split("## 11.", 1)[0]
+    marks = ("**Build and commit.**", "**Design block only", "**Confirmatory block, only if")
+    order = [sec10.index(m) for m in marks]
+    assert order == sorted(order), order
+    assert "20270201" in sec10 and "20270205" in sec10
+    assert "20270206" in sec10 and "20270220" in sec10
+    # The lock is explicit: the design block does not form the endpoint.
+    assert "not formed on design seeds" in sec10
+    assert "**The endpoint stays locked until step 3.**" in sec10
+
