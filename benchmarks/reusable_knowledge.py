@@ -565,15 +565,23 @@ def _support_observer(mem: MemoryService):
     #: the TRANSITION, not the source event: transitions from one prior event to
     #: different targets are distinct evidence, as the audit-trace observer
     #: defines it (spec §3.3).
+    #
+    # The window query identifies the SOURCE events only.  The target event's
+    # identity is passed in from the handle `store()` returned, never read off
+    # `rows[0]`: the lookback is `ORDER BY time DESC LIMIT 3` with no `rowid`
+    # tiebreak and no index on `time`, so under equal timestamps the first row
+    # of that query need not be the event just stored (spec §3.3).  Reading the
+    # target from the window attributes a store's whole transition set to
+    # whichever tied row happened to sort first.
     support: dict[tuple[str, str], dict[tuple[int, int], bool]] = defaultdict(dict)
     state = {"windows_with_sleep": 0}
 
-    def record(new_tags: list[str]) -> None:
+    def record(new_tags: list[str], to_event_rowid: int) -> None:
         rows = mem._conn.execute(
             "SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3"
         ).fetchall()
         slept = False
-        to_id = int(rows[0][0]) if rows else None
+        to_id = int(to_event_rowid)
         for rid, tags_str, etype in rows:
             prior = [t for t in (tags_str or "").split(",") if t]
             for u in prior:
@@ -585,6 +593,20 @@ def _support_observer(mem: MemoryService):
         state["windows_with_sleep"] += int(slept)
 
     return record, support, state
+
+
+def stored_rowid(mem: MemoryService, event_id: str) -> int:
+    """The rowid of the event just stored, resolved by its unique id.
+
+    A keyed lookup on the primary key, unlike the lookback window: it cannot be
+    reached by a tied timestamp, so it is the only sound source for a
+    transition's target identity.
+    """
+    row = mem._conn.execute(
+        "SELECT rowid FROM events WHERE id = ?", (event_id,)).fetchone()
+    if row is None:
+        raise AssertionError(f"stored event {event_id} is not in the events table")
+    return int(row[0])
 
 
 def support_provenance(support: dict, asserted: set[tuple[str, str]],
@@ -737,8 +759,8 @@ def run_engine(formation: dict, revision: dict, seed: int,
 
     def feed(events: list[str], source: str) -> None:
         for i, text in enumerate(events):
-            mem.store(text, event_type="observe", source=source)
-            record(sorted(text.split()))
+            event = mem.store(text, event_type="observe", source=source)
+            record(sorted(text.split()), stored_rowid(mem, event.id))
             if (i + 1) % epc == 0:
                 svc.run_sleep_cycle()
                 mem.prune_sleep_candidates()

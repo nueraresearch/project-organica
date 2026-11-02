@@ -7,6 +7,9 @@ form of §14, and that the confirmatory guard refuses before calibration passes.
 """
 from __future__ import annotations
 
+import time
+from unittest import mock
+
 import pytest
 
 from benchmarks import reusable_knowledge as rk
@@ -319,6 +322,138 @@ def test_a_pass_reports_how_much_of_the_population_it_covers():
     assert got["all_claims_passed"] is True, "a half-unjudged population can pass"
     assert got["pass_coverage"] == pytest.approx(0.5)
     assert got["excluded_share"] == pytest.approx(0.5)
+
+
+class _TieClock:
+    """One timestamp per `group` calls, so lookback windows genuinely tie."""
+
+    def __init__(self, group: int = 4, base: float = 1_700_000_000.0):
+        self.group, self.base, self.calls = group, base, 0
+
+    def time(self) -> float:
+        value = self.base + (self.calls // self.group) * 0.0001
+        self.calls += 1
+        return value
+
+
+TIE_TEXTS = ["alpha beta gamma delta", "epsilon zeta eta theta",
+             "iota kappa lambda mu", "nu xi omicron pi",
+             "rho sigma tau upsilon", "phi chi psi omega"]
+
+
+def _lookback(mem) -> list:
+    return mem._conn.execute(
+        "SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3"
+    ).fetchall()
+
+
+def test_a_tied_window_still_names_the_event_the_store_inserted(tmp_path):
+    """Measured tie arm: the window ties, and every target is the stored row.
+
+    Ties are forced so the lookback genuinely has no tie-breaker (spec §3.3).
+    On this SQLite build the window's first row happened to be the stored row in
+    every tied store -- that is an implementation observation, not a guarantee,
+    which is why the identity does not rest on it (`test_target_identity_does_
+    not_come_from_the_window_order`).
+    """
+    mem = rk.MemoryService(str(tmp_path / "tied.db"))
+    record, support, _state = rk._support_observer(mem)
+    clock = _TieClock(group=4)
+    tied_windows = first_row_disagreements = stores = 0
+    try:
+        with mock.patch.object(time, "time", clock.time):
+            for text in TIE_TEXTS:
+                event = mem.store(text, event_type="observe", source="env")
+                stored = rk.stored_rowid(mem, event.id)
+                window = _lookback(mem)
+                times = [r[0] for r in mem._conn.execute(
+                    "SELECT time FROM events ORDER BY time DESC LIMIT 3").fetchall()]
+                tied_windows += int(len(times) != len(set(times)))
+                first_row_disagreements += int(window[0][0] != stored)
+                before = {k for recs in support.values() for k in recs}
+                record(sorted(text.split()), stored)
+                added = {k for recs in support.values() for k in recs} - before
+                stores += 1
+                assert added, "a store must contribute transitions"
+                assert {k[1] for k in added} == {stored}, (
+                    "every transition of a store must name the event that store "
+                    "inserted")
+    finally:
+        mem._conn.close()
+    assert tied_windows >= 1, "the clock never produced a tied window"
+    assert stores == len(TIE_TEXTS)
+    # Recorded, not asserted: the window's own order agreed here.
+    assert first_row_disagreements == 0, (
+        "this SQLite build ordered the tied window differently than expected; "
+        "the assertion above is what carries the identity, not rows[0]")
+
+
+class _WindowOrder:
+    """A connection whose lookback returns the tied window in the other order.
+
+    SQLite promises nothing about the order of rows that tie on `time`, so an
+    implementation may legitimately return the stored row last.  This wrapper
+    produces that order deterministically, which is what makes the identity
+    check able to fail: under the old rule the target would be an older tied
+    row, and every transition of the store would carry the wrong event.
+    """
+
+    class _Rows:
+        def __init__(self, rows):
+            self._rows = rows
+
+        def fetchall(self):
+            return self._rows
+
+    def __init__(self, conn):
+        self._conn = conn
+        self.rotated = False
+
+    def execute(self, sql, params=()):
+        cur = self._conn.execute(sql, params)
+        if (self.rotated and "ORDER BY time DESC LIMIT 3" in sql
+                and "rowid, tags, event_type" in sql):
+            rows = cur.fetchall()
+            return self._Rows(rows[1:] + rows[:1])
+        return cur
+
+    def __getattr__(self, name):
+        return getattr(self._conn, name)
+
+
+def test_target_identity_does_not_come_from_the_window_order(tmp_path):
+    """With the tied window ordered against it, the target is still the store's."""
+    mem = rk.MemoryService(str(tmp_path / "rotated.db"))
+    record, support, _state = rk._support_observer(mem)
+    clock = _TieClock(group=4)
+    real = mem._conn
+    order = _WindowOrder(real)
+    mem._conn = order
+    try:
+        with mock.patch.object(time, "time", clock.time):
+            for text in TIE_TEXTS:
+                event = mem.store(text, event_type="observe", source="env")
+                stored = rk.stored_rowid(mem, event.id)
+                order.rotated = True
+                window = order.execute(
+                    "SELECT rowid, tags, event_type FROM events "
+                    "ORDER BY time DESC LIMIT 3").fetchall()
+                order.rotated = False
+                if len(window) < 2:
+                    continue
+                assert window[0][0] != stored, (
+                    "the rotated window must put an older tied row first, or "
+                    "this test cannot tell the two identity sources apart")
+                before = {k for recs in support.values() for k in recs}
+                record(sorted(text.split()), stored)
+                added = {k for recs in support.values() for k in recs} - before
+                assert added, "a store must contribute transitions"
+                assert {k[1] for k in added} == {stored}, (
+                    "the old rule would have named rows[0], an older tied event")
+                assert window[0][0] not in {k[1] for k in added}
+    finally:
+        mem._conn = real
+        mem._conn.close()
 
 
 def test_confirmatory_guard_requires_the_per_claim_rule(monkeypatch):

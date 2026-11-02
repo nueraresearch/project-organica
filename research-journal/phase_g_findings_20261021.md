@@ -7697,3 +7697,31 @@ moved without explanation. The instrument passes 8 of 8 checks; the criterion fa
 
 → `docs/reusable_knowledge_calibration.json`; `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.
 
+## §99 — The observer's target identity was reading the wrong row, and the counts survive it
+
+The per-claim measurement had one more defect, in the instrument rather than the arithmetic: the
+support observer took the **target** event of every transition from `rows[0]` of its own lookback
+query (`ORDER BY time DESC LIMIT 3`). That query has no `rowid` tiebreak and there is no index on
+`events.time`, so when timestamps tie, its first row is not guaranteed to be the event just stored.
+Every transition of such a store would then be filed under a different event — and the per-claim
+rule would judge claims on transitions they never had. The engine's own store already returns the
+event, so the observer now resolves the target by a keyed lookup on the primary key
+(`stored_rowid(mem, event.id)`) and uses the window only to identify source events. The stored row
+remains a legitimate source, because `_record_temporal_edges` runs after the insert and the engine
+sees its own event in the window.
+
+**The tie arm is not enough on its own, and saying so is the point.** Forcing one timestamp per
+four stores gives 5 tied windows in 6 stores on SQLite 3.45.1, and the observer names the stored
+row on every transition. But on this build `rows[0]` *also* agreed with the stored row in all 6
+stores — the defect was latent, not misfiring, and an empirical tie test alone would have cleared
+it. So the second test wraps the connection and returns the tied window with the stored row last,
+an order SQLite may legitimately choose; it asserts that `rows[0]` really is a different event and
+requires the recorded target to be the stored one regardless. That test fails on the old rule and
+passes on the new one.
+
+**Nothing moved.** Calibration was rerun and reproduced `docs/reusable_knowledge_calibration.json`
+byte for byte: the real runs use a wall clock, so no tied window arose. 254–576 of 604–1277
+measurable claims still fail per seed, `authorises_confirmatory` is still false, and the audit is
+still 8 of 8. The confirmatory seeds have not been touched.
+
+→ `docs/REUSABLE-KNOWLEDGE-PREREGISTRATION.md` §20.6; `tests/test_reusable_knowledge.py`.

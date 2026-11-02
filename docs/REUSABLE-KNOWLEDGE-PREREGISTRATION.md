@@ -899,3 +899,40 @@ measurable claims (42.1 %) against a reference an ordinary belief met.
 checks on every seed including the rebuilt `E8`, `authorises_confirmatory: false`. No confirmatory
 seed has run, and none may run until a variant whose readout is world-carried passes this rule on
 calibration.
+
+### 20.6 The target event's identity does not come from the window
+
+The per-claim counts rest on the observer's transition identity, and that identity had a second
+defect the §20 correction did not touch: the observer read the **target** event id off `rows[0]` of
+its own lookback query. That query is
+`SELECT rowid, tags, event_type FROM events ORDER BY time DESC LIMIT 3` — the window the engine
+itself uses, which has **no `rowid` tiebreak and no index on `time`**, so when timestamps tie the
+first row is not guaranteed to be the event just stored (§3.3 of the audit-trace specification).
+A store whose target is misread carries its whole transition set under the wrong event, and the
+per-claim rule would then judge claims on transitions they did not have.
+
+The fix removes the dependence rather than narrowing it. `store()` already returns the event it
+inserted, so the observer now takes `stored_rowid(mem, event.id)` — a keyed lookup on the primary
+key — and uses the window query only to identify the **source** events. The engine's own
+within-window behaviour is untouched: because `_record_temporal_edges` runs after the insert, the
+stored row is legitimately one of the three sources, and it stays one.
+
+Two checks, because only one of them could have caught it on its own:
+
+- **Measured tie arm** (`test_a_tied_window_still_names_the_event_the_store_inserted`): a clock
+  returning one timestamp per four stores produces **5 tied windows in 6 stores** on SQLite
+  **3.45.1**, and every recorded transition of every store names the row that store inserted. On
+  this build the window's first row also **agreed** with the stored row in all 6 stores, so the old
+  rule was *latent* here rather than misfiring — an empirical tie arm alone would have acquitted it.
+- **Contrary tie order** (`test_target_identity_does_not_come_from_the_window_order`): the
+  connection is wrapped so the lookback returns the tied window with the stored row last, an order
+  SQLite may legitimately choose. The test first asserts that `rows[0]` really is a different
+  event, then requires the recorded target to be the stored one anyway. That is the check that can
+  fire, and it is the one that pins the identity.
+
+**Effect on the numbers: none.** Calibration was rerun after the fix and reproduced
+`docs/reusable_knowledge_calibration.json` **byte for byte** — the real runs use a wall clock, so no
+tied window occurred — and the counts of §20.5 stand unchanged: 254–576 of 604–1277 measurable
+claims failing per seed, `authorises_confirmatory: false`, audit 8 of 8. The repair replaces an
+implementation observation with a guarantee; the study stays stopped on the criterion, not on the
+instrument.
