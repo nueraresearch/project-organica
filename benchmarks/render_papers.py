@@ -68,6 +68,10 @@ def prepare(markdown: str) -> tuple[str, str, str]:
     author_match = AUTHOR_RE.search(markdown)
     title = title_match.group("title") if title_match else ""
     author = author_match.group("author") if author_match else ""
+    # The author line is a single hbox in a LaTeX title block, so a name, an
+    # ORCID URL and an address on one line run 63 pt into the margin.  Split
+    # it at the em dashes the manuscript already uses as separators.
+    author = author.replace(" \u2014 ", " \\\\ ")
     if not title:
         raise SystemExit("the manuscript has no level-one title")
     if not author:
@@ -81,12 +85,18 @@ def prepare(markdown: str) -> tuple[str, str, str]:
     body = IMAGE_RE.sub(replace, markdown)
     # The author is in the title block, so the body line would repeat it.
     body = body.replace(author_match.group(0), "", 1)
+    # The title is in the LaTeX title block; leaving the level-one heading in the
+    # body typesets the title twice, the second time as a section heading that
+    # runs into the margin.
+    body = TITLE_RE.sub("", body, count=1).lstrip("\n")
     return body, title, author
 
 
 def run(command: list[str], cwd: Path, what: str) -> None:
+    # pdfLaTeX writes its log in the locale's encoding, not UTF-8, so a
+    # strict decode fails on a build that otherwise succeeded.
     result = subprocess.run(command, cwd=str(cwd), capture_output=True,
-                            text=True, timeout=900)
+                            text=True, errors="replace", timeout=900)
     if result.returncode != 0:
         print(result.stdout[-4000:])
         print(result.stderr[-4000:])
@@ -111,6 +121,48 @@ def fix_table_captype(tex_path: Path) -> int:
     return raw.count(b"\\def\\LTcaptype{none}")
 
 
+CODE_SPAN_RE = re.compile(r"\\texttt\{([^{}]*)\}")
+
+
+def make_code_spans_breakable(tex_path: Path) -> int:
+    """Let a long texttt path wrap at its slashes instead of overflowing.
+
+    Pandoc writes inline code as texttt{...}, and TeX has no break opportunity
+    inside one: a repository path is a single unbreakable box.  The first build
+    put ten of them into the margin, the widest by 140 pt.  Inserting
+    allowbreak after each slash inside the span gives the line a place to end
+    without hyphenating a path or changing a glyph.  The committed manuscript
+    is untouched; this rewrites the build copy only.  Returns the number of
+    spans rewritten.
+    """
+    raw = tex_path.read_text(encoding="utf-8")
+
+    def replace(match: re.Match) -> str:
+        inner = match.group(1)
+        if "/" not in inner:
+            return match.group(0)
+        if len(inner) > 24:
+            # A long path or hash: allow a break between any two characters, as
+            # \seqsplit does.  Nothing shorter is touched.
+            units, i = [], 0
+            while i < len(inner):
+                # Keep an escape ("\\_") in one piece: splitting between the
+                # backslash and the underscore turns the escape into a line break
+                # and an unescaped underscore, which is a LaTeX error.
+                width = 2 if inner[i] == "\\" and i + 1 < len(inner) else 1
+                units.append(inner[i:i + width])
+                i += width
+            return "\\texttt{%s}" % "\\allowbreak{}".join(units)
+        inner = inner.replace("/", "/\\allowbreak{}")
+        inner = inner.replace("\\_", "\\_\\allowbreak{}")
+        return "\\texttt{%s}" % inner
+
+    out = CODE_SPAN_RE.sub(replace, raw)
+    if out != raw:
+        tex_path.write_text(out, encoding="utf-8")
+    return len(CODE_SPAN_RE.findall(raw))
+
+
 def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     source = REPO / rel
     markdown = source.read_text(encoding="utf-8")
@@ -128,6 +180,7 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
          "--metadata", "title:%s" % title, "--metadata", "author:%s" % author,
          "--output", str(build_tex)], BUILD, "pandoc")
 
+    make_code_spans_breakable(build_tex)
     fix_table_captype(build_tex)
 
     for _ in range(2):

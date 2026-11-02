@@ -2,6 +2,13 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
+% Latin Modern ships scalable Type1 fonts: microtype's expansion needs them,
+% and the default T1 set does not have them, which is a fatal error.
+\usepackage{lmodern}
+% Emit a real Unicode map for the Type1 fonts, so the deposited PDF's text
+% extracts as the words on the page (fi/fl, the section sign).
+\input{glyphtounicode}
+\pdfgentounicode=1
 \usepackage[utf8]{inputenc}
 
 % The manuscripts are written with typographic punctuation.  pdfLaTeX has no
@@ -36,19 +43,26 @@
 $highlighting-macros$
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage[hidelinks]{hyperref}
+% fi and fl ligatures extract as nothing from a T1-encoded PDF, so the deposited text
+% reads "con rmed".  Disabling them keeps the text searchable at no visual cost.
+\usepackage{microtype}
+\DisableLigatures{encoding = T1, family = *}
 
 \setlength{\parskip}{0.35em}
 \setlength{\emergencystretch}{3em}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 $if(title)$
-\title{$title$}
+\title{\parbox{0.86\textwidth}{\centering $title$}}
 $endif$
 $if(author)$
-\author{$author$}
+\author{\parbox{0.86\textwidth}{\centering $author$}}
 $endif$
 \date{}
 
+% The manuscripts carry their own numbers in the heading text ("4.10 The confirmed
+% capacity test"), so LaTeX must not add a second, conflicting set.
+\setcounter{secnumdepth}{0}
 \begin{document}
 \maketitle
 $body$

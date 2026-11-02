@@ -1,6 +1,6 @@
 # Zenodo deposit package
 
-**Status: prepared, decided, not deposited.** Every field below is filled in,
+**Status: prepared for Paper 01's submission, decided, not deposited.** Every field below is filled in,
 every bundle is built and checksummed, and every decision the checklist used
 to leave open has been made — the owner's standing direction on 2026-10-31 was
 *"do not deposit yet; use your best judgement on the rest"*. **Nothing here has
@@ -17,11 +17,19 @@ arXiv route can still be taken later without redoing the metadata.
 
 | Record | Type | Version | Metadata file |
 |---|---|---|---|
-| The frozen Organica 1 engine and its evidence artifacts | software | **v0.10.0** | `zenodo/software-v0.10.0.json` |
+| The frozen Organica 1 engine and its evidence artifacts | software | **v0.11.0** | `zenodo/software-v0.11.0.json` |
 | Paper 01 — Developmental structure formation | publication (preprint) | 1.0.0 | `zenodo/paper-01-preprint.json` |
 | Paper 02 — Persistent structural provenance | publication (preprint) | 1.0.0 | `zenodo/paper-02-preprint.json` |
 
-**The software record carries v0.10.0.** The engine inside it is frozen:
+**The software record carries v0.11.0, archived from a commit.** It carried v0.10.0 until
+2026-11-02, and that stopped being correct when Paper 01 gained §4.10: the capacity-1,000
+result cites `docs/functional_structure_confirmatory.json` and
+`docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md`, both committed **after** the v0.10.0 tag, so a
+v0.10.0 tree cannot carry the evidence its own manuscript cites —
+`python benchmarks/deposit_bundle.py --check` reported **38 cited, 2 missing**. Cutting a
+`v0.11.0` tag would fix it and is the owner's act, so the archive is taken from `HEAD` instead
+and the manifest records the resolved commit SHA (`software_commit`). Nothing else about the
+record changed, and the engine inside it is still frozen:
 `organica/` is byte-identical to the v0.9.0 tag apart from the package
 version string, and **v0.9.0 remains the archival reference for the engine
 alone**. v0.10.0 is the release of the research package around that engine --
@@ -110,7 +118,7 @@ plus the checksums and the manifest:
 
 | File | |
 |---|---|
-| `project-organica-v0.10.0.tar.gz` | `git archive` of the tree at `v0.10.0` |
+| `project-organica-v0.11.0.tar.gz` | `git archive` of the tree at `v0.10.0` |
 | `SHA256SUMS` | checksums of the record's files |
 | `DEPOSIT-MANIFEST.json` | the record's metadata and its file list |
 
@@ -142,7 +150,7 @@ software record carries:
 python benchmarks/deposit_bundle.py --check
 ```
 
-**36 artifacts are cited and 36 are present** in the `v0.10.0` tree. A
+**38 artifacts are cited and 38 are present** in the archived tree. A
 manuscript cannot cite evidence the software record does not carry.
 
 ### After the paper DOIs exist
@@ -173,8 +181,9 @@ yet; use your best judgement on the rest"*):
 - [x] **`python benchmarks/zenodo_metadata.py` passes.** All four metadata
       files conform to Zenodo's published deposit schema.
 - [x] **The file list is checked against the manuscripts.**
-      `python benchmarks/deposit_bundle.py --check`: **36 artifacts cited,
-      36 present** in the `v0.10.0` tree.
+      `python benchmarks/deposit_bundle.py --check`: **38 artifacts cited,
+      38 present** in the archived tree.
+- [x] **The software record is archived from the commit, not the stale tag** (2026-11-02): 38 cited artifacts, 38 present.
 - [x] **The bundles are built and checksummed** by
       `python benchmarks/deposit_bundle.py`, under `.scratch/deposit/`.
 
@@ -233,7 +242,7 @@ identifier was read from Zenodo's API.
 ## Files in this package
 
 - `.zenodo.json` — metadata for the GitHub-release integration.
-- `zenodo/software-v0.10.0.json` — the software record's metadata.
+- `zenodo/software-v0.11.0.json` — the software record's metadata.
 - `zenodo/paper-01-preprint.json` — Paper 01's record metadata.
 - `zenodo/paper-02-preprint.json` — Paper 02's record metadata.
 - `benchmarks/zenodo_metadata.py` — validates every metadata file against

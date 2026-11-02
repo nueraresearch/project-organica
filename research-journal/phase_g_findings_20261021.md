@@ -8670,3 +8670,43 @@ The edge-strength question is now named and deliberately not opened. If it is op
 its own document, its own gates and its own seeds; the formulation above is recorded so it does not
 have to be reconstructed from this one.
 
+## §123 — Paper 01's submission package is built and checked; the upload is the owner's (2026-11-02)
+
+The owner's decision was to stop adding internal experiments and put V1 in front of reviewers,
+Paper 01 first. This entry records what "submission-ready" turned out to require, and what it
+does not include.
+
+**Rendering found eight defects, all in the build, none in the manuscript.** `pdflatex` was not
+available in this environment; pandoc 3.5 and TinyTeX were installed into the home directory and
+the committed pipeline was used unchanged apart from the fixes below. The first build produced a
+23-page PDF that was wrong in ways only a log and an extraction check show: the title typeset
+twice (once as a numbered section, 61 pt into the margin), LaTeX numbering the headings on top of
+the manuscript's own numbers, ten `\texttt` paths that were single unbreakable boxes (the widest
+140 pt into the margin), a fatal microtype error without scalable fonts, and — the one that
+mattered most for a deposit — **no Unicode map**, so the text did not extract: **0 of 34** section
+signs survived and "confirmed" extracted as "con rmed". `\input{glyphtounicode}` plus
+`\pdfgentounicode=1` fixed it: 34 of 34, and "confirmed" intact. The final Paper 01 build has
+**0** LaTeX errors and **0** overfull boxes.
+
+**The evidence check found a real gap.** The deposit's software record was archived at `v0.10.0`,
+and Paper 01 §4.10 — added after that tag — cites
+`docs/functional_structure_confirmatory.json` and `docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md`.
+`python benchmarks/deposit_bundle.py --check` therefore reported **38 cited, 2 missing**: the
+deposit could not have carried the evidence its own manuscript cites. The fix is not to drop the
+citations. The record is now archived from the commit at version **0.11.0**, with the resolved SHA
+in the manifest; **no tag or release is cut**, because tagging is the owner's act. The check now
+returns **38 of 38**.
+
+**What is built.** `.scratch/deposit/` holds the software archive
+(`project-organica-v0.11.0.tar.gz`), the Paper 01 record (manuscript as PDF and Markdown, five
+figures as vector PDF, `SHA256SUMS`, `DEPOSIT-MANIFEST.json`) and the Paper 02 record (manuscript,
+PDF, three figures, checksums), plus the top-level manifest carrying the commit and the
+cited-artifact check. `tests/test_paper_numbers.py`, `tests/test_svg_to_pdf.py`,
+`tests/test_readout_tables.py` and `tests/test_doc_placeholders.py` pass (121 tests), so every
+number in the rendered manuscript is still checked against the artifact it came from.
+
+**What is not done, and cannot be from here.** The upload. A Zenodo deposit mints a public DOI,
+and that is the owner's account and the owner's act; nothing in this repository publishes. Paper
+02 renders (14 pages, 0 errors) and is bundled, but its wide audit tables still overrun the margin,
+which is the next typesetting task rather than part of Paper 01's package.
+

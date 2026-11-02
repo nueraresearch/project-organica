@@ -8,9 +8,20 @@ every artifact the manuscripts cite?*
 
 Three records:
 
-  software     the source tree at the ``v0.10.0`` tag, plus the manifests
+  software     the source tree at the archived commit, plus the manifests
   paper-01     Paper 01 as PDF and Markdown, plus its figures as vector PDF
   paper-02     Paper 02 as PDF and Markdown, plus its figures as vector PDF
+
+The software record is archived from a **commit**, not a tag.  It used to be
+built from the ``v0.10.0`` tag, and that stopped being correct when Paper 01
+gained §4.10: the capacity-1,000 result cites
+``docs/functional_structure_confirmatory.json`` and
+``docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md``, both committed after that
+tag, so a v0.10.0 tree cannot carry the evidence its own manuscript cites.
+Tagging ``v0.11.0`` would fix it and is the owner's act, so instead the
+archive is taken from ``SOFTWARE_REF`` (default ``HEAD``) and the manifest
+records the resolved commit SHA.  A commit is checkable without a tag, and
+nothing here publishes or tags anything.
 
 The file list is written to ``docs/ZENODO-DEPOSIT.md``'s sibling
 ``.scratch/deposit/MANIFEST.json`` rather than into the metadata JSON, because
@@ -30,6 +41,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -39,12 +51,16 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / ".scratch" / "deposit"
 
-#: The tag the software record carries.
-SOFTWARE_TAG = "v0.10.0"
+#: The version the software record carries, and the ref it is archived from.
+#: ``v0.11.0`` is the latest *cut* version and carries no tag or release --
+#: cutting one is the owner's act -- so the archive is taken from the commit
+#: and its SHA is recorded in the manifest.
+SOFTWARE_VERSION = "0.11.0"
+SOFTWARE_REF = os.environ.get("ORGANICA_SOFTWARE_REF", "HEAD")
 
 #: The three records, and the metadata file each one's manifest describes.
 RECORDS = {
-    "software": "zenodo/software-v0.10.0.json",
+    "software": "zenodo/software-v%s.json" % SOFTWARE_VERSION,
     "paper-01": "zenodo/paper-01-preprint.json",
     "paper-02": "zenodo/paper-02-preprint.json",
 }
@@ -85,21 +101,25 @@ def cited_artifacts(markdown: str) -> list[str]:
     return out
 
 
-def files_at_tag(tag: str) -> set[str]:
-    """Every path in the tree at ``tag``."""
-    out = run(["git", "ls-tree", "-r", "--name-only", tag])
+def resolved_commit(ref: str) -> str:
+    return run(["git", "rev-parse", ref]).strip()
+
+
+def files_at_ref(ref: str) -> set[str]:
+    """Every path in the tree at ``ref``."""
+    out = run(["git", "ls-tree", "-r", "--name-only", ref])
     return {line.strip() for line in out.splitlines() if line.strip()}
 
 
-def build_software(tag: str) -> list[Path]:
-    """The source tree at the tag, as one archive."""
+def build_software(ref: str) -> list[Path]:
+    """The source tree at the ref, as one archive."""
     bundle = OUT / "software"
     bundle.mkdir(parents=True, exist_ok=True)
-    archive = bundle / ("project-organica-%s.tar.gz" % tag)
+    archive = bundle / ("project-organica-v%s.tar.gz" % SOFTWARE_VERSION)
     if archive.exists():
         archive.unlink()
     # `git archive` writes the archive itself; -o names the output file.
-    run(["git", "archive", "--format=tar.gz", "-o", str(archive), tag])
+    run(["git", "archive", "--format=tar.gz", "-o", str(archive), ref])
     return [archive]
 
 
@@ -139,12 +159,15 @@ def build_paper(key: str) -> list[Path]:
     return written
 
 
-def write_manifests(tag: str, bundles: dict[str, list[Path]]) -> dict:
+def write_manifests(ref: str, bundles: dict[str, list[Path]]) -> dict:
     """Per-record manifests and checksums, and the top-level manifest."""
-    tree = files_at_tag(tag)
+    tree = files_at_ref(ref)
     manifest: dict = {
         "kind": "zenodo_deposit_manifest",
-        "software_tag": tag,
+        "software_version": SOFTWARE_VERSION,
+        "software_ref": ref,
+        "software_commit": resolved_commit(ref),
+        "software_tag_cut": False,
         "records": {},
     }
 
@@ -205,7 +228,7 @@ def write_manifests(tag: str, bundles: dict[str, list[Path]]) -> dict:
 
 
 def check_only() -> dict:
-    tree = files_at_tag(SOFTWARE_TAG)
+    tree = files_at_ref(SOFTWARE_REF)
     checks = []
     for key, rel in PAPERS.items():
         markdown = (REPO / rel).read_text(encoding="utf-8")
@@ -227,7 +250,7 @@ def main(argv: list[str] | None = None) -> int:
         report = check_only()
         missing = report["cited_artifact_missing"]
         print("cited artifacts: %d, missing from the %s tree: %d"
-              % (len(report["cited_artifact_check"]), SOFTWARE_TAG, len(missing)))
+              % (len(report["cited_artifact_check"]), SOFTWARE_REF, len(missing)))
         for item in missing:
             print("  MISSING  %s (cited by %s)"
                   % (item["artifact"], item["paper"]))
@@ -236,18 +259,20 @@ def main(argv: list[str] | None = None) -> int:
     if OUT.exists():
         shutil.rmtree(OUT)
     bundles = {
-        "software": build_software(SOFTWARE_TAG),
+        "software": build_software(SOFTWARE_REF),
         "paper-01": build_paper("paper-01"),
         "paper-02": build_paper("paper-02"),
     }
-    manifest = write_manifests(SOFTWARE_TAG, bundles)
+    manifest = write_manifests(SOFTWARE_REF, bundles)
+    print("software record: v%s from %s (%s)"
+          % (SOFTWARE_VERSION, SOFTWARE_REF, manifest["software_commit"]))
     for key, record in manifest["records"].items():
         print("%-10s %d file(s)" % (key, len(record["files"])))
         for entry in record["files"]:
             print("    %-52s %9d" % (entry["key"], entry["size"]))
     missing = manifest["cited_artifact_missing"]
-    print("cited artifacts missing from the %s tree: %d"
-          % (SOFTWARE_TAG, len(missing)))
+    print("cited artifacts missing from the v%s tree: %d"
+          % (SOFTWARE_VERSION, len(missing)))
     for item in missing:
         print("    MISSING  %s (cited by %s)" % (item["artifact"], item["paper"]))
     print("manifest: %s" % (OUT / "MANIFEST.json"))
