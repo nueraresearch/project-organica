@@ -9627,3 +9627,47 @@ established here, and the block's diagnostic reports both intervals rather than 
 **What did not change.** No engine ran, no seed was spent, no size was chosen, §7 is still empty. The 48-world
 reference figure is untouched because it is the reliability-1.0 row. The package, the protocol and the primer
 were regenerated from the artifact rather than edited by hand, so the numbers cannot drift between them.
+
+## §149 — `DI` is a state at a time, and the protocol's window is contested (2026-11-02)
+
+The owner paused the sample-size discussion until the construct was settled, on the reasoning that a
+reliability estimator cannot be chosen before it is known what the number is supposed to represent.
+`docs/DI-CONSTRUCT-AUDIT.md` answers the five questions from the 240 stored Phase L records (eight
+configurations x 30 seeds, 600 cycles each), and `benchmarks/di_construct_audit.py` writes every number it
+quotes to `docs/di_construct_audit.json`. No engine ran, no seed was spent, and no coefficient was computed.
+
+**What the number is.** `DI = late_retained / late_available` from `phase_l_campaign.py::indices()`, and the
+trajectory is a **per-cycle snapshot, not an accumulator** — the function's own docstring says so. The
+distinction is not pedantic: 1,598 single-cycle decreases occur across the 240 trajectories and only 122 of
+240 are non-decreasing over their whole length, so "the report omitted this pair" and "retention decayed"
+are the same event to this instrument. The denominator is 18 pairs in every record and every stored value is
+an integer multiple of 1/18, so the resolution floor is 0.0556 — one pair.
+
+**Which construct it is.** Not a stable trait: arrival is cycle 150, and mean `DI` is 0.0 at cycles 0, 100
+and 200. Not a trajectory in the protocol's sense: the protocol takes one number at the end of a window. It
+is a **state at a designated time**, and in these records it is a slow transition — mean 0.0002 at cycle
+300, 0.110 at 400, 0.241 at 500 and 0.293 at the last cycle, with per-arm median first-reach from 424.5 to
+586. Only once it settles is it configuration-like: ICC 0.890 over cycles 400-600, 98.5 % of between-run
+variance carried by the arm label, 121 of 240 exactly constant, and four of eight arms at 0.000.
+
+**The window is the finding that matters.** Applied to these records the protocol's 110-150 is pre-arrival
+and returns **240 identical zeros** — one distinct window mean, zero variance. The matched 40-cycle
+post-arrival window (150-190) is 234/240 all-zero, 99.85 % of cells zero, ICC 0.068. So the window as
+written measures the floor, and under either absolute or proportional scaling the transition does not fit
+in 40 cycles. §2 of the design record now carries a dated note recording the window as **unresolved**
+rather than rewriting it: a design parameter is corrected by the owner on evidence, not by an audit editing
+itself into the record.
+
+**Can error be separated from developmental change?** Not in these records, and the reasons are structural
+rather than statistical: there is nothing to separate at the protocol's offset, nothing has started at the
+matched offset, the asymptote's variance is the configuration (so a coefficient there would re-report the
+arm ordering), the 18-pair denominator caps the resolution, and a per-cycle snapshot makes omission and
+decay the same observation. The estimator that matches a state at a time is **parallel forms at a fixed
+window** — two disjoint late-pair sets scored on the same cycles — and the records contain one late-pair set
+and one reading per cycle, so no parallel form exists inside them. Reporting a split-half coefficient would
+have answered a question this audit shows to be ill-posed, and supplied the number the sample-size
+calculation needs for a reason that does not survive inspection. None was reported.
+
+**What did not change.** No seed allocated, V1 and its results untouched, the sample-size discussion still
+paused, `docs/INDEPENDENT-METHODS-REVIEW.md` §7 still empty, no reviewer approached. The review gate has one
+more thing it must be told: the predictor's window is contested.

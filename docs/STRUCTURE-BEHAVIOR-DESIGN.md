@@ -57,6 +57,17 @@ organism's predicted structure against the late gold pairs in the retention wind
 (cycles 110–150). Its companion `PI` and the difference `DI - PI` are reported as diagnostics; neither
 enters the criterion.
 
+> **2026-11-02 — the window is contested, and unresolved.** `docs/DI-CONSTRUCT-AUDIT.md` audits the
+> construct from the 240 stored Phase L records. It finds `DI` to be a **state at a designated time**
+> rather than a stable trait or a trajectory, and it finds that this window has **no support in the only
+> per-cycle data the project holds**: applied to those records, 110–150 is pre-arrival and returns 240
+> identical zeros, and the matched 40-cycle post-arrival window returns 234/240 all-zero records with an
+> ICC of 0.068. The transition these records show occupies hundreds of cycles, so a 40-cycle post-arrival
+> window measures the floor. **The window is therefore not fixed: it is recorded as unresolved and no seed
+> is allocated.** Correcting it is an owner decision on that evidence; this note does not rewrite the
+> parameter, and the independent review in §8 must be told the window is contested rather than handed this
+> paragraph as settled.
+
 Two properties are fixed, not adjustable:
 
 - **A zero denominator is not measurable.** `late_available == 0` means the late structure was never
