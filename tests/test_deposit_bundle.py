@@ -12,17 +12,26 @@ anything, and all three are checked here.
    manifest lists must exist, and its checksum must be the checksum of the
    bytes on disk.
 
-3. **The software bundle is the tree at the tag**, not the working tree: a
-   deposit that carries uncommitted or newer work would not be the release it
-   claims to be.
+3. **The software bundle is the archived tree**, not a hand-picked directory:
+   the archive's file list must equal the ref's file list, so a file cannot be
+   left out or slipped in.
+
+The software record used to be archived from the ``v0.10.0`` tag, and that
+was wrong in a way only check 1 could see: Paper 01 §4.10 cites two artifacts
+committed *after* that tag, so the deposit could not carry the evidence its
+own manuscript names.  The archive is now taken from a commit at version
+``0.11.0``; the checks below assert both halves of that — the cited artifacts
+are present now, and they really were absent from the tag, so the test would
+have failed before the fix.
 
 The test fails on a doctored manifest, so a passing run is not a formality.
 """
 
 from __future__ import annotations
 
+import copy
 import hashlib
-import json
+import shutil
 import sys
 import tarfile
 from pathlib import Path
@@ -34,19 +43,25 @@ sys.path.insert(0, str(REPO / "benchmarks"))
 
 import deposit_bundle  # noqa: E402
 
+#: The two artifacts the v0.10.0 tag does not carry, because Paper 01 §4.10
+#: was written after it.  The deposit failed on exactly these.
+LATE_ARTIFACTS = (
+    "docs/functional_structure_confirmatory.json",
+    "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md",
+)
+
 
 @pytest.fixture(scope="module")
 def manifest():
     """The built manifest.  The bundles are rebuilt once for this module."""
     if deposit_bundle.OUT.exists():
-        import shutil
         shutil.rmtree(deposit_bundle.OUT)
     bundles = {
-        "software": deposit_bundle.build_software(deposit_bundle.SOFTWARE_TAG),
+        "software": deposit_bundle.build_software(deposit_bundle.SOFTWARE_REF),
         "paper-01": deposit_bundle.build_paper("paper-01"),
         "paper-02": deposit_bundle.build_paper("paper-02"),
     }
-    return deposit_bundle.write_manifests(deposit_bundle.SOFTWARE_TAG, bundles)
+    return deposit_bundle.write_manifests(deposit_bundle.SOFTWARE_REF, bundles)
 
 
 def test_the_manifest_names_the_three_records(manifest):
@@ -70,6 +85,14 @@ def test_the_cited_artifact_check_covers_both_papers(manifest):
     papers = {c["paper"] for c in manifest["cited_artifact_check"]}
     assert papers == {"paper-01", "paper-02"}
     assert len(manifest["cited_artifact_check"]) >= 10
+
+
+def test_the_manifest_names_the_archived_commit(manifest):
+    """A version with no tag needs a commit, or the record names nothing."""
+    assert manifest["software_version"] == deposit_bundle.SOFTWARE_VERSION
+    commit = manifest["software_commit"]
+    assert len(commit) == 40 and all(c in "0123456789abcdef" for c in commit)
+    assert manifest["software_tag_cut"] is False
 
 
 def test_every_listed_file_exists_and_checksums(manifest):
@@ -98,23 +121,43 @@ def test_the_sums_file_matches_the_listed_checksums(manifest):
                 "%s is not in %s's SHA256SUMS" % (entry["key"], key))
 
 
-def test_the_software_bundle_is_the_tree_at_the_tag(manifest):
-    """The deposit must be the release, not the working tree."""
+def test_the_software_bundle_is_the_archived_tree(manifest):
+    """The deposit must be the archived tree, file for file."""
     archive = deposit_bundle.OUT / "software" / (
-        "project-organica-%s.tar.gz" % deposit_bundle.SOFTWARE_TAG)
+        "project-organica-v%s.tar.gz" % deposit_bundle.SOFTWARE_VERSION)
     assert archive.exists()
     with tarfile.open(archive, "r:gz") as tar:
         names = set(tar.getnames())
+    expected = deposit_bundle.files_at_ref(deposit_bundle.SOFTWARE_REF)
+    # git archive also emits a directory entry for every directory; those are
+    # names no file ends in "/", so they are not file paths and are dropped by
+    # the check below rather than by a suffix rule.
+    extra = {n for n in names if n not in expected}
+    assert all(any(e.startswith(n.rstrip("/") + "/") for e in expected)
+               for n in extra), (
+        "the archive carries %d path(s) the ref does not have: %s"
+        % (len(extra), sorted(extra)[:5]))
+    missing = expected - names
+    assert not missing, (
+        "the archive is missing %d path(s) the ref has: %s"
+        % (len(missing), sorted(missing)[:5]))
     assert "pyproject.toml" in names
     assert "organica/__init__.py" in names
-    assert "zenodo/software-v0.10.0.json" in names
-    assert "docs/CANDIDATE-MEMBERSHIP-AUDIT.md" in names
-    # The working tree is ahead of the tag; the deposit must not carry that.
-    for newer in ("docs/DIVERGENCE-CYCLE-CAPTURE.md",
-                   "docs/DIVERGENCE-MECHANISM-BRIEF.md"):
-        assert newer not in names, (
-            "the software bundle carries %s, which is not in the tagged tree"
-            % newer)
+    assert "zenodo/software-v%s.json" % deposit_bundle.SOFTWARE_VERSION in names
+
+
+def test_the_archived_tree_carries_the_evidence_the_tag_lacked(manifest):
+    """The fix, stated as a check: the late artifacts are in, and were not."""
+    archived = deposit_bundle.files_at_ref(deposit_bundle.SOFTWARE_REF)
+    tagged = deposit_bundle.files_at_ref("v0.10.0")
+    for artifact in LATE_ARTIFACTS:
+        assert artifact in archived, "%s is not in the archived tree" % artifact
+        assert artifact not in tagged, (
+            "%s is in v0.10.0, so this test no longer describes the defect it "
+            "guards" % artifact)
+        cited = any(c["artifact"] == artifact and c["in_software_record"]
+                    for c in manifest["cited_artifact_check"])
+        assert cited, "%s is not registered as present by the check" % artifact
 
 
 def test_the_paper_bundles_carry_their_manuscript_and_figures(manifest):
@@ -148,7 +191,6 @@ def test_the_papers_carry_the_cc_by_licence(manifest):
 # ---------------------------------------------------------------------------
 
 def test_a_doctored_checksum_is_rejected(manifest):
-    import copy
     broken = copy.deepcopy(manifest)
     entry = broken["records"]["paper-01"]["files"][0]
     entry["checksum"] = "sha256:" + "0" * 64
@@ -160,9 +202,9 @@ def test_a_doctored_checksum_is_rejected(manifest):
 
 def test_a_missing_cited_artifact_is_detected():
     """The check must be able to fail: cite something that is not there."""
-    tree = deposit_bundle.files_at_tag(deposit_bundle.SOFTWARE_TAG)
+    tree = deposit_bundle.files_at_ref(deposit_bundle.SOFTWARE_REF)
     assert "docs/does-not-exist.json" not in tree
     assert "docs/CANDIDATE-MEMBERSHIP-AUDIT.md" in tree
-    # The divergence-cycle capture was committed after the tag, so it is
-    # correctly absent from the software record's tree.
-    assert "docs/DIVERGENCE-CYCLE-CAPTURE.md" not in tree
+    # ... and the tree really is the working tree's committed state, not an
+    # older snapshot: a file the v0.10.0 tag lacks is present here.
+    assert "docs/DIVERGENCE-CYCLE-CAPTURE.md" in tree
