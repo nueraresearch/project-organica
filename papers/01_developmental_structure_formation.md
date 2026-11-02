@@ -1,7 +1,7 @@
 # Paper 1: Developmental Structure Formation in Organica 1
 
 **Author:** Jeremy Beebe (Nuera RDL) — https://orcid.org/0009-0009-2394-9714 — jeremy@nueraresearch.com
-**Draft status:** Evidence-alignment revision, 2026-10-27. Academic-grade revision, 2026-10-29: methods and results reconciled to the committed record, with the negative external-task findings and the acquisition campaign retained rather than smoothed. Correction, 2026-10-29: six values in the §4.7 readout table disagreed with the artifact they were transcribed from (`docs/acquisition_single_seed_pilot.json`) in the fourth and fifth decimal, and the transfer column's diagnostic status was not stated; both are corrected in place and recorded at `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2.1. Figures added 2026-10-29, generated from the committed artifacts by `benchmarks/figure_papers.py`. Citations added 2026-10-30: §4.1's curriculum-sensitivity framing and §5.4's four methodological lessons now carry inline `(Author, year)` markers and a **References** section with seven sources, each read against a primary record; one of the four lessons is stated as this project's own rule and carries no external citation by design. Declarations and sole authorship set for submission, 2026-10-31. Correction, 2026-10-31: three Phase L adjacent-difference intervals in §4.3 disagreed with `docs/phase_l_results.json` in their bounds — the quoted means were right and no conclusion changes — and the Gate 13 precision ceiling in §4 was quoted as 0.3443 when the maximum of the 36 measurements in `docs/gate13_allocation_rule.json` is 0.3438. Both are corrected in place, recorded at `CHANGELOG.md` and journal §70, and checked mechanically by `tests/test_paper_numbers.py`. Not submitted or published.
+**Draft status:** Evidence-alignment revision, 2026-10-27. Result added 2026-11-02: the confirmed held-out-prediction test at capacity 1,000 (§4.10), with its un-attributable withheld-relation limb, read from `docs/functional_structure_confirmatory.json`. Academic-grade revision, 2026-10-29: methods and results reconciled to the committed record, with the negative external-task findings and the acquisition campaign retained rather than smoothed. Correction, 2026-10-29: six values in the §4.7 readout table disagreed with the artifact they were transcribed from (`docs/acquisition_single_seed_pilot.json`) in the fourth and fifth decimal, and the transfer column's diagnostic status was not stated; both are corrected in place and recorded at `docs/PILOT-0-INSTRUMENTATION-AUDIT.md` §2.1. Figures added 2026-10-29, generated from the committed artifacts by `benchmarks/figure_papers.py`. Citations added 2026-10-30: §4.1's curriculum-sensitivity framing and §5.4's four methodological lessons now carry inline `(Author, year)` markers and a **References** section with seven sources, each read against a primary record; one of the four lessons is stated as this project's own rule and carries no external citation by design. Declarations and sole authorship set for submission, 2026-10-31. Correction, 2026-10-31: three Phase L adjacent-difference intervals in §4.3 disagreed with `docs/phase_l_results.json` in their bounds — the quoted means were right and no conclusion changes — and the Gate 13 precision ceiling in §4 was quoted as 0.3443 when the maximum of the 36 measurements in `docs/gate13_allocation_rule.json` is 0.3438. Both are corrected in place, recorded at `CHANGELOG.md` and journal §70, and checked mechanically by `tests/test_paper_numbers.py`. Not submitted or published.
 **Scope:** Organica 1; developmental outcomes and their measurement.
 **Repository:** [`nueraresearch/project-organica`](https://github.com/nueraresearch/project-organica), branch `master`.
 
@@ -10,6 +10,8 @@
 Project Organica is a developmental architecture that constructs candidate structures from a stream of events through repeated consolidation. We examine what Organica 1 has demonstrated after a sequence of preregistered developmental and external-task studies, and we report the negative results with the same prominence as the positive ones. The evidence supports history- and curriculum-dependent changes in internal structure: different curricula produce different structural trajectories, and prior assumptions that inventory ceilings were fixed were overturned in later experiments. These findings establish developmental dynamics in the operational sense used here; they do not establish human-like learning, open-ended growth, or general intelligence.
 
 In external evaluations, Organica has **not** demonstrated an advantage over the tested lightweight baselines on held-out prediction, latent-structure recovery, regime-shift response, or the Phase K task families. All three Phase K families were **REVERSED** — clean losses whose 98.33% decision intervals lie wholly below zero — and Phase L's preregistered overall verdict was **`H3-L — INCONCLUSIVE`**, unchanged when the sample was raised from 10 to 30 seeds per point. We report why that verdict stands, and why it is not a license to reinterpret the curve.
+
+The one preregistered test that could still be run at capacity 1,000 has now been run, once. Against a simple baseline given identical exposure and tuned on a split excluded from its fits, Organica showed **no improvement detected** on held-out next-event prediction: the pooled margin is negative and its 98.33% interval crosses zero. On the relations withheld from formation the margin is large and favorable, but the preregistered provenance rule returns **not attributable**, so that result is reported as a score and **not** as evidence for or against transfer.
 
 Finally, we report a **preregistered acquisition experiment that stopped at its own gate**. The benchmark was rebuilt after an endpoint audit found seven defects, and the rebuilt benchmark passes: a compositional task separates a Bayes-optimal model from the strongest simple baseline by **+0.1035 nats** (99% interval **[+0.0996, +0.1074]**), with the gap on a withheld cell **4.6×** the gap elsewhere. On the frozen engine, the acquisition gate **failed on every inspected seed**: the organism asserted **0.0%–2.7%** of the world's relations while its raw memory held **100%** of them. **Transfer was therefore not measured**, and this is reported as *not measurable* — not as a transfer failure. The failure's mechanism was characterized separately, and is not part of this paper's question.
 
@@ -68,6 +70,7 @@ The record is a sequence of preregistered studies, each answering one question. 
 | **Phase L** | plasticity–coherence: does development displace early structure? | 30 seeds per sweep point (240 cells) | `H3-L — INCONCLUSIVE` |
 | **Acquisition** | can a controlled experience leave behind a reusable structure? | preregistered, Revision 3 + Amendment 3 | **stopped at the acquisition gate** |
 | **Audit trace** | can an outside observer reconstruct the organism's surviving state? | instrument probe, 3 arms | exact reconstruction, bounded scope |
+| **Functional structure (V1.1-cap)** | does formed structure improve held-out prediction against a tuned simple baseline? | 5 design seeds audited, 15 confirmatory seeds run once | **no improvement detected**; withheld-relation margin un-attributable |
 
 ### 3.2 Decision rules, seeds and intervals
 
@@ -267,15 +270,36 @@ Every headline claim this project has made, with its status and the scope of the
 | Path dependence in general | **Mixed / context-limited** | the curriculum comparisons vary the event multiset and order together, so **schedule dependence** is established and **strict order dependence is untested** (§4.1) |
 | Organica performs belief revision better than simple baselines | **Reversed in Phase K's tested task**; this does not establish that no updating occurs | K2: 0.4111 vs 0.9846 for the best simple baseline, −0.5735, 98.33% [−0.6162, −0.5309] (§4.6) |
 | Organica shows an advantage over simple alternatives on external tasks | **Reversed** on the six families tested; this is not a general negative result about developmental architectures | all six families negative; three Phase K families REVERSED with intervals wholly below zero (§4.6) |
-| Transfer | **No positive transfer demonstrated**; one measured cross-domain result was negative, while other forms remain untested | cross-domain transfer −0.4863 across 12 domain pairs, mean shared vocabulary 0.17 tags (§4.10) |
+| Transfer | **No positive transfer demonstrated**; one measured cross-domain result was negative, while other forms remain untested | cross-domain transfer −0.4863 across 12 domain pairs, mean shared vocabulary 0.17 tags (§4.11) |
 | Developmental structure becomes **reusable knowledge** | **Not established / not measured** | the preregistered experiment **stopped at its acquisition gate**; transfer reported *not measurable*, which is **not** a transfer failure (§4.7) |
 | The acquisition benchmark is discriminative | **Supported within the tested scope** | gap +0.1035 nats, 99% [+0.0996, +0.1074]; held cell 4.6× the rest; a positive control reaches the ceiling and a broken control is ≥ +0.1015 worse (§4.7) |
 | The organism's surviving state can be reconstructed from outside | **Supported within the tested scope** | exact reconstruction in three arms with proof-of-firing tests — **tested surviving state only**; not complete historical reconstruction, and not outside-laboratory replication |
 | Complete historical reconstruction | **Not demonstrated**; the trace is bounded to surviving state | the bound is a property of **this implementation** (a 4,000-event window ≈ 1.7 cycles), **not** an impossibility result for any system |
+| An advantage on held-out prediction at capacity 1,000 | **Not established; no improvement detected** | pooled margin -0.003818 nats, 98.33% [-0.010802, 0.002863] crosses zero, 15 confirmatory seeds, one run; per-seed margins carry both signs (§4.10) |
+| Transfer to relations withheld from formation | **Not established; the score improves and is not attributable** | co-primary -0.359327 nats [-0.369382, -0.345823], disqualifier `not attributable` with 0.700807 unattributed and 0.000000 world-majority (§4.10) |
 | Human-like learning | **Not established** | no supporting measurement in this record |
 | General intelligence | **Not established** | no supporting measurement in this record |
 
-### 4.10 Five sentences that were wider than their checks
+### 4.10 The confirmed capacity test: held-out prediction against a tuned bigram
+
+The acquisition study stopped before asking whether structure is *usable*; this study asked the narrower question with the capacity that made formation possible, and asked it under a preregistration committed before the harness existed ([`docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md`](../docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md)).
+
+**Design.** Organica runs at capacity 1,000 with the calibrated readout smoothing carried over unchanged (alpha = 256.0), developing over 110 formation cycles. Two windows are scored by mean per-cell log-loss in nats — every vocabulary tag against every context tag, across 12,768 cells per arm per seed — the primary window over cycles 150–200 of the world, and a co-primary over the relations withheld from every formation exposure. Every arm was fitted on the identical stream and the tuning split was excluded from *selection* only. The decision rule was fixed in advance: the **upper** bound of a 98.33 % cluster-bootstrap interval on Organica minus the baseline must lie below zero.
+
+**The harness was audited before it was trusted.** Five design seeds ran first, and their scores were not read as a result: the readout was live, both arms scored the same denominator, the harness separated the law from a one-transition learner and rejected a readout with half its edges removed, the recording hook left the engine's candidates identical (3,995 with and without), and the constants matched the committed values. That audit also found, before the confirmatory block was spent, that the withheld-relation limb could never be attributed: those relations are withheld from formation, so they cannot carry world-source support.
+
+**Result, one confirmatory run of 15 seeds.**
+
+| Window | Pooled margin (Organica − baseline, nats) | 98.33% interval | Outcome |
+|---|---|---|---|
+| Primary (cycles 150–200) | -0.003818 | [-0.010802, 0.002863] | **no improvement detected** |
+| Co-primary (withheld relations) | -0.359327 | [-0.369382, -0.345823] | improvement on score; **not attributable** |
+
+The primary interval crosses zero and the per-seed margins carry both signs, so this is a null result rather than a near miss, and it is **not** reported as equivalence. On the withheld relations the readout is substantially better than the tuned bigram — the interval lies wholly below zero — and the preregistered disqualifier then returns **not attributable**, because 0.700807 of the positive margin sits on relations with no recorded formation support and **0.000000** of it on world-majority relations. The primary window's own margin is likewise 0.698500 unattributed. No transfer claim is made, in either direction.
+
+**What this adds, and what it does not.** It is the first test in this record that compares Organica with a tuned baseline on held-out prediction at a capacity where the organism actually forms structure, under a rule fixed before the harness existed. It closes the question the acquisition study could not reach: at this capacity, on these worlds, with this readout, there is no detectable advantage on the whole window — and the advantage that does appear is concentrated exactly where the baseline has no counts to learn from, which the provenance measure cannot certify. Two readings survive, and this record does not choose between them: an inductive advantage that a counting baseline cannot have, or an advantage that exists only where counting is starved. A provenance measure that traces a derived structure to its evidence would separate them, and that instrument does not exist yet.
+
+### 4.11 Five sentences that were wider than their checks
 
 The project's own summary had drifted. All five were narrowed before the acquisition experiment ran, and they are listed here because the drift is instructive and because a reader of an earlier version of this project will have met the wider versions.
 
@@ -299,7 +323,7 @@ The project's own summary had drifted. All five were narrowed before the acquisi
 
 ### 5.2 What it did not demonstrate
 
-No advantage over simple alternatives on any of six external task families. No reusable knowledge: the question was preregistered, the benchmark was rebuilt to be discriminative, and the organism failed the gate before the transfer question could be asked. No belief revision, no strict order dependence, no positive transfer, and no boundary in the curve.
+No advantage over simple alternatives on any of six external task families. No reusable knowledge: the question was preregistered, the benchmark was rebuilt to be discriminative, and the organism failed the gate before the transfer question could be asked. No belief revision, no strict order dependence, no positive transfer, and no boundary in the curve. At capacity 1,000 the one preregistered held-out test found no improvement over a tuned bigram, and its withheld-relation advantage could not be attributed (§4.10).
 
 ### 5.3 Why the negative results are informative
 
@@ -328,6 +352,8 @@ Four are general enough to state plainly.
 - The 3:1 crossing is robust within one engine, one world family and one axis; it is not a general threshold.
 - The acquisition benchmark's **+0.1035 nats is the benchmark's headroom** — the room between the ceiling and the best simple model — and is **not** a margin any learner achieved. The engine achieved nothing on that task; it failed the acquisition gate.
 - Transfer was not measured, and this is reported as *not measurable* rather than excluded as zero.
+- The capacity-1,000 test is one confirmatory run of 15 seeds, not a replication. Its null is **no improvement detected**, not equivalence, and its withheld-relation advantage cannot be attributed under the preregistered measure, so it is neither evidence for nor against transfer.
+- That test compares one tuned baseline family per seed; all 15 seeds selected the same family, so a different baseline choice is untested here.
 - The acquisition campaign's confirmatory sample (25 seeds) is **untouched**; every seed used in the mechanism probes is diagnostic.
 - The audit results apply to the reconstruction tasks and tested engine states; they do not establish independent replication by another laboratory or complete reconstruction of lost historical state.
 - The engine is frozen. Every measurement here is of one specific implementation, and Law II's divergence from its own text (§2.2) remains open.
@@ -335,6 +361,8 @@ Four are general enough to state plainly.
 ## 7. Conclusion
 
 Organica 1 provides evidence for curriculum-sensitive developmental structure formation. It has **not** shown that this development produces reusable knowledge, and it has not shown an advantage over simple alternatives on any external task family tested. The acquisition study is preregistered, its benchmark was rebuilt and independently shown to be discriminative, and it **stopped at its own gate** — so the question it was built to answer remains open, and is reported as open.
+
+The capacity-1,000 test adds the sharpest version of that: a preregistered, audited comparison in which the organism forms structure and still shows no detectable advantage on held-out prediction, with its one favorable margin sitting where it cannot be certified.
 
 The most useful thing this record contributes is a set of attributable negative results and the instruments that produced them: a benchmark that can fail, an endpoint that was audited before use, gates that were shown able to fire, and a mechanism account that names which part of the system is responsible and how much of the explanation has been measured.
 

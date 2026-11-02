@@ -8531,3 +8531,28 @@ constrain a future, and then the future arrives. Each correction narrowed a clai
 widening a permission, and each was disclosed in the manual the same day. A record allowed to
 drift once the numbers exist is not a preregistration, so the drift is repaired in the open.
 
+## §119 The record becomes a manuscript section
+
+The benchmark is closed and the finding is stated in the three terms it can bear: **primary**, no
+improvement detected over the tuned baseline, with an interval crossing zero and per-seed margins
+carrying both signs; **withheld relations**, a large favorable score that is **not attributable**
+under the preregistered provenance measure, so no transfer claim in either direction; and **no
+further runs, no threshold changes**.
+
+Paper 01 now carries it as §4.10, positioned as the test the acquisition study could not reach: a
+capacity where structure actually forms, a baseline tuned on a split excluded from its fits, a
+decision rule committed before the harness existed, and an audit of that harness on design seeds
+whose scores were not read as a result. The section reports the design block's five gates, the one
+confirmatory run, and the provenance result with its two surviving readings — an inductive advantage
+a counting baseline cannot have, or an advantage that exists only where counting is starved. The
+paper does not choose between them, because the instrument that would separate them does not exist.
+
+Two claim-status rows were added rather than folding the result into an existing one: *an advantage
+on held-out prediction at capacity 1,000* is **not established**, and *transfer on withheld
+relations* is **not established** with the reason attached. Neither is a refutation, and the paper
+says so in the vocabulary the project fixed for exactly this purpose.
+
+The publication index records the same two rows and updates Paper 01's status only. **V2 design
+stays deferred** until the manuscript states plainly what V1.1 did and did not demonstrate — which
+§4.10 now does; the deferral is the owner's sequencing, not a conclusion of this entry.
+

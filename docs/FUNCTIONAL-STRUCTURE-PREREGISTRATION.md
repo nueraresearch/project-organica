@@ -367,9 +367,19 @@ The disqualifier reports `not_attributable` on that window (world 0.000000, self
 0.298208, unattributed 0.698500, status `not_attributable`. The compulsory diagnostic of §7
 therefore certifies neither window's margin, and it is reported for the null result as §7 requires.
 
-**Frozen.** This result is final for this protocol: no re-run, no seed added or dropped, no
-threshold, constant or gate adjusted in its light (§8). A different question needs a new
-pre-registration and a fresh seed block.
+**Frozen.** The finding stands in three statements, and no further:
+
+- **Primary held-out prediction:** no improvement detected over the tuning-selected simple baseline.
+  The pooled margin is negative and its 98.33 % interval crosses zero, which is a null result and
+  not a near miss — the per-seed margins carry both signs.
+- **Withheld relations:** a better score, and **not attributable** under the preregistered
+  provenance measure. There is **no transfer claim**, in either direction.
+- **No further runs and no threshold changes** on this study. A different question needs a new
+  pre-registration and a fresh seed block.
+
+The numbers are the ones stated above in this section; none is retyped here, so the record has one
+source for them. This result is final for this protocol: no re-run, no seed added or dropped, no
+threshold, constant or gate adjusted in its light (§8).
 
 **In §9's language, and no further.** This is **no improvement detected** on the primary window: not
 equivalence, and not evidence that the engine forms nothing useful. It says that under this scoring
