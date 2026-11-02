@@ -9358,3 +9358,33 @@ on anyone's good faith.
 This is the second defect found by comparing the design against an existing artifact rather than against its
 own intentions — the first was §139's premise. Both were in the record, not in the hypothesis. No seed
 allocated.
+
+## §141 — The independent review is written down as a rubric, with the author excluded by rule (2026-11-02)
+
+The owner set the review as the condition on seeds and named what it must establish. The task in writing it
+down was to make it impossible to pass by politeness.
+
+**`docs/INDEPENDENT-METHODS-REVIEW.md`** carries the five questions and, for each, the part of the design
+that answers it and what would count as a defect — so an item cannot be marked on impression. Measurement
+independence points at §4's pair guard and size baseline, §6's permutation control and §7's
+shared-instrument limit; held-out validity at the temporal order and the measured disjointness; falsifiability
+at both falsifiers and the four pre-committed outcomes, including the sign flip.
+
+**Eligibility is exclusionary.** Five criteria, and two named exclusions: the agent that wrote the design
+record cannot review it, and the owner — who chose the hypothesis — cannot stand in for a reviewer. Anyone
+who wrote the reusable-knowledge scoring, the Phase L index or the provenance harness is ineligible for the
+independence item, because those instruments are what that item interrogates. Conflicts are declared rather
+than disqualifying; an undeclared conflict is.
+
+**The rubric has three outcomes and one asymmetry.** Approved, approved with conditions, rejected. Passing to
+the next stage requires the same reviewer to re-assess the conditioned items; a rejection is recorded verbatim
+and cannot be argued into an approval inside the record. Conditions must be written as changes specific
+enough to re-review, with the document's own example of the difference between "make the control stronger"
+and a testable requirement.
+
+**The safeguard is structural.** The reviewer sees no data from this design, because none may exist until the
+outcome is recorded; if an item needs data, design-block data only and declared. Two gates remain outside the
+review and are not discharged by approval: the endpoint sign-resolution computation the 100-cycle deviation
+requires, and the withheld-set enumeration for whichever secondary configurations survive.
+
+No reviewer has been appointed. The record's §7 is empty, and the manual row says so.
