@@ -9023,3 +9023,30 @@ engine, that the intervention changes the intended variable and only it, that it
 contribution that is present, that it can reach zero when the design is exchangeable, and that its
 arms share one denominator and one engine run. It establishes **nothing about Organica**: the
 confirmatory block is unspent, and a result there would still be narrower than a topology claim.
+
+## §131 — The title page printed its own line breaks, and only a rendered page showed it (2026-11-02)
+
+The owner's review of the Paper 01 deposit reported three visible defects on the **23-page** build:
+literal `\\` between the author, ORCID and email on the title page; doubled figure captions
+("Figure 1: Figure 1."); and Figure 4's right-hand panel clipped at the page edge.
+
+**One of the three was still live.** The doubled captions were fixed when `pin_figures` stopped
+pandoc's `implicit_figures` caption being typeset beside the manuscript's own (journal §129), and
+Figure 4's page now runs x = 75.6–536.4 inside a 612 pt page with both panels complete — that defect
+was the stale, font-substituted figure PDF, replaced when all eight figures were re-rendered.
+
+**The author line was real, and it is the interesting one.** `prepare()` replaced each em dash with
+`" \\ "` in the metadata, expecting a LaTeX break. Pandoc parses metadata values as markdown and
+escaped the pair, so the title page printed the two characters: the build had done exactly what it
+was told, and the instruction was wrong. Nothing in the log, the overfull-box count or the
+placeholder scan could show it, because the page was not overfull, not missing and not templated —
+it was simply wrong in the one place a reader looks first. Fixed with a sentinel (`@AUTHORBREAK@`)
+that pandoc passes through untouched and `fix_author_breaks` replaces with `\\` on the build copy;
+the build now **fails** if the sentinel survives, and `tests/test_author_line.py` asserts the
+sentinel is used, that the rewrite produces a break, and that a surviving sentinel stops the build.
+
+**Repackaged.** Both PDFs rebuilt (Paper 01 **25 pages**, Paper 02 **14**, 0 LaTeX errors, 0 overfull
+boxes in each), the deposit bundle regenerated, `sha256sum -c` clean inside it, and the downloadable
+archive rebuilt from the new files. Verified mechanically on both PDFs: no literal backslash pair on
+a title page, no page carrying a doubled caption, no span past the right text margin, and every
+figure page's drawing extent inside the page box.

@@ -100,7 +100,13 @@ def prepare(markdown: str) -> tuple[str, str, str, str]:
     # The author line is a single hbox in a LaTeX title block, so a name, an
     # ORCID URL and an address on one line run 63 pt into the margin.  Split
     # it at the em dashes the manuscript already uses as separators.
-    author = author.replace(" \u2014 ", " \\\\ ")
+    #
+    # A sentinel, not "\\\\": pandoc parses metadata values as markdown and
+    # escapes a backslash pair, so the title page printed the literal "\\\\"
+    # between the name, the ORCID and the address instead of breaking the line
+    # (journal §131).  `fix_author_breaks` turns the sentinel into the break on
+    # the build copy, where nothing can escape it again.
+    author = author.replace(" \u2014 ", " %s " % AUTHOR_BREAK)
     if not title:
         raise SystemExit("the manuscript has no level-one title")
     if not author:
@@ -394,6 +400,26 @@ def verify_title_matches(stem: str, heading: str) -> None:
             % (stem, declared, expected))
 
 
+AUTHOR_BREAK = "@AUTHORBREAK@"
+
+
+def fix_author_breaks(tex_path: Path) -> int:
+    """Turn the author-line sentinel into a real LaTeX line break.
+
+    The separator cannot be handed to pandoc as a backslash pair: metadata
+    values are parsed as markdown, and a pair survives into the ``.tex`` escaped,
+    so the title page printed the two characters instead of breaking.  The
+    sentinel passes through untouched and is replaced here, on the build copy.
+    """
+    text = tex_path.read_text(encoding="utf-8")
+    count = text.count(AUTHOR_BREAK)
+    if count:
+        tex_path.write_text(text.replace(AUTHOR_BREAK, "\\\\"), encoding="utf-8")
+    if AUTHOR_BREAK in tex_path.read_text(encoding="utf-8"):
+        raise SystemExit("an author-line sentinel survived the rewrite")
+    return count
+
+
 def pin_figures(tex_path: Path) -> int:
     """Pin each figure where it is written, and drop the duplicate caption.
 
@@ -473,6 +499,7 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
         command += ["--metadata", "%s:%s" % (key, value)]
     run(command + ["--output", str(build_tex)], BUILD, "pandoc")
 
+    fix_author_breaks(build_tex)
     make_code_spans_breakable(build_tex)
     fix_table_captype(build_tex)
     keep_code_blocks_whole(build_tex)
