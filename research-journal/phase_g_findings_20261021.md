@@ -8594,3 +8594,47 @@ re-read, and the draft says so. The seeds are fresh (`20270301`–`20270305` des
 `20270306`–`20270320` confirmatory), the bar, the table and the rewiring rule are frozen in the
 text, and no harness is built. The order is the one that worked before: fix the rule, build and
 audit, spend the design block, and only then the one confirmatory run.
+
+## §121 The control the protocol required cannot exist on the readout it was written for
+
+The design block did what a design block is for. Five fresh seeds, four arms, two windows, and the
+gates of §8 ran before any contrast was formed — and **gate S3b failed on all five**, not because
+the rewiring code was wrong but because the graph it was written for does not have the shape the
+rule assumed.
+
+The formed readout is dense. On seed `20270301` it has **333 edges over 24 source tags and 17 target
+tags**: `86–87 %` of every pair those tags could form. A Maslov–Sneppen swap exchanges two targets
+and refuses the exchange if the resulting pair already exists — and on this graph almost every
+exchange produces a pair that is already there. Of 2,000 attempts on that seed, **1,631 were refused
+for a duplicate**, 161 for a self-loop, 81 because both edges left the same source and 118 because
+both arrived at the same target; **nine swaps landed**. The rewired arm came out `0.954407`–`0.960961`
+identical to the full readout across the five seeds, against the `0.20` the gate requires.
+
+The deeper point is not the algorithm. A perfect, fully-mixed sample from the degree-preserving
+space would retain about `0.82` of the pairs, because with 17 targets and a mean out-degree near 14
+there is almost nothing left to vary: `Σ kₐ² / T / edges ≈ 13.9 / 17`. **The rule and its gate are not
+mutually satisfiable at this density**, so the "rewired" arm cannot be a control here whatever
+samples it — which is exactly the failure AGENTS rule 13(a) calls a dead design: a gate that cannot
+fire is decoration, and a control that cannot differ is the same thing wearing a different name.
+
+What the audit did *not* find is a broken measurement. Gate S3c's oracle plant — a readout built
+from the scored window itself — separated cleanly: `0.378707` against `0.487589` for the edge-removed
+arm and `0.443569` for the rewired arm. The harness detects a contribution when one exists, and it
+detects it through the two ablations that could not be built here. S1, S2, S3a (`max abs gap 0.0`),
+S4, S5 and S6 passed on every seed; the edge-removed arm was verified to be the base-rate backoff
+rather than assumed to be, and the draw determinism and weight/degree invariants held for all 125
+graphs.
+
+Two corrections were made during the audit and both are disclosed. The first pass failed S2 on an
+arithmetic error of mine — the expected cell count used the pair count where the frozen protocol
+uses the summed context tags, halving the denominator — corrected and the block re-run, with no arm
+loss or other gate outcome changed. The record also gained the two density fields the argument
+needs.
+
+No contrast was formed, no outcome row was read, and no confirmatory seed was generated. The arm
+losses in the artifact are labelled gate diagnostics for that reason, and they are not a result in
+either direction. Two amendments would make the question answerable — a weight-level null that keeps
+the pairs and permutes which one carries which weight, or closing the study at the identifiability
+limit — and both are stated in §12.4 as the owner's decision. Neither the frozen study nor its
+numbers moved, and the second-world-family clause is now §11: a result here would be a result about
+one world family, and a broader claim needs its own preregistration.

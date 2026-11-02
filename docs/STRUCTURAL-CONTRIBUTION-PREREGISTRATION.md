@@ -1,9 +1,13 @@
-# Structural contribution — pre-registration DRAFT
+# Structural contribution — pre-registration
 
-**Status: DRAFT for review. Not a committed preregistration. No harness exists for it and no
-seed named here has been read.** This document fixes a question, four arms, one rewiring rule and
-an outcome table, so that the harness cannot be built around an unwritten expectation. It becomes
-a preregistration only when the owner commits it, and nothing in it authorizes a run.
+**Status: committed 2026-11-02 (v1) — and stopped at the design block.** The harness exists
+(`benchmarks/structural_contribution.py` and `benchmarks/structural_contribution_harness.py`) and
+the design block ran on `20270301`–`20270305`: **it failed gate S3b on all five seeds** (§12). §10's
+stop rule applies, so **no confirmatory seed has been read, no contrast has been formed, and the
+next move is the owner's** — two amendments are named in §12.4, and neither has been chosen.
+
+The question, arms, rewiring rule, bar, outcome table and seeds below are the ones committed before
+the harness existed. Nothing in §1–§10 changed after the audit; §11 and §12 were added by it.
 
 It is a **new** study. It does not reopen the functional-structure study, whose result is frozen
 (`docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md` §10.4), and it does not touch the closed
@@ -156,8 +160,8 @@ Fresh, and disjoint from every seed used in this repository:
 
 | Block | Seeds | Use |
 |---|---|---|
-| design | `20270301`–`20270305` | harness audit, liveness, denominators, rewiring invariants; **no endpoint read as a result** |
-| confirmatory | `20270306`–`20270320` (n = 15) | the three intervals of §5, run once |
+| design | `20270301`–`20270305` | harness audit, liveness, denominators, rewiring invariants; **no endpoint read as a result**. **Spent 2026-11-02 (§12)** |
+| confirmatory | `20270306`–`20270320` (n = 15) | the three intervals of §5, run once. **Not read.** |
 
 Prior blocks that must not be touched: the frozen study's design `20270201`–`20270205` and
 confirmatory `20270206`–`20270220`; the closed study's `20261201`–`20261226`; the provenance
@@ -198,6 +202,7 @@ confirmatory block was spent.
 2. **Design block only — `20270301`–`20270305`.** Instrument audit. Per-cell losses are computed
    (the gates need them) and labelled **endpoint-derived diagnostics**; the pooled `d_removed`,
    `d_rewired` and `d_bigram` are **not formed**, and no design margin is compared with §5's bar.
+   **Executed 2026-11-02: the block failed S3b — see §12.**
 3. **Confirmatory block, only if the design block passes — `20270306`–`20270320`.** One run, no seed
    added, dropped or re-drawn.
 
@@ -212,6 +217,9 @@ confirmatory block was spent.
   failure is reported with the interval that produced it.
 - **The frozen study stays frozen.** A result here does not revise its §10.4 finding, and its
   numbers are not re-read.
+- **The stop rule has fired once.** Gate S3b failed on every design seed (§12). No threshold, rule
+  or arm was adjusted in its light; the two possible amendments are named in §12.4 and are the
+  owner's decision, not the audit's.
 
 **A result would not mean:** that Organica transferred anything, that it learned the world's law,
 that the pairing it formed corresponds to the world's transitions rather than to the engine's
@@ -223,3 +231,99 @@ ablations lack.
 this capacity, with this rewiring, no contribution from the pairing was detectable — and the
 outcome table says which of the four ablations failed to separate, which is the diagnostic value of
 running four arms instead of two.
+
+## 11. Second world family, deferred
+
+A result here is a result about **one world family** — the compositional world this protocol shares
+with the frozen study. It would not travel past it: the mechanism it could exhibit is "the pairing
+the engine formed carries information about relations it never saw", inside one generator, one
+vocabulary size (16 scored tags) and one capacity (1,000).
+
+**A broader claim requires a second world family, and that is a separate study.** It would need its
+own preregistration — the same four arms and bar, a world whose law differs in cell count,
+successor structure and vocabulary size, and, because a second family is a *replication*, an
+explicit statement of what would count as a failure to replicate. Until that exists, any sentence
+that generalizes past this family is unsupported, and a report may say no more than "in this world
+family".
+
+## 12. Design-block audit record (2026-11-02)
+
+### 12.1 What ran
+
+`PYTHONHASHSEED=0 python -m benchmarks.structural_contribution_harness --design`, seeds
+`20270301`–`20270305`, **176.2 s**, artifact `docs/structural_contribution_design_audit.json`. No
+confirmatory seed was generated, and no contrast or outcome label was formed.
+
+### 12.2 The gates
+
+| Gate | Result |
+|---|---|
+| S1 liveness | passed on all five seeds |
+| S2 denominators | passed on all five seeds — every arm on the identical cell set |
+| S3a edge-removed equals the base rate | passed on all five, max abs gap **0.0** |
+| **S3b the rewiring changes cells** | **failed on all five** |
+| S3c the oracle plant separates the arms | passed on all five |
+| S4 invariants, S5 constants, S6 reproducibility | passed on all five |
+
+### 12.3 Why S3b cannot pass on this readout
+
+| Seed | Edges | Source tags | Distinct targets | Possible pairs over vocab | Unchanged share (max of 25 draws) |
+|---|---|---|---|---|---|
+| `20270301` | 333 | 24 | 17 | 384 | 0.960961 |
+| `20270302` | 332 | 24 | 17 | 384 | 0.960843 |
+| `20270303` | 329 | 24 | 17 | 384 | 0.957447 |
+| `20270304` | 329 | 24 | 17 | 384 | 0.954407 |
+| `20270305` | 329 | 23 | 17 | 368 | 0.957447 |
+
+The readout is **dense**: 329–333 edges spread over 23–24 source tags and **17** target tags is
+**86–87 %** of every pair those tags could form. Two consequences, both measured:
+
+1. **The swap walk is blocked.** On `20270301`, 1,631 of 2,000 attempts were refused because the
+   exchanged pair already existed, 161 because it would be a self-loop, 81 because both edges left
+   the same source and 118 because both arrived at the same target; **9 swaps landed**. The graph
+   stays where it started.
+2. **Even perfect sampling would not help.** An independent degree-matched draw over 17 targets
+   retains about `Σ kₐ² / T / edges ≈ 13.9 / 17 ≈ 0.82` of the original pairs — the uniform estimate,
+   using the mean out-degree 13.9. A uniform sample from the degree-preserving space is therefore
+   also far from the 0.20 the gate requires.
+
+So the committed rule and the committed gate are **not mutually satisfiable at this density**,
+whatever algorithm samples the rewiring: with the degrees held fixed, "which target belongs to which
+source" has almost no room to vary, because the formed readout is close to the complete bipartite
+graph over the tags it touches. The 0.20 limit was written for a sparse graph and this readout is
+not one.
+
+**The failure is in the control, not in the measurement.** S3c's oracle plant — a readout built from
+the scored window itself — scored **0.378707** against **0.487589** for the edge-removed arm and
+**0.443569** for the rewired arm, so the harness does detect a contribution when one is present, and
+it detects one through exactly the two ablations that failed to be built here.
+
+### 12.4 What it means, and the two amendments I am not making
+
+**It means** that on this readout the content question is not identifiable with a degree-preserving
+null, and that the study cannot be spent as written.
+
+**It does not mean** that the formed edges carry nothing: no contrast was formed, and the arm-level
+losses recorded in the artifact are labelled gate diagnostics, not results. It does not revise the
+frozen study's §10.4 finding, and it makes no transfer claim in either direction.
+
+Two amendments would make the question answerable. Both change a rule committed before the audit,
+both are disclosed here, and neither may be chosen after a contrast is seen — none has been:
+
+- **(a) A weight-level null.** Keep the formed pairs, keep the weight multiset, keep every
+  out-degree, and permute *which pair carries which weight*. That destroys relation strength while
+  preserving relation existence, so its gate is different: every realised cell must change, and the
+  claim a win supports is about the strength assigned to a relation, not about the relation being
+  present.
+- **(b) Close the study at the identifiability limit.** Keep §4's rule, report §12.3 as the finding,
+  and record that at capacity 1,000 the formed readout is too dense for a degree-preserving control
+  to exist — so "the content contributes" is unavailable at this capacity, in this world family.
+
+### 12.5 Corrections made during the audit
+
+Two, both disclosed, neither of which touches a rule or a threshold. The first pass failed S2 on a
+harness arithmetic error of mine: the expected cell count used the number of event pairs instead of
+the summed context tags, so it was half the true denominator. It was corrected to the frozen
+protocol's own formula and the block re-run; no arm loss, seed or gate outcome other than S2's
+changed. The artifact's readout block also gained `distinct_targets` and `possible_pairs_over_vocab`,
+because §12.3's argument needs the density and the first pass did not record it.
