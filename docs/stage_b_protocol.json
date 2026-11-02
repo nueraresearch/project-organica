@@ -1,0 +1,871 @@
+{
+  "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon and seed block, assembled from the construct record and checked against it. No engine run, no seed allocated, no world generated, no relation between onset and behaviour computed.",
+  "status": {
+    "authorised": false,
+    "seeds_allocated": 0,
+    "worlds_run": 0,
+    "statement": "Stage B is not authorised. The seed block below is candidate only: it is proved unused, which is not the same as being spent. Nothing may be allocated until the independent review records an outcome."
+  },
+  "predictor": {
+    "name": "confirmed onset of DI",
+    "unit": "cycles",
+    "definition": "first cycle from which 10 consecutive readings are non-zero",
+    "anchor": "first cycle of the qualifying run, never the first non-zero reading",
+    "available_from": "the confirmation cycle (anchor + 9) onward; the predictor does not exist before then",
+    "sustention_rule_cycles": 10,
+    "sustention_rule_frozen": true,
+    "direction": "earlier confirmed onset predicts a higher held-out prediction score after learning"
+  },
+  "claimed_configurations": [
+    "2:1",
+    "3:1",
+    "4:1",
+    "6:1"
+  ],
+  "eligibility": {
+    "rule": "onset defined in >= 0.9 of runs, within each claimed configuration, never on the pooled set",
+    "resolution_rule": "within-configuration SD >= 3.0 cycles, reported with the IQR, range and distinct-value count",
+    "worlds_below_denominator_are": "reported as censored and excluded, never scored as a zero (AGENTS 13b)"
+  },
+  "behavioural_endpoint": {
+    "name": "revision_held_out",
+    "definition": "next-tag prediction on the revision-test window under the rotated law, restricted to transitions withheld from both formation and revision learning, scored by the calibrated readout with no refit during evaluation",
+    "inherited_from": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a73",
+    "learn_cycles": 50,
+    "test_cycles": 50,
+    "resolution_requirement": "the endpoint's quantum (one held-out transition) and the number of held-out transitions must be reported before the run; a quantum coarser than the smallest effect the claim asserts makes the endpoint unmeasurable for that claim and stops the run"
+  },
+  "clock": {
+    "post_confirmation_margin_cycles": 1,
+    "follow_up_cycles": 100,
+    "first_behavioural_index": "confirmation index + 1",
+    "last_behavioural_index": "confirmation index + 100",
+    "horizon_is_per_world": true,
+    "horizon_rule": "readings = confirmation index + 101; a fixed horizon that ends mid-follow-up fails criterion 4 rather than shortening the follow-up",
+    "median_horizon_by_config_cycles": {
+      "2:1": 649,
+      "3:1": 514.0,
+      "4:1": 472.0,
+      "6:1": 439.0
+    }
+  },
+  "sample_size": {
+    "decision_level": 0.9833,
+    "resolution_bar": 0.9,
+    "smallest_effect_spearman": 0.5,
+    "reliability_proxy": "agreement between the 5-, 10- and 20-cycle sustention rules on the same worlds, taken at its worst pair. Test-retest is unavailable: the engine is deterministic per seed, so a re-run is not a replication",
+    "agreement_by_config": {
+      "2:1": {
+        "5_vs_10": 0.9897468252253238,
+        "10_vs_20": 0.9872953742629126,
+        "5_vs_20": 0.9721290474245746
+      },
+      "3:1": {
+        "5_vs_10": 0.9791271408242984,
+        "10_vs_20": 1.0,
+        "5_vs_20": 0.9791271408242984
+      },
+      "4:1": {
+        "5_vs_10": 1.0,
+        "10_vs_20": 1.0,
+        "5_vs_20": 1.0
+      },
+      "6:1": {
+        "5_vs_10": 1.0,
+        "10_vs_20": 1.0,
+        "5_vs_20": 1.0
+      }
+    },
+    "agreement_worst": 0.9721290474245746,
+    "agreement_worst_at": {
+      "configuration": "2:1",
+      "comparison": "5_vs_20"
+    },
+    "assumed_reliability_row": 0.9,
+    "attenuated_effect_at_proxy": 0.475666,
+    "attenuated_effect_at_row": 0.457321,
+    "worlds_per_configuration_at_reliability_1": 48,
+    "worlds_per_configuration": 54,
+    "worlds_total": 216,
+    "reportable_floor_per_configuration": 48,
+    "why_this_size": "The block is sized so that the decision rule resolves a relation of the declared smallest size in 90 % of blocks, after attenuation by the measured agreement between sustention rules. It is a floor, not a target: unmodelled dependence between worlds and any further measurement error lower the real resolution probability.",
+    "below_the_floor": "a configuration whose usable n falls below 48 after censoring is reported inconclusive, never null",
+    "no_replacement": "a censored world is not replaced: the denominator is reported as realised"
+  },
+  "cost": {
+    "cycles_total": 111996.0,
+    "cycles_if_every_world_ran_600": 144000,
+    "relative_to_phase_l": 0.7778,
+    "note": "Estimated from the median confirmation cycle per configuration in the Phase L record, which is the best available estimate of where fresh worlds will emerge. It is an estimate, not a measurement."
+  },
+  "seeds": {
+    "consumed_blocks": {
+      "docs/ablation_study.json": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "docs/ablation_study_postfix.json": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "docs/acquisition_alpha_calibration.json": [
+        20261099
+      ],
+      "docs/acquisition_baseline_calibration.json": [
+        20261099
+      ],
+      "docs/acquisition_baseline_capability.json": [
+        20261100
+      ],
+      "docs/acquisition_compositional_gate.json": [
+        20261200,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206,
+        20261207,
+        20261208,
+        20261209,
+        20261210,
+        20261211,
+        20261212,
+        20261213,
+        20261214,
+        20261215,
+        20261216,
+        20261217,
+        20261218,
+        20261219,
+        20261220,
+        20261221,
+        20261222,
+        20261223,
+        20261224,
+        20261225,
+        20261226,
+        20261227,
+        20261228,
+        20261229
+      ],
+      "docs/acquisition_coverage_audit.json": [
+        20261100
+      ],
+      "docs/acquisition_level_audit.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_design.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_probe.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_test.json": [
+        20261100
+      ],
+      "docs/acquisition_single_seed_pilot.json": [
+        20261100
+      ],
+      "docs/audit_trace_probe.json": [
+        20261025
+      ],
+      "docs/audit_trace_probe_stress.json": [
+        20261025
+      ],
+      "docs/audit_trace_probe_tie.json": [
+        20261025
+      ],
+      "docs/candidate_membership_audit.json": [
+        20261101,
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_arm_b_prime_f2.json": [
+        20261101
+      ],
+      "docs/divergence_arm_b_prime_sweep.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_arm_b_prime_sweep_v2.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_cycle_capture.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_mechanism.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_onset.json": [
+        20261101,
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/force_matrix.json": [
+        20261023
+      ],
+      "docs/force_matrix_pilot.json": [
+        20261023
+      ],
+      "docs/formation_provenance_robustness.json": [
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120
+      ],
+      "docs/formation_provenance_study.json": [
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120
+      ],
+      "docs/formation_provenance_study_design.json": [
+        20270101,
+        20270102,
+        20270103,
+        20270104,
+        20270105
+      ],
+      "docs/formation_utilization.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/formation_utilization_pre_correction.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/formation_utilization_timing.json": [
+        20261099,
+        20261100
+      ],
+      "docs/formation_utilization_timing_pre_amendment.json": [
+        20261099,
+        20261100
+      ],
+      "docs/formation_utilization_timing_pre_correction.json": [
+        20261099,
+        20261100
+      ],
+      "docs/functional_structure_confirmatory.json": [
+        20261102,
+        20270206,
+        20270207,
+        20270208,
+        20270209,
+        20270210,
+        20270211,
+        20270212,
+        20270213,
+        20270214,
+        20270215,
+        20270216,
+        20270217,
+        20270218,
+        20270219,
+        20270220
+      ],
+      "docs/functional_structure_design_audit.json": [
+        20270201,
+        20270202,
+        20270203,
+        20270204,
+        20270205
+      ],
+      "docs/g13d_diagnostic.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_allocation_rule.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/gate13_capacity_sweep.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_counterfactual_audit.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_paired_capacity_test.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_ranking_criterion.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/gate13_relation_separation.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/ground_truth_recovery.json": [
+        20261023
+      ],
+      "docs/heldout_prediction.json": [
+        20261023
+      ],
+      "docs/phase_h_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_k_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_l_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033,
+        20261034,
+        20261035,
+        20261036,
+        20261037,
+        20261038,
+        20261039,
+        20261040,
+        20261041,
+        20261042,
+        20261043,
+        20261044,
+        20261045,
+        20261046,
+        20261047,
+        20261048,
+        20261049,
+        20261050,
+        20261051,
+        20261052
+      ],
+      "docs/phase_l_results_n10.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_l_seed_audit.json": [
+        20261025,
+        55163163,
+        77378173,
+        81745023,
+        145035895,
+        154904646,
+        210288160,
+        241436569,
+        364018849,
+        384470508,
+        390351809,
+        407081047,
+        418010277,
+        439179589,
+        455433001,
+        473818528,
+        476406476,
+        613453573,
+        625630195,
+        671095856,
+        726177760,
+        740360220,
+        772461157,
+        813577108,
+        823112328,
+        837966125,
+        876733999,
+        943908055,
+        970870045,
+        975516681,
+        993151203
+      ],
+      "docs/post_shift_adaptation_results.json": [
+        20270101,
+        20270102,
+        20270103,
+        20270104,
+        20270105,
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120,
+        20270123
+      ],
+      "docs/process_noise.json": [
+        20261023
+      ],
+      "docs/process_noise_3000.json": [
+        20261023
+      ],
+      "docs/provenance_diagnostic.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/regime_shift_results.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206,
+        20261207,
+        20261208,
+        20261209,
+        20261210,
+        20261211,
+        20261212,
+        20261213,
+        20261214,
+        20261215,
+        20261216,
+        20261217,
+        20261218,
+        20261219,
+        20261220
+      ],
+      "docs/reusable_knowledge_calibration.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/reusable_knowledge_feasibility.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/reusable_knowledge_postmortem.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/scale_horizon_1200.json": [
+        20261023
+      ],
+      "docs/scale_horizon_600.json": [
+        20261023
+      ],
+      "docs/scale_ladder.json": [
+        20261023
+      ],
+      "docs/scale_ladder_scaffold.json": [
+        20261023
+      ],
+      "docs/scaling_ladder.json": [
+        20270500,
+        20270501,
+        20270502,
+        20270503,
+        20270504,
+        20270505,
+        20270506
+      ],
+      "docs/sign_audit.json": [
+        20270501,
+        20270502,
+        20270503,
+        20270504,
+        20270505
+      ],
+      "docs/store_time_observer_f4.json": [
+        20261101
+      ],
+      "docs/store_time_observer_lineage.json": [
+        20261120
+      ],
+      "docs/store_time_observer_verdicts.json": [
+        20261120,
+        20261121,
+        20261125
+      ],
+      "docs/store_time_observer_verdicts_pairs.json": [
+        20261120,
+        20261121,
+        20261125
+      ],
+      "docs/strength_assignment_design_audit.json": [
+        1013,
+        20261102,
+        20270401,
+        20270402,
+        20270403,
+        20270404,
+        20270405
+      ],
+      "docs/structural_contribution_design_audit.json": [
+        20261102,
+        20270301,
+        20270302,
+        20270303,
+        20270304,
+        20270305
+      ],
+      "docs/use_path_audit.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/use_path_diagnostic.json": [
+        20261099,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/use_path_diagnostic_structure.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ]
+    },
+    "consumed_total": 192,
+    "candidate_block": [
+      20270601,
+      20270820
+    ],
+    "candidate_count": 220,
+    "overlap_with_consumed": [],
+    "disjoint_proved_against": 71,
+    "allocated": false,
+    "note": "Disjointness is checked against every integer filed under a key naming a seed in every docs/ artifact, at build time. The block is candidate only: no seed in it is allocated, and the independent review must report before any is."
+  },
+  "analysis": {
+    "unit": "one world (seed) within one configuration",
+    "estimator": "Spearman rank correlation between confirmed onset and revision_held_out across worlds of one configuration",
+    "effect_size_beside_it": "OLS slope of standardised outcome on standardised onset",
+    "interval": "percentile bootstrap resampling worlds within the configuration, 0.9833 level, 10,000 replicates",
+    "pooling": "none; every configuration is reported alone and no pooled coefficient may be quoted",
+    "aggregation_rule": "the construct is supported only if the predicted relation holds with an interval excluding zero in every claimed configuration. Holding in some and not others is reported as mixed and is not supported as stated",
+    "permutation_control": "onset shuffled across worlds within the configuration; the interval must include zero",
+    "size_baseline": "the same estimator with structural size in place of onset, reported beside it"
+  },
+  "falsifiers": [
+    {
+      "id": "A",
+      "name": "Absence",
+      "statement": "a within-configuration interval containing zero in any claimed configuration leaves the construct unsupported"
+    },
+    {
+      "id": "B",
+      "name": "Reversal",
+      "statement": "a relation with the opposite sign is recorded as reversed, which is stronger than unsupported"
+    },
+    {
+      "id": "C",
+      "name": "Dead configuration",
+      "statement": "onset undefined in most runs of a configuration is a world property, reported as such and never as a null"
+    },
+    {
+      "id": "D",
+      "name": "Pooled only",
+      "statement": "a relation across configurations but not inside one does not answer the protocol's question and does not support the construct"
+    }
+  ],
+  "outcomes": {
+    "supported": "present with the predicted sign in every claimed configuration, size baseline and permutation both null",
+    "mixed": "present in some, absent in others; not supported as stated",
+    "not_supported": "absent in every configuration",
+    "reversed": "reversed in any configuration, recorded there",
+    "size_effect": "explained by structural size rather than onset",
+    "design_defect": "permutation control non-null, or a predictor built from behavioural cycles; no result is reported",
+    "inconclusive": "fewer usable worlds than the floor after censoring"
+  },
+  "review_gate": {
+    "document": "docs/INDEPENDENT-METHODS-REVIEW.md",
+    "outcome_recorded": false,
+    "may_reject": true,
+    "authority": "Approved / Approved with conditions / Rejected; a rejection is recorded verbatim and is not argued into an approval",
+    "send_with_the_package": [
+      "docs/DI-MEASUREMENT-WINDOW.md",
+      "docs/DI-TRANSITION-CONSTRUCT.md",
+      "docs/di_transition_construct.json",
+      "docs/STAGE-B-PROTOCOL.md",
+      "docs/stage_b_protocol.json",
+      "docs/STRUCTURE-BEHAVIOR-DESIGN.md",
+      "docs/sign_resolution_structure_behavior.json",
+      "docs/V1-SYNTHESIS.md"
+    ],
+    "history_for_the_reviewer": [
+      "the Stage A dynamic-range claim (\"0.44 pairs against a one-pair floor\") and its withdrawal: it compared a 40-cycle mean to a single-cycle quantum",
+      "the 20 of 119 onsets that are not the first non-zero reading, and the 2 runs whose eligibility depends on the sustention rule",
+      "the behavioural horizon's index-versus-count reconciliation",
+      "the four blocks whose criteria failed and were reported rather than re-scored"
+    ]
+  },
+  "withdrawn_claims": [
+    {
+      "claim": "the settled-window predictor has 0.44 pairs of spread against a one-pair floor, so the dynamic range is the obstacle",
+      "status": "withdrawn in place",
+      "why": "it compared a 40-cycle mean to a single-cycle quantum; 0.44 pairs is real spread, and the decisive defect is that no settled state exists to measure",
+      "where": "docs/DI-MEASUREMENT-WINDOW.md"
+    },
+    {
+      "claim": "onset is a validated predictor",
+      "status": "never claimed, and not established",
+      "why": "no relation between onset and any behavioural endpoint has been computed, by design",
+      "where": "docs/DI-TRANSITION-CONSTRUCT.md \u00a75"
+    }
+  ],
+  "inherited_sign_resolution": {
+    "artifact": "docs/sign_resolution_structure_behavior.json",
+    "published_floor_at_effect_0_50": 48,
+    "closed_form_reproduces_it": true,
+    "status_field_as_published": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone."
+  },
+  "no_engine": "No engine ran, no seed was spent, no world was generated, and no coefficient was computed. This artifact is a protocol."
+}

@@ -9907,3 +9907,53 @@ a 600-reading run — with §6.2 tabulating the 100 cycles and the 101 readings 
 **What this does not change.** The 600-reading record still cannot host a post-confirmation follow-up in 28 of its
 119 moving runs (`2:1`: 28 of 29), the horizon must still be set per world from its own confirmation cycle rather
 than fixed, and **Stage B remains unauthorised**. The reconciliation resolved a representation, not a finding.
+
+---
+
+## 155. A protocol whose size is a consequence of its claim
+
+**What this section adds.** `docs/STAGE-B-PROTOCOL.md` is the complete Stage B protocol, written for the
+independent review gate and authorised by nothing. It inherits the onset predictor, the eligibility and
+dispersion rules and the behavioural clock from the construct record rather than restating them, because a
+protocol that copies a constant is a second place for it to drift.
+
+**The block size is the part worth recording.** Three numbers are fixed before any data: the smallest relation
+worth calling predictive (0.50 rank correlation), the project's 98.33 % decision level, and the bar that a block
+must resolve such a relation in 90 % of runs. Solving the decision rule for those gives **48 worlds per
+configuration** at full reliability — and the closed form reproduces the published sign-resolution floor for this
+endpoint exactly, which is what licenses using it for the attenuated case.
+
+**Onset's reliability cannot be measured the usual way.** The engine is deterministic per seed, so re-running a
+world is not a replication and there is no test–retest estimate to be had. The nearest measurable question is
+whether two different sustention rules put the same world in the same place, and the construct record already
+answered it: ρ ≥ **0.972** across every pair in every claimed configuration. Treating that agreement as a lower
+bound on reliability attenuates the target effect to **0.4757**, and the same rule then asks for **54** worlds per
+configuration: **216** in total across the four claimed configurations, co-equal.
+
+**Cost, in the currency the project actually spends.** With the horizon set per world at confirmation + 101
+readings, and using Phase L's median confirmation per configuration as the estimate of where fresh worlds will
+emerge, the block costs **111,996** cycles — **0.7778** of Phase L's 144,000, for a fifth as many worlds. The
+saving is not a trick: it comes from not running every world to a fixed 600 and truncating the follow-up for the
+late ones.
+
+**The seed block is proved, not asserted.** `20270601`–`20270820`, **220** candidate seeds, checked at every
+build against every integer filed under a seed key in all 71 artifacts that carry one — **192** seeds, **0
+overlap**. A later artifact that consumes one of these seeds breaks the protocol's own test, which is the point:
+the check must be run, not remembered.
+
+**Two rules are pre-committed because they close the two doors this project has walked through before.** The
+aggregation rule requires the predicted relation in **every** claimed configuration; anything less is *mixed* and
+is not supported as stated, so the protocol cannot report whichever configuration performed best. And a censored
+world is **never replaced**: the denominator is reported as realised, so a block of 54 cannot quietly become a
+search for 54 that worked. If attrition takes a configuration below the 48-world floor, the outcome is
+*inconclusive* — never *null*.
+
+**What the reviewer receives includes the corrections.** The package carries the withdrawn Stage A dynamic-range
+claim, the 20-of-119 anchor lag, the two runs whose eligibility depends on the sustention rule, the
+index-versus-count reconciliation, and the four block-level criteria that failed elsewhere and were reported
+rather than re-scored. A record that shows only its final favourable numbers has hidden its reasoning.
+
+**The state is unchanged where it matters.** No seed is allocated, no world is generated, no run is started, and
+**no relation between onset and behaviour has been computed** — that remains the whole point of fixing the
+predictor first. **Stage B is not authorised**, and §7 of `docs/INDEPENDENT-METHODS-REVIEW.md` is still empty.
+The next act is a review, not a run.
