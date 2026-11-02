@@ -71,24 +71,29 @@ reviewer asked to approve a block of a given size must be able to see where the 
   resolves a rank relation of 0.50 at 48 worlds per configuration — Spearman rho, an interval from
   resampling worlds at 98.33 %, resolved only when that interval excludes zero with the predicted sign. It
   is not a posterior probability, not a p-value, and not a claim about the engine: no engine ran.
-- **It is a floor, not a target.** Measurement error in `DI` attenuates the observed relation, and
-  dependence between worlds narrows the interval. Both raise the worlds required:
+- **It is a floor, not a target, and the curve is not a product rule.** Classical error in the predictor
+  multiplies the Pearson correlation by `sqrt(reliability)`; the Spearman value follows from
+  `(6/pi) asin(rho_g/2)`. That curve is computed and checked by Monte Carlo to within 0.021:
 
-| `DI` reliability | Measured relation | Worlds per configuration |
+| `DI` reliability | Observed relation (Spearman) | Worlds per configuration |
 | --- | --- | --- |
 | 1.00 | 0.50 | 48 |
-| 0.90 | 0.45 | 61 |
-| 0.80 | 0.40 | 79 |
-| 0.70 | 0.35 | 105 |
-| 0.60 | 0.30 | 144 |
+| 0.90 | 0.47 | 54 |
+| 0.80 | 0.45 | 62 |
+| 0.70 | 0.42 | 72 |
+| 0.60 | 0.39 | 85 |
+| 0.50 | 0.35 | 104 |
+| 0.40 | 0.31 | 131 |
+| 0.30 | 0.27 | 177 |
 
 - **The predictor's reliability is unmeasured.** That column is the price of a quantity nobody in this
   project has measured, and measuring it is a prerequisite the reviewer should expect to see discharged
   before a block of this size is bought.
-- **Exchangeability is an assumption with a diagnostic.** Per-configuration analysis removes
-  across-configuration clustering and says nothing about dependence within a configuration; the block must
-  report lag-1 dependence of `DI` and of the outcome on seed order, and resample contiguous blocks of seeds
-  if it is non-negligible.
+- **Exchangeability is an assumption with a diagnostic, and its direction is measured, not assumed.**
+  Per-configuration analysis removes across-configuration clustering and says nothing about dependence within
+  one. The artifact simulates a shared component and reports the resolution probability under individual-world
+  and contiguous-block resampling; the difference (+0.033, +0.000, -0.013) is inside Monte-Carlo noise, so no direction is
+  claimed, and the block must report lag-1 dependence on seed order plus both intervals.
 - **No size has been chosen.** The computation constrains the claim; it does not authorise spending.
 
 ## 7. Reading the record directly

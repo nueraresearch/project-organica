@@ -241,31 +241,50 @@ number the claim can be tested with, not the most. An earlier version of this pa
 without saying of what, and standing next to a world count it could be read as a maximum; corrected
 2026-11-02 after the owner pointed out that the direction for the count is the opposite one.
 
-*The measurement-error assumption, stated explicitly.* No error model is fitted. If a latent relation of
-0.50 appears in the measured data as 0.50 × reliability — classical error in one
-variable, bivariate normal — the requirement becomes:
+*The measurement-error assumption, stated explicitly — and the mapping is not a product rule.* No error
+model is fitted. What the artifact computes is the consequence of one stated model, classical independent
+error in `DI` only, and the mapping matters: under that model the **Pearson** correlation is multiplied by
+`sqrt(reliability)`, and the **Spearman** value of a bivariate normal then follows from
+`rho_s = (6/pi) asin(rho_g / 2)`. An earlier version of this paragraph multiplied the rank correlation by the
+reliability itself, which overstates the loss at every level; the corrected curve is computed by
+`observed_spearman` and checked by Monte Carlo on samples of the block's own size, agreeing to within
+0.021:
 
-| `DI` reliability | Measured relation | Worlds per configuration |
+| `DI` reliability | Observed relation (Spearman) | Worlds per configuration |
 | --- | --- | --- |
 | 1.00 | 0.50 | 48 |
-| 0.90 | 0.45 | 61 |
-| 0.80 | 0.40 | 79 |
-| 0.70 | 0.35 | 105 |
-| 0.60 | 0.30 | 144 |
+| 0.90 | 0.47 | 54 |
+| 0.80 | 0.45 | 62 |
+| 0.70 | 0.42 | 72 |
+| 0.60 | 0.39 | 85 |
+| 0.50 | 0.35 | 104 |
+| 0.40 | 0.31 | 131 |
+| 0.30 | 0.27 | 177 |
 
-`DI`'s reliability is not measured anywhere in this project, so this is the price of an unmeasured
-quantity rather than a correction to it. The practical consequence is direct: at reliability 0.80 the block
-is 79 worlds per configuration, not 48, and at 0.60 it is 144. Measuring `DI`'s reliability is a
-cheap prerequisite the record now owes the reviewer.
+The difference is worth naming because a reviewer will check it: the naive product rule put reliability 0.80 at
+0.40 and 79 worlds, where the correct mapping for this estimator puts it at 0.446 and
+62. At 0.60 it is 85, at 0.50 104, and at 0.30
+177. `DI`'s reliability is measured nowhere in this project, so this is a sensitivity curve under
+one model rather than a correction, and a bounded ratio like `DI` would not follow a classical error model
+exactly. Measuring its reliability remains the prerequisite.
 
-*Exchangeability, and the diagnostic that must be reported.* The interval resamples worlds individually,
-which assumes they are exchangeable draws within a configuration. Analysing each configuration separately
-removes across-configuration clustering; it says nothing about dependence *within* one, which would arrive
-as state carried between seeds or as worlds drawn from related conditions. Violating the assumption
-narrows the interval and overstates the probability — the same direction as attenuation, never the safe
-one. So before the relation is read, the block reports the dependence of `DI` and of the outcome on seed
-order (lag-1 correlation across its seed sequence), and if that is non-negligible it resamples contiguous
-blocks of seeds and reports both intervals.
+
+
+*Exchangeability, and a direction this record had asserted without testing.* The interval resamples worlds
+individually, which assumes they are exchangeable draws within a configuration. Analysing each configuration
+separately removes across-configuration clustering; it says nothing about dependence *within* one, which would
+arrive as state carried between seeds or as worlds drawn from related conditions.
+
+An earlier version of this paragraph claimed that such dependence **narrows** the interval and therefore only
+raises the requirement. That claim was untested, and the artifact now tests it: worlds are simulated with a
+shared component and resampled two ways — individual worlds, and contiguous blocks of seeds. The difference in
+resolution probability (individual minus block) is +0.033, +0.000, -0.013 at intraclass correlation 0.00, 0.10 and 0.20, which
+is indistinguishable from Monte-Carlo noise at 150 simulations and is not consistently signed. The honest
+statement is therefore that the direction depends on the structure of the dependence and has not been
+established here. The block must **measure** it rather than assume it: report the seed-generation and ordering
+procedure, whether seeds are independent experimental worlds, dependence beyond lag 1, and both the
+individual-world and contiguous-block intervals with the resolution probability under each.
+
 
 **Falsifier A — direction.** The relation is absent or reversed *where the structure is present*: worlds
 with high `DI` do not score above the comparator on the withheld transitions. This is a failure of the

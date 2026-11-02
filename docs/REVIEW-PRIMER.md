@@ -44,10 +44,12 @@ control, and discloses the limit rather than claiming to have removed it.
 
 **2. How many runs it takes, and why that is awkward.** To detect a relation of size 0.50 with the
 protocol's own decision rule takes **48 runs per setup** at the 0.90 bar
-(p ≈ 0.902). That number is a **floor, not a target**: if `DI` is measured noisily the observed
-relation shrinks and more runs are needed — at 0.80 reliability it is
-79 runs per setup. Nobody has measured that reliability yet, so the true
-requirement is unknown and at least 48. Three setups is **144 runs at best**.
+(p ≈ 0.902). That number is a **floor, not a target**: if `DI` is measured noisily the observed relation
+shrinks and more runs are needed — at 0.80 reliability it is 62 runs per setup, at 0.60 it is
+85, at 0.30 it is 177. Nobody has measured that reliability yet, so the true requirement is
+unknown and at least 48. Three setups is **144 runs at best**. Whether runs can be treated as independent is also
+unchecked: dependence between worlds could move these numbers either way, and the protocol requires that to be
+measured rather than assumed.
 
 ## What you are being asked
 

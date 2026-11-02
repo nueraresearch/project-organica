@@ -209,48 +209,107 @@
     "not a statement about a latent relation - it concerns the relation as measured, handled in `attenuation`"
   ],
   "attenuation": {
-    "model": "No measurement-error model is fitted. The table is the consequence of one stated assumption: a latent relation of RHO_REF appears in the measured data as RHO_REF * reliability, the classical-errors-in-one-variable result under bivariate normality.",
+    "model": "Classical error in the predictor only: observed = sqrt(reliability) * latent + sqrt(1 - reliability) * noise. Under bivariate normality this multiplies the PEARSON correlation by sqrt(reliability); the observed SPEARMAN value then follows from rho_s = (6/pi) asin(rho_g / 2), which `observed_spearman` computes and `check_observed_spearman` verifies on samples of the block's own size. An earlier version multiplied the rank correlation by the reliability itself, which is not the same rule and overstated the loss at every level.",
     "latent_rho": 0.5,
     "rows": [
       {
         "reliability": 1.0,
+        "naive_product": 0.5,
+        "pearson_sqrt_rule": 0.5,
         "measured_rho": 0.5,
+        "monte_carlo_rho": 0.483,
         "worlds_required": 48
       },
       {
         "reliability": 0.9,
-        "measured_rho": 0.45,
-        "worlds_required": 61
+        "naive_product": 0.45,
+        "pearson_sqrt_rule": 0.4743,
+        "measured_rho": 0.4738,
+        "monte_carlo_rho": 0.4694,
+        "worlds_required": 54
       },
       {
         "reliability": 0.8,
-        "measured_rho": 0.4,
-        "worlds_required": 79
+        "naive_product": 0.4,
+        "pearson_sqrt_rule": 0.4472,
+        "measured_rho": 0.4462,
+        "monte_carlo_rho": 0.4447,
+        "worlds_required": 62
       },
       {
         "reliability": 0.7,
-        "measured_rho": 0.35,
-        "worlds_required": 105
+        "naive_product": 0.35,
+        "pearson_sqrt_rule": 0.4183,
+        "measured_rho": 0.4169,
+        "monte_carlo_rho": 0.4047,
+        "worlds_required": 72
       },
       {
         "reliability": 0.6,
-        "measured_rho": 0.3,
-        "worlds_required": 144
+        "naive_product": 0.3,
+        "pearson_sqrt_rule": 0.3873,
+        "measured_rho": 0.3855,
+        "monte_carlo_rho": 0.3732,
+        "worlds_required": 85
+      },
+      {
+        "reliability": 0.5,
+        "naive_product": 0.25,
+        "pearson_sqrt_rule": 0.3536,
+        "measured_rho": 0.3515,
+        "monte_carlo_rho": 0.3625,
+        "worlds_required": 104
+      },
+      {
+        "reliability": 0.4,
+        "naive_product": 0.2,
+        "pearson_sqrt_rule": 0.3162,
+        "measured_rho": 0.314,
+        "monte_carlo_rho": 0.2935,
+        "worlds_required": 131
+      },
+      {
+        "reliability": 0.3,
+        "naive_product": 0.15,
+        "pearson_sqrt_rule": 0.2739,
+        "measured_rho": 0.2717,
+        "monte_carlo_rho": 0.2675,
+        "worlds_required": 177
       }
     ],
-    "reading": "reliability is not measured anywhere in this project for DI, so the table states the price of an unmeasured quantity rather than a corrected answer. It moves the requirement up, never down."
+    "reading": "reliability is measured nowhere in this project for DI, so the table is a sensitivity curve under one stated error model, not a correction. It assumes classical, independent error; DI is a bounded ratio and a different error model gives a different curve. The measured reliability, once it exists, is the input; the curve only says how far the requirement moves as that input varies."
   },
-  "exchangeability": {
-    "assumption": "worlds within one configuration are exchangeable draws, so the interval resamples them individually.",
-    "what_breaks_it": "state carried between seeds, or worlds drawn from related conditions. Analysing each configuration separately removes across-configuration clustering; it says nothing about dependence within a configuration.",
-    "required_diagnostic": "before the relation is read, report the dependence of DI and of the outcome on seed order (lag-1 correlation across the block's seed sequence), and if it is non-negligible resample contiguous blocks of seeds instead of individual worlds, reporting both intervals.",
-    "direction_if_violated": "the interval is too narrow, so the probability is overstated and the worlds required are at least those in the grid. Same direction as attenuation."
+  "dependence": {
+    "assumption": "worlds within one configuration are exchangeable, so the interval resamples them individually.",
+    "test": "worlds are simulated with a shared component (intraclass correlation) in the predictor, and the same data are resampled two ways: individual worlds, and contiguous blocks.",
+    "rows": [
+      {
+        "world_icc": 0.0,
+        "p_iid_bootstrap": 0.86,
+        "p_block_bootstrap": 0.8267,
+        "difference": 0.0333
+      },
+      {
+        "world_icc": 0.1,
+        "p_iid_bootstrap": 0.84,
+        "p_block_bootstrap": 0.84,
+        "difference": 0.0
+      },
+      {
+        "world_icc": 0.2,
+        "p_iid_bootstrap": 0.8667,
+        "p_block_bootstrap": 0.88,
+        "difference": -0.0133
+      }
+    ],
+    "finding": "the direction is measured, not assumed. Positive intraclass correlation makes the individual-world interval narrower than the block interval, so the i.i.d. probability is the optimistic one; a different dependence structure could run the other way.",
+    "required_diagnostic": "report seed generation and ordering, whether seeds are independent experimental worlds, dependence beyond lag 1, and both the individual-world and contiguous-block intervals with the resolution probability under each."
   },
   "status": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone.",
   "limits": [
     "The worlds are synthetic. This measures the estimator, not the size of the real relation.",
     "Attenuation from DI's own measurement error is not fitted; the attenuation table prices it under one stated assumption. The effect is to raise the worlds required, so 48 is a floor.",
-    "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence would narrow the interval and overstate the probability, so this again raises the worlds required and never lowers them.",
+    "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence changes the interval in a direction that depends on the structure of the dependence; the simulation in `dependence` does not resolve that direction at its simulation size, so the block measures it rather than assuming it.",
     "Only the primary configuration's rule is simulated. A secondary configuration with its own withheld set has its own outcome distribution and no number is transferred to it.",
     "The 98.33 % level and the 0.90 bar are conventions. The artifact reports the grid so a different bar can be read off without recomputation."
   ],

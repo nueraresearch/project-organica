@@ -9593,3 +9593,37 @@ an available answer. The package, the brief and the request letter all point at 
 If the owner decides to run without the review, that is a waiver and will be recorded as one — the protocol
 says a review cannot be waived for schedule, so a waiver has to be an explicit decision with its cost
 written next to it, not an absence that later reads like an approval.
+
+## §148 — The attenuation rule was the wrong rule, and the dependence direction was an assumption (2026-11-02)
+
+Two corrections, both from the owner's review, both of the kind that only a second reader finds.
+
+**The attenuation table used a product rule that no textbook states.** It computed observed = latent ×
+reliability. For classical error in one variable the Pearson correlation is multiplied by sqrt(reliability),
+not by the reliability; and because this endpoint's estimand is Spearman, the Pearson factor then has to be
+mapped through the bivariate-normal relation `rho_s = (6/pi) asin(rho_g/2)`. Multiplying a rank correlation by
+a reliability is a plausible-looking operation that produces a number nobody can check, which is exactly the
+defect class this project keeps finding in its own artifacts.
+
+**What the corrected curve says.** Reliability 1.00 → 48 worlds per configuration, 0.90 → 54, 0.80 → 62, 0.70 → 72,
+0.60 → 85, 0.50 → 104, 0.40 → 131, 0.30 → 177. The old table gave 48 / 61 / 79 / 105 / 144, so it overstated the loss at
+every level — the 0.80 case moves from 79 to 62. The direction of the floor claim survives, because noise still
+raises the requirement; the magnitudes a reviewer is shown do not. The curve is computed by `observed_spearman`
+and independently checked by Monte Carlo on samples of the block's own size, agreeing to within 0.021.
+
+**A caveat that has to travel with it.** The model is classical, independent error in a bounded ratio. `DI` is
+not a Gaussian measurement, so this is a sensitivity curve under a declared model, not a correction of the
+requirement. It says how far the requirement moves as reliability varies; it does not say what reliability is.
+That stays unmeasured and remains the prerequisite.
+
+**The dependence claim was an assertion wearing a mechanism's clothes.** The protocol said within-configuration
+dependence "narrows the interval and overstates the probability — the same direction as attenuation, never the
+safe one". That is a statement about a dependence structure nobody had simulated. It has now been simulated:
+a shared component with intraclass correlation 0.00, 0.10 and 0.20, resampled both as individual worlds and as
+contiguous blocks. The differences in resolution probability are +0.033, +0.000, -0.013 — inside Monte-Carlo noise at 150
+simulations, and not all one way. So the record now says the direction depends on the structure and has not been
+established here, and the block's diagnostic reports both intervals rather than leaning on an assumed sign.
+
+**What did not change.** No engine ran, no seed was spent, no size was chosen, §7 is still empty. The 48-world
+reference figure is untouched because it is the reliability-1.0 row. The package, the protocol and the primer
+were regenerated from the artifact rather than edited by hand, so the numbers cannot drift between them.

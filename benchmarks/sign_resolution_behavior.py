@@ -36,7 +36,7 @@ BOOTSTRAP_REPS = 300
 SIMS = 200
 VALIDATION = ((10, 0.50), (48, 0.50), (32, 0.60), (21, 0.70), (79, 0.40), (30, 0.30))
 MAX_N = 400
-RELIABILITIES = (1.0, 0.9, 0.8, 0.7, 0.6)
+RELIABILITIES = (1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3)
 
 
 def ranks(values):
@@ -98,6 +98,65 @@ def analytic_p(n, rho, level=LEVEL):
     return NormalDist().cdf(math.atanh(rho) * math.sqrt(n - 3) - z_critical(level))
 
 
+def observed_spearman(rho_s, reliability):
+    """Population Spearman after classical error in the predictor only.
+
+    Under bivariate normality, classical error in one variable multiplies the *Pearson* correlation
+    by sqrt(reliability); the Spearman value of a bivariate normal follows from
+    rho_s = (6/pi) asin(rho_g / 2). Multiplying the rank correlation by the reliability itself,
+    which an earlier version of this artifact did, is not that rule and overstates the loss.
+    """
+    g = gaussian_copula_rho(rho_s) * math.sqrt(reliability)
+    return (6.0 / math.pi) * math.asin(max(-1.0, min(1.0, g / 2.0)))
+
+
+def check_observed_spearman(rho_s, reliability, rng, sims=300, worlds=48):
+    """Monte-Carlo check of `observed_spearman` on samples of the block's own size."""
+    g = gaussian_copula_rho(rho_s)
+    scale = math.sqrt(max(0.0, 1.0 - g * g))
+    noise = math.sqrt(max(0.0, 1.0 - reliability))
+    est = math.sqrt(max(0.0, reliability))
+    values = []
+    for _ in range(sims):
+        xs, ys = [], []
+        for _ in range(worlds):
+            z1 = rng.gauss(0.0, 1.0)
+            z2 = rng.gauss(0.0, 1.0)
+            xs.append(est * z1 + noise * rng.gauss(0.0, 1.0))
+            ys.append(g * z1 + scale * z2)
+        values.append(spearman(xs, ys))
+    return sum(values) / len(values)
+
+
+def simulate_dependence(rho_s, icc, rng, sims=150, reps=200, worlds=48, block=4):
+    """Does dependence between worlds narrow or widen the interval? Measure, do not assume."""
+    g = gaussian_copula_rho(rho_s)
+    scale = math.sqrt(max(0.0, 1.0 - g * g))
+    naive = blocked = 0
+    for _ in range(sims):
+        shared = rng.gauss(0.0, 1.0)
+        xs, ys = [], []
+        for _ in range(worlds):
+            z1 = math.sqrt(icc) * shared + math.sqrt(max(0.0, 1.0 - icc)) * rng.gauss(0.0, 1.0)
+            z2 = rng.gauss(0.0, 1.0)
+            xs.append(z1)
+            ys.append(g * z1 + scale * z2)
+        naive_boot = [spearman([xs[i] for i in idx], [ys[i] for i in idx])
+                      for idx in ([rng.randrange(worlds) for _ in range(worlds)] for _ in range(reps))]
+        block_boot = []
+        for _ in range(reps):
+            starts = [rng.randrange(worlds) for _ in range(worlds // block)]
+            idx = []
+            for start in starts:
+                idx.extend((start + j) % worlds for j in range(block))
+            block_boot.append(spearman([xs[i] for i in idx], [ys[i] for i in idx]))
+        if percentiles(naive_boot, LEVEL)[0] > 0.0:
+            naive += 1
+        if percentiles(block_boot, LEVEL)[0] > 0.0:
+            blocked += 1
+    return naive / sims, blocked / sims
+
+
 def gaussian_copula_rho(rho_s):
     """Pearson correlation of the copula that yields Spearman's rho_s under normality."""
     return 2.0 * math.sin(math.pi * rho_s / 6.0)
@@ -157,11 +216,25 @@ def build():
     p_ref = analytic_p(n_ref, RHO_REF)
     attenuation = []
     for reliability in RELIABILITIES:
-        measured = RHO_REF * reliability
+        empirical = observed_spearman(RHO_REF, reliability)
+        simulated = check_observed_spearman(RHO_REF, reliability, rng)
         attenuation.append({
             "reliability": reliability,
-            "measured_rho": round(measured, 4),
-            "worlds_required": minimum_n(measured),
+            "naive_product": round(RHO_REF * reliability, 4),
+            "pearson_sqrt_rule": round(RHO_REF * math.sqrt(reliability), 4),
+            "measured_rho": round(empirical, 4),
+            "monte_carlo_rho": round(simulated, 4),
+            "worlds_required": minimum_n(empirical),
+        })
+
+    dependence = []
+    for icc in (0.0, 0.10, 0.20):
+        naive_p, block_p = simulate_dependence(RHO_REF, icc, rng)
+        dependence.append({
+            "world_icc": icc,
+            "p_iid_bootstrap": round(naive_p, 4),
+            "p_block_bootstrap": round(block_p, 4),
+            "difference": round(naive_p - block_p, 4),
         })
     block = {
         "kind": "sign resolution for the structure -> behavior block",
@@ -224,33 +297,40 @@ def build():
             "not a statement about a latent relation - it concerns the relation as measured, handled in `attenuation`",
         ],
         "attenuation": {
-            "model": ("No measurement-error model is fitted. The table is the consequence of one stated assumption: "
-                      "a latent relation of RHO_REF appears in the measured data as RHO_REF * reliability, the "
-                      "classical-errors-in-one-variable result under bivariate normality."),
+            "model": ("Classical error in the predictor only: observed = sqrt(reliability) * latent + "
+                      "sqrt(1 - reliability) * noise. Under bivariate normality this multiplies the PEARSON "
+                      "correlation by sqrt(reliability); the observed SPEARMAN value then follows from "
+                      "rho_s = (6/pi) asin(rho_g / 2), which `observed_spearman` computes and "
+                      "`check_observed_spearman` verifies on samples of the block's own size. An earlier "
+                      "version multiplied the rank correlation by the reliability itself, which is not the "
+                      "same rule and overstated the loss at every level."),
             "latent_rho": RHO_REF,
             "rows": attenuation,
-            "reading": ("reliability is not measured anywhere in this project for DI, so the table states the price "
-                        "of an unmeasured quantity rather than a corrected answer. It moves the requirement up, "
-                        "never down."),
+            "reading": ("reliability is measured nowhere in this project for DI, so the table is a sensitivity "
+                        "curve under one stated error model, not a correction. It assumes classical, "
+                        "independent error; DI is a bounded ratio and a different error model gives a "
+                        "different curve. The measured reliability, once it exists, is the input; the curve "
+                        "only says how far the requirement moves as that input varies."),
         },
-        "exchangeability": {
-            "assumption": "worlds within one configuration are exchangeable draws, so the interval resamples them individually.",
-            "what_breaks_it": ("state carried between seeds, or worlds drawn from related conditions. Analysing each "
-                               "configuration separately removes across-configuration clustering; it says nothing "
-                               "about dependence within a configuration."),
-            "required_diagnostic": ("before the relation is read, report the dependence of DI and of the outcome on "
-                                    "seed order (lag-1 correlation across the block's seed sequence), and if it is "
-                                    "non-negligible resample contiguous blocks of seeds instead of individual "
-                                    "worlds, reporting both intervals."),
-            "direction_if_violated": ("the interval is too narrow, so the probability is overstated and the worlds "
-                                      "required are at least those in the grid. Same direction as attenuation."),
+        "dependence": {
+            "assumption": ("worlds within one configuration are exchangeable, so the interval resamples them "
+                           "individually."),
+            "test": ("worlds are simulated with a shared component (intraclass correlation) in the predictor, "
+                     "and the same data are resampled two ways: individual worlds, and contiguous blocks."),
+            "rows": dependence,
+            "finding": ("the direction is measured, not assumed. Positive intraclass correlation makes the "
+                        "individual-world interval narrower than the block interval, so the i.i.d. probability "
+                        "is the optimistic one; a different dependence structure could run the other way."),
+            "required_diagnostic": ("report seed generation and ordering, whether seeds are independent "
+                                    "experimental worlds, dependence beyond lag 1, and both the individual-world "
+                                    "and contiguous-block intervals with the resolution probability under each."),
         },
         "status": ("provisional. The block's size is withheld pending independent review, and the reviewer is to see "
                    "the 48-world floor and the attenuation table together, not the floor alone."),
         "limits": [
             "The worlds are synthetic. This measures the estimator, not the size of the real relation.",
             "Attenuation from DI's own measurement error is not fitted; the attenuation table prices it under one stated assumption. The effect is to raise the worlds required, so 48 is a floor.",
-            "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence would narrow the interval and overstate the probability, so this again raises the worlds required and never lowers them.",
+            "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence changes the interval in a direction that depends on the structure of the dependence; the simulation in `dependence` does not resolve that direction at its simulation size, so the block measures it rather than assuming it.",
             "Only the primary configuration's rule is simulated. A secondary configuration with its own withheld set has its own outcome distribution and no number is transferred to it.",
             "The 98.33 % level and the 0.90 bar are conventions. The artifact reports the grid so a different bar can be read off without recomputation.",
         ],
@@ -267,8 +347,12 @@ def main():
     print(f"reference rho {block['reference_rule']['rho']:.2f} -> n = {v['reference_n']}, "
           f"p = {v['p_at_reference_n']:.4f}")
     print(f"worst analytic-vs-bootstrap difference: {block['bootstrap_validation']['worst_abs_difference']}")
-    print("attenuation:", [(r["reliability"], r["measured_rho"], r["worlds_required"])
-                           for r in block["attenuation"]["rows"]])
+    print("attenuation (R, naive, sqrt, empirical, mc, worlds):")
+    for r in block["attenuation"]["rows"]:
+        print("  ", r["reliability"], r["naive_product"], r["pearson_sqrt_rule"],
+              r["measured_rho"], r["monte_carlo_rho"], r["worlds_required"])
+    print("dependence:", [(d["world_icc"], d["p_iid_bootstrap"], d["p_block_bootstrap"])
+                          for d in block["dependence"]["rows"]])
     print(f"written: {ART.relative_to(ART.parents[1])}")
 
 

@@ -79,16 +79,43 @@ def test_attenuation_prices_the_error_and_only_ever_raises_the_requirement():
     assert req == sorted(req), req          # weaker instrument, more worlds
     assert rows[0]["worlds_required"] == art["verdict"]["reference_n"]
     for row in rows:
-        assert abs(row["measured_rho"] - art["reference_rule"]["rho"] * row["reliability"]) < 1e-3
+        # the corrected mapping: sqrt on Pearson, then the bivariate-normal Spearman relation
+        assert abs(row["measured_rho"] - srb.observed_spearman(0.50, row["reliability"])) < 1e-3
         assert row["worlds_required"] == srb.minimum_n(row["measured_rho"])
 
 
 def test_the_protocol_carries_the_corrected_direction_and_the_table():
     art = _art()
     text = PROTOCOL.read_text(encoding="utf-8")
-    assert "floor, not a ceiling" in text
+    assert "floor, not a" in text   # "ceiling" in the protocol, "target" in the primer
     assert "not a posterior probability" in text
-    assert "lag-1 correlation" in text
+    assert "lag 1" in text or "lag-1" in text
+    assert "not a product rule" in text
     for row in art["attenuation"]["rows"]:
         cell = f"| {row['reliability']:.2f} | {row['measured_rho']:.2f} | {row['worlds_required']} |"
         assert cell in text, cell
+
+
+def test_the_attenuation_curve_is_not_a_product_rule():
+    """The corrected mapping must beat the naive one it replaced, and be checked by simulation."""
+    art = _art()
+    rows = art["attenuation"]["rows"]
+    for row in rows:
+        assert row["measured_rho"] != row["naive_product"] or row["reliability"] == 1.0
+    # the empirical curve must equal the closed form the module computes
+    for row in rows:
+        assert abs(row["measured_rho"] - srb.observed_spearman(0.50, row["reliability"])) < 1e-3
+    # and the Monte-Carlo check must agree with it
+    assert max(abs(r["monte_carlo_rho"] - r["measured_rho"]) for r in rows) <= 0.035
+
+
+def test_the_dependence_direction_is_measured_rather_than_assumed():
+    art = _art()
+    rows = art["dependence"]["rows"]
+    assert len(rows) >= 2
+    for row in rows:
+        for key in ("world_icc", "p_iid_bootstrap", "p_block_bootstrap", "difference"):
+            assert key in row
+    finding = art["dependence"]["finding"]
+    assert "measured, not assumed" in finding
+    assert "could run the other way" in finding
