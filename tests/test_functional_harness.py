@@ -74,6 +74,20 @@ def test_design_artifact_forms_no_endpoint():
         assert "not formed" in cell["endpoint"]
         for wiring in cell["disqualifier_wiring"].values():
             assert wiring["shares_reported"] is False
+    # The boundary is declared, not implied: what was computed, and what was not.
+    boundary = art["endpoint_boundary"]
+    assert boundary["counts_as"] == "endpoint-derived diagnostic"
+    assert any("per-cell losses" in s for s in boundary["computed_on_design_seeds"])
+    assert any("pooled delta" in s for s in boundary["not_computed_on_design_seeds"])
+    # The limb's status is a statement about the measure, and it says so.
+    limb = art["transfer_limb"]
+    assert limb["status"] == "not attributable under the current provenance measure"
+    assert limb["claim_available"] is False
+    assert "not evidence that Organica failed to transfer" in limb["meaning"]
+    # And the 0.50 withholding on that window is structural: no withheld relation
+    # is world-majority on any design seed.
+    for cell in art["cells"]:
+        assert cell["provenance_coverage"]["withheld_world_majority"] == 0
     # Every gate that ran passed; the artifact's own verdict must agree.
     assert art["failures"] == []
     assert "passed" in art["status"]

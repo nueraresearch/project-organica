@@ -63,8 +63,8 @@ from benchmarks.acquisition_runner import (  # noqa: E402
 from benchmarks.formation_provenance import FormationRecorder  # noqa: E402
 from benchmarks.reusable_knowledge import (  # noqa: E402
     MAX_PREDICTIONS, TUNE_CYCLES, broken_rule_holder, comparator_sweep,
-    conditioned_formation_stream, latent_rule_holder, limbs, stored_rowid,
-    structure_edges,
+    conditioned_formation_stream, latent_rule_holder, limbs, relation_sets,
+    stored_rowid, structure_edges,
 )
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import LIVE_DB, temp_db  # noqa: E402
@@ -84,9 +84,29 @@ TUNING_CYCLES = TUNE_CYCLES           # 15  — §11.1
 
 PRIMARY_CYCLES = PHASE_TRANSFER       # 150–200 — §2
 ENDPOINT_NOT_FORMED = (
-    "not formed on design seeds (§10, step 2): the endpoint of §4 is Organica "
-    "minus the strongest baseline on the primary window, pooled over the "
-    "confirmatory block"
+    "the pooled delta of §4 is not formed on design seeds (§10, step 2): it needs "
+    "the confirmatory block and is Organica minus the strongest baseline on the "
+    "primary window, pooled over those seeds"
+)
+
+#: What the design run necessarily computes, and what it does not.  §10 was
+#: corrected on 2026-11-02 because its first wording said the endpoint was "not
+#: formed", which was too strong: §11.3's share is defined on per-cell paired
+#: losses, so the wiring step computes both arms' losses on every realised cell
+#: and subtracts them.  Those per-cell differences ARE the endpoint's building
+#: block.  What the lock keeps is the statistic and the verdict.
+COMPUTED_ON_DESIGN_SEEDS = (
+    "per-cell losses for both arms on the realised cells of both windows, because "
+    "§11.3's share is defined on their difference",
+    "arm-level window log-losses, for G3's degraded-readout control",
+    "tuning-split log-losses, for the baseline-family choice (§3 selects on the "
+    "tuning split)",
+)
+NOT_COMPUTED_ON_DESIGN_SEEDS = (
+    "the pooled delta of §4 across seeds",
+    "any comparison of a design seed's margin to the §4 bar",
+    "any statement about whether the endpoint clears, or in which direction",
+    "any statistic from a confirmatory seed",
 )
 
 DESIGN_OUT = "docs/functional_structure_design_audit.json"
@@ -319,6 +339,19 @@ def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]
         origin = recorder.origins(pair)
         provenance[pair] = (origin["world"], origin["self"])
 
+    # Relation coverage of the formation record: the figures §10.1 and §10.2 quote.
+    relations = relation_sets(world)
+    recorded = set(provenance)
+    world_majority = {pair for pair, (w, own) in provenance.items() if w > own}
+    coverage = {
+        "available_relations": len(relations["available"]),
+        "available_recorded": len(relations["available"] & recorded),
+        "available_world_majority": len(relations["available"] & world_majority),
+        "withheld_relations": len(relations["withheld"]),
+        "withheld_recorded": len(relations["withheld"] & recorded),
+        "withheld_world_majority": len(relations["withheld"] & world_majority),
+    }
+
     primary_ctx, primary_obs = held["transfer_full"]
     transfer_ctx, transfer_obs = held["transfer"]
     org_primary = fs.cells(org_prob, primary_ctx, primary_obs, vocab)
@@ -342,6 +375,7 @@ def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]
         got = fs.attribute(base_cells, org_cells, provenance)
         return {"status": got["status"], "withheld": got["withheld"],
                 "cells_by_group": got["counts"],
+                "measure": "temporal source rows: world events versus sleep payloads",
                 "shares_reported": False,
                 "reason": "design-seed wiring check only (§11.5 gate use)"}
 
@@ -366,6 +400,7 @@ def run_design_cell(seed: int, check_neutrality: bool = False) -> dict[str, Any]
             "tuning_log_loss": comps[family]["tuning_log_loss"],
             "rule": "chosen on the tuning split, never on a scored window",
         },
+        "provenance_coverage": coverage,
         "disqualifier_wiring": {"primary": wiring(base_primary, org_primary),
                                 "transfer": wiring(base_transfer, org_transfer)},
         "endpoint": ENDPOINT_NOT_FORMED,
@@ -409,6 +444,23 @@ def run_design_audit(seeds: Sequence[int] = DESIGN_SEEDS) -> dict[str, Any]:
         "seeds": list(seeds),
         "confirmatory_seeds_run": 0,
         "endpoint": ENDPOINT_NOT_FORMED,
+        "endpoint_boundary": {
+            "computed_on_design_seeds": list(COMPUTED_ON_DESIGN_SEEDS),
+            "not_computed_on_design_seeds": list(NOT_COMPUTED_ON_DESIGN_SEEDS),
+            "counts_as": "endpoint-derived diagnostic",
+            "note": ("The wiring computes the per-cell differences the endpoint "
+                     "aggregates; it forms no pooled delta and no verdict."),
+        },
+        "transfer_limb": {
+            "status": "not attributable under the current provenance measure",
+            "meaning": ("the measure cannot certify a transfer claim on the withheld "
+                        "relations; this is not evidence that Organica failed to "
+                        "transfer"),
+            "structural": ("the withheld relations are withheld from formation, so "
+                           "they cannot carry world-source support: sleep-only pairs "
+                           "are self-majority, absent pairs unattributed"),
+            "claim_available": False,
+        },
         "constants": {"cap": CAP, "alpha": ALPHA, "tuning_cycles": TUNING_CYCLES,
                       "pythonhashseed": os.environ.get("PYTHONHASHSEED")},
         "G6": {"passed": True, "cases": fixtures},

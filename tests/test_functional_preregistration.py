@@ -75,3 +75,17 @@ def test_run_order_is_explicit_and_not_circular():
     assert "not formed on design seeds" in sec10
     assert "**The endpoint stays locked until step 3.**" in sec10
 
+
+
+def test_design_boundary_and_limb_status_are_stated():
+    """§10 must say what the design run computed, and what the limb's status means."""
+    text = DOC.read_text(encoding="utf-8")
+    # Flatten the line wrapping: these are claims, not typographic positions.
+    sec10 = " ".join(text.split("## 10.", 1)[1].split("## 11.", 1)[0].split())
+    assert "endpoint-derived diagnostic" in sec10
+    assert "not attributable under the current provenance measure" in sec10
+    assert "It does **not** say Organica failed to transfer" in sec10
+    assert "endpoint_boundary" in sec10
+    # The recommendation is labelled as the owner's decision, never as an authorisation.
+    assert "for the owner" in sec10
+    assert "Nothing in this section authorises it" in sec10

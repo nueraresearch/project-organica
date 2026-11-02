@@ -221,6 +221,17 @@ diagnostic that is labelled as one.
 on one, and no preliminary look at the endpoint is taken until every design gate has passed and
 that passing run is committed.
 
+**What that lock covers, corrected (2026-11-02).** Its first wording said the endpoint is "not
+formed" on a design seed, and that was too strong to be true. §11.3's share is defined on per-cell
+paired losses, so the wiring step computes Organica's loss and the baseline's loss on every
+realised cell of both windows and subtracts them; those per-cell differences are the endpoint's
+building block, and they exist. What is withheld is the statistic and the verdict: the pooled
+`delta` of §4 is **not formed on design seeds**, no design margin is compared with §4's bar, and
+nothing says in which direction the endpoint would fall. The artifact declares both lists under
+`endpoint_boundary` and labels what it does compute an **endpoint-derived diagnostic**. Recording
+the overstatement is the point — a lock that claims more than it does is a false assurance, and
+this one was caught by reading the artifact instead of the prose.
+
 ### 10.1 What the design block found (2026-11-02, before any confirmatory seed)
 
 **Every gate passed on all 5 design seeds.** The readout is live (G1: 325–340
@@ -239,11 +250,13 @@ the first seed the primary window's positive-margin cells split 7 world-majority
 §11.3 withholds the transfer claim on this seed whatever the score.
 
 That is structural, not a property of the seed. The reason is visible in the formation record:
-all 96 available relations are recorded (92 of them world-majority), but the 32 withheld
-relations are withheld **from formation**, so they cannot have a world count — the record holds
-13 of them, and those 13 carry sleep rows only. A rule that withholds whenever the unattributed
-share reaches 0.50 therefore withholds on the co-primary window by construction, on every world,
-because the relations that window scores are exactly the ones formation never carried.
+all 96 available relations are recorded on every seed, 92–96 of them world-majority;
+but the 32 withheld relations are withheld **from formation**, so they cannot carry a world count —
+12–16 of the 32 appear at all, and **0–0** of them is world-majority on
+every seed (`provenance_coverage` in the artifact). A rule that withholds whenever the
+unattributed share reaches 0.50 therefore withholds on the co-primary window by construction, on
+every world, because the relations that window scores are exactly the ones formation never
+carried.
 
 **Consequence, recorded rather than repaired.** §11.3 as committed makes the co-primary claim
 unattributable by construction, and the primary window's margin is concentrated on the same
@@ -252,6 +265,47 @@ from the denominator, or exempting the co-primary window would each be a re-scor
 pre-committed rule after seeing a number. That decision belongs to the owner as an amendment;
 nothing in this document, and nothing in the harness, has been changed to make the rule fire
 differently. No confirmatory seed has been generated, fitted or scored.
+
+### 10.2 Recorded status of the transfer limb (2026-11-02)
+
+**The co-primary window is scored, and its result is recorded as not attributable under the
+current provenance measure.** The narrowness of that status matters more than its words: it says
+the measure cannot certify a transfer claim on the withheld relations. It does **not** say Organica
+failed to transfer, and it must not be read as one.
+
+The reason is structural and is in the record. Across the five design seeds all 96 available
+relations appear and 92–96 are world-majority, while only 12–16 of the 32 withheld
+relations appear at all and **0–0** of them is world-majority on any seed. A withheld relation
+could not have been carried by a world row, because formation never took it. Under §11.3 a pair
+with sleep support only is self-majority and a pair with no record is unattributed; both withhold.
+The unattributed share on the co-primary window is therefore above 0.50 before any score is read,
+on every world, so the limb can be scored but cannot establish transfer. Evidence that the engine
+did *not* transfer would need a measure that could attribute those pairs, and this one cannot.
+
+Three consequences are recorded rather than acted on:
+
+1. **The threshold stays where §11.3 put it.** Lowering it, dropping unattributed cells from the
+   denominator, or exempting the co-primary window would each re-score a pre-committed rule after
+   the numbers were seen (§4, §8, and AGENTS rule 19's logic).
+2. **The primary window is affected in weaker form.** Its positive-margin cells split
+   7–58 world, 101–144 self and
+   228–381 unattributed across the five seeds, so §11.3 would withhold there
+   as well. §4's score verdict is not gated by the diagnostic — §7 makes it disqualifying for a
+   transfer claim, not for the endpoint — but a primary margin reported beside "not attributable"
+   is a weaker object than §7 assumed when it was written.
+3. **Claiming transfer needs a different provenance measure, not a different threshold:** one that
+   traces a derived structure back to the evidence it was built from. The audit-trace lineage walk
+   is the existing component; the instrument used here answers "which row type carried these tags",
+   which is a different question and was never going to answer this one.
+
+**The decision this leaves open, for the owner.** Whether the confirmatory block is still worth its
+one run to answer §1's question — held-out prediction against a tuned baseline — knowing that no
+transfer claim is available either way. **Recommendation: run it.** §1 asks about held-out
+prediction; the co-primary was added to test whether a margin survives on unseen relations, and
+that test is unavailable under this measure whether or not the block runs. Declining the run would
+leave §1 unmeasured as well, and running it cannot make the transfer claim worse than not running.
+What the run must not be reported as is a transfer result. Nothing in this section authorises it,
+and no confirmatory seed has been generated.
 
 ---
 

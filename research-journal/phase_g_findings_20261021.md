@@ -8404,3 +8404,36 @@ What the design block was for is exactly this: the §10 sequence put the instrum
 endpoint so that a defect in the *rule* could surface before the one confirmatory run rather
 than after it. It did.
 
+## §115 A status about the measure, and a lock that claimed more than it kept
+
+Two corrections to §114, both found by reading the artifact rather than the prose.
+
+**The transfer limb's status is now recorded in the terms it can actually be stated in.** Not
+"transfer failed", not "no transfer": *not attributable under the current provenance measure*. The
+co-primary window's relations were withheld from formation, so no world row could have carried
+them. The record shows this cleanly across the five design seeds — 96 of 96 available relations
+present, 92–96 world-majority; 12–16 of 32 withheld relations present, 0–0 world-majority.
+Sleep-only pairs are self-majority by §11.3's definition, absent pairs are unattributed, and the
+rule withholds on either. The unattributed share is above 0.50 before a score exists.
+
+That distinction is the whole point of the entry. A withholding rule that cannot fire on a claim
+says nothing about the claim; treating its output as a negative result would be exactly the
+mistake Phase L's degeneracy audit was built to prevent, one level up. The limb is scored, and what
+the score would mean — were it attributable — is not answerable here.
+
+**The lock claimed more than it kept.** §10 said the endpoint is "not formed" on design seeds. The
+wiring step computes Organica's and the baseline's loss on every realised cell of both windows and
+subtracts them, because §11.3's share is defined on that difference. Those per-cell differences
+are the endpoint's building block; they exist, and saying they did not was false. What the lock
+actually keeps is the statistic and the verdict: no pooled `delta`, no comparison with §4's bar on
+a design seed, no direction. The protocol now says that, the artifact has `endpoint_boundary` with
+the two lists, and the numbers the design block produced are labelled **endpoint-derived
+diagnostics**. Fixing the sentence in the safe direction — narrowing the claim — is a defect fix,
+not a re-scoring, and it is disclosed here and in the manual.
+
+**The recommendation, flagged as the owner's decision.** Run the confirmatory block. §1 asks about
+held-out prediction, not transfer; the co-primary was added to ask whether a margin survives on
+unseen relations, and that question is unanswerable under this measure whether or not the block
+runs. Not running leaves §1 unmeasured too. What the run cannot do is support the word transfer,
+and a report of it must say so on the first line rather than in a footnote.
+

@@ -86,6 +86,7 @@
       "unattributed": 291,
       "world": 7
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
@@ -97,13 +98,14 @@
       "unattributed": 291,
       "world": 0
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
      "withheld": true
     }
    },
-   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
    "formation": {
     "compensated_events": 153,
     "cycles": 110,
@@ -155,7 +157,15 @@
     }
    },
    "kind": "functional_structure_design_cell",
-   "seconds": 53.3,
+   "provenance_coverage": {
+    "available_recorded": 96,
+    "available_relations": 96,
+    "available_world_majority": 92,
+    "withheld_recorded": 13,
+    "withheld_relations": 32,
+    "withheld_world_majority": 0
+   },
+   "seconds": 54.6,
    "seed": 20270201,
    "variant": {
     "alpha": 256.0,
@@ -201,6 +211,7 @@
       "unattributed": 228,
       "world": 9
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
@@ -212,13 +223,14 @@
       "unattributed": 228,
       "world": 0
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
      "withheld": true
     }
    },
-   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
    "formation": {
     "compensated_events": 159,
     "cycles": 110,
@@ -263,7 +275,15 @@
     }
    },
    "kind": "functional_structure_design_cell",
-   "seconds": 26.7,
+   "provenance_coverage": {
+    "available_recorded": 96,
+    "available_relations": 96,
+    "available_world_majority": 96,
+    "withheld_recorded": 16,
+    "withheld_relations": 32,
+    "withheld_world_majority": 0
+   },
+   "seconds": 27.2,
    "seed": 20270202,
    "variant": {
     "alpha": 256.0,
@@ -309,6 +329,7 @@
       "unattributed": 275,
       "world": 58
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
@@ -320,13 +341,14 @@
       "unattributed": 275,
       "world": 0
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
      "withheld": true
     }
    },
-   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
    "formation": {
     "compensated_events": 181,
     "cycles": 110,
@@ -371,7 +393,15 @@
     }
    },
    "kind": "functional_structure_design_cell",
-   "seconds": 26.8,
+   "provenance_coverage": {
+    "available_recorded": 96,
+    "available_relations": 96,
+    "available_world_majority": 96,
+    "withheld_recorded": 12,
+    "withheld_relations": 32,
+    "withheld_world_majority": 0
+   },
+   "seconds": 27.0,
    "seed": 20270203,
    "variant": {
     "alpha": 256.0,
@@ -417,6 +447,7 @@
       "unattributed": 282,
       "world": 40
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
@@ -428,13 +459,14 @@
       "unattributed": 282,
       "world": 0
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
      "withheld": true
     }
    },
-   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
    "formation": {
     "compensated_events": 162,
     "cycles": 110,
@@ -479,7 +511,15 @@
     }
    },
    "kind": "functional_structure_design_cell",
-   "seconds": 27.5,
+   "provenance_coverage": {
+    "available_recorded": 96,
+    "available_relations": 96,
+    "available_world_majority": 96,
+    "withheld_recorded": 14,
+    "withheld_relations": 32,
+    "withheld_world_majority": 0
+   },
+   "seconds": 28.1,
    "seed": 20270204,
    "variant": {
     "alpha": 256.0,
@@ -525,6 +565,7 @@
       "unattributed": 381,
       "world": 20
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
@@ -536,13 +577,14 @@
       "unattributed": 381,
       "world": 0
      },
+     "measure": "temporal source rows: world events versus sleep payloads",
      "reason": "design-seed wiring check only (\u00a711.5 gate use)",
      "shares_reported": false,
      "status": "not_attributable",
      "withheld": true
     }
    },
-   "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+   "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
    "formation": {
     "compensated_events": 144,
     "cycles": 110,
@@ -587,7 +629,15 @@
     }
    },
    "kind": "functional_structure_design_cell",
-   "seconds": 29.7,
+   "provenance_coverage": {
+    "available_recorded": 96,
+    "available_relations": 96,
+    "available_world_majority": 96,
+    "withheld_recorded": 14,
+    "withheld_relations": 32,
+    "withheld_world_majority": 0
+   },
+   "seconds": 27.2,
    "seed": 20270205,
    "variant": {
     "alpha": 256.0,
@@ -616,7 +666,22 @@
   "pythonhashseed": "0",
   "tuning_cycles": 15
  },
- "endpoint": "not formed on design seeds (\u00a710, step 2): the endpoint of \u00a74 is Organica minus the strongest baseline on the primary window, pooled over the confirmatory block",
+ "endpoint": "the pooled delta of \u00a74 is not formed on design seeds (\u00a710, step 2): it needs the confirmatory block and is Organica minus the strongest baseline on the primary window, pooled over those seeds",
+ "endpoint_boundary": {
+  "computed_on_design_seeds": [
+   "per-cell losses for both arms on the realised cells of both windows, because \u00a711.3's share is defined on their difference",
+   "arm-level window log-losses, for G3's degraded-readout control",
+   "tuning-split log-losses, for the baseline-family choice (\u00a73 selects on the tuning split)"
+  ],
+  "counts_as": "endpoint-derived diagnostic",
+  "not_computed_on_design_seeds": [
+   "the pooled delta of \u00a74 across seeds",
+   "any comparison of a design seed's margin to the \u00a74 bar",
+   "any statement about whether the endpoint clears, or in which direction",
+   "any statistic from a confirmatory seed"
+  ],
+  "note": "The wiring computes the per-cell differences the endpoint aggregates; it forms no pooled delta and no verdict."
+ },
  "failures": [],
  "kind": "functional_structure_design_audit",
  "protocol": "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md \u00a76, \u00a710",
@@ -628,5 +693,11 @@
   20270204,
   20270205
  ],
- "status": "design block passed: the confirmatory block may run"
+ "status": "design block passed: the confirmatory block may run",
+ "transfer_limb": {
+  "claim_available": false,
+  "meaning": "the measure cannot certify a transfer claim on the withheld relations; this is not evidence that Organica failed to transfer",
+  "status": "not attributable under the current provenance measure",
+  "structural": "the withheld relations are withheld from formation, so they cannot carry world-source support: sleep-only pairs are self-majority, absent pairs unattributed"
+ }
 }
