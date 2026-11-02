@@ -1,264 +1,74 @@
 %PDF-1.4
-%âãÏÓ
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
-<< /Type /Catalog /Pages 2 0 R >>
+<<
+/F1 2 0 R /F2 3 0 R
+>>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 780 427.5] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS7 7 0 R /GS8 8 0 R /GS9 9 0 R >> >> /Contents 4 0 R >>
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
 endobj
 4 0 obj
-<< /Length 5086 >>
-stream
-1 1 1 rg
-0 0 1040 570 re f
-0.102 0.102 0.102 rg
-BT /F2 16 Tf 36 532 Td (The benchmark was discriminative; the readout lost) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11.5 Tf 36 510 Td (Left: benchmark headroom in nats against the 0.05-nat gate. Right: the Pilot 0 readout by learner.) Tj ET
-0.5412 0.5412 0.5412 rg
-BT /F1 10 Tf 36 16 Td (Source: docs/acquisition_compositional_gate.json, docs/acquisition_single_seed_pilot.json  |  drawn by benchmarks/figure_papers.py) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 36 462 Td (A. Benchmark headroom \(nats\)) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-92 438 m 92 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 81.7835 164 Td (0.00) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-177.9 438 m 177.9 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 167.6835 164 Td (0.05) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-263.8 438 m 263.8 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 253.5835 164 Td (0.10) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-349.7 438 m 349.7 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 339.4835 164 Td (0.15) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-435.6 438 m 435.6 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 425.3835 164 Td (0.20) Tj ET
-0.102 0.102 0.102 RG
-1.3 w
-1 J
-[4 4] 0 d
-177.9 444 m 177.9 180 l S
-0.102 0.102 0.102 rg
-BT /F1 10.5 Tf 183.9 434 Td (gate 0.05 nats) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 92 421 Td (All 30 worlds) Tj ET
-/GS1 gs
-0.1216 0.3059 0.4745 rg
-92 377 177.8 34 re f
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-263.1 394 m 276.5 394 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-263.1 400 m 263.1 388 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-276.5 400 m 276.5 388 l S
-0.102 0.102 0.102 rg
-BT /F2 11.5 Tf 288.5 390 Td (0.1035) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 92 343 Td (Withheld cell) Tj ET
-/GS1 gs
-0.1216 0.3059 0.4745 rg
-92 299 337.3 34 re f
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-418.6 316 m 441.4 316 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-418.6 322 m 418.6 310 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-441.4 322 m 441.4 310 l S
-0.102 0.102 0.102 rg
-BT /F2 11.5 Tf 453.4 312 Td (0.1963) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 92 265 Td (Other cells) Tj ET
-/GS1 gs
-0.1216 0.3059 0.4745 rg
-92 221 73.1 34 re f
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-162.6 238 m 168.2 238 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-162.6 244 m 162.6 232 l S
-0.102 0.102 0.102 RG
-2.2 w
-1 J
-168.2 244 m 168.2 232 l S
-0.102 0.102 0.102 rg
-BT /F2 11.5 Tf 180.2 234 Td (0.0425) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 145.5955 142 Td (Bayes ceiling minus best simple baseline \(99% interval\)) Tj ET
-0.102 0.102 0.102 rg
-BT /F2 13 Tf 536 462 Td (B. Pilot 0 readout \(log-loss\)) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 182 m 996 182 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 178 Td (0.25) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 233.2 m 996 233.2 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 229.2 Td (0.30) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 284.4 m 996 284.4 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 280.4 Td (0.35) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 335.6 m 996 335.6 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 331.6 Td (0.40) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 386.8 m 996 386.8 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 382.8 Td (0.45) Tj ET
-0.902 0.902 0.902 RG
-1 w
-1 J
-560 438 m 996 438 l S
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 529.567 434 Td (0.50) Tj ET
-/GS2 gs
-0.7529 0.3137 0.302 rg
-567.6 182 22 207.9 re f
-/GS2 gs
-0.7529 0.3137 0.302 rg
-592.6 182 22 208.8 re f
-/GS2 gs
-0.7529 0.3137 0.302 rg
-617.6 182 22 218.5 re f
-0.102 0.102 0.102 rg
-BT /F2 10.5 Tf 580.8413 164 Td (Organica) Tj ET
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-654.8 182 22 99.9 re f
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-679.8 182 22 102 re f
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-704.8 182 22 104.4 re f
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 674.462 164 Td (Replay) Tj ET
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-742 182 22 99.6 re f
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-767 182 22 103.1 re f
-/GS3 gs
-0.6588 0.6588 0.6588 rg
-792 182 22 104.6 re f
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 755.5353 164 Td (Statistical) Tj ET
-/GS3 gs
-0.9098 0.6392 0.2392 rg
-829.2 182 22 163.4 re f
-/GS3 gs
-0.9098 0.6392 0.2392 rg
-854.2 182 22 163.4 re f
-/GS3 gs
-0.9098 0.6392 0.2392 rg
-879.2 182 22 159.8 re f
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 842.73 164 Td (Base rate) Tj ET
-/GS3 gs
-0.1216 0.3059 0.4745 rg
-916.4 182 22 26.9 re f
-/GS3 gs
-0.1216 0.3059 0.4745 rg
-941.4 182 22 22.9 re f
-/GS3 gs
-0.1216 0.3059 0.4745 rg
-966.4 182 22 25.8 re f
-0.3725 0.3725 0.3725 rg
-BT /F1 10.5 Tf 921.4723 164 Td (Bayes ceiling) Tj ET
-0.102 0.102 0.102 RG
-1.3 w
-1 J
-[5 4] 0 d
-560 338.7 m 996 338.7 l S
-0.102 0.102 0.102 rg
-BT /F1 10.5 Tf 815.652 345.7 Td (floor after episodes deleted \(0.403045\)) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 645.637 142 Td (three readout conditions \(retention / transfer / revision\)) Tj ET
-0.102 0.102 0.102 rg
-BT /F1 11.5 Tf 36 124 Td (Organica's readout is worse than the baselines' score after their episodes were deleted.) Tj ET
-0.3725 0.3725 0.3725 rg
-BT /F1 11 Tf 36 106 Td (The transfer column is a diagnostic for Organica, not a measurement of transfer: the acquisition gate failed.) Tj ET
-endstream
+<<
+/Contents 8 0 R /MediaBox [ 0 0 780 427.5 ] /Parent 7 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+<<
+/PageMode /UseNone /Pages 7 0 R /Type /Catalog
+>>
 endobj
 6 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+<<
+/Author (anonymous) /CreationDate (D:20261102160205+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20261102160205+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (unspecified) /Title (untitled) /Trapped /False
+>>
 endobj
 7 0 obj
-<< /Type /ExtGState /ca 0.900 /CA 0.900 >>
+<<
+/Count 1 /Kids [ 4 0 R ] /Type /Pages
+>>
 endobj
 8 0 obj
-<< /Type /ExtGState /ca 0.950 /CA 0.950 >>
-endobj
-9 0 obj
-<< /Type /ExtGState /ca 0.650 /CA 0.650 >>
-endobj
-10 0 obj
-<< /Title (The rebuilt acquisition benchmark is discriminative, and the readout lost) /Producer (benchmarks/svg_to_pdf.py) >>
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1996
+>>
+stream
+Gau`VgMYb8&:O:SbY+(oLt:?3Qg%EXZiu<e\I%Ie;](J#P*f.C6IIRio]&$>9AM!FQ:s;j?ur\J&*M0\cH]R]6\HQLIui^l2ab+SSHBZ^S,cVa_=0>[2SA$RpK`43%RaWJrs+SAj-N"#kO[6]s5;P>SZAVh9BD:;/m?g&7sCQojbh%2Ii1X?;Bf_!BaoL[&UPR+"?hm)5f[PnK?;ZUQ2\V>"2#o]\FGk1Cs0[Yj,?Jj0c[dV!-N"j1bb",L3%T'S2pB*MU?73<r^$b>/N>#7o_InMR:L>\mM,H4"?SWbI[uLZ>O!an1tK&VPh-)T%++=UGKtTa_]#(]/*.#6E:7#f3QQoj=PlK-I&S#gLk20<L.^I$:*?]8>g0&e;X\EYt,CE'W,U)(qe1l1]1aOH(3o,6cm\Ar:CG=QWAg@fEk*0aWIApkHTU+FVgb&b!Z)'hGkfp$HD2+^.q1*m]nlhZEgt\Q1IE^j>=XEQp0,5nT+BL3\.)<]<.VCh_#27^CgHtEL#AsKQcInqKe<!mj`On8/JG/g#Cbk%_tJs*i`hLPG$b%itIYI+[^`jE3gMEO3]8p+(+B%aHBSDkLp[QhHbsE)(ArgK!Z;6q!_+]gY<Ou@/%qdQdqD.fLcST'cE&Mdl$EMN5mYG>&ZdA'L$DDB"@tbDh,]$q$6tQHmsS49;XcNH2e.BQ*@b%)!"<jPVQ[I$a>*`Q))P6!!`6s!0to)Fo[C_&Nin(#U#>#&/D.h654%F&<l>5.$(C/ge)tjJBIqT2@dJZq@3%q2YNms_s0>A(_pEJo,M9DpLTVNGHG=ZE,@"`Og\9j;mFc+4"[K$3q7[>qOlEaeosG0Yb*sQD\-AOE>5ZDUa.VRpiq3a>JDRMU6!%>VJ'i(L;(QPpOR#GSN/<k_HQl\!OpIV(s:ZLnY>\KLtJ3g=4YT-/g&!PjnTeb91UVX1<0"E0>A41\=Trb;)M;mR1@?"c\GPnZD9.p-L.?ZfG*r]ffWBWSg;&bm^EN*WpMRV&gK'$?^NP(S2\M>.\Bu/W*YX&LoEB+9.k*qZ]Lk"1_t!Rq=2SRl3j(bX5!?rkA=u,"oB?W"eI!MY\GnMVHgO/fGpEE>jYJ%Cp6!MAFHTVdtssA7"fBk8\_eSdjrV(gAqr[],F6\'&>U<063l[C$fl^+\,.fT9'OAY54ULHaqLbU2tXEceYfGcMd9Y?;:`N=eC>nBrjnU73\L"0%Wm6OYCW]9I!fZD*-Fc?hW-J@4QG+^+;G_Z"4Z9r@&7#'UB@_+:Rg0&IP#3ALZ9\`B4L$UiX`qTpIEj:g0`"K^(ZS,c2_gKL*=#6>g;A>_hT,0l0XFP/(EXMf,q&krmFPnNMYo,UY1nGq;V\hNgOX@?'.IZ&crf2Bp#LDEL\EQ4PMedh0">B!GN%>+=L-2M8NQ2GQ*hLu\(/^>D"njHbQ"YmU6CeTo!#C75pk.,>>_Th\BLpNdCH<p1d&:d+kNZK;*bQ(dA4R3>Qm&s(WY8&6au>$Y+9*qK8njLpE?d713Cs5#?uFSE0=A;!R"\#\*IVMDKs=UM2`Eo'gG^->p?;+rKm=laaI)7RX)4&Mt9;Z9%I2HejDddNmW8X.k`cs[0t%58BsLJV.d8q^s.bK.s#3a!E)TegG!bEiZ,N9b#\M#G[Z"\Q"D,6BgVlU-pqXuFbh#!F4@Dl^V*.QSsBnn/'QkZ4&6UWWeP7([s496hQl"AKV8^>IjW4\gn-qP6+CL,?[3%8":P8[0S)Vu<<W65'Xn,VR=JdL">nE/UeM`s@1]En@fU;E/D3AYetg4S.oEfcX?S11!o@AlcJ8gZq^>N;Zu.)U5D2m"2se2)J<:e.[LXNV@nHC)fAG`S$<9LbL?eh,le?=%KWc:<.A=2m]m\YHaFi^O?C[W5KD`ie17`7^VS(cEn`Vjn8=m_rSWO[JKoUQ2='_IQ&nc>mfUCSJEMg/hk,K><:^h'P2pGF-kI%Q()7lTq&2`KQm830>RMoJ!d$7^5Fsui9Ge=j*jo~>endstream
 endobj
 xref
-0 11
+0 9
 0000000000 65535 f 
-0000000015 00000 n 
-0000000064 00000 n 
-0000000121 00000 n 
-0000000309 00000 n 
-0000005446 00000 n 
-0000005543 00000 n 
-0000005645 00000 n 
-0000005703 00000 n 
-0000005761 00000 n 
-0000005819 00000 n 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000516 00000 n 
+0000000584 00000 n 
+0000000845 00000 n 
+0000000904 00000 n 
 trailer
-<< /Size 11 /Root 1 0 R /Info 10 0 R >>
+<<
+/ID 
+[<874fb0558f3a433bbad27612a0d299cd><874fb0558f3a433bbad27612a0d299cd>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 6 0 R
+/Root 5 0 R
+/Size 9
+>>
 startxref
-5961
+2991
 %%EOF

@@ -40,6 +40,36 @@ GRAY = "#a8a8a8"
 WHITE = "#ffffff"
 
 
+# Helvetica advance widths, units per 1000 em, ASCII 32-126.  A single average
+# factor is not enough: a label of digits and parentheses renders about a fifth
+# wider than the 0.52 em average the first version assumed, which is how three
+# axis labels came to be clipped at the right edge of their own canvas while the
+# guard reported that they fitted.
+_HELV = {
+    " ": 278, "!": 278, '"': 355, "#": 556, "$": 556, "%": 889, "&": 667,
+    "'": 191, "(": 333, ")": 333, "*": 389, "+": 584, ",": 278, "-": 333,
+    ".": 278, "/": 278, ":": 278, ";": 278, "<": 584, "=": 584, ">": 584,
+    "?": 556, "@": 1015, "[": 278, "\\": 278, "]": 278, "^": 469, "_": 556,
+    "`": 333, "{": 334, "|": 260, "}": 334, "~": 584,
+}
+for _i, _w in enumerate([667, 667, 722, 722, 667, 611, 778, 722, 278, 500, 667,
+                         556, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667,
+                         944, 667, 667, 611]):
+    _HELV[chr(65 + _i)] = _w                    # A-Z
+for _i, _w in enumerate([556, 556, 500, 556, 556, 278, 556, 556, 222, 222, 500,
+                         222, 833, 556, 556, 556, 556, 333, 500, 278, 556, 500,
+                         722, 500, 500, 500]):
+    _HELV[chr(97 + _i)] = _w                    # a-z
+for _d in range(10):
+    _HELV[str(_d)] = 556
+
+
+def text_width(s: str, size: float, weight: str = "normal") -> float:
+    """Rendered width of `s` in Helvetica at `size` px."""
+    w = sum(_HELV.get(ch, 556) for ch in s) * size / 1000.0
+    return w * 1.07 if weight == "bold" else w
+
+
 def esc(s: str) -> str:
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
@@ -73,7 +103,7 @@ class Svg:
         # the canvas is silently cut off by the renderer. Estimate the width and
         # refuse to draw it: a figure with a missing sentence looks finished.
         s = str(s)
-        est = len(s) * size * 0.52
+        est = text_width(s, size, weight)
         if anchor == "start":
             need(x + est <= self.w + 2,
                  f"text overruns the canvas by ~{x + est - self.w:.0f}px at x={x:.0f}: {s[:44]}")

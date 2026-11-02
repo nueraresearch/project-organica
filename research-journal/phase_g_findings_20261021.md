@@ -8893,3 +8893,80 @@ figure is cutting a sentence mid-word. That lives in `benchmarks/figure_papers.p
 Paper 02 remains **unverified visually** by this repository's own standard: the defects were found by
 looking at renders, the fixes were confirmed by looking at renders, and the owner's confirmation is
 still what turns "checked here" into "verified".
+
+## §129 — A reviewer's revised report on Paper 01 was checked item by item: three real defects, one misreading (2026-11-02)
+
+The report's seven prioritized revisions were each checked against the code and the
+committed artifacts rather than adopted.
+
+**1. The tuning split. The report is right that the manuscript contradicts the
+preregistration, and wrong about which side is wrong.** The preregistration contradicts
+*itself*: §3 says the last 15 formation cycles are "excluded from every fit", while §11.1
+says "those cannot both hold" and adopts the other reading — configurations are fitted
+without the split and ranked *on* it, then the winner is **refit on all 110 cycles**.
+`comparator_sweep` does exactly that (`fit_rows = rows[:-TUNING_CYCLES*EVENTS_PER_CYCLE]`,
+then `fit_bigram(rows, ...)` for scoring). The manuscript's clause — "the tuning split was
+excluded from *selection* only" — misdescribes both halves: the split **is** the selection
+signal, and it is **not** excluded from the final fit. It now states the two-stage
+procedure, notes that the refit gives the baseline the larger sample and never the smaller,
+and records that §3's restatement is superseded by §11.1. No value, gate, bar, seed or
+outcome changes, and the deviation cannot favour Organica.
+
+**2. The crossing is a grid location, and the paper said so only obliquely.** The report is
+right: `crossing_index` returns the first sampled index at which DI > PI, so `[5.0, 5.0]`
+is an interval over sweep positions. §4.4 now states that the data place the crossing
+*between 2:1 and 3:1*, that 3:1 is the first sampled point above parity (0.706 against
+0.039), and that this is not an interpolated threshold estimate.
+
+**3. The Phase L amendment was not in the manuscript.** Amendment 2 (2026-10-25, committed
+before the primary axis ran) replaced a stated 98.33 % interval — α = 0.05/3, Phase K's
+factor carried over into a five-arm phase — with **99 %**. Now recorded in §3.5, with the
+fact that Phase K's own 98.33 % figures are unaffected.
+
+**4. The seed-exchangeability audit was already an instrument audit, and the report asks
+for what it already is.** `docs/phase_l_results.md` §7.1 reports that thirty fresh,
+non-consecutive seeds at 6:1 landed on the pooled value (DI 0.7241 against 0.7148,
+*p* = 0.60) and that the fresh set's own arbitrary half-split carried the opposite sign —
+so the n=10 curve was an unlucky high draw, not a seed-block artifact. It changes no
+criterion and no verdict; the manuscript now carries it under that label, with its numbers.
+
+**5 and 6. The missing evidence tables were added, to the extent the record supports them.**
+§4.1 now carries the one quantitative curriculum contrast in the record (core baseline 91
+vs `_burst_30` 128 at 1,200 cycles, seed `20261023`; 119 at 600), states that the 1,200-cycle
+extension was exploratory rather than preregistered, and says plainly that the remaining
+schedule comparisons carry **no pooled effect size or interval** — which is why the paper
+had none. §4.6 now tabulates Phase H, H-recovery, Phase I and Phase J with task, metric,
+seeds and outcome, and names Phase H's fixed curriculum as the reason its ten seeds re-run
+one stream rather than sampling ten worlds. §1.1 now states that the claim is **structure
+formation**, not the project's stronger emergence criterion — which also requires use and
+derivation from experience — and points at `docs/EMERGENCE-CRITERIA.md`.
+
+**7. The figures were worse than reported.** `docs/figure_p01_displacement_curve.pdf` went
+to press with **six** sweep points and no title: it was a stale render of an older version of
+the figure, while the text and caption describe all eight ratios and the manuscript embeds
+the **PDF**, not the SVG the generator writes. Three more figure PDFs carried text 2–9 pt
+past the page edge — `Statis`, `(99%`, and a stray `9`. Two causes, both fixed: the PDFs
+were rendered with a font substitution wider than Helvetica, and `figure_papers.py`'s
+overflow guard estimated text width as `len(s) * size * 0.52`, which under-predicts
+digit- and parenthesis-heavy strings by about a fifth. The guard now uses Helvetica advance
+widths and refuses a label that would overrun; all eight paper figures were re-rendered from
+the current SVGs at exactly the page sizes the committed files had (verified: every page
+size matches, no span crosses the edge, all eight labels and the crossing annotation are
+present).
+
+**Two more figure defects turned up while fixing those, and both are general.** Every
+figure carried **two** captions — pandoc's `implicit_figures` builds one from the image's alt
+text, and each manuscript also writes its own bold `**Figure N.**` paragraph — so a page read
+`Figure 2: Figure 2. Every adjacent step …`. And because the image was a float, it could leave
+its caption behind: in the 25-page build Figure 2 was carried onto a page of its own, centred
+under a quarter-page of white, while its caption stayed on the page before. `pin_figures` now
+rewrites each figure as `[H]` (float.sty) and drops the duplicated caption, so one caption sits
+directly beneath its figure. Verified on both PDFs: no page carries a doubled caption, and every
+page with an image also carries the caption for it.
+
+**The report's one misreading:** it says the deposit's Markdown links point at SVGs outside
+the archive. `benchmarks/render_papers.py` rewrites every `../docs/*.svg` link to the PDF
+beside it at build time (`IMAGE_RE`), so what ships and what is typeset are the PDFs.
+
+**Cost.** Paper 01 now renders to **25 pages**, not 23 — the two added tables — with 0 LaTeX
+errors and 0 overfull boxes. Paper 02 is unchanged at 14.

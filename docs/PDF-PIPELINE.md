@@ -103,6 +103,7 @@ word the deposited text could not spell before it was a rewrite.
 | `\allowbreak` inside `\texttt` | inline code has no break opportunity, so ten paths were single unbreakable boxes, the widest 140 pt over. A span over 24 characters is broken between characters, as `\seqsplit` does, **whether or not it contains a slash**; shorter spans break only at a slash or an underscore escape. Length, not shape, decides: the earlier version of this rule skipped every slash-free span, and Paper 02's four-column table of 40-character test names then ran 209 pt into the margin with no break opportunity anywhere in the column. |
 | `\LTcaptype` is emptied | longtable reads pandoc's `none` as the name of a counter and steps a counter that does not exist. |
 | tables of seven columns or more are set a size or two down, in a narrower gutter | pandoc divides the measure evenly, so a nine-column table gives each column 41 pt while its header word "Reachability" is 58 pt. Rotating those tables onto landscape pages removed the overrun and cost three page-flow defects: `pdflscape` breaks the page at both ends, so the heading arrived alone on the page before and each three-row table sat at the top of an otherwise blank rotated sheet. Setting the table down and narrowing `\tabcolsep` from 6 pt to 4 pt returns 32 pt of text across nine columns, which is enough — `\footnotesize` for seven or eight columns, `\scriptsize` for nine or more, where the widest header word is 38 pt in a 43 pt column. |
+| each figure is pinned where it is written, and keeps one caption | pandoc's `implicit_figures` turns an image's alt text into a float with its own `\caption`, so a figure page carried **two** captions — `Figure 2: Figure 2. …` — and, because the image was a float, the pair could separate: in the 25-page build Figure 2 landed alone on a page under a quarter-page of white while its own caption stayed on the page before. `pin_figures` rewrites each `\begin{figure}` as `[H]` (float.sty, installed) and drops the duplicated caption, leaving the manuscript's bold caption directly beneath its figure. |
 | a heading is kept with the table beneath it | a longtable may break between the heading and its first row, and a `\filbreak` before the heading loses that contest: the heading fits, the table does not, and the heading stays behind — which is the defect the landscape pages were traded for. `\keepwithnext{110pt}` measures what is left on the page, the technique `needspace.sty` uses, written into the template because that package is not in this installation; when the heading and table cannot both fit it takes a forced break before the heading. |
 | a code block is set with `samepage=true` | a verbatim block is a sequence of ordinary lines, so LaTeX will split it anywhere. Paper 02's reproduction block broke after eight lines and left two orphaned lines above the next heading; `samepage` moves the block whole instead. |
 | code blocks are set at `footnotesize` | Paper 02's longest comment line is 103 characters and ran 61 pt over. Wrapping it would put a break into a block a reader may copy, so the block is set one size down instead. |
@@ -164,3 +165,29 @@ use. Nothing in the pipeline needs them.
 `benchmarks/helvetica_widths.json`; `benchmarks/render_papers.py`;
 `benchmarks/paper-template.tex`; `tests/test_svg_to_pdf.py`;
 `docs/ZENODO-DEPOSIT.md`.
+
+## How the figure PDFs are made
+
+`benchmarks/figure_papers.py` writes **SVG** only, because the project is
+standard-library-only and has no plotting dependency; the manuscripts embed the
+**PDF** beside each SVG, and `render_papers.py` rewrites every `../docs/*.svg`
+link to that PDF on the build copy. The two files therefore have to be kept in
+step by hand, and nothing in the pipeline notices when they are not — the
+deposited Figure 1 was rendered from a six-point version of a figure whose text
+and caption describe eight ratios (journal §129).
+
+Rendering is `svglib` + `reportlab` in a throwaway environment at the size the
+committed files use (svglib already converts SVG px to PDF pt at 0.75, so the
+scale is **1**, not 0.75 — scaling again renders the content at 56 % inside a
+full-size page and leaves a blank band at the top):
+
+```bash
+python -m pip install svglib            # outside the project; the repo stays stdlib-only
+python .scratch/svg2pdf.py              # writes docs/figure_p*.pdf from docs/figure_p*.svg
+```
+
+Check the result by extraction, not by eye alone: every page size should equal
+the previous file's, and no text span should end past the page width
+(`pymupdf`'s `get_text("dict")` gives the span bboxes). The generator's own guard
+now uses real Helvetica advance widths, so a label that would overrun its canvas
+is refused instead of clipped — which is what let three labels through before.

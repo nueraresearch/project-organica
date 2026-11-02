@@ -65,6 +65,9 @@ $endif$
 % fi and fl ligatures extract as nothing from a T1-encoded PDF, so the deposited text
 % reads "con rmed".  Disabling them keeps the text searchable at no visual cost.
 \usepackage{microtype}
+% A figure pinned with [H] stays beside the caption the manuscript writes for it,
+% instead of floating away from it.
+\usepackage{float}
 \DisableLigatures{encoding = T1, family = *}
 
 % Keep a heading with the block that follows it.  A wide table is set inside a

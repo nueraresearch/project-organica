@@ -394,6 +394,57 @@ def verify_title_matches(stem: str, heading: str) -> None:
             % (stem, declared, expected))
 
 
+def pin_figures(tex_path: Path) -> int:
+    """Pin each figure where it is written, and drop the duplicate caption.
+
+    Each manuscript already carries its own caption as the bold paragraph
+    beneath the image, and pandoc's ``implicit_figures`` turns the image's alt
+    text into a second ``\\caption``.  Two captions appear, and because the
+    image is a float the pair can separate: in the 25-page build Figure 2 was
+    carried onto a page of its own while its own caption stayed behind on the
+    previous page, and the float page centred it under a quarter-page of white.
+
+    float's ``[H]`` pins the image exactly where it is written, next to the
+    caption the manuscript supplies, and the duplicated caption is removed.
+    """
+    text = tex_path.read_text(encoding="utf-8")
+    removed = 0
+    out: list[str] = []
+    i = 0
+    while True:
+        start = text.find("\\begin{figure}", i)
+        if start < 0:
+            out.append(text[i:])
+            break
+        out.append(text[i:start])
+        out.append("\\begin{figure}[H]")
+        end = text.find("\\end{figure}", start)
+        if end < 0:
+            raise SystemExit("unterminated figure environment in %s" % tex_path.name)
+        block = text[start + len("\\begin{figure}"):end]
+        cap = block.find("\\caption{")
+        if cap >= 0:
+            depth, e = 0, cap + len("\\caption")
+            while e < len(block):
+                ch = block[e]
+                if ch == "\\":
+                    e += 2
+                    continue
+                if ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                e += 1
+            block = block[:cap] + block[e + 1:]
+            removed += 1
+        out.append(block.rstrip("\n") + "\n")
+        i = end
+    tex_path.write_text("".join(out), encoding="utf-8")
+    return removed
+
+
 def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     source = REPO / rel
     markdown = source.read_text(encoding="utf-8")
@@ -426,6 +477,7 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
     fix_table_captype(build_tex)
     keep_code_blocks_whole(build_tex)
     fit_wide_tables(build_tex)
+    pin_figures(build_tex)
 
     for _ in range(2):
         run([pdflatex, "-interaction=nonstopmode", "-halt-on-error",
