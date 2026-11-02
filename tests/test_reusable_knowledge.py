@@ -422,7 +422,11 @@ class _WindowOrder:
 
 
 def test_target_identity_does_not_come_from_the_window_order(tmp_path):
-    """With the tied window ordered against it, the target is still the store's."""
+    """With a genuinely tied window ordered against it, the target is the store's.
+
+    The tie is asserted on the very rows that are reordered, so the order this
+    test supplies is one SQLite leaves open rather than one the schema fixes.
+    """
     mem = rk.MemoryService(str(tmp_path / "rotated.db"))
     record, support, _state = rk._support_observer(mem)
     clock = _TieClock(group=4)
@@ -441,6 +445,14 @@ def test_target_identity_does_not_come_from_the_window_order(tmp_path):
                 order.rotated = False
                 if len(window) < 2:
                     continue
+                times = [r[0] for r in order.execute(
+                    "SELECT time FROM events ORDER BY time DESC LIMIT 3").fetchall()]
+                assert len(times) == len(window), (
+                    "the timestamp query must cover the same rows as the window")
+                assert len(set(times)) < len(times), (
+                    "the reordered rows must tie on `time`; otherwise the schema "
+                    "determines their order and this is not the case SQLite leaves "
+                    "open (spec §3.3)")
                 assert window[0][0] != stored, (
                     "the rotated window must put an older tied row first, or "
                     "this test cannot tell the two identity sources apart")

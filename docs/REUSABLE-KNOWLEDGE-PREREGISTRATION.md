@@ -926,9 +926,10 @@ Two checks, because only one of them could have caught it on its own:
   rule was *latent* here rather than misfiring — an empirical tie arm alone would have acquitted it.
 - **Contrary tie order** (`test_target_identity_does_not_come_from_the_window_order`): the
   connection is wrapped so the lookback returns the tied window with the stored row last, an order
-  SQLite may legitimately choose. The test first asserts that `rows[0]` really is a different
-  event, then requires the recorded target to be the stored one anyway. That is the check that can
-  fire, and it is the one that pins the identity.
+  SQLite may legitimately choose. The test asserts that the reordered rows genuinely tie on `time`
+  (so the order is one the schema leaves open), that `rows[0]` really is a different event, and
+  then requires the recorded target to be the stored one anyway. That is the check that can fire,
+  and it is the one that pins the identity.
 
 **Effect on the numbers: none.** Calibration was rerun after the fix and reproduced
 `docs/reusable_knowledge_calibration.json` **byte for byte** — the real runs use a wall clock, so no

@@ -7715,8 +7715,9 @@ four stores gives 5 tied windows in 6 stores on SQLite 3.45.1, and the observer 
 row on every transition. But on this build `rows[0]` *also* agreed with the stored row in all 6
 stores — the defect was latent, not misfiring, and an empirical tie test alone would have cleared
 it. So the second test wraps the connection and returns the tied window with the stored row last,
-an order SQLite may legitimately choose; it asserts that `rows[0]` really is a different event and
-requires the recorded target to be the stored one regardless. That test fails on the old rule and
+an order SQLite may legitimately choose; it asserts that the reordered rows really do tie on
+`time`, that `rows[0]` is then a different event, and requires the recorded target to be the
+stored one regardless. That test fails on the old rule and
 passes on the new one.
 
 **Nothing moved.** Calibration was rerun and reproduced `docs/reusable_knowledge_calibration.json`
