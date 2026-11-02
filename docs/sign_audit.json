@@ -1,0 +1,509 @@
+{
+  "kind": "audit of the sign-resolution estimator",
+  "subject": "docs/scaling_ladder.json, the same five worlds; no engine run, no seed",
+  "nesting": {
+    "1x": {
+      "judged": "1x",
+      "reference": "16x",
+      "judged_pairs": 399,
+      "reference_pairs": 6399,
+      "judged_contains_reference": false,
+      "overlap_of_smaller_in_larger": 0.0624,
+      "correlation_if_independent_pairs": 0.1642,
+      "conditional_sd_given_reference": 0.008709848,
+      "sd_if_independent_propagation": 0.008947988,
+      "variance_inflation_if_ignored": 1.0554
+    },
+    "2x": {
+      "judged": "2x",
+      "reference": "16x",
+      "judged_pairs": 799,
+      "reference_pairs": 6399,
+      "judged_contains_reference": false,
+      "overlap_of_smaller_in_larger": 0.1249,
+      "correlation_if_independent_pairs": 0.3811,
+      "conditional_sd_given_reference": 0.003517252,
+      "sd_if_independent_propagation": 0.004071376,
+      "variance_inflation_if_ignored": 1.3399
+    },
+    "4x": {
+      "judged": "4x",
+      "reference": "16x",
+      "judged_pairs": 1599,
+      "reference_pairs": 6399,
+      "judged_contains_reference": false,
+      "overlap_of_smaller_in_larger": 0.2499,
+      "correlation_if_independent_pairs": 0.4442,
+      "conditional_sd_given_reference": 0.002924951,
+      "sd_if_independent_propagation": 0.003572168,
+      "variance_inflation_if_ignored": 1.4915
+    },
+    "8x": {
+      "judged": "8x",
+      "reference": "16x",
+      "judged_pairs": 3199,
+      "reference_pairs": 6399,
+      "judged_contains_reference": false,
+      "overlap_of_smaller_in_larger": 0.4999,
+      "correlation_if_independent_pairs": 0.5625,
+      "conditional_sd_given_reference": 0.00213122,
+      "sd_if_independent_propagation": 0.002957556,
+      "variance_inflation_if_ignored": 1.9258
+    },
+    "16x": {
+      "judged": "16x",
+      "reference": "8x",
+      "judged_pairs": 6399,
+      "reference_pairs": 3199,
+      "judged_contains_reference": true,
+      "overlap_of_smaller_in_larger": 0.4999,
+      "correlation_if_independent_pairs": 0.5625,
+      "conditional_sd_given_reference": 0.001198846,
+      "sd_if_independent_propagation": 0.002957556,
+      "variance_inflation_if_ignored": 6.0861
+    }
+  },
+  "reference_sensitivity": {
+    "leave_one_out": {
+      "scales": {
+        "1x": {
+          "p_correct": 0.8539,
+          "p_correct_min": 0.7809,
+          "worlds_at_target": 1
+        },
+        "2x": {
+          "p_correct": 0.9763,
+          "p_correct_min": 0.9149,
+          "worlds_at_target": 5
+        },
+        "4x": {
+          "p_correct": 0.9617,
+          "p_correct_min": 0.8234,
+          "worlds_at_target": 4
+        },
+        "8x": {
+          "p_correct": 0.9751,
+          "p_correct_min": 0.9295,
+          "worlds_at_target": 5
+        },
+        "16x": {
+          "p_correct": 0.943,
+          "p_correct_min": 0.854,
+          "worlds_at_target": 3
+        }
+      },
+      "all_worlds_at_target_from": "2x"
+    },
+    "fixed_8x": {
+      "scales": {
+        "1x": {
+          "p_correct": 0.8168,
+          "p_correct_min": 0.7429,
+          "worlds_at_target": 1
+        },
+        "2x": {
+          "p_correct": 0.9459,
+          "p_correct_min": 0.8762,
+          "worlds_at_target": 3
+        },
+        "4x": {
+          "p_correct": 0.9389,
+          "p_correct_min": 0.7725,
+          "worlds_at_target": 4
+        },
+        "8x": {
+          "p_correct": 0.9751,
+          "p_correct_min": 0.9295,
+          "worlds_at_target": 5
+        },
+        "16x": {
+          "p_correct": 0.943,
+          "p_correct_min": 0.854,
+          "worlds_at_target": 3
+        }
+      },
+      "all_worlds_at_target_from": "8x"
+    },
+    "fixed_4x": {
+      "scales": {
+        "1x": {
+          "p_correct": 0.7879,
+          "p_correct_min": 0.5677,
+          "worlds_at_target": 1
+        },
+        "2x": {
+          "p_correct": 0.8985,
+          "p_correct_min": 0.6539,
+          "worlds_at_target": 3
+        },
+        "4x": {
+          "p_correct": 0.9617,
+          "p_correct_min": 0.8234,
+          "worlds_at_target": 4
+        },
+        "8x": {
+          "p_correct": 0.8956,
+          "p_correct_min": 0.5883,
+          "worlds_at_target": 4
+        },
+        "16x": {
+          "p_correct": 0.9014,
+          "p_correct_min": 0.6319,
+          "worlds_at_target": 3
+        }
+      },
+      "all_worlds_at_target_from": null
+    }
+  },
+  "threshold_sensitivity_worlds_at_target": {
+    "0.80": {
+      "1x": 3,
+      "2x": 5,
+      "4x": 5,
+      "8x": 5,
+      "16x": 5
+    },
+    "0.85": {
+      "1x": 3,
+      "2x": 5,
+      "4x": 4,
+      "8x": 5,
+      "16x": 5
+    },
+    "0.90": {
+      "1x": 1,
+      "2x": 5,
+      "4x": 4,
+      "8x": 5,
+      "16x": 3
+    },
+    "0.95": {
+      "1x": 0,
+      "2x": 4,
+      "4x": 4,
+      "8x": 3,
+      "16x": 3
+    }
+  },
+  "worlds": [
+    {
+      "seed": 20270501,
+      "effect_over_se_1x": 2.041,
+      "effect_over_se_16x": 1.642
+    },
+    {
+      "seed": 20270502,
+      "effect_over_se_1x": 0.982,
+      "effect_over_se_16x": 33.977
+    },
+    {
+      "seed": 20270503,
+      "effect_over_se_1x": 1.895,
+      "effect_over_se_16x": 26.182
+    },
+    {
+      "seed": 20270504,
+      "effect_over_se_1x": 0.615,
+      "effect_over_se_16x": 8.946
+    },
+    {
+      "seed": 20270505,
+      "effect_over_se_1x": 0.421,
+      "effect_over_se_16x": 3.103
+    }
+  ],
+  "calibration": {
+    "worlds_per_effect": 20,
+    "runs_per_cell": 2000,
+    "replicates": 400,
+    "se_assumed": {
+      "1x": 0.00883,
+      "2x": 0.003804,
+      "4x": 0.003265,
+      "8x": 0.002578,
+      "16x": 0.00145
+    },
+    "rows": [
+      {
+        "effect_over_se_1x": 0.0,
+        "scale": "1x",
+        "reported": 0.5824,
+        "realised_frequency": 0.496,
+        "exact_frequency": 0.5,
+        "sign_undefined": true,
+        "calibration_error": 0.0864
+      },
+      {
+        "effect_over_se_1x": 0.0,
+        "scale": "2x",
+        "reported": 0.6806,
+        "realised_frequency": 0.4905,
+        "exact_frequency": 0.5,
+        "sign_undefined": true,
+        "calibration_error": 0.1901
+      },
+      {
+        "effect_over_se_1x": 0.0,
+        "scale": "4x",
+        "reported": 0.7039,
+        "realised_frequency": 0.499,
+        "exact_frequency": 0.5,
+        "sign_undefined": true,
+        "calibration_error": 0.2049
+      },
+      {
+        "effect_over_se_1x": 0.0,
+        "scale": "8x",
+        "reported": 0.7411,
+        "realised_frequency": 0.4935,
+        "exact_frequency": 0.5,
+        "sign_undefined": true,
+        "calibration_error": 0.2476
+      },
+      {
+        "effect_over_se_1x": 0.0,
+        "scale": "16x",
+        "reported": 0.8562,
+        "realised_frequency": 0.497,
+        "exact_frequency": 0.5,
+        "sign_undefined": true,
+        "calibration_error": 0.3592
+      },
+      {
+        "effect_over_se_1x": 0.25,
+        "scale": "1x",
+        "reported": 0.6214,
+        "realised_frequency": 0.588,
+        "exact_frequency": 0.5987,
+        "sign_undefined": false,
+        "calibration_error": 0.0334
+      },
+      {
+        "effect_over_se_1x": 0.25,
+        "scale": "2x",
+        "reported": 0.7278,
+        "realised_frequency": 0.713,
+        "exact_frequency": 0.7191,
+        "sign_undefined": false,
+        "calibration_error": 0.0148
+      },
+      {
+        "effect_over_se_1x": 0.25,
+        "scale": "4x",
+        "reported": 0.7505,
+        "realised_frequency": 0.7485,
+        "exact_frequency": 0.7505,
+        "sign_undefined": false,
+        "calibration_error": 0.002
+      },
+      {
+        "effect_over_se_1x": 0.25,
+        "scale": "8x",
+        "reported": 0.7851,
+        "realised_frequency": 0.8115,
+        "exact_frequency": 0.8041,
+        "sign_undefined": false,
+        "calibration_error": -0.0264
+      },
+      {
+        "effect_over_se_1x": 0.25,
+        "scale": "16x",
+        "reported": 0.8855,
+        "realised_frequency": 0.935,
+        "exact_frequency": 0.936,
+        "sign_undefined": false,
+        "calibration_error": -0.0495
+      },
+      {
+        "effect_over_se_1x": 0.5,
+        "scale": "1x",
+        "reported": 0.6943,
+        "realised_frequency": 0.682,
+        "exact_frequency": 0.6915,
+        "sign_undefined": false,
+        "calibration_error": 0.0123
+      },
+      {
+        "effect_over_se_1x": 0.5,
+        "scale": "2x",
+        "reported": 0.8355,
+        "realised_frequency": 0.886,
+        "exact_frequency": 0.8771,
+        "sign_undefined": false,
+        "calibration_error": -0.0505
+      },
+      {
+        "effect_over_se_1x": 0.5,
+        "scale": "4x",
+        "reported": 0.8631,
+        "realised_frequency": 0.912,
+        "exact_frequency": 0.9118,
+        "sign_undefined": false,
+        "calibration_error": -0.0489
+      },
+      {
+        "effect_over_se_1x": 0.5,
+        "scale": "8x",
+        "reported": 0.8961,
+        "realised_frequency": 0.9645,
+        "exact_frequency": 0.9566,
+        "sign_undefined": false,
+        "calibration_error": -0.0684
+      },
+      {
+        "effect_over_se_1x": 0.5,
+        "scale": "16x",
+        "reported": 0.9436,
+        "realised_frequency": 0.9995,
+        "exact_frequency": 0.9988,
+        "sign_undefined": false,
+        "calibration_error": -0.0559
+      },
+      {
+        "effect_over_se_1x": 1.0,
+        "scale": "1x",
+        "reported": 0.8376,
+        "realised_frequency": 0.8295,
+        "exact_frequency": 0.8413,
+        "sign_undefined": false,
+        "calibration_error": 0.0081
+      },
+      {
+        "effect_over_se_1x": 1.0,
+        "scale": "2x",
+        "reported": 0.9768,
+        "realised_frequency": 0.9875,
+        "exact_frequency": 0.9899,
+        "sign_undefined": false,
+        "calibration_error": -0.0107
+      },
+      {
+        "effect_over_se_1x": 1.0,
+        "scale": "4x",
+        "reported": 0.9871,
+        "realised_frequency": 0.993,
+        "exact_frequency": 0.9966,
+        "sign_undefined": false,
+        "calibration_error": -0.0059
+      },
+      {
+        "effect_over_se_1x": 1.0,
+        "scale": "8x",
+        "reported": 0.9941,
+        "realised_frequency": 0.9995,
+        "exact_frequency": 0.9997,
+        "sign_undefined": false,
+        "calibration_error": -0.0054
+      },
+      {
+        "effect_over_se_1x": 1.0,
+        "scale": "16x",
+        "reported": 0.9968,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": -0.0032
+      },
+      {
+        "effect_over_se_1x": 2.0,
+        "scale": "1x",
+        "reported": 0.9666,
+        "realised_frequency": 0.978,
+        "exact_frequency": 0.9772,
+        "sign_undefined": false,
+        "calibration_error": -0.0114
+      },
+      {
+        "effect_over_se_1x": 2.0,
+        "scale": "2x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 2.0,
+        "scale": "4x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 2.0,
+        "scale": "8x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 2.0,
+        "scale": "16x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 4.0,
+        "scale": "1x",
+        "reported": 0.9999,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": -0.0001
+      },
+      {
+        "effect_over_se_1x": 4.0,
+        "scale": "2x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 4.0,
+        "scale": "4x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 4.0,
+        "scale": "8x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      },
+      {
+        "effect_over_se_1x": 4.0,
+        "scale": "16x",
+        "reported": 1.0,
+        "realised_frequency": 1.0,
+        "exact_frequency": 1.0,
+        "sign_undefined": false,
+        "calibration_error": 0.0
+      }
+    ],
+    "excluded_zero_effect": 5,
+    "max_abs_calibration_error": 0.0684,
+    "note": "rows with sign_undefined=True have no true sign and are excluded from the error; they are kept because their failure mode is informative -- a reference can look precise against a run's own error while the truth has no direction to report."
+  },
+  "findings": [
+    "The judged window and its reference overlap: the smaller holds 12.5% of the larger at 2x and 50.0% at 16x, a correlation of 0.38 and 0.56 if pairs were independent. At 16x the judged window is the longer one, so the containment runs the other way. That covariance does not enter the reported probability - conditional on a world's effect a run's own error stands apart from the reference, and the reference's likelihood depends only on its own standard error - but it does make the five rows dependent comparisons, so the curve cannot be read as a monotone dose-response across them.",
+    "The reference's precision moves the decision: at 2x the probability is 0.976 with the leave-one-out reference (5/5 worlds at target), 0.946 with a fixed 8x reference (3/5) and 0.898 with a fixed 4x reference (3/5). 'Every world clears 0.90 at 100 cycles' holds only against the most precise reference available; with a noisier one it is three worlds of five. That is a condition on the claim, not a detail.",
+    "Against known truths the worst error is 0.068 over effects of 0.25-4.00 SE(1x), and it runs conservative for resolved effects rather than optimistic: the estimator under-reports as often as it over-reports, and by less than the spread it is trying to describe. At an exactly zero effect the sign is undefined, so those cells are excluded from the error rather than scored.",
+    "The target is a convention and the window it selects moves with it: at 1x 3/5 worlds clear 0.80, 1/5 clear 0.90 and 0/5 clear 0.95; at 2x the counts are 5/5, 5/5 and 4/5.",
+    "Taken together: the nesting does not bias the probability the estimator reports, its error against known truth is small, and both the reference rule and the target move the decision. 100 cycles is a provisional resolution target under a declared reference rule and a declared threshold, not a validated minimum."
+  ]
+}

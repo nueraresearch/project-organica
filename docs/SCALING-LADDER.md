@@ -174,3 +174,113 @@ Two cautions belong with it. The relation is **not monotone**: `4x` (0.961) and 
 - **It is the same five worlds re-analysed.** It inherits their selection and is not out of sample; it can refine a measurement decision, not create evidence.
 - **The reference is an estimate too.** Treating the world's effect as normal around its reference cell means a biased reference biases both the number and the sign it is judged against.
 - **It says nothing about conditions.** The third axis — whether the effect survives a change of generating configuration — is still untouched, as §8 of the artifact's `not_measured` list records.
+
+**Status, added with §9:** provisional, not a validated minimum. The audit below shows that the reference rule and the 0.90 target each move which worlds qualify, so the number is a declared convention rather than an established requirement.
+
+## 9. Audit of the sign estimator
+
+Written after the owner challenged §8 on two grounds: that 0.90 is a convention introduced **after** the
+run, and that the reference estimate is not independent of the estimate it judges, because the scored
+windows are nested. Both objections are correct in principle. The audit is computed from the stored cells
+of the same five worlds (`python -m benchmarks.scaling_ladder --audit`, artifact `docs/sign_audit.json`);
+no engine ran and no seed was spent.
+
+### What the estimator actually computes
+
+`p` is a **posterior-predictive** agreement probability, not a coverage guarantee. The world's effect is
+drawn from `N(delta_ref, se_ref²)`, a run's estimate from `N(effect, se_s²)`, and `p` is the frequency with
+which the two signs agree. Conditional on the effect this is exactly `Phi(|effect| / se_s)`, so the only
+substantive modelling choice is how the effect is known. §8 named that choice; this section measures how
+much it matters, and how far the number can be trusted.
+
+### 1. The nesting is real, and it does not enter this number
+
+| Judged | Reference | Pairs | Share of the larger | Correlation if pairs independent |
+| --- | --- | --- | --- | --- |
+| `1x` | `16x` | 399 / 6,399 | 6.2 % | 0.164 |
+| `2x` | `16x` | 799 / 6,399 | 12.5 % | 0.381 |
+| `4x` | `16x` | 1,599 / 6,399 | 25.0 % | 0.444 |
+| `8x` | `16x` | 3,199 / 6,399 | 50.0 % | 0.562 |
+| `16x` | `8x` | 6,399 / 3,199 | 50.0 % | 0.562 — the judged window is the *larger* one |
+
+Both windows start at cycle 150, so one contains the other and their union is the longer one. With
+independent pairs the covariance is therefore the variance of the longer window, which caps the
+correlation at `sqrt(short / long)` — 0.16 to 0.56 here.
+
+**Why it does not bias the reported probability:** conditional on a world's effect, a run's error is its
+own. The reference's likelihood depends only on its own standard error, so `p = E[Phi(|effect| / se_s)]`
+contains no covariance term. What the nesting *does* affect is inference **across** rows: they are five
+dependent comparisons of the same worlds, so the §7/§8 curve cannot be read as a monotone dose-response,
+and `16x` is the row where the containment reverses.
+
+Two limits of this audit. The correlations are the independent-pairs case, while the measured block/iid
+ratio (0.54–0.85) says consecutive pairs are not independent, so they are order-of-magnitude rather than
+exact. And each scale's standard error comes from its own quarter bootstrap, so the five rows are not one
+joint resampling, and no joint covariance is available to test.
+
+### 2. The reference rule moves the decision
+
+| Reference rule at `2x` | `p` | Worlds at 0.90 |
+| --- | --- | --- |
+| leave-one-out (`16x`) | 0.976 | 5 / 5 |
+| fixed `8x` | 0.946 | 3 / 5 |
+| fixed `4x` | 0.898 | 3 / 5 |
+
+So "every world clears 0.90 at 100 cycles" holds **only against the most precise reference available**.
+With a noisier reference it is three worlds of five. The §8 figure is therefore conditional on the
+reference rule, and that condition belongs in the claim.
+
+### 3. Against known truths the estimator is calibrated, conservatively
+
+Simulated worlds with fixed true effects: each reference cell is the truth plus the reference window's
+own error, and fresh runs are drawn from the truth. The reported probability is compared with the
+frequency that actually occurred (2,000 runs per cell; the simulated SEs are this run's measured values,
+asserted against the artifact).
+
+| Effect (`1x` SE units) | Reported `1x` | Realised `1x` | Reported `16x` | Realised `16x` |
+| --- | --- | --- | --- | --- |
+| 0.25 | 0.621 | 0.588 | 0.885 | 0.935 |
+| 0.50 | 0.694 | 0.682 | 0.944 | 1.000 |
+| 1.00 | 0.838 | 0.830 | 0.997 | 1.000 |
+| 2.00 | 0.967 | 0.978 | 1.000 | 1.000 |
+| 4.00 | 1.000 | 1.000 | 1.000 | 1.000 |
+
+Worst error **0.068**, and it runs *conservative* for resolved effects: the estimator under-reports about
+as often as it over-reports. The five worlds sit at 1.6–34 SE at `16x`, inside that regime.
+
+The zero-effect cells are **excluded, not scored**. With no true sign there is nothing to be right about,
+and there the estimator returns 0.856 at `16x` against a realised frequency of 0.497. That value is kept
+in the artifact as a diagnostic of the degenerate case, and it is the reason a sentence like "p = 0.9 means
+90 % of runs get it right" only means anything for a non-zero effect.
+
+### 4. The threshold is a convention, and it selects the window
+
+| Target | `1x` | `2x` | `4x` | `8x` | `16x` |
+| --- | --- | --- | --- | --- | --- |
+| 0.80 | 3 / 5 | 5 / 5 | 5 / 5 | 5 / 5 | 5 / 5 |
+| 0.85 | 3 / 5 | 5 / 5 | 4 / 5 | 5 / 5 | 5 / 5 |
+| 0.90 | 1 / 5 | 5 / 5 | 4 / 5 | 5 / 5 | 3 / 5 |
+| 0.95 | 0 / 5 | 4 / 5 | 4 / 5 | 3 / 5 | 3 / 5 |
+
+`2x` is the smallest window clearing 0.90, and it clears 0.95 for four worlds of five — never for all
+five. None of these thresholds is validated; the table shows how much the answer depends on the one
+chosen.
+
+### 5. Status: provisional
+
+The estimator measures what it says it measures, and the nesting does not bias it. What the audit does
+**not** establish is that 100 cycles is a *minimum*, because the target is chosen, the reference rule is
+chosen, and both move which worlds qualify. So:
+
+- 100 cycles is a **provisional resolution target**, under a declared reference rule and a declared
+  threshold — not a validated requirement.
+- A study adopting it should name both, and report the per-world minimum rather than the mean.
+- "A run resolves its own world after 100 cycles" is supported. "And therefore the effect is
+  established" is not: block-level agreement stays near 0.78, and only more worlds move it.
+
+### What would change this
+
+A synthetic world family with **known** effects, where a fresh run's sign is checked against the truth
+directly rather than against a reference estimate. The calibration in §3 is the engine-free first step;
+a world generator that gives the truth by construction is the second. Until then the five-world
+limitation stands, and no confirmatory seed has been spent.

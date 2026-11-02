@@ -9142,3 +9142,38 @@ by the sign criterion. `docs/SCALING-LADDER.md` §8 carries the analysis; rows 1
 verdict are unchanged. This is a re-analysis of the same five worlds: it refines a
 measurement decision and creates no evidence, and the third axis - changing the generating
 configuration - remains untested.
+
+## §134 — The sign estimator was audited against known truths, and the 100-cycle target is provisional (2026-11-02)
+
+The owner accepted §133's distinction and challenged two things in the number it left standing: the 0.90
+target was chosen after the ladder ran, and the reference estimate is not independent of the estimate it
+judges, because the scored windows are nested. Both are correct in principle, and the second is the one
+worth computing.
+
+`benchmarks/scaling_ladder.audit_sign_estimator` (`--audit`, artifact `docs/sign_audit.json`) runs five
+checks on the stored cells. **Nesting:** the judged window and its reference share 6.2 % to 50.0 % of the
+larger window's pairs, a correlation of 0.164 to 0.562 under independent pairs (0.562 at 16x, where the
+containment reverses and the judged window is the longer one). It does not bias `p`, because conditional on
+a world's effect a run's error is its own and the reference's likelihood depends only on its own standard
+error; it does make the five rows dependent comparisons, so the §8 curve is not a monotone dose-response
+test. **Reference rule:** at 2x the probability is 0.976 with leave-one-out, 0.946 with a fixed 8x reference
+and 0.898 with a fixed 4x one, clearing 0.90 for 5, 3 and 3 worlds. The "all five clear" statement is
+therefore conditional on using the most precise reference available. **Calibration:** against known truths,
+with reference cells carrying their own error and fresh runs drawn from the truth, the worst error is 0.068
+over effects of 0.25-4 SE(1x), and it runs conservative for resolved effects rather than optimistic. The
+zero-effect cells are excluded, not scored: with no sign to report the estimator returns 0.856 at 16x where
+the realised frequency is 0.497, and that is kept as a diagnostic of the degenerate case rather than
+counted as an error. **Threshold:** 2x clears 0.90 for five worlds and 0.95 for four; 1x clears 0.95 for
+none.
+
+**The audit found two defects in its own first version**, both of the kind the project keeps finding: the
+nesting formula divided by the judged window's variance unconditionally and returned a correlation of 1.78
+at 16x, which is impossible and was read as a finding for one run; and the zero-effect cell was scored as a
+0.359 calibration error when the quantity is undefined. Both are fixed in the committed code, and both show
+why the audit had to be a program rather than a paragraph.
+
+**Status.** 100 cycles remains the recommendation (§133) and is now labelled **provisional**: a declared
+convention naming a reference rule and a threshold, not a validated minimum. The claim it supports is "a
+run resolves its own world's sign after 100 cycles"; the claim it does not support is "the effect is
+established", because block-level agreement stays near 0.78 and only more worlds move that. No seed spent,
+no engine run, no confirmatory block authorised.

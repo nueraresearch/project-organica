@@ -209,3 +209,63 @@ def test_the_sign_simulation_is_reproducible_and_needs_data():
         cells, replicates=500)
     with pytest.raises(AssertionError):
         sl.sign_resolution([])
+
+
+# ---------------------------------------------------------------------------
+# The audit of the sign estimator (docs §9)
+# ---------------------------------------------------------------------------
+
+def test_the_nesting_correlation_cannot_exceed_one():
+    """The first version returned 1.78 at 16x: impossible, so it is pinned."""
+    art_path = ROOT / sl.OUT
+    if not art_path.exists():
+        pytest.skip("the ladder has not been run yet")
+    art = json.loads(art_path.read_text(encoding="utf-8"))
+    nest = sl.nested_overlap(art["summary"])
+    for label, row in nest.items():
+        assert 0.0 < row["correlation_if_independent_pairs"] <= 1.0, (label, row)
+        shorter = min(row["judged_pairs"], row["reference_pairs"])
+        longer = max(row["judged_pairs"], row["reference_pairs"])
+        assert row["overlap_of_smaller_in_larger"] == pytest.approx(shorter / longer, abs=1e-4)
+        assert row["correlation_if_independent_pairs"] <= shorter / longer ** 0.5 + 0.1
+    assert nest["16x"]["judged_contains_reference"] is True
+    assert nest["2x"]["judged_contains_reference"] is False
+
+
+def test_a_zero_effect_is_excluded_not_scored():
+    """No sign to report means not measurable, not a large error (AGENTS 13b)."""
+    out = sl.calibrate_sign_estimator(effects=(0.0, 1.0), worlds=3, runs=200,
+                                      replicates=60, seed=7)
+    zero = [r for r in out["rows"] if r["sign_undefined"]]
+    assert len(zero) == len(sl.SCALES)
+    assert out["excluded_zero_effect"] == len(sl.SCALES)
+    scored = [r for r in out["rows"] if not r["sign_undefined"]]
+    assert out["max_abs_calibration_error"] == max(abs(r["calibration_error"]) for r in scored)
+    assert out["max_abs_calibration_error"] <= 0.2
+
+
+def test_the_reference_rule_never_judges_a_scale_against_itself():
+    for rule in sl.REFERENCE_RULES:
+        for label in sl.SCALES:
+            ref = sl.reference_label(label, rule)
+            assert ref != label and ref in sl.SCALES
+    assert sl.reference_label("2x", "fixed_8x") == "8x"
+    assert sl.reference_label("16x", "fixed_8x") == "8x"
+    with pytest.raises(SystemExit):
+        sl.reference_label("2x", "nonsense")
+
+
+def test_the_audit_section_quotes_the_artifact():
+    audit_path = ROOT / sl.SIGN_AUDIT_OUT
+    if not audit_path.exists():
+        pytest.skip("the audit has not been run yet")
+    doc = (ROOT / "docs/SCALING-LADDER.md").read_text(encoding="utf-8")
+    if "## 9." not in doc:
+        pytest.skip("the audit section has not been written yet")
+    block = doc.split("## 9.", 1)[1]
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    for label, row in audit["nesting"].items():
+        assert f"{row['correlation_if_independent_pairs']:.3f}" in block, label
+    for rule, r in audit["reference_sensitivity"].items():
+        assert f"{r['scales']['2x']['p_correct']:.3f}" in block, rule
+    assert f"{audit['calibration']['max_abs_calibration_error']:.3f}" in block
