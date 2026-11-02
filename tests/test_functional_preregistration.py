@@ -33,6 +33,17 @@ def test_seed_blocks_are_fresh_and_disjoint():
     assert closed.isdisjoint(set(design) | set(confirmatory))
 
 
+def test_pass_direction_is_stated_once_and_consistently():
+    """§4 and §9 must name the same bound; the endpoint is negative-is-better."""
+    text = DOC.read_text(encoding="utf-8")
+    assert "lower uncertainty bound" not in text
+    sec9 = text.split("## 9. What a result would and would not mean", 1)[1].split("## 10.", 1)[0]
+    assert "**upper** bound" in sec9
+    assert "below zero" in sec9
+    assert "did not move" in sec9
+    assert "the wrong way" in sec9
+
+
 def test_disqualifier_outcomes_are_all_named():
     """Every status the attribution can return must be fixed in the protocol."""
     text = DOC.read_text(encoding="utf-8")

@@ -155,9 +155,20 @@ manufacture one.
 
 **Would mean, on a pass:** on these worlds, with equal exposure and a tuned simple
 baseline, the structure the engine formed assigned better probabilities to held-out
-transitions than the strongest simple model, and the margin's lower uncertainty bound
-cleared zero. If the transfer window also moved, the same statement holds for
-transitions withheld from all formation exposure.
+transitions than the strongest simple model, and the **upper** bound of the 98.33 %
+cluster-bootstrap interval on `delta` lay **below zero**. That is §4's bar, restated here
+in the same direction so the two sections cannot be read apart. The direction is not
+incidental: `delta` is Organica minus baseline, so negative means Organica scored better,
+and a *lower* bound above zero would be evidence of the wrong direction rather than a
+pass. An interval containing zero is **no improvement detected**, never equivalence.
+
+**What "moved" means on the co-primary window.** The same rule, on the withheld-relation
+cells only: the window **moved** if the upper bound of its own 98.33 % interval on its own
+`delta` is below zero; it **did not move** if that interval contains zero, and a primary
+pass is then reported as **held-out generalization only** with the word transfer withheld;
+and it moved **the wrong way** — reported as reversed on that window, not as a null — if
+its lower bound is above zero. The co-primary interval does not gate the primary verdict,
+and neither window is re-scored because the other disagrees.
 
 **Would not mean:** that Organica "understands" the law, that the margin generalizes
 beyond this world family and this engine, that the closed study's transfer failure is

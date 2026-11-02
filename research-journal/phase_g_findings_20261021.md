@@ -8288,3 +8288,30 @@ never a result.
 
 No cell has run; the build remains unstarted.
 
+## §111 The bar pointed two ways, and only one of them was right
+
+§4 fixed the endpoint as `delta = log-loss(Organica) − log-loss(baseline)`, negative meaning
+Organica scored better, and put the bar at the **upper** bound of the 98.33 % interval below
+zero. §9, describing what a pass would mean, said the margin's **lower** bound cleared zero.
+Those are not two phrasings of one criterion: for a negative-is-better difference they describe
+opposite outcomes, and the reviewed text would have licensed a claim from evidence that Organica
+was reliably *worse*.
+
+The defect is the same family as the widened headline (rule 24): the measurement was right and
+the sentence carrying it was not, and no numeric check would ever have fired, because §4 and §9
+were each internally consistent. It was found by reading the two sections side by side, which is
+what a protocol review is for.
+
+§9 now states the upper bound, says explicitly why the direction is not incidental, and defines
+the co-primary result in three named outcomes rather than the undefined "also moved": **moved**
+(upper bound of its own interval below zero), **did not move** (interval contains zero, so a
+primary pass is held-out generalization only and the word transfer is withheld), and **moved the
+wrong way** (lower bound above zero, reported as reversed on that window rather than as a null).
+Neither window gates or re-scores the other.
+
+`tests/test_functional_preregistration.py` now asserts that the phrase "lower uncertainty bound"
+appears nowhere in the protocol, and that §9 contains the upper-bound bar and all three movement
+outcomes — so the two directions cannot drift apart again without a failing guard.
+
+No cell has run. The harness build is next, and the protocol does not expand further.
+
