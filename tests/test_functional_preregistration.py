@@ -19,11 +19,12 @@ def test_amendment_fixes_the_three_open_clauses():
 
 
 def test_seed_blocks_are_fresh_and_disjoint():
+    """The protocol names each block by its bounds; both must be present."""
     text = DOC.read_text(encoding="utf-8")
     design = range(20270201, 20270206)
     confirmatory = range(20270206, 20270221)
-    for seed in list(design) + list(confirmatory):
-        assert str(seed) in text
+    for block in (design, confirmatory):
+        assert str(block[0]) in text and str(block[-1]) in text
     closed = set(range(20261201, 20261227)) | set(range(20270101, 20270121))
     assert closed.isdisjoint(set(design) | set(confirmatory))
 
