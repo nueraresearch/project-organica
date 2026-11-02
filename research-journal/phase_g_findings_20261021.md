@@ -8315,3 +8315,27 @@ outcomes — so the two directions cannot drift apart again without a failing gu
 
 No cell has run. The harness build is next, and the protocol does not expand further.
 
+## §112 The scoring layer, built against a gate that can fail
+
+The functional harness began where it should: at the measurement contract, not at the engine. The
+first commit is the pure scoring layer — cells, per-cell loss, the four attribution outcomes — and
+the G6 fixtures it must satisfy. It imports no engine module and reads no study seed, so the gate
+runs before a cell exists.
+
+The layer reproduces the house scorer rather than reimplementing it by memory. `score` iterates one
+cell per (source, vocabulary target) with the source-equals-target cell held at label zero, and the
+tests compare it with `acquisition_baselines.score` in both shapes to 1e-6 on three random fixtures.
+Writing that comparison caught a real interface fact: the house scorer intersects the vocabulary, so
+it requires a set and raises on a list. The harness accepts either and normalises.
+
+G6 fires on six cases: world-majority passes; self-majority at 0.60 withholds as *not a transfer
+result*; unattributed at 0.75 withholds as *not attributable*; an empty positive margin is *not
+evaluable* with null shares rather than zeros; the boundary withholds at exactly 0.50 and does not at
+0.4999; and a tie is self-majority. A seventh case is the one that keeps the others honest: relaxing
+the threshold to 0.90 must stop the 0.60 fixture from withholding, so the fixture is what drives the
+outcome. `tests/test_functional_structure.py` adds the meta-check — replacing the rule with one that
+never withholds must make the gate raise.
+
+The engine binding is not written. A design seed has not been scored and the harness is not complete;
+what exists is the part that can be proved before the expensive part runs.
+
