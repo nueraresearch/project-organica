@@ -8710,3 +8710,38 @@ and that is the owner's account and the owner's act; nothing in this repository 
 02 renders (14 pages, 0 errors) and is bundled, but its wide audit tables still overrun the margin,
 which is the next typesetting task rather than part of Paper 01's package.
 
+## §124 — Paper 02 is typeset clean, and both papers travel with a reproduction bundle (2026-11-02)
+
+Paper 02 carried 21 overfull boxes, all in four tables. The cause was one line in the render
+escape: `make_code_spans_breakable` returned every span without a `/` unchanged, and the
+acceptance-criteria table is three columns of test names — single 40-character tokens with
+no slash in them — so the column had no break opportunity at all and the widest row ran
+**209 pt** into the margin. The rule now turns on length rather than shape: over 24
+characters is broken between characters, as `\seqsplit` does, and shorter spans break only
+at a slash or an underscore escape.
+
+Two tables could not be fixed by breaking. Pandoc divides the measure evenly, so the
+nine-column ancestry table gives each column 41 pt while its header says "Reachability",
+which is 58 pt of word. No portrait size that is still readable recovers a 40 % shortfall, so
+tables of seven columns or more are now set on a landscape page (`pdflscape`), where the same
+fractions have room. The threshold is seven, not six: Paper 01's two six-column tables set
+perfectly well in portrait, and rotating them cost three pages for nothing. A 103-character
+comment line in Paper 02's script block — 61 pt over — is set at `footnotesize` rather than
+wrapped, because a wrap in a block a reader may copy is a line break that is not in the
+command, and shortening the comment would be editing the manuscript to fix a rendering
+defect.
+
+**The result:** Paper 02 renders to 17 pages with **0** LaTeX errors and **0** overfull
+boxes, two of those pages landscape; Paper 01 is unchanged at 23 pages, 0 and 0. Both PDFs'
+text extracts without broken ligatures and with the section sign intact.
+
+**The reproduction bundle.** `benchmarks/deposit_bundle.py` now builds a fourth bundle that
+is not a Zenodo record: `reproduction/` carries `REPRODUCE.md`, `ENVIRONMENT.json`, both
+PDFs and `SHA256SUMS`. It names the archived commit (a version string does not check out and
+a commit does), the Python, pandoc and pdfLaTeX versions that built the papers, the four
+commands that regenerate the figures and the PDFs in order, each paper's expected page
+count, size and hash, and what the bundle does **not** reproduce: the experiments, whose
+numbers are frozen in committed artifacts, and the upload. `tests/test_deposit_bundle.py`
+grew from three bundles to four and asserts that the PDFs it carries are byte-identical to
+the ones the paper records list.
+

@@ -31,6 +31,11 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
+% Six of Paper 02's audit tables are too wide for a portrait measure at any
+% readable size: the nine-column ancestry table gives each column 41 pt and
+% the header word "Reachability" is 58 pt.  Those tables are typeset on a
+% landscape page instead, where the same fraction has room to breathe.
+\usepackage{pdflscape}
 \usepackage{array}
 \usepackage{calc}   % pandoc writes column widths as \real{...}
 
@@ -41,6 +46,10 @@
 % define "Highlighting" in terms of it.
 \usepackage{fancyvrb}
 $highlighting-macros$
+% Code blocks one size down.  Paper 02's longest comment line is 103 characters
+% and ran 61 pt into the margin; breaking it would put a line break into a block
+% a reader may copy, so the block is set smaller instead of being rewritten.
+\fvset{fontsize=\footnotesize}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage[hidelinks]{hyperref}
 % fi and fl ligatures extract as nothing from a T1-encoded PDF, so the deposited text

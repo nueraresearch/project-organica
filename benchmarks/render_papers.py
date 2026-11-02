@@ -130,20 +130,29 @@ def make_code_spans_breakable(tex_path: Path) -> int:
     Pandoc writes inline code as texttt{...}, and TeX has no break opportunity
     inside one: a repository path is a single unbreakable box.  The first build
     put ten of them into the margin, the widest by 140 pt.  Inserting
-    allowbreak after each slash inside the span gives the line a place to end
-    without hyphenating a path or changing a glyph.  The committed manuscript
-    is untouched; this rewrites the build copy only.  Returns the number of
-    spans rewritten.
+    allowbreak after each slash gives the line a place to end without
+    hyphenating a path or changing a glyph.
+
+    Length, not shape, decides the treatment.  A span over 24 characters is
+    broken between characters, as \seqsplit does, whether or not it looks like
+    a path: Paper 02's acceptance-criterion table is four columns of test names,
+    each a single 40-plus-character token with no slash in it, and the earlier
+    version of this function returned those untouched unless they contained a
+    slash.  The table then ran 209 pt into the margin with no break opportunity
+    anywhere in the column.  Shorter spans are broken only at a slash or an
+    underscore escape, so ordinary words in code are not sprinkled with break
+    points they do not need.
+
+    The committed manuscript is untouched; this rewrites the build copy only.
+    Returns the number of spans examined.
     """
     raw = tex_path.read_text(encoding="utf-8")
 
     def replace(match: re.Match) -> str:
         inner = match.group(1)
-        if "/" not in inner:
-            return match.group(0)
         if len(inner) > 24:
-            # A long path or hash: allow a break between any two characters, as
-            # \seqsplit does.  Nothing shorter is touched.
+            # A long path, hash or identifier: allow a break between any two
+            # characters, as \seqsplit does.
             units, i = [], 0
             while i < len(inner):
                 # Keep an escape ("\\_") in one piece: splitting between the
@@ -161,6 +170,57 @@ def make_code_spans_breakable(tex_path: Path) -> int:
     if out != raw:
         tex_path.write_text(out, encoding="utf-8")
     return len(CODE_SPAN_RE.findall(raw))
+
+
+LONGTABLE_RE = re.compile(
+    r"\\begin\{longtable\}\[\]\{@\{\}(?P<spec>.*?)@\{\}\}(?P<body>.*?)"
+    r"\\end\{longtable\}", re.S)
+
+
+def landscape_wide_tables(tex_path: Path, min_columns: int = 7) -> list[int]:
+    """Typeset the wide tables on landscape pages.
+
+    Pandoc divides the measure evenly between the columns, so a nine-column
+    table gets 41 pt per column while its header says "Reachability" --- 58 pt
+    of word with no break in it and nothing to hyphenate against.  The table
+    ran 17 pt into the margin, and shrinking the font cannot recover a 40%
+    shortfall without making the table unreadable.  A landscape page gives the
+    same fractions of a much wider measure, which is what these audit tables
+    need; the alternative was dropping a column and losing a measured quantity.
+
+    The threshold is seven columns, not the six at which the measure starts to
+    pinch: Paper 01 has two six-column tables that set perfectly well in
+    portrait, and rotating them cost three pages for no gain.  At seven columns
+    a portrait column is at most a seventh of the measure (67 pt), which cannot
+    hold an ordinary fifteen-character word, and that is the point at which a
+    portrait setting stops being a choice.
+
+    The column fractions are recomputed by pandoc from ``\\linewidth``, so
+    wrapping the table is enough: longtable measures the landscape measure at
+    the point it starts.  Each column also loses 1.5 pt, because the widths sum
+    to the measure exactly and the table's own box then sits 0.13 pt over it.
+
+    Returns the column counts of the tables wrapped.
+    """
+    text = tex_path.read_text(encoding="utf-8")
+    wrapped: list[int] = []
+
+    def replace(match: re.Match) -> str:
+        spec = match.group("spec")
+        columns = spec.count("p{")
+        if columns < min_columns:
+            return match.group(0)
+        spec = re.sub(r"\\linewidth - (\d+)\\tabcolsep",
+                      r"\\linewidth - \1\\tabcolsep - 1.5pt", spec)
+        table = ("\\begin{longtable}[]{@{}%s@{}}%s\\end{longtable}"
+                 % (spec, match.group("body")))
+        wrapped.append(columns)
+        return "\\begin{landscape}\n%s\n\\end{landscape}" % table
+
+    out = LONGTABLE_RE.sub(replace, text)
+    if out != text:
+        tex_path.write_text(out, encoding="utf-8")
+    return wrapped
 
 
 def render(rel: str, pandoc: str, pdflatex: str) -> Path:
@@ -182,6 +242,7 @@ def render(rel: str, pandoc: str, pdflatex: str) -> Path:
 
     make_code_spans_breakable(build_tex)
     fix_table_captype(build_tex)
+    landscape_wide_tables(build_tex)
 
     for _ in range(2):
         run([pdflatex, "-interaction=nonstopmode", "-halt-on-error",

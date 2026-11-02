@@ -87,17 +87,40 @@ template carried. Each of these was a build failure before it was a repair.
 | `\DeclareUnicodeCharacter` for eleven characters | The manuscripts are written with typographic punctuation: em dash, en dash, minus sign, rightwards arrow, almost-equal, greater-or-equal, multiplication sign, plus-minus, section sign, Greek alpha, and `o` with grave. pdfLaTeX has no declaration for these by default. The mathematical ones are wrapped in `\ensuremath` so they are correct in text and in math mode alike. |
 | `\usepackage{fancyvrb}` and `$highlighting-macros$` | Pandoc emits a code block that carries a class as `\begin{Shaded}\begin{Highlighting}[] ... \end{Highlighting}\end{Shaded}`. Both environments come from pandoc's default template. |
 
+## Build-copy rewrites
+
+The build never edits a manuscript. Each repair below is applied to the copy
+under `.scratch/paper-build/`, between pandoc and pdfLaTeX, by
+`benchmarks/render_papers.py`. Every one of them was a box in the margin or a
+word the deposited text could not spell before it was a rewrite.
+
+| Rewrite | Defect it repairs |
+|---|---|
+| the level-one heading is removed from the body | pandoc typesets it as the title *and* as a numbered section heading; the second copy of the title ran 61 pt into the margin. |
+| the author line is split at its em dashes | the author is a single unbreakable box in a `\title` block, so a name, an ORCID URL and an address ran 63 pt into the margin. |
+| figure references point at the SVG's PDF | LaTeX cannot include an SVG. The committed Markdown keeps pointing at the committed SVG. |
+| `\allowbreak` inside `\texttt` | inline code has no break opportunity, so ten paths were single unbreakable boxes, the widest 140 pt over. A span over 24 characters is broken between characters, as `\seqsplit` does, **whether or not it contains a slash**; shorter spans break only at a slash or an underscore escape. Length, not shape, decides: the earlier version of this rule skipped every slash-free span, and Paper 02's four-column table of 40-character test names then ran 209 pt into the margin with no break opportunity anywhere in the column. |
+| `\LTcaptype` is emptied | longtable reads pandoc's `none` as the name of a counter and steps a counter that does not exist. |
+| tables of seven columns or more are wrapped in `landscape` | pandoc divides the measure evenly, so a nine-column table gives each column 41 pt while its header word "Reachability" is 58 pt and has nothing to hyphenate against. No portrait size that is still readable recovers that; a landscape page does, and the column fractions follow `\linewidth`. Each column also loses 1.5 pt, because the fractions sum to the measure and the table's own box then sat 0.13 pt over it. |
+| code blocks are set at `footnotesize` | Paper 02's longest comment line is 103 characters and ran 61 pt over. Wrapping it would put a break into a block a reader may copy, so the block is set one size down instead. |
+
 ## The tools
 
-Neither tool is on PATH on this machine. The script finds both:
+pandoc and pdfLaTeX are looked up in the locations the script already knows — the Windows pandoc and MiKTeX install paths, then `PATH`:
 
 | Tool | Location |
 |---|---|
-| pandoc 3.13 | `%LOCALAPPDATA%\Pandoc\pandoc.exe` |
-| MiKTeX-pdfTeX 4.23 (MiKTeX 25.12) | `%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe` |
+| pandoc 3.5 | `%LOCALAPPDATA%\Pandoc\pandoc.exe` |
+| pdfTeX 1.40.29 (TeX Live 2026) | `%LOCALAPPDATA%\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe` |
 
 MiKTeX's package auto-install is on (`initexmf --set-config-value=[MPM]auto-install=1`),
 so a missing package is fetched on first use.
+
+Those are the Windows paths the script was written against. The build recorded with this
+deposit ran in a Linux container with pandoc 3.5 and TinyTeX on `PATH`, after
+`tlmgr install caption lm microtype pdflscape`. The versions that actually built the PDFs
+are recorded in the reproduction bundle's `ENVIRONMENT.json`, so the pipeline states what
+it ran on instead of assuming it.
 
 Still absent on this machine: LibreOffice, Ghostscript, `pdftoppm`,
 `pdftocairo`, Inkscape, and every Python imaging library the project does not

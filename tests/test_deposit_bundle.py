@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import copy
 import hashlib
+import json
 import shutil
 import sys
 import tarfile
@@ -60,16 +61,49 @@ def manifest():
         "software": deposit_bundle.build_software(deposit_bundle.SOFTWARE_REF),
         "paper-01": deposit_bundle.build_paper("paper-01"),
         "paper-02": deposit_bundle.build_paper("paper-02"),
+        deposit_bundle.REPRODUCTION: deposit_bundle.build_reproduction(),
     }
     return deposit_bundle.write_manifests(deposit_bundle.SOFTWARE_REF, bundles)
 
 
-def test_the_manifest_names_the_three_records(manifest):
-    assert set(manifest["records"]) == {"software", "paper-01", "paper-02"}
-    for key, record in manifest["records"].items():
-        assert record["metadata_file"] in deposit_bundle.RECORDS.values(), (
+def test_the_manifest_names_the_four_bundles(manifest):
+    assert set(manifest["records"]) == {"software", "paper-01", "paper-02",
+                                       deposit_bundle.REPRODUCTION}
+    for key in ("software", "paper-01", "paper-02"):
+        assert manifest["records"][key]["metadata_file"] in (
+            deposit_bundle.RECORDS.values()), (
             "%s names a metadata file that is not in the package" % key)
+    assert manifest["records"][deposit_bundle.REPRODUCTION]["metadata_file"] is None, (
+        "the reproduction bundle is not a Zenodo record and has no metadata file")
+    for key, record in manifest["records"].items():
         assert record["files"], "%s carries no files" % key
+
+
+def test_the_reproduction_bundle_names_the_commit_and_the_commands(manifest):
+    """A reviewer can find the state, rebuild it, and check the PDF it carries."""
+    directory = deposit_bundle.OUT / deposit_bundle.REPRODUCTION
+    environment = json.loads((directory / "ENVIRONMENT.json").read_text(
+        encoding="utf-8"))
+    assert environment["software_commit"] == manifest["software_commit"], (
+        "the reproduction bundle names a commit the manifest does not")
+    assert environment["python"], "no Python version was recorded"
+
+    text = (directory / "REPRODUCE.md").read_text(encoding="utf-8")
+    assert manifest["software_commit"] in text, (
+        "REPRODUCE.md does not name the commit it was built from")
+    for command in ("benchmarks/figure_papers.py", "benchmarks/svg_to_pdf.py",
+                    "benchmarks/render_papers.py",
+                    "benchmarks/deposit_bundle.py"):
+        assert command in text, (
+            "REPRODUCE.md omits the command that regenerates %s" % command)
+
+    # The papers it carries are the papers' records, not copies of something else.
+    for paper in environment["papers"]:
+        listed = {e["key"]: e for e in manifest["records"][paper["record"]]["files"]}
+        assert listed[paper["pdf"]]["checksum"] == "sha256:" + paper["sha256"], (
+            "%s carries a different PDF from the one %s records"
+            % (deposit_bundle.REPRODUCTION, paper["record"]))
+        assert paper["pages"] is None or paper["pages"] > 0
 
 
 def test_every_cited_artifact_is_in_the_software_record(manifest):

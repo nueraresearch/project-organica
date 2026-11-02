@@ -1,6 +1,6 @@
 # Zenodo deposit package
 
-**Status: prepared for Paper 01's submission, decided, not deposited.** Every field below is filled in,
+**Status: both papers' packages prepared, decided, not deposited.** Every field below is filled in,
 every bundle is built and checksummed, and every decision the checklist used
 to leave open has been made — the owner's standing direction on 2026-10-31 was
 *"do not deposit yet; use your best judgement on the rest"*. **Nothing here has
@@ -113,12 +113,12 @@ which writes `.scratch/deposit/`, one directory per record, each with its
 files, a `SHA256SUMS` and a `DEPOSIT-MANIFEST.json`. The manifest is
 `.scratch/deposit/MANIFEST.json`.
 
-**Software record (v0.10.0).** the source tree at the tag, as one archive,
+**Software record (v0.11.0).** the source tree at the archived commit, as one archive,
 plus the checksums and the manifest:
 
 | File | |
 |---|---|
-| `project-organica-v0.11.0.tar.gz` | `git archive` of the tree at `v0.10.0` |
+| `project-organica-v0.11.0.tar.gz` | `git archive` of the tree at the archived commit |
 | `SHA256SUMS` | checksums of the record's files |
 | `DEPOSIT-MANIFEST.json` | the record's metadata and its file list |
 
@@ -128,6 +128,13 @@ figures as vector PDF, the checksums and the manifest. Paper 01 carries
 `figure_p01_capacity_sweep`, `figure_p01_displacement_curve` and
 `figure_p01_phase_k_families`; Paper 02 carries `figure_p02_cognition_window`,
 `figure_p02_reconstruction_arms` and `figure_p02_self_sourcing`.
+
+**The reproduction bundle is not a fourth record.** `.scratch/deposit/reproduction/`
+holds `REPRODUCE.md`, `ENVIRONMENT.json`, both rendered PDFs and their `SHA256SUMS`. It
+names the archived commit, the Python/pandoc/pdfLaTeX versions that built the papers, the
+four commands that regenerate the figures and the PDFs in order, and each paper's expected
+page count, size and hash. It is uploaded with the two paper records — it is the material a
+reviewer needs in order to check one, not a deposit in its own right.
 
 The PDF build is
 
@@ -186,10 +193,14 @@ yet; use your best judgement on the rest"*):
 - [x] **The software record is archived from the commit, not the stale tag** (2026-11-02): 38 cited artifacts, 38 present.
 - [x] **The bundles are built and checksummed** by
       `python benchmarks/deposit_bundle.py`, under `.scratch/deposit/`.
+- [x] **The reproduction bundle is built** (2026-11-02): commit, environment, the four
+      regenerating commands and both PDFs, with checksums, under
+      `.scratch/deposit/reproduction/`; `tests/test_deposit_bundle.py` asserts that the
+      PDFs it carries are the same files the paper records list.
 
 **Still the owner's, and only these:**
 
-- [ ] **Publish.** Upload the three bundles and the four metadata files
+- [ ] **Publish.** Upload each record's bundle and the four metadata files, with the reproduction bundle's `REPRODUCE.md` and `ENVIRONMENT.json` attached to each paper
       through the Zenodo form. This is the step that mints public DOIs.
 - [ ] **Update the ORCID record's GitHub URL.** It still points at
       `github.com/nuerainc`; the live organization is
@@ -252,6 +263,7 @@ identifier was read from Zenodo's API.
   and their manifests, and checks the deposit's file list against the
   artifacts the manuscripts cite.
 - `docs/PDF-PIPELINE.md` — how the PDFs are built.
+- `.scratch/deposit/reproduction/` — the reproduction bundle (generated, not versioned).
 
 → `.zenodo.json`; `zenodo/`; `benchmarks/zenodo_metadata.py`;
 `docs/PDF-PIPELINE.md`; `CITATION.cff`; `LICENSE`.
