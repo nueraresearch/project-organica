@@ -458,6 +458,7 @@
         20261023
       ],
       "docs/formation_provenance_robustness.json": [
+        1260,
         20270106,
         20270107,
         20270108,
@@ -475,6 +476,9 @@
         20270120
       ],
       "docs/formation_provenance_study.json": [
+        1252,
+        1260,
+        1890,
         20270106,
         20270107,
         20270108,
@@ -492,6 +496,8 @@
         20270120
       ],
       "docs/formation_provenance_study_design.json": [
+        1252,
+        1272,
         20270101,
         20270102,
         20270103,
@@ -600,6 +606,8 @@
         20270205
       ],
       "docs/g13d_diagnostic.json": [
+        3997,
+        3998,
         20261101,
         20261102,
         20261103,
@@ -779,6 +787,9 @@
         20261023
       ],
       "docs/provenance_diagnostic.json": [
+        1002,
+        1260,
+        1313,
         20261201,
         20261202,
         20261203,
@@ -819,9 +830,48 @@
         20261202,
         20261203,
         20261204,
-        20261205
+        20261205,
+        20261206
+      ],
+      "docs/reusable_knowledge_gate_definitions.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206
       ],
       "docs/reusable_knowledge_postmortem.json": [
+        1002,
+        1277,
+        1313,
+        2576,
+        2584,
+        2616,
+        3784,
+        3792,
+        3808,
+        3816,
+        5216,
+        5676,
+        7372,
+        7438,
+        7448,
+        7654,
+        10990,
+        11004,
+        11082,
+        11164,
+        14985,
+        16455,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/reusable_knowledge_variant.json": [
+        1277,
         20261201,
         20261202,
         20261203,
@@ -841,6 +891,9 @@
         20261023
       ],
       "docs/scaling_ladder.json": [
+        1599,
+        3199,
+        6399,
         20270500,
         20270501,
         20270502,
@@ -848,6 +901,11 @@
         20270504,
         20270505,
         20270506
+      ],
+      "docs/seed_noise.json": [
+        20261023,
+        20261024,
+        20261025
       ],
       "docs/sign_audit.json": [
         20270501,
@@ -932,6 +990,38 @@
         20261129,
         20261130
       ],
+      "docs/use_path_diagnostic_freeze.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
       "docs/use_path_diagnostic_structure.json": [
         20261101,
         20261102,
@@ -965,7 +1055,7 @@
         20261130
       ]
     },
-    "consumed_total": 192,
+    "consumed_total": 222,
     "candidate_block": [
       700000001,
       700000724
@@ -1001,8 +1091,10 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 71,
+    "disjoint_proved_against": 75,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
+    "self_artifact_excluded": "docs/stage_b_protocol.json, because it records this block and would otherwise overlap it",
+    "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",
     "scan_outside_docs": {
       "files_scanned": 10,
       "with_seed_keys": {},

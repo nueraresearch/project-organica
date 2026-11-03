@@ -446,7 +446,7 @@ becomes a search for 104 that worked.
 - **Disjoint seeds, proved rather than asserted.** The candidate block is **700000001**–**700000724**: **724**
   integers, chosen as a plain block rather than a date-like one so that no reader mistakes it for calendar
   values. At build time the protocol scans every artifact in `docs/` for integers filed under a key naming a seed
-  and compares: **192** consumed seeds across **71** artifacts, and **0 overlap** with the candidate block.
+  and compares: **222** consumed seeds across **75** artifacts, and **0 overlap** with the candidate block.
 - **Pre-assigned, with the spares named.** The **720** worlds are assigned to configurations *before* any run —
   **180** each, in four contiguous ranges recorded in the artifact — and the remaining **four** seeds
   (`700000721`–`700000724`) are recorded as **unused**. **Substitution is prohibited**: a censored world does not
@@ -456,7 +456,7 @@ becomes a search for 104 that worked.
 - **The candidate block is not an allocation.** It is proved *unused*, which is not the same as *spent*. No seed
   in it is allocated by this document.
 
-**The scan's width is measured, not assumed.** The disjointness check reads every `.json` directly under `docs/`, because that is where every artifact lives and `docs/` holds no subdirectory — so a seed recorded two directories deep would be invisible to it. The artifact therefore also records the same rule run over every other `.json` in the tree, and how many of those name a seed. That field is what licenses the narrower scan: the day a stray artifact outside `docs/` names a builder seed, it shows up there rather than in the memory of whoever wrote the check. The width is recorded, not attributed.
+**The scan's width is measured, not assumed.** The disjointness check reads every `.json` directly under `docs/`, because that is where every artifact lives and `docs/` holds no subdirectory — so a seed recorded two directories deep would be invisible to it. The artifact therefore also records the same rule run over every other `.json` in the tree, and how many of those name a seed. That field is what licenses the narrower scan: the day a stray artifact outside `docs/` names a builder seed, it shows up there rather than in the memory of whoever wrote the check. The width is recorded, not attributed. **The harvested quantity is the second correction.** The first version of the scan collected an integer only when it sat directly under a seed-naming key: it descended into lists but never took a bare integer out of one, so an artifact shaped `{"seeds": [1000, 1001]}` — the commonest shape here — contributed nothing. **40 seeds across 8 artifacts** were invisible for that reason, and the count was 192 across 71 until it was measured properly. The scan now pulls every integer under such a key however deeply it nests, and it excludes this artifact, which records the block and would otherwise overlap it.
 
 **Three words, defined so they are never used as synonyms:**
 

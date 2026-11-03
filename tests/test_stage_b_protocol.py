@@ -146,11 +146,16 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
     assert seeds["preassigned"]["6:1"]["last"] == 700000720
     assert seeds["unused"] == {"first": 700000721, "last": 700000724, "count": 4}
     assert seeds["substitution_allowed"] is False
-    assert seeds["consumed_total"] == 192
-    assert seeds["disjoint_proved_against"] == 71
+    assert seeds["consumed_total"] == 222
+    assert seeds["disjoint_proved_against"] == 75
     for path in seeds["consumed_blocks"]:
         assert (ROOT / path).exists(), path
-    assert "**192** consumed seeds across **71** artifacts" in text
+    # The prose figure is derived from the artifact, so the two cannot drift apart.
+    quoted = (f"**{seeds['consumed_total']}** consumed seeds across "
+              f"**{seeds['disjoint_proved_against']}** artifacts")
+    assert quoted in text
+    assert seeds["harvest_rule"].startswith("every integer under a key naming a seed")
+    assert "list-held seeds" in seeds["harvest_rule"]
     # The seed scan reads one directory; that width is measured and reported, so a
     # stray artifact outside docs/ cannot slip a builder seed past the check.
     assert seeds["scan_scope"].startswith("every *.json directly under docs/")

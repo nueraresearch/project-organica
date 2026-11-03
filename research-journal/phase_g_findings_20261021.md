@@ -10314,3 +10314,24 @@ was withdrawn at `e6334dc` and the artifact now forbids stating the requirement 
 already declared a planning assumption and explicitly "unmeasured" in §6; and the `b9c73a7` record's parentage is
 correct — `e6334dc` is that commit's parent, not a sibling. The pass's transcript is not in the repository, so its
 findings are recorded here by disposition and not quoted.
+
+## 165. The seed scan's walker was itself wrong, and forty seeds were invisible to it (2026-11-03)
+
+The previous entry recorded a correction to the seed-disjointness scan's *width*. Re-reading the first Manus pass
+showed the sharper defect underneath it, in the walker: `_consumed_seeds()` descended into lists but collected an
+integer only when it sat directly under a seed-naming key, so an artifact storing `{"seeds": [1000, 1001]}` — the
+commonest shape in this corpus — contributed nothing. The published "192 consumed seeds across 71 artifacts" was an
+undercount, not a fact, and it was quoted in the protocol, in the manual and in three journal entries over two days.
+
+Measured with a walker that pulls every integer under a seed-naming key however deeply it nests, and excluding
+`docs/stage_b_protocol.json` (which records this block and would otherwise overlap itself): **222 seeds across 75
+artifacts**, and **0 overlap** with the 724-seed block — still none, which is why no seed moved and the block stands.
+Forty seeds across eight artifacts had been invisible, including the whole `reusable_knowledge_gate_definitions.json`
+seed set and 30 in `use_path_diagnostic_freeze.json`.
+
+The lesson is the one the repository keeps relearning: a check that walks a structure must be tested on the shape the
+corpus actually uses, not on the shape it is easy to imagine. `_harvest_seeds()` is now that shape, the union with
+artifacts outside `docs/` is what the overlap assertion runs against, and `tests/test_stage_b_protocol.py` derives the
+prose figure from the artifact so the sentence cannot drift from the number again. **The finding was correct when it
+was made and it stayed correct for three days while two passes read past it** — the quantum finding in the same
+transcript was stale, this one was not, and only the code could tell them apart.

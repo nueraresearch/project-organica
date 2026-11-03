@@ -90,29 +90,56 @@ def _worlds_for(effect: float, bar: float = RESOLUTION_BAR,
     return 3 + math.ceil((target / math.atanh(effect)) ** 2)
 
 
+def _pull_seeds(value, out: set[int]) -> None:
+    if isinstance(value, int) and not isinstance(value, bool):
+        if value >= MIN_REAL_SEED:
+            out.add(value)
+    elif isinstance(value, list):
+        for item in value:
+            _pull_seeds(item, out)
+    elif isinstance(value, dict):
+        for item in value.values():
+            _pull_seeds(item, out)
+
+
+def _harvest_seeds(node, out: set[int]) -> None:
+    """Every integer filed under a key naming a seed, including integers held in lists.
+
+    The earlier walker descended into lists but never collected a bare integer found
+    *inside* one, so an artifact storing {"seeds": [1000, 1001]} -- the commonest shape
+    in this corpus -- contributed nothing. A review pass caught it; this walker pulls
+    every integer under a seed-naming key however deeply that key's value nests.
+    """
+    if isinstance(node, dict):
+        for key, value in node.items():
+            if "seed" in key.lower():
+                _pull_seeds(value, out)
+            else:
+                _harvest_seeds(value, out)
+    elif isinstance(node, list):
+        for item in node:
+            _harvest_seeds(item, out)
+
+
+SELF_ARTIFACT = ROOT / "docs" / "stage_b_protocol.json"
+
+
 def _consumed_seeds() -> dict[str, list[int]]:
-    """Every integer filed under a key naming a seed, in every docs/ artifact."""
+    """Seed integers in every docs/ artifact except this one.
+
+    This artifact records the candidate block, so scanning it would make the block
+    overlap itself; the exclusion is by path and it is recorded in the output.
+    """
     found: dict[str, list[int]] = {}
     for path in sorted(glob.glob(str(ROOT / "docs" / "*.json"))):
+        if Path(path) == SELF_ARTIFACT:
+            continue
         try:
             obj = json.loads(Path(path).read_text(encoding="utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
         seeds: set[int] = set()
-
-        def walk(node) -> None:
-            if isinstance(node, dict):
-                for key, value in node.items():
-                    if isinstance(value, int) and not isinstance(value, bool) \
-                            and "seed" in key.lower() and value >= MIN_REAL_SEED:
-                        seeds.add(value)
-                    else:
-                        walk(value)
-            elif isinstance(node, list):
-                for item in node:
-                    walk(item)
-
-        walk(obj)
+        _harvest_seeds(obj, seeds)
         if seeds:
             found[str(Path(path).relative_to(ROOT))] = sorted(seeds)
     return found
@@ -122,9 +149,8 @@ def _seeds_outside_docs() -> tuple[int, dict[str, list[int]]]:
     """The same rule, run over every JSON file that is not a docs/ artifact.
 
     The block check reads docs/*.json because that is where the artifacts live, which
-    makes the check only as wide as one directory. This second pass measures that width
-    instead of assuming it: it applies the identical rule to the rest of the tree and
-    reports which files name a seed.
+    makes the check only as wide as one directory. This pass measures that width instead
+    of assuming it.
     """
     skip = {".venv", ".scratch", ".git", "artifacts", "__pycache__", ".pytest_cache"}
     scanned, found = 0, {}
@@ -138,20 +164,7 @@ def _seeds_outside_docs() -> tuple[int, dict[str, list[int]]]:
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
         seeds: set[int] = set()
-
-        def walk(node) -> None:
-            if isinstance(node, dict):
-                for key, value in node.items():
-                    if isinstance(value, int) and not isinstance(value, bool) \
-                            and "seed" in key.lower() and value >= MIN_REAL_SEED:
-                        seeds.add(value)
-                    else:
-                        walk(value)
-            elif isinstance(node, list):
-                for item in node:
-                    walk(item)
-
-        walk(obj)
+        _harvest_seeds(obj, seeds)
         if seeds:
             found[str(rel)] = sorted(seeds)
     return scanned, found
@@ -618,6 +631,11 @@ def build() -> dict:
             "disjoint_proved_against": len(consumed),
             "scan_scope": "every *.json directly under docs/, which is where every "
                           "artifact lives; docs/ contains no subdirectory",
+            "self_artifact_excluded": "docs/stage_b_protocol.json, because it records "
+                                      "this block and would otherwise overlap it",
+            "harvest_rule": "every integer under a key naming a seed, including "
+                            "integers held in lists; the earlier walker missed "
+                            "list-held seeds and undercounted the corpus",
             "scan_outside_docs": {
                 "files_scanned": outside_scanned,
                 "with_seed_keys": outside_seeds,
