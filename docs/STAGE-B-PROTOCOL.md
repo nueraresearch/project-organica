@@ -103,10 +103,10 @@ established by the pre-run enumeration, not by reading the calibration code.
 
 **A resolution requirement gates the run, and it is stated as a requirement rather than a number** because the
 number depends on a withheld set that does not exist yet. Before any world is generated, the harness must report
-the endpoint's **scale**, the **count** of held-out transitions per world, and the **per-world standard error**
-that count buys, by running the enumeration named above. If twice a world's standard error exceeds the smallest
-effect this protocol asserts, the endpoint cannot separate two worlds the claim distinguishes, the design is
-unmeasurable for its own claim, and the run does not start (AGENTS 13). This is not a documentation detail: it
+the endpoint's **scale**, the **count** of held-out transitions per world, and a **per-world standard error**
+measured by resampling that world's withheld transitions — the count alone does not buy it (§3.1). If twice a
+world's standard error exceeds the smallest effect this protocol asserts, the endpoint cannot separate two worlds
+the claim distinguishes, the design is unmeasurable for its own claim, and the run does not start (AGENTS 13). This is not a documentation detail: it
 determines whether the experiment can measure its stated outcome at all, and it is the check that would have
 caught the Phase L design defect before the campaign.
 
@@ -131,23 +131,39 @@ levels. Measured on the design-block cells already in the record:
 | endpoint scale | mean pairwise binary log loss, in nats per scored cell |
 | effect gap assumed at ρ = 0.50, across-world SD 0.05 | **0.05** |
 
-The gap is still `2 × 0.50 × 0.05`: at the declared smallest relation, two worlds half a distribution apart differ
-by about that much. The 0.05 is a **planning assumption about the across-world spread**, not a measurement, and it
-is labelled as one in the artifact. What can no longer be claimed is that a **5.3-quantum** margin shows the
-endpoint resolves the effect. Two things are true instead: the score is continuous, so quantization is not the
-binding constraint, and whether the score moves across worlds is a question only the run answers.
+**The gap is a model, not an identity.** `2 × 0.50 × 0.05` is the expected difference in **nats** between two
+worlds two across-world SDs apart in onset, and it holds only under three stated conditions: the relation is linear
+in standardised units, the across-world SD of the endpoint is 0.05, and ρ = 0.50 is read as the correlation between
+onset and *this* score. A Spearman coefficient does not imply that contrast on its own — which is the second
+pass's point (`docs/AI-REVIEW-2026-11-03.md`, finding 3) — so the artifact now carries the three conditions beside
+the number instead of presenting it as derived.
+
+**And the count is not a count of independent contributions.** `score()` averages pairwise binary log loss over
+every context source crossed with the vocabulary, so one withheld transition contributes many correlated cells. The
+transition count is the **denominator** of a per-world mean and an **upper bound** on its precision, not a
+measurement of it. The previous version of the table above divided the SD of scored cells by `√cells` and read the
+result as a per-world standard error; that substitution is **withdrawn**, because the cells are nested and the
+scorer returns neither a per-world SD nor a per-world SE.
+
+What can no longer be claimed is that a **5.3-quantum** margin shows the endpoint resolves the effect — or that a
+`√N` calculation shows it does not. Two things are true instead: the score is continuous, so quantization is not
+the binding constraint, and whether the score moves across worlds, and how noisily, is a question only the run
+answers.
 
 **The gate therefore stays open, with four rules attached, restated on the scale the endpoint actually has:**
 
 | failure | rule |
 | --- | --- |
-| **too coarse** | twice a world's standard error of the endpoint — the SD of its scored cell losses over `√cells` — larger than the effect gap at the declared smallest effect is a design defect, and the run does not start |
+| **too coarse** | twice a world's standard error of the endpoint larger than the effect gap at the declared smallest effect is a design defect and the run does not start — but that standard error must be **measured** by a cluster bootstrap over the world's withheld transitions, so **this rule cannot be evaluated before the run** and is not claimed to pass |
 | **too sparse** | fewer than half the planned worlds at 40 or more withheld transitions is a design defect, and the run does not start |
-| **saturated** | a configuration whose realised **across-world SD is below twice the median per-world standard error** is unmeasurable there: excluded and reported, never scored as a null |
+| **saturated** | a configuration whose realised **across-world SD is below twice the median per-world standard error** is unmeasurable there: excluded and reported, never scored as a null — answered from the run's measured precision, not from the count |
 | **undefined** | zero withheld transitions is excluded by the existing `E6` gate, and never scored as zero (AGENTS 13b) |
 
-`resolution_confirmed` stays **false** in the artifact. These numbers *inform* the gate; the enumeration for the
-four claimed configurations **is** the gate, and it runs before any world does.
+`resolution_confirmed` stays **false**, and `status` now reads **open** rather than *informed*: two of the four
+rules consume a per-world standard error that cannot exist until a withheld set does, so the state before the run
+is **undetermined**, not passed. These numbers *inform* the gate; the enumeration for the four claimed
+configurations **is** the gate, it runs before any world does, and §5 now requires it to report the measured
+precision those two rules consume.
 
 ---
 
@@ -291,16 +307,31 @@ machine pre-pass asked for exactly this (rubric 4) and was right that no such ch
 | 0.40 | 131 | 0.9004 | 0.887 (SE 0.016) |
 | 0.30 | 177 | 0.9002 | 0.905 (SE 0.015) |
 
-**What that shows.** The closed form is systematically optimistic, and it has to be: every row's `n` was solved to
-put it at 0.90, and the committed bootstrap comes in about 0.01 to 0.02 below it. At the planning row the
-bootstrap share is **0.895 ± 0.008**, so **104 worlds does not clear the 90 % bar at the point estimate** — it
-sits within about one standard error of it. The ladder is a *requirement under Fisher's z*, and the block it
-produces is at the bar's edge rather than comfortably over it.
+**What that shows, and what it does not.** The closed form is optimistic at six of the eight rows, and it has to
+be: every row's `n` was solved to put Fisher's z at 0.90, so the ladder is a statement about the closed form, not
+about the rule the analysis runs. The gap is widest where the block is smallest — at the 48-world floor the two
+constructions sit **0.039** apart, about **2.3** Monte-Carlo standard errors — and it points the same way almost
+everywhere, which is a property of the estimator rather than of one cell.
+
+**It does not, however, choose a block size.** Each row carries the Monte-Carlo standard error of its own share,
+and against that error the bar is not separable at the planning row: 104 gives **0.895 ± 0.008**, which is
+**0.7 SE below** 0.90, while 112 gives **0.914 (SE 0.010)** and 120 gives **0.931 (SE 0.009)** — **1.4 SE and
+3.6 SE** above it. So of the three sizes the simulation separates only 120 from the bar; 104 and 112 are each
+consistent with a design that clears it and with one that does not, and they are consistent with each other. The second pass made this point
+(`docs/AI-REVIEW-2026-11-03.md`, finding 2) and it is right: the simulation prices the sizes and establishes a
+direction of bias in the closed form, but on its own precision it cannot certify that 104 fails or that 112
+passes.
+
+**One limitation is withdrawn rather than repeated.** The artifact first said that using 300 bootstrap replicates
+against the protocol's 10,000 made the measured share *slightly conservative*. Nothing in the artifact supported
+that: at the 98.33 % level the lower edge is the **3rd smallest of 300** replicates where the protocol's 10,000
+give the **84th of 10,000**, and the direction of the resulting bias in the resolved share was never measured. The
+artifact says that instead, and the numbers above carry the unknown with them.
 
 **What that does not license.** 104 is not silently increased here. Moving it re-derives the published ladder —
 the 48-world floor included — which is a change to the design record, not an erratum in this protocol. The same
-rule prices the alternative: **112 worlds gives 0.914 (SE 0.010)** and **120 gives 0.931 (SE 0.009)**, both
-clearing the bar. Choosing between 104 at the edge, 112 with clear, and leaving the published construction alone
+rule prices the alternative: **112 worlds gives 0.914 (SE 0.010)** and **120 gives 0.931 (SE 0.009)** — 120 clear
+of the bar, 112 not separable from it. Choosing between 104 at the edge, 112 with clear, and leaving the published construction alone
 is a decision for the owner at step 2 of `docs/DECISION-STAGE-B-SEQUENCE.md`; it is recorded here as **open**, not
 resolved by this document.
 

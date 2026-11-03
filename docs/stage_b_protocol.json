@@ -28,9 +28,9 @@
     "reserved": "deliberately not used: the four spares are reserved and never drawn, and a censored world does not release its seed"
   },
   "endpoint_resolution": {
-    "status": "informed by design-block cells; not discharged for Stage B",
+    "status": "open: not evaluable from a transition count, and not claimed to pass",
     "confirmed": false,
-    "what_would_confirm_it": "the withheld enumeration for the four claimed configurations, reporting the count per world and the per-world standard error of the endpoint before any world runs",
+    "what_would_confirm_it": "the withheld enumeration for the four claimed configurations, reporting the count per world and a per-world standard error measured by resampling that world's withheld transitions -- not its scored cells -- before any world runs. Until that is measured the granularity gate is undetermined, which is the state this artifact reports instead of a pass it cannot support (docs/AI-REVIEW-2026-11-03.md, finding 3)",
     "evidence_source": "docs/reusable_knowledge_calibration.json",
     "evidence_kind": "design-block cells, declared as such and not confirmatory",
     "endpoint_scale": {
@@ -38,7 +38,7 @@
       "is_a_proportion": false,
       "where_defined": "benchmarks/acquisition_compositional.py -- score(), called by benchmarks/reusable_knowledge.py -- limbs()",
       "one_over_count_quantum": "withdrawn: this endpoint has no 1/count lattice of outcome levels, so the previous quantum and level-count figures described an endpoint the protocol does not use (docs/AI-REVIEW-2026-11-02.md, rubric 1)",
-      "what_the_count_buys": "the precision of a per-world mean: a world's score averages over its withheld cells, so more cells mean a less noisy score, not a finer grid"
+      "what_the_count_buys": "the denominator of a per-world mean, and an upper bound on its precision rather than a measurement of it: score() averages over every context source crossed with the vocabulary, so one withheld transition contributes many correlated cells. The count is not a count of independent contributions, and s/sqrt(N) over it would overstate the precision (docs/AI-REVIEW-2026-11-03.md, finding 3)"
     },
     "held_out_transitions": {
       "cells": 5,
@@ -47,16 +47,21 @@
       "max": 110
     },
     "assumed_outcome_sd": 0.05,
-    "assumed_sd_is": "a planning assumption for the across-world spread of the endpoint in nats, not a measurement on any Stage B world",
+    "assumed_sd_is": "a planning assumption for the across-world spread of the endpoint's mean in nats, not a measurement on any Stage B world -- and not the SD of a world's scored cells, which is a different quantity, and the one the previous too_coarse rule needed",
     "effect_gap_at_rho_0_50": 0.05,
+    "effect_gap_is_conditional_on": [
+      "a linear relation in standardised units: the expected difference between two worlds two across-world SDs apart in onset is 2 x rho x sd. That is a model applied to a claim stated as a rank correlation, not an identity the correlation implies (docs/AI-REVIEW-2026-11-03.md, finding 3)",
+      "sd = 0.05 nats, the declared across-world spread",
+      "rho = 0.50, the declared smallest effect, read as the correlation between onset and this endpoint"
+    ],
     "rules": {
-      "too_coarse": "twice a world's standard error of the endpoint, s/sqrt(N) over its scored cells, larger than the effect gap at the declared smallest effect -> the score cannot separate two worlds the claim distinguishes, so it is a design defect and the run does not start",
+      "too_coarse": "twice a world's standard error of the endpoint larger than the effect gap at the declared smallest effect -> the score cannot separate two worlds the claim distinguishes, so it is a design defect and the run does not start. That standard error must be MEASURED by resampling the world's withheld transitions; it may not be computed as s/sqrt(N) over scored cells, and the transition count does not decide this rule (docs/AI-REVIEW-2026-11-03.md, finding 3)",
       "too_sparse": "fewer than half the planned worlds at 40 or more held-out transitions -> design defect, run does not start",
-      "saturated": "a configuration whose realised across-world SD is below twice the median per-world standard error is unmeasurable there: excluded and reported, never scored as a null",
+      "saturated": "a configuration whose realised across-world SD is below twice the median per-world standard error is unmeasurable there: excluded and reported, never scored as a null. This rule consumes the same measured per-world standard error, so it is answered from the run's own precision report and not from the count",
       "undefined": "zero withheld transitions -> excluded by the existing E6 gate, never zeroed (AGENTS 13b)",
       "screening": "the enumeration runs before any world, and its own report is the gate -- not this paragraph"
     },
-    "limit": "this bounds granularity; it does not show that the outcome varies across worlds, which only the run can show"
+    "limit": "the count bounds the denominator of a per-world mean; it neither establishes the endpoint's granularity nor shows that the outcome varies across worlds, which only the run can show. Two of the four rules cannot be evaluated before a precision measurement exists, and this artifact says so rather than passing them"
   },
   "eligibility": {
     "rule": "onset defined in >= 0.9 of runs, within each claimed configuration, never on the pooled set",
@@ -73,7 +78,7 @@
       "benchmarks/reusable_knowledge.py -- revision_held_out, held_out['revision_held_out_pairs'], and the WITHHELD set selected inside limbs()'s held_only() define what is scored and withheld",
       "benchmarks/formation_provenance_study.py -- held_out_pairs() is that study's own pair selector, NOT this endpoint's withholding rule (docs/AI-REVIEW-2026-11-02.md, rubric 3)"
     ],
-    "resolution_requirement": "the endpoint's quantum (one held-out transition) and the number of held-out transitions must be reported before the run; a quantum coarser than the smallest effect the claim asserts makes the endpoint unmeasurable for that claim and the run does not start",
+    "resolution_requirement": "the endpoint is an averaged pairwise log loss, so it has no one-over-count quantum and this requirement may not be stated as one. What must be reported before the run is the withheld count per world and the per-world standard error measured by resampling those withheld transitions. A run whose measured precision cannot separate two worlds the claim distinguishes is a design defect and does not start; until the measurement exists the gate is undetermined, not passed",
     "resolution_confirmed": false
   },
   "clock": {
@@ -906,7 +911,8 @@
     "pooling": "none; every configuration is reported alone and no pooled coefficient may be quoted",
     "aggregation_rule": "the construct is supported only if the predicted relation holds with an interval excluding zero in every claimed configuration. Holding in some and not others is reported as mixed and is not supported as stated",
     "permutation_control": "onset shuffled across worlds within the configuration; the interval must include zero",
-    "size_baseline": "the same estimator with structural size in place of onset, reported beside it"
+    "size_baseline": "the same estimator with structural size in place of onset, reported beside it",
+    "endpoint_precision_required": "before the interval is read, each configuration reports the realised across-world SD of the endpoint and a per-world standard error from a cluster bootstrap that resamples withheld transitions, not scored cells. The two granularity rules consume that number"
   },
   "falsifiers": [
     {
@@ -936,7 +942,7 @@
     "not_supported": "absent in every configuration",
     "reversed": "reversed in any configuration, recorded there",
     "size_effect": "explained by structural size rather than onset",
-    "design_defect": "permutation control non-null, a predictor built from behavioural cycles, or an endpoint whose quantum cannot resolve the declared effect",
+    "design_defect": "permutation control non-null, a predictor built from behavioural cycles, or an endpoint whose measured precision cannot resolve the declared effect",
     "inconclusive": "fewer usable worlds than the floor after censoring",
     "underpowered_for_the_claim": "the reviewer or the power computation concludes the block is too small; that is a design limitation found before any cycle is spent, not a failure of the project"
   },

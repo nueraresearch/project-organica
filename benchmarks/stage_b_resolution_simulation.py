@@ -215,12 +215,23 @@ def main() -> None:
         },
         "planning_row": "0.50",
         "planning_clears_bar": None if not planning else planning["clears_bar"],
+        "what_the_monte_carlo_allows": "each row carries the Monte-Carlo standard "
+                                       "error of its own resolved share. Where that "
+                                       "error spans the 90 % bar the row does not "
+                                       "establish which side of the bar the design is "
+                                       "on, and this artifact is not used to choose a "
+                                       "size on such a row "
+                                       "(docs/AI-REVIEW-2026-11-03.md, finding 2)",
         "limits": [
             "synthetic worlds under a Gaussian copula, not Stage B worlds; this "
             "measures a property of the estimator, not the size of the real relation",
-            "bootstrap replicates per simulation are far fewer than the 10,000 the "
-            "protocol specifies, so the measured share is if anything slightly "
-            "conservative -- the percentile endpoints are noisier than they will be",
+            "300 bootstrap replicates per simulated block against the protocol's "
+            "10,000. At the 98.33 % level the lower edge is the 3rd smallest of 300 "
+            "replicates, where 10,000 give the 84th of 10,000, and the direction of "
+            "the resulting bias in the resolved share is NOT measured here. An "
+            "earlier version of this list asserted a direction for that bias; "
+            "nothing in this artifact supported it "
+            "(docs/AI-REVIEW-2026-11-03.md, finding 2)",
             "reliability is the declared planning assumption under one classical "
             "error model, not a measured property of DI",
         ],

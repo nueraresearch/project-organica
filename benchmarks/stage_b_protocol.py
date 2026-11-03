@@ -178,10 +178,11 @@ def build() -> dict:
     signres = json.loads(SIGNRES.read_text(encoding="utf-8"))
 
     # ---- the endpoint's granularity, from the cells that already exist -----
-    # A non-zero held-out count is not a resolution test. The quantum is one / the
-    # number of withheld transitions, so the count decides how finely the outcome can
-    # be scored at all. This uses design-block cells, declared as such; it informs the
-    # gate and does not discharge it, because Stage B's own enumeration does not exist.
+    # The endpoint is an averaged log loss, so a non-zero held-out count is not a
+    # resolution test and there is no one-over-count quantum to report. What the count
+    # supplies is the denominator of a per-world mean -- and not even the precision of
+    # that mean, because score() averages context x source x vocabulary cells. The gate
+    # therefore stays open and says so. Design-block cells, declared as such.
     calib = json.loads((ROOT / "docs" / "reusable_knowledge_calibration.json")
                        .read_text(encoding="utf-8"))
     counts: list[int] = []
@@ -202,16 +203,25 @@ def build() -> dict:
     counts.sort()
     n_min, n_max = counts[0], counts[-1]
     n_med = counts[len(counts) // 2]
-    assumed_sd = 0.05                      # a deliberately tight outcome spread
-    gap = 2.0 * SMALLEST_EFFECT * assumed_sd   # top-vs-bottom gap at rho = 0.50
+    # The gap is a difference in nats between two worlds two across-world SDs apart in
+    # onset. That is a linear model applied to a claim stated as a rank correlation, so
+    # it is labelled conditional rather than presented as derived (second pass,
+    # finding 3).
+    assumed_sd = 0.05                      # declared across-world spread, in nats
+    gap = 2.0 * SMALLEST_EFFECT * assumed_sd
 
     resolution = {
-        "status": "informed by design-block cells; not discharged for Stage B",
+        "status": "open: not evaluable from a transition count, and not claimed to pass",
         "confirmed": False,
         "what_would_confirm_it": "the withheld enumeration for the four claimed "
-                                  "configurations, reporting the count per world and "
-                                  "the per-world standard error of the endpoint "
-                                  "before any world runs",
+                                 "configurations, reporting the count per world and a "
+                                 "per-world standard error measured by resampling "
+                                 "that world's withheld transitions -- not its scored "
+                                 "cells -- before any world runs. Until that is "
+                                 "measured the granularity gate is undetermined, "
+                                 "which is the state this artifact reports instead of "
+                                 "a pass it cannot support "
+                                 "(docs/AI-REVIEW-2026-11-03.md, finding 3)",
         "evidence_source": "docs/reusable_knowledge_calibration.json",
         "evidence_kind": "design-block cells, declared as such and not confirmatory",
         "endpoint_scale": {
@@ -224,34 +234,62 @@ def build() -> dict:
                                      "quantum and level-count figures described an "
                                      "endpoint the protocol does not use "
                                      "(docs/AI-REVIEW-2026-11-02.md, rubric 1)",
-            "what_the_count_buys": "the precision of a per-world mean: a world's "
-                                   "score averages over its withheld cells, so more "
-                                   "cells mean a less noisy score, not a finer grid",
+            "what_the_count_buys": "the denominator of a per-world mean, and an "
+                                   "upper bound on its precision rather than a "
+                                   "measurement of it: score() averages over every "
+                                   "context source crossed with the vocabulary, so "
+                                   "one withheld transition contributes many "
+                                   "correlated cells. The count is not a count of "
+                                   "independent contributions, and s/sqrt(N) over it "
+                                   "would overstate the precision "
+                                   "(docs/AI-REVIEW-2026-11-03.md, finding 3)",
         },
         "held_out_transitions": {"cells": len(counts), "min": n_min,
                                  "median": n_med, "max": n_max},
         "assumed_outcome_sd": assumed_sd,
         "assumed_sd_is": "a planning assumption for the across-world spread of the "
-                         "endpoint in nats, not a measurement on any Stage B world",
+                         "endpoint's mean in nats, not a measurement on any Stage B "
+                         "world -- and not the SD of a world's scored cells, which is "
+                         "a different quantity, and the one the previous too_coarse "
+                         "rule needed",
         "effect_gap_at_rho_0_50": round(gap, 6),
+        "effect_gap_is_conditional_on": [
+            "a linear relation in standardised units: the expected difference "
+            "between two worlds two across-world SDs apart in onset is 2 x rho x sd. "
+            "That is a model applied to a claim stated as a rank correlation, not an "
+            "identity the correlation implies "
+            "(docs/AI-REVIEW-2026-11-03.md, finding 3)",
+            "sd = 0.05 nats, the declared across-world spread",
+            "rho = 0.50, the declared smallest effect, read as the correlation "
+            "between onset and this endpoint",
+        ],
         "rules": {
-            "too_coarse": "twice a world's standard error of the endpoint, "
-                          "s/sqrt(N) over its scored cells, larger than the effect gap "
-                          "at the declared smallest effect -> the score cannot separate "
-                          "two worlds the claim distinguishes, so it is a design defect "
-                          "and the run does not start",
+            "too_coarse": "twice a world's standard error of the endpoint larger "
+                          "than the effect gap at the declared smallest effect -> the "
+                          "score cannot separate two worlds the claim distinguishes, "
+                          "so it is a design defect and the run does not start. That "
+                          "standard error must be MEASURED by resampling the world's "
+                          "withheld transitions; it may not be computed as s/sqrt(N) "
+                          "over scored cells, and the transition count does not "
+                          "decide this rule (docs/AI-REVIEW-2026-11-03.md, finding 3)",
             "too_sparse": "fewer than half the planned worlds at 40 or more "
                           "held-out transitions -> design defect, run does not start",
             "saturated": "a configuration whose realised across-world SD is below "
                          "twice the median per-world standard error is unmeasurable "
-                         "there: excluded and reported, never scored as a null",
+                         "there: excluded and reported, never scored as a null. This "
+                         "rule consumes the same measured per-world standard error, so "
+                         "it is answered from the run's own precision report and not "
+                         "from the count",
             "undefined": "zero withheld transitions -> excluded by the existing E6 "
                         "gate, never zeroed (AGENTS 13b)",
             "screening": "the enumeration runs before any world, and its own report "
                          "is the gate -- not this paragraph",
         },
-        "limit": "this bounds granularity; it does not show that the outcome varies "
-                 "across worlds, which only the run can show",
+        "limit": "the count bounds the denominator of a per-world mean; it neither "
+                 "establishes the endpoint's granularity nor shows that the outcome "
+                 "varies across worlds, which only the run can show. Two of the four "
+                 "rules cannot be evaluated before a precision measurement exists, "
+                 "and this artifact says so rather than passing them",
     }
 
     return {
@@ -318,12 +356,17 @@ def build() -> dict:
                 "study's own pair selector, NOT this endpoint's withholding rule "
                 "(docs/AI-REVIEW-2026-11-02.md, rubric 3)",
             ],
-            "resolution_requirement": "the endpoint's quantum (one held-out "
-                                      "transition) and the number of held-out "
-                                      "transitions must be reported before the run; "
-                                      "a quantum coarser than the smallest effect the "
-                                      "claim asserts makes the endpoint unmeasurable "
-                                      "for that claim and the run does not start",
+            "resolution_requirement": "the endpoint is an averaged pairwise log "
+                                      "loss, so it has no one-over-count quantum and "
+                                      "this requirement may not be stated as one. "
+                                      "What must be reported before the run is the "
+                                      "withheld count per world and the per-world "
+                                      "standard error measured by resampling those "
+                                      "withheld transitions. A run whose measured "
+                                      "precision cannot separate two worlds the claim "
+                                      "distinguishes is a design defect and does not "
+                                      "start; until the measurement exists the gate "
+                                      "is undetermined, not passed",
             "resolution_confirmed": False,
         },
         "clock": {
@@ -448,6 +491,13 @@ def build() -> dict:
                                    "configuration; the interval must include zero",
             "size_baseline": "the same estimator with structural size in place of "
                              "onset, reported beside it",
+            "endpoint_precision_required": "before the interval is read, each "
+                                          "configuration reports the realised "
+                                          "across-world SD of the endpoint and a "
+                                          "per-world standard error from a cluster "
+                                          "bootstrap that resamples withheld "
+                                          "transitions, not scored cells. The two "
+                                          "granularity rules consume that number",
         },
         "falsifiers": [
             {"id": "A", "name": "Absence",
@@ -472,8 +522,8 @@ def build() -> dict:
             "reversed": "reversed in any configuration, recorded there",
             "size_effect": "explained by structural size rather than onset",
             "design_defect": "permutation control non-null, a predictor built from "
-                             "behavioural cycles, or an endpoint whose quantum cannot "
-                             "resolve the declared effect",
+                             "behavioural cycles, or an endpoint whose measured "
+                             "precision cannot resolve the declared effect",
             "inconclusive": "fewer usable worlds than the floor after censoring",
             "underpowered_for_the_claim": "the reviewer or the power computation "
                                           "concludes the block is too small; that is "

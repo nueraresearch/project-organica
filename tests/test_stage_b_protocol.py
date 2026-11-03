@@ -171,7 +171,13 @@ def test_the_endpoint_can_be_inspected_in_code(stage, text):
     # rubric 3: the old pointer named a selector that does not produce this score
     assert "NOT this endpoint's withholding rule" in impl
     assert "benchmarks/reusable_knowledge.py" in text
-    assert "does not start" in endpoint["resolution_requirement"]
+    requirement = endpoint["resolution_requirement"]
+    assert "does not start" in requirement
+    # second pass, finding 1: the generator must stop restating a quantum it withdrew
+    assert "no one-over-count quantum" in requirement
+    assert "quantum (one held-out transition)" not in requirement
+    assert "proportion" not in requirement
+    assert "measured by resampling those withheld transitions" in requirement
 
 
 def test_the_aggregation_rule_cannot_pick_a_winner(stage, text):
@@ -216,6 +222,40 @@ def test_the_reviewer_gets_the_corrections_too(stage, text):
     assert "104" in DESIGN.read_text(encoding="utf-8")
 
 
+def test_the_granularity_gate_is_not_passed_on_a_transition_count(stage, text):
+    """Second pass, finding 3: the count is a denominator, not a precision."""
+    res = stage["endpoint_resolution"]
+    assert res["confirmed"] is False
+    assert res["status"].startswith("open")
+    assert "not a count of independent contributions" in (
+        res["endpoint_scale"]["what_the_count_buys"])
+    assert "MEASURED" in res["rules"]["too_coarse"]
+    assert "s/sqrt(N) over its scored cells" not in res["rules"]["too_coarse"]
+    assert "cluster bootstrap" in stage["analysis"]["endpoint_precision_required"]
+    assert "measured precision" in stage["outcomes"]["design_defect"]
+    assert len(res["effect_gap_is_conditional_on"]) == 3
+    assert "2 x rho x sd" in res["effect_gap_is_conditional_on"][0]
+    assert res["effect_gap_at_rho_0_50"] == round(
+        2.0 * stage["sample_size"]["smallest_effect_spearman"]
+        * res["assumed_outcome_sd"], 6)
+    for marker in ("not a count of independent contributions",
+                   "substitution is **withdrawn**",
+                   "**undetermined**, not passed"):
+        assert marker in text, marker
+
+
+def test_the_simulation_does_not_claim_a_size_it_cannot_separate():
+    """Second pass, finding 2: MC error spans the bar, and the artifact says so."""
+    doc = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
+                     .read_text(encoding="utf-8"))
+    joined = " ".join(doc["limits"])
+    assert "slightly conservative" not in joined
+    assert "NOT measured here" in joined
+    assert "does not establish which side" in doc["what_the_monte_carlo_allows"]
+    for row in doc["size_sensitivity_at_planning_effect"].values():
+        assert row["monte_carlo_se"] > 0
+
+
 def test_the_endpoint_scale_is_the_scorer_not_a_proportion(stage, text):
     """The pre-pass found the quantum computed for an endpoint this protocol lacks.
 
@@ -257,7 +297,7 @@ def test_the_ladder_is_checked_with_the_committed_interval(text):
     """The ladder is Fisher-z; the analysis is a percentile bootstrap (rubric 4).
 
     The document's simulated column must equal the artifact's, and the planning row
-    must be reported as not clearing the bar rather than as clearing it.
+    must be reported with its own Monte-Carlo error rather than settled by it.
     """
     sim = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
                      .read_text(encoding="utf-8"))
@@ -276,7 +316,10 @@ def test_the_ladder_is_checked_with_the_committed_interval(text):
         cell = (f"{sizes[n]['resolved_share']:.3f} "
                 f"(SE {sizes[n]['monte_carlo_se']:.3f})")
         assert cell in flat, cell
-    assert "does not clear the 90 % bar at the point estimate" in flat
+    # second pass, finding 2: the point estimate is NOT separable from the bar, so
+    # the sentence claiming it does not clear the bar had to go too
+    assert "does not clear the 90 % bar at the point estimate" not in flat
+    assert "**0.7 SE below**" in flat and "3.6 SE**" in flat
     # the block-size question must stay open rather than be settled here
     assert "recorded here as **open**" in flat
 

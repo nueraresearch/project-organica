@@ -10156,3 +10156,43 @@ answering for the wrong interval.
 generated, no relation computed, the engine and V1 untouched. The transcript is one model family's reading and is
 not citable as a review. The sequence is at step 1, and it restarts at step 1 because a blocking finding was
 found — which is what `docs/DECISION-STAGE-B-SEQUENCE.md` said would happen.
+
+## 160. The second pass caught a correction that never reached the artifact, and a tie read as a decision
+
+The same model family was run again, this time against `b9c73a7`. It found three things, and all three were true.
+
+**The first is the one worth keeping.** §3.1 had withdrawn the `1/count` quantum, and `stage_b_protocol.py` was
+still emitting into the artifact the sentence "the endpoint's quantum (one held-out transition)". The document had
+been corrected and the generator had not, so the artifact contradicted the paragraph that describes it — and the
+test passed throughout, because it asserted only that `resolution_requirement` contained "does not start". That is
+a check that survives the very defect it exists to prevent. A correction is not applied until every place that
+**emits** the withdrawn sentence has been changed, and the check must assert the *absence* of the old claim rather
+than the presence of a neighbouring one (AGENTS 20 and 24, applied to a generated artifact rather than to a
+document). Both are now true: the requirement names the endpoint as an averaged log loss, and the test asserts the
+quantum wording is gone.
+
+**The second was mine, and it is the more familiar failure.** The simulation's own Monte-Carlo standard error spans
+the 90 % bar at both 104 (0.895 ± 0.008, 0.7 SE below) and 112 (0.914 ± 0.010, 1.4 SE above). The protocol said 104
+"does not clear" and that 112 and 120 "both clear". That was wider than the check: at its own precision the
+simulation separates only 120 (3.6 SE). What it establishes is a direction of bias in the closed form and a price
+for each size; what it does not establish is which side of the bar 104 and 112 are on, and the document no longer
+says. The same pass caught the artifact's claim that 300 bootstrap replicates instead of 10,000 is "slightly
+conservative" — an assertion nothing measured. It is replaced by the mechanical fact (the lower edge is the 3rd
+smallest of 300 replicates, where 10,000 give the 84th of 10,000) and by an explicit statement that the direction of
+the bias is unmeasured.
+
+**The third reconstructs the gate's arithmetic**, and it is the one that changes a rule rather than a sentence.
+`2 × 0.50 × 0.05` is a linear-model contrast between two worlds two across-world SDs apart in onset; a rank
+correlation does not imply it, and the artifact now carries the three conditions beside the number instead of
+presenting it as derived. More seriously, `score()` averages pairwise binary log loss over every context source
+crossed with the vocabulary and returns one rounded `ll / n`, so the 82–110 withheld transitions are not 82–110
+independent contributions: they are the denominator of a per-world mean, and the SD of scored cells divided by
+`√cells` was never the per-world standard error the `too_coarse` rule needed. That substitution is withdrawn. The
+granularity gate now reads **open** rather than *informed*, two of its four rules are recorded as not evaluable
+before a precision measurement exists, and §5 requires each configuration to report the realised across-world SD
+and a per-world standard error from a cluster bootstrap over withheld transitions before any interval is read.
+
+The block-size decision is untouched and still the owner's: nothing here selected a size. And two passes from one
+family are still one family — the same reader twice, which is what the two-family rule exists to prevent. Step 1 of
+the sequence remains incomplete. **Stage B remains unauthorised:** no seed allocated, no world generated, no
+relation computed, engine and V1 untouched.
