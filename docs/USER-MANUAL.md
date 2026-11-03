@@ -2481,6 +2481,7 @@ protocol §7 and §12, finding 39, journal §65.
 | `snapshots/` empty or `{}` | the observer ran against an empty/partial log | the writers now refuse to write empty artifacts; re-run after the daemon has logged cycles |
 | "no such table: events" | you ran a script from the wrong directory | `cd C:\Users\monte\anti\project-organica` first, or pass absolute paths |
 | disk filling up | a stray `.db` copy, or retention disabled | check `memory.db.run1_20261020` (898 MB, archived run-1 evidence — keep or delete deliberately) |
+| a Stage B onset cell stops at a command limit | the cell did not finish; its last completed-cycle trace is saved separately from the result cache | repeat the same `--run` or `--seed-index` command. The harness restores the latest frozen-engine snapshot, replays and checks the short tail, then continues. `--assemble` accepts only completed cells; a partial zero trace is not censored. |
 
 **Stopping the daemon cleanly:**
 
@@ -3042,6 +3043,7 @@ Things that look like findings but are not, and things that look fine but are no
 
 | Date | Change |
 |---|---|
+| 2026-11-03 | Made the Stage B onset harness resumable at cycle boundaries: it saves each completed-cycle trajectory, snapshots the frozen engine database every ten cycles, resumes from the latest snapshot, and only assembles complete cells so a truncated zero trace cannot become a censored onset. No engine run or onset measurement was completed by this tooling change. |
 | 2026-10-21 | Created. Documented the Phase G audit, the corrected study daemon, the nine findings, the action list, and the scheduled-task recipe. |
 | 2026-10-21 | Added the reference block: full vocabulary (§11), abbreviations (§12), data dictionary (§13), layer-by-layer reference (§14), formulas with worked examples (§15), metric cheat sheet with alert thresholds (§16), and common misreadings (§17). |
 | 2026-10-22 | Added the cold-start study (§8.1): eight assistance levels, what bootstraps unaided, and the proof that share-based confidence is what blocks G5. Added finding 10. Added §4.7 (build an organism from nothing), the new file map entries, §11.5 (experiment vocabulary), and the new files to §4.5. |
