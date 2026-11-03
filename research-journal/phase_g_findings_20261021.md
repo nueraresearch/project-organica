@@ -10196,3 +10196,35 @@ The block-size decision is untouched and still the owner's: nothing here selecte
 family are still one family — the same reader twice, which is what the two-family rule exists to prevent. Step 1 of
 the sequence remains incomplete. **Stage B remains unauthorised:** no seed allocated, no world generated, no
 relation computed, engine and V1 untouched.
+
+## 161. The gate now has a method, and the method says the answer depends on a distribution that does not exist yet
+
+The second pass left `too_coarse` unable to be evaluated: `s/√N` over scored cells was a substitution, because
+`score()` averages context x source x vocabulary cells and the withheld transitions are not independent
+contributions. So the gate was written as **undetermined** and the next step was to build the measurement it names,
+not to argue about the number.
+
+`benchmarks/stage_b_endpoint_precision.py` does exactly that and nothing more. Each withheld transition is a
+cluster — its cells move together, because the same vocabulary is scored under every transition — and the world's
+score is a ratio estimator, so the bootstrap resamples transitions and recomputes the ratio. It runs on the five
+consumed calibration cells, with no engine and no seed, and it reproduces the house scorer's aggregate exactly, which
+is the check that it is measuring the same quantity rather than a similar-looking one.
+
+At first the gate looks passable. Twice the per-world standard error is **0.009 to 0.011 nats** when the readout is
+the exact latent rule — comfortably inside the 0.05 gap — and the cell-level `s/√N` would have agreed, since
+clustering makes it *smaller* there (0.6×). But the benchmark's own control tells the other story: with the
+wrong-law readout, the failure the task exists to catch, twice the standard error is **0.059 to 0.071**, above the
+gap, and the cell-level figure is now **1.4×** too small. The two readouts bracket plausible quality and the bracket
+**straddles** the gap.
+
+That is the finding, and it is better than a pass would have been. The gate's answer is not a property of the
+count; it is a property of how heavy-tailed the readout's losses are, and that distribution does not exist until a
+world runs. So a pre-run gate stated on precision alone would have been passing or failing on an assumption wearing
+a measurement's clothes — the same defect as the quantum, one level up: the old rule borrowed the count, this one
+would have borrowed the ceiling. The gate stays **undetermined** for Stage B, the method is discharged on
+design-block cells, and §5 requires the same cluster bootstrap on the claimed configurations, reported before any
+interval is read.
+
+Stop condition, declared so this does not become a programme: the probe is closed once it reports per-world
+standard errors for the five design-block cells under both readouts. It may be fixed if found wrong, not extended.
+**Stage B remains unauthorised** — no seed allocated, no world generated, no relation computed.

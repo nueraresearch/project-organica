@@ -210,6 +210,35 @@ def build() -> dict:
     assumed_sd = 0.05                      # declared across-world spread, in nats
     gap = 2.0 * SMALLEST_EFFECT * assumed_sd
 
+    # ---- the per-world precision, measured by resampling withheld transitions ---
+    # The gate's standard error cannot come from the transition count. This probe
+    # bootstraps transitions rather than cells, and every figure below is read from
+    # its artifact so none of them is typed here (AGENTS 20).
+    precision = json.loads((ROOT / "docs" / "stage_b_endpoint_precision.json")
+                           .read_text(encoding="utf-8"))
+    by_readout = precision["by_readout"]
+    probe = {
+        "artifact": "docs/stage_b_endpoint_precision.json",
+        "method": precision["method"],
+        "replicates": precision["level_and_reps"]["replicates"],
+        "design_block_cells": precision["design_block_cells"],
+        "by_readout": by_readout,
+        "what_it_shows": (
+            "twice the per-world standard error is %.3f to %.3f nats at the exact "
+            "latent rule, below the %.2f gap, and %.3f to %.3f at the wrong-law "
+            "control, above it"
+            % (by_readout["ceiling"]["min_twice_cluster_se"],
+               by_readout["ceiling"]["max_twice_cluster_se"], gap,
+               by_readout["broken_rule"]["min_twice_cluster_se"],
+               by_readout["broken_rule"]["max_twice_cluster_se"])),
+        "what_it_does_not_show": "the organism's readout. Precision depends on the "
+                                 "loss distribution, and the bracket straddles the "
+                                 "gap, so whether Stage B's endpoint resolves the "
+                                 "declared effect is decided by a distribution that "
+                                 "does not exist until a world runs",
+        "measured": True,
+    }
+
     resolution = {
         "status": "open: not evaluable from a transition count, and not claimed to pass",
         "confirmed": False,
@@ -287,9 +316,11 @@ def build() -> dict:
         },
         "limit": "the count bounds the denominator of a per-world mean; it neither "
                  "establishes the endpoint's granularity nor shows that the outcome "
-                 "varies across worlds, which only the run can show. Two of the four "
-                 "rules cannot be evaluated before a precision measurement exists, "
-                 "and this artifact says so rather than passing them",
+                 "varies across worlds, which only the run can show. The method that "
+                 "measures the per-world standard error now exists and has been run "
+                 "on design-block cells; the organism's own readout does not exist "
+                 "before the run, so the gate stays undetermined",
+        "design_block_precision_probe": probe,
     }
 
     return {

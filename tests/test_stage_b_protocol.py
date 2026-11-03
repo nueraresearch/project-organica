@@ -238,6 +238,10 @@ def test_the_granularity_gate_is_not_passed_on_a_transition_count(stage, text):
     assert res["effect_gap_at_rho_0_50"] == round(
         2.0 * stage["sample_size"]["smallest_effect_spearman"]
         * res["assumed_outcome_sd"], 6)
+    probe = res["design_block_precision_probe"]
+    assert probe["measured"] is True
+    assert probe["artifact"] == "docs/stage_b_endpoint_precision.json"
+    assert "bracket straddles the gap" in probe["what_it_does_not_show"]
     for marker in ("not a count of independent contributions",
                    "substitution is **withdrawn**",
                    "**undetermined**, not passed"):

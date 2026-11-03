@@ -145,6 +145,14 @@ measurement of it. The previous version of the table above divided the SD of sco
 result as a per-world standard error; that substitution is **withdrawn**, because the cells are nested and the
 scorer returns neither a per-world SD nor a per-world SE.
 
+**The standard error has now been measured, on the cells that exist.** `benchmarks/stage_b_endpoint_precision.py`
+bootstraps **transitions**, not cells — each withheld transition moves its whole set of cells — and reports the
+standard deviation of the world's mean. On the five design-block cells twice that standard error is
+**0.009 to 0.011 nats** at the exact latent rule and **0.059 to 0.071** at the wrong-law control, against the 0.05
+gap (`docs/stage_b_endpoint_precision.json`). The bracket **straddles** the gap, and that is the finding rather than
+an inconvenience: precision depends on the readout's loss distribution, so whether 82–110 transitions suffice is
+decided by a distribution that does not exist until a world runs. The method is discharged; the gate is not.
+
 What can no longer be claimed is that a **5.3-quantum** margin shows the endpoint resolves the effect — or that a
 `√N` calculation shows it does not. Two things are true instead: the score is continuous, so quantization is not
 the binding constraint, and whether the score moves across worlds, and how noisily, is a question only the run
