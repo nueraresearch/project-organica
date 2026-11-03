@@ -9937,7 +9937,7 @@ saving is not a trick: it comes from not running every world to a fixed 600 and 
 late ones.
 
 **The seed block is proved, not asserted.** `20270601`–`20270820`, **220** candidate seeds, checked at every
-build against every integer filed under a seed key in all 71 artifacts that carry one — **192** seeds, **0
+build against every integer filed under a seed key in all 71 artifacts that carry one — **192** seeds (an undercount: the walker missed seeds held in lists; **222** is the figure measured in §165), **0
 overlap**. A later artifact that consumes one of these seeds breaks the protocol's own test, which is the point:
 the check must be run, not remembered.
 
@@ -10321,7 +10321,7 @@ The previous entry recorded a correction to the seed-disjointness scan's *width*
 showed the sharper defect underneath it, in the walker: `_consumed_seeds()` descended into lists but collected an
 integer only when it sat directly under a seed-naming key, so an artifact storing `{"seeds": [1000, 1001]}` — the
 commonest shape in this corpus — contributed nothing. The published "192 consumed seeds across 71 artifacts" was an
-undercount, not a fact, and it was quoted in the protocol, in the manual and in three journal entries over two days.
+undercount, not a fact, and it was quoted in the protocol, in the manual, and in the journal entry that reported the build as though it were a measurement.
 
 Measured with a walker that pulls every integer under a seed-naming key however deeply it nests, and excluding
 `docs/stage_b_protocol.json` (which records this block and would otherwise overlap itself): **222 seeds across 75
