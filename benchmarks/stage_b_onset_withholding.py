@@ -96,7 +96,16 @@ def _write_json_atomic(path: Path, value: dict) -> None:
         handle.write("\n")
         handle.flush()
         os.fsync(handle.fileno())
-    os.replace(tmp, path)
+    # Windows scanners or readers can hold the destination briefly. Keep the
+    # same atomic-write behavior while retrying transient sharing violations.
+    for attempt in range(50):
+        try:
+            os.replace(tmp, path)
+            break
+        except PermissionError:
+            if attempt == 49:
+                raise
+            time.sleep(0.1)
 
 
 def _engine_fingerprint() -> str:
