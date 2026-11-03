@@ -399,6 +399,7 @@ def analyse(cells: list[dict], reps: int = REPS) -> dict:
         sizes = [c["asserted_pairs_at_onset"] for c in scored]
         entry = {
             "worlds": len(rows),
+            "worlds_expected": PER_CONFIG,
             "eligible_scored": len(scored),
             "ineligible": len([c for c in rows if c.get("eligible") is False]),
             "censored": len([c for c in rows if c.get("censored")]),
@@ -438,13 +439,15 @@ def analyse(cells: list[dict], reps: int = REPS) -> dict:
         out[config] = entry
     claimed = [c for c in CLAIMED if out[c]["worlds"]]
     held = [c for c in claimed if out[c]["predicted_sign_held"]]
+    complete = [c for c in claimed if out[c]["worlds"] >= PER_CONFIG]
     if not claimed:
         verdict = "NO WORLD RAN"
-    elif len(claimed) < len(CLAIMED):
-        # §5's conjunction is defined over all four configurations. An assembly that is
-        # missing one has not run the protocol, so it cannot carry a claim verdict in
-        # either direction -- the failure that would have been reported here is
-        # "NOT SUPPORTED", which reads as a result about the claim.
+    elif len(claimed) < len(CLAIMED) or len(complete) < len(CLAIMED):
+        # §5's conjunction is defined over all four configurations AND the full block. An
+        # assembly missing a configuration, or carrying one shard's half of every
+        # configuration, has not run the protocol: the first would otherwise report
+        # "NOT SUPPORTED" and the second, whenever the relation showed, "SUPPORTED" on half
+        # the evidence. Both read as results about the claim.
         verdict = "NO VERDICT: PARTIAL ASSEMBLY"
     elif len(held) == len(claimed):
         verdict = "SUPPORTED"
@@ -453,6 +456,7 @@ def analyse(cells: list[dict], reps: int = REPS) -> dict:
     else:
         verdict = "NOT SUPPORTED"
     return {"by_configuration": out, "verdict": verdict,
+            "worlds_expected_per_configuration": PER_CONFIG,
             "aggregation_rule": "supported only if the predicted relation holds with "
                                 "an interval excluding zero in every claimed "
                                 "configuration; otherwise mixed, never a best-configuration "
@@ -522,9 +526,10 @@ def self_test() -> dict:
     # 4. the analysis can detect a planted relation, and its permutation control
     #    can fail to find one
     planted = []
-    for i in range(40):
+    for i in range(PER_CONFIG):
+        # a full configuration, because a half-block can no longer carry a verdict
         # the predicted direction is negative: later onset, higher log loss
-        value = 0.16 - 0.001 * i
+        value = 0.20 - 0.0005 * i
         planted.append({"configuration": "2:1", "seed": 1000 + i, "complete": True,
                         "eligible": True, "censored": False, "onset": 100 + i,
                         "asserted_pairs_at_onset": 10,

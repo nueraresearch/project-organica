@@ -10748,3 +10748,28 @@ with it, not a configuration. The allocation guard still runs over a shard's see
 **no measured rate until a cell runs on it**; the honest projection is
 `29.14 h x (your seconds per cycle / 0.286542) / (your cores x 0.994)`. Reading a spec sheet instead
 would be a guess with a number attached.
+
+## 184. A shard's half-block would have read as SUPPORTED, and the verdict rule now counts worlds (2026-11-03)
+
+Adding `--shard K/N` created a failure the feature itself makes easy to reach. A shard is interleaved, so it
+carries **all four configurations** with about **90** worlds each rather than 180. `analyse` decided whether an
+assembly was complete by asking whether every configuration had *any* worlds, so a half-block satisfied it --
+and on a half-block that happened to show the relation, the verdict would have been **SUPPORTED** on half the
+evidence. The rule was checking the shape of the assembly, not its size.
+
+**The fix is a second condition, not a new rule:** a configuration counts as complete only at `PER_CONFIG`
+worlds, and the claim verdict requires all four complete. Anything less reports
+`NO VERDICT: PARTIAL ASSEMBLY`, and the result now carries `worlds_expected_per_configuration` beside each
+configuration's `worlds`, so a reader can see the shortfall rather than infer it.
+
+**The self-test had to grow with it.** Its planted relation was 40 cells per configuration, which was a full
+configuration under the old rule and is not one now -- the `SUPPORTED` branch would have gone quiet while still
+passing, which is exactly the failure mode the rule exists to prevent. The planted sets are now `PER_CONFIG`
+cells at the declared sign, and a new test drives a **half**-block of all four configurations and requires
+`NO VERDICT: PARTIAL ASSEMBLY`.
+
+**Sequencing, disclosed.** This was found by re-reading my own change before pushing it: the shard commit was
+written, the full suite passed (**770** tests), and the hazard was noticed in the verdict logic rather than by
+a test. The test that would have caught it did not exist, and now does. The block's total is unchanged --
+**720** cells, **29.14** h serial or **3.67** h at eight workers at
+0.286542 s per cycle -- and nothing has run.

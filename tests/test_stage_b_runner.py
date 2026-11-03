@@ -93,7 +93,8 @@ def test_an_empty_window_is_not_measurable_rather_than_zero():
     assert result["cells"] == 0
 
 
-def _planted(config: str = "2:1", slope: float = -0.001, n: int = 40) -> list[dict]:
+def _planted(config: str = "2:1", slope: float = -0.001,
+             n: int = runner.PER_CONFIG) -> list[dict]:
     return [{"configuration": config, "seed": 1000 + i, "complete": True,
              "eligible": True, "censored": False, "onset": 100 + i,
              "asserted_pairs_at_onset": 10 + i,
@@ -382,3 +383,15 @@ def test_a_bad_shard_is_refused():
     for bad in ("0/3", "4/3", "3", "a/b", "1/0"):
         with pytest.raises(SystemExit):
             runner.parse_shard(bad)
+
+
+def test_a_shard_half_block_carries_no_verdict_even_when_the_relation_shows():
+    cells = []
+    for config in runner.CLAIMED:
+        cells += _planted(config, n=runner.PER_CONFIG // 2)
+    result = runner.analyse(cells, reps=50)
+    assert result["by_configuration"]["2:1"]["worlds"] == runner.PER_CONFIG // 2
+    assert result["verdict"] == "NO VERDICT: PARTIAL ASSEMBLY", (
+        "a shard covers every configuration but half the worlds; if this reports SUPPORTED, "
+        "half the block can be read as the result")
+    assert result["worlds_expected_per_configuration"] == runner.PER_CONFIG
