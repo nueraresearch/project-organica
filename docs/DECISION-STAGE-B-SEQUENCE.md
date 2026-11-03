@@ -242,6 +242,8 @@ nats against the **0.05** assumed gap, in every cell, so `resolution_confirmed` 
 named beside it. The limit is recorded in protocol §3.1 rather than softened: the cells are design-block, and the
 *saturated* rule still consumes the run's own realised precision.
 
+**Runner (2026-11-03, after this decision).** `benchmarks/stage_b_runner.py` now implements the design recorded here. It refuses a pre-assigned seed until an allocation record exists, so the decision to spend the block is still the owner's, and it refuses the four spares unconditionally. Nothing in this paragraph resumes the decision or changes a number in it.
+
 **What this does not do.** It does not allocate a seed, generate a world, write a runner, or compute any relation
 between onset and behaviour. `status.seeds_allocated` and `status.worlds_run` are both 0, and allocating the
 block remains the separate act §D2 describes. Journal §173.

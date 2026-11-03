@@ -10512,3 +10512,11 @@ two limits are kept: the cells are design-block, and the saturated rule still co
 
 Nothing here re-scores a result or reopens a verdict. The onset measurement remains what §171 recorded, the block
 remains unallocated, and the next act is the runner's -- not the analysis's.
+
+## 174. The Stage B runner exists, and it refuses to spend an unallocated seed (2026-11-03)
+
+The last item between the recorded design and worlds existing was an executor. `benchmarks/stage_b_runner.py` is that executor, and it is deliberately narrower than a campaign script: it takes one world at a time, records the per-cycle `DI` trajectory, applies the protocol onset rule through the harness's own sustained-run detector, applies §4's eligibility rule (`onset + 101 <= horizon`), and only then scores the outcome -- the withheld pairs that occur in the world's own behavioural window, with the readout frozen at onset and no refit. `revision_held_out` is the house pairwise log loss on that window, and a window with no withheld pair is not measurable rather than zero.
+
+The analysis is §5's, implemented once: Spearman within configuration, a percentile bootstrap over worlds at 98.33 %, the standardised slope beside it, a permutation control, and a structural-size baseline, with the claim supported only if the predicted relation holds in **every** configuration. A configuration short of that is MIXED, and the artifact says why: the number of configurations satisfied is not a score.
+
+The guard is the part worth defending. The 720 seeds are pre-assigned, not allocated, and the runner refuses any pre-assigned seed until `docs/stage_b_allocation.json` records the allocation; the four spares are refused unconditionally. Its self-test (11 controls, no engine) checks that both refusals fire, that the eligibility boundary is exact, that an empty window is not measurable, that a planted relation is detected, that the permutation control on the same data includes zero, that a flat outcome is not detected, and that one configuration short of the conjunction reports MIXED rather than SUPPORTED. No confirmatory world ran and no seed was allocated; a smoke run on a consumed design-block seed exercises the engine path.

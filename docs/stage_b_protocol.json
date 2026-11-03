@@ -12,7 +12,7 @@
       "world": "the withholding world (benchmarks/stage_b_stream_withholding.py), a reconstruction of the scale-stream family whose declared transition early_0 -> late_0 is refused by conditioned sampling while the organism is exposed",
       "outcome_in_that_world": "revision_held_out, scored on that world's declared withheld tag pairs at the world's own behavioural window, by benchmarks/acquisition_compositional.py's score -- the definition whose precision is measured in docs/stage_b_endpoint_precision.json",
       "eligibility_rule": "a world is eligible iff onset + 101 <= its horizon; a world whose follow-up does not fit is reported and excluded from the relation, never truncated (protocol \u00a74). On the twelve design-block cells it excludes one: 2:1 seed 20261023, onset 602, horizon 640",
-      "still_not_runnable_because": "no Stage B runner exists, no seed is allocated, and the eligibility rule above is recorded but not implemented in a runner",
+      "still_not_runnable_because": "no seed is allocated, and the command that would spend the block refuses a pre-assigned seed until an allocation record exists (benchmarks/stage_b_runner.py)",
       "worlds_generated": 0,
       "resolves_when": "a dated decision records which world family the run uses and what the predictor or endpoint becomes in it"
     },

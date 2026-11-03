@@ -491,9 +491,11 @@ def build() -> dict:
                                     "excluded from the relation, never truncated (protocol "
                                     "§4). On the twelve design-block cells it excludes one: "
                                     "2:1 seed 20261023, onset 602, horizon 640",
-                "still_not_runnable_because": "no Stage B runner exists, no seed is "
-                                              "allocated, and the eligibility rule above is "
-                                              "recorded but not implemented in a runner",
+                "still_not_runnable_because": "no seed is allocated, and the command that "
+                                              "would spend the block refuses a "
+                                              "pre-assigned seed until an allocation "
+                                              "record exists "
+                                              "(benchmarks/stage_b_runner.py)",
                 "worlds_generated": 0,
                 "resolves_when": "a dated decision records which world family the run uses and "
                                  "what the predictor or endpoint becomes in it",

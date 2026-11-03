@@ -52,7 +52,7 @@ def test_authorised_but_nothing_is_spent(stage, text):
     assert blocked["blocked"] is False and blocked["worlds_generated"] == 0
     assert blocked["resolved_on"] == "2026-11-03" and "§D13" in blocked["resolved_by"]
     assert "withholding world" in blocked["world"]
-    assert "no Stage B runner exists" in blocked["still_not_runnable_because"]
+    assert "no seed is allocated" in blocked["still_not_runnable_because"]
     assert "scale-stream" in blocked["reason"] and "compositional" in blocked["reason"]
     assert stage["status"]["seeds_allocated"] == 0
     assert "## 5a. The run has no world family" in text
