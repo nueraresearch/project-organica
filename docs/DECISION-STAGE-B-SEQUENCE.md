@@ -135,3 +135,20 @@ from the runner:
 Writing either default into a harness would choose the experiment after the authorisation. That is the defect this
 project has spent months removing from its own numbers, and it is why the sequence stops here rather than proceeding
 on the more convenient option.
+
+## D9 — Option A attempted: the withheld set saturates, so the world must change (2026-11-03)
+
+The owner took option A. Its first step — measuring the redefined endpoint on design-block cells — returned a null
+that is about the endpoint rather than about the analysis: on the scale-stream family the formation window already
+exhibits **every** ordered tag transition the behavioural window uses, so an absence-based withheld set is empty on
+all twelve design-block cells and `held_out_next_tag` has no scored set at all
+(`docs/stage_b_endpoint_scale.json`).
+
+The consequence is structural. Withholding on this family cannot be done by scoring only unseen transitions; it has
+to be **imposed** on the world by conditioned sampling, exactly as the compositional family produces its held-out
+combination. That changes the stimulus, so it carries the compositional family's obligations: a withheld set
+enumerated under criteria written before the enumeration, a degeneracy audit proving the set is reachable and the
+axis is live, and a fresh precision measurement on design-block cells.
+
+**No seed is allocated, no world is generated, and the run stays blocked** — now on a named piece of work rather than
+on an open question. The predictor, the claim, the block and the authorisation are untouched.

@@ -176,6 +176,29 @@ precision those two rules consume.
 
 ---
 
+### 3.2 The outcome on the scale stream: the withheld set saturates (2026-11-03)
+
+Under option A the outcome is redefined on the family the predictor lives in, as `held_out_next_tag`: mean pairwise
+binary log loss on the behavioural test window, restricted to ordered tag transitions the formation window never
+exhibited. **Measuring it found that the restriction excludes nothing.** `benchmarks/stage_b_endpoint_scale.py`
+regenerates three consumed design-block seeds in each claimed configuration and counts the ordered pair sets: the
+formation window already contains **every** ordered pair the test window uses, in every configuration and every seed.
+The artifact's `finding` records the counts; the withheld set is empty, so the endpoint has no denominator and the
+precision gate cannot be evaluated.
+
+That is a property of the world, not of the probe. The scale-stream vocabulary is small and a few hundred cycles at
+twelve events saturate the ordered-pair space, so **"transitions the organism never saw" cannot be produced by
+absence on this stream.** Withholding has to be *imposed*: the world must declare a set of ordered transitions and
+refuse them during formation by conditioned sampling, which is exactly how the compositional family produces its
+held-out combination.
+
+**What follows, stated before anything is built.** Option A is therefore not a scoring change; it is a change to the
+world, and a world whose stimulus has been altered to withhold transitions is a different stimulus. It needs the same
+triggers the compositional family needed: the withheld set declared and enumerated under criteria written first, a
+degeneracy audit proving the withheld transitions are reachable and the world still varies what it claims to, and its
+own precision measurement on design-block cells once the set is non-empty. **Until those exist, no Stage B world can
+carry this endpoint**, and `stats.blocked_before_run` stays true in the generated artifact.
+
 ## 4. Run horizon and the follow-up clock
 
 | element | value |

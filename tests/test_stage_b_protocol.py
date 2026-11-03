@@ -52,6 +52,12 @@ def test_authorised_but_nothing_is_spent(stage, text):
     assert "scale-stream" in blocked["reason"] and "compositional" in blocked["reason"]
     assert stage["status"]["seeds_allocated"] == 0
     assert "## 5a. The run has no world family" in text
+    assert "### 3.2 The outcome on the scale stream" in text
+    scale = json.loads((ROOT / "docs" / "stage_b_endpoint_scale.json").read_text(encoding="utf-8"))
+    assert scale["finding"]["measurable_cells"] == 0
+    assert scale["finding"]["formation_ordered_pairs_min"] == \
+        scale["finding"]["formation_ordered_pairs_max"]
+    assert scale["status"].startswith("NOT MEASURABLE AS DEFINED")
     assert stage["status"]["seeds_allocated"] == 0
     assert stage["status"]["worlds_run"] == 0
     assert stage["seeds"]["allocated"] is False

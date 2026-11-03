@@ -10383,3 +10383,21 @@ endpoint on the scale stream (which then needs its own resolution check), or kee
 quantity that exists in the compositional world (which discards `DI`, §2's table and the block's derivation). A
 harness cannot make that choice, and a harness written with either default would be choosing the experiment after the
 authorisation — the exact defect this project keeps finding in its own work.
+
+## 168. The withheld set saturates, so option A needs a world that withholds by construction (2026-11-03)
+
+Option A redefined Stage B's outcome on the family the predictor lives in: `held_out_next_tag`, mean pairwise log
+loss on the behavioural test window over ordered tag transitions formation never exhibited. The first thing measured
+was the size of that set, and it is zero on every design-block cell in every configuration: the formation window
+already contains every ordered pair the test window uses. The scale-stream vocabulary is small and twelve events a
+cycle for a few hundred cycles saturate the pair space, so "transitions the organism never saw" is an empty category
+there.
+
+This is the useful kind of null. It says the withholding cannot be a **scoring** rule on this family; it has to be a
+**world** rule — declare the transitions, refuse them during formation by conditioned sampling — which is exactly what
+the compositional family does and why its endpoint had a non-empty scored set. It also says the world so built is a
+different stimulus, so it inherits the obligations that came with `WITHHELD`: criteria written before the enumeration,
+a degeneracy audit proving reachability and a live axis, and its own precision measurement once the set is non-empty.
+
+No seed was spent, no world generated and nothing about the claim, predictor, block or authorisation moved. The gate
+that matters is unchanged and still open, and it is now open on a named piece of work.
