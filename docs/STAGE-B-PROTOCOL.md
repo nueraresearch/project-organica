@@ -416,3 +416,30 @@ reliability ladder — asserts that the seed block is disjoint from every seed i
 seeds are named, asserts that the closed form reproduces the published 48-world floor, asserts that the
 sustention-rule agreement is excluded from the block arithmetic and is listed among the withdrawn claims, and
 asserts that nothing is authorised or allocated.
+
+---
+
+## 13. The authorisation route, as decided on 2026-11-03
+
+§11 says this document becomes authorisable only when §7 of `docs/INDEPENDENT-METHODS-REVIEW.md` carries an
+outcome. **That remains the route if a reviewer can be found, and it has been sequenced rather than met.** On
+2026-11-03 the owner recorded that no eligible reviewer can be found under §2 of the brief, and that the sequence
+is therefore: a **machine pre-pass** recorded against a named model and commit, then the **owner's dated
+authorisation**, then allocation. The decision and its costs are in
+[`docs/DECISION-STAGE-B-SEQUENCE.md`](DECISION-STAGE-B-SEQUENCE.md); the prompt is
+[`docs/AI-REVIEW-PROMPT.md`](AI-REVIEW-PROMPT.md).
+
+Three properties of that route are recorded here because a later reader will look for them:
+
+- **§7 stays empty.** No step in the new sequence fills it, and nothing in the record may describe a pre-pass as
+  an approval. A machine pass that is cited as "the review before the run" would be a fabricated provenance, and
+  that is the defect class this project has spent months finding in its own numbers.
+- **Nothing above changes the science.** The hypothesis, the predictor, the endpoint, the four falsifiers, the
+  outcomes table, the declared reliability assumption, the ladder and the 416 pre-assigned seeds are exactly as
+  they were; the decision is about who signs, and when.
+- **A pre-pass can stop the run and cannot start it.** A blocking finding fixes the protocol and restarts the
+  sequence. A clean finding is not a licence: the licence is step 2, and it is the owner's.
+
+**Stage B is not authorised by this section.** No seed is allocated, no world is generated, no run is started and
+no relation between onset and behaviour has been computed. What has changed is that the route no longer depends on
+finding a person who satisfies §2.

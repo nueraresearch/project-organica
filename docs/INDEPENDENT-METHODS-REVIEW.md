@@ -146,3 +146,26 @@ they are about accountability rather than capability:
 
 Its findings are recorded in a transcript named for the model and the commit, and a blocking finding is
 fixed and logged like any other defect. The gate itself stays open until a person signs §7.
+
+## 10. Sequence, as decided on 2026-11-03
+
+This section is written by the project, not by a reviewer. **§7 above is unchanged and still empty.**
+
+On 2026-11-03 the owner recorded that **no eligible reviewer can be found** under §2, and that the sequence to
+authorisation is a **machine pre-pass** recorded against a named model and commit, then the **owner's dated
+authorisation**, then allocation. `docs/DECISION-STAGE-B-SEQUENCE.md` carries the decision and its costs;
+`docs/AI-REVIEW-PROMPT.md` carries the prompt.
+
+What that decision does not do, stated here because this is the document a reader will check it against:
+
+- **It does not change §2.** The author, the owner and anyone with a stake remain ineligible; the criterion was
+  found unsatisfiable in practice, not wrong in principle.
+- **It does not change §9.** A machine pass is still a pre-pass, still cannot discharge this gate, and still may
+  not be cited as the review that preceded the experiment.
+- **It does not fill §7.** That form is a person's, and it stays with its placeholders until a person signs it.
+  An approval whose cost is zero is not a constraint, and a constraint is the whole purpose.
+- **It is reversible.** If an eligible reviewer is found, the §7 route resumes and supersedes the sequence above.
+
+**What this review cannot do is unchanged by the decision, and it is worth restating where the decision is
+recorded:** a methodologically sound design on an underpowered endpoint is still underpowered, and the reviewer is
+asked to say so if that is what they find.

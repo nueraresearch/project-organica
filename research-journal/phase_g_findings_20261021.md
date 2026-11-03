@@ -10062,3 +10062,40 @@ negotiation.
 onset and behaviour has been computed**. **Stage B is not authorised**; §7 of
 `docs/INDEPENDENT-METHODS-REVIEW.md` remains empty, and the endpoint gate remains the first thing a reviewer
 should interrogate.
+
+---
+
+## 158. A gate that cannot be staffed is not a gate
+
+**The owner's finding.** The independent review was the last thing between a frozen protocol and a run, and the
+owner reported it as the thing now stopping the research. He is right about the fact: §2 excludes the author, the
+owner, and anyone with a stake, and requires statistical competence, so the candidate pool is small — and **no
+eligible reviewer can be found**. An eligibility rule that admits nobody is not a strict gate, it is a closed
+door, and a closed door is not a constraint on anything except the project.
+
+**What was decided, and what it costs.** The middle route: a **machine pre-pass** on the frozen protocol, recorded
+against a named model and commit; then the owner's dated authorisation; then allocation. Recorded in
+`docs/DECISION-STAGE-B-SEQUENCE.md`, stated beside §11 in the protocol's §13 and beside §6 in the brief's §10.
+
+The cost is specific and belongs in the same paragraph as the benefit. The review uniquely caught one class of
+defect: an endpoint measuring a different quantity than the claim, an intervention that does not say what it
+leaves behind, a build with no stop condition — rule 23's three, found before a cell ran. A model pass buys down
+that class **with an instrument that cannot refuse**. Asked whether a plan it has just read is acceptable, it will
+find reasons to say yes; the mitigation is adversarial framing, two model families, and the demand that every
+number trace to an artifact. That reduces the failure rate. It does not remove it, and the record says so rather
+than letting a clean transcript be read as a certificate.
+
+**What did not move, because the temptation is to let it.** §7 stays empty — it records a person, and a signature
+filled by a model is fabricated provenance. The §2 criteria are unchanged: they were found unsatisfiable in
+practice, not wrong in principle. The pass cannot be cited as the review that preceded the run. And **Stage B is
+still not authorised**: no seed allocated, no world generated, no relation computed. The decision is about who
+signs and when, and nothing else.
+
+**One repair that came out of the same turn, and it matters more than it looks.** The machine prompt was still
+aimed at `docs/STRUCTURE-BEHAVIOR-DESIGN.md` at commit `1051313` — the design record, not the protocol, and a
+commit from before the block was resized, the 0.972 was withdrawn, the endpoint's granularity was measured and the
+seeds were re-minted. A reviewer following it would have examined a design that no longer exists and never seen a
+single correction. It now names `docs/STAGE-B-PROTOCOL.md` and the artifact set the protocol itself hands a
+reviewer, and it says which document is inherited rather than under review. **A pointer to the wrong artifact is
+the cheapest way to be reviewed and learn nothing**, and it would have been invisible: the prompt looked complete,
+the repository was public, and the file it named existed.
