@@ -83,6 +83,7 @@ from benchmarks.stage_b_stream_withholding import (  # noqa: E402
 OUT = ROOT / "docs" / "stage_b_runner.json"
 SELF_TEST_OUT = ROOT / "docs" / "stage_b_runner_self_test.json"
 CACHE = ROOT / ".scratch" / "stage_b_runner"
+ESTIMATE_OUT = ROOT / "docs" / "stage_b_cost_estimate.json"
 ALLOCATION = ROOT / "docs" / "stage_b_allocation.json"
 
 CLAIMED = ("2:1", "3:1", "4:1", "6:1")
@@ -517,6 +518,75 @@ def self_test() -> dict:
             "no_engine": "No engine ran and no Stage B seed was read or written."}
 
 
+CPU_COUNT = os.cpu_count() or 1
+
+
+def cost_estimate(cells: list[dict], cpu_count: int = CPU_COUNT,
+                  efficiency: float = 1.0) -> dict:
+    """Wall-clock projection for the block, from cells that have already run.
+
+    One assumption wide on purpose: a cell's cost is proportional to the cycles it
+    processes -- the cycles it sleeps through plus the cells of the test window it
+    stores -- so a measured seconds-per-cycle figure transfers to a configuration with
+    a different planned confirmation only through its cycle count. World generation and
+    per-cell setup are charged at that same rate, which is a projection and not a
+    measurement: every rate here comes from one configuration, and the three cells that
+    produced it all have the same cycle count, so nothing in this artifact tests the
+    proportionality it assumes.
+    """
+    measured = [cell for cell in cells
+                if cell.get("complete") and cell.get("engine_seconds")
+                and cell.get("cycles_run")]
+    if not measured:
+        return {"estimated": False, "worlds": 0,
+                "why": "no cell has run, so there is no measured rate to project from"}
+    rates = [cell["engine_seconds"] / (cell["cycles_run"] + TEST_CYCLES)
+             for cell in measured]
+    mean_rate = statistics.fmean(rates)
+    per_configuration: dict[str, dict] = {}
+    cycles_total = 0
+    for config in CLAIMED:
+        cycles = horizon_cycles(config) - 1          # confirmation + learn + test
+        per_configuration[config] = {"worlds": PER_CONFIG, "cycles_per_world": cycles,
+                                     "serial_hours": round(PER_CONFIG * cycles
+                                                           * mean_rate / 3600.0, 2)}
+        cycles_total += PER_CONFIG * cycles
+    serial = cycles_total * mean_rate
+    wall = {}
+    for workers in (1, 2, 4, 8):
+        effective = min(workers, cpu_count) * efficiency
+        wall[str(workers)] = round(serial / effective / 3600.0, 2)
+    return {
+        "estimated": True,
+        "planning_only": True,
+        "no_seed_allocated": True,
+        "worlds": PER_CONFIG * len(CLAIMED),
+        "cycles_total": cycles_total,
+        "measured_seconds_per_cycle": {"min": round(min(rates), 6),
+                                       "mean": round(mean_rate, 6),
+                                       "max": round(max(rates), 6)},
+        "measured_from": [{"configuration": cell["configuration"],
+                           "design_block_cell": cell["seed"],
+                           "cycles": cell["cycles_run"] + TEST_CYCLES,
+                           "seconds": cell["engine_seconds"]} for cell in measured],
+        "per_configuration": per_configuration,
+        "serial_hours": round(serial / 3600.0, 2),
+        "serial_hours_spread": {"low": round(cycles_total * min(rates) / 3600.0, 2),
+                                "high": round(cycles_total * max(rates) / 3600.0, 2)},
+        "wall_hours_by_workers": wall,
+        "cpu_count": cpu_count,
+        "parallel_efficiency": round(efficiency, 3),
+        "assumptions": [
+            "cost is proportional to the cycles a cell processes, which three cells of "
+            "one configuration cannot test",
+            "every configuration costs the same per cycle; the measured rate is from "
+            "6:1 only",
+            "wall clock assumes linear speedup up to the CPU count scaled by the "
+            "measured two-worker efficiency, with no I/O contention and no pause",
+        ],
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -526,6 +596,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--assemble", action="store_true")
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
+    parser.add_argument("--estimate", action="store_true",
+                        help="project the block's wall clock from cells that have run")
     parser.add_argument("--no-cache", action="store_true")
     parser.add_argument("--budget", type=float, default=None)
     args = parser.parse_args(argv)
@@ -570,6 +642,22 @@ def main(argv: list[str] | None = None) -> int:
         target = Path(args.out) if args.out else OUT
         target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result["analysis"], indent=2))
+        return 0
+
+    if args.estimate:
+        cells = [json.loads(p.read_text(encoding="utf-8"))
+                 for p in sorted(CACHE.glob("cell_*.json"))]
+        efficiency = 1.0
+        smoke_path = ROOT / "docs" / "stage_b_runner_smoke.json"
+        if smoke_path.exists():
+            smoke = json.loads(smoke_path.read_text(encoding="utf-8")).get("parallel_smoke")
+            if smoke and smoke.get("distinct_pids", 0) > 1:
+                done = sum(c["engine_seconds"] for c in smoke["cells"])
+                efficiency = done / smoke["wall_seconds"] / smoke["workers"]
+        result = cost_estimate(cells, efficiency=efficiency)
+        ESTIMATE_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps({k: v for k, v in result.items() if k != "measured_from"},
+                         indent=2))
         return 0
 
     if args.all:

@@ -1,0 +1,72 @@
+{
+  "estimated": true,
+  "planning_only": true,
+  "no_seed_allocated": true,
+  "worlds": 720,
+  "cycles_total": 366120,
+  "measured_seconds_per_cycle": {
+    "min": 0.235431,
+    "mean": 0.256239,
+    "max": 0.267879
+  },
+  "measured_from": [
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261023,
+      "cycles": 429,
+      "seconds": 101.0
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261024,
+      "cycles": 429,
+      "seconds": 114.92
+    },
+    {
+      "configuration": "6:1",
+      "design_block_cell": 20261025,
+      "cycles": 429,
+      "seconds": 113.86
+    }
+  ],
+  "per_configuration": {
+    "2:1": {
+      "worlds": 180,
+      "cycles_per_world": 639,
+      "serial_hours": 8.19
+    },
+    "3:1": {
+      "worlds": 180,
+      "cycles_per_world": 504,
+      "serial_hours": 6.46
+    },
+    "4:1": {
+      "worlds": 180,
+      "cycles_per_world": 462,
+      "serial_hours": 5.92
+    },
+    "6:1": {
+      "worlds": 180,
+      "cycles_per_world": 429,
+      "serial_hours": 5.5
+    }
+  },
+  "serial_hours": 26.06,
+  "serial_hours_spread": {
+    "low": 23.94,
+    "high": 27.24
+  },
+  "wall_hours_by_workers": {
+    "1": 26.22,
+    "2": 13.11,
+    "4": 6.56,
+    "8": 3.28
+  },
+  "cpu_count": 8,
+  "parallel_efficiency": 0.994,
+  "assumptions": [
+    "cost is proportional to the cycles a cell processes, which three cells of one configuration cannot test",
+    "every configuration costs the same per cycle; the measured rate is from 6:1 only",
+    "wall clock assumes linear speedup up to the CPU count scaled by the measured two-worker efficiency, with no I/O contention and no pause"
+  ]
+}

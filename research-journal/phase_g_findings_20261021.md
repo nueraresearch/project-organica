@@ -10619,3 +10619,29 @@ the moment the artifact changed, which is the guard working -- the sentence cann
 reader was not the one who caught it. The two full-suite failures this produced were reported honestly rather
 than hidden by re-running until green: the first test run after the commit failed, the artifact was regenerated
 from its own generator, and the prose was updated to the regenerated figure.
+
+## 179. The block is a day's serial work on this machine, and the projection says what it cannot see (2026-11-03)
+
+The three design cells make the block's cost answerable, and `benchmarks/stage_b_runner.py --estimate`
+answers it from those cells rather than from a guess: 20261023 (101.0 s over 429 cycles), 20261024 (114.92 s over 429 cycles), 20261025 (113.86 s over 429 cycles). Each of them processes
+`cycles_run + 50` = 429 cycles (the confirmation clock, the learning window, the test window), giving
+**0.235431** to **0.267879** seconds per cycle with a mean of **0.256239**.
+
+Projected over the block's **720** worlds -- **366120** cycles, since each configuration's horizon is
+its confirmation clock plus the 101 windows -- that is **26.06** h serial (range **23.94** to
+**27.24** h from the three observed rates), or **26.22** / **13.11** / **6.56** /
+**3.28** h at 1, 2, 4 and 8 workers on this 8-CPU VM. Per configuration: `2:1` 8.19 h, `3:1` 6.46 h, `4:1` 5.92 h, `6:1` 5.5 h.
+
+**What the projection cannot see, stated in the artifact itself.** Cost is assumed proportional to cycles
+processed. That assumption is untested by construction: all three measured cells are the same configuration
+and therefore the same cycle count, so nothing here distinguishes a per-cycle cost from a per-world cost, and
+world generation is charged at the cycle rate because three cells cannot separate the two. The efficiency
+factor **0.994** is measured at two workers only; the four- and eight-worker rows assume
+it holds.
+
+**Why it was worth writing down.** The block was previously an open-ended cost, and a cost nobody has
+estimated is a reason not to start. At **3.28** h on this machine the block fits inside a working day
+with eight workers, or a little over a day as four batches at four workers; that is a fact the owner needs
+before deciding whether to allocate, and it changes nothing about whether the run is authorised. The estimate
+is `docs/stage_b_cost_estimate.json`, `planning_only` and `no_seed_allocated` are both true in it, and no
+confirmatory world exists.

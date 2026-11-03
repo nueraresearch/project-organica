@@ -264,3 +264,41 @@ def test_a_partial_assembly_carries_no_verdict():
     assert partial == "NO VERDICT: PARTIAL ASSEMBLY", (
         "an assembly with one configuration missing must not report a claim verdict; "
         "both SUPPORTED and NOT SUPPORTED would be read as results about the claim")
+
+
+def test_the_projection_covers_the_block_and_scales_with_workers():
+    cells = [{"configuration": "6:1", "seed": 20261023, "complete": True,
+              "engine_seconds": 429.0, "cycles_run": 379}]
+    est = runner.cost_estimate(cells, cpu_count=8, efficiency=1.0)
+    assert est["worlds"] == runner.PER_CONFIG * len(runner.CLAIMED) == 720
+    expected_cycles = sum(runner.PER_CONFIG * (runner.horizon_cycles(c) - 1)
+                          for c in runner.CLAIMED)
+    assert est["cycles_total"] == expected_cycles
+    seconds_per_cycle = 429.0 / (379 + runner.TEST_CYCLES)
+    assert est["measured_seconds_per_cycle"]["mean"] == round(seconds_per_cycle, 6)
+    assert est["serial_hours"] == round(expected_cycles * seconds_per_cycle / 3600.0, 2)
+    wall = est["wall_hours_by_workers"]
+    assert wall["1"] == est["serial_hours"]
+    assert wall["8"] < wall["2"] < wall["1"]
+    assert est["planning_only"] is True and est["no_seed_allocated"] is True
+    assert len(est["assumptions"]) == 3
+
+
+def test_the_projection_refuses_to_invent_a_rate():
+    est = runner.cost_estimate([], cpu_count=8)
+    assert est["estimated"] is False and est["worlds"] == 0
+    assert "no cell has run" in est["why"]
+
+
+def test_the_projection_is_written_where_the_mode_says(tmp_path, monkeypatch):
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    monkeypatch.setattr(runner, "CACHE", cache)
+    monkeypatch.setattr(runner, "ESTIMATE_OUT", tmp_path / "estimate.json")
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    runner.save_cell({"configuration": "6:1", "seed": 20261023, "complete": True,
+                      "engine_seconds": 100.0, "cycles_run": 379})
+    assert runner.main(["--estimate"]) == 0
+    doc = json.loads((tmp_path / "estimate.json").read_text(encoding="utf-8"))
+    assert doc["estimated"] is True
+    assert doc["measured_from"][0]["cycles"] == 379 + runner.TEST_CYCLES
