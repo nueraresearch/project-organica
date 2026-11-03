@@ -171,3 +171,19 @@ predictor's distribution across the four configurations here is unmeasured, and 
 the protocol's reported medians rather than at observed onsets. Measuring onset on this family, and showing it varies,
 is the next piece of work; until it exists `status.blocked_before_run` stays true, no seed is allocated and no world
 runs.
+
+## D11 — The onset harness is built, and the measurement it exists for has not run (2026-11-03)
+
+`benchmarks/stage_b_onset_withholding.py` is the instrument §D10 asked for: it runs the frozen engine over the
+withholding world, records the per-cycle `DI` trajectory, applies the protocol's onset rule (first cycle of the first
+qualifying sustained run) with the 5- and 20-cycle rules beside it, censors a cell that never qualifies, stops a
+margin after the onset it finds, and takes a wall-clock budget.
+
+**It has not produced a number.** A 40-cycle probe took 8.24 s; a 160-cycle cell did not return inside the command
+limit, and neither did a 430-cycle cell nor four cells in parallel. A detached process is killed with the call that
+started it. Cost per cycle is therefore not linear over that range, and the machine, not the design, is what stops it.
+
+**What that leaves.** The predictor is still unmeasured on the world that carries the outcome, so
+`status.blocked_before_run` stays true and no seed is allocated. Unlike the earlier blocks this one is not a question
+about the protocol; it is a machine that will not run a cell to completion. The next step is one unattended run of the
+committed module, not a decision.

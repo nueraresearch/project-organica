@@ -235,6 +235,18 @@ predictor does not yet have a demonstrated distribution in that world, so the ru
 on this family and shown to vary across seeds and configurations. `status.blocked_before_run` therefore stays true,
 and no seed is allocated.
 
+**Attempted, and not completed (2026-11-03).** The harness for that measurement is
+`benchmarks/stage_b_onset_withholding.py`: per cell it runs the frozen engine over this world's stream, records the
+per-cycle `DI` trajectory, and applies the protocol's own onset rule -- the first cycle of the first qualifying
+sustained run, with the 5- and 20-cycle rules carried beside the 10-cycle one -- censoring a cell whose run never
+qualifies and never placing it at a boundary. **It has not produced an onset.** A 40-cycle probe took 8.24 s, but a
+160-cycle cell did not return inside this environment's command limit, and neither did a 430-cycle cell, nor four cells
+run in parallel; the process is killed at that limit whether or not it was detached. **The limit is the machine and
+the absence is not a null:** no onset exists in the record, so the predictor remains unmeasured on the world that
+carries the outcome, and the run stays blocked on exactly that. The module commits with the rule, the censoring, the
+early stop and a wall-clock budget, so the measurement is one unattended run away on a machine that does not impose
+this limit.
+
 ## 4. Run horizon and the follow-up clock
 
 | element | value |

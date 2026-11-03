@@ -10423,3 +10423,21 @@ cluster-bootstrap replicates on twelve design-block cells, against a 0.05 gap. A
 the outcome has a world, the predictor does not, because this world is a reconstruction of the scale family rather
 than the frozen generator and **no `DI` onset has been measured on it**. Placing onset on this family is now the only
 thing between the authorisation and a run.
+
+## 170. The onset harness exists and has produced nothing, which is the honest state of it (2026-11-03)
+
+§169 left one measurement between the authorisation and a run: `DI` onset on the world that carries the outcome. The
+instrument for it is written -- frozen engine over the withholding world, per-cycle `DI` trace, the protocol's onset
+rule with the 5- and 20-cycle rules carried beside it, censoring rather than boundary placement, an early stop a
+margin after the onset found, and a wall-clock budget.
+
+It has produced no onset. A 40-cycle probe took 8.24 s; a 160-cycle cell did not return inside this environment's
+command limit, and neither did a 430-cycle cell nor four cells in parallel. Per-cycle cost is not linear over that
+range, and the limit kills the process whether or not it is detached -- so the obstacle is a machine that will not run
+a cell to completion, not a question about the design.
+
+The temptation is to write the measurement up from a short world, or to report the short probe's zeros as a missing
+onset. Both would be fabrications: a compressed world is a different world, and a trajectory that stops before the late
+group has had time to be learned has not shown that onset is absent -- it has shown that the run stopped. So nothing is
+reported, the predictor stays unmeasured, `status.blocked_before_run` stays true, and the module is committed with the
+budget flag so the measurement is one unattended run away.

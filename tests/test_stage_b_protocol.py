@@ -446,3 +446,24 @@ def test_the_withholding_world_is_not_yet_shown_to_host_the_predictor():
     manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
     assert "WITHHOLDING WORLD BUILT, 2026-11-03" in manual
     assert f"**{lo:.4f}–{hi:.4f}**" in manual
+
+
+def test_the_onset_rule_is_the_first_sustained_run_and_censors():
+    """The rule is the construct's: a sustained run, not the first non-zero reading."""
+    from benchmarks.stage_b_onset_withholding import onset
+    assert onset([0.0] * 20) is None
+    assert onset([0.0, 0.0, 0.1] + [0.1] * 12) == 2
+    assert onset([0.1] * 8) is None          # cut off by the record: censored, not placed
+    assert onset([0.0, 0.5, 0.0, 0.0] + [0.2] * 12) == 4   # a blip is not a run
+    assert onset([0.0] * 5 + [0.3] * 10, sustained=10) == 5
+    assert onset([0.0] * 5 + [0.3] * 10, sustained=20) is None
+
+
+def test_no_onset_has_been_measured_and_the_documents_say_so():
+    """The measurement was attempted and did not complete; nothing may imply it did."""
+    assert not (ROOT / "docs" / "stage_b_onset_withholding.json").exists()
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    assert "no `DI` onset has been measured on it" in flat
+    assert "**Attempted, and not completed (2026-11-03).**" in flat
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "ONSET MEASUREMENT ATTEMPTED AND NOT COMPLETED, 2026-11-03" in manual
