@@ -155,7 +155,7 @@ def _save_snapshot(mem, svc, label: str, index: int, identity: str,
         destination.commit()
     finally:
         destination.close()
-    with tmp_snapshot.open("rb") as handle:
+    with tmp_snapshot.open("r+b") as handle:
         os.fsync(handle.fileno())
     os.replace(tmp_snapshot, snapshot)
 
