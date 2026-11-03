@@ -247,6 +247,15 @@ carries the outcome, and the run stays blocked on exactly that. The module commi
 early stop and a wall-clock budget, so the measurement is one unattended run away on a machine that does not impose
 this limit.
 
+**Completion update (2026-11-03).** The resumable harness subsequently completed all twelve design-block cells;
+`docs/stage_b_onset_withholding.json` records the trajectories and results. All twelve cells had a qualifying
+10-cycle onset, with no censored cells; the 5-, 10- and 20-cycle rules placed the same onset in every cell. The
+configuration medians were **530** (`2:1`), **309** (`3:1`), **276** (`4:1`) and **226** (`6:1`) cycles, with
+within-configuration ranges of **91**, **49**, **40** and **14** cycles. This answers the predictor-measurement
+question on the reconstructed withholding world only. These consumed design-block seeds are not confirmatory, the
+artifact scores no behavioral outcome and computes no predictor–outcome relation, and no Stage B seed was allocated.
+The separate protocol/world-family blocker in §5a remains recorded; this measurement does not resolve or authorize it.
+
 ## 4. Run horizon and the follow-up clock
 
 | element | value |

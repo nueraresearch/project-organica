@@ -452,8 +452,8 @@ def build() -> dict:
     return {
         "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon "
                         "and seed block, assembled from the construct record and "
-                        "checked against it. No engine run, no seed allocated, no "
-                        "world generated, no relation between onset and behaviour "
+                        "checked against it. No confirmatory Stage B engine run or "
+                        "seed allocation, and no relation between onset and behaviour "
                         "computed.",
         "status": {
             "authorised": True,
@@ -473,7 +473,7 @@ def build() -> dict:
             },
             "seeds_allocated": 0,
             "worlds_run": 0,
-            "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No world has run and no relation has been computed.",
+            "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No confirmatory Stage B world has run and no relation has been computed.",
         },
         "predictor": {
             "name": "confirmed onset of DI",

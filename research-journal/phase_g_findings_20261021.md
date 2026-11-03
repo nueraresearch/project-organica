@@ -10441,3 +10441,17 @@ onset. Both would be fabrications: a compressed world is a different world, and 
 group has had time to be learned has not shown that onset is absent -- it has shown that the run stopped. So nothing is
 reported, the predictor stays unmeasured, `status.blocked_before_run` stays true, and the module is committed with the
 budget flag so the measurement is one unattended run away.
+
+## 171. The resumable onset measurement completed on the withholding world (2026-11-03)
+
+The harness was made resumable and run in bounded sessions. It completed all twelve cells on the three consumed
+design-block seeds, with no seed from the confirmatory Stage B block allocated. The full per-cycle trajectories and
+cell records are in `docs/stage_b_onset_withholding.json`. All 12 cells had a qualifying 10-cycle onset; the 5-,
+10- and 20-cycle rules agreed in every cell; each configuration had three distinct onsets. The medians were 530
+(`2:1`), 309 (`3:1`), 276 (`4:1`) and 226 (`6:1`) cycles, with ranges 91, 49, 40 and 14 cycles. The configuration
+medians differ by 304 cycles.
+
+This is the predictor measured on the reconstructed withholding world only. It is not the Phase L onset distribution,
+does not score the behavioral outcome, and establishes no predictor–outcome relation. It does not clear the protocol's
+other recorded blocker or authorize the confirmatory run. The earlier entry above records the truthful state before
+this measurement was completed; it is superseded on that status point by this entry, not erased.

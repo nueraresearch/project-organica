@@ -1,5 +1,5 @@
 {
-  "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon and seed block, assembled from the construct record and checked against it. No engine run, no seed allocated, no world generated, no relation between onset and behaviour computed.",
+  "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon and seed block, assembled from the construct record and checked against it. No confirmatory Stage B engine run or seed allocation, and no relation between onset and behaviour computed.",
   "status": {
     "authorised": true,
     "authorised_on": "2026-11-03",
@@ -12,7 +12,7 @@
     },
     "seeds_allocated": 0,
     "worlds_run": 0,
-    "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No world has run and no relation has been computed."
+    "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No confirmatory Stage B world has run and no relation has been computed."
   },
   "predictor": {
     "name": "confirmed onset of DI",
@@ -300,7 +300,7 @@
   },
   "seeds": {
     "consumed_blocks": {
-      "docs/ablation_study.json": [
+      "docs\\ablation_study.json": [
         1000,
         1001,
         1002,
@@ -313,7 +313,7 @@
         1009,
         1010
       ],
-      "docs/ablation_study_postfix.json": [
+      "docs\\ablation_study_postfix.json": [
         1000,
         1001,
         1002,
@@ -326,16 +326,16 @@
         1009,
         1010
       ],
-      "docs/acquisition_alpha_calibration.json": [
+      "docs\\acquisition_alpha_calibration.json": [
         20261099
       ],
-      "docs/acquisition_baseline_calibration.json": [
+      "docs\\acquisition_baseline_calibration.json": [
         20261099
       ],
-      "docs/acquisition_baseline_capability.json": [
+      "docs\\acquisition_baseline_capability.json": [
         20261100
       ],
-      "docs/acquisition_compositional_gate.json": [
+      "docs\\acquisition_compositional_gate.json": [
         20261200,
         20261201,
         20261202,
@@ -367,34 +367,34 @@
         20261228,
         20261229
       ],
-      "docs/acquisition_coverage_audit.json": [
+      "docs\\acquisition_coverage_audit.json": [
         20261100
       ],
-      "docs/acquisition_level_audit.json": [
+      "docs\\acquisition_level_audit.json": [
         20261100
       ],
-      "docs/acquisition_readout_design.json": [
+      "docs\\acquisition_readout_design.json": [
         20261100
       ],
-      "docs/acquisition_readout_probe.json": [
+      "docs\\acquisition_readout_probe.json": [
         20261100
       ],
-      "docs/acquisition_readout_test.json": [
+      "docs\\acquisition_readout_test.json": [
         20261100
       ],
-      "docs/acquisition_single_seed_pilot.json": [
+      "docs\\acquisition_single_seed_pilot.json": [
         20261100
       ],
-      "docs/audit_trace_probe.json": [
+      "docs\\audit_trace_probe.json": [
         20261025
       ],
-      "docs/audit_trace_probe_stress.json": [
+      "docs\\audit_trace_probe_stress.json": [
         20261025
       ],
-      "docs/audit_trace_probe_tie.json": [
+      "docs\\audit_trace_probe_tie.json": [
         20261025
       ],
-      "docs/candidate_membership_audit.json": [
+      "docs\\candidate_membership_audit.json": [
         20261101,
         20261118,
         20261120,
@@ -405,10 +405,10 @@
         20261129,
         20261130
       ],
-      "docs/divergence_arm_b_prime_f2.json": [
+      "docs\\divergence_arm_b_prime_f2.json": [
         20261101
       ],
-      "docs/divergence_arm_b_prime_sweep.json": [
+      "docs\\divergence_arm_b_prime_sweep.json": [
         20261118,
         20261120,
         20261121,
@@ -418,7 +418,7 @@
         20261129,
         20261130
       ],
-      "docs/divergence_arm_b_prime_sweep_v2.json": [
+      "docs\\divergence_arm_b_prime_sweep_v2.json": [
         20261118,
         20261120,
         20261121,
@@ -428,7 +428,7 @@
         20261129,
         20261130
       ],
-      "docs/divergence_cycle_capture.json": [
+      "docs\\divergence_cycle_capture.json": [
         20261118,
         20261120,
         20261121,
@@ -438,7 +438,7 @@
         20261129,
         20261130
       ],
-      "docs/divergence_mechanism.json": [
+      "docs\\divergence_mechanism.json": [
         20261118,
         20261120,
         20261121,
@@ -448,7 +448,7 @@
         20261129,
         20261130
       ],
-      "docs/divergence_onset.json": [
+      "docs\\divergence_onset.json": [
         20261101,
         20261118,
         20261120,
@@ -459,13 +459,13 @@
         20261129,
         20261130
       ],
-      "docs/force_matrix.json": [
+      "docs\\force_matrix.json": [
         20261023
       ],
-      "docs/force_matrix_pilot.json": [
+      "docs\\force_matrix_pilot.json": [
         20261023
       ],
-      "docs/formation_provenance_robustness.json": [
+      "docs\\formation_provenance_robustness.json": [
         1260,
         20270106,
         20270107,
@@ -483,7 +483,7 @@
         20270119,
         20270120
       ],
-      "docs/formation_provenance_study.json": [
+      "docs\\formation_provenance_study.json": [
         1252,
         1260,
         1890,
@@ -503,7 +503,7 @@
         20270119,
         20270120
       ],
-      "docs/formation_provenance_study_design.json": [
+      "docs\\formation_provenance_study_design.json": [
         1252,
         1272,
         20270101,
@@ -512,7 +512,7 @@
         20270104,
         20270105
       ],
-      "docs/formation_utilization.json": [
+      "docs\\formation_utilization.json": [
         20261101,
         20261102,
         20261103,
@@ -544,7 +544,7 @@
         20261129,
         20261130
       ],
-      "docs/formation_utilization_pre_correction.json": [
+      "docs\\formation_utilization_pre_correction.json": [
         20261101,
         20261102,
         20261103,
@@ -576,19 +576,19 @@
         20261129,
         20261130
       ],
-      "docs/formation_utilization_timing.json": [
+      "docs\\formation_utilization_timing.json": [
         20261099,
         20261100
       ],
-      "docs/formation_utilization_timing_pre_amendment.json": [
+      "docs\\formation_utilization_timing_pre_amendment.json": [
         20261099,
         20261100
       ],
-      "docs/formation_utilization_timing_pre_correction.json": [
+      "docs\\formation_utilization_timing_pre_correction.json": [
         20261099,
         20261100
       ],
-      "docs/functional_structure_confirmatory.json": [
+      "docs\\functional_structure_confirmatory.json": [
         20261102,
         20270206,
         20270207,
@@ -606,14 +606,14 @@
         20270219,
         20270220
       ],
-      "docs/functional_structure_design_audit.json": [
+      "docs\\functional_structure_design_audit.json": [
         20270201,
         20270202,
         20270203,
         20270204,
         20270205
       ],
-      "docs/g13d_diagnostic.json": [
+      "docs\\g13d_diagnostic.json": [
         3997,
         3998,
         20261101,
@@ -622,49 +622,49 @@
         20261104,
         20261105
       ],
-      "docs/gate13_allocation_rule.json": [
+      "docs\\gate13_allocation_rule.json": [
         20261101,
         20261102,
         20261103
       ],
-      "docs/gate13_capacity_sweep.json": [
+      "docs\\gate13_capacity_sweep.json": [
         20261101,
         20261102,
         20261103,
         20261104,
         20261105
       ],
-      "docs/gate13_counterfactual_audit.json": [
+      "docs\\gate13_counterfactual_audit.json": [
         20261101,
         20261102,
         20261103,
         20261104,
         20261105
       ],
-      "docs/gate13_paired_capacity_test.json": [
+      "docs\\gate13_paired_capacity_test.json": [
         20261101,
         20261102,
         20261103,
         20261104,
         20261105
       ],
-      "docs/gate13_ranking_criterion.json": [
+      "docs\\gate13_ranking_criterion.json": [
         20261101,
         20261102,
         20261103
       ],
-      "docs/gate13_relation_separation.json": [
+      "docs\\gate13_relation_separation.json": [
         20261101,
         20261102,
         20261103
       ],
-      "docs/ground_truth_recovery.json": [
+      "docs\\ground_truth_recovery.json": [
         20261023
       ],
-      "docs/heldout_prediction.json": [
+      "docs\\heldout_prediction.json": [
         20261023
       ],
-      "docs/phase_h_results.json": [
+      "docs\\phase_h_results.json": [
         20261023,
         20261024,
         20261025,
@@ -676,7 +676,7 @@
         20261031,
         20261032
       ],
-      "docs/phase_k_results.json": [
+      "docs\\phase_k_results.json": [
         20261023,
         20261024,
         20261025,
@@ -688,7 +688,7 @@
         20261031,
         20261032
       ],
-      "docs/phase_l_results.json": [
+      "docs\\phase_l_results.json": [
         20261023,
         20261024,
         20261025,
@@ -720,7 +720,7 @@
         20261051,
         20261052
       ],
-      "docs/phase_l_results_n10.json": [
+      "docs\\phase_l_results_n10.json": [
         20261023,
         20261024,
         20261025,
@@ -732,7 +732,7 @@
         20261031,
         20261032
       ],
-      "docs/phase_l_seed_audit.json": [
+      "docs\\phase_l_seed_audit.json": [
         20261025,
         55163163,
         77378173,
@@ -765,7 +765,7 @@
         975516681,
         993151203
       ],
-      "docs/post_shift_adaptation_results.json": [
+      "docs\\post_shift_adaptation_results.json": [
         20270101,
         20270102,
         20270103,
@@ -788,13 +788,13 @@
         20270120,
         20270123
       ],
-      "docs/process_noise.json": [
+      "docs\\process_noise.json": [
         20261023
       ],
-      "docs/process_noise_3000.json": [
+      "docs\\process_noise_3000.json": [
         20261023
       ],
-      "docs/provenance_diagnostic.json": [
+      "docs\\provenance_diagnostic.json": [
         1002,
         1260,
         1313,
@@ -804,7 +804,7 @@
         20261204,
         20261205
       ],
-      "docs/regime_shift_results.json": [
+      "docs\\regime_shift_results.json": [
         20261201,
         20261202,
         20261203,
@@ -826,14 +826,14 @@
         20261219,
         20261220
       ],
-      "docs/reusable_knowledge_calibration.json": [
+      "docs\\reusable_knowledge_calibration.json": [
         20261201,
         20261202,
         20261203,
         20261204,
         20261205
       ],
-      "docs/reusable_knowledge_feasibility.json": [
+      "docs\\reusable_knowledge_feasibility.json": [
         20261201,
         20261202,
         20261203,
@@ -841,7 +841,7 @@
         20261205,
         20261206
       ],
-      "docs/reusable_knowledge_gate_definitions.json": [
+      "docs\\reusable_knowledge_gate_definitions.json": [
         20261201,
         20261202,
         20261203,
@@ -849,7 +849,7 @@
         20261205,
         20261206
       ],
-      "docs/reusable_knowledge_postmortem.json": [
+      "docs\\reusable_knowledge_postmortem.json": [
         1002,
         1277,
         1313,
@@ -878,7 +878,7 @@
         20261204,
         20261205
       ],
-      "docs/reusable_knowledge_variant.json": [
+      "docs\\reusable_knowledge_variant.json": [
         1277,
         20261201,
         20261202,
@@ -886,19 +886,19 @@
         20261204,
         20261205
       ],
-      "docs/scale_horizon_1200.json": [
+      "docs\\scale_horizon_1200.json": [
         20261023
       ],
-      "docs/scale_horizon_600.json": [
+      "docs\\scale_horizon_600.json": [
         20261023
       ],
-      "docs/scale_ladder.json": [
+      "docs\\scale_ladder.json": [
         20261023
       ],
-      "docs/scale_ladder_scaffold.json": [
+      "docs\\scale_ladder_scaffold.json": [
         20261023
       ],
-      "docs/scaling_ladder.json": [
+      "docs\\scaling_ladder.json": [
         1599,
         3199,
         6399,
@@ -910,35 +910,35 @@
         20270505,
         20270506
       ],
-      "docs/seed_noise.json": [
+      "docs\\seed_noise.json": [
         20261023,
         20261024,
         20261025
       ],
-      "docs/sign_audit.json": [
+      "docs\\sign_audit.json": [
         20270501,
         20270502,
         20270503,
         20270504,
         20270505
       ],
-      "docs/store_time_observer_f4.json": [
+      "docs\\store_time_observer_f4.json": [
         20261101
       ],
-      "docs/store_time_observer_lineage.json": [
+      "docs\\store_time_observer_lineage.json": [
         20261120
       ],
-      "docs/store_time_observer_verdicts.json": [
+      "docs\\store_time_observer_verdicts.json": [
         20261120,
         20261121,
         20261125
       ],
-      "docs/store_time_observer_verdicts_pairs.json": [
+      "docs\\store_time_observer_verdicts_pairs.json": [
         20261120,
         20261121,
         20261125
       ],
-      "docs/strength_assignment_design_audit.json": [
+      "docs\\strength_assignment_design_audit.json": [
         1013,
         20261102,
         20270401,
@@ -947,7 +947,7 @@
         20270404,
         20270405
       ],
-      "docs/structural_contribution_design_audit.json": [
+      "docs\\structural_contribution_design_audit.json": [
         20261102,
         20270301,
         20270302,
@@ -955,7 +955,7 @@
         20270304,
         20270305
       ],
-      "docs/use_path_audit.json": [
+      "docs\\use_path_audit.json": [
         20261118,
         20261120,
         20261121,
@@ -965,7 +965,7 @@
         20261129,
         20261130
       ],
-      "docs/use_path_diagnostic.json": [
+      "docs\\use_path_diagnostic.json": [
         20261099,
         20261101,
         20261102,
@@ -998,7 +998,7 @@
         20261129,
         20261130
       ],
-      "docs/use_path_diagnostic_freeze.json": [
+      "docs\\use_path_diagnostic_freeze.json": [
         20261101,
         20261102,
         20261103,
@@ -1030,7 +1030,7 @@
         20261129,
         20261130
       ],
-      "docs/use_path_diagnostic_structure.json": [
+      "docs\\use_path_diagnostic_structure.json": [
         20261101,
         20261102,
         20261103,

@@ -172,18 +172,20 @@ the protocol's reported medians rather than at observed onsets. Measuring onset 
 is the next piece of work; until it exists `status.blocked_before_run` stays true, no seed is allocated and no world
 runs.
 
-## D11 — The onset harness is built, and the measurement it exists for has not run (2026-11-03)
+## D11 — The onset harness is built and the diagnostic measurement completed (2026-11-03)
 
-`benchmarks/stage_b_onset_withholding.py` is the instrument §D10 asked for: it runs the frozen engine over the
-withholding world, records the per-cycle `DI` trajectory, applies the protocol's onset rule (first cycle of the first
-qualifying sustained run) with the 5- and 20-cycle rules beside it, censors a cell that never qualifies, stops a
-margin after the onset it finds, and takes a wall-clock budget.
+`benchmarks/stage_b_onset_withholding.py` ran the frozen engine over the withholding world on the three consumed
+design-block seeds in each configuration. The completed artifact is `docs/stage_b_onset_withholding.json`; it records
+the per-cycle `DI` trajectory and applies the protocol's onset rule (first cycle of the first qualifying sustained
+run), with the 5- and 20-cycle rules beside it. All **12/12** cells have a qualifying 10-cycle onset, all three
+onset rules agree in every cell, and all four configurations vary across their three seeds. The configuration
+medians are **2:1 530**, **3:1 309**, **4:1 276**, and **6:1 226** cycles; the within-configuration ranges are
+**91**, **49**, **40**, and **14** cycles respectively. The four configuration medians span **304** cycles from
+minimum to maximum.
 
-**It has not produced a number.** A 40-cycle probe took 8.24 s; a 160-cycle cell did not return inside the command
-limit, and neither did a 430-cycle cell nor four cells in parallel. A detached process is killed with the call that
-started it. Cost per cycle is therefore not linear over that range, and the machine, not the design, is what stops it.
-
-**What that leaves.** The predictor is still unmeasured on the world that carries the outcome, so
-`status.blocked_before_run` stays true and no seed is allocated. Unlike the earlier blocks this one is not a question
-about the protocol; it is a machine that will not run a cell to completion. The next step is one unattended run of the
-committed module, not a decision.
+This closes the specific measurement gap named in D10 for this reconstructed withholding world. The artifact does
+not measure the Phase L onset distribution, score a behavioral outcome, or compute an onset–outcome relation. These
+are consumed design-block seeds, not the confirmatory block; no Stage B seed was allocated. Therefore this result
+does not itself authorize a confirmatory run, and `status.blocked_before_run` remains true for the protocol's other
+open blocker(s). The earlier command-limit attempts explain why the resumable checkpoint harness was added; the
+completed run resumed successfully across bounded calls. The harness and manual document that workflow.
