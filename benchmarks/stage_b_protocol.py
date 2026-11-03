@@ -122,17 +122,23 @@ def _harvest_seeds(node, out: set[int]) -> None:
 
 
 SELF_ARTIFACT = ROOT / "docs" / "stage_b_protocol.json"
+# The allocation record names the block itself, by design, so scanning it would make the
+# block overlap itself for exactly the reason this artifact would. It is excluded by path
+# and the exclusion is recorded in the output rather than left for a reader to notice.
+ALLOCATION_ARTIFACT = ROOT / "docs" / "stage_b_allocation.json"
+EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
-    """Seed integers in every docs/ artifact except this one.
+    """Seed integers in every docs/ artifact except the two that name the block.
 
-    This artifact records the candidate block, so scanning it would make the block
-    overlap itself; the exclusion is by path and it is recorded in the output.
+    This artifact records the candidate block and the allocation record carries it, so
+    scanning either would make the block overlap itself; the exclusions are by path and
+    they are recorded in the output.
     """
     found: dict[str, list[int]] = {}
     for path in sorted(glob.glob(str(ROOT / "docs" / "*.json"))):
-        if Path(path) == SELF_ARTIFACT:
+        if Path(path) in EXCLUDED_ARTIFACTS:
             continue
         try:
             obj = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -683,7 +689,8 @@ def build() -> dict:
             "disjoint_proved_against": len(consumed),
             "scan_scope": "every *.json directly under docs/, which is where every "
                           "artifact lives; docs/ contains no subdirectory",
-            "self_artifact_excluded": "docs/stage_b_protocol.json, because it records "
+            "self_artifact_excluded": "docs/stage_b_protocol.json and "
+                                      "docs/stage_b_allocation.json, because both name "
                                       "this block and would otherwise overlap it",
             "harvest_rule": "every integer under a key naming a seed, including "
                             "integers held in lists; the earlier walker missed "

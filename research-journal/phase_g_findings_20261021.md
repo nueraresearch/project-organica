@@ -10678,3 +10678,51 @@ cheapest per cycle of the four configurations, so it was optimistic by the amoun
 What the check cannot do: it cannot separate a per-cycle from a per-world charge, because no cell varies its
 cycle count inside a configuration. A sharper design would run one configuration at two different learn-window
 lengths, and that would change the protocol rather than measure its cost.
+
+## 181. The owner allocated the block, and the guard's own control had to be re-pointed (2026-11-03)
+
+The owner asked for the allocation record. `docs/stage_b_allocation.json` now records **720** seeds,
+**700000001**–**700000720**, in four chunks of 180, with the four spares **700000721**–**700000724**
+excluded and `substitution_allowed` **false**. The seeds were copied from
+`docs/stage_b_protocol.json`'s `seeds.preassigned` by `range(first, last+1)` and never typed, and the file
+records who allocated it, when, against which authorisation, and that **it runs nothing**: a seed is spent when
+its world is generated.
+
+**A defect the allocation exposed, in the control rather than the guard.** The self-test's first check was
+"`assert_runnable(700000001)` must raise", i.e. it read the *live* record. That was a correct control while
+nothing was allocated and it becomes a **failing** control the moment the owner does the authorised thing --
+the check would have reported the guard as broken for behaving correctly. `assert_runnable` now takes an
+optional `record`, and the control asks what the guard does under an empty allocation, under a record that
+names the seed, and under one that does not. The lesson generalises past this file: **a control that reads
+production state measures the state, not the rule**, and it inverts exactly when the state changes for good
+reasons. The batch-level test that the guard refuses before any worker starts now installs an empty record the
+same way.
+
+**The record is checked against the pre-assignment, not trusted.** A new test rebuilds the block from the
+protocol artifact, asserts the record equals it seed for seed, asserts no spare appears anywhere in it, and
+asserts the guard accepts the first and last seed of the block. A hand-edited record that added a spare, a
+seed outside the block, or a duplicate therefore fails the suite rather than quietly widening the run.
+
+Nothing has been run. The block is **runnable** for the first time, at a projected **29.14** h serial or
+**3.67** h at eight workers on this machine, and invoking it is still a deliberate act.
+
+## 182. The allocation record broke the seed scan by existing, and it is excluded for the same reason the protocol artifact is (2026-11-03)
+
+Writing `docs/stage_b_allocation.json` made the suite red: **17** errors in
+`tests/test_stage_b_protocol.py`, every one of them the disjointness scan reporting an overlap. The scan
+harvests every seed-numbered integer under `docs/*.json`, and the allocation record now holds all **720**
+seeds of the block, so the block overlapped itself -- the same circularity the protocol artifact is already
+excluded for, arriving through a new file.
+
+The fix is the existing rule applied to the second file that names the block: `EXCLUDED_ARTIFACTS` now holds
+`docs/stage_b_protocol.json` and `docs/stage_b_allocation.json`, and `self_artifact_excluded` says so. With the
+exclusion the artifact regenerates to **222** consumed seeds across **76** artifacts
+with **0** overlap: identical to the committed state before the allocation existed, which is the
+point -- allocating the block spends nothing and consumes nothing.
+
+**Two process notes, both about how the failure surfaced.** The first full-suite run after the allocation
+reported the errors and still let a commit through: the command chain ended at a heredoc, and the shell treated
+the next line as a new command rather than the continuation of the `&&` list, so a pin commit naming a hash
+that did not carry the work was created. It was never pushed; it was dropped before anything left the machine,
+and the commits now carry the content first and the pin second. The lesson is the same one this journal keeps
+recording in other forms: **a chain is not a check**. `set -e` in a script file is.

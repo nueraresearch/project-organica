@@ -194,8 +194,13 @@ def allocation() -> dict:
     return record
 
 
-def assert_runnable(seed: int) -> None:
-    """Refuse to spend a seed that has not been allocated. The guard is the point."""
+def assert_runnable(seed: int, record: dict | None = None) -> None:
+    """Refuse to spend a seed that has not been allocated. The guard is the point.
+
+    `record` exists so a control can ask what the guard does under an allocation that
+    does not exist, without depending on whether the live record does. A control that
+    reads the live record stops testing the guard the moment the owner allocates.
+    """
     if seed in DESIGN_SEEDS:          # consumed design-block seeds: smoke runs only
         return
     if SPARES[0] <= seed <= SPARES[1]:
@@ -206,7 +211,7 @@ def assert_runnable(seed: int) -> None:
     if config is None:
         raise RuntimeError(f"seed {seed} is not in the Stage B block 700000001-700000720")
     if seed not in DESIGN_SEEDS:
-        record = allocation()
+        record = allocation() if record is None else record
         if not record["allocated"] or seed not in record["seeds"]:
             raise RuntimeError(
                 f"seed {seed} is pre-assigned but NOT allocated: {record.get('why', '')}. "
@@ -447,12 +452,21 @@ def self_test() -> dict:
     """Guards, eligibility, scoring shape, and an analysis that can pass and fail."""
     checks: dict[str, object] = {}
 
-    # 1. the allocation guard
+    # 1. the allocation guard, asked against a counterfactual record so the control does
+    #    not quietly invert the day the owner allocates the block
+    empty = {"allocated": False, "seeds": [], "why": "control: nothing allocated"}
     try:
-        assert_runnable(700000001)
-        checks["refuses_an_unallocated_confirmatory_seed"] = False
+        assert_runnable(700000001, record=empty)
+        checks["refuses_a_seed_under_an_empty_allocation"] = False
     except RuntimeError as exc:
-        checks["refuses_an_unallocated_confirmatory_seed"] = "NOT allocated" in str(exc)
+        checks["refuses_a_seed_under_an_empty_allocation"] = "NOT allocated" in str(exc)
+    assert_runnable(700000001, record={"allocated": True, "seeds": [700000001]})
+    checks["accepts_a_seed_under_a_record_that_names_it"] = True
+    try:
+        assert_runnable(700000002, record={"allocated": True, "seeds": [700000001]})
+        checks["refuses_a_seed_the_record_does_not_name"] = False
+    except RuntimeError as exc:
+        checks["refuses_a_seed_the_record_does_not_name"] = "NOT allocated" in str(exc)
     try:
         assert_runnable(700000721)
         checks["refuses_a_reserved_spare"] = False

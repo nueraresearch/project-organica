@@ -9,6 +9,7 @@ cannot fail is decoration (AGENTS rule 25c).
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -16,8 +17,9 @@ from benchmarks import stage_b_runner as runner
 
 
 def test_an_unallocated_confirmatory_seed_is_refused():
+    empty = {"allocated": False, "seeds": [], "why": "control"}
     with pytest.raises(RuntimeError, match="pre-assigned but NOT allocated"):
-        runner.assert_runnable(700000001)
+        runner.assert_runnable(700000001, record=empty)
 
 
 def test_a_reserved_spare_is_refused_even_when_an_allocation_exists(tmp_path, monkeypatch):
@@ -213,6 +215,8 @@ def test_the_batch_refuses_before_dispatching_when_a_seed_is_unallocated(monkeyp
 
     monkeypatch.setattr(runner, "ProcessPoolExecutor", spy)
     monkeypatch.setattr(runner, "run_cell", spy)
+    empty = {"allocated": False, "seeds": [], "why": "control"}
+    monkeypatch.setattr(runner, "allocation", lambda: empty)
     with pytest.raises(RuntimeError, match="pre-assigned but NOT allocated"):
         runner.run_many([("2:1", 20261023), ("2:1", 700000001)], workers=4)
     assert constructed == [], "the guard must refuse the batch before any work starts"
@@ -338,3 +342,22 @@ def test_the_rate_check_refuses_one_configuration():
               "engine_seconds": 101.0}]
     check = runner.rate_proportionality(cells)
     assert check["checked"] is False and "minimum" in check["why"]
+
+
+def test_the_allocation_record_matches_the_preassigned_block():
+    """A hand-edited record cannot add a spare or a seed outside the block."""
+    path = Path("docs/stage_b_allocation.json")
+    if not path.exists():
+        pytest.skip("no allocation record yet; the guard refuses every confirmatory seed")
+    record = json.loads(path.read_text(encoding="utf-8"))
+    stage = json.loads(Path("docs/stage_b_protocol.json").read_text(encoding="utf-8"))
+    expected = sorted(seed for chunk in stage["seeds"]["preassigned"].values()
+                      for seed in range(chunk["first"], chunk["last"] + 1))
+    assert record["allocated"] is True
+    assert sorted(record["seeds"]) == expected, "the record must equal the pre-assignment"
+    assert len(expected) == stage["sample_size"]["worlds_total"]
+    assert not (set(record["seeds"]) & set(range(runner.SPARES[0], runner.SPARES[1] + 1))), (
+        "a spare must never appear in an allocation record")
+    assert record["substitution_allowed"] is False
+    runner.assert_runnable(700000001)
+    runner.assert_runnable(700000720)
