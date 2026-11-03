@@ -1,6 +1,7 @@
 # Stage B — protocol, complete draft for independent methods review
 
-**Status: DRAFT PROTOCOL FOR REVIEW. Stage B is not authorised.** No seed is allocated, no world is generated
+**Status: AUTHORISED, NOT RUN. Stage B was authorised on 2026-11-03; no seed is allocated and no world has
+run.** No seed is allocated, no world is generated
 and no run is authorised by this document. Every number here is written by
 `benchmarks/stage_b_protocol.py` into `docs/stage_b_protocol.json`, and `tests/test_stage_b_protocol.py` asserts
 this document against that artifact.
@@ -510,9 +511,13 @@ corrections**, because a record that shows only its final favourable numbers has
 
 ## 11. State
 
-**Stage B is not authorised.** No seed is allocated, no world is generated, no run is started, and no result
-exists. This document authorises nothing on its own: it becomes authorisable only when §7 of
-`docs/INDEPENDENT-METHODS-REVIEW.md` carries an outcome of *Approved* or *Approved with conditions resolved*.
+**Stage B is authorised, and it has not been run.** The owner recorded the authorisation on 2026-11-03 against
+commit `d16d8ae`, in [`docs/AUTHORISATION-STAGE-B.md`](AUTHORISATION-STAGE-B.md), after the three machine passes
+recorded in §D5 of [`docs/DECISION-STAGE-B-SEQUENCE.md`](DECISION-STAGE-B-SEQUENCE.md). **No seed is allocated, no
+world is generated, no run is started and no result exists**: an authorisation is a decision and the allocation it
+permits is a separate act. §7 of `docs/INDEPENDENT-METHODS-REVIEW.md` **stays empty**, so the evidence preceding
+this run is three machine passes from two model families and no independent human review, and any publication must
+say so rather than leave it to be inferred.
 
 What the protocol establishes on its own is narrower and worth stating plainly: the predictor is
 **operationally defined**, its eligibility and dispersion criteria are **measured per configuration**, its clock
@@ -534,7 +539,7 @@ The test recomputes the artifact, asserts every number quoted here against it �
 reliability ladder — asserts that the seed block is disjoint from every seed in the record and that the spare
 seeds are named, asserts that the closed form reproduces the published 48-world floor, asserts that the
 sustention-rule agreement is excluded from the block arithmetic and is listed among the withdrawn claims, and
-asserts that nothing is authorised or allocated.
+asserts that the run is authorised and that nothing is spent or allocated.
 
 ---
 
@@ -559,6 +564,6 @@ Three properties of that route are recorded here because a later reader will loo
 - **A pre-pass can stop the run and cannot start it.** A blocking finding fixes the protocol and restarts the
   sequence. A clean finding is not a licence: the licence is step 2, and it is the owner's.
 
-**Stage B is not authorised by this section.** No seed is allocated, no world is generated, no run is started and
+**Stage B is authorised, but not by this section.** No seed is allocated, no world is generated, no run is started and
 no relation between onset and behaviour has been computed. What has changed is that the route no longer depends on
 finding a person who satisfies §2.

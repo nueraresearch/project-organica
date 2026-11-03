@@ -40,14 +40,17 @@ def test_the_stored_artifact_is_current(stage):
     assert json.loads(OUT.read_text(encoding="utf-8")) == stage
 
 
-def test_nothing_is_authorised_and_nothing_is_spent(stage, text):
-    assert stage["status"]["authorised"] is False
+def test_authorised_but_nothing_is_spent(stage, text):
+    assert stage["status"]["authorised"] is True
+    assert stage["status"]["authorised_on"] == "2026-11-03"
+    assert (ROOT / "docs" / "AUTHORISATION-STAGE-B.md").exists()
+    assert "AUTHORISATION-STAGE-B.md" in text
     assert stage["status"]["seeds_allocated"] == 0
     assert stage["status"]["worlds_run"] == 0
     assert stage["seeds"]["allocated"] is False
     assert stage["behavioural_endpoint"]["resolution_confirmed"] is False
     assert "No engine ran" in stage["no_engine"]
-    assert "**Status: DRAFT PROTOCOL FOR REVIEW. Stage B is not authorised.**" in text
+    assert "**Status: AUTHORISED, NOT RUN." in text
     assert "candidate block is not an allocation" in text
 
 

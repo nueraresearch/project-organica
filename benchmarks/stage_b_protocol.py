@@ -456,12 +456,11 @@ def build() -> dict:
                         "world generated, no relation between onset and behaviour "
                         "computed.",
         "status": {
-            "authorised": False,
+            "authorised": True,
+            "authorised_on": "2026-11-03",
             "seeds_allocated": 0,
             "worlds_run": 0,
-            "statement": "Stage B is not authorised. The seed block is candidate "
-                         "only, and the pre-assignment inside it is a plan: it is "
-                         "proved unused, which is not the same as being spent.",
+            "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No world has run and no relation has been computed.",
         },
         "predictor": {
             "name": "confirmed onset of DI",

@@ -10335,3 +10335,28 @@ artifacts outside `docs/` is what the overlap assertion runs against, and `tests
 prose figure from the artifact so the sentence cannot drift from the number again. **The finding was correct when it
 was made and it stayed correct for three days while two passes read past it** — the quantum finding in the same
 transcript was stale, this one was not, and only the code could tell them apart.
+
+## 166. The owner authorised Stage B on two words, and the record is where the two words are expanded (2026-11-03)
+
+The owner authorised Stage B: *"i authorize it"*, given in reply to the statement that step 2 of the sequence was
+the only open step and his alone. The decision is recorded in `docs/AUTHORISATION-STAGE-B.md`, dated, against commit
+`d16d8ae`, with the scope taken from the protocol's own §D6 checklist rather than from the agent's sense of what he
+probably meant.
+
+What that authorises is specific: four configurations, 180 worlds each, 720 worlds, 373,320 cycles, seeds
+`700000001`–`700000720`, four spares never drawn, substitution prohibited, and the predictor, endpoint, falsifiers,
+outcomes and analysis exactly as committed. What it does not do is equally specific, and each item was written
+because the authorisation could otherwise be read as covering it: it **allocates nothing**, it does **not** answer
+the precision gate, it does **not** decide a configuration's eligibility, it does **not** turn the 0.05 effect gap
+into an identity, and it does **not** fill §7 or make the three machine passes an independent review.
+
+**The sequence now stops at step 3 for a mundane reason: there is no harness.** `benchmarks/` holds the protocol
+generator, the resolution simulation and the endpoint-precision probe. None of them generates a Stage B world or
+scores an endpoint, and the parameter space the protocol fixes puts the sample well beyond a unit test — 720 worlds
+with per-world horizons of 100 behavioural cycles plus confirmation. So the authorisation permits a run that cannot
+yet start, and writing the runner is the next piece of work rather than an afterthought to the signature.
+
+One property of the record is deliberate and worth stating here: it says that the wording is the agent's and the
+decision is the owner's, and that it **may be narrowed before the run but not widened afterwards**. A two-word
+assent does not enumerate six conditions, and the honest way to record it is to name the checklist it is being read
+against, mark who wrote which part, and give the owner the chance to cut anything he did not intend.

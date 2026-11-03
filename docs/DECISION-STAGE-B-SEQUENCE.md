@@ -91,3 +91,17 @@ it rather than on any further analysis. It must record, in the owner's own words
 
 **A step-2 record that omits any of these is not the authorisation this sequence describes**, and no later edit may
 add them retroactively.
+
+## D7 — Step 2 is recorded, so the sequence is spent up to step 3 (2026-11-03)
+
+The owner authorised Stage B on 2026-11-03 against commit `d16d8ae`, in reply to the statement that step 2 was the
+only open step and his alone. The statement, the scope, and what the authorisation does **not** do are in
+[`docs/AUTHORISATION-STAGE-B.md`](AUTHORISATION-STAGE-B.md). Step 2 of the table in §D2 is complete.
+
+**Step 3 has not happened.** No seed is allocated, no world exists, and there is no Stage B harness to run: the
+sequence ends here until one is written. That is a real boundary and not a formality — the protocol specifies 720
+worlds and 373,320 cycles, and no code in this repository can produce a single one of them yet.
+
+Nothing in this section re-reads the science. The hypothesis, predictor, endpoint, falsifiers, outcomes, ladder and
+seed block are exactly as they were at `d16d8ae`; what changed is that the run is permitted, which is a fact about
+permission and not about evidence.
