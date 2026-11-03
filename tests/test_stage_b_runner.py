@@ -361,3 +361,24 @@ def test_the_allocation_record_matches_the_preassigned_block():
     assert record["substitution_allowed"] is False
     runner.assert_runnable(700000001)
     runner.assert_runnable(700000720)
+
+
+def test_shard_partitions_the_block_exactly_once():
+    full = runner.block_jobs()
+    assert len(full) == len(set(full)) == 720
+    seen = []
+    for index in range(1, 5):
+        part = runner.shard_jobs(index, 4)
+        assert len(part) == 180, len(part)
+        assert {config for config, _ in part} == set(runner.CLAIMED), (
+            "each shard must cover every configuration, or one machine that dies takes a "
+            "whole configuration with it")
+        seen.extend(part)
+    assert sorted(seen) == sorted(full), "the shards must partition the block, not sample it"
+
+
+def test_a_bad_shard_is_refused():
+    assert runner.parse_shard("2/3") == (2, 3)
+    for bad in ("0/3", "4/3", "3", "a/b", "1/0"):
+        with pytest.raises(SystemExit):
+            runner.parse_shard(bad)

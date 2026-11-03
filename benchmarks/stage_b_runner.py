@@ -127,6 +127,31 @@ def seed_block(config: str) -> list[int]:
     return list(range(first, last + 1))
 
 
+def block_jobs() -> list[tuple[str, int]]:
+    """Every cell of the block, in a fixed order, so a shard is reproducible."""
+    return [(config, seed) for config in CLAIMED for seed in seed_block(config)]
+
+
+def parse_shard(text: str) -> tuple[int, int]:
+    try:
+        k, n = (int(part) for part in str(text).split("/"))
+    except (ValueError, AttributeError):
+        raise SystemExit(f"shard must be written K/N, got {text!r}")
+    if n < 1 or not 1 <= k <= n:
+        raise SystemExit(f"shard {text!r} is out of range: need 1 <= K <= N")
+    return k, n
+
+
+def shard_jobs(k: int, n: int) -> list[tuple[str, int]]:
+    """This machine's cells from an interleaved partition of the block.
+
+    Interleaved rather than contiguous so each shard covers every configuration and a
+    spread of seeds: a machine that dies takes a sample with it, not a whole
+    configuration, and the shards are equal to within one cell.
+    """
+    return block_jobs()[k - 1::n]
+
+
 def cell_path(config: str, seed: int) -> Path:
     return CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json"
 
@@ -678,6 +703,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--assemble", action="store_true")
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--shard", metavar="K/N",
+                        help="take every N-th cell starting at K, e.g. 1/2 or 2/2")
     parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
     parser.add_argument("--rate-check", action="store_true",
                         help="ask whether a cell's cost is per cycle or per world")
@@ -759,7 +786,12 @@ def main(argv: list[str] | None = None) -> int:
             print("REFUSED: no seed is allocated. " + str(record.get("why", "")) +
                   " Allocating the block is the owner's act (decision record §D2 step 3).")
             return 2
-        jobs = [(config, seed) for config in CLAIMED for seed in seed_block(config)]
+        jobs = block_jobs()
+        if args.shard:
+            index, count = parse_shard(args.shard)
+            jobs = shard_jobs(index, count)
+            print(f"shard {index}/{count}: {len(jobs)} of {len(block_jobs())} cells "
+                  f"assigned to this machine")
         pending = [(config, seed) for config, seed in jobs
                    if not cell_is_done(load_cell(config, seed))]
         print(f"{len(jobs) - len(pending)} cached, {len(pending)} pending, "

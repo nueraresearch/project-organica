@@ -10726,3 +10726,25 @@ the next line as a new command rather than the continuation of the `&&` list, so
 that did not carry the work was created. It was never pushed; it was dropped before anything left the machine,
 and the commits now carry the content first and the pin second. The lesson is the same one this journal keeps
 recording in other forms: **a chain is not a check**. `set -e` in a script file is.
+
+## 183. The block can be split across machines, and the only honest number for another machine is a cell run on it (2026-11-03)
+
+The block is 720 independent cells: `run_cell(config, seed)` touches nothing but its own scratch
+database, and each result is one JSON file under `.scratch/stage_b_runner/`. Nothing in the design couples
+seeds, so splitting the work costs the analysis nothing -- §5's conjunction runs over assembled cells, wherever
+they were produced.
+
+**What splitting needed.** `--cell` runs one world and `--all` runs everything; neither is a shard. `--all` now
+takes `--shard K/N`, which partitions the 720 cells **interleaved** (`jobs[K-1::N]`) rather than in contiguous
+blocks, so every shard covers all four configurations and a spread of seeds; a machine that dies takes a sample
+with it, not a configuration. The allocation guard still runs over a shard's seeds before any worker starts.
+
+**Merging is a copy.** Move `cell_*.json` from every machine into one `.scratch/stage_b_runner/` and run
+`--assemble --out docs/stage_b_runner.json`. An assembly missing a configuration still reports
+`NO VERDICT: PARTIAL ASSEMBLY`.
+
+**Timing, and what is measured.** On this 8-CPU VM the measured rate is 0.235431–0.318279 s per cycle
+(mean 0.286542), giving **29.14** h serial and **3.67** h at eight workers. A different machine has
+**no measured rate until a cell runs on it**; the honest projection is
+`29.14 h x (your seconds per cycle / 0.286542) / (your cores x 0.994)`. Reading a spec sheet instead
+would be a guess with a number attached.
