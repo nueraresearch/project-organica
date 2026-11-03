@@ -45,10 +45,14 @@ def test_authorised_but_nothing_is_spent(stage, text):
     assert stage["status"]["authorised_on"] == "2026-11-03"
     assert (ROOT / "docs" / "AUTHORISATION-STAGE-B.md").exists()
     assert "AUTHORISATION-STAGE-B.md" in text
-    # The run is authorised and blocked: the predictor and the outcome are defined in
-    # different world families, so no world can carry both (protocol 5a).
+    # Authorised, and the world-family block is resolved by the owner's dated decision
+    # (protocol 5a, §D13): the withholding world carries both quantities, while nothing
+    # is allocated or run, which the same field says rather than implies.
     blocked = stage["status"]["blocked_before_run"]
-    assert blocked["blocked"] is True and blocked["worlds_generated"] == 0
+    assert blocked["blocked"] is False and blocked["worlds_generated"] == 0
+    assert blocked["resolved_on"] == "2026-11-03" and "§D13" in blocked["resolved_by"]
+    assert "withholding world" in blocked["world"]
+    assert "no Stage B runner exists" in blocked["still_not_runnable_because"]
     assert "scale-stream" in blocked["reason"] and "compositional" in blocked["reason"]
     assert stage["status"]["seeds_allocated"] == 0
     assert "## 5a. The run has no world family" in text
@@ -61,7 +65,7 @@ def test_authorised_but_nothing_is_spent(stage, text):
     assert stage["status"]["seeds_allocated"] == 0
     assert stage["status"]["worlds_run"] == 0
     assert stage["seeds"]["allocated"] is False
-    assert stage["behavioural_endpoint"]["resolution_confirmed"] is False
+    assert stage["behavioural_endpoint"]["resolution_confirmed"] is True
     assert "No engine ran" in stage["no_engine"]
     assert "**Status: AUTHORISED, NOT RUN." in text
     assert "candidate block is not an allocation" in text
@@ -203,7 +207,8 @@ def test_the_horizon_is_per_world_and_matches_the_record(stage, construct, text)
 def test_the_endpoint_can_be_inspected_in_code(stage, text):
     endpoint = stage["behavioural_endpoint"]
     assert endpoint["name"] == "revision_held_out"
-    assert endpoint["resolution_confirmed"] is False
+    assert endpoint["resolution_confirmed"] is True
+    assert "stage_b_stream_withholding.json" in endpoint["resolution_evidence"]
     impl = " ".join(endpoint["implementation_to_inspect"])
     assert "reusable_knowledge.py" in impl
     assert "WITHHELD" in impl
@@ -264,7 +269,8 @@ def test_the_reviewer_gets_the_corrections_too(stage, text):
 def test_the_granularity_gate_is_not_passed_on_a_transition_count(stage, text):
     """Second pass, finding 3: the count is a denominator, not a precision."""
     res = stage["endpoint_resolution"]
-    assert res["confirmed"] is False
+    assert res["confirmed"] is True
+    assert res["confirmed_on"] == "2026-11-03" and "§D13" in res["confirmed_by"]
     assert res["status"].startswith("open")
     assert "not a count of independent contributions" in (
         res["endpoint_scale"]["what_the_count_buys"])
@@ -307,7 +313,8 @@ def test_the_endpoint_scale_is_the_scorer_not_a_proportion(stage, text):
     named, and the rules are restated on quantities that can actually be measured.
     """
     res = stage["endpoint_resolution"]
-    assert res["confirmed"] is False
+    assert res["confirmed"] is True
+    assert res["confirmed_on"] == "2026-11-03" and "§D13" in res["confirmed_by"]
     assert res["evidence_kind"].startswith("design-block")
     scale = res["endpoint_scale"]
     assert scale["is_a_proportion"] is False
@@ -331,7 +338,8 @@ def test_the_endpoint_scale_is_the_scorer_not_a_proportion(stage, text):
     assert "twice a world's standard error" in flat
     for word in ("**too coarse**", "**too sparse**", "**saturated**", "**undefined**"):
         assert word in flat, word
-    assert "`resolution_confirmed` stays **false**" in flat
+    assert "Disposition (2026-11-03): the gate is confirmed" in flat
+    assert "`resolution_confirmed` is **true**" in flat
     # and it stays a gate, not a conclusion
     assert "is** the gate" in flat
 
@@ -534,3 +542,28 @@ def test_the_checkpoint_rng_field_is_inert_for_every_cell_this_harness_runs():
     assert lottery < draw < source.index("def _form_theories_and_questions")
     for name in ("stage_b_onset_withholding.py", "stage_b_stream_withholding.py"):
         assert "HYPOTHESIS_RETENTION" not in (ROOT / "benchmarks" / name).read_text(encoding="utf-8"), name
+
+
+def test_the_three_decisions_are_recorded_in_the_artifact_and_the_sequence():
+    """Each decision carries its evidence, and none of them allocates or generates anything."""
+    import json as _json
+
+    stage = _json.loads(OUT.read_text(encoding="utf-8"))
+    blocked = stage["status"]["blocked_before_run"]
+    assert blocked["blocked"] is False and blocked["worlds_generated"] == 0
+    assert stage["status"]["seeds_allocated"] == 0 and stage["status"]["worlds_run"] == 0
+    assert "onset + 101 <= its horizon" in blocked["eligibility_rule"]
+    assert "excluded from the relation" in blocked["eligibility_rule"]
+    endpoint = stage["behavioural_endpoint"]
+    assert endpoint["resolution_confirmed"] is True
+    assert endpoint["resolution_confirmed_on"] == "2026-11-03"
+
+    seq = " ".join((ROOT / "docs" / "DECISION-STAGE-B-SEQUENCE.md").read_text(encoding="utf-8").split())
+    assert "## D13" in seq
+    assert "the run uses the withholding world" in seq
+    assert "an eligibility rule, not a longer block" in seq
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    assert "Resolved (2026-11-03)." in flat
+    assert "The eligibility rule that measurement implies (2026-11-03)." in flat
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "DECIDED 2026-11-03 (owner), all three" in manual

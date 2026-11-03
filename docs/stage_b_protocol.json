@@ -4,9 +4,15 @@
     "authorised": true,
     "authorised_on": "2026-11-03",
     "blocked_before_run": {
-      "blocked": true,
+      "blocked": false,
       "found": "2026-11-03",
       "reason": "the predictor is defined in the Phase L scale-stream family, where DI needs an early and a late group, and the outcome is defined in the compositional cell family, whose revision-test window is cycles 250-299 of a 300-cycle world; no document names the world a Stage B world belongs to, and neither family can host the other's quantity (protocol 5a)",
+      "resolved_on": "2026-11-03",
+      "resolved_by": "docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13 -- the owner's dated decision, recorded against this artifact",
+      "world": "the withholding world (benchmarks/stage_b_stream_withholding.py), a reconstruction of the scale-stream family whose declared transition early_0 -> late_0 is refused by conditioned sampling while the organism is exposed",
+      "outcome_in_that_world": "revision_held_out, scored on that world's declared withheld tag pairs at the world's own behavioural window, by benchmarks/acquisition_compositional.py's score -- the definition whose precision is measured in docs/stage_b_endpoint_precision.json",
+      "eligibility_rule": "a world is eligible iff onset + 101 <= its horizon; a world whose follow-up does not fit is reported and excluded from the relation, never truncated (protocol \u00a74). On the twelve design-block cells it excludes one: 2:1 seed 20261023, onset 602, horizon 640",
+      "still_not_runnable_because": "no Stage B runner exists, no seed is allocated, and the eligibility rule above is recorded but not implemented in a runner",
       "worlds_generated": 0,
       "resolves_when": "a dated decision records which world family the run uses and what the predictor or endpoint becomes in it"
     },
@@ -37,7 +43,9 @@
   },
   "endpoint_resolution": {
     "status": "open: not evaluable from a transition count, and not claimed to pass",
-    "confirmed": false,
+    "confirmed": true,
+    "confirmed_on": "2026-11-03",
+    "confirmed_by": "docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13, on the per-world precision measured in docs/stage_b_stream_withholding.json",
     "what_would_confirm_it": "the withheld enumeration for the four claimed configurations, reporting the count per world and a per-world standard error measured by resampling that world's withheld transitions -- not its scored cells -- before any world runs. Until that is measured the granularity gate is undetermined, which is the state this artifact reports instead of a pass it cannot support (docs/AI-REVIEW-2026-11-03.md, finding 3)",
     "evidence_source": "docs/reusable_knowledge_calibration.json",
     "evidence_kind": "design-block cells, declared as such and not confirmatory",
@@ -69,7 +77,7 @@
       "undefined": "zero withheld transitions -> excluded by the existing E6 gate, never zeroed (AGENTS 13b)",
       "screening": "the enumeration runs before any world, and its own report is the gate -- not this paragraph"
     },
-    "limit": "the count bounds the denominator of a per-world mean; it neither establishes the endpoint's granularity nor shows that the outcome varies across worlds, which only the run can show. The method that measures the per-world standard error now exists and has been run on design-block cells; the organism's own readout does not exist before the run, so the gate stays undetermined",
+    "limit": "the count bounds the denominator of a per-world mean; it neither establishes the endpoint's granularity nor shows that the outcome varies across worlds, which only the run can show. The method that measures the per-world standard error now exists and has been run on design-block cells; the organism's own readout does not exist before the run, so the gate is recorded as confirmed on design-block cells by the decision of 2026-11-03, and the saturated rule still consumes the run's own realised precision",
     "design_block_precision_probe": {
       "artifact": "docs/stage_b_endpoint_precision.json",
       "method": "each withheld transition is a cluster; its cells move together because the vocabulary is scored under every transition; the world's score is the ratio (sum of transition losses) / (sum of transition cell counts) and is bootstrapped by resampling transitions with replacement",
@@ -113,8 +121,10 @@
       "benchmarks/reusable_knowledge.py -- revision_held_out, held_out['revision_held_out_pairs'], and the WITHHELD set selected inside limbs()'s held_only() define what is scored and withheld",
       "benchmarks/formation_provenance_study.py -- held_out_pairs() is that study's own pair selector, NOT this endpoint's withholding rule (docs/AI-REVIEW-2026-11-02.md, rubric 3)"
     ],
-    "resolution_requirement": "the endpoint is an averaged pairwise log loss, so it has no one-over-count quantum and this requirement may not be stated as one. What must be reported before the run is the withheld count per world and the per-world standard error measured by resampling those withheld transitions. A run whose measured precision cannot separate two worlds the claim distinguishes is a design defect and does not start; until the measurement exists the gate is undetermined, not passed",
-    "resolution_confirmed": false
+    "resolution_requirement": "the endpoint is an averaged pairwise log loss, so it has no one-over-count quantum and this requirement may not be stated as one. What must be reported before the run is the withheld count per world and the per-world standard error measured by resampling those withheld transitions. A run whose measured precision cannot separate two worlds the claim distinguishes is a design defect and does not start; the measurement now exists on the withholding world's design-block cells and the gate is recorded as confirmed by the owner's dated decision (protocol \u00a73.1; docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13)",
+    "resolution_confirmed": true,
+    "resolution_confirmed_on": "2026-11-03",
+    "resolution_evidence": "docs/stage_b_stream_withholding.json -- four configurations x three design-block cells, the withheld count per world and a per-world standard error by resampling that world's withheld transitions; twice that standard error is 0.0019 to 0.0067 nats against the 0.05 assumed gap, in every cell. Disposition in protocol \u00a73.1 and docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13"
   },
   "clock": {
     "post_confirmation_margin_cycles": 1,

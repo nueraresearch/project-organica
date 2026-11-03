@@ -10484,3 +10484,31 @@ development under it. Nothing is re-scored and no constant is changed: these are
 seed was allocated, and whether a world is built to a high quantile of onset, to a per-world horizon, or under an
 eligibility rule that excludes a truncated follow-up is a design decision for the owner. Journal §171's completion
 stands; this entry adds what the measurement implies for the run's clock.
+
+## 173. The three Stage B decisions are recorded, and none of them allocates a seed (2026-11-03)
+
+The owner approved the three actions §172 and §D12 left open. They are now recorded against the artifact rather
+than in prose alone, and each one is a decision about permission and design, not a new measurement.
+
+**The world family.** The run uses the withholding world, and `revision_held_out` is scored there on its declared
+withheld tag pairs at the world's own behavioural window. The two quantities that §D8 found defined in different
+families now live in one world: `DI` onset is measured on it and the withheld endpoint's per-world standard error
+is measured on it. `status.blocked_before_run.blocked` is false, with the world named and the reason the run
+still cannot start recorded beside it -- no runner exists, no seed is allocated, and the eligibility rule is not
+implemented in a runner.
+
+**The horizon.** The rule is an eligibility rule rather than a longer block: a world is eligible iff
+`onset + 101 <= its horizon`, and a world whose follow-up would not fit is reported with its onset and horizon
+and excluded from the relation, never truncated. On the twelve measured cells it excludes **1** (`2:1`, seed
+**20261023**, onset **602**, horizon **640**). No horizon, block size, seed or total changes: the block stays at 720
+worlds and 373,320 cycles. What is bought is that no follow-up is ever short; what is given up is that
+late-emerging worlds leave the relation, which is the direction the design cares about most, so the exclusion
+count is reported per configuration rather than absorbed.
+
+**The granularity gate.** Confirmed, on the measurement rather than on an argument: twice the per-world standard
+error is **0.0019 to 0.0067** nats against the 0.05 assumed gap, in every design-block cell of the withholding world,
+across the four claimed configurations. `resolution_confirmed` is true with the evidence named beside it, and the
+two limits are kept: the cells are design-block, and the saturated rule still consumes the run's own precision.
+
+Nothing here re-scores a result or reopens a verdict. The onset measurement remains what §171 recorded, the block
+remains unallocated, and the next act is the runner's -- not the analysis's.

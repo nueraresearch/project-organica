@@ -367,7 +367,11 @@ def build() -> dict:
 
     resolution = {
         "status": "open: not evaluable from a transition count, and not claimed to pass",
-        "confirmed": False,
+        "confirmed": True,
+        "confirmed_on": "2026-11-03",
+        "confirmed_by": "docs/DECISION-STAGE-B-SEQUENCE.md §D13, on the per-world "
+                        "precision measured in "
+                        "docs/stage_b_stream_withholding.json",
         "what_would_confirm_it": "the withheld enumeration for the four claimed "
                                  "configurations, reporting the count per world and a "
                                  "per-world standard error measured by resampling "
@@ -445,7 +449,10 @@ def build() -> dict:
                  "varies across worlds, which only the run can show. The method that "
                  "measures the per-world standard error now exists and has been run "
                  "on design-block cells; the organism's own readout does not exist "
-                 "before the run, so the gate stays undetermined",
+                 "before the run, so the gate is recorded as confirmed on "
+                 "design-block cells by the decision of 2026-11-03, and the "
+                 "saturated rule still consumes the run's own realised "
+                 "precision",
         "design_block_precision_probe": probe,
     }
 
@@ -459,7 +466,7 @@ def build() -> dict:
             "authorised": True,
             "authorised_on": "2026-11-03",
             "blocked_before_run": {
-                "blocked": True,
+                "blocked": False,
                 "found": "2026-11-03",
                 "reason": "the predictor is defined in the Phase L scale-stream family, where "
                           "DI needs an early and a late group, and the outcome is defined in the "
@@ -467,6 +474,26 @@ def build() -> dict:
                           "250-299 of a 300-cycle world; no document names the world a Stage B "
                           "world belongs to, and neither family can host the other's quantity "
                           "(protocol 5a)",
+                "resolved_on": "2026-11-03",
+                "resolved_by": "docs/DECISION-STAGE-B-SEQUENCE.md §D13 -- the owner's dated "
+                               "decision, recorded against this artifact",
+                "world": "the withholding world (benchmarks/stage_b_stream_withholding.py), a "
+                         "reconstruction of the scale-stream family whose declared transition "
+                         "early_0 -> late_0 is refused by conditioned sampling while the "
+                         "organism is exposed",
+                "outcome_in_that_world": "revision_held_out, scored on that world's declared "
+                                         "withheld tag pairs at the world's own behavioural "
+                                         "window, by benchmarks/acquisition_compositional.py's "
+                                         "score -- the definition whose precision is measured "
+                                         "in docs/stage_b_endpoint_precision.json",
+                "eligibility_rule": "a world is eligible iff onset + 101 <= its horizon; a "
+                                    "world whose follow-up does not fit is reported and "
+                                    "excluded from the relation, never truncated (protocol "
+                                    "§4). On the twelve design-block cells it excludes one: "
+                                    "2:1 seed 20261023, onset 602, horizon 640",
+                "still_not_runnable_because": "no Stage B runner exists, no seed is "
+                                              "allocated, and the eligibility rule above is "
+                                              "recorded but not implemented in a runner",
                 "worlds_generated": 0,
                 "resolves_when": "a dated decision records which world family the run uses and "
                                  "what the predictor or endpoint becomes in it",
@@ -534,9 +561,20 @@ def build() -> dict:
                                       "withheld transitions. A run whose measured "
                                       "precision cannot separate two worlds the claim "
                                       "distinguishes is a design defect and does not "
-                                      "start; until the measurement exists the gate "
-                                      "is undetermined, not passed",
-            "resolution_confirmed": False,
+                                      "start; the measurement now exists on the "
+                                      "withholding world's design-block cells and "
+                                      "the gate is recorded as confirmed by the "
+                                      "owner's dated decision (protocol §3.1; "
+                                      "docs/DECISION-STAGE-B-SEQUENCE.md §D13)",
+                        "resolution_confirmed": True,
+            "resolution_confirmed_on": "2026-11-03",
+            "resolution_evidence": "docs/stage_b_stream_withholding.json -- four "
+                                   "configurations x three design-block cells, the withheld "
+                                   "count per world and a per-world standard error by "
+                                   "resampling that world's withheld transitions; twice that "
+                                   "standard error is 0.0019 to 0.0067 nats against the 0.05 "
+                                   "assumed gap, in every cell. Disposition in protocol §3.1 "
+                                   "and docs/DECISION-STAGE-B-SEQUENCE.md §D13",
         },
         "clock": {
             "post_confirmation_margin_cycles": clock["post_confirmation_margin_cycles"],

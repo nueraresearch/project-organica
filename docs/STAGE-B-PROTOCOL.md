@@ -168,11 +168,20 @@ answers.
 | **saturated** | a configuration whose realised **across-world SD is below twice the median per-world standard error** is unmeasurable there: excluded and reported, never scored as a null — answered from the run's measured precision, not from the count |
 | **undefined** | zero withheld transitions is excluded by the existing `E6` gate, and never scored as zero (AGENTS 13b) |
 
-`resolution_confirmed` stays **false**, and `status` now reads **open** rather than *informed*: two of the four
-rules consume a per-world standard error that cannot exist until a withheld set does, so the state before the run
-is **undetermined**, not passed. These numbers *inform* the gate; the enumeration for the four claimed
-configurations **is** the gate, it runs before any world does, and §5 now requires it to report the measured
-precision those two rules consume.
+**Disposition (2026-11-03): the gate is confirmed, and the record says which measurement did it.** The
+enumeration for the four claimed configurations **is** the gate, and it has now run. Before that
+measurement existed the state was **undetermined**, not passed, and this paragraph is kept as the
+record of it. The two fields that report this gate -- `endpoint_resolution.confirmed` and
+`behavioural_endpoint.resolution_confirmed` -- now carry the same value and the same date, because a gate
+reported under two names in two states is the defect rule 25(c) names. `docs/stage_b_stream_withholding.json` measures the
+four claimed configurations on design-block cells of the world the run actually uses, with the withheld count
+per world and a per-world standard error from resampling that world's withheld transitions. Twice that standard
+error is **0.0019 to 0.0067** nats against the **0.05** assumed gap, in every cell, so the *too coarse* rule does not
+fire and `resolution_confirmed` is **true** with its evidence named beside it. Two limits stay attached and are
+not softened by this: the cells are design-block, not confirmatory, so the gate is answered for the design and
+is not re-answered by the run; and the *saturated* rule still consumes the run's own realised precision, because
+a configuration whose across-world spread collapses cannot be rescued by a good per-world error. Recorded in
+`docs/DECISION-STAGE-B-SEQUENCE.md` §D13.
 
 ---
 
@@ -287,6 +296,18 @@ seed, and whether a Stage B world is built to a high quantile of onset, to a per
 eligibility rule that excludes a truncated follow-up is the owner's decision and not the runner's. Recorded in
 journal §172.
 
+**The eligibility rule that measurement implies (2026-11-03).** A world is **eligible** iff
+`onset + 101 <= its horizon`, so its follow-up is complete inside the world built for it. A world whose onset
+lands later is **ineligible**: reported with its onset and horizon, and **excluded from the relation** -- never
+truncated to a shorter follow-up and never scored at a boundary. On the twelve design-block cells the rule
+excludes **1** (`2:1`, seed `20261023`, onset **602**, horizon **640**) and the other **11** are eligible, which is the
+arithmetic the note above reports. **No horizon, block size, seed or total changes**, so the committed block
+cost stands at **373,320** cycles. The price is stated rather than hidden: late-emerging worlds are lost to the
+relation instead of being measured against a short follow-up, and the exclusion count per configuration is
+reported beside the relation and never silently subtracted. If that price is judged too high, the remedy is a
+longer world for that configuration, which changes the block's cost and is therefore a new decision rather than
+a runner's default.
+
 **Both clocks are recorded.** Behavioural opportunity is equalised — same margin, same phases, same duration.
 Developmental age at which the window opens is not, and is reported. In the Phase L record the first behavioural
 index ranges 299–599; the claim is about behaviour over a fixed window *after emergence*, so the window follows
@@ -361,6 +382,18 @@ recorded.** Two coherent repairs exist and they are not equivalent:
 **Both are protocol changes, so both are the owner's** — and the choice belongs in `docs/DECISION-STAGE-B-SEQUENCE.md`
 as a dated decision, not in a harness's default argument. Deciding it inside a runner would be choosing the experiment
 after the authorisation, which is the defect class this project has spent months removing from its own numbers.
+
+**Resolved (2026-11-03).** The owner recorded the choice this section asked for: **the run uses the
+withholding world** -- the reconstruction of the scale-stream family whose declared transition `early_0 ->
+late_0` is refused while the organism is exposed -- and `revision_held_out` is scored there on that world's
+declared withheld tag pairs at the world's own behavioural window, by the readout whose precision is measured in
+`docs/stage_b_endpoint_precision.json`. Both quantities this section said no world could carry now exist in one
+world: `DI` onset is measured on it (twelve design-block cells, none censored) and the withheld endpoint's
+precision is measured on it. The finding above is kept as the record of why the choice was needed; nothing is
+deleted, and no hypothesis, endpoint definition, falsifier, threshold, block size or seed moved.
+`status.blocked_before_run.blocked` is **false** in the artifact, with the world named, and the reason the run
+still does not start is recorded in the same field rather than implied. Decision:
+`docs/DECISION-STAGE-B-SEQUENCE.md` §D13.
 
 ## 6. Sample size, and the reliability this protocol does not have
 

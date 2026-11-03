@@ -210,3 +210,38 @@ field snapshots a generator no Stage B cell draws from: `organica/sleep.py` uses
 retention lottery, the engine's policy is `salience`, and no Stage B module overrides it. The resume path is tested
 against an uninterrupted run rather than asserted, and the equality check is shown to catch a resume that did not
 restore its database. Journal §172; `tests/test_stage_b_onset_resume.py`; `tests/test_stage_b_protocol.py`.
+
+## D13 — The three decisions, recorded (2026-11-03)
+
+The owner approved all three actions listed in §D12. Each is recorded here with the evidence it rests on and the
+number it does or does not change. None of the three allocates a seed, generates a world or starts a run.
+
+**1. The world family: the run uses the withholding world.** `benchmarks/stage_b_stream_withholding.py` builds a
+reconstruction of the scale-stream family whose declared transition `early_0 -> late_0` is refused by conditioned
+sampling while the organism is exposed, and `revision_held_out` is scored there on that world's declared withheld
+tag pairs at the world's own behavioural window, by the readout whose precision is measured in
+`docs/stage_b_endpoint_precision.json`. Both quantities §D8 found in different worlds now exist in one: `DI`
+onset is measured on it (twelve design-block cells, none censored) and the withheld endpoint's precision is
+measured on it. Protocol §5a carries the closure beside the finding, which is kept as the record of why the
+choice was needed. `status.blocked_before_run.blocked` is **false** in `docs/stage_b_protocol.json`, with the
+world named and `still_not_runnable_because` recording that no runner exists and no seed is allocated.
+
+**2. The horizon: an eligibility rule, not a longer block.** A world is eligible iff `onset + 101 <= its
+horizon`, so its follow-up is complete inside the world built for it; a world whose onset lands later is reported
+with its onset and horizon and excluded from the relation, never truncated and never scored at a boundary. On the
+twelve design-block cells the rule excludes **1** (`2:1`, seed `20261023`, onset **602**, horizon **640**) and the other
+**11** are eligible. **No horizon, block size, seed or total changes**, so the committed block stays at 720
+worlds and 373,320 cycles. The price is stated rather than hidden: late-emerging worlds leave the relation rather
+than being measured against a short follow-up, which §4 warns is the worse error, and the exclusion count is
+reported per configuration. Protocol §4 carries the rule.
+
+**3. The granularity gate: confirmed on the measured precision.** `docs/stage_b_stream_withholding.json`
+measures the four claimed configurations on design-block cells with the withheld count per world and a per-world
+standard error from resampling that world's withheld transitions. Twice that standard error is **0.0019 to 0.0067**
+nats against the **0.05** assumed gap, in every cell, so `resolution_confirmed` is **true** and its evidence is
+named beside it. The limit is recorded in protocol §3.1 rather than softened: the cells are design-block, and the
+*saturated* rule still consumes the run's own realised precision.
+
+**What this does not do.** It does not allocate a seed, generate a world, write a runner, or compute any relation
+between onset and behaviour. `status.seeds_allocated` and `status.worlds_run` are both 0, and allocating the
+block remains the separate act §D2 describes. Journal §173.
