@@ -167,12 +167,29 @@
       }
     },
     "worlds_per_configuration_at_reliability_1": 48,
-    "worlds_per_configuration": 104,
-    "worlds_total": 416,
+    "worlds_per_configuration": 120,
+    "worlds_per_configuration_ladder": 104,
+    "block_floor_rule": {
+      "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on the committed rule's resolution clears the declared bar, and never smaller than the ladder row at the planning assumption",
+      "lower_bound_multiplier": 1.96,
+      "tested_sizes": [
+        112,
+        120
+      ],
+      "clearing_on_the_lower_bound": [
+        120
+      ],
+      "ladder_row_at_planning_assumption": 104,
+      "chosen": 120,
+      "why": "the ladder solves in Fisher's z and the analysis resamples worlds: the simulated realisation at the ladder row is 0.895 at 104 worlds, so the closed form overstates the resolution the committed rule delivers",
+      "what_it_does_not_change": "the published 48-world floor and every ladder row, including the 104 at the planning assumption; the block is raised above the ladder, and the ladder is not edited to match",
+      "decision": "owner delegated the choice on 2026-11-03, with the rule stated before it was applied"
+    },
+    "worlds_total": 480,
     "reportable_floor_per_configuration": 48,
     "a_higher_reliability_would_shrink_the_block": true,
     "worlds_total_if_reviewer_accepts_0_70": 288,
-    "why_this_size": "The block is sized so the decision rule resolves a relation of the declared smallest size in 90 % of blocks at the declared reliability assumption. The assumption is stated, not derived, and every alternative row is printed beside it.",
+    "why_this_size": "The block is sized so the decision rule resolves a relation of the declared smallest size in 90 % of blocks at the declared reliability assumption, and is then raised above the ladder row to the smallest tested size whose lower Monte-Carlo bound clears that bar, because the ladder is a closed form and the analysis is a bootstrap. The assumption is stated, not derived, and every alternative row is printed beside it.",
     "it_is_a_floor": "unmodelled dependence between worlds and any further measurement error lower the real resolution probability, so this is the least number the claim can be tested with, not the most",
     "below_the_floor": "a configuration whose usable n falls below 48 after censoring is reported inconclusive, never null",
     "no_replacement": "a censored world is not replaced: the denominator is reported as realised"
@@ -210,9 +227,9 @@
     "used_in_the_block_size": false
   },
   "cost": {
-    "cycles_total": 215696,
+    "cycles_total": 248880,
     "cycles_if_every_world_ran_600": 144000,
-    "relative_to_phase_l": 1.4979,
+    "relative_to_phase_l": 1.7283,
     "note": "Estimated from the median confirmation cycle per configuration in the Phase L record, which is the best available estimate of where fresh worlds will emerge. It is an estimate, not a measurement."
   },
   "seeds": {
@@ -893,35 +910,35 @@
     "consumed_total": 192,
     "candidate_block": [
       700000001,
-      700000420
+      700000484
     ],
-    "candidate_count": 420,
+    "candidate_count": 484,
     "preassigned": {
       "2:1": {
         "first": 700000001,
-        "last": 700000104,
-        "count": 104
+        "last": 700000120,
+        "count": 120
       },
       "3:1": {
-        "first": 700000105,
-        "last": 700000208,
-        "count": 104
+        "first": 700000121,
+        "last": 700000240,
+        "count": 120
       },
       "4:1": {
-        "first": 700000209,
-        "last": 700000312,
-        "count": 104
+        "first": 700000241,
+        "last": 700000360,
+        "count": 120
       },
       "6:1": {
-        "first": 700000313,
-        "last": 700000416,
-        "count": 104
+        "first": 700000361,
+        "last": 700000480,
+        "count": 120
       }
     },
-    "preassigned_total": 416,
+    "preassigned_total": 480,
     "unused": {
-      "first": 700000417,
-      "last": 700000420,
+      "first": 700000481,
+      "last": 700000484,
       "count": 4
     },
     "substitution_allowed": false,

@@ -97,8 +97,14 @@ def test_the_block_is_solved_from_the_claim_at_a_declared_assumption(stage, text
     assert _worlds_for(0.50) == PUBLISHED_FLOOR == 48
     assert s["worlds_per_configuration_at_reliability_1"] == 48
     assert s["reliability_planning_assumption"] == 0.50
-    assert s["worlds_per_configuration"] == 104
-    assert s["worlds_total"] == 104 * len(CLAIMED) == 416
+    assert s["worlds_per_configuration"] == 120
+    assert s["worlds_total"] == 120 * len(CLAIMED) == 480
+    # the block is the ladder row raised by a lower-bound rule, not by preference
+    rule = s["block_floor_rule"]
+    assert rule["ladder_row_at_planning_assumption"] == 104
+    assert rule["chosen"] == 120
+    assert rule["clearing_on_the_lower_bound"] == [120]
+    assert 112 in rule["tested_sizes"]
     assert s["reportable_floor_per_configuration"] == 48
     assert s["worlds_per_configuration"] > s["reportable_floor_per_configuration"]
     assert s["worlds_total_if_reviewer_accepts_0_70"] == 288
@@ -123,17 +129,17 @@ def test_the_block_is_solved_from_the_claim_at_a_declared_assumption(stage, text
 
 def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stage, text):
     seeds = stage["seeds"]
-    assert seeds["candidate_block"] == [700000001, 700000420]
-    assert seeds["candidate_count"] == 420
+    assert seeds["candidate_block"] == [700000001, 700000484]
+    assert seeds["candidate_count"] == 484
     assert seeds["overlap_with_consumed"] == []
     assert seeds["candidate_count"] == seeds["preassigned_total"] + seeds["unused"]["count"]
-    assert seeds["preassigned_total"] == stage["sample_size"]["worlds_total"] == 416
+    assert seeds["preassigned_total"] == stage["sample_size"]["worlds_total"] == 480
     assert sorted(seeds["preassigned"]) == sorted(CLAIMED)
     for lab, chunk in seeds["preassigned"].items():
-        assert chunk["count"] == 104, lab
+        assert chunk["count"] == 120, lab
     assert seeds["preassigned"]["2:1"]["first"] == 700000001
-    assert seeds["preassigned"]["6:1"]["last"] == 700000416
-    assert seeds["unused"] == {"first": 700000417, "last": 700000420, "count": 4}
+    assert seeds["preassigned"]["6:1"]["last"] == 700000480
+    assert seeds["unused"] == {"first": 700000481, "last": 700000484, "count": 4}
     assert seeds["substitution_allowed"] is False
     assert seeds["consumed_total"] == 192
     assert seeds["disjoint_proved_against"] == 71
@@ -141,7 +147,7 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
         assert (ROOT / path).exists(), path
     assert "**192** consumed seeds across **71** artifacts" in text
     assert "**0 overlap**" in text
-    assert "**four** seeds" in text and "700000417" in text
+    assert "**four** seeds" in text and "700000481" in text
     assert "**Substitution is prohibited**" in text
 
 
@@ -150,15 +156,15 @@ def test_the_horizon_is_per_world_and_matches_the_record(stage, construct, text)
     for lab, horizon in stage["clock"]["median_horizon_by_config_cycles"].items():
         assert horizon == per[lab]["confirmation_cycle_median"] + 101, lab
     assert stage["clock"]["horizon_is_per_world"] is True
-    assert stage["cost"]["cycles_total"] == 215696
-    assert stage["cost"]["relative_to_phase_l"] == pytest.approx(1.4979, abs=1e-4)
+    assert stage["cost"]["cycles_total"] == 248880
+    assert stage["cost"]["relative_to_phase_l"] == pytest.approx(1.7283, abs=1e-4)
     worlds = stage["sample_size"]["worlds_per_configuration"]
     for lab, horizon in stage["clock"]["median_horizon_by_config_cycles"].items():
         row = "| `%s` | %.0f | %.0f | %d | %s |" % (
             lab, per[lab]["confirmation_cycle_median"], horizon, worlds,
             format(int(horizon * worlds), ","))
         assert row in text, row
-    assert "| **total** | — | — | **416** | **215,696** |" in text
+    assert "| **total** | — | — | **480** | **248,880** |" in text
 
 
 def test_the_endpoint_can_be_inspected_in_code(stage, text):
@@ -324,8 +330,9 @@ def test_the_ladder_is_checked_with_the_committed_interval(text):
     # the sentence claiming it does not clear the bar had to go too
     assert "does not clear the 90 % bar at the point estimate" not in flat
     assert "**0.7 SE below**" in flat and "3.6 SE**" in flat
-    # the block-size question must stay open rather than be settled here
-    assert "recorded here as **open**" in flat
+    # the block-size question is now decided by a rule, not left open
+    assert "The block is 120, and the rule that chose it was fixed" in flat
+    assert "recorded here as **open**" not in flat
 
 
 def test_pre_assigned_allocated_and_reserved_are_distinguished(stage, text):

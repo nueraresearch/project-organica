@@ -288,14 +288,14 @@ convenience.
 
 **What 0.50 is not.** It is a **declared planning assumption, not an established lower bound**. The argument
 that reliability below 0.50 leaves more error than signal is a statement inside the assumed model; it does not
-establish that onset's true reliability is at least 0.50, because that quantity is unmeasured. So **104 worlds
-per configuration is the requirement conditional on this assumption** — not a demonstration that the experiment
-has adequate resolution under the actual measurement properties. The reviewer may reject the assumption without
+establish that onset's true reliability is at least 0.50, because that quantity is unmeasured. So **104 worlds per configuration is the ladder's requirement conditional on this assumption**, and the block
+adopted is **120**, raised above it by the rule in §6.3 — neither the ladder nor this sentence is a demonstration
+that the experiment has adequate resolution under the actual measurement properties. The reviewer may reject the assumption without
 proposing a replacement, and the ladder gives the consequence of every row so that rejection is a recorded
 change rather than a negotiation.
 
 **The count is a floor, not a budget.** Unmodelled dependence between worlds and any further measurement error
-lower the real resolution probability, so 104 is the least number this claim can be tested with, not the most.
+lower the real resolution probability, so 120 is the least number this claim can be tested with, not the most.
 
 ### 6.3 The ladder is a closed form; the analysis is not
 
@@ -336,25 +336,34 @@ that: at the 98.33 % level the lower edge is the **3rd smallest of 300** replica
 give the **84th of 10,000**, and the direction of the resulting bias in the resolved share was never measured. The
 artifact says that instead, and the numbers above carry the unknown with them.
 
-**What that does not license.** 104 is not silently increased here. Moving it re-derives the published ladder —
-the 48-world floor included — which is a change to the design record, not an erratum in this protocol. The same
-rule prices the alternative: **112 worlds gives 0.914 (SE 0.010)** and **120 gives 0.931 (SE 0.009)** — 120 clear
-of the bar, 112 not separable from it. Choosing between 104 at the edge, 112 with clear, and leaving the published construction alone
-is a decision for the owner at step 2 of `docs/DECISION-STAGE-B-SEQUENCE.md`; it is recorded here as **open**, not
-resolved by this document.
+**The block is 120, and the rule that chose it was fixed before the number was read.** The owner delegated the
+choice on 2026-11-03, so the rule is recorded in the form it was applied: *the smallest tested size whose **lower**
+1.96-sigma Monte-Carlo bound on the committed rule's resolution clears the 90 % bar*. At 112 the lower bound is
+**0.894**, below the bar; at 120 it is **0.914**, above it. 120 is therefore the smallest tested size that clears
+the bar on the lower bound rather than on a point estimate, and the rule is applied by code — `stage_b_protocol.py`
+reads the simulation's rows, records the choice as `block_floor_rule`, and fails the build if no size qualifies.
+Only 112 and 120 were ever simulated, so the rule selects among tested sizes and not among all integers; that is
+stated rather than glossed.
+
+**What that does not change.** The ladder is untouched: the 48-world floor and every row, including the 104 at the
+planning assumption, stay exactly as published, and it is not edited to match the block. What changed is the block,
+and the record says so beside the arithmetic that raised it — **480** worlds instead of 416, **248,880** cycles
+instead of 215,696. Keeping 104 would have shipped a design whose own declared analysis misses its own declared
+bar; the alternative of jumping to the ladder's next row (131, at an assumed reliability of 0.40) would have
+claimed a worse instrument than the protocol declares, which is a different and larger change.
 
 ### 6.4 Cost
 
 | configuration | median confirmation | horizon per world | worlds | cycles |
 | --- | --- | --- | --- | --- |
-| `2:1` | 548 | 649 | 104 | 67,496 |
-| `3:1` | 413 | 514 | 104 | 53,456 |
-| `4:1` | 371 | 472 | 104 | 49,088 |
-| `6:1` | 338 | 439 | 104 | 45,656 |
-| **total** | — | — | **416** | **215,696** |
+| `2:1` | 548 | 649 | 120 | 77,880 |
+| `3:1` | 413 | 514 | 120 | 61,680 |
+| `4:1` | 371 | 472 | 120 | 56,640 |
+| `6:1` | 338 | 439 | 120 | 52,680 |
+| **total** | — | — | **480** | **248,880** |
 
-That is **1.4979** of Phase L's 144,000 cycles for a block of 416 worlds. The figure is *higher* than Phase L
-despite the per-world saving, because the block is now four times the size the withdrawn 54-world figure implied
+That is **1.7283** of Phase L's 144,000 cycles for a block of 480 worlds. The figure is *higher* than Phase L
+despite the per-world saving, because the block is now more than twice the size the withdrawn 54-world figure implied
 — which is the cost of not assuming a good instrument. The estimate uses Phase L's median confirmation per
 configuration as the guess at where fresh worlds will emerge; it is an estimate and is labelled as one.
 
@@ -411,15 +420,15 @@ becomes a search for 104 that worked.
 - **Fresh worlds.** Stage B generates new worlds from the frozen engine at the same four sweep points. **No
   Phase L record is reused.** The 240 stored records are the source of the *measurement audit*, not evidence for
   this claim.
-- **Disjoint seeds, proved rather than asserted.** The candidate block is **700000001**–**700000420**: **420**
+- **Disjoint seeds, proved rather than asserted.** The candidate block is **700000001**–**700000484**: **484**
   integers, chosen as a plain block rather than a date-like one so that no reader mistakes it for calendar
   values. At build time the protocol scans every artifact in `docs/` for integers filed under a key naming a seed
   and compares: **192** consumed seeds across **71** artifacts, and **0 overlap** with the candidate block.
-- **Pre-assigned, with the spares named.** The **416** worlds are assigned to configurations *before* any run —
-  **104** each, in four contiguous ranges recorded in the artifact — and the remaining **four** seeds
-  (`700000417`–`700000420`) are recorded as **unused**. **Substitution is prohibited**: a censored world does not
+- **Pre-assigned, with the spares named.** The **480** worlds are assigned to configurations *before* any run —
+  **120** each, in four contiguous ranges recorded in the artifact — and the remaining **four** seeds
+  (`700000481`–`700000484`) are recorded as **unused**. **Substitution is prohibited**: a censored world does not
   release its seed to another world, and the four spare seeds are never drawn. Without that rule the difference
-  between 416 planned worlds and 420 candidate seeds would be an ambiguity in the attrition policy rather than a
+  between 480 planned worlds and 484 candidate seeds would be an ambiguity in the attrition policy rather than a
   margin.
 - **The candidate block is not an allocation.** It is proved *unused*, which is not the same as *spent*. No seed
   in it is allocated by this document.
@@ -432,7 +441,7 @@ becomes a search for 104 that worked.
 | **allocated** | released for an *executed* run. No seed is allocated by this document |
 | **reserved** | deliberately not used: the four spares are reserved and never drawn, and a censored world does not release its seed |
 
-That distinction is what lets "the 416 worlds are pre-assigned" and "no seed is allocated" both be true, and
+That distinction is what lets "the 480 worlds are pre-assigned" and "no seed is allocated" both be true, and
 saying it once here is cheaper than a reviewer having to decide whether the protocol contradicts itself.
 - **The engine is the frozen one.** Organica 1 at `v0.9.0`, unchanged, enforced by `tests/test_v1_freeze.py`.
 
@@ -447,7 +456,7 @@ into an approval in the record, and a condition must be specific enough to be re
 **The reviewer is authorised to reject this protocol**, and is asked specifically:
 
 1. **Is the block size adequately justified at the declared reliability assumption, and is the ladder the right
-   way to handle an unmeasured reliability?** A reviewer who concludes 104 per configuration is too few has not
+   way to handle an unmeasured reliability?** A reviewer who concludes 120 per configuration is too few has not
    undermined the project; they have found a design limitation before any cycle is spent.
 2. **Is the sustention-rule agreement correctly described as robustness rather than reliability, and is it right
    to exclude it from the arithmetic?**
@@ -520,7 +529,7 @@ Three properties of that route are recorded here because a later reader will loo
   an approval. A machine pass that is cited as "the review before the run" would be a fabricated provenance, and
   that is the defect class this project has spent months finding in its own numbers.
 - **Nothing above changes the science.** The hypothesis, the predictor, the endpoint, the four falsifiers, the
-  outcomes table, the declared reliability assumption, the ladder and the 416 pre-assigned seeds are exactly as
+  outcomes table, the declared reliability assumption, the ladder and the 480 pre-assigned seeds are exactly as
   they were; the decision is about who signs, and when.
 - **A pre-pass can stop the run and cannot start it.** A blocking finding fixes the protocol and restarts the
   sequence. A clean finding is not a licence: the licence is step 2, and it is the owner's.

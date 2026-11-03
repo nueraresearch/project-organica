@@ -149,7 +149,46 @@ def build() -> dict:
     floor_worlds = _worlds_for(SMALLEST_EFFECT)
     assert floor_worlds == PUBLISHED_FLOOR, (floor_worlds, PUBLISHED_FLOOR)
     assert ladder["1.00"]["worlds_per_configuration"] == floor_worlds
-    planned = ladder["%.2f" % PLANNING_RELIABILITY]["worlds_per_configuration"]
+    ladder_worlds = ladder["%.2f" % PLANNING_RELIABILITY]["worlds_per_configuration"]
+
+    # ---- the block: the ladder row, raised by the committed rule's own interval ---
+    # The ladder solves the block in Fisher's z; the analysis resamples worlds, and the
+    # simulated realisation at the ladder row sits AT the bar rather than over it. The
+    # rule is fixed here, before any number is read: the smallest TESTED size whose
+    # LOWER 1.96-sigma Monte-Carlo bound clears the bar. A lower-bound rule, not the
+    # smallest point estimate that happens to pass.
+    sim = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
+                     .read_text(encoding="utf-8"))
+    tested = {int(k): row for k, row in
+              sim["size_sensitivity_at_planning_effect"].items()}
+    planning_row = sim["points"]["%.2f" % PLANNING_RELIABILITY]
+    z_lower = 1.96
+    qualifies = sorted(
+        n for n, row in tested.items()
+        if row["resolved_share"] - z_lower * row["monte_carlo_se"] > RESOLUTION_BAR)
+    assert qualifies, "no tested size clears the bar on its lower bound"
+    planned = max(ladder_worlds, qualifies[0])
+    block_rule = {
+        "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on the "
+                "committed rule's resolution clears the declared bar, and never "
+                "smaller than the ladder row at the planning assumption",
+        "lower_bound_multiplier": z_lower,
+        "tested_sizes": sorted(tested),
+        "clearing_on_the_lower_bound": qualifies,
+        "ladder_row_at_planning_assumption": ladder_worlds,
+        "chosen": planned,
+        "why": "the ladder solves in Fisher's z and the analysis resamples worlds: "
+               "the simulated realisation at the ladder row is %.3f at %d worlds, so "
+               "the closed form overstates the resolution the committed rule delivers"
+               % (planning_row["resolved_share"],
+                  planning_row["worlds_per_configuration"]),
+        "what_it_does_not_change": "the published 48-world floor and every ladder "
+                                   "row, including the 104 at the planning "
+                                   "assumption; the block is raised above the "
+                                   "ladder, and the ladder is not edited to match",
+        "decision": "owner delegated the choice on 2026-11-03, with the rule stated "
+                    "before it was applied",
+    }
     worlds_total = planned * len(CLAIMED)
     # Reliability descends down the grid, so the requirement must ascend:
     # a worse instrument needs more worlds.
@@ -438,6 +477,8 @@ def build() -> dict:
             "attenuation_ladder": ladder,
             "worlds_per_configuration_at_reliability_1": floor_worlds,
             "worlds_per_configuration": planned,
+            "worlds_per_configuration_ladder": ladder_worlds,
+            "block_floor_rule": block_rule,
             "worlds_total": worlds_total,
             "reportable_floor_per_configuration": floor_worlds,
             "a_higher_reliability_would_shrink_the_block": True,
@@ -445,9 +486,13 @@ def build() -> dict:
                 ladder["0.70"]["worlds_per_configuration"] * len(CLAIMED)),
             "why_this_size": "The block is sized so the decision rule resolves a "
                              "relation of the declared smallest size in %d %% of "
-                             "blocks at the declared reliability assumption. The "
-                             "assumption is stated, not derived, and every "
-                             "alternative row is printed beside it."
+                             "blocks at the declared reliability assumption, and is "
+                             "then raised above the ladder row to the smallest "
+                             "tested size whose lower Monte-Carlo bound clears "
+                             "that bar, because the ladder is a closed form and "
+                             "the analysis is a bootstrap. The assumption is "
+                             "stated, not derived, and every alternative row is "
+                             "printed beside it."
                              % int(RESOLUTION_BAR * 100),
             "it_is_a_floor": "unmodelled dependence between worlds and any further "
                              "measurement error lower the real resolution "

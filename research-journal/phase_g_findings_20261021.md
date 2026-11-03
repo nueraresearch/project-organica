@@ -10228,3 +10228,33 @@ interval is read.
 Stop condition, declared so this does not become a programme: the probe is closed once it reports per-world
 standard errors for the five design-block cells under both readouts. It may be fixed if found wrong, not extended.
 **Stage B remains unauthorised** — no seed allocated, no world generated, no relation computed.
+
+## 162. The block is 120, and the rule that chose it was written before the number was read
+
+The owner delegated the block-size decision and asked for a recommendation, so the first thing to fix was the rule,
+because a size picked after looking at which one clears is the defect the project keeps finding elsewhere.
+
+The tension is now explicit. The ladder solves the block in Fisher's z; the analysis resamples worlds; and the
+simulation of the committed rule puts the ladder row at **0.895 ± 0.008** against a 0.90 bar. So 104 does not fail —
+its interval spans the bar — but it does not clear it either, and a design whose own declared analysis sits at its
+own declared bar is a design that will be read as underpowered no matter what the run shows. Raising it by "the
+first size that clears" would be arbitrary; 112 clears on the point estimate and not on its lower bound, so that
+rule would pick 120 only by luck.
+
+The rule therefore reads the lower bound: **the smallest tested size whose lower 1.96-sigma Monte-Carlo bound
+clears 0.90**. At 112 that bound is 0.894, below the bar; at 120 it is 0.914, above it. 120 is chosen, by code
+(`block_floor_rule` in `docs/stage_b_protocol.json`), with the build failing if no tested size qualifies. Two honest
+limits: only 112 and 120 were ever simulated, so the rule selects among tested sizes rather than among all integers,
+and 120 is therefore the smallest *tested* size that qualifies; and the rule is not a power calculation — it is the
+project's existing simulation, read at its lower bound instead of at its point estimate.
+
+What it costs and what it does not change. 480 worlds instead of 416, 248,880 cycles instead of 215,696
+(**1.7283×** Phase L instead of 1.4979×), seeds 700000001–700000480 pre-assigned 120 per configuration, the four
+spares now 700000481–700000484. The ladder is untouched — the 48-world floor and every row, including the 104 at the
+planning assumption, stay as published — because editing the ladder to match the block would destroy the one
+artifact that lets a reader recompute the block without trusting the prose. Jumping to the ladder's next row (131 at
+an assumed reliability of 0.40) was rejected for the same reason the assumption matters: it would claim a worse
+instrument than the protocol declares.
+
+**Stage B remains unauthorised.** No seed is allocated, no world was generated, and no relation between onset and
+behaviour has been computed.
