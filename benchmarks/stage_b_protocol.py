@@ -202,7 +202,6 @@ def build() -> dict:
     counts.sort()
     n_min, n_max = counts[0], counts[-1]
     n_med = counts[len(counts) // 2]
-    quantum = 1.0 / n_med
     assumed_sd = 0.05                      # a deliberately tight outcome spread
     gap = 2.0 * SMALLEST_EFFECT * assumed_sd   # top-vs-bottom gap at rho = 0.50
 
@@ -210,26 +209,42 @@ def build() -> dict:
         "status": "informed by design-block cells; not discharged for Stage B",
         "confirmed": False,
         "what_would_confirm_it": "the withheld enumeration for the four claimed "
-                                  "configurations, reporting the quantum and the "
-                                  "count per planned world before any world runs",
+                                  "configurations, reporting the count per world and "
+                                  "the per-world standard error of the endpoint "
+                                  "before any world runs",
         "evidence_source": "docs/reusable_knowledge_calibration.json",
         "evidence_kind": "design-block cells, declared as such and not confirmatory",
+        "endpoint_scale": {
+            "unit": "mean pairwise binary log loss, in nats per scored cell",
+            "is_a_proportion": False,
+            "where_defined": "benchmarks/acquisition_compositional.py -- score(), "
+                            "called by benchmarks/reusable_knowledge.py -- limbs()",
+            "one_over_count_quantum": "withdrawn: this endpoint has no 1/count "
+                                     "lattice of outcome levels, so the previous "
+                                     "quantum and level-count figures described an "
+                                     "endpoint the protocol does not use "
+                                     "(docs/AI-REVIEW-2026-11-02.md, rubric 1)",
+            "what_the_count_buys": "the precision of a per-world mean: a world's "
+                                   "score averages over its withheld cells, so more "
+                                   "cells mean a less noisy score, not a finer grid",
+        },
         "held_out_transitions": {"cells": len(counts), "min": n_min,
                                  "median": n_med, "max": n_max},
-        "quantum_at_median": round(quantum, 6),
-        "distinguishable_levels_at_median": n_med + 1,
         "assumed_outcome_sd": assumed_sd,
+        "assumed_sd_is": "a planning assumption for the across-world spread of the "
+                         "endpoint in nats, not a measurement on any Stage B world",
         "effect_gap_at_rho_0_50": round(gap, 6),
-        "quantum_relative_to_effect_gap": round(gap / quantum, 3),
-        "resolves_the_declared_effect_on_this_evidence": bool(gap >= 4 * quantum),
         "rules": {
-            "too_coarse": "quantum larger than the effect gap at the declared "
-                          "smallest effect -> design defect, the run does not start",
+            "too_coarse": "twice a world's standard error of the endpoint, "
+                          "s/sqrt(N) over its scored cells, larger than the effect gap "
+                          "at the declared smallest effect -> the score cannot separate "
+                          "two worlds the claim distinguishes, so it is a design defect "
+                          "and the run does not start",
             "too_sparse": "fewer than half the planned worlds at 40 or more "
                           "held-out transitions -> design defect, run does not start",
-            "saturated": "a configuration whose realised outcome SD is below two "
-                         "quanta is unmeasurable there: excluded and reported, never "
-                         "scored as a null",
+            "saturated": "a configuration whose realised across-world SD is below "
+                         "twice the median per-world standard error is unmeasurable "
+                         "there: excluded and reported, never scored as a null",
             "undefined": "zero withheld transitions -> excluded by the existing E6 "
                         "gate, never zeroed (AGENTS 13b)",
             "screening": "the enumeration runs before any world, and its own report "
@@ -296,10 +311,12 @@ def build() -> dict:
             "learn_cycles": clock["learn_cycles"],
             "test_cycles": clock["test_cycles"],
             "implementation_to_inspect": [
-                "benchmarks/reusable_knowledge.py -- revision_held_out and "
-                "held_out['revision_held_out_pairs'] define what is scored",
-                "benchmarks/formation_provenance_study.py -- held_out_pairs() and "
-                "PHASE_TRANSFER define which transitions are withheld",
+                "benchmarks/reusable_knowledge.py -- revision_held_out, "
+                "held_out['revision_held_out_pairs'], and the WITHHELD set selected "
+                "inside limbs()'s held_only() define what is scored and withheld",
+                "benchmarks/formation_provenance_study.py -- held_out_pairs() is that "
+                "study's own pair selector, NOT this endpoint's withholding rule "
+                "(docs/AI-REVIEW-2026-11-02.md, rubric 3)",
             ],
             "resolution_requirement": "the endpoint's quantum (one held-out "
                                       "transition) and the number of held-out "

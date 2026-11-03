@@ -90,45 +90,60 @@ is deliberately a different one, and a positive result here does not repair that
 | question | where it is answered |
 | --- | --- |
 | what is scored | `benchmarks/reusable_knowledge.py` — `revision_held_out`, and `held_out['revision_held_out_pairs']` |
-| which transitions are withheld | `benchmarks/formation_provenance_study.py` — `held_out_pairs()` and `PHASE_TRANSFER` |
+| which transitions are withheld | `benchmarks/reusable_knowledge.py` — the `WITHHELD` set of cell transitions, selected inside `limbs()` by `held_only()`. This is the rule the endpoint is scored under |
 | whether the count is non-zero before a cell is scorable | the `E6` gate in `benchmarks/reusable_knowledge.py`, which requires `revision_held_out_pairs > 0` |
+
+**Two corrections to that table, from the machine pre-pass (`docs/AI-REVIEW-2026-11-02.md`, rubric 3).** The
+"which transitions are withheld" row previously named `formation_provenance_study.py`'s `held_out_pairs()` and
+`PHASE_TRANSFER`. That helper returns *its own study's* observed ordered tag pairs from the transfer phase; it is
+not the withholding rule the endpoint is scored under, and a reader sent there reads the wrong selector. And
+`limbs()` selects by **fixed phase indices**, while Stage B's window is positioned relative to each world's
+confirmed onset — the rule is the same one re-parameterised, but disjointness for the onset-relative window is
+established by the pre-run enumeration, not by reading the calibration code.
 
 **A resolution requirement gates the run, and it is stated as a requirement rather than a number** because the
 number depends on a withheld set that does not exist yet. Before any world is generated, the harness must report
-the endpoint's **quantum** (one held-out transition) and the **count** of held-out transitions per world, by
-running the enumeration named above. If the quantum is coarser than the smallest effect this protocol asserts,
-the endpoint cannot resolve that effect, the design is unmeasurable for its own claim, and the run does not
-start (AGENTS 13). This is not a documentation detail: it determines whether the experiment can measure its
-stated outcome at all, and it is the check that would have caught the Phase L design defect before the campaign.
+the endpoint's **scale**, the **count** of held-out transitions per world, and the **per-world standard error**
+that count buys, by running the enumeration named above. If twice a world's standard error exceeds the smallest
+effect this protocol asserts, the endpoint cannot separate two worlds the claim distinguishes, the design is
+unmeasurable for its own claim, and the run does not start (AGENTS 13). This is not a documentation detail: it
+determines whether the experiment can measure its stated outcome at all, and it is the check that would have
+caught the Phase L design defect before the campaign.
 
-### 3.1 What the endpoint's granularity looks like in the cells that exist
+### 3.1 What the endpoint's scale is, and what the withheld count buys
 
-A non-zero count is not a resolution test, so the count is turned into the quantity that matters. The outcome is
-a proportion over the withheld transitions, so the endpoint's **quantum is one divided by that count** — the
-smallest difference it can represent. Measured on the design-block cells already in the record:
+**A correction first, because the previous version of this section described an endpoint this protocol does not
+use.** It said that "the outcome is a proportion over the withheld transitions, so the endpoint's quantum is one
+divided by that count", and printed a quantum of **0.009434** with **107** distinguishable levels. The endpoint is
+not a proportion: `benchmarks/acquisition_compositional.py`'s `score()` computes a **pairwise binary log loss**
+over each context source crossed with the vocabulary and averages it, and `benchmarks/reusable_knowledge.py`
+scores `revision_held_out` with that function. The machine pre-pass named this as a blocking defect
+(`docs/AI-REVIEW-2026-11-02.md`, rubric 1 and the §10 endpoint question), and it is right: a log loss has no
+`1/count` lattice of outcome levels, so both figures are **withdrawn** and no resolution argument rests on them.
+
+**What the count is still good for.** A world's score is a mean over its withheld cells, so the count is the
+denominator of that mean: it sets the **precision** of a per-world reading, not the number of representable
+levels. Measured on the design-block cells already in the record:
 
 | quantity | value |
 | --- | --- |
 | withheld transitions per world | **82 to 110**, median **106** |
-| quantum at the median | **0.009434** |
-| distinguishable outcome levels at the median | **107** |
-| effect gap assumed at ρ = 0.50, outcome SD 0.05 | **0.05** |
-| effect gap in quanta | **5.3** |
+| endpoint scale | mean pairwise binary log loss, in nats per scored cell |
+| effect gap assumed at ρ = 0.50, across-world SD 0.05 | **0.05** |
 
-The comparison uses a deliberately **tight** outcome spread — an SD of 0.05, roughly a tenth of what a proportion
-near one half would have — so the gap is a floor on the effect the claim asserts, and it is still more than five
-quanta wide. **On this evidence the endpoint is not too coarse for the claim.** That conclusion is bounded by
-two honest limits: the cells are design-block cells, declared as such and not confirmatory, and granularity is
-not variability — the count bounds how finely the score can move, and says nothing about whether it does move
-across worlds, which only the run can show.
+The gap is still `2 × 0.50 × 0.05`: at the declared smallest relation, two worlds half a distribution apart differ
+by about that much. The 0.05 is a **planning assumption about the across-world spread**, not a measurement, and it
+is labelled as one in the artifact. What can no longer be claimed is that a **5.3-quantum** margin shows the
+endpoint resolves the effect. Two things are true instead: the score is continuous, so quantization is not the
+binding constraint, and whether the score moves across worlds is a question only the run answers.
 
-**The gate therefore stays open, with four rules attached rather than a paragraph:**
+**The gate therefore stays open, with four rules attached, restated on the scale the endpoint actually has:**
 
 | failure | rule |
 | --- | --- |
-| **too coarse** | a quantum larger than the effect gap at the declared smallest effect is a design defect, and the run does not start |
+| **too coarse** | twice a world's standard error of the endpoint — the SD of its scored cell losses over `√cells` — larger than the effect gap at the declared smallest effect is a design defect, and the run does not start |
 | **too sparse** | fewer than half the planned worlds at 40 or more withheld transitions is a design defect, and the run does not start |
-| **saturated** | a configuration whose realised outcome SD is below two quanta is unmeasurable there: excluded and reported, never scored as a null |
+| **saturated** | a configuration whose realised **across-world SD is below twice the median per-world standard error** is unmeasurable there: excluded and reported, never scored as a null |
 | **undefined** | zero withheld transitions is excluded by the existing `E6` gate, and never scored as zero (AGENTS 13b) |
 
 `resolution_confirmed` stays **false** in the artifact. These numbers *inform* the gate; the enumeration for the
@@ -258,7 +273,38 @@ change rather than a negotiation.
 **The count is a floor, not a budget.** Unmodelled dependence between worlds and any further measurement error
 lower the real resolution probability, so 104 is the least number this claim can be tested with, not the most.
 
-### 6.3 Cost
+### 6.3 The ladder is a closed form; the analysis is not
+
+The rows above are Fisher's z. §5 builds the interval by **resampling worlds**, and those are different
+constructions — so the ladder's resolution claim is now checked by simulating the committed rule at its own
+points (`benchmarks/stage_b_resolution_simulation.py`, artifact `docs/stage_b_resolution_simulation.json`). The
+machine pre-pass asked for exactly this (rubric 4) and was right that no such check existed.
+
+| reliability row | worlds | Fisher's z | committed bootstrap |
+| --- | --- | --- | --- |
+| 1.00 | 48 | 0.9018 | 0.863 (SE 0.017) |
+| 0.90 | 54 | 0.9005 | 0.845 (SE 0.018) |
+| 0.80 | 62 | 0.9020 | 0.902 (SE 0.015) |
+| 0.70 | 72 | 0.9022 | 0.890 (SE 0.016) |
+| 0.60 | 85 | 0.9011 | 0.887 (SE 0.016) |
+| **0.50 (planning)** | **104** | **0.9026** | **0.895 (SE 0.008)** |
+| 0.40 | 131 | 0.9004 | 0.887 (SE 0.016) |
+| 0.30 | 177 | 0.9002 | 0.905 (SE 0.015) |
+
+**What that shows.** The closed form is systematically optimistic, and it has to be: every row's `n` was solved to
+put it at 0.90, and the committed bootstrap comes in about 0.01 to 0.02 below it. At the planning row the
+bootstrap share is **0.895 ± 0.008**, so **104 worlds does not clear the 90 % bar at the point estimate** — it
+sits within about one standard error of it. The ladder is a *requirement under Fisher's z*, and the block it
+produces is at the bar's edge rather than comfortably over it.
+
+**What that does not license.** 104 is not silently increased here. Moving it re-derives the published ladder —
+the 48-world floor included — which is a change to the design record, not an erratum in this protocol. The same
+rule prices the alternative: **112 worlds gives 0.914 (SE 0.010)** and **120 gives 0.931 (SE 0.009)**, both
+clearing the bar. Choosing between 104 at the edge, 112 with clear, and leaving the published construction alone
+is a decision for the owner at step 2 of `docs/DECISION-STAGE-B-SEQUENCE.md`; it is recorded here as **open**, not
+resolved by this document.
+
+### 6.4 Cost
 
 | configuration | median confirmation | horizon per world | worlds | cycles |
 | --- | --- | --- | --- | --- |

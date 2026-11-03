@@ -167,10 +167,10 @@ def test_the_endpoint_can_be_inspected_in_code(stage, text):
     assert endpoint["resolution_confirmed"] is False
     impl = " ".join(endpoint["implementation_to_inspect"])
     assert "reusable_knowledge.py" in impl
-    assert "formation_provenance_study.py" in impl
-    assert "held_out_pairs" in impl
+    assert "WITHHELD" in impl
+    # rubric 3: the old pointer named a selector that does not produce this score
+    assert "NOT this endpoint's withholding rule" in impl
     assert "benchmarks/reusable_knowledge.py" in text
-    assert "benchmarks/formation_provenance_study.py" in text
     assert "does not start" in endpoint["resolution_requirement"]
 
 
@@ -216,33 +216,69 @@ def test_the_reviewer_gets_the_corrections_too(stage, text):
     assert "104" in DESIGN.read_text(encoding="utf-8")
 
 
-def test_the_endpoint_granularity_is_measured_not_assumed(stage, text):
-    """A non-zero count is not a resolution test; the quantum is what decides."""
+def test_the_endpoint_scale_is_the_scorer_not_a_proportion(stage, text):
+    """The pre-pass found the quantum computed for an endpoint this protocol lacks.
+
+    `documents/AI-REVIEW-2026-11-02.md` rubric 1: the score is an averaged pairwise
+    log loss, so `1/count` is not its quantum. The figures are withdrawn, the scale is
+    named, and the rules are restated on quantities that can actually be measured.
+    """
     res = stage["endpoint_resolution"]
     assert res["confirmed"] is False
     assert res["evidence_kind"].startswith("design-block")
+    scale = res["endpoint_scale"]
+    assert scale["is_a_proportion"] is False
+    assert "log loss" in scale["unit"]
+    assert "acquisition_compositional" in scale["where_defined"]
+    assert "withdrawn" in scale["one_over_count_quantum"]
+    for gone in ("quantum_at_median", "distinguishable_levels_at_median",
+                 "quantum_relative_to_effect_gap",
+                 "resolves_the_declared_effect_on_this_evidence"):
+        assert gone not in res, gone
     counts = res["held_out_transitions"]
-    assert counts["min"] == 82
-    assert counts["median"] == 106
-    assert counts["max"] == 110
-    assert counts["cells"] == 5
-    assert res["quantum_at_median"] == pytest.approx(1 / 106, abs=1e-6)
-    assert res["distinguishable_levels_at_median"] == 107
+    assert (counts["cells"], counts["min"], counts["median"], counts["max"]) \
+        == (5, 82, 106, 110)
     assert res["effect_gap_at_rho_0_50"] == pytest.approx(0.05, abs=1e-9)
-    assert res["quantum_relative_to_effect_gap"] == pytest.approx(5.3, abs=0.05)
-    assert res["resolves_the_declared_effect_on_this_evidence"] is True
     assert set(res["rules"]) == {"too_coarse", "too_sparse", "saturated",
                                  "undefined", "screening"}
-    # the document carries the same numbers, and the four failure rules
-    assert "**82 to 110**, median **106**" in text
-    assert "**0.009434**" in text
-    assert "**107**" in text
-    assert "**5.3**" in text
+    flat = " ".join(text.split())
+    assert "not a proportion" in flat
+    assert "withdrawn" in flat
+    assert "**82 to 110**, median **106**" in flat
+    assert "twice a world's standard error" in flat
     for word in ("**too coarse**", "**too sparse**", "**saturated**", "**undefined**"):
-        assert word in text, word
-    assert "`resolution_confirmed` stays **false**" in text
+        assert word in flat, word
+    assert "`resolution_confirmed` stays **false**" in flat
     # and it stays a gate, not a conclusion
-    assert "is** the gate" in text
+    assert "is** the gate" in flat
+
+
+def test_the_ladder_is_checked_with_the_committed_interval(text):
+    """The ladder is Fisher-z; the analysis is a percentile bootstrap (rubric 4).
+
+    The document's simulated column must equal the artifact's, and the planning row
+    must be reported as not clearing the bar rather than as clearing it.
+    """
+    sim = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
+                     .read_text(encoding="utf-8"))
+    row = sim["points"]["0.50"]
+    assert row["worlds_per_configuration"] == 104
+    assert row["fisher_z_says"] == pytest.approx(0.9026, abs=1e-4)
+    assert row["clears_bar"] is False
+    flat = " ".join(text.split())
+    # the document must quote the artifact's own rounded values, not nearby ones
+    quoted = f"**{row['resolved_share']:.3f} ± {row['monte_carlo_se']:.3f}**"
+    assert quoted in flat, quoted
+    sizes = sim["size_sensitivity_at_planning_effect"]
+    assert sizes["112"]["clears_bar"] is True
+    assert sizes["120"]["clears_bar"] is True
+    for n in ("112", "120"):
+        cell = (f"{sizes[n]['resolved_share']:.3f} "
+                f"(SE {sizes[n]['monte_carlo_se']:.3f})")
+        assert cell in flat, cell
+    assert "does not clear the 90 % bar at the point estimate" in flat
+    # the block-size question must stay open rather than be settled here
+    assert "recorded here as **open**" in flat
 
 
 def test_pre_assigned_allocated_and_reserved_are_distinguished(stage, text):

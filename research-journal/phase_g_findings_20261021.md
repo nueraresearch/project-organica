@@ -10099,3 +10099,60 @@ single correction. It now names `docs/STAGE-B-PROTOCOL.md` and the artifact set 
 reviewer, and it says which document is inherited rather than under review. **A pointer to the wrong artifact is
 the cheapest way to be reviewed and learn nothing**, and it would have been invisible: the prompt looked complete,
 the repository was public, and the file it named existed.
+
+## 159. The pre-pass earned its place, and the first thing it caught was a gate measuring the wrong quantity
+
+The machine pre-pass was run on 2026-11-03 and returned three blocking findings. The transcript is
+`docs/AI-REVIEW-2026-11-02.md`, recorded against Manus at commit `39adb24`, and it is **one model family** — the
+prompt asks for two, so step 1 of the sequence is not complete, and nothing downstream of it may be treated as
+complete either.
+
+Three defect classes the independent review exists to catch, found by the instrument that was substituted for it.
+
+**The endpoint-resolution gate was computed for an endpoint this protocol does not have.** §3.1 said the outcome
+was "a proportion over the withheld transitions, so the endpoint's quantum is one divided by that count", and
+derived a quantum of 0.009434, 107 levels and a 5.3-quanta margin from the design-block cells. The scorer returns
+an averaged pairwise log loss: `acquisition_compositional.score()` accumulates binary log loss over each context
+source crossed with the vocabulary, divides by the cell count, and `reusable_knowledge.limbs()` stores that as
+`revision_held_out`. The model's sentence: "The endpoint is scored as averaged pairwise log loss, but its
+resolution is defended as if it were a proportion with a one-transition quantum. The central pre-run check can
+therefore pass or fail for the wrong reason." That is rule 23a exactly — a metric carrying another study's
+question — and the check was pointing at a scale that does not exist. The quantum, the level count and the
+5.3-quanta claim are **withdrawn**; §3.1 now names the scale, says what the withheld count actually buys (the
+precision of a per-world mean), and restates the four gate rules on quantities that can be measured: twice a
+world's standard error against the effect gap for *too coarse*, realised across-world SD against twice the median
+per-world standard error for *saturated*. `resolution_confirmed` was false before and is false now; what changed
+is that the sentence behind it is true.
+
+**The pointer sent a reader to a different selector.** §3's table named `formation_provenance_study.py`'s
+`held_out_pairs()` and `PHASE_TRANSFER` as the definition of what is withheld. That helper returns that study's
+own observed ordered tag pairs; the endpoint is scored on events selected by `reusable_knowledge.py`'s `WITHHELD`
+set inside `limbs()`'s `held_only()`. The model: "That helper instead returns observed ordered tag pairs occurring
+in the transfer phase; it is not the `WITHHELD` cell-transition rule or the revision-test scoring selector used by
+`reusable_knowledge.py`." Fixed in the table, in the artifact's `implementation_to_inspect`, and in the test that
+had been asserting the wrong pointer. The related limit is recorded rather than papered over: `limbs()` selects by
+fixed phase indices and Stage B's window is onset-relative, so disjointness is established by the pre-run
+enumeration — not by reading calibration code.
+
+**The ladder was a closed form, and the analysis is a bootstrap.** §6 sized the block with Fisher's z; §5 builds
+its interval by resampling worlds at 98.33 %. The record already contained the discrepancy at one cell and had not
+followed it: at 48 worlds and ρ = 0.50 the artifact gives 0.9018 for the closed form and 0.85 for the simulated
+bootstrap. The objection was that no result established the promised resolution at the planning point. It is now
+measured at every row (`benchmarks/stage_b_resolution_simulation.py`, `docs/stage_b_resolution_simulation.json`),
+and the implementation reproduces the existing artifact's 0.85 within Monte-Carlo noise before it is trusted at
+0.50. **At the planning row the committed rule gives 0.895 ± 0.008 against the 0.90 bar** — the block does not
+clear its own bar at the point estimate; it sits about one standard error from it. Two larger sizes, on the same
+rule: 112 gives 0.914 ± 0.010 and 120 gives 0.931 ± 0.009.
+
+**What was not done, and why.** 104 was not quietly raised to 112. The ladder is the published construction, and
+sizing it on the bootstrap re-derives every row including the 48-world floor that `STRUCTURE-BEHAVIOR-DESIGN` §6
+treats as its reference — that is a change to the design record with a cost in seeds and cycles, and it is the
+owner's decision, not an erratum an agent may slip in. It is recorded in §6.3 as **open**, with the prices beside
+it. The lesson is the one this project keeps relearning in new clothes: **a closed form tuned to return 0.90 at
+every row cannot also be the evidence that 0.90 is reached.** The ladder was never wrong arithmetic; it was
+answering for the wrong interval.
+
+**Nothing moved that must not.** §7 stays empty. Stage B is still unauthorised: no seed allocated, no world
+generated, no relation computed, the engine and V1 untouched. The transcript is one model family's reading and is
+not citable as a review. The sequence is at step 1, and it restarts at step 1 because a blocking finding was
+found — which is what `docs/DECISION-STAGE-B-SEQUENCE.md` said would happen.
