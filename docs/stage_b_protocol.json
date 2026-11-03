@@ -932,6 +932,11 @@
         20270504,
         20270505
       ],
+      "docs/stage_b_runner_design_block.json": [
+        20261023,
+        20261024,
+        20261025
+      ],
       "docs/store_time_observer_f4.json": [
         20261101
       ],
@@ -1109,7 +1114,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 75,
+    "disjoint_proved_against": 76,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, because it records this block and would otherwise overlap it",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

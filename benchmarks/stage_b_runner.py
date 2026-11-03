@@ -408,7 +408,13 @@ def analyse(cells: list[dict], reps: int = REPS) -> dict:
     held = [c for c in claimed if out[c]["predicted_sign_held"]]
     if not claimed:
         verdict = "NO WORLD RAN"
-    elif len(held) == len(claimed) and len(claimed) == len(CLAIMED):
+    elif len(claimed) < len(CLAIMED):
+        # §5's conjunction is defined over all four configurations. An assembly that is
+        # missing one has not run the protocol, so it cannot carry a claim verdict in
+        # either direction -- the failure that would have been reported here is
+        # "NOT SUPPORTED", which reads as a result about the claim.
+        verdict = "NO VERDICT: PARTIAL ASSEMBLY"
+    elif len(held) == len(claimed):
         verdict = "SUPPORTED"
     elif held:
         verdict = "MIXED"
@@ -519,6 +525,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--assemble", action="store_true")
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
     parser.add_argument("--no-cache", action="store_true")
     parser.add_argument("--budget", type=float, default=None)
     args = parser.parse_args(argv)
@@ -552,10 +559,16 @@ def main(argv: list[str] | None = None) -> int:
     if args.assemble:
         cells = [json.loads(p.read_text(encoding="utf-8"))
                  for p in sorted(CACHE.glob("cell_*.json"))]
+        note = "No world is generated here."
+        if cells and all(cell["seed"] in DESIGN_SEEDS for cell in cells):
+            note += (" Every cell in this assembly was drawn from a consumed design-block "
+                     "seed, so this assembly is an exercise of the instrument and not a "
+                     "measurement of the claim.")
         result = {"what_this_is": "Stage B cells assembled from the cache, with §5's "
-                                  "analysis. No world is generated here.",
+                                  "analysis. " + note,
                   "cells": cells, "analysis": analyse(cells), "limits": LIMITS}
-        OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        target = Path(args.out) if args.out else OUT
+        target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result["analysis"], indent=2))
         return 0
 

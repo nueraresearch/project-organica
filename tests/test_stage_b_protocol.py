@@ -167,7 +167,7 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
     assert seeds["unused"] == {"first": 700000721, "last": 700000724, "count": 4}
     assert seeds["substitution_allowed"] is False
     assert seeds["consumed_total"] == 222
-    assert seeds["disjoint_proved_against"] == 75
+    assert seeds["disjoint_proved_against"] == 76
     for path in seeds["consumed_blocks"]:
         assert (ROOT / path).exists(), path
     # The prose figure is derived from the artifact, so the two cannot drift apart.

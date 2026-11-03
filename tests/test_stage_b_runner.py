@@ -223,3 +223,44 @@ def test_a_spare_in_the_batch_is_refused_even_after_allocated_seeds(monkeypatch)
     with pytest.raises(RuntimeError, match="never drawn"):
         runner.run_many([("2:1", 20261023), ("2:1", 700000722)], workers=2)
 
+
+def test_assemble_writes_where_asked_and_labels_a_design_block_assembly(tmp_path, monkeypatch):
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    monkeypatch.setattr(runner, "CACHE", cache)
+    cell = {"configuration": "6:1", "seed": runner.DESIGN_SEEDS[0], "complete": True,
+            "eligible": True, "censored": False, "onset": 200, "outcome": 0.2,
+            "asserted_pairs_at_onset": 5, "outcome_cells": 1, "outcome_occurrences": 1,
+            "outcome_measurable": True}
+    runner.save_cell(cell)
+    out = tmp_path / "art.json"
+    assert runner.main(["--assemble", "--out", str(out)]) == 0
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    assert len(doc["cells"]) == 1
+    assert "design-block" in doc["what_this_is"], (
+        "an assembly of consumed design seeds must say so, or it reads as a run")
+    assert not runner.OUT.exists() or runner.OUT.read_text(encoding="utf-8") != out.read_text(
+        encoding="utf-8")
+
+
+def test_an_empty_assembly_reports_that_no_world_ran(tmp_path, monkeypatch):
+    cache = tmp_path / "empty"
+    cache.mkdir()
+    monkeypatch.setattr(runner, "CACHE", cache)
+    out = tmp_path / "art.json"
+    assert runner.main(["--assemble", "--out", str(out)]) == 0
+    doc = json.loads(out.read_text(encoding="utf-8"))
+    assert doc["cells"] == []
+    assert doc["analysis"]["verdict"] == "NO WORLD RAN"
+
+
+def test_a_partial_assembly_carries_no_verdict():
+    planted = [{"configuration": "6:1", "seed": 1000 + i, "complete": True,
+                "eligible": True, "censored": False, "onset": 100 + i,
+                "asserted_pairs_at_onset": 10, "outcome": 0.5,
+                "outcome_cells": 1, "outcome_occurrences": 1, "outcome_measurable": True}
+               for i in range(10)]
+    partial = runner.analyse(planted, reps=50)["verdict"]
+    assert partial == "NO VERDICT: PARTIAL ASSEMBLY", (
+        "an assembly with one configuration missing must not report a claim verdict; "
+        "both SUPPORTED and NOT SUPPORTED would be read as results about the claim")

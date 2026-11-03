@@ -10573,3 +10573,49 @@ engine time summed over the two cells, i.e. the two cells really overlapped. The
 What did not change: the endpoint, the predictor, the eligibility rule, the block, the horizons, the seeds or
 any verdict. Nothing confirmatory ran, no seed was allocated, and `--all` still refuses until the owner
 creates `docs/stage_b_allocation.json`.
+
+## 177. One configuration ran end to end, and the analysis refuses to turn three design cells into a claim (2026-11-03)
+
+The executor had never produced an analysis at all: cells ran, nothing consumed them. The three `6:1`
+design-block cells are now scored and assembled -- seed 20261024 onset **219** loss **0.149471**, seed 20261025 onset **226** loss **0.151855**, seed 20261023 onset **233** loss **0.148461** -- and
+`benchmarks/stage_b_runner.py --assemble --out docs/stage_b_runner_design_block.json` reports
+Spearman **-0.5** on 3 scored cells with a 98.33 % interval
+**[-1.0, 1.0]**, slope **-0.2898**, permutation interval **[-1.0, 1.0]** and a
+size baseline of **-0.5**.
+
+The sign agrees with the prediction for these three worlds (earlier onset, lower loss in two of three pairs),
+and that is worth exactly nothing: with three points the interval spans the whole range of the statistic, so
+`predicted_sign_held` is false and no configuration can satisfy §5's conjunction.
+
+**A defect the assembly exposed, and the labelling fix.** The aggregator returned **NOT SUPPORTED** for an
+assembly covering 1 of the four configurations, because its last branch fires whenever no claimed
+configuration holds the sign -- including when most configurations never ran. That string is a claim about the
+hypothesis, and it was being produced by an assembly that had not run the protocol. The rule now returns
+**NO VERDICT: PARTIAL ASSEMBLY** whenever fewer than all four configurations carry worlds. This is disclosed
+as a change made **after** the assembly was read: it removes a claim rather than adding one, it changes no
+threshold, endpoint, seed or executed result, and every previous branch -- all four holding, one short, none
+holding, no world -- is unchanged and still exercised by the self-test.
+
+**What this is not.** Three consumed design-block seeds, one configuration, and not a measurement of anything
+the protocol claims; the artifact says so in its own `what_this_is`. No seed is allocated, no confirmatory
+world exists, and `--all` still refuses until `docs/stage_b_allocation.json` is created by the owner. The
+assembly was written to its own path so `docs/stage_b_runner.json` stays reserved for an actual run.
+
+## 178. The design-block assembly is a seventy-sixth artifact, and the prose figure had to follow it (2026-11-03)
+
+Writing `docs/stage_b_runner_design_block.json` was the first time this thread added an artifact that names
+consumed seeds, and the protocol's own scan noticed: the artifact count behind the disjointness proof went from
+**75** to **76**, because the assembly names seeds 20261023, 20261024, 20261025.
+
+**Nothing else moved.** The three seeds were already in the corpus, so `consumed_total` stays **222**, the
+overlap with the candidate block stays **empty**, and the block, the spares and the sample size are untouched.
+The count that changed is a count of *files read*, not of seeds discovered -- a distinction worth stating,
+because "76 artifacts" beside "222 seeds" invites the reader to assume a new seed arrived.
+
+The prose sentence in `docs/STAGE-B-PROTOCOL.md` §10 had to be regenerated because it is **quoted from the
+artifact by a test**: `test_the_seed_block_is_preassigned_spares_named_and_substitution_closed` builds the
+sentence from `consumed_total` and `disjoint_proved_against` and asserts it appears in the protocol. It failed
+the moment the artifact changed, which is the guard working -- the sentence cannot drift from the number, and a
+reader was not the one who caught it. The two full-suite failures this produced were reported honestly rather
+than hidden by re-running until green: the first test run after the commit failed, the artifact was regenerated
+from its own generator, and the prose was updated to the regenerated figure.
