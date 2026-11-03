@@ -116,6 +116,46 @@
       "resolved_share": 0.9313,
       "monte_carlo_se": 0.0089,
       "clears_bar": true
+    },
+    "150": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 150,
+      "fisher_z_says": 0.9802,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.975,
+      "monte_carlo_se": 0.0078,
+      "clears_bar": true
+    },
+    "160": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 160,
+      "fisher_z_says": 0.9864,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9775,
+      "monte_carlo_se": 0.0074,
+      "clears_bar": true
+    },
+    "180": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 180,
+      "fisher_z_says": 0.9936,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9975,
+      "monte_carlo_se": 0.0025,
+      "clears_bar": true
+    },
+    "200": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 200,
+      "fisher_z_says": 0.9971,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.995,
+      "monte_carlo_se": 0.0035,
+      "clears_bar": true
     }
   },
   "planning_row": "0.50",

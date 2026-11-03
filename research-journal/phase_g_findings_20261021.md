@@ -10258,3 +10258,37 @@ instrument than the protocol declares.
 
 **Stage B remains unauthorised.** No seed is allocated, no world was generated, and no relation between onset and
 behaviour has been computed.
+
+## 163. The block is 180, because the rule should have governed the conjunction all along
+
+The second machine-family pass made one observation that survived checking, and it invalidates the number I recorded
+a few hours earlier. The ladder's bar is stated per configuration — "90 % of blocks must resolve a relation of that
+size" — but §7's outcome table requires the predicted sign with an interval excluding zero **in every claimed
+configuration**. The claim's success criterion is a conjunction, so the probability that the study can report its own
+required result is the product across the four configurations, not the per-configuration share the ladder prints.
+
+At 120 that product is `0.931⁴ = 0.752`. I had sized the block on 0.931. That is not a rounding disagreement; it is a
+one-in-four chance of spending the block and being unable to report the criterion it was sized for, and it is the
+same substitution the project keeps catching elsewhere — a quantity read at the wrong scope.
+
+The rule was therefore restated and re-applied before any world ran: **the smallest tested size whose lower
+1.96-sigma bound on `p⁴` clears 0.90**. The simulation already had the rows to price it. 112 → 0.914 per
+configuration, conjunction 0.697; 120 → 0.931, 0.752; 150 → 0.975, 0.904 with a lower bound of 0.847; 160 → 0.978,
+0.913, lower bound 0.859; 180 → 0.998, 0.990, lower bound **0.971**; 200 → 0.995, 0.980, lower bound 0.953. 150 and
+160 are the rows that justify a lower-bound rule: both clear 0.90 on the point estimate and neither clears it on the
+lower bound.
+
+So the block is **180 worlds per configuration — 720 worlds, 373,320 cycles, 2.5925× Phase L**, seeds
+700000001–700000720 with four spares at 700000721–700000724. That is 2.7 times the 104-world ladder row, and the cost
+is the price of a claim that needs all four configurations rather than an average of them.
+
+Two limits, recorded rather than implied: only the six tested sizes were simulated, so 180 is the smallest tested
+size and not provably the smallest; and the multiplication assumes the configurations resolve independently, which
+follows from each being its own worlds under its own seeds — a coupling would make the estimate optimistic.
+
+The ladder remains untouched, including the 48-world floor and the 104 at the planning assumption, because a reader
+must be able to recompute the block without trusting my prose. `block_floor_rule.by_size` now carries both quantities
+for every tested size, so the conjunction can be checked against the per-configuration share directly.
+
+**Stage B remains unauthorised.** No seed is allocated, no world was generated, and no relation between onset and
+behaviour has been computed.

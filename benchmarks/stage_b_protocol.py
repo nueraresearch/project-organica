@@ -151,43 +151,76 @@ def build() -> dict:
     assert ladder["1.00"]["worlds_per_configuration"] == floor_worlds
     ladder_worlds = ladder["%.2f" % PLANNING_RELIABILITY]["worlds_per_configuration"]
 
-    # ---- the block: the ladder row, raised by the committed rule's own interval ---
-    # The ladder solves the block in Fisher's z; the analysis resamples worlds, and the
-    # simulated realisation at the ladder row sits AT the bar rather than over it. The
-    # rule is fixed here, before any number is read: the smallest TESTED size whose
-    # LOWER 1.96-sigma Monte-Carlo bound clears the bar. A lower-bound rule, not the
-    # smallest point estimate that happens to pass.
+    # ---- the block: sized on the claim's own criterion, not on one configuration ---
+    # Two corrections meet here. The ladder solves the block in Fisher's z while the
+    # analysis resamples worlds, so the simulated realisation at the ladder row sits AT
+    # the bar rather than over it. And the ladder's bar is PER CONFIGURATION, while
+    # protocol 7 requires the predicted result in EVERY claimed configuration, so the
+    # probability the study can report its own criterion is the conjunction across the
+    # four. The rule is fixed before any number is read: the smallest TESTED size whose
+    # LOWER 1.96-sigma Monte-Carlo bound on that conjunction clears the declared bar.
     sim = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
                      .read_text(encoding="utf-8"))
     tested = {int(k): row for k, row in
               sim["size_sensitivity_at_planning_effect"].items()}
     planning_row = sim["points"]["%.2f" % PLANNING_RELIABILITY]
+    n_conf = len(CLAIMED)
     z_lower = 1.96
-    qualifies = sorted(
-        n for n, row in tested.items()
-        if row["resolved_share"] - z_lower * row["monte_carlo_se"] > RESOLUTION_BAR)
-    assert qualifies, "no tested size clears the bar on its lower bound"
+    by_size: dict[str, dict] = {}
+    for n in sorted(tested):
+        p = tested[n]["resolved_share"]
+        se = tested[n]["monte_carlo_se"]
+        joint = p ** n_conf
+        joint_se = n_conf * p ** (n_conf - 1) * se
+        by_size[str(n)] = {
+            "per_configuration": p,
+            "per_configuration_se": se,
+            "conjunction": round(joint, 4),
+            "conjunction_se": round(joint_se, 4),
+            "conjunction_lower_bound": round(joint - z_lower * joint_se, 4),
+            "clears_on_the_lower_bound": bool(
+                joint - z_lower * joint_se > RESOLUTION_BAR),
+        }
+    qualifies = sorted(int(k) for k, row in by_size.items()
+                       if row["clears_on_the_lower_bound"])
+    assert qualifies, "no tested size clears the conjunction on its lower bound"
     planned = max(ladder_worlds, qualifies[0])
     block_rule = {
-        "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on the "
-                "committed rule's resolution clears the declared bar, and never "
-                "smaller than the ladder row at the planning assumption",
+        "quantity": "the probability that the protocol's own success criterion holds: "
+                    "the predicted relation resolved in EVERY claimed configuration. "
+                    "That is the conjunction across the four, not the "
+                    "per-configuration share the ladder reports",
+        "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on that "
+                "conjunction clears the declared bar, and never smaller than the "
+                "ladder row at the planning assumption",
         "lower_bound_multiplier": z_lower,
+        "configurations_in_conjunction": n_conf,
+        "independence": "the four configurations are separate worlds under separate "
+                        "seeds, so their resolutions multiply; a coupling between "
+                        "them would make this an over-estimate",
         "tested_sizes": sorted(tested),
+        "by_size": by_size,
         "clearing_on_the_lower_bound": qualifies,
         "ladder_row_at_planning_assumption": ladder_worlds,
         "chosen": planned,
-        "why": "the ladder solves in Fisher's z and the analysis resamples worlds: "
-               "the simulated realisation at the ladder row is %.3f at %d worlds, so "
-               "the closed form overstates the resolution the committed rule delivers"
-               % (planning_row["resolved_share"],
-                  planning_row["worlds_per_configuration"]),
-        "what_it_does_not_change": "the published 48-world floor and every ladder "
-                                   "row, including the 104 at the planning "
-                                   "assumption; the block is raised above the "
-                                   "ladder, and the ladder is not edited to match",
-        "decision": "owner delegated the choice on 2026-11-03, with the rule stated "
-                    "before it was applied",
+        "why": "at the ladder row the analysis resolves %.3f per configuration and the "
+               "ladder's closed form says %.3f, so the ladder is optimistic; and the "
+               "claim needs all four, so %d worlds resolve per configuration at %.3f "
+               "but the conjunction at only %.3f, while %d gives %.3f"
+               % (planning_row["resolved_share"], planning_row["fisher_z_says"],
+                  ladder_worlds,
+                  by_size[str(ladder_worlds)]["per_configuration"]
+                  if str(ladder_worlds) in by_size else float("nan"),
+                  (sim["points"]["0.50"]["resolved_share"] ** 4),
+                  planned, by_size[str(planned)]["conjunction"]),
+        "what_it_does_not_change": "the published 48-world floor and every ladder row, "
+                                   "including the 104 at the planning assumption; the "
+                                   "block is raised above the ladder, and the ladder "
+                                   "is not edited to match",
+        "decision": "owner delegated the choice on 2026-11-03. The first version of "
+                    "this rule governed the per-configuration bar; the second machine "
+                    "pass showed the claim is a conjunction, and the rule was restated "
+                    "on it the same day, before any world ran",
     }
     worlds_total = planned * len(CLAIMED)
     # Reliability descends down the grid, so the requirement must ascend:

@@ -167,25 +167,83 @@
       }
     },
     "worlds_per_configuration_at_reliability_1": 48,
-    "worlds_per_configuration": 120,
+    "worlds_per_configuration": 180,
     "worlds_per_configuration_ladder": 104,
     "block_floor_rule": {
-      "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on the committed rule's resolution clears the declared bar, and never smaller than the ladder row at the planning assumption",
+      "quantity": "the probability that the protocol's own success criterion holds: the predicted relation resolved in EVERY claimed configuration. That is the conjunction across the four, not the per-configuration share the ladder reports",
+      "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on that conjunction clears the declared bar, and never smaller than the ladder row at the planning assumption",
       "lower_bound_multiplier": 1.96,
+      "configurations_in_conjunction": 4,
+      "independence": "the four configurations are separate worlds under separate seeds, so their resolutions multiply; a coupling between them would make this an over-estimate",
       "tested_sizes": [
         112,
-        120
+        120,
+        150,
+        160,
+        180,
+        200
       ],
+      "by_size": {
+        "112": {
+          "per_configuration": 0.9137,
+          "per_configuration_se": 0.0099,
+          "conjunction": 0.697,
+          "conjunction_se": 0.0302,
+          "conjunction_lower_bound": 0.6378,
+          "clears_on_the_lower_bound": false
+        },
+        "120": {
+          "per_configuration": 0.9313,
+          "per_configuration_se": 0.0089,
+          "conjunction": 0.7522,
+          "conjunction_se": 0.0288,
+          "conjunction_lower_bound": 0.6959,
+          "clears_on_the_lower_bound": false
+        },
+        "150": {
+          "per_configuration": 0.975,
+          "per_configuration_se": 0.0078,
+          "conjunction": 0.9037,
+          "conjunction_se": 0.0289,
+          "conjunction_lower_bound": 0.847,
+          "clears_on_the_lower_bound": false
+        },
+        "160": {
+          "per_configuration": 0.9775,
+          "per_configuration_se": 0.0074,
+          "conjunction": 0.913,
+          "conjunction_se": 0.0276,
+          "conjunction_lower_bound": 0.8588,
+          "clears_on_the_lower_bound": false
+        },
+        "180": {
+          "per_configuration": 0.9975,
+          "per_configuration_se": 0.0025,
+          "conjunction": 0.99,
+          "conjunction_se": 0.0099,
+          "conjunction_lower_bound": 0.9706,
+          "clears_on_the_lower_bound": true
+        },
+        "200": {
+          "per_configuration": 0.995,
+          "per_configuration_se": 0.0035,
+          "conjunction": 0.9801,
+          "conjunction_se": 0.0138,
+          "conjunction_lower_bound": 0.9531,
+          "clears_on_the_lower_bound": true
+        }
+      },
       "clearing_on_the_lower_bound": [
-        120
+        180,
+        200
       ],
       "ladder_row_at_planning_assumption": 104,
-      "chosen": 120,
-      "why": "the ladder solves in Fisher's z and the analysis resamples worlds: the simulated realisation at the ladder row is 0.895 at 104 worlds, so the closed form overstates the resolution the committed rule delivers",
+      "chosen": 180,
+      "why": "at the ladder row the analysis resolves 0.895 per configuration and the ladder's closed form says 0.903, so the ladder is optimistic; and the claim needs all four, so 104 worlds resolve per configuration at nan but the conjunction at only 0.642, while 180 gives 0.990",
       "what_it_does_not_change": "the published 48-world floor and every ladder row, including the 104 at the planning assumption; the block is raised above the ladder, and the ladder is not edited to match",
-      "decision": "owner delegated the choice on 2026-11-03, with the rule stated before it was applied"
+      "decision": "owner delegated the choice on 2026-11-03. The first version of this rule governed the per-configuration bar; the second machine pass showed the claim is a conjunction, and the rule was restated on it the same day, before any world ran"
     },
-    "worlds_total": 480,
+    "worlds_total": 720,
     "reportable_floor_per_configuration": 48,
     "a_higher_reliability_would_shrink_the_block": true,
     "worlds_total_if_reviewer_accepts_0_70": 288,
@@ -227,9 +285,9 @@
     "used_in_the_block_size": false
   },
   "cost": {
-    "cycles_total": 248880,
+    "cycles_total": 373320,
     "cycles_if_every_world_ran_600": 144000,
-    "relative_to_phase_l": 1.7283,
+    "relative_to_phase_l": 2.5925,
     "note": "Estimated from the median confirmation cycle per configuration in the Phase L record, which is the best available estimate of where fresh worlds will emerge. It is an estimate, not a measurement."
   },
   "seeds": {
@@ -910,35 +968,35 @@
     "consumed_total": 192,
     "candidate_block": [
       700000001,
-      700000484
+      700000724
     ],
-    "candidate_count": 484,
+    "candidate_count": 724,
     "preassigned": {
       "2:1": {
         "first": 700000001,
-        "last": 700000120,
-        "count": 120
+        "last": 700000180,
+        "count": 180
       },
       "3:1": {
-        "first": 700000121,
-        "last": 700000240,
-        "count": 120
+        "first": 700000181,
+        "last": 700000360,
+        "count": 180
       },
       "4:1": {
-        "first": 700000241,
-        "last": 700000360,
-        "count": 120
+        "first": 700000361,
+        "last": 700000540,
+        "count": 180
       },
       "6:1": {
-        "first": 700000361,
-        "last": 700000480,
-        "count": 120
+        "first": 700000541,
+        "last": 700000720,
+        "count": 180
       }
     },
-    "preassigned_total": 480,
+    "preassigned_total": 720,
     "unused": {
-      "first": 700000481,
-      "last": 700000484,
+      "first": 700000721,
+      "last": 700000724,
       "count": 4
     },
     "substitution_allowed": false,
