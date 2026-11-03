@@ -10292,3 +10292,25 @@ for every tested size, so the conjunction can be checked against the per-configu
 
 **Stage B remains unauthorised.** No seed is allocated, no world was generated, and no relation between onset and
 behaviour has been computed.
+
+## §164 — The seed-disjointness scan's width is measured, not assumed (2026-11-03)
+
+A further machine pass reported that the seed-disjointness scan is incomplete. The scan is real and it is narrow: it
+reads every `*.json` directly under `docs/`, and nothing else. `docs/` has no subdirectory, so today nothing is missed
+— but "nothing is missed" was an assumption about where artifacts live, held in the same place as a check that is
+supposed to be mechanical, which is exactly the arrangement rule 20 warns about.
+
+The fix is not a wider prose claim. `benchmarks/stage_b_protocol.py` now runs the identical rule over every other
+JSON in the tree (excluding `.venv`, `.scratch`, `artifacts` and caches) and records two facts in
+`docs/stage_b_protocol.json` under `seeds.scan_outside_docs`: how many files it read, and which of them name a seed.
+The block-disjointness assertion is taken against the union, so a stray artifact outside `docs/` cannot slip a builder
+seed past the check unnoticed. On this tree the union adds nothing — the consumed figure stays at 192 seeds across 71
+docs artifacts — which is the point: the narrower scan is now licensed by a recorded measurement rather than by
+memory. `docs/STAGE-B-PROTOCOL.md` §9 states the scope and the reason, and `tests/test_stage_b_protocol.py` asserts
+that the outside-docs field is present, empty and consistent with the block.
+
+Three other claims in the same pass were checked against the code and are not defects at HEAD: the `1/count` quantum
+was withdrawn at `e6334dc` and the artifact now forbids stating the requirement that way; the 0.50 reliability is
+already declared a planning assumption and explicitly "unmeasured" in §6; and the `b9c73a7` record's parentage is
+correct — `e6334dc` is that commit's parent, not a sibling. The pass's transcript is not in the repository, so its
+findings are recorded here by disposition and not quoted.
