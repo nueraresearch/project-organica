@@ -302,3 +302,39 @@ def test_the_projection_is_written_where_the_mode_says(tmp_path, monkeypatch):
     doc = json.loads((tmp_path / "estimate.json").read_text(encoding="utf-8"))
     assert doc["estimated"] is True
     assert doc["measured_from"][0]["cycles"] == 379 + runner.TEST_CYCLES
+
+
+def test_a_pure_per_cycle_cost_passes_the_rate_check():
+    cells = []
+    for config, cycles in (("2:1", 639), ("4:1", 462)):
+        for _ in range(2):
+            cells.append({"configuration": config, "complete": True,
+                          "cycles_run": cycles - runner.TEST_CYCLES,
+                          "engine_seconds": cycles * 0.25})
+    check = runner.rate_proportionality(cells)
+    assert check["checked"] is True and check["configurations"] == ["2:1", "4:1"]
+    assert check["proportional_within_measured_range"] is True
+    assert abs(check["fit"]["intercept_seconds"]) < 1.0
+    assert check["fit"]["r_squared"] == 1.0
+
+
+def test_a_per_world_charge_fails_the_rate_check_and_shows_as_an_intercept():
+    cells = []
+    for config, cycles in (("2:1", 639), ("6:1", 429)):
+        for _ in range(2):
+            cells.append({"configuration": config, "complete": True,
+                          "cycles_run": cycles - runner.TEST_CYCLES,
+                          "engine_seconds": 60.0 + 0.2 * cycles})
+    check = runner.rate_proportionality(cells)
+    assert check["proportional_within_measured_range"] is False, (
+        "a fixed per-world charge makes the short horizon look dearer per cycle; if this "
+        "passes, the check cannot see the thing the estimate assumes away")
+    assert 55.0 < check["fit"]["intercept_seconds"] < 65.0
+    assert check["shared_rate_interval"] is None
+
+
+def test_the_rate_check_refuses_one_configuration():
+    cells = [{"configuration": "6:1", "complete": True, "cycles_run": 379,
+              "engine_seconds": 101.0}]
+    check = runner.rate_proportionality(cells)
+    assert check["checked"] is False and "minimum" in check["why"]

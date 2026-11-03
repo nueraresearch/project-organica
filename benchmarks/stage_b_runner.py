@@ -84,6 +84,7 @@ OUT = ROOT / "docs" / "stage_b_runner.json"
 SELF_TEST_OUT = ROOT / "docs" / "stage_b_runner_self_test.json"
 CACHE = ROOT / ".scratch" / "stage_b_runner"
 ESTIMATE_OUT = ROOT / "docs" / "stage_b_cost_estimate.json"
+RATE_CHECK_OUT = ROOT / "docs" / "stage_b_rate_check.json"
 ALLOCATION = ROOT / "docs" / "stage_b_allocation.json"
 
 CLAIMED = ("2:1", "3:1", "4:1", "6:1")
@@ -521,6 +522,74 @@ def self_test() -> dict:
 CPU_COUNT = os.cpu_count() or 1
 
 
+def rate_proportionality(cells: list[dict]) -> dict:
+    """Is a cell's cost per cycle, or does it carry a per-world charge?
+
+    The estimate charges every configuration at one measured rate per cycle. That is
+    only right if the cost is proportional to the cycles a cell processes; a per-world
+    setup or world-generation charge would instead make short horizons look cheaper per
+    cycle than long ones. This fits seconds against cycles across every cell that has
+    run and asks whether one rate interval covers all the configurations.
+
+    The rule was fixed before the cells it judges were run: proportional means the
+    per-configuration rate ranges intersect. It is deliberately the weakest test the
+    data can support -- two cells per configuration -- and it cannot distinguish a
+    per-world charge that happens to scale with the cycle count, because no cell varies
+    its cycle count inside a configuration.
+    """
+    measured = [cell for cell in cells
+                if cell.get("complete") and cell.get("engine_seconds")
+                and cell.get("cycles_run")]
+    configs = sorted({cell["configuration"] for cell in measured})
+    if len(measured) < 3 or len(configs) < 2:
+        return {"checked": False, "cells": len(measured), "configurations": configs,
+                "why": "three cells across two configurations are the minimum that can "
+                       "separate a per-cycle cost from a per-world one"}
+    xs = [float(cell["cycles_run"] + TEST_CYCLES) for cell in measured]
+    ys = [float(cell["engine_seconds"]) for cell in measured]
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    sxx = sum((x - mx) ** 2 for x in xs)
+    slope = (sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sxx) if sxx else None
+    intercept = (my - slope * mx) if slope is not None else None
+    ss_tot = sum((y - my) ** 2 for y in ys)
+    ss_res = (sum((y - (intercept + slope * x)) ** 2 for x, y in zip(xs, ys))
+              if slope is not None else None)
+    per_configuration: dict[str, dict] = {}
+    for config in configs:
+        rows = [cell for cell in measured if cell["configuration"] == config]
+        rates = [cell["engine_seconds"] / (cell["cycles_run"] + TEST_CYCLES) for cell in rows]
+        per_configuration[config] = {
+            "cells": len(rows),
+            "cycles_per_cell": sorted({cell["cycles_run"] + TEST_CYCLES for cell in rows}),
+            "rate_min": round(min(rates), 6),
+            "rate_mean": round(statistics.fmean(rates), 6),
+            "rate_max": round(max(rates), 6),
+            "seconds": [cell["engine_seconds"] for cell in rows],
+        }
+    low = max(block["rate_min"] for block in per_configuration.values())
+    high = min(block["rate_max"] for block in per_configuration.values())
+    shared = low <= high
+    return {
+        "checked": True,
+        "cells": len(measured),
+        "configurations": configs,
+        "fit": {"slope_seconds_per_cycle": round(slope, 6) if slope is not None else None,
+                "intercept_seconds": round(intercept, 2) if intercept is not None else None,
+                "r_squared": round(1.0 - ss_res / ss_tot, 4) if ss_tot else None},
+        "per_configuration": per_configuration,
+        "shared_rate_interval": [round(low, 6), round(high, 6)] if shared else None,
+        "proportional_within_measured_range": bool(shared),
+        "decision_rule": "proportional iff the per-configuration rate ranges intersect; "
+                         "declared before the cells it judges were run",
+        "what_this_cannot_show": "a per-world charge that scales with the cycle count is "
+                                 "indistinguishable from a per-cycle charge here, because no "
+                                 "cell varies its cycle count inside a configuration; and a "
+                                 "cell does not record how many workers shared the machine, so "
+                                 "a cross-configuration difference may be load rather than "
+                                 "configuration",
+    }
+
+
 def cost_estimate(cells: list[dict], cpu_count: int = CPU_COUNT,
                   efficiency: float = 1.0) -> dict:
     """Wall-clock projection for the block, from cells that have already run.
@@ -596,6 +665,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--assemble", action="store_true")
     parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
+    parser.add_argument("--rate-check", action="store_true",
+                        help="ask whether a cell's cost is per cycle or per world")
     parser.add_argument("--estimate", action="store_true",
                         help="project the block's wall clock from cells that have run")
     parser.add_argument("--no-cache", action="store_true")
@@ -642,6 +713,14 @@ def main(argv: list[str] | None = None) -> int:
         target = Path(args.out) if args.out else OUT
         target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result["analysis"], indent=2))
+        return 0
+
+    if args.rate_check:
+        cells = [json.loads(p.read_text(encoding="utf-8"))
+                 for p in sorted(CACHE.glob("cell_*.json"))]
+        result = rate_proportionality(cells)
+        RATE_CHECK_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(result, indent=2))
         return 0
 
     if args.estimate:

@@ -10645,3 +10645,36 @@ with eight workers, or a little over a day as four batches at four workers; that
 before deciding whether to allocate, and it changes nothing about whether the run is authorised. The estimate
 is `docs/stage_b_cost_estimate.json`, `planning_only` and `no_seed_allocated` are both true in it, and no
 confirmatory world exists.
+
+## 180. The cost is not exactly per cycle, and the check that says so is weaker than it looks (2026-11-03)
+
+§179 projected the block from three cells of one configuration and said, in the artifact, that it assumed cost
+is proportional to cycles. That assumption is now tested, and it **fails the rule it was given**: cost per
+cycle is not the same across configurations.
+
+The cells: 10 cells over four configurations, two or three each. Per-configuration rates are
+`2:1` **0.282144–0.318279**, `3:1` **0.298313–0.31119**,
+`4:1` **0.295498–0.295563**, `6:1` **0.235431–0.270373**,
+so no single interval covers all four and `proportional_within_measured_range` is **false**. The fitted
+intercept is **-33.93** s and the fit is worth little either way: every cell sits at one of
+four cycle counts, so the slope (**0.354538**) is carried almost entirely by the
+between-configuration differences it is supposed to detect.
+
+**The confound, stated because it is not in the cells.** The measurements were taken under different loads --
+one cell alone, some at two workers, some at four -- and a cell records no worker count. So the gap between
+`6:1` and the rest may be configuration or may be contention. One pair was measured in the same session at the
+same worker count: `2:1` seed 20261025 at **185.79** s over 639 cycles
+(**0.290751** s/cycle) and `6:1` seed 20261025 at **115.99** s over
+429 cycles (**0.270373**), a **7.5 %** difference with `6:1` cheaper. That
+is the largest horizon gap in the block, so the constant-rate model is right to about that much and no better.
+
+**The estimate is therefore revised, not defended.** With all 10 cells the mean is
+**0.286542** s/cycle, giving **29.14** h serial
+(range **23.94–32.37**) and
+**29.32/14.66/7.33/3.67**
+h at 1/2/4/8 workers. §179's **26.06** h is **superseded**: it came from the three `6:1` cells, which are the
+cheapest per cycle of the four configurations, so it was optimistic by the amount this check measures.
+
+What the check cannot do: it cannot separate a per-cycle from a per-world charge, because no cell varies its
+cycle count inside a configuration. A sharper design would run one configuration at two different learn-window
+lengths, and that would change the protocol rather than measure its cost.
