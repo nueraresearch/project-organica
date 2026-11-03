@@ -296,8 +296,18 @@ seed, and whether a Stage B world is built to a high quantile of onset, to a per
 eligibility rule that excludes a truncated follow-up is the owner's decision and not the runner's. Recorded in
 journal §172.
 
+**Window placement, corrected by the smoke run (2026-11-03).** The behavioural window is the world's
+**fixed** one -- learn the 50 cycles after the planned confirmation, then test the next 50 -- because the
+world is generated before any onset is measured and its withholding is released on that same planned clock.
+Placing the window at the measured onset instead reads naturally from "the window follows the event" but is
+unimplementable here: for an onset well before the planned confirmation the window falls inside the withheld
+period and the scored set is empty. `benchmarks/stage_b_runner.py` now uses the fixed window and the
+eligibility rule carries the ordering requirement; `docs/stage_b_runner_smoke.json` records the cell that
+showed the difference (onset **233**, **32** withheld occurrences, mean loss **0.1485**).
+
 **The eligibility rule that measurement implies (2026-11-03).** A world is **eligible** iff
-`onset + 101 <= its horizon`, so its follow-up is complete inside the world built for it. A world whose onset
+`onset + 101 <= its horizon`, which is exactly the requirement that its onset precedes the behavioural window,
+since that window opens at the planned confirmation. A world whose onset
 lands later is **ineligible**: reported with its onset and horizon, and **excluded from the relation** -- never
 truncated to a shorter follow-up and never scored at a boundary. On the twelve design-block cells the rule
 excludes **1** (`2:1`, seed `20261023`, onset **602**, horizon **640**) and the other **11** are eligible, which is the

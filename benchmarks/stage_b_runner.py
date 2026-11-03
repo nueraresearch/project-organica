@@ -110,6 +110,14 @@ def horizon_cycles(label: str) -> int:
     return CONFIRMATION_CYCLE[label] + LEARN_CYCLES + TEST_CYCLES + 1
 
 
+def parse_cell(value: str) -> tuple[str, int]:
+    """`6:1:20261023` -> (`6:1`, 20261023). The configuration itself has a colon."""
+    config, _, seed = value.rpartition(":")
+    if config not in CONFIG_RATIOS:
+        raise ValueError(f"unknown configuration {config!r}; expected one of {CLAIMED}")
+    return config, int(seed)
+
+
 def seed_block(config: str) -> list[int]:
     first, last = BLOCK[config]
     return list(range(first, last + 1))
@@ -220,10 +228,17 @@ def run_cell(config: str, seed: int, budget: float | None = None,
     _early_gold, late_gold = gold(world)
     late_available = available(world, late_gold)
     try:
+        # The world's withholding is released on the PLANNED confirmation clock, because
+        # the world is generated before any onset is measured. The behavioural window is
+        # therefore the protocol's fixed one -- learn 50 cycles after the planned
+        # confirmation, then test 50 -- and the eligibility rule is what carries the
+        # ordering requirement: an onset after the window opens cannot be paired with an
+        # outcome that preceded it. Placing the window at onset + 50 instead empties the
+        # scored set, which the smoke run showed before this comment existed.
+        planned = CONFIRMATION_CYCLE[config]
         cycle = 0
         confirmation = None
-        pairs_at_onset = None
-        while cycle < horizon:
+        while cycle < planned + LEARN_CYCLES:
             chunk = events[cycle * epc:(cycle + 1) * epc]
             for event in chunk:
                 mem.store(event, event_type="event", source=f"cycle:{cycle}")
@@ -231,11 +246,7 @@ def run_cell(config: str, seed: int, budget: float | None = None,
             retained = len(pairs & late_gold)
             di.append(round(retained / late_available, 6) if late_available else None)
             confirmation = sustained_onset(di, SUSTAINED)
-            if confirmation is not None and pairs_at_onset is None:
-                pairs_at_onset = pairs
             cycle += 1
-            if confirmation is not None and cycle >= confirmation + FOLLOW_UP:
-                break
             if budget is not None and time.time() - started > budget:
                 return {"configuration": config, "seed": seed, "horizon": horizon,
                         "cycles_run": cycle, "complete": False,
@@ -253,25 +264,18 @@ def run_cell(config: str, seed: int, budget: float | None = None,
             return {"configuration": config, "seed": seed, "horizon": horizon,
                     "cycles_run": cycle, "complete": True, "stopped_at_budget": False,
                     "onset": confirmation, "censored": False, "eligible": False,
-                    "ineligible_because": f"onset + {FOLLOW_UP} exceeds the horizon",
+                    "ineligible_because": "onset does not precede the behavioural "
+                                          "window (onset + 101 exceeds the horizon)",
                     "outcome": None, "di_trajectory": di,
                     "engine_seconds": round(time.time() - started, 2)}
-        # the readout is frozen here, from the structures asserted at onset, and
-        # never refitted during evaluation
+        # the readout is frozen here, after the learning window, and never refitted
         rows: dict[str, dict[str, float]] = {}
-        for a, b in sorted(pairs_at_onset or set()):
+        for a, b in sorted(pairs):
             rows.setdefault(a, {})
             rows[a][b] = rows[a].get(b, 0.0) + 1.0
-        train = window(world, 0, confirmation)
-        prob = make_organica_backoff(rows, base_rate(train), ALPHA)
-        # learning window, then the behavioural window
-        while cycle < confirmation + LEARN_CYCLES:
-            for event in events[cycle * epc:(cycle + 1) * epc]:
-                mem.store(event, event_type="event", source=f"cycle:{cycle}")
-            svc.run_sleep_cycle()
-            cycle += 1
-        test_events = window(world, confirmation + LEARN_CYCLES,
-                             confirmation + LEARN_CYCLES + TEST_CYCLES)
+        prob = make_organica_backoff(rows, base_rate(window(world, 0, planned)), ALPHA)
+        test_events = window(world, planned + LEARN_CYCLES,
+                             planned + LEARN_CYCLES + TEST_CYCLES)
         for event in test_events:
             mem.store(event, event_type="event", source="test")
         outcome = score_withheld(prob, test_events, withheld)
@@ -479,8 +483,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if not failures else 1
 
     if args.cell:
-        config, seed = args.cell.split(":")
-        cell = run_cell(config, int(seed), budget=args.budget)
+        config, seed = parse_cell(args.cell)
+        cell = run_cell(config, seed, budget=args.budget)
         CACHE.mkdir(parents=True, exist_ok=True)
         (CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json").write_text(
             json.dumps(cell, indent=2) + "\n", encoding="utf-8")

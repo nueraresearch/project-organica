@@ -10520,3 +10520,27 @@ The last item between the recorded design and worlds existing was an executor. `
 The analysis is §5's, implemented once: Spearman within configuration, a percentile bootstrap over worlds at 98.33 %, the standardised slope beside it, a permutation control, and a structural-size baseline, with the claim supported only if the predicted relation holds in **every** configuration. A configuration short of that is MIXED, and the artifact says why: the number of configurations satisfied is not a score.
 
 The guard is the part worth defending. The 720 seeds are pre-assigned, not allocated, and the runner refuses any pre-assigned seed until `docs/stage_b_allocation.json` records the allocation; the four spares are refused unconditionally. Its self-test (11 controls, no engine) checks that both refusals fire, that the eligibility boundary is exact, that an empty window is not measurable, that a planted relation is detected, that the permutation control on the same data includes zero, that a flat outcome is not detected, and that one configuration short of the conjunction reports MIXED rather than SUPPORTED. No confirmatory world ran and no seed was allocated; a smoke run on a consumed design-block seed exercises the engine path.
+
+## 175. The smoke run found the window in the wrong place, and the fixed window is the one (2026-11-03)
+
+The runner was committed with a claim I had not executed -- that a smoke run on a consumed design-block
+seed exercises the engine path. Executing it found a defect rather than confirming the claim.
+
+The first version placed the behavioural window at the **measured** onset plus learning, which follows
+§4's sentence that "the window follows the event". Against this world that is unimplementable: the world is
+generated before any onset is measured, and its declared transition is released on the **planned**
+confirmation clock, so a window placed at an early onset sits inside the withheld period. The cell returned
+**0** withheld occurrences and the outcome was reported not measurable -- correctly, as not measurable rather
+than zero, which is the only reason the defect was visible instead of silent.
+
+The window is now the protocol's fixed one: learn the 50 cycles after the planned confirmation, then test
+the next 50. With that placement the same cell scores: onset **233** -- the same onset
+`docs/stage_b_onset_withholding.json` records for it -- **32** withheld
+occurrences over **896** scored cells, mean loss **0.148461**. The record is
+`docs/stage_b_runner_smoke.json`, labelled as not a measurement.
+
+What this does **not** change: the predictor, the endpoint's definition, the eligibility rule's arithmetic
+(`onset + 101 <= horizon` is now read as "the onset precedes the window", which the same inequality gives),
+the block, the seeds, or any verdict. What it corrects is a sentence's reading and one module's
+implementation, and it is disclosed because an implementation that quietly chose a different window would
+be choosing the experiment after the authorisation.

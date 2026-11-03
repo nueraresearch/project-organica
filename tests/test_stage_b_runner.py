@@ -151,3 +151,30 @@ def test_an_ineligible_cell_is_reported_rather_than_truncated(tmp_path):
     assert stats["eligible_scored"] == 0
     assert stats["ineligible"] == 1
     assert stats["spearman"] is None
+
+
+def test_a_cell_specification_is_parsed_from_the_right():
+    """`6:1:20261023` must not be split on its first colon."""
+    assert runner.parse_cell("6:1:20261023") == ("6:1", 20261023)
+    assert runner.parse_cell("2:1:700000001") == ("2:1", 700000001)
+    with pytest.raises(ValueError, match="unknown configuration"):
+        runner.parse_cell("9:1:20261023")
+
+
+def test_the_smoke_artifact_shows_the_outcome_was_scored():
+    """The smoke run is labelled as one, and its onset is the harness's own onset."""
+    import json as _json
+
+    doc = _json.loads((runner.ROOT / "docs" / "stage_b_runner_smoke.json").read_text(encoding="utf-8"))
+    assert doc["not_a_measurement"] is True
+    cell = doc["cell"]
+    assert (cell["configuration"], cell["design_block_cell"]) == ("6:1", 20261023)
+    assert cell["eligible"] is True and cell["outcome_measurable"] is True
+    assert cell["outcome_cells"] > 0 and cell["outcome"] is not None
+    assert cell["outcome_occurrences"] > 0
+    onsets = _json.loads((runner.ROOT / "docs" / "stage_b_onset_withholding.json").read_text(
+        encoding="utf-8"))["cells"]
+    same = [c for c in onsets if c["configuration"] == cell["configuration"]
+            and c["design_block_cell"] == cell["design_block_cell"]]
+    assert len(same) == 1
+    assert cell["onset"] == same[0]["onset"], (cell["onset"], same[0]["onset"])
