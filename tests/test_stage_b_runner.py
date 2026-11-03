@@ -178,3 +178,48 @@ def test_the_smoke_artifact_shows_the_outcome_was_scored():
             and c["design_block_cell"] == cell["design_block_cell"]]
     assert len(same) == 1
     assert cell["onset"] == same[0]["onset"], (cell["onset"], same[0]["onset"])
+
+
+def test_a_cached_cell_is_reloaded_rather_than_rerun(tmp_path, monkeypatch):
+    monkeypatch.setattr(runner, "CACHE", tmp_path)
+    cell = {"configuration": "2:1", "seed": 20261023, "complete": True, "pid": 1}
+    path = runner.save_cell(cell)
+    assert path == runner.cell_path("2:1", 20261023)
+    assert runner.load_cell("2:1", 20261023) == cell
+    assert runner.load_cell("2:1", 20261024) is None
+    assert runner.cell_is_done(cell)
+    assert not runner.cell_is_done(None)
+    paused = dict(cell, complete=False, stopped_at_budget=True)
+    assert not runner.cell_is_done(paused), (
+        "a paused cell cached on disk must count as pending, or --all would skip "
+        "the work it stopped halfway through")
+
+
+def test_the_seed_block_is_dispersed_across_configurations():
+    seen = {config: runner.seed_block(config) for config in runner.CLAIMED}
+    for config, seeds in seen.items():
+        assert len(seeds) == runner.PER_CONFIG, config
+        assert seeds == list(range(min(seeds), max(seeds) + 1)), config
+    flat = [seed for seeds in seen.values() for seed in seeds]
+    assert len(flat) == len(set(flat)) == runner.PER_CONFIG * len(runner.CLAIMED)
+
+
+def test_the_batch_refuses_before_dispatching_when_a_seed_is_unallocated(monkeypatch):
+    constructed = []
+
+    def spy(*args, **kwargs):
+        constructed.append(1)
+        raise AssertionError("no worker pool may be built before the guard passes")
+
+    monkeypatch.setattr(runner, "ProcessPoolExecutor", spy)
+    monkeypatch.setattr(runner, "run_cell", spy)
+    with pytest.raises(RuntimeError, match="pre-assigned but NOT allocated"):
+        runner.run_many([("2:1", 20261023), ("2:1", 700000001)], workers=4)
+    assert constructed == [], "the guard must refuse the batch before any work starts"
+
+
+def test_a_spare_in_the_batch_is_refused_even_after_allocated_seeds(monkeypatch):
+    monkeypatch.setattr(runner, "run_cell", lambda *a, **k: {})
+    with pytest.raises(RuntimeError, match="never drawn"):
+        runner.run_many([("2:1", 20261023), ("2:1", 700000722)], workers=2)
+

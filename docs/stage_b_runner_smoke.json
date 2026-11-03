@@ -411,5 +411,35 @@
     "one cell is not a relation and not a block: no analysis is computed here",
     "the outcome is the house log loss on the withheld pairs that occur in the window, with the readout frozen after learning; its value is a property of this cell only"
   ],
-  "cells_are": "the consumed design seed 20261023, already counted in docs/stage_b_onset_withholding.json. The seed is filed as design_block_cell and not under a key naming a seed, so the protocol's consumed-seed scan does not count this artifact twice -- the same rule docs/stage_b_endpoint_precision.py follows."
+  "cells_are": "the consumed design seed 20261023, already counted in docs/stage_b_onset_withholding.json. The seed is filed as design_block_cell and not under a key naming a seed, so the protocol's consumed-seed scan does not count this artifact twice -- the same rule docs/stage_b_endpoint_precision.py follows.",
+  "parallel_smoke": {
+    "what_this_is": "A smoke run of the worker pool on two consumed design-block seeds, kept as evidence that the parallel path runs and that it reproduces the onsets the sequential path measured. not_a_measurement.",
+    "status": "not_a_measurement",
+    "workers": 2,
+    "wall_seconds": 115.1,
+    "cells": [
+      {
+        "configuration": "6:1",
+        "design_block_cell": 20261024,
+        "pid": 13723,
+        "onset": 219,
+        "sequence_onset": 219,
+        "outcome": 0.149471,
+        "outcome_occurrences": 40,
+        "engine_seconds": 114.92
+      },
+      {
+        "configuration": "6:1",
+        "design_block_cell": 20261025,
+        "pid": 13724,
+        "onset": 226,
+        "sequence_onset": 226,
+        "outcome": 0.151855,
+        "outcome_occurrences": 36,
+        "engine_seconds": 113.86
+      }
+    ],
+    "distinct_pids": 2,
+    "onset_matches_sequence_measurement": true
+  }
 }

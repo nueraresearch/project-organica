@@ -10544,3 +10544,32 @@ What this does **not** change: the predictor, the endpoint's definition, the eli
 the block, the seeds, or any verdict. What it corrects is a sentence's reading and one module's
 implementation, and it is disclosed because an implementation that quietly chose a different window would
 be choosing the experiment after the authorisation.
+
+## 176. The runner can use the machine's workers, and the guard still refuses before any of them start (2026-11-03)
+
+The executor was sequential and restarted from zero. Both were chores, not design choices, and both are
+fixed in `benchmarks/stage_b_runner.py` without touching the protocol.
+
+**Resumption.** Each cell is written to `cell_<configuration>_<seed>.json` as soon as it finishes, and
+`--cell` reloads it before running anything (`--no-cache` forces a re-run). `--all` treats a cached cell as
+done **only if it completed**: a cell that stopped at its time budget is `complete: false`, so a paused cell
+stays pending and the next invocation continues it rather than skipping a world that never finished. That
+distinction is a test, not a comment.
+
+**Workers.** `--workers N` runs the cells through a process pool. The order of operations is the point: every
+job's seed passes `assert_runnable` **before the pool is constructed**, so an unallocated block or a reserved
+spare refuses the whole batch without starting a single worker. A guard that fired inside the workers would
+have spent work before refusing, and a run that spends anything must have been authorised as a whole. Each
+cell now records its `pid`, so parallelism is visible in the artifact instead of inferred from timing.
+
+**Smoke, on consumed design-block seeds only.** Two `6:1` cells at two workers reproduced the sequential
+onsets exactly -- seed 20261024 onset **219**
+(`pid` 13723) and seed 20261025 onset
+**226** (`pid` 13724) -- matching
+`docs/stage_b_onset_withholding.json` for both. Wall clock **115.1** s against **228.78** s of
+engine time summed over the two cells, i.e. the two cells really overlapped. The record is
+`docs/stage_b_runner_smoke.json` under `parallel_smoke`, labelled `not_a_measurement`.
+
+What did not change: the endpoint, the predictor, the eligibility rule, the block, the horizons, the seeds or
+any verdict. Nothing confirmatory ran, no seed was allocated, and `--all` still refuses until the owner
+creates `docs/stage_b_allocation.json`.

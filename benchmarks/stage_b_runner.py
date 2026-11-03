@@ -55,10 +55,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import statistics
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -121,6 +123,56 @@ def parse_cell(value: str) -> tuple[str, int]:
 def seed_block(config: str) -> list[int]:
     first, last = BLOCK[config]
     return list(range(first, last + 1))
+
+
+def cell_path(config: str, seed: int) -> Path:
+    return CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json"
+
+
+def save_cell(cell: dict) -> Path:
+    CACHE.mkdir(parents=True, exist_ok=True)
+    path = cell_path(cell["configuration"], cell["seed"])
+    path.write_text(json.dumps(cell, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def load_cell(config: str, seed: int) -> dict | None:
+    path = cell_path(config, seed)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def cell_is_done(cell: dict | None) -> bool:
+    """A cached cell counts only if it finished; a paused one is re-run."""
+    return bool(cell) and bool(cell.get("complete"))
+
+
+def run_many(jobs: list[tuple[str, int]], workers: int = 1,
+             budget: float | None = None) -> list[dict]:
+    """Run cells, refusing the whole batch BEFORE dispatching if any seed is unallocated.
+
+    The guard is validated for every job first, on purpose: a pool that started and
+    then refused would have spent work, and a run that spent anything must have been
+    authorised as a whole.
+    """
+    for _config, seed in jobs:
+        assert_runnable(seed)
+    done: list[dict] = []
+    if workers > 1 and len(jobs) > 1:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(run_cell, config, seed, budget): (config, seed)
+                       for config, seed in jobs}
+            for future in as_completed(futures):
+                cell = future.result()
+                save_cell(cell)
+                done.append(cell)
+                print(f"  {cell['configuration']} {cell['seed']}: onset {cell.get('onset')} "
+                      f"outcome {cell.get('outcome')} pid {cell.get('pid')}", flush=True)
+    else:
+        for config, seed in jobs:
+            cell = run_cell(config, seed, budget=budget)
+            save_cell(cell)
+            done.append(cell)
+    return done
 
 
 def config_of(seed: int) -> str | None:
@@ -281,6 +333,7 @@ def run_cell(config: str, seed: int, budget: float | None = None,
         outcome = score_withheld(prob, test_events, withheld)
         return {"configuration": config, "seed": seed, "horizon": horizon,
                 "cycles_run": cycle, "complete": True, "stopped_at_budget": False,
+                "pid": os.getpid(),
                 "onset": confirmation, "censored": False, "eligible": True,
                 "asserted_pairs_at_onset": len(pairs),
                 "late_available": late_available,
@@ -465,6 +518,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cell", help="CONFIG:SEED, e.g. 6:1:20261023")
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--assemble", action="store_true")
+    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--no-cache", action="store_true")
     parser.add_argument("--budget", type=float, default=None)
     args = parser.parse_args(argv)
 
@@ -484,10 +539,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cell:
         config, seed = parse_cell(args.cell)
-        cell = run_cell(config, seed, budget=args.budget)
-        CACHE.mkdir(parents=True, exist_ok=True)
-        (CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json").write_text(
-            json.dumps(cell, indent=2) + "\n", encoding="utf-8")
+        cell = None if args.no_cache else load_cell(config, seed)
+        if cell is not None:
+            print(f"cached: {config} {seed} (use --no-cache to re-run)")
+        else:
+            cell = run_cell(config, seed, budget=args.budget)
+            save_cell(cell)
         print(json.dumps({k: v for k, v in cell.items() if k != "di_trajectory"},
                          indent=2))
         return 0
@@ -509,14 +566,11 @@ def main(argv: list[str] | None = None) -> int:
                   " Allocating the block is the owner's act (decision record §D2 step 3).")
             return 2
         jobs = [(config, seed) for config in CLAIMED for seed in seed_block(config)]
-        for config, seed in jobs:
-            cell = run_cell(config, seed, budget=args.budget)
-            CACHE.mkdir(parents=True, exist_ok=True)
-            (CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json").write_text(
-                json.dumps(cell, indent=2) + "\n", encoding="utf-8")
-            if cell.get("stopped_at_budget"):
-                print(f"paused at {config} {seed}; rerun the same command to continue")
-                return 0
+        pending = [(config, seed) for config, seed in jobs
+                   if not cell_is_done(load_cell(config, seed))]
+        print(f"{len(jobs) - len(pending)} cached, {len(pending)} pending, "
+              f"{args.workers} worker(s)")
+        run_many(pending, workers=args.workers, budget=args.budget)
         return 0
 
     parser.print_help()
