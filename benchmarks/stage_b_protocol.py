@@ -141,7 +141,7 @@ def _consumed_seeds() -> dict[str, list[int]]:
         seeds: set[int] = set()
         _harvest_seeds(obj, seeds)
         if seeds:
-            found[str(Path(path).relative_to(ROOT))] = sorted(seeds)
+            found[Path(path).relative_to(ROOT).as_posix()] = sorted(seeds)
     return found
 
 

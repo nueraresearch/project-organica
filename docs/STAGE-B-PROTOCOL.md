@@ -230,9 +230,9 @@ standard error is small. (b) The wrong-law control is a **uniform** law, and a c
 has zero variance, so its twice-standard-error of **0.0** is degenerate: it shows the ceiling is not the worst possible
 readout, not how wrong a wrong law would score, and it brackets nothing. (c) The world is a **reconstruction** of the
 scale family — same entity structure, arrival fraction, noise rate and event count — and **not**
-`phase_l_campaign.build_world`, and **no `DI` onset has been measured on it**. The outcome now has a world; the
-predictor does not yet have a demonstrated distribution in that world, so the run cannot start until onset is measured
-on this family and shown to vary across seeds and configurations. `status.blocked_before_run` therefore stays true,
+`phase_l_campaign.build_world`, and, at the time of this audit, **no `DI` onset had been measured on it** -- it has since been measured
+on the design-block seeds, and the completion update below records what that measurement does and does not reach. The outcome now has a world; at the time of this audit the predictor did not yet have a demonstrated
+distribution in that world, so the run could not start until onset was measured on this family and shown to vary across seeds and configurations. `status.blocked_before_run` therefore stays true,
 and no seed is allocated.
 
 **Attempted, and not completed (2026-11-03).** The harness for that measurement is

@@ -437,7 +437,7 @@ def test_the_withholding_world_is_not_yet_shown_to_host_the_predictor():
     assert "zero variance" in limits
     assert "no `DI` onset has been measured" in limits
     flat = " ".join(DOC.read_text(encoding="utf-8").split())
-    assert "no `DI` onset has been measured on it" in flat
+    assert "no `DI` onset had been measured on it" in flat
     assert "**reconstruction**" in flat
     assert "`status.blocked_before_run` therefore stays true" in flat
     lo = min(c["readouts"]["ceiling_open_law"]["twice_cluster_se"] for c in doc["cells"])
@@ -459,11 +459,35 @@ def test_the_onset_rule_is_the_first_sustained_run_and_censors():
     assert onset([0.0] * 5 + [0.3] * 10, sustained=20) is None
 
 
-def test_no_onset_has_been_measured_and_the_documents_say_so():
-    """The measurement was attempted and did not complete; nothing may imply it did."""
-    assert not (ROOT / "docs" / "stage_b_onset_withholding.json").exists()
+def test_the_onset_measurement_is_the_artifact_s_and_the_documents_quote_it():
+    """Rule 20: every number the documents state about the onset comes from the artifact."""
+    import statistics
+    art = json.loads((ROOT / "docs" / "stage_b_onset_withholding.json").read_text(encoding="utf-8"))
+    cells = art["cells"]
+    assert len(cells) == 12
+    assert all(c["complete"] is True and c["censored"] is False for c in cells)
+    assert all(c["onset"] is not None for c in cells)
+    # Agreement is the artifact's own claim, and every cell has its own onset.
+    assert art["checks"]["sustention_rule_agreement"] == {"5 vs 10": 1.0, "10 vs 20": 1.0, "5 vs 20": 1.0}
+    assert len({c["onset"] for c in cells}) == 12
+    # The medians the documents print are computed here, from the cells, not read back.
+    per = {}
+    for c in cells:
+        per.setdefault(c["configuration"], []).append(c["onset"])
+    medians = {k: int(statistics.median(v)) for k, v in per.items()}
+    assert medians == {k: v["median"] for k, v in art["configurations"].items()}
     flat = " ".join(DOC.read_text(encoding="utf-8").split())
-    assert "no `DI` onset has been measured on it" in flat
-    assert "**Attempted, and not completed (2026-11-03).**" in flat
-    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
-    assert "ONSET MEASUREMENT ATTEMPTED AND NOT COMPLETED, 2026-11-03" in manual
+    for k, med in medians.items():
+        assert "**%d** (`%s`)" % (med, k) in flat, (k, med)
+    # The measurement is predictor-only, and the artifact says so where a reader will look.
+    assert any("no relation between onset and any behavioural outcome" in lim for lim in art["limits"])
+    assert "no Stage B seed is spent" in art["cells_are"]
+    assert "Completion update (2026-11-03)" in flat
+
+
+def test_the_protocol_artifact_does_not_depend_on_the_os_that_wrote_it():
+    """`str(Path)` writes a Windows separator, so the stored keys would not match a Linux build."""
+    art = json.loads(OUT.read_text(encoding="utf-8"))
+    keys = list(art["seeds"]["consumed_blocks"])
+    sep = chr(92)
+    assert keys and not any(sep in k for k in keys), keys[:3]
