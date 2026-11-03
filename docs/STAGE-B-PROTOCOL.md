@@ -2,7 +2,7 @@
 
 **Status: AUTHORISED, NOT RUN. Stage B was authorised on 2026-11-03; no seed is allocated and no world has
 run.** The authorisation is [`docs/AUTHORISATION-STAGE-B.md`](AUTHORISATION-STAGE-B.md); this document
-specifies the run it permits. Every number here is written by Every number here is written by
+specifies the run it permits. Every number here is written by
 `benchmarks/stage_b_protocol.py` into `docs/stage_b_protocol.json`, and `tests/test_stage_b_protocol.py` asserts
 this document against that artifact.
 
