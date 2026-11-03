@@ -118,6 +118,45 @@ def _consumed_seeds() -> dict[str, list[int]]:
     return found
 
 
+def _seeds_outside_docs() -> tuple[int, dict[str, list[int]]]:
+    """The same rule, run over every JSON file that is not a docs/ artifact.
+
+    The block check reads docs/*.json because that is where the artifacts live, which
+    makes the check only as wide as one directory. This second pass measures that width
+    instead of assuming it: it applies the identical rule to the rest of the tree and
+    reports which files name a seed.
+    """
+    skip = {".venv", ".scratch", ".git", "artifacts", "__pycache__", ".pytest_cache"}
+    scanned, found = 0, {}
+    for path in sorted(ROOT.rglob("*.json")):
+        rel = path.relative_to(ROOT)
+        if any(part in skip for part in rel.parts) or rel.parts[0] == "docs":
+            continue
+        scanned += 1
+        try:
+            obj = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        seeds: set[int] = set()
+
+        def walk(node) -> None:
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if isinstance(value, int) and not isinstance(value, bool) \
+                            and "seed" in key.lower() and value >= MIN_REAL_SEED:
+                        seeds.add(value)
+                    else:
+                        walk(value)
+            elif isinstance(node, list):
+                for item in node:
+                    walk(item)
+
+        walk(obj)
+        if seeds:
+            found[str(rel)] = sorted(seeds)
+    return scanned, found
+
+
 def build() -> dict:
     construct = json.loads(CONSTRUCT.read_text(encoding="utf-8"))
     clock = construct["behavioural_clock"]
@@ -235,9 +274,11 @@ def build() -> dict:
     phase_l_cycles = 240 * 600
 
     consumed = _consumed_seeds()
+    outside_scanned, outside_seeds = _seeds_outside_docs()
     block = list(range(SEED_BLOCK_START,
                        SEED_BLOCK_START + worlds_total + SPARE_SEEDS))
     consumed_flat = {s for values in consumed.values() for s in values}
+    consumed_flat |= {s for values in outside_seeds.values() for s in values}
     overlap = sorted(set(block) & consumed_flat)
     assert not overlap, overlap[:10]
     assert len(block) == worlds_total + SPARE_SEEDS
@@ -575,6 +616,17 @@ def build() -> dict:
             "substitution_allowed": False,
             "overlap_with_consumed": overlap,
             "disjoint_proved_against": len(consumed),
+            "scan_scope": "every *.json directly under docs/, which is where every "
+                          "artifact lives; docs/ contains no subdirectory",
+            "scan_outside_docs": {
+                "files_scanned": outside_scanned,
+                "with_seed_keys": outside_seeds,
+                "overlap_with_block": overlap,
+                "note": "The same rule run over the rest of the tree, so the width of "
+                        "the scan is measured rather than assumed. A file outside docs/ "
+                        "that names a seed in the block appears here instead of being "
+                        "missed silently.",
+            },
             "allocated": False,
             "note": "Every configuration's seeds are pre-assigned before any world "
                     "runs, the spare seeds are named as unused, and substitution is "

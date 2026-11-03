@@ -1002,6 +1002,13 @@
     "substitution_allowed": false,
     "overlap_with_consumed": [],
     "disjoint_proved_against": 71,
+    "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
+    "scan_outside_docs": {
+      "files_scanned": 10,
+      "with_seed_keys": {},
+      "overlap_with_block": [],
+      "note": "The same rule run over the rest of the tree, so the width of the scan is measured rather than assumed. A file outside docs/ that names a seed in the block appears here instead of being missed silently."
+    },
     "allocated": false,
     "note": "Every configuration's seeds are pre-assigned before any world runs, the spare seeds are named as unused, and substitution is prohibited: a censored world does not release its seed to another world, and the spare seeds are never drawn."
   },

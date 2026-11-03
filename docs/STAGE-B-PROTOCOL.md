@@ -456,6 +456,8 @@ becomes a search for 104 that worked.
 - **The candidate block is not an allocation.** It is proved *unused*, which is not the same as *spent*. No seed
   in it is allocated by this document.
 
+**The scan's width is measured, not assumed.** The disjointness check reads every `.json` directly under `docs/`, because that is where every artifact lives and `docs/` holds no subdirectory — so a seed recorded two directories deep would be invisible to it. The artifact therefore also records the same rule run over every other `.json` in the tree, and how many of those name a seed. That field is what licenses the narrower scan: the day a stray artifact outside `docs/` names a builder seed, it shows up there rather than in the memory of whoever wrote the check. The width is recorded, not attributed.
+
 **Three words, defined so they are never used as synonyms:**
 
 | word | means |

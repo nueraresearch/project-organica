@@ -151,6 +151,13 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
     for path in seeds["consumed_blocks"]:
         assert (ROOT / path).exists(), path
     assert "**192** consumed seeds across **71** artifacts" in text
+    # The seed scan reads one directory; that width is measured and reported, so a
+    # stray artifact outside docs/ cannot slip a builder seed past the check.
+    assert seeds["scan_scope"].startswith("every *.json directly under docs/")
+    assert seeds["scan_outside_docs"]["with_seed_keys"] == {}
+    assert seeds["scan_outside_docs"]["files_scanned"] >= 1
+    assert seeds["scan_outside_docs"]["overlap_with_block"] == []
+    assert "The scan's width is measured, not assumed." in text
     assert "**0 overlap**" in text
     assert "**four** seeds" in text and "700000721" in text
     assert "**Substitution is prohibited**" in text
