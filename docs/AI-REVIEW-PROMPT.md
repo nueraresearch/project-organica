@@ -23,7 +23,7 @@ So it substitutes for nothing. What the owner has changed is the order of events
 
 ## What it is reviewing
 
-`docs/STAGE-B-PROTOCOL.md` at commit `4774f87`, the commit that carries the protocol's §13, the pre-pass corrections and this prompt —
+`docs/STAGE-B-PROTOCOL.md` at commit `6868cf5`, the commit that carries the protocol's §13, the pre-pass corrections and this prompt —
 **replace that number with `git rev-parse HEAD`** if the tree has moved since, and never send a prompt whose
 commit does not resolve. A pass pinned to an earlier hash reviews a protocol that did not yet record how it can be
 authorised. The protocol under review is **not**
@@ -38,7 +38,7 @@ Paste the block below into a model with no other context.
 > Your job is to find the reasons it should not be run, and to identify which of its claims cannot be checked at
 > all.
 >
-> **Repository.** https://github.com/nueraresearch/project-organica at commit `4774f87`. It is public; read files
+> **Repository.** https://github.com/nueraresearch/project-organica at commit `6868cf5`. It is public; read files
 > directly rather than trusting my summary of them.
 >
 > **Read, in this order.** `docs/STAGE-B-PROTOCOL.md` (the protocol under review), `docs/stage_b_protocol.json`
