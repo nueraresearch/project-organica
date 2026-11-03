@@ -52,3 +52,42 @@ to an artifact.
 independent assessment preceded the run and that a machine pre-pass did, and any publication carries that
 limitation explicitly rather than leaving it to be inferred. If a pass finds something blocking, it is fixed,
 logged with the model's wording, and the sequence restarts from step 1.
+
+## D5 — Step 1 is closed: three passes, two model families (2026-11-03)
+
+Step 1 asked for a recorded machine pre-pass, with findings fixed and journaled. Three passes are now recorded,
+from **two** families, which is what `docs/AI-REVIEW-PROMPT.md` requires:
+
+| pass | family | commit reviewed | findings, and what each turned out to be |
+| --- | --- | --- | --- |
+| `docs/AI-REVIEW-2026-11-02.md` | Manus | `39adb24` | endpoint resolution computed on a proportion while the scorer returns log loss; a withholding pointer to the wrong selector; the ladder's Fisher-z closed form versus the percentile bootstrap. All three confirmed and fixed |
+| `docs/AI-REVIEW-2026-11-03.md` | Manus | `b9c73a7`, corrections at `e6334dc` | a stale quantum left in the generator; Monte-Carlo error spanning the 90 % bar; `s/sqrt(N)` over nested cells. All three confirmed and fixed |
+| `docs/AI-REVIEW-2026-11-03-chatgpt.md` | ChatGPT | `39adb24` | endpoint proportion (already fixed before this pass ran, which the pass could not see); and that the block did not establish the **all-four-configuration** result. The second was live at HEAD and is the reason the block is 180, not 120 |
+
+Two findings were still live against the tree when they arrived: the `s/sqrt(N)` precision substitution, and the
+conjunction. Both are fixed in place with the arithmetic shown in `docs/STAGE-B-PROTOCOL.md` §6.3 and §3.1.
+
+**One limit of this record, stated rather than hidden.** The ChatGPT transcript was supplied from a path outside
+this repository and is not committed. Its record says so and quotes nothing from it; every finding in it was
+checked against the code before a change was made. Committing the transcript beside the record would let a reader
+check the summary against the source.
+
+## D6 — What step 2 must record, and what only the owner can write
+
+Step 2 is now the **only** open step. It is the owner's, and the remaining work on this repository is waiting on
+it rather than on any further analysis. It must record, in the owner's own words:
+
+- the **date** and the named **commit** being authorised — `3847637` or a later one, never an earlier one, because
+  earlier commits carry the 104- and 120-world blocks;
+- that the evidence preceding the run is **three machine passes from two model families, and no independent human
+  review**, with §7 of the brief still empty;
+- the **block**: 180 worlds per configuration, 720 worlds, 373,320 cycles, seeds `700000001`–`700000720` with four
+  reserved at `700000721`–`700000724`;
+- the **two gates that stay open regardless of authorisation**: the endpoint's per-world precision gate
+  (`resolution_confirmed: false`) is answered by the pre-run enumeration for the four configurations, and the
+  eligibility rule decides per configuration. Authorising the run does not pre-answer either;
+- an acknowledgement that the endpoint's effect gap is a **model** (linear in standardised units, across-world SD
+  0.05) rather than an identity, per §3.1.
+
+**A step-2 record that omits any of these is not the authorisation this sequence describes**, and no later edit may
+add them retroactively.

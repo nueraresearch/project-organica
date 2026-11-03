@@ -83,7 +83,7 @@ Paste the block below into a model with no other context.
 >   would have to answer it.
 > - **Numbers without an artifact**, or the statement that you found none.
 > - **What would have to be true** for this block to be worth its stated size in runs, given that the size is a
->   floor rather than a target, that the predictor's reliability is unmeasured, and that the cost is 215,696
+>   floor rather than a target, that the predictor's reliability is unmeasured, and that the cost is 373,320
 >   cycles.
 >
 > Be specific and be unkind. A vague objection is worse than none, because it cannot be acted on and cannot be
