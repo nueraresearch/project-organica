@@ -189,3 +189,24 @@ are consumed design-block seeds, not the confirmatory block; no Stage B seed was
 does not itself authorize a confirmatory run, and `status.blocked_before_run` remains true for the protocol's other
 open blocker(s). The earlier command-limit attempts explain why the resumable checkpoint harness was added; the
 completed run resumed successfully across bounded calls. The harness and manual document that workflow.
+
+## D12 — The remaining blockers, named rather than implied (2026-11-03)
+
+§D11 said the onset result "does not itself authorize a confirmatory run, and `status.blocked_before_run` remains true
+for the protocol's other open blocker(s)". That parenthesis was a placeholder. The blockers are now named below, and
+every one of them is a decision rather than a piece of analysis:
+
+| # | what is open | what would close it | who |
+| --- | --- | --- | --- |
+| 1 | **The world family.** §5a's flag resolves when a dated decision names the family the run uses. Both quantities now exist on one world: `DI` onset is measured there (all twelve design-block cells uncensored, onsets differing across seeds and configurations) and the withheld endpoint's per-world standard error is measured on the same world's cells. Nothing technical is missing. | a dated decision recording that the withholding world is the Stage B world, and what `revision_held_out` becomes in it | the owner |
+| 2 | **The horizon tail.** §4 fixes the horizon at confirmation + 101, and the harness plans each world at its configuration's Phase L confirmation index. The measured onsets put most cells inside that horizon and one outside it (`2:1`, seed `20261023`), which is a question about the margin rather than a defect in the measurement; protocol §4 records the arithmetic. | a dated rule: a high quantile of onset, a per-world horizon, or an eligibility rule that excludes a truncated follow-up | the owner |
+| 3 | **The granularity gate.** `resolution_confirmed` is still `false` in `docs/stage_b_protocol.json`. The method is now measured on design-block cells, and the withholding world's cells clear the assumed gap; a flag that moved because an agent decided it had been answered would be the defect this sequence exists to prevent. | the owner reads the precision measurement and records the gate's disposition, before any world runs | the owner |
+
+**None of the three is analysis.** Each is a sentence in a decision record, and writing it here would be the agent
+choosing the experiment after the authorisation -- the defect §D8 stopped on.
+
+**What is closed by measurement, so the record does not read as if it were still open.** The checkpoint's `rng_state`
+field snapshots a generator no Stage B cell draws from: `organica/sleep.py` uses `_rng` only in the `stochastic`
+retention lottery, the engine's policy is `salience`, and no Stage B module overrides it. The resume path is tested
+against an uninterrupted run rather than asserted, and the equality check is shown to catch a resume that did not
+restore its database. Journal §172; `tests/test_stage_b_onset_resume.py`; `tests/test_stage_b_protocol.py`.
