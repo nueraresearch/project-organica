@@ -275,6 +275,18 @@ shortest for exactly the worlds that emerged latest — the worlds a late-emerge
 about. This is the Phase L defect (late structure arriving after the run ended) in a form the design would
 choose rather than suffer.
 
+**What the measured onsets do to this horizon (2026-11-03).** The design-block measurement in §3.3 puts the
+predictor's onset on the withholding world, and it exposes one cell this horizon does not cover. Of the **12**
+measured cells, **11** reach onset early enough that `onset + 101` fits inside the world built to their
+configuration's confirmation index; **1** does not -- `2:1`, seed **20261023**, confirms at cycle **602**,
+which needs **703** cycles against the **640** built. That cell's onset is also the only one to arrive
+after the withholding lifts at confirmation + 50 (**589**) rather than before it, so its onset may be a
+response to the intervention being released rather than development under it. **No constant is changed here:**
+the confirmation indices, the horizons and the block stand as committed, the cell is a consumed design-block
+seed, and whether a Stage B world is built to a high quantile of onset, to a per-world horizon, or under an
+eligibility rule that excludes a truncated follow-up is the owner's decision and not the runner's. Recorded in
+journal §172.
+
 **Both clocks are recorded.** Behavioural opportunity is equalised — same margin, same phases, same duration.
 Developmental age at which the window opens is not, and is reported. In the Phase L record the first behavioural
 index ranges 299–599; the claim is about behaviour over a fixed window *after emergence*, so the window follows

@@ -491,3 +491,46 @@ def test_the_protocol_artifact_does_not_depend_on_the_os_that_wrote_it():
     keys = list(art["seeds"]["consumed_blocks"])
     sep = chr(92)
     assert keys and not any(sep in k for k in keys), keys[:3]
+
+
+def test_the_measured_onsets_against_the_planned_horizon_come_from_the_artifact():
+    """One measured onset needs more cycles than the world built for it provides."""
+    import json as _json
+
+    doc = _json.loads((ROOT / "docs" / "stage_b_onset_withholding.json").read_text(encoding="utf-8"))
+    cells = doc["cells"]
+    assert len(cells) == 12
+    assert all(c["onset"] is not None and c["censored"] is False for c in cells)
+    fits = [c for c in cells if c["onset"] + 101 <= c["horizon_cycles"]]
+    short = [c for c in cells if c["onset"] + 101 > c["horizon_cycles"]]
+    assert len(fits) == 11, fits
+    assert len(short) == 1, short
+    cell = short[0]
+    assert (cell["configuration"], cell["design_block_cell"]) == ("2:1", 20261023)
+    assert cell["onset"] == 602 and cell["horizon_cycles"] == 640
+    assert cell["onset"] + 101 == 703
+    assert cell["confirmation_cycle_used"] + 50 == 589
+    late = [c for c in cells if c["onset"] > c["confirmation_cycle_used"] + 50]
+    assert late == [cell], late
+
+    proto = " ".join((ROOT / "docs" / "STAGE-B-PROTOCOL.md").read_text(encoding="utf-8").split())
+    assert "What the measured onsets do to this horizon" in proto
+    for figure in ("**12**", "**11**", "**1**", "**602**", "**703**", "**640**", "**589**"):
+        assert figure in proto, figure
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "**703**" in manual and "`2:1` seed **20261023**" in manual
+    assert "journal \u00a7172" in manual
+
+
+def test_the_checkpoint_rng_field_is_inert_for_every_cell_this_harness_runs():
+    """`rng_state` snapshots a generator no Stage B cell draws from."""
+    from organica.sleep import SleepService
+
+    assert SleepService.HYPOTHESIS_RETENTION != "stochastic"
+    source = (ROOT / "organica" / "sleep.py").read_text(encoding="utf-8")
+    assert source.count("self._rng.random()") == 1
+    lottery = source.index("def _stochastic_retain")
+    draw = source.index("self._rng.random()")
+    assert lottery < draw < source.index("def _form_theories_and_questions")
+    for name in ("stage_b_onset_withholding.py", "stage_b_stream_withholding.py"):
+        assert "HYPOTHESIS_RETENTION" not in (ROOT / "benchmarks" / name).read_text(encoding="utf-8"), name

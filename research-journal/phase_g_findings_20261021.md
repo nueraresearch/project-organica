@@ -10455,3 +10455,32 @@ This is the predictor measured on the reconstructed withholding world only. It i
 does not score the behavioral outcome, and establishes no predictor–outcome relation. It does not clear the protocol's
 other recorded blocker or authorize the confirmatory run. The earlier entry above records the truthful state before
 this measurement was completed; it is superseded on that status point by this entry, not erased.
+
+## 172. The resume path is proven, and one planned horizon is too short for a measured onset (2026-11-03)
+
+The resumable harness was the last untested part of the onset instrument: a cell can outlive a command limit, so it
+snapshots the engine database every ten cycles, writes the `DI` trace every cycle, and on the next run resumes from the
+snapshot and replays the tail. `tests/test_stage_b_onset_resume.py` now pauses a cell one cycle after its snapshot and
+requires the resumed trajectory to equal the uninterrupted one cycle for cycle, with the world shortened so that `DI`
+varies; it also requires a resume whose database was not restored to be refused or to diverge, and it shows both refusal
+guards fire (progress without a snapshot; a checkpoint from other inputs).
+
+Two mutations were run against the module rather than argued about. Deleting the tail replay, and deleting the restored
+RNG state, both leave the trajectory **unchanged** on that world, so those two variants are equivalent
+re-implementations and no behavioural test can tell them apart. The second is explained rather than merely observed:
+`organica/sleep.py` draws from `_rng` in exactly one place, `_stochastic_retain`, which runs only under
+`HYPOTHESIS_RETENTION = "stochastic"`. The engine's default is `salience` and no Stage B module changes it, so the
+`rng_state` field in every checkpoint of this harness is a snapshot of a generator nothing draws from -- harmless, and
+load-bearing only once a stochastic retention arm exists. The defect the equality check exists for is a resume from a
+substrate that was never restored, and that one is caught.
+
+The same pass read the completed artifact against the protocol's own clock and found a cell the horizon does not cover.
+§4 fixes the horizon per world at confirmation + 101, and the harness plans each world at its configuration's Phase L
+confirmation index: 539 for `2:1`. Of the **12** measured cells, **11** have `onset + 101` inside the world
+built for them and **1** does not: `2:1` seed **20261023** confirms at **602**, which needs **703** cycles
+against the **640** built. It is also the only cell whose onset arrives after the withholding lifts at
+confirmation + 50 (**589**), so its `DI` onset may be a response to the intervention being released rather than
+development under it. Nothing is re-scored and no constant is changed: these are consumed design-block seeds, no Stage B
+seed was allocated, and whether a world is built to a high quantile of onset, to a per-world horizon, or under an
+eligibility rule that excludes a truncated follow-up is a design decision for the owner. Journal §171's completion
+stands; this entry adds what the measurement implies for the run's clock.

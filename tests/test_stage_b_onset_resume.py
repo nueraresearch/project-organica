@@ -20,9 +20,10 @@ property of the harness.
 
 What the mutation runs established, and why the equality assertion alone is not
 enough. Deleting the trace-tail replay, or deleting the restored RNG state,
-leaves this world's trajectory **unchanged**: a resume that replays nothing is
-still correct here because re-storing a cycle is inert, and this world's sleep
-cycle does not draw from that generator. So those two mutations are equivalent
+leaves this world's trajectory **unchanged**: a resume that replays nothing is still correct here
+because re-storing a cycle is inert, and the harness never draws from the generator it restores --
+`organica/sleep.py` uses `_rng` only in the `stochastic` retention lottery, and the engine's policy is
+`salience`, which no Stage B module overrides. So those two mutations are equivalent
 re-implementations, not defects, and no behavioural test can distinguish them.
 The defect that must be caught is a resume that continues from a state it did
 not actually restore, and that is what
