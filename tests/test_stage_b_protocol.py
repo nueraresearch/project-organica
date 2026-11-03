@@ -386,3 +386,63 @@ def test_the_assumption_is_not_presented_as_an_established_bound(stage, text):
     assert "**declared planning assumption, not an established lower bound**" in text
     assert "conditional on this assumption" in text
     assert "may reject the assumption without" in text
+
+
+WITHHOLDING = ROOT / "docs" / "stage_b_stream_withholding.json"
+
+
+def test_the_withholding_world_passes_its_own_audit():
+    """The scored set exists only because the world refuses a transition. Check that it did."""
+    doc = json.loads(WITHHOLDING.read_text(encoding="utf-8"))
+    a = doc["audit"]
+    assert a["passed"] is True
+    for key in ("the_intervention_fired", "formation_is_disjoint_from_the_scored_set",
+                "the_scored_set_is_reachable", "the_open_world_does_show_them",
+                "the_axis_is_live"):
+        assert a[key] is True, key
+    assert a["withheld_pairs_declared"] == 16
+    assert a["withheld_pairs_in_formation_of_the_withholding_world"] == 0
+    assert a["withheld_pairs_in_behavioural_window"] > 0
+    assert a["withheld_pairs_in_the_open_world_formation"] > 0
+    assert a["compensations"] > 0
+    assert a["late_share_spread"] > 0.01
+    assert len(doc["cells"]) == 12
+    assert all(c["measurable"] for c in doc["cells"])
+    for c in doc["cells"]:
+        assert c["withheld_occurrences_in_formation"] == 0
+        assert c["withheld_occurrences_in_test"] > 0
+        assert c["scored_positions"] > 0
+        assert c["readouts"]["ceiling_open_law"]["twice_cluster_se"] < doc["effect_gap_assumed"]
+
+
+def test_the_withholding_audit_can_fail():
+    """Rule 25(c): prove the predicates fire, by rebuilding both sides of them."""
+    from benchmarks.stage_b_stream_withholding import (
+        build_world, occurrence_count, withheld_tag_pairs, window)
+    pairs = withheld_tag_pairs()
+    assert len(pairs) == 16
+    formation_end = 539
+    open_world = build_world(20261023, (2, 1), 640, withhold=False)
+    assert occurrence_count(window(open_world, 0, formation_end), pairs) > 0
+    withheld = build_world(20261023, (2, 1), 640, withhold=True, withhold_until=589)
+    assert occurrence_count(window(withheld, 0, formation_end), pairs) == 0
+    refused = build_world(20261023, (2, 1), 640, withhold=True, withhold_until=700)
+    assert occurrence_count(window(refused, 589, 640), pairs) == 0
+
+
+def test_the_withholding_world_is_not_yet_shown_to_host_the_predictor():
+    """The outcome has a world; the predictor does not. The documents must say so."""
+    doc = json.loads(WITHHOLDING.read_text(encoding="utf-8"))
+    limits = " ".join(doc["limits"])
+    assert "zero variance" in limits
+    assert "no `DI` onset has been measured" in limits
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    assert "no `DI` onset has been measured on it" in flat
+    assert "**reconstruction**" in flat
+    assert "`status.blocked_before_run` therefore stays true" in flat
+    lo = min(c["readouts"]["ceiling_open_law"]["twice_cluster_se"] for c in doc["cells"])
+    hi = max(c["readouts"]["ceiling_open_law"]["twice_cluster_se"] for c in doc["cells"])
+    assert f"**{lo:.4f} to {hi:.4f}**" in flat
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "WITHHOLDING WORLD BUILT, 2026-11-03" in manual
+    assert f"**{lo:.4f}–{hi:.4f}**" in manual

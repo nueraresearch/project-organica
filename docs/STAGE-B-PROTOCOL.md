@@ -199,6 +199,42 @@ degeneracy audit proving the withheld transitions are reachable and the world st
 own precision measurement on design-block cells once the set is non-empty. **Until those exist, no Stage B world can
 carry this endpoint**, and `stats.blocked_before_run` stays true in the generated artifact.
 
+### 3.3 The withholding world exists, and the precision gate clears on design-block cells (2026-11-03)
+
+§3.2 said the withholding had to be imposed on the world. `benchmarks/stage_b_stream_withholding.py` builds that
+world, audits it before scoring anything, and writes both to `docs/stage_b_stream_withholding.json`.
+
+**The world.** Six entities in two three-entity groups over the scale stream's own structure — the early group
+present from cycle 0, the late group arriving after the family's arrival fraction, the same noise rate, twelve events
+a cycle — with one directed entity transition, `early_0 -> late_0`, refused during every cycle the organism is
+exposed and permitted from the test window onward. The refusal resamples the successor; it does not skip the event, so
+the stream keeps its length, its timing and its adjacency, and the world records how often the intervention fired.
+
+**The audit, built to be able to fail.** 16 ordered tag pairs are declared withheld; the withholding world's formation
+window contains **0** of them and its behavioural window contains **88**; the same formation window of the open
+world contains **288**, so the pairs are reachable in a world that does not refuse them; the intervention fired **82**
+times; and the late group's share of events runs **0.4424** to **0.5793** across the four support ratios, a spread of
+**0.1369**, so the configuration axis is live. All five checks pass — and the first version of the audit returned
+`the_scored_set_is_reachable: false`, because it withheld the transition for the *whole* run and so emptied the
+behavioural window with it. It reported no score rather than a bad one, which is what a rule 13 audit is for; the
+failure is recorded here because an audit that has never fired is not an audit.
+
+**The precision measurement.** Cluster bootstrap over scored positions, 200 replicates, on the three design-block seeds
+in each configuration, the same estimator `benchmarks/stage_b_endpoint_precision.py` uses: twice the per-world standard
+error is **0.0019 to 0.0067** nats across the twelve cells, below the 0.05 gap in every cell. The gate that
+had no measured basis on this endpoint now has one on design-block cells.
+
+**What this does not establish, stated because a reader will assume it.** (a) The scored set is small — **8 to
+22** scored positions per behavioural window — so a world's score rests on few contributions even where its
+standard error is small. (b) The wrong-law control is a **uniform** law, and a constant predictor's per-position loss
+has zero variance, so its twice-standard-error of **0.0** is degenerate: it shows the ceiling is not the worst possible
+readout, not how wrong a wrong law would score, and it brackets nothing. (c) The world is a **reconstruction** of the
+scale family — same entity structure, arrival fraction, noise rate and event count — and **not**
+`phase_l_campaign.build_world`, and **no `DI` onset has been measured on it**. The outcome now has a world; the
+predictor does not yet have a demonstrated distribution in that world, so the run cannot start until onset is measured
+on this family and shown to vary across seeds and configurations. `status.blocked_before_run` therefore stays true,
+and no seed is allocated.
+
 ## 4. Run horizon and the follow-up clock
 
 | element | value |

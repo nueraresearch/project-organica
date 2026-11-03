@@ -152,3 +152,22 @@ axis is live, and a fresh precision measurement on design-block cells.
 
 **No seed is allocated, no world is generated, and the run stays blocked** — now on a named piece of work rather than
 on an open question. The predictor, the claim, the block and the authorisation are untouched.
+
+## D10 — The withheld set exists, and the block moves to the predictor's side (2026-11-03)
+
+§D9 named the work: withholding must be done by the world. `benchmarks/stage_b_stream_withholding.py` does it — one
+declared directed entity transition refused by conditioned sampling while the organism is exposed, and permitted at
+the test window — and the audit proves the intervention fired (82 compensations), that the scored set is absent from
+formation (0 of 16 pairs) and present in the behavioural window (88), that the same pairs occur in an open world
+(288), and that the configuration axis is live (late share 0.4424 to 0.5793, spread 0.1369).
+
+The precision gate that had no basis now has one: twice the per-world standard error is 0.0019 to 0.0067
+nats over 200 cluster-bootstrap replicates on twelve design-block cells, under the 0.05 gap everywhere.
+`docs/stage_b_endpoint_scale.json`'s null is answered: the endpoint is measurable once the world withholds.
+
+**The block moves, and it does not lift.** The outcome now has a world family; the predictor does not. This world is a
+reconstruction of the scale family, not the frozen generator, and **no `DI` onset has been measured on it** — the
+predictor's distribution across the four configurations here is unmeasured, and the behavioural window was placed at
+the protocol's reported medians rather than at observed onsets. Measuring onset on this family, and showing it varies,
+is the next piece of work; until it exists `status.blocked_before_run` stays true, no seed is allocated and no world
+runs.

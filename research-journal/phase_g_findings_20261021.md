@@ -10401,3 +10401,25 @@ a degeneracy audit proving reachability and a live axis, and its own precision m
 
 No seed was spent, no world generated and nothing about the claim, predictor, block or authorisation moved. The gate
 that matters is unchanged and still open, and it is now open on a named piece of work.
+
+## 169. The withheld set exists now, and the audit that made it existable had to fail first (2026-11-03)
+
+§168 said withholding on the scale stream could not be a scoring rule, only a rule of the world. The world now
+exists: one declared directed entity transition, `early_0 -> late_0`, refused by resampling while the organism is
+exposed and permitted from the test window on, so the stream keeps its length, its timing and its adjacency. 16
+ordered tag pairs follow by construction — absent from formation (0) and present in the behavioural window (88),
+while an open world's formation shows 288 of them — with 82 compensations standing as proof the intervention fired.
+
+Two things about how it got here are worth keeping. **The first version withheld the transition for the whole run**,
+which is the obvious way to write it and the wrong one: the test window then had no withheld transition either, and
+the audit returned `the_scored_set_is_reachable: false` instead of a score. A score would have been meaningless and
+plausible-looking; the check that refused to produce one is the only reason it is not in the record. **The second
+version's audit ran in a world shorter than its own window position**, and the empty slice again read as an empty
+scored set until the audit sized its world to the window it measures. Both were caught by the same five predicates,
+which is what a degeneracy audit buys when it is written before the number it guards.
+
+The precision gate now has a basis: twice the per-world standard error is 0.0019 to 0.0067 nats over 200
+cluster-bootstrap replicates on twelve design-block cells, against a 0.05 gap. And the block moves rather than lifts:
+the outcome has a world, the predictor does not, because this world is a reconstruction of the scale family rather
+than the frozen generator and **no `DI` onset has been measured on it**. Placing onset on this family is now the only
+thing between the authorisation and a run.
