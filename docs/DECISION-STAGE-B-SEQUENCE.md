@@ -105,3 +105,33 @@ worlds and 373,320 cycles, and no code in this repository can produce a single o
 Nothing in this section re-reads the science. The hypothesis, predictor, endpoint, falsifiers, outcomes, ladder and
 seed block are exactly as they were at `d16d8ae`; what changed is that the run is permitted, which is a fact about
 permission and not about evidence.
+
+## D8 — A blocking finding after authorisation: the run has no world (2026-11-03)
+
+Attempting to build the runner surfaced a defect that authorisation cannot fix and code must not paper over. The
+predictor `DI` is defined only in the Phase L **scale-stream** family — it is `late_retained / late_available` against
+a late gold set, which needs an early and a late group — and the outcome `revision_held_out` is defined only in the
+**compositional cell** family, on cycles 250–299 of a 300-cycle world. **No world carries both**, and no document names
+the family a Stage B world belongs to: the design record names the compositional family as primary while this
+protocol's four configurations and their onset medians come from the scale family.
+
+The clock settles it arithmetically: the behavioural window is confirmation + 1 to + 100, and §2's own table gives
+median onsets of 539, 404, 362 and 329 on a world that ends at 300. The run as specified would not return a null
+result; it would return no observation.
+
+**This is recorded, not resolved.** `docs/STAGE-B-PROTOCOL.md` §5a carries the finding and the two repairs;
+`docs/stage_b_protocol.json` carries `status.blocked_before_run`; the authorisation record carries a post-authorisation
+note. Nothing is withdrawn: the hypothesis, the endpoint's definition, the falsifiers, the 720-world block and the
+owner's authorisation all stand, and **no seed is allocated**.
+
+**Step 2 remains complete and step 3 remains unstarted.** The open item is a new decision, and it belongs one level up
+from the runner:
+
+| option | what survives | what it costs |
+| --- | --- | --- |
+| **A — keep the predictor** | `DI` onset, its eligibility table, the block's derivation | the endpoint becomes a new held-out definition on the scale stream, which has never been validated and needs its own resolution check |
+| **B — keep the endpoint** | `revision_held_out`, the compositional world, the law rotation | `DI`, §2's eligibility table and the Phase L onset medians all go; the block must be re-derived for a predictor with no measured distribution |
+
+Writing either default into a harness would choose the experiment after the authorisation. That is the defect this
+project has spent months removing from its own numbers, and it is why the sequence stops here rather than proceeding
+on the more convenient option.

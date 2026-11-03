@@ -458,6 +458,19 @@ def build() -> dict:
         "status": {
             "authorised": True,
             "authorised_on": "2026-11-03",
+            "blocked_before_run": {
+                "blocked": True,
+                "found": "2026-11-03",
+                "reason": "the predictor is defined in the Phase L scale-stream family, where "
+                          "DI needs an early and a late group, and the outcome is defined in the "
+                          "compositional cell family, whose revision-test window is cycles "
+                          "250-299 of a 300-cycle world; no document names the world a Stage B "
+                          "world belongs to, and neither family can host the other's quantity "
+                          "(protocol 5a)",
+                "worlds_generated": 0,
+                "resolves_when": "a dated decision records which world family the run uses and "
+                                 "what the predictor or endpoint becomes in it",
+            },
             "seeds_allocated": 0,
             "worlds_run": 0,
             "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No world has run and no relation has been computed.",

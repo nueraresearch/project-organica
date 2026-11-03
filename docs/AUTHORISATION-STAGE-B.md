@@ -59,3 +59,14 @@ No Stage B harness exists at this commit: `benchmarks/` holds the protocol gener
 the endpoint-precision probe, and nothing that generates a world or scores an endpoint. So **no seed is allocated and
 no world has run**, and the run cannot start until that harness is written and audited. Writing it allocates nothing
 by itself; the allocation happens when it first runs, against the seeds named above and no others.
+
+## Post-authorisation finding (2026-11-03, later the same day)
+
+The authorisation above stands. **The run nevertheless cannot start, for a reason that is scientific rather than
+procedural:** the protocol's predictor is defined in one world family and its outcome in another, and no document says
+which family a Stage B world belongs to. The finding, its arithmetic and the two coherent repairs are in
+`docs/STAGE-B-PROTOCOL.md` §5a.
+
+Nothing here narrows the authorisation or withdraws it. What it does is record that **the 720 worlds cannot be
+generated**, that no seed has been allocated, and that the next decision is the owner's: which world family the
+authorised run uses, and therefore what the predictor or the endpoint becomes in it.

@@ -45,6 +45,13 @@ def test_authorised_but_nothing_is_spent(stage, text):
     assert stage["status"]["authorised_on"] == "2026-11-03"
     assert (ROOT / "docs" / "AUTHORISATION-STAGE-B.md").exists()
     assert "AUTHORISATION-STAGE-B.md" in text
+    # The run is authorised and blocked: the predictor and the outcome are defined in
+    # different world families, so no world can carry both (protocol 5a).
+    blocked = stage["status"]["blocked_before_run"]
+    assert blocked["blocked"] is True and blocked["worlds_generated"] == 0
+    assert "scale-stream" in blocked["reason"] and "compositional" in blocked["reason"]
+    assert stage["status"]["seeds_allocated"] == 0
+    assert "## 5a. The run has no world family" in text
     assert stage["status"]["seeds_allocated"] == 0
     assert stage["status"]["worlds_run"] == 0
     assert stage["seeds"]["allocated"] is False

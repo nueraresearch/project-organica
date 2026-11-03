@@ -230,6 +230,46 @@ survives both is still one instrument predicting its own later output.
 
 ---
 
+## 5a. The run has no world family, and that blocks it (2026-11-03)
+
+**Found while building the runner, after authorisation, before any seed was allocated.** The predictor and the
+outcome in this protocol are defined in **two different worlds**, and no document names the one a Stage B world
+belongs to.
+
+| element | world it is defined in | horizon it needs |
+| --- | --- | --- |
+| predictor: confirmed onset of `DI` | the Phase L scale-stream family, which has an **early** and a **late** entity group, so that `DI = late_retained / late_available` is defined at all | 600 cycles — the table in §2 gives median onset **539, 404, 362 and 329** for the four configurations |
+| outcome: `revision_held_out` | the compositional cell family (`benchmarks/acquisition_compositional.py`), whose revision-test window is **cycles 250–299 of a 300-cycle world** | 300 cycles, fixed |
+
+**Neither world can host the other's quantity.** The compositional family has no early and no late group, so `DI` —
+the predictor — is undefined in it; its four "configurations" are the Phase L support ratios `2:1`…`6:1`, which do not
+exist there. The scale family has no revision phase at all: no `LAW_R1`, no revision-learning window, no withheld cell
+transitions, so `revision_held_out` cannot be scored in it. `docs/STRUCTURE-BEHAVIOR-DESIGN.md` §5 names the
+**compositional family** as the primary configuration, while this protocol's §2 eligibility table imports Phase L's
+onset statistics from the **scale family**. Those two statements cannot both be true of one run.
+
+**The follow-up clock makes the conflict arithmetic rather than a matter of taste.** §4 places the behavioural window
+at **confirmation index + 1 through + 100**. On a 300-cycle compositional world, any world confirming after cycle 199
+has no window at all, and §2's own table says the fastest configuration confirms at a median of **329** — so under the
+stated onset distribution, **essentially every world would end before it confirmed**. Running the 720 worlds as
+specified therefore does not produce a weak result; it produces no observation.
+
+**What this does not change.** The hypothesis, the endpoint's definition, the falsifiers, the aggregation rule, the
+block and the authorisation all stand. What is missing is the world the run is about, and it is missing because the
+design record and this protocol name different ones. **No seed is allocated and the run does not start until it is
+recorded.** Two coherent repairs exist and they are not equivalent:
+
+- **A — keep the predictor, define the endpoint there.** Run the scale family and define a held-out next-tag endpoint on
+  its own stream. The predictor, its eligibility and the block survive; the endpoint becomes a new definition that has
+  never been validated, so it needs its own resolution check before it may be used.
+- **B — keep the endpoint, define the predictor there.** Run the compositional family and define onset on a structural
+  quantity that exists in it. The endpoint survives; `DI`, the whole of §2's eligibility table and the Phase L onset
+  medians do not, and the block's size would have to be re-derived for a predictor with no measured distribution.
+
+**Both are protocol changes, so both are the owner's** — and the choice belongs in `docs/DECISION-STAGE-B-SEQUENCE.md`
+as a dated decision, not in a harness's default argument. Deciding it inside a runner would be choosing the experiment
+after the authorisation, which is the defect class this project has spent months removing from its own numbers.
+
 ## 6. Sample size, and the reliability this protocol does not have
 
 The block is a consequence of the claim. Three numbers are fixed: the smallest relation worth calling

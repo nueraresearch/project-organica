@@ -10360,3 +10360,26 @@ One property of the record is deliberate and worth stating here: it says that th
 decision is the owner's, and that it **may be narrowed before the run but not widened afterwards**. A two-word
 assent does not enumerate six conditions, and the honest way to record it is to name the checklist it is being read
 against, mark who wrote which part, and give the owner the chance to cut anything he did not intend.
+
+## 167. The predictor and the outcome live in different worlds, and that is where the run stops (2026-11-03)
+
+Building the runner for the authorised campaign found the defect that no amount of harness code can fix. `DI` — the
+predictor — is `late_retained / late_available` against the Phase L scale-stream family, which is why §2's eligibility
+table can quote median onsets of 539, 404, 362 and 329 cycles: those are 600-cycle worlds with an early group and a
+late group. `revision_held_out` — the outcome — is the compositional cell family's revision-test score, on cycles
+250–299 of a **300-cycle** world with a rotated law and two withheld cell transitions.
+
+The compositional world has no early or late group, so `DI` is undefined there; the scale world has no revision phase,
+so the outcome cannot be scored there. `docs/STRUCTURE-BEHAVIOR-DESIGN.md` §5 names the compositional family as
+primary; the protocol's four configurations and their onset statistics come from the scale family. And the clocks
+settle it: §4 puts the behavioural window at confirmation + 1 to + 100, while the fastest configuration confirms at a
+median of 329 on a world that ends at 300. **The specified run would not produce a weak result — it would produce no
+observation.**
+
+This is a design defect found after authorisation and before allocation, which is the cheapest place to find one. It
+does not weaken the claim, the block, the endpoint's definition or the authorisation. It does mean the next move is a
+dated owner decision between two repairs that are not interchangeable: keep the predictor and define a new held-out
+endpoint on the scale stream (which then needs its own resolution check), or keep the endpoint and define onset on a
+quantity that exists in the compositional world (which discards `DI`, §2's table and the block's derivation). A
+harness cannot make that choice, and a harness written with either default would be choosing the experiment after the
+authorisation — the exact defect this project keeps finding in its own work.
