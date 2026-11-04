@@ -10881,3 +10881,43 @@ clock instead would recover those 84 worlds -- a planned confirmation of 589 sco
 `sqrt(47/131)`, from 0.7227 to about **0.4329**, which still spans zero around the observed
 +0.1819. A re-centred `2:1` is a new question with a new clock, a new prediction and a new
 allocation of seeds; it is not a second attempt at this verdict, and the four spares stay undrawn.
+
+## 187. Re-running four cells showed the engine's cycle-level output is hash-order dependent (2026-11-04)
+
+`--verify` recomputes §5 from the committed cells. It never asks the engine to produce them again, so
+"the analysis is right" and "the engine would do it again" were two claims, and only the first had been
+tested. Four cells -- the 90th of each configuration's block, fixed before anything was re-run, so the
+choice could not favour a match -- were re-executed by `run_cell` on this machine.
+
+| configuration | seed | onset (assembly -> re-run) | eligible | score | cycles differing |
+| --- | --- | --- | --- | --- | --- |
+| `2:1` | 700000090 | 562 -> 552 | no -> no | -- -> -- | 10 of 589 |
+| `3:1` | 700000270 | 326 -> 332 | yes -> yes | 0.154001 -> 0.154001 | 35 of 454 |
+| `4:1` | 700000450 | 279 -> 279 | yes -> yes | 0.147971 -> 0.147971 | 0 of 412 |
+| `6:1` | 700000630 | 259 -> 250 | yes -> yes | 0.147733 -> 0.147733 | 71 of 379 |
+
+**1** of the four reproduced bit-identically. In the other three the trajectory diverges from the
+cycle where the sustained run is detected and the onset moves by up to **10** cycles; in every
+measurable cell the score is identical to six decimals, and no cell's eligibility changes.
+
+**It is not randomness in the world or the readout.** A cell run twice inside one parent process is
+bit-identical, with the hash seed pinned and unpinned. It is `_score_tags` in `organica/sleep.py`: the tag
+set is built as `set(freqs) | set(cooc) | set(temporal)` and then ordered by frequency with Python's
+stable sort, so equal-frequency tags keep an iteration order that follows the process's string hash seed.
+One cell run once per seed shows it directly: `PYTHONHASHSEED` 0, 1, 2, 3, 4, 5 give onsets
+250, 259, 250, 259, 250, 259 -- alternating -- with a score of 0.147733 in every run.
+
+**What this licenses, and what it does not.** The committed onsets are reproducible to a few cycles rather
+than bit-identically, and the block is one draw from that behaviour. The aggregate effect was **not
+measured** -- four cells cannot estimate how often a shift of this size carries a cell across its clock --
+and an unmeasured quantity is not a zero. It does not re-score the verdict: every interval contains zero
+by far more than these shifts, and the three measurable cells scored identically. It does mean that an
+exact-reproduction claim has to be qualified, which is why §4.8's cross-machine step now checks the score
+rather than demanding one onset.
+
+`docs/stage_b_results.md` is the standalone result document; `docs/stage_b_rerun_check.json` carries the
+four cells, their trajectory hashes, the replicate pairs and the seed sweep.
+
+The check's artifact names four allocated seeds, so it joins the assembly and the allocation record in
+`EXCLUDED_ARTIFACTS`: the scan reads 76 artifacts and 222 consumed seeds with or without it, and the
+exclusion is a named path in that tuple rather than an implication of the count.

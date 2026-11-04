@@ -129,15 +129,17 @@ ALLOCATION_ARTIFACT = ROOT / "docs" / "stage_b_allocation.json"
 # The block's result carries the 720 allocated seeds it ran, so it names the block for the
 # same reason the allocation record does. Excluded by path, recorded in the output.
 RESULT_ARTIFACT = ROOT / "docs" / "stage_b_runner.json"
-EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT)
+RERUN_ARTIFACT = ROOT / "docs" / "stage_b_rerun_check.json"   # names four block seeds
+EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT, RERUN_ARTIFACT)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
-    """Seed integers in every docs/ artifact except the three that record the block.
+    """Seed integers in every docs/ artifact except the four that record the block.
 
     This artifact records the candidate block and the allocation record carries it, so
-    scanning either would make the block overlap itself; the exclusions are by path and
-    they are recorded in the output.
+    scanning either would make the block overlap itself; the assembled result and the
+    reproduction check name allocated seeds for the same reason. The exclusions are by
+    path and they are recorded in the output.
     """
     found: dict[str, list[int]] = {}
     for path in sorted(glob.glob(str(ROOT / "docs" / "*.json"))):
