@@ -447,7 +447,11 @@ class SleepService:
         concepts     = self._build_concepts(tag_scores, communities, cooc)
         phrases      = self._build_phrases(tag_scores, cooc)
         loops        = self._build_loops(temporal)
-        predictions  = self._build_predictions(temporal, freqs)
+        self._current_cooc = cooc
+        try:
+            predictions  = self._build_predictions(temporal, freqs)
+        finally:
+            self._current_cooc = None
         anomalies    = self._build_anomalies(temporal, freqs)
 
         # ---- Natural Selection: Reinforcement, Decay & Pruning ----
@@ -1137,7 +1141,23 @@ class SleepService:
         return loops[:self.MAX_LOOPS]
 
     def _build_predictions(self, temporal, freqs) -> list[PredictionCandidate]:
-        candidates = []
+        cooc = getattr(self, "_current_cooc", None)
+        cooc_pairs = set()
+        if cooc:
+            for a, targets in cooc.items():
+                for b in targets:
+                    cooc_pairs.add(tuple(sorted([a, b])))
+
+        # Collect outgoing counts for transition probability P(target | source)
+        out_counts: dict[str, int] = defaultdict(int)
+        for tag_from, targets in temporal.items():
+            for tag_to, count in targets.items():
+                if count >= self.PREDICTION_MIN_COUNT:
+                    out_counts[tag_from] += count
+
+        transitions: list[PredictionCandidate] = []
+        cooccurrences: list[PredictionCandidate] = []
+
         for tag_from in sorted(temporal.keys()):
             targets = temporal[tag_from]
             source_freq = freqs.get(tag_from, 1)
@@ -1145,8 +1165,10 @@ class SleepService:
                 count = targets[tag_to]
                 if count >= self.PREDICTION_MIN_COUNT:
                     ratio = count / max(source_freq, 1)
+                    trans_prob = count / max(out_counts[tag_from], 1)
                     pid = _make_id("pred", tag_from, tag_to)
-                    candidates.append(PredictionCandidate(
+                    is_cooc = tuple(sorted([tag_from, tag_to])) in cooc_pairs
+                    cand = PredictionCandidate(
                         id=pid,
                         source=tag_from,
                         target=tag_to,
@@ -1156,9 +1178,39 @@ class SleepService:
                             "source_frequency": source_freq,
                             "target_frequency": freqs.get(tag_to, 0),
                             "ratio": round(ratio, 3),
+                            "transition_prob": round(trans_prob, 4),
+                            "is_cooccurrence": is_cooc,
                         },
-                    ))
-        candidates.sort(key=lambda p: (-p.evidence["temporal_count"], p.source, p.target))
+                    )
+                    if is_cooc:
+                        cooccurrences.append(cand)
+                    else:
+                        transitions.append(cand)
+
+        # Sort transitions by predictive information: transition probability P(v|u), then count
+        transitions.sort(key=lambda p: (
+            -p.evidence.get("transition_prob", 0.0),
+            -p.evidence["temporal_count"],
+            p.source,
+            p.target
+        ))
+        # Sort cooccurrences by count
+        cooccurrences.sort(key=lambda p: (-p.evidence["temporal_count"], p.source, p.target))
+
+        # Stratified allocation:
+        # Guarantee transitions a minimum allocation of half the budget (e.g. 10 of 20),
+        # letting transitions expand into any unused cooccurrence quota.
+        half_cap = self.MAX_PREDICTIONS // 2
+        selected_transitions = transitions[:half_cap]
+        remaining_budget = self.MAX_PREDICTIONS - len(selected_transitions)
+        selected_cooc = cooccurrences[:remaining_budget]
+        
+        candidates = selected_transitions + selected_cooc
+        # Fill any remainder with more transitions if cooccurrences didn't fill the quota
+        if len(candidates) < self.MAX_PREDICTIONS:
+            more_trans = [t for t in transitions[half_cap:] if t not in candidates]
+            candidates.extend(more_trans[:self.MAX_PREDICTIONS - len(candidates)])
+
         return candidates[:self.MAX_PREDICTIONS]
 
     def _build_anomalies(self, temporal, freqs) -> list[AnomalyCandidate]:
