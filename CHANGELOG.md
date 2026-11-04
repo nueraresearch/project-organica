@@ -30,11 +30,11 @@ there is nothing to check out.
 
 ## [0.12.0] — (unreleased)
 
-### Changed — V2 engine active evolution on master (2026-11-04)
+### Changed — Organica engine development on master (2026-11-04)
 
-- **Post-V1 Freeze Transition to Direct Engine Development**: With the measurement
-  reasons for the V1 freeze fulfilled and documented, active development of
-  the V2 architecture proceeds directly in `organica/` on master.
+- **Unfrozen for Direct Engine Development**: With the measurement reasons
+  for the historical freeze fulfilled and documented, active development of
+  Organica proceeds directly in `organica/` on master.
 - **Fixed Lookback Contamination (D2)**: `MemoryService._record_temporal_edges`
   now strictly filters on `event_type != 'sleep'` when constructing lookback
   windows. Internal sleep reflections can no longer pollute the precedence matrix.
