@@ -78,7 +78,7 @@ def test_band_and_cost_are_stated_as_computed():
 
 def test_it_is_committed_unrun_and_has_a_control_that_can_void_it():
     doc = _doc()
-    assert "defined and committed unrun" in doc
+    assert "defined 2026-11-04, then run and read the same day" in doc
     assert "no conclusion is drawn" in doc
     assert "No cell has been re-executed" in doc
     assert "§D15" in doc
