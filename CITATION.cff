@@ -11,7 +11,7 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.11.0
+version: 0.12.0
 # 0.10.0 IS cut: dated, tagged and pushed on 2026-10-31. It has no GitHub
 # release page, so v0.9.0 is still the latest published release, and the
 # v0.9.0 tag remains the archival reference for the frozen engine alone.

@@ -330,7 +330,8 @@ class MemoryService:
         if not new_tags:
             return
         rows = self._conn.execute(
-            "SELECT tags FROM events ORDER BY time DESC LIMIT ?", (lookback,)
+            "SELECT tags FROM events WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT ?",
+            (lookback,)
         ).fetchall()
         for (tags_str,) in rows:
             prior_tags = [t for t in (tags_str or "").split(",") if t]
@@ -379,7 +380,7 @@ class MemoryService:
     def temporal_edges(self, min_count: int = 2) -> list[tuple[str, str, int]]:
         """Return all temporal edges with count >= min_count, sorted by count."""
         rows = self._conn.execute(
-            "SELECT tag_from, tag_to, count FROM precedes WHERE count >= ? ORDER BY count DESC",
+            "SELECT tag_from, tag_to, count FROM precedes WHERE count >= ? ORDER BY count DESC, tag_from ASC, tag_to ASC",
             (min_count,)
         ).fetchall()
         return [(f, t, c) for f, t, c in rows]
@@ -387,12 +388,12 @@ class MemoryService:
     def recent(self, n: int = 50, event_type: Optional[str] = None) -> list[Event]:
         if event_type:
             rows = self._conn.execute(
-                "SELECT * FROM events WHERE event_type=? ORDER BY time DESC LIMIT ?",
+                "SELECT * FROM events WHERE event_type=? ORDER BY time DESC, rowid DESC LIMIT ?",
                 (event_type, n),
             ).fetchall()
         else:
             rows = self._conn.execute(
-                "SELECT * FROM events ORDER BY time DESC LIMIT ?", (n,)
+                "SELECT * FROM events ORDER BY time DESC, rowid DESC LIMIT ?", (n,)
             ).fetchall()
         return [Event.from_row(r) for r in rows]
 

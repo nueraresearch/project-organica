@@ -903,7 +903,7 @@ class SleepService:
 
     def _score_tags(self, freqs, cooc, temporal) -> list[_TagScore]:
         scores = []
-        all_tags = set(freqs) | set(cooc) | set(temporal)
+        all_tags = sorted(set(freqs) | set(cooc) | set(temporal))
         for tag in all_tags:
             freq      = freqs.get(tag, 0)
             neighbors = set(cooc.get(tag, {}).keys())
@@ -916,7 +916,7 @@ class SleepService:
             )
             score.classification = self._classify(score)
             scores.append(score)
-        scores.sort(key=lambda s: s.frequency, reverse=True)
+        scores.sort(key=lambda s: (-s.frequency, s.tag))
         return scores
 
     def _clustering_coefficient(self, tag, neighbors, cooc) -> float:
@@ -1080,7 +1080,7 @@ class SleepService:
 
         # 2-cycles
         for a in tags:
-            for b, count_ab in temporal[a].items():
+            for b, count_ab in sorted(temporal[a].items()):
                 if b <= a:
                     continue
                 count_ba = temporal.get(b, {}).get(a, 0)
@@ -1103,10 +1103,10 @@ class SleepService:
 
         # 3-cycles
         for a in tags:
-            for b in temporal.get(a, {}):
+            for b in sorted(temporal.get(a, {}).keys()):
                 if b == a:
                     continue
-                for c in temporal.get(b, {}):
+                for c in sorted(temporal.get(b, {}).keys()):
                     if c == a or c == b:
                         continue
                     count_ca = temporal.get(c, {}).get(a, 0)
@@ -1133,14 +1133,16 @@ class SleepService:
                                     },
                                 ))
 
-        loops.sort(key=lambda l: l.strength, reverse=True)
+        loops.sort(key=lambda l: (-l.strength, l.id))
         return loops[:self.MAX_LOOPS]
 
     def _build_predictions(self, temporal, freqs) -> list[PredictionCandidate]:
         candidates = []
-        for tag_from, targets in temporal.items():
+        for tag_from in sorted(temporal.keys()):
+            targets = temporal[tag_from]
             source_freq = freqs.get(tag_from, 1)
-            for tag_to, count in targets.items():
+            for tag_to in sorted(targets.keys()):
+                count = targets[tag_to]
                 if count >= self.PREDICTION_MIN_COUNT:
                     ratio = count / max(source_freq, 1)
                     pid = _make_id("pred", tag_from, tag_to)
@@ -1156,15 +1158,16 @@ class SleepService:
                             "ratio": round(ratio, 3),
                         },
                     ))
-        candidates.sort(key=lambda p: p.evidence["temporal_count"], reverse=True)
+        candidates.sort(key=lambda p: (-p.evidence["temporal_count"], p.source, p.target))
         return candidates[:self.MAX_PREDICTIONS]
 
     def _build_anomalies(self, temporal, freqs) -> list[AnomalyCandidate]:
         anomalies = []
-        for tag_from, targets in temporal.items():
+        for tag_from in sorted(temporal.keys()):
+            targets = temporal[tag_from]
             if not targets:
                 continue
-            sorted_targets = sorted(targets.items(), key=lambda x: -x[1])
+            sorted_targets = sorted(targets.items(), key=lambda x: (-x[1], x[0]))
             if len(sorted_targets) < 2:
                 continue
             top_tag, top_count = sorted_targets[0]
@@ -1182,7 +1185,7 @@ class SleepService:
                             "dominance_ratio": round(top_count / max(other_count, 1), 2),
                         },
                     ))
-        anomalies.sort(key=lambda a: a.evidence["dominance_ratio"], reverse=True)
+        anomalies.sort(key=lambda a: (-a.evidence["dominance_ratio"], a.id))
         return anomalies[:self.MAX_ANOMALIES]
 
     # ==================================================================
@@ -1214,13 +1217,14 @@ class SleepService:
             if "components" in c and isinstance(c["components"], list):
                 tags.update(c["components"])
 
-            for tag in tags:
+            for tag in sorted(tags):
                 tag_refs[tag].append((cid, ctype))
 
         candidates = []
-        for tag, refs in tag_refs.items():
-            distinct_types = set(ctype for _, ctype in refs)
-            distinct_ids = list(set(cid for cid, _ in refs))
+        for tag in sorted(tag_refs.keys()):
+            refs = tag_refs[tag]
+            distinct_types = sorted(set(ctype for _, ctype in refs))
+            distinct_ids = sorted(set(cid for cid, _ in refs))
 
             if len(distinct_types) >= 2 and len(distinct_ids) >= self.META_CONCEPT_MIN_REFS:
                 mid = _make_id("meta", tag)
@@ -1243,13 +1247,13 @@ class SleepService:
                     related_candidates=len(distinct_ids),
                     confidence=round(min(1.0, avg_conf), 4),
                     evidence={
-                        "distinct_candidate_types": sorted(distinct_types),
+                        "distinct_candidate_types": distinct_types,
                         "candidate_count": len(distinct_ids),
                         "type_count": len(distinct_types),
                     },
                 ))
 
-        candidates.sort(key=lambda m: m.related_candidates, reverse=True)
+        candidates.sort(key=lambda m: (-m.related_candidates, m.id))
         return candidates[:self.MAX_META_CONCEPTS]
 
     def _compose_processes(self, stable_prior: list[dict]) -> list[ProcessCandidate]:
@@ -1351,7 +1355,7 @@ class SleepService:
                                 },
                             ))
 
-        candidates.sort(key=lambda p: p.strength, reverse=True)
+        candidates.sort(key=lambda p: (-p.strength, p.id))
         return candidates[:self.MAX_PROCESSES]
 
     # ==================================================================

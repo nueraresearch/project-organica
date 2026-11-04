@@ -28,7 +28,28 @@ there is nothing to check out.
 
 ---
 
-## [0.11.0] — (unreleased)
+## [0.12.0] — (unreleased)
+
+### Changed — V2 engine active evolution on master (2026-11-04)
+
+- **Post-V1 Freeze Transition to Direct Engine Development**: With the measurement
+  reasons for the V1 freeze fulfilled and documented, active development of
+  the V2 architecture proceeds directly in `organica/` on master.
+- **Fixed Lookback Contamination (D2)**: `MemoryService._record_temporal_edges`
+  now strictly filters on `event_type != 'sleep'` when constructing lookback
+  windows. Internal sleep reflections can no longer pollute the precedence matrix.
+- **Cognitive & Substrate Determinism**:
+  - `MemoryService.temporal_edges` now applies canonical secondary ordering
+    `ORDER BY count DESC, tag_from ASC, tag_to ASC`.
+  - `MemoryService.recent` includes `rowid DESC` tie-breaking.
+  - Candidate builders (`_score_tags`, `_build_predictions`, `_build_loops`,
+    `_build_anomalies`, `_compose_meta_concepts`, `_compose_processes`) iterate
+    and sort collections deterministically, eliminating hash-seed jitter across
+    subprocesses.
+
+---
+
+## [0.11.0] — (2026-10-31)
 
 ### Recorded — the deposit package is decided, bundled, and not deposited (2026-10-31)
 
