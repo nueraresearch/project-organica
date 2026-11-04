@@ -71,3 +71,12 @@ def test_two_to_one_is_called_underpowered_not_reversed():
 def test_document_has_no_template_placeholders():
     for line in _doc().splitlines():
         assert not ("{" in line and "}" in line and "`" not in line), line
+
+
+def test_the_tie_break_is_left_in_the_frozen_engine():
+    doc = _doc()
+    decisions = (ROOT / "docs" / "DECISION-STAGE-B-SEQUENCE.md").read_text(encoding="utf-8")
+    assert "## D15" in decisions and "separately versioned engine change" in decisions
+    assert "§D15" in doc
+    assert "separately versioned engine change" in doc
+    assert "is not regenerated under that" in doc

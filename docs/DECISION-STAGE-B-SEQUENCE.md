@@ -272,3 +272,27 @@ from 0.7227 to about 0.4329, which would still span zero around the observed
 (§D13's protocol, journal §186); it does not allocate a seed -- all 720 remain spent and the four spares
 `700000721`–`700000724` remain undrawn with substitution closed; it authorises no run; and it commits to no
 re-centred study. If one is wanted later, it starts at a new pre-registration, not at this record.
+
+## D15 — The tie-break stays in the frozen engine; removing it is a new engine version (2026-11-04)
+
+The owner's decision, recorded: the dependence of the engine's cycle-level output on the process's
+string-hash order should be removed by a **separately versioned engine change**, and it should not silently
+replace the completed Stage B results.
+
+**What the finding is.** `_score_tags` in `organica/sleep.py` builds its tag order from a `set` union of string
+tags and then sorts by frequency with a stable sort, so equal-frequency tags keep the set's iteration order,
+which follows the interpreter's hash seed. The four-cell reproduction check is what surfaced it: one cell
+reproduced bit-identically, three moved by a few cycles with identical scores and no change of eligibility
+(`docs/stage_b_rerun_check.json`, journal §187, `docs/stage_b_results.md` §4).
+
+**Why the repair does not happen here.** `organica/sleep.py` is one of the frozen files (rule 12,
+`docs/V1-FREEZE.md`). A total tie-break is a change to what the engine *does*, not a performance change that can
+be proved equivalent: the point of the change is that it produces different cycle-level output. It therefore
+needs its own version, its own changelog entry and its own disclosure, and it cannot arrive as an edit to a
+study's tooling.
+
+**What this decision does not do.** It does not reopen, re-score or regenerate the Stage B block. The committed
+cells record `v0.9.0` behaviour, jitter included; the assembly, the `NOT SUPPORTED` verdict and
+`docs/stage_b_results.md` stand as recorded. A future engine that breaks ties deterministically may not be used
+to produce "the same" block -- that would be a different measurement instrument and would need its own
+pre-registration. It allocates no seed, authorises no run, and commits to no timeline.

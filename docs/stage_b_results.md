@@ -125,13 +125,16 @@ shifts observed here, and the three measurable cells scored identically.
 - It is one world family, one engine, one block of 720 worlds, and one readout frozen at the
   planned window. Nothing here is a claim about intelligence or about transfer.
 - The engine's cycle-level output is hash-order sensitive; the aggregate effect of that on this
-  block was not measured.
+  block was not measured. The dependence is behaviour of the frozen engine, so it stays: removing
+  it is a separately versioned engine change (§D15), and this block is not regenerated under that
+  engine.
 - V2 is not authorised, no seed remains unspent in this block, and the four spares stay undrawn.
 
 ## 6. Provenance
 
 - Design and decisions: `docs/DECISION-STAGE-B-SEQUENCE.md` §D13 (the three decisions, 2026-11-03)
-  and §D14 (the `2:1` shortfall accepted as a clock consequence, 2026-11-04).
+  and §D14 (the `2:1` shortfall accepted as a clock consequence, 2026-11-04), and §D15 (the
+  tie-break stays in the frozen engine, 2026-11-04).
 - Protocol: `docs/stage_b_protocol.md`; machine-readable `docs/stage_b_protocol.json`.
 - Cells and analysis: `docs/stage_b_runner.json`, 10,000 bootstrap
   replicates at level 0.9833, PRNG seed 20261107.
