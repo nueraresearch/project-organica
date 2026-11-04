@@ -10800,3 +10800,55 @@ reviewing it.
 a report rather than an artifact, and the difference is exactly what this entry is about. When the assembly is
 committed the verifier decides: if every check passes, the verdict is recorded with the availability limitation that
 `2:1` carried, and if a check fails, the failure is named rather than smoothed.
+
+## 186. The Stage B block ran and the pre-registered relation is not supported (2026-11-04)
+
+The 720 allocated worlds ran. The prediction was one-sided and written before the run: **earlier onset predicts a
+lower held-out log loss**, so a supported result requires a negative Spearman with a 98.33% interval excluding zero
+in every configuration. The assembled verdict is **NOT SUPPORTED**.
+
+| configuration | worlds | scored | ineligible | censored | Spearman | 98.33% interval | width | sign held |
+|---|---|---|---|---|---|---|---|---|
+| `2:1` | 180 | 47 | 133 | 49 | +0.1819 | [-0.1950, 0.5277] | 0.7227 | no |
+| `3:1` | 180 | 180 | 0 | 0 | -0.0328 | [-0.2106, 0.1502] | 0.3608 | no |
+| `4:1` | 180 | 180 | 0 | 0 | -0.0507 | [-0.2173, 0.1168] | 0.3341 | no |
+| `6:1` | 180 | 180 | 0 | 0 | -0.1077 | [-0.2812, 0.0745] | 0.3557 | no |
+
+720 worlds, 587 of them scored. Only `2:1` departs from 47 / 180 scored:
+**133** of its worlds were ineligible and **49** never produced a
+sustained onset. The permutation control -- onset shuffled across worlds within each configuration -- returned
+intervals containing zero everywhere:
+
+| configuration | permutation interval |
+|---|---|
+| `2:1` | [-0.3521, 0.3594] |
+| `3:1` | [-0.1781, 0.1797] |
+| `4:1` | [-0.1757, 0.1786] |
+| `6:1` | [-0.1766, 0.1779] |
+
+**What this says.** The relation is not supported in any configuration, and `2:1`'s coefficient is positive. That
+positive sign is **not** a reversal in this project's vocabulary: a reversal would need an interval excluding zero in
+the opposite direction, and `2:1`'s interval is wide enough to contain both signs. The honest reading is that
+earlier onset does not predict a lower held-out log loss here, with `2:1`'s null carrying the least information --
+its interval is **0.7227** wide against **0.3557** for `6:1`, because 47
+worlds cannot resolve what 180 can.
+
+**The `2:1` shortfall is structural, not an accident of the run.** Its eligibility ceiling is `onset + 101 <= 640`,
+i.e. onset at most **539**, and 539 is *exactly* the planned confirmation cycle for that configuration. Any `2:1`
+world whose onset arrives after the planned confirmation -- the majority -- cannot be paired with a 101-cycle
+outcome and is excluded by §D13's own rule rather than truncated. The design block had already shown this
+(onsets 511 and 530, one censored). This arm was therefore half-dead by construction, and its result should be read
+as under-powered rather than as evidence against the prediction.
+
+**Verified before recording.** `--verify docs/stage_b_runner.json` re-derived the analysis from the cells at the
+file's own 10,000 replicates: 720 cells, 180 worlds in each configuration, no spare drawn,
+every Spearman and interval identical, and the verdict recomputed as **NOT SUPPORTED**. The artifact and this entry are
+in the same commit; the numbers above are substituted from the artifact, not transcribed.
+
+**Repair, same turn.** Recording the result put the 720 allocated seeds inside `docs/`, and the seed scan duly found
+the block *inside its own artifact*, so the protocol check failed: an assembly is a record of the block, not a
+consumer of a pre-assigned seed. `docs/stage_b_runner.json` now joins the protocol artifact and the allocation
+record in `EXCLUDED_ARTIFACTS`. With the exclusion the scan reads **76** artifacts and **222**
+consumed seeds with **0** overlap, and every configuration's seeds are still pre-assigned, still disjoint,
+and the four spares still unused. Without it the scan would have read **77** artifacts and reported
+720 consumed seeds that this block owns -- a genuine false positive on a correct run.

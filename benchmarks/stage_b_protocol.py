@@ -126,11 +126,14 @@ SELF_ARTIFACT = ROOT / "docs" / "stage_b_protocol.json"
 # block overlap itself for exactly the reason this artifact would. It is excluded by path
 # and the exclusion is recorded in the output rather than left for a reader to notice.
 ALLOCATION_ARTIFACT = ROOT / "docs" / "stage_b_allocation.json"
-EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT)
+# The block's result carries the 720 allocated seeds it ran, so it names the block for the
+# same reason the allocation record does. Excluded by path, recorded in the output.
+RESULT_ARTIFACT = ROOT / "docs" / "stage_b_runner.json"
+EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
-    """Seed integers in every docs/ artifact except the two that name the block.
+    """Seed integers in every docs/ artifact except the three that record the block.
 
     This artifact records the candidate block and the allocation record carries it, so
     scanning either would make the block overlap itself; the exclusions are by path and
@@ -689,8 +692,9 @@ def build() -> dict:
             "disjoint_proved_against": len(consumed),
             "scan_scope": "every *.json directly under docs/, which is where every "
                           "artifact lives; docs/ contains no subdirectory",
-            "self_artifact_excluded": "docs/stage_b_protocol.json and "
-                                      "docs/stage_b_allocation.json, because both name "
+            "self_artifact_excluded": "docs/stage_b_protocol.json, "
+                                      "docs/stage_b_allocation.json and "
+                                      "docs/stage_b_runner.json, because each records "
                                       "this block and would otherwise overlap it",
             "harvest_rule": "every integer under a key naming a seed, including "
                             "integers held in lists; the earlier walker missed "
