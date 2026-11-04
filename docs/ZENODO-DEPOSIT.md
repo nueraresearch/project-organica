@@ -52,7 +52,7 @@ creator, license and community as the software record.
 | Creators | Beebe, Jeremy Blain Thompson — Nuera RDL — ORCID `0009-0009-2394-9714` |
 | Communities | Machine Learning — `a08bc0ac-2893-4afd-870a-a77bd348c84c` |
 | Keywords | record-specific; see each metadata file |
-| Related identifiers | the repository URL; for the software record, the v0.10.0 release URL |
+| Related identifiers | the repository URL. The software record is identified by the archived commit SHA (`software_commit` in the deposit manifest), because no `v0.11.0` release object exists and the `v0.10.0` tag has no release URL to enter — see *The route* below. The two paper DOIs are added to the software record as `isDocumentedBy` once they exist. |
 | Notes | see each metadata file — the notes carry the freeze statement and the deposit's file list |
 | Version | the release tag (software) or `1.0.0` (papers) — entered in the form, not in the JSON |
 
