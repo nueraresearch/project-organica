@@ -247,3 +247,28 @@ named beside it. The limit is recorded in protocol §3.1 rather than softened: t
 **What this does not do.** It does not allocate a seed, generate a world, write a runner, or compute any relation
 between onset and behaviour. `status.seeds_allocated` and `status.worlds_run` are both 0, and allocating the
 block remains the separate act §D2 describes. Journal §173.
+
+## D14 — The `2:1` shortfall stands as a consequence of the clock (2026-11-04)
+
+The owner's decision, recorded in their words: the `2:1` shortfall is a consequence of the planned clock and
+the eligibility rule and is not something another run with the same clock could resolve; a re-centred clock
+would require a new pre-registered study.
+
+**The arithmetic it rests on.** `horizon - 101` equals the planned confirmation cycle in every configuration, so
+eligibility reduces exactly to `onset <= planned confirmation`. The scoreable fraction of an arm is therefore the
+fraction of its onsets that arrive by the clock the protocol set for it. `2:1`'s clock is **539** and its
+131 observed onsets run 479–579 with median **547**: **47** of 180 qualified,
+**84** produced an onset between 540 and 589 (observed, ineligible, unusable), and
+**49** never produced a sustained onset. The other arms sit below their clocks and scored 180 of 180.
+
+**What this decision does.** It closes the question of whether to repeat the arm. A repeat with the same clock
+reproduces about 47 of 180 by construction, so no seed would buy anything; and a re-centred arm is a
+different question -- a clock at 589 would score 131 of 180 at
+9.9 h, with an interval shrinking only by `sqrt(47/131)`,
+from 0.7227 to about 0.4329, which would still span zero around the observed
++0.1819. It would need its own pre-registration, its own prediction and its own allocation.
+
+**What this decision does not do.** It does not re-score the block's verdict, which stands as recorded
+(§D13's protocol, journal §186); it does not allocate a seed -- all 720 remain spent and the four spares
+`700000721`–`700000724` remain undrawn with substitution closed; it authorises no run; and it commits to no
+re-centred study. If one is wanted later, it starts at a new pre-registration, not at this record.
