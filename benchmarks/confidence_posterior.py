@@ -361,9 +361,12 @@ def analyse(cells: list[dict]) -> dict:
     p3 = bool(completed and jeff["baseline"] >= 11 and base_jeff and base_frozen
               and statistics.median(base_jeff) <= statistics.median(base_frozen) + 2)
 
-    direction_disagreement = all(
-        (jeff[s] > frozen[s]) != (lap[s] > frozen[s]) for s in STREAMS if jeff[s] != lap[s]
-    ) if completed else False
+    # Only streams where the two priors actually differ can disagree in
+    # direction.  ``all()`` over an empty set is True, which would report a
+    # disagreement that no stream supports.
+    compared = [s for s in STREAMS if jeff[s] != lap[s]]
+    direction_disagreement = bool(completed and compared and all(
+        (jeff[s] > frozen[s]) != (lap[s] > frozen[s]) for s in compared))
 
     if not completed or not (c1 and c2 and c3):
         reading = "R3"
@@ -502,6 +505,10 @@ def main() -> int:
         return 2
 
     jobs = all_jobs(git_events)
+    if args.check:
+        # A check recomputes the reading from the cells already on disk; it
+        # must never run the grid again.
+        jobs = []
     if args.resume:
         jobs = [j for j in jobs if not cell_path(j["stream"], j["arm"], j["seed"]).exists()]
     if args.limit:
