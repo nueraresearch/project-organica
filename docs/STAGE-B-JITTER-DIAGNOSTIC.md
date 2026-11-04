@@ -1,6 +1,6 @@
 # Stage B: how large is the hash-order jitter's effect?
 
-**Status: defined and committed unrun, 2026-11-04.** Every number in §2 is computed from the committed
+**Status: defined 2026-11-04, then run and read the same day -- see `docs/STAGE-B-JITTER-RESULTS.md`.** Every number in §2 is computed from the committed
 assembly and costs no engine run; §3 defines the run that would answer the question; §4 says what an answer
 would and would not cover. No cell has been re-executed for this document, and nothing here re-scores the
 block's verdict.
@@ -126,3 +126,9 @@ and the strided sample spans all four configurations, so it is cheap to test.
 - Displacement ceiling: the largest absolute onset difference in `docs/stage_b_rerun_check.json`.
 - Cells, cycles and horizons: `docs/stage_b_runner.json`.
 - The finding this measures: journal §187; `docs/stage_b_results.md` §4; §D15 for the boundary it keeps.
+
+## 6. Result
+
+Run on 2026-11-04, exactly as defined here: `docs/STAGE-B-JITTER-RESULTS.md` carries the reading, the
+displacement distribution and the eligibility flips, every number substituted from
+`docs/stage_b_jitter_diagnostic.json`.

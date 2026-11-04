@@ -10942,3 +10942,40 @@ only that the band had been chosen small enough.
 
 No cell has been run for it, so it changes no number in this journal, in the assembly or in the result
 document.
+
+
+## 189. The jitter diagnostic ran: reading R3, and its own control voided it (2026-11-04)
+
+The measurement defined in §188 ran the same day: 71 cells (38 inside the 10-cycle
+band), three redraws each, 213 runs, 107 minutes of engine time, every cell
+completing every redraw.
+
+| configuration | band cells | eligibility flips | largest displacement |
+| --- | --- | --- | --- |
+| `2:1` | 38 | 1 | 16 |
+| `3:1` | 0 | 0 | 3 |
+| `4:1` | 0 | 0 | 8 |
+| `6:1` | 0 | 0 | 2 |
+
+**Reading R3 -- void.** 4 cells moved further than the 10-cycle ceiling the band was drawn on:
+`2:1` 700000078 by 16, `2:1` 700000157 by 16, `2:1` 700000119 by 14, `2:1` 700000057 by 13. The band was therefore too narrow, the enumeration was incomplete, and the diagnostic's own
+pre-committed control says no conclusion may be drawn from its eligibility counts. That is the control working:
+it existed because "no cell flipped" would otherwise only mean the band had been drawn small enough.
+
+What the run does establish, descriptively. Displacement is not a tight bound: 15 of the
+70 cells with an onset moved at all, by at most 16 cycles. `2:1` 700000057, committed onset 543 against a clock of 539, became eligible under a redraw (543, 543, 530). 8
+scored outcomes moved by more than 1e-9 and 1 cell changed whether an outcome
+existed at all.
+
+What it does not establish: an eligibility reading for the block, and therefore any statement about how much
+the recorded denominators depend on hash order. A usable measurement needs a band redrawn around the measured
+displacement (16 cycles, or wider), committed as a new definition before it runs -- the owner's call, recorded
+as action row 19. Nothing already recorded moves: the assembly, the `NOT SUPPORTED` verdict and
+`docs/stage_b_results.md` are untouched, and §D15 still forbids regenerating the block under a fixed engine.
+
+The four-cell check that motivated this understated the jitter because four cells is four cells -- and the
+diagnostic was worth running for exactly that reason: it replaced an untested ceiling with a measured one.
+
+The diagnostic's artifact names allocated seeds, so it joins `EXCLUDED_ARTIFACTS` beside the assembly, the
+allocation record and the four-cell check: the scan still reads 76 artifacts and 222 consumed seeds,
+and the exclusion is a named path rather than an implied one.
