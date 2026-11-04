@@ -10921,3 +10921,24 @@ four cells, their trajectory hashes, the replicate pairs and the seed sweep.
 The check's artifact names four allocated seeds, so it joins the assembly and the allocation record in
 `EXCLUDED_ARTIFACTS`: the scan reads 76 artifacts and 222 consumed seeds with or without it, and the
 exclusion is a named path in that tuple rather than an implication of the count.
+
+## 188. The jitter's size is a defined measurement now, and it has not been run (2026-11-04)
+
+The reproduction check showed the engine's cycle-level output depends on the process's hash order; it could
+not say how much that matters for the block, and §D15 keeps the dependence in the frozen engine rather than
+patching it. `docs/STAGE-B-JITTER-DIAGNOSTIC.md` is the measurement that closes the gap, committed before it
+is run.
+
+Its cost is bounded because the question is narrow. Eligibility is `onset + 101 <= horizon`, so a cell can
+change its eligibility only if its onset lies within the observed displacement of its clock -- and the
+observed maximum is 10 cycles. From the committed assembly, 38 of the 671 scored
+cells sit inside that band (2:1 38, 3:1 0, 4:1 0, 6:1 0); those are enumerated exactly, and the rest of the block is sampled
+positionally at every 20th seed (33 cells) to measure the displacement distribution and to
+test the ceiling the band rests on. Total 3 redraws, 213 cell-runs, 111,363 cycles.
+
+The part worth keeping is the control: if any sampled cell moves further than 10 cycles, the band was
+too narrow, the diagnostic is void and nothing is read from it. Without that, "no cell flipped" would mean
+only that the band had been chosen small enough.
+
+No cell has been run for it, so it changes no number in this journal, in the assembly or in the result
+document.
