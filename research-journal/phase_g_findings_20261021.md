@@ -10852,3 +10852,32 @@ record in `EXCLUDED_ARTIFACTS`. With the exclusion the scan reads **76** artifac
 consumed seeds with **0** overlap, and every configuration's seeds are still pre-assigned, still disjoint,
 and the four spares still unused. Without it the scan would have read **77** artifacts and reported
 720 consumed seeds that this block owns -- a genuine false positive on a correct run.
+
+**The clock, measured against the arm it was set for.** With this design, `horizon - 101` is *equal* to the planned
+confirmation cycle in every configuration, so eligibility reduces to `onset <= planned confirmation` exactly. The
+scoreable fraction of an arm is therefore the fraction of its onsets that arrive no later than the clock the
+protocol set for it -- which makes the clock a design parameter, not a formality:
+
+| configuration | planned confirmation | onset median | onset max | scored |
+|---|---|---|---|---|
+| `2:1` | 539 | 547 | 579 | 47 |
+| `3:1` | 404 | 333 | 379 | 180 |
+| `4:1` | 362 | 276 | 307 | 180 |
+| `6:1` | 329 | 232 | 259 | 180 |
+
+`2:1`'s 131 observed onsets run from 479 to 579 with median **547**, and
+its clock was set at **539** -- below the middle of its own distribution, because the design block had seen
+onsets 511 and 530 and the population median is higher. So 47 of 180 worlds qualified, 49 never produced
+a sustained onset, and **84** produced one between 540 and 589: observed,
+ineligible, and unusable. The other three arms sit comfortably below their clocks (medians 333,
+276 and 232 against 404, 362 and
+329), which is why they scored 180 of 180.
+
+**What this means for re-running `2:1`.** Running the same design again cannot fix it: the ceiling is the clock, so
+a second run reproduces roughly 47 of 180 by construction, and more worlds buy the same fraction. Moving the
+clock instead would recover those 84 worlds -- a planned confirmation of 589 scores
+**131** of 180 at 9.9 h for the arm against
+9.2 h -- but even then the interval would shrink only by
+`sqrt(47/131)`, from 0.7227 to about **0.4329**, which still spans zero around the observed
++0.1819. A re-centred `2:1` is a new question with a new clock, a new prediction and a new
+allocation of seeds; it is not a second attempt at this verdict, and the four spares stay undrawn.
