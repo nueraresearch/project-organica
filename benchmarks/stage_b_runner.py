@@ -700,6 +700,144 @@ def cost_estimate(cells: list[dict], cpu_count: int = CPU_COUNT,
     }
 
 
+def verify_assembly(path: str | Path, reps: int | None = None) -> dict:
+    """Audit an assembly produced somewhere else, without running anything.
+
+    An assembly is a claim about 720 worlds, and a claim that travels between machines
+    (or between a laptop and a commit) arrives as numbers. This checks the numbers it can
+    check from the cells themselves -- allocation membership, the spares, the per
+    configuration counts, the eligibility arithmetic, the trajectory length -- and then
+    recomputes §5's analysis and compares it field by field with what the file reports.
+    Nothing is generated, so this costs seconds rather than the block's 29 hours.
+    """
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    cells = doc.get("cells") or []
+    record = allocation()
+    allowed = set(record["seeds"]) if record.get("allocated") else set()
+    problems: list[str] = []
+    notes: list[str] = []
+
+    seeds = [cell.get("seed") for cell in cells]
+    duplicates = sorted({seed for seed in seeds if seeds.count(seed) > 1})
+    spares = sorted({seed for seed in seeds if seed in SPARES})
+    foreign = sorted({seed for seed in seeds if seed not in allowed})
+    if not record.get("allocated"):
+        problems.append("no allocation record: there is nothing to verify against")
+    if not cells:
+        problems.append("the assembly contains no cells")
+    if duplicates:
+        problems.append(f"{len(duplicates)} seed(s) appear more than once, first {duplicates[:5]}")
+    if spares:
+        problems.append(f"the spares were drawn: {spares}")
+    if foreign:
+        notes.append(f"{len(foreign)} cell(s) are not in the allocated block and were "
+                     f"excluded from the counts below: {foreign[:8]}")
+    kept = [cell for cell in cells if cell.get("seed") in allowed]
+
+    per = {config: [cell for cell in kept if cell.get("configuration") == config]
+           for config in CLAIMED}
+    counts = {config: len(per[config]) for config in CLAIMED}
+    measurable = {config: sum(1 for cell in per[config] if cell.get("outcome_measurable"))
+                  for config in CLAIMED}
+    for config, count in counts.items():
+        if count != PER_CONFIG:
+            problems.append(f"{config} has {count} worlds, the allocation gives {PER_CONFIG}")
+
+    for cell in kept:
+        config, seed = cell.get("configuration"), cell.get("seed")
+        if config not in CLAIMED:
+            problems.append(f"seed {seed}: unknown configuration {config!r}")
+            continue
+        horizon = cell.get("horizon")
+        if horizon is not None and horizon != horizon_cycles(config):
+            problems.append(f"{config} {seed}: horizon {horizon}, the protocol says "
+                            f"{horizon_cycles(config)}")
+        if "eligible" in cell and bool(cell["eligible"]) != eligible(
+                cell.get("onset"), horizon or horizon_cycles(config)):
+            problems.append(f"{config} {seed}: eligible={cell['eligible']} contradicts "
+                            f"onset={cell.get('onset')} against horizon "
+                            f"{horizon or horizon_cycles(config)}")
+        if cell.get("outcome_measurable") and cell.get("outcome") is None:
+            problems.append(f"{config} {seed}: measurable but no outcome -- an unmeasurable "
+                            f"quantity must never be reported as a number")
+        if not cell.get("outcome_measurable") and cell.get("outcome") is not None:
+            problems.append(f"{config} {seed}: not measurable but carries outcome "
+                            f"{cell['outcome']}")
+        trajectory, cycles = cell.get("di_trajectory"), cell.get("cycles_run")
+        if trajectory is not None and cycles and len(trajectory) != cycles:
+            problems.append(f"{config} {seed}: {len(trajectory)} trajectory points for "
+                            f"{cycles} cycles")
+
+    reported = doc.get("analysis") or {}
+    level = reported.get("replicates")
+    fresh = analyse(kept, reps=reps if reps is not None else (level or 100))
+    if reported.get("level") not in (None, LEVEL):
+        notes.append(f"the file was computed at level {reported['level']}, this code uses "
+                     f"{LEVEL}; intervals will not match")
+    if reported.get("prng_state") not in (None, PRNG):
+        notes.append(f"the file used prng_state {reported['prng_state']}, this code uses "
+                     f"{PRNG}")
+
+    comparisons = {}
+    for config in CLAIMED:
+        shown = (reported.get("by_configuration") or {}).get(config) or {}
+        here = fresh["by_configuration"][config]
+        # JSON turns the interval tuple into a list, so compare as lists: comparing the
+        # recomputed tuple against the file's list made every real assembly look wrong.
+        interval_same = (shown.get("interval") is not None
+                         and here["interval"] is not None
+                         and list(shown["interval"]) == list(here["interval"]))
+        rho_same = (shown.get("spearman") is not None and here["spearman"] is not None
+                    and abs(shown["spearman"] - here["spearman"]) < 1e-9)
+        comparisons[config] = {
+            "worlds": counts[config],
+            "measurable": measurable[config],
+            "reported_worlds": shown.get("worlds"),
+            "reported_measurable": shown.get("measurable"),
+            "spearman": here["spearman"],
+            "reported_spearman": shown.get("spearman"),
+            "interval": here["interval"],
+            "reported_interval": shown.get("interval"),
+            "permutation_interval": here["permutation_interval"],
+            "predicted_sign_held": here["predicted_sign_held"],
+            "worlds_match": shown.get("worlds") == counts[config],
+            "spearman_match": rho_same,
+            "interval_match": interval_same,
+        }
+        if not rho_same:
+            problems.append(f"{config}: reported spearman {shown.get('spearman')} != "
+                            f"recomputed {here['spearman']}")
+        if not interval_same:
+            problems.append(f"{config}: reported interval {shown.get('interval')} != "
+                            f"recomputed {here['interval']}")
+        if shown.get("worlds") is not None and shown["worlds"] != counts[config]:
+            problems.append(f"{config}: reported {shown['worlds']} worlds, the cells give "
+                            f"{counts[config]}")
+
+    verdict = {"reported": reported.get("verdict"), "recomputed": fresh["verdict"],
+               "match": reported.get("verdict") == fresh["verdict"]}
+    if not verdict["match"]:
+        problems.append(f"verdict: reported {verdict['reported']!r} != recomputed "
+                        f"{verdict['recomputed']!r}")
+    return {
+        "what_this_is": "An audit of an assembly that was produced elsewhere. No world is "
+                        "generated and no cell is re-run; the cells' own arithmetic is "
+                        "checked and §5's analysis is recomputed from them.",
+        "path": str(path),
+        "cells": len(cells),
+        "block_cells": len(kept),
+        "worlds_by_configuration": counts,
+        "worlds_expected": PER_CONFIG,
+        "block_complete": all(count == PER_CONFIG for count in counts.values()),
+        "by_configuration": comparisons,
+        "verdict": verdict,
+        "notes": notes,
+        "problems": problems[:25],
+        "problem_count": len(problems),
+        "passed": not problems,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true")
@@ -711,6 +849,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--shard", metavar="K/N",
                         help="take every N-th cell starting at K, e.g. 1/2 or 2/2")
     parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
+    parser.add_argument("--verify", metavar="PATH",
+                        help="audit an assembly produced elsewhere, without re-running it")
+    parser.add_argument("--reps", type=int, default=None,
+                        help="bootstrap replicates for --verify (default: the file's own)")
     parser.add_argument("--rate-check", action="store_true",
                         help="ask whether a cell's cost is per cycle or per world")
     parser.add_argument("--estimate", action="store_true",
@@ -760,6 +902,11 @@ def main(argv: list[str] | None = None) -> int:
         target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result["analysis"], indent=2))
         return 0
+
+    if args.verify:
+        result = verify_assembly(args.verify, reps=args.reps)
+        print(json.dumps(result, indent=2))
+        return 0 if result["passed"] else 1
 
     if args.rate_check:
         cells = [json.loads(p.read_text(encoding="utf-8"))

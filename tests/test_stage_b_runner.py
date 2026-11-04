@@ -395,3 +395,51 @@ def test_a_shard_half_block_carries_no_verdict_even_when_the_relation_shows():
         "a shard covers every configuration but half the worlds; if this reports SUPPORTED, "
         "half the block can be read as the result")
     assert result["worlds_expected_per_configuration"] == runner.PER_CONFIG
+
+
+def _block_assembly(reps: int = 10) -> dict:
+    starts = {config: 700000001 + 180 * i for i, config in enumerate(runner.CLAIMED)}
+    cells = []
+    for config, start in starts.items():
+        for i in range(runner.PER_CONFIG):
+            cells.append({"configuration": config, "seed": start + i, "complete": True,
+                          "eligible": True, "censored": False,
+                          "horizon": runner.horizon_cycles(config),
+                          "onset": 100 + i, "asserted_pairs_at_onset": 10 + i,
+                          "outcome": 0.20 - 0.0005 * i, "outcome_cells": 4,
+                          "outcome_occurrences": 2, "outcome_measurable": True})
+    return {"cells": cells, "analysis": runner.analyse(cells, reps=reps)}
+
+
+def test_verify_accepts_an_honest_assembly(tmp_path):
+    doc = _block_assembly()
+    path = tmp_path / "assembly.json"
+    path.write_text(json.dumps(doc), encoding="utf-8")
+    result = runner.verify_assembly(path, reps=10)
+    assert result["passed"], result["problems"]
+    assert result["block_complete"] is True
+    assert result["verdict"]["match"] is True
+    assert result["worlds_by_configuration"] == {c: 180 for c in runner.CLAIMED}
+
+
+def test_verify_refuses_a_drawn_spare(tmp_path):
+    doc = _block_assembly()
+    doc["cells"][0]["seed"] = runner.SPARES[0]
+    path = tmp_path / "assembly.json"
+    path.write_text(json.dumps(doc), encoding="utf-8")
+    result = runner.verify_assembly(path, reps=10)
+    assert not result["passed"]
+    assert any("spare" in problem for problem in result["problems"]), result["problems"]
+
+
+def test_verify_catches_a_verdict_the_cells_do_not_support(tmp_path):
+    doc = _block_assembly()
+    assert doc["analysis"]["verdict"] == "SUPPORTED", doc["analysis"]["verdict"]
+    doc["analysis"]["verdict"] = "NOT SUPPORTED"
+    path = tmp_path / "assembly.json"
+    path.write_text(json.dumps(doc), encoding="utf-8")
+    result = runner.verify_assembly(path, reps=10)
+    assert not result["passed"]
+    assert result["verdict"]["match"] is False
+    assert result["verdict"]["recomputed"] == "SUPPORTED"
+    assert any("verdict" in problem for problem in result["problems"]), result["problems"]

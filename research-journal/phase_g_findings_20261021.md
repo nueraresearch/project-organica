@@ -10773,3 +10773,30 @@ written, the full suite passed (**770** tests), and the hazard was noticed in th
 a test. The test that would have caught it did not exist, and now does. The block's total is unchanged --
 **720** cells, **29.14** h serial or **3.67** h at eight workers at
 0.286542 s per cycle -- and nothing has run.
+
+## 185. An uncommitted artifact is not evidence in another workspace, and a result travels as numbers that must be re-checked (2026-11-04)
+
+The block's result was reported in prose -- four correlations, four intervals containing zero, a verdict -- while the
+cells and the assembly lived in one uncommitted local checkout. Another workspace at the **same commit** therefore
+showed the ten design and smoke cells and nothing else, and the report could not be checked from it. Neither side was
+lying; the *artifact* was invisible, and an invisible artifact is indistinguishable from an absent one to anyone who
+was not sitting at that machine.
+
+**The general rule this produces.** A result enters the record with its artifact in the **same commit**, or it is not
+yet in the record. This is the provenance half of Rule 20: Rule 20 says a document that states a number must contain
+the number, and the corollary here is that the number must also contain a *path*, and the path must resolve in a
+checkout other than the author's. A summary is a pointer, and a pointer to a file that exists on one laptop is a
+dead pointer everywhere else -- which is how a real run can look invented without anyone having invented anything.
+
+**The instrument.** `--verify PATH` audits an assembly where it lives: that every seed is in the allocation, that no
+spare was drawn, that each configuration has its **180** worlds, that the eligibility field agrees with
+`onset + 101 <= horizon`, that no cell reports an outcome it marked unmeasurable, that each trajectory has as many
+points as the cell claims cycles, and then it recomputes §5's analysis from the cells and compares Spearman,
+interval, worlds and verdict field by field with what the file reports. It generates nothing, so it costs seconds
+rather than the block's **29** hours, and it can be run by the person holding the artifact as easily as by the person
+reviewing it.
+
+**Status of the reported verdict.** It is **not** recorded here. The cells are not in any commit, so the numbers are
+a report rather than an artifact, and the difference is exactly what this entry is about. When the assembly is
+committed the verifier decides: if every check passes, the verdict is recorded with the availability limitation that
+`2:1` carried, and if a check fails, the failure is named rather than smoothed.
