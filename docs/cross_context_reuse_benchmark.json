@@ -1,6 +1,6 @@
 {
   "kind": "cross_context_reuse_benchmark",
-  "generated_utc": "2026-11-05T04:27:23Z",
+  "generated_utc": "2026-11-05T14:43:36Z",
   "seeds": [
     20261101,
     20261102,
@@ -8,9 +8,9 @@
     20261104,
     20261105
   ],
-  "phase_a_cycles": 30,
-  "phase_b_cycles": 30,
-  "total_seconds": 667.15,
+  "phase_a_cycles": 40,
+  "phase_b_cycles": 40,
+  "total_seconds": 698.04,
   "metrics": {
     "mean_cycles_naive": 3.2,
     "mean_cycles_treatment": 1.0,
@@ -19,7 +19,7 @@
     "transfer_ratio_treatment": 3.2,
     "transfer_ratio_pruned": 1.0,
     "transfer_ratio_orthogonal": 2.286,
-    "mean_tp_treatment": 26.0,
+    "mean_tp_treatment": 26.8,
     "reusable_knowledge_verdict": "REUSE_DEMONSTRATED"
   },
   "per_arm_results": {
@@ -36,7 +36,7 @@
         "seed": 20261102,
         "acquired": true,
         "cycles_to_acquire": 1,
-        "persistence_cycles": 22
+        "persistence_cycles": 23
       },
       {
         "arm": "treatment",
@@ -57,7 +57,7 @@
         "seed": 20261105,
         "acquired": true,
         "cycles_to_acquire": 1,
-        "persistence_cycles": 26
+        "persistence_cycles": 29
       }
     ],
     "control_naive": [
@@ -73,7 +73,7 @@
         "seed": 20261102,
         "acquired": true,
         "cycles_to_acquire": 3,
-        "persistence_cycles": 20
+        "persistence_cycles": 21
       },
       {
         "arm": "control_naive",
@@ -94,7 +94,7 @@
         "seed": 20261105,
         "acquired": true,
         "cycles_to_acquire": 3,
-        "persistence_cycles": 24
+        "persistence_cycles": 27
       }
     ],
     "control_pruned": [
@@ -117,21 +117,21 @@
         "seed": 20261103,
         "acquired": true,
         "cycles_to_acquire": 2,
-        "persistence_cycles": 24
+        "persistence_cycles": 30
       },
       {
         "arm": "control_pruned",
         "seed": 20261104,
         "acquired": true,
         "cycles_to_acquire": 4,
-        "persistence_cycles": 18
+        "persistence_cycles": 21
       },
       {
         "arm": "control_pruned",
         "seed": 20261105,
         "acquired": true,
         "cycles_to_acquire": 3,
-        "persistence_cycles": 23
+        "persistence_cycles": 24
       }
     ],
     "control_orthogonal": [
@@ -147,7 +147,7 @@
         "seed": 20261102,
         "acquired": true,
         "cycles_to_acquire": 3,
-        "persistence_cycles": 20
+        "persistence_cycles": 21
       },
       {
         "arm": "control_orthogonal",
@@ -168,7 +168,7 @@
         "seed": 20261105,
         "acquired": true,
         "cycles_to_acquire": 1,
-        "persistence_cycles": 26
+        "persistence_cycles": 29
       }
     ]
   }

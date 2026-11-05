@@ -131,6 +131,18 @@ class MemoryService:
             )
         """)
         self._conn.execute("CREATE INDEX IF NOT EXISTS idx_time ON events(time)")
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_events_time_desc ON events(time DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_cooccurrences_b ON cooccurrences(tag_b, count DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_precedes_to ON precedes(tag_to, count DESC)"
+        )
+        self._conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_precedes_count ON precedes(count DESC)"
+        )
 
         # A tiny key/value table for substrate bookkeeping that has to
         # survive across restarts. It records which SCOPE the incremental
