@@ -443,193 +443,176 @@ class SleepService:
         temporal = self._load_temporal()
         freqs    = dict(self.memory.tag_frequencies())
         prior    = self._load_prior_candidates()
+        self._prior_cache = prior
 
-        cycle = self._count_prior_cycles(prior) + 1
-
-        # Build index of recent empirical events for Layer 1 grounding (Defect D3)
-        recent_events = self.memory.recent(n=500, event_type="observe")
-        tag_events: dict[str, list[str]] = defaultdict(list)
-        for e in recent_events:
-            for t in e.tags:
-                if len(tag_events[t]) < 10:
-                    tag_events[t].append(e.id)
-        self._current_tag_events = tag_events
-
-        # ---- Layer 1: Candidates from graphs ----
-        tag_scores   = self._score_tags(freqs, cooc, temporal)
-        communities  = self._find_communities(cooc)
-        concepts     = self._build_concepts(tag_scores, communities, cooc)
-        phrases      = self._build_phrases(tag_scores, cooc)
-        loops        = self._build_loops(temporal)
-        self._current_cooc = cooc
         try:
-            predictions  = self._build_predictions(temporal, freqs)
-        finally:
-            self._current_cooc = None
-            self._current_tag_events = None
-        anomalies    = self._build_anomalies(temporal, freqs)
+            cycle = self._count_prior_cycles(prior) + 1
 
-        # ---- Natural Selection: Reinforcement, Decay & Pruning (G1 pass) ----
-        # Batched: this stores every decayed survivor individually, and one
-        # disk sync per candidate dominated the cycle (1,023 commits = 3.0s
-        # of a 4.5s cycle when profiled against the live substrate).
-        # G1 pass runs first (before composites) since composites depend on
-        # stable L1 candidates. G2–G8 pass runs after all layers are formed.
-        with self.memory.batch():
-            strengthened, decayed, pruned = self._natural_selection(
-                prior, concepts, phrases, loops, predictions,
+            # Build index of recent empirical events for Layer 1 grounding (Defect D3)
+            recent_events = self.memory.recent(n=500, event_type="observe")
+            tag_events: dict[str, list[str]] = defaultdict(list)
+            for e in recent_events:
+                for t in e.tags:
+                    if len(tag_events[t]) < 10:
+                        tag_events[t].append(e.id)
+            self._current_tag_events = tag_events
+
+            # ---- Layer 1: Candidates from graphs ----
+            tag_scores   = self._score_tags(freqs, cooc, temporal)
+            communities  = self._find_communities(cooc)
+            concepts     = self._build_concepts(tag_scores, communities, cooc)
+            phrases      = self._build_phrases(tag_scores, cooc)
+            loops        = self._build_loops(temporal)
+            self._current_cooc = cooc
+            try:
+                predictions  = self._build_predictions(temporal, freqs)
+            finally:
+                self._current_cooc = None
+                self._current_tag_events = None
+            anomalies    = self._build_anomalies(temporal, freqs)
+
+            # ---- Layer 2: Composites ----
+            stable_prior = [c for c in prior
+                            if c.get("type") not in ("_sleep_meta", "anomaly")
+                            and (c.get("confidence") or c.get("strength") or 0) >= self.STABLE_THRESHOLD]
+
+            meta_concepts = self._compose_meta_concepts(stable_prior)
+            processes     = self._compose_processes(stable_prior)
+
+            # ---- Layer 3: Workflows ----
+            workflow_concepts = self._compose_workflows(meta_concepts, processes, stable_prior)
+
+            all_workflows = list(workflow_concepts)
+            for c in stable_prior:
+                if c.get("type") == "workflow_concept" and c.get("id") not in {w.id for w in all_workflows}:
+                    all_workflows.append(WorkflowConceptCandidate(
+                        id=c.get("id"),
+                        generation=c.get("generation", 3),
+                        parent_ids=c.get("parent_ids", []),
+                        name=c.get("name", ""),
+                        components=c.get("components", []),
+                        confidence=c.get("confidence", 1.0),
+                        evidence=c.get("evidence", {}),
+                    ))
+
+            all_processes = list(processes)
+            for c in stable_prior:
+                if c.get("type") == "process_candidate" and c.get("id") not in {p.id for p in all_processes}:
+                    all_processes.append(ProcessCandidate(
+                        id=c.get("id"),
+                        generation=c.get("generation", 2),
+                        parent_ids=c.get("parent_ids", []),
+                        cycle=c.get("cycle", []),
+                        strength=c.get("strength", 1.0),
+                        evidence=c.get("evidence", {}),
+                    ))
+
+            all_metas = list(meta_concepts)
+            for c in stable_prior:
+                if c.get("type") == "meta_concept" and c.get("id") not in {m.id for m in all_metas}:
+                    all_metas.append(MetaConceptCandidate(
+                        id=c.get("id"),
+                        generation=c.get("generation", 2),
+                        parent_ids=c.get("parent_ids", []),
+                        anchor_tag=c.get("anchor_tag", ""),
+                        related_candidates=c.get("related_candidates", 0),
+                        confidence=c.get("confidence", 1.0),
+                        evidence=c.get("evidence", {}),
+                    ))
+
+            # ---- Layer 4: Hypotheses (V3) ----
+            hypotheses = self._form_and_test_hypotheses(
+                temporal=temporal,
+                freqs=freqs,
+                workflows=all_workflows,
+                processes=all_processes,
+                meta_concepts=all_metas,
+                prior=prior,
             )
 
-        # ---- Temporal Precedence Edge Decay (World-Adaptation) ----
-        # Apply 5% per-cycle exponential decay to all precedes edge counts.
-        # This prevents early-regime counts from dominating the transition graph
-        # forever, allowing the engine to adapt when sequential patterns shift
-        # (regime transfer). The temporal graph used by L1 builders this cycle
-        # has already been loaded; decay affects the next cycle's load.
-        self.memory.decay_temporal_edges(factor=self.TEMPORAL_DECAY_FACTOR, min_count=1)
+            # ---- Layer 5: Theories & Questions (Curiosity) (V4) ----
+            theories, questions = self._form_theories_and_questions(hypotheses, prior)
 
-        # ---- Layer 2: Composites ----
-        stable_prior = [c for c in prior
-                        if c.get("type") not in ("_sleep_meta", "anomaly")
-                        and (c.get("confidence") or c.get("strength") or 0) >= self.STABLE_THRESHOLD]
-
-        meta_concepts = self._compose_meta_concepts(stable_prior)
-        processes     = self._compose_processes(stable_prior)
-
-        # ---- Layer 3: Workflows ----
-        workflow_concepts = self._compose_workflows(meta_concepts, processes, stable_prior)
-
-        all_workflows = list(workflow_concepts)
-        for c in stable_prior:
-            if c.get("type") == "workflow_concept" and c.get("id") not in {w.id for w in all_workflows}:
-                all_workflows.append(WorkflowConceptCandidate(
-                    id=c.get("id"),
-                    generation=c.get("generation", 3),
-                    parent_ids=c.get("parent_ids", []),
-                    name=c.get("name", ""),
-                    components=c.get("components", []),
-                    confidence=c.get("confidence", 1.0),
-                    evidence=c.get("evidence", {}),
-                ))
-
-        all_processes = list(processes)
-        for c in stable_prior:
-            if c.get("type") == "process_candidate" and c.get("id") not in {p.id for p in all_processes}:
-                all_processes.append(ProcessCandidate(
-                    id=c.get("id"),
-                    generation=c.get("generation", 2),
-                    parent_ids=c.get("parent_ids", []),
-                    cycle=c.get("cycle", []),
-                    strength=c.get("strength", 1.0),
-                    evidence=c.get("evidence", {}),
-                ))
-
-        all_metas = list(meta_concepts)
-        for c in stable_prior:
-            if c.get("type") == "meta_concept" and c.get("id") not in {m.id for m in all_metas}:
-                all_metas.append(MetaConceptCandidate(
-                    id=c.get("id"),
-                    generation=c.get("generation", 2),
-                    parent_ids=c.get("parent_ids", []),
-                    anchor_tag=c.get("anchor_tag", ""),
-                    related_candidates=c.get("related_candidates", 0),
-                    confidence=c.get("confidence", 1.0),
-                    evidence=c.get("evidence", {}),
-                ))
-
-        # ---- Layer 4: Hypotheses (V3) ----
-        hypotheses = self._form_and_test_hypotheses(
-            temporal=temporal,
-            freqs=freqs,
-            workflows=all_workflows,
-            processes=all_processes,
-            meta_concepts=all_metas,
-            prior=prior,
-        )
-
-        # ---- Layer 5: Theories & Questions (Curiosity) (V4) ----
-        theories, questions = self._form_theories_and_questions(hypotheses, prior)
-
-        # ---- Layer 6: Categorized Dreams (V5) ----
-        dreams = self._generate_categorized_dreams(
-            workflows=all_workflows,
-            processes=all_processes,
-            meta_concepts=all_metas,
-            questions=questions,
-            cooc=cooc,
-            temporal=temporal,
-        )
-
-        # ---- Layer 7: Investigation Candidates / Attention Economy (V5) ----
-        investigations = self._rank_investigations(questions, dreams)
-
-        # ---- Layer 8: Active Experiment Selection (V6 / Path B) ----
-        experiments = self._select_experiments(investigations, questions, dreams)
-
-        # ---- Natural Selection: G2–G8 pass (Law VI universality) ----
-        # Now that all composite layers are formed, run a second decay pass
-        # on G2–G8 prior candidates using the freshly-synthesized current-cycle
-        # higher-order candidates as the reference set. This ensures higher-order
-        # structures age and are pruned when no longer regenerated, mirroring
-        # biological forgetting at all cognitive levels.
-        with self.memory.batch():
-            str2, dec2, pru2 = self._natural_selection(
-                prior, concepts, phrases, loops, predictions,
-                meta_concepts=all_metas,
-                processes=all_processes,
+            # ---- Layer 6: Categorized Dreams (V5) ----
+            dreams = self._generate_categorized_dreams(
                 workflows=all_workflows,
+                processes=all_processes,
+                meta_concepts=all_metas,
+                questions=questions,
+                cooc=cooc,
+                temporal=temporal,
+            )
+
+            # ---- Layer 7: Investigation Candidates / Attention Economy (V5) ----
+            investigations = self._rank_investigations(questions, dreams)
+
+            # ---- Layer 8: Active Experiment Selection (V6 / Path B) ----
+            experiments = self._select_experiments(investigations, questions, dreams)
+
+            # ---- Natural Selection: Unified G1–G8 Pass (Law VI) ----
+            # Run natural selection once across all candidate layers in a single
+            # atomic batch. Candidates that re-emerge in this cycle are strengthened;
+            # those absent decay by 0.8; those below DEATH_THRESHOLD are pruned.
+            with self.memory.batch():
+                strengthened, decayed, pruned = self._natural_selection(
+                    prior, concepts, phrases, loops, predictions,
+                    meta_concepts=all_metas,
+                    processes=all_processes,
+                    workflows=all_workflows,
+                    hypotheses=hypotheses,
+                    theories=theories,
+                    questions=questions,
+                    dreams=dreams,
+                    investigations=investigations,
+                    experiments=experiments,
+                )
+
+            # ---- Temporal Precedence Edge Decay (World-Adaptation) ----
+            self.memory.decay_temporal_edges(factor=self.TEMPORAL_DECAY_FACTOR, min_count=1)
+
+            composites_created = (len(meta_concepts) + len(processes) + len(workflow_concepts) +
+                                  len(hypotheses) + len(theories) + len(questions) + len(dreams) +
+                                  len(investigations) + len(experiments))
+
+            # M3 — contradiction density (evidence-flow metric, see FACTS-SHEET G3)
+            if hypotheses:
+                densities = []
+                for h in hypotheses:
+                    total = h.support_count + h.contradiction_count
+                    densities.append(h.contradiction_count / total if total > 0 else 0.0)
+                m3 = round(sum(densities) / len(densities), 6)
+            else:
+                m3 = 0.0
+
+            report = SleepReport(
+                cycle=cycle,
+                ran_at=time.time(),
+                concepts=concepts,
+                phrases=phrases,
+                loops=loops,
+                predictions=predictions,
+                anomalies=anomalies,
+                meta_concepts=meta_concepts,
+                processes=processes,
+                workflow_concepts=workflow_concepts,
                 hypotheses=hypotheses,
                 theories=theories,
                 questions=questions,
                 dreams=dreams,
                 investigations=investigations,
                 experiments=experiments,
+                prior_candidates_loaded=len(prior),
+                candidates_strengthened=strengthened,
+                candidates_decayed=decayed,
+                candidates_pruned=pruned,
+                composites_created=composites_created,
+                contradiction_density=m3,
             )
-        strengthened += str2
-        decayed      += dec2
-        pruned       += pru2
-
-        composites_created = (len(meta_concepts) + len(processes) + len(workflow_concepts) +
-                              len(hypotheses) + len(theories) + len(questions) + len(dreams) +
-                              len(investigations) + len(experiments))
-
-        # M3 — contradiction density (evidence-flow metric, see FACTS-SHEET G3)
-        if hypotheses:
-            densities = []
-            for h in hypotheses:
-                total = h.support_count + h.contradiction_count
-                densities.append(h.contradiction_count / total if total > 0 else 0.0)
-            m3 = round(sum(densities) / len(densities), 6)
-        else:
-            m3 = 0.0
-
-        report = SleepReport(
-            cycle=cycle,
-            ran_at=time.time(),
-            concepts=concepts,
-            phrases=phrases,
-            loops=loops,
-            predictions=predictions,
-            anomalies=anomalies,
-            meta_concepts=meta_concepts,
-            processes=processes,
-            workflow_concepts=workflow_concepts,
-            hypotheses=hypotheses,
-            theories=theories,
-            questions=questions,
-            dreams=dreams,
-            investigations=investigations,
-            experiments=experiments,
-            prior_candidates_loaded=len(prior),
-            candidates_strengthened=strengthened,
-            candidates_decayed=decayed,
-            candidates_pruned=pruned,
-            composites_created=composites_created,
-            contradiction_density=m3,
-        )
-        with self.memory.batch():
-            self._store_candidates(report)
-        return report
+            with self.memory.batch():
+                self._store_candidates(report)
+            return report
+        finally:
+            self._prior_cache = None
 
     # ==================================================================
     # Layer 6: Categorized Dreams (V5)
@@ -913,89 +896,87 @@ class SleepService:
         Updates the experiment's status ('validated' or 'refuted'), closes or refines
         associated questions/hypotheses, and records the intervention in MemoryService.
         """
+        all_prior = self._load_prior_candidates()
         if experiments is None:
-            prior = self._load_prior_candidates()
             experiments = [
                 ExperimentCandidate(**{k: v for k, v in c.items() if k != "type"})
-                for c in prior if c.get("type") == "experiment" and c.get("status") == "proposed"
+                for c in all_prior if c.get("type") == "experiment" and c.get("status") == "proposed"
             ]
 
+        recent_obs = self.memory.recent(n=50, event_type="observe") if not executor_fn else []
         results = []
-        for exp in experiments:
-            if executor_fn:
-                outcome = executor_fn(exp)
-            else:
-                # Default evaluation against observation history
-                payload = exp.probe_payload
-                subject = payload.get("subject", "")
-                outcomes = exp.expected_outcomes
-                recent_obs = self.memory.recent(n=50, event_type="observe")
-                found_match = False
-                matched_outcome = None
-                for obs in recent_obs:
-                    if subject in obs.tags:
-                        for out in outcomes:
-                            if out in obs.tags:
-                                found_match = True
-                                matched_outcome = out
-                                break
-                    if found_match:
-                        break
+        with self.memory.batch():
+            for exp in experiments:
+                if executor_fn:
+                    outcome = executor_fn(exp)
+                else:
+                    # Default evaluation against observation history
+                    payload = exp.probe_payload
+                    subject = payload.get("subject", "")
+                    outcomes = exp.expected_outcomes
+                    found_match = False
+                    for obs in recent_obs:
+                        if subject in obs.tags:
+                            for out in outcomes:
+                                if out in obs.tags:
+                                    found_match = True
+                                    break
+                        if found_match:
+                            break
 
-                outcome = "validated" if found_match else "refuted"
+                    outcome = "validated" if found_match else "refuted"
 
-            exp.status = outcome
-            result_record = {
-                "experiment_id": exp.id,
-                "target_id": exp.target_id,
-                "target_type": exp.target_type,
-                "status": outcome,
-                "executed_at": time.time(),
-            }
-            results.append(result_record)
+                exp.status = outcome
+                result_record = {
+                    "experiment_id": exp.id,
+                    "target_id": exp.target_id,
+                    "target_type": exp.target_type,
+                    "status": outcome,
+                    "executed_at": time.time(),
+                }
+                results.append(result_record)
 
-            # Record experiment intervention event in memory
-            self.memory.store(
-                json.dumps(result_record),
-                event_type="experiment_result",
-                source=f"experiment:{exp.id}",
-            )
+                # Record experiment intervention event in memory
+                self.memory.store(
+                    json.dumps(result_record),
+                    event_type="experiment_result",
+                    source=f"experiment:{exp.id}",
+                )
 
-            # --- Hypothesis Promotion / Refutation Loop (Law IV completion) ---
-            # When an experiment targeting a question is validated, find any
-            # associated hypotheses and increment their support_count, closing
-            # the predict→test→update loop. When refuted, increment
-            # contradiction_count so competing beliefs are penalised.
-            # For dream-targeting validated experiments, promote the dream into
-            # a new grounded HypothesisCandidate at G4.
-            if exp.target_type in ("question", "dream"):
-                all_prior = self._load_prior_candidates()
-                updated_ids: set[str] = set()
-                for pc in all_prior:
-                    if pc.get("type") == "hypothesis":
-                        pc_subject = pc.get("subject", "")
-                        pc_exp = pc.get("expectation", "")
-                        payload_subject = exp.probe_payload.get("subject", "")
-                        if pc_subject == payload_subject or pc_exp in exp.expected_outcomes:
-                            if pc["id"] in updated_ids:
-                                continue
-                            updated_ids.add(pc["id"])
-                            updated = dict(pc)
-                            if outcome == "validated":
-                                updated["support_count"] = pc.get("support_count", 0) + 1
-                                prev_conf = pc.get("confidence", 0.5)
-                                updated["confidence"] = round(min(1.0, prev_conf + 0.05), 4)
-                                ev = dict(updated.get("evidence", {}))
-                                ev["experiment_validated"] = exp.id
-                                updated["evidence"] = ev
-                            else:  # refuted
-                                updated["contradiction_count"] = pc.get("contradiction_count", 0) + 1
-                                prev_conf = pc.get("confidence", 0.5)
-                                updated["confidence"] = round(max(0.0, prev_conf - 0.05), 4)
-                                ev = dict(updated.get("evidence", {}))
-                                ev["experiment_refuted"] = exp.id
-                                updated["evidence"] = ev
-                            self._store_single_candidate(updated)
+                # --- Hypothesis Promotion / Refutation Loop (Law IV completion) ---
+                # When an experiment targeting a question is validated, find any
+                # associated hypotheses and increment their support_count, closing
+                # the predict→test→update loop. When refuted, increment
+                # contradiction_count so competing beliefs are penalised.
+                # For dream-targeting validated experiments, promote the dream into
+                # a new grounded HypothesisCandidate at G4.
+                if exp.target_type in ("question", "dream"):
+                    updated_ids: set[str] = set()
+                    for pc in all_prior:
+                        if pc.get("type") == "hypothesis":
+                            pc_subject = pc.get("subject", "")
+                            pc_exp = pc.get("expectation", "")
+                            payload_subject = exp.probe_payload.get("subject", "")
+                            if pc_subject == payload_subject or pc_exp in exp.expected_outcomes:
+                                if pc["id"] in updated_ids:
+                                    continue
+                                updated_ids.add(pc["id"])
+                                updated = dict(pc)
+                                if outcome == "validated":
+                                    updated["support_count"] = pc.get("support_count", 0) + 1
+                                    prev_conf = pc.get("confidence", 0.5)
+                                    updated["confidence"] = round(min(1.0, prev_conf + 0.05), 4)
+                                    ev = dict(updated.get("evidence", {}))
+                                    ev["experiment_validated"] = exp.id
+                                    updated["evidence"] = ev
+                                else:  # refuted
+                                    updated["contradiction_count"] = pc.get("contradiction_count", 0) + 1
+                                    prev_conf = pc.get("confidence", 0.5)
+                                    updated["confidence"] = round(max(0.0, prev_conf - 0.05), 4)
+                                    ev = dict(updated.get("evidence", {}))
+                                    ev["experiment_refuted"] = exp.id
+                                    updated["evidence"] = ev
+                                self._store_single_candidate(updated)
 
                 # Mark the targeted question as resolved if experiment validated
                 if outcome == "validated" and exp.target_type == "question":
@@ -1079,6 +1060,8 @@ class SleepService:
         return graph
 
     def _load_prior_candidates(self) -> list[dict]:
+        if getattr(self, "_prior_cache", None) is not None:
+            return self._prior_cache
         events = self.memory.recent(n=4000, event_type="sleep")
         candidates = []
         for e in events:
