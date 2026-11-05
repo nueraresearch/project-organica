@@ -105,6 +105,26 @@ there is nothing to check out.
   - `ObservingMemoryService.decay_temporal_edges` is a no-op in the audit probe,
     preserving the A7 invariant (`attributed == count`). `run_invariance` uses a
     `NoDecayMemoryService` for both branches so A4 compares observer presence only.
+- **Capacity Bottleneck Relieved (P1 / FACTS-SHEET D3)**:
+  - `MAX_PREDICTIONS` raised from 20 to 40. Relieves the severe over-truncation
+    at Layer 1 identified in the instrumentation audit, un-starving downstream
+    process, workflow, and belief formation.
+- **Structural Entropy Ranking for Loops & Anomalies (P2, P4)**:
+  - `_build_loops` computes path minimum target entropy $H(T \mid \text{source})$
+    and sorts deterministic, low-entropy cycles ahead of diffuse transitions.
+  - `_build_anomalies` ranks anomalies with low context target entropy first,
+    filtering out background noise in diffuse graphs.
+- **Loop Rotation Normalization (P7)**:
+  - Directed 3-cycles are canonicalized to their lexicographically minimal
+    rotation, guaranteeing that cycle permutations do not produce divergent candidate
+    IDs or cause artificial natural-selection decay.
+- **M3 Contradiction Density Added to SleepReport (P3 / FACTS-SHEET G3)**:
+  - Added `contradiction_density` metric to `SleepReport`, exposing real evidence
+    accumulation and tension flow independently of static population counts.
+- **Question Closure on Experiment Validation (P5 / Law IV)**:
+  - `execute_experiments` marks validated questions as closed and records their
+    resolving experiment; `_form_theories_and_questions` and `_rank_investigations`
+    skip closed questions to focus curiosity on open questions.
 
 ---
 
