@@ -113,7 +113,7 @@ class AnomalyCandidate:
 class MetaConceptCandidate:
     type: str = "meta_concept"
     id: str = ""
-    generation: int = 1
+    generation: int = 2
     parent_ids: list[str] = field(default_factory=list)
     anchor_tag: str = ""
     related_candidates: int = 0
@@ -125,7 +125,7 @@ class MetaConceptCandidate:
 class ProcessCandidate:
     type: str = "process_candidate"
     id: str = ""
-    generation: int = 1
+    generation: int = 2
     parent_ids: list[str] = field(default_factory=list)
     cycle: list[str] = field(default_factory=list)
     strength: float = 0.0
@@ -136,7 +136,7 @@ class ProcessCandidate:
 class WorkflowConceptCandidate:
     type: str = "workflow_concept"
     id: str = ""
-    generation: int = 2
+    generation: int = 3
     parent_ids: list[str] = field(default_factory=list)
     name: str = ""
     components: list[str] = field(default_factory=list)
@@ -148,7 +148,7 @@ class WorkflowConceptCandidate:
 class HypothesisCandidate:
     type: str = "hypothesis"
     id: str = ""
-    generation: int = 3
+    generation: int = 4
     subject: str = ""
     expectation: str = ""
     confidence: float = 0.0
@@ -162,7 +162,7 @@ class HypothesisCandidate:
 class TheoryCandidate:
     type: str = "theory"
     id: str = ""
-    generation: int = 4
+    generation: int = 5
     subject: str = ""
     hypotheses: list[str] = field(default_factory=list)
     confidence: float = 0.0
@@ -176,7 +176,7 @@ class TheoryCandidate:
 class QuestionCandidate:
     type: str = "question"
     id: str = ""
-    generation: int = 4
+    generation: int = 5
     subject: str = ""
     competing_expectations: list[str] = field(default_factory=list)
     uncertainty: float = 0.0
@@ -192,7 +192,7 @@ class QuestionCandidate:
 class DreamCandidate:
     type: str = "dream"
     id: str = ""
-    generation: int = 5
+    generation: int = 6
     dream_category: str = ""   # completion | analogy | mutation | conditional
     subject: str = ""
     path_or_context: list[str] = field(default_factory=list)
@@ -211,7 +211,7 @@ class InvestigationCandidate:
     """Ranks what to investigate next based on Expected Information Gain (EIG)."""
     type: str = "investigation"
     id: str = ""
-    generation: int = 6
+    generation: int = 7
     target_id: str = ""         # Question or Dream ID
     target_type: str = ""       # question | dream
     subject: str = ""
@@ -231,7 +231,7 @@ class ExperimentCandidate:
     """A concrete intervention or test designed to resolve an investigation."""
     type: str = "experiment"
     id: str = ""
-    generation: int = 7
+    generation: int = 8
     investigation_id: str = ""
     target_id: str = ""         # Question ID or Dream ID being probed
     target_type: str = ""       # question | dream
