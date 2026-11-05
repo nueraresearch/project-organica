@@ -107,20 +107,45 @@ def _local_tag_commit(tag: str) -> str | None:
     return rev.stdout.strip() or None
 
 
-def _remote_ref(ref: str) -> str | None:
-    """A ref's commit on `origin`, or None if the remote has no such ref."""
-    out = _git("ls-remote", "--tags", "origin", ref, timeout=60)
-    if out is None or out.returncode != 0:
-        return None
+def _parse_tag_refs(text: str, ref: str) -> str | None:
+    """The commit a tag names, from `git ls-remote --tags` output.
+
+    An **annotated** tag reports two lines for one ref: the tag object, and
+    the commit it points at under the peeled `^{}` name. They are different
+    objects with different SHAs, and returning the wrong one makes the
+    release check compare a tag object against a commit -- a failure that
+    has nothing to do with the release. Prefer the peeled commit.
+
+    Names are matched exactly, so asking the remote for a prefix pattern
+    cannot admit a neighbouring tag (`v0.10.0` must not match `v0.10.01`).
+    """
     peeled = plain = None
-    for line in out.stdout.splitlines():
+    for line in text.splitlines():
         sha, _, name = line.partition("\t")
         name = name.strip()
-        if name == "refs/tags/" + ref + "^{}":
-            peeled = sha
+        if name == f"refs/tags/{ref}^{{}}":
+            peeled = sha.strip()
         elif name == f"refs/tags/{ref}":
-            plain = sha
+            plain = sha.strip()
     return peeled or plain or None
+
+
+def _remote_ref(ref: str) -> str | None:
+    """The commit a tag names on `origin`, or None if the remote has no
+    such tag.
+
+    The query uses a `*` pattern on purpose. `git ls-remote --tags origin
+    <tag>` with a bare tag name returns **only** the tag object and omits
+    the peeled `^{}` line, so a parser given that output can only return
+    the tag object. The pattern makes git emit both lines, which is what
+    lets `_parse_tag_refs` pick the commit. Measured on this repository on
+    2026-10-31: the bare form returned one line, the pattern form returned
+    two.
+    """
+    out = _git("ls-remote", "--tags", "origin", f"{ref}*", timeout=60)
+    if out is None or out.returncode != 0:
+        return None
+    return _parse_tag_refs(out.stdout, ref)
 
 
 def _remote_master() -> str | None:
@@ -239,3 +264,69 @@ def test_versioning_is_documented():
         "README.md does not say which 'v1' the architecture refers to")
     assert "SemVer" in manual or "Semantic Versioning" in manual, (
         "the manual does not state the versioning scheme")
+
+
+# ---------------------------------------------------------------------------
+# The witness, and proof that the check can fire
+#
+# `test_a_released_version_is_checkable` failed on master on 2026-10-31 while
+# the release was in fact correct: `v0.10.0` is an annotated tag, the bare
+# `ls-remote --tags origin v0.10.0` query returned only its tag object, and the
+# test compared that tag object against master's commit. Four tests below pin
+# the parse; the fifth proves the comparison still fails when it should, so a
+# repaired witness cannot become a check that always agrees with itself.
+# ---------------------------------------------------------------------------
+
+#: A tag object and the commit it points at. Distinct SHAs, as they must be.
+_TAG_OBJECT = "843247b1e7ec9ef50eb41426833d97c4c8324efb"
+_COMMIT = "f3a42a76bb5e15d6dd800070542fd577b96a6cf0"
+
+
+def test_the_tag_parser_prefers_the_peeled_commit():
+    text = (f"{_TAG_OBJECT}\trefs/tags/v0.10.0\n"
+            f"{_COMMIT}\trefs/tags/v0.10.0^{{}}\n")
+    assert _parse_tag_refs(text, "v0.10.0") == _COMMIT, (
+        "the parser returned the tag object instead of the commit it names; "
+        "comparing that to a commit fails on a correct release")
+
+
+def test_the_tag_parser_accepts_a_lightweight_tag():
+    """A lightweight tag has no tag object, so the only line is the commit."""
+    text = f"{_COMMIT}\trefs/tags/v0.10.0\n"
+    assert _parse_tag_refs(text, "v0.10.0") == _COMMIT
+
+
+def test_the_tag_parser_returns_none_when_the_tag_is_absent():
+    assert _parse_tag_refs("", "v0.10.0") is None
+    assert _parse_tag_refs(
+        f"{_COMMIT}\trefs/tags/v0.10.01\n", "v0.10.0") is None, (
+        "a prefix neighbour was accepted as the tag")
+
+
+def test_the_bare_query_really_did_return_the_wrong_object():
+    """The defect, reproduced from the output git actually gave.
+
+    This is not a restatement of the fix; it is the reason the fix is
+    load-bearing. If the old invocation had returned the peeled commit,
+    nothing would have needed changing.
+    """
+    old_output = f"{_TAG_OBJECT}\trefs/tags/v0.10.0\n"
+    resolved = _parse_tag_refs(old_output, "v0.10.0")
+    assert resolved == _TAG_OBJECT
+    assert resolved != _COMMIT
+
+
+def test_the_release_check_fires_when_the_tag_is_behind_master(monkeypatch):
+    """Proof of firing: the comparison still fails when it should.
+
+    A check whose witness was just repaired needs a demonstration that it
+    is not now a parse that always agrees with itself. Three witnesses are
+    replaced so the tag points at an earlier commit than master, and the
+    real test body must fail.
+    """
+    module = sys.modules[__name__]
+    monkeypatch.setattr(module, "_local_tag_commit", lambda tag: None)
+    monkeypatch.setattr(module, "_remote_ref", lambda tag: "a" * 40)
+    monkeypatch.setattr(module, "_remote_master", lambda: "b" * 40)
+    with pytest.raises(AssertionError, match="Bump the version"):
+        test_a_released_version_is_checkable()

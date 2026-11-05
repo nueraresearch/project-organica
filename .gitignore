@@ -5,6 +5,10 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
+
+# The project's own virtualenv. A checkout may create one to run the tests;
+# it is dependencies, not a deliverable, and must not enter the repository.
+.venv/
 organica/__pycache__/
 tests/__pycache__/
 *.egg-info/

@@ -319,6 +319,16 @@ their gate.
 
 ---
 
+## 8a. Disclosure (2026-11-01) — appended after the run; sections 1-8 are unchanged
+
+**What this plan started from was measured one cycle early.** The record it cites is the 2026-10-31 divergence-cycle capture, which reported the two sides holding the **same set** of candidate IDs in **11 of 16** arm-pairs, the **same order** in **3**, and identical in set *and* order on **3** seeds while the admitted streams still differed. That was `OBSERVER_VERSION` 2. `candidate_membership_audit.first_divergence()` stores `first_cycle` as a **zero-based** index and window index *i* is engine cycle *i*, so those pools are the cycle **before** the divergence and the capture labelled them with the divergence cycle's number.
+
+Re-measured at the divergence cycle itself (`OBSERVER_VERSION` 3, 16 runs), the two sides hold the same set in **0 of 16** arm-pairs and the same order in **0 of 16**: membership differs everywhere. **There are no identical pools at the divergence cycle for this experiment to explain**, so the premise that the difference must arise *inside* the cycle is withdrawn rather than refuted.
+
+**This plan is left exactly as committed.** Its hypothesis, two forms, three predictions, three falsification criteria and four controls were fixed before the run and are judged against it; the record of that run is journal §74 and `docs/DIVERGENCE-MECHANISM-RESULTS.md`. What the run located — `_score_tags`, order-sensitive from cycle 1 on every seed including the control — stands as a property of candidate **construction**, and is not evidence about where the divergence begins. The question this brief would have to be rewritten to ask is narrower: **at what earliest cycle do the two candidate populations first differ, and which operation introduces that difference?**
+
+---
+
 ## 9. Cost and order of work
 
 | Step | Cost |
@@ -363,3 +373,48 @@ cites a line; every record statement cites an artifact.
 → `docs/candidate_membership_audit.json`; `docs/divergence_cycle_capture.json`;
 `benchmarks/formation_utilization.py`; `organica/sleep.py`; `organica/memory.py`;
 journal §71; journal §72.
+
+---
+
+## 11. Arm B-prime, pre-registered before it ran: canonicalise the first order-sensitive site
+
+**Why this section exists.** §5.2's Arm B canonicalises the temporal graph and the
+composites. §74's Arm A then located **`_score_tags` as the earliest order-sensitive
+builder**, on 8 of 8 failing seeds *and on the control*, from cycle 1 — and Arm B,
+starting downstream of it, could not remove a channel that runs upstream. Arm B was
+therefore inadmissible for a reason the plan itself diagnoses: the intervention did
+not reach the first site.
+
+**Arm B-prime.** The same intervention, extended to that site: in **canonical modes
+only**, the tag scores are given a **total order** — the engine's own sort, then a
+tie-break on the tag string (`(-frequency, tag)`) — and the two canonicalisations of
+§5.2 are applied as before. Harness-side subclass override; no engine file changes;
+the freeze test stays green.
+
+**Planned cases, unchanged from §9.** The eight failing seeds and the control seed,
+each at the hash-seed pair `docs/candidate_membership_audit.json` records for it.
+
+**Controls and stop rules, unchanged from §6 and §4.**
+
+| Step | Gate | Stop rule |
+|---|---|---|
+| 1 | **C1 / F2** on the control seed, at a **fixed** hash seed | If canonicalisation changes the control's per-type table at a fixed hash seed, F2 fires and **no conclusion may be drawn from Arm B-prime** |
+| 2 | **C2** observer neutrality | A quiet run and an observing run must produce identical tables |
+| 3 | **C3** determinism | Two runs at one hash seed must produce identical parts |
+| 4 | Arm B-prime over the eight seeds | P3 holds if the tables become hash-seed invariant; F1 fires if they still vary |
+
+**The order is the point.** Gate 1 runs first, on the control, before any failing
+seed is measured — exactly as §6 requires, and for the reason §6 gives: an
+intervention that changes the control is the classic way to manufacture a
+confirmation.
+
+**A conflict this pre-registration records in advance.** F2 requires the control's
+table to be **unchanged at a fixed hash seed**. The control's builders are **not**
+hash-seed invariant — that is what P2 failing as pre-registered established (§74,
+journal §79) — so its order *depends* on the hash seed, and any intervention that
+imposes a canonical order must change it. If that is what gate 1 shows, then F2 and
+P2 cannot both hold, Arm B-prime is inadmissible by its own control, and the
+protocol — not the measurement — is what needs the owner's decision: F2 restated in
+**membership** terms, or Arm B-prime abandoned. This section fixes that reading
+before the gate is run, so the result cannot be re-described afterwards.
+

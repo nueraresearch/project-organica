@@ -1,12 +1,12 @@
-# Divergence-cycle capture — the candidate pool at the cycle where the populations part company
+# Divergence-cycle capture — the pool just before the divergence and the transition into it
 
-**Status.** Measured 2026-10-31. It is the instrument the candidate-membership audit named as the next one: the membership audit found *where* the two candidate populations diverge, and this names *which candidates* were in the pool at that cycle. It does not re-score D0 and it does not change any verdict.
+**Status.** Measured 2026-10-31; **cycle base corrected and re-measured 2026-11-01**. It is the instrument the candidate-membership audit named as the next one: the membership audit found *where* the two candidate populations diverge, and this names *which candidates* were in the pool at the divergence cycle and in the cycle before it, and what entered or left on the way in. The 2026-10-31 run read the cycle before the divergence and labelled it with the divergence cycle's number; §1 states the correction. It does not re-score D0 and it does not change any verdict.
 
 ## 1. Why a second capture was needed
 
 The membership audit captured the engine’s 4,000-row sleep window, and reported honestly that it could not explain the divergence: the window is a snapshot of the read-back at the arm’s snapshot point, which is two or three cycles before the end of the run, while the divergences are at sleep cycles 2 to 11. The window shows the population *near the snapshot point*; it cannot show the pool *at the divergence*.
 
-This instrument captures the window at the divergence cycle itself.
+The 2026-10-31 run did not do that. The audit stores `first_cycle` as a **zero-based index**, and a window's index here is an engine cycle counted from one, so the capture read the cycle **before** the divergence and labelled it with the divergence cycle's own number. The 2026-11-01 re-measurement reads the divergence cycle and the cycle before it.
 
 ## 2. How the capture is addressed, and how that is proved
 
@@ -16,405 +16,424 @@ That correspondence is not assumed. The engine stores one `sleep:meta` event per
 
 **16 of 16** captured window pairs are addressed by their own marker.
 
-## 3. The pool at the divergence cycle
+## 3. The pool at the divergence cycle, and the cycle before it
 
 **Campaign side** is the run whose fingerprint equals the campaign’s; **current side** is the run at the pinned hash seed, which is what the use-path audit measured. Arm C is the arm the D0 verdict was scored on; arm B is shown alongside it because arm C reads arm B’s recorded temporal graphs.
 
-| Task | Seed | Divergence cycle | Arm | Campaign pool | Current pool | Both | Campaign only | Current only | Same set | Same order |
-|---|---|---|---|---|---|---|---|---|---|---|
-| T1 | 20261125 | 11 | B | 280 | 274 | 272 | 8 | 2 | no | no |
-| T1 | 20261125 | 11 | C | 260 | 255 | 252 | 8 | 3 | no | no |
-| T1 | 20261128 | 3 | B | 37 | 37 | 37 | 0 | 0 | yes | no |
-| T1 | 20261128 | 3 | C | 37 | 37 | 37 | 0 | 0 | yes | no |
-| T1 | 20261129 | 2 | B | 39 | 39 | 39 | 0 | 0 | yes | no |
-| T1 | 20261129 | 2 | C | 39 | 39 | 39 | 0 | 0 | yes | no |
-| T2 | 20261118 | 5 | B | 28 | 28 | 28 | 0 | 0 | yes | no |
-| T2 | 20261118 | 5 | C | 8 | 8 | 8 | 0 | 0 | yes | yes |
-| T2 | 20261120 | 5 | B | 59 | 61 | 55 | 4 | 6 | no | no |
-| T2 | 20261120 | 5 | C | 23 | 22 | 22 | 1 | 0 | no | no |
-| T2 | 20261121 | 5 | B | 62 | 61 | 61 | 1 | 0 | no | no |
-| T2 | 20261121 | 5 | C | 18 | 18 | 18 | 0 | 0 | yes | no |
-| T2 | 20261123 | 5 | B | 23 | 23 | 23 | 0 | 0 | yes | no |
-| T2 | 20261123 | 5 | C | 4 | 4 | 4 | 0 | 0 | yes | yes |
-| T2 | 20261130 | 5 | B | 37 | 37 | 37 | 0 | 0 | yes | no |
-| T2 | 20261130 | 5 | C | 10 | 10 | 10 | 0 | 0 | yes | yes |
+| Task | Seed | Audit index | Cycle captured | Arm | Campaign pool | Current pool | Both | Campaign only | Current only | Same set | Same order |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| T1 | 20261125 | 11 | 12 | B | 271 | 268 | 256 | 15 | 12 | no | no |
+| T1 | 20261125 | 11 | 12 | C | 238 | 235 | 223 | 15 | 12 | no | no |
+| T1 | 20261128 | 3 | 4 | B | 84 | 84 | 81 | 3 | 3 | no | no |
+| T1 | 20261128 | 3 | 4 | C | 84 | 84 | 81 | 3 | 3 | no | no |
+| T1 | 20261129 | 2 | 3 | B | 101 | 95 | 95 | 6 | 0 | no | no |
+| T1 | 20261129 | 2 | 3 | C | 101 | 95 | 95 | 6 | 0 | no | no |
+| T2 | 20261118 | 5 | 6 | B | 48 | 49 | 46 | 2 | 3 | no | no |
+| T2 | 20261118 | 5 | 6 | C | 10 | 11 | 8 | 2 | 3 | no | no |
+| T2 | 20261120 | 5 | 6 | B | 98 | 98 | 91 | 7 | 7 | no | no |
+| T2 | 20261120 | 5 | 6 | C | 36 | 34 | 33 | 3 | 1 | no | no |
+| T2 | 20261121 | 5 | 6 | B | 82 | 82 | 79 | 3 | 3 | no | no |
+| T2 | 20261121 | 5 | 6 | C | 24 | 25 | 23 | 1 | 2 | no | no |
+| T2 | 20261123 | 5 | 6 | B | 42 | 41 | 41 | 1 | 0 | no | no |
+| T2 | 20261123 | 5 | 6 | C | 18 | 17 | 17 | 1 | 0 | no | no |
+| T2 | 20261130 | 5 | 6 | B | 69 | 69 | 64 | 5 | 5 | no | no |
+| T2 | 20261130 | 5 | 6 | C | 38 | 34 | 33 | 5 | 1 | no | no |
 
-### T1 / 20261125, cycle 11, arm B
+### T1 / 20261125, cycle 12 (audit index 11), arm B
 
-- **In the campaign’s pool and not ours (8):** `anomaly_5d10a623`, `anomaly_ae98fe13`, `anomaly_e3f06f4a`, `dream_cond_bbedbdd9`, `exp_6a2dbdd3`, `inv_2177d7b0`, `question_f88106c4`, `theory_f88106c4`
-- **In our pool and not the campaign’s (2):** `anomaly_c34c86c1`, `dream_cond_0f32fe15`
+- **In the campaign’s pool and not ours (15):** `anomaly_ae98fe13`, `dream_cond_188d0d36`, `dream_cond_bbedbdd9`, `exp_6a2dbdd3`, `exp_810b7597`, `exp_f52c7b1e`, `hyp_abc3c91a`, `inv_2177d7b0`, `inv_69c5feca`, `inv_a7825392`, `loop_5be3da66`, `question_6eef169e`, `question_f88106c4`, `theory_6eef169e`, `theory_f88106c4`
+- **In our pool and not the campaign’s (12):** `anomaly_02502914`, `anomaly_46973ab1`, `anomaly_fea6cc1b`, `dream_cond_0f32fe15`, `dream_cond_45ba4f3d`, `exp_2e3a7c5f`, `exp_80d6e0b7`, `inv_777a5a3f`, `inv_b85f57f1`, `pred_76eafd70`, `question_477196e4`, `theory_d73713a5`
 
-**Since the previous cycle.** The campaign side gained 48 candidate(s) and lost 48; the current side gained 43 and lost 48.
+**From cycle 11 into cycle 12, the divergence.** The campaign side gained 43 candidate(s) and lost 52; the current side gained 42 and lost 48.
 
-- gained by the campaign side: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_ae98fe13`, `anomaly_c9ea3d58`, `dream_cond_81149fad`, `dream_cond_bbedbdd9`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_6a2dbdd3`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_2177d7b0`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `question_f88106c4`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `theory_f88106c4`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
-- gained by the current side: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_c9ea3d58`, `dream_cond_0f32fe15`, `dream_cond_81149fad`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
-- lost by the campaign side: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_d1f50b4c`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_cond_aeff9bcd`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_695edb13`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_943684a9`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `question_0cc6644f`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
-- lost by the current side: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_e3f06f4a`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_cond_aeff9bcd`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_695edb13`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_943684a9`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `question_0cc6644f`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
-
-| Candidate type | Campaign side | Current side |
-|---|---|---|
-| anomaly | 20 | 18 |
-| dream | 14 | 14 |
-| experiment | 11 | 10 |
-| hypothesis | 40 | 40 |
-| investigation | 11 | 10 |
-| loop_candidate | 35 | 35 |
-| meta_concept | 16 | 16 |
-| phrase_candidate | 6 | 6 |
-| prediction_candidate | 71 | 71 |
-| process_candidate | 17 | 17 |
-| question | 11 | 10 |
-| theory | 11 | 10 |
-| workflow_concept | 17 | 17 |
-
-### T1 / 20261125, cycle 11, arm C
-
-- **In the campaign’s pool and not ours (8):** `anomaly_5d10a623`, `anomaly_ae98fe13`, `anomaly_e3f06f4a`, `dream_cond_bbedbdd9`, `exp_6a2dbdd3`, `inv_2177d7b0`, `question_f88106c4`, `theory_f88106c4`
-- **In our pool and not the campaign’s (3):** `anomaly_c34c86c1`, `dream_cond_0f32fe15`, `question_0cc6644f`
-
-**Since the previous cycle.** The campaign side gained 48 candidate(s) and lost 45; the current side gained 43 and lost 44.
-
-- gained by the campaign side: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_ae98fe13`, `anomaly_c9ea3d58`, `dream_cond_81149fad`, `dream_cond_bbedbdd9`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_6a2dbdd3`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_2177d7b0`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `question_f88106c4`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `theory_f88106c4`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
-- gained by the current side: `anomaly_23b63138`, `anomaly_54edd873`, `anomaly_7291f90a`, `anomaly_c9ea3d58`, `dream_cond_0f32fe15`, `dream_cond_81149fad`, `dream_mut_3f2f69c4`, `dream_mut_eed6dbe9`, `exp_48d69d81`, `exp_51248508`, `exp_773fe6b0`, `hyp_0834bc52`, `hyp_2ff50859`, `hyp_33f01105`, `hyp_5be3da66`, `hyp_8f1c7481`, `hyp_a3c4b048`, `hyp_b3c6c90d`, `hyp_c36bbb91`, `hyp_cecbe745`, `inv_02e7b18b`, `inv_1f070e58`, `inv_af1a9d80`, `loop_0834bc52`, `loop_33f01105`, `loop_69e70153`, `meta_cfd90af8`, `pred_050c5ef4`, `pred_b67853a9`, `process_0834bc52`, `process_33f01105`, `process_45ba4f3d`, `process_5be3da66`, `question_4081f8ec`, `question_5dcbf6cd`, `question_69e70153`, `theory_4081f8ec`, `theory_5dcbf6cd`, `theory_69e70153`, `workflow_0834bc52`, `workflow_33f01105`, `workflow_45ba4f3d`, `workflow_5be3da66`
-- lost by the campaign side: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_d1f50b4c`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `question_0cc6644f`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
-- lost by the current side: `anomaly_27da00e9`, `anomaly_28d771b0`, `anomaly_41f383df`, `anomaly_4a426aff`, `anomaly_54bbc07a`, `anomaly_85adf0bb`, `anomaly_931689a6`, `anomaly_b17cef4a`, `anomaly_b55ed761`, `anomaly_cbe369ec`, `anomaly_e3f06f4a`, `anomaly_e604a0c2`, `anomaly_efd4670a`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_cond_45ba4f3d`, `dream_mut_55337662`, `exp_14f62bf0`, `exp_4963470c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_5711aaab`, `hyp_aa517900`, `hyp_aeff9bcd`, `hyp_b516bed8`, `hyp_c86f2f15`, `inv_6111b8d8`, `inv_7c1ea7a8`, `inv_8b05d0b5`, `inv_b28ec89c`, `process_8e76c158`, `process_c9409791`, `process_e70d60c0`, `theory_17655226`, `theory_27da00e9`, `theory_bef66e35`, `theory_d73713a5`, `theory_f2459dc9`, `workflow_7ff50e2b`, `workflow_c9409791`, `workflow_e70d60c0`
+- gained by the campaign side: `anomaly_65c93280`, `anomaly_715d4088`, `anomaly_7b6cccbe`, `anomaly_ebb4d391`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_cond_188d0d36`, `dream_cond_63603176`, `dream_mut_0d1b208d`, `dream_mut_73a2d262`, `exp_65f48707`, `exp_810b7597`, `exp_c33c72a0`, `exp_f52c7b1e`, `hyp_050c5ef4`, `hyp_0f32fe15`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_81149fad`, `hyp_aeff9bcd`, `hyp_b67853a9`, `inv_57770c98`, `inv_69c5feca`, `inv_90bc3495`, `inv_a7825392`, `loop_5be3da66`, `loop_974c6a02`, `phrase_5be3da66`, `pred_10a9fca1`, `pred_28bc53a8`, `pred_67fd326f`, `pred_c64358ce`, `pred_c696d32c`, `pred_ddb4ec6f`, `pred_df531f25`, `pred_e161befe`, `pred_f26fb19e`, `process_050c5ef4`, `process_81149fad`, `question_62b49344`, `question_6eef169e`, `theory_62b49344`, `theory_6eef169e`
+- gained by the current side: `anomaly_46973ab1`, `anomaly_65c93280`, `anomaly_715d4088`, `anomaly_7b6cccbe`, `anomaly_ebb4d391`, `anomaly_fea6cc1b`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_cond_45ba4f3d`, `dream_cond_63603176`, `dream_mut_0d1b208d`, `dream_mut_73a2d262`, `exp_2e3a7c5f`, `exp_65f48707`, `exp_c33c72a0`, `hyp_050c5ef4`, `hyp_0f32fe15`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_81149fad`, `hyp_aeff9bcd`, `hyp_b67853a9`, `inv_57770c98`, `inv_90bc3495`, `inv_b85f57f1`, `loop_974c6a02`, `phrase_5be3da66`, `pred_10a9fca1`, `pred_28bc53a8`, `pred_67fd326f`, `pred_76eafd70`, `pred_c64358ce`, `pred_c696d32c`, `pred_ddb4ec6f`, `pred_df531f25`, `pred_e161befe`, `pred_f26fb19e`, `process_050c5ef4`, `process_81149fad`, `question_62b49344`, `theory_62b49344`, `theory_d73713a5`
+- lost by the campaign side: `anomaly_02502914`, `anomaly_086ea9a1`, `anomaly_5d10a623`, `anomaly_875176b0`, `anomaly_ade88418`, `anomaly_bef44adf`, `anomaly_d6f7598f`, `anomaly_e3f06f4a`, `anomaly_f0114205`, `anomaly_f09f9863`, `dream_cond_5242671c`, `dream_cond_abc3c91a`, `dream_mut_7f43155c`, `dream_mut_aa7e1065`, `dream_mut_d3bef9c7`, `exp_47c4cb5e`, `exp_6d4ee01d`, `exp_80d6e0b7`, `exp_a7926761`, `exp_ce2d9695`, `hyp_050eeda2`, `hyp_1908f98b`, `hyp_31b9db0e`, `hyp_972d3173`, `hyp_9e19432e`, `hyp_d04fa6f7`, `hyp_e9822ccf`, `inv_055ad1c2`, `inv_425979b7`, `inv_777a5a3f`, `inv_863ba5d4`, `inv_b5abc76a`, `meta_1f543cef`, `process_18e1d6f5`, `process_1908f98b`, `process_23c7c1fa`, `process_31b9db0e`, `process_6eef169e`, `process_abc3c91a`, `question_27da00e9`, `question_477196e4`, `question_5f8f5cae`, `question_9f149b79`, `theory_5f8f5cae`, `theory_73dcc480`, `theory_9f149b79`, `workflow_18e1d6f5`, `workflow_1908f98b`, `workflow_23c7c1fa`, `workflow_31b9db0e`, `workflow_6eef169e`, `workflow_abc3c91a`
+- lost by the current side: `anomaly_086ea9a1`, `anomaly_875176b0`, `anomaly_ade88418`, `anomaly_bef44adf`, `anomaly_c34c86c1`, `anomaly_d6f7598f`, `anomaly_f0114205`, `anomaly_f09f9863`, `dream_cond_5242671c`, `dream_cond_abc3c91a`, `dream_mut_7f43155c`, `dream_mut_aa7e1065`, `dream_mut_d3bef9c7`, `exp_47c4cb5e`, `exp_6d4ee01d`, `exp_a7926761`, `exp_ce2d9695`, `hyp_050eeda2`, `hyp_1908f98b`, `hyp_31b9db0e`, `hyp_972d3173`, `hyp_9e19432e`, `hyp_abc3c91a`, `hyp_d04fa6f7`, `hyp_e9822ccf`, `inv_055ad1c2`, `inv_425979b7`, `inv_863ba5d4`, `inv_b5abc76a`, `meta_1f543cef`, `process_18e1d6f5`, `process_1908f98b`, `process_23c7c1fa`, `process_31b9db0e`, `process_6eef169e`, `process_abc3c91a`, `question_27da00e9`, `question_5f8f5cae`, `question_9f149b79`, `theory_5f8f5cae`, `theory_73dcc480`, `theory_9f149b79`, `workflow_18e1d6f5`, `workflow_1908f98b`, `workflow_23c7c1fa`, `workflow_31b9db0e`, `workflow_6eef169e`, `workflow_abc3c91a`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 20 | 18 |
+| anomaly | 14 | 16 |
 | dream | 15 | 15 |
-| experiment | 12 | 11 |
-| hypothesis | 40 | 40 |
-| investigation | 12 | 11 |
-| loop_candidate | 35 | 35 |
-| meta_concept | 16 | 16 |
-| phrase_candidate | 6 | 6 |
-| prediction_candidate | 48 | 48 |
-| process_candidate | 17 | 17 |
-| question | 11 | 11 |
-| theory | 11 | 10 |
-| workflow_concept | 17 | 17 |
+| experiment | 10 | 9 |
+| hypothesis | 40 | 39 |
+| investigation | 10 | 9 |
+| loop_candidate | 37 | 36 |
+| meta_concept | 15 | 15 |
+| phrase_candidate | 7 | 7 |
+| prediction_candidate | 80 | 81 |
+| process_candidate | 13 | 13 |
+| question | 9 | 8 |
+| theory | 10 | 9 |
+| workflow_concept | 11 | 11 |
 
-### T1 / 20261128, cycle 3, arm B
+### T1 / 20261125, cycle 12 (audit index 11), arm C
 
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (15):** `anomaly_ae98fe13`, `dream_cond_188d0d36`, `dream_cond_bbedbdd9`, `exp_6a2dbdd3`, `exp_810b7597`, `exp_f52c7b1e`, `hyp_abc3c91a`, `inv_2177d7b0`, `inv_69c5feca`, `inv_a7825392`, `loop_5be3da66`, `question_6eef169e`, `question_f88106c4`, `theory_6eef169e`, `theory_f88106c4`
+- **In our pool and not the campaign’s (12):** `anomaly_02502914`, `anomaly_46973ab1`, `anomaly_fea6cc1b`, `dream_cond_0f32fe15`, `dream_cond_45ba4f3d`, `exp_2e3a7c5f`, `exp_80d6e0b7`, `inv_777a5a3f`, `inv_b85f57f1`, `pred_76eafd70`, `question_477196e4`, `theory_d73713a5`
 
-**Since the previous cycle.** The campaign side gained 28 candidate(s) and lost 0; the current side gained 28 and lost 0.
+**From cycle 11 into cycle 12, the divergence.** The campaign side gained 33 candidate(s) and lost 55; the current side gained 32 and lost 52.
 
-- gained by the campaign side: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
-- gained by the current side: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
+- gained by the campaign side: `anomaly_65c93280`, `anomaly_715d4088`, `anomaly_7b6cccbe`, `anomaly_ebb4d391`, `dream_analogy_2d3acaa8`, `dream_cond_188d0d36`, `dream_cond_63603176`, `dream_mut_0ea76f71`, `dream_mut_5dec4e89`, `exp_65f48707`, `exp_810b7597`, `exp_c33c72a0`, `exp_f52c7b1e`, `hyp_050c5ef4`, `hyp_0f32fe15`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_81149fad`, `hyp_aeff9bcd`, `hyp_b67853a9`, `inv_57770c98`, `inv_69c5feca`, `inv_90bc3495`, `inv_a7825392`, `loop_5be3da66`, `loop_974c6a02`, `phrase_5be3da66`, `process_050c5ef4`, `process_81149fad`, `question_62b49344`, `question_6eef169e`, `theory_62b49344`, `theory_6eef169e`
+- gained by the current side: `anomaly_46973ab1`, `anomaly_65c93280`, `anomaly_715d4088`, `anomaly_7b6cccbe`, `anomaly_ebb4d391`, `anomaly_fea6cc1b`, `dream_analogy_2d3acaa8`, `dream_cond_45ba4f3d`, `dream_cond_63603176`, `dream_mut_0ea76f71`, `dream_mut_5dec4e89`, `exp_2e3a7c5f`, `exp_65f48707`, `exp_c33c72a0`, `hyp_050c5ef4`, `hyp_0f32fe15`, `hyp_18e1d6f5`, `hyp_45ba4f3d`, `hyp_81149fad`, `hyp_aeff9bcd`, `hyp_b67853a9`, `inv_57770c98`, `inv_90bc3495`, `inv_b85f57f1`, `loop_974c6a02`, `phrase_5be3da66`, `pred_76eafd70`, `process_050c5ef4`, `process_81149fad`, `question_62b49344`, `theory_62b49344`, `theory_d73713a5`
+- lost by the campaign side: `anomaly_02502914`, `anomaly_086ea9a1`, `anomaly_5d10a623`, `anomaly_875176b0`, `anomaly_ade88418`, `anomaly_bef44adf`, `anomaly_d6f7598f`, `anomaly_e3f06f4a`, `anomaly_f0114205`, `anomaly_f09f9863`, `dream_cond_5242671c`, `dream_cond_abc3c91a`, `dream_cond_aeff9bcd`, `dream_mut_7f43155c`, `dream_mut_aa7e1065`, `dream_mut_d3bef9c7`, `exp_47c4cb5e`, `exp_695edb13`, `exp_6d4ee01d`, `exp_80d6e0b7`, `exp_a7926761`, `exp_ce2d9695`, `hyp_050eeda2`, `hyp_1908f98b`, `hyp_31b9db0e`, `hyp_972d3173`, `hyp_9e19432e`, `hyp_d04fa6f7`, `hyp_e9822ccf`, `inv_055ad1c2`, `inv_425979b7`, `inv_777a5a3f`, `inv_863ba5d4`, `inv_943684a9`, `inv_b5abc76a`, `meta_1f543cef`, `process_18e1d6f5`, `process_1908f98b`, `process_23c7c1fa`, `process_31b9db0e`, `process_6eef169e`, `process_abc3c91a`, `question_27da00e9`, `question_477196e4`, `question_5f8f5cae`, `question_9f149b79`, `theory_5f8f5cae`, `theory_73dcc480`, `theory_9f149b79`, `workflow_18e1d6f5`, `workflow_1908f98b`, `workflow_23c7c1fa`, `workflow_31b9db0e`, `workflow_6eef169e`, `workflow_abc3c91a`
+- lost by the current side: `anomaly_086ea9a1`, `anomaly_875176b0`, `anomaly_ade88418`, `anomaly_bef44adf`, `anomaly_c34c86c1`, `anomaly_d6f7598f`, `anomaly_f0114205`, `anomaly_f09f9863`, `dream_cond_5242671c`, `dream_cond_abc3c91a`, `dream_cond_aeff9bcd`, `dream_mut_7f43155c`, `dream_mut_aa7e1065`, `dream_mut_d3bef9c7`, `exp_47c4cb5e`, `exp_695edb13`, `exp_6d4ee01d`, `exp_a7926761`, `exp_ce2d9695`, `hyp_050eeda2`, `hyp_1908f98b`, `hyp_31b9db0e`, `hyp_972d3173`, `hyp_9e19432e`, `hyp_abc3c91a`, `hyp_d04fa6f7`, `hyp_e9822ccf`, `inv_055ad1c2`, `inv_425979b7`, `inv_863ba5d4`, `inv_943684a9`, `inv_b5abc76a`, `meta_1f543cef`, `process_18e1d6f5`, `process_1908f98b`, `process_23c7c1fa`, `process_31b9db0e`, `process_6eef169e`, `process_abc3c91a`, `question_0cc6644f`, `question_27da00e9`, `question_5f8f5cae`, `question_9f149b79`, `theory_5f8f5cae`, `theory_73dcc480`, `theory_9f149b79`, `workflow_18e1d6f5`, `workflow_1908f98b`, `workflow_23c7c1fa`, `workflow_31b9db0e`, `workflow_6eef169e`, `workflow_abc3c91a`
+
+| Candidate type | Campaign side | Current side |
+|---|---|---|
+| anomaly | 14 | 16 |
+| dream | 14 | 14 |
+| experiment | 10 | 9 |
+| hypothesis | 40 | 39 |
+| investigation | 10 | 9 |
+| loop_candidate | 37 | 36 |
+| meta_concept | 15 | 15 |
+| phrase_candidate | 7 | 7 |
+| prediction_candidate | 48 | 49 |
+| process_candidate | 13 | 13 |
+| question | 9 | 8 |
+| theory | 10 | 9 |
+| workflow_concept | 11 | 11 |
+
+### T1 / 20261128, cycle 4 (audit index 3), arm B
+
+- **In the campaign’s pool and not ours (3):** `exp_69fefc7c`, `inv_1efb3c2a`, `loop_d66d0d78`
+- **In our pool and not the campaign’s (3):** `exp_b342b9ae`, `inv_201b5d69`, `loop_f98b9a8a`
+
+**From cycle 3 into cycle 4, the divergence.** The campaign side gained 47 candidate(s) and lost 0; the current side gained 47 and lost 0.
+
+- gained by the campaign side: `dream_analogy_fabff6cc`, `dream_cond_18e1d6f5`, `dream_cond_313a43d6`, `dream_cond_972d3173`, `dream_mut_760fc7e7`, `dream_mut_e71ad475`, `exp_036d5ff8`, `exp_0b49e797`, `exp_69fefc7c`, `exp_72ed1e29`, `exp_ab789ab9`, `hyp_417da26f`, `hyp_70f7c838`, `hyp_b38b643c`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_fc1dfe44`, `inv_1efb3c2a`, `inv_23f27572`, `inv_4c3f9caf`, `inv_6683982e`, `inv_d358fa26`, `loop_18e1d6f5`, `loop_1908f98b`, `loop_2f69dab0`, `loop_313a43d6`, `loop_d66d0d78`, `loop_e8b925e0`, `meta_b62f3b3b`, `meta_e0592018`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_313a43d6`, `pred_972d3173`, `process_417da26f`, `process_90cf00ae`, `process_fc1dfe44`, `question_1c53486b`, `question_9a93b25b`, `question_d81bba30`, `theory_1c53486b`, `theory_9a93b25b`, `theory_d81bba30`, `workflow_417da26f`, `workflow_9a93b25b`, `workflow_fc1dfe44`
+- gained by the current side: `dream_analogy_fabff6cc`, `dream_cond_18e1d6f5`, `dream_cond_313a43d6`, `dream_cond_972d3173`, `dream_mut_760fc7e7`, `dream_mut_e71ad475`, `exp_036d5ff8`, `exp_0b49e797`, `exp_72ed1e29`, `exp_ab789ab9`, `exp_b342b9ae`, `hyp_417da26f`, `hyp_70f7c838`, `hyp_b38b643c`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_fc1dfe44`, `inv_201b5d69`, `inv_23f27572`, `inv_4c3f9caf`, `inv_6683982e`, `inv_d358fa26`, `loop_18e1d6f5`, `loop_1908f98b`, `loop_2f69dab0`, `loop_313a43d6`, `loop_e8b925e0`, `loop_f98b9a8a`, `meta_b62f3b3b`, `meta_e0592018`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_313a43d6`, `pred_972d3173`, `process_417da26f`, `process_90cf00ae`, `process_fc1dfe44`, `question_1c53486b`, `question_9a93b25b`, `question_d81bba30`, `theory_1c53486b`, `theory_9a93b25b`, `theory_d81bba30`, `workflow_417da26f`, `workflow_9a93b25b`, `workflow_fc1dfe44`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
 | anomaly | 5 | 5 |
-| dream | 3 | 3 |
-| experiment | 3 | 3 |
-| hypothesis | 2 | 2 |
-| investigation | 3 | 3 |
-| loop_candidate | 4 | 4 |
-| meta_concept | 2 | 2 |
+| dream | 9 | 9 |
+| experiment | 8 | 8 |
+| hypothesis | 9 | 9 |
+| investigation | 8 | 8 |
+| loop_candidate | 10 | 10 |
+| meta_concept | 4 | 4 |
 | phrase_candidate | 3 | 3 |
-| prediction_candidate | 10 | 10 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
+| prediction_candidate | 14 | 14 |
+| process_candidate | 4 | 4 |
+| question | 3 | 3 |
+| theory | 3 | 3 |
+| workflow_concept | 4 | 4 |
 
-### T1 / 20261128, cycle 3, arm C
+### T1 / 20261128, cycle 4 (audit index 3), arm C
 
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (3):** `exp_69fefc7c`, `inv_1efb3c2a`, `loop_d66d0d78`
+- **In our pool and not the campaign’s (3):** `exp_b342b9ae`, `inv_201b5d69`, `loop_f98b9a8a`
 
-**Since the previous cycle.** The campaign side gained 28 candidate(s) and lost 0; the current side gained 28 and lost 0.
+**From cycle 3 into cycle 4, the divergence.** The campaign side gained 47 candidate(s) and lost 0; the current side gained 47 and lost 0.
 
-- gained by the campaign side: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
-- gained by the current side: `anomaly_2f69dab0`, `anomaly_d81bba30`, `anomaly_eb5eb07e`, `anomaly_f98b9a8a`, `dream_analogy_2996247c`, `dream_analogy_456a14f9`, `dream_analogy_a9ca2e7b`, `exp_a1917fa9`, `exp_b805662b`, `exp_eb3f20a6`, `hyp_34e4a7fb`, `hyp_5ec1ef7e`, `inv_6cdc4284`, `inv_7bc8a3f5`, `inv_ab46b17a`, `loop_417da26f`, `loop_d81bba30`, `loop_fc1dfe44`, `meta_2655399a`, `meta_fd8ed7f1`, `phrase_e2484dcd`, `pred_1908f98b`, `pred_417da26f`, `pred_5242671c`, `pred_b38b643c`, `pred_fc1dfe44`, `process_34e4a7fb`, `workflow_34e4a7fb`
+- gained by the campaign side: `dream_analogy_fabff6cc`, `dream_cond_18e1d6f5`, `dream_cond_313a43d6`, `dream_cond_972d3173`, `dream_mut_760fc7e7`, `dream_mut_e71ad475`, `exp_036d5ff8`, `exp_0b49e797`, `exp_69fefc7c`, `exp_72ed1e29`, `exp_ab789ab9`, `hyp_417da26f`, `hyp_70f7c838`, `hyp_b38b643c`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_fc1dfe44`, `inv_1efb3c2a`, `inv_23f27572`, `inv_4c3f9caf`, `inv_6683982e`, `inv_d358fa26`, `loop_18e1d6f5`, `loop_1908f98b`, `loop_2f69dab0`, `loop_313a43d6`, `loop_d66d0d78`, `loop_e8b925e0`, `meta_b62f3b3b`, `meta_e0592018`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_313a43d6`, `pred_972d3173`, `process_417da26f`, `process_90cf00ae`, `process_fc1dfe44`, `question_1c53486b`, `question_9a93b25b`, `question_d81bba30`, `theory_1c53486b`, `theory_9a93b25b`, `theory_d81bba30`, `workflow_417da26f`, `workflow_9a93b25b`, `workflow_fc1dfe44`
+- gained by the current side: `dream_analogy_fabff6cc`, `dream_cond_18e1d6f5`, `dream_cond_313a43d6`, `dream_cond_972d3173`, `dream_mut_760fc7e7`, `dream_mut_e71ad475`, `exp_036d5ff8`, `exp_0b49e797`, `exp_72ed1e29`, `exp_ab789ab9`, `exp_b342b9ae`, `hyp_417da26f`, `hyp_70f7c838`, `hyp_b38b643c`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_fc1dfe44`, `inv_201b5d69`, `inv_23f27572`, `inv_4c3f9caf`, `inv_6683982e`, `inv_d358fa26`, `loop_18e1d6f5`, `loop_1908f98b`, `loop_2f69dab0`, `loop_313a43d6`, `loop_e8b925e0`, `loop_f98b9a8a`, `meta_b62f3b3b`, `meta_e0592018`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_313a43d6`, `pred_972d3173`, `process_417da26f`, `process_90cf00ae`, `process_fc1dfe44`, `question_1c53486b`, `question_9a93b25b`, `question_d81bba30`, `theory_1c53486b`, `theory_9a93b25b`, `theory_d81bba30`, `workflow_417da26f`, `workflow_9a93b25b`, `workflow_fc1dfe44`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
 | anomaly | 5 | 5 |
-| dream | 3 | 3 |
-| experiment | 3 | 3 |
-| hypothesis | 2 | 2 |
-| investigation | 3 | 3 |
-| loop_candidate | 4 | 4 |
-| meta_concept | 2 | 2 |
+| dream | 9 | 9 |
+| experiment | 8 | 8 |
+| hypothesis | 9 | 9 |
+| investigation | 8 | 8 |
+| loop_candidate | 10 | 10 |
+| meta_concept | 4 | 4 |
 | phrase_candidate | 3 | 3 |
-| prediction_candidate | 10 | 10 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
+| prediction_candidate | 14 | 14 |
+| process_candidate | 4 | 4 |
+| question | 3 | 3 |
+| theory | 3 | 3 |
+| workflow_concept | 4 | 4 |
 
-### T1 / 20261129, cycle 2, arm B
+### T1 / 20261129, cycle 3 (audit index 2), arm B
 
-- In the campaign’s pool and not ours: **none**.
+- **In the campaign’s pool and not ours (6):** `loop_41f383df`, `loop_abc3c91a`, `loop_b13b5e52`, `loop_dc1ceb15`, `pred_d04fa6f7`, `pred_e9822ccf`
 - In our pool and not the campaign’s: **none**.
 
-**Since the previous cycle.** The campaign side gained 32 candidate(s) and lost 0; the current side gained 32 and lost 0.
+**From cycle 2 into cycle 3, the divergence.** The campaign side gained 62 candidate(s) and lost 0; the current side gained 56 and lost 0.
 
-- gained by the campaign side: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
-- gained by the current side: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
+- gained by the campaign side: `anomaly_aa6b1046`, `anomaly_e5a539be`, `anomaly_fb6ccd1e`, `dream_analogy_2996247c`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `dream_mut_1a1cab04`, `dream_mut_6c81b628`, `exp_08858048`, `exp_481eaeea`, `exp_71deae9f`, `exp_8c58ab2d`, `exp_e241856f`, `hyp_1908f98b`, `hyp_21019ffd`, `hyp_313a43d6`, `hyp_417da26f`, `hyp_5242671c`, `hyp_972d3173`, `hyp_9d441b50`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_ecfe4694`, `inv_0bd24d28`, `inv_56fe9728`, `inv_7c7d3b4d`, `inv_9c9b4b8b`, `inv_e534a813`, `loop_27da00e9`, `loop_31b9db0e`, `loop_41f383df`, `loop_abc3c91a`, `loop_b13b5e52`, `loop_dc1ceb15`, `loop_ed9d7ae1`, `meta_2655399a`, `meta_b62f3b3b`, `meta_e0592018`, `phrase_49ead2b1`, `pred_31b9db0e`, `pred_7498423f`, `pred_a04f50f2`, `pred_abc3c91a`, `pred_cf11d4d4`, `pred_d04fa6f7`, `pred_e9822ccf`, `pred_ed9d7ae1`, `process_1908f98b`, `process_313a43d6`, `process_417da26f`, `process_f0e2067b`, `question_b58e2626`, `question_d0a0293b`, `question_d9230abf`, `theory_b58e2626`, `theory_d0a0293b`, `theory_d9230abf`, `workflow_1908f98b`, `workflow_313a43d6`, `workflow_417da26f`, `workflow_b58e2626`
+- gained by the current side: `anomaly_aa6b1046`, `anomaly_e5a539be`, `anomaly_fb6ccd1e`, `dream_analogy_2996247c`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `dream_mut_1a1cab04`, `dream_mut_6c81b628`, `exp_08858048`, `exp_481eaeea`, `exp_71deae9f`, `exp_8c58ab2d`, `exp_e241856f`, `hyp_1908f98b`, `hyp_21019ffd`, `hyp_313a43d6`, `hyp_417da26f`, `hyp_5242671c`, `hyp_972d3173`, `hyp_9d441b50`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_ecfe4694`, `inv_0bd24d28`, `inv_56fe9728`, `inv_7c7d3b4d`, `inv_9c9b4b8b`, `inv_e534a813`, `loop_27da00e9`, `loop_31b9db0e`, `loop_ed9d7ae1`, `meta_2655399a`, `meta_b62f3b3b`, `meta_e0592018`, `phrase_49ead2b1`, `pred_31b9db0e`, `pred_7498423f`, `pred_a04f50f2`, `pred_abc3c91a`, `pred_cf11d4d4`, `pred_ed9d7ae1`, `process_1908f98b`, `process_313a43d6`, `process_417da26f`, `process_f0e2067b`, `question_b58e2626`, `question_d0a0293b`, `question_d9230abf`, `theory_b58e2626`, `theory_d0a0293b`, `theory_d9230abf`, `workflow_1908f98b`, `workflow_313a43d6`, `workflow_417da26f`, `workflow_b58e2626`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 6 | 6 |
-| dream | 4 | 4 |
-| experiment | 4 | 4 |
-| hypothesis | 2 | 2 |
-| investigation | 4 | 4 |
-| loop_candidate | 5 | 5 |
-| meta_concept | 2 | 2 |
-| phrase_candidate | 1 | 1 |
-| prediction_candidate | 9 | 9 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
+| anomaly | 9 | 9 |
+| dream | 9 | 9 |
+| experiment | 9 | 9 |
+| hypothesis | 13 | 13 |
+| investigation | 9 | 9 |
+| loop_candidate | 12 | 8 |
+| meta_concept | 5 | 5 |
+| phrase_candidate | 2 | 2 |
+| prediction_candidate | 17 | 15 |
+| process_candidate | 5 | 5 |
+| question | 3 | 3 |
+| theory | 3 | 3 |
+| workflow_concept | 5 | 5 |
 
-### T1 / 20261129, cycle 2, arm C
+### T1 / 20261129, cycle 3 (audit index 2), arm C
 
-- In the campaign’s pool and not ours: **none**.
+- **In the campaign’s pool and not ours (6):** `loop_41f383df`, `loop_abc3c91a`, `loop_b13b5e52`, `loop_dc1ceb15`, `pred_d04fa6f7`, `pred_e9822ccf`
 - In our pool and not the campaign’s: **none**.
 
-**Since the previous cycle.** The campaign side gained 32 candidate(s) and lost 0; the current side gained 32 and lost 0.
+**From cycle 2 into cycle 3, the divergence.** The campaign side gained 62 candidate(s) and lost 0; the current side gained 56 and lost 0.
 
-- gained by the campaign side: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
-- gained by the current side: `anomaly_07edbffc`, `anomaly_e5da7fbd`, `dream_analogy_36e8eb9f`, `dream_analogy_8b383d73`, `dream_analogy_a2582513`, `dream_analogy_b0a67091`, `exp_14f62bf0`, `exp_296eb82c`, `exp_4e8f09df`, `exp_ed2c60fa`, `hyp_23c7c1fa`, `hyp_9e19432e`, `inv_2395dfbb`, `inv_6111b8d8`, `inv_8b05d0b5`, `inv_b28ec89c`, `loop_1908f98b`, `loop_313a43d6`, `loop_417da26f`, `loop_b58e2626`, `meta_548a4251`, `meta_b1601f69`, `phrase_b58e2626`, `pred_1908f98b`, `pred_313a43d6`, `pred_417da26f`, `pred_5242671c`, `pred_972d3173`, `pred_d22148a4`, `pred_de4bea22`, `process_23c7c1fa`, `workflow_23c7c1fa`
+- gained by the campaign side: `anomaly_aa6b1046`, `anomaly_e5a539be`, `anomaly_fb6ccd1e`, `dream_analogy_2996247c`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `dream_mut_1a1cab04`, `dream_mut_6c81b628`, `exp_08858048`, `exp_481eaeea`, `exp_71deae9f`, `exp_8c58ab2d`, `exp_e241856f`, `hyp_1908f98b`, `hyp_21019ffd`, `hyp_313a43d6`, `hyp_417da26f`, `hyp_5242671c`, `hyp_972d3173`, `hyp_9d441b50`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_ecfe4694`, `inv_0bd24d28`, `inv_56fe9728`, `inv_7c7d3b4d`, `inv_9c9b4b8b`, `inv_e534a813`, `loop_27da00e9`, `loop_31b9db0e`, `loop_41f383df`, `loop_abc3c91a`, `loop_b13b5e52`, `loop_dc1ceb15`, `loop_ed9d7ae1`, `meta_2655399a`, `meta_b62f3b3b`, `meta_e0592018`, `phrase_49ead2b1`, `pred_31b9db0e`, `pred_7498423f`, `pred_a04f50f2`, `pred_abc3c91a`, `pred_cf11d4d4`, `pred_d04fa6f7`, `pred_e9822ccf`, `pred_ed9d7ae1`, `process_1908f98b`, `process_313a43d6`, `process_417da26f`, `process_f0e2067b`, `question_b58e2626`, `question_d0a0293b`, `question_d9230abf`, `theory_b58e2626`, `theory_d0a0293b`, `theory_d9230abf`, `workflow_1908f98b`, `workflow_313a43d6`, `workflow_417da26f`, `workflow_b58e2626`
+- gained by the current side: `anomaly_aa6b1046`, `anomaly_e5a539be`, `anomaly_fb6ccd1e`, `dream_analogy_2996247c`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `dream_mut_1a1cab04`, `dream_mut_6c81b628`, `exp_08858048`, `exp_481eaeea`, `exp_71deae9f`, `exp_8c58ab2d`, `exp_e241856f`, `hyp_1908f98b`, `hyp_21019ffd`, `hyp_313a43d6`, `hyp_417da26f`, `hyp_5242671c`, `hyp_972d3173`, `hyp_9d441b50`, `hyp_c1ff7ade`, `hyp_c8225c8d`, `hyp_d22148a4`, `hyp_ecfe4694`, `inv_0bd24d28`, `inv_56fe9728`, `inv_7c7d3b4d`, `inv_9c9b4b8b`, `inv_e534a813`, `loop_27da00e9`, `loop_31b9db0e`, `loop_ed9d7ae1`, `meta_2655399a`, `meta_b62f3b3b`, `meta_e0592018`, `phrase_49ead2b1`, `pred_31b9db0e`, `pred_7498423f`, `pred_a04f50f2`, `pred_abc3c91a`, `pred_cf11d4d4`, `pred_ed9d7ae1`, `process_1908f98b`, `process_313a43d6`, `process_417da26f`, `process_f0e2067b`, `question_b58e2626`, `question_d0a0293b`, `question_d9230abf`, `theory_b58e2626`, `theory_d0a0293b`, `theory_d9230abf`, `workflow_1908f98b`, `workflow_313a43d6`, `workflow_417da26f`, `workflow_b58e2626`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 6 | 6 |
-| dream | 4 | 4 |
-| experiment | 4 | 4 |
-| hypothesis | 2 | 2 |
-| investigation | 4 | 4 |
-| loop_candidate | 5 | 5 |
-| meta_concept | 2 | 2 |
-| phrase_candidate | 1 | 1 |
-| prediction_candidate | 9 | 9 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
+| anomaly | 9 | 9 |
+| dream | 9 | 9 |
+| experiment | 9 | 9 |
+| hypothesis | 13 | 13 |
+| investigation | 9 | 9 |
+| loop_candidate | 12 | 8 |
+| meta_concept | 5 | 5 |
+| phrase_candidate | 2 | 2 |
+| prediction_candidate | 17 | 15 |
+| process_candidate | 5 | 5 |
+| question | 3 | 3 |
+| theory | 3 | 3 |
+| workflow_concept | 5 | 5 |
 
-### T2 / 20261118, cycle 5, arm B
+### T2 / 20261118, cycle 6 (audit index 5), arm B
 
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (2):** `anomaly_29b7be02`, `anomaly_842c5bcc`
+- **In our pool and not the campaign’s (3):** `anomaly_1d754f3e`, `anomaly_2267c895`, `anomaly_f561a8e9`
 
-**Since the previous cycle.** The campaign side gained 25 candidate(s) and lost 0; the current side gained 25 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 20 candidate(s) and lost 0; the current side gained 21 and lost 0.
 
-- gained by the campaign side: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `dream_analogy_456a14f9`, `dream_analogy_68b6162d`, `dream_analogy_85c565a9`, `exp_29143192`, `exp_2c10c6c8`, `exp_b805662b`, `hyp_48d0e5fd`, `hyp_8c033fb0`, `inv_6cdc4284`, `inv_92a76c4d`, `inv_c2cd4e42`, `loop_e6f8a3e6`, `meta_fa659831`, `meta_fd8ed7f1`, `pred_120eb70a`, `pred_53a54188`, `pred_a2efceaf`, `pred_a908d7e0`, `pred_e6f8a3e6`, `process_8c033fb0`, `workflow_8c033fb0`
-- gained by the current side: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `dream_analogy_456a14f9`, `dream_analogy_68b6162d`, `dream_analogy_85c565a9`, `exp_29143192`, `exp_2c10c6c8`, `exp_b805662b`, `hyp_48d0e5fd`, `hyp_8c033fb0`, `inv_6cdc4284`, `inv_92a76c4d`, `inv_c2cd4e42`, `loop_e6f8a3e6`, `meta_fa659831`, `meta_fd8ed7f1`, `pred_120eb70a`, `pred_53a54188`, `pred_a2efceaf`, `pred_a908d7e0`, `pred_e6f8a3e6`, `process_8c033fb0`, `workflow_8c033fb0`
+- gained by the campaign side: `anomaly_29b7be02`, `anomaly_842c5bcc`, `dream_mut_70e14748`, `dream_mut_f06ec067`, `exp_107d054c`, `exp_e128d375`, `hyp_120eb70a`, `hyp_2ff50859`, `hyp_70f7c838`, `hyp_e6f8a3e6`, `inv_c53ffe1f`, `inv_e2d7bf47`, `meta_1f543cef`, `meta_efd764d8`, `pred_1908f98b`, `pred_331be2d4`, `pred_d22148a4`, `pred_dc361b05`, `process_e6f8a3e6`, `workflow_e6f8a3e6`
+- gained by the current side: `anomaly_1d754f3e`, `anomaly_2267c895`, `anomaly_f561a8e9`, `dream_mut_70e14748`, `dream_mut_f06ec067`, `exp_107d054c`, `exp_e128d375`, `hyp_120eb70a`, `hyp_2ff50859`, `hyp_70f7c838`, `hyp_e6f8a3e6`, `inv_c53ffe1f`, `inv_e2d7bf47`, `meta_1f543cef`, `meta_efd764d8`, `pred_1908f98b`, `pred_331be2d4`, `pred_d22148a4`, `pred_dc361b05`, `process_e6f8a3e6`, `workflow_e6f8a3e6`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 4 | 4 |
-| dream | 3 | 3 |
-| experiment | 3 | 3 |
-| hypothesis | 2 | 2 |
-| investigation | 3 | 3 |
+| anomaly | 6 | 7 |
+| dream | 5 | 5 |
+| experiment | 5 | 5 |
+| hypothesis | 6 | 6 |
+| investigation | 5 | 5 |
 | loop_candidate | 2 | 2 |
-| meta_concept | 2 | 2 |
-| prediction_candidate | 7 | 7 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
+| meta_concept | 4 | 4 |
+| prediction_candidate | 11 | 11 |
+| process_candidate | 2 | 2 |
+| workflow_concept | 2 | 2 |
 
-### T2 / 20261118, cycle 5, arm C
+### T2 / 20261118, cycle 6 (audit index 5), arm C
 
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (2):** `anomaly_29b7be02`, `anomaly_842c5bcc`
+- **In our pool and not the campaign’s (3):** `anomaly_1d754f3e`, `anomaly_2267c895`, `anomaly_f561a8e9`
 
-**Since the previous cycle.** The campaign side gained 7 candidate(s) and lost 0; the current side gained 7 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 2 candidate(s) and lost 0; the current side gained 3 and lost 0.
 
-- gained by the campaign side: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `loop_e6f8a3e6`, `pred_53a54188`, `pred_a908d7e0`
-- gained by the current side: `anomaly_7a9d11ec`, `anomaly_9218f450`, `anomaly_f55ba952`, `anomaly_fe1fa533`, `loop_e6f8a3e6`, `pred_53a54188`, `pred_a908d7e0`
+- gained by the campaign side: `anomaly_29b7be02`, `anomaly_842c5bcc`
+- gained by the current side: `anomaly_1d754f3e`, `anomaly_2267c895`, `anomaly_f561a8e9`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 4 | 4 |
+| anomaly | 6 | 7 |
 | loop_candidate | 2 | 2 |
 | prediction_candidate | 2 | 2 |
 
-### T2 / 20261120, cycle 5, arm B
+### T2 / 20261120, cycle 6 (audit index 5), arm B
 
-- **In the campaign’s pool and not ours (4):** `anomaly_9ac06e8c`, `exp_1b0b3869`, `inv_81f1ef91`, `pred_4dc93d10`
-- **In our pool and not the campaign’s (6):** `dream_analogy_7fd9b8ba`, `dream_analogy_ae902b2a`, `exp_4b8bb67f`, `exp_d7c5ea03`, `inv_494e629a`, `inv_85f71f22`
+- **In the campaign’s pool and not ours (7):** `anomaly_92221878`, `anomaly_9ac06e8c`, `exp_1b0b3869`, `inv_81f1ef91`, `loop_a816b62b`, `pred_4dc93d10`, `pred_f419a820`
+- **In our pool and not the campaign’s (7):** `dream_analogy_7fd9b8ba`, `dream_analogy_ae902b2a`, `exp_4b8bb67f`, `exp_d7c5ea03`, `inv_494e629a`, `inv_85f71f22`, `pred_0f32fe15`
 
-**Since the previous cycle.** The campaign side gained 13 candidate(s) and lost 0; the current side gained 13 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 39 candidate(s) and lost 0; the current side gained 37 and lost 0.
 
-- gained by the campaign side: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `dream_analogy_fabff6cc`, `exp_c9ab6eb3`, `inv_1320ba16`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_4dc93d10`, `pred_76555b97`, `pred_fc1dfe44`
-- gained by the current side: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `dream_analogy_fabff6cc`, `exp_c9ab6eb3`, `inv_1320ba16`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_050eeda2`, `pred_18e1d6f5`, `pred_57b28f60`, `pred_76555b97`, `pred_fc1dfe44`
+- gained by the campaign side: `anomaly_92221878`, `dream_analogy_e826e850`, `dream_mut_764cfdcd`, `dream_mut_f7c795e6`, `exp_a4b1ea14`, `exp_d2533d09`, `exp_dfd71827`, `hyp_18e1d6f5`, `hyp_57b28f60`, `hyp_70f7c838`, `inv_1d3f8bfa`, `inv_33e9ad17`, `inv_68605975`, `loop_25ccf231`, `loop_2968df09`, `loop_a816b62b`, `meta_b62f3b3b`, `meta_fd8ed7f1`, `pred_11ef7647`, `pred_1acba7c9`, `pred_230ab6eb`, `pred_2968df09`, `pred_5242671c`, `pred_7bc3a33b`, `pred_7bded4f6`, `pred_ab29f7d1`, `pred_ae531a4c`, `pred_bbedbdd9`, `pred_c27a66c7`, `pred_d7623706`, `pred_e36e8e35`, `pred_e40bdd72`, `pred_f419a820`, `process_18e1d6f5`, `process_57b28f60`, `question_8a744ff6`, `theory_8a744ff6`, `workflow_18e1d6f5`, `workflow_57b28f60`
+- gained by the current side: `dream_analogy_e826e850`, `dream_mut_764cfdcd`, `dream_mut_f7c795e6`, `exp_a4b1ea14`, `exp_d2533d09`, `exp_dfd71827`, `hyp_18e1d6f5`, `hyp_57b28f60`, `hyp_70f7c838`, `inv_1d3f8bfa`, `inv_33e9ad17`, `inv_68605975`, `loop_25ccf231`, `loop_2968df09`, `meta_b62f3b3b`, `meta_fd8ed7f1`, `pred_0f32fe15`, `pred_11ef7647`, `pred_1acba7c9`, `pred_230ab6eb`, `pred_2968df09`, `pred_5242671c`, `pred_7bc3a33b`, `pred_7bded4f6`, `pred_ab29f7d1`, `pred_ae531a4c`, `pred_bbedbdd9`, `pred_c27a66c7`, `pred_d7623706`, `pred_e36e8e35`, `pred_e40bdd72`, `process_18e1d6f5`, `process_57b28f60`, `question_8a744ff6`, `theory_8a744ff6`, `workflow_18e1d6f5`, `workflow_57b28f60`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 18 | 17 |
-| dream | 7 | 9 |
-| experiment | 7 | 8 |
-| hypothesis | 4 | 4 |
-| investigation | 7 | 8 |
+| anomaly | 19 | 17 |
+| dream | 10 | 12 |
+| experiment | 10 | 11 |
+| hypothesis | 7 | 7 |
+| investigation | 10 | 11 |
+| loop_candidate | 6 | 5 |
+| meta_concept | 4 | 4 |
+| phrase_candidate | 1 | 1 |
+| prediction_candidate | 23 | 22 |
+| process_candidate | 3 | 3 |
+| question | 1 | 1 |
+| theory | 1 | 1 |
+| workflow_concept | 3 | 3 |
+
+### T2 / 20261120, cycle 6 (audit index 5), arm C
+
+- **In the campaign’s pool and not ours (3):** `anomaly_92221878`, `anomaly_9ac06e8c`, `loop_a816b62b`
+- **In our pool and not the campaign’s (1):** `pred_0f32fe15`
+
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 13 candidate(s) and lost 0; the current side gained 12 and lost 0.
+
+- gained by the campaign side: `anomaly_92221878`, `dream_analogy_dd9f100a`, `dream_analogy_fabff6cc`, `exp_c9ab6eb3`, `exp_fa481f50`, `inv_1320ba16`, `inv_65fa330c`, `loop_25ccf231`, `loop_2968df09`, `loop_a816b62b`, `meta_fd8ed7f1`, `pred_5242671c`, `pred_ab29f7d1`
+- gained by the current side: `dream_analogy_dd9f100a`, `dream_analogy_fabff6cc`, `exp_c9ab6eb3`, `exp_fa481f50`, `inv_1320ba16`, `inv_65fa330c`, `loop_25ccf231`, `loop_2968df09`, `meta_fd8ed7f1`, `pred_0f32fe15`, `pred_5242671c`, `pred_ab29f7d1`
+
+| Candidate type | Campaign side | Current side |
+|---|---|---|
+| anomaly | 19 | 17 |
+| dream | 2 | 2 |
+| experiment | 2 | 2 |
+| investigation | 2 | 2 |
+| loop_candidate | 6 | 5 |
+| meta_concept | 1 | 1 |
+| phrase_candidate | 1 | 1 |
+| prediction_candidate | 3 | 4 |
+
+### T2 / 20261121, cycle 6 (audit index 5), arm B
+
+- **In the campaign’s pool and not ours (3):** `anomaly_a0072b14`, `dream_analogy_a6f80540`, `dream_analogy_b8830751`
+- **In our pool and not the campaign’s (3):** `anomaly_c8edf4ca`, `dream_analogy_b38b643c`, `pred_3c1f4563`
+
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 20 candidate(s) and lost 0; the current side gained 21 and lost 0.
+
+- gained by the campaign side: `anomaly_1a1b1338`, `anomaly_8352ad0d`, `anomaly_8c8e09e6`, `anomaly_9db5184e`, `anomaly_a0072b14`, `dream_analogy_a6f80540`, `dream_mut_8f35869e`, `exp_2fb697de`, `hyp_642bc75f`, `hyp_70575cbc`, `hyp_a5f498cc`, `inv_df5c59a8`, `loop_dc361b05`, `meta_b1601f69`, `meta_fa659831`, `pred_4d9c1cf6`, `pred_c7d16b2f`, `pred_dc361b05`, `process_a5f498cc`, `workflow_a5f498cc`
+- gained by the current side: `anomaly_1a1b1338`, `anomaly_8352ad0d`, `anomaly_8c8e09e6`, `anomaly_9db5184e`, `anomaly_c8edf4ca`, `dream_analogy_b38b643c`, `dream_mut_8f35869e`, `exp_2fb697de`, `hyp_642bc75f`, `hyp_70575cbc`, `hyp_a5f498cc`, `inv_df5c59a8`, `loop_dc361b05`, `meta_b1601f69`, `meta_fa659831`, `pred_3c1f4563`, `pred_4d9c1cf6`, `pred_c7d16b2f`, `pred_dc361b05`, `process_a5f498cc`, `workflow_a5f498cc`
+
+| Candidate type | Campaign side | Current side |
+|---|---|---|
+| anomaly | 19 | 19 |
+| dream | 9 | 8 |
+| experiment | 8 | 8 |
+| hypothesis | 9 | 9 |
+| investigation | 8 | 8 |
+| loop_candidate | 4 | 4 |
+| meta_concept | 5 | 5 |
+| prediction_candidate | 12 | 13 |
+| process_candidate | 3 | 3 |
+| question | 1 | 1 |
+| theory | 1 | 1 |
+| workflow_concept | 3 | 3 |
+
+### T2 / 20261121, cycle 6 (audit index 5), arm C
+
+- **In the campaign’s pool and not ours (1):** `anomaly_a0072b14`
+- **In our pool and not the campaign’s (2):** `anomaly_c8edf4ca`, `pred_3c1f4563`
+
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 6 candidate(s) and lost 0; the current side gained 7 and lost 0.
+
+- gained by the campaign side: `anomaly_1a1b1338`, `anomaly_8352ad0d`, `anomaly_8c8e09e6`, `anomaly_9db5184e`, `anomaly_a0072b14`, `loop_dc361b05`
+- gained by the current side: `anomaly_1a1b1338`, `anomaly_8352ad0d`, `anomaly_8c8e09e6`, `anomaly_9db5184e`, `anomaly_c8edf4ca`, `loop_dc361b05`, `pred_3c1f4563`
+
+| Candidate type | Campaign side | Current side |
+|---|---|---|
+| anomaly | 19 | 19 |
+| loop_candidate | 4 | 4 |
+| prediction_candidate | 1 | 2 |
+
+### T2 / 20261123, cycle 6 (audit index 5), arm B
+
+- **In the campaign’s pool and not ours (1):** `pred_bc95dc38`
+- In our pool and not the campaign’s: **none**.
+
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 19 candidate(s) and lost 0; the current side gained 18 and lost 0.
+
+- gained by the campaign side: `anomaly_21df6694`, `anomaly_3b1e873d`, `anomaly_41012317`, `anomaly_677c03f0`, `anomaly_7ad942e0`, `anomaly_9719b7a0`, `anomaly_9acd947b`, `anomaly_e6dced8c`, `anomaly_f5244467`, `anomaly_fe1ef7a5`, `hyp_2ff50859`, `hyp_c1ff7ade`, `loop_40d1fa1e`, `loop_5e4af209`, `pred_40d1fa1e`, `pred_5e4af209`, `pred_974c6a02`, `pred_bc95dc38`, `pred_d98266c8`
+- gained by the current side: `anomaly_21df6694`, `anomaly_3b1e873d`, `anomaly_41012317`, `anomaly_677c03f0`, `anomaly_7ad942e0`, `anomaly_9719b7a0`, `anomaly_9acd947b`, `anomaly_e6dced8c`, `anomaly_f5244467`, `anomaly_fe1ef7a5`, `hyp_2ff50859`, `hyp_c1ff7ade`, `loop_40d1fa1e`, `loop_5e4af209`, `pred_40d1fa1e`, `pred_5e4af209`, `pred_974c6a02`, `pred_d98266c8`
+
+| Candidate type | Campaign side | Current side |
+|---|---|---|
+| anomaly | 13 | 13 |
+| dream | 3 | 3 |
+| experiment | 3 | 3 |
+| hypothesis | 3 | 3 |
+| investigation | 3 | 3 |
 | loop_candidate | 3 | 3 |
 | meta_concept | 2 | 2 |
-| phrase_candidate | 1 | 1 |
-| prediction_candidate | 8 | 7 |
+| prediction_candidate | 10 | 9 |
 | process_candidate | 1 | 1 |
 | workflow_concept | 1 | 1 |
 
-### T2 / 20261120, cycle 5, arm C
+### T2 / 20261123, cycle 6 (audit index 5), arm C
 
-- **In the campaign’s pool and not ours (1):** `anomaly_9ac06e8c`
+- **In the campaign’s pool and not ours (1):** `pred_bc95dc38`
 - In our pool and not the campaign’s: **none**.
 
-**Since the previous cycle.** The campaign side gained 6 candidate(s) and lost 0; the current side gained 6 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 14 candidate(s) and lost 0; the current side gained 13 and lost 0.
 
-- gained by the campaign side: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_fc1dfe44`
-- gained by the current side: `anomaly_0f9a2c29`, `anomaly_29e93ad4`, `anomaly_3329a612`, `loop_18e1d6f5`, `loop_57b28f60`, `pred_fc1dfe44`
+- gained by the campaign side: `anomaly_21df6694`, `anomaly_3b1e873d`, `anomaly_41012317`, `anomaly_677c03f0`, `anomaly_7ad942e0`, `anomaly_9719b7a0`, `anomaly_9acd947b`, `anomaly_e6dced8c`, `anomaly_f5244467`, `anomaly_fe1ef7a5`, `loop_40d1fa1e`, `loop_5e4af209`, `pred_974c6a02`, `pred_bc95dc38`
+- gained by the current side: `anomaly_21df6694`, `anomaly_3b1e873d`, `anomaly_41012317`, `anomaly_677c03f0`, `anomaly_7ad942e0`, `anomaly_9719b7a0`, `anomaly_9acd947b`, `anomaly_e6dced8c`, `anomaly_f5244467`, `anomaly_fe1ef7a5`, `loop_40d1fa1e`, `loop_5e4af209`, `pred_974c6a02`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 18 | 17 |
+| anomaly | 13 | 13 |
 | loop_candidate | 3 | 3 |
-| phrase_candidate | 1 | 1 |
-| prediction_candidate | 1 | 1 |
+| prediction_candidate | 2 | 1 |
 
-### T2 / 20261121, cycle 5, arm B
+### T2 / 20261130, cycle 6 (audit index 5), arm B
 
-- **In the campaign’s pool and not ours (1):** `dream_analogy_b8830751`
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (5):** `dream_mut_64b4d86f`, `exp_85461809`, `inv_f01a0351`, `loop_a72ccfd6`, `pred_c7846f44`
+- **In our pool and not the campaign’s (5):** `anomaly_bd4667f1`, `dream_analogy_1082cbdc`, `dream_mut_36a0c98a`, `exp_f47b21f5`, `inv_beeae18e`
 
-**Since the previous cycle.** The campaign side gained 23 candidate(s) and lost 0; the current side gained 22 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 32 candidate(s) and lost 0; the current side gained 32 and lost 0.
 
-- gained by the campaign side: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `dream_analogy_b8830751`, `dream_mut_9edcf1b0`, `dream_mut_e8ebfc53`, `exp_2f41537f`, `exp_da612387`, `exp_deaf7644`, `hyp_7fa4e5dd`, `hyp_b1b5b638`, `hyp_c86f2f15`, `hyp_ecfe4694`, `inv_578ae685`, `inv_a9c92401`, `inv_f2956ebf`, `loop_a5f498cc`, `meta_f0a5da17`, `pred_70575cbc`, `process_b1b5b638`, `question_49e76748`, `theory_49e76748`, `workflow_b1b5b638`
-- gained by the current side: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `dream_mut_9edcf1b0`, `dream_mut_e8ebfc53`, `exp_2f41537f`, `exp_da612387`, `exp_deaf7644`, `hyp_7fa4e5dd`, `hyp_b1b5b638`, `hyp_c86f2f15`, `hyp_ecfe4694`, `inv_578ae685`, `inv_a9c92401`, `inv_f2956ebf`, `loop_a5f498cc`, `meta_f0a5da17`, `pred_70575cbc`, `process_b1b5b638`, `question_49e76748`, `theory_49e76748`, `workflow_b1b5b638`
+- gained by the campaign side: `anomaly_98de25a9`, `anomaly_9d31c463`, `anomaly_a8af7322`, `anomaly_beb97bfb`, `anomaly_cf7c2929`, `dream_analogy_68b6162d`, `dream_mut_64b4d86f`, `dream_mut_859d957b`, `exp_85461809`, `exp_9cdfc6aa`, `hyp_21019ffd`, `hyp_5fa8f2d2`, `hyp_c8225c8d`, `hyp_dc7da818`, `inv_7f10e8f8`, `inv_f01a0351`, `loop_78029800`, `loop_93632860`, `loop_a72ccfd6`, `loop_d3d58048`, `meta_49ead2b1`, `meta_da454b02`, `meta_efd764d8`, `pred_2dcbe185`, `pred_a240a7be`, `pred_a32a9909`, `pred_a72ccfd6`, `pred_c7846f44`, `pred_d3d58048`, `pred_e5c75b28`, `process_63ac32e2`, `workflow_63ac32e2`
+- gained by the current side: `anomaly_98de25a9`, `anomaly_9d31c463`, `anomaly_a8af7322`, `anomaly_bd4667f1`, `anomaly_beb97bfb`, `anomaly_cf7c2929`, `dream_analogy_1082cbdc`, `dream_analogy_68b6162d`, `dream_mut_36a0c98a`, `dream_mut_859d957b`, `exp_9cdfc6aa`, `exp_f47b21f5`, `hyp_21019ffd`, `hyp_5fa8f2d2`, `hyp_c8225c8d`, `hyp_dc7da818`, `inv_7f10e8f8`, `inv_beeae18e`, `loop_78029800`, `loop_93632860`, `loop_d3d58048`, `meta_49ead2b1`, `meta_da454b02`, `meta_efd764d8`, `pred_2dcbe185`, `pred_a240a7be`, `pred_a32a9909`, `pred_a72ccfd6`, `pred_d3d58048`, `pred_e5c75b28`, `process_63ac32e2`, `workflow_63ac32e2`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 14 | 14 |
-| dream | 7 | 6 |
+| anomaly | 9 | 10 |
+| dream | 8 | 9 |
 | experiment | 7 | 7 |
 | hypothesis | 6 | 6 |
 | investigation | 7 | 7 |
-| loop_candidate | 3 | 3 |
-| meta_concept | 3 | 3 |
-| prediction_candidate | 9 | 9 |
+| loop_candidate | 6 | 5 |
+| meta_concept | 5 | 5 |
+| phrase_candidate | 1 | 1 |
+| prediction_candidate | 16 | 15 |
 | process_candidate | 2 | 2 |
-| question | 1 | 1 |
-| theory | 1 | 1 |
 | workflow_concept | 2 | 2 |
 
-### T2 / 20261121, cycle 5, arm C
+### T2 / 20261130, cycle 6 (audit index 5), arm C
 
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
+- **In the campaign’s pool and not ours (5):** `dream_analogy_6399c069`, `exp_d31ecf56`, `inv_0a1a36b6`, `loop_a72ccfd6`, `pred_c7846f44`
+- **In our pool and not the campaign’s (1):** `anomaly_bd4667f1`
 
-**Since the previous cycle.** The campaign side gained 4 candidate(s) and lost 0; the current side gained 4 and lost 0.
+**From cycle 5 into cycle 6, the divergence.** The campaign side gained 28 candidate(s) and lost 0; the current side gained 24 and lost 0.
 
-- gained by the campaign side: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `loop_a5f498cc`
-- gained by the current side: `anomaly_2cb3d759`, `anomaly_3b873ad2`, `anomaly_a382afab`, `loop_a5f498cc`
-
-| Candidate type | Campaign side | Current side |
-|---|---|---|
-| anomaly | 14 | 14 |
-| loop_candidate | 3 | 3 |
-| prediction_candidate | 1 | 1 |
-
-### T2 / 20261123, cycle 5, arm B
-
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
-
-**Since the previous cycle.** The campaign side gained 18 candidate(s) and lost 0; the current side gained 18 and lost 0.
-
-- gained by the campaign side: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`, `dream_analogy_2996247c`, `dream_analogy_85c565a9`, `dream_analogy_fabff6cc`, `exp_29143192`, `exp_a1917fa9`, `exp_c9ab6eb3`, `hyp_2350911c`, `inv_1320ba16`, `inv_92a76c4d`, `inv_ab46b17a`, `meta_2655399a`, `meta_fa659831`, `pred_03b0ce09`, `process_103be77b`, `workflow_103be77b`
-- gained by the current side: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`, `dream_analogy_2996247c`, `dream_analogy_85c565a9`, `dream_analogy_fabff6cc`, `exp_29143192`, `exp_a1917fa9`, `exp_c9ab6eb3`, `hyp_2350911c`, `inv_1320ba16`, `inv_92a76c4d`, `inv_ab46b17a`, `meta_2655399a`, `meta_fa659831`, `pred_03b0ce09`, `process_103be77b`, `workflow_103be77b`
+- gained by the campaign side: `anomaly_98de25a9`, `anomaly_9d31c463`, `anomaly_a8af7322`, `anomaly_beb97bfb`, `anomaly_cf7c2929`, `dream_analogy_1082cbdc`, `dream_analogy_36e8eb9f`, `dream_analogy_6399c069`, `dream_analogy_68b6162d`, `dream_analogy_8b383d73`, `exp_14f62bf0`, `exp_2c10c6c8`, `exp_2ebafecf`, `exp_d31ecf56`, `exp_ed2c60fa`, `inv_0a1a36b6`, `inv_6111b8d8`, `inv_93a919ca`, `inv_b28ec89c`, `inv_c2cd4e42`, `loop_78029800`, `loop_93632860`, `loop_a72ccfd6`, `loop_d3d58048`, `meta_49ead2b1`, `meta_e0592018`, `pred_a72ccfd6`, `pred_c7846f44`
+- gained by the current side: `anomaly_98de25a9`, `anomaly_9d31c463`, `anomaly_a8af7322`, `anomaly_bd4667f1`, `anomaly_beb97bfb`, `anomaly_cf7c2929`, `dream_analogy_1082cbdc`, `dream_analogy_36e8eb9f`, `dream_analogy_68b6162d`, `dream_analogy_8b383d73`, `exp_14f62bf0`, `exp_2c10c6c8`, `exp_2ebafecf`, `exp_ed2c60fa`, `inv_6111b8d8`, `inv_93a919ca`, `inv_b28ec89c`, `inv_c2cd4e42`, `loop_78029800`, `loop_93632860`, `loop_d3d58048`, `meta_49ead2b1`, `meta_e0592018`, `pred_a72ccfd6`
 
 | Candidate type | Campaign side | Current side |
 |---|---|---|
-| anomaly | 3 | 3 |
-| dream | 3 | 3 |
-| experiment | 3 | 3 |
-| hypothesis | 1 | 1 |
-| investigation | 3 | 3 |
-| loop_candidate | 1 | 1 |
-| meta_concept | 2 | 2 |
-| prediction_candidate | 5 | 5 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
-
-### T2 / 20261123, cycle 5, arm C
-
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
-
-**Since the previous cycle.** The campaign side gained 3 candidate(s) and lost 0; the current side gained 3 and lost 0.
-
-- gained by the campaign side: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`
-- gained by the current side: `anomaly_156c72ae`, `anomaly_54d9f6f7`, `anomaly_ba445078`
-
-| Candidate type | Campaign side | Current side |
-|---|---|---|
-| anomaly | 3 | 3 |
-| loop_candidate | 1 | 1 |
-
-### T2 / 20261130, cycle 5, arm B
-
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
-
-**Since the previous cycle.** The campaign side gained 33 candidate(s) and lost 0; the current side gained 33 and lost 0.
-
-- gained by the campaign side: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `dream_analogy_36e8eb9f`, `dream_analogy_6399c069`, `dream_analogy_8b383d73`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `exp_14f62bf0`, `exp_c9ab6eb3`, `exp_d31ecf56`, `exp_eb3f20a6`, `exp_ed2c60fa`, `hyp_03ca6880`, `hyp_c81c8901`, `inv_0a1a36b6`, `inv_1320ba16`, `inv_6111b8d8`, `inv_7bc8a3f5`, `inv_b28ec89c`, `loop_63ac32e2`, `meta_548a4251`, `meta_e0592018`, `pred_44c9dff5`, `pred_63ac32e2`, `pred_7498423f`, `pred_78029800`, `pred_a6f80540`, `pred_c39ad859`, `pred_dc7da818`, `process_c81c8901`, `workflow_c81c8901`
-- gained by the current side: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `dream_analogy_36e8eb9f`, `dream_analogy_6399c069`, `dream_analogy_8b383d73`, `dream_analogy_a9ca2e7b`, `dream_analogy_fabff6cc`, `exp_14f62bf0`, `exp_c9ab6eb3`, `exp_d31ecf56`, `exp_eb3f20a6`, `exp_ed2c60fa`, `hyp_03ca6880`, `hyp_c81c8901`, `inv_0a1a36b6`, `inv_1320ba16`, `inv_6111b8d8`, `inv_7bc8a3f5`, `inv_b28ec89c`, `loop_63ac32e2`, `meta_548a4251`, `meta_e0592018`, `pred_44c9dff5`, `pred_63ac32e2`, `pred_7498423f`, `pred_78029800`, `pred_a6f80540`, `pred_c39ad859`, `pred_dc7da818`, `process_c81c8901`, `workflow_c81c8901`
-
-| Candidate type | Campaign side | Current side |
-|---|---|---|
-| anomaly | 4 | 4 |
-| dream | 5 | 5 |
-| experiment | 5 | 5 |
-| hypothesis | 2 | 2 |
-| investigation | 5 | 5 |
-| loop_candidate | 2 | 2 |
+| anomaly | 9 | 10 |
+| dream | 5 | 4 |
+| experiment | 5 | 4 |
+| investigation | 5 | 4 |
+| loop_candidate | 6 | 5 |
 | meta_concept | 2 | 2 |
 | phrase_candidate | 1 | 1 |
-| prediction_candidate | 9 | 9 |
-| process_candidate | 1 | 1 |
-| workflow_concept | 1 | 1 |
-
-### T2 / 20261130, cycle 5, arm C
-
-- In the campaign’s pool and not ours: **none**.
-- In our pool and not the campaign’s: **none**.
-
-**Since the previous cycle.** The campaign side gained 8 candidate(s) and lost 0; the current side gained 8 and lost 0.
-
-- gained by the campaign side: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `loop_63ac32e2`, `pred_7498423f`, `pred_a6f80540`, `pred_c39ad859`
-- gained by the current side: `anomaly_2020d089`, `anomaly_30647f48`, `anomaly_41a060d2`, `anomaly_f2052a36`, `loop_63ac32e2`, `pred_7498423f`, `pred_a6f80540`, `pred_c39ad859`
-
-| Candidate type | Campaign side | Current side |
-|---|---|---|
-| anomaly | 4 | 4 |
-| loop_candidate | 2 | 2 |
-| phrase_candidate | 1 | 1 |
-| prediction_candidate | 3 | 3 |
+| prediction_candidate | 5 | 4 |
 
 ## 4. The order of the pool, and where the order parts company
 
 **The set and the order are two different findings.** A pool is a sequence: the engine reads the sleep window back newest-first and hands the candidates to the rest of the cycle in that order. Two pools can hold exactly the same candidates and still be different pools, so which of the two things happened on a given seed is the question this section answers.
 
-Across the 16 arm-pairs, the two sides hold the **same set** of candidate IDs at the divergence cycle in **11** of them, and the **same order** in **3**.
+Across the 16 arm-pairs, the two sides hold the **same set** of candidate IDs at the divergence cycle in **0** of them, and the **same order** in **0**.
 
 | Task | Seed | Cycle | Arm | Same set | Same order | First differing position | Campaign’s candidate there | Ours |
 |---|---|---|---|---|---|---|---|---|
-| T1 | 20261125 | 11 | B | no | no | 0 | `exp_51248508` | `exp_80d6e0b7` |
-| T1 | 20261125 | 11 | C | no | no | 0 | `exp_51248508` | `exp_80d6e0b7` |
-| T1 | 20261128 | 3 | B | yes | no | 0 | `exp_b805662b` | `exp_a1917fa9` |
-| T1 | 20261128 | 3 | C | yes | no | 0 | `exp_b805662b` | `exp_a1917fa9` |
-| T1 | 20261129 | 2 | B | yes | no | 0 | `exp_296eb82c` | `exp_14f62bf0` |
-| T1 | 20261129 | 2 | C | yes | no | 0 | `exp_296eb82c` | `exp_14f62bf0` |
-| T2 | 20261118 | 5 | B | yes | no | 0 | `exp_29143192` | `exp_b805662b` |
-| T2 | 20261118 | 5 | C | yes | yes | — | `—` | `—` |
-| T2 | 20261120 | 5 | B | no | no | 2 | `exp_b805662b` | `exp_d7c5ea03` |
-| T2 | 20261120 | 5 | C | no | no | 18 | `anomaly_9ac06e8c` | `anomaly_14a18614` |
-| T2 | 20261121 | 5 | B | no | no | 10 | `dream_analogy_b8830751` | `dream_analogy_a9ca2e7b` |
-| T2 | 20261121 | 5 | C | yes | no | 3 | `anomaly_2cb3d759` | `anomaly_a5dcb0c7` |
-| T2 | 20261123 | 5 | B | yes | no | 0 | `exp_29143192` | `exp_a1917fa9` |
-| T2 | 20261123 | 5 | C | yes | yes | — | `—` | `—` |
-| T2 | 20261130 | 5 | B | yes | no | 0 | `exp_c9ab6eb3` | `exp_14f62bf0` |
-| T2 | 20261130 | 5 | C | yes | yes | — | `—` | `—` |
+| T1 | 20261125 | 11 | B | no | no | 0 | `exp_f52c7b1e` | `exp_2e3a7c5f` |
+| T1 | 20261125 | 11 | C | no | no | 0 | `exp_f52c7b1e` | `exp_2e3a7c5f` |
+| T1 | 20261128 | 3 | B | no | no | 0 | `exp_69fefc7c` | `exp_b342b9ae` |
+| T1 | 20261128 | 3 | C | no | no | 0 | `exp_69fefc7c` | `exp_b342b9ae` |
+| T1 | 20261129 | 2 | B | no | no | 44 | `meta_548a4251` | `meta_b1601f69` |
+| T1 | 20261129 | 2 | C | no | no | 44 | `meta_548a4251` | `meta_b1601f69` |
+| T2 | 20261118 | 5 | B | no | no | 17 | `hyp_8c033fb0` | `hyp_48d0e5fd` |
+| T2 | 20261118 | 5 | C | no | no | 0 | `anomaly_29b7be02` | `anomaly_fe1fa533` |
+| T2 | 20261120 | 5 | B | no | no | 13 | `dream_analogy_456a14f9` | `dream_analogy_7fd9b8ba` |
+| T2 | 20261120 | 5 | C | no | no | 9 | `anomaly_92221878` | `anomaly_3329a612` |
+| T2 | 20261121 | 5 | B | no | no | 10 | `dream_analogy_a6f80540` | `dream_analogy_b38b643c` |
+| T2 | 20261121 | 5 | C | no | no | 0 | `anomaly_a0072b14` | `anomaly_c8edf4ca` |
+| T2 | 20261123 | 5 | B | no | no | 27 | `pred_bc95dc38` | `pred_974c6a02` |
+| T2 | 20261123 | 5 | C | no | no | 10 | `pred_bc95dc38` | `pred_974c6a02` |
+| T2 | 20261130 | 5 | B | no | no | 0 | `exp_85461809` | `exp_f47b21f5` |
+| T2 | 20261130 | 5 | C | no | no | 3 | `exp_d31ecf56` | `exp_ed2c60fa` |
 
 **Did the reordering happen at the divergence cycle, or was it already there?** The capture holds the window for the cycle before the divergence as well. Where the two sides’ pools were identical in set *and* order at that earlier cycle, and identical in set but different in order at the divergence cycle, the reordering and the divergence are the same event.
 
@@ -422,28 +441,28 @@ Across the 16 arm-pairs, the two sides hold the **same set** of candidate IDs at
 |---|---|---|---|---|---|---|
 | T1 | 20261125 | 11 | B | no / no | no / no | no |
 | T1 | 20261125 | 11 | C | no / no | no / no | no |
-| T1 | 20261128 | 3 | B | yes / no | yes / no | no |
-| T1 | 20261128 | 3 | C | yes / no | yes / no | no |
-| T1 | 20261129 | 2 | B | yes / yes | yes / no | yes |
-| T1 | 20261129 | 2 | C | yes / yes | yes / no | yes |
-| T2 | 20261118 | 5 | B | yes / yes | yes / no | yes |
-| T2 | 20261118 | 5 | C | yes / yes | yes / yes | no |
+| T1 | 20261128 | 3 | B | yes / no | no / no | no |
+| T1 | 20261128 | 3 | C | yes / no | no / no | no |
+| T1 | 20261129 | 2 | B | yes / no | no / no | no |
+| T1 | 20261129 | 2 | C | yes / no | no / no | no |
+| T2 | 20261118 | 5 | B | yes / no | no / no | no |
+| T2 | 20261118 | 5 | C | yes / yes | no / no | yes |
 | T2 | 20261120 | 5 | B | no / no | no / no | no |
 | T2 | 20261120 | 5 | C | no / no | no / no | no |
-| T2 | 20261121 | 5 | B | yes / no | no / no | no |
-| T2 | 20261121 | 5 | C | yes / yes | yes / no | yes |
-| T2 | 20261123 | 5 | B | yes / yes | yes / no | yes |
-| T2 | 20261123 | 5 | C | yes / yes | yes / yes | no |
-| T2 | 20261130 | 5 | B | yes / yes | yes / no | yes |
-| T2 | 20261130 | 5 | C | yes / yes | yes / yes | no |
+| T2 | 20261121 | 5 | B | no / no | no / no | no |
+| T2 | 20261121 | 5 | C | yes / no | no / no | no |
+| T2 | 20261123 | 5 | B | yes / no | no / no | no |
+| T2 | 20261123 | 5 | C | yes / yes | no / no | yes |
+| T2 | 20261130 | 5 | B | yes / no | no / no | no |
+| T2 | 20261130 | 5 | C | yes / yes | no / no | yes |
 
-**3 arm-C pairs show the pool identical in set *and* order, and the admitted stream differs anyway.** For T2 / 20261118, T2 / 20261123, T2 / 20261130 in arm C, the two sides’ pools at the divergence cycle are identical candidate-for-candidate and in the same sequence, and arm C’s admitted stream still differs at that cycle. For those, the divergence cannot be attributed to the pool at the divergence cycle at all: the same candidates, read back in the same order, were available, and the difference arose inside the cycle.
+**No arm-C pair shows the pool identical in set *and* order at the divergence cycle.** Across all 16 arm-pairs, on both arms, the two sides differ in membership at the cycle where the admitted streams part company, so on these seeds the divergence is a difference in which candidates were in the pool, not in the order they were read in. The identical-pool pairs this section reported on 2026-10-31 were measured one cycle early (see the correction at the head of this document); re-measured at the divergence cycle they are gone.
 
 **Two orders, and this capture measures one of them.** The engine reads its window back with `ORDER BY time DESC` and no rowid tiebreak (`organica/memory.py:390`), so the pool arrives as a sequence and the capture measures that sequence. Inside the cycle, the candidate list is assembled from that sequence in an order that is *not* the sequence: the tags of each prior candidate are collected into a `set` (`organica/sleep.py:1201`) and the candidates of each tag into another (`organica/sleep.py:1223`, `distinct_ids = list(set(cid for cid, _ in refs))`). Set iteration order over strings follows the process’s hash seed, so two processes reading the *same* pool assemble it in *different* orders.
 
-That is the mechanism the identical-pool pairs point at, and it is consistent with the whole table: the pool’s membership differs on some seeds, its read-back order differs on most, and where even the read-back order is identical the divergence is still there — which is what an order-sensitive assembly step inside the cycle predicts.
+**What the pairs point at.** Set iteration order over strings is hash-seeded, so two processes reading the *same* pool can assemble it in different orders, and that step is active from cycle 1 on every seed including the control (`docs/DIVERGENCE-MECHANISM-RESULTS.md`). This capture reports the narrower fact: the membership difference is present at the cycle where the admitted streams part company, so there is no identical pool here from which to attribute the divergence to order alone.
 
-**What it does not establish.** That the order difference *caused* the admitted-stream difference, and it does not measure the order the ranking actually saw. The admitted stream is the engine’s ranking of the pool; this capture observes the pool and the admitted stream, and does not decompose the ranking between them, nor the assembly step that precedes it. The supported claim is the narrower one: **at the cycle where the populations part company, the pool differs in membership on some seeds and in read-back order on most, and on 3 seeds the pool is identical and the divergence is still there.**
+**What it does not establish.** That the order difference *caused* the admitted-stream difference, and it does not measure the order the ranking actually saw. The admitted stream is the engine’s ranking of the pool; this capture observes the pool and the admitted stream, and does not decompose the ranking between them, nor the assembly step that precedes it. The supported claim is the narrower one: **at the cycle where the populations part company, the two sides differ in membership in 16 of 16 arm-pairs and in read-back order in 16 of 16, so membership differs wherever the admitted streams do.**
 
 ## 5. What this does not establish
 
@@ -453,8 +472,9 @@ It names the candidate pool at the cycle where the two populations part company,
 
 - Artifact: `docs/divergence_cycle_capture.json`.
 - Instrument: `benchmarks/divergence_cycle_capture.py`.
-- Membership reference: `docs/candidate_membership_audit.json` (sha256 `15bf5ffba2f77431f52344b558a7e7d72068a8fa5b12767953d63700cca23f23`).
-- Observer version: 2.
-- Capture command: `python benchmarks/divergence_cycle_capture.py --workers 4` — 16 worker runs, 0 cached.
+- Membership reference: `docs/candidate_membership_audit.json` (sha256 `544ebd87bf86a7b38e98815449cd86e66a9ed75dbc3ffb1431cae34c76365e17`).
+- Observer version: 3.
+- Capture command: `python benchmarks/divergence_cycle_capture.py --workers 4`.
+- Seeds in the artifact: **8** (16 arm-pairs), all regenerated by the worker processes under observer version 3 after the cycle base changed; the parent process records 0 run(s) and 16 part(s) found current, because under `--workers` it assembles parts the workers wrote.
 - Re-render from the artifact: `python benchmarks/divergence_cycle_capture.py --render-only`.
 - The capture’s own determinism control: `python benchmarks/divergence_cycle_capture.py --compare-parts <dir>` compares the parts on disk against another directory of parts, field by field, with the observer-version field set aside.

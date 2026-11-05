@@ -1,0 +1,1230 @@
+{
+  "what_this_is": "The Stage B protocol's arithmetic: block size, run horizon and seed block, assembled from the construct record and checked against it. No confirmatory Stage B engine run or seed allocation, and no relation between onset and behaviour computed.",
+  "status": {
+    "authorised": true,
+    "authorised_on": "2026-11-03",
+    "blocked_before_run": {
+      "blocked": false,
+      "found": "2026-11-03",
+      "reason": "the predictor is defined in the Phase L scale-stream family, where DI needs an early and a late group, and the outcome is defined in the compositional cell family, whose revision-test window is cycles 250-299 of a 300-cycle world; no document names the world a Stage B world belongs to, and neither family can host the other's quantity (protocol 5a)",
+      "resolved_on": "2026-11-03",
+      "resolved_by": "docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13 -- the owner's dated decision, recorded against this artifact",
+      "world": "the withholding world (benchmarks/stage_b_stream_withholding.py), a reconstruction of the scale-stream family whose declared transition early_0 -> late_0 is refused by conditioned sampling while the organism is exposed",
+      "outcome_in_that_world": "revision_held_out, scored on that world's declared withheld tag pairs at the world's own behavioural window, by benchmarks/acquisition_compositional.py's score -- the definition whose precision is measured in docs/stage_b_endpoint_precision.json",
+      "eligibility_rule": "a world is eligible iff onset + 101 <= its horizon; a world whose follow-up does not fit is reported and excluded from the relation, never truncated (protocol \u00a74). On the twelve design-block cells it excludes one: 2:1 seed 20261023, onset 602, horizon 640",
+      "still_not_runnable_because": "no seed is allocated, and the command that would spend the block refuses a pre-assigned seed until an allocation record exists (benchmarks/stage_b_runner.py)",
+      "worlds_generated": 0,
+      "resolves_when": "a dated decision records which world family the run uses and what the predictor or endpoint becomes in it"
+    },
+    "seeds_allocated": 0,
+    "worlds_run": 0,
+    "statement": "Stage B is authorised by the owner on 2026-11-03 (docs/AUTHORISATION-STAGE-B.md). The block remains a candidate: authorisation is a decision and allocating it is a separate act. No confirmatory Stage B world has run and no relation has been computed."
+  },
+  "predictor": {
+    "name": "confirmed onset of DI",
+    "unit": "cycles",
+    "definition": "first cycle from which 10 consecutive readings are non-zero",
+    "anchor": "first cycle of the qualifying run, never the first non-zero reading",
+    "available_from": "the confirmation cycle (anchor + 9) onward; the predictor does not exist before then",
+    "sustention_rule_cycles": 10,
+    "sustention_rule_frozen": true,
+    "direction": "earlier confirmed onset predicts a higher held-out prediction score after learning"
+  },
+  "claimed_configurations": [
+    "2:1",
+    "3:1",
+    "4:1",
+    "6:1"
+  ],
+  "glossary": {
+    "pre-assigned": "mapped to a configuration in the protocol, in advance, with a specific seed. It is a plan: no world runs, and nothing is spent, until the review records an outcome",
+    "allocated": "released for an executed run. No seed is allocated by this document, which is why pre-assignment and allocation are different words here and are never used as synonyms",
+    "reserved": "deliberately not used: the four spares are reserved and never drawn, and a censored world does not release its seed"
+  },
+  "endpoint_resolution": {
+    "status": "open: not evaluable from a transition count, and not claimed to pass",
+    "confirmed": true,
+    "confirmed_on": "2026-11-03",
+    "confirmed_by": "docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13, on the per-world precision measured in docs/stage_b_stream_withholding.json",
+    "what_would_confirm_it": "the withheld enumeration for the four claimed configurations, reporting the count per world and a per-world standard error measured by resampling that world's withheld transitions -- not its scored cells -- before any world runs. Until that is measured the granularity gate is undetermined, which is the state this artifact reports instead of a pass it cannot support (docs/AI-REVIEW-2026-11-03.md, finding 3)",
+    "evidence_source": "docs/reusable_knowledge_calibration.json",
+    "evidence_kind": "design-block cells, declared as such and not confirmatory",
+    "endpoint_scale": {
+      "unit": "mean pairwise binary log loss, in nats per scored cell",
+      "is_a_proportion": false,
+      "where_defined": "benchmarks/acquisition_compositional.py -- score(), called by benchmarks/reusable_knowledge.py -- limbs()",
+      "one_over_count_quantum": "withdrawn: this endpoint has no 1/count lattice of outcome levels, so the previous quantum and level-count figures described an endpoint the protocol does not use (docs/AI-REVIEW-2026-11-02.md, rubric 1)",
+      "what_the_count_buys": "the denominator of a per-world mean, and an upper bound on its precision rather than a measurement of it: score() averages over every context source crossed with the vocabulary, so one withheld transition contributes many correlated cells. The count is not a count of independent contributions, and s/sqrt(N) over it would overstate the precision (docs/AI-REVIEW-2026-11-03.md, finding 3)"
+    },
+    "held_out_transitions": {
+      "cells": 5,
+      "min": 82,
+      "median": 106,
+      "max": 110
+    },
+    "assumed_outcome_sd": 0.05,
+    "assumed_sd_is": "a planning assumption for the across-world spread of the endpoint's mean in nats, not a measurement on any Stage B world -- and not the SD of a world's scored cells, which is a different quantity, and the one the previous too_coarse rule needed",
+    "effect_gap_at_rho_0_50": 0.05,
+    "effect_gap_is_conditional_on": [
+      "a linear relation in standardised units: the expected difference between two worlds two across-world SDs apart in onset is 2 x rho x sd. That is a model applied to a claim stated as a rank correlation, not an identity the correlation implies (docs/AI-REVIEW-2026-11-03.md, finding 3)",
+      "sd = 0.05 nats, the declared across-world spread",
+      "rho = 0.50, the declared smallest effect, read as the correlation between onset and this endpoint"
+    ],
+    "rules": {
+      "too_coarse": "twice a world's standard error of the endpoint larger than the effect gap at the declared smallest effect -> the score cannot separate two worlds the claim distinguishes, so it is a design defect and the run does not start. That standard error must be MEASURED by resampling the world's withheld transitions; it may not be computed as s/sqrt(N) over scored cells, and the transition count does not decide this rule (docs/AI-REVIEW-2026-11-03.md, finding 3)",
+      "too_sparse": "fewer than half the planned worlds at 40 or more held-out transitions -> design defect, run does not start",
+      "saturated": "a configuration whose realised across-world SD is below twice the median per-world standard error is unmeasurable there: excluded and reported, never scored as a null. This rule consumes the same measured per-world standard error, so it is answered from the run's own precision report and not from the count",
+      "undefined": "zero withheld transitions -> excluded by the existing E6 gate, never zeroed (AGENTS 13b)",
+      "screening": "the enumeration runs before any world, and its own report is the gate -- not this paragraph"
+    },
+    "limit": "the count bounds the denominator of a per-world mean; it neither establishes the endpoint's granularity nor shows that the outcome varies across worlds, which only the run can show. The method that measures the per-world standard error now exists and has been run on design-block cells; the organism's own readout does not exist before the run, so the gate is recorded as confirmed on design-block cells by the decision of 2026-11-03, and the saturated rule still consumes the run's own realised precision",
+    "design_block_precision_probe": {
+      "artifact": "docs/stage_b_endpoint_precision.json",
+      "method": "each withheld transition is a cluster; its cells move together because the vocabulary is scored under every transition; the world's score is the ratio (sum of transition losses) / (sum of transition cell counts) and is bootstrapped by resampling transitions with replacement",
+      "replicates": 2000,
+      "design_block_cells": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "by_readout": {
+        "ceiling": {
+          "min_twice_cluster_se": 0.008924,
+          "max_twice_cluster_se": 0.010949,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "min_twice_cluster_se": 0.059482,
+          "max_twice_cluster_se": 0.070711,
+          "clears_the_assumed_gap": false
+        }
+      },
+      "what_it_shows": "twice the per-world standard error is 0.009 to 0.011 nats at the exact latent rule, below the 0.05 gap, and 0.059 to 0.071 at the wrong-law control, above it",
+      "what_it_does_not_show": "the organism's readout. Precision depends on the loss distribution, and the bracket straddles the gap, so whether Stage B's endpoint resolves the declared effect is decided by a distribution that does not exist until a world runs",
+      "measured": true
+    }
+  },
+  "eligibility": {
+    "rule": "onset defined in >= 0.9 of runs, within each claimed configuration, never on the pooled set",
+    "resolution_rule": "within-configuration SD >= 3.0 cycles, reported with the IQR, range and distinct-value count",
+    "worlds_below_denominator_are": "reported as censored and excluded, never scored as a zero (AGENTS 13b)"
+  },
+  "behavioural_endpoint": {
+    "name": "revision_held_out",
+    "definition": "next-tag prediction on the revision-test window under the rotated law, restricted to transitions withheld from both formation and revision learning, scored by the calibrated readout with no refit during evaluation",
+    "inherited_from": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a73",
+    "learn_cycles": 50,
+    "test_cycles": 50,
+    "implementation_to_inspect": [
+      "benchmarks/reusable_knowledge.py -- revision_held_out, held_out['revision_held_out_pairs'], and the WITHHELD set selected inside limbs()'s held_only() define what is scored and withheld",
+      "benchmarks/formation_provenance_study.py -- held_out_pairs() is that study's own pair selector, NOT this endpoint's withholding rule (docs/AI-REVIEW-2026-11-02.md, rubric 3)"
+    ],
+    "resolution_requirement": "the endpoint is an averaged pairwise log loss, so it has no one-over-count quantum and this requirement may not be stated as one. What must be reported before the run is the withheld count per world and the per-world standard error measured by resampling those withheld transitions. A run whose measured precision cannot separate two worlds the claim distinguishes is a design defect and does not start; the measurement now exists on the withholding world's design-block cells and the gate is recorded as confirmed by the owner's dated decision (protocol \u00a73.1; docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13)",
+    "resolution_confirmed": true,
+    "resolution_confirmed_on": "2026-11-03",
+    "resolution_evidence": "docs/stage_b_stream_withholding.json -- four configurations x three design-block cells, the withheld count per world and a per-world standard error by resampling that world's withheld transitions; twice that standard error is 0.0019 to 0.0067 nats against the 0.05 assumed gap, in every cell. Disposition in protocol \u00a73.1 and docs/DECISION-STAGE-B-SEQUENCE.md \u00a7D13"
+  },
+  "clock": {
+    "post_confirmation_margin_cycles": 1,
+    "follow_up_cycles": 100,
+    "first_behavioural_index": "confirmation index + 1",
+    "last_behavioural_index": "confirmation index + 100",
+    "horizon_is_per_world": true,
+    "horizon_rule": "readings = confirmation index + 101; a fixed horizon that ends mid-follow-up fails criterion 4 rather than shortening the follow-up",
+    "median_horizon_by_config_cycles": {
+      "2:1": 649,
+      "3:1": 514.0,
+      "4:1": 472.0,
+      "6:1": 439.0
+    }
+  },
+  "sample_size": {
+    "decision_level": 0.9833,
+    "resolution_bar": 0.9,
+    "smallest_effect_spearman": 0.5,
+    "reliability_measured": false,
+    "why_reliability_is_not_measured": "the engine is deterministic per seed, so re-running a world is not a replication and no test-retest estimate exists",
+    "reliability_planning_assumption": 0.5,
+    "planning_assumption_is_established_lower_bound": false,
+    "block_is_conditional_on_the_assumption": true,
+    "why_this_assumption": "no reliability estimate exists, so one is declared rather than inferred. 0.50 is the weakest predictor still worth testing -- below it the measure carries less signal than error -- so the block is sized at the worst instrument the claim could survive rather than at a flattering one",
+    "attenuation_ladder": {
+      "1.00": {
+        "observed_effect_spearman": 0.5,
+        "worlds_per_configuration": 48
+      },
+      "0.90": {
+        "observed_effect_spearman": 0.473786,
+        "worlds_per_configuration": 54
+      },
+      "0.80": {
+        "observed_effect_spearman": 0.44617,
+        "worlds_per_configuration": 62
+      },
+      "0.70": {
+        "observed_effect_spearman": 0.41687,
+        "worlds_per_configuration": 72
+      },
+      "0.60": {
+        "observed_effect_spearman": 0.385502,
+        "worlds_per_configuration": 85
+      },
+      "0.50": {
+        "observed_effect_spearman": 0.35151,
+        "worlds_per_configuration": 104
+      },
+      "0.40": {
+        "observed_effect_spearman": 0.314041,
+        "worlds_per_configuration": 131
+      },
+      "0.30": {
+        "observed_effect_spearman": 0.271659,
+        "worlds_per_configuration": 177
+      }
+    },
+    "worlds_per_configuration_at_reliability_1": 48,
+    "worlds_per_configuration": 180,
+    "worlds_per_configuration_ladder": 104,
+    "block_floor_rule": {
+      "quantity": "the probability that the protocol's own success criterion holds: the predicted relation resolved in EVERY claimed configuration. That is the conjunction across the four, not the per-configuration share the ladder reports",
+      "rule": "the smallest tested size whose lower 95 % Monte-Carlo bound on that conjunction clears the declared bar, and never smaller than the ladder row at the planning assumption",
+      "lower_bound_multiplier": 1.96,
+      "configurations_in_conjunction": 4,
+      "independence": "the four configurations are separate worlds under separate seeds, so their resolutions multiply; a coupling between them would make this an over-estimate",
+      "tested_sizes": [
+        112,
+        120,
+        150,
+        160,
+        180,
+        200
+      ],
+      "by_size": {
+        "112": {
+          "per_configuration": 0.9137,
+          "per_configuration_se": 0.0099,
+          "conjunction": 0.697,
+          "conjunction_se": 0.0302,
+          "conjunction_lower_bound": 0.6378,
+          "clears_on_the_lower_bound": false
+        },
+        "120": {
+          "per_configuration": 0.9313,
+          "per_configuration_se": 0.0089,
+          "conjunction": 0.7522,
+          "conjunction_se": 0.0288,
+          "conjunction_lower_bound": 0.6959,
+          "clears_on_the_lower_bound": false
+        },
+        "150": {
+          "per_configuration": 0.975,
+          "per_configuration_se": 0.0078,
+          "conjunction": 0.9037,
+          "conjunction_se": 0.0289,
+          "conjunction_lower_bound": 0.847,
+          "clears_on_the_lower_bound": false
+        },
+        "160": {
+          "per_configuration": 0.9775,
+          "per_configuration_se": 0.0074,
+          "conjunction": 0.913,
+          "conjunction_se": 0.0276,
+          "conjunction_lower_bound": 0.8588,
+          "clears_on_the_lower_bound": false
+        },
+        "180": {
+          "per_configuration": 0.9975,
+          "per_configuration_se": 0.0025,
+          "conjunction": 0.99,
+          "conjunction_se": 0.0099,
+          "conjunction_lower_bound": 0.9706,
+          "clears_on_the_lower_bound": true
+        },
+        "200": {
+          "per_configuration": 0.995,
+          "per_configuration_se": 0.0035,
+          "conjunction": 0.9801,
+          "conjunction_se": 0.0138,
+          "conjunction_lower_bound": 0.9531,
+          "clears_on_the_lower_bound": true
+        }
+      },
+      "clearing_on_the_lower_bound": [
+        180,
+        200
+      ],
+      "ladder_row_at_planning_assumption": 104,
+      "chosen": 180,
+      "why": "at the ladder row the analysis resolves 0.895 per configuration and the ladder's closed form says 0.903, so the ladder is optimistic; and the claim needs all four, so 104 worlds resolve per configuration at nan but the conjunction at only 0.642, while 180 gives 0.990",
+      "what_it_does_not_change": "the published 48-world floor and every ladder row, including the 104 at the planning assumption; the block is raised above the ladder, and the ladder is not edited to match",
+      "decision": "owner delegated the choice on 2026-11-03. The first version of this rule governed the per-configuration bar; the second machine pass showed the claim is a conjunction, and the rule was restated on it the same day, before any world ran"
+    },
+    "worlds_total": 720,
+    "reportable_floor_per_configuration": 48,
+    "a_higher_reliability_would_shrink_the_block": true,
+    "worlds_total_if_reviewer_accepts_0_70": 288,
+    "why_this_size": "The block is sized so the decision rule resolves a relation of the declared smallest size in 90 % of blocks at the declared reliability assumption, and is then raised above the ladder row to the smallest tested size whose lower Monte-Carlo bound clears that bar, because the ladder is a closed form and the analysis is a bootstrap. The assumption is stated, not derived, and every alternative row is printed beside it.",
+    "it_is_a_floor": "unmodelled dependence between worlds and any further measurement error lower the real resolution probability, so this is the least number the claim can be tested with, not the most",
+    "below_the_floor": "a configuration whose usable n falls below 48 after censoring is reported inconclusive, never null",
+    "no_replacement": "a censored world is not replaced: the denominator is reported as realised"
+  },
+  "sustention_rule_agreement": {
+    "worst_pair_spearman": 0.9721290474245746,
+    "where": {
+      "configuration": "2:1",
+      "comparison": "5_vs_20"
+    },
+    "by_config": {
+      "2:1": {
+        "5_vs_10": 0.9897468252253238,
+        "10_vs_20": 0.9872953742629126,
+        "5_vs_20": 0.9721290474245746
+      },
+      "3:1": {
+        "5_vs_10": 0.9791271408242984,
+        "10_vs_20": 1.0,
+        "5_vs_20": 0.9791271408242984
+      },
+      "4:1": {
+        "5_vs_10": 1.0,
+        "10_vs_20": 1.0,
+        "5_vs_20": 1.0
+      },
+      "6:1": {
+        "5_vs_10": 1.0,
+        "10_vs_20": 1.0,
+        "5_vs_20": 1.0
+      }
+    },
+    "establishes": "the ordering of worlds is robust to the sustention rule, and the predictor's ranking does not depend on the declared 10-cycle choice",
+    "does_not_establish": "a reliability coefficient. The two measurements come from the same trajectories, share nearly all their measurement information, and differ in operational definition rather than through independent random error, so the statistic bounds only the rule-choice component of measurement error -- not the reliability of onset",
+    "used_in_the_block_size": false
+  },
+  "cost": {
+    "cycles_total": 373320,
+    "cycles_if_every_world_ran_600": 144000,
+    "relative_to_phase_l": 2.5925,
+    "note": "Estimated from the median confirmation cycle per configuration in the Phase L record, which is the best available estimate of where fresh worlds will emerge. It is an estimate, not a measurement."
+  },
+  "seeds": {
+    "consumed_blocks": {
+      "docs/ablation_study.json": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "docs/ablation_study_postfix.json": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
+      "docs/acquisition_alpha_calibration.json": [
+        20261099
+      ],
+      "docs/acquisition_baseline_calibration.json": [
+        20261099
+      ],
+      "docs/acquisition_baseline_capability.json": [
+        20261100
+      ],
+      "docs/acquisition_compositional_gate.json": [
+        20261200,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206,
+        20261207,
+        20261208,
+        20261209,
+        20261210,
+        20261211,
+        20261212,
+        20261213,
+        20261214,
+        20261215,
+        20261216,
+        20261217,
+        20261218,
+        20261219,
+        20261220,
+        20261221,
+        20261222,
+        20261223,
+        20261224,
+        20261225,
+        20261226,
+        20261227,
+        20261228,
+        20261229
+      ],
+      "docs/acquisition_coverage_audit.json": [
+        20261100
+      ],
+      "docs/acquisition_level_audit.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_design.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_probe.json": [
+        20261100
+      ],
+      "docs/acquisition_readout_test.json": [
+        20261100
+      ],
+      "docs/acquisition_single_seed_pilot.json": [
+        20261100
+      ],
+      "docs/audit_trace_probe.json": [
+        20261025
+      ],
+      "docs/audit_trace_probe_stress.json": [
+        20261025
+      ],
+      "docs/audit_trace_probe_tie.json": [
+        20261025
+      ],
+      "docs/candidate_membership_audit.json": [
+        20261101,
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_arm_b_prime_f2.json": [
+        20261101
+      ],
+      "docs/divergence_arm_b_prime_sweep.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_arm_b_prime_sweep_v2.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_cycle_capture.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_mechanism.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/divergence_onset.json": [
+        20261101,
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/force_matrix.json": [
+        20261023
+      ],
+      "docs/force_matrix_pilot.json": [
+        20261023
+      ],
+      "docs/formation_provenance_robustness.json": [
+        1260,
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120
+      ],
+      "docs/formation_provenance_study.json": [
+        1252,
+        1260,
+        1890,
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120
+      ],
+      "docs/formation_provenance_study_design.json": [
+        1252,
+        1272,
+        20270101,
+        20270102,
+        20270103,
+        20270104,
+        20270105
+      ],
+      "docs/formation_utilization.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/formation_utilization_pre_correction.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/formation_utilization_timing.json": [
+        20261099,
+        20261100
+      ],
+      "docs/formation_utilization_timing_pre_amendment.json": [
+        20261099,
+        20261100
+      ],
+      "docs/formation_utilization_timing_pre_correction.json": [
+        20261099,
+        20261100
+      ],
+      "docs/functional_structure_confirmatory.json": [
+        20261102,
+        20270206,
+        20270207,
+        20270208,
+        20270209,
+        20270210,
+        20270211,
+        20270212,
+        20270213,
+        20270214,
+        20270215,
+        20270216,
+        20270217,
+        20270218,
+        20270219,
+        20270220
+      ],
+      "docs/functional_structure_design_audit.json": [
+        20270201,
+        20270202,
+        20270203,
+        20270204,
+        20270205
+      ],
+      "docs/g13d_diagnostic.json": [
+        3997,
+        3998,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_allocation_rule.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/gate13_capacity_sweep.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_counterfactual_audit.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_paired_capacity_test.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/gate13_ranking_criterion.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/gate13_relation_separation.json": [
+        20261101,
+        20261102,
+        20261103
+      ],
+      "docs/ground_truth_recovery.json": [
+        20261023
+      ],
+      "docs/heldout_prediction.json": [
+        20261023
+      ],
+      "docs/phase_h_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_k_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_l_results.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032,
+        20261033,
+        20261034,
+        20261035,
+        20261036,
+        20261037,
+        20261038,
+        20261039,
+        20261040,
+        20261041,
+        20261042,
+        20261043,
+        20261044,
+        20261045,
+        20261046,
+        20261047,
+        20261048,
+        20261049,
+        20261050,
+        20261051,
+        20261052
+      ],
+      "docs/phase_l_results_n10.json": [
+        20261023,
+        20261024,
+        20261025,
+        20261026,
+        20261027,
+        20261028,
+        20261029,
+        20261030,
+        20261031,
+        20261032
+      ],
+      "docs/phase_l_seed_audit.json": [
+        20261025,
+        55163163,
+        77378173,
+        81745023,
+        145035895,
+        154904646,
+        210288160,
+        241436569,
+        364018849,
+        384470508,
+        390351809,
+        407081047,
+        418010277,
+        439179589,
+        455433001,
+        473818528,
+        476406476,
+        613453573,
+        625630195,
+        671095856,
+        726177760,
+        740360220,
+        772461157,
+        813577108,
+        823112328,
+        837966125,
+        876733999,
+        943908055,
+        970870045,
+        975516681,
+        993151203
+      ],
+      "docs/post_shift_adaptation_results.json": [
+        20270101,
+        20270102,
+        20270103,
+        20270104,
+        20270105,
+        20270106,
+        20270107,
+        20270108,
+        20270109,
+        20270110,
+        20270111,
+        20270112,
+        20270113,
+        20270114,
+        20270115,
+        20270116,
+        20270117,
+        20270118,
+        20270119,
+        20270120,
+        20270123
+      ],
+      "docs/process_noise.json": [
+        20261023
+      ],
+      "docs/process_noise_3000.json": [
+        20261023
+      ],
+      "docs/provenance_diagnostic.json": [
+        1002,
+        1260,
+        1313,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/regime_shift_results.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206,
+        20261207,
+        20261208,
+        20261209,
+        20261210,
+        20261211,
+        20261212,
+        20261213,
+        20261214,
+        20261215,
+        20261216,
+        20261217,
+        20261218,
+        20261219,
+        20261220
+      ],
+      "docs/reusable_knowledge_calibration.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/reusable_knowledge_feasibility.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206
+      ],
+      "docs/reusable_knowledge_gate_definitions.json": [
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205,
+        20261206
+      ],
+      "docs/reusable_knowledge_postmortem.json": [
+        1002,
+        1277,
+        1313,
+        2576,
+        2584,
+        2616,
+        3784,
+        3792,
+        3808,
+        3816,
+        5216,
+        5676,
+        7372,
+        7438,
+        7448,
+        7654,
+        10990,
+        11004,
+        11082,
+        11164,
+        14985,
+        16455,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/reusable_knowledge_variant.json": [
+        1277,
+        20261201,
+        20261202,
+        20261203,
+        20261204,
+        20261205
+      ],
+      "docs/scale_horizon_1200.json": [
+        20261023
+      ],
+      "docs/scale_horizon_600.json": [
+        20261023
+      ],
+      "docs/scale_ladder.json": [
+        20261023
+      ],
+      "docs/scale_ladder_scaffold.json": [
+        20261023
+      ],
+      "docs/scaling_ladder.json": [
+        1599,
+        3199,
+        6399,
+        20270500,
+        20270501,
+        20270502,
+        20270503,
+        20270504,
+        20270505,
+        20270506
+      ],
+      "docs/seed_noise.json": [
+        20261023,
+        20261024,
+        20261025
+      ],
+      "docs/sign_audit.json": [
+        20270501,
+        20270502,
+        20270503,
+        20270504,
+        20270505
+      ],
+      "docs/stage_b_runner_design_block.json": [
+        20261023,
+        20261024,
+        20261025
+      ],
+      "docs/store_time_observer_f4.json": [
+        20261101
+      ],
+      "docs/store_time_observer_lineage.json": [
+        20261120
+      ],
+      "docs/store_time_observer_verdicts.json": [
+        20261120,
+        20261121,
+        20261125
+      ],
+      "docs/store_time_observer_verdicts_pairs.json": [
+        20261120,
+        20261121,
+        20261125
+      ],
+      "docs/strength_assignment_design_audit.json": [
+        1013,
+        20261102,
+        20270401,
+        20270402,
+        20270403,
+        20270404,
+        20270405
+      ],
+      "docs/structural_contribution_design_audit.json": [
+        20261102,
+        20270301,
+        20270302,
+        20270303,
+        20270304,
+        20270305
+      ],
+      "docs/use_path_audit.json": [
+        20261118,
+        20261120,
+        20261121,
+        20261123,
+        20261125,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/use_path_diagnostic.json": [
+        20261099,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/use_path_diagnostic_freeze.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ],
+      "docs/use_path_diagnostic_structure.json": [
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105,
+        20261106,
+        20261107,
+        20261108,
+        20261109,
+        20261110,
+        20261111,
+        20261112,
+        20261113,
+        20261114,
+        20261115,
+        20261116,
+        20261117,
+        20261118,
+        20261119,
+        20261120,
+        20261121,
+        20261122,
+        20261123,
+        20261124,
+        20261125,
+        20261126,
+        20261127,
+        20261128,
+        20261129,
+        20261130
+      ]
+    },
+    "consumed_total": 222,
+    "candidate_block": [
+      700000001,
+      700000724
+    ],
+    "candidate_count": 724,
+    "preassigned": {
+      "2:1": {
+        "first": 700000001,
+        "last": 700000180,
+        "count": 180
+      },
+      "3:1": {
+        "first": 700000181,
+        "last": 700000360,
+        "count": 180
+      },
+      "4:1": {
+        "first": 700000361,
+        "last": 700000540,
+        "count": 180
+      },
+      "6:1": {
+        "first": 700000541,
+        "last": 700000720,
+        "count": 180
+      }
+    },
+    "preassigned_total": 720,
+    "unused": {
+      "first": 700000721,
+      "last": 700000724,
+      "count": 4
+    },
+    "substitution_allowed": false,
+    "overlap_with_consumed": [],
+    "disjoint_proved_against": 76,
+    "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
+    "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it",
+    "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",
+    "scan_outside_docs": {
+      "files_scanned": 10,
+      "with_seed_keys": {},
+      "overlap_with_block": [],
+      "note": "The same rule run over the rest of the tree, so the width of the scan is measured rather than assumed. A file outside docs/ that names a seed in the block appears here instead of being missed silently."
+    },
+    "allocated": false,
+    "note": "Every configuration's seeds are pre-assigned before any world runs, the spare seeds are named as unused, and substitution is prohibited: a censored world does not release its seed to another world, and the spare seeds are never drawn."
+  },
+  "analysis": {
+    "unit": "one world (seed) within one configuration",
+    "estimator": "Spearman rank correlation between confirmed onset and revision_held_out across worlds of one configuration",
+    "effect_size_beside_it": "OLS slope of standardised outcome on standardised onset",
+    "interval": "percentile bootstrap resampling worlds within the configuration, 0.9833 level, 10,000 replicates",
+    "pooling": "none; every configuration is reported alone and no pooled coefficient may be quoted",
+    "aggregation_rule": "the construct is supported only if the predicted relation holds with an interval excluding zero in every claimed configuration. Holding in some and not others is reported as mixed and is not supported as stated",
+    "permutation_control": "onset shuffled across worlds within the configuration; the interval must include zero",
+    "size_baseline": "the same estimator with structural size in place of onset, reported beside it",
+    "endpoint_precision_required": "before the interval is read, each configuration reports the realised across-world SD of the endpoint and a per-world standard error from a cluster bootstrap that resamples withheld transitions, not scored cells. The two granularity rules consume that number"
+  },
+  "falsifiers": [
+    {
+      "id": "A",
+      "name": "Absence",
+      "statement": "a within-configuration interval containing zero in any claimed configuration leaves the construct unsupported"
+    },
+    {
+      "id": "B",
+      "name": "Reversal",
+      "statement": "a relation with the opposite sign is recorded as reversed, which is stronger than unsupported"
+    },
+    {
+      "id": "C",
+      "name": "Dead configuration",
+      "statement": "onset undefined in most runs of a configuration is a world property, reported as such and never as a null"
+    },
+    {
+      "id": "D",
+      "name": "Pooled only",
+      "statement": "a relation across configurations but not inside one does not answer the protocol's question and does not support the construct"
+    }
+  ],
+  "outcomes": {
+    "supported": "present with the predicted sign in every claimed configuration, size baseline and permutation both null",
+    "mixed": "present in some, absent in others; not supported as stated",
+    "not_supported": "absent in every configuration",
+    "reversed": "reversed in any configuration, recorded there",
+    "size_effect": "explained by structural size rather than onset",
+    "design_defect": "permutation control non-null, a predictor built from behavioural cycles, or an endpoint whose measured precision cannot resolve the declared effect",
+    "inconclusive": "fewer usable worlds than the floor after censoring",
+    "underpowered_for_the_claim": "the reviewer or the power computation concludes the block is too small; that is a design limitation found before any cycle is spent, not a failure of the project"
+  },
+  "review_gate": {
+    "document": "docs/INDEPENDENT-METHODS-REVIEW.md",
+    "outcome_recorded": false,
+    "may_reject": true,
+    "authority": "Approved / Approved with conditions / Rejected; a rejection is recorded verbatim and is not argued into an approval",
+    "questions_for_the_reviewer": [
+      "is the block size adequately justified at the declared reliability assumption, and is the ladder the right way to handle an unmeasured reliability?",
+      "is the sustention-rule agreement correctly described as robustness rather than reliability, and is it right to exclude it from the arithmetic?",
+      "does the behavioural endpoint have sufficient resolution, and is its operational definition unambiguous in the code named in section 3?",
+      "are the pre-assigned seeds, the four unused seeds and the no-substitution rule sufficient to keep attrition from becoming a search?",
+      "does the aggregation rule, which requires the relation in every claimed configuration, prevent a favourable but misleading reading?"
+    ],
+    "send_with_the_package": [
+      "docs/DI-MEASUREMENT-WINDOW.md",
+      "docs/DI-TRANSITION-CONSTRUCT.md",
+      "docs/di_transition_construct.json",
+      "docs/STAGE-B-PROTOCOL.md",
+      "docs/stage_b_protocol.json",
+      "docs/STRUCTURE-BEHAVIOR-DESIGN.md",
+      "docs/sign_resolution_structure_behavior.json",
+      "docs/V1-SYNTHESIS.md"
+    ],
+    "history_for_the_reviewer": [
+      "the Stage A dynamic-range claim (\"0.44 pairs against a one-pair floor\") and its withdrawal: it compared a 40-cycle mean to a single-cycle quantum",
+      "the 20 of 119 onsets that are not the first non-zero reading, and the 2 runs whose eligibility depends on the sustention rule",
+      "the behavioural horizon's index-versus-count reconciliation",
+      "the 0.972 agreement statistic first presented as a reliability proxy, and its correction: it is robustness of the ordering, and the block is now sized at a declared assumption instead",
+      "the four block-level criteria that failed in earlier phases and were reported rather than re-scored"
+    ]
+  },
+  "withdrawn_claims": [
+    {
+      "claim": "the settled-window predictor has 0.44 pairs of spread against a one-pair floor, so the dynamic range is the obstacle",
+      "status": "withdrawn in place",
+      "why": "it compared a 40-cycle mean to a single-cycle quantum; 0.44 pairs is real spread, and the decisive defect is that no settled state exists to measure",
+      "where": "docs/DI-MEASUREMENT-WINDOW.md"
+    },
+    {
+      "claim": "onset is a validated predictor",
+      "status": "never claimed, and not established",
+      "why": "no relation between onset and any behavioural endpoint has been computed, by design",
+      "where": "docs/DI-TRANSITION-CONSTRUCT.md \u00a75"
+    },
+    {
+      "claim": "onset has a reliability of 0.972, so the 54-world block is attenuation-corrected",
+      "status": "withdrawn in place",
+      "why": "the 0.972 is the agreement between two sustention rules on the same trajectories; it is robustness of the ordering, not a reliability coefficient, and using it as one required an unjustified substitution",
+      "where": "docs/STAGE-B-PROTOCOL.md \u00a76"
+    }
+  ],
+  "inherited_sign_resolution": {
+    "artifact": "docs/sign_resolution_structure_behavior.json",
+    "published_floor_at_effect_0_50": 48,
+    "closed_form_reproduces_it": true,
+    "status_field_as_published": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone."
+  },
+  "no_engine": "No engine ran, no seed was spent, no world was generated, and no coefficient was computed. This artifact is a protocol."
+}

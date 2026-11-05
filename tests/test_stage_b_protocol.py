@@ -1,0 +1,569 @@
+"""Stage B must be a protocol: nothing spent, nothing allocated, nothing computed.
+
+The artifact is checked for the block size, the reliability ladder, the per-world
+horizon and the seed pre-assignment; the document is checked against the artifact
+for every number it quotes; and both are checked for the two claims this design may
+not make -- that onset is validated, and that a relation has been measured.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+from benchmarks.stage_b_protocol import CLAIMED, OUT, PUBLISHED_FLOOR, _worlds_for, build
+
+ROOT = Path(__file__).resolve().parent.parent
+DOC = ROOT / "docs" / "STAGE-B-PROTOCOL.md"
+CONSTRUCT = ROOT / "docs" / "di_transition_construct.json"
+DESIGN = ROOT / "docs" / "STRUCTURE-BEHAVIOR-DESIGN.md"
+
+
+@pytest.fixture(scope="module")
+def stage() -> dict:
+    return build()
+
+
+@pytest.fixture(scope="module")
+def text() -> str:
+    return DOC.read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="module")
+def construct() -> dict:
+    return json.loads(CONSTRUCT.read_text(encoding="utf-8"))
+
+
+def test_the_stored_artifact_is_current(stage):
+    assert json.loads(OUT.read_text(encoding="utf-8")) == stage
+
+
+def test_authorised_but_nothing_is_spent(stage, text):
+    assert stage["status"]["authorised"] is True
+    assert stage["status"]["authorised_on"] == "2026-11-03"
+    assert (ROOT / "docs" / "AUTHORISATION-STAGE-B.md").exists()
+    assert "AUTHORISATION-STAGE-B.md" in text
+    # Authorised, and the world-family block is resolved by the owner's dated decision
+    # (protocol 5a, §D13): the withholding world carries both quantities, while nothing
+    # is allocated or run, which the same field says rather than implies.
+    blocked = stage["status"]["blocked_before_run"]
+    assert blocked["blocked"] is False and blocked["worlds_generated"] == 0
+    assert blocked["resolved_on"] == "2026-11-03" and "§D13" in blocked["resolved_by"]
+    assert "withholding world" in blocked["world"]
+    assert "no seed is allocated" in blocked["still_not_runnable_because"]
+    assert "scale-stream" in blocked["reason"] and "compositional" in blocked["reason"]
+    assert stage["status"]["seeds_allocated"] == 0
+    assert "## 5a. The run has no world family" in text
+    assert "### 3.2 The outcome on the scale stream" in text
+    scale = json.loads((ROOT / "docs" / "stage_b_endpoint_scale.json").read_text(encoding="utf-8"))
+    assert scale["finding"]["measurable_cells"] == 0
+    assert scale["finding"]["formation_ordered_pairs_min"] == \
+        scale["finding"]["formation_ordered_pairs_max"]
+    assert scale["status"].startswith("NOT MEASURABLE AS DEFINED")
+    assert stage["status"]["seeds_allocated"] == 0
+    assert stage["status"]["worlds_run"] == 0
+    assert stage["seeds"]["allocated"] is False
+    assert stage["behavioural_endpoint"]["resolution_confirmed"] is True
+    assert "No engine ran" in stage["no_engine"]
+    assert "**Status: AUTHORISED, NOT RUN." in text
+    assert "candidate block is not an allocation" in text
+
+
+def test_no_relation_has_been_computed(stage, text):
+    """The design's whole discipline: the predictor was fixed before any outcome."""
+    assert "no relation between onset and behaviour" in stage["what_this_is"].lower()
+    flat = " ".join(text.lower().split())   # the sentence wraps across a line
+    assert "no relation between onset and behaviour has been computed" in flat
+
+
+def test_the_predictor_is_inherited_and_frozen(stage, construct, text):
+    assert stage["predictor"]["sustention_rule_cycles"] == 10
+    assert stage["predictor"]["sustention_rule_frozen"] is True
+    assert stage["predictor"]["sustention_rule_cycles"] == \
+        construct["onset_conventions"]["sustained_cycles"]
+    assert stage["clock"]["post_confirmation_margin_cycles"] == 1
+    assert stage["clock"]["follow_up_cycles"] == 100
+    assert stage["claimed_configurations"] == list(CLAIMED)
+    assert sorted(stage["claimed_configurations"]) == \
+        sorted(construct["stage_b_measurement_criteria"]["per_config"])
+    assert "earlier confirmed onset predicts a higher" in stage["predictor"]["direction"]
+    assert "earlier confirmed onset predicts a **higher**" in text
+
+
+def test_agreement_is_reported_as_robustness_and_not_used_as_reliability(stage, text):
+    """The correction: 0.972 is an ordering result, not a reliability coefficient."""
+    agree = stage["sustention_rule_agreement"]
+    assert agree["worst_pair_spearman"] == pytest.approx(0.9721, abs=1e-3)
+    assert agree["used_in_the_block_size"] is False
+    assert "robust" in agree["establishes"]
+    assert "does_not_establish" in agree
+    assert "not the reliability of onset" in agree["does_not_establish"]
+    assert stage["sample_size"]["reliability_measured"] is False
+    assert "not used in the block-size arithmetic" in text
+    assert "used_in_the_block_size" in text
+    # ... and it is on the reviewer's history as a correction, not a feature.
+    history = " ".join(stage["review_gate"]["history_for_the_reviewer"])
+    assert "0.972" in history and "correction" in history
+    withdrawn = json.dumps(stage["withdrawn_claims"])
+    assert "reliability of 0.972" in withdrawn
+    assert "withdrawn in place" in withdrawn
+
+
+def test_the_block_is_solved_from_the_claim_at_a_declared_assumption(stage, text):
+    s = stage["sample_size"]
+    # the closed form reproduces the project's published floor on this endpoint
+    assert _worlds_for(0.50) == PUBLISHED_FLOOR == 48
+    assert s["worlds_per_configuration_at_reliability_1"] == 48
+    assert s["reliability_planning_assumption"] == 0.50
+    assert s["worlds_per_configuration"] == 180
+    assert s["worlds_total"] == 180 * len(CLAIMED) == 720
+    # the block is the ladder row raised by a lower-bound rule, not by preference
+    rule = s["block_floor_rule"]
+    assert rule["ladder_row_at_planning_assumption"] == 104
+    assert rule["chosen"] == 180
+    assert rule["clearing_on_the_lower_bound"] == [180, 200]
+    assert 112 in rule["tested_sizes"] and 150 in rule["tested_sizes"]
+    # the rule governs the conjunction the protocol's outcome table requires
+    assert rule["configurations_in_conjunction"] == 4
+    assert rule["by_size"]["120"]["conjunction"] == pytest.approx(0.752, abs=0.003)
+    assert rule["by_size"]["120"]["clears_on_the_lower_bound"] is False
+    assert rule["by_size"]["180"]["conjunction_lower_bound"] > 0.90
+    assert s["reportable_floor_per_configuration"] == 48
+    assert s["worlds_per_configuration"] > s["reportable_floor_per_configuration"]
+    assert s["worlds_total_if_reviewer_accepts_0_70"] == 288
+    # the ladder must be monotone and every row must be quoted in the document
+    ladder = s["attenuation_ladder"]
+    # Reliability descends down the ladder, so the requirement ascends.
+    n = [ladder[k]["worlds_per_configuration"] for k in ladder]
+    assert n == sorted(n), n
+    for rel, row in ladder.items():
+        if rel == "0.50":
+            line = ("| **0.50 (planning assumption)** | **%.4f** | **%d** | **%d** |"
+                    % (row["observed_effect_spearman"],
+                       row["worlds_per_configuration"],
+                       row["worlds_per_configuration"] * len(CLAIMED)))
+        else:
+            line = "| %s | %.4f | %d | %d |" % (
+                rel, row["observed_effect_spearman"], row["worlds_per_configuration"],
+                row["worlds_per_configuration"] * len(CLAIMED))
+        assert line in text, line
+    assert "0.70 gives 288" in text
+
+
+def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stage, text):
+    seeds = stage["seeds"]
+    assert seeds["candidate_block"] == [700000001, 700000724]
+    assert seeds["candidate_count"] == 724
+    assert seeds["overlap_with_consumed"] == []
+    assert seeds["candidate_count"] == seeds["preassigned_total"] + seeds["unused"]["count"]
+    assert seeds["preassigned_total"] == stage["sample_size"]["worlds_total"] == 720
+    assert sorted(seeds["preassigned"]) == sorted(CLAIMED)
+    for lab, chunk in seeds["preassigned"].items():
+        assert chunk["count"] == 180, lab
+    assert seeds["preassigned"]["2:1"]["first"] == 700000001
+    assert seeds["preassigned"]["6:1"]["last"] == 700000720
+    assert seeds["unused"] == {"first": 700000721, "last": 700000724, "count": 4}
+    assert seeds["substitution_allowed"] is False
+    assert seeds["consumed_total"] == 222
+    assert seeds["disjoint_proved_against"] == 76
+    for path in seeds["consumed_blocks"]:
+        assert (ROOT / path).exists(), path
+    # The prose figure is derived from the artifact, so the two cannot drift apart.
+    quoted = (f"**{seeds['consumed_total']}** consumed seeds across "
+              f"**{seeds['disjoint_proved_against']}** artifacts")
+    assert quoted in text
+    assert seeds["harvest_rule"].startswith("every integer under a key naming a seed")
+    assert "list-held seeds" in seeds["harvest_rule"]
+    # The seed scan reads one directory; that width is measured and reported, so a
+    # stray artifact outside docs/ cannot slip a builder seed past the check.
+    assert seeds["scan_scope"].startswith("every *.json directly under docs/")
+    assert seeds["scan_outside_docs"]["with_seed_keys"] == {}
+    assert seeds["scan_outside_docs"]["files_scanned"] >= 1
+    assert seeds["scan_outside_docs"]["overlap_with_block"] == []
+    assert "The scan's width is measured, not assumed." in text
+    assert "**0 overlap**" in text
+    assert "**four** seeds" in text and "700000721" in text
+    assert "**Substitution is prohibited**" in text
+
+
+def test_the_horizon_is_per_world_and_matches_the_record(stage, construct, text):
+    per = construct["behavioural_clock"]["per_config"]
+    for lab, horizon in stage["clock"]["median_horizon_by_config_cycles"].items():
+        assert horizon == per[lab]["confirmation_cycle_median"] + 101, lab
+    assert stage["clock"]["horizon_is_per_world"] is True
+    assert stage["cost"]["cycles_total"] == 373320
+    assert stage["cost"]["relative_to_phase_l"] == pytest.approx(2.5925, abs=1e-4)
+    worlds = stage["sample_size"]["worlds_per_configuration"]
+    for lab, horizon in stage["clock"]["median_horizon_by_config_cycles"].items():
+        row = "| `%s` | %.0f | %.0f | %d | %s |" % (
+            lab, per[lab]["confirmation_cycle_median"], horizon, worlds,
+            format(int(horizon * worlds), ","))
+        assert row in text, row
+    assert "| **total** | — | — | **720** | **373,320** |" in text
+
+
+def test_the_endpoint_can_be_inspected_in_code(stage, text):
+    endpoint = stage["behavioural_endpoint"]
+    assert endpoint["name"] == "revision_held_out"
+    assert endpoint["resolution_confirmed"] is True
+    assert "stage_b_stream_withholding.json" in endpoint["resolution_evidence"]
+    impl = " ".join(endpoint["implementation_to_inspect"])
+    assert "reusable_knowledge.py" in impl
+    assert "WITHHELD" in impl
+    # rubric 3: the old pointer named a selector that does not produce this score
+    assert "NOT this endpoint's withholding rule" in impl
+    assert "benchmarks/reusable_knowledge.py" in text
+    requirement = endpoint["resolution_requirement"]
+    assert "does not start" in requirement
+    # second pass, finding 1: the generator must stop restating a quantum it withdrew
+    assert "no one-over-count quantum" in requirement
+    assert "quantum (one held-out transition)" not in requirement
+    assert "proportion" not in requirement
+    assert "measured by resampling those withheld transitions" in requirement
+
+
+def test_the_aggregation_rule_cannot_pick_a_winner(stage, text):
+    rule = stage["analysis"]["aggregation_rule"]
+    assert "every claimed configuration" in rule
+    assert "mixed" in rule
+    assert stage["analysis"]["pooling"].startswith("none")
+    assert "**every** claimed configuration" in text
+    assert "not supported as stated" in text
+
+
+def test_the_four_falsifiers_and_the_underpowered_outcome_are_present(stage, text):
+    assert [f["id"] for f in stage["falsifiers"]] == ["A", "B", "C", "D"]
+    for marker in ("1. **Absence.**", "2. **Reversal.**",
+                   "3. **Dead configuration.**", "4. **Pooled only.**"):
+        assert marker in text
+    assert "underpowered_for_the_claim" in stage["outcomes"]
+    assert "**underpowered for the claim**" in text
+
+
+def test_censored_worlds_are_excluded_and_never_replaced(stage, text):
+    assert "not replaced" in stage["sample_size"]["no_replacement"]
+    assert "censored" in stage["eligibility"]["worlds_below_denominator_are"]
+    assert "**not replaced**" in text
+    assert "inconclusive" in text
+
+
+def test_the_reviewer_gets_the_corrections_too(stage, text):
+    gate = stage["review_gate"]
+    assert gate["outcome_recorded"] is False
+    assert gate["may_reject"] is True
+    questions = " ".join(gate["questions_for_the_reviewer"])
+    assert "block size" in questions and "reliability" in questions
+    assert "spare seeds" in questions or "unused seeds" in questions
+    assert len(gate["questions_for_the_reviewer"]) == 5
+    assert "**The reviewer is authorised to reject this protocol**" in text
+    history = " ".join(gate["history_for_the_reviewer"])
+    assert "0.44 pairs" in history
+    assert "index-versus-count" in history
+    assert "**withdrawal in place**" in text
+    # the published design's rounded table is the source of the ladder's mapping
+    assert "104" in DESIGN.read_text(encoding="utf-8")
+
+
+def test_the_granularity_gate_is_not_passed_on_a_transition_count(stage, text):
+    """Second pass, finding 3: the count is a denominator, not a precision."""
+    res = stage["endpoint_resolution"]
+    assert res["confirmed"] is True
+    assert res["confirmed_on"] == "2026-11-03" and "§D13" in res["confirmed_by"]
+    assert res["status"].startswith("open")
+    assert "not a count of independent contributions" in (
+        res["endpoint_scale"]["what_the_count_buys"])
+    assert "MEASURED" in res["rules"]["too_coarse"]
+    assert "s/sqrt(N) over its scored cells" not in res["rules"]["too_coarse"]
+    assert "cluster bootstrap" in stage["analysis"]["endpoint_precision_required"]
+    assert "measured precision" in stage["outcomes"]["design_defect"]
+    assert len(res["effect_gap_is_conditional_on"]) == 3
+    assert "2 x rho x sd" in res["effect_gap_is_conditional_on"][0]
+    assert res["effect_gap_at_rho_0_50"] == round(
+        2.0 * stage["sample_size"]["smallest_effect_spearman"]
+        * res["assumed_outcome_sd"], 6)
+    probe = res["design_block_precision_probe"]
+    assert probe["measured"] is True
+    assert probe["artifact"] == "docs/stage_b_endpoint_precision.json"
+    assert "bracket straddles the gap" in probe["what_it_does_not_show"]
+    for marker in ("not a count of independent contributions",
+                   "substitution is **withdrawn**",
+                   "**undetermined**, not passed"):
+        assert marker in text, marker
+
+
+def test_the_simulation_does_not_claim_a_size_it_cannot_separate():
+    """Second pass, finding 2: MC error spans the bar, and the artifact says so."""
+    doc = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
+                     .read_text(encoding="utf-8"))
+    joined = " ".join(doc["limits"])
+    assert "slightly conservative" not in joined
+    assert "NOT measured here" in joined
+    assert "does not establish which side" in doc["what_the_monte_carlo_allows"]
+    for row in doc["size_sensitivity_at_planning_effect"].values():
+        assert row["monte_carlo_se"] > 0
+
+
+def test_the_endpoint_scale_is_the_scorer_not_a_proportion(stage, text):
+    """The pre-pass found the quantum computed for an endpoint this protocol lacks.
+
+    `documents/AI-REVIEW-2026-11-02.md` rubric 1: the score is an averaged pairwise
+    log loss, so `1/count` is not its quantum. The figures are withdrawn, the scale is
+    named, and the rules are restated on quantities that can actually be measured.
+    """
+    res = stage["endpoint_resolution"]
+    assert res["confirmed"] is True
+    assert res["confirmed_on"] == "2026-11-03" and "§D13" in res["confirmed_by"]
+    assert res["evidence_kind"].startswith("design-block")
+    scale = res["endpoint_scale"]
+    assert scale["is_a_proportion"] is False
+    assert "log loss" in scale["unit"]
+    assert "acquisition_compositional" in scale["where_defined"]
+    assert "withdrawn" in scale["one_over_count_quantum"]
+    for gone in ("quantum_at_median", "distinguishable_levels_at_median",
+                 "quantum_relative_to_effect_gap",
+                 "resolves_the_declared_effect_on_this_evidence"):
+        assert gone not in res, gone
+    counts = res["held_out_transitions"]
+    assert (counts["cells"], counts["min"], counts["median"], counts["max"]) \
+        == (5, 82, 106, 110)
+    assert res["effect_gap_at_rho_0_50"] == pytest.approx(0.05, abs=1e-9)
+    assert set(res["rules"]) == {"too_coarse", "too_sparse", "saturated",
+                                 "undefined", "screening"}
+    flat = " ".join(text.split())
+    assert "not a proportion" in flat
+    assert "withdrawn" in flat
+    assert "**82 to 110**, median **106**" in flat
+    assert "twice a world's standard error" in flat
+    for word in ("**too coarse**", "**too sparse**", "**saturated**", "**undefined**"):
+        assert word in flat, word
+    assert "Disposition (2026-11-03): the gate is confirmed" in flat
+    assert "`resolution_confirmed` is **true**" in flat
+    # and it stays a gate, not a conclusion
+    assert "is** the gate" in flat
+
+
+def test_the_ladder_is_checked_with_the_committed_interval(text):
+    """The ladder is Fisher-z; the analysis is a percentile bootstrap (rubric 4).
+
+    The document's simulated column must equal the artifact's, and the planning row
+    must be reported with its own Monte-Carlo error rather than settled by it.
+    """
+    sim = json.loads((ROOT / "docs" / "stage_b_resolution_simulation.json")
+                     .read_text(encoding="utf-8"))
+    row = sim["points"]["0.50"]
+    assert row["worlds_per_configuration"] == 104
+    assert row["fisher_z_says"] == pytest.approx(0.9026, abs=1e-4)
+    assert row["clears_bar"] is False
+    flat = " ".join(text.split())
+    # the document must quote the artifact's own rounded values, not nearby ones
+    quoted = f"**{row['resolved_share']:.3f} ± {row['monte_carlo_se']:.3f}**"
+    assert quoted in flat, quoted
+    sizes = sim["size_sensitivity_at_planning_effect"]
+    assert sizes["112"]["clears_bar"] is True
+    assert sizes["120"]["clears_bar"] is True
+    for n in ("112", "120"):
+        cell = (f"{sizes[n]['resolved_share']:.3f} "
+                f"(SE {sizes[n]['monte_carlo_se']:.3f})")
+        assert cell in flat, cell
+    # second pass, finding 2: the point estimate is NOT separable from the bar, so
+    # the sentence claiming it does not clear the bar had to go too
+    assert "does not clear the 90 % bar at the point estimate" not in flat
+    assert "**0.7 SE below**" in flat and "3.6 SE**" in flat
+    # the block-size question is now decided by a rule, not left open
+    assert "The block is 180, and it is sized on the quantity the claim needs" in flat
+    assert "recorded here as **open**" not in flat
+
+
+def test_pre_assigned_allocated_and_reserved_are_distinguished(stage, text):
+    """The protocol must not use 'assigned' and 'allocated' as synonyms."""
+    glossary = stage["glossary"]
+    assert set(glossary) == {"pre-assigned", "allocated", "reserved"}
+    assert "No seed is allocated by this document" in glossary["allocated"]
+    assert "| **pre-assigned** |" in text
+    assert "| **allocated** |" in text
+    assert "| **reserved** |" in text
+    assert "both be true" in text
+
+
+def test_the_assumption_is_not_presented_as_an_established_bound(stage, text):
+    s = stage["sample_size"]
+    assert s["planning_assumption_is_established_lower_bound"] is False
+    assert s["block_is_conditional_on_the_assumption"] is True
+    assert "**declared planning assumption, not an established lower bound**" in text
+    assert "conditional on this assumption" in text
+    assert "may reject the assumption without" in text
+
+
+WITHHOLDING = ROOT / "docs" / "stage_b_stream_withholding.json"
+
+
+def test_the_withholding_world_passes_its_own_audit():
+    """The scored set exists only because the world refuses a transition. Check that it did."""
+    doc = json.loads(WITHHOLDING.read_text(encoding="utf-8"))
+    a = doc["audit"]
+    assert a["passed"] is True
+    for key in ("the_intervention_fired", "formation_is_disjoint_from_the_scored_set",
+                "the_scored_set_is_reachable", "the_open_world_does_show_them",
+                "the_axis_is_live"):
+        assert a[key] is True, key
+    assert a["withheld_pairs_declared"] == 16
+    assert a["withheld_pairs_in_formation_of_the_withholding_world"] == 0
+    assert a["withheld_pairs_in_behavioural_window"] > 0
+    assert a["withheld_pairs_in_the_open_world_formation"] > 0
+    assert a["compensations"] > 0
+    assert a["late_share_spread"] > 0.01
+    assert len(doc["cells"]) == 12
+    assert all(c["measurable"] for c in doc["cells"])
+    for c in doc["cells"]:
+        assert c["withheld_occurrences_in_formation"] == 0
+        assert c["withheld_occurrences_in_test"] > 0
+        assert c["scored_positions"] > 0
+        assert c["readouts"]["ceiling_open_law"]["twice_cluster_se"] < doc["effect_gap_assumed"]
+
+
+def test_the_withholding_audit_can_fail():
+    """Rule 25(c): prove the predicates fire, by rebuilding both sides of them."""
+    from benchmarks.stage_b_stream_withholding import (
+        build_world, occurrence_count, withheld_tag_pairs, window)
+    pairs = withheld_tag_pairs()
+    assert len(pairs) == 16
+    formation_end = 539
+    open_world = build_world(20261023, (2, 1), 640, withhold=False)
+    assert occurrence_count(window(open_world, 0, formation_end), pairs) > 0
+    withheld = build_world(20261023, (2, 1), 640, withhold=True, withhold_until=589)
+    assert occurrence_count(window(withheld, 0, formation_end), pairs) == 0
+    refused = build_world(20261023, (2, 1), 640, withhold=True, withhold_until=700)
+    assert occurrence_count(window(refused, 589, 640), pairs) == 0
+
+
+def test_the_withholding_world_is_not_yet_shown_to_host_the_predictor():
+    """The outcome has a world; the predictor does not. The documents must say so."""
+    doc = json.loads(WITHHOLDING.read_text(encoding="utf-8"))
+    limits = " ".join(doc["limits"])
+    assert "zero variance" in limits
+    assert "no `DI` onset has been measured" in limits
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    assert "no `DI` onset had been measured on it" in flat
+    assert "**reconstruction**" in flat
+    assert "`status.blocked_before_run` therefore stays true" in flat
+    lo = min(c["readouts"]["ceiling_open_law"]["twice_cluster_se"] for c in doc["cells"])
+    hi = max(c["readouts"]["ceiling_open_law"]["twice_cluster_se"] for c in doc["cells"])
+    assert f"**{lo:.4f} to {hi:.4f}**" in flat
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "WITHHOLDING WORLD BUILT, 2026-11-03" in manual
+    assert f"**{lo:.4f}–{hi:.4f}**" in manual
+
+
+def test_the_onset_rule_is_the_first_sustained_run_and_censors():
+    """The rule is the construct's: a sustained run, not the first non-zero reading."""
+    from benchmarks.stage_b_onset_withholding import onset
+    assert onset([0.0] * 20) is None
+    assert onset([0.0, 0.0, 0.1] + [0.1] * 12) == 2
+    assert onset([0.1] * 8) is None          # cut off by the record: censored, not placed
+    assert onset([0.0, 0.5, 0.0, 0.0] + [0.2] * 12) == 4   # a blip is not a run
+    assert onset([0.0] * 5 + [0.3] * 10, sustained=10) == 5
+    assert onset([0.0] * 5 + [0.3] * 10, sustained=20) is None
+
+
+def test_the_onset_measurement_is_the_artifact_s_and_the_documents_quote_it():
+    """Rule 20: every number the documents state about the onset comes from the artifact."""
+    import statistics
+    art = json.loads((ROOT / "docs" / "stage_b_onset_withholding.json").read_text(encoding="utf-8"))
+    cells = art["cells"]
+    assert len(cells) == 12
+    assert all(c["complete"] is True and c["censored"] is False for c in cells)
+    assert all(c["onset"] is not None for c in cells)
+    # Agreement is the artifact's own claim, and every cell has its own onset.
+    assert art["checks"]["sustention_rule_agreement"] == {"5 vs 10": 1.0, "10 vs 20": 1.0, "5 vs 20": 1.0}
+    assert len({c["onset"] for c in cells}) == 12
+    # The medians the documents print are computed here, from the cells, not read back.
+    per = {}
+    for c in cells:
+        per.setdefault(c["configuration"], []).append(c["onset"])
+    medians = {k: int(statistics.median(v)) for k, v in per.items()}
+    assert medians == {k: v["median"] for k, v in art["configurations"].items()}
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    for k, med in medians.items():
+        assert "**%d** (`%s`)" % (med, k) in flat, (k, med)
+    # The measurement is predictor-only, and the artifact says so where a reader will look.
+    assert any("no relation between onset and any behavioural outcome" in lim for lim in art["limits"])
+    assert "no Stage B seed is spent" in art["cells_are"]
+    assert "Completion update (2026-11-03)" in flat
+
+
+def test_the_protocol_artifact_does_not_depend_on_the_os_that_wrote_it():
+    """`str(Path)` writes a Windows separator, so the stored keys would not match a Linux build."""
+    art = json.loads(OUT.read_text(encoding="utf-8"))
+    keys = list(art["seeds"]["consumed_blocks"])
+    sep = chr(92)
+    assert keys and not any(sep in k for k in keys), keys[:3]
+
+
+def test_the_measured_onsets_against_the_planned_horizon_come_from_the_artifact():
+    """One measured onset needs more cycles than the world built for it provides."""
+    import json as _json
+
+    doc = _json.loads((ROOT / "docs" / "stage_b_onset_withholding.json").read_text(encoding="utf-8"))
+    cells = doc["cells"]
+    assert len(cells) == 12
+    assert all(c["onset"] is not None and c["censored"] is False for c in cells)
+    fits = [c for c in cells if c["onset"] + 101 <= c["horizon_cycles"]]
+    short = [c for c in cells if c["onset"] + 101 > c["horizon_cycles"]]
+    assert len(fits) == 11, fits
+    assert len(short) == 1, short
+    cell = short[0]
+    assert (cell["configuration"], cell["design_block_cell"]) == ("2:1", 20261023)
+    assert cell["onset"] == 602 and cell["horizon_cycles"] == 640
+    assert cell["onset"] + 101 == 703
+    assert cell["confirmation_cycle_used"] + 50 == 589
+    late = [c for c in cells if c["onset"] > c["confirmation_cycle_used"] + 50]
+    assert late == [cell], late
+
+    proto = " ".join((ROOT / "docs" / "STAGE-B-PROTOCOL.md").read_text(encoding="utf-8").split())
+    assert "What the measured onsets do to this horizon" in proto
+    for figure in ("**12**", "**11**", "**1**", "**602**", "**703**", "**640**", "**589**"):
+        assert figure in proto, figure
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "**703**" in manual and "`2:1` seed **20261023**" in manual
+    assert "journal \u00a7172" in manual
+
+
+def test_the_checkpoint_rng_field_is_inert_for_every_cell_this_harness_runs():
+    """`rng_state` snapshots a generator no Stage B cell draws from."""
+    from organica.sleep import SleepService
+
+    assert SleepService.HYPOTHESIS_RETENTION != "stochastic"
+    source = (ROOT / "organica" / "sleep.py").read_text(encoding="utf-8")
+    assert source.count("self._rng.random()") == 1
+    lottery = source.index("def _stochastic_retain")
+    draw = source.index("self._rng.random()")
+    assert lottery < draw < source.index("def _form_theories_and_questions")
+    for name in ("stage_b_onset_withholding.py", "stage_b_stream_withholding.py"):
+        assert "HYPOTHESIS_RETENTION" not in (ROOT / "benchmarks" / name).read_text(encoding="utf-8"), name
+
+
+def test_the_three_decisions_are_recorded_in_the_artifact_and_the_sequence():
+    """Each decision carries its evidence, and none of them allocates or generates anything."""
+    import json as _json
+
+    stage = _json.loads(OUT.read_text(encoding="utf-8"))
+    blocked = stage["status"]["blocked_before_run"]
+    assert blocked["blocked"] is False and blocked["worlds_generated"] == 0
+    assert stage["status"]["seeds_allocated"] == 0 and stage["status"]["worlds_run"] == 0
+    assert "onset + 101 <= its horizon" in blocked["eligibility_rule"]
+    assert "excluded from the relation" in blocked["eligibility_rule"]
+    endpoint = stage["behavioural_endpoint"]
+    assert endpoint["resolution_confirmed"] is True
+    assert endpoint["resolution_confirmed_on"] == "2026-11-03"
+
+    seq = " ".join((ROOT / "docs" / "DECISION-STAGE-B-SEQUENCE.md").read_text(encoding="utf-8").split())
+    assert "## D13" in seq
+    assert "the run uses the withholding world" in seq
+    assert "an eligibility rule, not a longer block" in seq
+    flat = " ".join(DOC.read_text(encoding="utf-8").split())
+    assert "Resolved (2026-11-03)." in flat
+    assert "The eligibility rule that measurement implies (2026-11-03)." in flat
+    manual = " ".join((ROOT / "docs" / "USER-MANUAL.md").read_text(encoding="utf-8").split())
+    assert "DECIDED 2026-11-03 (owner), all three" in manual

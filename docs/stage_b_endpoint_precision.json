@@ -1,0 +1,173 @@
+{
+  "what_this_is": "The per-world standard error of `revision_held_out`, measured by a cluster bootstrap over withheld transitions rather than over scored cells, for the five design-block cells. It discharges the method the granularity gate now requires; it does not discharge the gate for Stage B.",
+  "why_it_exists": "docs/STAGE-B-PROTOCOL.md \u00a73.1 and docs/AI-REVIEW-2026-11-03.md finding 3: `score()` returns an aggregate over nested cells, so no per-world standard error existed and `s/sqrt(N)` over the transition count was a substitution.",
+  "method": "each withheld transition is a cluster; its cells move together because the vocabulary is scored under every transition; the world's score is the ratio (sum of transition losses) / (sum of transition cell counts) and is bootstrapped by resampling transitions with replacement",
+  "level_and_reps": {
+    "percentile_level": 0.9833,
+    "replicates": 2000,
+    "reported_quantity": "the bootstrap standard deviation of the ratio estimator"
+  },
+  "prng_state": 20261104,
+  "effect_gap_assumed": 0.05,
+  "design_block_cells": [
+    20261201,
+    20261202,
+    20261203,
+    20261204,
+    20261205
+  ],
+  "cells_are": "the consumed calibration seeds, regenerated deterministically; no seed is spent and none is re-allocated",
+  "cells": [
+    {
+      "design_block_cell": 20261201,
+      "readouts": {
+        "ceiling": {
+          "withheld_transitions": 98,
+          "scored_cells": 3136,
+          "score_nats": 0.397663,
+          "cluster_se": 0.005306,
+          "twice_cluster_se": 0.010613,
+          "naive_cell_se": 0.008172,
+          "cluster_over_naive_se_ratio": 0.65,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "withheld_transitions": 98,
+          "scored_cells": 3136,
+          "score_nats": 0.742195,
+          "cluster_se": 0.032577,
+          "twice_cluster_se": 0.065154,
+          "naive_cell_se": 0.023938,
+          "cluster_over_naive_se_ratio": 1.36,
+          "clears_the_assumed_gap": false
+        }
+      }
+    },
+    {
+      "design_block_cell": 20261202,
+      "readouts": {
+        "ceiling": {
+          "withheld_transitions": 110,
+          "scored_cells": 3520,
+          "score_nats": 0.404905,
+          "cluster_se": 0.004462,
+          "twice_cluster_se": 0.008924,
+          "naive_cell_se": 0.007911,
+          "cluster_over_naive_se_ratio": 0.56,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "withheld_transitions": 110,
+          "scored_cells": 3520,
+          "score_nats": 0.788789,
+          "cluster_se": 0.029741,
+          "twice_cluster_se": 0.059482,
+          "naive_cell_se": 0.023678,
+          "cluster_over_naive_se_ratio": 1.26,
+          "clears_the_assumed_gap": false
+        }
+      }
+    },
+    {
+      "design_block_cell": 20261203,
+      "readouts": {
+        "ceiling": {
+          "withheld_transitions": 108,
+          "scored_cells": 3456,
+          "score_nats": 0.400489,
+          "cluster_se": 0.00477,
+          "twice_cluster_se": 0.00954,
+          "naive_cell_se": 0.007863,
+          "cluster_over_naive_se_ratio": 0.61,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "withheld_transitions": 108,
+          "scored_cells": 3456,
+          "score_nats": 0.76038,
+          "cluster_se": 0.030532,
+          "twice_cluster_se": 0.061063,
+          "naive_cell_se": 0.023239,
+          "cluster_over_naive_se_ratio": 1.31,
+          "clears_the_assumed_gap": false
+        }
+      }
+    },
+    {
+      "design_block_cell": 20261204,
+      "readouts": {
+        "ceiling": {
+          "withheld_transitions": 82,
+          "scored_cells": 2624,
+          "score_nats": 0.398453,
+          "cluster_se": 0.005475,
+          "twice_cluster_se": 0.010949,
+          "naive_cell_se": 0.008959,
+          "cluster_over_naive_se_ratio": 0.61,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "withheld_transitions": 82,
+          "scored_cells": 2624,
+          "score_nats": 0.74728,
+          "cluster_se": 0.035356,
+          "twice_cluster_se": 0.070711,
+          "naive_cell_se": 0.026312,
+          "cluster_over_naive_se_ratio": 1.34,
+          "clears_the_assumed_gap": false
+        }
+      }
+    },
+    {
+      "design_block_cell": 20261205,
+      "readouts": {
+        "ceiling": {
+          "withheld_transitions": 106,
+          "scored_cells": 3392,
+          "score_nats": 0.40074,
+          "cluster_se": 0.004846,
+          "twice_cluster_se": 0.009692,
+          "naive_cell_se": 0.007944,
+          "cluster_over_naive_se_ratio": 0.61,
+          "clears_the_assumed_gap": true
+        },
+        "broken_rule": {
+          "withheld_transitions": 106,
+          "scored_cells": 3392,
+          "score_nats": 0.761992,
+          "cluster_se": 0.031448,
+          "twice_cluster_se": 0.062896,
+          "naive_cell_se": 0.023496,
+          "cluster_over_naive_se_ratio": 1.34,
+          "clears_the_assumed_gap": false
+        }
+      }
+    }
+  ],
+  "worst_twice_cluster_se": 0.070711,
+  "by_readout": {
+    "ceiling": {
+      "min_twice_cluster_se": 0.008924,
+      "max_twice_cluster_se": 0.010949,
+      "clears_the_assumed_gap": true
+    },
+    "broken_rule": {
+      "min_twice_cluster_se": 0.059482,
+      "max_twice_cluster_se": 0.070711,
+      "clears_the_assumed_gap": false
+    }
+  },
+  "the_bracket_straddles_the_gap": true,
+  "cluster_over_naive_se_ratio": {
+    "min": 0.56,
+    "max": 1.36
+  },
+  "status": "method discharged on design-block cells; the gate is NOT confirmed for Stage B, because the bracket straddles the gap",
+  "limits": [
+    "the five seeds are the calibration block, already consumed; they are design-block cells, not the four claimed configurations, so this measures the estimator and does not authorise the run",
+    "the two readouts bracket plausible prediction quality (the exact latent rule and the wrong-law control); neither is the organism's readout, whose loss distribution is not available before the run, and a readout with heavier-tailed losses would give a larger standard error",
+    "a bootstrap standard deviation is itself estimated: with 2000 replicates per cell its own Monte-Carlo error is a few percent of its value",
+    "82 held-out transitions per cell is the count the calibration cells happen to have; the claimed configurations' counts do not exist yet"
+  ],
+  "no_engine": "No engine ran and no seed was spent. The worlds are regenerated deterministically from already-consumed seeds to read their withheld sets."
+}

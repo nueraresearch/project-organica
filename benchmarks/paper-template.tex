@@ -2,6 +2,13 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
+% Latin Modern ships scalable Type1 fonts: microtype's expansion needs them,
+% and the default T1 set does not have them, which is a fatal error.
+\usepackage{lmodern}
+% Emit a real Unicode map for the Type1 fonts, so the deposited PDF's text
+% extracts as the words on the page (fi/fl, the section sign).
+\input{glyphtounicode}
+\pdfgentounicode=1
 \usepackage[utf8]{inputenc}
 
 % The manuscripts are written with typographic punctuation.  pdfLaTeX has no
@@ -24,6 +31,13 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
+% Paper 02's audit tables of seven columns or more are too wide for the
+% portrait measure at full size: the nine-column ancestry table gives each
+% column 41 pt while the header word "Reachability" is 58 pt.  Rotating them
+% onto landscape pages cost three page-flow defects -- an orphaned heading and
+% two almost blank rotated sheets -- so the renderer sets those tables one size
+% down with a narrower gutter instead, and they stay in the flow.  See
+% fit_wide_tables() in render_papers.py.
 \usepackage{array}
 \usepackage{calc}   % pandoc writes column widths as \real{...}
 
@@ -34,21 +48,55 @@
 % define "Highlighting" in terms of it.
 \usepackage{fancyvrb}
 $highlighting-macros$
+% Code blocks one size down.  Paper 02's longest comment line is 103 characters
+% and ran 61 pt into the margin; breaking it would put a line break into a block
+% a reader may copy, so the block is set smaller instead of being rewritten.
+\fvset{fontsize=\footnotesize}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage[hidelinks]{hyperref}
+% The PDF's own document properties: what a viewer's title bar, a reference
+% manager's import and a preprint server's metadata block read.  The values
+% arrive as plain text because hyperref's pdfusetitle would copy the typeset
+% \title, which is a \parbox here, markup and all.
+$if(pdf-title)$
+\hypersetup{pdftitle={$pdf-title$},pdfauthor={$pdf-author$},%
+  pdfsubject={$pdf-subject$},pdfkeywords={$pdf-keywords$}}
+$endif$
+% fi and fl ligatures extract as nothing from a T1-encoded PDF, so the deposited text
+% reads "con rmed".  Disabling them keeps the text searchable at no visual cost.
+\usepackage{microtype}
+% A figure pinned with [H] stays beside the caption the manuscript writes for it,
+% instead of floating away from it.
+\usepackage{float}
+\DisableLigatures{encoding = T1, family = *}
+
+% Keep a heading with the block that follows it.  A wide table is set inside a
+% samepage group, but a longtable may still break between the heading and its
+% first row, which leaves the heading alone at the foot of a page -- the defect
+% that the two nearly blank landscape pages were traded for.  This is the
+% measurement needspace.sty performs, written here because that package is not
+% part of this TeX installation: if less than #1 is left on the page, break
+% now.  \penalty-10000 is a break the page builder must take.
+\newdimen\keepnextleft
+\newcommand{\keepwithnext}[1]{\par\begingroup
+  \keepnextleft=\pagegoal \advance\keepnextleft by -\pagetotal
+  \ifdim\keepnextleft<#1 \penalty-10000 \fi \endgroup}
 
 \setlength{\parskip}{0.35em}
 \setlength{\emergencystretch}{3em}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 $if(title)$
-\title{$title$}
+\title{\parbox{0.86\textwidth}{\centering $title$}}
 $endif$
 $if(author)$
-\author{$author$}
+\author{\parbox{0.86\textwidth}{\centering $author$}}
 $endif$
 \date{}
 
+% The manuscripts carry their own numbers in the heading text ("4.10 The confirmed
+% capacity test"), so LaTeX must not add a second, conflicting set.
+\setcounter{secnumdepth}{0}
 \begin{document}
 \maketitle
 $body$

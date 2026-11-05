@@ -1,0 +1,959 @@
+"""The Stage B runner: one world, its onset, its eligibility, and its outcome.
+
+What this implements, and nothing else
+--------------------------------------
+Protocol §4-§7 and the owner's decision record §D13 fix the design. This module is
+the executor of that design, not a place to choose it:
+
+* the **world** is the withholding world (`stage_b_stream_withholding.build_world`):
+  the scale-stream reconstruction whose declared transition `early_0 -> late_0` is
+  refused while the organism is exposed;
+* the **predictor** is the confirmed onset of `DI`, the first cycle of the first
+  qualifying 10-cycle sustained run, censored rather than placed at a boundary;
+* the **outcome** is `revision_held_out`: averaged pairwise log loss of the
+  organism's readout on the declared withheld tag pairs that occur in the world's
+  own behavioural window, with the readout frozen at onset and no refit during
+  evaluation -- the calibrated backoff readout the acquisition harness uses;
+* the **eligibility rule** is §4's: a world is eligible iff `onset + 101 <= horizon`,
+  so its follow-up is complete inside the world built for it. An ineligible world is
+  reported with its onset and horizon and **excluded**, never truncated;
+* the **analysis** is §5's: Spearman within configuration, a percentile bootstrap
+  over worlds at 98.33 %, the standardised slope beside it, a permutation control,
+  and a structural-*size* baseline, with the claim supported only if the predicted
+  relation holds with an interval excluding zero in **every** configuration.
+
+The allocation guard is deliberate and is the most important line in the file.
+
+The 720 confirmatory worlds are pre-assigned, **not allocated**. This module refuses
+to run a confirmatory seed unless `docs/stage_b_allocation.json` says it has been
+allocated, and it refuses the four reserved spares unconditionally. That is not
+defensiveness: running a pre-assigned seed is the act that spends the block, and it
+belongs to the owner (`docs/DECISION-STAGE-B-SEQUENCE.md` §D2 step 3). A runner that
+could silently spend it would make the allocation guard decorative.
+
+Modes
+-----
+    ./.venv/bin/python -m benchmarks.stage_b_runner --self-test
+        No engine, no seed. Checks the guards, the eligibility arithmetic, the
+        scoring shape, and that the analysis can both detect a planted relation and
+        fail the permutation control. Writes docs/stage_b_runner_self_test.json.
+
+    ./.venv/bin/python -m benchmarks.stage_b_runner --audit
+        The degeneracy audit of the world on a consumed design-block seed, through
+        the stream module's own audit. No engine.
+
+    ./.venv/bin/python -m benchmarks.stage_b_runner --cell 6:1:20261023
+        One design-block world through the engine, to exercise the whole path. This
+        is a smoke run on a consumed seed and never a measurement.
+
+    ./.venv/bin/python -m benchmarks.stage_b_runner --all
+        The confirmatory block. Refuses unless the seeds are allocated.
+
+The engine is imported and never modified. Standard library only.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import random
+import statistics
+import sys
+import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from benchmarks import reusable_knowledge as rk  # noqa: E402
+from benchmarks.acquisition_compositional import score as house_score  # noqa: E402
+from benchmarks.acquisition_runner import make_organica_backoff  # noqa: E402
+from benchmarks.phase_l_campaign import _pairs_from_report as pairs_from_report  # noqa: E402
+from benchmarks.stage_b_onset_withholding import onset as sustained_onset  # noqa: E402
+from benchmarks.stage_b_onset_withholding import spearman  # noqa: E402
+from benchmarks.stage_b_onset_withholding import _available as available  # noqa: E402
+from benchmarks.stage_b_onset_withholding import _gold as gold  # noqa: E402
+from benchmarks.stage_b_stream_withholding import (  # noqa: E402
+    CONFIG_RATIOS, CONFIRMATION_CYCLE, DESIGN_SEEDS, LEARN_CYCLES, TEST_CYCLES,
+    build_world, withheld_tag_pairs, window,
+)
+
+OUT = ROOT / "docs" / "stage_b_runner.json"
+SELF_TEST_OUT = ROOT / "docs" / "stage_b_runner_self_test.json"
+CACHE = ROOT / ".scratch" / "stage_b_runner"
+ESTIMATE_OUT = ROOT / "docs" / "stage_b_cost_estimate.json"
+RATE_CHECK_OUT = ROOT / "docs" / "stage_b_rate_check.json"
+ALLOCATION = ROOT / "docs" / "stage_b_allocation.json"
+
+CLAIMED = ("2:1", "3:1", "4:1", "6:1")
+BLOCK = {"2:1": (700000001, 700000180), "3:1": (700000181, 700000360),
+         "4:1": (700000361, 700000540), "6:1": (700000541, 700000720)}
+SPARES = (700000721, 700000724)
+PER_CONFIG = 180
+SUSTAINED = 10
+FOLLOW_UP = LEARN_CYCLES + TEST_CYCLES + 1        # 101, protocol §4
+LEVEL = 0.9833                                    # the project's convention
+REPS = 10_000
+PRNG = 20261107
+ALPHA = rk.ALPHA                                  # the frozen readout's alpha
+PREDICTED_SIGN = -1                               # earlier onset -> lower log loss
+
+LIMITS = [
+    "the readout is the frozen backoff the acquisition harness uses, with its "
+    "alpha imported rather than tuned here; no Stage B world was used to fit it",
+    "the withheld pair set is the one the world declares, and the behavioural "
+    "window is the world's own onset + 1 to + 100, not a fixed cycle number",
+    "a world with no withheld pair in its behavioural window is reported as not "
+    "measurable and excluded -- never as a zero (AGENTS 13b)",
+]
+
+
+def horizon_cycles(label: str) -> int:
+    return CONFIRMATION_CYCLE[label] + LEARN_CYCLES + TEST_CYCLES + 1
+
+
+def parse_cell(value: str) -> tuple[str, int]:
+    """`6:1:20261023` -> (`6:1`, 20261023). The configuration itself has a colon."""
+    config, _, seed = value.rpartition(":")
+    if config not in CONFIG_RATIOS:
+        raise ValueError(f"unknown configuration {config!r}; expected one of {CLAIMED}")
+    return config, int(seed)
+
+
+def seed_block(config: str) -> list[int]:
+    first, last = BLOCK[config]
+    return list(range(first, last + 1))
+
+
+def block_jobs() -> list[tuple[str, int]]:
+    """Every cell of the block, in a fixed order, so a shard is reproducible."""
+    return [(config, seed) for config in CLAIMED for seed in seed_block(config)]
+
+
+def parse_shard(text: str) -> tuple[int, int]:
+    try:
+        k, n = (int(part) for part in str(text).split("/"))
+    except (ValueError, AttributeError):
+        raise SystemExit(f"shard must be written K/N, got {text!r}")
+    if n < 1 or not 1 <= k <= n:
+        raise SystemExit(f"shard {text!r} is out of range: need 1 <= K <= N")
+    return k, n
+
+
+def shard_jobs(k: int, n: int) -> list[tuple[str, int]]:
+    """This machine's cells from an interleaved partition of the block.
+
+    Interleaved rather than contiguous so each shard covers every configuration and a
+    spread of seeds: a machine that dies takes a sample with it, not a whole
+    configuration, and the shards are equal to within one cell.
+    """
+    return block_jobs()[k - 1::n]
+
+
+def cell_path(config: str, seed: int) -> Path:
+    return CACHE / f"cell_{config.replace(':', 'x')}_{seed}.json"
+
+
+def save_cell(cell: dict) -> Path:
+    CACHE.mkdir(parents=True, exist_ok=True)
+    path = cell_path(cell["configuration"], cell["seed"])
+    path.write_text(json.dumps(cell, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def load_cell(config: str, seed: int) -> dict | None:
+    path = cell_path(config, seed)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def cell_is_done(cell: dict | None) -> bool:
+    """A cached cell counts only if it finished; a paused one is re-run."""
+    return bool(cell) and bool(cell.get("complete"))
+
+
+def run_many(jobs: list[tuple[str, int]], workers: int = 1,
+             budget: float | None = None) -> list[dict]:
+    """Run cells, refusing the whole batch BEFORE dispatching if any seed is unallocated.
+
+    The guard is validated for every job first, on purpose: a pool that started and
+    then refused would have spent work, and a run that spent anything must have been
+    authorised as a whole.
+    """
+    for _config, seed in jobs:
+        assert_runnable(seed)
+    done: list[dict] = []
+    if workers > 1 and len(jobs) > 1:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(run_cell, config, seed, budget): (config, seed)
+                       for config, seed in jobs}
+            for future in as_completed(futures):
+                cell = future.result()
+                save_cell(cell)
+                done.append(cell)
+                print(f"  {cell['configuration']} {cell['seed']}: onset {cell.get('onset')} "
+                      f"outcome {cell.get('outcome')} pid {cell.get('pid')}", flush=True)
+    else:
+        for config, seed in jobs:
+            cell = run_cell(config, seed, budget=budget)
+            save_cell(cell)
+            done.append(cell)
+    return done
+
+
+def config_of(seed: int) -> str | None:
+    for config, (first, last) in BLOCK.items():
+        if first <= seed <= last:
+            return config
+    return None
+
+
+def allocation() -> dict:
+    """The allocation record, or an empty one. Absence means nothing is allocated."""
+    if not ALLOCATION.exists():
+        return {"allocated": False, "seeds": [], "why": "no allocation record exists"}
+    record = json.loads(ALLOCATION.read_text(encoding="utf-8"))
+    record.setdefault("allocated", False)
+    record.setdefault("seeds", [])
+    return record
+
+
+def assert_runnable(seed: int, record: dict | None = None) -> None:
+    """Refuse to spend a seed that has not been allocated. The guard is the point.
+
+    `record` exists so a control can ask what the guard does under an allocation that
+    does not exist, without depending on whether the live record does. A control that
+    reads the live record stops testing the guard the moment the owner allocates.
+    """
+    if seed in DESIGN_SEEDS:          # consumed design-block seeds: smoke runs only
+        return
+    if SPARES[0] <= seed <= SPARES[1]:
+        raise RuntimeError(
+            f"seed {seed} is a reserved spare; a spare is never drawn and a censored "
+            "world does not release its seed (protocol §10)")
+    config = config_of(seed)
+    if config is None:
+        raise RuntimeError(f"seed {seed} is not in the Stage B block 700000001-700000720")
+    if seed not in DESIGN_SEEDS:
+        record = allocation() if record is None else record
+        if not record["allocated"] or seed not in record["seeds"]:
+            raise RuntimeError(
+                f"seed {seed} is pre-assigned but NOT allocated: {record.get('why', '')}. "
+                "Allocating the block is the owner's act (decision record §D2 step 3), "
+                "and a runner that spent a pre-assigned seed would make the guard "
+                "decorative")
+
+
+def eligible(onset: int | None, horizon: int) -> bool:
+    return onset is not None and onset + FOLLOW_UP <= horizon
+
+
+def base_rate(events: list[str]) -> dict[str, float]:
+    counts: dict[str, float] = {}
+    for event in events:
+        for tag in set(event.split()):
+            counts[tag] = counts.get(tag, 0.0) + 1.0
+    total = sum(counts.values())
+    return {tag: (n / total if total else 0.0) for tag, n in counts.items()}
+
+
+def score_withheld(prob, events: list[str], withheld: set[tuple[str, str]]) -> dict:
+    """Mean pairwise log loss on the withheld pairs that occur, and their count.
+
+    The shape is the house scorer's: each context tag is crossed with every target
+    tag in the vocabulary, so a negative cell exists for every positive one. The
+    contexts are the withheld pairs that occur in the window -- that is the set the
+    endpoint is defined on -- and the vocabulary is every tag in the window.
+    """
+    vocabulary = {tag for event in events for tag in event.split()}
+    contexts, observations = [], []
+    for i in range(len(events) - 1):
+        here, nxt = set(events[i].split()), set(events[i + 1].split())
+        for u in here:
+            for v in nxt:
+                if (u, v) in withheld:
+                    contexts.append([u])
+                    observations.append([v])
+    if not contexts:
+        return {"log_loss": None, "cells": 0, "occurrences": 0,
+                "measurable": False}
+    result = house_score(prob, contexts, observations, vocabulary)
+    cells = len(contexts) * len(vocabulary)   # the house scorer's own cell count
+    return {"log_loss": round(result["log_loss"], 6), "cells": cells,
+            "occurrences": len(contexts), "measurable": True}
+
+
+def run_cell(config: str, seed: int, budget: float | None = None,
+             horizon: int | None = None) -> dict:
+    """One world: formation to onset, learning, then the behavioural window."""
+    from organica.memory import MemoryService
+    from organica.sleep import SleepService
+
+    assert_runnable(seed)
+    horizon = horizon or horizon_cycles(config)
+    pair = CONFIG_RATIOS[config]
+    world = build_world(seed, pair, horizon, withhold=True,
+                        withhold_until=CONFIRMATION_CYCLE[config] + LEARN_CYCLES)
+    withheld = withheld_tag_pairs()
+    events, epc = world["events"], world["events_per_cycle"]
+    CACHE.mkdir(parents=True, exist_ok=True)
+    db = CACHE / f"runner_{config.replace(':', 'x')}_{seed}.sqlite"
+    for suffix in ("", "-wal", "-shm"):
+        Path(str(db) + suffix).unlink(missing_ok=True)
+    started = time.time()
+    di: list[float | None] = []
+    mem = MemoryService(db_path=str(db))
+    svc = SleepService(mem)
+    if hasattr(svc, "_rng"):
+        svc._rng.seed(seed)
+    # the predictor's definition is the harness's, imported rather than re-derived,
+    # so DI here is the same quantity `docs/stage_b_onset_withholding.json` measured
+    _early_gold, late_gold = gold(world)
+    late_available = available(world, late_gold)
+    try:
+        # The world's withholding is released on the PLANNED confirmation clock, because
+        # the world is generated before any onset is measured. The behavioural window is
+        # therefore the protocol's fixed one -- learn 50 cycles after the planned
+        # confirmation, then test 50 -- and the eligibility rule is what carries the
+        # ordering requirement: an onset after the window opens cannot be paired with an
+        # outcome that preceded it. Placing the window at onset + 50 instead empties the
+        # scored set, which the smoke run showed before this comment existed.
+        planned = CONFIRMATION_CYCLE[config]
+        cycle = 0
+        confirmation = None
+        while cycle < planned + LEARN_CYCLES:
+            chunk = events[cycle * epc:(cycle + 1) * epc]
+            for event in chunk:
+                mem.store(event, event_type="event", source=f"cycle:{cycle}")
+            pairs = pairs_from_report(svc.run_sleep_cycle())
+            retained = len(pairs & late_gold)
+            di.append(round(retained / late_available, 6) if late_available else None)
+            confirmation = sustained_onset(di, SUSTAINED)
+            cycle += 1
+            if budget is not None and time.time() - started > budget:
+                return {"configuration": config, "seed": seed, "horizon": horizon,
+                        "cycles_run": cycle, "complete": False,
+                        "stopped_at_budget": True, "onset": confirmation,
+                        "eligible": None, "outcome": None}
+        if confirmation is None:
+            return {"configuration": config, "seed": seed, "horizon": horizon,
+                    "cycles_run": cycle, "complete": True, "stopped_at_budget": False,
+                    "onset": None, "censored": True, "eligible": False,
+                    "ineligible_because": "no qualifying sustained run",
+                    "outcome": None, "di_trajectory": di,
+                    "engine_seconds": round(time.time() - started, 2)}
+        is_eligible = eligible(confirmation, horizon)
+        if not is_eligible:
+            return {"configuration": config, "seed": seed, "horizon": horizon,
+                    "cycles_run": cycle, "complete": True, "stopped_at_budget": False,
+                    "onset": confirmation, "censored": False, "eligible": False,
+                    "ineligible_because": "onset does not precede the behavioural "
+                                          "window (onset + 101 exceeds the horizon)",
+                    "outcome": None, "di_trajectory": di,
+                    "engine_seconds": round(time.time() - started, 2)}
+        # the readout is frozen here, after the learning window, and never refitted
+        rows: dict[str, dict[str, float]] = {}
+        for a, b in sorted(pairs):
+            rows.setdefault(a, {})
+            rows[a][b] = rows[a].get(b, 0.0) + 1.0
+        prob = make_organica_backoff(rows, base_rate(window(world, 0, planned)), ALPHA)
+        test_events = window(world, planned + LEARN_CYCLES,
+                             planned + LEARN_CYCLES + TEST_CYCLES)
+        for event in test_events:
+            mem.store(event, event_type="event", source="test")
+        outcome = score_withheld(prob, test_events, withheld)
+        return {"configuration": config, "seed": seed, "horizon": horizon,
+                "cycles_run": cycle, "complete": True, "stopped_at_budget": False,
+                "pid": os.getpid(),
+                "onset": confirmation, "censored": False, "eligible": True,
+                "asserted_pairs_at_onset": len(pairs),
+                "late_available": late_available,
+                "outcome": outcome["log_loss"], "outcome_cells": outcome["cells"],
+                "outcome_occurrences": outcome["occurrences"],
+                "outcome_measurable": outcome["measurable"],
+                "di_trajectory": di,
+                "engine_seconds": round(time.time() - started, 2)}
+    finally:
+        mem.close()
+        for suffix in ("", "-wal", "-shm"):
+            Path(str(db) + suffix).unlink(missing_ok=True)
+
+
+def _percentile(values: list[float], level: float) -> tuple[float, float]:
+    ordered = sorted(values)
+    lo = ordered[int((1.0 - level) / 2.0 * (len(ordered) - 1))]
+    hi = ordered[int((1.0 + level) / 2.0 * (len(ordered) - 1))]
+    return round(lo, 4), round(hi, 4)
+
+
+def analyse(cells: list[dict], reps: int = REPS) -> dict:
+    """§5's statistics, per configuration, and the conjunction across all four."""
+    rng = random.Random(PRNG)
+    out: dict[str, dict] = {}
+    for config in CLAIMED:
+        rows = [c for c in cells if c["configuration"] == config and c.get("complete")]
+        scored = [c for c in rows if c.get("eligible") and c.get("outcome") is not None]
+        onsets = [c["onset"] for c in scored]
+        outcomes = [c["outcome"] for c in scored]
+        sizes = [c["asserted_pairs_at_onset"] for c in scored]
+        entry = {
+            "worlds": len(rows),
+            "worlds_expected": PER_CONFIG,
+            "eligible_scored": len(scored),
+            "ineligible": len([c for c in rows if c.get("eligible") is False]),
+            "censored": len([c for c in rows if c.get("censored")]),
+            "not_measurable": len([c for c in rows
+                                   if c.get("eligible") and not c.get("outcome_measurable")]),
+            "onset_median": statistics.median(onsets) if onsets else None,
+            "spearman": None, "interval": None, "slope": None,
+            "permutation_interval": None, "size_spearman": None,
+        }
+        if len(scored) >= 3:
+            rho = spearman(onsets, outcomes)
+            entry["spearman"] = rho
+            boot = []
+            for _ in range(reps):
+                pick = [rng.randrange(len(scored)) for _ in scored]
+                value = spearman([onsets[i] for i in pick], [outcomes[i] for i in pick])
+                if value is not None:
+                    boot.append(value)
+            entry["interval"] = _percentile(boot, LEVEL) if boot else None
+            entry["slope"] = _slope(onsets, outcomes)
+            perm = []
+            shuffled = list(onsets)
+            for _ in range(reps):
+                rng.shuffle(shuffled)
+                value = spearman(shuffled, outcomes)
+                if value is not None:
+                    perm.append(value)
+            entry["permutation_interval"] = _percentile(perm, LEVEL) if perm else None
+            entry["size_spearman"] = spearman(sizes, outcomes)
+        interval = entry["interval"]
+        if interval is None or entry["spearman"] is None:
+            entry["predicted_sign_held"] = False
+        elif PREDICTED_SIGN < 0:
+            entry["predicted_sign_held"] = bool(interval[1] < 0)
+        else:
+            entry["predicted_sign_held"] = bool(interval[0] > 0)
+        out[config] = entry
+    claimed = [c for c in CLAIMED if out[c]["worlds"]]
+    held = [c for c in claimed if out[c]["predicted_sign_held"]]
+    complete = [c for c in claimed if out[c]["worlds"] >= PER_CONFIG]
+    if not claimed:
+        verdict = "NO WORLD RAN"
+    elif len(claimed) < len(CLAIMED) or len(complete) < len(CLAIMED):
+        # §5's conjunction is defined over all four configurations AND the full block. An
+        # assembly missing a configuration, or carrying one shard's half of every
+        # configuration, has not run the protocol: the first would otherwise report
+        # "NOT SUPPORTED" and the second, whenever the relation showed, "SUPPORTED" on half
+        # the evidence. Both read as results about the claim.
+        verdict = "NO VERDICT: PARTIAL ASSEMBLY"
+    elif len(held) == len(claimed):
+        verdict = "SUPPORTED"
+    elif held:
+        verdict = "MIXED"
+    else:
+        verdict = "NOT SUPPORTED"
+    return {"by_configuration": out, "verdict": verdict,
+            "worlds_expected_per_configuration": PER_CONFIG,
+            "aggregation_rule": "supported only if the predicted relation holds with "
+                                "an interval excluding zero in every claimed "
+                                "configuration; otherwise mixed, never a best-configuration "
+                                "finding",
+            "level": LEVEL, "replicates": reps, "prng_state": PRNG,
+            "predicted_sign": "negative: earlier onset predicts a lower held-out log loss"}
+
+
+def _slope(xs: list[float], ys: list[float]) -> float | None:
+    if len(xs) < 3:
+        return None
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    sx = (sum((x - mx) ** 2 for x in xs) / len(xs)) ** 0.5
+    sy = (sum((y - my) ** 2 for y in ys) / len(ys)) ** 0.5
+    if sx == 0 or sy == 0:
+        return None
+    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / len(xs)
+    return round(cov / (sx * sy), 4)
+
+
+def self_test() -> dict:
+    """Guards, eligibility, scoring shape, and an analysis that can pass and fail."""
+    checks: dict[str, object] = {}
+
+    # 1. the allocation guard, asked against a counterfactual record so the control does
+    #    not quietly invert the day the owner allocates the block
+    empty = {"allocated": False, "seeds": [], "why": "control: nothing allocated"}
+    try:
+        assert_runnable(700000001, record=empty)
+        checks["refuses_a_seed_under_an_empty_allocation"] = False
+    except RuntimeError as exc:
+        checks["refuses_a_seed_under_an_empty_allocation"] = "NOT allocated" in str(exc)
+    assert_runnable(700000001, record={"allocated": True, "seeds": [700000001]})
+    checks["accepts_a_seed_under_a_record_that_names_it"] = True
+    try:
+        assert_runnable(700000002, record={"allocated": True, "seeds": [700000001]})
+        checks["refuses_a_seed_the_record_does_not_name"] = False
+    except RuntimeError as exc:
+        checks["refuses_a_seed_the_record_does_not_name"] = "NOT allocated" in str(exc)
+    try:
+        assert_runnable(700000721)
+        checks["refuses_a_reserved_spare"] = False
+    except RuntimeError as exc:
+        checks["refuses_a_reserved_spare"] = "never drawn" in str(exc)
+    assert_runnable(DESIGN_SEEDS[0])
+    checks["accepts_a_consumed_design_block_seed"] = True
+
+    # 2. the eligibility rule
+    checks["eligible_exactly_when_the_follow_up_fits"] = (
+        eligible(539, 640) is True and eligible(540, 640) is False
+        and eligible(None, 640) is False)
+
+    # 3. the scoring shape: a readout that knows the withheld pair must beat one
+    #    that does not, and an empty window must be not-measurable rather than zero
+    withheld = {("alpha", "beta")}
+    events = ["alpha", "beta", "alpha", "beta"]
+    knows = make_organica_backoff({"alpha": {"beta": 10.0}}, {"beta": 0.5}, ALPHA)
+    blind = make_organica_backoff({}, {"beta": 0.5}, ALPHA)
+    good = score_withheld(knows, events, withheld)
+    bad = score_withheld(blind, events, withheld)
+    checks["a_readout_that_knows_the_pair_scores_better"] = (
+        good["measurable"] and bad["measurable"] and good["log_loss"] < bad["log_loss"])
+    empty = score_withheld(knows, ["alpha", "gamma"], withheld)
+    checks["an_empty_window_is_not_measurable_not_zero"] = (
+        empty["log_loss"] is None and empty["measurable"] is False)
+
+    # 4. the analysis can detect a planted relation, and its permutation control
+    #    can fail to find one
+    planted = []
+    for i in range(PER_CONFIG):
+        # a full configuration, because a half-block can no longer carry a verdict
+        # the predicted direction is negative: later onset, higher log loss
+        value = 0.20 - 0.0005 * i
+        planted.append({"configuration": "2:1", "seed": 1000 + i, "complete": True,
+                        "eligible": True, "censored": False, "onset": 100 + i,
+                        "asserted_pairs_at_onset": 10,
+                        "outcome": value, "outcome_cells": 1, "outcome_occurrences": 1,
+                        "outcome_measurable": True})
+    found = analyse(planted, reps=200)["by_configuration"]["2:1"]
+    checks["detects_a_planted_relation"] = bool(found["predicted_sign_held"])
+    checks["permutation_control_includes_zero"] = (
+        found["permutation_interval"] is not None
+        and found["permutation_interval"][0] <= 0 <= found["permutation_interval"][1])
+
+    flat = [dict(c, outcome=0.5) for c in planted]
+    checks["does_not_detect_a_flat_outcome"] = not bool(
+        analyse(flat, reps=200)["by_configuration"]["2:1"]["predicted_sign_held"])
+
+    # 5. the conjunction: one configuration short is MIXED, never SUPPORTED
+    cells = list(planted)
+    for config in ("3:1", "4:1", "6:1"):
+        cells += [dict(c, configuration=config) for c in planted]
+    checks["all_four_holding_is_supported"] = analyse(cells, reps=100)["verdict"] == "SUPPORTED"
+    broken = [c for c in cells if not (c["configuration"] == "6:1")]
+    broken += [dict(c, configuration="6:1", outcome=0.5) for c in planted]
+    checks["one_configuration_short_is_mixed"] = analyse(broken, reps=100)["verdict"] == "MIXED"
+
+    return {"what_this_is": "The runner's own controls: the allocation guard, the "
+                            "eligibility arithmetic, the scoring shape, and an analysis "
+                            "that both detects a planted relation and fails to detect a "
+                            "flat one. No engine ran and no seed was touched.",
+            "checks": checks, "passed": all(bool(v) for v in checks.values()),
+            "prng_state": PRNG, "alpha": ALPHA,
+            "no_engine": "No engine ran and no Stage B seed was read or written."}
+
+
+CPU_COUNT = os.cpu_count() or 1
+
+
+def rate_proportionality(cells: list[dict]) -> dict:
+    """Is a cell's cost per cycle, or does it carry a per-world charge?
+
+    The estimate charges every configuration at one measured rate per cycle. That is
+    only right if the cost is proportional to the cycles a cell processes; a per-world
+    setup or world-generation charge would instead make short horizons look cheaper per
+    cycle than long ones. This fits seconds against cycles across every cell that has
+    run and asks whether one rate interval covers all the configurations.
+
+    The rule was fixed before the cells it judges were run: proportional means the
+    per-configuration rate ranges intersect. It is deliberately the weakest test the
+    data can support -- two cells per configuration -- and it cannot distinguish a
+    per-world charge that happens to scale with the cycle count, because no cell varies
+    its cycle count inside a configuration.
+    """
+    measured = [cell for cell in cells
+                if cell.get("complete") and cell.get("engine_seconds")
+                and cell.get("cycles_run")]
+    configs = sorted({cell["configuration"] for cell in measured})
+    if len(measured) < 3 or len(configs) < 2:
+        return {"checked": False, "cells": len(measured), "configurations": configs,
+                "why": "three cells across two configurations are the minimum that can "
+                       "separate a per-cycle cost from a per-world one"}
+    xs = [float(cell["cycles_run"] + TEST_CYCLES) for cell in measured]
+    ys = [float(cell["engine_seconds"]) for cell in measured]
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    sxx = sum((x - mx) ** 2 for x in xs)
+    slope = (sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sxx) if sxx else None
+    intercept = (my - slope * mx) if slope is not None else None
+    ss_tot = sum((y - my) ** 2 for y in ys)
+    ss_res = (sum((y - (intercept + slope * x)) ** 2 for x, y in zip(xs, ys))
+              if slope is not None else None)
+    per_configuration: dict[str, dict] = {}
+    for config in configs:
+        rows = [cell for cell in measured if cell["configuration"] == config]
+        rates = [cell["engine_seconds"] / (cell["cycles_run"] + TEST_CYCLES) for cell in rows]
+        per_configuration[config] = {
+            "cells": len(rows),
+            "cycles_per_cell": sorted({cell["cycles_run"] + TEST_CYCLES for cell in rows}),
+            "rate_min": round(min(rates), 6),
+            "rate_mean": round(statistics.fmean(rates), 6),
+            "rate_max": round(max(rates), 6),
+            "seconds": [cell["engine_seconds"] for cell in rows],
+        }
+    low = max(block["rate_min"] for block in per_configuration.values())
+    high = min(block["rate_max"] for block in per_configuration.values())
+    shared = low <= high
+    return {
+        "checked": True,
+        "cells": len(measured),
+        "configurations": configs,
+        "fit": {"slope_seconds_per_cycle": round(slope, 6) if slope is not None else None,
+                "intercept_seconds": round(intercept, 2) if intercept is not None else None,
+                "r_squared": round(1.0 - ss_res / ss_tot, 4) if ss_tot else None},
+        "per_configuration": per_configuration,
+        "shared_rate_interval": [round(low, 6), round(high, 6)] if shared else None,
+        "proportional_within_measured_range": bool(shared),
+        "decision_rule": "proportional iff the per-configuration rate ranges intersect; "
+                         "declared before the cells it judges were run",
+        "what_this_cannot_show": "a per-world charge that scales with the cycle count is "
+                                 "indistinguishable from a per-cycle charge here, because no "
+                                 "cell varies its cycle count inside a configuration; and a "
+                                 "cell does not record how many workers shared the machine, so "
+                                 "a cross-configuration difference may be load rather than "
+                                 "configuration",
+    }
+
+
+def cost_estimate(cells: list[dict], cpu_count: int = CPU_COUNT,
+                  efficiency: float = 1.0) -> dict:
+    """Wall-clock projection for the block, from cells that have already run.
+
+    One assumption wide on purpose: a cell's cost is proportional to the cycles it
+    processes -- the cycles it sleeps through plus the cells of the test window it
+    stores -- so a measured seconds-per-cycle figure transfers to a configuration with
+    a different planned confirmation only through its cycle count. World generation and
+    per-cell setup are charged at that same rate, which is a projection and not a
+    measurement: every rate here comes from one configuration, and the three cells that
+    produced it all have the same cycle count, so nothing in this artifact tests the
+    proportionality it assumes.
+    """
+    measured = [cell for cell in cells
+                if cell.get("complete") and cell.get("engine_seconds")
+                and cell.get("cycles_run")]
+    if not measured:
+        return {"estimated": False, "worlds": 0,
+                "why": "no cell has run, so there is no measured rate to project from"}
+    rates = [cell["engine_seconds"] / (cell["cycles_run"] + TEST_CYCLES)
+             for cell in measured]
+    mean_rate = statistics.fmean(rates)
+    per_configuration: dict[str, dict] = {}
+    cycles_total = 0
+    for config in CLAIMED:
+        cycles = horizon_cycles(config) - 1          # confirmation + learn + test
+        per_configuration[config] = {"worlds": PER_CONFIG, "cycles_per_world": cycles,
+                                     "serial_hours": round(PER_CONFIG * cycles
+                                                           * mean_rate / 3600.0, 2)}
+        cycles_total += PER_CONFIG * cycles
+    serial = cycles_total * mean_rate
+    wall = {}
+    for workers in (1, 2, 4, 8):
+        effective = min(workers, cpu_count) * efficiency
+        wall[str(workers)] = round(serial / effective / 3600.0, 2)
+    return {
+        "estimated": True,
+        "planning_only": True,
+        "no_seed_allocated": True,
+        "worlds": PER_CONFIG * len(CLAIMED),
+        "cycles_total": cycles_total,
+        "measured_seconds_per_cycle": {"min": round(min(rates), 6),
+                                       "mean": round(mean_rate, 6),
+                                       "max": round(max(rates), 6)},
+        "measured_from": [{"configuration": cell["configuration"],
+                           "design_block_cell": cell["seed"],
+                           "cycles": cell["cycles_run"] + TEST_CYCLES,
+                           "seconds": cell["engine_seconds"]} for cell in measured],
+        "per_configuration": per_configuration,
+        "serial_hours": round(serial / 3600.0, 2),
+        "serial_hours_spread": {"low": round(cycles_total * min(rates) / 3600.0, 2),
+                                "high": round(cycles_total * max(rates) / 3600.0, 2)},
+        "wall_hours_by_workers": wall,
+        "cpu_count": cpu_count,
+        "parallel_efficiency": round(efficiency, 3),
+        "assumptions": [
+            "cost is proportional to the cycles a cell processes, which three cells of "
+            "one configuration cannot test",
+            "every configuration costs the same per cycle; the measured rate is from "
+            "6:1 only",
+            "wall clock assumes linear speedup up to the CPU count scaled by the "
+            "measured two-worker efficiency, with no I/O contention and no pause",
+        ],
+    }
+
+
+def verify_assembly(path: str | Path, reps: int | None = None) -> dict:
+    """Audit an assembly produced somewhere else, without running anything.
+
+    An assembly is a claim about 720 worlds, and a claim that travels between machines
+    (or between a laptop and a commit) arrives as numbers. This checks the numbers it can
+    check from the cells themselves -- allocation membership, the spares, the per
+    configuration counts, the eligibility arithmetic, the trajectory length -- and then
+    recomputes §5's analysis and compares it field by field with what the file reports.
+    Nothing is generated, so this costs seconds rather than the block's 29 hours.
+    """
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    cells = doc.get("cells") or []
+    record = allocation()
+    allowed = set(record["seeds"]) if record.get("allocated") else set()
+    problems: list[str] = []
+    notes: list[str] = []
+
+    seeds = [cell.get("seed") for cell in cells]
+    duplicates = sorted({seed for seed in seeds if seeds.count(seed) > 1})
+    spares = sorted({seed for seed in seeds if seed in SPARES})
+    foreign = sorted({seed for seed in seeds if seed not in allowed})
+    if not record.get("allocated"):
+        problems.append("no allocation record: there is nothing to verify against")
+    if not cells:
+        problems.append("the assembly contains no cells")
+    if duplicates:
+        problems.append(f"{len(duplicates)} seed(s) appear more than once, first {duplicates[:5]}")
+    if spares:
+        problems.append(f"the spares were drawn: {spares}")
+    if foreign:
+        notes.append(f"{len(foreign)} cell(s) are not in the allocated block and were "
+                     f"excluded from the counts below: {foreign[:8]}")
+    kept = [cell for cell in cells if cell.get("seed") in allowed]
+
+    per = {config: [cell for cell in kept if cell.get("configuration") == config]
+           for config in CLAIMED}
+    counts = {config: len(per[config]) for config in CLAIMED}
+    measurable = {config: sum(1 for cell in per[config] if cell.get("outcome_measurable"))
+                  for config in CLAIMED}
+    for config, count in counts.items():
+        if count != PER_CONFIG:
+            problems.append(f"{config} has {count} worlds, the allocation gives {PER_CONFIG}")
+
+    for cell in kept:
+        config, seed = cell.get("configuration"), cell.get("seed")
+        if config not in CLAIMED:
+            problems.append(f"seed {seed}: unknown configuration {config!r}")
+            continue
+        horizon = cell.get("horizon")
+        if horizon is not None and horizon != horizon_cycles(config):
+            problems.append(f"{config} {seed}: horizon {horizon}, the protocol says "
+                            f"{horizon_cycles(config)}")
+        if "eligible" in cell and bool(cell["eligible"]) != eligible(
+                cell.get("onset"), horizon or horizon_cycles(config)):
+            problems.append(f"{config} {seed}: eligible={cell['eligible']} contradicts "
+                            f"onset={cell.get('onset')} against horizon "
+                            f"{horizon or horizon_cycles(config)}")
+        if cell.get("outcome_measurable") and cell.get("outcome") is None:
+            problems.append(f"{config} {seed}: measurable but no outcome -- an unmeasurable "
+                            f"quantity must never be reported as a number")
+        if not cell.get("outcome_measurable") and cell.get("outcome") is not None:
+            problems.append(f"{config} {seed}: not measurable but carries outcome "
+                            f"{cell['outcome']}")
+        trajectory, cycles = cell.get("di_trajectory"), cell.get("cycles_run")
+        if trajectory is not None and cycles and len(trajectory) != cycles:
+            problems.append(f"{config} {seed}: {len(trajectory)} trajectory points for "
+                            f"{cycles} cycles")
+
+    reported = doc.get("analysis") or {}
+    level = reported.get("replicates")
+    fresh = analyse(kept, reps=reps if reps is not None else (level or 100))
+    if reported.get("level") not in (None, LEVEL):
+        notes.append(f"the file was computed at level {reported['level']}, this code uses "
+                     f"{LEVEL}; intervals will not match")
+    if reported.get("prng_state") not in (None, PRNG):
+        notes.append(f"the file used prng_state {reported['prng_state']}, this code uses "
+                     f"{PRNG}")
+
+    comparisons = {}
+    for config in CLAIMED:
+        shown = (reported.get("by_configuration") or {}).get(config) or {}
+        here = fresh["by_configuration"][config]
+        # JSON turns the interval tuple into a list, so compare as lists: comparing the
+        # recomputed tuple against the file's list made every real assembly look wrong.
+        interval_same = (shown.get("interval") is not None
+                         and here["interval"] is not None
+                         and list(shown["interval"]) == list(here["interval"]))
+        rho_same = (shown.get("spearman") is not None and here["spearman"] is not None
+                    and abs(shown["spearman"] - here["spearman"]) < 1e-9)
+        comparisons[config] = {
+            "worlds": counts[config],
+            "measurable": measurable[config],
+            "reported_worlds": shown.get("worlds"),
+            "reported_measurable": shown.get("measurable"),
+            "spearman": here["spearman"],
+            "reported_spearman": shown.get("spearman"),
+            "interval": here["interval"],
+            "reported_interval": shown.get("interval"),
+            "permutation_interval": here["permutation_interval"],
+            "predicted_sign_held": here["predicted_sign_held"],
+            "worlds_match": shown.get("worlds") == counts[config],
+            "spearman_match": rho_same,
+            "interval_match": interval_same,
+        }
+        if not rho_same:
+            problems.append(f"{config}: reported spearman {shown.get('spearman')} != "
+                            f"recomputed {here['spearman']}")
+        if not interval_same:
+            problems.append(f"{config}: reported interval {shown.get('interval')} != "
+                            f"recomputed {here['interval']}")
+        if shown.get("worlds") is not None and shown["worlds"] != counts[config]:
+            problems.append(f"{config}: reported {shown['worlds']} worlds, the cells give "
+                            f"{counts[config]}")
+
+    verdict = {"reported": reported.get("verdict"), "recomputed": fresh["verdict"],
+               "match": reported.get("verdict") == fresh["verdict"]}
+    if not verdict["match"]:
+        problems.append(f"verdict: reported {verdict['reported']!r} != recomputed "
+                        f"{verdict['recomputed']!r}")
+    return {
+        "what_this_is": "An audit of an assembly that was produced elsewhere. No world is "
+                        "generated and no cell is re-run; the cells' own arithmetic is "
+                        "checked and §5's analysis is recomputed from them.",
+        "path": str(path),
+        "cells": len(cells),
+        "block_cells": len(kept),
+        "worlds_by_configuration": counts,
+        "worlds_expected": PER_CONFIG,
+        "block_complete": all(count == PER_CONFIG for count in counts.values()),
+        "by_configuration": comparisons,
+        "verdict": verdict,
+        "notes": notes,
+        "problems": problems[:25],
+        "problem_count": len(problems),
+        "passed": not problems,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--audit", action="store_true")
+    parser.add_argument("--cell", help="CONFIG:SEED, e.g. 6:1:20261023")
+    parser.add_argument("--all", action="store_true")
+    parser.add_argument("--assemble", action="store_true")
+    parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--shard", metavar="K/N",
+                        help="take every N-th cell starting at K, e.g. 1/2 or 2/2")
+    parser.add_argument("--out", help="where --assemble writes (default docs/stage_b_runner.json)")
+    parser.add_argument("--verify", metavar="PATH",
+                        help="audit an assembly produced elsewhere, without re-running it")
+    parser.add_argument("--reps", type=int, default=None,
+                        help="bootstrap replicates for --verify (default: the file's own)")
+    parser.add_argument("--rate-check", action="store_true",
+                        help="ask whether a cell's cost is per cycle or per world")
+    parser.add_argument("--estimate", action="store_true",
+                        help="project the block's wall clock from cells that have run")
+    parser.add_argument("--no-cache", action="store_true")
+    parser.add_argument("--budget", type=float, default=None)
+    args = parser.parse_args(argv)
+
+    if args.self_test:
+        result = self_test()
+        SELF_TEST_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(result, indent=2))
+        return 0 if result["passed"] else 1
+
+    if args.audit:
+        from benchmarks.stage_b_stream_withholding import audit
+        result = audit()
+        print(json.dumps(result["checks"], indent=2))
+        failures = [k for k, v in result["checks"].items()
+                    if isinstance(v, bool) and not v]
+        return 0 if not failures else 1
+
+    if args.cell:
+        config, seed = parse_cell(args.cell)
+        cell = None if args.no_cache else load_cell(config, seed)
+        if cell is not None:
+            print(f"cached: {config} {seed} (use --no-cache to re-run)")
+        else:
+            cell = run_cell(config, seed, budget=args.budget)
+            save_cell(cell)
+        print(json.dumps({k: v for k, v in cell.items() if k != "di_trajectory"},
+                         indent=2))
+        return 0
+
+    if args.assemble:
+        cells = [json.loads(p.read_text(encoding="utf-8"))
+                 for p in sorted(CACHE.glob("cell_*.json"))]
+        note = "No world is generated here."
+        if cells and all(cell["seed"] in DESIGN_SEEDS for cell in cells):
+            note += (" Every cell in this assembly was drawn from a consumed design-block "
+                     "seed, so this assembly is an exercise of the instrument and not a "
+                     "measurement of the claim.")
+        result = {"what_this_is": "Stage B cells assembled from the cache, with §5's "
+                                  "analysis. " + note,
+                  "cells": cells, "analysis": analyse(cells), "limits": LIMITS}
+        target = Path(args.out) if args.out else OUT
+        target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(result["analysis"], indent=2))
+        return 0
+
+    if args.verify:
+        result = verify_assembly(args.verify, reps=args.reps)
+        print(json.dumps(result, indent=2))
+        return 0 if result["passed"] else 1
+
+    if args.rate_check:
+        cells = [json.loads(p.read_text(encoding="utf-8"))
+                 for p in sorted(CACHE.glob("cell_*.json"))]
+        result = rate_proportionality(cells)
+        RATE_CHECK_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(result, indent=2))
+        return 0
+
+    if args.estimate:
+        cells = [json.loads(p.read_text(encoding="utf-8"))
+                 for p in sorted(CACHE.glob("cell_*.json"))]
+        efficiency = 1.0
+        smoke_path = ROOT / "docs" / "stage_b_runner_smoke.json"
+        if smoke_path.exists():
+            smoke = json.loads(smoke_path.read_text(encoding="utf-8")).get("parallel_smoke")
+            if smoke and smoke.get("distinct_pids", 0) > 1:
+                done = sum(c["engine_seconds"] for c in smoke["cells"])
+                efficiency = done / smoke["wall_seconds"] / smoke["workers"]
+        result = cost_estimate(cells, efficiency=efficiency)
+        ESTIMATE_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps({k: v for k, v in result.items() if k != "measured_from"},
+                         indent=2))
+        return 0
+
+    if args.all:
+        record = allocation()
+        if not record["allocated"]:
+            print("REFUSED: no seed is allocated. " + str(record.get("why", "")) +
+                  " Allocating the block is the owner's act (decision record §D2 step 3).")
+            return 2
+        jobs = block_jobs()
+        if args.shard:
+            index, count = parse_shard(args.shard)
+            jobs = shard_jobs(index, count)
+            print(f"shard {index}/{count}: {len(jobs)} of {len(block_jobs())} cells "
+                  f"assigned to this machine")
+        pending = [(config, seed) for config, seed in jobs
+                   if not cell_is_done(load_cell(config, seed))]
+        print(f"{len(jobs) - len(pending)} cached, {len(pending)} pending, "
+              f"{args.workers} worker(s)")
+        run_many(pending, workers=args.workers, budget=args.budget)
+        return 0
+
+    parser.print_help()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

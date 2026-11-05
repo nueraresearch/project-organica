@@ -1,0 +1,317 @@
+{
+  "kind": "sign resolution for the structure -> behavior block",
+  "subject": "docs/STRUCTURE-BEHAVIOR-DESIGN.md \u00a76; synthetic worlds; no engine run, no seed",
+  "question": "at n worlds per configuration, how often does this block's decision rule recover the relation with the correct sign, for a relation of size rho?",
+  "decision_rule_simulated": "Spearman rank correlation across worlds; interval by resampling worlds; resolved only when the interval excludes zero with the predicted sign",
+  "reference_rule": {
+    "name": "smallest relation of interest",
+    "rho": 0.5,
+    "why": "the bar is set at the weakest relation the design would call predictive. Setting it at a guessed effect size would make the answer depend on a number no artifact supplies; setting it at the smallest effect worth detecting makes the block's size a consequence of the claim instead of the claim a consequence of the size."
+  },
+  "threshold": 0.9,
+  "level": 0.9833,
+  "grid": {
+    "ns": [
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      40,
+      50,
+      60,
+      80,
+      100
+    ],
+    "rhos": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7
+    ],
+    "analytic": {
+      "5": {
+        "0.30": 0.0253,
+        "0.40": 0.0364,
+        "0.50": 0.053,
+        "0.60": 0.0788,
+        "0.70": 0.1217
+      },
+      "10": {
+        "0.30": 0.0577,
+        "0.40": 0.1016,
+        "0.50": 0.1736,
+        "0.60": 0.288,
+        "0.70": 0.4607
+      },
+      "15": {
+        "0.30": 0.0932,
+        "0.40": 0.1773,
+        "0.50": 0.3119,
+        "0.60": 0.5031,
+        "0.70": 0.7295
+      },
+      "20": {
+        "0.30": 0.132,
+        "0.40": 0.259,
+        "0.50": 0.4489,
+        "0.60": 0.6789,
+        "0.70": 0.8815
+      },
+      "25": {
+        "0.30": 0.1732,
+        "0.40": 0.3423,
+        "0.50": 0.5727,
+        "0.60": 0.8045,
+        "0.70": 0.953
+      },
+      "30": {
+        "0.30": 0.2162,
+        "0.40": 0.4239,
+        "0.50": 0.6776,
+        "0.60": 0.8866,
+        "0.70": 0.9827
+      },
+      "40": {
+        "0.30": 0.3048,
+        "0.40": 0.5729,
+        "0.50": 0.8284,
+        "0.60": 0.9658,
+        "0.70": 0.998
+      },
+      "50": {
+        "0.30": 0.3931,
+        "0.40": 0.6954,
+        "0.50": 0.9151,
+        "0.60": 0.9908,
+        "0.70": 0.9998
+      },
+      "60": {
+        "0.30": 0.4775,
+        "0.40": 0.7897,
+        "0.50": 0.9603,
+        "0.60": 0.9977,
+        "0.70": 1.0
+      },
+      "80": {
+        "0.30": 0.6266,
+        "0.40": 0.9073,
+        "0.50": 0.9924,
+        "0.60": 0.9999,
+        "0.70": 1.0
+      },
+      "100": {
+        "0.30": 0.7438,
+        "0.40": 0.9624,
+        "0.50": 0.9987,
+        "0.60": 1.0,
+        "0.70": 1.0
+      }
+    }
+  },
+  "bootstrap_validation": {
+    "rows": [
+      {
+        "n": 10,
+        "rho": 0.5,
+        "analytic": 0.1736,
+        "simulated": 0.14,
+        "difference": -0.0336,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0245
+      },
+      {
+        "n": 48,
+        "rho": 0.5,
+        "analytic": 0.9018,
+        "simulated": 0.85,
+        "difference": -0.0518,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0252
+      },
+      {
+        "n": 32,
+        "rho": 0.6,
+        "analytic": 0.9098,
+        "simulated": 0.865,
+        "difference": -0.0448,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0242
+      },
+      {
+        "n": 21,
+        "rho": 0.7,
+        "analytic": 0.9008,
+        "simulated": 0.865,
+        "difference": -0.0358,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0242
+      },
+      {
+        "n": 79,
+        "rho": 0.4,
+        "analytic": 0.9032,
+        "simulated": 0.88,
+        "difference": -0.0232,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.023
+      },
+      {
+        "n": 30,
+        "rho": 0.3,
+        "analytic": 0.2162,
+        "simulated": 0.2,
+        "difference": -0.0162,
+        "sims": 200,
+        "bootstrap_reps": 300,
+        "monte_carlo_se": 0.0283
+      }
+    ],
+    "worst_abs_difference": 0.0518,
+    "note": "the analytic column is Fisher's z on Spearman's r; the simulated column applies the protocol's bootstrap. They are two different interval constructions, so the difference is a check that the closed form is not doing the work alone, not an error estimate of either."
+  },
+  "minimum_n": {
+    "0.30": 144,
+    "0.40": 79,
+    "0.50": 48,
+    "0.60": 32,
+    "0.70": 21
+  },
+  "verdict": {
+    "reference_n": 48,
+    "p_at_reference_n": 0.9018,
+    "p_at_reference_n_without_bar": null,
+    "reading": "at a true rank relation of 0.50, a block of 48 worlds per configuration resolves the sign with probability 0.902 at the 0.90 bar. Smaller blocks resolve only larger relations.",
+    "smallest_relation_at_n": {
+      "5": null,
+      "10": null,
+      "20": null,
+      "30": "0.70"
+    }
+  },
+  "bound_direction": {
+    "statement": "The computed PROBABILITY is an upper bound, and the computed MINIMUM N is therefore a floor. Every unmodelled defect - measurement error in DI, dependence between worlds - makes the real probability lower than the computed one, so a block of that size resolves the relation LESS often than the table says, and the worlds required are AT LEAST those listed.",
+    "probability": "upper bound",
+    "minimum_n": "floor: a lower bound on the worlds required, not a ceiling on the block's size",
+    "correction": "The first version of this artifact called the output an upper bound without saying of what, so the 48-world figure could be read as a maximum. Corrected 2026-11-02 after the owner pointed out that attenuation implies the opposite direction for the world count."
+  },
+  "what_the_number_is_not": [
+    "not a posterior probability that the hypothesis is true",
+    "not a p-value, not a false-positive rate, and not a power figure in the Neyman-Pearson sense",
+    "not a property of the engine: no engine ran, and no seed was spent",
+    "not a statement about a latent relation - it concerns the relation as measured, handled in `attenuation`"
+  ],
+  "attenuation": {
+    "model": "Classical error in the predictor only: observed = sqrt(reliability) * latent + sqrt(1 - reliability) * noise. Under bivariate normality this multiplies the PEARSON correlation by sqrt(reliability); the observed SPEARMAN value then follows from rho_s = (6/pi) asin(rho_g / 2), which `observed_spearman` computes and `check_observed_spearman` verifies on samples of the block's own size. An earlier version multiplied the rank correlation by the reliability itself, which is not the same rule and overstated the loss at every level.",
+    "latent_rho": 0.5,
+    "rows": [
+      {
+        "reliability": 1.0,
+        "naive_product": 0.5,
+        "pearson_sqrt_rule": 0.5,
+        "measured_rho": 0.5,
+        "monte_carlo_rho": 0.483,
+        "worlds_required": 48
+      },
+      {
+        "reliability": 0.9,
+        "naive_product": 0.45,
+        "pearson_sqrt_rule": 0.4743,
+        "measured_rho": 0.4738,
+        "monte_carlo_rho": 0.4694,
+        "worlds_required": 54
+      },
+      {
+        "reliability": 0.8,
+        "naive_product": 0.4,
+        "pearson_sqrt_rule": 0.4472,
+        "measured_rho": 0.4462,
+        "monte_carlo_rho": 0.4447,
+        "worlds_required": 62
+      },
+      {
+        "reliability": 0.7,
+        "naive_product": 0.35,
+        "pearson_sqrt_rule": 0.4183,
+        "measured_rho": 0.4169,
+        "monte_carlo_rho": 0.4047,
+        "worlds_required": 72
+      },
+      {
+        "reliability": 0.6,
+        "naive_product": 0.3,
+        "pearson_sqrt_rule": 0.3873,
+        "measured_rho": 0.3855,
+        "monte_carlo_rho": 0.3732,
+        "worlds_required": 85
+      },
+      {
+        "reliability": 0.5,
+        "naive_product": 0.25,
+        "pearson_sqrt_rule": 0.3536,
+        "measured_rho": 0.3515,
+        "monte_carlo_rho": 0.3625,
+        "worlds_required": 104
+      },
+      {
+        "reliability": 0.4,
+        "naive_product": 0.2,
+        "pearson_sqrt_rule": 0.3162,
+        "measured_rho": 0.314,
+        "monte_carlo_rho": 0.2935,
+        "worlds_required": 131
+      },
+      {
+        "reliability": 0.3,
+        "naive_product": 0.15,
+        "pearson_sqrt_rule": 0.2739,
+        "measured_rho": 0.2717,
+        "monte_carlo_rho": 0.2675,
+        "worlds_required": 177
+      }
+    ],
+    "reading": "reliability is measured nowhere in this project for DI, so the table is a sensitivity curve under one stated error model, not a correction. It assumes classical, independent error; DI is a bounded ratio and a different error model gives a different curve. The measured reliability, once it exists, is the input; the curve only says how far the requirement moves as that input varies."
+  },
+  "dependence": {
+    "assumption": "worlds within one configuration are exchangeable, so the interval resamples them individually.",
+    "test": "worlds are simulated with a shared component (intraclass correlation) in the predictor, and the same data are resampled two ways: individual worlds, and contiguous blocks.",
+    "rows": [
+      {
+        "world_icc": 0.0,
+        "p_iid_bootstrap": 0.86,
+        "p_block_bootstrap": 0.8267,
+        "difference": 0.0333
+      },
+      {
+        "world_icc": 0.1,
+        "p_iid_bootstrap": 0.84,
+        "p_block_bootstrap": 0.84,
+        "difference": 0.0
+      },
+      {
+        "world_icc": 0.2,
+        "p_iid_bootstrap": 0.8667,
+        "p_block_bootstrap": 0.88,
+        "difference": -0.0133
+      }
+    ],
+    "finding": "the direction is measured, not assumed. Positive intraclass correlation makes the individual-world interval narrower than the block interval, so the i.i.d. probability is the optimistic one; a different dependence structure could run the other way.",
+    "required_diagnostic": "report seed generation and ordering, whether seeds are independent experimental worlds, dependence beyond lag 1, and both the individual-world and contiguous-block intervals with the resolution probability under each."
+  },
+  "status": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone.",
+  "limits": [
+    "The worlds are synthetic. This measures the estimator, not the size of the real relation.",
+    "Attenuation from DI's own measurement error is not fitted; the attenuation table prices it under one stated assumption. The effect is to raise the worlds required, so 48 is a floor.",
+    "The Gaussian copula assumes worlds are exchangeable draws. Within-configuration dependence changes the interval in a direction that depends on the structure of the dependence; the simulation in `dependence` does not resolve that direction at its simulation size, so the block measures it rather than assuming it.",
+    "Only the primary configuration's rule is simulated. A secondary configuration with its own withheld set has its own outcome distribution and no number is transferred to it.",
+    "The 98.33 % level and the 0.90 bar are conventions. The artifact reports the grid so a different bar can be read off without recomputation."
+  ],
+  "generated_by": "python -m benchmarks.sign_resolution_behavior"
+}

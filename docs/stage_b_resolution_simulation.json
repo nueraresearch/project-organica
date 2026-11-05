@@ -1,0 +1,169 @@
+{
+  "what_this_is": "The probability that Stage B's declared decision rule -- Spearman across worlds, percentile bootstrap at 98.33 %, resolved only when the interval excludes zero with the predicted sign -- clears the 90 % bar, at each row of the block ladder. Computed by simulation because the ladder itself is a Fisher-z closed form.",
+  "why_it_exists": "docs/AI-REVIEW-2026-11-02.md, rubric question 4: the ladder is closed-form while the analysis is a percentile bootstrap, and the bootstrap realisation was never checked at the planning point.",
+  "decision_rule_simulated": "Spearman rank correlation across worlds; interval by resampling worlds at the project's 98.33 % level; resolved only when it excludes zero with the predicted sign",
+  "level": 0.9833,
+  "bar": 0.9,
+  "generator": "Gaussian copula with the stated rank correlation; synthetic worlds only, no engine, no seed spent",
+  "prng_state": 20261103,
+  "points": {
+    "0.30": {
+      "reliability": 0.3,
+      "observed_effect_spearman": 0.271659,
+      "worlds_per_configuration": 177,
+      "fisher_z_says": 0.9002,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.905,
+      "monte_carlo_se": 0.0147,
+      "clears_bar": true
+    },
+    "0.40": {
+      "reliability": 0.4,
+      "observed_effect_spearman": 0.314041,
+      "worlds_per_configuration": 131,
+      "fisher_z_says": 0.9004,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.8875,
+      "monte_carlo_se": 0.0158,
+      "clears_bar": false
+    },
+    "0.50": {
+      "reliability": 0.5,
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 104,
+      "fisher_z_says": 0.9026,
+      "simulations": 1600,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.895,
+      "monte_carlo_se": 0.0077,
+      "clears_bar": false
+    },
+    "0.60": {
+      "reliability": 0.6,
+      "observed_effect_spearman": 0.385502,
+      "worlds_per_configuration": 85,
+      "fisher_z_says": 0.9011,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.8875,
+      "monte_carlo_se": 0.0158,
+      "clears_bar": false
+    },
+    "0.70": {
+      "reliability": 0.7,
+      "observed_effect_spearman": 0.41687,
+      "worlds_per_configuration": 72,
+      "fisher_z_says": 0.9022,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.89,
+      "monte_carlo_se": 0.0156,
+      "clears_bar": false
+    },
+    "0.80": {
+      "reliability": 0.8,
+      "observed_effect_spearman": 0.44617,
+      "worlds_per_configuration": 62,
+      "fisher_z_says": 0.902,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9025,
+      "monte_carlo_se": 0.0148,
+      "clears_bar": true
+    },
+    "0.90": {
+      "reliability": 0.9,
+      "observed_effect_spearman": 0.473786,
+      "worlds_per_configuration": 54,
+      "fisher_z_says": 0.9005,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.845,
+      "monte_carlo_se": 0.0181,
+      "clears_bar": false
+    },
+    "1.00": {
+      "reliability": 1.0,
+      "observed_effect_spearman": 0.5,
+      "worlds_per_configuration": 48,
+      "fisher_z_says": 0.9018,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.8625,
+      "monte_carlo_se": 0.0172,
+      "clears_bar": false
+    }
+  },
+  "size_sensitivity_at_planning_effect": {
+    "112": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 112,
+      "fisher_z_says": 0.9251,
+      "simulations": 800,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9137,
+      "monte_carlo_se": 0.0099,
+      "clears_bar": true
+    },
+    "120": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 120,
+      "fisher_z_says": 0.9427,
+      "simulations": 800,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9313,
+      "monte_carlo_se": 0.0089,
+      "clears_bar": true
+    },
+    "150": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 150,
+      "fisher_z_says": 0.9802,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.975,
+      "monte_carlo_se": 0.0078,
+      "clears_bar": true
+    },
+    "160": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 160,
+      "fisher_z_says": 0.9864,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9775,
+      "monte_carlo_se": 0.0074,
+      "clears_bar": true
+    },
+    "180": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 180,
+      "fisher_z_says": 0.9936,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.9975,
+      "monte_carlo_se": 0.0025,
+      "clears_bar": true
+    },
+    "200": {
+      "observed_effect_spearman": 0.35151,
+      "worlds_per_configuration": 200,
+      "fisher_z_says": 0.9971,
+      "simulations": 400,
+      "bootstrap_replicates": 300,
+      "resolved_share": 0.995,
+      "monte_carlo_se": 0.0035,
+      "clears_bar": true
+    }
+  },
+  "planning_row": "0.50",
+  "planning_clears_bar": false,
+  "what_the_monte_carlo_allows": "each row carries the Monte-Carlo standard error of its own resolved share. Where that error spans the 90 % bar the row does not establish which side of the bar the design is on, and this artifact is not used to choose a size on such a row (docs/AI-REVIEW-2026-11-03.md, finding 2)",
+  "limits": [
+    "synthetic worlds under a Gaussian copula, not Stage B worlds; this measures a property of the estimator, not the size of the real relation",
+    "300 bootstrap replicates per simulated block against the protocol's 10,000. At the 98.33 % level the lower edge is the 3rd smallest of 300 replicates, where 10,000 give the 84th of 10,000, and the direction of the resulting bias in the resolved share is NOT measured here. An earlier version of this list asserted a direction for that bias; nothing in this artifact supported it (docs/AI-REVIEW-2026-11-03.md, finding 2)",
+    "reliability is the declared planning assumption under one classical error model, not a measured property of DI"
+  ]
+}

@@ -1,0 +1,1219 @@
+{
+ "F1_fires": true,
+ "P3_holds": false,
+ "intervention": "canonical_score: temporal graph + composites + total order on tag scores",
+ "invariant_seeds": 0,
+ "kind": "divergence_arm_b_prime_sweep",
+ "preregistration": "docs/DIVERGENCE-MECHANISM-BRIEF.md section 11",
+ "rows": [
+  {
+   "by_type": {
+    "anomalies": 20,
+    "concepts": 0,
+    "loops": 2,
+    "meta": 22,
+    "predictions": 2,
+    "score_tags": 24,
+    "temporal_read": 20
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    }
+   ],
+   "differences": 90,
+   "divergence_cycle": 11,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261125,
+   "task": "T1"
+  },
+  {
+   "by_type": {
+    "anomalies": 10,
+    "concepts": 0,
+    "loops": 18,
+    "meta": 20,
+    "predictions": 18,
+    "score_tags": 24,
+    "temporal_read": 18
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    }
+   ],
+   "differences": 108,
+   "divergence_cycle": 3,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    7
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261128,
+   "task": "T1"
+  },
+  {
+   "by_type": {
+    "anomalies": 20,
+    "concepts": 0,
+    "loops": 20,
+    "meta": 22,
+    "predictions": 20,
+    "score_tags": 24,
+    "temporal_read": 20
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "anomalies"
+    }
+   ],
+   "differences": 126,
+   "divergence_cycle": 2,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261129,
+   "task": "T1"
+  },
+  {
+   "by_type": {
+    "anomalies": 14,
+    "concepts": 0,
+    "loops": 2,
+    "meta": 13,
+    "predictions": 14,
+    "score_tags": 24,
+    "temporal_read": 14
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": true,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "predictions"
+    }
+   ],
+   "differences": 81,
+   "divergence_cycle": 5,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    1
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261118,
+   "task": "T2"
+  },
+  {
+   "by_type": {
+    "anomalies": 16,
+    "concepts": 0,
+    "loops": 14,
+    "meta": 17,
+    "predictions": 16,
+    "score_tags": 24,
+    "temporal_read": 18
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    }
+   ],
+   "differences": 105,
+   "divergence_cycle": 5,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    13
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261120,
+   "task": "T2"
+  },
+  {
+   "by_type": {
+    "anomalies": 16,
+    "concepts": 0,
+    "loops": 2,
+    "meta": 15,
+    "predictions": 14,
+    "score_tags": 24,
+    "temporal_read": 16
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "temporal_read"
+    }
+   ],
+   "differences": 87,
+   "divergence_cycle": 5,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261121,
+   "task": "T2"
+  },
+  {
+   "by_type": {
+    "anomalies": 0,
+    "concepts": 0,
+    "loops": 4,
+    "meta": 14,
+    "predictions": 14,
+    "score_tags": 24,
+    "temporal_read": 14
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 9,
+     "membership_same": false,
+     "type": "temporal_read"
+    }
+   ],
+   "differences": 70,
+   "divergence_cycle": 5,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    8
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261123,
+   "task": "T2"
+  },
+  {
+   "by_type": {
+    "anomalies": 10,
+    "concepts": 0,
+    "loops": 12,
+    "meta": 15,
+    "predictions": 14,
+    "score_tags": 24,
+    "temporal_read": 14
+   },
+   "detail": [
+    {
+     "arm": "B",
+     "cycle": 1,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 2,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 3,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 4,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 5,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "anomalies"
+    },
+    {
+     "arm": "B",
+     "cycle": 6,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "loops"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "predictions"
+    },
+    {
+     "arm": "B",
+     "cycle": 7,
+     "membership_same": false,
+     "type": "meta"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "temporal_read"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": true,
+     "type": "score_tags"
+    },
+    {
+     "arm": "B",
+     "cycle": 8,
+     "membership_same": false,
+     "type": "predictions"
+    }
+   ],
+   "differences": 89,
+   "divergence_cycle": 5,
+   "first": {
+    "arm": "B",
+    "cycle": 1,
+    "membership_same": true,
+    "type": "score_tags"
+   },
+   "pair": [
+    0,
+    2
+   ],
+   "refused": {
+    "a": [],
+    "b": []
+   },
+   "seed": 20261130,
+   "task": "T2"
+  }
+ ],
+ "seeds": 8
+}

@@ -1,0 +1,19 @@
+{
+ "C2_observer_neutral": {
+  "B": true,
+  "C": true
+ },
+ "C2_passed": true,
+ "C2_scope": "same build, same intervention, recording disabled vs enabled",
+ "C3_determinism": true,
+ "f2": true,
+ "generation": 2,
+ "kind": "divergence_arm_b_prime_gates",
+ "preregistration": "docs/DIVERGENCE-MECHANISM-BRIEF.md section 11",
+ "telemetry": {
+  "adjacent_ties": 153,
+  "total_order_applied": [
+   true
+  ]
+ }
+}

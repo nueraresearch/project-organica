@@ -1,0 +1,2660 @@
+{
+ "what_this_is": "the jitter diagnostic defined in docs/STAGE-B-JITTER-DIAGNOSTIC.md, run",
+ "design": {
+  "shift": 10,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "declared_shift": 10,
+  "stride": 20,
+  "cells_targeted": 71,
+  "band_cells": 38,
+  "runs_expected": 213,
+  "runs_present": 213,
+  "control_applies_to": "every redrawn cell, band cells included"
+ },
+ "reading": "R3",
+ "summary": {
+  "cells_complete": 71,
+  "band_cells": 38,
+  "max_displacement": 16,
+  "cells_moved": 15,
+  "eligibility_flips": 1,
+  "band_flips": 1,
+  "score_changes": 8,
+  "measurability_changes": 1,
+  "overshoot": [
+   "2:1 700000057",
+   "2:1 700000078",
+   "2:1 700000119",
+   "2:1 700000157"
+  ],
+  "flips": {
+   "2:1 700000057": [
+    "2"
+   ]
+  },
+  "score_change_cells": {
+   "2:1 700000001": [
+    "0"
+   ],
+   "2:1 700000039": [
+    "1",
+    "2"
+   ],
+   "2:1 700000094": [
+    "1",
+    "2"
+   ],
+   "2:1 700000108": [
+    "0",
+    "1",
+    "2"
+   ],
+   "2:1 700000127": [
+    "1",
+    "2"
+   ],
+   "2:1 700000157": [
+    "0",
+    "1",
+    "2"
+   ],
+   "3:1 700000181": [
+    "1",
+    "2"
+   ],
+   "3:1 700000221": [
+    "0"
+   ]
+  }
+ },
+ "cells": [
+  {
+   "configuration": "2:1",
+   "seed": 700000001,
+   "committed_onset": 535,
+   "committed_eligible": true,
+   "committed_outcome": 0.159309,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 536,
+     "eligible": true,
+     "outcome": 0.159298,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 535,
+     "eligible": true,
+     "outcome": 0.159309,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 535,
+     "eligible": true,
+     "outcome": 0.159309,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 1,
+   "eligibility_flips": [],
+   "score_changes": [
+    "0"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000007,
+   "committed_onset": 543,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 545,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 2,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000012,
+   "committed_onset": 535,
+   "committed_eligible": true,
+   "committed_outcome": 0.161809,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 535,
+     "eligible": true,
+     "outcome": 0.161809,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 535,
+     "eligible": true,
+     "outcome": 0.161809,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 535,
+     "eligible": true,
+     "outcome": 0.161809,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000014,
+   "committed_onset": 548,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000016,
+   "committed_onset": 548,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000018,
+   "committed_onset": 533,
+   "committed_eligible": true,
+   "committed_outcome": 0.157731,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.157731,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.157731,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.157731,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000021,
+   "committed_onset": 515,
+   "committed_eligible": true,
+   "committed_outcome": 0.157605,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 515,
+     "eligible": true,
+     "outcome": 0.157605,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 515,
+     "eligible": true,
+     "outcome": 0.157605,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 515,
+     "eligible": true,
+     "outcome": 0.157605,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000023,
+   "committed_onset": 529,
+   "committed_eligible": true,
+   "committed_outcome": 0.158435,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 529,
+     "eligible": true,
+     "outcome": 0.158435,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 529,
+     "eligible": true,
+     "outcome": 0.158435,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 529,
+     "eligible": true,
+     "outcome": 0.158435,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000032,
+   "committed_onset": 544,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000039,
+   "committed_onset": 538,
+   "committed_eligible": true,
+   "committed_outcome": 0.158922,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 538,
+     "eligible": true,
+     "outcome": 0.158922,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 538,
+     "eligible": true,
+     "outcome": 0.159006,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 538,
+     "eligible": true,
+     "outcome": 0.159006,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000041,
+   "committed_onset": 528,
+   "committed_eligible": true,
+   "committed_outcome": 0.160532,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 528,
+     "eligible": true,
+     "outcome": 0.160532,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 528,
+     "eligible": true,
+     "outcome": 0.160532,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 528,
+     "eligible": true,
+     "outcome": 0.160532,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000043,
+   "committed_onset": 537,
+   "committed_eligible": true,
+   "committed_outcome": 0.157776,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 537,
+     "eligible": true,
+     "outcome": 0.157776,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 537,
+     "eligible": true,
+     "outcome": 0.157776,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 537,
+     "eligible": true,
+     "outcome": 0.157776,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000045,
+   "committed_onset": 549,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000047,
+   "committed_onset": 545,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 545,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 545,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 545,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000051,
+   "committed_onset": 548,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 548,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000052,
+   "committed_onset": 540,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000054,
+   "committed_onset": 533,
+   "committed_eligible": true,
+   "committed_outcome": 0.160675,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160675,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160675,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160675,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000057,
+   "committed_onset": 543,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 530,
+     "eligible": true,
+     "outcome": 0.157787,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 13,
+   "eligibility_flips": [
+    "2"
+   ],
+   "score_changes": [],
+   "measurability_changes": [
+    "2"
+   ]
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000061,
+   "committed_onset": 575,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 575,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": null,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": true
+    },
+    "2": {
+     "onset": 575,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000069,
+   "committed_onset": 544,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000070,
+   "committed_onset": 531,
+   "committed_eligible": true,
+   "committed_outcome": 0.161092,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 531,
+     "eligible": true,
+     "outcome": 0.161092,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 531,
+     "eligible": true,
+     "outcome": 0.161092,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 531,
+     "eligible": true,
+     "outcome": 0.161092,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000073,
+   "committed_onset": 540,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000078,
+   "committed_onset": 541,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 541,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 557,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 557,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 16,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000081,
+   "committed_onset": 573,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 573,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 573,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 573,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000082,
+   "committed_onset": 546,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000089,
+   "committed_onset": 549,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000092,
+   "committed_onset": 546,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000094,
+   "committed_onset": 536,
+   "committed_eligible": true,
+   "committed_outcome": 0.157987,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 536,
+     "eligible": true,
+     "outcome": 0.157987,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.157885,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.157885,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 3,
+   "eligibility_flips": [],
+   "score_changes": [
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000098,
+   "committed_onset": 543,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 543,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000099,
+   "committed_onset": 544,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 544,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000101,
+   "committed_onset": 549,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 549,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000102,
+   "committed_onset": 547,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000108,
+   "committed_onset": 533,
+   "committed_eligible": true,
+   "committed_outcome": 0.160277,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 532,
+     "eligible": true,
+     "outcome": 0.160249,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160299,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160299,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 1,
+   "eligibility_flips": [],
+   "score_changes": [
+    "0",
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000111,
+   "committed_onset": 540,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000119,
+   "committed_onset": 546,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 560,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 546,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 14,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000121,
+   "committed_onset": 553,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 553,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 558,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 558,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 5,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000127,
+   "committed_onset": 533,
+   "committed_eligible": true,
+   "committed_outcome": 0.160237,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 533,
+     "eligible": true,
+     "outcome": 0.160237,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 529,
+     "eligible": true,
+     "outcome": 0.160201,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 529,
+     "eligible": true,
+     "outcome": 0.160201,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 4,
+   "eligibility_flips": [],
+   "score_changes": [
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000141,
+   "committed_onset": null,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": null,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": true
+    },
+    "1": {
+     "onset": null,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": true
+    },
+    "2": {
+     "onset": null,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": true
+    }
+   },
+   "max_displacement": null,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000143,
+   "committed_onset": 540,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000146,
+   "committed_onset": 542,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000157,
+   "committed_onset": 531,
+   "committed_eligible": true,
+   "committed_outcome": 0.158005,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 515,
+     "eligible": true,
+     "outcome": 0.158032,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 531,
+     "eligible": true,
+     "outcome": 0.158044,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 515,
+     "eligible": true,
+     "outcome": 0.158032,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 16,
+   "eligibility_flips": [],
+   "score_changes": [
+    "0",
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000161,
+   "committed_onset": 547,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 547,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000165,
+   "committed_onset": 542,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 542,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "2:1",
+   "seed": 700000167,
+   "committed_onset": 540,
+   "committed_eligible": false,
+   "committed_outcome": null,
+   "clock": 539,
+   "in_band": true,
+   "runs": {
+    "0": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "1": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    },
+    "2": {
+     "onset": 540,
+     "eligible": false,
+     "outcome": null,
+     "cycles_run": 589,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000181,
+   "committed_onset": 295,
+   "committed_eligible": true,
+   "committed_outcome": 0.154782,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 295,
+     "eligible": true,
+     "outcome": 0.154782,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 295,
+     "eligible": true,
+     "outcome": 0.154872,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 295,
+     "eligible": true,
+     "outcome": 0.154872,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [
+    "1",
+    "2"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000201,
+   "committed_onset": 318,
+   "committed_eligible": true,
+   "committed_outcome": 0.153676,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 318,
+     "eligible": true,
+     "outcome": 0.153676,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 318,
+     "eligible": true,
+     "outcome": 0.153676,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 318,
+     "eligible": true,
+     "outcome": 0.153676,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000221,
+   "committed_onset": 339,
+   "committed_eligible": true,
+   "committed_outcome": 0.154667,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 336,
+     "eligible": true,
+     "outcome": 0.154649,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 339,
+     "eligible": true,
+     "outcome": 0.154667,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 339,
+     "eligible": true,
+     "outcome": 0.154667,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 3,
+   "eligibility_flips": [],
+   "score_changes": [
+    "0"
+   ],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000241,
+   "committed_onset": 286,
+   "committed_eligible": true,
+   "committed_outcome": 0.157013,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 286,
+     "eligible": true,
+     "outcome": 0.157013,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 286,
+     "eligible": true,
+     "outcome": 0.157013,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 286,
+     "eligible": true,
+     "outcome": 0.157013,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000261,
+   "committed_onset": 348,
+   "committed_eligible": true,
+   "committed_outcome": 0.153421,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 348,
+     "eligible": true,
+     "outcome": 0.153421,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 348,
+     "eligible": true,
+     "outcome": 0.153421,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 348,
+     "eligible": true,
+     "outcome": 0.153421,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000281,
+   "committed_onset": 320,
+   "committed_eligible": true,
+   "committed_outcome": 0.155268,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 320,
+     "eligible": true,
+     "outcome": 0.155268,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 320,
+     "eligible": true,
+     "outcome": 0.155268,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 320,
+     "eligible": true,
+     "outcome": 0.155268,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000301,
+   "committed_onset": 336,
+   "committed_eligible": true,
+   "committed_outcome": 0.156434,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 336,
+     "eligible": true,
+     "outcome": 0.156434,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 336,
+     "eligible": true,
+     "outcome": 0.156434,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 336,
+     "eligible": true,
+     "outcome": 0.156434,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000321,
+   "committed_onset": 327,
+   "committed_eligible": true,
+   "committed_outcome": 0.153925,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 324,
+     "eligible": true,
+     "outcome": 0.153925,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 324,
+     "eligible": true,
+     "outcome": 0.153925,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 324,
+     "eligible": true,
+     "outcome": 0.153925,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 3,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "3:1",
+   "seed": 700000341,
+   "committed_onset": 317,
+   "committed_eligible": true,
+   "committed_outcome": 0.152603,
+   "clock": 404,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 317,
+     "eligible": true,
+     "outcome": 0.152603,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "1": {
+     "onset": 317,
+     "eligible": true,
+     "outcome": 0.152603,
+     "cycles_run": 454,
+     "censored": false
+    },
+    "2": {
+     "onset": 317,
+     "eligible": true,
+     "outcome": 0.152603,
+     "cycles_run": 454,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000361,
+   "committed_onset": 268,
+   "committed_eligible": true,
+   "committed_outcome": 0.150549,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 268,
+     "eligible": true,
+     "outcome": 0.150549,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 268,
+     "eligible": true,
+     "outcome": 0.150549,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 268,
+     "eligible": true,
+     "outcome": 0.150549,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000381,
+   "committed_onset": 292,
+   "committed_eligible": true,
+   "committed_outcome": 0.15199,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 292,
+     "eligible": true,
+     "outcome": 0.15199,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 292,
+     "eligible": true,
+     "outcome": 0.15199,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 292,
+     "eligible": true,
+     "outcome": 0.15199,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000401,
+   "committed_onset": 275,
+   "committed_eligible": true,
+   "committed_outcome": 0.151136,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 275,
+     "eligible": true,
+     "outcome": 0.151136,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 283,
+     "eligible": true,
+     "outcome": 0.151136,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 283,
+     "eligible": true,
+     "outcome": 0.151136,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 8,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000421,
+   "committed_onset": 296,
+   "committed_eligible": true,
+   "committed_outcome": 0.151278,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 298,
+     "eligible": true,
+     "outcome": 0.151278,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 296,
+     "eligible": true,
+     "outcome": 0.151278,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 298,
+     "eligible": true,
+     "outcome": 0.151278,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 2,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000441,
+   "committed_onset": 259,
+   "committed_eligible": true,
+   "committed_outcome": 0.150862,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 259,
+     "eligible": true,
+     "outcome": 0.150862,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 259,
+     "eligible": true,
+     "outcome": 0.150862,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 259,
+     "eligible": true,
+     "outcome": 0.150862,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000461,
+   "committed_onset": 261,
+   "committed_eligible": true,
+   "committed_outcome": 0.151893,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 261,
+     "eligible": true,
+     "outcome": 0.151893,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 261,
+     "eligible": true,
+     "outcome": 0.151893,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 261,
+     "eligible": true,
+     "outcome": 0.151893,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000481,
+   "committed_onset": 264,
+   "committed_eligible": true,
+   "committed_outcome": 0.151458,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 264,
+     "eligible": true,
+     "outcome": 0.151458,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 264,
+     "eligible": true,
+     "outcome": 0.151458,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 264,
+     "eligible": true,
+     "outcome": 0.151458,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000501,
+   "committed_onset": 283,
+   "committed_eligible": true,
+   "committed_outcome": 0.15055,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 283,
+     "eligible": true,
+     "outcome": 0.15055,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 283,
+     "eligible": true,
+     "outcome": 0.15055,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 283,
+     "eligible": true,
+     "outcome": 0.15055,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "4:1",
+   "seed": 700000521,
+   "committed_onset": 281,
+   "committed_eligible": true,
+   "committed_outcome": 0.153386,
+   "clock": 362,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 281,
+     "eligible": true,
+     "outcome": 0.153386,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "1": {
+     "onset": 281,
+     "eligible": true,
+     "outcome": 0.153386,
+     "cycles_run": 412,
+     "censored": false
+    },
+    "2": {
+     "onset": 281,
+     "eligible": true,
+     "outcome": 0.153386,
+     "cycles_run": 412,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000541,
+   "committed_onset": 226,
+   "committed_eligible": true,
+   "committed_outcome": 0.151077,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 226,
+     "eligible": true,
+     "outcome": 0.151077,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 224,
+     "eligible": true,
+     "outcome": 0.151077,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 226,
+     "eligible": true,
+     "outcome": 0.151077,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 2,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000561,
+   "committed_onset": 223,
+   "committed_eligible": true,
+   "committed_outcome": 0.148556,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 223,
+     "eligible": true,
+     "outcome": 0.148556,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 223,
+     "eligible": true,
+     "outcome": 0.148556,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 223,
+     "eligible": true,
+     "outcome": 0.148556,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000581,
+   "committed_onset": 200,
+   "committed_eligible": true,
+   "committed_outcome": 0.147724,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 200,
+     "eligible": true,
+     "outcome": 0.147724,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 200,
+     "eligible": true,
+     "outcome": 0.147724,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 200,
+     "eligible": true,
+     "outcome": 0.147724,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000601,
+   "committed_onset": 231,
+   "committed_eligible": true,
+   "committed_outcome": 0.147844,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 231,
+     "eligible": true,
+     "outcome": 0.147844,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 231,
+     "eligible": true,
+     "outcome": 0.147844,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 231,
+     "eligible": true,
+     "outcome": 0.147844,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000621,
+   "committed_onset": 230,
+   "committed_eligible": true,
+   "committed_outcome": 0.147896,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 230,
+     "eligible": true,
+     "outcome": 0.147896,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 230,
+     "eligible": true,
+     "outcome": 0.147896,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 230,
+     "eligible": true,
+     "outcome": 0.147896,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000641,
+   "committed_onset": 218,
+   "committed_eligible": true,
+   "committed_outcome": 0.148237,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 218,
+     "eligible": true,
+     "outcome": 0.148237,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 218,
+     "eligible": true,
+     "outcome": 0.148237,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 218,
+     "eligible": true,
+     "outcome": 0.148237,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000661,
+   "committed_onset": 228,
+   "committed_eligible": true,
+   "committed_outcome": 0.147767,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 228,
+     "eligible": true,
+     "outcome": 0.147767,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 228,
+     "eligible": true,
+     "outcome": 0.147767,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 228,
+     "eligible": true,
+     "outcome": 0.147767,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000681,
+   "committed_onset": 209,
+   "committed_eligible": true,
+   "committed_outcome": 0.147692,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 209,
+     "eligible": true,
+     "outcome": 0.147692,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 209,
+     "eligible": true,
+     "outcome": 0.147692,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 209,
+     "eligible": true,
+     "outcome": 0.147692,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  },
+  {
+   "configuration": "6:1",
+   "seed": 700000701,
+   "committed_onset": 239,
+   "committed_eligible": true,
+   "committed_outcome": 0.149102,
+   "clock": 329,
+   "in_band": false,
+   "runs": {
+    "0": {
+     "onset": 239,
+     "eligible": true,
+     "outcome": 0.149102,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "1": {
+     "onset": 239,
+     "eligible": true,
+     "outcome": 0.149102,
+     "cycles_run": 379,
+     "censored": false
+    },
+    "2": {
+     "onset": 239,
+     "eligible": true,
+     "outcome": 0.149102,
+     "cycles_run": 379,
+     "censored": false
+    }
+   },
+   "max_displacement": 0,
+   "eligibility_flips": [],
+   "score_changes": [],
+   "measurability_changes": []
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "amendment": "REUSABLE-KNOWLEDGE-PREREGISTRATION section 14",
+ "available_during_formation": 96,
+ "burned_seeds": [
+  20261206
+ ],
+ "calibration_seeds": [
+  20261201,
+  20261202,
+  20261203,
+  20261204,
+  20261205
+ ],
+ "ceiling": {
+  "closed_form_exact": true,
+  "holder": "full latent-rule holder (given the law; no learning, no engine)",
+  "p_tag_given_context_cell": {
+   "flip_p": 0.325,
+   "flip_q": 0.175
+  },
+  "rule": "successor is flip_p with 0.65 and flip_q with 0.35; each tag of the successor cell appears with 2/4"
+ },
+ "confirmatory_seeds": "20261207-20261226 (n = 20)",
+ "gate_f": {
+  "coverage_formula": "|asserted AND available| / 96",
+  "denominator": 96,
+  "max_coverage_if_denominator_were_total": 0.75,
+  "numerator": "asserted relations in the available set",
+  "threshold": 0.95,
+  "threshold_on_seeds": "at least 15 of 20 confirmatory seeds",
+  "withheld_in_gate": false,
+  "withheld_scored_in": "the transfer limb only"
+ },
+ "kind": "reusable_knowledge_gate_definitions",
+ "oracle_admitted_arm": {
+  "is_ceiling": false,
+  "label": "mechanism arm (admission filtering at fixed evidence)"
+ },
+ "total_relations": 128,
+ "unit": "tag-pair relation",
+ "withheld_relations": 32
+}

@@ -2,7 +2,7 @@
   "upload_type": "publication",
   "publication_type": "preprint",
   "access_right": "open",
-  "title": "Persistent structural provenance in Organica 1: what survives, what is reconstructable, and what is not",
+  "title": "Reconstructing Evidence and Selection from Organica's Surviving State",
   "description": "An auditability study of a developmental-structure engine: which of an agent's structural decisions can be reconstructed from its surviving state, and which cannot. The paper measures reconstruction fidelity for three probe arms against three forms of oracle — the engine's own record, a state snapshot, and a structural read — and reports the answer as partially yes: surviving state supports part of the reconstruction, and the rest does not follow. The negative results are the substance: the paper names the limits of the audit trail rather than the reach of the method.",
   "creators": [
     {

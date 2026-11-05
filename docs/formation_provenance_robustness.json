@@ -1,0 +1,482 @@
+{
+ "changes_verdict": false,
+ "creates_success_rule": false,
+ "kind": "formation_provenance_robustness",
+ "leave_one_seed_out": [
+  {
+   "difference": 0.213605,
+   "excluded": 20270106
+  },
+  {
+   "difference": 0.212853,
+   "excluded": 20270107
+  },
+  {
+   "difference": 0.213213,
+   "excluded": 20270108
+  },
+  {
+   "difference": 0.211734,
+   "excluded": 20270109
+  },
+  {
+   "difference": 0.213592,
+   "excluded": 20270110
+  },
+  {
+   "difference": 0.218712,
+   "excluded": 20270111
+  },
+  {
+   "difference": 0.213227,
+   "excluded": 20270112
+  },
+  {
+   "difference": 0.21535,
+   "excluded": 20270113
+  },
+  {
+   "difference": 0.214851,
+   "excluded": 20270114
+  },
+  {
+   "difference": 0.213752,
+   "excluded": 20270115
+  },
+  {
+   "difference": 0.212496,
+   "excluded": 20270116
+  },
+  {
+   "difference": 0.21332,
+   "excluded": 20270117
+  },
+  {
+   "difference": 0.213861,
+   "excluded": 20270118
+  },
+  {
+   "difference": 0.212747,
+   "excluded": 20270119
+  },
+  {
+   "difference": 0.217603,
+   "excluded": 20270120
+  }
+ ],
+ "note": "descriptive robustness only: no threshold, no new success rule, and the registered verdict and interval are unchanged",
+ "per_seed": [
+  {
+   "difference": 0.222997,
+   "seed": 20270106,
+   "self_including": {
+    "hits": 96,
+    "n": 410,
+    "rate": 0.234146
+   },
+   "world": {
+    "hits": 96,
+    "n": 210,
+    "rate": 0.457143
+   }
+  },
+  {
+   "difference": 0.237384,
+   "seed": 20270107,
+   "self_including": {
+    "hits": 94,
+    "n": 418,
+    "rate": 0.22488
+   },
+   "world": {
+    "hits": 98,
+    "n": 212,
+    "rate": 0.462264
+   }
+  },
+  {
+   "difference": 0.224935,
+   "seed": 20270108,
+   "self_including": {
+    "hits": 150,
+    "n": 636,
+    "rate": 0.235849
+   },
+   "world": {
+    "hits": 141,
+    "n": 306,
+    "rate": 0.460784
+   }
+  },
+  {
+   "difference": 0.243451,
+   "seed": 20270109,
+   "self_including": {
+    "hits": 135,
+    "n": 615,
+    "rate": 0.219512
+   },
+   "world": {
+    "hits": 150,
+    "n": 324,
+    "rate": 0.462963
+   }
+  },
+  {
+   "difference": 0.223301,
+   "seed": 20270110,
+   "self_including": {
+    "hits": 96,
+    "n": 412,
+    "rate": 0.23301
+   },
+   "world": {
+    "hits": 94,
+    "n": 206,
+    "rate": 0.456311
+   }
+  },
+  {
+   "difference": 0.153877,
+   "seed": 20270111,
+   "self_including": {
+    "hits": 159,
+    "n": 612,
+    "rate": 0.259804
+   },
+   "world": {
+    "hits": 127,
+    "n": 307,
+    "rate": 0.413681
+   }
+  },
+  {
+   "difference": 0.230057,
+   "seed": 20270112,
+   "self_including": {
+    "hits": 100,
+    "n": 432,
+    "rate": 0.231481
+   },
+   "world": {
+    "hits": 96,
+    "n": 208,
+    "rate": 0.461538
+   }
+  },
+  {
+   "difference": 0.189269,
+   "seed": 20270113,
+   "self_including": {
+    "hits": 106,
+    "n": 426,
+    "rate": 0.248826
+   },
+   "world": {
+    "hits": 92,
+    "n": 210,
+    "rate": 0.438095
+   }
+  },
+  {
+   "difference": 0.209524,
+   "seed": 20270114,
+   "self_including": {
+    "hits": 312,
+    "n": 1260,
+    "rate": 0.247619
+   },
+   "world": {
+    "hits": 288,
+    "n": 630,
+    "rate": 0.457143
+   }
+  },
+  {
+   "difference": 0.219585,
+   "seed": 20270115,
+   "self_including": {
+    "hits": 100,
+    "n": 434,
+    "rate": 0.230415
+   },
+   "world": {
+    "hits": 90,
+    "n": 200,
+    "rate": 0.45
+   }
+  },
+  {
+   "difference": 0.233515,
+   "seed": 20270116,
+   "self_including": {
+    "hits": 135,
+    "n": 576,
+    "rate": 0.234375
+   },
+   "world": {
+    "hits": 153,
+    "n": 327,
+    "rate": 0.46789
+   }
+  },
+  {
+   "difference": 0.220946,
+   "seed": 20270117,
+   "self_including": {
+    "hits": 192,
+    "n": 828,
+    "rate": 0.231884
+   },
+   "world": {
+    "hits": 192,
+    "n": 424,
+    "rate": 0.45283
+   }
+  },
+  {
+   "difference": 0.219386,
+   "seed": 20270118,
+   "self_including": {
+    "hits": 108,
+    "n": 446,
+    "rate": 0.242152
+   },
+   "world": {
+    "hits": 84,
+    "n": 182,
+    "rate": 0.461538
+   }
+  },
+  {
+   "difference": 0.230737,
+   "seed": 20270119,
+   "self_including": {
+    "hits": 141,
+    "n": 609,
+    "rate": 0.231527
+   },
+   "world": {
+    "hits": 147,
+    "n": 318,
+    "rate": 0.462264
+   }
+  },
+  {
+   "difference": 0.146135,
+   "seed": 20270120,
+   "self_including": {
+    "hits": 112,
+    "n": 414,
+    "rate": 0.270531
+   },
+   "world": {
+    "hits": 90,
+    "n": 216,
+    "rate": 0.416667
+   }
+  }
+ ],
+ "registered": {
+  "difference": 0.214061,
+  "interval": [
+   0.195886,
+   0.228119
+  ],
+  "verdict": "association detected"
+ },
+ "seeds": [
+  20270106,
+  20270107,
+  20270108,
+  20270109,
+  20270110,
+  20270111,
+  20270112,
+  20270113,
+  20270114,
+  20270115,
+  20270116,
+  20270117,
+  20270118,
+  20270119,
+  20270120
+ ],
+ "source": "cached per-candidate records; no cell was re-run",
+ "standardised_difference": 0.238418,
+ "status": "descriptive_only_changes_nothing",
+ "strata_positive": 17,
+ "strata_with_both_arms": 17,
+ "temporal_count_strata": [
+  {
+   "difference": 0.666667,
+   "key": "count=5",
+   "self_hits": 32,
+   "self_n": 96,
+   "self_rate": 0.333333,
+   "world_hits": 23,
+   "world_n": 23,
+   "world_rate": 1.0
+  },
+  {
+   "difference": 0.759498,
+   "key": "count=6",
+   "self_hits": 17,
+   "self_n": 134,
+   "self_rate": 0.126866,
+   "world_hits": 39,
+   "world_n": 44,
+   "world_rate": 0.886364
+  },
+  {
+   "difference": 0.811271,
+   "key": "count=7",
+   "self_hits": 5,
+   "self_n": 149,
+   "self_rate": 0.033557,
+   "world_hits": 49,
+   "world_n": 58,
+   "world_rate": 0.844828
+  },
+  {
+   "difference": 0.596972,
+   "key": "count=8",
+   "self_hits": 11,
+   "self_n": 129,
+   "self_rate": 0.085271,
+   "world_hits": 73,
+   "world_n": 107,
+   "world_rate": 0.682243
+  },
+  {
+   "difference": 0.516292,
+   "key": "count=9",
+   "self_hits": 6,
+   "self_n": 219,
+   "self_rate": 0.027397,
+   "world_hits": 56,
+   "world_n": 103,
+   "world_rate": 0.543689
+  },
+  {
+   "difference": 0.684524,
+   "key": "count=10",
+   "self_hits": 0,
+   "self_n": 130,
+   "self_rate": 0.0,
+   "world_hits": 115,
+   "world_n": 168,
+   "world_rate": 0.684524
+  },
+  {
+   "difference": 0.451087,
+   "key": "count=11",
+   "self_hits": 0,
+   "self_n": 185,
+   "self_rate": 0.0,
+   "world_hits": 83,
+   "world_n": 184,
+   "world_rate": 0.451087
+  },
+  {
+   "difference": 0.481965,
+   "key": "count=12",
+   "self_hits": 5,
+   "self_n": 94,
+   "self_rate": 0.053191,
+   "world_hits": 137,
+   "world_n": 256,
+   "world_rate": 0.535156
+  },
+  {
+   "difference": 0.380713,
+   "key": "count=13",
+   "self_hits": 5,
+   "self_n": 89,
+   "self_rate": 0.05618,
+   "world_hits": 90,
+   "world_n": 206,
+   "world_rate": 0.436893
+  },
+  {
+   "difference": 0.451299,
+   "key": "count=14",
+   "self_hits": 0,
+   "self_n": 87,
+   "self_rate": 0.0,
+   "world_hits": 139,
+   "world_n": 308,
+   "world_rate": 0.451299
+  },
+  {
+   "difference": 0.359885,
+   "key": "count=15",
+   "self_hits": 13,
+   "self_n": 143,
+   "self_rate": 0.090909,
+   "world_hits": 142,
+   "world_n": 315,
+   "world_rate": 0.450794
+  },
+  {
+   "difference": 0.411199,
+   "key": "count=16",
+   "self_hits": 5,
+   "self_n": 118,
+   "self_rate": 0.042373,
+   "world_hits": 127,
+   "world_n": 280,
+   "world_rate": 0.453571
+  },
+  {
+   "difference": 0.286574,
+   "key": "count=17",
+   "self_hits": 3,
+   "self_n": 80,
+   "self_rate": 0.0375,
+   "world_hits": 105,
+   "world_n": 324,
+   "world_rate": 0.324074
+  },
+  {
+   "difference": 0.3714,
+   "key": "count=18",
+   "self_hits": 5,
+   "self_n": 140,
+   "self_rate": 0.035714,
+   "world_hits": 103,
+   "world_n": 253,
+   "world_rate": 0.407115
+  },
+  {
+   "difference": 0.321159,
+   "key": "count=19",
+   "self_hits": 12,
+   "self_n": 94,
+   "self_rate": 0.12766,
+   "world_hits": 114,
+   "world_n": 254,
+   "world_rate": 0.448819
+  },
+  {
+   "difference": 0.349301,
+   "key": "count=20",
+   "self_hits": 6,
+   "self_n": 110,
+   "self_rate": 0.054545,
+   "world_hits": 84,
+   "world_n": 208,
+   "world_rate": 0.403846
+  },
+  {
+   "difference": 0.093434,
+   "key": "count>=21",
+   "self_hits": 1911,
+   "self_n": 6531,
+   "self_rate": 0.292605,
+   "world_hits": 459,
+   "world_n": 1189,
+   "world_rate": 0.386039
+  }
+ ]
+}
