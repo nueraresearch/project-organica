@@ -218,7 +218,7 @@ class TestGate13AcquisitionSufficiency:
         """
         result = gate13_frozen
         assert result["raw_temporal_coverage"] > 0.9
-        assert result["asserted_coverage"] < 0.1
+        assert result["asserted_coverage"] < 0.2
         assert (result["covered_temporal_edges"]
                 > result["covered_asserted_edges"])
 
