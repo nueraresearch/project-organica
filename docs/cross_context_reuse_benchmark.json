@@ -1,0 +1,117 @@
+{
+  "kind": "cross_context_reuse_benchmark",
+  "generated_utc": "2026-11-05T03:04:51Z",
+  "seeds": [
+    20261101,
+    20261102,
+    20261103
+  ],
+  "phase_a_cycles": 20,
+  "phase_b_cycles": 20,
+  "total_seconds": 205.4,
+  "metrics": {
+    "mean_cycles_naive": 3.3333333333333335,
+    "mean_cycles_treatment": 3.3333333333333335,
+    "mean_cycles_pruned": 3.3333333333333335,
+    "mean_cycles_orthogonal": 3.3333333333333335,
+    "transfer_ratio_treatment": 1.0,
+    "transfer_ratio_pruned": 1.0,
+    "transfer_ratio_orthogonal": 1.0,
+    "mean_tp_treatment": 17.67,
+    "reusable_knowledge_verdict": "NULL_OR_INSUFFICIENT_TRANSFER"
+  },
+  "per_arm_results": {
+    "treatment": [
+      {
+        "arm": "treatment",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 19
+      }
+    ],
+    "control_naive": [
+      {
+        "arm": "control_naive",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 19
+      }
+    ],
+    "control_pruned": [
+      {
+        "arm": "control_pruned",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 19
+      }
+    ],
+    "control_orthogonal": [
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261101,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261102,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 17
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261103,
+        "acquired": true,
+        "cycles_to_acquire": 2,
+        "persistence_cycles": 19
+      }
+    ]
+  }
+}
