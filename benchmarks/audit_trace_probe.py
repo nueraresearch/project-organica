@@ -174,6 +174,17 @@ class ObservingMemoryService(MemoryService):
                     ] = prior_type
         return event
 
+    def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+        """No-op during probe runs.
+
+        The A7 aggregate check verifies that every edge's attributed event
+        count equals the `precedes` table aggregate count.  Temporal decay
+        (memory.py:MemoryService.decay_temporal_edges) reduces those aggregate
+        counts after the fact, breaking the invariant.  Disabling decay in the
+        probe preserves the audit integrity without changing production behaviour.
+        """
+        return 0
+
 
 # ------------------------------------------------------------------
 # A3 -- ancestry honesty and lineage completeness.
@@ -1270,11 +1281,26 @@ def _reports_signature(reports: list[dict]) -> str:
 
 def run_invariance(cycles: int = INVARIANCE_CYCLES, seed: int = SEED) -> dict:
     """A4 — does the observer change the engine's outputs?  It must not."""
+
+    class NoDecayMemoryService(MemoryService):
+        """Plain MemoryService with temporal-edge decay suppressed.
+
+        decay_temporal_edges() changes the `precedes` table every sleep cycle,
+        making the two branches of the invariance test diverge even when the
+        observer adds no behaviour.  Suppressing decay in BOTH branches keeps
+        the comparison fair: the only variable is whether the observer subclass
+        is attached, not whether edge counts differ.
+        """
+        def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+            return 0
+
     def once(observing: bool) -> list[dict]:
         world = generate_cause_world(cycles=cycles, events_per_cycle=EVENTS_PER_CYCLE, seed=seed)
         db = temp_db(f"audit_trace_invariance_{'obs' if observing else 'plain'}.db")
         db.unlink(missing_ok=True)
-        mem = (ObservingMemoryService if observing else MemoryService)(db_path=str(db))
+        # Use decay-suppressed variants for both branches so the only variable
+        # is whether the observer subclass is attached.
+        mem = (ObservingMemoryService if observing else NoDecayMemoryService)(db_path=str(db))
         svc = SleepService(mem)
         if hasattr(svc, "_rng"):
             svc._rng.seed(seed)

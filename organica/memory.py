@@ -385,6 +385,27 @@ class MemoryService:
         ).fetchall()
         return [(f, t, c) for f, t, c in rows]
 
+    def decay_temporal_edges(self, factor: float = 0.95, min_count: int = 1) -> int:
+        """Apply exponential decay to all temporal precedence edge counts (Law VI).
+
+        Prevents early-regime transitional counts from dominating forever,
+        enabling the engine to adapt when sequential patterns shift. Counts
+        are floored at min_count so edges are never erased entirely by decay
+        alone — natural pruning via min_count in temporal_edges() handles that.
+
+        Args:
+            factor:    Multiplicative decay per sleep cycle (default 0.95 = 5% decay).
+            min_count: Minimum count after decay. Prevents erosion to zero.
+
+        Returns:
+            Number of edge rows updated.
+        """
+        cur = self._conn.execute(
+            "UPDATE precedes SET count = MAX(?, CAST(ROUND(count * ?) AS INTEGER))",
+            (min_count, factor),
+        )
+        return cur.rowcount
+
     def recent(self, n: int = 50, event_type: Optional[str] = None) -> list[Event]:
         if event_type:
             rows = self._conn.execute(

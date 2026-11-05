@@ -333,6 +333,10 @@ class SleepService:
     STABLE_THRESHOLD        = 0.3
     DEATH_THRESHOLD         = 0.15
 
+    # Temporal precedence edge decay factor applied each sleep cycle (Law VI).
+    # 0.95 = 5% per-cycle decay; early-regime counts fade over ~20 cycles.
+    TEMPORAL_DECAY_FACTOR   = 0.95
+
     MAX_HYPOTHESES          = 15
     MAX_THEORIES            = 8
     MAX_QUESTIONS           = 6
@@ -464,14 +468,24 @@ class SleepService:
             self._current_tag_events = None
         anomalies    = self._build_anomalies(temporal, freqs)
 
-        # ---- Natural Selection: Reinforcement, Decay & Pruning ----
+        # ---- Natural Selection: Reinforcement, Decay & Pruning (G1 pass) ----
         # Batched: this stores every decayed survivor individually, and one
         # disk sync per candidate dominated the cycle (1,023 commits = 3.0s
         # of a 4.5s cycle when profiled against the live substrate).
+        # G1 pass runs first (before composites) since composites depend on
+        # stable L1 candidates. G2–G8 pass runs after all layers are formed.
         with self.memory.batch():
             strengthened, decayed, pruned = self._natural_selection(
                 prior, concepts, phrases, loops, predictions,
             )
+
+        # ---- Temporal Precedence Edge Decay (World-Adaptation) ----
+        # Apply 5% per-cycle exponential decay to all precedes edge counts.
+        # This prevents early-regime counts from dominating the transition graph
+        # forever, allowing the engine to adapt when sequential patterns shift
+        # (regime transfer). The temporal graph used by L1 builders this cycle
+        # has already been loaded; decay affects the next cycle's load.
+        self.memory.decay_temporal_edges(factor=self.TEMPORAL_DECAY_FACTOR, min_count=1)
 
         # ---- Layer 2: Composites ----
         stable_prior = [c for c in prior
@@ -550,6 +564,29 @@ class SleepService:
 
         # ---- Layer 8: Active Experiment Selection (V6 / Path B) ----
         experiments = self._select_experiments(investigations, questions, dreams)
+
+        # ---- Natural Selection: G2–G8 pass (Law VI universality) ----
+        # Now that all composite layers are formed, run a second decay pass
+        # on G2–G8 prior candidates using the freshly-synthesized current-cycle
+        # higher-order candidates as the reference set. This ensures higher-order
+        # structures age and are pruned when no longer regenerated, mirroring
+        # biological forgetting at all cognitive levels.
+        with self.memory.batch():
+            str2, dec2, pru2 = self._natural_selection(
+                prior, concepts, phrases, loops, predictions,
+                meta_concepts=all_metas,
+                processes=all_processes,
+                workflows=all_workflows,
+                hypotheses=hypotheses,
+                theories=theories,
+                questions=questions,
+                dreams=dreams,
+                investigations=investigations,
+                experiments=experiments,
+            )
+        strengthened += str2
+        decayed      += dec2
+        pruned       += pru2
 
         composites_created = (len(meta_concepts) + len(processes) + len(workflow_concepts) +
                               len(hypotheses) + len(theories) + len(questions) + len(dreams) +
@@ -748,7 +785,8 @@ class SleepService:
             # Distance from certainty: (1.0 - confidence)
             uncertainty = round(1.0 - d.confidence, 4)
             # High-novelty dreams (conditional, analogy) yield high EIG
-            eig = round(uncertainty * d.novelty, 4)
+            # Law V canonical form: EIG = uncertainty * (1.0 + novelty) — same as questions
+            eig = round(uncertainty * (1.0 + d.novelty), 4)
             iid = _make_id("inv", d.id)
             investigations.append(InvestigationCandidate(
                 id=iid,
@@ -761,7 +799,7 @@ class SleepService:
                 expected_information_gain=eig,
                 parent_ids=[d.id],
                 evidence={
-                    "formula": "uncertainty * novelty",
+                    "formula": "uncertainty * (1.0 + novelty)",
                     "dream_category": d.dream_category,
                     "path_or_context": d.path_or_context,
                 },
@@ -908,6 +946,67 @@ class SleepService:
                 event_type="experiment_result",
                 source=f"experiment:{exp.id}",
             )
+
+            # --- Hypothesis Promotion / Refutation Loop (Law IV completion) ---
+            # When an experiment targeting a question is validated, find any
+            # associated hypotheses and increment their support_count, closing
+            # the predict→test→update loop. When refuted, increment
+            # contradiction_count so competing beliefs are penalised.
+            # For dream-targeting validated experiments, promote the dream into
+            # a new grounded HypothesisCandidate at G4.
+            if exp.target_type in ("question", "dream"):
+                all_prior = self._load_prior_candidates()
+                updated_ids: set[str] = set()
+                for pc in all_prior:
+                    if pc.get("type") == "hypothesis":
+                        pc_subject = pc.get("subject", "")
+                        pc_exp = pc.get("expectation", "")
+                        payload_subject = exp.probe_payload.get("subject", "")
+                        if pc_subject == payload_subject or pc_exp in exp.expected_outcomes:
+                            if pc["id"] in updated_ids:
+                                continue
+                            updated_ids.add(pc["id"])
+                            updated = dict(pc)
+                            if outcome == "validated":
+                                updated["support_count"] = pc.get("support_count", 0) + 1
+                                prev_conf = pc.get("confidence", 0.5)
+                                updated["confidence"] = round(min(1.0, prev_conf + 0.05), 4)
+                                ev = dict(updated.get("evidence", {}))
+                                ev["experiment_validated"] = exp.id
+                                updated["evidence"] = ev
+                            else:  # refuted
+                                updated["contradiction_count"] = pc.get("contradiction_count", 0) + 1
+                                prev_conf = pc.get("confidence", 0.5)
+                                updated["confidence"] = round(max(0.0, prev_conf - 0.05), 4)
+                                ev = dict(updated.get("evidence", {}))
+                                ev["experiment_refuted"] = exp.id
+                                updated["evidence"] = ev
+                            self._store_single_candidate(updated)
+
+                # Promote a validated dream into a grounded hypothesis
+                if outcome == "validated" and exp.target_type == "dream":
+                    dream_prior = next(
+                        (pc for pc in all_prior if pc.get("id") == exp.target_id), None
+                    )
+                    if dream_prior:
+                        path = dream_prior.get("path_or_context", [])
+                        expectation = path[1] if isinstance(path, list) and len(path) > 1 else "confirmed"
+                        new_hyp_id = _make_id("hyp", dream_prior.get("subject", ""), expectation)
+                        new_hyp = HypothesisCandidate(
+                            id=new_hyp_id,
+                            generation=4,
+                            subject=dream_prior.get("subject", ""),
+                            expectation=expectation,
+                            confidence=round(1.0 - dream_prior.get("confidence", 0.5), 4),
+                            support_count=1,
+                            contradiction_count=0,
+                            parent_ids=[dream_prior.get("id", ""), exp.id],
+                            evidence={
+                                "promoted_from_dream": exp.target_id,
+                                "experiment_validated": exp.id,
+                            },
+                        )
+                        self._store_single_candidate(vars(new_hyp))
 
         return results
 
@@ -1934,20 +2033,68 @@ class SleepService:
 
     def _natural_selection(
         self, prior, concepts, phrases, loops, predictions,
+        meta_concepts=None, processes=None, workflows=None,
+        hypotheses=None, theories=None, questions=None,
+        dreams=None, investigations=None, experiments=None,
     ) -> tuple[int, int, int]:
+        """Apply natural selection (Law VI) across all generations G1–G8.
+
+        Candidates that re-emerge in the current synthesis cycle are strengthened.
+        Those absent decay by DEATH_FACTOR (×0.8). Those below DEATH_THRESHOLD
+        are pruned. The method now covers G2–G8 so higher-order structures are
+        subject to forgetting, matching biological memory at all cognitive levels.
+        """
         strengthened = 0
         decayed = 0
         pruned = 0
 
+        # Build set of content-identity keys for all current-cycle candidates.
         current_keys: set[str] = set()
+        # G1
         for c in concepts:
-            current_keys.add(f"concept:{'|'.join(c.members)}")
+            current_keys.add(f"concept:{'|'.join(sorted(c.members))}")
         for p in phrases:
-            current_keys.add(f"phrase:{'|'.join(p.members)}")
+            current_keys.add(f"phrase:{'|'.join(sorted(p.members))}")
         for l in loops:
             current_keys.add(f"loop:{'|'.join(l.path)}")
         for p in predictions:
             current_keys.add(f"prediction:{p.source}|{p.target}")
+        # G2
+        for m in (meta_concepts or []):
+            if m.anchor_tag:
+                current_keys.add(f"meta_concept:{m.anchor_tag}")
+        for p in (processes or []):
+            if p.cycle:
+                current_keys.add(f"process:{'|'.join(sorted(p.cycle))}")
+        # G3
+        for w in (workflows or []):
+            if w.components:
+                current_keys.add(f"workflow:{'|'.join(sorted(w.components))}")
+        # G4
+        for h in (hypotheses or []):
+            if h.subject:
+                current_keys.add(f"hypothesis:{h.subject}|{h.expectation}")
+        # G5
+        for t in (theories or []):
+            if t.subject:
+                current_keys.add(f"theory:{t.subject}|{'|'.join(sorted(t.hypotheses))}")
+        for q in (questions or []):
+            if q.subject:
+                current_keys.add(f"question:{q.subject}|{'|'.join(sorted(q.competing_expectations))}")
+        # G6
+        for d in (dreams or []):
+            if d.subject:
+                path = d.path_or_context
+                path_key = "|".join(path) if isinstance(path, list) else str(path)
+                current_keys.add(f"dream:{d.dream_category}:{d.subject}:{path_key}")
+        # G7
+        for inv in (investigations or []):
+            if inv.target_id:
+                current_keys.add(f"investigation:{inv.target_id}")
+        # G8
+        for exp in (experiments or []):
+            if exp.target_id:
+                current_keys.add(f"experiment:{exp.target_id}:{exp.action_type}")
 
         for prior_c in prior:
             key = self._candidate_key(prior_c)
@@ -1985,7 +2132,17 @@ class SleepService:
         return strengthened, decayed, pruned
 
     def _candidate_key(self, c: dict) -> str:
+        """Return a stable content-identity key for a candidate, used by natural selection.
+
+        Layer 1 (G1): concepts, phrases, loops, predictions.
+        Layers 2–8 (G2–G8): meta_concepts, processes, workflows, hypotheses,
+        theories, questions, dreams, investigations, experiments.
+        Returning a non-empty key for higher-order candidates allows the
+        decay/pruning pass in _natural_selection to apply Law VI uniformly
+        across all generations, preventing immortal higher-order structures.
+        """
         ctype = c.get("type", "")
+        # ---- Layer 1 (G1) ----
         if ctype == "concept_candidate":
             members = c.get("members", [])
             return f"concept:{'|'.join(sorted(members))}" if members else ""
@@ -1997,6 +2154,47 @@ class SleepService:
             return f"loop:{'|'.join(path)}" if path else ""
         if ctype == "prediction_candidate":
             return f"prediction:{c.get('source', '')}|{c.get('target', '')}"
+        # ---- Layer 2 (G2) ----
+        if ctype == "meta_concept":
+            anchor = c.get("anchor_tag", "")
+            return f"meta_concept:{anchor}" if anchor else ""
+        if ctype == "process_candidate":
+            cycle = c.get("cycle", [])
+            return f"process:{'|'.join(sorted(cycle))}" if cycle else ""
+        # ---- Layer 3 (G3) ----
+        if ctype == "workflow_concept":
+            comps = c.get("components", [])
+            return f"workflow:{'|'.join(sorted(comps))}" if comps else ""
+        # ---- Layer 4 (G4) ----
+        if ctype == "hypothesis":
+            subject = c.get("subject", "")
+            expectation = c.get("expectation", "")
+            return f"hypothesis:{subject}|{expectation}" if subject else ""
+        # ---- Layer 5 (G5) ----
+        if ctype == "theory":
+            subject = c.get("subject", "")
+            hyps = c.get("hypotheses", [])
+            return f"theory:{subject}|{'|'.join(sorted(hyps))}" if subject else ""
+        if ctype == "question":
+            subject = c.get("subject", "")
+            exps = c.get("competing_expectations", [])
+            return f"question:{subject}|{'|'.join(sorted(exps))}" if subject else ""
+        # ---- Layer 6 (G6) ----
+        if ctype == "dream":
+            cat = c.get("dream_category", "")
+            subject = c.get("subject", "")
+            path = c.get("path_or_context", [])
+            path_key = "|".join(path) if isinstance(path, list) else str(path)
+            return f"dream:{cat}:{subject}:{path_key}" if subject else ""
+        # ---- Layer 7 (G7) ----
+        if ctype == "investigation":
+            target_id = c.get("target_id", "")
+            return f"investigation:{target_id}" if target_id else ""
+        # ---- Layer 8 (G8) ----
+        if ctype == "experiment":
+            target_id = c.get("target_id", "")
+            action = c.get("action_type", "")
+            return f"experiment:{target_id}:{action}" if target_id else ""
         return ""
 
     def _reinforce_current(
