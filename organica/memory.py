@@ -70,6 +70,10 @@ class MemoryService:
     def __init__(self, db_path: Path = DB_PATH):
         self.db_path = db_path
         self._conn = sqlite3.connect(str(db_path), check_same_thread=False)
+        self._conn.execute("PRAGMA journal_mode = WAL")
+        self._conn.execute("PRAGMA synchronous = NORMAL")
+        self._conn.execute("PRAGMA temp_store = MEMORY")
+        self._conn.execute("PRAGMA cache_size = -64000")
         self._batching = 0
         self._init_schema()
 
@@ -310,13 +314,17 @@ class MemoryService:
         raw material for later discovering phrases, clusters, and noise.
         Order-normalised: (auth, failure) and (failure, auth) are the same edge.
         """
+        if len(tags) < 2:
+            return
+        pairs = Counter()
         for i in range(len(tags)):
             for j in range(i + 1, len(tags)):
                 a, b = sorted([tags[i], tags[j]])
-                self._conn.execute("""
-                    INSERT INTO cooccurrences (tag_a, tag_b, count) VALUES (?, ?, 1)
-                    ON CONFLICT(tag_a, tag_b) DO UPDATE SET count = count + 1
-                """, (a, b))
+                pairs[(a, b)] += 1
+        self._conn.executemany("""
+            INSERT INTO cooccurrences (tag_a, tag_b, count) VALUES (?, ?, ?)
+            ON CONFLICT(tag_a, tag_b) DO UPDATE SET count = count + excluded.count
+        """, [(a, b, count) for (a, b), count in pairs.items()])
 
     def _record_temporal_edges(self, new_tags: list[str], lookback: int = 3):
         """
@@ -333,15 +341,18 @@ class MemoryService:
             "SELECT tags FROM events WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT ?",
             (lookback,)
         ).fetchall()
+        edges = Counter()
         for (tags_str,) in rows:
             prior_tags = [t for t in (tags_str or "").split(",") if t]
             for tag_from in prior_tags:
                 for tag_to in new_tags:
                     if tag_from != tag_to:
-                        self._conn.execute("""
-                            INSERT INTO precedes (tag_from, tag_to, count) VALUES (?, ?, 1)
-                            ON CONFLICT(tag_from, tag_to) DO UPDATE SET count = count + 1
-                        """, (tag_from, tag_to))
+                        edges[(tag_from, tag_to)] += 1
+        if edges:
+            self._conn.executemany("""
+                INSERT INTO precedes (tag_from, tag_to, count) VALUES (?, ?, ?)
+                ON CONFLICT(tag_from, tag_to) DO UPDATE SET count = count + excluded.count
+            """, [(f, t, count) for (f, t), count in edges.items()])
 
     def cooccurrences(self, min_count: int = 1) -> list[tuple[str, str, int]]:
         """Return all co-occurrence edges with count >= min_count, sorted by count."""
