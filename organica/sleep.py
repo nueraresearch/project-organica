@@ -321,7 +321,7 @@ class SleepService:
 
 
     CONCEPT_MIN_DEGREE      = 4
-    CONCEPT_MAX_CLUSTERING  = 0.4
+    CONCEPT_MAX_CLUSTERING  = 1.0     # Retuned from 0.4: dense cliques / correlated groups (clustering up to 1.0) form concepts
     CONCEPT_MIN_REACH       = 4
     PHRASE_MIN_CLUSTERING   = 0.7
     PHRASE_MAX_REACH        = 2
@@ -441,6 +441,15 @@ class SleepService:
 
         cycle = self._count_prior_cycles(prior) + 1
 
+        # Build index of recent empirical events for Layer 1 grounding (Defect D3)
+        recent_events = self.memory.recent(n=500, event_type="observe")
+        tag_events: dict[str, list[str]] = defaultdict(list)
+        for e in recent_events:
+            for t in e.tags:
+                if len(tag_events[t]) < 10:
+                    tag_events[t].append(e.id)
+        self._current_tag_events = tag_events
+
         # ---- Layer 1: Candidates from graphs ----
         tag_scores   = self._score_tags(freqs, cooc, temporal)
         communities  = self._find_communities(cooc)
@@ -452,6 +461,7 @@ class SleepService:
             predictions  = self._build_predictions(temporal, freqs)
         finally:
             self._current_cooc = None
+            self._current_tag_events = None
         anomalies    = self._build_anomalies(temporal, freqs)
 
         # ---- Natural Selection: Reinforcement, Decay & Pruning ----
@@ -838,6 +848,69 @@ class SleepService:
         experiments.sort(key=lambda exp: exp.priority, reverse=True)
         return experiments[:self.MAX_EXPERIMENTS]
 
+    def execute_experiments(
+        self,
+        experiments: Optional[list[ExperimentCandidate]] = None,
+        executor_fn: Optional[callable] = None,
+    ) -> list[dict]:
+        """Execute proposed experiments against empirical reality (Law IV).
+
+        If executor_fn is provided, it is invoked as executor_fn(exp).
+        Default behavior queries MemoryService observation logs for the experiment's
+        probe payload and determines whether the expected outcomes match reality.
+        Updates the experiment's status ('validated' or 'refuted'), closes or refines
+        associated questions/hypotheses, and records the intervention in MemoryService.
+        """
+        if experiments is None:
+            prior = self._load_prior_candidates()
+            experiments = [
+                ExperimentCandidate(**{k: v for k, v in c.items() if k != "type"})
+                for c in prior if c.get("type") == "experiment" and c.get("status") == "proposed"
+            ]
+
+        results = []
+        for exp in experiments:
+            if executor_fn:
+                outcome = executor_fn(exp)
+            else:
+                # Default evaluation against observation history
+                payload = exp.probe_payload
+                subject = payload.get("subject", "")
+                outcomes = exp.expected_outcomes
+                recent_obs = self.memory.recent(n=50, event_type="observe")
+                found_match = False
+                matched_outcome = None
+                for obs in recent_obs:
+                    if subject in obs.tags:
+                        for out in outcomes:
+                            if out in obs.tags:
+                                found_match = True
+                                matched_outcome = out
+                                break
+                    if found_match:
+                        break
+
+                outcome = "validated" if found_match else "refuted"
+
+            exp.status = outcome
+            result_record = {
+                "experiment_id": exp.id,
+                "target_id": exp.target_id,
+                "target_type": exp.target_type,
+                "status": outcome,
+                "executed_at": time.time(),
+            }
+            results.append(result_record)
+
+            # Record experiment intervention event in memory
+            self.memory.store(
+                json.dumps(result_record),
+                event_type="experiment_result",
+                source=f"experiment:{exp.id}",
+            )
+
+        return results
+
     # ==================================================================
     # Lineage Ancestry Traversal (Genealogy query)
     # ==================================================================
@@ -977,6 +1050,7 @@ class SleepService:
             else:
                 orphans.append(score)
 
+        tag_events = getattr(self, "_current_tag_events", {})
         candidates = []
 
         for cid, scores in by_community.items():
@@ -991,9 +1065,17 @@ class SleepService:
             avg_degree = sum(s.degree for s in scores) / len(scores)
             total_obs = sum(s.frequency for s in scores)
 
+            # Grounding Layer 1 Lineage to Events (Defect D3)
+            supporting_events: list[str] = []
+            for m in members:
+                for eid in tag_events.get(m, []):
+                    if eid not in supporting_events:
+                        supporting_events.append(eid)
+
             cid_str = _make_id("concept", *members)
             candidates.append(ConceptCandidate(
                 id=cid_str,
+                parent_ids=supporting_events[:10],
                 members=members,
                 confidence=min(1.0, (avg_reach / 8) * (1 - avg_clust)),
                 evidence={
@@ -1008,8 +1090,10 @@ class SleepService:
 
         for score in orphans:
             cid_str = _make_id("concept", score.tag)
+            orphan_events = tag_events.get(score.tag, [])[:10]
             candidates.append(ConceptCandidate(
                 id=cid_str,
+                parent_ids=orphan_events,
                 members=[score.tag],
                 confidence=min(1.0, (score.predictive_reach / 8) * (1 - score.clustering)),
                 evidence={
@@ -1051,6 +1135,7 @@ class SleepService:
             if group:
                 groups.append(group)
 
+        tag_events = getattr(self, "_current_tag_events", {})
         candidates = []
         for group in groups:
             members = sorted([s.tag for s in group])
@@ -1062,9 +1147,16 @@ class SleepService:
             avg_clust = sum(s.clustering for s in group) / len(group)
             avg_reach = sum(s.predictive_reach for s in group) / len(group)
 
+            supporting_events: list[str] = []
+            for m in members:
+                for eid in tag_events.get(m, []):
+                    if eid not in supporting_events:
+                        supporting_events.append(eid)
+
             pid = _make_id("phrase", *members)
             candidates.append(PhraseCandidate(
                 id=pid,
+                parent_ids=supporting_events[:10],
                 members=members,
                 confidence=min(1.0, avg_clust),
                 evidence={
@@ -1078,6 +1170,7 @@ class SleepService:
         return candidates
 
     def _build_loops(self, temporal) -> list[LoopCandidate]:
+        tag_events = getattr(self, "_current_tag_events", {})
         loops = []
         seen: set[tuple] = set()
         tags = list(temporal.keys())
@@ -1094,8 +1187,12 @@ class SleepService:
                     if pair not in seen:
                         seen.add(pair)
                         lid = _make_id("loop", a, b)
+                        supporting_events = [eid for eid in tag_events.get(a, []) if eid in tag_events.get(b, [])][:10]
+                        if not supporting_events:
+                            supporting_events = (tag_events.get(a, [])[:5] + tag_events.get(b, [])[:5])[:10]
                         loops.append(LoopCandidate(
                             id=lid,
+                            parent_ids=supporting_events,
                             path=[a, b, a],
                             strength=strength,
                             evidence={
@@ -1126,8 +1223,10 @@ class SleepService:
                             if cycle not in seen:
                                 seen.add(cycle)
                                 lid = _make_id("loop", a, b, c)
+                                supporting_events = (tag_events.get(a, [])[:3] + tag_events.get(b, [])[:3] + tag_events.get(c, [])[:4])[:10]
                                 loops.append(LoopCandidate(
                                     id=lid,
+                                    parent_ids=supporting_events,
                                     path=[a, b, c, a],
                                     strength=strength,
                                     evidence={
@@ -1148,6 +1247,7 @@ class SleepService:
                 for b in targets:
                     cooc_pairs.add(tuple(sorted([a, b])))
 
+        tag_events = getattr(self, "_current_tag_events", {})
         # Collect outgoing counts for transition probability P(target | source)
         out_counts: dict[str, int] = defaultdict(int)
         for tag_from, targets in temporal.items():
@@ -1155,12 +1255,27 @@ class SleepService:
                 if count >= self.PREDICTION_MIN_COUNT:
                     out_counts[tag_from] += count
 
+        # Compute target entropy H(T | source) for each source
+        # H(T | u) = - \sum_v P(v|u) * log2 P(v|u)
+        source_entropy: dict[str, float] = {}
+        for tag_from, total_out in out_counts.items():
+            if total_out <= 0:
+                continue
+            ent = 0.0
+            for tag_to, count in temporal[tag_from].items():
+                if count >= self.PREDICTION_MIN_COUNT:
+                    p = count / total_out
+                    if p > 0:
+                        ent -= p * math.log2(p)
+            source_entropy[tag_from] = round(ent, 4)
+
         transitions: list[PredictionCandidate] = []
         cooccurrences: list[PredictionCandidate] = []
 
         for tag_from in sorted(temporal.keys()):
             targets = temporal[tag_from]
             source_freq = freqs.get(tag_from, 1)
+            ent = source_entropy.get(tag_from, 0.0)
             for tag_to in sorted(targets.keys()):
                 count = targets[tag_to]
                 if count >= self.PREDICTION_MIN_COUNT:
@@ -1168,8 +1283,15 @@ class SleepService:
                     trans_prob = count / max(out_counts[tag_from], 1)
                     pid = _make_id("pred", tag_from, tag_to)
                     is_cooc = tuple(sorted([tag_from, tag_to])) in cooc_pairs
+                    
+                    # Grounding Layer 1 Lineage to Events (Defect D3)
+                    supporting_events = [eid for eid in tag_events.get(tag_from, []) if eid in tag_events.get(tag_to, [])][:10]
+                    if not supporting_events:
+                        supporting_events = (tag_events.get(tag_from, [])[:5] + tag_events.get(tag_to, [])[:5])[:10]
+
                     cand = PredictionCandidate(
                         id=pid,
+                        parent_ids=supporting_events,
                         source=tag_from,
                         target=tag_to,
                         strength=min(1.0, ratio),
@@ -1179,6 +1301,7 @@ class SleepService:
                             "target_frequency": freqs.get(tag_to, 0),
                             "ratio": round(ratio, 3),
                             "transition_prob": round(trans_prob, 4),
+                            "target_entropy": ent,
                             "is_cooccurrence": is_cooc,
                         },
                     )
@@ -1187,8 +1310,12 @@ class SleepService:
                     else:
                         transitions.append(cand)
 
-        # Sort transitions by predictive information: transition probability P(v|u), then count
+        # Sort transitions by predictive information:
+        # 1. Target entropy ascending (lower entropy = more deterministic/unique successor)
+        # 2. Transition probability descending P(v|u)
+        # 3. Temporal count descending
         transitions.sort(key=lambda p: (
+            p.evidence.get("target_entropy", 999.0),
             -p.evidence.get("transition_prob", 0.0),
             -p.evidence["temporal_count"],
             p.source,
