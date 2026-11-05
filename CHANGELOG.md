@@ -46,6 +46,20 @@ there is nothing to check out.
     `_build_anomalies`, `_compose_meta_concepts`, `_compose_processes`) iterate
     and sort collections deterministically, eliminating hash-seed jitter across
     subprocesses.
+- **Relation-Family Stratification & Transition Predictive Information Ranking**:
+  - `SleepService._build_predictions` partitions candidates into co-occurrence
+    pairs versus true temporal transitions using the co-occurrence graph (`cooc`).
+  - True transitions are ranked by predictive information (conditional transition
+    probability $P(\text{target} \mid \text{source}) = \text{count} / \sum \text{counts}(\text{source} \to \cdot)$),
+    prioritizing structural transitions over intra-cell co-occurrences.
+  - Stratified allocation reserves 50% of the candidate prediction budget
+    specifically for transitions.
+- **Architectural Generation Index Alignment (Defect D4)**:
+  - Aligned candidate generation fields across `SleepService` to strictly match
+    the canonical layering in `docs/architecture.md`: G2 (meta-concepts,
+    processes), G3 (workflows), G4 (hypotheses), G5 (theories, questions),
+    G6 (dreams), G7 (investigations), and G8 (experiments). Fixed 1-off generation
+    offsets throughout candidate synthesis.
 
 ---
 

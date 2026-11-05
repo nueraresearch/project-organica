@@ -479,7 +479,7 @@ class SleepService:
             if c.get("type") == "workflow_concept" and c.get("id") not in {w.id for w in all_workflows}:
                 all_workflows.append(WorkflowConceptCandidate(
                     id=c.get("id"),
-                    generation=c.get("generation", 2),
+                    generation=c.get("generation", 3),
                     parent_ids=c.get("parent_ids", []),
                     name=c.get("name", ""),
                     components=c.get("components", []),
@@ -492,7 +492,7 @@ class SleepService:
             if c.get("type") == "process_candidate" and c.get("id") not in {p.id for p in all_processes}:
                 all_processes.append(ProcessCandidate(
                     id=c.get("id"),
-                    generation=c.get("generation", 1),
+                    generation=c.get("generation", 2),
                     parent_ids=c.get("parent_ids", []),
                     cycle=c.get("cycle", []),
                     strength=c.get("strength", 1.0),
@@ -504,7 +504,7 @@ class SleepService:
             if c.get("type") == "meta_concept" and c.get("id") not in {m.id for m in all_metas}:
                 all_metas.append(MetaConceptCandidate(
                     id=c.get("id"),
-                    generation=c.get("generation", 1),
+                    generation=c.get("generation", 2),
                     parent_ids=c.get("parent_ids", []),
                     anchor_tag=c.get("anchor_tag", ""),
                     related_candidates=c.get("related_candidates", 0),
@@ -609,7 +609,7 @@ class SleepService:
                             seen.add(did)
                             dreams.append(DreamCandidate(
                                 id=did,
-                                generation=5,
+                                generation=6,
                                 dream_category="completion",
                                 subject=a,
                                 path_or_context=[a, c],
@@ -633,7 +633,7 @@ class SleepService:
                             seen.add(did)
                             dreams.append(DreamCandidate(
                                 id=did,
-                                generation=5,
+                                generation=6,
                                 dream_category="analogy",
                                 subject=neighbor,
                                 path_or_context=[neighbor, target],
@@ -656,7 +656,7 @@ class SleepService:
                             seen.add(did)
                             dreams.append(DreamCandidate(
                                 id=did,
-                                generation=5,
+                                generation=6,
                                 dream_category="mutation",
                                 subject=comps[0],
                                 path_or_context=mutated,
@@ -680,7 +680,7 @@ class SleepService:
                     seen.add(did)
                     dreams.append(DreamCandidate(
                         id=did,
-                        generation=5,
+                        generation=6,
                         dream_category="conditional",
                         subject=sub,
                         path_or_context=[ctx, sub] + q.competing_expectations,
@@ -718,7 +718,7 @@ class SleepService:
             iid = _make_id("inv", q.id)
             investigations.append(InvestigationCandidate(
                 id=iid,
-                generation=6,
+                generation=7,
                 target_id=q.id,
                 target_type="question",
                 subject=q.subject,
@@ -742,7 +742,7 @@ class SleepService:
             iid = _make_id("inv", d.id)
             investigations.append(InvestigationCandidate(
                 id=iid,
-                generation=6,
+                generation=7,
                 target_id=d.id,
                 target_type="dream",
                 subject=d.subject,
@@ -817,7 +817,7 @@ class SleepService:
 
             experiments.append(ExperimentCandidate(
                 id=eid,
-                generation=7,
+                generation=8,
                 investigation_id=inv.id,
                 target_id=inv.target_id,
                 target_type=inv.target_type,
@@ -1293,7 +1293,7 @@ class SleepService:
 
                 candidates.append(MetaConceptCandidate(
                     id=mid,
-                    generation=1,
+                    generation=2,
                     parent_ids=distinct_ids[:10],
                     anchor_tag=tag,
                     related_candidates=len(distinct_ids),
@@ -1348,7 +1348,7 @@ class SleepService:
                         pid = _make_id("process", a, b)
                         candidates.append(ProcessCandidate(
                             id=pid,
-                            generation=1,
+                            generation=2,
                             parent_ids=parent_ids,
                             cycle=[a, b],
                             strength=round(strength, 4),
@@ -1392,7 +1392,7 @@ class SleepService:
                             pid = _make_id("process", a, b, c)
                             candidates.append(ProcessCandidate(
                                 id=pid,
-                                generation=1,
+                                generation=2,
                                 parent_ids=parent_ids,
                                 cycle=[a, b, c],
                                 strength=round(strength, 4),
@@ -1439,7 +1439,7 @@ class SleepService:
 
                 workflows.append(WorkflowConceptCandidate(
                     id=wid,
-                    generation=2,
+                    generation=3,
                     parent_ids=parent_ids,
                     name=name,
                     components=sorted(proc.cycle),
@@ -1482,7 +1482,7 @@ class SleepService:
                         if hid not in candidates:
                             candidates[hid] = HypothesisCandidate(
                                 id=hid,
-                                generation=3,
+                                generation=4,
                                 subject=sub,
                                 expectation=exp,
                                 parent_ids=[w.id],
@@ -1500,7 +1500,7 @@ class SleepService:
                 if hid not in candidates:
                     candidates[hid] = HypothesisCandidate(
                         id=hid,
-                        generation=3,
+                        generation=4,
                         subject=sub,
                         expectation=exp,
                         parent_ids=[p.id],
@@ -1514,7 +1514,7 @@ class SleepService:
                 hid = _make_id("hyp", m.anchor_tag, "high_structural_significance")
                 candidates[hid] = HypothesisCandidate(
                     id=hid,
-                    generation=3,
+                    generation=4,
                     subject=m.anchor_tag,
                     expectation="high_structural_significance",
                     confidence=m.confidence,
@@ -1755,7 +1755,7 @@ class SleepService:
             tid = _make_id("theory", subject, *sorted(expectations))
             theories.append(TheoryCandidate(
                 id=tid,
-                generation=4,
+                generation=5,
                 subject=subject,
                 hypotheses=hyp_ids,
                 confidence=round(avg_conf, 4),
@@ -1785,7 +1785,7 @@ class SleepService:
                 qid = _make_id("question", subject, *sorted([h1.expectation, h2.expectation]))
                 questions.append(QuestionCandidate(
                     id=qid,
-                    generation=4,
+                    generation=5,
                     subject=subject,
                     competing_expectations=[h1.expectation, h2.expectation],
                     uncertainty=uncertainty,
