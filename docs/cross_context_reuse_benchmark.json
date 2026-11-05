@@ -1,24 +1,26 @@
 {
   "kind": "cross_context_reuse_benchmark",
-  "generated_utc": "2026-11-05T03:04:51Z",
+  "generated_utc": "2026-11-05T04:27:23Z",
   "seeds": [
     20261101,
     20261102,
-    20261103
+    20261103,
+    20261104,
+    20261105
   ],
-  "phase_a_cycles": 20,
-  "phase_b_cycles": 20,
-  "total_seconds": 205.4,
+  "phase_a_cycles": 30,
+  "phase_b_cycles": 30,
+  "total_seconds": 667.15,
   "metrics": {
-    "mean_cycles_naive": 3.3333333333333335,
-    "mean_cycles_treatment": 3.3333333333333335,
-    "mean_cycles_pruned": 3.3333333333333335,
-    "mean_cycles_orthogonal": 3.3333333333333335,
-    "transfer_ratio_treatment": 1.0,
+    "mean_cycles_naive": 3.2,
+    "mean_cycles_treatment": 1.0,
+    "mean_cycles_pruned": 3.2,
+    "mean_cycles_orthogonal": 1.4,
+    "transfer_ratio_treatment": 3.2,
     "transfer_ratio_pruned": 1.0,
-    "transfer_ratio_orthogonal": 1.0,
-    "mean_tp_treatment": 17.67,
-    "reusable_knowledge_verdict": "NULL_OR_INSUFFICIENT_TRANSFER"
+    "transfer_ratio_orthogonal": 2.286,
+    "mean_tp_treatment": 26.0,
+    "reusable_knowledge_verdict": "REUSE_DEMONSTRATED"
   },
   "per_arm_results": {
     "treatment": [
@@ -26,22 +28,36 @@
         "arm": "treatment",
         "seed": 20261101,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 28
       },
       {
         "arm": "treatment",
         "seed": 20261102,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 22
       },
       {
         "arm": "treatment",
         "seed": 20261103,
         "acquired": true,
-        "cycles_to_acquire": 2,
-        "persistence_cycles": 19
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 26
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 28
+      },
+      {
+        "arm": "treatment",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 26
       }
     ],
     "control_naive": [
@@ -50,21 +66,35 @@
         "seed": 20261101,
         "acquired": true,
         "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "persistence_cycles": 25
       },
       {
         "arm": "control_naive",
         "seed": 20261102,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20
       },
       {
         "arm": "control_naive",
         "seed": 20261103,
         "acquired": true,
         "cycles_to_acquire": 2,
-        "persistence_cycles": 19
+        "persistence_cycles": 25
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 25
+      },
+      {
+        "arm": "control_naive",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 24
       }
     ],
     "control_pruned": [
@@ -73,21 +103,35 @@
         "seed": 20261101,
         "acquired": true,
         "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "persistence_cycles": 14
       },
       {
         "arm": "control_pruned",
         "seed": 20261102,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20
       },
       {
         "arm": "control_pruned",
         "seed": 20261103,
         "acquired": true,
         "cycles_to_acquire": 2,
-        "persistence_cycles": 19
+        "persistence_cycles": 24
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 4,
+        "persistence_cycles": 18
+      },
+      {
+        "arm": "control_pruned",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 23
       }
     ],
     "control_orthogonal": [
@@ -95,22 +139,36 @@
         "arm": "control_orthogonal",
         "seed": 20261101,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 28
       },
       {
         "arm": "control_orthogonal",
         "seed": 20261102,
         "acquired": true,
-        "cycles_to_acquire": 4,
-        "persistence_cycles": 17
+        "cycles_to_acquire": 3,
+        "persistence_cycles": 20
       },
       {
         "arm": "control_orthogonal",
         "seed": 20261103,
         "acquired": true,
-        "cycles_to_acquire": 2,
-        "persistence_cycles": 19
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 26
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261104,
+        "acquired": true,
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 28
+      },
+      {
+        "arm": "control_orthogonal",
+        "seed": 20261105,
+        "acquired": true,
+        "cycles_to_acquire": 1,
+        "persistence_cycles": 26
       }
     ]
   }

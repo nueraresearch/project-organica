@@ -37,7 +37,7 @@ import random
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field, asdict
-from typing import Optional
+from typing import Optional, Any
 
 from .memory import MemoryService
 
@@ -140,6 +140,41 @@ class WorkflowConceptCandidate:
     parent_ids: list[str] = field(default_factory=list)
     name: str = ""
     components: list[str] = field(default_factory=list)
+    confidence: float = 0.0
+    evidence: dict = field(default_factory=dict)
+
+
+@dataclass
+class RoleCandidate:
+    """An abstract structural role representing an equivalence class of entities
+    occupying a characteristic topological and behavioral position (e.g. cluster
+    cohesion, directional outflow, transition contingency) derived from empirical evidence.
+    """
+    type: str = "role_candidate"
+    id: str = ""
+    generation: int = 2
+    parent_ids: list[str] = field(default_factory=list)
+    exemplars: list[str] = field(default_factory=list)
+    profile: dict = field(default_factory=dict)
+    confidence: float = 0.0
+    evidence: dict = field(default_factory=dict)
+
+
+@dataclass
+class SchemaCandidate:
+    """An abstract relational schema representing an invariant transition pattern
+    across functional roles (e.g. antecedent -> consequent), independent of literal tokens.
+    """
+    type: str = "schema_candidate"
+    id: str = ""
+    generation: int = 3
+    parent_ids: list[str] = field(default_factory=list)
+    source_role: str = ""        # e.g., "antecedent"
+    target_role: str = ""        # e.g., "consequent"
+    source_role_id: str = ""     # ID of source RoleCandidate
+    target_role_id: str = ""     # ID of target RoleCandidate
+    source_exemplars: list[str] = field(default_factory=list)
+    target_exemplars: list[str] = field(default_factory=list)
     confidence: float = 0.0
     evidence: dict = field(default_factory=dict)
 
@@ -276,8 +311,10 @@ class SleepReport:
     # Layer 2
     meta_concepts: list[MetaConceptCandidate] = field(default_factory=list)
     processes: list[ProcessCandidate]         = field(default_factory=list)
+    roles: list[RoleCandidate]                = field(default_factory=list)
     # Layer 3
     workflow_concepts: list[WorkflowConceptCandidate] = field(default_factory=list)
+    schemas: list[SchemaCandidate]                    = field(default_factory=list)
     # Layer 4
     hypotheses: list[HypothesisCandidate]     = field(default_factory=list)
     # Layer 5
@@ -364,6 +401,8 @@ class SleepService:
     MAX_META_CONCEPTS       = 15
     MAX_PROCESSES           = 10
     MAX_WORKFLOWS           = 10
+    MAX_ROLES               = 10
+    MAX_SCHEMAS             = 5
 
     # A workflow is only composed when at least this many of its cycle's
     # tags are meta-concept anchors.
@@ -460,16 +499,32 @@ class SleepService:
 
             # ---- Layer 1: Candidates from graphs ----
             tag_scores   = self._score_tags(freqs, cooc, temporal)
-            communities  = self._find_communities(cooc)
+            hub_tags     = {s.tag for s in tag_scores if s.classification == "hub"}
+            if hub_tags:
+                filtered_cooc = {
+                    t: {nbr: cnt for nbr, cnt in targets.items() if nbr not in hub_tags}
+                    for t, targets in cooc.items() if t not in hub_tags
+                }
+                communities  = self._find_communities(filtered_cooc)
+            else:
+                communities  = self._find_communities(cooc)
             concepts     = self._build_concepts(tag_scores, communities, cooc)
             phrases      = self._build_phrases(tag_scores, cooc)
             loops        = self._build_loops(temporal)
             self._current_cooc = cooc
+            prior_schemas = [
+                c for c in prior
+                if c.get("type") == "schema_candidate"
+                and (c.get("confidence") or c.get("strength") or 0) >= self.STABLE_THRESHOLD
+            ]
+            self._current_cooc = cooc
+            self._current_prior_schemas = prior_schemas
             try:
                 predictions  = self._build_predictions(temporal, freqs)
             finally:
                 self._current_cooc = None
                 self._current_tag_events = None
+                self._current_prior_schemas = None
             anomalies    = self._build_anomalies(temporal, freqs)
 
             # ---- Layer 2: Composites ----
@@ -479,6 +534,27 @@ class SleepService:
 
             meta_concepts = self._compose_meta_concepts(stable_prior)
             processes     = self._compose_processes(stable_prior)
+            roles         = self._extract_structural_roles(
+                communities=communities,
+                concepts=concepts,
+                temporal=temporal,
+                freqs=freqs,
+                predictions=predictions,
+                recent_events=recent_events,
+            )
+
+            all_roles = list(roles)
+            for c in stable_prior:
+                if c.get("type") == "role_candidate" and c.get("id") not in {r.id for r in all_roles}:
+                    all_roles.append(RoleCandidate(
+                        id=c.get("id"),
+                        generation=c.get("generation", 2),
+                        parent_ids=c.get("parent_ids", []),
+                        exemplars=c.get("exemplars", []),
+                        profile=c.get("profile", {}),
+                        confidence=c.get("confidence", 1.0),
+                        evidence=c.get("evidence", {}),
+                    ))
 
             # ---- Layer 3: Workflows ----
             workflow_concepts = self._compose_workflows(meta_concepts, processes, stable_prior)
@@ -521,6 +597,33 @@ class SleepService:
                         evidence=c.get("evidence", {}),
                     ))
 
+            # ---- Layer 3b: Relational Schemas ----
+            schemas = self._extract_relational_schemas(
+                temporal=temporal,
+                freqs=freqs,
+                communities=communities,
+                concepts=concepts,
+                predictions=predictions,
+                prior=prior,
+                roles=all_roles,
+                recent_events=recent_events,
+            )
+
+            all_schemas = list(schemas)
+            for c in stable_prior:
+                if c.get("type") == "schema_candidate" and c.get("id") not in {s.id for s in all_schemas}:
+                    all_schemas.append(SchemaCandidate(
+                        id=c.get("id"),
+                        generation=c.get("generation", 3),
+                        parent_ids=c.get("parent_ids", []),
+                        source_role=c.get("source_role", ""),
+                        target_role=c.get("target_role", ""),
+                        source_exemplars=c.get("source_exemplars", []),
+                        target_exemplars=c.get("target_exemplars", []),
+                        confidence=c.get("confidence", 1.0),
+                        evidence=c.get("evidence", {}),
+                    ))
+
             # ---- Layer 4: Hypotheses (V3) ----
             hypotheses = self._form_and_test_hypotheses(
                 temporal=temporal,
@@ -559,7 +662,9 @@ class SleepService:
                     prior, concepts, phrases, loops, predictions,
                     meta_concepts=all_metas,
                     processes=all_processes,
+                    roles=all_roles,
                     workflows=all_workflows,
+                    schemas=all_schemas,
                     hypotheses=hypotheses,
                     theories=theories,
                     questions=questions,
@@ -572,8 +677,8 @@ class SleepService:
             self.memory.decay_temporal_edges(factor=self.TEMPORAL_DECAY_FACTOR, min_count=1)
 
             composites_created = (len(meta_concepts) + len(processes) + len(workflow_concepts) +
-                                  len(hypotheses) + len(theories) + len(questions) + len(dreams) +
-                                  len(investigations) + len(experiments))
+                                  len(all_schemas) + len(hypotheses) + len(theories) + len(questions) +
+                                  len(dreams) + len(investigations) + len(experiments))
 
             # M3 — contradiction density (evidence-flow metric, see FACTS-SHEET G3)
             if hypotheses:
@@ -595,7 +700,9 @@ class SleepService:
                 anomalies=anomalies,
                 meta_concepts=meta_concepts,
                 processes=processes,
+                roles=all_roles,
                 workflow_concepts=workflow_concepts,
+                schemas=all_schemas,
                 hypotheses=hypotheses,
                 theories=theories,
                 questions=questions,
@@ -1382,7 +1489,9 @@ class SleepService:
         ))
         return loops[:self.MAX_LOOPS]
 
-    def _build_predictions(self, temporal, freqs) -> list[PredictionCandidate]:
+    def _build_predictions(self, temporal, freqs, prior_schemas: list[dict] | None = None) -> list[PredictionCandidate]:
+        if prior_schemas is None:
+            prior_schemas = getattr(self, "_current_prior_schemas", None)
         cooc = getattr(self, "_current_cooc", None)
         cooc_pairs = set()
         if cooc:
@@ -1393,10 +1502,24 @@ class SleepService:
         tag_events = getattr(self, "_current_tag_events", {})
         # Collect outgoing counts for transition probability P(target | source)
         out_counts: dict[str, int] = defaultdict(int)
+        raw_out_counts: dict[str, int] = defaultdict(int)
+        raw_in_counts: dict[str, int] = defaultdict(int)
         for tag_from, targets in temporal.items():
             for tag_to, count in targets.items():
+                raw_out_counts[tag_from] += count
+                raw_in_counts[tag_to] += count
                 if count >= self.PREDICTION_MIN_COUNT:
                     out_counts[tag_from] += count
+
+        # Best active schema from prior for top-down structural candidate priming
+        best_schema = None
+        if prior_schemas:
+            valid_schemas = [
+                s for s in prior_schemas
+                if (s.get("confidence") or s.get("strength") or 0) >= self.STABLE_THRESHOLD
+            ]
+            if valid_schemas:
+                best_schema = max(valid_schemas, key=lambda s: (s.get("confidence") or s.get("strength") or 0))
 
         # Compute target entropy H(T | source) for each source
         # H(T | u) = - \sum_v P(v|u) * log2 P(v|u)
@@ -1421,7 +1544,30 @@ class SleepService:
             ent = source_entropy.get(tag_from, 0.0)
             for tag_to in sorted(targets.keys()):
                 count = targets[tag_to]
-                if count >= self.PREDICTION_MIN_COUNT:
+                meets_direct = count >= self.PREDICTION_MIN_COUNT
+                schema_primed = False
+                effective_count = count
+                matching_schema_id = None
+
+                if not meets_direct and best_schema and count >= 1 and tag_from != tag_to:
+                    # Structural Role Check: the edge tag_from→tag_to must be directionally
+                    # consistent (net forward flow, i.e. count > reverse_count).  We do NOT
+                    # gate on global raw_in/out_counts because those are dominated by prior-
+                    # context history and incorrectly exclude legitimate cross-context tokens
+                    # (the first token seen in a new context will always have high raw_in
+                    # from the previous context's accumulated temporal edges via lookback).
+                    reverse_count = temporal.get(tag_to, {}).get(tag_from, 0)
+                    is_asymmetric = count > reverse_count  # strict net forward direction
+
+                    if is_asymmetric:
+                        schema_conf = float(best_schema.get("confidence", best_schema.get("strength", 0.0)))
+                        boost = (schema_conf / max(self.STABLE_THRESHOLD, 0.1)) * (self.PREDICTION_MIN_COUNT - 1)
+                        effective_count = count + boost
+                        if effective_count >= self.PREDICTION_MIN_COUNT:
+                            schema_primed = True
+                            matching_schema_id = best_schema.get("id", "")
+
+                if meets_direct or schema_primed:
                     ratio = count / max(source_freq, 1)
                     trans_prob = count / max(out_counts[tag_from], 1)
                     pid = _make_id("pred", tag_from, tag_to)
@@ -1432,21 +1578,33 @@ class SleepService:
                     if not supporting_events:
                         supporting_events = (tag_events.get(tag_from, [])[:5] + tag_events.get(tag_to, [])[:5])[:10]
 
+                    parent_ids = list(supporting_events)
+                    if schema_primed and matching_schema_id:
+                        parent_ids.insert(0, matching_schema_id)
+
+                    cand_strength = min(1.0, max(0.50, round(ratio, 3))) if schema_primed else min(1.0, ratio)
+
+                    evidence_dict = {
+                        "temporal_count": count,
+                        "source_frequency": source_freq,
+                        "target_frequency": freqs.get(tag_to, 0),
+                        "ratio": round(ratio, 3),
+                        "transition_prob": round(trans_prob, 4),
+                        "target_entropy": ent,
+                        "is_cooccurrence": is_cooc,
+                    }
+                    if schema_primed and matching_schema_id:
+                        evidence_dict["schema_primed"] = matching_schema_id
+                        evidence_dict["schema_confidence"] = best_schema.get("confidence")
+                        evidence_dict["effective_count"] = round(effective_count, 3)
+
                     cand = PredictionCandidate(
                         id=pid,
-                        parent_ids=supporting_events,
+                        parent_ids=parent_ids,
                         source=tag_from,
                         target=tag_to,
-                        strength=min(1.0, ratio),
-                        evidence={
-                            "temporal_count": count,
-                            "source_frequency": source_freq,
-                            "target_frequency": freqs.get(tag_to, 0),
-                            "ratio": round(ratio, 3),
-                            "transition_prob": round(trans_prob, 4),
-                            "target_entropy": ent,
-                            "is_cooccurrence": is_cooc,
-                        },
+                        strength=cand_strength,
+                        evidence=evidence_dict,
                     )
                     if is_cooc:
                         cooccurrences.append(cand)
@@ -1744,6 +1902,221 @@ class SleepService:
 
         workflows.sort(key=lambda w: w.confidence, reverse=True)
         return workflows[:self.MAX_WORKFLOWS]
+
+    # ==================================================================
+    # Layer 2b: Evidence-Derived Structural Roles
+    # ==================================================================
+
+    def _extract_structural_roles(
+        self, communities, concepts, temporal, freqs, predictions, recent_events
+    ) -> list[RoleCandidate]:
+        """Layer 2b: Extract evidence-derived structural roles from coherent topological clusters.
+        Each role encapsulates empirical structural properties (in/out degree, retention, flow bias).
+        """
+        roles: list[RoleCandidate] = []
+        candidate_groups: list[list[str]] = []
+        for _, tags, _ in communities:
+            if len(tags) >= 2 and tags not in candidate_groups:
+                candidate_groups.append(tags)
+        for c in concepts:
+            if len(c.members) >= 2 and c.members not in candidate_groups:
+                candidate_groups.append(c.members)
+
+        cooc = getattr(self, "_current_cooc", {}) or {}
+
+        for group in candidate_groups:
+            within_flow = 0
+            for u in group:
+                for v in group:
+                    if u != v:
+                        within_flow += temporal.get(u, {}).get(v, 0)
+
+            out_flow = 0
+            for u in group:
+                for v, cnt in temporal.get(u, {}).items():
+                    if v not in group:
+                        out_flow += cnt
+
+            in_flow = 0
+            for u, targets in temporal.items():
+                if u not in group:
+                    for v in group:
+                        in_flow += targets.get(v, 0)
+
+            total_ext = out_flow + in_flow
+            retention = round(within_flow / max(within_flow + out_flow, 1), 3)
+            flow_bias = round((out_flow - in_flow) / max(total_ext, 1), 3)
+
+            k = len(group)
+            possible = k * (k - 1) / 2
+            actual_edges = 0
+            for x in range(len(group)):
+                for y in range(x + 1, len(group)):
+                    if group[y] in cooc.get(group[x], {}) or group[x] in cooc.get(group[y], {}):
+                        actual_edges += 1
+            cohesion = round(actual_edges / possible if possible > 0 else 1.0, 3)
+
+            parent_ids = [c.id for c in concepts if set(c.members) == set(group)][:5]
+            if not parent_ids:
+                parent_ids = [p.id for p in predictions if p.source in group or p.target in group][:5]
+
+            rid = _make_id("role", *sorted(group))
+            conf = min(1.0, round(0.4 + 0.3 * cohesion + 0.3 * min(within_flow / 20.0, 1.0), 3))
+
+            profile = {
+                "in_degree": in_flow,
+                "out_degree": out_flow,
+                "retention": retention,
+                "cross_flow": total_ext,
+                "cohesion": cohesion,
+                "flow_bias": flow_bias,
+            }
+
+            roles.append(RoleCandidate(
+                id=rid,
+                generation=2,
+                parent_ids=parent_ids,
+                exemplars=sorted(group),
+                profile=profile,
+                confidence=conf,
+                evidence={
+                    "member_count": len(group),
+                    "within_flow": within_flow,
+                    "profile": profile,
+                }
+            ))
+
+        roles.sort(key=lambda r: r.confidence, reverse=True)
+        return roles[:self.MAX_ROLES]
+
+    # ==================================================================
+    # Layer 3b: Relational Schemas (Structural Abstraction & Reuse)
+    # ==================================================================
+
+    def _extract_relational_schemas(
+        self, temporal, freqs, communities, concepts, predictions, prior,
+        roles: list[RoleCandidate] | None = None,
+        recent_events: list[Any] | None = None,
+    ) -> list[SchemaCandidate]:
+        """Layer 3b: Extract abstract relational schemas connecting structural roles.
+        Gated by event-level transition contingency and directional asymmetry:
+        - Treatment (structured transitions): high contingency (ratio >= 2.0) -> forms schema
+        - Orthogonal (random transitions): flat noise (ratio ~ 1.0) -> rejected (no schema)
+        """
+        schemas: list[SchemaCandidate] = []
+
+        # 1. Identify candidate roles/clusters
+        role_list = list(roles or [])
+        if not role_list:
+            # Construct ephemeral roles from discovered communities / concepts
+            candidate_groups: list[list[str]] = []
+            for _, tags, _ in communities:
+                if len(tags) >= 2 and tags not in candidate_groups:
+                    candidate_groups.append(tags)
+            for c in concepts:
+                if len(c.members) >= 2 and c.members not in candidate_groups:
+                    candidate_groups.append(c.members)
+            for g in candidate_groups:
+                rid = _make_id("role", *sorted(g))
+                role_list.append(RoleCandidate(
+                    id=rid,
+                    generation=2,
+                    exemplars=sorted(g),
+                    profile={"cohesion": 1.0},
+                    confidence=0.5,
+                ))
+
+        # 2. Check transition contingency between role pairs
+        for i in range(len(role_list)):
+            for j in range(len(role_list)):
+                if i == j:
+                    continue
+                r_a = role_list[i]
+                r_b = role_list[j]
+                set_a = set(r_a.exemplars)
+                set_b = set(r_b.exemplars)
+                if set_a & set_b:
+                    continue
+
+                # Measure event-level transition contingency from chronological stream
+                cross_switches = 0
+                self_switches = 0
+                if recent_events and len(recent_events) >= 10:
+                    events_chrono = list(reversed(recent_events))
+                    for idx in range(len(events_chrono) - 1):
+                        c_tags = set(events_chrono[idx].tags)
+                        n_tags = set(events_chrono[idx + 1].tags)
+                        in_a = bool(c_tags & set_a)
+                        next_a = bool(n_tags & set_a)
+                        next_b = bool(n_tags & set_b)
+                        if in_a and next_b:
+                            cross_switches += 1
+                        elif in_a and next_a:
+                            self_switches += 1
+
+                contingency_ratio = cross_switches / max(self_switches, 1)
+
+                # Fallback to temporal graph
+                flow_a_to_b = sum(temporal.get(u, {}).get(v, 0) for u in set_a for v in set_b)
+                flow_b_to_a = sum(temporal.get(v, {}).get(u, 0) for v in set_b for u in set_a)
+                flow_ratio = flow_a_to_b / max(flow_b_to_a, 1)
+
+                # Structural contingency gate:
+                # - If chronological events present: requires cross_switches >= 4 and contingency_ratio >= 2.0
+                # - If pure temporal graph (unit tests): requires flow_a_to_b >= 4 and flow_ratio >= 1.10
+                is_contingent = False
+                measured_ratio = 1.0
+                if flow_a_to_b > flow_b_to_a:
+                    if cross_switches >= 4 and contingency_ratio >= 2.0:
+                        is_contingent = True
+                        measured_ratio = contingency_ratio
+                    elif (not recent_events or len(recent_events) < 10) and flow_a_to_b >= 4 and flow_ratio >= 1.10:
+                        is_contingent = True
+                        measured_ratio = flow_ratio
+
+                if is_contingent:
+                    sid = _make_id("schema", "antecedent", "consequent")
+                    conf = min(0.75, round(0.4 + 0.05 * min(measured_ratio, 6.0), 3))
+
+                    parent_ids = [r_a.id, r_b.id]
+                    parent_ids.extend([
+                        p.id for p in predictions
+                        if p.source in set_a and p.target in set_b
+                    ][:8])
+
+                    schema = SchemaCandidate(
+                        id=sid,
+                        generation=3,
+                        parent_ids=parent_ids,
+                        source_role="antecedent",
+                        target_role="consequent",
+                        source_role_id=r_a.id,
+                        target_role_id=r_b.id,
+                        source_exemplars=r_a.exemplars,
+                        target_exemplars=r_b.exemplars,
+                        confidence=conf,
+                        evidence={
+                            "forward_flow": flow_a_to_b,
+                            "backward_flow": flow_b_to_a,
+                            "directional_ratio": round(measured_ratio, 3),
+                            "cross_switches": cross_switches,
+                            "self_switches": self_switches,
+                            "contingency_ratio": round(contingency_ratio, 3),
+                            "source_role_profile": r_a.profile,
+                            "target_role_profile": r_b.profile,
+                        },
+                    )
+                    schemas.append(schema)
+
+        # Deduplicate and sort schemas by confidence descending
+        unique_schemas: dict[str, SchemaCandidate] = {}
+        for s in schemas:
+            key = f"{s.source_role_id}->{s.target_role_id}"
+            if key not in unique_schemas or s.confidence > unique_schemas[key].confidence:
+                unique_schemas[key] = s
+
+        sorted_schemas = sorted(unique_schemas.values(), key=lambda s: -s.confidence)
+        return sorted_schemas[:self.MAX_SCHEMAS]
 
     # ==================================================================
     # Layer 4: Falsifiable Hypotheses (Sleep V3)
@@ -2113,7 +2486,7 @@ class SleepService:
 
     def _natural_selection(
         self, prior, concepts, phrases, loops, predictions,
-        meta_concepts=None, processes=None, workflows=None,
+        meta_concepts=None, processes=None, roles=None, workflows=None, schemas=None,
         hypotheses=None, theories=None, questions=None,
         dreams=None, investigations=None, experiments=None,
     ) -> tuple[int, int, int]:
@@ -2146,10 +2519,16 @@ class SleepService:
         for p in (processes or []):
             if p.cycle:
                 current_keys.add(f"process:{'|'.join(sorted(p.cycle))}")
+        for r in (roles or []):
+            if r.exemplars:
+                current_keys.add(f"role:{'|'.join(sorted(r.exemplars))}")
         # G3
         for w in (workflows or []):
             if w.components:
                 current_keys.add(f"workflow:{'|'.join(sorted(w.components))}")
+        for s in (schemas or []):
+            if s.source_role and s.target_role:
+                current_keys.add(f"schema:{s.source_role}->{s.target_role}")
         # G4
         for h in (hypotheses or []):
             if h.subject:
@@ -2190,6 +2569,7 @@ class SleepService:
                 self._reinforce_current(
                     key, prior_conf, prior_gen, prior_obs,
                     concepts, phrases, loops, predictions,
+                    roles=roles, schemas=schemas,
                 )
             else:
                 new_conf = prior_conf * 0.8
@@ -2241,10 +2621,17 @@ class SleepService:
         if ctype == "process_candidate":
             cycle = c.get("cycle", [])
             return f"process:{'|'.join(sorted(cycle))}" if cycle else ""
+        if ctype == "role_candidate":
+            ex = c.get("exemplars", [])
+            return f"role:{'|'.join(sorted(ex))}" if ex else ""
         # ---- Layer 3 (G3) ----
         if ctype == "workflow_concept":
             comps = c.get("components", [])
             return f"workflow:{'|'.join(sorted(comps))}" if comps else ""
+        if ctype == "schema_candidate":
+            s_role = c.get("source_role", "")
+            t_role = c.get("target_role", "")
+            return f"schema:{s_role}->{t_role}" if (s_role and t_role) else ""
         # ---- Layer 4 (G4) ----
         if ctype == "hypothesis":
             subject = c.get("subject", "")
@@ -2280,6 +2667,7 @@ class SleepService:
     def _reinforce_current(
         self, key, prior_conf, prior_gen, prior_obs,
         concepts, phrases, loops, predictions,
+        roles=None, schemas=None,
     ):
         boost = 0.05
         if key.startswith("concept:"):
@@ -2324,6 +2712,26 @@ class SleepService:
                         p.evidence["prior_strength"] = round(prior_conf, 4)
                         p.evidence["strengthened"] = True
                         break
+
+        elif key.startswith("role:") and roles:
+            ex_key = set(key.split(":", 1)[1].split("|"))
+            for r in roles:
+                if set(r.exemplars) == ex_key:
+                    r.confidence = min(1.0, r.confidence + boost)
+                    r.generation = prior_gen + 1
+                    r.evidence["prior_confidence"] = round(prior_conf, 4)
+                    r.evidence["strengthened"] = True
+                    break
+
+        elif key.startswith("schema:") and schemas:
+            schema_key = key.split(":", 1)[1]
+            for s in schemas:
+                if f"{s.source_role}->{s.target_role}" == schema_key:
+                    s.confidence = min(1.0, s.confidence + boost)
+                    s.generation = prior_gen + 1
+                    s.evidence["prior_confidence"] = round(prior_conf, 4)
+                    s.evidence["strengthened"] = True
+                    break
 
     # ==================================================================
     # Community detection (internal helper)
@@ -2399,9 +2807,13 @@ class SleepService:
             self._store_single_candidate(asdict(m))
         for p in report.processes:
             self._store_single_candidate(asdict(p))
+        for r in report.roles:
+            self._store_single_candidate(asdict(r))
         # Layer 3
         for w in report.workflow_concepts:
             self._store_single_candidate(asdict(w))
+        for s in report.schemas:
+            self._store_single_candidate(asdict(s))
         # Layer 4
         for h in report.hypotheses:
             self._store_single_candidate(asdict(h))

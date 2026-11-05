@@ -216,7 +216,7 @@ WINDOW_SLEEP_EVENTS = 4000   # sleep.py:878 -- recent(n=4000, event_type="sleep"
 # The report's fourteen candidate lists (sleep.py:266-291).
 REPORT_LISTS = (
     "concepts", "phrases", "loops", "predictions", "anomalies",
-    "meta_concepts", "processes", "workflow_concepts",
+    "meta_concepts", "processes", "roles", "workflow_concepts", "schemas",
     "hypotheses", "theories", "questions", "dreams",
     "investigations", "experiments",
 )

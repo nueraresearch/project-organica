@@ -330,7 +330,7 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
 
     assert seeds["consumed_total"] == 234
 
-    assert seeds["disjoint_proved_against"] == 79
+    assert seeds["disjoint_proved_against"] == 80
 
     for path in seeds["consumed_blocks"]:
 

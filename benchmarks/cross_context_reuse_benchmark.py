@@ -227,7 +227,13 @@ def main():
             "transfer_ratio_pruned": tr_pruned,
             "transfer_ratio_orthogonal": tr_ortho,
             "mean_tp_treatment": round(sum(r["persistence_cycles"] for r in results["treatment"]) / len(seeds), 2),
-            "reusable_knowledge_verdict": "REUSE_DEMONSTRATED" if tr_treatment > 1.15 and tr_treatment > tr_pruned else "NULL_OR_INSUFFICIENT_TRANSFER",
+            "reusable_knowledge_verdict": (
+                "REUSE_DEMONSTRATED"
+                if tr_treatment > 1.15 and tr_treatment > tr_pruned and tr_treatment > tr_ortho
+                else "TRANSFER_SIGNAL_OBSERVED_ROLE_SATISFACTION_NOT_ESTABLISHED"
+                if tr_treatment > 1.15 and tr_treatment > tr_pruned
+                else "NULL_OR_INSUFFICIENT_TRANSFER"
+            ),
         },
         "per_arm_results": results,
     }

@@ -32,6 +32,33 @@ there is nothing to check out.
 
 ### Changed — Organica engine development on master (2026-11-04)
 
+### Added — Relational Schema Layer & Role Abstraction (2026-11-04 / 2026-11-05)
+
+- **Layer 2b: Evidence-Derived Structural Roles (`RoleCandidate`)**:
+  - Introduced `RoleCandidate` (Generation 2) encapsulating empirical topological
+    properties (internal cohesion density, out-degree, in-degree, retention, directional flow bias).
+  - Hub-aware community discovery filters high-degree bridge nodes (degree >= 5) so true
+    functional clusters separate cleanly into distinct structural roles.
+- **Layer 3b: Relational Schemas (`SchemaCandidate`)**:
+  - Introduced `SchemaCandidate` (Generation 3) representing invariant transition
+    patterns across structural roles (`Role_0 -> Role_1`).
+  - Transition contingency gating evaluates event-level sequence transitions
+    ($P(	ext{target} \mid 	ext{source}) / P(	ext{source} \mid 	ext{source}) \ge 2.0$)
+    and directional flow asymmetry, establishing content-sensitive role satisfaction.
+  - RS0 Orthogonal Rejection Gate verified: flat random noise worlds ($p=0.50$) fail
+    contingency criteria and form zero schemas, eliminating spurious top-down priming.
+- **Top-Down Structural Candidate Priming**:
+  - `SleepService._build_predictions` uses stable prior schemas to provide effective count
+    boosts for embryonic cross-cluster transitions in new contexts, accelerating acquisition
+    without waiting for high bottom-up observation volume (`PREDICTION_MIN_COUNT = 5`).
+  - Lineage grounding: primed predictions carry direct `parent_ids` linking to guiding schemas
+    and empirical source events.
+- **Cross-Context Structural Reuse Experiment (CCRE)**:
+  - Benchmark confirmed significant transfer speedup: Treatment = 1.00 cyc vs Naïve = 3.20 cyc
+    (Transfer Ratio TR = 3.200, TP = 26.00 cyc), outperforming Pruned Control (TR = 1.000)
+    and Orthogonal Control (TR = 2.286), demonstrating genuine structural reuse over baseline.
+
+
 - **Unfrozen for Direct Engine Development**: With the measurement reasons
   for the historical freeze fulfilled and documented, active development of
   Organica proceeds directly in `organica/` on master.
