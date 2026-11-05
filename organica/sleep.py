@@ -295,6 +295,7 @@ class SleepReport:
     candidates_decayed: int      = 0
     candidates_pruned: int       = 0
     composites_created: int      = 0
+    contradiction_density: float = 0.0  # M3: mean(contradiction / (support + contradiction)) across hypotheses
 
 
 # ------------------------------------------------------------------
@@ -358,7 +359,7 @@ class SleepService:
     # were there before.
     # ------------------------------------------------------------------
     MAX_LOOPS               = 15
-    MAX_PREDICTIONS         = 20
+    MAX_PREDICTIONS         = 40
     MAX_ANOMALIES           = 10
     MAX_META_CONCEPTS       = 15
     MAX_PROCESSES           = 10
@@ -592,6 +593,16 @@ class SleepService:
                               len(hypotheses) + len(theories) + len(questions) + len(dreams) +
                               len(investigations) + len(experiments))
 
+        # M3 — contradiction density (evidence-flow metric, see FACTS-SHEET G3)
+        if hypotheses:
+            densities = []
+            for h in hypotheses:
+                total = h.support_count + h.contradiction_count
+                densities.append(h.contradiction_count / total if total > 0 else 0.0)
+            m3 = round(sum(densities) / len(densities), 6)
+        else:
+            m3 = 0.0
+
         report = SleepReport(
             cycle=cycle,
             ran_at=time.time(),
@@ -614,6 +625,7 @@ class SleepService:
             candidates_decayed=decayed,
             candidates_pruned=pruned,
             composites_created=composites_created,
+            contradiction_density=m3,
         )
         with self.memory.batch():
             self._store_candidates(report)
@@ -759,6 +771,8 @@ class SleepService:
 
         # 1. Evaluate Questions
         for q in questions:
+            if q.evidence.get("closed") or q.evidence.get("resolved_by"):
+                continue
             # Questions have high uncertainty; novelty is moderate
             novelty = 0.50
             eig = round(q.uncertainty * (1.0 + novelty), 4)
@@ -982,6 +996,20 @@ class SleepService:
                                 ev["experiment_refuted"] = exp.id
                                 updated["evidence"] = ev
                             self._store_single_candidate(updated)
+
+                # Mark the targeted question as resolved if experiment validated
+                if outcome == "validated" and exp.target_type == "question":
+                    for pc in all_prior:
+                        if pc.get("type") == "question" and pc.get("id") == exp.target_id:
+                            updated_q = dict(pc)
+                            ev = dict(updated_q.get("evidence", {}))
+                            ev["resolved_by"] = exp.id
+                            ev["resolved_at"] = time.time()
+                            ev["closed"] = True
+                            updated_q["evidence"] = ev
+                            updated_q["closed"] = True
+                            self._store_single_candidate(updated_q)
+                            break
 
                 # Promote a validated dream into a grounded hypothesis
                 if outcome == "validated" and exp.target_type == "dream":
@@ -1274,6 +1302,12 @@ class SleepService:
         seen: set[tuple] = set()
         tags = list(temporal.keys())
 
+        def canonical_cycle(nodes: list[str]) -> list[str]:
+            """Return rotation of directed cycle starting with lexicographically minimal node."""
+            min_i = min(range(len(nodes)), key=lambda i: nodes[i])
+            rotated = nodes[min_i:] + nodes[:min_i]
+            return rotated + [rotated[0]]
+
         # 2-cycles
         for a in tags:
             for b, count_ab in sorted(temporal[a].items()):
@@ -1321,12 +1355,13 @@ class SleepService:
                             cycle = tuple(sorted([a, b, c]))
                             if cycle not in seen:
                                 seen.add(cycle)
-                                lid = _make_id("loop", a, b, c)
+                                norm_path = canonical_cycle([a, b, c])
+                                lid = _make_id("loop", *norm_path[:-1])
                                 supporting_events = (tag_events.get(a, [])[:3] + tag_events.get(b, [])[:3] + tag_events.get(c, [])[:4])[:10]
                                 loops.append(LoopCandidate(
                                     id=lid,
                                     parent_ids=supporting_events,
-                                    path=[a, b, c, a],
+                                    path=norm_path,
                                     strength=strength,
                                     evidence={
                                         "min_edge_count": strength,
@@ -1335,7 +1370,32 @@ class SleepService:
                                     },
                                 ))
 
-        loops.sort(key=lambda l: (-l.strength, l.id))
+        # Compute per-tag target entropy for structural ranking
+        out_counts: dict[str, int] = {}
+        for t in temporal:
+            total = sum(temporal[t].values())
+            if total > 0:
+                out_counts[t] = total
+
+        tag_entropy: dict[str, float] = {}
+        for t, total in out_counts.items():
+            ent = 0.0
+            for cnt in temporal[t].values():
+                if cnt > 0:
+                    p = cnt / total
+                    ent -= p * math.log2(p)
+            tag_entropy[t] = round(ent, 4)
+
+        for lc in loops:
+            path_tags = [tag for tag in lc.path if tag in tag_entropy]
+            min_ent = min((tag_entropy[t] for t in path_tags), default=0.0)
+            lc.evidence["path_min_entropy"] = min_ent
+
+        loops.sort(key=lambda l: (
+            l.evidence.get("path_min_entropy", 0.0),
+            -l.strength,
+            l.id,
+        ))
         return loops[:self.MAX_LOOPS]
 
     def _build_predictions(self, temporal, freqs) -> list[PredictionCandidate]:
@@ -1463,7 +1523,27 @@ class SleepService:
                             "dominance_ratio": round(top_count / max(other_count, 1), 2),
                         },
                     ))
-        anomalies.sort(key=lambda a: (-a.evidence["dominance_ratio"], a.id))
+
+        # Compute target entropy for each anomaly context (source tag)
+        for anom in anomalies:
+            ctx = anom.context
+            ctx_targets = temporal.get(ctx, {})
+            total = sum(ctx_targets.values())
+            if total > 0:
+                ent = 0.0
+                for cnt in ctx_targets.values():
+                    if cnt > 0:
+                        p = cnt / total
+                        ent -= p * math.log2(p)
+                anom.evidence["source_entropy"] = round(ent, 4)
+            else:
+                anom.evidence["source_entropy"] = 0.0
+
+        anomalies.sort(key=lambda a: (
+            a.evidence.get("source_entropy", 999.0),  # low entropy first (more structural)
+            -a.evidence["dominance_ratio"],
+            a.id,
+        ))
         return anomalies[:self.MAX_ANOMALIES]
 
     # ==================================================================
@@ -1962,6 +2042,11 @@ class SleepService:
             if h.expectation != "high_structural_significance":
                 by_subject[h.subject].append(h)
 
+        closed_qids = {
+            p.get("id") for p in prior
+            if p.get("type") == "question" and (p.get("closed") or p.get("evidence", {}).get("closed") or p.get("evidence", {}).get("resolved_by"))
+        }
+
         theories = []
         questions = []
 
@@ -2009,19 +2094,20 @@ class SleepService:
                 uncertainty = round(entropy * maturity, 4)
 
                 qid = _make_id("question", subject, *sorted([h1.expectation, h2.expectation]))
-                questions.append(QuestionCandidate(
-                    id=qid,
-                    generation=5,
-                    subject=subject,
-                    competing_expectations=[h1.expectation, h2.expectation],
-                    uncertainty=uncertainty,
-                    parent_ids=[h1.id, h2.id],
-                    evidence={
-                        "ratio": [round(p1, 3), round(p2, 3)],
-                        "supports": [s1, s2],
-                        "total_pair_evidence": total_pair,
-                    },
-                ))
+                if qid not in closed_qids:
+                    questions.append(QuestionCandidate(
+                        id=qid,
+                        generation=5,
+                        subject=subject,
+                        competing_expectations=[h1.expectation, h2.expectation],
+                        uncertainty=uncertainty,
+                        parent_ids=[h1.id, h2.id],
+                        evidence={
+                            "ratio": [round(p1, 3), round(p2, 3)],
+                            "supports": [s1, s2],
+                            "total_pair_evidence": total_pair,
+                        },
+                    ))
 
         theories.sort(key=lambda t: t.support_count, reverse=True)
         questions.sort(key=lambda q: q.uncertainty, reverse=True)

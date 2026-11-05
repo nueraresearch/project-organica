@@ -1089,7 +1089,8 @@ def run(cycles: int = CYCLES, seed: int = SEED, max_hypotheses: int | None = Non
                                                              "candidates_strengthened",
                                                              "candidates_decayed",
                                                              "candidates_pruned",
-                                                             "composites_created")]),
+                                                             "composites_created",
+                                                             "contradiction_density")]),
         },
         "A1_evidence_replay_aggregate": {
             "beliefs_checked": a1_checked, "cycles_failing": a1_fail,
