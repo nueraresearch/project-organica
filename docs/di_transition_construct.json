@@ -1,8 +1,8 @@
 {
   "what_this_is": "Audit of the transition construct: measurement properties of onset, slope and accumulated exposure over the 240 stored Phase L records. No behavioural endpoint is read; no engine, no seed, no coefficient, no confirmatory run.",
   "source": {
-    "path": "docs/phase_l_results.json",
-    "sha256": "f9378feb1cd234850cd457b671afd24412263a076519a2aa82fe4f80c038754d",
+    "path": "docs\\phase_l_results.json",
+    "sha256": "b19292e81109bc02d6c8b95300e8c28d4e9e0c0921c0514fcc53eb28ab5f7c17",
     "records": 240
   },
   "units": {

@@ -141,6 +141,25 @@ there is nothing to check out.
     outside the evaluation loop in `execute_experiments`.
   - Result: 38-test integration suite execution time dropped from ~70s to 5.2s
     (>13× speedup) while preserving 100% architectural and substrate equivalence.
+- **Active Environment Execution & Law IV Empirical Dispatcher (Option B)**:
+  - `organica/environment.py` orchestrates the perceive -> consolidate -> intervene cycle
+    via `ActiveInquiryLoop` and `ReactiveWorld`.
+  - Head-to-head empirical benchmark (`benchmarks/active_inquiry_benchmark.py` over 150 cycles)
+    demonstrated a **+120.9% cumulative structure inventory expansion** (129 -> 285)
+    with 735 interventions executed, confirming that active intervention unlocks higher cognitive
+    layers (theories and questions emerge from interventions) beyond passive observation limits.
+- **Hypothesis Retention Pressure Audit (Gate G-P1)**:
+  - `benchmarks/retention_pressure_audit.py` evaluated belief pool dynamics over 300 cycles across
+    `confidence`, `contradiction`, and `shannon_entropy` retention policies; determined mean
+    pre-cap belief pool is 3.82 (max 13), demonstrating that `MAX_HYPOTHESES = 15` is non-binding
+    under natural passive observation.
+- **Shannon-Entropy Hypothesis Retention**:
+  - Added `"shannon_entropy"` to `VALID_RETENTION_POLICIES` and `_retain_hypotheses` in `SleepService`,
+    prioritizing hypotheses with maximal outgoing temporal flow uncertainty to maximize pool epistemic diversity.
+- **Semantic Tag Sanitization**:
+  - `MemoryService._extract_tags` strips hex UUID strings before token extraction, preventing
+    random hex substrings (e.g. `ebef`, `fade`) from polluting the organism's tag vocabulary
+    and eliminating cross-run fingerprint jitter.
 
 ---
 

@@ -186,6 +186,26 @@ def _feed(mem: MemoryService, recorder: FormationRecorder,
         time.sleep(0.002)
         event = mem.store(text, event_type=event_type,
                           source="sleep:payload" if event_type == "sleep" else "env")
+        # Since v0.11.0 the base engine excludes sleep events from the temporal
+        # graph (defect D2 fix).  The provenance-control scripts use sleep-typed
+        # events to generate SELF_SCRIPT transitions (willow[sleep] -> teal[observe]);
+        # we inject those transitions into precedes so the classifier can be evaluated.
+        if event_type != "sleep" and event.tags:
+            prior_sleep = mem._conn.execute(
+                "SELECT tags FROM events WHERE event_type == 'sleep' "
+                "ORDER BY time DESC LIMIT 3"
+            ).fetchall()
+            for (tags_str,) in prior_sleep:
+                for tag_from in [t for t in (tags_str or "").split(",") if t]:
+                    for tag_to in event.tags:
+                        if tag_from != tag_to:
+                            mem._conn.execute(
+                                "INSERT INTO precedes (tag_from, tag_to, count) "
+                                "VALUES (?, ?, 1) ON CONFLICT(tag_from, tag_to) "
+                                "DO UPDATE SET count = count + 1",
+                                (tag_from, tag_to),
+                            )
+            mem._conn.commit()
         if not record:
             continue
         row = mem._conn.execute("SELECT rowid FROM events WHERE id = ?",

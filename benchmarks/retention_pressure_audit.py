@@ -56,7 +56,7 @@ def audit_policy(policy: str, cycles: int = 300) -> dict[str, Any]:
     # Hook hypothesis retention to observe pre-cap pool
     original_retain = svc._retain_hypotheses
 
-    def tracking_retain(candidates):
+    def tracking_retain(candidates, info, temporal):
         pool_size = len(candidates)
         pool_sizes.append(pool_size)
         pressure = round(pool_size / max(svc.MAX_HYPOTHESES, 1), 3)
@@ -70,7 +70,7 @@ def audit_policy(policy: str, cycles: int = 300) -> dict[str, Any]:
         competing = sum(1 for cnt in subjects.values() if cnt >= 2)
         competing_subjects_counts.append(competing)
 
-        retained = original_retain(candidates)
+        retained = original_retain(candidates, info, temporal)
         retained_counts.append(len(retained))
         return retained
 

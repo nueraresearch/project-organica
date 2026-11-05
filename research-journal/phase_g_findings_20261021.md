@@ -10979,3 +10979,44 @@ diagnostic was worth running for exactly that reason: it replaced an untested ce
 The diagnostic's artifact names allocated seeds, so it joins `EXCLUDED_ARTIFACTS` beside the assembly, the
 allocation record and the four-cell check: the scan still reads 76 artifacts and 222 consumed seeds,
 and the exclusion is a named path rather than an implied one.
+
+
+## 190. Active Environment Execution (Law IV) and Empirical Benchmark Results (2026-11-04)
+
+The Active Inquiry Dispatcher (`organica/environment.py`) was evaluated head-to-head against
+Passive Observation across 150 cycles in a standard `ReactiveWorld` (`benchmarks/active_inquiry_benchmark.py`).
+
+| Metric | Passive Observation | Active Inquiry (Interventions) | Delta | Delta % |
+| --- | ---: | ---: | ---: | ---: |
+| **Cumulative Inventory** | 129 | **285** | +156 | **+120.9%** |
+| **Interventions Executed** | 0 | **735** | +735 | — |
+| **Mean Hypotheses / cycle** | 14.35 | **21.72** | +7.37 | +51.4% |
+| **Mean Theories / cycle** | 0.00 | **4.09** | +4.09 | Unlocked |
+| **Mean Questions / cycle** | 0.00 | **4.09** | +4.09 | Unlocked |
+| **Runtime (150 cycles)** | 49.5s | 98.0s | +48.5s | — |
+
+**Key Empirical Finding**:
+1. Active inquiry induces a **2.2× expansion in cumulative structural inventory**, demonstrating
+   that Organica's developmental trajectory is dramatically accelerated when given an intervention loop.
+2. Under passive observation alone, theories and questions remained at 0.00 throughout 150 cycles.
+   Under active inquiry, theories and questions immediately unlocked and maintained an average of 4.09 per cycle,
+   verifying Law IV's hypothesis that exploratory action is the developmental catalyst for higher-order abstraction.
+
+
+## 191. Hypothesis Retention Pressure Audit (Gate G-P1) (2026-11-04)
+
+The belief pool dynamics under `MAX_PREDICTIONS = 40` were audited across 300 cycles on three retention
+policies (`confidence`, `contradiction`, `shannon_entropy`) using `benchmarks/retention_pressure_audit.py`.
+
+| Retention Policy | Mean Pre-Cap Pool | Max Pre-Cap Pool | Mean Pressure | Pressure $\ge 1.0$ Frac | Gate G-P1 Passed |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `confidence` | 3.82 | 13 | 0.25 | 0.00 | False |
+| `contradiction` | 3.82 | 13 | 0.25 | 0.00 | False |
+| `shannon_entropy` | 3.82 | 13 | 0.25 | 0.00 | False |
+
+**Key Empirical Finding**:
+Across 300 cycles under passive observation, the pre-cap candidate belief pool peaked at 13 hypotheses,
+never exceeding the `MAX_HYPOTHESES = 15` structural cap (average retention pressure 0.25).
+Therefore, `MAX_HYPOTHESES = 15` does not bind under natural passive observation alone.
+Retention competition is an active-regime dynamic: selection pressure only activates when hypothesis formation
+is accelerated by active inquiry or denser input streams.

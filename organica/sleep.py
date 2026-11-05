@@ -400,12 +400,13 @@ class SleepService:
     # default so that a typo is caught immediately instead of silently
     # falling through to the composite score.
     VALID_RETENTION_POLICIES = (
-        "alphabetical",   # legacy: sort by (subject, -confidence)
-        "confidence",     # most confident first
-        "contradiction",  # most contradicting evidence first (RAW COUNT)
-        "tension",        # most contested first, as a SHARE of flow
-        "salience",       # the composite score (default)
-        "stochastic",     # weighted lottery proportional to salience
+        "alphabetical",    # legacy: sort by (subject, -confidence)
+        "confidence",      # most confident first
+        "contradiction",   # most contradicting evidence first (RAW COUNT)
+        "tension",         # most contested first, as a SHARE of flow
+        "salience",        # the composite score (default)
+        "stochastic",      # weighted lottery proportional to salience
+        "shannon_entropy", # most informationally undetermined subject first
     )
 
     # Weights over the salience components, in the order
@@ -1979,6 +1980,16 @@ class SleepService:
             return ranked[:self.MAX_HYPOTHESES]
         if policy == "tension":
             ranked = sorted(beliefs, key=lambda h: (-info[h.id]["tension"], h.subject))
+            return ranked[:self.MAX_HYPOTHESES]
+        if policy == "shannon_entropy":
+            # Retain the hypotheses whose subject is most informationally
+            # undetermined in the temporal flow.  Subjects with high outgoing
+            # entropy are where the organism knows least — keeping them first
+            # maximises the pool's epistemic diversity.
+            ranked = sorted(
+                beliefs,
+                key=lambda h: (-self._subject_entropy(h.subject, temporal), h.subject),
+            )
             return ranked[:self.MAX_HYPOTHESES]
 
         scores = self._salience(beliefs, info, temporal)

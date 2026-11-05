@@ -543,8 +543,14 @@ class MemoryService:
         self._conn.close()
 
 
+_UUID_PATTERN = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.IGNORECASE)
+
+
 def _extract_tags(content: str) -> list[str]:
-    words = re.findall(r"\b[a-zA-Z]{4,}\b", content.lower())
+    # Strip UUIDs so hexadecimal fragments (e.g. ebef, beef, cafe, fade)
+    # never pollute the organism's semantic tag vocabulary.
+    cleaned = _UUID_PATTERN.sub("", content)
+    words = re.findall(r"\b[a-zA-Z]{4,}\b", cleaned.lower())
     stopwords = {
         "this", "that", "with", "from", "have", "been", "will", "were",
         "they", "them", "then", "than", "when", "what", "which", "there",
