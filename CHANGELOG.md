@@ -60,6 +60,51 @@ there is nothing to check out.
     processes), G3 (workflows), G4 (hypotheses), G5 (theories, questions),
     G6 (dreams), G7 (investigations), and G8 (experiments). Fixed 1-off generation
     offsets throughout candidate synthesis.
+- **Layer 1 Event Grounding (Defect D3)**:
+  - `SleepService.run()` builds a `tag_events` index from the recent empirical
+    observation window, populated into `self._current_tag_events`.
+  - `_build_concepts`, `_build_phrases`, `_build_loops`, and `_build_predictions`
+    all now populate `parent_ids` with the supporting empirical event UUIDs,
+    completing the unbroken causal audit trail from G0 through G8.
+- **Conditional Entropy Predictive Ranking**:
+  - `_build_predictions` computes `H(T|source) = -sum P(v|u) log P(v|u)` for
+    each transition source. Low-entropy (deterministic) transitions rank first;
+    diffuse co-occurrences rank last. `target_entropy` stored in evidence dict.
+- **Experiment Execution Hook (Law IV)**:
+  - `SleepService.execute_experiments()` evaluates proposed experiments against
+    `memory.recent(50, event_type="observe")` by matching subject tag and
+    expected outcomes. Outcomes (`"validated"` / `"refuted"`) are persisted as
+    `experiment_result` events in MemoryService.
+- **Concept Clustering Threshold Re-tuning**:
+  - `CONCEPT_MAX_CLUSTERING = 1.0` (from `0.4`) so tightly-bound cliques in
+    dense co-occurrence environments form valid concept candidates.
+- **Law V EIG Formula Correction**:
+  - Dream investigations now use the canonical `EIG = uncertainty * (1.0 + novelty)`,
+    matching the formula applied to question investigations. Fixes a silent
+    inversion that systematically under-ranked high-novelty dream paths (Fact AD5).
+- **Universal Natural Selection Decay — G2–G8 (Fact AA21)**:
+  - `_candidate_key` extended to return content-identity keys for all candidate
+    types: meta_concept, process, workflow, hypothesis, theory, question, dream,
+    investigation, and experiment.
+  - `_natural_selection` accepts optional G2–G8 candidate lists and builds the
+    full current-key set across all generations. A second decay pass runs after
+    all composite layers are formed, so higher-order structures age and are pruned
+    when no longer regenerated — matching biological memory at all cognitive levels.
+- **Experiment Validation → Hypothesis Promotion Loop (Law IV completion)**:
+  - `execute_experiments` increments `support_count` / `contradiction_count` on
+    matching hypotheses after validation / refutation, closing the
+    predict→test→update loop.
+  - Validated dream experiments promote the dream into a new grounded G4
+    `HypothesisCandidate` with parent lineage to both the source dream and the
+    experiment.
+- **Temporal Precedence Edge Decay (World-Adaptation)**:
+  - `MemoryService.decay_temporal_edges(factor, min_count)` applies exponential
+    moving-average decay to all `precedes` edge counts each sleep cycle.
+  - `SleepService.TEMPORAL_DECAY_FACTOR = 0.95` (5% per cycle). Early-regime
+    transitional counts fade over ~20 cycles, enabling regime shifts and transfer.
+  - `ObservingMemoryService.decay_temporal_edges` is a no-op in the audit probe,
+    preserving the A7 invariant (`attributed == count`). `run_invariance` uses a
+    `NoDecayMemoryService` for both branches so A4 compares observer presence only.
 
 ---
 
