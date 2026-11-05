@@ -154,7 +154,7 @@ class ObservingMemoryService(MemoryService):
             return event
         rows = self._conn.execute(
             "SELECT id, time, event_type, tags, rowid FROM events "
-            "ORDER BY time DESC LIMIT 3"
+            "WHERE event_type != 'sleep' ORDER BY time DESC, rowid DESC LIMIT 3"
         ).fetchall()
         times = [r[1] for r in rows]
         if len(times) != len(set(times)):
