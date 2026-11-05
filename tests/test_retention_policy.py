@@ -309,7 +309,7 @@ def test_contradiction_scale_is_applied_to_the_stored_evidence(tmp_path):
 def test_extracted_caps_match_the_values_they_replaced():
     """These were inline literals; naming them must not change them."""
     assert SleepService.MAX_LOOPS == 15
-    assert SleepService.MAX_PREDICTIONS == 20
+    assert SleepService.MAX_PREDICTIONS == 40  # Expanded 20 -> 40 (FACTS-SHEET D3)
     assert SleepService.MAX_ANOMALIES == 10
     assert SleepService.MAX_META_CONCEPTS == 15
     assert SleepService.MAX_PROCESSES == 10
