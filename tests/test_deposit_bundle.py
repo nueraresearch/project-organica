@@ -20,7 +20,7 @@ The software record used to be archived from the ``v0.10.0`` tag, and that
 was wrong in a way only check 1 could see: Paper 01 §4.10 cites two artifacts
 committed *after* that tag, so the deposit could not carry the evidence its
 own manuscript names.  The archive is now taken from a commit at version
-``0.11.0``; the checks below assert both halves of that — the cited artifacts
+``0.12.0``; the checks below assert both halves of that — the cited artifacts
 are present now, and they really were absent from the tag, so the test would
 have failed before the fix.
 
@@ -242,3 +242,20 @@ def test_a_missing_cited_artifact_is_detected():
     # ... and the tree really is the working tree's committed state, not an
     # older snapshot: a file the v0.10.0 tag lacks is present here.
     assert "docs/DIVERGENCE-CYCLE-CAPTURE.md" in tree
+
+
+def test_the_manifest_records_a_commit_not_a_tag_object(manifest):
+    """``software_commit`` must name a commit, not an annotated tag object.
+
+    ``git rev-parse v0.12.0`` returns the tag object's SHA while
+    ``v0.12.0^{commit}`` returns the commit.  A manifest that records the
+    former identifies something that is not a checkable tree state.
+    """
+    import subprocess
+
+    sha = manifest["software_commit"]
+    kind = subprocess.run(["git", "cat-file", "-t", sha], cwd=str(REPO),
+                          capture_output=True, text=True).stdout.strip()
+    assert kind == "commit", (
+        "software_commit must be a commit SHA, not a tag object: %r is a %s"
+        % (sha, kind))

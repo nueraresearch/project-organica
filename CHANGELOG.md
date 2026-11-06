@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.9.0** (unreleased) · 0.8.0 is the latest tag |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.12.0** (cut 2026-11-06) · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -28,7 +28,21 @@ there is nothing to check out.
 
 ---
 
-## [0.12.0] — (unreleased)
+## [0.12.0] — (2026-11-06)
+
+### Changed — The release identity is settled: v0.12.0 is the deposit object (2026-11-06)
+
+- **One version names the deposited software.** Package, `pyproject.toml`, `CITATION.cff`,
+  README, changelog and both Zenodo records say **0.12.0**; `v0.9.0` stays the archival
+  reference for the frozen engine and `v0.10.0` is the previous cut tag. The `v0.12.0` tag is
+  cut at this commit, and `CITATION.cff` carries the tag date rather than another version's.
+- **The deposit descriptions are true of the commit.** The old
+  `zenodo/software-v0.11.0.json` claimed `organica/` was byte-identical to `v0.9.0` and that
+  the freeze test fails on any difference; the engine differs across nine files and the test
+  skips its engine checks at `>= 0.12.0`. The record is renamed
+  `zenodo/software-v0.12.0.json`, and both it and `.zenodo.json` now state that the engine
+  advanced past the freeze, name `v0.9.0` as the archival reference, and link the record to
+  the repository as part of it rather than claiming identity.
 
 ### Changed — Built paper artifacts are kept out of the repository (2026-11-06)
 
@@ -601,7 +615,7 @@ there is nothing to check out.
 
 ---
 
-## [0.11.0] — (2026-10-31)
+## [0.11.0] — (unreleased; superseded by 0.12.0)
 
 ### Recorded — the deposit package is decided, bundled, and not deposited (2026-10-31)
 
@@ -904,7 +918,7 @@ Its tag is the archival reference for the frozen Organica 1 engine". The last
 of those was wrong in a second way: **v0.9.0 is the archival reference for the
 frozen engine**, and under v0.10.0 the engine is byte-identical to it apart
 from the package version string. The README now says so, and the package
-version is 0.11.0 with 0.10.0 as the latest release.
+version was 0.11.0 with 0.10.0 as the latest cut release.
 
 ### Recorded — the candidate-membership milestone, in the README (2026-10-31)
 

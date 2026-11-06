@@ -33,5 +33,5 @@
       "identifier": "a08bc0ac-2893-4afd-870a-a77bd348c84c"
     }
   ],
-  "notes": "Files: the manuscript as PDF, the manuscript source (Markdown), and the three figures as PDF. The supporting evidence artifacts are in the software record for v0.9.0 and in the repository. Unfunded; no competing interests; ethics not applicable; AI-tool use disclosed in the manuscript's Declarations block."
+  "notes": "Files: the manuscript as PDF, the manuscript source (Markdown), and the three figures as PDF. The supporting evidence artifacts are in the v0.12.0 software record (v0.9.0 remains the archival reference for the frozen engine) and in the repository. Unfunded; no competing interests; ethics not applicable; AI-tool use disclosed in the manuscript's Declarations block."
 }

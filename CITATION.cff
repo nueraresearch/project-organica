@@ -12,13 +12,12 @@ abstract: >-
   natural selection.
 type: software
 version: 0.12.0
-# 0.10.0 IS cut: dated, tagged and pushed on 2026-10-31. It has no GitHub
-# release page, so v0.9.0 is still the latest published release, and the
-# v0.9.0 tag remains the archival reference for the frozen engine alone.
-# The version above is the package version on master, and it is UNRELEASED;
-# the date below is the day the last cut version was tagged. Update it when
-# 0.11.0 is released.
-date-released: "2026-10-31"
+# 0.12.0 is the deposit version, cut and tagged on 2026-11-06. `date-released`
+# below is the tag date. v0.9.0 remains the archival reference for the frozen
+# Organica 1 engine alone; the engine in this tree has advanced past that
+# freeze (see CHANGELOG.md and docs/V1-FREEZE.md), and v0.10.0 is the previous
+# cut tag, with no GitHub release page.
+date-released: "2026-11-06"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"
 url: "https://github.com/nueraresearch/project-organica"

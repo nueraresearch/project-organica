@@ -32,7 +32,7 @@ SCHEMA_CACHE = REPO / ".scratch" / "zenodo_legacyrecord.json"
 #: than written out here because the software record's filename carries a
 #: version, and a hard-coded copy of that version goes stale silently: this
 #: check went on listing ``software-v0.10.0.json`` after the record had moved
-#: to ``v0.11.0``, so it failed on a missing file instead of validating the
+#: to a new version, so it failed on a missing file instead of validating the
 #: metadata it exists to validate -- a check that is red for the wrong reason
 #: is a check nobody reads.
 METADATA_FILES = [".zenodo.json"] + sorted(

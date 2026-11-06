@@ -17,24 +17,26 @@ arXiv route can still be taken later without redoing the metadata.
 
 | Record | Type | Version | Metadata file |
 |---|---|---|---|
-| The frozen Organica 1 engine and its evidence artifacts | software | **v0.11.0** | `zenodo/software-v0.11.0.json` |
+| The developmental-structure engine and its preregistered evidence record | software | **v0.12.0** | `zenodo/software-v0.12.0.json` |
 | Paper 01 — Developmental structure formation | publication (preprint) | 1.0.0 | `zenodo/paper-01-preprint.json` |
 | Paper 02 — Persistent structural provenance | publication (preprint) | 1.0.0 | `zenodo/paper-02-preprint.json` |
 
-**The software record carries v0.11.0, archived from a commit.** It carried v0.10.0 until
+**The software record carries v0.12.0, archived from its tag.** It carried v0.10.0 until
 2026-11-02, and that stopped being correct when Paper 01 gained §4.10: the capacity-1,000
 result cites `docs/functional_structure_confirmatory.json` and
 `docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md`, both committed **after** the v0.10.0 tag, so a
-v0.10.0 tree cannot carry the evidence its own manuscript cites —
-`python benchmarks/deposit_bundle.py --check` reported **38 cited, 2 missing**. Cutting a
-`v0.11.0` tag would fix it and is the owner's act, so the archive is taken from `HEAD` instead
-and the manifest records the resolved commit SHA (`software_commit`). Nothing else about the
-record changed, and the engine inside it is still frozen:
-`organica/` is byte-identical to the v0.9.0 tag apart from the package
-version string, and **v0.9.0 remains the archival reference for the engine
-alone**. v0.10.0 is the release of the research package around that engine --
-the instruments, the evidence artifacts and the two manuscripts -- and it is
-the release that can carry the files a deposit needs.
+v0.10.0 tree cannot carry the evidence its own manuscript cites — `python
+benchmarks/deposit_bundle.py --check` fails on a missing artifact. The `v0.12.0` tag is now cut, so the archive is taken from it, and the manifest records the
+resolved commit SHA (`software_commit`).
+
+**The engine is not frozen in this tree, and the record now says so.** The `v0.9.0` tag
+remains the archival reference for the frozen Organica 1 engine and does not move, but the
+working tree has advanced past it: the sleep path was rewritten into submodules, the
+candidate-supersession amendment landed, and `tests/test_v1_freeze.py` now skips its
+engine-identity checks at `>= 0.12.0`. `docs/V1-FREEZE.md` §6 records what changed and its
+measured effect. So the record describes the engine as it stands at the deposited commit,
+and each paper's numbers belong to the builds recorded with their artifacts — not to this
+tree.
 
 `.zenodo.json` at the repository root is the file Zenodo's GitHub integration
 reads when it mints a version DOI for a GitHub release. It carries the same
@@ -52,7 +54,7 @@ creator, license and community as the software record.
 | Creators | Beebe, Jeremy Blain Thompson — Nuera RDL — ORCID `0009-0009-2394-9714` |
 | Communities | Machine Learning — `a08bc0ac-2893-4afd-870a-a77bd348c84c` |
 | Keywords | record-specific; see each metadata file |
-| Related identifiers | the repository URL. The software record is identified by the archived commit SHA (`software_commit` in the deposit manifest), because no `v0.11.0` release object exists and the `v0.10.0` tag has no release URL to enter — see *The route* below. The two paper DOIs are added to the software record as `isDocumentedBy` once they exist. |
+| Related identifiers | the repository URL. The software record is identified by the archived commit SHA (`software_commit` in the deposit manifest), because no `v0.12.0` release object exists and the `v0.10.0` tag has no release URL to enter — see *The route* below. The two paper DOIs are added to the software record as `isDocumentedBy` once they exist. |
 | Notes | see each metadata file — the notes carry the freeze statement and the deposit's file list |
 | Version | the release tag (software) or `1.0.0` (papers) — entered in the form, not in the JSON |
 
@@ -114,12 +116,12 @@ which writes `.scratch/deposit/`, one directory per record, each with its
 files, a `SHA256SUMS` and a `DEPOSIT-MANIFEST.json`. The manifest is
 `.scratch/deposit/MANIFEST.json`.
 
-**Software record (v0.11.0).** the source tree at the archived commit, as one archive,
+**Software record (v0.12.0).** the source tree at the archived commit, as one archive,
 plus the checksums and the manifest:
 
 | File | |
 |---|---|
-| `project-organica-v0.11.0.tar.gz` | `git archive` of the tree at the archived commit |
+| `project-organica-v0.12.0.tar.gz` | `git archive` of the tree at the archived commit |
 | `SHA256SUMS` | checksums of the record's files |
 | `DEPOSIT-MANIFEST.json` | the record's metadata and its file list |
 
@@ -158,8 +160,9 @@ software record carries:
 python benchmarks/deposit_bundle.py --check
 ```
 
-**38 artifacts are cited and 38 are present** in the archived tree. A
-manuscript cannot cite evidence the software record does not carry.
+The check prints the number of cited artifacts and fails if one is missing, so
+**no count is repeated here by hand**: a manuscript cannot cite evidence the
+software record does not carry.
 
 ### After the paper DOIs exist
 
@@ -189,9 +192,10 @@ yet; use your best judgement on the rest"*):
 - [x] **`python benchmarks/zenodo_metadata.py` passes.** All four metadata
       files conform to Zenodo's published deposit schema.
 - [x] **The file list is checked against the manuscripts.**
-      `python benchmarks/deposit_bundle.py --check`: **38 artifacts cited,
-      38 present** in the archived tree.
-- [x] **The software record is archived from the commit, not the stale tag** (2026-11-02): 38 cited artifacts, 38 present.
+      `python benchmarks/deposit_bundle.py --check` reports every cited
+      artifact present in the archived tree (it prints the count and fails on
+      a missing one).
+- [x] **The software record is archived from the `v0.12.0` tag** (cut 2026-11-06), not a stale tag, and the manifest records the tag's commit.
 - [x] **The bundles are built and checksummed** by
       `python benchmarks/deposit_bundle.py`, under `.scratch/deposit/`.
 - [x] **The reproduction bundle is built** (2026-11-02): commit, environment, the four
@@ -254,7 +258,7 @@ identifier was read from Zenodo's API.
 ## Files in this package
 
 - `.zenodo.json` — metadata for the GitHub-release integration.
-- `zenodo/software-v0.11.0.json` — the software record's metadata.
+- `zenodo/software-v0.12.0.json` — the software record's metadata.
 - `zenodo/paper-01-preprint.json` — Paper 01's record metadata.
 - `zenodo/paper-02-preprint.json` — Paper 02's record metadata.
 - `benchmarks/zenodo_metadata.py` — validates every metadata file against

@@ -18,16 +18,15 @@ The reproduction bundle is the reviewer's entry point rather than a fourth
 Zenodo record: it answers "which state was this built from, on what, and how
 do I rebuild it?" without asking anyone to trust a version string.
 
-The software record is archived from a **commit**, not a tag.  It used to be
+The software record is archived from the **``v0.12.0`` tag**.  It used to be
 built from the ``v0.10.0`` tag, and that stopped being correct when Paper 01
 gained §4.10: the capacity-1,000 result cites
 ``docs/functional_structure_confirmatory.json`` and
 ``docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md``, both committed after that
 tag, so a v0.10.0 tree cannot carry the evidence its own manuscript cites.
-Tagging ``v0.11.0`` would fix it and is the owner's act, so instead the
-archive is taken from ``SOFTWARE_REF`` (default ``HEAD``) and the manifest
-records the resolved commit SHA.  A commit is checkable without a tag, and
-nothing here publishes or tags anything.
+The ``v0.12.0`` tag is cut at the release-identity commit, so ``SOFTWARE_REF``
+defaults to it and the manifest records the resolved commit SHA as well.
+Nothing here publishes anything.
 
 The file list is written to ``docs/ZENODO-DEPOSIT.md``'s sibling
 ``.scratch/deposit/MANIFEST.json`` rather than into the metadata JSON, because
@@ -60,11 +59,10 @@ REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / ".scratch" / "deposit"
 
 #: The version the software record carries, and the ref it is archived from.
-#: ``v0.11.0`` is the latest *cut* version and carries no tag or release --
-#: cutting one is the owner's act -- so the archive is taken from the commit
-#: and its SHA is recorded in the manifest.
-SOFTWARE_VERSION = "0.11.0"
-SOFTWARE_REF = os.environ.get("ORGANICA_SOFTWARE_REF", "HEAD")
+#: ``v0.12.0`` is the deposit version and the latest cut tag, so the archive
+#: is taken from it and the resolved commit SHA is recorded in the manifest.
+SOFTWARE_VERSION = "0.12.0"
+SOFTWARE_REF = os.environ.get("ORGANICA_SOFTWARE_REF", "v0.12.0")
 
 #: The three records, and the metadata file each one's manifest describes.
 RECORDS = {
@@ -115,7 +113,13 @@ def cited_artifacts(markdown: str) -> list[str]:
 
 
 def resolved_commit(ref: str) -> str:
-    return run(["git", "rev-parse", ref]).strip()
+    """The commit a ref names, peeled from any annotated tag object.
+
+    ``git rev-parse v0.12.0`` returns the tag object's SHA, not the commit
+    it points at, and a tag object is not a commit: a manifest that records
+    one names something that cannot be checked out by that id.
+    """
+    return run(["git", "rev-parse", "--verify", ref + "^{commit}"]).strip()
 
 
 def files_at_ref(ref: str) -> set[str]:

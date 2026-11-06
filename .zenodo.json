@@ -10,7 +10,7 @@
   "upload_type": "software",
   "access_right": "open",
   "license": "Apache-2.0",
-  "description": "Project Organica is a Python engine that grows a graph of typed structural candidates across sleep cycles and can revise them under later evidence. The engine itself (`organica/`) is frozen at v0.9.0 and is not modified by later work; the repository additionally carries the preregistered evidence record: the belief-revision comparison against simple baselines (Phase K), the plasticity-coherence sweep (Phase L), the acquisition-benchmark audits, the Gate 13 relation-ranking analyses, and the formation-versus-utilization campaign. The engine uses only the Python standard library. The version of each Zenodo record is the GitHub release tag it was minted from.",
+  "description": "Project Organica is a Python engine that grows a graph of typed structural candidates across sleep cycles and can revise them under later evidence. This record is the v0.12.0 snapshot: the engine as it stands at the archived commit, together with the preregistered evidence record — the belief-revision comparison against simple baselines (Phase K), the plasticity-coherence sweep (Phase L), the acquisition-benchmark audits, the Gate 13 relation-ranking analyses, and the formation-versus-utilization campaign. The archival reference for the frozen Organica 1 engine is the v0.9.0 tag, and the engine has advanced past that freeze; the build behind each result artifact is recorded with the artifact where it was captured. The engine uses only the Python standard library.",
   "keywords": [
     "developmental structure",
     "structural descent",
@@ -24,14 +24,8 @@
     {
       "scheme": "url",
       "identifier": "https://github.com/nueraresearch/project-organica",
-      "relation": "isIdenticalTo",
+      "relation": "isPartOf",
       "resource_type": "software"
-    },
-    {
-      "scheme": "orcid",
-      "identifier": "0009-0009-2394-9714",
-      "relation": "isIdenticalTo",
-      "resource_type": "other"
     }
   ],
   "communities": [
@@ -39,7 +33,7 @@
       "identifier": "a08bc0ac-2893-4afd-870a-a77bd348c84c"
     }
   ],
-  "notes": "Organica 1 is frozen at v0.9.0: the engine under the v0.10.0 tag is byte-identical to the v0.9.0 tag apart from the package version string, and the v0.9.0 tag remains the archival reference for the engine alone. v0.10.0 is the release of the research package around that engine -- the instruments, the evidence artifacts and the two preprint manuscripts -- and none of it modifies the engine.",
+  "notes": "Archived from the commit recorded as software_commit in the deposit manifest. v0.12.0 is cut and tagged; the commit SHA recorded in the manifest is the identifier. v0.9.0 remains the archival reference for the frozen Organica 1 engine alone, and v0.9.0 is the latest published release (the v0.10.0 tag has no GitHub release page). The engine in this record is not byte-identical to v0.9.0: the sleep path was rewritten and the candidate-supersession amendment is recorded with its measured effect in docs/V1-FREEZE.md section 6. Add the two preprint DOIs as isDocumentedBy once they exist.",
   "subjects": [
     {
       "scheme": "url",
