@@ -1,0 +1,125 @@
+{
+  "what": "C1' -- prospective re-specification of the control-at-chance criterion, power computed in advance",
+  "status": "PROSPECTIVE. Amendment 1 to the confirmatory pre-registration; not applicable to 20270602-20270626 and not a re-score of it.",
+  "calibration_source": "docs/gate13_control_precision_sweep.json (200 seeds, 20270701-20270900, arm C cap 20, NOT confirmatory)",
+  "blocks_not_used": [
+    "20261101-20261105 (development)",
+    "20270602-20270626 (confirmatory)"
+  ],
+  "n_seeds_per_block": 25,
+  "comparator": 0.4667,
+  "reference": {
+    "n": 200,
+    "mean": 0.4449,
+    "sd": 0.0376,
+    "se_of_block_mean": 0.0075,
+    "offset_from_base": -0.0218
+  },
+  "margin": {
+    "analytic_closed_form": 0.0315,
+    "z90": 1.2816,
+    "grid_step": 0.001,
+    "chosen": 0.032,
+    "empirical_pass_at_chosen": 0.908,
+    "grid_coverage": {
+      "0.02": 0.421,
+      "0.021": 0.473,
+      "0.022": 0.527,
+      "0.023": 0.577,
+      "0.024": 0.627,
+      "0.025": 0.675,
+      "0.026": 0.718,
+      "0.027": 0.761,
+      "0.028": 0.797,
+      "0.029": 0.833,
+      "0.03": 0.861,
+      "0.031": 0.887,
+      "0.032": 0.908,
+      "0.033": 0.926,
+      "0.034": 0.941,
+      "0.035": 0.953,
+      "0.036": 0.964,
+      "0.037": 0.973,
+      "0.038": 0.979,
+      "0.039": 0.984,
+      "0.04": 0.988,
+      "0.041": 0.992,
+      "0.042": 0.994,
+      "0.043": 0.995,
+      "0.044": 0.997,
+      "0.045": 0.997,
+      "0.046": 0.998,
+      "0.047": 0.999,
+      "0.048": 0.999,
+      "0.049": 1.0,
+      "0.05": 1.0,
+      "0.051": 1.0,
+      "0.052": 1.0,
+      "0.053": 1.0,
+      "0.054": 1.0,
+      "0.055": 1.0,
+      "0.056": 1.0,
+      "0.057": 1.0,
+      "0.058": 1.0,
+      "0.059": 1.0,
+      "0.06": 1.0
+    }
+  },
+  "band": [
+    0.4347,
+    0.4987
+  ],
+  "power_curve": [
+    {
+      "shift": 0.0,
+      "pass": 0.908
+    },
+    {
+      "shift": -0.005,
+      "pass": 0.761
+    },
+    {
+      "shift": -0.01,
+      "pass": 0.527
+    },
+    {
+      "shift": -0.015,
+      "pass": 0.269
+    },
+    {
+      "shift": -0.022,
+      "pass": 0.052
+    },
+    {
+      "shift": -0.032,
+      "pass": 0.001
+    },
+    {
+      "shift": -0.05,
+      "pass": 0.0
+    },
+    {
+      "shift": 0.02,
+      "pass": 1.0
+    }
+  ],
+  "shift_at_which_pass_falls_below_half": -0.011,
+  "margin_stability_over_calibration_data": {
+    "reps": 500,
+    "p05": 0.0269,
+    "median": 0.0314,
+    "p95": 0.0367
+  },
+  "dispersion_blind_spot": {
+    "share_of_in_band_blocks_with_sd_above_2x_reference": 0.0,
+    "threshold_sd": 0.0753
+  },
+  "decision_rule": {
+    "pass": "|mean(C at cap 20) - 0.4667| <= delta",
+    "band": [
+      0.4347,
+      0.4987
+    ],
+    "fail_low_and_fail_high": "both are 'not comparable'; reported separately"
+  }
+}

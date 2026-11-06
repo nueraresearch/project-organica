@@ -1,8 +1,8 @@
 {
   "what_this_is": "Stage A of the DI measurement-window design: exploratory diagnostics from the 240 stored Phase L records. No engine, no seed, no reliability coefficient.",
   "source": {
-    "path": "docs\\phase_l_results.json",
-    "sha256": "b19292e81109bc02d6c8b95300e8c28d4e9e0c0921c0514fcc53eb28ab5f7c17",
+    "path": "docs/phase_l_results.json",
+    "sha256": "f9378feb1cd234850cd457b671afd24412263a076519a2aa82fe4f80c038754d",
     "records": 240
   },
   "units": {

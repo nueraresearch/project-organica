@@ -94,6 +94,7 @@ class MetaConceptCandidate:
     related_candidates: int = 0
     confidence: float = 0.0
     evidence: dict = field(default_factory=dict)
+    carried_forward: bool = False
 
 
 @dataclass
@@ -105,6 +106,7 @@ class ProcessCandidate:
     cycle: list[str] = field(default_factory=list)
     strength: float = 0.0
     evidence: dict = field(default_factory=dict)
+    carried_forward: bool = False
 
 
 @dataclass
@@ -117,6 +119,7 @@ class WorkflowConceptCandidate:
     components: list[str] = field(default_factory=list)
     confidence: float = 0.0
     evidence: dict = field(default_factory=dict)
+    carried_forward: bool = False
 
 
 @dataclass
@@ -133,6 +136,7 @@ class RoleCandidate:
     profile: dict = field(default_factory=dict)
     confidence: float = 0.0
     evidence: dict = field(default_factory=dict)
+    carried_forward: bool = False
 
 
 @dataclass
@@ -152,6 +156,7 @@ class SchemaCandidate:
     target_exemplars: list[str] = field(default_factory=list)
     confidence: float = 0.0
     evidence: dict = field(default_factory=dict)
+    carried_forward: bool = False
 
 
 @dataclass

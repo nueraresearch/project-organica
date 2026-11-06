@@ -206,6 +206,7 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
                         profile=c.get("profile", {}),
                         confidence=c.get("confidence", 1.0),
                         evidence=c.get("evidence", {}),
+                        carried_forward=True,
                     ))
 
             # ---- Layer 3: Workflows ----
@@ -222,6 +223,7 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
                         components=c.get("components", []),
                         confidence=c.get("confidence", 1.0),
                         evidence=c.get("evidence", {}),
+                        carried_forward=True,
                     ))
 
             all_processes = list(processes)
@@ -234,6 +236,7 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
                         cycle=c.get("cycle", []),
                         strength=c.get("strength", 1.0),
                         evidence=c.get("evidence", {}),
+                        carried_forward=True,
                     ))
 
             all_metas = list(meta_concepts)
@@ -247,6 +250,7 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
                         related_candidates=c.get("related_candidates", 0),
                         confidence=c.get("confidence", 1.0),
                         evidence=c.get("evidence", {}),
+                        carried_forward=True,
                     ))
 
             # ---- Layer 3b: Relational Schemas ----
@@ -274,6 +278,7 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
                         target_exemplars=c.get("target_exemplars", []),
                         confidence=c.get("confidence", 1.0),
                         evidence=c.get("evidence", {}),
+                        carried_forward=True,
                     ))
 
             # ---- Layer 4: Hypotheses (V3) ----

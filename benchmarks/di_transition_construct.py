@@ -703,7 +703,7 @@ def build() -> dict:
                         "of onset, slope and accumulated exposure over the 240 stored "
                         "Phase L records. No behavioural endpoint is read; no engine, "
                         "no seed, no coefficient, no confirmatory run.",
-        "source": {"path": str(SOURCE.relative_to(ROOT)), "sha256": digest,
+        "source": {"path": SOURCE.relative_to(ROOT).as_posix(), "sha256": digest,
                    "records": len(recs)},
         "units": {"late_pairs_per_record": denom, "one_pair": pair,
                   "arrival_cycle": ARRIVAL, "sustained_cycles": SUSTAINED,

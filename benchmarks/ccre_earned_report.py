@@ -107,8 +107,11 @@ def results_document(new, old, prov) -> str:
     add(f"**Not established.** (a) That a rank-sensitive endpoint would show nothing: the prior "
         f"reorders candidates, and the target edge's rank at acquisition was "
         f"{m['treatment_target_rank_at_acquire']} in treatment, but the acquisition endpoint does "
-        f"not reward ranking. (b) Any retention claim: the prior reader returns historical copies, "
-        f"so a decayed schema never supersedes its own earlier version. (c) Any statistical claim: "
+        f"not reward ranking. (b) Any retention claim: at the time of this run the prior reader "
+        f"returned every historical copy, so a decayed schema never superseded its own earlier "
+        f"version; that defect was measured and fixed afterwards "
+        f"(docs/DECISION-CANDIDATE-SUPERSESSION.md), and this run has not been repeated on the "
+        f"corrected reader. (c) Any statistical claim: "
         f"n = 5, no p-value; the preregistered `TR > 1.25` at `p < 0.01` over 10 seeds is not met "
         f"and is not claimed. (d) That the pruned arm isolates `S_A` — it deletes the entire "
         f"candidate layer and the temporal graph.")
@@ -157,9 +160,10 @@ def manual_block(new, prov) -> str:
         f"does an unrelated one, at the same acquisition cycle.",
         "",
         "**What it does not establish.** That a rank-sensitive endpoint would show nothing (rank was "
-        "recorded at acquisition); any retention claim (historical candidate copies are never "
-        "superseded); any statistical claim (n = 5, no p-value); or that the pruned arm isolates "
-        "`S_A` — it deletes the whole candidate layer and the temporal graph.",
+        "recorded at acquisition); any retention claim (at the time of the run historical candidate "
+        "copies were never superseded — measured and fixed afterwards, §8.24); any statistical "
+        "claim (n = 5, no p-value); or that the pruned arm isolates `S_A` — it deletes the whole "
+        "candidate layer and the temporal graph.",
         END,
     ])
 

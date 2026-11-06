@@ -1,0 +1,644 @@
+{
+  "what": "store-time attribution of asserted world edges to structure type, block-2 cap 20",
+  "status": "EXPLORATORY. Observes the same payloads structure_edges aggregates; verified against it three ways.",
+  "verification_failures": [],
+  "types_seen": [
+    "dream",
+    "loop_candidate",
+    "prediction_candidate"
+  ],
+  "note": "`structure_edges` has eight type branches, not six: concept_candidate and phrase_candidate share one branch; loop_candidate, prediction_candidate, hypothesis, process_candidate, workflow_concept and dream are the others. Only prediction_candidate is the object the admission window ranks.",
+  "summary": {
+    "fail": {
+      "C": {
+        "dream": 0.0,
+        "loop_candidate": 52.0,
+        "prediction_candidate": 6.2,
+        "covered_total": 56.8,
+        "multi_type": 1.4
+      },
+      "R": {
+        "dream": 0.2,
+        "loop_candidate": 52.0,
+        "prediction_candidate": 11.8,
+        "covered_total": 55.2,
+        "multi_type": 8.8
+      }
+    },
+    "match": {
+      "C": {
+        "dream": 0.0,
+        "loop_candidate": 60.6,
+        "prediction_candidate": 8.2,
+        "covered_total": 63.6,
+        "multi_type": 5.2
+      },
+      "R": {
+        "dream": 0.0,
+        "loop_candidate": 60.6,
+        "prediction_candidate": 13.6,
+        "covered_total": 70.6,
+        "multi_type": 3.6
+      }
+    }
+  },
+  "cells": {
+    "20270901_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270901,
+      "payloads": 16339,
+      "reconstructed_candidates": 116,
+      "db_candidates": 116,
+      "verified": {
+        "asserted": 90,
+        "covered": 34,
+        "hash": "1a51184e43b546a7"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 34,
+      "covered_by_type": {
+        "loop_candidate": 27,
+        "prediction_candidate": 7
+      },
+      "covered_sole_type": {
+        "loop_candidate": 27,
+        "prediction_candidate": 7
+      },
+      "covered_multi_type": 0,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270901_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270901,
+      "payloads": 14789,
+      "reconstructed_candidates": 128,
+      "db_candidates": 128,
+      "verified": {
+        "asserted": 87,
+        "covered": 34,
+        "hash": "129da0ffd2052b85"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 34,
+      "covered_by_type": {
+        "loop_candidate": 27,
+        "prediction_candidate": 13
+      },
+      "covered_sole_type": {
+        "loop_candidate": 21,
+        "prediction_candidate": 7
+      },
+      "covered_multi_type": 6,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270905_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270905,
+      "payloads": 17636,
+      "reconstructed_candidates": 146,
+      "db_candidates": 146,
+      "verified": {
+        "asserted": 140,
+        "covered": 61,
+        "hash": "7d9d7822ef57d22a"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 61,
+      "covered_by_type": {
+        "loop_candidate": 58,
+        "prediction_candidate": 3
+      },
+      "covered_sole_type": {
+        "loop_candidate": 58,
+        "prediction_candidate": 3
+      },
+      "covered_multi_type": 0,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270905_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270905,
+      "payloads": 16623,
+      "reconstructed_candidates": 157,
+      "db_candidates": 157,
+      "verified": {
+        "asserted": 136,
+        "covered": 60,
+        "hash": "18744645175e0ea8"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 60,
+      "covered_by_type": {
+        "loop_candidate": 58,
+        "prediction_candidate": 12
+      },
+      "covered_sole_type": {
+        "loop_candidate": 48,
+        "prediction_candidate": 2
+      },
+      "covered_multi_type": 10,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270908_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270908,
+      "payloads": 16222,
+      "reconstructed_candidates": 98,
+      "db_candidates": 98,
+      "verified": {
+        "asserted": 91,
+        "covered": 37,
+        "hash": "8c3e59ada3a37847"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 37,
+      "covered_by_type": {
+        "loop_candidate": 30,
+        "prediction_candidate": 8
+      },
+      "covered_sole_type": {
+        "loop_candidate": 29,
+        "prediction_candidate": 7
+      },
+      "covered_multi_type": 1,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270908_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270908,
+      "payloads": 15497,
+      "reconstructed_candidates": 104,
+      "db_candidates": 104,
+      "verified": {
+        "asserted": 81,
+        "covered": 35,
+        "hash": "408305f3c9ad2943"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 35,
+      "covered_by_type": {
+        "loop_candidate": 30,
+        "prediction_candidate": 11
+      },
+      "covered_sole_type": {
+        "loop_candidate": 24,
+        "prediction_candidate": 5
+      },
+      "covered_multi_type": 6,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270913_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270913,
+      "payloads": 18683,
+      "reconstructed_candidates": 187,
+      "db_candidates": 187,
+      "verified": {
+        "asserted": 186,
+        "covered": 89,
+        "hash": "3059f30de0241d25"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 89,
+      "covered_by_type": {
+        "loop_candidate": 89,
+        "prediction_candidate": 4
+      },
+      "covered_sole_type": {
+        "loop_candidate": 85
+      },
+      "covered_multi_type": 4,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270913_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270913,
+      "payloads": 17159,
+      "reconstructed_candidates": 198,
+      "db_candidates": 198,
+      "verified": {
+        "asserted": 190,
+        "covered": 89,
+        "hash": "55a45f4f68392354"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 89,
+      "covered_by_type": {
+        "dream": 1,
+        "loop_candidate": 89,
+        "prediction_candidate": 8
+      },
+      "covered_sole_type": {
+        "loop_candidate": 80
+      },
+      "covered_multi_type": 9,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270921_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270921,
+      "payloads": 16019,
+      "reconstructed_candidates": 122,
+      "db_candidates": 122,
+      "verified": {
+        "asserted": 131,
+        "covered": 63,
+        "hash": "064019317e3420c0"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 63,
+      "covered_by_type": {
+        "loop_candidate": 56,
+        "prediction_candidate": 9
+      },
+      "covered_sole_type": {
+        "loop_candidate": 54,
+        "prediction_candidate": 7
+      },
+      "covered_multi_type": 2,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270921_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270921,
+      "payloads": 15572,
+      "reconstructed_candidates": 127,
+      "db_candidates": 127,
+      "verified": {
+        "asserted": 121,
+        "covered": 58,
+        "hash": "f69376d575216d41"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 58,
+      "covered_by_type": {
+        "loop_candidate": 56,
+        "prediction_candidate": 15
+      },
+      "covered_sole_type": {
+        "loop_candidate": 43,
+        "prediction_candidate": 2
+      },
+      "covered_multi_type": 13,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "fail",
+      "replay_matches_artifact": true
+    },
+    "20270907_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270907,
+      "payloads": 19275,
+      "reconstructed_candidates": 175,
+      "db_candidates": 175,
+      "verified": {
+        "asserted": 179,
+        "covered": 74,
+        "hash": "9d5c13e95ad95e1d"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 74,
+      "covered_by_type": {
+        "loop_candidate": 74,
+        "prediction_candidate": 6
+      },
+      "covered_sole_type": {
+        "loop_candidate": 68
+      },
+      "covered_multi_type": 6,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270907_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270907,
+      "payloads": 18284,
+      "reconstructed_candidates": 181,
+      "db_candidates": 181,
+      "verified": {
+        "asserted": 187,
+        "covered": 80,
+        "hash": "0f81a8014342a666"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 80,
+      "covered_by_type": {
+        "loop_candidate": 74,
+        "prediction_candidate": 10
+      },
+      "covered_sole_type": {
+        "loop_candidate": 70,
+        "prediction_candidate": 6
+      },
+      "covered_multi_type": 4,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270902_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270902,
+      "payloads": 18561,
+      "reconstructed_candidates": 126,
+      "db_candidates": 126,
+      "verified": {
+        "asserted": 111,
+        "covered": 53,
+        "hash": "5f105bdd7a89e30a"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 53,
+      "covered_by_type": {
+        "loop_candidate": 48,
+        "prediction_candidate": 7
+      },
+      "covered_sole_type": {
+        "loop_candidate": 46,
+        "prediction_candidate": 5
+      },
+      "covered_multi_type": 2,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270902_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270902,
+      "payloads": 18009,
+      "reconstructed_candidates": 129,
+      "db_candidates": 129,
+      "verified": {
+        "asserted": 119,
+        "covered": 59,
+        "hash": "a00b4e1201e33aaf"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 59,
+      "covered_by_type": {
+        "loop_candidate": 48,
+        "prediction_candidate": 15
+      },
+      "covered_sole_type": {
+        "loop_candidate": 44,
+        "prediction_candidate": 11
+      },
+      "covered_multi_type": 4,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270906_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270906,
+      "payloads": 18758,
+      "reconstructed_candidates": 134,
+      "db_candidates": 134,
+      "verified": {
+        "asserted": 138,
+        "covered": 62,
+        "hash": "08e173745432e75c"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 62,
+      "covered_by_type": {
+        "loop_candidate": 62,
+        "prediction_candidate": 9
+      },
+      "covered_sole_type": {
+        "loop_candidate": 53
+      },
+      "covered_multi_type": 9,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270906_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270906,
+      "payloads": 17594,
+      "reconstructed_candidates": 146,
+      "db_candidates": 146,
+      "verified": {
+        "asserted": 161,
+        "covered": 77,
+        "hash": "5b95a6b53d75ac73"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 77,
+      "covered_by_type": {
+        "loop_candidate": 62,
+        "prediction_candidate": 16
+      },
+      "covered_sole_type": {
+        "loop_candidate": 61,
+        "prediction_candidate": 15
+      },
+      "covered_multi_type": 1,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270924_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270924,
+      "payloads": 18550,
+      "reconstructed_candidates": 155,
+      "db_candidates": 155,
+      "verified": {
+        "asserted": 148,
+        "covered": 76,
+        "hash": "294e8c39145efe14"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 76,
+      "covered_by_type": {
+        "loop_candidate": 68,
+        "prediction_candidate": 12
+      },
+      "covered_sole_type": {
+        "loop_candidate": 64,
+        "prediction_candidate": 8
+      },
+      "covered_multi_type": 4,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270924_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270924,
+      "payloads": 18215,
+      "reconstructed_candidates": 167,
+      "db_candidates": 167,
+      "verified": {
+        "asserted": 159,
+        "covered": 77,
+        "hash": "21ddd768dc0bb496"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 77,
+      "covered_by_type": {
+        "loop_candidate": 68,
+        "prediction_candidate": 16
+      },
+      "covered_sole_type": {
+        "loop_candidate": 61,
+        "prediction_candidate": 9
+      },
+      "covered_multi_type": 7,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270903_C": {
+      "arm": "C",
+      "cap": 20,
+      "seed": 20270903,
+      "payloads": 18149,
+      "reconstructed_candidates": 117,
+      "db_candidates": 117,
+      "verified": {
+        "asserted": 114,
+        "covered": 53,
+        "hash": "ea2aa5a931d3704d"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 53,
+      "covered_by_type": {
+        "loop_candidate": 51,
+        "prediction_candidate": 7
+      },
+      "covered_sole_type": {
+        "loop_candidate": 46,
+        "prediction_candidate": 2
+      },
+      "covered_multi_type": 5,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    },
+    "20270903_R": {
+      "arm": "R",
+      "cap": 20,
+      "seed": 20270903,
+      "payloads": 17197,
+      "reconstructed_candidates": 125,
+      "db_candidates": 125,
+      "verified": {
+        "asserted": 130,
+        "covered": 60,
+        "hash": "30ca1e5afba4c1f3"
+      },
+      "edges_match_structure_edges": true,
+      "weights_match_structure_edges": true,
+      "covered": 60,
+      "covered_by_type": {
+        "loop_candidate": 51,
+        "prediction_candidate": 11
+      },
+      "covered_sole_type": {
+        "loop_candidate": 49,
+        "prediction_candidate": 9
+      },
+      "covered_multi_type": 2,
+      "types_from_window": [
+        "prediction_candidate"
+      ],
+      "group": "match",
+      "replay_matches_artifact": true
+    }
+  }
+}

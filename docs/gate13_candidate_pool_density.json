@@ -1,0 +1,1211 @@
+{
+  "probe": "candidate pool density by rank decile",
+  "build": "amended engine (working tree)",
+  "cap": 1000,
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "cells": [
+    {
+      "seed": 20261101,
+      "runtime_s": 8.5,
+      "pool_rows": 240,
+      "world_edges_total": 112,
+      "pool_world_edges": 112,
+      "pool_coverage_ceiling": 1.0,
+      "pool_base_rate": 0.4667,
+      "asserted_edges": 245,
+      "asserted_world_edges": 112,
+      "asserted_precision": 0.4571,
+      "asserted_not_in_pool": 5,
+      "deciles": [
+        {
+          "decile": 1,
+          "rank_range": [
+            1,
+            24
+          ],
+          "rows": 24,
+          "world_edges": 6,
+          "density": 0.25,
+          "count_range": [
+            10,
+            14
+          ]
+        },
+        {
+          "decile": 2,
+          "rank_range": [
+            25,
+            48
+          ],
+          "rows": 24,
+          "world_edges": 14,
+          "density": 0.5833,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 3,
+          "rank_range": [
+            49,
+            72
+          ],
+          "rows": 24,
+          "world_edges": 10,
+          "density": 0.4167,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 4,
+          "rank_range": [
+            73,
+            96
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 5,
+          "rank_range": [
+            97,
+            120
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 6,
+          "rank_range": [
+            121,
+            144
+          ],
+          "rows": 24,
+          "world_edges": 10,
+          "density": 0.4167,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 7,
+          "rank_range": [
+            145,
+            168
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 8,
+          "rank_range": [
+            169,
+            192
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 9,
+          "rank_range": [
+            193,
+            216
+          ],
+          "rows": 24,
+          "world_edges": 11,
+          "density": 0.4583,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 10,
+          "rank_range": [
+            217,
+            240
+          ],
+          "rows": 24,
+          "world_edges": 10,
+          "density": 0.4167,
+          "count_range": [
+            4,
+            10
+          ]
+        }
+      ],
+      "cumulative_top_k": [
+        {
+          "k": 20,
+          "world_edges": 3,
+          "density": 0.15,
+          "share_of_world": 0.0268
+        },
+        {
+          "k": 40,
+          "world_edges": 15,
+          "density": 0.375,
+          "share_of_world": 0.1339
+        },
+        {
+          "k": 80,
+          "world_edges": 35,
+          "density": 0.4375,
+          "share_of_world": 0.3125
+        },
+        {
+          "k": 160,
+          "world_edges": 75,
+          "density": 0.4688,
+          "share_of_world": 0.6696
+        }
+      ],
+      "prediction_min_count": 5
+    },
+    {
+      "seed": 20261102,
+      "runtime_s": 8.3,
+      "pool_rows": 240,
+      "world_edges_total": 112,
+      "pool_world_edges": 112,
+      "pool_coverage_ceiling": 1.0,
+      "pool_base_rate": 0.4667,
+      "asserted_edges": 245,
+      "asserted_world_edges": 112,
+      "asserted_precision": 0.4571,
+      "asserted_not_in_pool": 5,
+      "deciles": [
+        {
+          "decile": 1,
+          "rank_range": [
+            1,
+            24
+          ],
+          "rows": 24,
+          "world_edges": 5,
+          "density": 0.2083,
+          "count_range": [
+            11,
+            19
+          ]
+        },
+        {
+          "decile": 2,
+          "rank_range": [
+            25,
+            48
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            11
+          ]
+        },
+        {
+          "decile": 3,
+          "rank_range": [
+            49,
+            72
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 4,
+          "rank_range": [
+            73,
+            96
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 5,
+          "rank_range": [
+            97,
+            120
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 6,
+          "rank_range": [
+            121,
+            144
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 7,
+          "rank_range": [
+            145,
+            168
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 8,
+          "rank_range": [
+            169,
+            192
+          ],
+          "rows": 24,
+          "world_edges": 14,
+          "density": 0.5833,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 9,
+          "rank_range": [
+            193,
+            216
+          ],
+          "rows": 24,
+          "world_edges": 10,
+          "density": 0.4167,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 10,
+          "rank_range": [
+            217,
+            240
+          ],
+          "rows": 24,
+          "world_edges": 9,
+          "density": 0.375,
+          "count_range": [
+            4,
+            10
+          ]
+        }
+      ],
+      "cumulative_top_k": [
+        {
+          "k": 20,
+          "world_edges": 3,
+          "density": 0.15,
+          "share_of_world": 0.0268
+        },
+        {
+          "k": 40,
+          "world_edges": 12,
+          "density": 0.3,
+          "share_of_world": 0.1071
+        },
+        {
+          "k": 80,
+          "world_edges": 34,
+          "density": 0.425,
+          "share_of_world": 0.3036
+        },
+        {
+          "k": 160,
+          "world_edges": 75,
+          "density": 0.4688,
+          "share_of_world": 0.6696
+        }
+      ],
+      "prediction_min_count": 5
+    },
+    {
+      "seed": 20261103,
+      "runtime_s": 8.9,
+      "pool_rows": 240,
+      "world_edges_total": 112,
+      "pool_world_edges": 112,
+      "pool_coverage_ceiling": 1.0,
+      "pool_base_rate": 0.4667,
+      "asserted_edges": 244,
+      "asserted_world_edges": 112,
+      "asserted_precision": 0.459,
+      "asserted_not_in_pool": 4,
+      "deciles": [
+        {
+          "decile": 1,
+          "rank_range": [
+            1,
+            24
+          ],
+          "rows": 24,
+          "world_edges": 9,
+          "density": 0.375,
+          "count_range": [
+            10,
+            14
+          ]
+        },
+        {
+          "decile": 2,
+          "rank_range": [
+            25,
+            48
+          ],
+          "rows": 24,
+          "world_edges": 11,
+          "density": 0.4583,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 3,
+          "rank_range": [
+            49,
+            72
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 4,
+          "rank_range": [
+            73,
+            96
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 5,
+          "rank_range": [
+            97,
+            120
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 6,
+          "rank_range": [
+            121,
+            144
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 7,
+          "rank_range": [
+            145,
+            168
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 8,
+          "rank_range": [
+            169,
+            192
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 9,
+          "rank_range": [
+            193,
+            216
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 10,
+          "rank_range": [
+            217,
+            240
+          ],
+          "rows": 24,
+          "world_edges": 7,
+          "density": 0.2917,
+          "count_range": [
+            6,
+            10
+          ]
+        }
+      ],
+      "cumulative_top_k": [
+        {
+          "k": 20,
+          "world_edges": 5,
+          "density": 0.25,
+          "share_of_world": 0.0446
+        },
+        {
+          "k": 40,
+          "world_edges": 14,
+          "density": 0.35,
+          "share_of_world": 0.125
+        },
+        {
+          "k": 80,
+          "world_edges": 37,
+          "density": 0.4625,
+          "share_of_world": 0.3304
+        },
+        {
+          "k": 160,
+          "world_edges": 77,
+          "density": 0.4813,
+          "share_of_world": 0.6875
+        }
+      ],
+      "prediction_min_count": 5
+    },
+    {
+      "seed": 20261104,
+      "runtime_s": 8.7,
+      "pool_rows": 240,
+      "world_edges_total": 112,
+      "pool_world_edges": 112,
+      "pool_coverage_ceiling": 1.0,
+      "pool_base_rate": 0.4667,
+      "asserted_edges": 244,
+      "asserted_world_edges": 112,
+      "asserted_precision": 0.459,
+      "asserted_not_in_pool": 4,
+      "deciles": [
+        {
+          "decile": 1,
+          "rank_range": [
+            1,
+            24
+          ],
+          "rows": 24,
+          "world_edges": 6,
+          "density": 0.25,
+          "count_range": [
+            10,
+            18
+          ]
+        },
+        {
+          "decile": 2,
+          "rank_range": [
+            25,
+            48
+          ],
+          "rows": 24,
+          "world_edges": 9,
+          "density": 0.375,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 3,
+          "rank_range": [
+            49,
+            72
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 4,
+          "rank_range": [
+            73,
+            96
+          ],
+          "rows": 24,
+          "world_edges": 14,
+          "density": 0.5833,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 5,
+          "rank_range": [
+            97,
+            120
+          ],
+          "rows": 24,
+          "world_edges": 9,
+          "density": 0.375,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 6,
+          "rank_range": [
+            121,
+            144
+          ],
+          "rows": 24,
+          "world_edges": 13,
+          "density": 0.5417,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 7,
+          "rank_range": [
+            145,
+            168
+          ],
+          "rows": 24,
+          "world_edges": 15,
+          "density": 0.625,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 8,
+          "rank_range": [
+            169,
+            192
+          ],
+          "rows": 24,
+          "world_edges": 11,
+          "density": 0.4583,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 9,
+          "rank_range": [
+            193,
+            216
+          ],
+          "rows": 24,
+          "world_edges": 14,
+          "density": 0.5833,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 10,
+          "rank_range": [
+            217,
+            240
+          ],
+          "rows": 24,
+          "world_edges": 8,
+          "density": 0.3333,
+          "count_range": [
+            4,
+            10
+          ]
+        }
+      ],
+      "cumulative_top_k": [
+        {
+          "k": 20,
+          "world_edges": 5,
+          "density": 0.25,
+          "share_of_world": 0.0446
+        },
+        {
+          "k": 40,
+          "world_edges": 12,
+          "density": 0.3,
+          "share_of_world": 0.1071
+        },
+        {
+          "k": 80,
+          "world_edges": 32,
+          "density": 0.4,
+          "share_of_world": 0.2857
+        },
+        {
+          "k": 160,
+          "world_edges": 74,
+          "density": 0.4625,
+          "share_of_world": 0.6607
+        }
+      ],
+      "prediction_min_count": 5
+    },
+    {
+      "seed": 20261105,
+      "runtime_s": 8.9,
+      "pool_rows": 240,
+      "world_edges_total": 112,
+      "pool_world_edges": 112,
+      "pool_coverage_ceiling": 1.0,
+      "pool_base_rate": 0.4667,
+      "asserted_edges": 245,
+      "asserted_world_edges": 112,
+      "asserted_precision": 0.4571,
+      "asserted_not_in_pool": 6,
+      "deciles": [
+        {
+          "decile": 1,
+          "rank_range": [
+            1,
+            24
+          ],
+          "rows": 24,
+          "world_edges": 6,
+          "density": 0.25,
+          "count_range": [
+            10,
+            15
+          ]
+        },
+        {
+          "decile": 2,
+          "rank_range": [
+            25,
+            48
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 3,
+          "rank_range": [
+            49,
+            72
+          ],
+          "rows": 24,
+          "world_edges": 14,
+          "density": 0.5833,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 4,
+          "rank_range": [
+            73,
+            96
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 5,
+          "rank_range": [
+            97,
+            120
+          ],
+          "rows": 24,
+          "world_edges": 10,
+          "density": 0.4167,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 6,
+          "rank_range": [
+            121,
+            144
+          ],
+          "rows": 24,
+          "world_edges": 16,
+          "density": 0.6667,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 7,
+          "rank_range": [
+            145,
+            168
+          ],
+          "rows": 24,
+          "world_edges": 12,
+          "density": 0.5,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 8,
+          "rank_range": [
+            169,
+            192
+          ],
+          "rows": 24,
+          "world_edges": 11,
+          "density": 0.4583,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 9,
+          "rank_range": [
+            193,
+            216
+          ],
+          "rows": 24,
+          "world_edges": 11,
+          "density": 0.4583,
+          "count_range": [
+            10,
+            10
+          ]
+        },
+        {
+          "decile": 10,
+          "rank_range": [
+            217,
+            240
+          ],
+          "rows": 24,
+          "world_edges": 8,
+          "density": 0.3333,
+          "count_range": [
+            2,
+            10
+          ]
+        }
+      ],
+      "cumulative_top_k": [
+        {
+          "k": 20,
+          "world_edges": 4,
+          "density": 0.2,
+          "share_of_world": 0.0357
+        },
+        {
+          "k": 40,
+          "world_edges": 15,
+          "density": 0.375,
+          "share_of_world": 0.1339
+        },
+        {
+          "k": 80,
+          "world_edges": 36,
+          "density": 0.45,
+          "share_of_world": 0.3214
+        },
+        {
+          "k": 160,
+          "world_edges": 77,
+          "density": 0.4813,
+          "share_of_world": 0.6875
+        }
+      ],
+      "prediction_min_count": 5
+    }
+  ],
+  "summary": {
+    "pool_rows_median": 240,
+    "pool_world_edges_present_median": 112,
+    "world_edges_total": 112,
+    "pool_base_rate": 0.4667,
+    "pool_coverage_ceiling_median": 1.0,
+    "asserted_at_cap1000_median": 245,
+    "asserted_precision_at_cap1000_median": 0.4571,
+    "asserted_edges_not_in_pool_range": [
+      4,
+      6
+    ],
+    "decile_density_medians": [
+      {
+        "decile": 1,
+        "rank_range": [
+          1,
+          24
+        ],
+        "rows": 24,
+        "density_median": 0.25,
+        "density_min": 0.2083,
+        "density_max": 0.375,
+        "count_range": [
+          10,
+          14
+        ]
+      },
+      {
+        "decile": 2,
+        "rank_range": [
+          25,
+          48
+        ],
+        "rows": 24,
+        "density_median": 0.5,
+        "density_min": 0.375,
+        "density_max": 0.5833,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 3,
+        "rank_range": [
+          49,
+          72
+        ],
+        "rows": 24,
+        "density_median": 0.5,
+        "density_min": 0.4167,
+        "density_max": 0.5833,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 4,
+        "rank_range": [
+          73,
+          96
+        ],
+        "rows": 24,
+        "density_median": 0.5417,
+        "density_min": 0.5,
+        "density_max": 0.5833,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 5,
+        "rank_range": [
+          97,
+          120
+        ],
+        "rows": 24,
+        "density_median": 0.5,
+        "density_min": 0.375,
+        "density_max": 0.5,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 6,
+        "rank_range": [
+          121,
+          144
+        ],
+        "rows": 24,
+        "density_median": 0.5417,
+        "density_min": 0.4167,
+        "density_max": 0.6667,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 7,
+        "rank_range": [
+          145,
+          168
+        ],
+        "rows": 24,
+        "density_median": 0.5417,
+        "density_min": 0.5,
+        "density_max": 0.625,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 8,
+        "rank_range": [
+          169,
+          192
+        ],
+        "rows": 24,
+        "density_median": 0.5,
+        "density_min": 0.4583,
+        "density_max": 0.5833,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 9,
+        "rank_range": [
+          193,
+          216
+        ],
+        "rows": 24,
+        "density_median": 0.4583,
+        "density_min": 0.4167,
+        "density_max": 0.5833,
+        "count_range": [
+          10,
+          10
+        ]
+      },
+      {
+        "decile": 10,
+        "rank_range": [
+          217,
+          240
+        ],
+        "rows": 24,
+        "density_median": 0.3333,
+        "density_min": 0.2917,
+        "density_max": 0.4167,
+        "count_range": [
+          4,
+          10
+        ]
+      }
+    ],
+    "modal_count": 10,
+    "rows_sharing_modal_count": 192,
+    "share_of_pool_tied": 0.8,
+    "tie_rank_block": [
+      25,
+      216
+    ],
+    "top20_density_range": [
+      0.15,
+      0.25
+    ],
+    "chance_baseline": [
+      {
+        "build": "amended",
+        "cap": 1,
+        "asserted": 129,
+        "covered": 57,
+        "chance": 60.2,
+        "difference": -3.2,
+        "n_seeds": 5
+      },
+      {
+        "build": "amended",
+        "cap": 20,
+        "asserted": 134,
+        "covered": 60,
+        "chance": 62.5,
+        "difference": -2.5,
+        "n_seeds": 5
+      },
+      {
+        "build": "amended",
+        "cap": 100,
+        "asserted": 174,
+        "covered": 78,
+        "chance": 81.2,
+        "difference": -3.2,
+        "n_seeds": 5
+      },
+      {
+        "build": "amended",
+        "cap": 1000,
+        "asserted": 245,
+        "covered": 112,
+        "chance": 114.3,
+        "difference": -2.3,
+        "n_seeds": 5
+      },
+      {
+        "build": "e6d1bcc",
+        "cap": 1,
+        "asserted": 173,
+        "covered": 80,
+        "chance": 80.7,
+        "difference": -0.7,
+        "n_seeds": 5
+      },
+      {
+        "build": "e6d1bcc",
+        "cap": 20,
+        "asserted": 195,
+        "covered": 87,
+        "chance": 91.0,
+        "difference": -4.0,
+        "n_seeds": 3
+      },
+      {
+        "build": "e6d1bcc",
+        "cap": 100,
+        "asserted": 210.0,
+        "covered": 96.5,
+        "chance": 98.0,
+        "difference": -1.5,
+        "n_seeds": 2
+      },
+      {
+        "build": "e6d1bcc",
+        "cap": 1000,
+        "asserted": 245,
+        "covered": 112,
+        "chance": 114.3,
+        "difference": -2.3,
+        "n_seeds": 5
+      },
+      {
+        "build": "89b0744",
+        "cap": 1,
+        "asserted": 30,
+        "covered": 0,
+        "chance": 14.0,
+        "difference": -14.0,
+        "n_seeds": 3
+      },
+      {
+        "build": "89b0744",
+        "cap": 20,
+        "asserted": 37,
+        "covered": 1,
+        "chance": 17.3,
+        "difference": -16.3,
+        "n_seeds": 5
+      },
+      {
+        "build": "89b0744",
+        "cap": 100,
+        "asserted": 68,
+        "covered": 19,
+        "chance": 31.7,
+        "difference": -12.7,
+        "n_seeds": 3
+      },
+      {
+        "build": "89b0744",
+        "cap": 1000,
+        "asserted": 243,
+        "covered": 112,
+        "chance": 113.4,
+        "difference": -1.4,
+        "n_seeds": 5
+      }
+    ],
+    "note": "chance = asserted_set_size * pool base rate; the asserted set is compared with a random draw of the same size from the pool"
+  }
+}

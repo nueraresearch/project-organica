@@ -165,7 +165,7 @@ def build() -> dict:
         "what_this_is": "Stage A of the DI measurement-window design: exploratory "
                         "diagnostics from the 240 stored Phase L records. No engine, "
                         "no seed, no reliability coefficient.",
-        "source": {"path": str(SOURCE.relative_to(ROOT)), "sha256": digest,
+        "source": {"path": SOURCE.relative_to(ROOT).as_posix(), "sha256": digest,
                    "records": len(recs)},
         "units": {"late_pairs_per_record": denom, "one_pair": pair,
                   "window_length": WINDOW},

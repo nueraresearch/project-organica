@@ -196,7 +196,7 @@ def build() -> dict:
     return {
         "what_this_is": "Read-only construct audit of DI. No engine, no seed, "
                         "no reliability coefficient.",
-        "source": {"path": str(SOURCE.relative_to(ROOT)), "sha256": digest,
+        "source": {"path": SOURCE.relative_to(ROOT).as_posix(), "sha256": digest,
                    "records": len(recs)},
         "code_facts": {
             "file": "benchmarks/phase_l_campaign.py",

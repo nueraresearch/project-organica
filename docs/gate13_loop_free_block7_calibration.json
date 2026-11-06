@@ -1,0 +1,123 @@
+{
+  "what": "liveness gate, pooled effect and power for block 7 (same loop-free arm, gate calibrated to the observed rate)",
+  "judged_by_block": false,
+  "arm": "Y = R with the cap reserved for edges no loop asserts; loop-asserted edges admitted only as backfill",
+  "changed_from_block6": {
+    "G0": "96/100, which the calibration's own liveness (6/10) could not reach -> 50/100, calibrated to the pooled rate 0.618",
+    "unchanged": "arm Y, world, cap 20, readout, C1' band, G2 bar, M1 bar 0.01, M2 novel bar 0.005, C/R baselines"
+  },
+  "calibration_sources": {
+    "block6": {
+      "n": 100,
+      "seeds": [
+        20271614,
+        20271713
+      ],
+      "why": "block 6 was void by its own gate, so its cells are not being judged by block 7; rule 19 permits re-calibration on data that is not being judged"
+    },
+    "dose_seeds": {
+      "n": 10,
+      "seeds": [
+        20271604,
+        20271605,
+        20271606,
+        20271607,
+        20271608,
+        20271609,
+        20271610,
+        20271611,
+        20271612,
+        20271613
+      ]
+    },
+    "total": 110
+  },
+  "effect": {
+    "mean": 0.01,
+    "median": 0.0,
+    "sd": 0.015,
+    "min": 0.0,
+    "max": 0.0625,
+    "positive_share": 0.436,
+    "positive_n": 48,
+    "n": 110,
+    "mean_ci": [
+      0.00731,
+      0.01282
+    ],
+    "mean_se_at_100": 0.0015,
+    "novel_mean": 1.1,
+    "novel_ci": [
+      0.8,
+      1.41818
+    ],
+    "loop_covered_mean": 0.0182,
+    "block6_mean": 0.0095,
+    "block6_median": 0.0
+  },
+  "liveness": {
+    "rate": 0.6182,
+    "n_differ": 68,
+    "n": 110,
+    "block6": 62,
+    "ten_seeds": 6,
+    "bar": 50,
+    "bar_rule": "at least half the seeds, a bar the pooled rate clears with the probability below; it is reachable by construction, which 96/100 was not",
+    "power_of_gate": 0.9939,
+    "power_of_block6_bar": 0.0
+  },
+  "gates": {
+    "G0_bar": 50,
+    "G0b_bar": 96,
+    "G2_bar": 96,
+    "band": [
+      0.4347,
+      0.4987
+    ]
+  },
+  "bar": {
+    "m1_mean_difference": 0.01,
+    "novel_bar": 0.005,
+    "provenance": "unchanged from block 6: one fifth of R's gain over C on block 5's 100 fresh seeds, so blocks 6 and 7 test the same claim at the same bar"
+  },
+  "power": {
+    "0.005": {
+      "bar": 0.005,
+      "power_point": 1.0,
+      "power_point_and_ci": 1.0
+    },
+    "0.0075": {
+      "bar": 0.0075,
+      "power_point": 0.959,
+      "power_point_and_ci": 0.959
+    },
+    "0.01": {
+      "bar": 0.01,
+      "power_point": 0.487,
+      "power_point_and_ci": 0.487
+    },
+    "0.0125": {
+      "bar": 0.0125,
+      "power_point": 0.051,
+      "power_point_and_ci": 0.051
+    },
+    "0.015": {
+      "bar": 0.015,
+      "power_point": 0.001,
+      "power_point_and_ci": 0.001
+    }
+  },
+  "power_note": "at the unchanged bar 0.01 the pooled mean 0.01 sits -0.01 standard errors from it, so this block is underpowered at M1 and a miss does not distinguish 'no effect' from 'smaller than 0.01'; a pass would be informative",
+  "allocation": {
+    "lo": 20271715,
+    "hi": 20271814,
+    "seeds": 100
+  },
+  "freshness": {
+    "files_scanned": 553,
+    "rejected_hits": [
+      20271714
+    ]
+  },
+  "caveat": "the pooled sd is dominated by block 6's void cells, which is the best estimate available and still a single draw of 110; the block reports its own observed mean and interval beside the bar"
+}

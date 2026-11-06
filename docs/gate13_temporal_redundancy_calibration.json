@@ -1,0 +1,150 @@
+{
+  "what": "threshold, calibration association and power for block 4 (control-side loop-prediction overlap)",
+  "judged_by_block": false,
+  "covariate": "o_s = |L and P and W| / |P and W| on the control cell, P = prediction_candidate edges, L = loop edges",
+  "min_denominator": 3,
+  "allocation": {
+    "lo": 20271202,
+    "hi": 20271301,
+    "seeds": 100
+  },
+  "freshness": {
+    "files_scanned": 524,
+    "rejected_hits": [
+      20271201
+    ],
+    "note": "20271201 is excluded because it appears as this harness's own scan-start literal, and an allocation may not contain a seed already written into the tree, however innocently"
+  },
+  "pairs": [
+    {
+      "seed": 20270901,
+      "o": 0.0,
+      "overlap": 0,
+      "pred_world": 7,
+      "loop_world": 27,
+      "gain": 0.0
+    },
+    {
+      "seed": 20270902,
+      "o": 0.2857,
+      "overlap": 2,
+      "pred_world": 7,
+      "loop_world": 48,
+      "gain": 0.0536
+    },
+    {
+      "seed": 20270903,
+      "o": 0.7143,
+      "overlap": 5,
+      "pred_world": 7,
+      "loop_world": 51,
+      "gain": 0.0625
+    },
+    {
+      "seed": 20270905,
+      "o": 0.0,
+      "overlap": 0,
+      "pred_world": 3,
+      "loop_world": 58,
+      "gain": -0.0089
+    },
+    {
+      "seed": 20270906,
+      "o": 1.0,
+      "overlap": 9,
+      "pred_world": 9,
+      "loop_world": 62,
+      "gain": 0.1339
+    },
+    {
+      "seed": 20270907,
+      "o": 1.0,
+      "overlap": 6,
+      "pred_world": 6,
+      "loop_world": 74,
+      "gain": 0.0536
+    },
+    {
+      "seed": 20270908,
+      "o": 0.125,
+      "overlap": 1,
+      "pred_world": 8,
+      "loop_world": 30,
+      "gain": -0.0179
+    },
+    {
+      "seed": 20270913,
+      "o": 1.0,
+      "overlap": 4,
+      "pred_world": 4,
+      "loop_world": 89,
+      "gain": 0.0
+    },
+    {
+      "seed": 20270921,
+      "o": 0.2222,
+      "overlap": 2,
+      "pred_world": 9,
+      "loop_world": 56,
+      "gain": -0.0446
+    },
+    {
+      "seed": 20270924,
+      "o": 0.3333,
+      "overlap": 4,
+      "pred_world": 12,
+      "loop_world": 68,
+      "gain": 0.0089
+    }
+  ],
+  "threshold_o": 0.3095,
+  "threshold_note": "median of the calibration seeds; fixed before any block cell is run",
+  "association": {
+    "pearson": 0.642,
+    "spearman": 0.659,
+    "n": 10
+  },
+  "linear_fit": {
+    "intercept": -0.0131,
+    "slope": 0.0795,
+    "resid_sd": 0.0422
+  },
+  "bars": {
+    "m1_median_gain_difference": 0.03,
+    "m2_spearman_min": 0.25,
+    "m3_positive_share": 0.66
+  },
+  "power": {
+    "n100_mechanism_sized": {
+      "n": 100,
+      "slope": 0.1,
+      "sd": 0.0422,
+      "mean_gain": 0.0241,
+      "power_m1_half_split": 1.0,
+      "power_m2_spearman": 1.0,
+      "power_both": 1.0,
+      "power_m3_replication": 0.389
+    },
+    "n100_calibration_implied": {
+      "n": 100,
+      "slope": 0.0795,
+      "sd": 0.0422,
+      "mean_gain": 0.0241,
+      "power_m1_half_split": 0.988,
+      "power_m2_spearman": 1.0,
+      "power_both": 0.988,
+      "power_m3_replication": 0.596
+    },
+    "n100_null": {
+      "n": 100,
+      "slope": 0.0,
+      "sd": 0.0422,
+      "mean_gain": 0.0241,
+      "power_m1_half_split": 0.003,
+      "power_m2_spearman": 0.006,
+      "power_both": 0.001,
+      "power_m3_replication": 0.91
+    }
+  },
+  "power_note": "mean-preserving: gain = mean(gain) + slope*(o - mean(o)) + N(0, resid_sd); the first fit omitted the mean and made M3 power meaningless, corrected before the freeze"
+}

@@ -10716,7 +10716,7 @@ excluded for, arriving through a new file.
 
 The fix is the existing rule applied to the second file that names the block: `EXCLUDED_ARTIFACTS` now holds
 `docs/stage_b_protocol.json` and `docs/stage_b_allocation.json`, and `self_artifact_excluded` says so. With the
-exclusion the artifact regenerates to **222** consumed seeds across **76** artifacts
+exclusion the artifact regenerates to **1270** consumed seeds across **108** artifacts
 with **0** overlap: identical to the committed state before the allocation existed, which is the
 point -- allocating the block spends nothing and consumes nothing.
 

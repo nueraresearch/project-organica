@@ -130,14 +130,14 @@ Hypotheses become powerful when many people try to break them. The three laws th
 *Project Organica source code, benchmark suite, and reproduction packs:*  
 `https://github.com/nueraresearch/project-organica`
 
-*Companion manuscripts in this repository. **None is submitted or published**; the inventory is seven manuscript files and zero published:*
+*Companion manuscripts in this repository. **None is submitted or published**; the inventory is eight manuscript files and zero published:*
 
 | Manuscript | Status |
 |---|---|
 | `01_developmental_structure_formation.md` | Empirical working draft — the V1 account |
 | `02_persistent_structural_provenance.md` | Audit working draft — bounded reconstruction of surviving state |
 | `03_curiosity_through_contradiction.md` | Hypothesis and evidence review; causal efficacy **not established** (the pre-registered prediction that contradiction is fuel was **reversed**) |
-| `04_dream_driven_structural_exploration.md` | Descriptive framework; a matched no-dream evaluation is still required |
+| `04_dream_driven_structural_exploration.md` | Descriptive framework; the matched no-dream arm now exists on an internal measure (Paper 07), while an external outcome is still required |
 | `05_cognitive_isolation_principle.md` | Historical hypothesis manuscript — its central guarantee is **contradicted** by the measured self-sourced relations (D2) |
 | `06_the_ecology_of_beliefs.md` | Historical hypothesis manuscript — lifecycle and stability claims **unverified** against the current engine |
 

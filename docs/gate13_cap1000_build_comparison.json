@@ -1,0 +1,83 @@
+{
+  "probe": "gate13_cap1000_treatment_arm_by_build",
+  "measured": "2026-11-06",
+  "question": "Does the cap-1000 treatment arm still clear 98.2-100% on the amended engine?",
+  "instrument": "benchmarks/run_paired_capacity_test.py :: run_paired_condition, treatment arm, max_predictions=1000, cycles 0-109",
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "world_edges": 112,
+  "threshold": 0.5,
+  "recorded_89b0744": {
+    "covered_world_edges": {
+      "20261101": 110,
+      "20261102": 112,
+      "20261103": 112,
+      "20261104": 112,
+      "20261105": 112
+    },
+    "asserted_coverage_range": [
+      0.9821,
+      1.0
+    ],
+    "gate_passes": 5
+  },
+  "e6d1bcc": {
+    "covered_world_edges": {
+      "20261101": 112,
+      "20261102": 112,
+      "20261103": 112,
+      "20261104": 112,
+      "20261105": 112
+    },
+    "asserted_coverage_range": [
+      1.0,
+      1.0
+    ],
+    "gate_passes": 5,
+    "final_asserted_edges": {
+      "20261101": 245,
+      "20261102": 245,
+      "20261103": 244,
+      "20261104": 247,
+      "20261105": 243
+    }
+  },
+  "reader_plus_amendment": {
+    "covered_world_edges": {
+      "20261101": 112,
+      "20261102": 112,
+      "20261103": 112,
+      "20261104": 112,
+      "20261105": 112
+    },
+    "asserted_coverage_range": [
+      1.0,
+      1.0
+    ],
+    "gate_passes": 5,
+    "final_asserted_edges": {
+      "20261101": 245,
+      "20261102": 245,
+      "20261103": 244,
+      "20261104": 244,
+      "20261105": 245
+    }
+  },
+  "paired_contrast_on_the_amended_engine": {
+    "control_range": [
+      0.4821,
+      0.75
+    ],
+    "treatment_range": [
+      1.0,
+      1.0
+    ]
+  },
+  "finding": "The treatment arm holds and improves: 1.0000-1.0000 on all five seeds against 0.9821-1.0000 recorded on 89b0744, with 5 of 5 seeds clearing the threshold. The contrast the cap explains is narrower than the record implies, because the control arm is no longer near zero: on the amended engine it is 0.4821-0.7500 against 1.0000-1.0000, where the record had 0.0000-0.0268 against 0.9821-1.0000.",
+  "limits": "Coverage is at its ceiling (112 of 112), so this says nothing about precision \u2014 the 0.3438 precision ceiling is a separate measurement and is untouched. Five diagnostic seeds only; no confirmatory seed was run. The tail differences between builds are in the asserted-set size (243-247 edges), not in world-edge coverage."
+}

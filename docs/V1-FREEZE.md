@@ -114,3 +114,73 @@ committed before any outcome exists.
 harness is built and validated, and the protocol is reviewed — *then* the
 campaign runs. The synthesis's strongest recommendation is to stop producing
 outcomes long enough to decide exactly what property is being measured.
+
+## 6. Amendment 1 — carried-forward structures are not current-cycle evidence (2026-11-06)
+
+**Authorised by the owner, on the decision recorded in
+`docs/DECISION-CANDIDATE-SUPERSESSION.md` §5.**
+
+The freeze's boundary rule is that nothing may change the *behavior* of the frozen engine
+without a recorded decision. This is that record, and it changes one behaviour: after
+Layer 2–3 composition, `organica/sleep.py` re-admitted every stable prior G2/G3 structure
+into the current cycle's candidate list. Natural selection therefore saw a structure that
+had stopped being produced as if it had re-emerged, reinforced it every cycle, and never let
+it decay or die.
+
+What changed:
+
+- `organica/candidates.py` — the five carried-prone dataclasses carry a transient
+  `carried_forward` field (default `False`).
+- `organica/sleep.py` — the five carry-forward grafts pass `carried_forward=True`.
+- `organica/sleep_selection.py` — `_natural_selection` does not count a carried structure as
+  current-cycle evidence, `_store_candidates` does not re-write one, and
+  `_store_single_candidate` strips the marker so no stored record carries it.
+
+What did not change: extraction, the confidence formula, the death and stability
+thresholds, candidate keys, the priming gate, and the report's contents — carried
+structures are still visible to downstream layers and telemetry, which is what the graft is
+for. The engine-file identity check in `tests/test_v1_freeze.py` already skips at package
+versions ≥ 0.12.0, so this amendment is recorded rather than enforced by editing that
+mechanism; the archival `v0.9.0` tag remains the reference for what Organica 1 was.
+
+**Measured consequence — this amendment is not measurement-neutral, and the record says so.**
+The Gate 13 sufficiency harness (`benchmarks/acquisition_harness.py`, default seed,
+120 cycles) reads its asserted basis off the surviving candidate set, so changing which
+structures survive changes that figure. Three builds of the same seed and world:
+
+| build | covered asserted edges | asserted coverage |
+|---|---|---|
+| `e6d1bcc` — before the supersession reader and before this amendment | 26 / 112 | 0.2321 |
+| supersession reader only (newest copy per id, death records) | 22 / 112 | 0.1964 |
+| reader + this amendment (carried structures are not evidence) | 34 / 112 | 0.3036 |
+
+Raw temporal coverage is 112/112 in all three builds. The reader alone *lowers* the asserted
+figure — duplicate copies of one candidate no longer count twice — and the guards then raise it.
+The measurement separates those two steps and no further: the guards act on both the
+current-cycle key set and the store, and this figure does not attribute the rise between them.
+
+The gate's verdict does not move: 0.3036 is still far below the 0.50 threshold, so Gate 13
+still fires and the acquisition finding stands. But **every Gate 13 figure recorded before this
+amendment describes the pre-amendment engine** — `docs/acquisition_single_seed_pilot.json`
+(asserted coverage 0 at the frozen cap of 20), `docs/gate13_allocation_rule.json` and
+`docs/formation_utilization.json`. They are not re-scored here and none of their verdicts
+changes; they are labelled pre-amendment measurements. The effect measurement is
+`docs/candidate_supersession_gate13_effect.json`.
+
+The same question on the paired capacity test's cap-20 basis behaves differently: there the
+amendment *lowers* the asserted coverage, from 0.6607–0.8125
+at `e6d1bcc` to 0.4821–0.7500 on the five diagnostic seeds, and the
+recorded 0.0 %–2.7 % band is not where either build sits — it reproduces only on its own build
+(`89b0744`, 2026-10-28). That re-measurement is recorded in
+`docs/GATE13-PAIRED-CAPACITY-TEST.md` §5 and `docs/gate13_cap20_build_comparison.json`, and it is
+a finding about the record's Gate 13 quotation rather than about this amendment.
+
+**Measured consequence, amended (2026-11-06).** Sweeping the Layer-1 cap from 1 to 1,000 on all three
+builds (`docs/gate13_cap_curve_by_build.json`) sharpens what the amendment does and does not do. Against `e6d1bcc` it
+*shrinks* the asserted set — 129 edges against 173 at cap 1 — and lowers recall at every
+cap below 500 (0.5089 against 0.7143 at cap 1, 0.5357 against 0.7768 at cap 20), reaching parity at
+500 and 1,000, while precision does not move across the whole curve (0.0087 span). So the
+carried-forward copies were not chiefly noise: removing them removes world and non-world edges at
+about the same rate. The amendment is justified as a scoring correction — a prior carried across
+cycles is not this cycle's evidence — and **not** as a coverage improvement, which this sweep rules
+out. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.

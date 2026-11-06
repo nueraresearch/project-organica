@@ -1,0 +1,101 @@
+{
+  "probe": "gate13_cap20_asserted_coverage_by_build",
+  "measured": "2026-11-06",
+  "question": "Does the recorded 0.0-2.7% cap-20 asserted-coverage range reproduce on the amended engine?",
+  "instrument": "benchmarks/run_paired_capacity_test.py :: run_paired_condition, control arm, max_predictions=20, cycles 0-109",
+  "seeds": [
+    20261101,
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "world_edges": 112,
+  "threshold": 0.5,
+  "builds": {
+    "as_recorded_89b0744": {
+      "source": "docs/gate13_paired_capacity_test.json (control cells)",
+      "covered_world_edges": {
+        "20261101": 0,
+        "20261102": 1,
+        "20261103": 1,
+        "20261104": 0,
+        "20261105": 3
+      },
+      "asserted_coverage_range": [
+        0.0,
+        0.0268
+      ],
+      "gate_passes": 0
+    },
+    "recheck_89b0744_seed_20261101": {
+      "covered_world_edges": 1,
+      "asserted_coverage": 0.0089,
+      "recorded": 0
+    },
+    "e6d1bcc": {
+      "covered_world_edges": {
+        "20261101": 81,
+        "20261102": 87,
+        "20261103": 91,
+        "20261104": 77,
+        "20261105": 74
+      },
+      "asserted_coverage_range": [
+        0.6607,
+        0.8125
+      ],
+      "gate_passes": 5
+    },
+    "reader_plus_amendment": {
+      "covered_world_edges": {
+        "20261101": 59,
+        "20261102": 54,
+        "20261103": 84,
+        "20261104": 60,
+        "20261105": 61
+      },
+      "asserted_coverage_range": [
+        0.4821,
+        0.75
+      ],
+      "gate_passes": 4
+    }
+  },
+  "bisect_seed_20261101": {
+    "89b0744": {
+      "covered_world_edges": 1,
+      "asserted_coverage": 0.0089,
+      "gate_pass": false
+    },
+    "9f2c8e1": {
+      "covered_world_edges": 59,
+      "asserted_coverage": 0.5268,
+      "gate_pass": true
+    },
+    "6165523": {
+      "covered_world_edges": 59,
+      "asserted_coverage": 0.5268,
+      "gate_pass": true
+    },
+    "7201d79": {
+      "covered_world_edges": 81,
+      "asserted_coverage": 0.7232,
+      "gate_pass": true
+    },
+    "6d45eb7": {
+      "covered_world_edges": 81,
+      "asserted_coverage": 0.7232,
+      "gate_pass": true
+    },
+    "e6d1bcc": {
+      "covered_world_edges": 81,
+      "asserted_coverage": 0.7232,
+      "gate_pass": true
+    }
+  },
+  "reproducibility": "Deterministic within a build: seed 20261101 run twice on e6d1bcc returned 81 both times, and PYTHONHASHSEED=0 returned 81. The amended build returns 59 for the same seed in separate processes.",
+  "finding": "The 0.0-2.7% range reproduces on the build that recorded it (89b0744, seed 20261101: 1 of 112 against a recorded 0 of 112) and does not reproduce on any build from 9f2c8e1 (2026-11-04) onward. e6d1bcc, the commit the freeze was taken against, reads 0.6607-0.8125; the amended engine reads 0.4821-0.75. The amendment therefore lowers this basis by 0.06-0.18 but does not return it to the recorded band; the move that matters happened on 2026-11-04, before the amendment.",
+  "not_measured": "The cap-1000 treatment arm has since been re-run on 2026-11-06 and still clears the gate: 112 of 112 world edges on all five seeds, on both later builds \u2014 see docs/gate13_cap1000_build_comparison.json. What remains uncovered here is one seed only: the re-check of 89b0744 measures 20261101, not all five.",
+  "first_build_off_recorded_band": "9f2c8e1"
+}

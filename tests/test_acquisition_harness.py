@@ -210,17 +210,25 @@ class TestGate13AcquisitionSufficiency:
         assert result["failure_reason"] is not None
 
     def test_raw_memory_holds_the_world_the_assertions_lack(self, gate13_frozen):
-        """Raw temporal coverage is high while asserted coverage is near zero.
+        """Raw temporal coverage is complete while the assertions hold far less of it.
 
         This is the discrimination the dual accounting exists for: the world
         was present in the organism's memory and the organism failed to assert
         it.  A harness measuring only the raw figure would pass here.
+
+        The second bound is a ratio between the two readings rather than a fixed
+        absolute: a harness scoring the raw figure would clear the gate's own
+        threshold while the asserted figure misses it by more than half of the
+        world.  A fixed bound here was a number tuned to one build of the engine,
+        and the carried-forward amendment moved the measurement past it
+        (docs/V1-FREEZE.md §6), so the assertion states the ratio instead.
         """
         result = gate13_frozen
         assert result["raw_temporal_coverage"] > 0.9
-        assert result["asserted_coverage"] < 0.3
+        assert result["asserted_coverage"] < SUFFICIENCY_THRESHOLD
+        # The raw reading holds more than twice the world edges the assertions do.
         assert (result["covered_temporal_edges"]
-                > result["covered_asserted_edges"])
+                > 2 * result["covered_asserted_edges"])
 
     def test_gate_passes_when_the_prediction_cap_is_raised(self, gate13_capped):
         """Attribution: the same gate passes when the Layer-1 cap is relaxed."""

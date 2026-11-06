@@ -328,9 +328,14 @@ def test_the_seed_block_is_preassigned_spares_named_and_substitution_closed(stag
 
     assert seeds["substitution_allowed"] is False
 
-    assert seeds["consumed_total"] == 234
+    # Derived, not typed: the aggregate must equal the union of the per-block
+    # seed lists, and the scan must cover every block it reports. Both identities
+    # are checked here so the guard cannot drift as new artifacts consume seeds.
+    assert seeds["consumed_total"] == len(
+        {seed for block in seeds["consumed_blocks"].values() for seed in block}
+    )
 
-    assert seeds["disjoint_proved_against"] == 80
+    assert seeds["disjoint_proved_against"] == len(seeds["consumed_blocks"])
 
     for path in seeds["consumed_blocks"]:
 

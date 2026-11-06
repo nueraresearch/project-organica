@@ -223,3 +223,21 @@ python benchmarks/probe_ranking_mechanism.py
 - `docs/gate13_capacity_sweep.json` — the capacity sweep
 - `docs/GATE13-CAUSAL-ACCOUNT.md`, `docs/GATE13-RELATION-SEPARATION.md` — the
   two records this extends
+
+---
+
+## 9. Later measurement: the tie block, and which criterion breaks it (2026-11-06)
+
+Post hoc, appended after the record above; §1–§8 are unchanged and no verdict here is re-scored.
+
+Measuring the world-vocabulary population directly (`docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.4–§8.5;
+artifact `docs/gate13_tiebreak_tests.json`) shows that the population contains all 112 world edges among
+240 rows — base rate 0.4667 — and that `temporal_count` is degenerate: 192 of the 240 rows share the same
+count. Among six computable orderings, the stored `ratio` is the only one that breaks that tie
+(39–48 distinct values against 9–14) and the only one above the base rate at top-20
+(0.5000–0.6000 against 0.4667; pooled 1.47 SE, directional).
+
+§3's conclusion stands for the table it measured: on the **raw** table `ratio` selects engine-vocabulary
+edges, because their source frequency is absent and the normalisation collapses. Read with §9, the two
+records say the failure has two separable parts — **contamination** and **tie-breaking** — and that the
+second is not visible until the first is held fixed.

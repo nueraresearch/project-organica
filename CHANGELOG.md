@@ -30,6 +30,388 @@ there is nothing to check out.
 
 ## [0.12.0] — (unreleased)
 
+### Added — Paper 07: the architecture's five predictions, three reversed (2026-11-06)
+
+- **The Tier-1 matrix and the Phase K ablations are written up as a manuscript.**
+  `papers/07_architecture_predictions_reversed.md` reports the five preregistered architecture
+  predictions direction-aware: P1 (retention) and P4 (dreams) supported; P2 (contradiction's
+  weight), P3 (question generation) and P5 (EIG) reversed. The contradiction colony is disclosed
+  as de-weighting rather than removing, M5 is named as a finite inventory over run length rather
+  than a velocity, and Phase K's three matched ablations all contain zero.
+- **The tables are checked, not typed.** `tests/test_reversals_paper_numbers.py` rebuilds the
+  verdict and Phase K rows from `docs/verdicts.json` and `docs/phase_k_results.json` and is itself
+  exercised against fabricated deltas, bounds and verdict labels.
+- **The manuscript inventory moves from seven files to eight, still with no DOI.** The count is
+  updated in `papers/README.md`, `README.md`, `docs/USER-MANUAL.md` (finding 30), `docs/FACTS-SHEET.md`
+  (AD2) and Paper 00's companion note; the draft is not in the deposit queue.
+
+### Changed — Papers 03 and 04 reconciled with Paper 07 (2026-11-06)
+
+- **Both mechanism papers now cite the ablation their own "next test" sections asked for, and say which
+  conditions it meets.** Paper 03 records the Tier-1 matrix against its five conditions: the exact quantity,
+  a mechanism-off control and equal budgets are met; an external outcome is not; the decision rule is met
+  only as a direction rule against a measured floor, since there is one seed per colony and one world.
+  Paper 04 records the matched no-dream arm against its evaluation list: equal-budget dream-on/off is met,
+  while the random-candidate control, the external outcome and the provenance split are not.
+- **The restated effect sizes are guarded.** +0.166, +1.266, +0.366 and -1.000 are checked against
+  `docs/verdicts.json` by `tests/test_reversals_paper_numbers.py`, which also asserts that both papers
+  cite Paper 07.
+
+### Fixed — Reproducibility repairs (2026-11-06)
+
+- **The three DI artifacts record a portable source path.** `di_construct_audit.json`,
+  `di_window_design.json` and `di_transition_construct.json` stored `str(Path)` as
+  `docs\phase_l_results.json` (Windows separators) together with a sha256 taken before the
+  source file's last edit, so `test_the_stored_artifact_is_current` failed on any other
+  host. The builders now record `as_posix()` and each artifact was regenerated; a
+  leaf-level comparison confirms only `source.path` and `source.sha256` changed — no
+  measurement moved.
+- **The tied-window tests no longer assume one SQLite tie order.** The window-rotation
+  wrapper rotated unconditionally, which displaces the stored row only when the build
+  sorts it first; on a build that sorts it last the manipulation silently stopped firing
+  and the test failed. It now displaces the stored row only when it is first, so the
+  rotated window always starts with an older tied row. The companion test no longer
+  asserts that the build's first row agreed with the stored row — an implementation
+  observation its own docstring disclaimed, not the claim under test; the per-store target
+  identity remains asserted.
+
+### Changed — Freeze amendment: carried-forward structures are not current-cycle evidence (2026-11-06)
+
+- **Owner-authorised amendment to the Organica 1 freeze.** `organica/sleep.py` re-admitted
+  every stable G2/G3 prior into the current cycle before natural selection, so a structure
+  that had stopped being produced was counted as re-emerging, reinforced +0.05 per cycle and
+  never decayed. The five carry-forward grafts now mark the re-admitted object
+  `carried_forward=True` (a transient field on the five dataclasses in
+  `organica/candidates.py`), and `organica/sleep_selection.py` excludes such structures from
+  the current-cycle key set and from re-storage. They remain in the report for downstream
+  layers and telemetry; the marker never reaches the store. Recorded in
+  `docs/V1-FREEZE.md` §6.
+- **Measured consequence.** Both arms of `benchmarks/candidate_supersession_probe.py` now
+  decay by ×0.8 and retire on their closed-form cycle, where the schema arm previously rose
+  to 1.0 and never retired.
+- The engine-file identity check already skips at package version ≥ 0.12.0, so no pin was
+  changed: the amendment is recorded, not enforced by editing the mechanism.
+- **Measured consequence on the frozen engine's own Gate 13.** Gate 13 reads its asserted
+  basis off the surviving candidate set, so the amendment moves that figure. On the harness's
+  default seed at 112 world edges: `e6d1bcc` 0.2321, the supersession reader alone
+  0.1964, the reader plus this amendment 0.3036 — raw temporal coverage is
+  112/112 in all three, and the gate still fires because 0.3036 is far below the 0.50
+  threshold. Every Gate 13 figure recorded before this amendment therefore describes the
+  pre-amendment engine; they are labelled as such in `docs/V1-FREEZE.md` §6 and are not
+  re-scored. Artifact: `docs/candidate_supersession_gate13_effect.json`.
+- **A harness bound restated as a claim rather than an absolute.**
+  `tests/test_acquisition_harness.py` asserted `asserted_coverage < 0.3` — a number tuned to the
+  pre-amendment build, which the amended engine clears. It now asserts that raw coverage
+  exceeds 0.9, that the asserted reading is below the gate's own 0.50 threshold, and that the
+  raw reading holds more than twice the world edges the assertions do.
+- **The Gate 13 cap-20 pilot range does not reproduce on later builds.** Re-running the paired
+  capacity test's control arm (`run_paired_condition`, `max_predictions=20`, the same five
+  diagnostic seeds and 112 world edges): as recorded on `89b0744` (2026-10-28)
+  0.0000–0.0268 with 0 of 5 seeds passing Gate 13; at `e6d1bcc`
+  0.6607–0.8125 with 5 of 5 passing; on the amended engine
+  0.4821–0.7500 with 4 of 5 passing. Bisected on seed `20261101`, the
+  first build off the recorded band is `9f2c8e1` (2026-11-04) — so the move predates the freeze
+  amendment, and the amendment's own effect on this basis is to lower the range by 0.06–0.18. Runs are
+  deterministic within a build and hash-seed independent. The re-check of `89b0744` covers one seed,
+  where it reads 1 of 112 against 0 of 112 recorded, and the cap-1000 treatment arm was not
+  re-run. Correction and the list of documents still quoting the old range:
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §5; artifact `docs/gate13_cap20_build_comparison.json`.
+- **The cap-1,000 treatment arm still holds, and the paired margin is narrower than the record
+  implies.** Re-running the treatment arm on the same five diagnostic seeds: recorded `89b0744`
+  0.9821–1.0000, `e6d1bcc` 1.0000–1.0000, amended engine 1.0000–1.0000 (5 of 5 pass, all at
+  112 of 112 world edges) — so 98.2–100 % is superseded upward to 100 % and the capacity account
+  survives the amendment. Against the amended control arm (0.4821–0.7500) the contrast is no longer
+  near-zero-to-full. The measurement sits at the metric's ceiling, so it says nothing about precision
+  (the 0.3438 ceiling is untouched) and covers five diagnostic seeds only.
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §6; artifact `docs/gate13_cap1000_build_comparison.json`.
+- **Precision measured at both caps, so the coverage ceiling cannot hide a quality change.** On the
+  final asserted set (`covered / asserted`, world vocabulary only): every arm on a later build sits
+  between 0.4155 and 0.4746, with amended medians of 0.4576 at cap 20 and 0.4571 at cap 1,000 against
+  0.4602 at `e6d1bcc`/cap 20 — flat, while recall rises from 0.4821–0.7500 to 1.0000. So the amendment
+  changes which structures are asserted and how many, not how often an asserted edge is real. This
+  quantity is not the 0.3438 Layer-1 selection-precision ceiling and is not comparable to it.
+  `docs/GATE13-PAIRED-CAPACITY-TEST.md` §7; artifact `docs/gate13_asserted_precision.json`.
+- **The capacity curve is swept, and the amendment's effect is a smaller asserted set, not a better
+  one.** Caps 1–1,000 on `89b0744`, `e6d1bcc` and the amended engine. Precision is flat across the
+  whole curve on both later builds (spans 0.0087 and 0.0118); the recorded build's
+  step is a step in asserted-set size (30–40 edges out to cap 50, then 68/128/243),
+  where its precision is a measurable zero because nothing world-aligned is asserted. Against
+  `e6d1bcc` the amendment lowers recall at every cap below 500 (0.5089 against 0.7143 at cap 1, 0.5357 against
+  0.7768 at cap 20) on a smaller asserted set (129 against 173 edges) with precision unchanged — so the
+  carried-forward copies included world edges, and the amendment is a scoring correction, not a
+  coverage gain. Against `89b0744` it is still a large gain at small caps (0.0000 to 0.5089 at
+  cap 1). New artifact `docs/gate13_cap_curve_by_build.json` and figure `docs/figure_gate13_capacity_curve_by_build.svg`; the Measured as difference ratios rather than as medians, the edges the cap adds are asserted at nearly the initial set's hit rate (marginal precision 0.4483 against 0.4651 on the amended engine; 0.4600 against 0.4591 at `e6d1bcc`), and the 190 edges the amendment drops at cap 1 include 87 world edges (pooled 0.4579 against 0.4651 retained) — it removes a sample of edges, not a sample of noise. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.3. The population it ranks is 240 vocabulary rows containing all 112 world edges (base rate 0.4667); 192 of 240 rows tie at count 10, and against a random draw of the same size the asserted set is at chance, so the plateau is the pool's composition and the constraint is rankability. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.4. Of six computable orderings only the stored `ratio` beats that base rate at top-20 (0.5000–0.6000, 1.47 SE, directional) and breaks the count tie; the engine's raw-count admission rule is -5.35 SE below chance. §8.5; `docs/gate13_tiebreak_tests.json`.
+- **Pre-registered, not authorised: the `ratio` admission arm.** `docs/GATE13-RATIO-ADMISSION-PREREGISTRATION.md` freezes arms, metrics M1–M5, seeds, predictions P1–P4 and the outcome table before any cell runs; no engine file is touched and no cell has run.
+  measurement document gains §8. The committed seed-keyed sweep `docs/gate13_capacity_sweep.json` is untouched.
+
+### Fixed — Candidate supersession (2026-11-06)
+
+- **`_load_prior_candidates` returns one live copy per identity.** The sleep rows are a
+  history — every surviving candidate is re-written each cycle — and the old reader
+  returned every copy, so the selector's maximum-value rule always picked the oldest
+  generation and Law VI decay could never be seen. The newest copy per id now supersedes
+  its predecessors (`organica/sleep_selection.py`).
+- **A prune writes a death record.** Natural selection stores a `retired: true` record with
+  the same id when a candidate falls below `DEATH_THRESHOLD`, so a pruned candidate stops
+  being loaded instead of being reloaded and re-decayed forever. Re-extraction still
+  supersedes the tombstone.
+- **Disclosed, not fixed:** the frozen `organica/sleep.py` re-admits stable G2/G3 priors
+  into the current cycle before selection, so those structures are reinforced every cycle
+  and still never decay. G1 candidates (concepts, phrases, loops, predictions) now do.
+  Decision `docs/DECISION-CANDIDATE-SUPERSESSION.md`; probe
+  `docs/candidate_supersession_probe.json`; manual §8.24.
+
+### Measured — the `ratio` admission arm: ordering, not capacity, is binding (2026-11-06)
+
+- The pre-registered arm ran 55 cells (three conditions, five diagnostic seeds, caps 10/20/100/1,000,
+  `PYTHONHASHSEED=0`). **P1, P2, P3 and P4 all pass**: at cap 20 the stored-`ratio` ordering beats the count
+  control's coverage on every seed (+0.0536 to +0.0804) while paired precision moves by
+  -0.0031 to 0.0313, and the largest tie falls from 0.8625 to
+  0.1375 of the pool.
+- Registered reading: admission is a binding constraint and capacity is downstream. Marginal precision runs
+  *lower* for the ratio arm (0.4444 against 0.4627 from cap 20 to
+  1,000) because it front-loads the pool; the saturated endpoint is identical.
+- Two corrections recorded: §8.4–§8.5's "the admission rule sorts by count" is the harness's rule, not the
+  engine's (`_build_predictions` sorts by target entropy first, then transition probability, then count) — the
+  engine's own rule at cap 100 is worse than count on both metrics; and seven treatment cells that reproduced
+  the control exactly were discarded as an ineffective instrument before any result was read.
+- No engine file, threshold, seed or prior claim changed. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.6,
+  `docs/GATE13-RATIO-ADMISSION-PREREGISTRATION.md` Amendment 2, `docs/gate13_ratio_arm.json`.
+
+### Proposed — confirmatory pre-registration for the `ratio` arm, with one open decision (2026-11-06)
+
+- `docs/GATE13-RATIO-CONFIRMATORY-PREREGISTRATION.md` fixes the arm exactly as run: 275 cells
+  (C/R at caps 10/20/100/1,000, E at 20/100/1,000), 25 seeds, `PYTHONHASHSEED=0`, and a liveness control that
+  voids the block if the treatment stops differing from the control.
+- Four predictions with thresholds fixed by the null, not by the development result: the directional count is
+  the exact one-sided sign-test threshold (21 of 25, p = 0.00046).
+- The requested range 20261106–20261130 is **not fresh**: all 25 seeds are named in 63 committed
+  files and it is the acquisition experiment's reserved confirmatory sample. Allocation B
+  (20270602–20270626) is verified unused across 440 scanned files and is pre-registered as the
+  default; the choice is recorded as the owner's decision.
+- Nothing ran, no seed is spent, no engine file changed.
+
+### Recorded — the `ratio` confirmatory block: treatment reproduces, control's chance premise does not (2026-11-06)
+
+- Ran on **allocation B** (20270602–20270626), the 25-seed range with zero occurrences across the 440 files
+  scanned, on the owner's ruling. 275 cells, arm unchanged, `PYTHONHASHSEED=0`.
+- **Verdict PARTIAL / NOT COMPARABLE** — the frozen table's last row, not a confirmation. C0, C2, C3, C4 pass; **C1 fails**:
+  the count-sorted control is below the frozen 0.4667 base rate on 22/25 seeds (median 0.4348),
+  so the development block's "count is at chance" reading is seed-dependent rather than a property of the
+  ranking. The treatment contrast itself reproduces: coverage up on 24/25 (median +0.0446, exact
+  one-sided p = 7.7e-07), tie broken 24/25, precision median +0.0128 and worst -0.0084.
+- No engine file, threshold or seed outside the block changed; the not-comparable verdict is reported as the
+  pre-registration required rather than re-read as a win. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.7.
+
+### Recorded — C1 failed on its own band: structural comparator, under-powered criterion (2026-11-06)
+
+- Diagnostic, **not confirmatory**: 200 seeds (20270701–20270900) on arm C at cap 20 only, through the
+  registered `run_cell` imported rather than reimplemented. Artifact `docs/gate13_control_precision_sweep.json`.
+- The frozen comparator is exact by construction: 240 pool rows containing 112 world edges on every seed, so
+  0.4667 is the pool's composition and not a development-block accident.
+- The control is mildly anti-selective rather than at chance: precision mean 0.4449 (CI 0.4397–0.4500), sd 0.0376,
+  below base on 71.0% of seeds (offset -0.0218, t -8.2).
+- ±0.05 covers 81.5% of seeds, so C1's 21-of-25 bar had a 49.7% chance of passing on a matching population;
+  the block's 18/25 is z -1.2 (P = 0.17) and its mean sits at the 32.0th percentile. The §8.7 verdict is unchanged —
+  the characterisation sits beside it, per the rule that a verdict and a characterisation are separate artifacts.
+
+### Recorded — C1 re-specified as a calibrated equivalence test (2026-11-06)
+
+- Amendment 1 to `docs/GATE13-RATIO-CONFIRMATORY-PREREGISTRATION.md`: C1 becomes an equivalence test on the
+  block mean — pass iff mean cap-20 control precision over 25 seeds is within δ = 0.032 of the structural 0.4667
+  (band [0.4347, 0.4987]) — instead of a per-seed ±0.05 band on 21 of 25, which §8.8 showed passes 49.7% of the time
+  on a matching population.
+- δ is fixed from the 200-seed sweep alone: the smallest 0.001-grid margin with ≥90% bootstrap coverage
+  (90.8%; closed form 0.0315), stable at 0.0269–0.0367 under resampling of the calibration data.
+- Costs and blind spots are stated in the amendment rather than left implicit: 0.0102 of systematic shortfall is
+  absorbed (1.4 se, pass < 50% at a -0.011 shift), and the criterion is blind to dispersion. Prospective only;
+  the confirmatory verdict is untouched. `benchmarks/derive_c1_respecification.py`, `docs/gate13_c1_respecification.json`.
+
+### Recorded — block 2: first comparable block, treatment not reproduced (2026-11-06)
+
+- Pre-registered before the first cell on fresh seeds 20270901-20270925 (275 cells, C1′ frozen at δ = 0.032).
+- C1′ **passes** for the first time: mean cap-20 control precision 0.4530, -0.0137 from 0.4667, inside
+  [0.4347, 0.4987] — the control behaves like the calibrated population, so the treatment comparison is interpretable.
+- **C3 fails at 20/25** (exact one-sided p = 0.002, median Δ +0.0535) against the 21-of-25 bar;
+  C0 and C2 pass (22/25 at ≥3×), C4 passes thresholds but its median collapses to +0.0003 from +0.0128.
+- Verdict **TREATMENT NOT REPRODUCED**, decisive per the owner's authorisation and not re-scored; the nominal p-value is
+  reported beside the miss, not in place of it. Cap-1,000 coverage short of the full pool on 4 seeds (disclosed).
+  `docs/GATE13-RATIO-BLOCK2-PREREGISTRATION.md`, `docs/gate13_ratio_block2.json`, `benchmarks/score_ratio_block2.py`.
+
+### Analysed — the 20/5 split is not a pool-structure effect (2026-11-06)
+
+- Block 2's five non-improving seeds are indistinguishable from the twenty that improved on every pool property measured:
+  tie-block rows (201 vs 202, p =
+  0.9016), distinct ratio values (41 vs
+  44, p = 0.9674), ratio-to-count distinct ratio
+  (3.42 vs 3.64, p =
+  0.4518) and control precision (0.4625 vs
+  0.4357, p = 0.3582).
+- Top-20 density uplift does differ (0.25 vs 0.10, p =
+  0.0558) and correlates weakly with the coverage delta (pooled r = 0.362,
+  r² = 0.131; block 2 alone 0.297, interval spanning zero) — but
+  2 of the five failures still got a denser top-20, and the largest loss (20270921,
+  -0.0446) got no uplift at all. A better ranking is necessary-looking and not sufficient.
+- The only variable that separates at conventional levels, the ratio arm's asserted-set size (p =
+  0.0333), is downstream of the outcome rather than a property of the pool, so it explains nothing.
+- Explicitly exploratory: groups defined by the outcome, n = 5 failures, no pre-registered criterion, no verdict re-scored.
+  Confirming a moderator needs a fresh allocation and a bar fixed in advance.
+  `benchmarks/diagnose_ratio_seed_split.py`, `docs/gate13_ratio_seed_split.json`.
+
+### Analysed — a verified replay finds no admission-side difference in the 20/5 split (2026-11-06)
+
+- The cap-20 cells for the five non-improving seeds and five uplift-matched improving seeds were replayed with every
+  per-cycle admission window recorded; **all 20 replays reproduce** the stored asserted set, covered count and
+  digest, so the traces are the cells that were scored.
+- The ratio window is about 1.7× as often a world edge per cycle as the count window, but it reaches
+  26-41 distinct edges against 76-87: it
+  trades exploration for repetition (about 4.2× per edge) instead of finding more.
+- Failing and improving seeds do not differ on admissions (802.4 vs
+  732.4), distinct window edges (30.6 vs
+  33.8) or asserted rows (123.0 vs 151.2); the failing seeds
+  repeat world edges slightly more and end with fewer covered edges (55.2 vs 70.6).
+  The cap is not where the 20/5 difference lives.
+- Coverage exceeds window reach in 10 of 10 ratio cells
+  (62.9 covered, 41.3 outside any window) against 1 of
+  10 for the count arm (60.2, 12.4), because `structure_edges` aggregates all six
+  structure types and the window touches only some — a resolution boundary, recorded rather than bridged.
+- Exploratory: no pre-registered criterion, no verdict re-scored. The remaining question moves downstream of admission,
+  to how repeated assertions are consolidated. `benchmarks/diagnose_assertion_path.py`,
+  `benchmarks/analyze_assertion_path.py`, `docs/gate13_assertion_path.json`.
+
+### Analysed — loops carry the coverage, the ratio effect is temporal, and the 20/5 split is redundancy (2026-11-06)
+
+- A store-time observer captured every `event_type="sleep"` payload as written and attributed each covered world edge to
+  the structure type(s) asserting it; **all 20 cells verify** against the stored digest, against `structure_edges` on the
+  database's own candidate list, and against every per-edge weight.
+- `loop_candidate` carries 27-89 of the covered edges and is **identical across arms on all
+  10 seeds** (max difference 0) — loops are built from the stream and are not what the cap ranks.
+- The whole treatment effect is `prediction_candidate`: 6.2 to
+  11.8 in failing seeds, 8.2 to
+  13.6 in improving ones. What separates them is redundancy: loop/prediction overlap rises
+  1.4 to 8.8 where seeds fail and falls 5.2 to
+  3.6 where they improve.
+- This closes §8.12's boundary: coverage outside the admission window is loop coverage, and loops are not the object the
+  window ranks. Admission is a conditional bottleneck — worth something when the temporal edges it selects are not
+  already in the loops.
+- Recorded wording defect, not a code change: `structure_edges` documents "six structure types" but has eight branches
+  (`concept_candidate` and `phrase_candidate` share one).
+- Exploratory, final-set composition rather than time order, no criterion and no verdict re-scored.
+  `benchmarks/diagnose_structure_provenance.py`, `docs/gate13_structure_provenance.json`.
+
+### Pre-registered — loop-redundancy moderator block (frozen, unrun) (2026-11-06)
+
+- Block 3 freezes the §8.13 mechanism as a prediction about *which seeds* the ratio arm should help: pre-treatment loop
+  coverage of the world (`r_s`, the share of the world's edges the control's loop candidates already assert) should predict
+  the gain. Seeds 20271101-20271200 (100 seeds, zero occurrences in the tree; 20271001 onward rejected for
+  2 pre-existing hits), C and R at cap 20, 200 cells, nothing run.
+- Threshold 0.509 and all bars are fixed from the 10 calibration seeds, which the block does not contain. Gates: arm
+  liveness, C1′ comparability, and loop invariance across arms (a failed gate voids rather than negatives the block).
+- Power is published **before** the data: 0.327 joint for M1 and M2 against a mechanism-sized moderator,
+  0.002 at no association. The decision table therefore reads a pass as strong evidence and a miss as weak
+  evidence against the mechanism — and the document says so in those words.
+- Disclosed honestly: on the 10 calibration seeds the covariate's association is **+0.22**, the wrong sign
+  for the mechanism. The block tests the proxy against that hint rather than with it.
+- `benchmarks/run_redundancy_block.py` self-tested on the excluded seed 20270901 and reproduces block 2's asserted sets,
+  coverages and digests for both arms before the freeze.
+- `docs/GATE13-RATIO-REDUNDANCY-PREREGISTRATION.md`, `benchmarks/run_redundancy_block.py`,
+  `benchmarks/calibrate_redundancy_moderator.py`, `docs/gate13_redundancy_moderator_calibration.json`.
+
+### Gate 13 block 3 run (2026-11-06) — redundancy moderator retired
+
+- **Scored once, exactly as pre-registered.** 200 cells on the first unused 100-seed run (20271101-20271200), C and R
+  at cap 20, bars and threshold (0.509) fixed before the first cell, `loop_hash` recorded under Amendment 1
+  so G2 could compare loop attribution across arms rather than by count.
+- **Gates held.** Arms differed on 100/100 seeds, mean control precision 0.4444 sat
+  inside the C1′ band [0.4347, 0.4987], loop edge sets were identical on
+  100/100 seeds.
+- **Verdict: MODERATOR NOT SUPPORTED.** M3 passed — 88/100 seeds gain, mean 0.0442 coverage — so the effect
+  replicates for the third time, but M1 failed in the registered direction (0.0357 low vs
+  0.0536 high redundancy, bar +0.03) and M2 failed (Spearman -0.02,
+  CI [-0.243, 0.185], bar -0.25 outside it). Pre-run loop redundancy is not the moderator, and the
+  20/5 split is open again to a different covariate; no earlier verdict moved.
+- `benchmarks/score_redundancy_block.py`, `benchmarks/write_redundancy_block3_record.py`,
+  `docs/gate13_redundancy_block3.json`, §8.14 capacity record, §12-§13 pre-registration.
+
+### Gate 13 block 4 run (2026-11-06) — voided by measurability
+
+- **Pre-registered, run once, voided by its own gate.** Covariate `o_s` = share of the control's world-covered temporal
+  edges that its loops already assert (the §8.13 overlap pattern, which block 3's total-loop-count proxy did not test).
+  200 cells on fresh seeds 20271202-20271301, threshold 0.3095, bars and power fixed before the first cell.
+- **G0 and G1 pass; G2 fails at 87/100 measurable.** The denominator can be absent — the control
+  asserted fewer than 3 temporal world edges on 13 seeds — so the share is undefined there and saturated elsewhere
+  (0.7191 mean, 78 of 87 above threshold). Excluded rather than imputed, which left
+  too few seeds to test the registered split.
+- **Verdict VOID / NOT COMPARABLE; no criterion read.** The positive association on measurable seeds (Spearman 0.389, mean gain
+  0.0494, 81/87 positive) is recorded as descriptive only, not as support.
+- The lesson is about design: a covariate expressed as a share needs its denominator proven non-degenerate before the
+  freeze. `benchmarks/run_temporal_redundancy_block.py`, `benchmarks/score_temporal_redundancy_block.py`,
+  `docs/gate13_temporal_redundancy_block4.json`, §8.15 capacity record, §12 pre-registration.
+
+### Gate 13 block 5 run (2026-11-06) — the repaired covariate gets a verdict
+
+- **The block-4 covariate, specified properly.** `o_s` = share of the control's world-covered temporal edges its loops
+  already assert, with the measurability floor lowered from 3 to 1 and the cut chosen by a balance rule over 110
+  non-judged cells rather than the median of ten seeds. Cut 0.75, calibration halves 53/56, fresh seeds 20271403-20271502,
+  200 cells, pre-registered with a new G3 gate that block 4 needed and lacked.
+- **Gates: all four pass.** G2 measures 99/100 defined at
+  floor 1, against 87/100 at floor 3; G3 splits 42/57, against 9/78.
+- **Verdict DIRECTIONAL ONLY.** M2 Spearman 0.407 (CI [0.219, 0.576], bar 0.25); M1 +0.0268 on
+  42/57 (bar 0.03); M3 88/99. M1's low power
+  (0.283 at the calibrated effect) is published in §8 of the
+  pre-registration, not discovered after the fact.
+- **A rejected candidate, on the record.** The count `|L ∩ P ∩ W|` — §8.15's recommendation — is always defined but
+  associates at 0.241 with an expected half-split gap of 0.015, so it was rejected at calibration rather than frozen into
+  a null.
+- `benchmarks/calibrate_temporal_redundancy_b5.py`, `benchmarks/write_temporal_redundancy_b5_prereg.py`,
+  `benchmarks/score_temporal_redundancy_b5.py`, `docs/gate13_temporal_redundancy_block5.json`, §8.16 capacity record.
+
+### Gate 13 block 6 run (2026-11-06) — the moderator question becomes an intervention
+
+- **The arm §10 named, run once.** Y is R at the same construction, cap, world and readout, with one extra admission
+  step: a candidate whose edge a loop asserts that cycle sorts after one that no loop asserts. 300 cells,
+  seeds 20271614-20271713, arms C, R, Y.
+- **Dose finding, before the freeze.** Reordering (X) and reserving the cap (Y) produced identical effects on all ten
+  calibration seeds — with ≥20 non-loop candidates the two are the same function — so the block tested the strongest
+  form of the preference, not a weak one.
+- **Criterion chosen from the calibration, disclosed.** The effect is zero on half the seeds and 0.027–0.063 on the
+  rest, so median and sign criteria were near-blind (~3% power); the primary criterion is the paired mean, bar 0.01
+  (one fifth of R's gain over C), sitting 2.46 standard errors below the calibrated mean with 0.997
+  power.
+- **Gates: G0 failed.** G0 62/100 Y≠R, G0b
+  100/100 C≠R, G1 0.4441 in band, G2 100/100
+  displaced.
+- **Verdict VOID / NOT COMPARABLE.** Mean Y − R 0.0095 (CI [0.00679, 0.0124]), median 0.0000,
+  43/100 positive; M2 novel +1.0 (CI [0.75, 1.36]), loop-covered change
+  +0.02. Coverage over C: 0.0481 (R) → 0.0576 (Y).
+- `benchmarks/run_loop_free_admission_block.py`, `benchmarks/score_loop_free_block6.py`,
+  `docs/gate13_loop_free_block6.json`, §8.17 capacity record.
+
+### Gate 13 block 7 run (2026-11-06) — the same arm, a gate that can fire
+
+- **Only G0 changed.** Block 6's void was a bar its own calibration could not reach (96/100 against a 6/10 rate); block
+  7 sets G0 to 50/100, calibrated to the pooled liveness 0.6182 over 110 non-judged pairs,
+  and keeps the arm, world, cap, readout, C1′ band, G2, M1's 0.01 bar and M2 unchanged.
+- **300 cells on fresh seeds 20271715-20271814.** G0 72/100, G0b
+  100/100, G1 0.4427 in band, G2 100/100:
+  all pass.
+- **Verdict INTERVENTION SUPPORTED.** Mean Y − R 0.0127 (CI [0.0092, 0.01652]); M2 novel +1.4 (CI [0.98, 1.8]).
+  M1's low power was pre-registered (pooled mean 0.0100 against the 0.01 bar) rather than
+  discovered after the fact.
+- `benchmarks/score_loop_free_block7.py`, `docs/gate13_loop_free_block7.json`, §8.18 capacity record.
+
+### Gate 13 block 8 run (2026-11-06) — does the gain scale with the cap?
+
+- **Arms R and Y at caps 40 and 100**, 100 fresh seeds (20271826-20271925), 400 cells.
+  The runner gained a `--caps` option; the cap-20 self-test and a replayed cap-20 cell were checked to be identical to
+  block 7 before the run.
+- **Gates:** G0 liveness 86/100 and 100/100 (bar 50), G1 perturbation 100/100 and 100/100 (bar 96), G2 axis live
+  0.0942 (0.0867, 0.1023): all pass.
+- **Verdict SCALING SUPPORTED.** M1 mean DiD 0.0240 (0.0196, 0.0285) against
+  0.0100; M2 positive at both caps: cap 40: 0.0179 (interval 0.0144 to 0.0218), cap 100: 0.0420 (interval 0.0369 to 0.0472).
+- **Disclosed launcher defect:** the run also executed arm C, which the design excludes. Those cells are unregistered and unjudged, kept apart, and the scored grid is exactly the 400 registered R/Y cells.
+- `benchmarks/score_loop_free_cap.py`, `docs/gate13_loop_free_cap.json`, §8.19 capacity record.
+
 ### Changed — Organica engine development on master (2026-11-04)
 
 ### Added — Relational Schema Layer & Role Abstraction (2026-11-04 / 2026-11-05)

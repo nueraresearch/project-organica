@@ -56,16 +56,39 @@ class SleepSelectionMixin:
         return graph
 
     def _load_prior_candidates(self) -> list[dict]:
+        """Return one live copy per candidate identity: the newest generation.
+
+        Every surviving candidate is re-stored each cycle -- reinforced when it
+        re-emerges, decayed under Law VI when it does not -- so the sleep rows hold the
+        whole history of every identity: an old copy at the formation confidence sits
+        beside the copy that has decayed to 0.16. Reading those rows as if each copy
+        were a candidate made decay unobservable (the selector takes the maximum
+        confidence, which is always the oldest copy) and made pruning reversible (the
+        last copy above the threshold was reloaded and re-decayed forever).
+
+        Keeping the newest copy per id lets a generation supersede its predecessors, and
+        a death record (D2) lets a pruned candidate stay dead. See
+        docs/DECISION-CANDIDATE-SUPERSESSION.md.
+        """
         if getattr(self, "_prior_cache", None) is not None:
             return self._prior_cache
-        events = self.memory.recent(n=4000, event_type="sleep")
-        candidates = []
+        events = self.memory.recent(n=4000, event_type="sleep")  # newest first
+        candidates: list[dict] = []
+        seen: set[str] = set()
         for e in events:
-            if e.source.startswith("sleep:") and e.source != "sleep:meta":
-                try:
-                    candidates.append(json.loads(e.content))
-                except (json.JSONDecodeError, ValueError):
-                    pass
+            if not (e.source.startswith("sleep:") and e.source != "sleep:meta"):
+                continue
+            try:
+                candidate = json.loads(e.content)
+            except (json.JSONDecodeError, ValueError):
+                continue
+            key = candidate.get("id") or json.dumps(candidate, sort_keys=True)
+            if key in seen:
+                continue
+            seen.add(key)          # an older copy never supersedes a newer one
+            if candidate.get("retired"):
+                continue           # the death record wins; no resurrection from history
+            candidates.append(candidate)
         return candidates
 
     def _count_prior_cycles(self, prior: list[dict]) -> int:
@@ -104,20 +127,33 @@ class SleepSelectionMixin:
         for p in predictions:
             current_keys.add(f"prediction:{p.source}|{p.target}")
         # G2
+        # A structure carried forward from the prior is a VIEW of past state, not
+        # evidence produced this cycle (docs/V1-FREEZE.md §6). Counting it as current
+        # would reinforce it every cycle, so it could never decay or die.
         for m in (meta_concepts or []):
+            if getattr(m, "carried_forward", False):
+                continue
             if m.anchor_tag:
                 current_keys.add(f"meta_concept:{m.anchor_tag}")
         for p in (processes or []):
+            if getattr(p, "carried_forward", False):
+                continue
             if p.cycle:
                 current_keys.add(f"process:{'|'.join(sorted(p.cycle))}")
         for r in (roles or []):
+            if getattr(r, "carried_forward", False):
+                continue
             if r.exemplars:
                 current_keys.add(f"role:{'|'.join(sorted(r.exemplars))}")
         # G3
         for w in (workflows or []):
+            if getattr(w, "carried_forward", False):
+                continue
             if w.components:
                 current_keys.add(f"workflow:{'|'.join(sorted(w.components))}")
         for s in (schemas or []):
+            if getattr(s, "carried_forward", False):
+                continue
             if s.source_exemplars and s.target_exemplars:
                 current_keys.add(self._schema_key(s.source_exemplars, s.target_exemplars))
         # G4
@@ -166,6 +202,12 @@ class SleepSelectionMixin:
                 new_conf = prior_conf * 0.8
                 if new_conf < self.DEATH_THRESHOLD:
                     pruned += 1
+                    # A death record supersedes the last live copy (decision D2).
+                    # Without it the newest copy above the threshold would be reloaded
+                    # every cycle and decayed again from the same confidence, so the
+                    # candidate could never actually die.
+                    self._store_single_candidate(
+                        self._retired_record(prior_c, new_conf))
                 else:
                     decayed += 1
                     decayed_candidate = dict(prior_c)
@@ -190,6 +232,22 @@ class SleepSelectionMixin:
         longer collapse to one schema key (decision docs/DECISION-EARNED-SCHEMA-PRIMING.md D3).
         """
         return f"schema:{'|'.join(sorted(exemplars_a))}->{'|'.join(sorted(exemplars_b))}"
+
+    @staticmethod
+    def _retired_record(prior_c: dict, terminal_conf: float) -> dict:
+        """Build the death record that supersedes a pruned candidate's last live copy."""
+        record = dict(prior_c)
+        record["generation"] = prior_c.get("generation", 1) + 1
+        record["retired"] = True
+        if "confidence" in record:
+            record["confidence"] = round(terminal_conf, 4)
+        if "strength" in record:
+            record["strength"] = round(terminal_conf, 4)
+        evidence = dict(record.get("evidence", {}))
+        evidence["retired_from"] = round(
+            prior_c.get("confidence", prior_c.get("strength", 0)), 4)
+        record["evidence"] = evidence
+        return record
 
     def _candidate_key(self, c: dict) -> str:
         """Return a stable content-identity key for a candidate, used by natural selection."""
@@ -348,18 +406,24 @@ class SleepSelectionMixin:
             self._store_single_candidate(asdict(p))
         for a in report.anomalies:
             self._store_single_candidate(asdict(a))
-        # Layer 2
+        # Layer 2 / Layer 3.  A carried-forward structure already has its row; re-writing
+        # it after natural selection would reinstate the pre-decay value as the newest
+        # copy and undo the decay it just went through (docs/V1-FREEZE.md §6).
         for m in report.meta_concepts:
-            self._store_single_candidate(asdict(m))
+            if not getattr(m, "carried_forward", False):
+                self._store_single_candidate(asdict(m))
         for p in report.processes:
-            self._store_single_candidate(asdict(p))
+            if not getattr(p, "carried_forward", False):
+                self._store_single_candidate(asdict(p))
         for r in report.roles:
-            self._store_single_candidate(asdict(r))
-        # Layer 3
+            if not getattr(r, "carried_forward", False):
+                self._store_single_candidate(asdict(r))
         for w in report.workflow_concepts:
-            self._store_single_candidate(asdict(w))
+            if not getattr(w, "carried_forward", False):
+                self._store_single_candidate(asdict(w))
         for s in report.schemas:
-            self._store_single_candidate(asdict(s))
+            if not getattr(s, "carried_forward", False):
+                self._store_single_candidate(asdict(s))
         # Layer 4
         for h in report.hypotheses:
             self._store_single_candidate(asdict(h))
@@ -379,6 +443,9 @@ class SleepSelectionMixin:
             self._store_single_candidate(asdict(exp))
 
     def _store_single_candidate(self, candidate: dict):
+        # The carried-forward marker is a property of this cycle's view, never of the
+        # stored record (docs/V1-FREEZE.md §6).
+        candidate = {k: v for k, v in candidate.items() if k != "carried_forward"}
         ctype = candidate.get("type", "unknown")
         self.memory.store(
             json.dumps(candidate),
