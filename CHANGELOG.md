@@ -30,6 +30,17 @@ there is nothing to check out.
 
 ## [0.12.0] — (unreleased)
 
+### Changed — Built paper artifacts are kept out of the repository (2026-11-06)
+
+- **The rendered PDFs and deposit zips are release payloads, not repository files.**
+  `artifacts/` carried two manuscript PDFs and two deposit zips (1.9 MB) that no script writes
+  at that path and no document references, while `benchmarks/deposit_bundle.py` builds the
+  deposit into `.scratch/deposit/` with a `MANIFEST.json` and `SHA256SUMS` per record. Every
+  manuscript, figure and cited artifact the bundles are built from is tracked, so the directory
+  is now gitignored and a second copy cannot drift from its sources. The bundles are attached to
+  the release/Zenodo record when the version is cut. `docs/figure_p0*.pdf` remain tracked because
+  the manuscripts cite those figures and `benchmarks/figure_papers.py` regenerates them.
+
 ### Added — Paper 07: the architecture's five predictions, three reversed (2026-11-06)
 
 - **The Tier-1 matrix and the Phase K ablations are written up as a manuscript.**

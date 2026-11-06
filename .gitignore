@@ -40,3 +40,11 @@ INTERVAL
 # (".scrcratch" instead of ".scratch"). Kept on disk so nothing is lost, but
 # it is scratch, not a deliverable, and must not enter the repository.
 .scrcratch/
+
+# Built paper artifacts (rendered PDFs, deposit zips, machine-pass bundle).
+# `benchmarks/deposit_bundle.py` builds the deposit into `.scratch/deposit/`,
+# and every manuscript, figure and artifact these are rendered from is tracked.
+# The bundles themselves are release/Zenodo payloads: they are attached to the
+# record, not committed, so the repository never carries a second copy that can
+# drift from the sources it was built from.
+artifacts/
