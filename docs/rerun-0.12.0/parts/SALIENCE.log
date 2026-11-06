@@ -1,0 +1,11 @@
+G1 code-path verification:
+  FULL                 policy=alphabetical   scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0
+  SALIENCE             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0
+  NO_CONTRADICTIONS    policy=salience       scale=0.0   Q=0   D=8   E=5   beliefs=6   theories=0
+  NO_QUESTIONS         policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0
+  NO_DREAMS            policy=salience       scale=1.0   Q=0   D=0   E=0   beliefs=6   theories=0
+  ANTI_EIG             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0
+  !! FULL produced no theories -- the reference arm is broken
+SALIENCE             TDC=0.012 QDC=0.012 CD=132.062 CS=0.0 DV=1.9 gen=8 life=60.056 psi_b=-4.6923 rev=0 (151.2s)
+
+wrote docs/rerun-0.12.0/parts/SALIENCE.json

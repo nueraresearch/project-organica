@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.12.0** (cut 2026-11-06) · v0.10.0 is the previous tag · v0.9.0 the latest published release |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.12.1** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -27,6 +27,26 @@ entry is marked `(unreleased)` is allowed to have no tag yet, because
 there is nothing to check out.
 
 ---
+
+## [0.12.1] — (unreleased)
+
+### Added — The temporal-decay confirmation harness and its pre-registration (2026-11-06)
+
+- **`benchmarks/decay_confirmation.py`** implements the pre-registered confirmation of the
+  transition-probability strength: a measured-degree world audit, a threshold calibrated on a
+  separate seed block and sealed with a sha256, held-out stationary/shift/task cells, and a
+  conjunctive analysis that returns a named rejection instead of a weak pass.
+  `tests/test_decay_confirmation.py` produces every rejection label, so no gate is decoration.
+- **`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md`** fixes the protocol before any cell,
+  with three dated pre-run amendments: the shipped arm's closed-form `1/N` ceiling at degree
+  4 and above, the measured even degree ladder (2/4/6/12) with scan-chosen seed blocks, and
+  non-inferiority to the strongest simple baseline on the task endpoint.
+- The four-option decay measurement (`docs/DECAY-FIX-OPTIONS.md`,
+  `docs/prediction-decay-options.json`), the 0.9.0/0.12.0 comparison pre-registration, the
+  0.12.0 engine identity record and its test are recorded alongside it.
+- **The engine is unchanged.** Option 2r remains a lead candidate, not an adopted fix, and no
+  paper result is updated; the version moves only because `v0.12.0` is tagged at `5804e60`
+  and master must not drift past a release it still declares.
 
 ## [0.12.0] — (2026-11-06)
 
