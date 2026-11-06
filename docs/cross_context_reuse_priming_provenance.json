@@ -1,0 +1,28 @@
+{
+  "kind": "ccre_priming_provenance_probe",
+  "what_this_is": "Single-seed diagnostic separating priming applied by a pre-B arm's schema from priming applied by the arm's own emerging Context B schema. Not part of the five-seed CCRE artifact; n = 1 per arm.",
+  "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+  "seed": 20261101,
+  "phase_a_cycles": 40,
+  "phase_b_cycles": 40,
+  "records": [
+    {
+      "arm": "treatment",
+      "phase_a_schemas": 18,
+      "acq_cycle": 4,
+      "acq_rank": 7,
+      "primed_by_phase_a_schema": 162,
+      "primed_by_own_schema": 270,
+      "seconds": 28.6
+    },
+    {
+      "arm": "control_orthogonal",
+      "phase_a_schemas": 3,
+      "acq_cycle": 4,
+      "acq_rank": 1,
+      "primed_by_phase_a_schema": 92,
+      "primed_by_own_schema": 317,
+      "seconds": 27.1
+    }
+  ]
+}

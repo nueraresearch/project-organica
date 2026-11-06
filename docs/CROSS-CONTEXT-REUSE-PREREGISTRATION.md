@@ -90,3 +90,27 @@ flowchart TD
 | **Transient Transfer** | R1–R4 satisfied, but R5 fails ($\text{TP} < 5$) | Immediate acceleration occurs, but structure decays rapidly; fails long-term integration. |
 | **Null Transfer (Ballast)** | $\text{TR} \approx 1.0$ ($0.95 \le \text{TR} \le 1.05$) | Structures accumulate but do not perform cross-context cognitive work (environmental sediment). |
 | **Negative Interference** | $\text{TR} < 0.90$ ($p < 0.05$) | Prior structure hinders novel acquisition (overfitting/rigidity). |
+
+---
+
+## 6. Amendment 1 (2026-11-05) — amendment and disclosure, §5 untouched
+
+**Disclosed defect.** §5 was applied by a harness whose acquisition rule admitted a prediction
+on a schema-derived count boost rather than on observed evidence, and whose schema identity did
+not distinguish Context A from the orthogonal Context C. The five-seed run labelled
+`REUSE_DEMONSTRATED` is therefore **withdrawn as a transfer result**; its artifact is preserved
+unmodified and reclassified as a threshold-substitution measurement.
+
+**What replaces it.** Acquisition requires `temporal_count >= PREDICTION_MIN_COUNT` on the
+prediction itself (decision `docs/DECISION-EARNED-SCHEMA-PRIMING.md`, D1 and D4). A schema prior
+may reorder admissible candidates but may never admit one (D2), and schema identities carry their
+role exemplars so a context can be identified (D3).
+
+**Predictions registered before the rerun.** P1 treatment `TR <= 1.05`; P2 orthogonal within
+0.05 of treatment; P3 priming active in treatment and absent in naïve/pruned. **P3 failed as
+worded**: every arm forms its own Context B schema, which then primes that arm's own predictions
+(naïve and pruned both record primed counts). The corrected diagnostic — priming by the *pre-B*
+schema — is reported separately in `docs/cross_context_reuse_priming_provenance.json`.
+
+**Status.** The §5 bar (`TR > 1.25`, `p < 0.01`, 10 seeds, R1–R5) remains unmet and is not
+claimed. No seed is added or re-drawn: both runs use the pre-assigned block 20261101–20261105.

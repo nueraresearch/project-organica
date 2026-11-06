@@ -131,12 +131,20 @@ ALLOCATION_ARTIFACT = ROOT / "docs" / "stage_b_allocation.json"
 RESULT_ARTIFACT = ROOT / "docs" / "stage_b_runner.json"
 RERUN_ARTIFACT = ROOT / "docs" / "stage_b_rerun_check.json"   # names four block seeds
 JITTER_ARTIFACT = ROOT / "docs" / "stage_b_jitter_diagnostic.json"  # names 71 block seeds
+# The cross-context experiment's earned-evaluation records re-measure the seed block that
+# docs/cross_context_reuse_benchmark.json already consumes: the earned run reuses the same
+# five pre-assigned seeds after a measurement change, and the priming-provenance probe is a
+# single-seed diagnostic on that block. Excluding them keeps one artifact per block; the
+# guard test asserts every seed they name is already in the base artifact, so the exclusion
+# cannot hide a new block.
+EARNED_CCRE_ARTIFACT = ROOT / "docs" / "cross_context_reuse_benchmark_earned.json"
+PRIMING_PROVENANCE_ARTIFACT = ROOT / "docs" / "cross_context_reuse_priming_provenance.json"
 EXCLUDED_ARTIFACTS = (SELF_ARTIFACT, ALLOCATION_ARTIFACT, RESULT_ARTIFACT, RERUN_ARTIFACT,
-                      JITTER_ARTIFACT)
+                      JITTER_ARTIFACT, EARNED_CCRE_ARTIFACT, PRIMING_PROVENANCE_ARTIFACT)
 
 
 def _consumed_seeds() -> dict[str, list[int]]:
-    """Seed integers in every docs/ artifact except the five that record the block.
+    """Seed integers in every docs/ artifact except those that record or re-measure the block.
 
     This artifact records the candidate block and the allocation record carries it, so
     scanning either would make the block overlap itself; the assembled result, the
@@ -699,7 +707,11 @@ def build() -> dict:
             "self_artifact_excluded": "docs/stage_b_protocol.json, "
                                       "docs/stage_b_allocation.json and "
                                       "docs/stage_b_runner.json, because each records "
-                                      "this block and would otherwise overlap it",
+                                      "this block and would otherwise overlap it; plus "
+                                      "docs/cross_context_reuse_benchmark_earned.json and "
+                                      "docs/cross_context_reuse_priming_provenance.json, "
+                                      "which re-measure the block already consumed by "
+                                      "docs/cross_context_reuse_benchmark.json",
             "harvest_rule": "every integer under a key naming a seed, including "
                             "integers held in lists; the earlier walker missed "
                             "list-held seeds and undercounted the corpus",

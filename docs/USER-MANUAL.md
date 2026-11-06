@@ -2495,6 +2495,22 @@ protocol §7 and §12, finding 39, journal §65.
 
 ---
 
+<!-- ccre-earned:start -->
+### 8.23 The cross-context experiment: the schema layer primes, but only reorders
+
+**Recorded 2026-11-05.** Decision [`docs/DECISION-EARNED-SCHEMA-PRIMING.md`](DECISION-EARNED-SCHEMA-PRIMING.md); results [`docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`](CROSS-CONTEXT-REUSE-EARNED-RESULTS.md).
+
+The 0.12.0 schema layer reported `REUSE_DEMONSTRATED` from a five-seed run. Two things were wrong with that reading. Its speedup came from a boost that pushed a one-transition edge past `PREDICTION_MIN_COUNT`, keyed only on *some* schema existing; and its schema identity depended on the role names alone, so Context A and the orthogonal Context C produced the same schema id — the two arms were identical on four of five seeds, persistence included.
+
+**What the engine does now.** A prediction is admitted only on its own evidence (`temporal_count >= PREDICTION_MIN_COUNT`). A schema may reorder admissible candidates and nothing else, and only when its stored sender/receiver polarity agrees with the edge's own. Schema ids carry the role exemplars, so decay and provenance resolve per context.
+
+**What the earned-evidence run measured.** Seeds [20261101, 20261102, 20261103, 20261104, 20261105], 40/40 cycles, 477.61 s: treatment 3.6, naïve 3.4, pruned 3.4, orthogonal 3.4 cycles → TR 0.944 / 1.0 / 1.0; verdict `STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE`. The prior is still applied (2298 primed predictions in treatment), so the flat result is a measurement, not an unrun manipulation.
+
+**Which context's schema did the priming?** The single-seed provenance probe separates them: Context A's schema primed 162 Context B predictions and Context B's own schema primed 270; Context C's schema primed 92 and its own 317. Acquisition was cycle 4 in both arms. The prior crosses the vocabulary boundary, and so does an unrelated one, at the same acquisition cycle.
+
+**What it does not establish.** That a rank-sensitive endpoint would show nothing (rank was recorded at acquisition); any retention claim (historical candidate copies are never superseded); any statistical claim (n = 5, no p-value); or that the pruned arm isolates `S_A` — it deletes the whole candidate layer and the temporal graph.
+<!-- ccre-earned:end -->
+
 ## 9. Troubleshooting
 
 | Symptom | Likely cause | Fix |

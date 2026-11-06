@@ -118,8 +118,8 @@ class SleepSelectionMixin:
             if w.components:
                 current_keys.add(f"workflow:{'|'.join(sorted(w.components))}")
         for s in (schemas or []):
-            if s.source_role and s.target_role:
-                current_keys.add(f"schema:{s.source_role}->{s.target_role}")
+            if s.source_exemplars and s.target_exemplars:
+                current_keys.add(self._schema_key(s.source_exemplars, s.target_exemplars))
         # G4
         for h in (hypotheses or []):
             if h.subject:
@@ -182,6 +182,15 @@ class SleepSelectionMixin:
 
         return strengthened, decayed, pruned
 
+    @staticmethod
+    def _schema_key(exemplars_a: list[str], exemplars_b: list[str]) -> str:
+        """Content-bearing schema identity.
+
+        Keyed on the role exemplars rather than the role names, so two contexts can no
+        longer collapse to one schema key (decision docs/DECISION-EARNED-SCHEMA-PRIMING.md D3).
+        """
+        return f"schema:{'|'.join(sorted(exemplars_a))}->{'|'.join(sorted(exemplars_b))}"
+
     def _candidate_key(self, c: dict) -> str:
         """Return a stable content-identity key for a candidate, used by natural selection."""
         ctype = c.get("type", "")
@@ -212,9 +221,9 @@ class SleepSelectionMixin:
             comps = c.get("components", [])
             return f"workflow:{'|'.join(sorted(comps))}" if comps else ""
         if ctype == "schema_candidate":
-            s_role = c.get("source_role", "")
-            t_role = c.get("target_role", "")
-            return f"schema:{s_role}->{t_role}" if (s_role and t_role) else ""
+            src = c.get("source_exemplars") or []
+            tgt = c.get("target_exemplars") or []
+            return self._schema_key(src, tgt) if (src and tgt) else ""
         # ---- Layer 4 (G4) ----
         if ctype == "hypothesis":
             subject = c.get("subject", "")
@@ -307,9 +316,8 @@ class SleepSelectionMixin:
                     break
 
         elif key.startswith("schema:") and schemas:
-            schema_key = key.split(":", 1)[1]
             for s in schemas:
-                if f"{s.source_role}->{s.target_role}" == schema_key:
+                if self._schema_key(s.source_exemplars, s.target_exemplars) == key:
                     s.confidence = min(1.0, s.confidence + boost)
                     s.generation = prior_gen + 1
                     s.evidence["prior_confidence"] = round(prior_conf, 4)

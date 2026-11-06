@@ -54,9 +54,27 @@ there is nothing to check out.
   - Lineage grounding: primed predictions carry direct `parent_ids` linking to guiding schemas
     and empirical source events.
 - **Cross-Context Structural Reuse Experiment (CCRE)**:
-  - Benchmark confirmed significant transfer speedup: Treatment = 1.00 cyc vs Naïve = 3.20 cyc
-    (Transfer Ratio TR = 3.200, TP = 26.00 cyc), outperforming Pruned Control (TR = 1.000)
-    and Orthogonal Control (TR = 2.286), demonstrating genuine structural reuse over baseline.
+  - The v1 five-seed run's `REUSE_DEMONSTRATED` label is **withdrawn**. Its speedup came from a
+    confidence-derived boost that pushed a one-transition edge past `PREDICTION_MIN_COUNT`, and
+    its schema identity ignored the role exemplars, so the orthogonal Context C produced the same
+    schema id as Context A and the two arms matched on four of five seeds — persistence included.
+    The v1 artifact is preserved unmodified as the record of that measurement.
+
+### Changed — Earned-evidence acquisition and content-sensitive schema priming (2026-11-05)
+
+- `_build_predictions` no longer inflates a prediction's count from a prior: an edge is admitted
+  iff `temporal_count >= PREDICTION_MIN_COUNT`. A schema prior now only **reorders** admissible
+  candidates (`evidence["schema_prior"]`) and only when its stored sender/receiver polarity agrees
+  with the edge's own flow polarity (`role_polarity_match`).
+- Schema identity is content-bearing: `_make_id` includes the role exemplars and the
+  natural-selection key is `schema:<source exemplars>-><target exemplars>`, so two contexts can no
+  longer collapse to one schema (which also made per-context decay impossible).
+- The CCRE harness scores arrival on unboosted evidence, asserts on every cycle that no prediction
+  reports an unaudited count, and records `primed_predictions` and the target edge's rank at
+  acquisition.
+- Earned-evidence five-seed rerun: all four arms within 3.4–3.6 cycles, verdict
+  `STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE`. Records:
+  `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/DECISION-EARNED-SCHEMA-PRIMING.md`.
 
 
 - **Unfrozen for Direct Engine Development**: With the measurement reasons

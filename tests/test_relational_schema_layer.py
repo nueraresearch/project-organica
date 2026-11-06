@@ -137,57 +137,39 @@ def test_schema_law_vi_decay_and_reinforcement(fresh_engine):
     )
 
 
-def test_top_down_structural_priming_across_disjoint_vocabularies(fresh_engine):
-    """A consolidated schema from Context A accelerates prediction formation in Context B (R1-R4).
+def test_priming_is_rank_only_and_never_admits_thin_evidence(fresh_engine):
+    """Decision D1/D2: a schema may reorder admissible predictions; it may not admit one.
 
-    Context A uses groups {amber, birch, cedar} → {delta, ember, flora}.
-    Context B uses {quartz, prism} → {tidal, lunar} — observed only 1 time (count < PREDICTION_MIN_COUNT=5).
-    Without a schema, quartz→tidal would be rejected.  With schema priming it should be proposed.
+    Context A forms a directional schema (amber/birch/cedar -> delta/ember/flora).
+    Context B then presents quartz->tidal exactly once. 1 < PREDICTION_MIN_COUNT = 5,
+    so no prior of any kind may propose that edge, and no prediction may report a
+    count above the one it observed.
     """
     mem, svc = fresh_engine
 
-    # Step 1 (Context A): Learn schema amber/birch/cedar -> delta/ember/flora
     for _ in range(10):
         with mem.batch():
             mem.store("amber birch cedar", event_type="observe", source="env:A")
             mem.store("delta ember flora", event_type="observe", source="env:A")
-
     rep_a = svc.run_sleep_cycle()
-    assert any(s.source_role == "antecedent" for s in rep_a.schemas), (
-        f"Expected antecedent schema from Context A; schemas={rep_a.schemas}"
-    )
-    schema = [s for s in rep_a.schemas if s.source_role == "antecedent"][0]
+    schemas = [s for s in rep_a.schemas if s.source_role == "antecedent"]
+    assert schemas, "Context A must form a directional schema"
+    assert schemas[0].source_exemplars and schemas[0].target_exemplars
 
-    # Step 2 (Context B): Disjoint vocabulary observed only 1 time.
-    # Standard bottom-up: PREDICTION_MIN_COUNT=5, count=1 is rejected.
-    # With schema priming, quartz->tidal should be proposed immediately.
     with mem.batch():
         mem.store("quartz prism", event_type="observe", source="env:B")
         mem.store("tidal lunar", event_type="observe", source="env:B")
-
     rep_b = svc.run_sleep_cycle()
 
-    primed_preds = [
-        p for p in rep_b.predictions
-        if p.source == "quartz" and p.target == "tidal"
-    ]
-    assert len(primed_preds) == 1, (
-        f"Expected 'quartz -> tidal' to be primed by the relational schema; "
-        f"predictions={[(p.source, p.target) for p in rep_b.predictions]}"
+    thin = [p for p in rep_b.predictions if p.source == "quartz" and p.target == "tidal"]
+    assert thin == [], (
+        "A count-1 edge must not be admitted by any prior; got "
+        f"{[(p.source, p.target, p.evidence.get('temporal_count')) for p in rep_b.predictions]}"
     )
-    primed = primed_preds[0]
-
-    # Condition R3 & R4: Verify strength and provenance trace
-    assert primed.strength >= 0.50
-    assert primed.evidence.get("schema_primed") == schema.id
-    assert schema.id in primed.parent_ids, "Schema ID must be in the lineage parent_ids of primed prediction"
-
-    # Lineage trace walk: get_ancestry
-    ancestry = svc.get_ancestry(primed.id)
-    assert ancestry["id"] == primed.id
-    assert "parents" in ancestry
-    parent_ids = [p["id"] for p in ancestry["parents"]]
-    assert schema.id in parent_ids, "Ancestry tree must contain the transferred schema node"
+    for p in rep_b.predictions:
+        assert p.evidence["temporal_count"] >= svc.PREDICTION_MIN_COUNT
+        assert "effective_count" not in p.evidence
+        assert "schema_primed" not in p.evidence
 
 
 def test_control_arm_invariance(tmp_path):
@@ -278,3 +260,66 @@ def test_rs0_orthogonal_role_rejection_gate(tmp_path):
         )
     finally:
         mem_o.close()
+
+
+def test_schema_ids_are_context_specific(tmp_path):
+    """D3: two disjoint worlds must not share a schema identity."""
+    ids = []
+    worlds = (
+        ("a", "amber birch cedar", "delta ember flora"),
+        ("c", "copper bronze iron", "silver gold platinum"),
+    )
+    for name, first, second in worlds:
+        mem = MemoryService(str(tmp_path / f"ids_{name}.db"))
+        svc = SleepService(mem)
+        try:
+            for _ in range(10):
+                with mem.batch():
+                    mem.store(first, event_type="observe", source="env")
+                    mem.store(second, event_type="observe", source="env")
+            rep = svc.run_sleep_cycle()
+            assert rep.schemas, f"world {name} must form a schema"
+            ids.append(rep.schemas[0].id)
+        finally:
+            mem.close()
+    assert ids[0] != ids[1], f"schema ids must be context-bearing, got {ids}"
+
+
+def test_no_prediction_reports_an_inflated_count(fresh_engine):
+    """D1: after a schema exists, every prediction still reports its observed count."""
+    mem, svc = fresh_engine
+    for _ in range(10):
+        with mem.batch():
+            mem.store("amber birch cedar", event_type="observe", source="env:A")
+            mem.store("delta ember flora", event_type="observe", source="env:A")
+    svc.run_sleep_cycle()
+
+    for _ in range(8):
+        with mem.batch():
+            mem.store("quartz prism", event_type="observe", source="env:B")
+            mem.store("tidal lunar", event_type="observe", source="env:B")
+    rep = svc.run_sleep_cycle()
+
+    assert rep.predictions, "Context B must admit predictions on its own evidence"
+    for p in rep.predictions:
+        observed = p.evidence["temporal_count"]
+        assert observed >= svc.PREDICTION_MIN_COUNT
+        assert "effective_count" not in p.evidence
+        assert "schema_primed" not in p.evidence
+        # strength = min(1, count/frequency), optionally +0.05 per Law VI
+        # reinforcement; a substituted count would leave this band entirely.
+        ratio = observed / max(p.evidence["source_frequency"], 1)
+        assert min(1.0, ratio) <= p.strength <= 1.0
+
+
+def test_role_polarity_match_can_fire_and_can_fail():
+    """D2: the congruence gate must be able to admit AND to reject (rule 25c)."""
+    from organica.sleep_extraction import role_polarity_match
+
+    # schema: source is a net sender, target a net receiver
+    assert role_polarity_match(10, 2, 1, 9, 1, 1) is True
+    assert role_polarity_match(2, 10, 1, 9, 1, 1) is False    # source polarity wrong
+    assert role_polarity_match(10, 2, 9, 1, 1, 1) is False    # target polarity wrong
+    assert role_polarity_match(5, 5, 1, 9, 1, 1) is False     # flat source cannot match
+    assert role_polarity_match(10, 2, 1, 9, 0, 1) is False    # schema polarity unknown
+    assert role_polarity_match(10, 2, 1, 9, 1, 0) is False    # target schema unknown

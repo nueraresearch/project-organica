@@ -18,8 +18,14 @@ Arms:
   - Control 2: Ablation / Pruned (Context A -> excise target schema -> Context B)
   - Control 3: Orthogonal Volume Control (Context A with randomized/flat schema -> Context B)
 
+Acquisition is scored under the earned-evidence contract: a B_source -> B_target
+prediction counts only when its own temporal_count clears PREDICTION_MIN_COUNT.
+A schema prior may reorder candidates; it may never supply evidence
+(docs/DECISION-EARNED-SCHEMA-PRIMING.md D1-D4).
+
 Usage:
-  python benchmarks/cross_context_reuse_benchmark.py --seeds 5 --phase_a_cycles 60 --phase_b_cycles 60
+  python benchmarks/cross_context_reuse_benchmark.py --seeds 1 --seed_offset 0 \
+      --phase_a_cycles 40 --phase_b_cycles 40 --out_path .scratch/ccre_0.json
 """
 
 from __future__ import annotations
@@ -101,6 +107,8 @@ def run_experiment_cell(arm: str, seed: int, phase_a_cycles: int = 60,
     cycles_to_acquire: int | None = None
     persistence_counter = 0
     acquired = False
+    primed_predictions = 0
+    target_rank_at_acquire: int | None = None
     
     try:
         # Phase A
@@ -139,17 +147,40 @@ def run_experiment_cell(arm: str, seed: int, phase_a_cycles: int = 60,
                     mem.store(ev, event_type="observe", source="env:B")
             rep = svc.run_sleep_cycle()
             
-            # Check if Context B target transition has been acquired
-            # Condition: a prediction candidate connecting B_source -> B_target with strength >= 0.5
-            has_target = any(
-                p.source in b_source_tags and p.target in b_target_tags and p.strength >= 0.5
-                for p in rep.predictions
+            # Earned-evidence integrity check (D1/D4): a prediction's count must be
+            # its observed count. An inflated count is a hard failure, not a measurement.
+            for p in rep.predictions:
+                observed = p.evidence.get("temporal_count")
+                reported = p.evidence.get("effective_count", observed)
+                if observed is None or reported != observed:
+                    raise AssertionError(
+                        f"{arm}/{seed}: prediction {p.source}->{p.target} reports an "
+                        f"unaudited count (observed={observed!r}, reported={reported!r}); "
+                        "acquisition must be earned by unboosted evidence"
+                    )
+
+            primed_predictions += sum(
+                1 for p in rep.predictions if p.evidence.get("schema_prior")
             )
+
+            # Acquisition (D4): raw evidence, not a prior's substitution.
+            target_index = None
+            for idx, p in enumerate(rep.predictions):
+                if (
+                    p.source in b_source_tags
+                    and p.target in b_target_tags
+                    and p.strength >= 0.5
+                    and int(p.evidence.get("temporal_count", 0)) >= svc.PREDICTION_MIN_COUNT
+                ):
+                    target_index = idx
+                    break
+            has_target = target_index is not None
             
             if has_target:
                 if not acquired:
                     acquired = True
                     cycles_to_acquire = c + 1
+                    target_rank_at_acquire = (target_index or 0) + 1
                 persistence_counter += 1
             else:
                 if acquired:
@@ -165,10 +196,66 @@ def run_experiment_cell(arm: str, seed: int, phase_a_cycles: int = 60,
             "acquired": acquired,
             "cycles_to_acquire": cycles_to_acquire,
             "persistence_cycles": persistence_counter,
+            "primed_predictions": primed_predictions,
+            "target_rank_at_acquire": target_rank_at_acquire,
         }
     finally:
         mem.close()
         db.unlink(missing_ok=True)
+
+
+def build_summary(results, seeds, phase_a_cycles, phase_b_cycles, total_seconds):
+    """Assemble the artifact from per-arm cell results.
+
+    A function rather than inline code so a chunked run (several processes, one seed
+    range each) is assembled by exactly the code that assembles a single-process run.
+    """
+    n = len(seeds)
+    mean_naive = sum(r["cycles_to_acquire"] for r in results["control_naive"]) / n
+    mean_treatment = sum(r["cycles_to_acquire"] for r in results["treatment"]) / n
+    mean_pruned = sum(r["cycles_to_acquire"] for r in results["control_pruned"]) / n
+    mean_ortho = sum(r["cycles_to_acquire"] for r in results["control_orthogonal"]) / n
+
+    tr_treatment = round(mean_naive / max(mean_treatment, 1e-6), 3)
+    tr_pruned = round(mean_naive / max(mean_pruned, 1e-6), 3)
+    tr_ortho = round(mean_naive / max(mean_ortho, 1e-6), 3)
+
+    primed = {arm: sum(r.get("primed_predictions", 0) for r in rows)
+              for arm, rows in results.items()}
+    ranks = [r["target_rank_at_acquire"] for r in results["treatment"]
+             if r.get("target_rank_at_acquire")]
+
+    if tr_treatment > 1.25 and tr_treatment > tr_pruned and tr_treatment > tr_ortho:
+        verdict = "TRANSFER_DEMONSTRATED_UNDER_EARNED_EVIDENCE"
+    elif tr_treatment <= 1.05 and primed.get("treatment", 0) > 0:
+        verdict = "STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE"
+    else:
+        verdict = "NULL_UNDER_EARNED_EVIDENCE"
+
+    return {
+        "kind": "cross_context_reuse_benchmark",
+        "protocol": "earned-evidence (docs/DECISION-EARNED-SCHEMA-PRIMING.md)",
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "seeds": list(seeds),
+        "phase_a_cycles": phase_a_cycles,
+        "phase_b_cycles": phase_b_cycles,
+        "total_seconds": total_seconds,
+        "metrics": {
+            "mean_cycles_naive": mean_naive,
+            "mean_cycles_treatment": mean_treatment,
+            "mean_cycles_pruned": mean_pruned,
+            "mean_cycles_orthogonal": mean_ortho,
+            "transfer_ratio_treatment": tr_treatment,
+            "transfer_ratio_pruned": tr_pruned,
+            "transfer_ratio_orthogonal": tr_ortho,
+            "mean_tp_treatment": round(
+                sum(r["persistence_cycles"] for r in results["treatment"]) / n, 2),
+            "primed_predictions": primed,
+            "treatment_target_rank_at_acquire": ranks,
+            "reusable_knowledge_verdict": verdict,
+        },
+        "per_arm_results": results,
+    }
 
 
 def main():
@@ -176,9 +263,13 @@ def main():
     parser.add_argument("--seeds", type=int, default=5, help="Number of seeds")
     parser.add_argument("--phase_a_cycles", type=int, default=40, help="Cycles in Phase A")
     parser.add_argument("--phase_b_cycles", type=int, default=40, help="Cycles in Phase B")
+    parser.add_argument("--seed_offset", type=int, default=0,
+                        help="Offset into the pre-assigned seed block")
+    parser.add_argument("--out_path", type=str, default=None,
+                        help="Artifact path (default docs/cross_context_reuse_benchmark.json)")
     args = parser.parse_args()
-    
-    seeds = [20261101 + i for i in range(args.seeds)]
+
+    seeds = [20261101 + args.seed_offset + i for i in range(args.seeds)]
     arms = ["treatment", "control_naive", "control_pruned", "control_orthogonal"]
     
     results: dict[str, list[dict[str, Any]]] = {arm: [] for arm in arms}
@@ -200,45 +291,15 @@ def main():
         print(f" Done ({dur}s) -> Mean Acq: {mean_acq:5.2f} cyc, Mean TP: {mean_tp:5.2f} cyc")
         
     total_time = round(time.perf_counter() - t0, 2)
-    
-    # Compute Transfer Ratio (TR) against Control 1 (Naïve)
-    mean_naive = sum(r["cycles_to_acquire"] for r in results["control_naive"]) / len(seeds)
-    mean_treatment = sum(r["cycles_to_acquire"] for r in results["treatment"]) / len(seeds)
-    mean_pruned = sum(r["cycles_to_acquire"] for r in results["control_pruned"]) / len(seeds)
-    mean_ortho = sum(r["cycles_to_acquire"] for r in results["control_orthogonal"]) / len(seeds)
-    
-    tr_treatment = round(mean_naive / max(mean_treatment, 1e-6), 3)
-    tr_pruned = round(mean_naive / max(mean_pruned, 1e-6), 3)
-    tr_ortho = round(mean_naive / max(mean_ortho, 1e-6), 3)
-    
-    summary = {
-        "kind": "cross_context_reuse_benchmark",
-        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "seeds": seeds,
-        "phase_a_cycles": args.phase_a_cycles,
-        "phase_b_cycles": args.phase_b_cycles,
-        "total_seconds": total_time,
-        "metrics": {
-            "mean_cycles_naive": mean_naive,
-            "mean_cycles_treatment": mean_treatment,
-            "mean_cycles_pruned": mean_pruned,
-            "mean_cycles_orthogonal": mean_ortho,
-            "transfer_ratio_treatment": tr_treatment,
-            "transfer_ratio_pruned": tr_pruned,
-            "transfer_ratio_orthogonal": tr_ortho,
-            "mean_tp_treatment": round(sum(r["persistence_cycles"] for r in results["treatment"]) / len(seeds), 2),
-            "reusable_knowledge_verdict": (
-                "REUSE_DEMONSTRATED"
-                if tr_treatment > 1.15 and tr_treatment > tr_pruned and tr_treatment > tr_ortho
-                else "TRANSFER_SIGNAL_OBSERVED_ROLE_SATISFACTION_NOT_ESTABLISHED"
-                if tr_treatment > 1.15 and tr_treatment > tr_pruned
-                else "NULL_OR_INSUFFICIENT_TRANSFER"
-            ),
-        },
-        "per_arm_results": results,
-    }
-    
-    out_file = REPO / "docs" / "cross_context_reuse_benchmark.json"
+
+    summary = build_summary(
+        results, seeds, args.phase_a_cycles, args.phase_b_cycles, total_time,
+    )
+    tr_treatment = summary["metrics"]["transfer_ratio_treatment"]
+    tr_pruned = summary["metrics"]["transfer_ratio_pruned"]
+    tr_ortho = summary["metrics"]["transfer_ratio_orthogonal"]
+
+    out_file = Path(args.out_path) if args.out_path else REPO / "docs" / "cross_context_reuse_benchmark.json"
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
     print("=" * 65)

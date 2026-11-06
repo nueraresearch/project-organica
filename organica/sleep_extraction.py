@@ -23,6 +23,33 @@ from .candidates import (
 )
 
 
+def _polarity(sent: int, received: int) -> int:
+    """+1 if the tag sends more than it receives, -1 if it receives more, 0 if flat."""
+    if sent > received:
+        return 1
+    if received > sent:
+        return -1
+    return 0
+
+
+def role_polarity_match(
+    out_u: int, in_u: int, out_v: int, in_v: int,
+    schema_source_polarity: int, schema_target_polarity: int,
+) -> bool:
+    """Content-sensitive schema congruence (decision D2).
+
+    A schema may reorder a candidate edge u->v only when the schema's stored
+    sender/receiver polarity agrees with the edge's own flow polarity at both ends.
+    An unknown polarity (0) never matches, so a flat world cannot borrow a schema.
+    """
+    if schema_source_polarity == 0 or schema_target_polarity == 0:
+        return False
+    return (
+        _polarity(out_u, in_u) == schema_source_polarity
+        and _polarity(in_v, out_v) == schema_target_polarity
+    )
+
+
 class SleepExtractionMixin:
     """Extraction and low-level candidate construction methods."""
 
@@ -345,7 +372,10 @@ class SleepExtractionMixin:
                 if count >= self.PREDICTION_MIN_COUNT:
                     out_counts[tag_from] += count
 
-        # Best active schema from prior for top-down structural candidate priming
+        # Consolidated relational schema, used ONLY as a ranking prior.
+        # A schema may reorder candidates that already meet PREDICTION_MIN_COUNT;
+        # it may never admit one that does not (earned-evidence contract,
+        # docs/DECISION-EARNED-SCHEMA-PRIMING.md D1-D2).
         best_schema = None
         if prior_schemas:
             valid_schemas = [
@@ -354,6 +384,29 @@ class SleepExtractionMixin:
             ]
             if valid_schemas:
                 best_schema = max(valid_schemas, key=lambda s: (s.get("confidence") or s.get("strength") or 0))
+
+        # Sender/receiver polarity of every tag, used to test whether a schema's
+        # role assignment is congruent with a candidate edge (decision D2).
+        out_flow: dict[str, int] = {t: sum(v.values()) for t, v in temporal.items()}
+        in_flow: dict[str, int] = defaultdict(int)
+        for _src, _targets in temporal.items():
+            for _tgt, _cnt in _targets.items():
+                in_flow[_tgt] += _cnt
+
+        schema_source_polarity = 0
+        schema_target_polarity = 0
+        if best_schema:
+            _ev = best_schema.get("evidence", {}) or {}
+            _src_profile = _ev.get("source_role_profile", {}) or {}
+            _tgt_profile = _ev.get("target_role_profile", {}) or {}
+            schema_source_polarity = _polarity(
+                int(_src_profile.get("out_degree", 0) or 0),
+                int(_src_profile.get("in_degree", 0) or 0),
+            )
+            schema_target_polarity = _polarity(
+                int(_tgt_profile.get("in_degree", 0) or 0),
+                int(_tgt_profile.get("out_degree", 0) or 0),
+            )
 
         # Compute target entropy H(T | source) for each source
         # H(T | u) = - \sum_v P(v|u) * log2 P(v|u)
@@ -379,29 +432,22 @@ class SleepExtractionMixin:
             for tag_to in sorted(targets.keys()):
                 count = targets[tag_to]
                 meets_direct = count >= self.PREDICTION_MIN_COUNT
-                schema_primed = False
-                effective_count = count
                 matching_schema_id = None
+                schema_congruent = False
 
-                if not meets_direct and best_schema and count >= 1 and tag_from != tag_to:
-                    # Structural Role Check: the edge tag_from->tag_to must be directionally
-                    # consistent (net forward flow, i.e. count > reverse_count).  We do NOT
-                    # gate on global raw_in/out_counts because those are dominated by prior-
-                    # context history and incorrectly exclude legitimate cross-context tokens
-                    # (the first token seen in a new context will always have high raw_in
-                    # from the previous context's accumulated temporal edges via lookback).
-                    reverse_count = temporal.get(tag_to, {}).get(tag_from, 0)
-                    is_asymmetric = count > reverse_count  # strict net forward direction
+                if meets_direct and best_schema and tag_from != tag_to:
+                    # Content-sensitive prior (decision D2): the schema's sender/receiver
+                    # polarity must agree with this edge's own flow polarity. Congruence
+                    # reorders admissible candidates; it never supplies evidence.
+                    if role_polarity_match(
+                        out_flow.get(tag_from, 0), in_flow.get(tag_from, 0),
+                        out_flow.get(tag_to, 0), in_flow.get(tag_to, 0),
+                        schema_source_polarity, schema_target_polarity,
+                    ):
+                        schema_congruent = True
+                        matching_schema_id = best_schema.get("id", "")
 
-                    if is_asymmetric:
-                        schema_conf = float(best_schema.get("confidence", best_schema.get("strength", 0.0)))
-                        boost = (schema_conf / max(self.STABLE_THRESHOLD, 0.1)) * (self.PREDICTION_MIN_COUNT - 1)
-                        effective_count = count + boost
-                        if effective_count >= self.PREDICTION_MIN_COUNT:
-                            schema_primed = True
-                            matching_schema_id = best_schema.get("id", "")
-
-                if meets_direct or schema_primed:
+                if meets_direct:
                     ratio = count / max(source_freq, 1)
                     trans_prob = count / max(out_counts[tag_from], 1)
                     pid = _make_id("pred", tag_from, tag_to)
@@ -413,10 +459,10 @@ class SleepExtractionMixin:
                         supporting_events = (tag_events.get(tag_from, [])[:5] + tag_events.get(tag_to, [])[:5])[:10]
 
                     parent_ids = list(supporting_events)
-                    if schema_primed and matching_schema_id:
+                    if schema_congruent and matching_schema_id:
                         parent_ids.insert(0, matching_schema_id)
 
-                    cand_strength = min(1.0, max(0.50, round(ratio, 3))) if schema_primed else min(1.0, ratio)
+                    cand_strength = min(1.0, ratio)
 
                     evidence_dict = {
                         "temporal_count": count,
@@ -427,10 +473,9 @@ class SleepExtractionMixin:
                         "target_entropy": ent,
                         "is_cooccurrence": is_cooc,
                     }
-                    if schema_primed and matching_schema_id:
-                        evidence_dict["schema_primed"] = matching_schema_id
+                    if schema_congruent and matching_schema_id:
+                        evidence_dict["schema_prior"] = matching_schema_id
                         evidence_dict["schema_confidence"] = best_schema.get("confidence")
-                        evidence_dict["effective_count"] = round(effective_count, 3)
 
                     cand = PredictionCandidate(
                         id=pid,
@@ -450,6 +495,7 @@ class SleepExtractionMixin:
         # 2. Transition probability descending P(v|u)
         # 3. Temporal count descending
         transitions.sort(key=lambda p: (
+            0 if p.evidence.get("schema_prior") else 1,
             p.evidence.get("target_entropy", 999.0),
             -p.evidence.get("transition_prob", 0.0),
             -p.evidence["temporal_count"],
@@ -690,7 +736,12 @@ class SleepExtractionMixin:
                         measured_ratio = flow_ratio
 
                 if is_contingent:
-                    sid = _make_id("schema", "antecedent", "consequent")
+                    # Context-bearing identity (decision D3): two worlds never share a
+                    # schema id, so decay and provenance are resolvable per context.
+                    sid = _make_id(
+                        "schema", "antecedent", "consequent",
+                        *sorted(r_a.exemplars), *sorted(r_b.exemplars),
+                    )
                     conf = min(0.75, round(0.4 + 0.05 * min(measured_ratio, 6.0), 3))
 
                     parent_ids = [r_a.id, r_b.id]

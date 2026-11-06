@@ -1128,3 +1128,45 @@ def test_the_three_decisions_are_recorded_in_the_artifact_and_the_sequence():
 
     assert "DECIDED 2026-11-03 (owner), all three" in manual
 
+
+
+def test_derivative_ccre_artifacts_share_an_already_consumed_block():
+    """The CCRE earned-evaluation records re-measure a block that is already counted.
+
+    They are excluded from the block list by path. This asserts the exclusion cannot hide a
+    new block: every integer they carry under a seed-naming key is already present in
+    docs/cross_context_reuse_benchmark.json, the artifact that consumes the block.
+    """
+    import json as _json
+
+    base = _json.loads((ROOT / "docs" / "cross_context_reuse_benchmark.json").read_text(encoding="utf-8"))
+    base_seeds = set(base["seeds"])
+
+    def _ints(value, out):
+        if isinstance(value, int):
+            out.add(value)
+        elif isinstance(value, list):
+            for item in value:
+                _ints(item, out)
+        elif isinstance(value, dict):
+            for item in value.values():
+                _ints(item, out)
+
+    def walk(node, out):
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if "seed" in key.lower():
+                    _ints(value, out)
+                else:
+                    walk(value, out)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item, out)
+
+    for name in ("cross_context_reuse_benchmark_earned.json",
+                 "cross_context_reuse_priming_provenance.json"):
+        doc = _json.loads((ROOT / "docs" / name).read_text(encoding="utf-8"))
+        harvested: set[int] = set()
+        walk(doc, harvested)
+        assert harvested, name
+        assert harvested <= base_seeds, (name, sorted(harvested - base_seeds))
