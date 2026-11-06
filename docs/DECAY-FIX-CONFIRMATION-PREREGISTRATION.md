@@ -103,7 +103,7 @@ A cell whose arm fails liveness is **NOT COMPARABLE**: excluded, reported as
 excluded, never scored as zero, never replaced. Passing liveness only makes a
 cell readable. It is not evidence for adoption and is not counted as one.
 
-## 7. Decision rule — adoption requires all of these (as amended by §13–§15)
+## 7. Decision rule — adoption requires all of these (as amended by §13–§17)
 
 Evaluated once, by the committed analysis script, on the held-out cells only.
 
@@ -270,3 +270,67 @@ adoption claim remains shipped-versus-candidate; this check only disqualifies a
 "win" between two arms that both lose to a simple learner.
 
 No calibration or held-out cell had been run when this was written.
+
+## 16. Amendment 4 — a threshold-control arm, so formula and threshold are separable (2026-11-06, before any cell)
+
+The design above compared the shipped ratio at its fixed threshold 0.30 with
+transition probability at a calibrated threshold. That changes two things at
+once: a gain could be the formula, the threshold, or both. The protocol now
+calibrates **two** strength formulas on the same eight calibration seeds, with
+the same grid and the same rule, independently, and compares three arms on the
+held-out seeds:
+
+| arm | strength | threshold |
+|---|---|---|
+| **S** shipped | `count / source_frequency` | 0.30, fixed |
+| **R** ratio control | `count / source_frequency` | `tau_R`, calibrated |
+| **T** option 2r | transition probability | `tau_T`, calibrated |
+
+Both thresholds are selected by the §3 rule and sealed in one artifact; the
+held-out run reads both and never recomputes either. Calibration doubles to 448
+cells, and that cost is accepted rather than inferred away.
+
+The contrasts are reported together and are not interchangeable:
+
+* **S vs R** isolates the threshold with the strength formula held fixed. If R
+  already produces the outcome, the formula change is not needed.
+* **R vs T** tests whether the transition formula adds anything beyond the best
+  operating point the ratio formula can reach. Adoption now requires T to beat
+  **R** on the task endpoint (paired, 99%, no regime loss) and to keep at least
+  R's coverage and honesty. A gain that R reproduces is labelled
+  `threshold alone suffices`, and no engine change follows.
+* If `tau_R == tau_T`, R vs T is a pure formula contrast at one threshold. If
+  they differ, it is the formula at each arm's own calibrated operating point,
+  not a formula-only contrast; the result says so, and S vs R is reported beside
+  it so a reader can see how much of the movement the threshold alone produced.
+  No claim of the form "the formula, not the threshold" is made when the
+  thresholds differ.
+
+Conditions 4, 5 and 6 are re-pointed from S to R. The S-vs-T contrast is still
+reported, never used for adoption.
+
+## 17. Amendment 5 — what `tau* = 0.075` means (2026-11-06, before any cell)
+
+The §11 falsifier covers a selected threshold **below** 0.075, and equality was
+undefined. The one smoke calibration selected exactly 0.075 — the smallest grid
+value that admits a uniform degree-12 transition of `1/12`. Equality is now
+defined, before any calibration cell runs:
+
+* **0.075 is a boundary selection, not a pass.** It is recorded as
+  `boundary_selected` beside each arm's threshold, and no mechanism claim is made
+  from the selection itself.
+* At equality, adoption rests on the **R-vs-T contrast at the same threshold**.
+  If R's calibrated threshold is also 0.075, the two arms differ only in the
+  strength formula:
+  * if T beats R on the task endpoint and keeps R's coverage and honesty, the
+    formula effect is identified at the boundary and reported as
+    boundary-identified;
+  * if R matches or beats T, the result is `threshold alone suffices`; no engine
+    change, and `tau*` is not re-read as a mechanism finding.
+* If `tau_R` and `tau_T` differ, the boundary statement applies to T's
+  threshold, and the formula contrast is reported as "each arm at its own
+  calibrated operating point", per Amendment 4.
+* A selection below 0.075 still fires the original falsifier and ends the
+  mechanism claim. A selection above it is not boundary-selected.
+
+This defines a pre-committed edge case; it relaxes no clause of §7 or §11.

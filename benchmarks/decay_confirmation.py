@@ -2,9 +2,10 @@
 held-out cells, and the conjunctive decision.
 
 The protocol is `docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md` as amended by
-its section 13.  Nothing here changes the engine: the shipped arm is
-`SleepService`, and the candidate arm is a harness subclass that sets prediction
-strength to the `transition_prob` the engine already computes.
+its sections 13–17.  Nothing here changes the engine: the shipped arm is
+`SleepService`; the candidate arms are harness subclasses — a ratio-strength
+threshold control and the transition-probability arm — and neither changes an
+engine file.
 
 Subcommands:
 
@@ -56,6 +57,7 @@ CYCLES = 300
 SHIFT_A = 80
 SHIFT_B = 40
 SHIFT_DEGREES = (4, 12)
+ARMS = ("shipped", "ratio", "transition")
 MARKERS = 7
 LOOKBACK = 3
 MIN_STABLE_FOR_PRECISION = 40
@@ -146,8 +148,24 @@ class Counted(SleepService):
         return out
 
 
-class Shipped(Counted):
-    """The engine as committed: count / source_frequency, threshold 0.30."""
+class Ratio(Counted):
+    """The shipped strength formula with a calibrated threshold.
+
+    The threshold control: same formula as the engine, its own threshold
+    selected by the same rule on the same seeds, so a gain the formula alone
+    can produce is visible instead of being credited to the formula change.
+    """
+
+    def __init__(self, memory, tau: float):
+        super().__init__(memory)
+        self.STABLE_THRESHOLD = float(tau)
+
+
+class Shipped(Ratio):
+    """The engine as committed: ratio strength at STABLE_THRESHOLD = 0.30."""
+
+    def __init__(self, memory):
+        super().__init__(memory, 0.30)
 
 
 class Transition(Counted):
@@ -164,10 +182,14 @@ class Transition(Counted):
         return out
 
 
-def build_arm(arm: str, tau: float):
+def build_arm(arm: str, tau):
     if arm == "shipped":
         return Shipped
-    return lambda memory: Transition(memory, tau)
+    if arm == "ratio":
+        return lambda memory: Ratio(memory, tau)
+    if arm == "transition":
+        return lambda memory: Transition(memory, tau)
+    raise ValueError("unknown arm %r" % (arm,))
 
 
 # ---------------------------------------------------------------------------
@@ -447,168 +469,196 @@ def _live_rate(cells) -> float | None:
     return (sum(1 for c in cells if c["liveness"]) / len(cells)) if cells else None
 
 
-def decide(cells: list[dict], calibration: dict | None = None,
-           reps: int = BOOTSTRAP_REPLICATES) -> dict:
-    """The amended conjunctive rule.  Every condition is reported, pass or fail."""
-    conditions: dict[str, dict] = {}
-    t_live = {d: _live_rate(_by(cells, "stationary", "transition", d)) for d in DEGREES}
-    s_live = {d: _live_rate(_by(cells, "stationary", "shipped", d)) for d in DEGREES}
+def decide(cells, calibration=None, reps=BOOTSTRAP_REPLICATES):
+    """The amended conjunctive rule over three arms.
 
-    # 1. comparability (amended: shipped is live at 2 and 3 only; its high-degree
-    # absence is the known 1/N ceiling, recorded rather than required).
-    # The candidate's degree-12 liveness is the high-degree condition below, not
-    # a comparability failure.  Shipped is required live only where its 1/N
-    # ratio can clear the threshold (degrees 2 and 4).
-    comparability = {
-        "transition_live_rate": t_live,
-        "shipped_live_rate": s_live,
-        "required": "transition >= 0.9 at 2, 4, 6; shipped >= 0.9 at 2, 4",
-        "ok": (any(t_live[d] is not None for d in DEGREES)
-               and all((t_live[d] or 0) >= 0.9 for d in (2, 4, 6))
-               and all((s_live[d] or 0) >= 0.9 for d in (2, 4))),
+    S = shipped ratio at 0.30, R = ratio at its calibrated threshold (the
+    threshold control), T = transition probability at its calibrated threshold.
+    Adoption needs T to beat R, not merely S, so a threshold-only gain cannot be
+    credited to the formula.
+    """
+    conditions = {}
+    arms = ("shipped", "ratio", "transition")
+
+    live = {arm: {d: _live_rate(_by(cells, "stationary", arm, d)) for d in DEGREES}
+            for arm in arms}
+
+    conditions["1_comparability"] = {
+        "live_rate": live,
+        "required": "ratio and transition >= 0.9 at 2, 4, 6; shipped >= 0.9 at 2, 4",
+        "ok": (all((live[a][d] or 0) >= 0.9 for a in ("ratio", "transition")
+                   for d in (2, 4, 6))
+               and all((live["shipped"][d] or 0) >= 0.9 for d in (2, 4))),
         "note": "the candidate's degree-12 liveness is judged by condition 2",
     }
-    conditions["1_comparability"] = comparability
 
-    # 2. high-degree safety, absolute because shipped has no baseline there.
     d12 = _by(cells, "stationary", "transition", 12)
     false_free = (sum(1 for c in d12 if c["false_assertions"] == 0) / len(d12)) if d12 else 0.0
-    coverage12 = statistics.median([c["coverage"] for c in d12 if c["coverage"] is not None]) \
-        if any(c["coverage"] is not None for c in d12) else None
+    coverages = [c["coverage"] for c in d12 if c["coverage"] is not None]
+    coverage12 = statistics.median(coverages) if coverages else None
     conditions["2_high_degree_safety"] = {
-        "transition_live_rate": t_live.get(12),
+        "transition_live_rate": live["transition"].get(12),
         "zero_false_share": round(false_free, 3),
         "median_coverage": coverage12,
         "required": "live >= 0.9, zero false assertions in >= 0.9 of cells, median coverage >= 0.5",
-        "ok": bool((t_live.get(12) or 0) >= 0.9 and false_free >= 0.9
+        "ok": bool((live["transition"].get(12) or 0) >= 0.9 and false_free >= 0.9
                    and coverage12 is not None and coverage12 >= 0.5),
-        "note": "shipped is expected to be absent at d>=4: its ratio is exactly 1/N",
+        "note": "shipped is absent at d>=4; the ratio control is reported beside it",
     }
 
-    # 3. honesty of the assertion set.
-    t_stationary = [c for c in cells if c.get("kind") == "stationary"
-                    and c.get("arm") == "transition"]
-    zero_share = (sum(1 for c in t_stationary if c["false_assertions"] == 0)
-                  / len(t_stationary)) if t_stationary else 0.0
-    big = [c for c in t_stationary
+    t_stat = [c for c in cells if c.get("kind") == "stationary"
+              and c.get("arm") == "transition"]
+    r_stat = [c for c in cells if c.get("kind") == "stationary" and c.get("arm") == "ratio"]
+    zero_share = (sum(1 for c in t_stat if c["false_assertions"] == 0)
+                  / len(t_stat)) if t_stat else 0.0
+    r_zero = (sum(1 for c in r_stat if c["false_assertions"] == 0)
+              / len(r_stat)) if r_stat else 0.0
+    big = [c for c in t_stat
            if c["stable_final"] >= MIN_STABLE_FOR_PRECISION and c["precision"] is not None]
     precision_ok = all(c["precision"] >= PRECISION_FLOOR for c in big)
     conditions["3_assertion_honesty"] = {
-        "zero_false_share": round(zero_share, 3),
-        "large_cells": len(big),
+        "transition_zero_false_share": round(zero_share, 3),
+        "ratio_zero_false_share": round(r_zero, 3),
+        "transition_large_cells": len(big),
         "min_precision_in_large_cells": min((c["precision"] for c in big), default=None),
-        "required": "zero false assertions in >= 0.9 of cells; precision >= 0.95 where stable >= 40",
+        "required": ("transition: zero false assertions in >= 0.9 of cells; "
+                     "precision >= 0.95 where stable >= 40"),
         "ok": bool(zero_share >= 0.9 and precision_ok),
     }
 
-    # 4. task improvement, paired where both arms are live (degrees 2 and 4),
-    # plus non-inferiority to the strongest simple baseline (amendment 3).
-    task_detail, diffs, losses = {}, [], []
+    def contrast(top, base):
+        pooled = []
+        for degree in (2, 4):
+            a = {c["seed"]: c for c in _by(cells, "task", top, degree)
+                 if c.get("log_loss") is not None}
+            b = {c["seed"]: c for c in _by(cells, "task", base, degree)
+                 if c.get("log_loss") is not None}
+            pooled.extend(a[k]["log_loss"] - b[k]["log_loss"]
+                          for k in sorted(a.keys() & b.keys()))
+        interval = paired_interval(pooled, reps=reps) if pooled else None
+        return {"paired": len(pooled),
+                "mean": round(statistics.mean(pooled), 6) if pooled else None,
+                "interval": [round(interval[0], 6), round(interval[1], 6)] if interval else None}
+
+    detail, diffs, losses = {}, [], []
     baseline_failures, baseline_missing = [], []
     for degree in (2, 4):
-        s = {(c["seed"]): c for c in _by(cells, "task", "shipped", degree)
+        r = {c["seed"]: c for c in _by(cells, "task", "ratio", degree)
              if c.get("log_loss") is not None}
-        t = {(c["seed"]): c for c in _by(cells, "task", "transition", degree)
+        t = {c["seed"]: c for c in _by(cells, "task", "transition", degree)
              if c.get("log_loss") is not None}
-        paired = [(s[k]["log_loss"] - t[k]["log_loss"]) for k in sorted(s.keys() & t.keys())]
+        paired = [r[k]["log_loss"] - t[k]["log_loss"]
+                  for k in sorted(r.keys() & t.keys())]
         interval = paired_interval(paired, reps=reps) if paired else None
         t_losses = [t[k]["log_loss"] for k in sorted(t)]
-        baseline_losses = [t[k]["best_baseline_log_loss"] for k in sorted(t)
-                           if t[k].get("best_baseline_log_loss") is not None]
+        base_losses = [t[k]["best_baseline_log_loss"] for k in sorted(t)
+                       if t[k].get("best_baseline_log_loss") is not None]
         t_median = statistics.median(t_losses) if t_losses else None
-        baseline_median = statistics.median(baseline_losses) if baseline_losses else None
-        if t_median is None or baseline_median is None:
+        base_median = statistics.median(base_losses) if base_losses else None
+        if t_median is None or base_median is None:
             baseline_missing.append(degree)
-        elif t_median > baseline_median + 0.05:
+        elif t_median > base_median + 0.05:
             baseline_failures.append(degree)
-        task_detail[str(degree)] = {
+        detail[str(degree)] = {
             "paired": len(paired),
             "mean_difference": round(statistics.mean(paired), 6) if paired else None,
             "interval": [round(interval[0], 6), round(interval[1], 6)] if interval else None,
             "transition_median": round(t_median, 6) if t_median is not None else None,
-            "best_baseline_median": round(baseline_median, 6)
-            if baseline_median is not None else None,
-            "baseline_gap": round(t_median - baseline_median, 6)
-            if t_median is not None and baseline_median is not None else None,
+            "best_baseline_median": round(base_median, 6) if base_median is not None else None,
+            "baseline_gap": round(t_median - base_median, 6)
+            if t_median is not None and base_median is not None else None,
         }
         if interval:
             diffs.extend(paired)
             if interval[1] < 0:
                 losses.append(degree)
     pooled = paired_interval(diffs, reps=reps) if diffs else None
-    conditions["4_task"] = {
-        "per_degree": task_detail,
+    conditions["4_formula_effect"] = {
+        "per_degree": detail,
+        "pooled_mean": round(statistics.mean(diffs), 6) if diffs else None,
         "pooled_interval": [round(pooled[0], 6), round(pooled[1], 6)] if pooled else None,
         "regimes_with_loss": losses,
         "baseline_failures": baseline_failures,
         "baseline_missing": baseline_missing,
-        "required": ("pooled 99% lower bound > 0, no regime loss, and the transition "
-                     "arm within 0.05 nats of the best simple baseline in each regime"),
+        "shipped_vs_ratio": contrast("shipped", "ratio"),
+        "shipped_vs_transition": contrast("shipped", "transition"),
+        "required": ("R - T log-loss pooled 99% lower > 0, no regime loss, and T within "
+                     "0.05 nats of the best simple baseline in each regime"),
         "ok": bool(pooled and pooled[0] > 0 and not losses
                    and not baseline_failures and not baseline_missing),
     }
 
-    # 5. coverage at the degrees where shipped is live.
     coverage_detail, coverage_ok = {}, True
     for degree in (2, 4):
-        s = [c["coverage"] for c in _by(cells, "stationary", "shipped", degree)
+        r = [c["coverage"] for c in _by(cells, "stationary", "ratio", degree)
              if c["coverage"] is not None]
         t = [c["coverage"] for c in _by(cells, "stationary", "transition", degree)
              if c["coverage"] is not None]
-        if not s or not t:
+        if not r or not t:
             coverage_ok = False
-            coverage_detail[str(degree)] = {"shipped": None, "transition": None}
+            coverage_detail[str(degree)] = {"ratio": None, "transition": None}
             continue
-        sm, tm = statistics.median(s), statistics.median(t)
-        coverage_detail[str(degree)] = {"shipped": round(sm, 4), "transition": round(tm, 4)}
-        if tm < sm - 0.05:
+        rm, tm = statistics.median(r), statistics.median(t)
+        coverage_detail[str(degree)] = {"ratio": round(rm, 4), "transition": round(tm, 4)}
+        if tm < rm - 0.05:
             coverage_ok = False
     conditions["5_coverage"] = {
         "per_degree": coverage_detail,
-        "required": "transition median >= shipped median at d in (2, 4); no drop > 0.05",
+        "required": "transition median >= ratio median at 2, 4; no drop > 0.05",
         "ok": coverage_ok,
     }
 
-    # 6. revision: paired at d=3, absolute at d=12 (shipped has no structure there).
     revision = {}
-    s3 = {(c["seed"]): c for c in _by(cells, "shift", "shipped", 4)}
-    t3 = {(c["seed"]): c for c in _by(cells, "shift", "transition", 4)}
-    common = sorted(s3.keys() & t3.keys())
-    b3 = [t3[k]["b_coverage_final"] for k in common if t3[k]["b_coverage_final"] is not None]
-    a_better = [t3[k]["a_share_final"] <= s3[k]["a_share_final"] for k in common
-                if t3[k]["a_share_final"] is not None and s3[k]["a_share_final"] is not None]
+    r4 = {c["seed"]: c for c in _by(cells, "shift", "ratio", 4)}
+    t4 = {c["seed"]: c for c in _by(cells, "shift", "transition", 4)}
+    common = sorted(r4.keys() & t4.keys())
+    b4 = [t4[k]["b_coverage_final"] for k in common
+          if t4[k]["b_coverage_final"] is not None]
+    a_not_worse = [t4[k]["a_share_final"] <= r4[k]["a_share_final"] for k in common
+                   if t4[k]["a_share_final"] is not None
+                   and r4[k]["a_share_final"] is not None]
     t12 = [c["b_coverage_final"] for c in _by(cells, "shift", "transition", 12)
            if c["b_coverage_final"] is not None]
-    revision["d4"] = {"median_b_coverage": round(statistics.median(b3), 4) if b3 else None,
-                      "a_share_not_worse": (sum(a_better) / len(a_better)) if a_better else None}
+    revision["d4"] = {"median_b_coverage": round(statistics.median(b4), 4) if b4 else None,
+                      "a_share_not_worse": (sum(a_not_worse) / len(a_not_worse))
+                      if a_not_worse else None}
     revision["d12"] = {"median_b_coverage": round(statistics.median(t12), 4) if t12 else None}
     conditions["6_revision"] = {
         "detail": revision,
-        "required": "d4: B coverage >= 0.5 and A share no worse; d12: B coverage >= 0.4",
-        "ok": bool(b3 and statistics.median(b3) >= 0.5 and a_better and all(a_better)
-                   and t12 and statistics.median(t12) >= 0.4),
+        "required": ("d4: B coverage >= 0.5 and A share no worse than ratio; "
+                     "d12: B coverage >= 0.4"),
+        "ok": bool(b4 and statistics.median(b4) >= 0.5 and a_not_worse
+                   and all(a_not_worse) and t12 and statistics.median(t12) >= 0.4),
     }
 
-    if not comparability["ok"]:
+    if not conditions["1_comparability"]["ok"]:
         label = "not comparable"
     elif not conditions["2_high_degree_safety"]["ok"]:
         label = "improves low-degree only"
     elif not conditions["3_assertion_honesty"]["ok"]:
         label = "trades precision for coverage"
-    elif not conditions["4_task"]["ok"]:
-        label = ("worse than the simple baseline"
-                 if conditions["4_task"]["baseline_failures"] else "no task effect")
+    elif conditions["4_formula_effect"]["baseline_missing"]:
+        label = "task endpoint not measurable"
+    elif conditions["4_formula_effect"]["baseline_failures"]:
+        label = "worse than the simple baseline"
+    elif not conditions["4_formula_effect"]["ok"]:
+        mean = conditions["4_formula_effect"]["pooled_mean"]
+        label = "threshold alone suffices" if (mean is not None and mean <= 0) else "no task effect"
     elif not conditions["5_coverage"]["ok"]:
         label = "coverage regression"
     elif not conditions["6_revision"]["ok"]:
         label = "no useful revision"
     else:
         label = "adopt"
+
+    thresholds = (calibration or {}).get("thresholds") or {}
+    boundary = {arm: thresholds.get(arm) == 0.075 for arm in ("ratio", "transition")}
     return {"verdict": "ADOPT" if label == "adopt" else label.upper(),
             "label": label,
             "all_conditions_met": all(c["ok"] for c in conditions.values()),
             "conditions": conditions,
-            "tau_star": (calibration or {}).get("tau_star")}
+            "thresholds": thresholds,
+            "boundary_selected": boundary}
 
 
 # ---------------------------------------------------------------------------
@@ -626,8 +676,8 @@ def _pool(func, tasks, workers, progress=False):
 
 
 def _calibration_task(args):
-    tau, degree, seed, cycles = args
-    return stationary_cell("transition", tau, degree, seed, cycles)
+    arm, tau, degree, seed, cycles = args
+    return stationary_cell(arm, tau, degree, seed, cycles)
 
 
 def _heldout_task(args):
@@ -662,30 +712,40 @@ def cmd_calibrate(args):
     overlapping = set(seeds) & harvest_seeds()
     if overlapping:
         raise SystemExit("calibration seeds already used: %s" % sorted(overlapping))
-    tasks = [(tau, d, s, cycles) for tau in GRID for d in degrees for s in seeds]
-    print("calibration: %d cells, %d workers" % (len(tasks), args.workers), flush=True)
+    tasks = [(arm, tau, d, s, cycles) for arm in ("ratio", "transition")
+             for tau in GRID for d in degrees for s in seeds]
+    print("calibration: %d cells (%d arms), %d workers"
+          % (len(tasks), 2, args.workers), flush=True)
     cells = _pool(_calibration_task, tasks, args.workers, progress=True)
-    choice = choose_threshold(cells)
-    payload = {"protocol": protocol, "kind": "calibration", "version": 1,
+    choices = {arm: choose_threshold([c for c in cells if c["arm"] == arm])
+               for arm in ("ratio", "transition")}
+    thresholds = {arm: choices[arm]["tau_star"] for arm in choices}
+    payload = {"protocol": protocol, "kind": "calibration", "version": 2,
                "seeds": list(seeds), "degrees": list(degrees), "grid": list(GRID),
-               "cycles": cycles, "tau_star": choice["tau_star"],
-               "choice": choice, "cells": cells}
+               "cycles": cycles, "thresholds": thresholds,
+               "boundary_selected": {arm: thresholds[arm] == 0.075 for arm in thresholds},
+               "choices": choices, "cells": cells}
     out = Path(args.out) if args.out else (
         SMOKE_DIR / "calibration.smoke.json" if args.smoke else
         CONFIRMATION_DIR / "calibration.json")
     if not protocol and CONFIRMATION_DIR in out.parents:
         raise SystemExit("a smoke calibration may not be written under docs/confirmation")
     seal(payload, out)
-    print(json.dumps({k: choice[k] for k in ("tau_star", "reason")}, indent=1))
+    print(json.dumps({arm: {"tau": thresholds[arm],
+                            "reason": choices[arm]["reason"]}
+                      for arm in choices}, indent=1))
     print("wrote %s (protocol=%s)" % (out, protocol))
-    return 0 if choice["tau_star"] is not None else 1
+    return 0 if all(value is not None for value in thresholds.values()) else 1
 
 
 def cmd_heldout(args):
     calibration = verify_seal(Path(args.calibration))
-    tau = calibration["tau_star"]
-    if tau is None:
-        raise SystemExit("calibration selected no threshold; there is nothing to compare")
+    thresholds = calibration.get("thresholds") or {
+        "transition": calibration.get("tau_star")}
+    if not all(thresholds.get(arm) is not None for arm in ("ratio", "transition")):
+        raise SystemExit("calibration selected no threshold for one of the arms")
+    tau_for = {"shipped": None, "ratio": thresholds["ratio"],
+               "transition": thresholds["transition"]}
     seeds = tuple(args.seeds) if args.seeds else HELDOUT_SEEDS
     protocol = (not args.smoke) and calibration.get("protocol") is True
     if not args.smoke:
@@ -693,20 +753,21 @@ def cmd_heldout(args):
         if overlapping:
             raise SystemExit("held-out seeds already used: %s" % sorted(overlapping))
     tasks = []
-    for arm in ("shipped", "transition"):
+    for arm in ARMS:
+        arm_tau = tau_for[arm]
         for degree in DEGREES:
             for seed in seeds:
-                tasks.append(("stationary", arm, tau, degree, seed))
+                tasks.append(("stationary", arm, arm_tau, degree, seed))
         for degree in SHIFT_DEGREES:
             for seed in seeds:
-                tasks.append(("shift", arm, tau, degree, seed))
+                tasks.append(("shift", arm, arm_tau, degree, seed))
         for degree in DEGREES:
             for seed in seeds:
-                tasks.append(("task", arm, tau, degree, seed))
+                tasks.append(("task", arm, arm_tau, degree, seed))
     print("held-out: %d cells, %d workers" % (len(tasks), args.workers), flush=True)
     cells = _pool(_heldout_task, tasks, args.workers, progress=True)
-    payload = {"protocol": protocol, "kind": "heldout", "version": 1,
-               "tau_star": tau, "calibration_sha256": calibration["sha256"],
+    payload = {"protocol": protocol, "kind": "heldout", "version": 2,
+               "thresholds": thresholds, "calibration_sha256": calibration["sha256"],
                "seeds": list(seeds), "cells": cells, "audit": audit_worlds()}
     out = Path(args.out) if args.out else (
         SMOKE_DIR / "heldout.smoke.json" if args.smoke else
@@ -724,7 +785,6 @@ def cmd_analyze(args):
     heldout = json.loads(Path(args.heldout).read_text(encoding="utf-8"))
     verdict = decide(heldout["cells"], calibration, reps=args.reps)
     verdict["protocol"] = bool(heldout.get("protocol")) and bool(calibration.get("protocol"))
-    verdict["tau_star"] = calibration.get("tau_star")
     if not verdict["protocol"]:
         verdict["verdict"] = "SMOKE — not a verdict"
     print(json.dumps(verdict, indent=1))

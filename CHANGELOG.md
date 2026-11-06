@@ -38,9 +38,11 @@ there is nothing to check out.
   conjunctive analysis that returns a named rejection instead of a weak pass.
   `tests/test_decay_confirmation.py` produces every rejection label, so no gate is decoration.
 - **`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md`** fixes the protocol before any cell,
-  with three dated pre-run amendments: the shipped arm's closed-form `1/N` ceiling at degree
+  with five dated pre-run amendments: the shipped arm's closed-form `1/N` ceiling at degree
   4 and above, the measured even degree ladder (2/4/6/12) with scan-chosen seed blocks, and
-  non-inferiority to the strongest simple baseline on the task endpoint.
+  non-inferiority to the strongest simple baseline on the task endpoint, a ratio-strength
+  threshold-control arm calibrated on the same seeds, and an explicit definition of a
+  boundary selection at 0.075.
 - The four-option decay measurement (`docs/DECAY-FIX-OPTIONS.md`,
   `docs/prediction-decay-options.json`), the 0.9.0/0.12.0 comparison pre-registration, the
   0.12.0 engine identity record and its test are recorded alongside it.
