@@ -38,11 +38,39 @@ def test_a_missing_question_is_rejected():
     assert any("questions in the protocol" in m for m in found), found
 
 
-def test_an_unassigned_question_that_now_exists_is_rejected():
+def test_an_amended_question_must_be_registered():
     registry = _registry()
-    registry["questions"].append({"id": "Q033", "preregistrations": []})
+    registry["questions"] = [x for x in registry["questions"] if x["id"] != "Q033"]
     found = g.validate(_text(), registry)
-    assert any("scope statement is stale" in m for m in found), found
+    assert any("Q033 was brought into scope but is not registered" in m for m in found), found
+
+
+def test_an_amended_question_must_carry_the_protocol():
+    registry = _registry()
+    for x in registry["questions"]:
+        if x["id"] == "Q034":
+            x["preregistrations"] = []
+    found = g.validate(_text(), registry)
+    assert any("Q034 does not carry this pre-registration" in m for m in found), found
+
+
+def test_an_out_of_scope_question_must_not_carry_the_protocol():
+    registry = _registry()
+    for x in registry["questions"]:
+        if x["id"] == "Q035":
+            x["preregistrations"] = [g.DOC.name]
+    found = g.validate(_text(), registry)
+    assert any("Q035 is out of this run's scope" in m for m in found), found
+
+
+def test_an_edit_to_the_amendment_is_caught_by_its_own_digest():
+    found = g.validate(_text().replace("at most 2 cycles", "at most 3 cycles"), _registry())
+    assert any("amendment text moved" in m for m in found), found
+
+
+def test_a_missing_amendment_is_rejected():
+    found = g.validate(_text()[: _text().index("\n## 11.")], _registry())
+    assert any("section 11" in m for m in found), found
 
 
 def test_an_edit_to_the_frozen_text_is_caught_by_the_digest():

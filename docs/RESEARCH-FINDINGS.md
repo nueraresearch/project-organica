@@ -87,6 +87,14 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
+### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** No engine change is needed. 405 of 405 schema-primed predictions are recoverable from the stored rows -- the schema id, both role ids and both role rows -- across 16,962 scanned rows, with zero R1, R2 and R3 residuals. A schema_prior_roles field would be a second copy of what the record already holds, and the scoped change was retired unapplied.
+
+**Evidence.** `docs/store_time_role_durability.json`, `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
@@ -269,6 +277,30 @@ as one.
 **Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
 
 **What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
+
+### Q033 — During collapse, is a stable core retained or does the whole structure collapse?
+
+**Why it is open.** The per-cycle ledger records the stable-edge set every cycle, so a core is measurable, but no run has separated a surviving core from a full collapse beyond the first study's three seeds, where all 35 peak edges were dead by the final cycle.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q034 — Is the collapse deterministic or stochastic across seeds?
+
+**Why it is open.** The first study measured one first-fall cycle and one zero cycle per seed on three seeds, which cannot separate a schedule-driven collapse from a seed-driven one. Twelve seeds with the same instrument can, but the dispersion criterion has to be fixed before the run.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q035 — Is persistence independent of the theory budget?
+
+**Why it is open.** Budget independence is a claim about a manipulated variable, and the replication protocol fixes one budget by design. The ceiling study measured endpoints at three budgets, not persistence under each, so answering this needs its own protocol with the budgets crossed with a seed block.
+
+**What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_attribution.json`
+
+### Q037 — Which mechanism accounts for most of the loss?
+
+**Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
 ### Q022 — Can role representations transfer across domains?
 

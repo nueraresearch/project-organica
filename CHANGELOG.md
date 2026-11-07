@@ -30,6 +30,20 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — The four remaining decay questions are registered and scoped (2026-11-07)
+
+- **Q033, Q034, Q035 and Q037 are now registry questions** with the owner's wording; the frozen
+  replication protocol gains a dated **section 11 amendment**, written before any cell and pinned by
+  its own SHA-256, carrying Q033, Q034 and Q037 and three added predictions.
+- **Six secondary characterizations** with distinct decisions: `CORE_SURVIVES`/`FULL_COLLAPSE`,
+  `COLLAPSE_SCHEDULED`/`COLLAPSE_SEEDED`, `DECAY_DOMINANT`/`THRESHOLD_DOMINANT`. They cannot move the
+  primary label.
+- **Q035 is deliberately out of scope:** budget independence needs at least three budget arms crossed
+  with a seed block, which this run's fixed budget cannot supply.
+- **Q043 records the store-time role closure:** 405 of 405 schema-primed predictions recoverable
+  across 16,962 rows, zero R1/R2/R3 residuals, so no engine change was needed. Registry: 41
+  questions, 18 closed, 12 open, 6 retired, 5 future.
+
 ### Added — The decay-attribution replication is pre-registered (2026-11-07)
 
 - **`docs/DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`** freezes one instrumented run before it

@@ -143,3 +143,48 @@ fails `--check`; a correction is a dated amendment appended to section 10, never
 **Not yet written.** The runner may not write this section until `docs/decay_attribution_study.json`
 exists. Until then the protocol has not executed, and
 `benchmarks.decay_attribution_study_prereg --check` asserts exactly that state.
+
+## 11. Amendment — 2026-11-07: the four numbers are now named
+
+The owner supplied the four question texts that section 1 recorded as unassigned, so they are now
+registered as **Q033, Q034, Q035 and Q037**. This amendment was written **before any cell ran** —
+`executions` is still 0 and the artifact does not exist — so it is pre-registration, not a re-reading.
+It is dated and appended rather than edited into sections 1–9, which keep their committed digest; the
+amendment's own text is pinned separately by SHA-256 in the guard.
+
+| Id | Question | Carried by this run? |
+| --- | --- | --- |
+| Q033 | During collapse, is a stable core retained or does the whole structure collapse? | yes, criterion S1 |
+| Q034 | Is the collapse deterministic or stochastic across seeds? | yes, criterion S2 |
+| Q035 | Is persistence independent of the theory budget? | **no**, needs budget arms |
+| Q037 | Which mechanism accounts for most of the loss? | yes, criterion S3 |
+
+**Q035 is out of scope on purpose.** Budget independence is a claim about a manipulated variable, and
+this run holds the budget fixed at 8 theories and 15 hypotheses by design (section 2). Answering it
+requires its own protocol with at least three budgets — the ceiling study used 8/15, 16/30 and
+64/128 — crossed with a seed block. Registering the question here without those arms would license a
+claim this instrument cannot make.
+
+### Added predictions, committed before the run
+
+| Prediction | Condition | First study |
+| --- | --- | --- |
+| P7 | `decayed` — a missed re-emission followed by the engine's x0.8 — accounts for at least 50 percent of the engine arm's deaths in all 12 seeds | 68.97 percent |
+| P8 | the core is empty at collapse: no edge stays stable continuously from the peak cycle to the first cycle with zero stable edges, in at least 11 of 12 seeds | all 35 peak edges dead, the last at cycle 79 |
+
+### Secondary characterizations, each with its own decision
+
+Read only when the run is not `VOID_INSTRUMENT`, and never used to move the primary label of
+section 7.
+
+| Label | Condition | Decision |
+| --- | --- | --- |
+| `CORE_SURVIVES` | P8 fails: one edge survives from peak to collapse in 2 or more seeds | persistence has a structural core, and the repair question starts from what keeps that core alive |
+| `FULL_COLLAPSE` | P8 holds | there is no core to protect, so repair must act before the collapse rather than on a remnant |
+| `COLLAPSE_SCHEDULED` | the range of the first-zero cycle across the 12 seeds is at most 2 cycles | the collapse time is a property of the schedule, so repair can be tested at a fixed cycle |
+| `COLLAPSE_SEEDED` | that range is greater than 2 cycles | the collapse time is seed-driven, so repair must be evaluated per seed and reported as a distribution |
+| `DECAY_DOMINANT` | P7 holds | Q037 is answered for this world: candidate decay after a missed re-emission is the main loss, and the admission set is the lever |
+| `THRESHOLD_DOMINANT` | `below_threshold` is at least 50 percent in a majority of seeds | the strength rule is the main loss, and the admission threshold is the lever |
+
+Q033, Q034 and Q037 stay `open` until the run writes section 10; this amendment does not answer them.
+Q035 is registered and stays open with no protocol attached.

@@ -13,11 +13,11 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 17 | a result constrained the space; the answer is recorded with its scope |
-| open | 8 | evidence exists, no answer is settled |
+| closed | 18 | a result constrained the space; the answer is recorded with its scope |
+| open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **36** | |
+| **total** | **41** | |
 
 ## How this stays current
 
@@ -255,6 +255,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
+### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** No engine change is needed. 405 of 405 schema-primed predictions are recoverable from the stored rows -- the schema id, both role ids and both role rows -- across 16,962 scanned rows, with zero R1, R2 and R3 residuals. A schema_prior_roles field would be a second copy of what the record already holds, and the scoped change was retired unapplied.
+
+**Preregistered in.** `STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`
+
+**Evidence.** `docs/store_time_role_durability.json`, `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
+
+**Decision record.** `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
+
 ## 2. Open — evidence in hand, no settled answer
 
 ### Q011 — Does a consolidated schema buy acquisition latency across a vocabulary boundary?
@@ -338,6 +352,44 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
 
 **Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
+
+### Q033 — During collapse, is a stable core retained or does the whole structure collapse?
+
+*research question.*
+
+**Why it is open.** The per-cycle ledger records the stable-edge set every cycle, so a core is measurable, but no run has separated a surviving core from a full collapse beyond the first study's three seeds, where all 35 peak edges were dead by the final cycle.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q034 — Is the collapse deterministic or stochastic across seeds?
+
+*research question.*
+
+**Why it is open.** The first study measured one first-fall cycle and one zero cycle per seed on three seeds, which cannot separate a schedule-driven collapse from a seed-driven one. Twelve seeds with the same instrument can, but the dispersion criterion has to be fixed before the run.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q035 — Is persistence independent of the theory budget?
+
+*research question.*
+
+**Why it is open.** Budget independence is a claim about a manipulated variable, and the replication protocol fixes one budget by design. The ceiling study measured endpoints at three budgets, not persistence under each, so answering this needs its own protocol with the budgets crossed with a seed block.
+
+**Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_attribution.json`
+
+### Q037 — Which mechanism accounts for most of the loss?
+
+*research question.*
+
+**Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
 ## 3. Retired — no longer worth resources
 

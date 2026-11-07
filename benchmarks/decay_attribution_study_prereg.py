@@ -6,8 +6,8 @@ This module keeps it that way:
 * the seed block is the one carried here, and no seed in it is used anywhere under `docs/`;
 * the protocol records **no execution** and the result artifact does not exist, so a protocol
   written after the run is rejected rather than accepted as a pre-registration;
-* every question it claims is registered and carries this protocol, and every question number it
-  says is unassigned is still unassigned;
+* every question it claims is registered and carries this protocol, and the four numbers the
+  frozen header calls unassigned are accounted for by the dated scope amendment;
 * the decision table has a non-empty decision for each of its four labels, so no bucket is a label
   without a consequence (AGENTS.md rule 30);
 * sections 1-9 are pinned by SHA-256, so a one-byte edit to the frozen text fails the check.
@@ -37,6 +37,10 @@ SEEDS = tuple(range(20301201, 20301213))
 ARMS = ("engine", "no_temporal_decay")
 QUESTIONS = ("Q029", "Q030", "Q031", "Q032", "Q036")
 UNASSIGNED = ("Q033", "Q034", "Q035", "Q037")
+#: Brought into scope by section 11, which was written before any cell ran.
+AMENDED = ("Q033", "Q034", "Q037")
+#: Registered, but deliberately not carried by this run: it needs budget arms.
+OUT_OF_SCOPE = ("Q035",)
 BUCKETS = ("REPLICATED", "REPLICATED_WITH_SHIFT", "NOT_REPLICATED", "VOID_INSTRUMENT")
 BLOCK_KEYS = ("study", "executions", "seeds", "arms", "artifact", "questions", "unassigned")
 REQUIRED_SECTIONS = (
@@ -53,12 +57,20 @@ REQUIRED_SECTIONS = (
 )
 #: SHA-256 of sections 1-9 as committed. A later edit cannot pass as the frozen protocol.
 FROZEN_DIGEST = "2e67000fc134a6b5c10281887e32a7be500dc3bbb7e8e82f4975563271ba7d0f"
+#: SHA-256 of the section 11 amendment, pinned when it was written.
+AMENDMENT_DIGEST = "f68208a512eb63d9115d07740377836c4df1a87c41308e119a4ab8f82fe51177"
 
 
 def protocol_digest(text: str) -> str:
     """SHA-256 of sections 1-9, not of the outcome section."""
     cut = text.find("\n## 10.")
     return hashlib.sha256((text[:cut] if cut >= 0 else text).encode("utf-8")).hexdigest()
+
+
+def amendment_digest(text: str) -> str:
+    """SHA-256 of the scope amendment, or the empty hash when it is missing."""
+    cut = text.find("\n## 11.")
+    return hashlib.sha256((text[cut:] if cut >= 0 else "").encode("utf-8")).hexdigest()
 
 
 def parse_block(text: str) -> dict[str, str]:
@@ -112,9 +124,24 @@ def validate(text: str, registry: dict, artifact_exists: bool = False,
             found.append("%s is not in the registry" % qid)
         elif DOC.name not in (questions[qid].get("preregistrations") or []):
             found.append("%s does not carry this pre-registration" % qid)
-    for qid in UNASSIGNED:
-        if qid in questions:
-            found.append("%s is registered now, so the protocol's scope statement is stale" % qid)
+    amendment = text[text.find("\n## 11."):] if "\n## 11." in text else ""
+    if not amendment:
+        found.append("the scope amendment (section 11) is missing")
+    for qid in AMENDED:
+        if qid not in questions:
+            found.append("%s was brought into scope but is not registered" % qid)
+        elif DOC.name not in (questions[qid].get("preregistrations") or []):
+            found.append("%s does not carry this pre-registration" % qid)
+        elif qid not in amendment:
+            found.append("%s is registered but the amendment does not name it" % qid)
+    for qid in OUT_OF_SCOPE:
+        if qid not in questions:
+            found.append("%s is named out of scope but is not registered" % qid)
+        elif DOC.name in (questions[qid].get("preregistrations") or []):
+            found.append("%s is out of this run's scope but carries its pre-registration" % qid)
+    amended = amendment_digest(text)
+    if amended != AMENDMENT_DIGEST:
+        found.append("the amendment text moved: digest %s, pinned %s" % (amended, AMENDMENT_DIGEST))
 
     for label in BUCKETS:
         rows = [ln for ln in text.splitlines() if ln.startswith("| `%s`" % label)]
