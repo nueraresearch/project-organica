@@ -171,3 +171,14 @@ def test_the_row_count_is_labeled_as_reported_not_checked_across_horizons():
     assert "owner-reported" in source
     assert "not something this record checked" in source
     assert "not something this table checked" in _flat()
+
+
+def test_decay_necessity_is_unresolved_rather_than_refuted():
+    necessity = _rec()["necessity"]
+    assert necessity["status"] == "unresolved"
+    assert "not run" in necessity["why"]
+    assert "two points of the parameter range" in necessity["not"]
+    flat = _flat()
+    assert "Necessity is **unresolved**, not refuted" in flat
+    assert "not about the parameter's role" in flat
+    assert "decay is useless" in flat and "has not run" in flat

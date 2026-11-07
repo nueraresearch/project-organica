@@ -132,7 +132,11 @@ growth proxy, and the criterion that would turn either into a verdict is unset.
 
 It does not show decay is useless. The matched decay-on/off comparison with
 everything else held fixed has not run, and this harness differs from the matrix
-in its counters, not in its engine. It does not compare `0.9.0` with `0.12.0`.
+in its counters, not in its engine. Necessity is **unresolved**, not refuted and not supported: what is on
+record is two points of the parameter range — 0.95 failing the criterion on this
+stream and horizon, 1.0 passing it — which is a statement about where the range
+fails, not about the parameter's role. Estimating that role needs the matched
+comparison, and until it runs the honest status is open. It does not compare `0.9.0` with `0.12.0`.
 And a 3,000-cycle live run is not the longitudinal study's horizon, which is
 longer: liveness here is a precondition for calling a restoration build
 release-ready, not a green light.

@@ -81,5 +81,11 @@
   "source": "owner-reported ('about 1.55x')",
   "reading": "storage did not track mass: a 1.55x database against a 108.715x mass"
  },
- "reading": "weight accumulation on a fixed relation set: the mass grew because stored pairs were reinforced, not because more pairs were stored; 197,753 is not a row count and the growth is not a storage multiplier"
+ "reading": "weight accumulation on a fixed relation set: the mass grew because stored pairs were reinforced, not because more pairs were stored; 197,753 is not a row count and the growth is not a storage multiplier",
+ "necessity": {
+  "status": "unresolved",
+  "established": "this decay factor is incompatible with liveness on this stream and horizon, while the counterfactual factor is live there",
+  "why": "one factor at one horizon is not a necessity claim: the matched decay-on/off comparison that would estimate the parameter's causal effect has not run",
+  "not": "not refuted and not supported; two points of the parameter range were observed"
+ }
 }
