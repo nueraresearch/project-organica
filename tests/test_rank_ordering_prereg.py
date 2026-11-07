@@ -139,7 +139,7 @@ def test_the_seed_block_is_fresh_and_registered():
 def test_the_bar_is_declared_before_any_cell():
     crit = _body()["criteria"]
     assert crit["M1_bar"] == 0.15
-    assert crit["M2_min_gradient"] == 0.05
+    assert "M2_withdrawn" in crit and "density_profile_rule" in crit
     assert "declared before any cell, not computed from a run" in crit["M1_bar_provenance"]
     assert crit["interval"] == 0.95 and crit["bootstrap_reps"] == 4000
     assert crit["sign_test"] == {"required": 7, "of": 8}
@@ -177,20 +177,17 @@ def test_a_wide_interval_is_underpowered_and_closes_nothing():
     assert result["decision"]["decision"] == "neither"
 
 
-def test_a_level_without_a_gradient_is_not_the_positive_pole():
+def test_m1_alone_decides_and_the_ladder_is_reported_not_scored():
     result = S.score(_grid(0.40, 0.40))
     assert result["criteria"]["M1"]["passed"] is True
-    assert result["criteria"]["M2"]["passed"] is False
-    assert result["decision"]["verdict"] == "ORDERING HELPS, GRADIENT ABSENT"
-    assert result["decision"]["decision"] == "neither"
-
-
-def test_an_interaction_without_a_level_is_neither_pole():
-    result = S.score(_grid(0.05, -0.60))
-    assert result["criteria"]["M1"]["passed"] is False
-    assert result["criteria"]["M2"]["passed"] is True
-    assert result["decision"]["verdict"] == "GRADIENT WITHOUT LEVEL"
-    assert result["decision"]["decision"] == "neither"
+    assert result["criteria"]["M2"]["withdrawn"] is True
+    assert result["decision"]["verdict"] == "ORDERING SUPPORTED"
+    profile = result["criteria"]["density_profile"]
+    assert set(profile) == {"0.1", "0.2", "0.4", "0.6", "0.8"}
+    for row in profile.values():
+        assert "coverage_gap_mean" in row and "precision_gap_mean" in row
+    assert [row["verdict"] for row in S.prereg()["decision_table"]] == [
+        "ORDERING SUPPORTED", "UNDERPOWERED", "ORDERING NOT THE LEVER"]
 
 
 @pytest.mark.parametrize("kwargs,gate", [
@@ -249,7 +246,7 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert smoke["observed"]["control_cap_20"]["coverage"] == 0.0
     assert smoke["observed"]["diversity_cap_20"]["coverage"] == 0.0
     assert smoke["counts"]["world_edges_in_top_40"] == 0
-    assert body["not_run"]["blocked"]
+    assert body["not_run"]["blocked"] is None
     repair = body["not_run"]["repair"]
     assert repair["smoke"]["seed"] == 20310401
     assert repair["smoke"]["seed"] not in body["design"]["seeds"]
@@ -258,9 +255,11 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert repair["smoke"]["primary_delta"] >= body["criteria"]["M1_bar"]
     assert repair["smoke"]["cells"]["cap_20"]["control"]["covered"] == 0
     assert repair["smoke"]["cells"]["cap_20"]["diversity"]["covered"] > 0
-    assert repair["finding_M2"]["amended"] is False
+    assert repair["finding_M2"]["amended"] is True
+    assert repair["finding_M2"]["withdrawn"] is True
     assert all(v <= 0 for v in repair["finding_M2"]["designed_did"])
-    assert body["not_run"]["blocked"]
+    assert body["not_run"]["blocked"] is None
+    assert "No judged cell has run" in body["not_run"]["ready"]
     reach = body["not_run"]["reach_audit"]
     assert reach["passed"] is True
     assert all(row["world_rows"] > 0 for row in reach["seeds"])
@@ -292,5 +291,6 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
         assert token in flat, token
     for row in body["decision_table"]:
         assert row["verdict"] in flat, row["verdict"]
+    assert "GRADIENT ABSENT" not in flat and "GRADIENT WITHOUT LEVEL" not in flat
     assert "No cell may run before this file is committed" in flat
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))

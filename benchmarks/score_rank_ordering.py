@@ -1,8 +1,12 @@
-"""The ranking experiment's analysis path: gates, criteria, verdict, decision.
+"""The ranking experiment's analysis path: gates, criterion, verdict, decision.
 
 Frozen before the run. It reads the cells a runner writes and nothing else, so the
-criteria cannot be re-chosen after a result is seen. Every gate can fail, and each
+criterion cannot be re-chosen after a result is seen. Every gate can fail, and each
 failure is reported as the gate rather than as a verdict.
+
+M1 is the only criterion. M2 was withdrawn by Amendment 4 of the pre-registration: no
+endpoint could both vary with density and fail in this world family, so the density
+ladder is reported as a characterization (`criteria.density_profile`) and is not scored.
 
     ./.venv/bin/python -m benchmarks.score_rank_ordering \
         --results docs/rank_ordering_run.json --out docs/rank_ordering_result.json
@@ -176,77 +180,75 @@ def gates(cells: list[dict], identity: dict) -> dict:
 
 
 def criteria(cells: list[dict]) -> dict:
-    """M1 the level in coverage, M2 the interaction in precision.
+    """M1, the level at the sparsest point. M2 is withdrawn (Amendment 4).
 
-    M2 cannot be read on coverage: |W| grows eightfold across the ladder while the cap is
-    fixed, so a coverage gap is mechanically forced to shrink. Precision is normalized by
-    the budget, and at density 1 it tends to 1 in both arms, so a precision gap that
-    collapses as density rises is a real interaction rather than a denominator.
+    The density ladder is a profile, not a criterion: the precision gap at cap 20 is set
+    by how many crowded sources the spread must spend on, which does not vary with density,
+    and the coverage gap can only vary through |W|, the denominator. Reporting the ladder
+    keeps the shape visible without letting arithmetic decide a verdict.
     """
     record = prereg()
     bar = record["criteria"]["M1_bar"]
     index = _index(cells)
     seeds = sorted({k[3] for k in index})
-    low, high = round(MIN_RHO, 6), round(MAX_RHO, 6)
-    delta_cov, delta_prec = {}, {}
+    low = round(MIN_RHO, 6)
+
+    delta_cov = {}
     for seed in seeds:
-        control_low = index[("control", PRIMARY_CAP, low, seed)]
-        treated_low = index[("diversity", PRIMARY_CAP, low, seed)]
-        control_high = index[("control", PRIMARY_CAP, high, seed)]
-        treated_high = index[("diversity", PRIMARY_CAP, high, seed)]
-        delta_cov[seed] = treated_low["coverage"] - control_low["coverage"]
-        delta_prec[seed] = ((treated_low["precision"] - control_low["precision"])
-                            - (treated_high["precision"] - control_high["precision"]))
+        control = index[("control", PRIMARY_CAP, low, seed)]
+        treated = index[("diversity", PRIMARY_CAP, low, seed)]
+        delta_cov[seed] = treated["coverage"] - control["coverage"]
 
     seed = int(record["seeds"]["bootstrap"])
     m1_mean = _mean(delta_cov.values())
     m1_interval = _interval(list(delta_cov.values()), seed)
     m1 = m1_mean >= bar and m1_interval[0] > 0
 
-    min_gradient = record["criteria"]["M2_min_gradient"]
-    m2_mean = _mean(delta_prec.values())
-    m2_interval = _interval(list(delta_prec.values()), seed)
-    positive = sum(1 for v in delta_prec.values() if v > 0)
-    m2 = (m2_mean >= min_gradient and m2_interval[0] > 0
-          and positive >= SIGN_TEST_MIN)
+    profile = {}
+    for rho in record["design"]["densities"]:
+        rho = round(float(rho), 6)
+        cov, prec = [], []
+        for seed in seeds:
+            control = index[("control", PRIMARY_CAP, rho, seed)]
+            treated = index[("diversity", PRIMARY_CAP, rho, seed)]
+            cov.append(treated["coverage"] - control["coverage"])
+            prec.append(treated["precision"] - control["precision"])
+        profile["%.1f" % rho] = {
+            "coverage_gap_mean": round(_mean(cov), 6),
+            "precision_gap_mean": round(_mean(prec), 6),
+            "seeds_with_a_positive_coverage_gap": sum(1 for v in cov if v > 0),
+        }
 
     return {
         "M1": {"mean_delta_at_min_density": round(m1_mean, 6),
                "interval": m1_interval, "interval_upper": m1_interval[1],
                "interval_width": round(m1_interval[1] - m1_interval[0], 6),
                "bar": bar, "passed": bool(m1)},
-        "M2": {"mean_precision_difference_in_differences": round(m2_mean, 6),
-               "interval": m2_interval, "seeds_with_a_wider_gap_at_min_density": positive,
-               "of": len(delta_prec), "required": SIGN_TEST_MIN, "passed": bool(m2)},
+        "M2": {"withdrawn": True, "amendment": 4,
+               "reason": record["criteria"]["M2_withdrawn"]},
+        "density_profile": profile,
     }
 
 
 def verdict(gate_report: dict, criterion_report: dict) -> dict:
+    """Level-based, because M2 is withdrawn: M1 alone decides."""
     if not gate_report["all_passed"]:
         failed = sorted(k for k, v in gate_report.items()
                         if isinstance(v, dict) and v.get("passed") is False)
         return {"verdict": "VOID", "failed_gates": failed,
                 "decision": "neither", "reading": "a gate failed; no criterion is read"}
-    m1 = criterion_report["M1"]["passed"]
-    m2 = criterion_report["M2"]["passed"]
-    if m1 and m2:
+    if criterion_report["M1"]["passed"]:
         return {"verdict": "ORDERING SUPPORTED", "decision": "positive",
-                "reading": "the ordering basis is the lever, positive at the sparsest "
-                           "density and declining as density rises"}
-    if m1 and not m2:
-        return {"verdict": "ORDERING HELPS, GRADIENT ABSENT", "decision": "neither",
-                "reading": "a level difference without the predicted interaction; "
-                           "no engine change follows"}
+                "reading": "the ordering basis is the lever at the sparsest density; the "
+                           "density ladder is reported as a characterization, not scored"}
     width = criterion_report["M1"]["interval_width"]
     if width > prereg()["criteria"]["underpowered_width"]:
         return {"verdict": "UNDERPOWERED", "decision": "neither",
                 "reading": "the interval cannot place the level; closing the line "
                            "would read a draw as an absence"}
-    if m2:
-        return {"verdict": "GRADIENT WITHOUT LEVEL", "decision": "neither",
-                "reading": "the interaction appears without a level the bar accepts"}
     return {"verdict": "ORDERING NOT THE LEVER", "decision": "negative",
-            "reading": "ordering is closed; the line moves to the candidate space"}
+            "reading": "ordering is closed at this cap and world family; the line moves "
+                       "to the candidate space"}
 
 
 def score(payload: dict, record: dict | None = None) -> dict:

@@ -1,7 +1,7 @@
 {
  "prereg": "docs/RANK-ORDERING-PREREGISTRATION.md",
  "created": "2026-11-07",
- "status": "FROZEN, NOT RUN (judged block). No judged cell has been executed, no judged world generated and no judged engine cycle spent. Two smoke pools outside the block have been run and are recorded in not_run.smoke and not_run.repair; they are not evidence. The world's crowding was repaired and the reach gate now passes, but a second defect in M2 keeps the block un-runnable and is not amended here.",
+ "status": "FROZEN, NOT RUN (ready; no judged cell). No judged cell has been executed, no judged world generated and no judged engine cycle spent. Two smoke pools outside the block have been run and are recorded in not_run.smoke and not_run.repair; they are not evidence. The world's crowding was repaired, the reach gate passes, and Amendment 4 withdraws M2, leaving M1 as the sole criterion with the density ladder reported.",
  "design_record": "docs/NONFREQUENCY-RANKING-DESIGN.md",
  "question": "does ordering eligible candidates by source diversity, rather than by count, recover more of a sparse world's edges at the engine's own cap",
  "design": {
@@ -87,8 +87,6 @@
   "M1_bar": 0.15,
   "M1_rule": "mean Delta at cap 20 and rho_world = 0.1, where Delta = diversity coverage - control coverage per seed, is at least the bar and its 95% bootstrap interval's lower bound is above zero",
   "M1_bar_provenance": "declared before any cell, not computed from a run: 0.15 of the world's 24 edges at the sparsest level is at least a sixth of the world recovered beyond control, and the control's sampling expectation at that density is 20 x 0.1 / 24, about 0.083",
-  "M2_rule": "the precision gap, diversity minus control at cap 20, must be larger at rho_world = 0.1 than at rho_world = 0.8: a positive mean difference in differences of at least 0.05, a 95% interval lower bound above zero, and a wider gap at the sparser level on at least 7 of the 8 seeds",
-  "M2_min_gradient": 0.05,
   "sign_test": {
    "required": 7,
    "of": 8
@@ -96,7 +94,9 @@
   "interval": 0.95,
   "bootstrap_reps": 4000,
   "underpowered_width": 0.3,
-  "underpowered_rule": "if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result"
+  "underpowered_rule": "if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result",
+  "M2_withdrawn": "Amendment 4 (2026-11-07): withdrawn. No endpoint could both vary with density and fail here. The precision difference in differences at cap 20 is zero or negative on all eight designed seeds, because the precision gap is set by the eight crowded sources and does not vary with density. The coverage gap varies only through |W|: at cap 20 the dense-end gap is bounded by 20/192, so with M1's 0.15 bar the difference in differences is at least 0.0625 on every integer-coverage seed and the old 0.05 bar could not fail while M1 passed. M1 is the sole criterion; the coverage and precision gaps by density are reported as a characterization and are not scored.",
+  "density_profile_rule": "reported, not gated: coverage and precision gaps at cap 20 for every density, with the number of seeds whose coverage gap is positive; no threshold is applied to the ladder"
  },
  "amendments": [
   {
@@ -119,43 +119,33 @@
    "was": "every cell emitted its intra-cell pairs as filler, so all sixteen sources were crowded",
    "now": "two of the four cells emit filler, so eight sources are crowded and eight are free",
    "why": "with every source crowded the diversity arm could reach no world edge at either cap: after one pick per source its count tie-break returns to filler. The smoke run proved it and the reach gate made it refuse. The change is to the world the run ticket builds, not to either arm's rule, and it was made before any judged cell."
+  },
+  {
+   "on": "2026-11-07",
+   "gate": "M2",
+   "was": "the precision difference in differences at cap 20, rho 0.1 minus rho 0.8, at least 0.05 with a positive lower bound and a wider gap at the sparse end on 7 of 8 seeds",
+   "now": "withdrawn. M1 is the sole criterion; the coverage and precision gaps by density are reported as a characterization and are not scored",
+   "why": "the precision DiD is zero or negative on all eight designed seeds: at cap 20 the precision gap is set by the eight crowded sources, a count that does not vary with density, and at rho 0.8 every non-filler row is a world edge. The only density-varying quantity is the coverage gap, and it varies through the world size: at cap 20 the dense-end gap is bounded by 20/192, so with M1's 0.15 bar the difference in differences is at least 0.0625 on every integer-coverage seed and the 0.05 bar cannot fail while M1 passes. A criterion that cannot fail is decoration, so the interaction is withdrawn rather than replaced by the denominator; the ladder is reported and the decision table is level-based. Withdrawn before any judged cell, on structural grounds and two non-judged smoke pools."
   }
  ],
  "decision_table": [
   {
    "M1": "pass",
-   "M2": "pass",
    "verdict": "ORDERING SUPPORTED",
    "decision": "positive",
-   "reading": "the ordering basis is the lever: replace the count order with a diversity-based order in the next engine version, recorded as a cognition change"
-  },
-  {
-   "M1": "pass",
-   "M2": "fail",
-   "verdict": "ORDERING HELPS, GRADIENT ABSENT",
-   "decision": "neither",
-   "reading": "a level difference without the predicted interaction; no engine change follows"
-  },
-  {
-   "M1": "fail",
-   "M2": "pass",
-   "verdict": "GRADIENT WITHOUT LEVEL",
-   "decision": "neither",
-   "reading": "an interaction without a level the bar accepts; no engine change follows"
-  },
-  {
-   "M1": "fail",
-   "M2": "fail",
-   "verdict": "ORDERING NOT THE LEVER",
-   "decision": "negative",
-   "reading": "ordering is closed; the line moves to the candidate space, and no second ordering variant is run"
+   "reading": "the ordering basis is the lever at the sparsest density; the density ladder is reported as a characterization, not scored"
   },
   {
    "M1": "fail, interval wider than 0.30",
-   "M2": "either",
    "verdict": "UNDERPOWERED",
    "decision": "neither",
    "reading": "the interval cannot place the level; closing the line would read a draw as an absence"
+  },
+  {
+   "M1": "fail",
+   "verdict": "ORDERING NOT THE LEVER",
+   "decision": "negative",
+   "reading": "ordering is closed at this cap and world family; the line moves to the candidate space"
   }
  ],
  "analysis": {
@@ -178,7 +168,7 @@
   "engine_cycles": 0,
   "runner_built": true,
   "engine_cycles_scope": "judged block only; the smoke pool's cycles are counted in not_run.smoke",
-  "blocked": "M2 cannot pass: the precision difference in differences at cap 20 is zero or negative on all eight designed seeds (mean -0.0813), and the smoke pool's 0.1 precision gap (0.2) is smaller than the 0.8 pool's designed gap (0.4), so the registered interaction has the opposite sign. The block can only return ORDERING HELPS, GRADIENT ABSENT (not_run.repair)",
+  "blocked": null,
   "smoke": {
    "label": "SMOKE, NOT A JUDGED CELL, NOT EVIDENCE",
    "date": "2026-11-07",
@@ -523,15 +513,19 @@
     "mean_did": -0.08125,
     "smoke_precision_gap_rho_0_1": 0.2,
     "why": "at cap 20 the precision gap is set by how many crowded sources the spread must spend on, which is the same at every density, and at rho 0.8 every non-filler row is a world edge, so the gap there is at least as wide as at 0.1. The difference in differences is therefore zero or negative on every seed, and the registered direction (wider at the sparse end) cannot occur.",
-    "consequence": "the block can only return ORDERING HELPS, GRADIENT ABSENT; it stays blocked and no judged cell may run until the owner decides whether M2 is amended",
-    "amended": false
+    "consequence": "standing alone M2 could only return ORDERING HELPS, GRADIENT ABSENT, so the block would have rested on a criterion that cannot fail; Amendment 4 withdraws it and M1 alone decides",
+    "amended": true,
+    "withdrawn": true,
+    "resolution": "Amendment 4 withdraws M2 and makes M1 the sole criterion; the ladder is reported as a characterization (not_run.repair.finding_M2 keeps the evidence)"
    }
-  }
+  },
+  "ready": "both pre-run defects are resolved: the reach gate passes on all eight designed pools, and Amendment 4 withdraws M2 so the decision table is level-based. No judged cell has run; --run is the explicit ticket, and nothing may be reported as evidence until it is taken"
  },
  "not_evidence": [
   "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",
   "no coverage, delta or interval exists yet",
-  "a pass would be support within one world family, two caps and eight seeds, and nothing wider"
+  "a pass would be support within one world family, two caps and eight seeds, and nothing wider",
+  "the density ladder is reported as a characterization; the block makes no gradient claim"
  ],
  "allocation": {
   "seeds": 9,

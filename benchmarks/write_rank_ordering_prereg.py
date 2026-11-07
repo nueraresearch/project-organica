@@ -23,20 +23,20 @@ def render(body: dict) -> str:
     caps = " and ".join(str(c) for c in design["caps"])
     edges = ", ".join(str(n) for n in design["world_edges_at_each_density"])
     table = "\n".join(
-        "| %s | %s | **%s** | %s |" % (r["M1"], r["M2"], r["verdict"], r["reading"])
+        "| %s | **%s** | %s |" % (r["M1"], r["verdict"], r["reading"])
         for r in body["decision_table"])
 
     text = """# The ranking experiment, frozen before any cell (2026-11-07)
 
-**Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
-generated, no judged engine cycle spent, and no result artifact exists. Two smoke pools outside
-the block have been run and are recorded in §7; they are not evidence. The first found a defect
-that made the treatment unable to reach the world, the world's crowding was repaired, and the
-second proves the repair. The block is still not runnable: a second defect in M2 is visible in
-§7 and is not amended here. The criteria, gates, bar and allocation below were committed before
-the run; nothing here may be changed afterwards. A defect found later is disclosed as an
-amendment, and the pre-registered reading stands unless the amendment says plainly that it
-withdraws it.
+**Status: FROZEN, NOT RUN (ready; no judged cell).** No judged cell has been executed, no
+judged world generated, no judged engine cycle spent, and no result artifact exists. Two smoke
+pools outside the block have been run and are recorded in §7; they are not evidence. The first
+found a defect that made the treatment unable to reach the world, the world's crowding was
+repaired, the second proves the repair, and **Amendment 4 withdraws M2**: no endpoint could both
+vary with density and fail here, so M1 is the sole criterion and the ladder is reported as a
+characterization. The criteria, gates, bar and allocation below were committed before the run;
+nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
+the pre-registered reading stands unless the amendment says plainly that it withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -93,19 +93,22 @@ the sparsest level, the world or the cap is wrong and no delta can be read.
 The bar's provenance, fixed before any cell: %s It is not recomputed from the run it judges,
 and a later block may not inherit it as a convention.
 
-**M2 — the gradient.** %s.
+**M2 — withdrawn (Amendment 4).** %s
+
+The density profile is %s.
 
 The interval is a **%d%%** percentile bootstrap over seeds, paired within seed, **%d**
 replicates.
 
 ## 6. Decision table
 
-| M1 | M2 | Verdict | Reading |
-| --- | --- | --- | --- |
+| M1 | Verdict | Reading |
+| --- | --- | --- |
 %s
 
 A gate failure is **VOID**, reported as the gate and never as a verdict. A negative pole is
-licensed **only** by a decisive M1 failure: %s.
+licensed **only** by a decisive M1 failure: %s. There is no gradient verdict: the density
+ladder is reported, not scored.
 
 ## 7. Analysis code path
 
@@ -154,7 +157,8 @@ The bar is declared here and never computed from the outcome.
         gates["G3_axis_live"], gates["G4_control_reproduces"],
         gates["G5_identity_at_density_1"], gates["void_rule"],
         gates["control_coverage_ceiling"], body["amendments"][0]["why"],
-        crit["M1_rule"], crit["M1_bar"], crit["M1_bar_provenance"], crit["M2_rule"],
+        crit["M1_rule"], crit["M1_bar"], crit["M1_bar_provenance"], crit["M2_withdrawn"],
+        crit["density_profile_rule"],
         int(round(crit["interval"] * 100)), crit["bootstrap_reps"],
         table, crit["underpowered_rule"],
         body["analysis"]["command"],
@@ -214,15 +218,16 @@ def _repair(repair: dict) -> str:
         "edges at cap %d while the control reaches %d, so the reach gate passes. One smoke "
         "pool (seed %d, %d sleep cycles) covered %d of %d world edges at cap 20 against %d, a "
         "Delta of %.4f above the %.2f bar, and %d of %d at cap 40 against %d; every audit "
-        "prediction held. **A second defect is visible and is not repaired here.** M2's "
-        "precision difference in differences cannot pass: at cap 20 the diversity advantage at "
-        "rho_world 0.1 is no wider than at 0.8 on any seed (per-seed values %s, mean %.4f), "
-        "because the gap is set by how many crowded sources the spread must spend on -- the "
-        "same count at every density -- while at 0.8 every non-filler row is a world edge. On "
-        "the smoke pool the 0.1 precision gap is %.2f and the designed 0.8 gap is %.2f, so "
-        "the interaction has the opposite sign to the registered one. The block therefore "
-        "stays blocked: it could only return ORDERING HELPS, GRADIENT ABSENT. Whether M2 is "
-        "amended is the owner's decision, and nothing here amends it." % (
+        "prediction held. **M2 was withdrawn rather than repaired.** Its precision "
+        "difference in differences is zero or negative on every seed (per-seed values %s, "
+        "mean %.4f), because the gap is set by how many crowded sources the spread must spend "
+        "on -- the same count at every density -- while at 0.8 every non-filler row is a world "
+        "edge; on the smoke pool the 0.1 precision gap is %.2f against the designed 0.8 gap "
+        "of %.2f. The only density-varying quantity is the coverage gap, which moves with "
+        "|W|: the dense-end gap is bounded by 20/192 and the difference in differences could "
+        "not fail while M1 passed. Amendment 4 therefore withdraws M2, makes M1 the sole "
+        "criterion and reports the ladder as a characterization. The block is ready; no "
+        "judged cell has run." % (
             len(reach), min(reach), max(reach), after.get("cap", 20) if False else 20,
             max(after["control_reach"]), smoke["seed"], smoke["engine_cycles"],
             c20["diversity"]["covered"], pool["world_rows"], c20["control"]["covered"],

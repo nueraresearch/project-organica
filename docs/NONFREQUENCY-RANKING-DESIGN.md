@@ -58,6 +58,12 @@ the engine's own cap and asks whether the order helps.
 3. The arms' selected sets differ at the lowest density. If they are identical, the manipulation did
    not occur.
 
+**Amendment 4 of the pre-registration reports prediction 2 as a characterization, not a
+criterion.** No endpoint could both vary with density and fail in this world family: the
+precision gap is budget-normalized and does not vary with density at a fixed cap, and the
+coverage gap moves only through |W|, so it cannot fail while the level bar passes. The block
+therefore rests on M1 (the level at the sparsest point) and reports the ladder.
+
 ## 5. Falsifiers, named in advance
 
 - **Flat** Delta across both caps and every density level: the ordering basis is not the lever, and

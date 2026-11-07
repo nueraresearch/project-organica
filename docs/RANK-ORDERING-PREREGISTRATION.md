@@ -1,14 +1,14 @@
 # The ranking experiment, frozen before any cell (2026-11-07)
 
-**Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
-generated, no judged engine cycle spent, and no result artifact exists. Two smoke pools outside
-the block have been run and are recorded in §7; they are not evidence. The first found a defect
-that made the treatment unable to reach the world, the world's crowding was repaired, and the
-second proves the repair. The block is still not runnable: a second defect in M2 is visible in
-§7 and is not amended here. The criteria, gates, bar and allocation below were committed before
-the run; nothing here may be changed afterwards. A defect found later is disclosed as an
-amendment, and the pre-registered reading stands unless the amendment says plainly that it
-withdraws it.
+**Status: FROZEN, NOT RUN (ready; no judged cell).** No judged cell has been executed, no
+judged world generated, no judged engine cycle spent, and no result artifact exists. Two smoke
+pools outside the block have been run and are recorded in §7; they are not evidence. The first
+found a defect that made the treatment unable to reach the world, the world's crowding was
+repaired, the second proves the repair, and **Amendment 4 withdraws M2**: no endpoint could both
+vary with density and fail here, so M1 is the sole criterion and the ladder is reported as a
+characterization. The criteria, gates, bar and allocation below were committed before the run;
+nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
+the pre-registered reading stands unless the amendment says plainly that it withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -65,23 +65,24 @@ the sparsest level, the world or the cap is wrong and no delta can be read.
 The bar's provenance, fixed before any cell: declared before any cell, not computed from a run: 0.15 of the world's 24 edges at the sparsest level is at least a sixth of the world recovered beyond control, and the control's sampling expectation at that density is 20 x 0.1 / 24, about 0.083 It is not recomputed from the run it judges,
 and a later block may not inherit it as a convention.
 
-**M2 — the gradient.** the precision gap, diversity minus control at cap 20, must be larger at rho_world = 0.1 than at rho_world = 0.8: a positive mean difference in differences of at least 0.05, a 95% interval lower bound above zero, and a wider gap at the sparser level on at least 7 of the 8 seeds.
+**M2 — withdrawn (Amendment 4).** Amendment 4 (2026-11-07): withdrawn. No endpoint could both vary with density and fail here. The precision difference in differences at cap 20 is zero or negative on all eight designed seeds, because the precision gap is set by the eight crowded sources and does not vary with density. The coverage gap varies only through |W|: at cap 20 the dense-end gap is bounded by 20/192, so with M1's 0.15 bar the difference in differences is at least 0.0625 on every integer-coverage seed and the old 0.05 bar could not fail while M1 passed. M1 is the sole criterion; the coverage and precision gaps by density are reported as a characterization and are not scored.
+
+The density profile is reported, not gated: coverage and precision gaps at cap 20 for every density, with the number of seeds whose coverage gap is positive; no threshold is applied to the ladder.
 
 The interval is a **95%** percentile bootstrap over seeds, paired within seed, **4000**
 replicates.
 
 ## 6. Decision table
 
-| M1 | M2 | Verdict | Reading |
-| --- | --- | --- | --- |
-| pass | pass | **ORDERING SUPPORTED** | the ordering basis is the lever: replace the count order with a diversity-based order in the next engine version, recorded as a cognition change |
-| pass | fail | **ORDERING HELPS, GRADIENT ABSENT** | a level difference without the predicted interaction; no engine change follows |
-| fail | pass | **GRADIENT WITHOUT LEVEL** | an interaction without a level the bar accepts; no engine change follows |
-| fail | fail | **ORDERING NOT THE LEVER** | ordering is closed; the line moves to the candidate space, and no second ordering variant is run |
-| fail, interval wider than 0.30 | either | **UNDERPOWERED** | the interval cannot place the level; closing the line would read a draw as an absence |
+| M1 | Verdict | Reading |
+| --- | --- | --- |
+| pass | **ORDERING SUPPORTED** | the ordering basis is the lever at the sparsest density; the density ladder is reported as a characterization, not scored |
+| fail, interval wider than 0.30 | **UNDERPOWERED** | the interval cannot place the level; closing the line would read a draw as an absence |
+| fail | **ORDERING NOT THE LEVER** | ordering is closed at this cap and world family; the line moves to the candidate space |
 
 A gate failure is **VOID**, reported as the gate and never as a verdict. A negative pole is
-licensed **only** by a decisive M1 failure: if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result.
+licensed **only** by a decisive M1 failure: if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result. There is no gradient verdict: the density
+ladder is reported, not scored.
 
 ## 7. Analysis code path
 
@@ -106,7 +107,7 @@ file without `--force`. No cell may run before this file is committed.
 
 **A smoke pool was run before any judged cell, and it stopped the block.** Seed **20310301** at rho_world 0.1, 9 sleep cycles, 4 derived cells: every world edge was present (24 of 24), and **the control and the diversity arm each covered 0 world edges at cap 20 and at cap 40**. The 48 intra-cell filler rows carry counts 12-17, 3 per source across all 16 sources, while the world's rows carry 3-9 and the best ranks **51**, so the diversity ordering -- whose tie-break is count -- fills its remaining slots with filler once every source has one. Delta is therefore 0 by construction at the primary point, M1 cannot pass, and a zero-width interval is not underpowered, so the only reachable verdict is the negative pole. The pool itself behaved as the audits predicted (154 rows; presence 1.0), which is why this is a defect in what the arms can reach rather than in what the engine stores. No judged cell may run until the owner decides how to repair the treatment; the numbers are in `not_run.smoke`.
 
-**The repair: the crowding is partial, and neither arm changed.** The filler is emitted from two of the four cells (`FILLER_CELLS = 2`), so eight sources are crowded and eight are free. On all 8 designed pools the treatment now reaches 5-8 world edges at cap 20 while the control reaches 0, so the reach gate passes. One smoke pool (seed 20310401, 7 sleep cycles) covered 4 of 24 world edges at cap 20 against 0, a Delta of 0.1667 above the 0.15 bar, and 6 of 24 at cap 40 against 5; every audit prediction held. **A second defect is visible and is not repaired here.** M2's precision difference in differences cannot pass: at cap 20 the diversity advantage at rho_world 0.1 is no wider than at 0.8 on any seed (per-seed values -0.15, -0.10, -0.05, -0.15, -0.10, -0.05, -0.05, 0.00, mean -0.0813), because the gap is set by how many crowded sources the spread must spend on -- the same count at every density -- while at 0.8 every non-filler row is a world edge. On the smoke pool the 0.1 precision gap is 0.20 and the designed 0.8 gap is 0.40, so the interaction has the opposite sign to the registered one. The block therefore stays blocked: it could only return ORDERING HELPS, GRADIENT ABSENT. Whether M2 is amended is the owner's decision, and nothing here amends it.
+**The repair: the crowding is partial, and neither arm changed.** The filler is emitted from two of the four cells (`FILLER_CELLS = 2`), so eight sources are crowded and eight are free. On all 8 designed pools the treatment now reaches 5-8 world edges at cap 20 while the control reaches 0, so the reach gate passes. One smoke pool (seed 20310401, 7 sleep cycles) covered 4 of 24 world edges at cap 20 against 0, a Delta of 0.1667 above the 0.15 bar, and 6 of 24 at cap 40 against 5; every audit prediction held. **M2 was withdrawn rather than repaired.** Its precision difference in differences is zero or negative on every seed (per-seed values -0.15, -0.10, -0.05, -0.15, -0.10, -0.05, -0.05, 0.00, mean -0.0813), because the gap is set by how many crowded sources the spread must spend on -- the same count at every density -- while at 0.8 every non-filler row is a world edge; on the smoke pool the 0.1 precision gap is 0.20 against the designed 0.8 gap of 0.40. The only density-varying quantity is the coverage gap, which moves with |W|: the dense-end gap is bounded by 20/192 and the difference in differences could not fail while M1 passed. Amendment 4 therefore withdraws M2, makes M1 the sole criterion and reports the ladder as a characterization. The block is ready; no judged cell has run.
 
 **The reach gate passes after the repair.** `--self-test` and `run()` compare each arm's selection to the *world* at the primary point, on the pool the world design implies and before any engine cycle. On all 8 seeds the treatment reaches 5-8 world edges at cap 20 while the control reaches at most 0, so `all_passed` is true. The gate is the durable half of the first finding: it does not depend on the smoke records, and the unrepaired construction is kept as a fixture that makes it fail.
 

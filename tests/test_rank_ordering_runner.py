@@ -168,8 +168,7 @@ def test_the_runner_payload_is_a_payload_the_scorer_accepts():
     assert result["cells"] == 160
     assert result["gates"]["all_passed"] is True
     assert result["decision"]["verdict"] in {
-        "ORDERING SUPPORTED", "ORDERING HELPS, GRADIENT ABSENT",
-        "GRADIENT WITHOUT LEVEL", "ORDERING NOT THE LEVER", "UNDERPOWERED"}
+        "ORDERING SUPPORTED", "ORDERING NOT THE LEVER", "UNDERPOWERED"}
     assert result["gates"]["G0_liveness_cap_20"]["passed"] is True
 
 
