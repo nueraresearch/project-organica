@@ -13,11 +13,11 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 21 | a result constrained the space; the answer is recorded with its scope |
+| closed | 22 | a result constrained the space; the answer is recorded with its scope |
 | open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **44** | |
+| **total** | **45** | |
 
 ## How this stays current
 
@@ -306,6 +306,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `SUBSTRATE-REPAIR-PREREGISTRATION.md`
 
 **Evidence.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`, `docs/substrate_repair.json`, `docs/SUBSTRATE-REPAIR.md`
+
+### Q047 — Between shipped decay 0.95 and no decay 1.0, is there an operating point that materially delays the cycle-39 theory death on the falsifier's lattice_L1 world, and which mechanism accounts for it?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes, two interior points are viable. On the falsifier's lattice_L1 world, shipped, floor2 and floor5 all die at cycle 39; factor099 dies at 228 (+189, reproducing Q046); recency-observational dies at 76 (+37); and no_decay survives to cycle 300 (death 301), the first 1.0 measurement on this world. The floor arms did not fire: no temporal edge had a count below 5, so floor2 and floor5 lifted 0 edges and the floor mechanism is unrun, not null. 0.99 is the strongest tested interior point, but the predicted ordering P8 is incomplete because the floor arm was not live. Both viable arms are persistence candidates, not adoption recommendations; capability effects were not scored.
+
+**Why it is open.** Q046 moved all six arms from cycle 39 to 228 with a uniform 0.99 repair but tested only 0.95 and 0.99; 0.99 still dies at 228, and no-decay 1.0 has not been measured on lattice_L1 (the only no-decay artifact is the degree-12 hub). The interior mechanisms - eligibility floor, slower erosion and conditional forgetting - are untested on the cycle-39 world.
+
+**Preregistered in.** `OPERATING-POINT-PREREGISTRATION.md`
+
+**Evidence.** `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`, `docs/substrate_repair.json`, `docs/SUBSTRATE-REPAIR.md`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution.json`, `docs/operating_point.json`, `docs/OPERATING-POINT.md`
 
 ## 2. Open — evidence in hand, no settled answer
 

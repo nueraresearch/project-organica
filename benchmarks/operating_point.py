@@ -254,6 +254,8 @@ def summary(cells: list[dict], condition: str) -> dict:
         "median_death_cycle": statistics.median(deaths.values()),
         "per_seed": {str(seed): deaths[seed] for seed in SEEDS},
         "stable_zero": {str(cell["seed"]): cell["stable_zero"] for cell in rows},
+        "stable_zero_cycles": [next(cell["stable_zero"] for cell in rows if cell["seed"] == seed)
+                               for seed in SEEDS],
         "stable_peak": max(cell["stable_peak"] for cell in rows),
         "theory_cycles": sum(cell["theory_cycles"] for cell in rows),
         "peak_theories": max(cell["theories_total"] for cell in rows),
@@ -424,7 +426,7 @@ def render(artifact: dict) -> str:
             "| %s | %s | %s | %s | %s |"
             % (condition, summary["death_cycles"], summary["median_death_cycle"],
                "yes" if artifact["viability"][condition] else "no",
-               summary["stable_zero"])
+               summary["stable_zero_cycles"])
         )
     lines += ["", "## Gates", "", "| Gate | Result |", "| --- | --- |"]
     for name, ok in artifact["gates"].items():

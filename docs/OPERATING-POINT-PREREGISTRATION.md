@@ -1,5 +1,5 @@
 study: operating point between shipped decay and no decay
-executions: 0
+executions: 1
 seeds: 20302401, 20302402, 20302403
 arms: shipped, floor2, floor5, factor099, recency, no_decay
 world: lattice_L1
@@ -243,5 +243,23 @@ frozen text fails the guard.
 
 ## 12. Outcome
 
-**Not yet written.** No cell has run, no artifact exists, and `executions` is 0. This section is
-replaced only by the runner's recorded label and figures after the frozen protocol has executed.
+**Measured 2026-11-07: `PARTIAL_LADDER`.** 18 cells (six conditions x seeds 20302401-20302403), 300
+cycles each, reference arm FULL on the falsifier's `lattice_L1` world. Shipped, `floor2` and
+`floor5` all died at cycle **39**; `factor099` died at **228**; `recency` died at **76**; `no_decay`
+was alive at cycle **300** (death cycle 301). The artifact is `docs/operating_point.json`, the page
+is `docs/OPERATING-POINT.md`, and the digest of sections 1-11 is
+`3efa163f8aa90d48eaa675c5b4330e96f26f0f03285275e80b8513d5fb146463`.
+
+- **The floor arms did not fire.** No temporal edge had a count below 5 before decay in any seed, so
+  `floor2` and `floor5` lifted **0** edges. They are reported `NOT_LIVE`; the floor mechanism is
+  **unrun** on this world, not a null.
+- `factor099` reproduces Q046 (228; **+189**) and `recency` extends by **37** cycles; both clear the
+  10-cycle margin on all three seeds. `no_decay` is the upper bound and survives to 301, the first
+  measurement of 1.0 on this world.
+- Gates G1, G2, G4, G5, G6, G7 and G8 passed; **G3 failed** because the floor arms lifted no edge.
+- Predictions P1-P4, P6 and P9 held. P5 failed because `floor5` did not move; P7 failed only on the
+  floor half (`recency` exempted 3,200 edges); P8 failed because `floor5` was not live. The label is
+  `PARTIAL_LADDER`: a viable interior exists, but the predicted ordering could not be completed.
+- **Decision.** `factor099` is the strongest tested interior point and `recency` is a second viable
+  point; both are persistence candidates and neither is an adoption recommendation. The floor
+  mechanism needs a world with sub-5 edges before it can be tested.
