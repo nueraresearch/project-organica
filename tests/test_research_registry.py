@@ -3,9 +3,17 @@
 The registry is the project's memory of what it has settled. A stale tally there is
 worse than no tally, because it reads as a claim. These tests keep the rendered
 document tied to its data and keep the outreach note tied to artifacts on disk.
+
+The registry's `--check` mode is wired in here, so a decision record or a bottleneck
+map row that nothing tallies fails on commit rather than on the next time someone
+remembers to run the renderer. Two of the tests prove the check can fire; a check that
+only ever passes is decoration.
 """
 import json
+import os
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 from benchmarks import research_registry as rr
@@ -64,3 +72,53 @@ def test_outreach_never_quotes_a_withdrawn_number_bare() -> None:
     for line in OUTREACH.read_text(encoding="utf-8").splitlines():
         if "3.2" in line:
             assert any(word in line.lower() for word in ("v1", "withdrawn", "do not")), line
+
+
+def test_check_mode_passes_on_the_committed_tree() -> None:
+    """The suite runs the real entry point, not only its functions."""
+    env = {**os.environ, "PYTHONPATH": str(ROOT)}
+    proc = subprocess.run(
+        [sys.executable, "-m", "benchmarks.research_registry", "--check"],
+        cwd=ROOT,
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "FAIL" not in proc.stdout, proc.stdout
+
+
+def test_check_mode_does_not_rewrite_the_document(capsys) -> None:
+    before = DOC.read_bytes()
+    assert rr.main(["--check"]) == 0
+    capsys.readouterr()
+    assert DOC.read_bytes() == before
+
+
+def test_check_mode_fails_when_a_decision_record_is_untallied(tmp_path, monkeypatch, capsys) -> None:
+    """A new docs/DECISION-*.md that no question claims fails the check and names itself."""
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    for name in rr.decision_files():
+        (docs / name).write_text("# tallied\n", encoding="utf-8")
+    stray = "DECISION-UNREGISTERED-TEST.md"
+    (docs / stray).write_text("# nothing tallies this\n", encoding="utf-8")
+    monkeypatch.setattr(rr, "ROOT", tmp_path)
+    assert rr.main(["--check"]) == 1
+    output = capsys.readouterr().out
+    assert stray in output, output
+    assert "not tallied" in output, output
+
+
+def test_check_mode_fails_when_a_bottleneck_row_is_unclaimed(tmp_path, monkeypatch, capsys) -> None:
+    """A row added to the bottleneck map that no question claims fails the check."""
+    data = json.loads(rr.MAP.read_text(encoding="utf-8"))
+    row = json.loads(json.dumps(data["rows"][-1]))
+    row["candidate"] = "A row no question claims"
+    data["rows"].append(row)
+    stray_map = tmp_path / "bottleneck_map.json"
+    stray_map.write_text(json.dumps(data), encoding="utf-8")
+    monkeypatch.setattr(rr, "MAP", stray_map)
+    assert rr.main(["--check"]) == 1
+    output = capsys.readouterr().out
+    assert "A row no question claims" in output, output
