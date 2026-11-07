@@ -1,8 +1,10 @@
 # Decision — record the licensing role at store time?
 
 **Date**: 2026-11-07
-**Status**: DECIDED — **no engine change**. The pre-registered change is held in reserve
-(`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`) and takes effect only on a named residual.
+**Status**: DECIDED — **no engine change yet**. *Amended 2026-11-07 (§9)*: the pre-registered
+change is now **scoped as a live engine change under its own pre-registration**
+(`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`), held behind that document's preconditions P0-P1
+rather than behind a residual.
 **Question**: should `organica/sleep_extraction.py` record, on every schema-primed prediction,
 which role licensed the prior — so Q028's trace can resolve a transfer to a role?
 **Answer**: not yet, and probably never. The role is already recorded, twice. The zero
@@ -127,3 +129,34 @@ than the question supposed.
   explanation for the zero; it adds no positive evidence.
 - It does **not** settle whether the organism should record more. It says the record already holds
   what the question needs, on the paths named in §1.
+
+## 9. Amended 2026-11-07 — the engine change is scoped, and still not applied
+
+The owner authorised scoping option **A as an engine change in its own right** (manual row 58), so
+that Q028's trace can name a licensing role without depending on a schema row and two role rows
+surviving to the moment the trace reads them. This amends §4's "not yet" and §6's residual trigger;
+it does not rewrite them. What changed:
+
+- **The trigger is the authorisation, not a residual.** The change is live behind two preconditions
+  in its pre-registration: **P0** the pair resolver exists and its self-test passes (the field must
+  have a reader), and **P1** the calibration cell records a non-zero count of schema-primed
+  predictions (an empty denominator voids the cell, rule 13a).
+- **The residual taxonomy survives as the instrument's failure modes**, not as the entry condition:
+  R1 schema row absent, R2 role rows absent, R3 schema row without role ids.
+- **Everything that could be fitted is frozen before the edit**: the neutrality criteria N1-N4
+  (N4 is a mutation control that must fail), the trace criteria T1-T4, CCRE-2's P4 bar **0.90**
+  carried rather than chosen here, and the calibration seed **20261101**, outside CCRE-2's
+  confirmatory block `20272001-20272024` (rule 19).
+- **T4 is the only thing this change buys that the instrument cannot**: with the schema row and both
+  role rows deleted from a copy of the snapshot, the trace must still name the recorded pair. Without
+  T4 the field would be a second copy that dies with the original.
+- **Nothing is applied.** The engine stays `0.13.0`; applying the change would move it to `0.13.1`,
+  re-record `engine_pin` and require a substrate-equivalence test (rule 5).
+- **The scope is guarded mechanically**: `benchmarks/store_time_role_prereg.py --check` fails if the
+  document is un-scoped, if the bar or the confirmatory block moves, if a criterion loses its
+  control, if two decision buckets reach one decision, or if the engine carries
+  `schema_prior_roles` while the scope block still says `applied: false`.
+
+This amendment adds no evidence and answers nothing: Q028 stays **open**, and CCRE-2's C7 stays
+blocked until the change is applied and its criteria pass.
+

@@ -30,6 +30,22 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Scoped — The store-time role record is an engine change with its own pre-registration (2026-11-07)
+
+- **`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`** is now a scoped, live pre-registration
+  rather than a draft held behind residuals: one field pair written on schema-primed predictions
+  (`schema_prior_roles`, plus role exemplars under R2), at most one `sleep.py` repair so a rebuilt
+  schema keeps its role ids (R3), and nothing else.
+- **Everything that could be fitted is frozen before the edit**: neutrality N1–N4 with N4 a
+  mutation control that must fail, trace criteria T1–T4 (T1 exact coverage, T2 carries CCRE-2's
+  P4 bar **0.90**, T4 durability under a pruned schema and role rows), a four-bucket decision
+  table whose buckets reach four different decisions, and calibration seed **20261101** outside
+  CCRE-2's confirmatory block `20272001-20272024`.
+- **`benchmarks/store_time_role_prereg.py --check`** guards the scope, including that the engine
+  does not carry `schema_prior_roles` while the scope block says `applied: false`.
+- **Nothing is applied**: the engine stays `0.13.0`, Q028 stays open, and CCRE-2's C7 stays
+  blocked until the pair resolver (P0) exists and the change passes its criteria.
+
 ### Measured — The degree-12 coverage ceiling is 0.58 at every theory budget (2026-11-07)
 
 - **`benchmarks/theory_budget_ceiling.py`** measures the quantity the next bar is about: the

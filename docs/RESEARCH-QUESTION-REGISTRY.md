@@ -241,7 +241,9 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.
+**Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution depends on the schema row and both role rows surviving to the moment the trace reads them; the share of transfers resolving to an explicit role satisfaction has never been measured.
+
+**Preregistered in.** `STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`
 
 **Decision record.** `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
 
