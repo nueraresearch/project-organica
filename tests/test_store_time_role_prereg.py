@@ -11,6 +11,9 @@ def _record(**overrides):
         "bar_share": 0.90,
         "calibration_seed": 20261101,
         "confirmatory_block": (20272001, 20272024),
+        "decision": None,
+        "evidence": None,
+        "retired": False,
         "neutrality": ["1", "2", "3", "4"],
         "trace": ["1", "2", "3", "4"],
         "stop_condition": True,
@@ -36,6 +39,9 @@ def test_the_committed_document_parses_to_that_record():
     assert record["neutrality"] == ["1", "2", "3", "4"]
     assert record["trace"] == ["1", "2", "3", "4"]
     assert not record["reserved_language"]
+    assert record["decision"] == "no_engine_change"
+    assert record["evidence"] == "docs/store_time_role_durability.json"
+    assert record["retired"] is True
 
 
 def test_a_bar_this_document_chose_is_rejected():
@@ -94,3 +100,23 @@ def test_the_guard_can_fail_on_the_committed_document():
     assert guard.main(["--check"]) == 0
     broken = dict(record, bar_share=0.99)
     assert not guard.validate(broken, engine_applied=False)["passed"]
+
+
+def _retired(**overrides):
+    record = _record(decision="no_engine_change",
+                     evidence="docs/store_time_role_durability.json", retired=True)
+    record.update(overrides)
+    return record
+
+
+def test_a_retired_record_needs_evidence_that_says_the_same_thing():
+    assert guard.validate(_retired(), False, "NO_ENGINE_CHANGE")["passed"]
+    mismatch = guard.validate(_retired(), False, "ENGINE_CHANGE_NEEDED")
+    assert any("the evidence says" in error for error in mismatch["errors"])
+    missing = guard.validate(_retired(), False, None)
+    assert any("missing" in error for error in missing["errors"])
+
+
+def test_a_retired_record_must_say_retired():
+    report = guard.validate(_retired(retired=False), False, "NO_ENGINE_CHANGE")
+    assert any("RETIRED" in error for error in report["errors"])

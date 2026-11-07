@@ -22,6 +22,7 @@ and exits non-zero on any defect.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -35,7 +36,8 @@ CCRE2_P4_BAR = 0.90
 # Frozen from CCRE-2's committed confirmatory block. The calibration cell must fall outside it.
 CONFIRMATORY_BLOCK = (20272001, 20272024)
 FIELD = "schema_prior_roles"
-SCOPE_KEYS = ("scope", "applied", "bar_share", "calibration_seed", "confirmatory_block")
+SCOPE_KEYS = ("scope", "applied", "decision", "evidence", "bar_share",
+               "calibration_seed", "confirmatory_block")
 REQUIRED_SECTIONS = (
     "## 1. Scope",
     "## 2. What is recorded",
@@ -93,6 +95,9 @@ def parse(text: str) -> dict:
             else None
         ),
         "confirmatory_block": bounds,
+        "decision": scope.get("decision"),
+        "evidence": scope.get("evidence"),
+        "retired": "RETIRED" in text.split("---")[0],
         "neutrality": sorted(set(re.findall(r"\*\*N(\d)", text))),
         "trace": sorted(set(re.findall(r"\*\*T(\d)", text))),
         "stop_condition": "**Stop condition**" in text,
@@ -101,7 +106,7 @@ def parse(text: str) -> dict:
     }
 
 
-def validate(record: dict, engine_applied: bool) -> dict:
+def validate(record: dict, engine_applied: bool, evidence_decision=None) -> dict:
     errors: list[str] = []
 
     missing = [name for name in REQUIRED_SECTIONS if name not in record["sections"]]
@@ -147,6 +152,20 @@ def validate(record: dict, engine_applied: bool) -> dict:
     if record["reserved_language"]:
         errors.append("the document still describes the change as held in reserve; that status "
                       "was superseded when it was scoped")
+    decision = record.get("decision")
+    if decision == "no_engine_change":
+        if not record.get("evidence"):
+            errors.append("the record says no engine change but names no evidence artifact")
+        elif evidence_decision is None:
+            errors.append("the evidence artifact it names is missing")
+        elif evidence_decision != "NO_ENGINE_CHANGE":
+            errors.append("the evidence says %s, but the record says no engine change"
+                          % evidence_decision)
+        if not record.get("retired"):
+            errors.append("the record decides no engine change but its status does not say "
+                          "RETIRED")
+    elif decision not in (None, "apply"):
+        errors.append("unknown decision %r (expected no_engine_change or apply)" % decision)
     if engine_applied:
         errors.append("the engine already carries %s while the scope block says NOT APPLIED"
                       % FIELD)
@@ -165,14 +184,21 @@ def main(argv: list[str] | None = None) -> int:
         print("FAIL: %s is missing" % DOC.name)
         return 1
     engine_applied = FIELD in EXTRACTION.read_text(encoding="utf-8")
-    report = validate(parse(DOC.read_text(encoding="utf-8")), engine_applied)
+    record = parse(DOC.read_text(encoding="utf-8"))
+    evidence_decision = None
+    evidence = record.get("evidence")
+    if evidence and (ROOT / evidence).exists():
+        evidence_decision = json.loads(
+            (ROOT / evidence).read_text(encoding="utf-8"))["measurement"]["decision"]
+    report = validate(record, engine_applied, evidence_decision)
     if not report["passed"]:
         print("FAIL:")
         for error in report["errors"]:
             print(" - %s" % error)
         return 1
-    print("store-time role preregistration: scoped, unfitted, not applied (%d checks)"
-          % report["checked"])
+    print("store-time role preregistration: %s, not applied (%d checks)"
+          % ("retired on evidence" if record.get("decision") == "no_engine_change"
+             else "scoped", report["checked"]))
     return 0
 
 

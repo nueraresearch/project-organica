@@ -30,6 +30,22 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Decided — The engine records no licensing role at store time; the record already survives (2026-11-07)
+
+- **Measured rather than argued.** `benchmarks/store_time_role_durability.py` joins every
+  schema-primed prediction of the trace's calibration cell (seed **20261101**, 40 + 40 cycles) to
+  the schema row it names and both role rows behind it, reading **16,962** stored sleep rows with
+  an unwindowed scan: **405** primed predictions, **405** recoverable, and zero R1/R2/R3.
+- **Decision: no engine change.** A `schema_prior_roles` field would be a second copy of what the
+  record already holds, bought with a version bump, a re-pin and a neutrality proof. Q028's
+  remaining fix is the pair resolver, which is instrument-side.
+- **The scoped pre-registration is retired unapplied**
+  (`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`), its criteria kept only as the condition for
+  reopening on a cell that prunes beyond 80 cycles. The scope guard now requires the retired status
+  to match the evidence artifact's own decision.
+- **Nothing about the engine changed**: it stays `0.13.0`, Q028 stays open, CCRE-2's C7 is still
+  the resolver.
+
 ### Measured — The decay falsifier's artifact now carries an attributable exit status (2026-11-07)
 
 - **The harness persists its own verdict.** `benchmarks/force_matrix.py` writes

@@ -1,9 +1,12 @@
 # Pre-registration — store-time role provenance on schema-primed predictions
 
 **Date**: 2026-11-07
-**Status**: PREREGISTERED, **SCOPED** — **NOT APPLIED**. The owner authorised scoping this as an
-engine change in its own right (manual row 58); no line of `organica/` changes until its
-preconditions in §1 are met, and no cell is run by this document.
+**Status**: **RETIRED — NOT APPLIED, AND NOT NEEDED.** The owner authorised scoping this as an
+engine change in its own right (manual row 58); the durability measurement then found every leg
+already present on the calibration cell (405 of 405 recoverable), so the change is retired unapplied
+(`docs/DECISION-STORE-TIME-ROLE-RECORD.md` §10). The scope below stands as the frozen condition for
+reopening — a residual on a cell that prunes beyond 80 cycles — not as a plan. No line of
+`organica/` changed, and no cell was run by this document.
 **Decision it serves**: `docs/DECISION-STORE-TIME-ROLE-RECORD.md` (amended in §9 of that record).
 **Supersedes**: the reserved draft of the same date, which held the change behind residuals R1–R3.
 The trigger has changed from a residual to the owner's authorisation; the residual taxonomy survives
@@ -15,6 +18,8 @@ decision table and its stop condition — and cannot be shaped around whatever t
 ```
 scope: engine
 applied: false
+decision: no_engine_change
+evidence: docs/store_time_role_durability.json
 bar_share: 0.90
 calibration_seed: 20261101
 confirmatory_block: 20272001-20272024

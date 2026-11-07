@@ -1,10 +1,9 @@
 # Decision — record the licensing role at store time?
 
 **Date**: 2026-11-07
-**Status**: DECIDED — **no engine change yet**. *Amended 2026-11-07 (§9)*: the pre-registered
-change is now **scoped as a live engine change under its own pre-registration**
-(`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`), held behind that document's preconditions P0-P1
-rather than behind a residual.
+**Status**: DECIDED — **no engine change**. *Amended 2026-11-07 (§9)*: the change was scoped as a
+live engine change under its own pre-registration. *Decided 2026-11-07 (§10)*: the durability
+measurement found every leg already present, so the scoped change is **retired unapplied**.
 **Question**: should `organica/sleep_extraction.py` record, on every schema-primed prediction,
 which role licensed the prior — so Q028's trace can resolve a transfer to a role?
 **Answer**: not yet, and probably never. The role is already recorded, twice. The zero
@@ -159,4 +158,41 @@ it does not rewrite them. What changed:
 
 This amendment adds no evidence and answers nothing: Q028 stays **open**, and CCRE-2's C7 stays
 blocked until the change is applied and its criteria pass.
+
+## 10. Decided 2026-11-07 — the engine records nothing new, because the record already survives
+
+The question was whether `organica/sleep_extraction.py` should write the licensing role pair on
+each schema-primed prediction. §9 scoped that change and left it behind preconditions. This decides
+it on measurement instead: `benchmarks/store_time_role_durability.py` runs the calibration cell the
+trace will read and joins each primed prediction to the row it names and both role rows behind it.
+
+**The rule was fixed before the run**: every primed prediction recoverable -> no engine change; any
+missing leg -> the change is needed, with the leg named; no primed prediction -> not measurable.
+
+| quantity | value |
+| --- | --- |
+| seed, cycles | `20261101`, 40 + 40 |
+| stored sleep rows scanned | **16,962** (window 200,000, not truncated) |
+| schema-primed predictions (denominator) | **405** |
+| recoverable from stored rows | **405** |
+| R1 schema absent / R2 role rows absent / R3 no role ids | **0 / 0 / 0** |
+
+**Decision: no engine change.** The three legs the trace reads are all present on the cell that
+will be measured, so a `schema_prior_roles` field would be a second copy of `schema_prior` plus the
+schema row (rule 17c), bought with a version bump, a re-pin and a neutrality proof that buy nothing.
+The scoped pre-registration is **retired unapplied**; its criteria stand as the condition for
+reopening, not as a plan. Q028's remaining fix is the pair resolver, which is instrument-side and
+needs no engine change.
+
+**What this reverses.** §9's "scoped live change" is retired, and with it the claim that the field
+is the path to Q028. That claim was reasonable before the record was measured and is not now.
+
+**What would reopen it.** A residual on a cell with pruning beyond 80 cycles: a live prediction
+whose schema row or role rows are already gone (R1/R2), or a schema rebuilt without its role ids
+(R3). The measurement's own limits are the reopening conditions — one seed, one world pair, 80
+cycles, and survival is not resolution.
+
+**What this leaves.** Q028 stays open, CCRE-2's C7 is still the pair resolver, and the engine stays
+`0.13.0`. Artifacts: `docs/store_time_role_durability.json`,
+`docs/STORE-TIME-ROLE-DURABILITY.md`, `benchmarks/store_time_role_durability.py`.
 
