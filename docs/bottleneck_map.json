@@ -17,10 +17,11 @@
    "candidate": "Candidate generation",
    "label": "weakened",
    "status": [
+    "Supported within the tested scope",
     "Not established / not measured"
    ],
-   "check": "the candidate space was characterized, not intervened on: about a third of its rows are true edges and the signal is not clustered at the top of any frequency ordering, with 240-244 asserted edges needed for coverage",
-   "does_not_say": "that generation is irrelevant. It says the measured defect is the ordering of the candidate space, which no frequency-based generation rule changes",
+   "check": "presence was ruled out in the tested worlds: all 112 true world edges were in memory, so a shortage of candidates is not the constraint there, while the candidate space's ordering is the measured defect",
+   "does_not_say": "that a different generation strategy cannot help. Presence of the true edges was measured; which pairs a generator proposes was not",
    "would_change": "a generation rule that changes which pairs enter at all, shown to move precision at a fixed budget",
    "evidence": [
     "docs/GATE13-CAUSAL-ACCOUNT.md",
@@ -194,5 +195,32 @@
   "a re-scoring of H3-L, of the 448-cell calibration null, or of any Phase K result",
   "an allocation: no seed, cell, threshold or bar is spent here",
   "a replacement for the records it points at; when they change, this map is re-read against them"
- ]
+ ],
+ "label_meanings": {
+  "weakened": {
+   "means": "evidence bears against the explanation as the dominant one, within the tested scope",
+   "status": "Supported within the tested scope + Not established / not measured"
+  },
+  "demonstrated constraint on coverage; effect on behavior untested": {
+   "means": "evidence supports a limit within the tested scope, and the wider effect was not measured",
+   "status": "Supported within the tested scope + Not established / not measured"
+  },
+  "supported concern": {
+   "means": "a prediction the explanation makes failed, so the concern is real",
+   "status": "Supported within the tested scope"
+  },
+  "not supported": {
+   "means": "a tested prediction did not materialize, or the evidence did not appear where it would have",
+   "status": "Not established / not measured",
+   "gap": "the four-status vocabulary has no separate 'tested and not supported' category. The closest, 'not established / not measured', means the record cannot decide, which is wrong for a test that ran and returned nothing. This label is the map's, and the gap is recorded here rather than absorbed"
+  },
+  "unresolved": {
+   "means": "the record cannot decide the question",
+   "status": "Not established / not measured"
+  },
+  "preregistered, untested": {
+   "means": "a design is frozen and no runtime evidence exists",
+   "status": "Not established / not measured"
+  }
+ }
 }

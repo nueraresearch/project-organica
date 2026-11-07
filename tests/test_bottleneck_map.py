@@ -129,3 +129,36 @@ def test_the_two_unread_rows_say_so():
     assert prov["owner_reading_rows"] == ["Pool-structure moderation",
                                           "Loop-redundancy moderation"]
     assert "carry the owner's reading" in _flat()
+
+
+def test_every_label_is_defined_and_mapped():
+    body = _body()
+    labels = {r["label"] for r in body["rows"]}
+    assert labels <= set(body["label_meanings"])
+    for label, meaning in body["label_meanings"].items():
+        assert meaning["means"].strip(), label
+        assert meaning["status"].strip(), label
+
+
+def test_the_label_status_split_is_documented():
+    flat = _flat()
+    assert "Labels are not statuses" in flat
+    assert "a **map label** that is not a status" in flat
+    for label in _body()["label_meanings"]:
+        assert label in flat, label
+
+
+def test_the_vocabulary_gap_is_named_rather_than_absorbed():
+    gap = _body()["label_meanings"]["not supported"]["gap"]
+    assert "no separate" in gap
+    flat = _flat()
+    assert 'no exact home for "not supported"' in flat
+    assert "belongs to the owner" in flat
+
+
+def test_candidate_generation_splits_presence_from_strategy():
+    row = _row("Candidate generation")
+    assert set(row["status"]) == {"Supported within the tested scope",
+                                  "Not established / not measured"}
+    assert "in memory" in row["check"]
+    assert "generation strategy" in row["does_not_say"]
