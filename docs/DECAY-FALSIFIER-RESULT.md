@@ -49,6 +49,7 @@ on this build. This document reports that run and nothing else.
 | --- | --- |
 | Build that wrote the status | fail-closed |
 | Exit code | **1** |
+| Run certified by the harness | no |
 | Reference-arm check | FULL held no theory in its final tenth of cycles -- the reference arm is dead |
 | Series verdict, as an observation | REPRODUCES |
 

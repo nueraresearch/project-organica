@@ -25,6 +25,7 @@ from datetime import date
 from pathlib import Path
 
 from benchmarks import engine_pin as ep
+from benchmarks import verdict_policy as vp
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "docs" / "decay_falsifier" / "parts" / "FULL.json"
@@ -168,15 +169,20 @@ def summarise():
     }
     series_verdict = verdict_for(series["theories"], series["beliefs"], int(record["cycles"]))
     record.update(series_verdict)
-    # A dead reference arm precedes every scientific verdict: the run cannot test the
-    # hypothesis, so the headline says so and the series is kept as an observation.
+    # The gate precedes every scientific verdict (docs/DECISION-UNCERTIFIED-RUN.md): a run
+    # the harness will not certify is void, and the reading the series still supports is
+    # kept as an observation that no aggregate may count as a verdict.
     record["series_verdict"] = series_verdict["verdict"]
-    record["verdict"] = "VOID_REFERENCE_DEAD" if arm_failed else series_verdict["verdict"]
+    cert = vp.certificate(arm_failed, harness.get("reference_arm_problems") or [])
+    decided = vp.decide(record["series_verdict"], cert, "VOID_REFERENCE_DEAD")
+    record["certified"] = decided["certified"]
+    record["verdict"] = decided["verdict"]
+    record["observation"] = decided["observation"]
     record["gate"] = (
         {"reference_arm_failed": True,
-         "problems": harness.get("reference_arm_problems") or [],
+         "problems": cert["problems"],
          "reason": "the harness's own reference-arm check failed the run"}
-        if arm_failed else None
+        if not decided["certified"] else None
     )
 
     if REFERENCE.exists():
@@ -271,6 +277,8 @@ def render(record):
             "| --- | --- |",
             "| Build that wrote the status | %s |" % (record.get("harness_mode") or "unrecorded"),
             "| Exit code | **%d** |" % record["harness_exit_code"],
+            "| Run certified by the harness | %s |"
+            % ("yes" if record.get("certified") else "no"),
             "| Reference-arm check | %s |" % (
                 "; ".join(problems) if problems else "passed"),
             "| Series verdict, as an observation | %s |" % record.get("series_verdict"),
@@ -350,8 +358,10 @@ def problems(record):
     expected = verdict_for(series["theories"], series["beliefs"], int(record["cycles"]))
     if record.get("series_verdict") != expected["verdict"]:
         found.append("the recorded series verdict does not follow from the series")
-    if record.get("harness_reference_arm_failed") and record["verdict"] != "VOID_REFERENCE_DEAD":
-        found.append("the reference arm failed but the verdict is not VOID_REFERENCE_DEAD")
+    found.extend(vp.check(record, "VOID_REFERENCE_DEAD"))
+    refused = record.get("harness_reference_arm_failed") is True
+    if record.get("certified") is refused:
+        found.append("the certificate disagrees with the harness's own reference-arm flag")
     if record["verdict"] == "VOID_REFERENCE_DEAD" and not record.get("harness_reference_arm_failed"):
         found.append("the verdict is VOID_REFERENCE_DEAD but the reference arm did not fail")
     if record["verdict"] != "VOID_REFERENCE_DEAD" and record["verdict"] != expected["verdict"]:

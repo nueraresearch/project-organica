@@ -44,6 +44,8 @@
     "at_end": 0
   },
   "series_verdict": "REPRODUCES",
+  "certified": false,
+  "observation": "REPRODUCES",
   "gate": {
     "reference_arm_failed": true,
     "problems": [

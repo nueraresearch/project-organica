@@ -30,6 +30,21 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Changed — An uncertified falsifier run is void, not a verdict (2026-11-07)
+
+- **The rule:** when the harness refuses to certify a run, the falsifier records the run as
+  **void** and reports no scientific verdict. The reading the series still supports is kept as
+  an **observation** that cannot close a question, enter a claim, or be counted by an aggregate
+  (`docs/DECISION-UNCERTIFIED-RUN.md`, tallied by Q041).
+- **Enforced, not asserted:** `benchmarks/verdict_policy.py` holds `certificate`/`decide`/`check`/
+  `scientific`; `benchmarks/decay_falsifier.py` now writes its record through `decide` and its
+  `--check` rejects a verdict on an uncertified run **and** a void on a certified run.
+- **The live record keeps both true statements in different fields:** `certified: false`,
+  `verdict: VOID_REFERENCE_DEAD`, `observation: REPRODUCES` — the dead reference arm is the
+  finding, and the series is kept beside it rather than promoted over it.
+- **Controls:** `tests/test_verdict_policy.py` mutates a passing record in every direction and
+  proves the checker fires. No engine change, no version move.
+
 ### Changed — The Q028 trace resolves through the schema's role pair (2026-11-07)
 
 - **P0 is built.** `benchmarks/transfer_provenance.py` follows `schema_prior` to the stored schema

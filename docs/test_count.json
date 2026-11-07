@@ -2,8 +2,8 @@
   "command": "python -m pytest tests -q",
   "date": "2026-11-07",
   "exit_code": 0,
-  "collected": 1320,
-  "passed": 1307,
+  "collected": 1332,
+  "passed": 1319,
   "skipped": 13,
   "failed": 0
 }

@@ -193,6 +193,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`
 
+**Decision record.** `docs/DECISION-UNCERTIFIED-RUN.md`
+
 ### Q029 — Why do the structures that reach 35 stable edges on a degree-12 hub disappear?
 
 *research question.*
