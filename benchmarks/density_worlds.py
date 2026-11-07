@@ -28,16 +28,25 @@ proportionally more within-cell co-occurrence than a dense one, and far less tha
 literal 1 - rho share. This is a **declared choice of world family**, recorded as such; a
 world whose filler mass is density-invariant is a different arm and is not run here.
 
-Two exposure schemes
---------------------
+Three exposure schemes
+---------------------
 * `primary`     -- fixed total exposure: every density gets `TOTAL_EVENTS` events, so each
-  edge is observed fewer times as density rises.
+  edge is observed fewer times as density rises. The base is cycled, and because
+  `TOTAL_EVENTS` is not a multiple of the base length the final pass is partial: it ends
+  inside the world-edge head at most densities and inside the filler tail only where the
+  base is longer than `TOTAL_EVENTS`.
 * `sensitivity` -- fixed exposure per edge: each world edge is emitted `EDGE_REPEATS`
   times regardless of density, so the curriculum lengthens with density.
+* `whole_cycle` -- phase-neutral padding: the base is repeated a whole number of times, so
+  every base position is emitted equally often and the stream always ends on the filler
+  tail. Total exposure therefore varies with density (`432, 480, 432, 624, 408` events for
+  the five registered densities), which is the price of removing the phase: this scheme
+  isolates the padding phase and does not hold total exposure constant.
 
-Both are constructed from the same per-density recipe; only the padding differs. Neither
-is the truth about exposure, and the pair is what separates a geometry effect from an
-exposure artifact.
+All three are constructed from the same per-density recipe; only the padding differs.
+None is the truth about exposure. `primary` vs `sensitivity` separates a geometry effect
+from an exposure artifact, and `whole_cycle` tests whether the artifact is specifically
+the partial final pass.
 
 Not evidence on its own: this module measures no learner. `leverage_audit` reports what the
 designed pools do under each arm, which is a property of the world, not of the engine.
@@ -176,11 +185,18 @@ def stream(seed: int, rho: float, scheme: str = "primary",
     `sensitivity` returns the base stream unchanged: every world edge emitted
     `EDGE_REPEATS` times, so the horizon grows with |W|. `primary` repeats the base
     stream cyclically to `TOTAL_EVENTS`, which holds the total exposure fixed across
-    densities and therefore observes each edge fewer times as density rises.
+    densities and therefore observes each edge fewer times as density rises - at the price
+    of a partial final pass. `whole_cycle` repeats the base a whole number of times, so
+    every base position gets the same exposure and the stream ends on the filler tail.
     """
     events = base_stream(seed, rho, filler)
     if scheme == "sensitivity":
         return events
+    if scheme == "whole_cycle":
+        if not events:
+            raise ValueError("an empty stream cannot be padded")
+        passes = -(-TOTAL_EVENTS // len(events))
+        return [text for _ in range(passes) for text in events]
     if scheme != "primary":
         raise ValueError("unknown exposure scheme %r" % (scheme,))
     if not events:

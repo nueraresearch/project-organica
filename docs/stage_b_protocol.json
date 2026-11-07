@@ -553,6 +553,24 @@
         991004,
         991005
       ],
+      "docs/density_padding_run.json": [
+        20330201,
+        20330202,
+        20330203,
+        20330204,
+        20330205,
+        20330206,
+        20330207,
+        20330208,
+        20330209,
+        20330210,
+        20330211,
+        20330212,
+        20330213,
+        20330214,
+        20330215,
+        20330216
+      ],
       "docs/divergence_arm_b_prime_f2.json": [
         20261101
       ],
@@ -2679,7 +2697,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 120,
+    "disjoint_proved_against": 121,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

@@ -267,6 +267,16 @@ def freshness_audit(record: dict | None = None) -> dict:
         "density_interaction_a2_result.json",
         "DENSITY-INTERACTION-A2-PREREGISTRATION.md",
         "stage_b_protocol.json", "USER-MANUAL.md")}
+    # A block that *declares* the A2 grid as inherited is a paired re-use, not a collision.
+    # The exemption is conditional on that declaration, so a file cannot earn it by name.
+    declared = ROOT / "docs" / "density_padding_prereg.json"
+    if declared.exists():
+        body = json.loads(declared.read_text(encoding="utf-8"))
+        if body.get("amends") is None and "density_interaction_a2_prereg.json" in str(
+                body.get("inherits")):
+            recorded |= {ROOT / "docs" / name for name in (
+                "density_padding_prereg.json", "density_padding_run.json",
+                "density_padding_result.json", "DENSITY-PADDING-PREREGISTRATION.md")}
     hits = []
     for directory in ("docs", "tests", "benchmarks", "research-journal", "papers"):
         base = ROOT / directory

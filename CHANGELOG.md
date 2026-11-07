@@ -70,6 +70,22 @@ there is nothing to check out.
   `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
   density.
 
+### Added — A third exposure scheme tested the padding attribution and only half confirmed it (2026-11-07)
+
+- **`DENSITY-PADDING-1`** registers `whole_cycle`: the base stream repeated a whole number of times,
+  so every base position is exposed equally and every stream ends on the filler tail. Seeds and
+  densities are inherited by reference from A2; the A2 block, its criteria and its artifacts are not
+  amended, and the scheme is an additive branch in `benchmarks/density_worlds.py`.
+- **The phase gate held and can fire:** every base occurrence is emitted exactly `passes` times at
+  every density, every stream ends on a filler event, and the primary stream fails the same check.
+- **Result: `WHOLE-CYCLE PADDING DOES NOT RESTORE A MONOTONE LADDER`** — 0.0531, 0.0719, 0.0844,
+  0.0500, 0.1500, with the 0.4 → 0.6 step at −0.0344, so P1 and P2 both fail; the negative control
+  confirms P1 fires on the A2 primary profile.
+- **The earlier attribution is narrowed.** The padding phase accounts for about half of the 0.4 gap
+  between the primary and per-edge readings (0.0562 of 0.1188) and no longer for the whole
+  mid-ladder shape; the residual is recorded as measured but unattributed, coinciding with the
+  control's intra-cell slots falling from 2.44 to 1.06 between 0.4 and 0.6.
+
 ### Changed — Intra-cell exclusion adopted as an allocation change, and not implemented (2026-11-07)
 
 - **`docs/DECISION-DENSITY-EXCLUSION.md`** records the owner's decision: rows whose two tags sit in

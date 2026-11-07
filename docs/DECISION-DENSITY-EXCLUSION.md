@@ -85,6 +85,17 @@ advantage shrinks with density; it reports that scheme's own padding phase. The 
 is the one whose exposure is per edge rather than per run, and it rises through the middle before
 the dense end pins it.
 
+**The phase is not the whole of it.** A third scheme repeats the base in whole cycles — every base
+position exposed equally, every stream ending on the filler tail. It lifts the mid-ladder
+(0.0844 at rho 0.4, against 0.0281 under primary and 0.1469 per-edge) and still does not make the ladder
+monotone: the 0.4 -> 0.6 step is -0.0344, so P1 and P2 both fail and the registration returns
+WHOLE-CYCLE PADDING DOES NOT RESTORE A MONOTONE LADDER. The phase accounts for 0.0563 of the 0.1188 gap
+between the primary and per-edge readings at 0.4 — about half — and for none of the residual step.
+The residual is measured but **not attributed**: under this scheme the control's intra-cell slots
+fall from 2.44 at 0.4 to 1.06 at 0.6, so the purchase — bounded by exactly those slots — falls with
+them while the cross-cell rows the exclusion cannot remove stay at 1.81. See
+`docs/DENSITY-PADDING-PREREGISTRATION.md` section 8.
+
 ## 3. The evidence it rests on
 
 All figures below are generated from `docs/density_interaction_a2_result.json` and re-checked against
