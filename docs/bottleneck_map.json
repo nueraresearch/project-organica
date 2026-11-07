@@ -14,18 +14,33 @@
  },
  "rows": [
   {
-   "candidate": "Candidate generation",
+   "candidate": "World-edge candidate availability",
    "label": "weakened",
    "status": [
-    "Supported within the tested scope",
+    "Supported within the tested scope"
+   ],
+   "check": "all 112 true world edges were present in memory on the tested worlds, so a shortage of candidates is ruled out there as the constraint on coverage",
+   "does_not_say": "that candidates are always available. This is presence of the world's edges in one world family, not availability in general",
+   "would_change": "a world family where some true edges never enter memory",
+   "evidence": [
+    "docs/GATE13-RELATION-SEPARATION.md",
+    "docs/gate13_allocation_rule.json"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Candidate-generation strategy (broader)",
+   "label": "unresolved",
+   "status": [
     "Not established / not measured"
    ],
-   "check": "presence was ruled out in the tested worlds: all 112 true world edges were in memory, so a shortage of candidates is not the constraint there, while the candidate space's ordering is the measured defect",
-   "does_not_say": "that a different generation strategy cannot help. Presence of the true edges was measured; which pairs a generator proposes was not",
-   "would_change": "a generation rule that changes which pairs enter at all, shown to move precision at a fixed budget",
+   "check": "the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges",
+   "does_not_say": "that a different generation strategy cannot help. Nothing that changes which pairs a generator proposes was tested",
+   "would_change": "a generation rule that changes which pairs enter, scored at a fixed budget",
    "evidence": [
     "docs/GATE13-CAUSAL-ACCOUNT.md",
-    "docs/gate13_allocation_rule.json",
     "docs/ACQUISITION-ENDPOINT-AUDIT.md"
    ],
    "read_for_this_record": true,
@@ -181,7 +196,7 @@
  },
  "provenance": {
   "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",
-  "checked_rows": 6,
+  "checked_rows": 7,
   "checked_note": "statuses and figures for these rows were checked against the records named in evidence",
   "owner_reading_rows": [
    "Pool-structure moderation",
@@ -222,5 +237,6 @@
    "means": "a design is frozen and no runtime evidence exists",
    "status": "Not established / not measured"
   }
- }
+ },
+ "split_rule": "a row splits when the claim differs, and keeps a compound status when one claim is measured on two endpoints"
 }

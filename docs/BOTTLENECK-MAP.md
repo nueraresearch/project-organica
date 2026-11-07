@@ -24,7 +24,8 @@ established" is not "unpromising"; it is "the record cannot say yet".
 
 | Candidate | Map label | Status | The check behind it |
 |---|---|---|---|
-| Candidate generation | weakened | Supported within the tested scope + Not established | presence was ruled out in the tested worlds: all 112 true world edges were in memory, so a shortage of candidates is not the constraint there, while the candidate space's ordering is the measured defect |
+| World-edge candidate availability | weakened | Supported within the tested scope | all 112 true world edges were present in memory on the tested worlds, so a shortage of candidates is ruled out there as the constraint on coverage |
+| Candidate-generation strategy (broader) | unresolved | Not established | the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges |
 | Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules |
 | Structure to behavior coupling | unresolved | Not established | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero |
 | Theory mismatch (motivational reversals) | supported concern | Supported within the tested scope | the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation |
@@ -54,11 +55,18 @@ wrong for a test that ran and returned nothing, and treating the two as synonyms
 becomes an ambiguity. The map keeps the label, states the mapping, and flags the gap. Adding a fifth
 status is a decision about `papers/README.md` and belongs to the owner, not to this record.
 
+**How rows are drawn.** The rule: a row splits when the claim differs, and keeps a compound status when one
+claim is measured on two endpoints. Availability of the world's edges and the strategy that proposes
+candidates are different claims, so they are separate rows — one supported, one unresolved. The
+selection row stays single because its claim is one: a manipulation of what may occupy the ranking
+budget, measured on coverage (supported) and on behavior (not established).
+
 ## 4. What each status does not say
 
 | Candidate | What it does not say |
 |---|---|
-| Candidate generation | that a different generation strategy cannot help. Presence of the true edges was measured; which pairs a generator proposes was not |
+| World-edge candidate availability | that candidates are always available. This is presence of the world's edges in one world family, not availability in general |
+| Candidate-generation strategy (broader) | that a different generation strategy cannot help. Nothing that changes which pairs a generator proposes was tested |
 | Selection / allocation | that fixing selection fixes behavior. No cell has shown a downstream gain from a better-ranked selection, which is why the first status is scoped to coverage and the second is not established |
 | Structure to behavior coupling | that structure fails to transfer. Retention was measured; usability of what is retained was not |
 | Theory mismatch (motivational reversals) | that the theory is refuted, or that these reversals cause any downstream failure. The concern is supported; the causal link is not |
@@ -83,7 +91,7 @@ second half is exactly what the density study's treatment arm exists to test, so
 
 ## 6. Only one row is a specified experiment
 
-Of the 8 rows, **1** is an experiment rather than a
+Of the 9 rows, **1** is an experiment rather than a
 reading: Density interaction. It is the only row with a defined manipulation, an explicit estimand, a
 registered direction, falsifiers — and zero allocated seeds. That combination, not the plausibility
 of the mechanism, is what makes it the cleanest untested explanation on the board. The zero is
@@ -100,7 +108,7 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 * **Not a likelihood ranking.** Nothing here says which explanation is most likely to be the cause.
 * **Not a re-scoring.** `H3-L — INCONCLUSIVE`, the 448-cell calibration null and the Phase K results
   stand exactly as recorded elsewhere.
-* **Not a substitute for the records it cites.** 6 of the 8 rows were checked
+* **Not a substitute for the records it cites.** 7 of the 9 rows were checked
   against the records named in `evidence` while writing this. The remaining 2 —
   Pool-structure moderation, Loop-redundancy moderation — carry the owner's reading, and the artifact says so rather than restating
   numbers it did not re-read.
@@ -112,4 +120,5 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 that every label is defined and mapped, that every evidence path exists, that exactly one row is a
 specified experiment with zero allocation, that the two corrected rows carry their corrected wording
 and not their old wording, that the "not supported" rows refuse refutation, that the vocabulary gap
-is named rather than absorbed, and that this document quotes the artifact rather than the reverse.
+is named rather than absorbed, that availability and generation strategy are separate rows, and that
+this document quotes the artifact rather than the reverse.

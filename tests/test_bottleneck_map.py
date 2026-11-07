@@ -156,9 +156,17 @@ def test_the_vocabulary_gap_is_named_rather_than_absorbed():
     assert "belongs to the owner" in flat
 
 
-def test_candidate_generation_splits_presence_from_strategy():
-    row = _row("Candidate generation")
-    assert set(row["status"]) == {"Supported within the tested scope",
-                                  "Not established / not measured"}
-    assert "in memory" in row["check"]
-    assert "generation strategy" in row["does_not_say"]
+def test_availability_and_generation_strategy_are_separate_rows():
+    availability = _row("World-edge candidate availability")
+    strategy = _row("Candidate-generation strategy (broader)")
+    assert availability["status"] == ["Supported within the tested scope"]
+    assert "112" in availability["check"] and "in memory" in availability["check"]
+    assert strategy["status"] == ["Not established / not measured"]
+    assert strategy["label"] == "unresolved"
+    assert "generator" in strategy["does_not_say"]
+
+
+def test_the_split_rule_is_stated():
+    body = _body()
+    assert "a row splits when the claim differs" in body["split_rule"]
+    assert body["split_rule"] in _flat()
