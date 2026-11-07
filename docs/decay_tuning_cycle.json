@@ -1,0 +1,48 @@
+{
+ "created": "2026-11-07",
+ "status": "design record for a new cycle; no cells, no candidate rule, no claim",
+ "purpose": "separate exploratory tuning from confirmation, so a tuned rule is confirmed only by fresh data",
+ "exploratory_source": "docs/confirmation/calibration.json",
+ "exploratory_cells": 448,
+ "exploratory_claim": "none: design input only, never confirmation",
+ "degree_ladder": [
+  2,
+  4,
+  6,
+  12
+ ],
+ "degree_ladder_note": "cannot be renewed: degree 3 is not constructible and the even ladder is fixed by Amendment 2 of the decay preregistration, so fresh worlds at these degrees are the only fresh regime axis",
+ "development_seeds": [
+  20310101,
+  20310102,
+  20310103,
+  20310104,
+  20310105,
+  20310106,
+  20310107,
+  20310108
+ ],
+ "confirmatory_seeds": [
+  20310109,
+  20310110,
+  20310111,
+  20310112,
+  20310113,
+  20310114,
+  20310115,
+  20310116,
+  20310117,
+  20310118,
+  20310119,
+  20310120,
+  20310121,
+  20310122,
+  20310123,
+  20310124,
+  20310125,
+  20310126,
+  20310127,
+  20310128
+ ],
+ "selection": "first contiguous window of 28 seeds whose numbers appear in no file under docs, tests, benchmarks, research-journal or papers"
+}
