@@ -102,7 +102,10 @@ def test_exactly_one_row_is_a_specified_experiment_and_it_allocates_a_registered
     block = body["specified_experiment"]
     assert block["row"] == "Density interaction"
     assert block["registration"] == "docs/density_interaction_a2_prereg.json"
-    assert block["run"] is False, "the map must not claim a run that has not happened"
+    results = ROOT / "docs" / "density_interaction_a2_result.json"
+    assert block["run"] is results.exists(), (
+        "the map's run flag must match the artifacts: no claim without a result, no "
+        "result without the claim")
     registration = json.loads(
         (ROOT / block["registration"]).read_text(encoding="utf-8"))
     allocation = registration["allocation"]

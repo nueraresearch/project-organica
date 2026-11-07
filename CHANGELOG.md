@@ -56,6 +56,20 @@ there is nothing to check out.
   (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
   still allocates nothing.
 
+### Added — The density block A2 ran and returned its positive branch (2026-11-07)
+
+- **All 640 registered cells executed** on seeds 20330201–20330216 with `PYTHONHASHSEED=0`,
+  as a detached process sliced into three runs and appended; every gate passed.
+- **Verdict: EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.** The sparse-end
+  precision level was **0.059**, 95 percent interval **0.041–0.078**, against the **0.05** bar,
+  with **13 of 16** seeds positive; the sensitivity scheme reproduced the sparse end exactly
+  (0.059, 11 of 16) and both schemes read **0.150** at the dense end.
+- **The slope is descriptive, as registered:** +**0.091** (0.072–0.109) is reported and placed
+  by the decision table, not scored, because the dense end is pinned by the pool's
+  composition. The verdict licenses an allocation change on this layer and no behavioural
+  claim; `docs/density_interaction_a2_result.json` holds it and §9 of the rendered
+  registration states it.
+
 ### Changed — The density block is held before the run: its dense end has no headroom (2026-11-07)
 
 - **A pre-run review, on five unregistered seeds, found the registered criterion cannot be

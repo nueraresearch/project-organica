@@ -18,7 +18,7 @@
    "supported concern",
    "not supported",
    "unresolved",
-   "preregistered, untested"
+   "supported at the sparse end"
   ],
   "label_rule": "A row may carry only a label in vocabulary.labels; every label there must have an entry in label_meanings; a new label is added to both in the same change, never invented in a row."
  },
@@ -113,13 +113,13 @@
   },
   {
    "candidate": "Density interaction",
-   "label": "preregistered, untested",
+   "label": "supported at the sparse end",
    "status": [
-    "Not established / not measured"
+    "Supported within the tested scope"
    ],
-   "check": "the block is re-registered as A2 on a constant filler family after the first registration was held: its dense end was saturated by arithmetic, so A2 judges the sparse-end precision level and reports the density slope as a description; no judged cell has run on either block",
-   "does_not_say": "that density matters, or anything about behaviour. No judged cell has run, and A2's slope is descriptive rather than scored",
-   "would_change": "the run: 320 judged cells on sixteen fresh seeds, one bar at 0.05, and a frozen analysis path that reads the sparse-end level",
+   "check": "A2 ran all 640 registered cells: the sparse-end precision level was 0.059 (95 percent interval 0.041 to 0.078) against a bar of 0.05, thirteen of sixteen seeds positive, and the dense-minus-sparse difference was 0.091 (0.072 to 0.109) under both exposure schemes",
+   "does_not_say": "that density matters for behaviour, or that the slope is evidence: the slope is reported descriptively, the dense end is pinned by the pool's composition at 0.150, and no cell measures a downstream gain",
+   "would_change": "a different world family or candidate space: the result licenses an allocation change on this layer only",
    "evidence": [
     "docs/DENSITY-INTERACTION-REVIEW.md",
     "docs/density_interaction_review.json",
@@ -208,8 +208,8 @@
   "count": 1,
   "row": "Density interaction",
   "registration": "docs/density_interaction_a2_prereg.json",
-  "run": false,
-  "note": "the only row with a registered block: A2 fixes 320 judged cells and 320 exposure cells on sixteen fresh seeds, one bar of 0.05 and a decision table committed before the first cell; A1 is held and unrun"
+  "run": true,
+  "note": "the only row with a registered block, and it has run: A2 executed 320 judged cells plus 320 exposure-check cells on sixteen fresh seeds and returned the positive branch of its own decision table; A1 is held and unrun"
  },
  "provenance": {
   "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",
@@ -251,9 +251,9 @@
    "means": "the record cannot decide the question",
    "status": "Not established / not measured"
   },
-  "preregistered, untested": {
-   "means": "a design is frozen and no runtime evidence exists",
-   "status": "Not established / not measured"
+  "supported at the sparse end": {
+   "means": "the block ran, every gate passed and its pre-registered criterion was met whole, on one world family and one cap",
+   "status": "Supported within the tested scope"
   }
  },
  "split_rule": "a row splits when the claim differs, and keeps a compound status when one claim is measured on two endpoints"

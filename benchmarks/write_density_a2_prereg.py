@@ -260,17 +260,23 @@ Sections 1–8 are exactly as committed before the run. Cells are in
     }
 
 
-def main() -> int:
-    body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+def render_document(body: dict, result: dict | None = None) -> str:
+    """Sections 1-8 from the artifact, then the banner and section 9 from the result."""
     text = render(body)
-    assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
-    if body.get("run") and RESULT.exists():
-        result = json.loads(RESULT.read_text(encoding="utf-8"))
+    if result is not None:
         banner = ("**This block has run: the frozen analysis path returned %s.** Section 9 "
                   "records the result, and sections 1–8 are preserved exactly as committed "
                   "before the run." % result["decision"]["verdict"])
         head, rest = text.split("\n\n", 1)
         text = head + "\n\n" + banner + "\n\n" + rest + "\n" + render_result(result)
+    return text
+
+
+def main() -> int:
+    body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    result = (json.loads(RESULT.read_text(encoding="utf-8"))
+              if body.get("run") and RESULT.exists() else None)
+    text = render_document(body, result)
     assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
     OUT.write_text(text, encoding="utf-8")
     print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))

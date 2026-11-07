@@ -1,0 +1,184 @@
+{
+ "prereg": "DENSITY-INTERACTION-2",
+ "cells": 640,
+ "gates": {
+  "G0_liveness": {
+   "seeds_where_arms_differ": 16,
+   "of": 16,
+   "required": 14,
+   "passed": true,
+   "comparison": "selected sets, not their order"
+  },
+  "G1_presence_ceiling": {
+   "minimum": 1.0,
+   "required": 1.0,
+   "passed": true
+  },
+  "G2_arithmetic": {
+   "cells_failing": 0,
+   "example": [],
+   "passed": true
+  },
+  "G3_axis_live": {
+   "primary": {
+    "at_sparse": 0.1138,
+    "at_dense": 0.8,
+    "passed": true
+   },
+   "sensitivity": {
+    "at_sparse": 0.1145,
+    "at_dense": 0.8,
+    "passed": true
+   },
+   "passed": true
+  },
+  "G4_control_reproduces_gate13": {
+   "control_precision_at_sparse": 0.390625,
+   "must_not_exceed": 0.5,
+   "passed": true
+  },
+  "G5_identity_where_it_must_hold": {
+   "arms_identical": true,
+   "delta": 0.0,
+   "passed": true
+  },
+  "G6_treatment_does_not_lose_coverage": {
+   "violations": [],
+   "count": 0,
+   "passed": true
+  },
+  "all_passed": true
+ },
+ "criteria": {
+  "C1_sparse_level": {
+   "mean": 0.059375,
+   "interval": [
+    0.040625,
+    0.078125
+   ],
+   "interval_width": 0.0375,
+   "bar": 0.05,
+   "seeds_positive": 13,
+   "of": 16,
+   "required": 11,
+   "passed": true
+  },
+  "descriptive_interaction": {
+   "judged": false,
+   "mean": 0.090625,
+   "interval": [
+    0.071875,
+    0.109375
+   ],
+   "interval_width": 0.0375,
+   "dense_minus_sparse_per_seed": {
+    "20330201": 0.1,
+    "20330202": 0.1,
+    "20330203": 0.1,
+    "20330204": 0.1,
+    "20330205": 0.05,
+    "20330206": 0.15,
+    "20330207": 0.05,
+    "20330208": 0.1,
+    "20330209": 0.1,
+    "20330210": 0.15,
+    "20330211": 0.0,
+    "20330212": 0.05,
+    "20330213": 0.15,
+    "20330214": 0.1,
+    "20330215": 0.05,
+    "20330216": 0.1
+   },
+   "why_not_judged": "the interaction Delta(0.8) - Delta(0.1) is NOT a criterion. It is reported with its interval and its per-seed values, because the dense end is pinned by the pool's composition (the pilot measured Delta(0.8) = 0.150 with zero spread on eight seeds), so a criterion there would be arithmetic rather than evidence"
+  },
+  "exposure": {
+   "sensitivity_sparse_mean": 0.059375,
+   "seeds_positive": 11,
+   "of": 16,
+   "holds": true
+  },
+  "profile": {
+   "0.1": {
+    "primary": {
+     "delta_precision_mean": 0.059375,
+     "seeds_positive": 13,
+     "control_precision_mean": 0.390625,
+     "treated_precision_mean": 0.45
+    },
+    "sensitivity": {
+     "delta_precision_mean": 0.059375,
+     "seeds_positive": 11,
+     "control_precision_mean": 0.378125,
+     "treated_precision_mean": 0.4375
+    }
+   },
+   "0.2": {
+    "primary": {
+     "delta_precision_mean": 0.053125,
+     "seeds_positive": 12,
+     "control_precision_mean": 0.5625,
+     "treated_precision_mean": 0.615625
+    },
+    "sensitivity": {
+     "delta_precision_mean": 0.090625,
+     "seeds_positive": 14,
+     "control_precision_mean": 0.55,
+     "treated_precision_mean": 0.640625
+    }
+   },
+   "0.4": {
+    "primary": {
+     "delta_precision_mean": 0.028125,
+     "seeds_positive": 6,
+     "control_precision_mean": 0.70625,
+     "treated_precision_mean": 0.734375
+    },
+    "sensitivity": {
+     "delta_precision_mean": 0.146875,
+     "seeds_positive": 15,
+     "control_precision_mean": 0.725,
+     "treated_precision_mean": 0.871875
+    }
+   },
+   "0.6": {
+    "primary": {
+     "delta_precision_mean": 0.03125,
+     "seeds_positive": 7,
+     "control_precision_mean": 0.84375,
+     "treated_precision_mean": 0.875
+    },
+    "sensitivity": {
+     "delta_precision_mean": 0.196875,
+     "seeds_positive": 16,
+     "control_precision_mean": 0.7625,
+     "treated_precision_mean": 0.959375
+    }
+   },
+   "0.8": {
+    "primary": {
+     "delta_precision_mean": 0.15,
+     "seeds_positive": 16,
+     "control_precision_mean": 0.85,
+     "treated_precision_mean": 1.0
+    },
+    "sensitivity": {
+     "delta_precision_mean": 0.15,
+     "seeds_positive": 16,
+     "control_precision_mean": 0.85,
+     "treated_precision_mean": 1.0
+    }
+   }
+  }
+ },
+ "decision": {
+  "verdict": "EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY",
+  "reading": "the exclusion buys precision at the sparse end, and the dense-minus-sparse difference lies above zero",
+  "decision": "adopt intra-cell exclusion as an allocation change behind a recorded owner decision; no behavioural claim"
+ },
+ "not_evidence": [
+  "no behavioural claim: the endpoint is the share of a fixed budget spent on world edges",
+  "one world family, one vocabulary and one filler family; the proportional filler family is A1, which is held and unrun",
+  "the pilot is calibration on unregistered seeds, not a result about the hypothesis",
+  "a pass licenses an allocation change on this layer only, behind a recorded decision"
+ ]
+}

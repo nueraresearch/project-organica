@@ -30,7 +30,7 @@ established" is not "unpromising"; it is "the record cannot say yet".
 | Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established / not measured | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules |
 | Structure to behavior coupling | unresolved | Not established / not measured | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero |
 | Theory mismatch (motivational reversals) | supported concern | Supported within the tested scope | the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation |
-| Density interaction | preregistered, untested | Not established / not measured | the block is re-registered as A2 on a constant filler family after the first registration was held: its dense end was saturated by arithmetic, so A2 judges the sparse-end precision level and reports the density slope as a description; no judged cell has run on either block |
+| Density interaction | supported at the sparse end | Supported within the tested scope | A2 ran all 640 registered cells: the sparse-end precision level was 0.059 (95 percent interval 0.041 to 0.078) against a bar of 0.05, thirteen of sixteen seeds positive, and the dense-minus-sparse difference was 0.091 (0.072 to 0.109) under both exposure schemes |
 | Pool-structure moderation | not supported | Not established / not measured | the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them |
 | Loop-redundancy moderation | not supported | Not established / not measured | the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them |
 | Decay necessity for liveness | unresolved | Not established / not measured | two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported) |
@@ -57,7 +57,7 @@ and answered with nothing.
 | supported concern | a prediction the explanation makes failed, so the concern is real | Supported within the tested scope |
 | not supported | a tested prediction did not materialize, or the evidence did not appear where it would have | Not established / not measured |
 | unresolved | the record cannot decide the question | Not established / not measured |
-| preregistered, untested | a design is frozen and no runtime evidence exists | Not established / not measured |
+| supported at the sparse end | the block ran, every gate passed and its pre-registered criterion was met whole, on one world family and one cap | Supported within the tested scope |
 <!-- END LABEL TABLE -->
 The table above is generated from the artifact by
 `python -m benchmarks.bottleneck_map --write`, and it is generated between the markers rather

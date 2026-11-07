@@ -40,12 +40,20 @@ def designed_cells():
     return {"cells": cells, "identity": runner.identity_audit(body)}
 
 
-def test_a2_is_frozen_and_has_not_run():
+def test_a2_s_status_and_artifacts_agree():
+    """A registration may not claim a run it does not have, in either direction."""
     body = _body()
     assert body["prereg"] == "DENSITY-INTERACTION-2"
-    assert body["status"].split(",")[0] == "FROZEN"
-    assert "NOT RUN" in body["status"]
-    assert not (ROOT / "docs" / "density_interaction_a2_run.json").exists()
+    run_cells = ROOT / "docs" / "density_interaction_a2_run.json"
+    result = ROOT / "docs" / "density_interaction_a2_result.json"
+    assert body["status"].split()[0] == "RUN"
+    assert run_cells.exists() and result.exists()
+    payload = json.loads(run_cells.read_text(encoding="utf-8"))
+    scored = json.loads(result.read_text(encoding="utf-8"))
+    assert len(payload["cells"]) == body["design"]["cells"] \
+        + body["design"]["sensitivity_cells"] == 640
+    assert scored["cells"] == 640 and scored["gates"]["all_passed"] is True
+    assert body["run"]["verdict"] == scored["decision"]["verdict"]
     assert body["held_predecessor"]["prereg"] == "DENSITY-INTERACTION-1"
 
 
@@ -207,9 +215,13 @@ def test_the_identity_fixture_is_not_decoration():
 
 def test_the_document_is_the_artifact_rendered():
     text = DOC.read_text(encoding="utf-8")
-    assert writer.render(_body()) == text, (
+    result = json.loads((ROOT / "docs" / "density_interaction_a2_result.json")
+                        .read_text(encoding="utf-8"))
+    assert writer.render_document(_body(), result) == text, (
         "the document differs from the artifact; regenerate with "
         "python -m benchmarks.write_density_a2_prereg")
+    assert "## 9. Result (post-freeze)" in text
+    assert _body()["run"]["verdict"] in text
     assert "{" not in text.replace("{%", "")
     assert "held" in text.lower() and "DENSITY-INTERACTION-1" in text
 

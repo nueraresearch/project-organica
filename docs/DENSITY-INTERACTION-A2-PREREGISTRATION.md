@@ -1,6 +1,8 @@
 # The density interaction, block A2: the registered block (2026-11-07)
 
-**Status: FROZEN, NOT RUN (ready; no judged cell). The criterion, bar, seed block, exposure schemes, gates and decision table are fixed here before the first cell. A2 replaces the held A1 block; A1 is retained and unrun**
+**This block has run: the frozen analysis path returned EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.** Section 9 records the result, and sections 1–8 are preserved exactly as committed before the run.
+
+**Status: RUN (2026-11-07). All 640 registered cells executed on the sixteen registered seeds; every gate passed and the frozen analysis path returned EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.**
 
 **Every figure this block produces carries its arm, its scheme and its cap.** The arms are
 `global count-ranked top-k` (rank every candidate row by count, ties on the engine's own key, take the top k) and `intra-cell-excluded ranking` (the same count ordering over the eligible rows only; rows whose two tags sit in one cell are not eligible); the schemes are
@@ -114,7 +116,7 @@ establish only that the registered direction is representable by this instrument
 
 The analysis path is `benchmarks/score_density_interaction_a2.py`, frozen with this registration. It reads only the cells the
 runner writes, validates the grid, and imports nothing from the engine. The runner is
-`./.venv/bin/python -m benchmarks.run_density_interaction --run`; it can be sliced (`--scheme`, `--seeds`) and appended (`--append`), and it
+`./.venv/bin/python -m benchmarks.run_density_interaction --prereg docs/density_interaction_a2_prereg.json --out docs/density_interaction_a2_run.json`; it can be sliced (`--scheme`, `--seeds`) and appended (`--append`), and it
 refuses to overwrite a cell inside one block. A1's registration is held, and the runner
 refuses it by name.
 
@@ -125,3 +127,29 @@ refuses it by name.
 1 thresholds, 1 bars. one bar: the sparse-end level
 
 No arm may run before this file is committed.
+
+
+## 9. Result (post-freeze)
+
+**EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.** the exclusion buys precision at the sparse end, and the dense-minus-sparse difference lies above zero
+
+- **Cells:** 640; gates all passed.
+- **C1, the sparse-end level:** mean +0.059375, 95 percent interval
+  [+0.040625, +0.078125], width 0.037500, bar 0.05, 13 of 16 seeds
+  positive — passed.
+- **The interaction (descriptive, not judged):** mean +0.090625, interval
+  [+0.071875, +0.109375].
+- **Exposure check:** sensitivity-scheme sparse mean +0.059375, 11 of 16
+  seeds positive — holds.
+
+| rho_world | Delta precision, primary | Delta precision, sensitivity | primary − sensitivity |
+| --- | --- | --- | --- |
+| 0.1 | +0.059375 | +0.059375 | +0.000000 |
+| 0.2 | +0.053125 | +0.090625 | -0.037500 |
+| 0.4 | +0.028125 | +0.146875 | -0.118750 |
+| 0.6 | +0.031250 | +0.196875 | -0.165625 |
+| 0.8 | +0.150000 | +0.150000 | +0.000000 |
+
+Sections 1–8 are exactly as committed before the run. Cells are in
+`docs/density_interaction_a2_run.json`; the verdict is the frozen scorer's output in
+`docs/density_interaction_a2_result.json`.

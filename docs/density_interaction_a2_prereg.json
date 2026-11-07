@@ -1,7 +1,7 @@
 {
  "prereg": "DENSITY-INTERACTION-2",
  "created": "2026-11-07",
- "status": "FROZEN, NOT RUN (ready; no judged cell). The criterion, bar, seed block, exposure schemes, gates and decision table are fixed here before the first cell. A2 replaces the held A1 block; A1 is retained and unrun",
+ "status": "RUN (2026-11-07). All 640 registered cells executed on the sixteen registered seeds; every gate passed and the frozen analysis path returned EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY.",
  "held_predecessor": {
   "prereg": "DENSITY-INTERACTION-1",
   "verdict": "HELD - NOT RUNNABLE AS REGISTERED",
@@ -176,10 +176,11 @@
  ],
  "analysis": {
   "path": "benchmarks/score_density_interaction_a2.py",
-  "runner": "./.venv/bin/python -m benchmarks.run_density_interaction --run",
+  "runner": "./.venv/bin/python -m benchmarks.run_density_interaction --prereg docs/density_interaction_a2_prereg.json --out docs/density_interaction_a2_run.json",
   "command": "./.venv/bin/python -m benchmarks.score_density_interaction_a2 --results docs/density_interaction_a2_run.json --out docs/density_interaction_a2_result.json",
   "input": "docs/density_interaction_a2_run.json",
-  "frozen": true
+  "frozen": true,
+  "runner_note": "the out path is named because the module's default is A1's artifact; a pre-run fix, disclosed before the first cell"
  },
  "allocation": {
   "seeds": 16,
@@ -331,5 +332,18 @@
   "control_rises": true,
   "delta_rises": true,
   "passed": true
+ },
+ "run": {
+  "date": "2026-11-07",
+  "cells": 640,
+  "recovery_rows": 960,
+  "pythonhashseed": 0,
+  "command": "./.venv/bin/python -m benchmarks.run_density_interaction --prereg docs/density_interaction_a2_prereg.json --out docs/density_interaction_a2_run.json",
+  "score_command": "./.venv/bin/python -m benchmarks.score_density_interaction_a2 --results docs/density_interaction_a2_run.json --out docs/density_interaction_a2_result.json",
+  "input": "docs/density_interaction_a2_run.json",
+  "result": "docs/density_interaction_a2_result.json",
+  "verdict": "EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY",
+  "gates_passed": true,
+  "read_once": "the analysis path ran once, as frozen; no criterion was re-read after the result was seen"
  }
 }

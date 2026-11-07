@@ -71,8 +71,9 @@ def plan(record: dict | None = None) -> list[dict]:
 
 def assert_grid(record: dict) -> None:
     """Refuse anything that is not the frozen grid, before an engine is touched."""
-    if record["status"].split(",")[0] not in ("FROZEN", "HELD", "RUN"):
-        raise SystemExit("the registration is not frozen; no cell may run")
+    head = record["status"].split("(")[0].split(",")[0].strip()
+    if head not in ("FROZEN", "HELD", "RUN"):
+        raise SystemExit("the registration is not frozen, held or run; no cell may run")
     design = record["design"]
     seeds = [int(seed) for seed in design["seeds"]]
     if len(seeds) < 8 or len(set(seeds)) != len(seeds):
