@@ -2,6 +2,15 @@
 
 **Verdict: HELD - NOT RUNNABLE AS REGISTERED.**
 
+**Successor, same day.** A2 is registered at `docs/density_interaction_a2_prereg.json` and
+rendered at `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`. Section 5's two routes were
+measured before registration: a cap that is a fixed fraction of the world-edge count collapses
+the dense end to 0.150 with zero spread, because the treatment is perfect wherever the pool
+holds at least the cap in world rows; the constant-filler world keeps the sparse end near
+0.094 and the dense end pinned, so A2 judges the sparse-end level and reports the slope as a
+description. The hold on A1 is not lifted: A1 stays frozen and unrun, and the runner refuses
+it by name.
+
 the block runs, and its dense end has no headroom: at rho_world 0.8 under fixed total exposure the control already scores precision 1.000, so the treatment cannot add anything there and the registered interaction cannot be positive
 
 No judged cell ran, no registered seed was touched, and nothing in this document is

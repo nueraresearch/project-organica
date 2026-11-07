@@ -75,6 +75,30 @@ there is nothing to check out.
   (cap = |W|/4 gives 6 slots at 0.1 and 48 at 0.8) or an interaction anchored where the control
   is below the ceiling. `docs/DENSITY-INTERACTION-REVIEW.md`, `docs/density_interaction_review.json`.
 
+### Added — The density interaction, block A2: held A1 replaced by a runnable registration (2026-11-07)
+
+- **`docs/density_interaction_a2_prereg.json`** with its rendered
+  `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`: 320 judged cells plus 320 exposure-check
+  cells (2 arms × 2 caps × 5 densities × 16 fresh seeds), one bar of 0.05, gates G0–G6 and a
+  seven-row decision table, all committed before the first cell. A1 is retained, HELD and unrun.
+- **The world's filler family is now constant**: a fixed within-cell event mass at every
+  density, so the ineligible class competes for the ranking budget across the whole ladder.
+  The proportional family is A1's and is not run.
+- **The judged criterion is the sparse-end precision level**, not the interaction. With cap 20
+  at or below the world-edge count at every density, the treatment removes a class that is
+  never a world edge, so it is perfect whenever the pool holds ≥ 20 world rows: the pilot
+  measured Δ(0.8) = 0.150 with zero spread on eight unregistered seeds. The slope is reported
+  with its interval and its per-seed values and placed by the decision table, but it is not
+  scored — an interaction criterion there would be arithmetic.
+- **The bar is 0.05, calibrated on seeds 992001–992008**, which this block does not judge: the
+  sparse-end mean there was 0.094 with sd 0.062, so the level is powered (~0.8) at sixteen
+  seeds. The runner gained `--prereg`; it accepts any contiguous block of at least eight seeds
+  and derives the cell count from the registration rather than a literal.
+- **`benchmarks/score_density_interaction_a2.py`** is A2's frozen analysis path and
+  **`benchmarks/write_density_a2_prereg.py`** renders its document; `tests/test_density_interaction_a2.py`
+  shows every pole reachable, every gate able to void the block, and the document equal to the
+  artifact.
+
 ### Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)
 
 - **`organica/admission.py`** carried the adopted admission rule (removed at withdrawal,

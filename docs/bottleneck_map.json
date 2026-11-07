@@ -117,12 +117,14 @@
    "status": [
     "Not established / not measured"
    ],
-   "check": "the block is held before the run: a pre-run review ran the harness on five unregistered seeds and found the dense end has no headroom (both arms score precision 1.000 at rho 0.8 under fixed total exposure), so the registered interaction cannot be positive as designed; no judged cell has run",
-   "does_not_say": "that density matters, or anything about behaviour. No judged cell has run, and the block is held on a pre-run review rather than scored",
-   "would_change": "the block itself: the forecast sheet, the bars and the decision table are committed before the first cell",
+   "check": "the block is re-registered as A2 on a constant filler family after the first registration was held: its dense end was saturated by arithmetic, so A2 judges the sparse-end precision level and reports the density slope as a description; no judged cell has run on either block",
+   "does_not_say": "that density matters, or anything about behaviour. No judged cell has run, and A2's slope is descriptive rather than scored",
+   "would_change": "the run: 320 judged cells on sixteen fresh seeds, one bar at 0.05, and a frozen analysis path that reads the sparse-end level",
    "evidence": [
     "docs/DENSITY-INTERACTION-REVIEW.md",
     "docs/density_interaction_review.json",
+    "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md",
+    "docs/density_interaction_a2_prereg.json",
     "docs/DENSITY-INTERACTION-PREREGISTRATION.md",
     "docs/density_interaction_prereg.json",
     "docs/WORLD-DENSITY-DESIGN.md"
@@ -130,10 +132,10 @@
    "read_for_this_record": true,
    "study_specified": true,
    "allocation": {
-    "seeds": 8,
-    "cells": 160,
-    "thresholds": 2,
-    "bars": 2
+    "seeds": 16,
+    "cells": 320,
+    "thresholds": 1,
+    "bars": 1
    }
   },
   {
@@ -205,9 +207,9 @@
  "specified_experiment": {
   "count": 1,
   "row": "Density interaction",
-  "registration": "docs/density_interaction_prereg.json",
+  "registration": "docs/density_interaction_a2_prereg.json",
   "run": false,
-  "note": "the only row with a registered block: a frozen grid of 160 judged cells on eight fresh seeds, two bars, two exposure schemes and a decision table committed before the first cell"
+  "note": "the only row with a registered block: A2 fixes 320 judged cells and 320 exposure cells on sixteen fresh seeds, one bar of 0.05 and a decision table committed before the first cell; A1 is held and unrun"
  },
  "provenance": {
   "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",

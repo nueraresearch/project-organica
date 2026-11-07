@@ -162,3 +162,22 @@ manipulation, world family, arms, caps, endpoint, seed block and bars are unchan
 criterion tests the corrected direction. "Rising" therefore stops being a falsifier of the
 claim and becomes the claim, with its own falsifiers — flat, or falling — registered before
 the first cell. The block itself is `docs/DENSITY-INTERACTION-PREREGISTRATION.md`.
+
+### A2 — the successor registration, and what the first one taught about the instrument
+
+The first registration (A1) was held before any cell: with a proportional filler and a
+fixed cap, the dense end leaves the control at precision 1.000, so the treatment cannot
+add anything there and the interaction cannot be positive. A2
+(`docs/density_interaction_a2_prereg.json`) keeps the ladder and the question, changes
+the world's filler to a **constant within-cell mass**, and judges the **sparse-end
+precision level** at one bar of 0.05, reporting the density slope descriptively.
+
+The reason the slope cannot be the criterion is structural, and it is the sharper
+finding of the two blocks: cap 20 is at or below the world-edge count at every density,
+and the treatment removes a class that is **never** a world edge, so the treated arm is
+perfect whenever the pool holds at least 20 world rows. The dense end is therefore
+pinned by composition — measured at 0.150 with zero spread on eight unregistered seeds
+— and the only variation left across the ladder is the control's own mechanical rise,
+which section 5 already calls predicted and not the claim. A budget that is a fixed
+fraction of the world-edge count was measured too and collapses the dense end to the
+same pinned value. Neither block allocates a seed in this record.

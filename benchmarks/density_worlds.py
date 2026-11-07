@@ -59,10 +59,15 @@ EVENTS_PER_CYCLE = 8
 TOTAL_EVENTS = 400
 #: Emissions of each world edge: the sensitivity scheme's per-edge exposure.
 EDGE_REPEATS = 2
-#: The filler's peak event budget, spent in proportion to (1 - rho_world).
-#: Chosen so the within-cell class outcounts a world edge at the sparse end and loses to it
-#: at the dense end; the crossover is what makes the registered direction testable.
+#: The filler's peak event budget under the proportional family, spent in proportion to
+#: (1 - rho_world).
 FILLER_BUDGET = 24
+#: The filler's fixed event budget under the constant family. That family reproduces the
+#: Gate 13 observation this design is built on -- a sparse world's ranking budget is
+#: dominated by within-cell co-occurrence -- and keeps the ineligible class competing for
+#: the budget at every density, so the treatment's value can be measured instead of being
+#: driven to zero by the world's own construction.
+FILLER_MASS = 24
 #: The cap ladder. 20 is the primary cap (Gate 13's budget); the rest is characterization.
 CAPS = (20, 40, 80, 160, 240)
 PRIMARY_CAP = 20
@@ -135,12 +140,22 @@ def world_edges(seed: int, rho: float) -> set[tuple[str, str]]:
     return set(universe[:k])
 
 
-def filler_events(rho: float) -> int:
-    """The number of within-cell events: the (1 - rho) share of a declared budget."""
-    return int(round((1.0 - rho) * FILLER_BUDGET))
+def filler_events(rho: float, filler: str = "proportional") -> int:
+    """The within-cell event count under the declared filler family.
+
+    `proportional` spends a peak budget in proportion to (1 - rho_world), so the filler's
+    share of the stream falls faster than (1 - rho) as |W| grows. `constant` spends the
+    same budget at every density, which keeps the ineligible class competing for the
+    ranking budget across the whole ladder.
+    """
+    if filler == "constant":
+        return FILLER_MASS
+    if filler == "proportional":
+        return int(round((1.0 - rho) * FILLER_BUDGET))
+    raise ValueError("unknown filler family %r" % (filler,))
 
 
-def base_stream(seed: int, rho: float) -> list[str]:
+def base_stream(seed: int, rho: float, filler: str = "proportional") -> list[str]:
     """One emission of every world edge, plus this density's within-cell filler.
 
     World edges are emitted in a sorted order so the stream is reproducible from the
@@ -149,12 +164,13 @@ def base_stream(seed: int, rho: float) -> list[str]:
     """
     events = ["%s %s" % edge for edge in sorted(world_edges(seed, rho))] * EDGE_REPEATS
     groups = cells()
-    for index in range(filler_events(rho)):
+    for index in range(filler_events(rho, filler)):
         events.append(" ".join(groups[index % len(groups)]))
     return events
 
 
-def stream(seed: int, rho: float, scheme: str = "primary") -> list[str]:
+def stream(seed: int, rho: float, scheme: str = "primary",
+           filler: str = "proportional") -> list[str]:
     """The event stream for one cell, in the scheme's exposure.
 
     `sensitivity` returns the base stream unchanged: every world edge emitted
@@ -162,7 +178,7 @@ def stream(seed: int, rho: float, scheme: str = "primary") -> list[str]:
     stream cyclically to `TOTAL_EVENTS`, which holds the total exposure fixed across
     densities and therefore observes each edge fewer times as density rises.
     """
-    events = base_stream(seed, rho)
+    events = base_stream(seed, rho, filler)
     if scheme == "sensitivity":
         return events
     if scheme != "primary":
@@ -263,14 +279,15 @@ def identity_cell(seed: int) -> dict:
             "passed": set(control) == set(treated) and abs(delta) <= 1e-12}
 
 
-def designed_pool(seed: int, rho: float) -> list[tuple[str, str, int]]:
+def designed_pool(seed: int, rho: float,
+                  filler: str = "proportional") -> list[tuple[str, str, int]]:
     """The pool the world *designs*: world edges and filler rows, no engine.
 
     Counts come from the stream itself, so this is the pool a ranker would see if the
     engine stored exactly the transitions the world emitted. The engine adds cross-event
     rows on top, which is why the audit's numbers are a leverage check and not a result.
     """
-    events = stream(seed, rho, "sensitivity")
+    events = stream(seed, rho, "sensitivity", filler)
     counts: Counter[tuple[str, str]] = Counter()
     previous: list[str] = []
     for text in events:
@@ -295,7 +312,8 @@ def designed_pool(seed: int, rho: float) -> list[tuple[str, str, int]]:
 AUDIT_CAPS = (PRIMARY_CAP, 40)
 
 
-def leverage_audit(seeds: list[int], densities: list[float]) -> dict:
+def leverage_audit(seeds: list[int], densities: list[float],
+                   filler: str = "proportional") -> dict:
     """Report the designed pools' arm readings, with no engine and no judged cell.
 
     Three things are checked, and each can fail:
@@ -318,7 +336,7 @@ def leverage_audit(seeds: list[int], densities: list[float]) -> dict:
         for cap in AUDIT_CAPS:
             control = treated = 0.0
             for seed in seeds:
-                pool = designed_pool(seed, rho)
+                pool = designed_pool(seed, rho, filler)
                 world = world_edges(seed, rho)
                 control += measure(pool, world, rank_control(pool, cap))["precision"]
                 treated += measure(pool, world,

@@ -1,0 +1,335 @@
+{
+ "prereg": "DENSITY-INTERACTION-2",
+ "created": "2026-11-07",
+ "status": "FROZEN, NOT RUN (ready; no judged cell). The criterion, bar, seed block, exposure schemes, gates and decision table are fixed here before the first cell. A2 replaces the held A1 block; A1 is retained and unrun",
+ "held_predecessor": {
+  "prereg": "DENSITY-INTERACTION-1",
+  "verdict": "HELD - NOT RUNNABLE AS REGISTERED",
+  "review": "docs/DENSITY-INTERACTION-REVIEW.md"
+ },
+ "design_record": "docs/WORLD-DENSITY-DESIGN.md",
+ "question": "At a fixed selection budget, does excluding the intra-cell row class buy precision on the world's edges in a sparse world, and how does that value move as the world densifies?",
+ "design": {
+  "filler": "constant",
+  "arms": [
+   "control",
+   "intra_cell_excluded"
+  ],
+  "densities": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "schemes": [
+   "primary",
+   "sensitivity"
+  ],
+  "caps": [
+   20,
+   40
+  ],
+  "primary_cap": 20,
+  "primary_scheme": "primary",
+  "seeds": [
+   20330201,
+   20330202,
+   20330203,
+   20330204,
+   20330205,
+   20330206,
+   20330207,
+   20330208,
+   20330209,
+   20330210,
+   20330211,
+   20330212,
+   20330213,
+   20330214,
+   20330215,
+   20330216
+  ],
+  "cells": 320,
+  "sensitivity_cells": 320,
+  "cells_arithmetic": "2 arms x 2 caps x 5 densities x 16 seeds = 320 judged cells in the primary scheme, and the same count again in the sensitivity scheme for the exposure check; 640 cells in total",
+  "recovery_caps": [
+   20,
+   40,
+   80,
+   160,
+   240
+  ],
+  "world": "16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge. The within-cell filler carries a FIXED event budget at every density (the constant family): it keeps the ineligible class competing for the ranking budget across the whole ladder, which is the Gate 13 condition the design record rests on. A1 used the proportional family, under which the filler's mass collapses as the world densifies and the dense end saturates",
+  "exposure": "primary = fixed total exposure (400 events, 50 cycles at every density); sensitivity = fixed exposure per edge (each world edge emitted twice, so the horizon grows with |W|)",
+  "cap_note": "precision at a fixed cap is the endpoint: its denominator is the arm's own selection. Coverage divides by |W|, which grows 24 to 192, so a coverage difference is forced by arithmetic"
+ },
+ "arms": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "rank every candidate row by count, ties on the engine's own key, take the top k"
+  },
+  "intra_cell_excluded": {
+   "name": "intra-cell-excluded ranking",
+   "rule": "the same count ordering over the eligible rows only; rows whose two tags sit in one cell are not eligible"
+  }
+ },
+ "seeds": {
+  "block": [
+   20330201,
+   20330216
+  ],
+  "world": [
+   20330201,
+   20330202,
+   20330203,
+   20330204,
+   20330205,
+   20330206,
+   20330207,
+   20330208,
+   20330209,
+   20330210,
+   20330211,
+   20330212,
+   20330213,
+   20330214,
+   20330215,
+   20330216
+  ],
+  "bootstrap": 20330217,
+  "freshness": "the first contiguous window of seventeen integers at or above 20330201 that appears in no file under docs, tests, benchmarks, research-journal or papers; the seventeenth is the bootstrap seed"
+ },
+ "criteria": {
+  "primary_criterion": "sparse_level",
+  "estimand": "Delta(rho) = precision(intra_cell_excluded, cap 20) - precision(control, cap 20) at density rho",
+  "C1": "level at the sparse end on precision at the primary cap: mean over seeds of Delta(0.1) at or above the sparse bar, with its paired interval's lower bound above zero and at least eleven of sixteen seeds positive",
+  "C2": "the interaction Delta(0.8) - Delta(0.1) is NOT a criterion. It is reported with its interval and its per-seed values, because the dense end is pinned by the pool's composition (the pilot measured Delta(0.8) = 0.150 with zero spread on eight seeds), so a criterion there would be arithmetic rather than evidence",
+  "sparse_bar": 0.05,
+  "bar_provenance": "calibrated on eight UNREGISTERED seeds (992001-992008) before this block existed, where the sparse-end mean was 0.094 with a per-seed sd of 0.062; the bar is set at roughly half that mean so the block is powered (~0.8 at sixteen seeds) rather than fitted to the judged run. Rule 19 permits calibration only on data that is not being judged, and these seeds are not in the block",
+  "sign_test": {
+   "required": 11,
+   "of": 16
+  },
+  "interval": 0.95,
+  "bootstrap_reps": 4000,
+  "underpowered_width": 0.3,
+  "exposure_rule": "if the sparse-end level does not hold under the sensitivity scheme, the verdict is EXPOSURE ARTIFACT and nothing is adopted",
+  "judged_whole": "C1 is the whole judged criterion; the gates are preconditions, not scores, and the density slope is a description rather than a second criterion"
+ },
+ "gates": {
+  "control_ceiling": 0.5,
+  "rules": {
+   "G0 liveness": "the two arms' selected sets must differ on at least fourteen of sixteen seeds at the sparse end in the primary scheme",
+   "G1 presence ceiling": "every world edge must be present in the pool at every cell (presence = 1.0)",
+   "G2 arithmetic": "covered cannot exceed asserted; precision must equal covered over asserted; precision cannot exceed 1; rho_rank is reported for every cell",
+   "G3 axis live": "rho_rank must rise from the sparsest to the densest level in both schemes",
+   "G4 control reproduces Gate 13": "the control's mean precision at the sparse end must not exceed 0.50",
+   "G5 identity where it must hold": "on a pool whose every row is a world edge, the two arms must select the same set and Delta must be exactly 0",
+   "G6 treatment does what it claims": "coverage of the treatment must be at least the control's on every cell"
+  },
+  "void_rule": "a failed gate voids the block and no criterion is read; a cell set that is not the pre-registered grid is refused"
+ },
+ "decision_table": [
+  {
+   "condition": "gates pass; C1 passes; the interaction interval lies above zero",
+   "verdict": "EXCLUSION PAYS AT SPARSE DENSITY AND GROWS WITH DENSITY",
+   "reading": "the freed budget buys more as the world's edge set grows; this is the A1 mechanism, now measured where the treatment is not pinned",
+   "decision": "adopt intra-cell exclusion as an allocation change behind a recorded owner decision; no behavioural claim"
+  },
+  {
+   "condition": "gates pass; C1 passes; the interaction interval straddles zero",
+   "verdict": "EXCLUSION PAYS AT SPARSE DENSITY; DENSITY SLOPE NOT IDENTIFIED",
+   "reading": "the exclusion buys precision where the world is sparse, and the block cannot place how that changes with density",
+   "decision": "adopt at the sparse end; move the density question to the candidate space, since the dense end is pinned by composition"
+  },
+  {
+   "condition": "gates pass; C1 passes; the interaction interval lies below zero",
+   "verdict": "EXCLUSION PAYS MORE AT SPARSE THAN DENSE",
+   "reading": "the crowded class, not density, is the lever; the dense end has little left to fix",
+   "decision": "adopt at the sparse end; retire the density interaction as a moderator of this bottleneck"
+  },
+  {
+   "condition": "gates pass; C1 fails",
+   "verdict": "EXCLUSION DOES NOT PAY AT SPARSE DENSITY",
+   "reading": "removing the ineligible class does not buy precision at the budget where Gate 13's observation lives",
+   "decision": "retire budget competition as the lever at this cap and world family; move the line to the candidate space"
+  },
+  {
+   "condition": "gates pass; a criterion passes but the sensitivity scheme's sparse-end mean is not positive",
+   "verdict": "EXPOSURE ARTIFACT",
+   "reading": "the direction reverses under the other exposure scheme",
+   "decision": "adopt nothing; report both schemes"
+  },
+  {
+   "condition": "gates pass; a criterion fails and the interval is wider than 0.30",
+   "verdict": "UNDERPOWERED",
+   "reading": "the interval cannot place the sparse-end level; absence is not established",
+   "decision": "neither pole; a new block on fresh seeds may be registered, never a re-read"
+  },
+  {
+   "condition": "a gate fails",
+   "verdict": "VOID",
+   "reading": "reported as the gate, never as a verdict",
+   "decision": "none; fix the harness"
+  }
+ ],
+ "analysis": {
+  "path": "benchmarks/score_density_interaction_a2.py",
+  "runner": "./.venv/bin/python -m benchmarks.run_density_interaction --run",
+  "command": "./.venv/bin/python -m benchmarks.score_density_interaction_a2 --results docs/density_interaction_a2_run.json --out docs/density_interaction_a2_result.json",
+  "input": "docs/density_interaction_a2_run.json",
+  "frozen": true
+ },
+ "allocation": {
+  "seeds": 16,
+  "world_seeds": 16,
+  "bootstrap_seeds": 1,
+  "judged_cells": 320,
+  "sensitivity_cells": 320,
+  "recovery_caps": 3,
+  "thresholds": 1,
+  "bars": 1,
+  "note": "one bar: the sparse-end level"
+ },
+ "pilot": {
+  "seeds": [
+   992001,
+   992002,
+   992003,
+   992004,
+   992005,
+   992006,
+   992007,
+   992008
+  ],
+  "why": "calibration on unregistered seeds: the block's seeds are not measured here, and these seeds are not in the block",
+  "cap": 20,
+  "primary": {
+   "sparse_delta_mean": 0.094,
+   "sparse_delta_sd": 0.062,
+   "dense_delta_mean": 0.15,
+   "dense_delta_sd": 0.0,
+   "interaction_mean": 0.0563,
+   "interaction_sd": 0.0623,
+   "interaction_per_seed": [
+    0.1,
+    0.05,
+    0.1,
+    0.0,
+    0.15,
+    0.05,
+    0.05,
+    -0.05
+   ]
+  },
+  "sensitivity": {
+   "sparse_delta_mean": 0.075,
+   "sparse_delta_sd": 0.046,
+   "dense_delta_mean": 0.15,
+   "dense_delta_sd": 0.0,
+   "interaction_mean": 0.075,
+   "interaction_sd": 0.0463,
+   "interaction_per_seed": [
+    0.1,
+    0.05,
+    0.15,
+    0.05,
+    0.1,
+    0.1,
+    0.0,
+    0.05
+   ]
+  },
+  "dense_end_is_pinned": "at cap 20 the dense pool holds 192 world rows and 48 intra rows, so the control's top 20 is 17 world rows and the treatment's is 20: Delta(0.8) = 0.150 with no spread on any seed. That is why the interaction cannot be a criterion",
+  "power": "for the sparse bar 0.05 at sixteen seeds the standard error is 0.0155 and the power against the pilot mean 0.094 is about 0.8"
+ },
+ "not_evidence": [
+  "no behavioural claim: the endpoint is the share of a fixed budget spent on world edges",
+  "one world family, one vocabulary and one filler family; the proportional filler family is A1, which is held and unrun",
+  "the pilot is calibration on unregistered seeds, not a result about the hypothesis",
+  "a pass licenses an allocation change on this layer only, behind a recorded decision"
+ ],
+ "leverage_audit": {
+  "endpoint": "precision at a fixed cap; the denominator is the arm's own selection",
+  "audit_seeds": [
+   20330201,
+   20330202,
+   20330203,
+   20330204,
+   20330205,
+   20330206,
+   20330207,
+   20330208,
+   20330209,
+   20330210,
+   20330211,
+   20330212,
+   20330213,
+   20330214,
+   20330215,
+   20330216
+  ],
+  "rows": [
+   {
+    "rho_world": 0.1,
+    "world_edges": 24,
+    "control_cap_20": 0.3406,
+    "treated_cap_20": 0.4188,
+    "delta_cap_20": 0.0781,
+    "control_cap_40": 0.2344,
+    "treated_cap_40": 0.2531,
+    "delta_cap_40": 0.0187,
+    "intra_cell_share": 0.2935
+   },
+   {
+    "rho_world": 0.2,
+    "world_edges": 48,
+    "control_cap_20": 0.4938,
+    "treated_cap_20": 0.5781,
+    "delta_cap_20": 0.0844,
+    "control_cap_40": 0.4359,
+    "treated_cap_40": 0.5297,
+    "delta_cap_40": 0.0937,
+    "intra_cell_share": 0.2501
+   },
+   {
+    "rho_world": 0.4,
+    "world_edges": 96,
+    "control_cap_20": 0.7094,
+    "treated_cap_20": 0.9063,
+    "delta_cap_20": 0.1969,
+    "control_cap_40": 0.6453,
+    "treated_cap_40": 0.7672,
+    "delta_cap_40": 0.1219,
+    "intra_cell_share": 0.2184
+   },
+   {
+    "rho_world": 0.6,
+    "world_edges": 144,
+    "control_cap_20": 0.5687,
+    "treated_cap_20": 0.8906,
+    "delta_cap_20": 0.3219,
+    "control_cap_40": 0.7547,
+    "treated_cap_40": 0.925,
+    "delta_cap_40": 0.1703,
+    "intra_cell_share": 0.2047
+   },
+   {
+    "rho_world": 0.8,
+    "world_edges": 192,
+    "control_cap_20": 0.65,
+    "treated_cap_20": 1.0,
+    "delta_cap_20": 0.35,
+    "control_cap_40": 0.825,
+    "treated_cap_40": 1.0,
+    "delta_cap_40": 0.175,
+    "intra_cell_share": 0.2
+   }
+  ],
+  "share_falls": true,
+  "control_rises": true,
+  "delta_rises": true,
+  "passed": true
+ }
+}

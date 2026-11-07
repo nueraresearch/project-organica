@@ -8,8 +8,8 @@ engine, ranks it both ways at the registered caps, and writes the cells and reco
     ./.venv/bin/python -m benchmarks.run_density_interaction --plan
     ./.venv/bin/python -m benchmarks.run_density_interaction --run
 
-The block is 80 engine pools, which is more than one sitting on a small machine, so the
-runner can be sliced and the slices appended:
+The block is 160 engine pools for A2 (80 for A1), which is more than one sitting on a small
+machine, so the runner can be sliced and the slices appended:
 
     ./.venv/bin/python -m benchmarks.run_density_interaction --run --scheme primary --seeds 0-3
     ./.venv/bin/python -m benchmarks.run_density_interaction --run --scheme primary --seeds 4-7 --append
@@ -75,9 +75,10 @@ def assert_grid(record: dict) -> None:
         raise SystemExit("the registration is not frozen; no cell may run")
     design = record["design"]
     seeds = [int(seed) for seed in design["seeds"]]
-    if len(seeds) != 8 or len(set(seeds)) != 8:
-        raise SystemExit("the grid does not carry eight distinct seeds")
-    if seeds != list(range(seeds[0], seeds[0] + 8)):
+    if len(seeds) < 8 or len(set(seeds)) != len(seeds):
+        raise SystemExit("the grid carries %d seeds; a block needs at least eight distinct "
+                         "seeds" % len(seeds))
+    if seeds != list(range(seeds[0], seeds[0] + len(seeds))):
         raise SystemExit("the seed block is not contiguous")
     if design["schemes"] != ["primary", "sensitivity"]:
         raise SystemExit("both exposure schemes must be registered")
@@ -96,7 +97,8 @@ def assert_grid(record: dict) -> None:
 # The engine pool
 # ---------------------------------------------------------------------------
 
-def run_pool(seed: int, rho: float, scheme: str) -> dict:
+def run_pool(seed: int, rho: float, scheme: str,
+             filler: str = "proportional") -> dict:
     """Ingest one world with the frozen engine and return the pool a ranker sees.
 
     The pool is the `precedes` table: the rows the engine can select from at the end of
@@ -108,11 +110,11 @@ def run_pool(seed: int, rho: float, scheme: str) -> dict:
     from organica.paths import LIVE_DB, temp_db
     from organica.sleep import SleepService
 
-    db_path = temp_db("density_%d_%d_%s" % (seed, round(rho * 100), scheme))
+    db_path = temp_db("density_%d_%d_%s_%s" % (seed, round(rho * 100), scheme, filler))
     if db_path.resolve() == LIVE_DB.resolve():
         raise SystemExit("refusing to open the live database")
 
-    events = stream(seed, rho, scheme)
+    events = stream(seed, rho, scheme, filler)
     mem = MemoryService(str(db_path))
     try:
         service = SleepService(mem)
@@ -178,6 +180,7 @@ def cells_for(seed: int, rho: float, scheme: str, pool, record: dict | None = No
 def generator_audit(record: dict | None = None) -> dict:
     """Every registered cell's world and stream must be what the registration says."""
     record = record or prereg()
+    filler = record["design"].get("filler", "proportional")
     problems, checked = [], 0
     for seed in record["design"]["seeds"]:
         for rho in record["design"]["densities"]:
@@ -190,12 +193,12 @@ def generator_audit(record: dict | None = None) -> dict:
                 problems.append("%d/%s: a self pair" % (seed, rho))
             if any(is_intra_cell(a, b) for a, b in world):
                 problems.append("%d/%s: an intra-cell row is a world edge" % (seed, rho))
-            primary = stream(seed, rho, "primary")
-            sensitivity = stream(seed, rho, "sensitivity")
+            primary = stream(seed, rho, "primary", filler)
+            sensitivity = stream(seed, rho, "sensitivity", filler)
             if len(primary) != TOTAL_EVENTS:
                 problems.append("%d/%s: primary exposure is %d events, not the declared %d"
                                 % (seed, rho, len(primary), TOTAL_EVENTS))
-            if len(sensitivity) != len(stream(seed, rho, "sensitivity")):
+            if len(sensitivity) != len(stream(seed, rho, "sensitivity", filler)):
                 problems.append("%d/%s: the sensitivity stream is not deterministic"
                                 % (seed, rho))
             emitted = set()
@@ -209,7 +212,7 @@ def generator_audit(record: dict | None = None) -> dict:
             if missing:
                 problems.append("%d/%s: %d world edges never emitted"
                                 % (seed, rho, len(missing)))
-            pool = designed_pool(seed, rho)
+            pool = designed_pool(seed, rho, filler)
             stats = measure(pool, world, [])
             if not stats["pool_intra_cell_rows"]:
                 problems.append("%d/%s: no intra-cell rows, so the treatment is a no-op"
@@ -255,11 +258,14 @@ def freshness_audit(record: dict | None = None) -> dict:
     """The seed block must not appear in any file that predates this block."""
     record = record or prereg()
     seeds = {int(s) for s in record["design"]["seeds"]} | {int(record["seeds"]["bootstrap"])}
-    recorded = {PREREG, OUT,
-                ROOT / "docs" / "density_interaction_result.json",
-                ROOT / "docs" / "DENSITY-INTERACTION-PREREGISTRATION.md",
-                ROOT / "docs" / "stage_b_protocol.json",
-                ROOT / "docs" / "USER-MANUAL.md"}
+    # Both density blocks' own artifacts cite their seeds, so they are not collisions.
+    recorded = {ROOT / "docs" / name for name in (
+        "density_interaction_prereg.json", "density_interaction_run.json",
+        "density_interaction_result.json", "DENSITY-INTERACTION-PREREGISTRATION.md",
+        "density_interaction_a2_prereg.json", "density_interaction_a2_run.json",
+        "density_interaction_a2_result.json",
+        "DENSITY-INTERACTION-A2-PREREGISTRATION.md",
+        "stage_b_protocol.json", "USER-MANUAL.md")}
     hits = []
     for directory in ("docs", "tests", "benchmarks", "research-journal", "papers"):
         base = ROOT / directory
@@ -291,7 +297,9 @@ def self_test(record: dict | None = None) -> dict:
     try:
         assert_grid(record)
         planned = plan(record)
-        grid = {"passed": len(planned) == 320, "cells": len(planned)}
+        design = record["design"]
+        grid = {"passed": len(planned) == design["cells"] + design["sensitivity_cells"],
+                "cells": len(planned)}
     except SystemExit as exc:                        # pragma: no cover - guard surface
         grid = {"passed": False, "problem": str(exc)}
     checks = {
@@ -302,7 +310,8 @@ def self_test(record: dict | None = None) -> dict:
         "freshness": freshness_audit(record),
     }
     gates = {"leverage": leverage_audit(record["design"]["seeds"],
-                                        record["design"]["densities"])}
+                                        record["design"]["densities"],
+                                        record["design"].get("filler", "proportional"))}
     ready = (all(c["passed"] for c in checks.values())
              and all(g["passed"] for g in gates.values()))
     return {"all_passed": ready, "checks": checks, "gates": gates}
@@ -337,7 +346,8 @@ def run(out: Path = OUT, record: dict | None = None, scheme: str | None = None,
     for seed in chosen:
         for rho in record["design"]["densities"]:
             for name in schemes:
-                built = run_pool(int(seed), float(rho), name)
+                built = run_pool(int(seed), float(rho), name,
+                                 record["design"].get("filler", "proportional"))
                 produced = cells_for(int(seed), float(rho), name, built["pool"], record)
                 cells.extend(produced["cells"])
                 recovery.extend(produced["recovery"])
@@ -391,9 +401,11 @@ def main(argv=None) -> int:
     parser.add_argument("--append", action="store_true")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--out", default=str(OUT))
+    parser.add_argument("--prereg", default=str(PREREG),
+                        help="which registration to run (A1 is held and refuses)")
     args = parser.parse_args(argv)
 
-    record = prereg()
+    record = prereg(Path(args.prereg))
     if args.run:
         chosen = None
         if args.seeds:

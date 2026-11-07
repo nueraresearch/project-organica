@@ -490,6 +490,33 @@
         20310127,
         20310128
       ],
+      "docs/density_interaction_a2_prereg.json": [
+        992001,
+        992002,
+        992003,
+        992004,
+        992005,
+        992006,
+        992007,
+        992008,
+        20330201,
+        20330202,
+        20330203,
+        20330204,
+        20330205,
+        20330206,
+        20330207,
+        20330208,
+        20330209,
+        20330210,
+        20330211,
+        20330212,
+        20330213,
+        20330214,
+        20330215,
+        20330216,
+        20330217
+      ],
       "docs/density_interaction_prereg.json": [
         20330101,
         20330102,
@@ -2598,7 +2625,7 @@
         20261130
       ]
     },
-    "consumed_total": 1341,
+    "consumed_total": 1366,
     "candidate_block": [
       700000001,
       700000724
@@ -2634,7 +2661,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 118,
+    "disjoint_proved_against": 119,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

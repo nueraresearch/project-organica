@@ -101,10 +101,10 @@ def test_exactly_one_row_is_a_specified_experiment_and_it_allocates_a_registered
     assert only["candidate"] == "Density interaction"
     block = body["specified_experiment"]
     assert block["row"] == "Density interaction"
-    assert block["registration"] == "docs/density_interaction_prereg.json"
+    assert block["registration"] == "docs/density_interaction_a2_prereg.json"
     assert block["run"] is False, "the map must not claim a run that has not happened"
     registration = json.loads(
-        (ROOT / "docs" / "density_interaction_prereg.json").read_text(encoding="utf-8"))
+        (ROOT / block["registration"]).read_text(encoding="utf-8"))
     allocation = registration["allocation"]
     assert only["allocation"] == {"seeds": allocation["seeds"],
                                   "cells": allocation["judged_cells"],
@@ -114,7 +114,11 @@ def test_exactly_one_row_is_a_specified_experiment_and_it_allocates_a_registered
     design = json.loads(DENSITY.read_text(encoding="utf-8"))
     assert design["allocation"]["seeds"] == 0, (
         "the design record must still allocate nothing; the allocation is the registration's")
-    assert design["amendments"][0]["registered_in"] == block["registration"]
+    # The design record's pre-run amendment is registered in A1; the map now points at A2,
+    # whose registration names A1 as its held predecessor. The link is checked, not dropped.
+    amendment = design["amendments"][0]
+    assert amendment["registered_in"] == "docs/density_interaction_prereg.json"
+    assert registration["held_predecessor"]["prereg"] == "DENSITY-INTERACTION-1"
 
 
 def test_the_map_allocates_no_seeds_of_its_own():
