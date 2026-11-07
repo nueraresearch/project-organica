@@ -1,12 +1,13 @@
 {
  "created": "2026-11-07",
+ "revised": "2026-11-07",
  "question": "what the 448-cell calibration null rules out, and its sensitivity to the grid and to the selection rule",
  "provenance": {
   "protocol": "docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md (as amended by 13-17)",
   "outcome": "same document, section 18 (2026-11-07)",
-  "recomputable": "grid, degrees, seeds, arms, cell count, selection semantics",
-  "not_recomputable_here": "per-cell values: docs/confirmation/calibration.json is on the owner's machine and is absent from this worktree, as section 18 states",
-  "reported_rejections_are": "the owner's summary in section 18, not a re-measurement"
+  "per_cell_readings": "verified by the owner in an isolated worktree against the sealed artifact, 2026-11-07; not recomputed in this worktree",
+  "artifact": "docs/confirmation/calibration.json is on the owner's machine and is absent from this worktree",
+  "recomputable": "grid, degrees, arms, cell count, derived sets, selection semantics"
  },
  "design": {
   "grid": [
@@ -29,6 +30,7 @@
    "transition"
   ],
   "cycles": 300,
+  "calibration_block": "harness CALIBRATION_SEEDS: 20300101-20300108 (8 seeds)",
   "cells_per_arm_per_tau": 32,
   "cells_total": 448,
   "grid_steps": [
@@ -43,24 +45,24 @@
   "precision_floor": 0.95,
   "liveness": "every one of the final 10% of cycles holds >= 1 theory and the tail mean beliefs >= 2",
   "selection": "highest mean coverage among taus that are live on every cell AND hold precision >= 0.95 on every cell; ties to the larger tau",
-  "precision_has_min_size_rule": false,
-  "min_stable_for_precision_in_decision_only": 40,
-  "calibration_block": "harness CALIBRATION_SEEDS: 20300101-20300108 (8 seeds)"
+  "precision_has_min_size_rule": false
  },
  "reported_rejections": {
-  "arm": "transition",
-  "per_tau": {
+  "transition": {
    "0.05": [
-    "precision d4"
+    "precision d4",
+    "precision d6"
    ],
    "0.075": [
-    "precision d4"
+    "precision d4",
+    "precision d6"
    ],
    "0.1": [
-    "precision d4"
+    "precision d4",
+    "precision d6"
    ],
    "0.15": [
-    "precision d4"
+    "liveness d12"
    ],
    "0.2": [
     "liveness d12"
@@ -74,34 +76,52 @@
     "liveness d12"
    ]
   },
-  "note": "section 18 records no per-cell pattern for the ratio control, only that it selected nothing"
+  "ratio": {
+   "at_or_above_0.20": "precision is None in every cell: no stable predictions exist",
+   "below_0.20": "not itemized in the summary; section 18 records that nothing qualified"
+  },
+  "note": "the transition rejections are the owner's verified readings of the sealed artifact; the ratio arm's per-cell pattern below 0.20 is unresolved"
  },
  "derived_from_reported_pattern": {
-  "taus_with_no_reported_liveness_failure": [
+  "transition_liveness_clean": [
    0.05,
    0.075,
-   0.1,
-   0.15
+   0.1
   ],
-  "taus_with_no_reported_precision_failure": [
+  "transition_precision_clean": [
+   0.15,
    0.2,
    0.25,
    0.3
   ],
   "intersection": [],
   "every_tested_tau_fails_at_least_one_gate": true,
-  "boundary_gap": [
-   0.15,
-   0.2
+  "crossing_interval": [
+   0.1,
+   0.15
   ],
   "gap_width": 0.05,
-  "gap_midpoint": 0.175
+  "gap_midpoint": 0.125,
+  "refinement_values_at_min_step": [
+   0.125,
+   0.15,
+   0.175
+  ]
+ },
+ "correction": {
+  "recorded": "2026-11-07",
+  "earlier_claim": "the untested interval was (0.15, 0.20)",
+  "cause": "section 18's summary placed the transition precision boundary at 0.20 and did not report the degree-12 liveness rejection already at 0.15",
+  "now": "the untested interval is (0.10, 0.15), one grid step wide",
+  "effect_on_reading": "the resolution risk was understated. The two gates are rejected at adjacent thresholds for opposite reasons, so the only possible single-threshold solution lies inside that untested interval. Under monotone gates it exists if the precision crossing precedes the liveness crossing there; if it does, the null is a resolution artifact, and if it does not, the null is structural. The grid cannot tell the two apart.",
+  "verdict": "unchanged: no qualifying threshold on the grid, no held-out cell, nothing adopted"
  },
  "what_it_rules_out": [
-  "for each arm, a tau in the grid that is live on all 32 cells and holds precision >= 0.95 on all 32 cells",
+  "a tau in the committed grid that is live on all 32 cells per arm and holds precision >= 0.95 on all 32",
   "shipping either calibrated formula at a single global threshold, as tested"
  ],
  "what_it_does_not_rule_out": [
+  "a single global threshold inside the untested interval (0.10, 0.15)",
   "a per-degree threshold (out of scope by section 3, not refuted)",
   "a degree-aware or otherwise non-constant rule",
   "another strength normalisation",

@@ -1,8 +1,8 @@
 """The null's scope must be derived, not restated, and no wider than its gates.
 
-Every count here is recomputed from the harness constants or from the reported
-rejection pattern, so the record cannot drift from the grid it describes, and the
-claim about the selection rule is checked against the rule's own source.
+Counts are recomputed from the harness constants or from the verified rejection
+pattern, so the record cannot drift from the grid it describes; the claim about
+the selection rule is checked against the rule's own source.
 """
 
 import inspect
@@ -32,11 +32,10 @@ def _flat():
 
 def test_the_design_is_the_harness_design():
     art = _artifact()["design"]
+    seeds = list(dc.CALIBRATION_SEEDS)
     assert art["grid"] == list(dc.GRID)
     assert art["degrees"] == list(dc.DEGREES)
     assert "calibration_seeds" not in art, "seed integers would be harvested as consumed"
-    seeds = list(dc.CALIBRATION_SEEDS)
-    assert "CALIBRATION_SEEDS" in art["calibration_block"]
     assert f"{seeds[0]}-{seeds[-1]}" in art["calibration_block"]
     assert len(art["grid"]) * len(art["degrees"]) * len(seeds) * 2 == 448
     assert art["cells_total"] == 448
@@ -47,56 +46,61 @@ def test_the_design_is_the_harness_design():
 def test_recording_the_design_does_not_consume_the_calibration_block():
     """A scope record must not make the harness refuse to run its own calibration."""
     assert not (set(dc.harvest_seeds()) & set(dc.CALIBRATION_SEEDS))
-    seeds = list(dc.CALIBRATION_SEEDS)
-    assert f"{seeds[0]}-{seeds[-1]}" in _flat()
 
 
-def test_the_derived_sets_follow_from_the_reported_pattern():
+def test_the_derived_sets_follow_from_the_verified_pattern():
     body = _artifact()
-    per_tau = body["reported_rejections"]["per_tau"]
+    transition = body["reported_rejections"]["transition"]
     grid = body["design"]["grid"]
-    assert set(per_tau) == {str(t) for t in grid}
-    live_ok = [t for t in grid if not any("liveness" in f for f in per_tau[str(t)])]
-    prec_ok = [t for t in grid if not any("precision" in f for f in per_tau[str(t)])]
+    assert set(transition) == {str(t) for t in grid}
+    live = [t for t in grid if not any("liveness" in f for f in transition[str(t)])]
+    prec = [t for t in grid if not any("precision" in f for f in transition[str(t)])]
     derived = body["derived_from_reported_pattern"]
-    assert derived["taus_with_no_reported_liveness_failure"] == live_ok
-    assert derived["taus_with_no_reported_precision_failure"] == prec_ok
+    assert derived["transition_liveness_clean"] == live == [0.05, 0.075, 0.1]
+    assert derived["transition_precision_clean"] == prec
     assert derived["intersection"] == []
     assert derived["every_tested_tau_fails_at_least_one_gate"] is True
-    assert derived["boundary_gap"] == [max(live_ok), min(prec_ok)]
-    assert derived["gap_width"] == round(min(prec_ok) - max(live_ok), 4)
+    assert derived["crossing_interval"] == [max(live), min(prec)] == [0.1, 0.15]
+    assert derived["gap_width"] == 0.05
+    assert derived["gap_midpoint"] == 0.125
+
+
+def test_the_ratio_arm_is_recorded_as_asserting_nothing_at_the_high_end():
+    ratio = _artifact()["reported_rejections"]["ratio"]
+    assert "no stable predictions" in ratio["at_or_above_0.20"]
+    assert "None" in ratio["at_or_above_0.20"]
+
+
+def test_the_correction_is_disclosed_not_silently_rewritten():
+    correction = _artifact()["correction"]
+    assert "0.15, 0.20" in correction["earlier_claim"]
+    assert "0.10, 0.15" in correction["now"]
+    assert "resolution artifact" in correction["effect_on_reading"]
+    assert "unchanged" in correction["verdict"]
+    assert "Correction (2026-11-07)" in _flat()
 
 
 def test_the_document_quotes_the_derived_numbers():
     body = _artifact()
     derived = body["derived_from_reported_pattern"]
-    text = _text()
-    lo, hi = derived["boundary_gap"]
+    text, flat = _text(), _flat()
+    lo, hi = derived["crossing_interval"]
     assert f"**{body['design']['cells_total']}**" in text
-    assert f"({lo}, {hi})" in text
-    assert f"**{derived['gap_width']}**" in text
+    assert f"({lo}, {hi})" in flat
     assert f"**{derived['gap_midpoint']}**" in text
-    assert "empty" in text
-    assert "not decidable from this worktree" in text
+    assert "resolution artifact" in flat
     assert not re.search(r"\{[a-z_]+\}", text), "a template placeholder survived"
 
 
 def test_the_selection_rule_description_matches_its_source():
     src = inspect.getsource(dc.choose_threshold)
-    # The documented semantics: a None precision rejects, and there is no minimum size.
     assert 'row["precision"] is None' in src
     assert "MIN_STABLE_FOR_PRECISION" not in src
-    flat = _flat()
-    assert "no stable edges at all" in flat
-    assert "no such floor" in flat
+    assert "no such floor" in _flat()
 
 
-def test_the_absent_artifact_is_named_as_absent():
-    art = _artifact()
-    assert "docs/confirmation/calibration.json" in art["provenance"]["not_recomputable_here"]
+def test_the_artifact_is_named_as_absent_but_verified_elsewhere():
+    provenance = _artifact()["provenance"]
+    assert "docs/confirmation/calibration.json" in provenance["artifact"]
+    assert "not recomputed in this worktree" in provenance["per_cell_readings"]
     assert not (ROOT / "docs" / "confirmation" / "calibration.json").exists()
-    assert "not in this worktree" in _flat()
-
-
-def test_the_ratio_arm_pattern_is_not_claimed():
-    assert "For the **ratio control** the same argument cannot be made" in _flat()

@@ -1,0 +1,99 @@
+{
+ "created": "2026-11-07",
+ "status": "DESIGN RECORD: untested hypothesis. No cell, no seed, no threshold, no bar.",
+ "hypothesis": "sparse-world geometry: selection precision depends on the density of true edges in the candidate universe, not only on the selection rule",
+ "not_evidence": [
+  "docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md section 18: that campaign held world geometry fixed and varied only the threshold, so it says nothing about density",
+  "no result in this repository varies density as a manipulation"
+ ],
+ "universe": {
+  "definition": "C = directed non-self tag pairs of the world's own vocabulary",
+  "formula": "|C| = n(n-1) for n tags",
+  "table": [
+   {
+    "tags": 16,
+    "pairs": 240
+   },
+   {
+    "tags": 24,
+    "pairs": 552
+   },
+   {
+    "tags": 32,
+    "pairs": 992
+   }
+  ]
+ },
+ "density": {
+  "measure": "|W| / |C|, where W is the world's true directed edge set",
+  "levels": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "counts_at_16_tags": [
+   24,
+   48,
+   96,
+   144,
+   192
+  ],
+  "note": "counts and densities are different manipulations: 500 true edges is impossible at 16 tags, because |C| is 240"
+ },
+ "counts_are_not_densities": {
+  "example_edges": 500,
+  "min_tags": 23,
+  "pairs_then": 506,
+  "density_then": 0.988,
+  "note": "a 500-edge world needs at least 23 tags and is then 0.988 dense, not a denser version of the 16-tag world"
+ },
+ "exposure": {
+  "choice_required": true,
+  "primary": "fixed total exposure: the same events and cycles at every density, so each edge is observed fewer times as density rises",
+  "sensitivity": "fixed exposure per edge: cycles scale with |W|, so the curriculum length varies with density",
+  "confound_rule": "a density effect that reverses under the other exposure scheme is an exposure artifact, not geometry"
+ },
+ "comparison": {
+  "design": "at each density, the same ranking intervention and its control, differing only in the selection rule",
+  "estimand": "Delta(d) = treated(d) - control(d)",
+  "claim": "the intervention's benefit depends on density iff Delta varies with density",
+  "not_claimed": [
+   "a main effect of density is not an interaction",
+   "an interaction does not show that density caused any earlier failure"
+  ]
+ },
+ "confounds_to_hold": {
+  "vocabulary": "fix the tag count, so |C| and every source-frequency denominator stay fixed; adding tags to reach higher edge counts is a separate arm and is never pooled with the fixed-vocabulary ladder",
+  "world_family": "one generator; a second family is a separate arm",
+  "horizon": "the primary scheme fixes it; the sensitivity scheme reports its own"
+ },
+ "ranking_bottleneck": {
+  "evidence": [
+   "all 112 true world edges were present in memory in the Gate 13 world, so presence was never the binding constraint",
+   "under global count-ranked selection the top 20 recovered 0-1 of 112 in the three-seed table and 0-3 of 112 in the five-seed capacity sweep",
+   "cap 40 recovered 1-8 of 112; top 320, about 16x the engine's budget, recovered 106-109"
+  ],
+  "sources": [
+   "docs/GATE13-RELATION-SEPARATION.md section 4",
+   "docs/GATE13-CAUSAL-ACCOUNT.md"
+  ],
+  "ceiling_caveat": "0.3438 is the maximum precision observed for the tested frequency-based allocation rules and budgets in that world family; it is not an information-theoretic bound and must not be quoted as the ceiling of what any selection could achieve"
+ },
+ "endpoints": [
+  "presence ceiling: |W available in memory| / |W|; must be 1.0 or the cell tests memory, not selection",
+  "coverage: |asserted and W| / |W|",
+  "precision: |asserted and W| / |asserted|",
+  "recovery distribution at each budget, reported as a distribution and never as the rank of the first edge",
+  "interaction: Delta(d) across density levels"
+ ],
+ "falsifier": "Delta(d) flat in density falsifies the claim that geometry is the lever for this ranking bottleneck; it does not falsify density as a factor elsewhere",
+ "allocation": {
+  "seeds": 0,
+  "cells": 0,
+  "thresholds": 0,
+  "bars": 0,
+  "note": "this record allocates nothing; a pre-registration with fresh seeds comes first, per docs/DECAY-TUNING-CYCLE.md"
+ }
+}
