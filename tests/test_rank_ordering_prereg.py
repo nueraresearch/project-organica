@@ -54,7 +54,9 @@ def _harvest_elsewhere():
             for item in node:
                 walk(item)
 
-    recorded = {ARTIFACT, ROOT / "docs" / "stage_b_protocol.json"}
+    recorded = {ARTIFACT, ROOT / "docs" / "stage_b_protocol.json",
+                ROOT / "docs" / "rank_ordering_run.json",
+                ROOT / "docs" / "rank_ordering_result.json"}
     for path in sorted((ROOT / "docs").glob("*.json")):
         if path in recorded:
             continue
@@ -229,15 +231,31 @@ def test_the_scorer_is_the_committed_script_and_does_not_touch_the_engine():
 # Frozen, and honest about it
 # ---------------------------------------------------------------------------
 
-def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
+def test_the_judged_block_has_run_and_its_artifacts_agree():
     body = _body()
-    assert body["status"].startswith("FROZEN, NOT RUN")
-    assert body["not_run"]["cells_executed"] == 0
-    assert body["not_run"]["engine_cycles"] == 0
-    assert body["not_run"]["result_artifact_exists"] is False
-    assert not (ROOT / "docs" / "rank_ordering_run.json").exists()
-    assert not (ROOT / "docs" / "rank_ordering_result.json").exists()
-    smoke = body["not_run"]["smoke"]
+    run = body["run"]
+    payload = json.loads((ROOT / run["run_artifact"]).read_text(encoding="utf-8"))
+    result = json.loads((ROOT / run["result_artifact"]).read_text(encoding="utf-8"))
+    assert body["status"].startswith("RUN COMPLETE")
+    assert run["criterion"] == "M1"
+    assert len(payload["cells"]) == body["design"]["cells"]
+    assert sorted({c["seed"] for c in payload["cells"]}) == body["seeds"]["world"]
+    assert result["cells"] == body["design"]["cells"]
+    assert result["gates"]["all_passed"] is True
+    assert result["criteria"]["M1"]["passed"] is True
+    assert result["decision"]["verdict"] == body["decision_table"][0]["verdict"]
+    assert set(result["criteria"]["density_profile"]) == {
+        "%.1f" % rho for rho in body["design"]["densities"]}
+    smoke = {body["pre_run"]["smoke"]["seed"], body["pre_run"]["repair"]["smoke"]["seed"]}
+    assert not smoke & set(body["seeds"]["world"])
+    assert not smoke & {body["seeds"]["bootstrap"]}
+
+
+def test_the_pre_run_record_is_kept_and_no_blocker_survives():
+    body = _body()
+    pre = body["pre_run"]
+    assert pre["blocked"] is None
+    smoke = pre["smoke"]
     assert smoke["seed"] not in body["design"]["seeds"]
     assert smoke["seed"] != body["seeds"]["bootstrap"]
     assert smoke["engine_cycles"] > 0
@@ -246,8 +264,7 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert smoke["observed"]["control_cap_20"]["coverage"] == 0.0
     assert smoke["observed"]["diversity_cap_20"]["coverage"] == 0.0
     assert smoke["counts"]["world_edges_in_top_40"] == 0
-    assert body["not_run"]["blocked"] is None
-    repair = body["not_run"]["repair"]
+    repair = pre["repair"]
     assert repair["smoke"]["seed"] == 20310401
     assert repair["smoke"]["seed"] not in body["design"]["seeds"]
     assert repair["smoke"]["seed"] != body["seeds"]["bootstrap"]
@@ -258,9 +275,7 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert repair["finding_M2"]["amended"] is True
     assert repair["finding_M2"]["withdrawn"] is True
     assert all(v <= 0 for v in repair["finding_M2"]["designed_did"])
-    assert body["not_run"]["blocked"] is None
-    assert "No judged cell has run" in body["not_run"]["ready"]
-    reach = body["not_run"]["reach_audit"]
+    reach = pre["reach_audit"]
     assert reach["passed"] is True
     assert all(row["world_rows"] > 0 for row in reach["seeds"])
     assert all(row["diversity_reach"] > 0 for row in reach["seeds"])
@@ -283,14 +298,18 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
                   "%.2f" % body["criteria"]["M1_bar"], "4000", "95%",
                   "%.2f" % body["criteria"]["underpowered_width"], "0.05"):
         assert token in flat, token
-    smoke = body["not_run"]["smoke"]
+    smoke = body["pre_run"]["smoke"]
     for token in (str(smoke["seed"]), str(smoke["pool"]["rows"]),
                   str(smoke["counts"]["rank_of_first_world_edge"]),
-                  str(body["not_run"]["repair"]["smoke"]["seed"]),
-                  "%.4f" % body["not_run"]["repair"]["smoke"]["primary_delta"]):
+                  str(body["pre_run"]["repair"]["smoke"]["seed"]),
+                  "%.4f" % body["pre_run"]["repair"]["smoke"]["primary_delta"]):
         assert token in flat, token
     for row in body["decision_table"]:
         assert row["verdict"] in flat, row["verdict"]
+    result = json.loads((ROOT / body["run"]["result_artifact"]).read_text(encoding="utf-8"))
+    assert "RUN COMPLETE" in flat
+    assert result["decision"]["verdict"] in flat
+    assert "%.4f" % result["criteria"]["M1"]["mean_delta_at_min_density"] in flat
     assert "GRADIENT ABSENT" not in flat and "GRADIENT WITHOUT LEVEL" not in flat
     assert "No cell may run before this file is committed" in flat
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))

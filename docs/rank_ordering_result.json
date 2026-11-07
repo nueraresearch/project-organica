@@ -1,0 +1,109 @@
+{
+ "prereg": "docs/RANK-ORDERING-PREREGISTRATION.md",
+ "cells": 160,
+ "gates": {
+  "G0_liveness_cap_20": {
+   "seeds_where_arms_differ": 8,
+   "of": 8,
+   "required": 7,
+   "passed": true
+  },
+  "G0_liveness_cap_40": {
+   "seeds_where_arms_differ": 8,
+   "of": 8,
+   "required": 7,
+   "passed": true
+  },
+  "G1_presence_ceiling": {
+   "minimum": 1.0,
+   "required": 1.0,
+   "passed": true
+  },
+  "G2_arithmetic_consistency": {
+   "cells_failing": 0,
+   "example": [],
+   "passed": true
+  },
+  "G3_rho_rank_moves_by_cap_20": {
+   "at_min": 0.2046,
+   "at_max": 0.8688,
+   "passed": true
+  },
+  "G3_rho_rank_moves_by_cap_40": {
+   "at_min": 0.2046,
+   "at_max": 0.8688,
+   "passed": true
+  },
+  "G3_axis_live": {
+   "passed": true
+  },
+  "G4_control_reproduces_gate13": {
+   "control_coverage_at_min_density": 0.0,
+   "must_not_exceed": 0.15,
+   "passed": true
+  },
+  "G5_identity_at_density_1": {
+   "rho_world": 1.0,
+   "arms_identical": true,
+   "delta": 0.0,
+   "passed": true
+  },
+  "all_passed": true
+ },
+ "criteria": {
+  "M1": {
+   "mean_delta_at_min_density": 0.161458,
+   "interval": [
+    0.109375,
+    0.203125
+   ],
+   "interval_upper": 0.203125,
+   "interval_width": 0.09375,
+   "bar": 0.15,
+   "passed": true
+  },
+  "M2": {
+   "withdrawn": true,
+   "amendment": 4,
+   "reason": "Amendment 4 (2026-11-07): withdrawn. No endpoint could both vary with density and fail here. The precision difference in differences at cap 20 is zero or negative on all eight designed seeds, because the precision gap is set by the eight crowded sources and does not vary with density. The coverage gap varies only through |W|: at cap 20 the dense-end gap is bounded by 20/192, so with M1's 0.15 bar the difference in differences is at least 0.0625 on every integer-coverage seed and the old 0.05 bar could not fail while M1 passed. M1 is the sole criterion; the coverage and precision gaps by density are reported as a characterization and are not scored."
+  },
+  "density_profile": {
+   "0.1": {
+    "coverage_gap_mean": 0.161458,
+    "precision_gap_mean": 0.19375,
+    "seeds_with_a_positive_coverage_gap": 7
+   },
+   "0.2": {
+    "coverage_gap_mean": 0.111979,
+    "precision_gap_mean": 0.26875,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.4": {
+    "coverage_gap_mean": 0.0625,
+    "precision_gap_mean": 0.3,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.6": {
+    "coverage_gap_mean": 0.029514,
+    "precision_gap_mean": 0.2125,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.8": {
+    "coverage_gap_mean": 0.026042,
+    "precision_gap_mean": 0.25,
+    "seeds_with_a_positive_coverage_gap": 8
+   }
+  }
+ },
+ "decision": {
+  "verdict": "ORDERING SUPPORTED",
+  "decision": "positive",
+  "reading": "the ordering basis is the lever at the sparsest density; the density ladder is reported as a characterization, not scored"
+ },
+ "not_evidence": [
+  "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",
+  "no coverage, delta or interval exists yet",
+  "a pass would be support within one world family, two caps and eight seeds, and nothing wider",
+  "the density ladder is reported as a characterization; the block makes no gradient claim"
+ ]
+}

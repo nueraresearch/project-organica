@@ -1,7 +1,7 @@
 {
  "prereg": "docs/RANK-ORDERING-PREREGISTRATION.md",
  "created": "2026-11-07",
- "status": "FROZEN, NOT RUN (ready; no judged cell). No judged cell has been executed, no judged world generated and no judged engine cycle spent. Two smoke pools outside the block have been run and are recorded in not_run.smoke and not_run.repair; they are not evidence. The world's crowding was repaired, the reach gate passes, and Amendment 4 withdraws M2, leaving M1 as the sole criterion with the density ladder reported.",
+ "status": "RUN COMPLETE (judged block executed 2026-11-07). The criteria, gates, bar, seed block and decision table were frozen before the run and are unmodified; the verdict is the committed scorer's output on docs/rank_ordering_run.json. M1 is the sole criterion (Amendment 4) and the density ladder is reported as a characterization.",
  "design_record": "docs/NONFREQUENCY-RANKING-DESIGN.md",
  "question": "does ordering eligible candidates by source diversity, rather than by count, recover more of a sparse world's edges at the engine's own cap",
  "design": {
@@ -161,11 +161,23 @@
   ],
   "does_not_import_the_engine": true
  },
- "not_run": {
-  "cells_executed": 0,
-  "runner": "benchmarks/run_rank_ordering.py is built and its self-tests pass; --run refuses a pre-registration that is not frozen, a seed block that is not contiguous, and an existing output file without --force. No judged cell has run",
-  "result_artifact_exists": false,
-  "engine_cycles": 0,
+ "not_evidence": [
+  "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",
+  "no coverage, delta or interval exists yet",
+  "a pass would be support within one world family, two caps and eight seeds, and nothing wider",
+  "the density ladder is reported as a characterization; the block makes no gradient claim"
+ ],
+ "allocation": {
+  "seeds": 9,
+  "world_seeds": 8,
+  "cells": 160,
+  "thresholds": 0,
+  "bars": 1,
+  "note": "the bar is declared here and may not be recomputed from the run it judges"
+ },
+ "revised": "2026-11-07",
+ "pre_run": {
+  "runner": "benchmarks/run_rank_ordering.py is built and its self-tests pass; --run refuses a pre-registration that is not frozen, a seed block that is not contiguous, and an existing output file without --force. This block records only what ran before the judged block; the judged run is in `run`.",
   "runner_built": true,
   "engine_cycles_scope": "judged block only; the smoke pool's cycles are counted in not_run.smoke",
   "blocked": null,
@@ -518,22 +530,24 @@
     "withdrawn": true,
     "resolution": "Amendment 4 withdraws M2 and makes M1 the sole criterion; the ladder is reported as a characterization (not_run.repair.finding_M2 keeps the evidence)"
    }
-  },
-  "ready": "both pre-run defects are resolved: the reach gate passes on all eight designed pools, and Amendment 4 withdraws M2 so the decision table is level-based. No judged cell has run; --run is the explicit ticket, and nothing may be reported as evidence until it is taken"
+  }
  },
- "not_evidence": [
-  "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",
-  "no coverage, delta or interval exists yet",
-  "a pass would be support within one world family, two caps and eight seeds, and nothing wider",
-  "the density ladder is reported as a characterization; the block makes no gradient claim"
- ],
- "allocation": {
-  "seeds": 9,
-  "world_seeds": 8,
-  "cells": 160,
-  "thresholds": 0,
-  "bars": 1,
-  "note": "the bar is declared here and may not be recomputed from the run it judges"
- },
- "revised": "2026-11-07"
+ "run": {
+  "date": "2026-11-07",
+  "run_artifact": "docs/rank_ordering_run.json",
+  "result_artifact": "docs/rank_ordering_result.json",
+  "analysis": "benchmarks/score_rank_ordering.py",
+  "criterion": "M1",
+  "amendment": 4,
+  "seeds": [
+   20310201,
+   20310202,
+   20310203,
+   20310204,
+   20310205,
+   20310206,
+   20310207,
+   20310208
+  ]
+ }
 }

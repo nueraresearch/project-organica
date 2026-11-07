@@ -18,6 +18,13 @@ def render(body: dict) -> str:
     gates = body["gates"]
     crit = body["criteria"]
     alloc = body["allocation"]
+    run_path = ROOT / "docs" / "rank_ordering_run.json"
+    result_path = ROOT / "docs" / "rank_ordering_result.json"
+    payload = result = run = None
+    if run_path.exists() and result_path.exists():
+        payload = json.loads(run_path.read_text(encoding="utf-8"))
+        result = json.loads(result_path.read_text(encoding="utf-8"))
+        run = body.get("run") or {}
     low, high = seeds["block"]
     densities = ", ".join("%.1f" % d for d in design["densities"])
     caps = " and ".join(str(c) for c in design["caps"])
@@ -28,8 +35,7 @@ def render(body: dict) -> str:
 
     text = """# The ranking experiment, frozen before any cell (2026-11-07)
 
-**Status: FROZEN, NOT RUN (ready; no judged cell).** No judged cell has been executed, no
-judged world generated, no judged engine cycle spent, and no result artifact exists. Two smoke
+@@STATUS@@ Two smoke
 pools outside the block have been run and are recorded in §7; they are not evidence. The first
 found a defect that made the treatment unable to reach the world, the world's crowding was
 repaired, the second proves the repair, and **Amendment 4 withdraws M2**: no endpoint could both
@@ -165,9 +171,9 @@ The bar is declared here and never computed from the outcome.
         alloc["seeds"], alloc["world_seeds"], alloc["cells"],
         alloc["thresholds"], alloc["bars"],
     )
-    smoke = (body.get("not_run") or {}).get("smoke")
-    gate = (body.get("not_run") or {}).get("reach_audit")
-    repair = (body.get("not_run") or {}).get("repair")
+    smoke = (body.get("pre_run") or {}).get("smoke")
+    gate = (body.get("pre_run") or {}).get("reach_audit")
+    repair = (body.get("pre_run") or {}).get("repair")
     extra = ""
     if smoke:
         extra += "\n\n" + _smoke(smoke)
@@ -178,7 +184,54 @@ The bar is declared here and never computed from the outcome.
     if extra:
         text = text.replace("No cell may run before this file is committed.",
                             "No cell may run before this file is committed." + extra)
+    if result:
+        text = text.replace("The block is ready; no judged cell has run.",
+                            "The block was ready, and the judged run followed under M1 alone.")
+        text += "\n\n" + _results(run, result, payload, body)
+        status = ("**Status: RUN COMPLETE — %s** (judged block executed %s). The criteria, gates, "
+                  "seeds and decision table below were frozen before the run and are unmodified; "
+                  "section 8 records what the committed scorer returned."
+                  % (result["decision"]["verdict"], run.get("date", "")))
+    else:
+        status = ("FROZEN, NOT RUN (ready; no judged cell). No judged cell has been executed, no "
+                  "judged world generated, no judged engine cycle spent, and no result artifact "
+                  "exists.")
+    text = text.replace("@@STATUS@@", status)
+    assert "@@STATUS@@" not in text
     return text
+
+
+def _results(run: dict, result: dict, payload: dict, body: dict) -> str:
+    crit, m1, gates = result["criteria"], result["criteria"]["M1"], result["gates"]
+    scored = [v for v in gates.values() if isinstance(v, dict) and "passed" in v]
+    passed = sum(1 for v in scored if v["passed"])
+    level = int(round(body["criteria"]["interval"] * 100))
+    rows = "\n".join(
+        "| %.1f | %.4f | %.4f | %d |" % (float(rho), row["coverage_gap_mean"],
+                                          row["precision_gap_mean"],
+                                          row["seeds_with_a_positive_coverage_gap"])
+        for rho, row in sorted(crit["density_profile"].items(), key=lambda kv: float(kv[0])))
+    return (
+        "## 8. The judged run (post-freeze record)\n\n"
+        "**The block ran on %s.** %d cells were executed on the eight registered seeds and "
+        "**%d of %d gates passed**. M1 returned a mean delta of **%.4f** at the sparsest density "
+        "with a **%d%%** interval of **[%.4f, %.4f]** against the declared **%.2f** bar, so M1 "
+        "**%s**. The committed scorer returned **%s** (%s).\n\n"
+        "The ladder is reported, not scored: the coverage and precision gaps at cap 20, and the "
+        "number of seeds whose coverage gap is positive.\n\n"
+        "| rho_world | coverage gap | precision gap | seeds positive |\n"
+        "| --- | --- | --- | --- |\n%s\n\n"
+        "**What the verdict licenses.** The positive branch of the decision table: the ordering "
+        "basis is the lever at the sparsest density, so the next architectural step is the "
+        "admission and budget change, not another ranking diagnostic. It does **not** license a "
+        "behavioral claim, because no cell here measures a downstream gain from a better-ranked "
+        "selection, and the ladder is a characterization under Amendment 4, not a gradient.\n\n"
+        "The cells are in `%s`; the numbers are in `%s`."
+        % (run.get("date", ""), len(payload["cells"]), passed, len(scored),
+           m1["mean_delta_at_min_density"], level, m1["interval"][0], m1["interval"][1],
+           m1["bar"], "passed" if m1["passed"] else "failed",
+           result["decision"]["verdict"], result["decision"]["decision"], rows,
+           run["run_artifact"], run["result_artifact"]))
 
 
 def _smoke(smoke: dict) -> str:
@@ -196,7 +249,7 @@ def _smoke(smoke: dict) -> str:
         "behaved as the audits predicted (%d rows; presence %s), which is why this is a defect "
         "in what the arms can reach rather than in what the engine stores. No judged cell may "
         "run until the owner decides how to repair the treatment; the numbers are in "
-        "`not_run.smoke`." % (
+        "`pre_run.smoke`." % (
             smoke["seed"], smoke["rho_world"], smoke["engine_cycles"],
             smoke["cells_derived"], pool["world_rows"], smoke["generator"]["world_edges"],
             pool["filler_rows"], counts["filler_range"][0], counts["filler_range"][1],

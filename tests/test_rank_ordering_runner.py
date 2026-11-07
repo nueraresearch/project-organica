@@ -106,16 +106,17 @@ def test_the_runner_refuses_a_grid_off_the_preregistration():
         R.assert_grid(body)
 
 
-def test_the_runner_refuses_a_state_that_already_has_cells():
+def test_the_runner_refuses_a_finished_record_that_names_no_run_artifact():
     body = json.loads(R.PREREG.read_text(encoding="utf-8"))
-    body["not_run"]["cells_executed"] = 1
-    with pytest.raises(SystemExit, match="already records executed cells"):
-        R.plan(body)
+    body["status"] = "RUN COMPLETE (judged block executed)"
+    body["run"] = {}
+    with pytest.raises(SystemExit, match="names no run artifact"):
+        R.assert_grid(body)
 
 
 def test_the_runner_refuses_a_record_blocked_by_a_smoke_finding(tmp_path):
     body = json.loads(R.PREREG.read_text(encoding="utf-8"))
-    body["not_run"]["blocked"] = "both arms cover zero world edges at the primary point"
+    body["pre_run"]["blocked"] = "both arms cover zero world edges at the primary point"
     with pytest.raises(SystemExit, match="blocked"):
         R.run(tmp_path / "never.json", body)
     assert not (tmp_path / "never.json").exists()
@@ -126,7 +127,7 @@ def test_the_runner_refuses_when_the_reach_gate_fails(tmp_path, monkeypatch):
     monkeypatch.setattr(R, "filler_pairs", lambda: [
         (a, b) for group in R.cells() for a in group for b in group if a != b])
     body = json.loads(R.PREREG.read_text(encoding="utf-8"))
-    body["not_run"]["blocked"] = ""
+    body["pre_run"]["blocked"] = ""
     with pytest.raises(SystemExit, match="reach"):
         R.run(tmp_path / "never.json", body)
     assert not (tmp_path / "never.json").exists()
@@ -172,5 +173,8 @@ def test_the_runner_payload_is_a_payload_the_scorer_accepts():
     assert result["gates"]["G0_liveness_cap_20"]["passed"] is True
 
 
-def test_no_judged_cell_has_run():
-    assert not RUN.exists()
+def test_the_judged_run_is_the_one_the_runner_wrote():
+    body = R.prereg()
+    payload = json.loads(RUN.read_text(encoding="utf-8"))
+    assert len(payload["cells"]) == body["design"]["cells"]
+    assert sorted({c["seed"] for c in payload["cells"]}) == body["seeds"]["world"]

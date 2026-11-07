@@ -421,14 +421,19 @@ def plan(record: dict | None = None) -> list[dict]:
     if len(cells) != expected:
         raise SystemExit("the plan has %d cells, the pre-registration has %d"
                          % (len(cells), expected))
-    if record["not_run"]["cells_executed"] != 0:
-        raise SystemExit("the pre-registration already records executed cells")
     return cells
 
 
 def assert_grid(record: dict) -> None:
     """Refuse anything that is not the frozen grid, before an engine is touched."""
-    if record["status"].split(",")[0].strip() != "FROZEN":
+    head = record["status"].split("(")[0].split(",")[0].strip()
+    ran = record.get("run") or {}
+    if head == "RUN COMPLETE":
+        # Frozen and executed: the artifacts record the cells, and a second run is refused by
+        # main() unless --force is given, so describing the grid stays legal.
+        if not ran.get("run_artifact"):
+            raise SystemExit("the pre-registration says it ran but names no run artifact")
+    elif head != "FROZEN":
         raise SystemExit("the pre-registration is not frozen")
     seeds = list(record["design"]["seeds"])
     if len(seeds) != 8 or len(set(seeds)) != 8:
@@ -470,7 +475,7 @@ def self_test(record: dict | None = None) -> dict:
 def run(out: Path = OUT, record: dict | None = None) -> dict:
     record = record or prereg()
     assert_grid(record)
-    blocked = (record.get("not_run") or {}).get("blocked")
+    blocked = (record.get("pre_run") or {}).get("blocked")
     if blocked:
         raise SystemExit("the block is blocked by a recorded finding; no cell may run: %s"
                          % blocked)
