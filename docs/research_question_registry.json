@@ -1,0 +1,333 @@
+{
+  "kind": "research_question_registry",
+  "version": 1,
+  "date": "2026-11-07",
+  "statuses": {
+    "closed": "a result meaningfully constrained the space, and the answer carries its scope",
+    "open": "evidence exists but no answer is settled",
+    "retired": "no longer worth resources; the reason is recorded",
+    "future": "valid only after a named prerequisite is met"
+  },
+  "questions": [
+    {
+      "id": "Q001",
+      "kind": "research",
+      "status": "closed",
+      "question": "Can developmental structure form in Organica 1?",
+      "answer": "Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports.",
+      "scope": "Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.",
+      "evidence": [
+        "docs/V1-SYNTHESIS.md",
+        "docs/FACTS-SHEET.md"
+      ]
+    },
+    {
+      "id": "Q002",
+      "kind": "research",
+      "status": "closed",
+      "question": "Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?",
+      "answer": "Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there.",
+      "scope": "Presence in one world family, not availability in general.",
+      "evidence": [
+        "docs/gate13_allocation_rule.json",
+        "docs/GATE13-RELATION-SEPARATION.md"
+      ],
+      "bottleneck_rows": [
+        "World-edge candidate availability"
+      ]
+    },
+    {
+      "id": "Q003",
+      "kind": "research",
+      "status": "closed",
+      "question": "Can a frequency-ranked selection find the world's edges at the engine's cap?",
+      "answer": "No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one.",
+      "scope": "The Gate 13 task and world family, under the two measured allocation rules.",
+      "evidence": [
+        "docs/gate13_allocation_rule.json",
+        "docs/GATE13-RELATION-SEPARATION.md"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation"
+      ]
+    },
+    {
+      "id": "Q004",
+      "kind": "research",
+      "status": "closed",
+      "question": "Does excluding intra-cell rows buy precision at a fixed cap?",
+      "answer": "Yes at the sparse end: 0.059375 against a pre-registered bar of 0.05, 13 of 16 seeds positive, reproduced by the other exposure scheme; the dense end is pinned by composition, and the slope is descriptive rather than judged.",
+      "scope": "One world family, cap 20, precision endpoint; an allocation change with no behavioural claim.",
+      "evidence": [
+        "docs/density_interaction_a2_result.json",
+        "docs/DECISION-DENSITY-EXCLUSION.md"
+      ],
+      "decisions": [
+        "DECISION-DENSITY-EXCLUSION.md"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation",
+        "Density interaction"
+      ]
+    },
+    {
+      "id": "Q005",
+      "kind": "research",
+      "status": "closed",
+      "question": "Does the primary scheme's partial final pass explain the ladder's non-monotonicity?",
+      "answer": "Half of it. Whole-cycle padding lifts rho 0.4 from 0.0281 to 0.0844 but leaves the 0.4 to 0.6 step at -0.0344, so both pre-registered criteria fail; the residual is measured and not attributed.",
+      "scope": "The same world family, cap and endpoint; the scheme varies total exposure, so it cannot separate pass count from exposure quantity.",
+      "evidence": [
+        "docs/density_padding_result.json",
+        "docs/DECISION-DENSITY-EXCLUSION.md"
+      ],
+      "decisions": [
+        "DECISION-DENSITY-EXCLUSION.md"
+      ],
+      "bottleneck_rows": [
+        "Density interaction"
+      ]
+    },
+    {
+      "id": "Q006",
+      "kind": "research",
+      "status": "closed",
+      "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
+      "answer": "Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.",
+      "scope": "The admission rule, not extraction, the confidence formula, the death threshold or the caps.",
+      "evidence": [
+        "docs/DECISION-ADMISSION-RULE.md",
+        "docs/admission_two_arm_result.json"
+      ],
+      "decisions": [
+        "DECISION-ADMISSION-RULE.md"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation"
+      ]
+    },
+    {
+      "id": "Q007",
+      "kind": "research",
+      "status": "closed",
+      "question": "Does internal structure improve held-out prediction at the tested endpoint?",
+      "answer": "No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats.",
+      "scope": "The confirmatory endpoint and its world family; no claim that structure is irrelevant anywhere else.",
+      "evidence": [
+        "docs/functional_structure_confirmatory.json",
+        "docs/acquisition_endpoint_audit.json"
+      ],
+      "bottleneck_rows": [
+        "Structure to behavior coupling"
+      ]
+    },
+    {
+      "id": "Q008",
+      "kind": "research",
+      "status": "closed",
+      "question": "Do the architecture's own motivational mechanisms drive development in the predicted direction?",
+      "answer": "Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction.",
+      "scope": "Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.",
+      "evidence": [
+        "papers/07_architecture_predictions_reversed.md"
+      ],
+      "bottleneck_rows": [
+        "Theory mismatch (motivational reversals)"
+      ]
+    },
+    {
+      "id": "Q009",
+      "kind": "governance",
+      "status": "closed",
+      "question": "Does 'no V2' forbid all engine-adjacent work?",
+      "answer": "No. It binds the design of V2, not diagnostics; the decision authorised one bounded Gate 13 diagnostic and amended no preregistration, verdict or frozen file.",
+      "evidence": [
+        "docs/DECISION-V2-SCOPE.md"
+      ],
+      "decisions": [
+        "DECISION-V2-SCOPE.md"
+      ]
+    },
+    {
+      "id": "Q010",
+      "kind": "governance",
+      "status": "closed",
+      "question": "Can Stage B be authorised without the independent review?",
+      "answer": "No. The independent review is the gate; the sequencing decision changed the route and no hypothesis, gate, threshold, endpoint, falsifier or seed.",
+      "evidence": [
+        "docs/DECISION-STAGE-B-SEQUENCE.md",
+        "docs/STAGE-B-PROTOCOL.md"
+      ],
+      "decisions": [
+        "DECISION-STAGE-B-SEQUENCE.md"
+      ]
+    },
+    {
+      "id": "Q011",
+      "kind": "research",
+      "status": "open",
+      "question": "Does a consolidated schema buy acquisition latency across a vocabulary boundary?",
+      "why_open": "At this endpoint it does not: 3.6 cycles against 3.4 naive (TR 0.944) over 5 seeds with no p-value. The prior is applied (162 against 270 applications) and reorders candidates, target rank [7, 5, 4, 20, 7], so the flatness is a measurement rather than an unrun manipulation - but the pre-registered TR > 1.25 at p < 0.01 over 10 seeds was not met.",
+      "scope": "One vocabulary boundary, 40/40 cycles, five seeds. No statistical claim.",
+      "evidence": [
+        "docs/cross_context_reuse_benchmark_earned.json",
+        "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
+      ],
+      "decisions": [
+        "DECISION-EARNED-SCHEMA-PRIMING.md"
+      ]
+    },
+    {
+      "id": "Q012",
+      "kind": "research",
+      "status": "open",
+      "question": "Does role abstraction remove the orthogonal-context dependence?",
+      "why_open": "RoleCandidate is not validated. The earned run attributes its flat result to the absence of an acquisition advantage, not to role satisfaction, so the orthogonal effect has no mechanism-level explanation yet.",
+      "evidence": [
+        "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
+      ],
+      "bottleneck_rows": [
+        "Candidate-generation strategy (broader)"
+      ]
+    },
+    {
+      "id": "Q013",
+      "kind": "research",
+      "status": "open",
+      "question": "Does the corrected prior reader change the retention reading?",
+      "why_open": "The earned run has not been repeated on the corrected reader. At the time of the run the reader returned every historical copy, so a decayed schema never superseded its own earlier version; that defect was fixed afterwards and the reading is therefore stale.",
+      "evidence": [
+        "docs/DECISION-CANDIDATE-SUPERSESSION.md",
+        "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
+      ],
+      "decisions": [
+        "DECISION-CANDIDATE-SUPERSESSION.md"
+      ]
+    },
+    {
+      "id": "Q014",
+      "kind": "research",
+      "status": "open",
+      "question": "Does a rank-sensitive endpoint reward the prior that the acquisition endpoint cannot?",
+      "why_open": "The prior reorders candidates and the acquisition endpoint does not score rank, so a rank-sensitive endpoint is untested; this is the strongest surviving reading of the flat acquisition result and it has no cells.",
+      "evidence": [
+        "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
+      ]
+    },
+    {
+      "id": "Q015",
+      "kind": "research",
+      "status": "open",
+      "question": "Is temporal decay necessary for liveness?",
+      "why_open": "The bottleneck map records it as not established and not measured; no cell isolates decay from turnover, so the row has no evidence either way.",
+      "evidence": [
+        "docs/bottleneck_map.json"
+      ],
+      "bottleneck_rows": [
+        "Decay necessity for liveness"
+      ]
+    },
+    {
+      "id": "Q016",
+      "kind": "research",
+      "status": "open",
+      "question": "Can the candidate space be changed so that world edges cluster under some ranking?",
+      "why_open": "Gate 13 closed frequency-based ranking, not the candidate space: precision was flat and low across budgets and rules, which locates the defect in the space rather than the budget, and no candidate-space intervention has been measured.",
+      "evidence": [
+        "docs/GATE13-RELATION-SEPARATION.md",
+        "docs/gate13_allocation_rule.json"
+      ],
+      "bottleneck_rows": [
+        "Candidate-generation strategy (broader)"
+      ]
+    },
+    {
+      "id": "Q017",
+      "kind": "research",
+      "status": "retired",
+      "question": "Should further Layer-1 admission variants be tried?",
+      "answer": "No. The rule was adopted, measured negative, and withdrawn the same day; the reference engine is again the only admission path, and another variant would repeat a layer that measurement closed.",
+      "evidence": [
+        "docs/DECISION-ADMISSION-RULE.md",
+        "docs/admission_two_arm_result.json"
+      ],
+      "decisions": [
+        "DECISION-ADMISSION-RULE.md"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation"
+      ]
+    },
+    {
+      "id": "Q018",
+      "kind": "research",
+      "status": "retired",
+      "question": "Should another Gate 13 ranking variant be run?",
+      "answer": "No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse.",
+      "evidence": [
+        "docs/gate13_allocation_rule.json",
+        "docs/bottleneck_map.json"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation"
+      ]
+    },
+    {
+      "id": "Q019",
+      "kind": "research",
+      "status": "retired",
+      "question": "Should another pool-moderator generation be built?",
+      "answer": "No. Every branch invents another moderator and no architectural decision follows, and the row already stands not supported on the owner's reading rather than on new cells.",
+      "evidence": [
+        "docs/bottleneck_map.json"
+      ],
+      "bottleneck_rows": [
+        "Pool-structure moderation"
+      ]
+    },
+    {
+      "id": "Q020",
+      "kind": "research",
+      "status": "retired",
+      "question": "Should another loop-redundancy moderator be built?",
+      "answer": "No, for the same reason as the pool moderator: the design question is closed, not the measurement.",
+      "evidence": [
+        "docs/bottleneck_map.json"
+      ],
+      "bottleneck_rows": [
+        "Loop-redundancy moderation"
+      ]
+    },
+    {
+      "id": "Q021",
+      "kind": "research",
+      "status": "retired",
+      "question": "Can a transfer claim rest on the v1 TR = 3.2 result?",
+      "answer": "No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.",
+      "evidence": [
+        "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md",
+        "docs/cross_context_reuse_benchmark.json"
+      ]
+    },
+    {
+      "id": "Q022",
+      "kind": "research",
+      "status": "future",
+      "question": "Can role representations transfer across domains?",
+      "blocked_by": [
+        "Q012"
+      ],
+      "why_open": "Valid only after role abstraction is validated on the single boundary it was proposed for."
+    },
+    {
+      "id": "Q023",
+      "kind": "research",
+      "status": "future",
+      "question": "Can transfer recursively improve future transfer?",
+      "blocked_by": [
+        "Q022"
+      ],
+      "why_open": "Requires a transfer effect that exists first; asking it now would measure the absence of a prerequisite."
+    }
+  ]
+}

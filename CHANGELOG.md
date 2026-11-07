@@ -70,6 +70,26 @@ there is nothing to check out.
   `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
   density.
 
+### Added — The project's questions are a generated registry, and outreach has its own note (2026-11-07)
+
+`docs/research_question_registry.json` records **23** questions — **10** closed, **6** open, **5**
+retired, **2** future — with the answer, the scope, the evidence and the decision record behind each.
+`benchmarks/research_registry.py` validates it and renders `docs/RESEARCH-QUESTION-REGISTRY.md`,
+refusing to render when a `docs/DECISION-*.md` is untallied, a bottleneck-map row is unclaimed, a
+closed or retired question cites a document that is missing, or a future question names a
+prerequisite that does not exist. `tests/test_research_registry.py` holds the rendered document equal
+to a fresh render, so a stale tally fails the suite.
+
+`docs/OUTREACH.md` says why the repository should be put in front of a researcher — the independent
+Stage B review is a hard gate, and the strongest result here is a verified negative that needs a
+reader who prices nulls correctly — what to send (deposit first: `papers/README.md` records eight
+manuscripts and zero published, and Papers 01 and 02 carry complete packages), and what to lead with:
+the earned cross-context result, TR **0.944** against **3.4** cycles naive over five seeds with no
+p-value, verdict `STRUCTURAL_PRIOR_PRESENT_NO_ACQUISITION_ADVANTAGE`. It gives the rule for the
+withdrawn v1 numbers (they appear only beside the word *withdrawn*), keeps established, open and
+not-demonstrated claims in separate tables, and labels the role, cross-domain, reusable-knowledge
+chain as a research programme rather than a finding. AGI is recorded as not demonstrated.
+
 ### Added — A third exposure scheme tested the padding attribution and only half confirmed it (2026-11-07)
 
 - **`DENSITY-PADDING-1`** registers `whole_cycle`: the base stream repeated a whole number of times,

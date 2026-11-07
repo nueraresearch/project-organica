@@ -1,0 +1,190 @@
+"""The research-question registry: what was asked, what closed, what is retired, what waits.
+
+A results-rich, questions-poor record is the failure mode this file exists to prevent. The
+registry is data (`docs/research_question_registry.json`) rendered to
+`docs/RESEARCH-QUESTION-REGISTRY.md`, and the checks below are what keep it honest:
+
+* every `docs/DECISION-*.md` on disk must be tallied by some question, so a new decision
+  fails the test until it is registered;
+* every row of the bottleneck map must be claimed by some question, and no question may
+  claim a row that does not exist;
+* a closed or retired question must carry an answer and evidence that exists on disk;
+* a future question must name prerequisites that exist.
+
+    ./.venv/bin/python -m benchmarks.research_registry            # validate + render
+    ./.venv/bin/python -m benchmarks.research_registry --check     # validate only
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+REGISTRY = ROOT / "docs" / "research_question_registry.json"
+DOC = ROOT / "docs" / "RESEARCH-QUESTION-REGISTRY.md"
+MAP = ROOT / "docs" / "bottleneck_map.json"
+
+STATUSES = ("closed", "open", "retired", "future")
+HEADINGS = {
+    "closed": "1. Closed — answered, and the answer constrained the space",
+    "open": "2. Open — evidence in hand, no settled answer",
+    "retired": "3. Retired — no longer worth resources",
+    "future": "4. Future — valid only after a prerequisite is met",
+}
+
+
+def load(path: Path = REGISTRY) -> dict:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def decision_files() -> list[str]:
+    return sorted(p.name for p in (ROOT / "docs").glob("DECISION-*.md"))
+
+
+def map_rows() -> list[str]:
+    return [row["candidate"] for row in json.loads(MAP.read_text(encoding="utf-8"))["rows"]]
+
+
+def validate(reg: dict) -> dict:
+    errors: list[str] = []
+    questions = reg["questions"]
+    ids = [q["id"] for q in questions]
+    if len(ids) != len(set(ids)):
+        errors.append("duplicate ids: %r" % (sorted(i for i in set(ids) if ids.count(i) > 1),))
+    known = set(ids)
+    for q in questions:
+        qid = q.get("id", "?")
+        if q.get("status") not in STATUSES:
+            errors.append("%s: unknown status %r" % (qid, q.get("status")))
+        if not q.get("question"):
+            errors.append("%s: no question text" % qid)
+        if q.get("status") in ("closed", "retired"):
+            if not q.get("answer"):
+                errors.append("%s: closed or retired without an answer" % qid)
+            if not q.get("evidence"):
+                errors.append("%s: closed or retired without evidence" % qid)
+        if q.get("status") == "open" and not (q.get("why_open") or q.get("evidence")):
+            errors.append("%s: open with neither evidence nor why_open" % qid)
+        if q.get("status") == "future":
+            if not q.get("blocked_by"):
+                errors.append("%s: future without blocked_by" % qid)
+            for prerequisite in q.get("blocked_by", []):
+                if prerequisite not in known:
+                    errors.append("%s: blocked_by unknown question %r" % (qid, prerequisite))
+        for path in q.get("evidence", []):
+            if not (ROOT / path).exists():
+                errors.append("%s: evidence path does not exist: %s" % (qid, path))
+        for name in q.get("decisions", []):
+            if not (ROOT / "docs" / name).exists():
+                errors.append("%s: decision record does not exist: %s" % (qid, name))
+
+    tallied = {name for q in questions for name in q.get("decisions", [])}
+    untallied = [name for name in decision_files() if name not in tallied]
+    if untallied:
+        errors.append("decision records not tallied by any question: %r" % (untallied,))
+    stale = sorted(name for name in tallied if name not in decision_files())
+    if stale:
+        errors.append("questions cite decision records that are not on disk: %r" % (stale,))
+
+    rows = map_rows()
+    claimed = Counter(name for q in questions for name in q.get("bottleneck_rows", []))
+    unknown = [name for name in claimed if name not in rows]
+    if unknown:
+        errors.append("questions claim bottleneck rows that do not exist: %r" % (unknown,))
+    unclaimed = [name for name in rows if name not in claimed]
+    if unclaimed:
+        errors.append("bottleneck rows no question claims: %r" % (unclaimed,))
+
+    tally = Counter(q["status"] for q in questions)
+    return {"passed": not errors, "errors": errors,
+            "tally": {status: tally.get(status, 0) for status in STATUSES},
+            "questions": len(questions)}
+
+
+def render(reg: dict, report: dict) -> str:
+    tally = report["tally"]
+    lines = [
+        "# Research-question registry",
+        "",
+        "**Generated** from `docs/research_question_registry.json` by",
+        "`python -m benchmarks.research_registry`. Do not edit this file by hand: the tally below is",
+        "recomputed from the data, and `tests/test_research_registry.py` fails if the two disagree.",
+        "",
+        "The point of this artifact is the column that results never get: **what was asked, what the",
+        "answer closed, what stopped being worth resources, and what is waiting on a prerequisite.**",
+        "A project at this size remembers its results and forgets its dead ends, and the dead ends are",
+        "where the method is.",
+        "",
+        "## Tally",
+        "",
+        "| status | count | meaning |",
+        "| --- | --- | --- |",
+        "| closed | %d | a result constrained the space; the answer is recorded with its scope |" % tally["closed"],
+        "| open | %d | evidence exists, no answer is settled |" % tally["open"],
+        "| retired | %d | no longer worth resources; the reason is recorded |" % tally["retired"],
+        "| future | %d | valid only after a named prerequisite is met |" % tally["future"],
+        "| **total** | **%d** | |" % report["questions"],
+        "",
+        "## How this stays current",
+        "",
+        "Three checks run in the test suite and can fail: a new `docs/DECISION-*.md` that no question",
+        "tallies, a bottleneck-map row that no question claims, and a question that cites evidence",
+        "which is not on disk. Registering a decision is therefore part of making one.",
+        "",
+    ]
+    for status in STATUSES:
+        lines += ["## " + HEADINGS[status], ""]
+        for q in reg["questions"]:
+            if q["status"] != status:
+                continue
+            lines += ["### %s — %s" % (q["id"], q["question"]), ""]
+            if q.get("kind"):
+                lines += ["*%s question.*" % q["kind"], ""]
+            if q.get("answer"):
+                lines += ["**Answer.** %s" % q["answer"], ""]
+            if q.get("why_open"):
+                lines += ["**Why it is open.** %s" % q["why_open"], ""]
+            if q.get("scope"):
+                lines += ["**Scope.** %s" % q["scope"], ""]
+            if q.get("blocked_by"):
+                lines += ["**Blocked by.** %s" % ", ".join(q["blocked_by"]), ""]
+            if q.get("evidence"):
+                lines += ["**Evidence.** " + ", ".join("`%s`" % p for p in q["evidence"]), ""]
+            if q.get("decisions"):
+                lines += ["**Decision record.** " + ", ".join("`docs/%s`" % d for d in q["decisions"]), ""]
+            if q.get("bottleneck_rows"):
+                lines += ["**Bottleneck rows.** " + "; ".join(q["bottleneck_rows"]), ""]
+    lines += [
+        "## What this registry is not",
+        "",
+        "- **It is not a capability claim.** It records what was asked and what constrained the answer;",
+        "  the claim status of every entry lives in the artifact it cites.",
+        "- **The future section is conditional, not evidence.** A question listed there is a statement",
+        "  about what would become worth asking, not about what the project can do today.",
+        "- **It does not rank questions by promise.** The retired section exists precisely because",
+        "  promise is not a reason to spend resources (AGENTS.md rule 30).",
+        "",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="validate without rendering")
+    args = parser.parse_args(argv)
+    reg = load()
+    report = validate(reg)
+    if not report["passed"]:
+        for error in report["errors"]:
+            print("FAIL:", error)
+        return 1
+    if not args.check:
+        DOC.write_text(render(reg, report), encoding="utf-8")
+    print("tally:", report["tally"], "questions:", report["questions"])
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
