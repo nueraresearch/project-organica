@@ -49,6 +49,13 @@ and answered with nothing.
 | unresolved | the record cannot decide the question | Not established / not measured |
 | preregistered, untested | a design is frozen and no runtime evidence exists | Not established / not measured |
 
+**The label vocabulary is closed.** `vocabulary.labels` in the artifact is the authoritative
+list, not a description of what rows happen to use: a row may carry only a label that is on it,
+every label on it must have a meaning in the table above, and adding a label means adding both in
+the same change. A label invented inside a row fails the suite instead of entering the record —
+the check is run on the rows and then run again on a row carrying an undefined label, so the
+guard is shown to fire rather than assumed to.
+
 One gap is recorded rather than absorbed: the repository's vocabulary has **no exact home for "not
 supported"**. "Not established / not measured" is right for a question the record cannot decide and
 wrong for a test that ran and returned nothing, and treating the two as synonyms is how a null
@@ -117,7 +124,8 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 ## 8. How it is checked
 
 `tests/test_bottleneck_map.py` asserts that every status is drawn from the four-status vocabulary,
-that every label is defined and mapped, that every evidence path exists, that exactly one row is a
+that every label is drawn from the closed label set and every label in that set is mapped — and
+that the closed-set check rejects a label the set does not define, that every evidence path exists, that exactly one row is a
 specified experiment with zero allocation, that the two corrected rows carry their corrected wording
 and not their old wording, that the "not supported" rows refuse refutation, that the vocabulary gap
 is named rather than absorbed, that availability and generation strategy are separate rows, and that

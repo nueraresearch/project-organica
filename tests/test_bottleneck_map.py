@@ -170,3 +170,43 @@ def test_the_split_rule_is_stated():
     body = _body()
     assert "a row splits when the claim differs" in body["split_rule"]
     assert body["split_rule"] in _flat()
+
+
+def _validate_labels(rows, defined, closed):
+    """The guard the closed set exists for: a row outside the defined set is an error."""
+    if closed:
+        undefined = sorted({r["label"] for r in rows} - set(defined))
+        if undefined:
+            raise ValueError("undefined map label(s): " + ", ".join(undefined))
+    return {r["label"] for r in rows}
+
+
+def test_every_label_comes_from_the_closed_set():
+    body = _body()
+    vocabulary = body["vocabulary"]
+    assert vocabulary["labels_are_closed"] is True
+    defined = list(vocabulary["labels"])
+    assert len(defined) == len(set(defined))
+    assert set(defined) == set(body["label_meanings"])
+    assert vocabulary["label_rule"].strip()
+    used = _validate_labels(body["rows"], defined, vocabulary["labels_are_closed"])
+    assert used <= set(defined)
+
+
+def test_the_closed_set_rejects_a_label_it_does_not_define():
+    body = _body()
+    invented = [dict(body["rows"][0], label="probably fine")]
+    try:
+        _validate_labels(invented, body["vocabulary"]["labels"], True)
+    except ValueError as exc:
+        assert "probably fine" in str(exc)
+    else:
+        raise AssertionError("an undefined label was accepted")
+    assert _validate_labels(invented, body["vocabulary"]["labels"], False) == {"probably fine"}
+
+
+def test_the_document_says_the_label_set_is_closed():
+    flat = _flat()
+    assert "The label vocabulary is closed" in flat
+    for label in _body()["vocabulary"]["labels"]:
+        assert label in flat, label

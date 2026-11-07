@@ -10,7 +10,17 @@
    "Reversed",
    "Not established / not measured"
   ],
-  "rule": "the scope is part of the status; where the evidence splits, a compound status is required"
+  "rule": "the scope is part of the status; where the evidence splits, a compound status is required",
+  "labels_are_closed": true,
+  "labels": [
+   "weakened",
+   "demonstrated constraint on coverage; effect on behavior untested",
+   "supported concern",
+   "not supported",
+   "unresolved",
+   "preregistered, untested"
+  ],
+  "label_rule": "A row may carry only a label in vocabulary.labels; every label there must have an entry in label_meanings; a new label is added to both in the same change, never invented in a row."
  },
  "rows": [
   {
