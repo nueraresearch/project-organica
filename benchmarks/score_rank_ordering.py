@@ -126,10 +126,21 @@ def gates(cells: list[dict], identity: dict) -> dict:
         "passed": abs(smallest_presence - 1.0) <= TOL,
     }
 
-    over = [(c["arm"], c["cap"], c["rho_world"], c["seed"], c["precision"], c["rho_rank"])
-            for c in cells if float(c["precision"]) > float(c["rho_rank"]) + TOL]
-    out["G2_precision_bounded_by_rho_rank"] = {
-        "cells_above_rho_rank": len(over), "example": over[:2], "passed": not over,
+    bad = []
+    for c in cells:
+        asserted, covered = c.get("asserted"), c.get("covered")
+        if asserted is None or covered is None or asserted <= 0:
+            bad.append((c["arm"], c["cap"], c["rho_world"], c["seed"], "no counts"))
+            continue
+        coverage, precision = float(c["coverage"]), float(c["precision"])
+        if covered < 0 or covered > asserted:
+            bad.append((c["arm"], c["cap"], c["rho_world"], c["seed"], "covered/asserted"))
+        elif abs(precision - covered / asserted) > 1e-6:
+            bad.append((c["arm"], c["cap"], c["rho_world"], c["seed"], "precision"))
+        elif not (0.0 <= coverage <= 1.0 and 0.0 <= precision <= 1.0):
+            bad.append((c["arm"], c["cap"], c["rho_world"], c["seed"], "range"))
+    out["G2_arithmetic_consistency"] = {
+        "cells_failing": len(bad), "example": bad[:2], "passed": not bad,
     }
 
     live = []
@@ -165,22 +176,38 @@ def gates(cells: list[dict], identity: dict) -> dict:
 
 
 def criteria(cells: list[dict]) -> dict:
-    """M1 the level, M2 the gradient. Both must pass for the positive pole."""
+    """M1 the level in coverage, M2 the interaction in precision.
+
+    M2 cannot be read on coverage: |W| grows eightfold across the ladder while the cap is
+    fixed, so a coverage gap is mechanically forced to shrink. Precision is normalized by
+    the budget, and at density 1 it tends to 1 in both arms, so a precision gap that
+    collapses as density rises is a real interaction rather than a denominator.
+    """
     record = prereg()
     bar = record["criteria"]["M1_bar"]
-    deltas_low = _delta(cells, PRIMARY_CAP, MIN_RHO)
-    deltas_high = _delta(cells, PRIMARY_CAP, MAX_RHO)
-    seed = int(record["seeds"]["bootstrap"])
+    index = _index(cells)
+    seeds = sorted({k[3] for k in index})
+    low, high = round(MIN_RHO, 6), round(MAX_RHO, 6)
+    delta_cov, delta_prec = {}, {}
+    for seed in seeds:
+        control_low = index[("control", PRIMARY_CAP, low, seed)]
+        treated_low = index[("diversity", PRIMARY_CAP, low, seed)]
+        control_high = index[("control", PRIMARY_CAP, high, seed)]
+        treated_high = index[("diversity", PRIMARY_CAP, high, seed)]
+        delta_cov[seed] = treated_low["coverage"] - control_low["coverage"]
+        delta_prec[seed] = ((treated_low["precision"] - control_low["precision"])
+                            - (treated_high["precision"] - control_high["precision"]))
 
-    m1_mean = _mean(deltas_low.values())
-    m1_interval = _interval(list(deltas_low.values()), seed)
+    seed = int(record["seeds"]["bootstrap"])
+    m1_mean = _mean(delta_cov.values())
+    m1_interval = _interval(list(delta_cov.values()), seed)
     m1 = m1_mean >= bar and m1_interval[0] > 0
 
-    did = {s: deltas_low[s] - deltas_high[s] for s in deltas_low}
     min_gradient = record["criteria"]["M2_min_gradient"]
-    m2_interval = _interval(list(did.values()), seed)
-    positive = sum(1 for v in did.values() if v > 0)
-    m2 = (_mean(did.values()) >= min_gradient and m2_interval[0] > 0
+    m2_mean = _mean(delta_prec.values())
+    m2_interval = _interval(list(delta_prec.values()), seed)
+    positive = sum(1 for v in delta_prec.values() if v > 0)
+    m2 = (m2_mean >= min_gradient and m2_interval[0] > 0
           and positive >= SIGN_TEST_MIN)
 
     return {
@@ -188,9 +215,9 @@ def criteria(cells: list[dict]) -> dict:
                "interval": m1_interval, "interval_upper": m1_interval[1],
                "interval_width": round(m1_interval[1] - m1_interval[0], 6),
                "bar": bar, "passed": bool(m1)},
-        "M2": {"mean_difference_in_differences": round(_mean(did.values()), 6),
-               "interval": m2_interval, "seeds_with_larger_delta_at_min_density": positive,
-               "of": len(did), "required": SIGN_TEST_MIN, "passed": bool(m2)},
+        "M2": {"mean_precision_difference_in_differences": round(m2_mean, 6),
+               "interval": m2_interval, "seeds_with_a_wider_gap_at_min_density": positive,
+               "of": len(delta_prec), "required": SIGN_TEST_MIN, "passed": bool(m2)},
     }
 
 

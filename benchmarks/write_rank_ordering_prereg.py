@@ -72,13 +72,15 @@ World seeds **%d-%d**, eight of them, plus bootstrap seed **%d** for the analysi
 | --- | --- |
 | G0 liveness | %s |
 | G1 presence | %s |
-| G2 precision | %s |
+| G2 arithmetic | %s |
 | G3 axis live | %s |
 | G4 control reproduces | %s |
 | G5 identity at density 1 | %s |
 
 %s. The control ceiling in G4 is **%.2f**: if the count ordering already covers the world at
 the sparsest level, the world or the cap is wrong and no delta can be read.
+
+**A gate was amended before any cell ran.** %s
 
 ## 5. Criteria
 
@@ -116,10 +118,11 @@ result with no identity self-test. It computes the gates first; if any gate fail
 the gate and reads no criterion. The bootstrap seed comes from the artifact, so the interval
 is deterministic given the cells.
 
-The runner, `benchmarks/run_rank_ordering.py`, is **not built**. The run ticket is the runner
-plus its harness self-tests — the G5 identity check on a synthetic all-true population, and a
-check that the two arms differ at the sparsest density before any judged cell is read. No cell
-may run before this file is committed.
+The runner, `benchmarks/run_rank_ordering.py`, is built and passes its self-tests: the G5
+identity check on an all-true population, a generator audit of the density ladder, and an
+arm-liveness check that the two orderings differ at the sparsest density. `--run` refuses a
+pre-registration that is not frozen, a seed block that is not contiguous, and an existing output
+file without `--force`. No cell may run before this file is committed.
 
 ## 8. Allocation
 
@@ -143,10 +146,10 @@ The bar is declared here and never computed from the outcome.
         design["eligibility"], design["exposure"], design["horizon"],
         design["cells"], design["cells_arithmetic"],
         low, high, seeds["bootstrap"], seeds["freshness"], seeds["consumed"],
-        gates["G0_liveness"], gates["G1_presence_ceiling"], gates["G2_precision_bound"],
+        gates["G0_liveness"], gates["G1_presence_ceiling"], gates["G2_arithmetic_consistency"],
         gates["G3_axis_live"], gates["G4_control_reproduces"],
         gates["G5_identity_at_density_1"], gates["void_rule"],
-        gates["control_coverage_ceiling"],
+        gates["control_coverage_ceiling"], body["amendments"][0]["why"],
         crit["M1_rule"], crit["M1_bar"], crit["M1_bar_provenance"], crit["M2_rule"],
         int(round(crit["interval"] * 100)), crit["bootstrap_reps"],
         table, crit["underpowered_rule"],

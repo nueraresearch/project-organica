@@ -44,13 +44,15 @@ recording this block makes it consumed for the corpus seed scan, which is the in
 | --- | --- |
 | G0 liveness | at rho_world = 0.1, at each cap, the two arms' selected sets differ on at least 7 of the 8 seeds |
 | G1 presence | the world's edges present in memory over the world's edges equals 1.0 in every cell |
-| G2 precision | no cell reports precision above its own rho_rank |
+| G2 arithmetic | every cell's covered and asserted counts reconcile with its coverage and precision, coverage and precision lie in [0, 1], and precision is reported beside rho_rank rather than gated on it |
 | G3 axis live | mean rho_rank at rho_world = 0.8 exceeds mean rho_rank at rho_world = 0.1, at each cap |
 | G4 control reproduces | mean control coverage at cap 20 and rho_world = 0.1 does not exceed 0.15 |
 | G5 identity at density 1 | a harness self-test on a synthetic population where every candidate is a true edge selects identical sets in both arms and returns exactly zero delta; it spends no engine cell |
 
 any gate failure voids the block and is reported as the gate; no criterion is read. The control ceiling in G4 is **0.15**: if the count ordering already covers the world at
 the sparsest level, the world or the cap is wrong and no delta can be read.
+
+**A gate was amended before any cell ran.** the original gate was unsatisfiable for any informative ranker: rho_rank is the base rate of the population, so a rule that selects better than chance necessarily reports precision above it. As written, G2 would have voided exactly the result the block exists to detect. Amended before any cell ran.
 
 ## 5. Criteria
 
@@ -59,7 +61,7 @@ the sparsest level, the world or the cap is wrong and no delta can be read.
 The bar's provenance, fixed before any cell: declared before any cell, not computed from a run: 0.15 of the world's 24 edges at the sparsest level is at least a sixth of the world recovered beyond control, and the control's sampling expectation at that density is 20 x 0.1 / 24, about 0.083 It is not recomputed from the run it judges,
 and a later block may not inherit it as a convention.
 
-**M2 — the gradient.** the difference in differences, Delta at rho_world = 0.1 minus Delta at rho_world = 0.8, at cap 20, has a positive mean, a 95% interval lower bound above zero, and is positive on at least 7 of the 8 seeds, with a mean of at least 0.05, below which the gradient is called flat.
+**M2 — the gradient.** the precision gap, diversity minus control at cap 20, must be larger at rho_world = 0.1 than at rho_world = 0.8: a positive mean difference in differences of at least 0.05, a 95% interval lower bound above zero, and a wider gap at the sparser level on at least 7 of the 8 seeds.
 
 The interval is a **95%** percentile bootstrap over seeds, paired within seed, **4000**
 replicates.
@@ -92,10 +94,11 @@ result with no identity self-test. It computes the gates first; if any gate fail
 the gate and reads no criterion. The bootstrap seed comes from the artifact, so the interval
 is deterministic given the cells.
 
-The runner, `benchmarks/run_rank_ordering.py`, is **not built**. The run ticket is the runner
-plus its harness self-tests — the G5 identity check on a synthetic all-true population, and a
-check that the two arms differ at the sparsest density before any judged cell is read. No cell
-may run before this file is committed.
+The runner, `benchmarks/run_rank_ordering.py`, is built and passes its self-tests: the G5
+identity check on an all-true population, a generator audit of the density ladder, and an
+arm-liveness check that the two orderings differ at the sparsest density. `--run` refuses a
+pre-registration that is not frozen, a seed block that is not contiguous, and an existing output
+file without `--force`. No cell may run before this file is committed.
 
 ## 8. Allocation
 

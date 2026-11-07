@@ -76,7 +76,7 @@
  "gates": {
   "G0_liveness": "at rho_world = 0.1, at each cap, the two arms' selected sets differ on at least 7 of the 8 seeds",
   "G1_presence_ceiling": "the world's edges present in memory over the world's edges equals 1.0 in every cell",
-  "G2_precision_bound": "no cell reports precision above its own rho_rank",
+  "G2_arithmetic_consistency": "every cell's covered and asserted counts reconcile with its coverage and precision, coverage and precision lie in [0, 1], and precision is reported beside rho_rank rather than gated on it",
   "G3_axis_live": "mean rho_rank at rho_world = 0.8 exceeds mean rho_rank at rho_world = 0.1, at each cap",
   "G4_control_reproduces": "mean control coverage at cap 20 and rho_world = 0.1 does not exceed 0.15",
   "control_coverage_ceiling": 0.15,
@@ -87,7 +87,7 @@
   "M1_bar": 0.15,
   "M1_rule": "mean Delta at cap 20 and rho_world = 0.1, where Delta = diversity coverage - control coverage per seed, is at least the bar and its 95% bootstrap interval's lower bound is above zero",
   "M1_bar_provenance": "declared before any cell, not computed from a run: 0.15 of the world's 24 edges at the sparsest level is at least a sixth of the world recovered beyond control, and the control's sampling expectation at that density is 20 x 0.1 / 24, about 0.083",
-  "M2_rule": "the difference in differences, Delta at rho_world = 0.1 minus Delta at rho_world = 0.8, at cap 20, has a positive mean, a 95% interval lower bound above zero, and is positive on at least 7 of the 8 seeds, with a mean of at least 0.05, below which the gradient is called flat",
+  "M2_rule": "the precision gap, diversity minus control at cap 20, must be larger at rho_world = 0.1 than at rho_world = 0.8: a positive mean difference in differences of at least 0.05, a 95% interval lower bound above zero, and a wider gap at the sparser level on at least 7 of the 8 seeds",
   "M2_min_gradient": 0.05,
   "sign_test": {
    "required": 7,
@@ -98,6 +98,22 @@
   "underpowered_width": 0.3,
   "underpowered_rule": "if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result"
  },
+ "amendments": [
+  {
+   "on": "2026-11-07",
+   "gate": "G2",
+   "was": "no cell reports precision above its own rho_rank",
+   "now": "every cell reconciles covered, asserted, coverage and precision, and precision is reported beside rho_rank",
+   "why": "the original gate was unsatisfiable for any informative ranker: rho_rank is the base rate of the population, so a rule that selects better than chance necessarily reports precision above it. As written, G2 would have voided exactly the result the block exists to detect. Amended before any cell ran."
+  },
+  {
+   "on": "2026-11-07",
+   "gate": "M2",
+   "was": "the difference in differences of coverage, flagged as an interaction",
+   "now": "the difference in differences of precision at cap 20",
+   "why": "coverage is divided by |W|, which grows eightfold across the ladder while the cap is fixed, so a coverage gap is mechanically forced to shrink with density and M2 would have been satisfied by the denominator rather than by the mechanism. Precision is normalized by the budget and tends to 1 in both arms at density 1, so its collapse is the interaction the design claims. Amended before any cell ran; M1 is unchanged."
+  }
+ ],
  "decision_table": [
   {
    "M1": "pass",
@@ -150,9 +166,10 @@
  },
  "not_run": {
   "cells_executed": 0,
-  "runner": "benchmarks/run_rank_ordering.py is not built; the run ticket is the runner plus its harness self-tests, and no cell may run before this file is committed",
+  "runner": "benchmarks/run_rank_ordering.py is built and its self-tests pass; --run refuses a pre-registration that is not frozen, a seed block that is not contiguous, and an existing output file without --force. No judged cell has run",
   "result_artifact_exists": false,
-  "engine_cycles": 0
+  "engine_cycles": 0,
+  "runner_built": true
  },
  "not_evidence": [
   "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",

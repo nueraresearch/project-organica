@@ -65,37 +65,40 @@ def _harvest_elsewhere():
     return found
 
 
-def _grid(delta_low, delta_high, *, presence=1.0, precision=None, differ=True,
-          identity=None, alternate=False, flat_rank=False, low_override=None):
+def _grid(delta_low, delta_high, *, presence=1.0, differ=True, identity=None,
+          alternate=False, flat_rank=False, delta_override=None, covered_gt_asserted=False):
+    """Synthetic cells built in precision space: covered = precision x cap."""
     body = S.prereg()
     design = body["design"]
     cells = []
     for seed in sorted(design["seeds"]):
-        jitter = ((seed % 97) - 48) / 4000.0
         low = delta_low * (1 if (seed % 2 == 0 or not alternate) else -1)
-        if low_override and seed in low_override:
-            low = low_override[seed]
+        if delta_override and seed in delta_override:
+            low = delta_override[seed]
         for cap in design["caps"]:
             for rho in design["densities"]:
                 frac = (rho - design["densities"][0]) / (
                     design["densities"][-1] - design["densities"][0])
-                control = 0.6 * rho + jitter
-                treated = control + low + (delta_high - low) * 0
-                treated = control + (low if rho == design["densities"][0]
-                                     else low + (delta_high - low) * frac)
+                gap = low if rho == design["densities"][0] else low + (delta_high - low) * frac
+                world = round(rho * 240)
+                control_precision = 0.10
                 rho_rank = 0.3 if flat_rank else 0.55 * rho
                 for arm in design["arms"]:
-                    coverage = control if arm == "control" else treated
+                    precision = (control_precision if arm == "control"
+                                 else max(0.0, min(1.0, control_precision + gap)))
+                    covered = round(precision * cap)
+                    if covered_gt_asserted:
+                        covered = cap + 1
                     selected = (["c-%d" % i for i in range(3)] if arm == "control"
                                 else ["d-%d" % i for i in range(3)])
                     if not differ:
                         selected = ["same-%d" % i for i in range(3)]
                     cells.append({
                         "arm": arm, "cap": cap, "rho_world": rho, "seed": seed,
-                        "coverage": round(max(0.0, min(1.0, coverage)), 6),
-                        "precision": precision if precision is not None else 0.5 * rho_rank,
+                        "coverage": round(min(1.0, covered / world), 6),
+                        "precision": round(covered / cap, 6),
                         "rho_rank": rho_rank, "presence": presence,
-                        "selected": selected,
+                        "selected": selected, "asserted": cap, "covered": covered,
                     })
     return {"cells": cells,
             "identity": identity or {"rho_world": 1.0, "arms_identical": True,
@@ -165,9 +168,9 @@ def test_a_decisive_null_licenses_the_negative_pole():
 
 def test_a_wide_interval_is_underpowered_and_closes_nothing():
     seeds = sorted(S.prereg()["design"]["seeds"])
-    override = {seed: -0.06 for seed in seeds}
+    override = {seed: -0.10 for seed in seeds}
     override[seeds[0]] = 1.0
-    result = S.score(_grid(0.0, 0.0, low_override=override))
+    result = S.score(_grid(0.0, 0.0, delta_override=override))
     assert result["criteria"]["M1"]["passed"] is False
     assert result["criteria"]["M1"]["interval_width"] > 0.3
     assert result["decision"]["verdict"] == "UNDERPOWERED"
@@ -193,8 +196,8 @@ def test_an_interaction_without_a_level_is_neither_pole():
 @pytest.mark.parametrize("kwargs,gate", [
     ({"differ": False}, "G0_liveness_cap_20"),
     ({"presence": 0.9}, "G1_presence_ceiling"),
-    ({"precision": 0.9}, "G2_precision_bounded_by_rho_rank"),
-    ({"flat_rank": True, "precision": 0.1}, "G3_axis_live"),
+    ({"covered_gt_asserted": True}, "G2_arithmetic_consistency"),
+    ({"flat_rank": True}, "G3_axis_live"),
     ({"identity": {"rho_world": 1.0, "arms_identical": False, "delta": 0.0}},
      "G5_identity_at_density_1"),
     ({"identity": {"rho_world": 1.0, "arms_identical": True, "delta": 0.01}},
