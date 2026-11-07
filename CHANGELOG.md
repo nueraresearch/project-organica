@@ -30,6 +30,32 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — The density interaction: registered, frozen, unrun (2026-11-07)
+
+- **`docs/density_interaction_prereg.json`** with its rendered `docs/DENSITY-INTERACTION-PREREGISTRATION.md`:
+  160 judged cells over fresh seeds 20330101–20330108 (2 arms × 2 caps × 5 densities × 2
+  exposure schemes), two bars of 0.08, gates G0–G6, the rho = 1 identity fixture and the
+  decision table, all committed before the first cell.
+- **`benchmarks/density_worlds.py`** builds the declared ladder: 16 tags in four cells, W
+  drawn from the 192 cross-cell pairs only, so no intra-cell row can be a world edge, and
+  the within-cell filler's share falls with density. `--self-test` audits the grid, the
+  generator, the arms' liveness, the identity fixture and seed freshness with no engine.
+- **The endpoint is precision at a fixed cap**, not coverage: coverage divides by |W|,
+  which grows 24→192 across the ladder, so a coverage difference is forced by arithmetic
+  — the defect that withdrew the ordering block's M2. The criterion is the interaction on
+  precision, judged whole.
+- **Amendment A1 (pre-run):** the design record's registered *decline* was contradicted by
+  its own designed pools, which measure the advantage rising from 0.075 at rho 0.1 to 0.350
+  at 0.8. The mechanism is that the freed budget is bounded by the number of world rows
+  available to fill it. The original prediction is retained in the design record and marked
+  superseded there; the criterion tests the corrected direction.
+- **`benchmarks/run_density_interaction.py`** runs the block (sliced and appendable, refusing
+  to overwrite a cell) and **`benchmarks/score_density_interaction.py`** is the frozen
+  analysis path, importing nothing from the engine. No arm has run.
+- `docs/bottleneck_map.json` and the map's row now name the registration and its allocation
+  (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
+  still allocates nothing.
+
 ### Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)
 
 - **`organica/admission.py`** carried the adopted admission rule (removed at withdrawal,

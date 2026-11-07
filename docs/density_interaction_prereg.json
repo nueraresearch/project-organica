@@ -1,0 +1,262 @@
+{
+ "prereg": "DENSITY-INTERACTION-1",
+ "created": "2026-11-07",
+ "status": "FROZEN, NOT RUN (ready; no judged cell). The criteria, gates, bars, seed block, exposure schemes and decision table are fixed here before the first cell.",
+ "design_record": "docs/WORLD-DENSITY-DESIGN.md",
+ "question": "Does the value of excluding the intra-cell row class from the prediction budget depend on how dense the world's edge set is, and in which direction?",
+ "design": {
+  "arms": [
+   "control",
+   "intra_cell_excluded"
+  ],
+  "densities": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "schemes": [
+   "primary",
+   "sensitivity"
+  ],
+  "caps": [
+   20,
+   40
+  ],
+  "primary_scheme": "primary",
+  "primary_cap": 20,
+  "seeds": [
+   20330101,
+   20330102,
+   20330103,
+   20330104,
+   20330105,
+   20330106,
+   20330107,
+   20330108
+  ],
+  "cells": 160,
+  "cells_arithmetic": "2 arms x 2 caps x 5 densities x 2 schemes x 8 seeds = 320, of which the judged grid is the primary scheme only: 2 arms x 2 caps x 5 densities x 8 seeds = 160; the sensitivity scheme is analysed as the exposure check and the higher caps are recovery rows",
+  "judged_cells": 160,
+  "sensitivity_cells": 160,
+  "recovery_caps": [
+   20,
+   40,
+   80,
+   160,
+   240
+  ],
+  "world": "16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge; the within-cell filler's share of the event budget is (1 - rho_world)",
+  "exposure": "primary = fixed total exposure (400 events, 50 cycles at every density); sensitivity = fixed exposure per edge (each world edge emitted twice, so the horizon grows with |W|)",
+  "endpoint_cap_note": "precision at a fixed cap is the endpoint because it is budget-normalised: its denominator is the arm's own selection. Coverage divides by |W|, which grows eightfold across the ladder, so a coverage difference is forced by arithmetic and cannot test anything"
+ },
+ "arms": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "rank every candidate row in the pool by count, ties on a stable key, take the top k at the cap"
+  },
+  "intra_cell_excluded": {
+   "name": "intra-cell-excluded ranking",
+   "rule": "the same count ordering over the eligible rows only; rows whose two tags sit in the same cell are not eligible for the budget"
+  },
+  "identical_by_construction": [
+   "the pool, the cap, the scoring rule, the admission window, the world, the seed and the exposure scheme"
+  ]
+ },
+ "seeds": {
+  "block": [
+   20330101,
+   20330108
+  ],
+  "world": [
+   20330101,
+   20330102,
+   20330103,
+   20330104,
+   20330105,
+   20330106,
+   20330107,
+   20330108
+  ],
+  "bootstrap": 20330109,
+  "freshness": "the first contiguous window of nine integers at or above 20330101 that appears in no file under docs, tests, benchmarks, research-journal or papers; the ninth is the bootstrap seed and is not a world seed"
+ },
+ "criteria": {
+  "estimand": "Delta(rho) = precision(intra_cell_excluded, cap 20) - precision(control, cap 20); the criterion is the difference of differences across the ladder, never a main effect of density",
+  "C1": "interaction on precision at the primary cap: mean over seeds of [Delta(0.8) - Delta(0.1)] at or above the interaction bar, with its paired interval's lower bound above zero, where Delta(rho) = precision(intra_cell_excluded, cap 20) - precision(control, cap 20)",
+  "C2": "level at the dense end, on precision: mean over seeds of Delta(0.8) at or above the level bar, with its paired interval's lower bound above zero and at least seven of eight seeds positive",
+  "judged_whole": "C1 and C2 are a conjunction: both must hold, and the number satisfied is not a score",
+  "interaction_bar": 0.08,
+  "level_bar": 0.08,
+  "bar_provenance": "carried as policy from the completed ordering block, where the adoption bar was one half of that block's measured mean delta (0.1615) floored to two decimals. It is NOT calibrated on this layer and this block is not a replication of that figure: the comparison here is a different intervention (eligibility, not ordering) on a different instrument, and a pass means only that the arm cleared a bar fixed before the run",
+  "sign_test": {
+   "required": 7,
+   "of": 8
+  },
+  "interval": 0.95,
+  "bootstrap_reps": 4000,
+  "underpowered_width": 0.3,
+  "exposure_rule": "if the primary scheme's direction does not hold under the sensitivity scheme (its interaction mean is not positive), the verdict is EXPOSURE ARTIFACT and nothing is adopted; the two schemes exist to separate geometry from exposure"
+ },
+ "gates": {
+  "rules": {
+   "G0 liveness": "the two arms' selected sets must differ on at least seven of eight seeds at the sparse end in the primary scheme, or the manipulation did not occur",
+   "G1 presence ceiling": "every world edge must be present in the pool at every cell (presence = 1.0), or the cell tests memory rather than ranking",
+   "G2 arithmetic": "covered cannot exceed asserted; precision must equal covered over asserted; precision cannot exceed 1; rho_rank is reported for every cell",
+   "G3 axis live": "rho_rank must rise from the sparsest to the densest level in both schemes, or the manipulation never reached the ranker",
+   "G4 control reproduces Gate 13": "the control's precision at the sparse end must not exceed the declared ceiling 0.50; the world must reproduce the condition the study is about rather than being easier",
+   "G5 identity where it must hold": "on a pool whose every row is a world edge and which contains no intra-cell row, the two arms must select the same set and Delta must be exactly 0; a non-zero Delta there is a harness defect",
+   "G6 treatment does what it claims": "coverage of the treatment must be at least the control's on every cell, because an excluded row is never a world edge; a violation means the arms are not the pair they claim to be"
+  },
+  "void_rule": "a failed gate voids the block and no criterion is read; a cell set that is not the pre-registered grid is refused"
+ },
+ "decision_table": [
+  {
+   "condition": "gates pass; C1 and C2 pass; the sensitivity scheme agrees in sign",
+   "verdict": "DENSITY INTERACTION SUPPORTED",
+   "reading": "excluding the intra-cell class spends a larger share of the budget on world edges as the world's edge set gets denser, and the effect is an interaction rather than a main effect of density",
+   "decision": "adopt intra-cell exclusion as an allocation change behind a recorded owner decision; this licenses no behavioural claim"
+  },
+  {
+   "condition": "gates pass; the interaction interval places the mean at or below zero",
+   "verdict": "ADVANTAGE FALLS WITH DENSITY",
+   "reading": "the benefit shrinks as the world densifies; the mechanism claim that this is budget competition is wrong, and something other than the crowded class is being measured",
+   "decision": "do not adopt; diagnose what the arms differ in before any further density work"
+  },
+  {
+   "condition": "gates pass; both criteria fail and the interval is narrow",
+   "verdict": "FLAT - GEOMETRY NOT THE LEVER",
+   "reading": "the exclusion's value does not vary with density in this world family, so density is not the moderator for this ranking bottleneck",
+   "decision": "retire budget competition as the lever at this cap and world family; move the line to the candidate space"
+  },
+  {
+   "condition": "gates pass; a criterion passes but the sensitivity scheme's interaction mean is not positive",
+   "verdict": "EXPOSURE ARTIFACT",
+   "reading": "the direction reverses under the other exposure scheme, which by the design record's own confound rule is an exposure artifact rather than geometry",
+   "decision": "adopt nothing; report the confound and the two schemes' numbers side by side"
+  },
+  {
+   "condition": "gates pass; a criterion fails and the interval is wider than 0.30",
+   "verdict": "UNDERPOWERED",
+   "reading": "the interval cannot place the interaction; absence of an effect is not established",
+   "decision": "neither pole; the block may be re-registered on a fresh seed block, never re-read"
+  },
+  {
+   "condition": "a gate fails",
+   "verdict": "VOID",
+   "reading": "reported as the gate, never as a verdict",
+   "decision": "none; fix the harness and register a new block"
+  }
+ ],
+ "analysis": {
+  "path": "benchmarks/score_density_interaction.py",
+  "runner": "./.venv/bin/python -m benchmarks.run_density_interaction --run",
+  "command": "./.venv/bin/python -m benchmarks.score_density_interaction --results docs/density_interaction_run.json --out docs/density_interaction_result.json",
+  "input": "docs/density_interaction_run.json",
+  "frozen": true
+ },
+ "allocation": {
+  "seeds": 8,
+  "world_seeds": 8,
+  "bootstrap_seeds": 1,
+  "judged_cells": 160,
+  "sensitivity_cells": 160,
+  "recovery_caps": 3,
+  "thresholds": 2,
+  "bars": 2,
+  "note": "two bars are fixed here: the interaction bar and the level bar"
+ },
+ "amendment": {
+  "id": "A1",
+  "date": "2026-11-07",
+  "pre_run": true,
+  "why": "The design record's registered direction (the advantage declines with density) was measured against the design's own world before any engine cell, and it does not hold: on the designed pools the advantage grows with density at both caps",
+  "evidence": "leverage_audit in benchmarks/density_worlds.py over the registered seed block; the measured designed-pool means are recorded in this artifact's leverage_audit block",
+  "what_changes": "The criterion tests the corrected direction, the original prediction is retained in the design record and marked superseded there, and the manipulation, world family, arms, caps, endpoint, seed block and bars are unchanged.",
+  "what_does_not_change": "the manipulation, the world family, the arms, the caps, the endpoint, the seed block, the bars and the falsifiers' structure",
+  "mechanism": "the benefit of freeing budget is bounded by how many world rows exist to fill it, and that count grows with density; a sparse world has too few world edges for the freed budget to spend on, so the advantage is small there by construction"
+ },
+ "leverage_audit": {
+  "cap": 20,
+  "audit_seeds": [
+   20330101,
+   20330102,
+   20330103,
+   20330104,
+   20330105,
+   20330106,
+   20330107,
+   20330108
+  ],
+  "endpoint": "precision at a fixed cap; the denominator is the arm's own selection",
+  "rows": [
+   {
+    "rho_world": 0.1,
+    "world_edges": 24,
+    "control_cap_20": 0.3187,
+    "treated_cap_20": 0.3938,
+    "delta_cap_20": 0.075,
+    "control_cap_40": 0.2281,
+    "treated_cap_40": 0.2781,
+    "delta_cap_40": 0.05,
+    "intra_cell_share": 0.2893
+   },
+   {
+    "rho_world": 0.2,
+    "world_edges": 48,
+    "control_cap_20": 0.5188,
+    "treated_cap_20": 0.6062,
+    "delta_cap_20": 0.0875,
+    "control_cap_40": 0.4844,
+    "treated_cap_40": 0.5375,
+    "delta_cap_40": 0.0531,
+    "intra_cell_share": 0.2512
+   },
+   {
+    "rho_world": 0.4,
+    "world_edges": 96,
+    "control_cap_20": 0.7188,
+    "treated_cap_20": 0.8875,
+    "delta_cap_20": 0.1687,
+    "control_cap_40": 0.6906,
+    "treated_cap_40": 0.8125,
+    "delta_cap_40": 0.1219,
+    "intra_cell_share": 0.2166
+   },
+   {
+    "rho_world": 0.6,
+    "world_edges": 144,
+    "control_cap_20": 0.5563,
+    "treated_cap_20": 0.8688,
+    "delta_cap_20": 0.3125,
+    "control_cap_40": 0.75,
+    "treated_cap_40": 0.925,
+    "delta_cap_40": 0.175,
+    "intra_cell_share": 0.2052
+   },
+   {
+    "rho_world": 0.8,
+    "world_edges": 192,
+    "control_cap_20": 0.65,
+    "treated_cap_20": 1.0,
+    "delta_cap_20": 0.35,
+    "control_cap_40": 0.825,
+    "treated_cap_40": 1.0,
+    "delta_cap_40": 0.175,
+    "intra_cell_share": 0.2
+   }
+  ],
+  "share_falls": true,
+  "control_rises": true,
+  "delta_rises": true,
+  "note": "means over the registered seed block on the designed pools (no engine, no judged cell). These are a feasibility expectation, not a result, and the bars are not computed from them"
+ },
+ "not_evidence": [
+  "no behavioural claim: the endpoint is the share of a fixed budget spent on world edges, not prediction, revision or retention",
+  "one world family, one vocabulary and one filler rule: the within-cell share is (1 - rho_world) by construction, and a world whose filler mass is density-invariant is a separate arm that is not run",
+  "a pass licenses an allocation change on this layer only, behind a recorded decision; the selection row's 'effect on behavior untested' half is untouched",
+  "the designed-pool audit is a property of the world, not of the engine, and it is not scored"
+ ],
+ "registered_status": "FROZEN, NOT RUN (ready; no judged cell). No arm has run on this registration."
+}

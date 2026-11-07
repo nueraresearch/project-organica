@@ -142,5 +142,31 @@
   "precision cannot exceed rho_rank: a cell reporting precision above it is a defect, and any precision figure is reported beside rho_rank",
   "coverage is reported with its denominator |W|, because a denser world makes the same selection cover less of a larger W",
   "recovery is reported as a distribution across budgets, never as the rank of the first edge"
+ ],
+ "amendments": [
+  {
+   "id": "A1",
+   "date": "2026-11-07",
+   "pre_run": true,
+   "supersedes": [
+    "predicted_direction.predictions[1]",
+    "predicted_direction.predictions[2]"
+   ],
+   "direction": "at a fixed cap, the treatment's advantage rises with rho_world; the advantage is largest at the dense end",
+   "why": "the benefit of freeing budget is bounded by how many world rows exist to fill it, and that count grows with density: a sparse world has too few world edges for the freed budget to spend on. The original prediction reasoned from coverage's denominator (small |W|, large relative gain) to a claim about a fixed budget",
+   "evidence": "docs/density_interaction_prereg.json, leverage_audit: on the designed pools over the registered seeds the advantage is 0.075 at rho_world 0.1 and 0.350 at 0.8",
+   "measured_with": "no engine, no judged cell",
+   "registered_in": "docs/density_interaction_prereg.json",
+   "unchanged": [
+    "manipulation",
+    "world family",
+    "arms",
+    "caps",
+    "endpoint",
+    "seed block",
+    "bars"
+   ],
+   "consequence": "'rising' is no longer a falsifier of the claim; it is the claim, and the registration carries its own falsifiers (flat, or falling)"
+  }
  ]
 }

@@ -117,20 +117,22 @@
    "status": [
     "Not established / not measured"
    ],
-   "check": "none has run: a design record names the manipulated ratio, the treatment, the estimand and the falsifiers, and allocates nothing",
-   "does_not_say": "that density matters. No cell has run, and the 448-cell decay null held world geometry fixed and never varied density",
-   "would_change": "the study itself; its predicted direction and falsifiers are fixed before any cell",
+   "check": "the block is frozen and has not run: docs/density_interaction_prereg.json fixes the 160-cell grid, two bars, two exposure schemes and the decision table on eight fresh seeds, and its harness self-tests pass with no engine",
+   "does_not_say": "that density matters, or anything about behaviour. No cell has run; the 448-cell decay null held world geometry fixed and never varied density",
+   "would_change": "the block itself: the forecast sheet, the bars and the decision table are committed before the first cell",
    "evidence": [
+    "docs/DENSITY-INTERACTION-PREREGISTRATION.md",
+    "docs/density_interaction_prereg.json",
     "docs/WORLD-DENSITY-DESIGN.md",
     "docs/world_density_design.json"
    ],
    "read_for_this_record": true,
    "study_specified": true,
    "allocation": {
-    "seeds": 0,
-    "cells": 0,
-    "thresholds": 0,
-    "bars": 0
+    "seeds": 8,
+    "cells": 160,
+    "thresholds": 2,
+    "bars": 2
    }
   },
   {
@@ -202,7 +204,9 @@
  "specified_experiment": {
   "count": 1,
   "row": "Density interaction",
-  "note": "the only row with a defined manipulation, an explicit estimand, a registered direction, falsifiers and zero allocated seeds"
+  "registration": "docs/density_interaction_prereg.json",
+  "run": false,
+  "note": "the only row with a registered block: a frozen grid of 160 judged cells on eight fresh seeds, two bars, two exposure schemes and a decision table committed before the first cell"
  },
  "provenance": {
   "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",

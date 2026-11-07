@@ -93,17 +93,28 @@ def test_selection_is_a_constraint_on_coverage_not_a_contributor():
     assert corrections["Selection / allocation"]["was"] == "demonstrated contributor"
 
 
-def test_exactly_one_row_is_a_specified_experiment_and_it_allocates_nothing():
+def test_exactly_one_row_is_a_specified_experiment_and_it_allocates_a_registered_grid():
     body = _body()
     specified = [r for r in body["rows"] if r["study_specified"]]
     assert len(specified) == 1
     only = specified[0]
     assert only["candidate"] == "Density interaction"
-    assert body["specified_experiment"]["row"] == "Density interaction"
-    assert only["allocation"] == {"seeds": 0, "cells": 0, "thresholds": 0, "bars": 0}
+    block = body["specified_experiment"]
+    assert block["row"] == "Density interaction"
+    assert block["registration"] == "docs/density_interaction_prereg.json"
+    assert block["run"] is False, "the map must not claim a run that has not happened"
+    registration = json.loads(
+        (ROOT / "docs" / "density_interaction_prereg.json").read_text(encoding="utf-8"))
+    allocation = registration["allocation"]
+    assert only["allocation"] == {"seeds": allocation["seeds"],
+                                  "cells": allocation["judged_cells"],
+                                  "thresholds": allocation["thresholds"],
+                                  "bars": allocation["bars"]}
     assert all(r["allocation"] is None for r in body["rows"] if r is not only)
     design = json.loads(DENSITY.read_text(encoding="utf-8"))
-    assert {k: design["allocation"][k] for k in only["allocation"]} == only["allocation"]
+    assert design["allocation"]["seeds"] == 0, (
+        "the design record must still allocate nothing; the allocation is the registration's")
+    assert design["amendments"][0]["registered_in"] == block["registration"]
 
 
 def test_the_map_allocates_no_seeds_of_its_own():

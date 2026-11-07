@@ -96,6 +96,10 @@ bottleneck; **rising** Delta means the mechanism claim is wrong and something ot
 competition is being measured; a non-zero Delta at rho_world = 1 means the arms are not
 identical where they must be.
 
+**Amended before any cell — amendment A1 in §10.** The direction registered in prediction 2
+is superseded; the prediction itself is retained above, because a design record that rewrites
+its own prediction cannot be tested.
+
 ## 6. The contrast that answers the question
 
 At each density, the same treatment and control; the estimand is Delta(rho) and the hypothesis
@@ -132,3 +136,25 @@ into a property of the problem.
 
 It allocates nothing: **0 seeds, 0 cells, 0 thresholds, 0 bars**. Bars and seeds are fixed in a
 pre-registration with fresh seeds, per `docs/DECAY-TUNING-CYCLE.md`.
+
+## 10. Pre-run amendment A1 (2026-11-07): the direction, corrected before any cell
+
+§5's second prediction is **superseded** and retained above unedited. The correction came
+from this record's own world, measured with no engine and no judged cell: on the designed
+pools over the block's registered seeds, the treatment's advantage at the primary cap is
+**0.075** at rho_world 0.1 and **0.350** at 0.8. It **rises** with density; §5 predicted it
+would fall. Over the same ladder the control's own precision rises and the intra-cell share
+falls, as §5's first prediction says. The per-density table and every figure live in
+`docs/density_interaction_prereg.json` (`leverage_audit`), not here.
+
+Why the prediction was wrong: the benefit of freeing budget is bounded by how many world
+rows exist to fill it. A sparse world has too few world edges for the freed budget to spend
+on, so the advantage is **small there by construction**, and it is the dense end that can
+use the freed slots. §5 reasoned from coverage's denominator — small |W|, large relative
+gain — to a claim about a fixed budget, which is the denominator slip §2 warns about.
+
+What changes is registered as A1 in `docs/density_interaction_prereg.json`: the
+manipulation, world family, arms, caps, endpoint, seed block and bars are unchanged, and the
+criterion tests the corrected direction. "Rising" therefore stops being a falsifier of the
+claim and becomes the claim, with its own falsifiers — flat, or falling — registered before
+the first cell. The block itself is `docs/DENSITY-INTERACTION-PREREGISTRATION.md`.
