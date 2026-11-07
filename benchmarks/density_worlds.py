@@ -20,11 +20,13 @@ treatment's advantage at its ceiling.
 The intra-cell mass is a function of density
 --------------------------------------------
 Gate 13 measured the engine's top-20 as 75-100 % intra-cell in a sparse world. Here that
-observation is made an explicit property of the stream: the filler's share of the event
-budget is `1 - rho_world`, so a sparse world's stream is dominated by within-cell
-co-occurrence and a dense world's is dominated by transitions. This is a **declared
-choice of world family**, recorded as such; a world whose filler mass is density-invariant
-is a different arm and is not run here.
+observation is made a declared property of the stream: the filler's **event count** is
+`(1 - rho_world) * FILLER_BUDGET`, i.e. proportional to (1 - rho) against a fixed peak
+budget. Its **share** of the stream therefore falls faster than (1 - rho), because the
+stream's length grows with |W| while the filler budget does not; a sparse world carries
+proportionally more within-cell co-occurrence than a dense one, and far less than a
+literal 1 - rho share. This is a **declared choice of world family**, recorded as such; a
+world whose filler mass is density-invariant is a different arm and is not run here.
 
 Two exposure schemes
 --------------------
@@ -245,7 +247,11 @@ def identity_cell(seed: int) -> dict:
     """
     world = world_edges(seed, 0.8)
     pool = [(a, b, 2) for a, b in sorted(world)]
-    cap = len(pool)
+    # The cap must be smaller than the pool. With `cap = len(pool)` both arms select every
+    # row and are identical no matter what the filter does, which makes the check unable
+    # to fail. At the primary cap the arms agree only if the eligibility filter removes
+    # nothing it should not.
+    cap = PRIMARY_CAP
     control = rank_control(pool, cap)
     treated = rank_intra_cell_excluded(pool, cap)
     delta = (measure(pool, world, treated)["precision"]

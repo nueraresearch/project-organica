@@ -1,6 +1,6 @@
 # The density interaction: the registered block (2026-11-07)
 
-**Status: FROZEN, NOT RUN (ready; no judged cell). The criteria, gates, bars, seed block, exposure schemes and decision table are fixed here before the first cell.**
+**Status: HELD, NOT RUN (pre-run review found the dense end has no headroom; docs/DENSITY-INTERACTION-REVIEW.md). The criteria, gates, bars, seed block, exposure schemes and decision table remain as frozen, and no judged cell has run**
 
 **Every figure this block produces carries its arm and its scheme.** The arms are
 `global count-ranked top-k` (rank every candidate row in the pool by count, ties on a stable key, take the top k at the cap) and `intra-cell-excluded ranking` (the same count ordering over the eligible rows only; rows whose two tags sit in the same cell are not eligible for the budget); the schemes are
@@ -23,7 +23,7 @@ revision or retention.
 
 ## 2. Design
 
-**The world.** 16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge; the within-cell filler's share of the event budget is (1 - rho_world)
+**The world.** 16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge; the within-cell filler's event count is (1 - rho_world) times a fixed peak budget, so its share of the stream falls faster than (1 - rho_world) as |W| grows
 
 **Densities.** 0.1, 0.2, 0.4, 0.6, 0.8, i.e. 24, 48, 96, 144, 192 world edges at 16 tags. The top of the
 ladder is the whole cross-cell universe, which is why it stops at 0.8: a higher density is

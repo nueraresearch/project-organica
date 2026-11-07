@@ -56,6 +56,25 @@ there is nothing to check out.
   (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
   still allocates nothing.
 
+### Changed — The density block is held before the run: its dense end has no headroom (2026-11-07)
+
+- **A pre-run review, on five unregistered seeds, found the registered criterion cannot be
+  satisfied by this world.** At rho_world 0.8 under fixed total exposure the pool is 240 rows
+  of which 192 are world edges, so a count-ranked top-20 is all world edges: control and
+  treatment both score precision 1.000 on every seed, Delta(0.8) = 0, and the interaction is
+  −0.06. Under fixed exposure per edge Delta(0.8) = 0.200, so the schemes disagree in sign —
+  the design record's own definition of an exposure artifact. No judged cell ran.
+- **Five harness defects fixed:** the rho = 1 identity fixture selected the whole pool and so
+  could not fail; G0 compared stored order instead of selected sets; the world description
+  claimed the filler's share was (1 − rho) when only its count is proportional; two event
+  totals were hardcoded instead of read from the world module.
+- **The design record's precision bound was false and is corrected.** "Precision cannot exceed
+  rho_rank" fails whenever the ranker prefers world rows; the control measured 1.000 against a
+  rho_rank of 0.800. The bound is min(1, |W ∩ P_rank| / k). The registration never gated on it.
+- **The registration is HELD, not scored.** A2 needs a budget that is a fixed fraction of |W|
+  (cap = |W|/4 gives 6 slots at 0.1 and 48 at 0.8) or an interaction anchored where the control
+  is below the ceiling. `docs/DENSITY-INTERACTION-REVIEW.md`, `docs/density_interaction_review.json`.
+
 ### Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)
 
 - **`organica/admission.py`** carried the adopted admission rule (removed at withdrawal,

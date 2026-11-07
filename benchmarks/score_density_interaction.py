@@ -110,12 +110,17 @@ def gates(cells: list[dict], identity: dict, record: dict | None = None) -> dict
     index = _index(cells)
     out: dict = {}
 
+    # Compare the selected SETS. Comparing the stored lists would count a reordering of
+    # the same rows as liveness, so a treatment that changed nothing but the tie order
+    # could pass the gate.
     differ = sum(1 for seed in seeds
-                 if index[(PRIMARY_SCHEME, "control", PRIMARY_CAP, SPARSE, seed)]["selected"]
-                 != index[(PRIMARY_SCHEME, "intra_cell_excluded", PRIMARY_CAP,
-                           SPARSE, seed)]["selected"])
+                 if set(index[(PRIMARY_SCHEME, "control", PRIMARY_CAP, SPARSE,
+                               seed)]["selected"])
+                 != set(index[(PRIMARY_SCHEME, "intra_cell_excluded", PRIMARY_CAP,
+                               SPARSE, seed)]["selected"]))
     out["G0_liveness"] = {"seeds_where_arms_differ": differ, "of": len(seeds),
-                          "required": 7, "passed": differ >= 7}
+                          "required": 7, "passed": differ >= 7,
+                          "comparison": "selected sets, not their order"}
 
     smallest = min(float(c["presence"]) for c in cells)
     out["G1_presence_ceiling"] = {"minimum": smallest, "required": 1.0,

@@ -18,7 +18,9 @@ runner can be sliced and the slices appended:
 can never be silently re-run or dropped. `--force` is for a deliberate fresh block.
 
 The engine is used, never edited: every database is a scratch database, and the live one is
-refused before anything is opened.
+refused before anything is opened. A registration that a review has placed on hold refuses
+to run, so a hold cannot be defeated by forgetting it.
+
 """
 from __future__ import annotations
 
@@ -29,8 +31,8 @@ import subprocess
 from pathlib import Path
 
 from benchmarks.density_worlds import (CAPS, EVENTS_PER_CYCLE, PRIMARY_CAP, RANKERS,
-                                       designed_pool, identity_cell, is_intra_cell,
-                                       leverage_audit, measure, stream,
+                                       TOTAL_EVENTS, designed_pool, identity_cell,
+                                       is_intra_cell, leverage_audit, measure, stream,
                                        universe_size, world_edges)
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -69,7 +71,7 @@ def plan(record: dict | None = None) -> list[dict]:
 
 def assert_grid(record: dict) -> None:
     """Refuse anything that is not the frozen grid, before an engine is touched."""
-    if not record["status"].startswith("FROZEN") and not record["status"].startswith("RUN"):
+    if record["status"].split(",")[0] not in ("FROZEN", "HELD", "RUN"):
         raise SystemExit("the registration is not frozen; no cell may run")
     design = record["design"]
     seeds = [int(seed) for seed in design["seeds"]]
@@ -190,9 +192,9 @@ def generator_audit(record: dict | None = None) -> dict:
                 problems.append("%d/%s: an intra-cell row is a world edge" % (seed, rho))
             primary = stream(seed, rho, "primary")
             sensitivity = stream(seed, rho, "sensitivity")
-            if len(primary) != record["design"].get("total_events", 400):
-                problems.append("%d/%s: primary exposure is not fixed at 400 events"
-                                % (seed, rho))
+            if len(primary) != TOTAL_EVENTS:
+                problems.append("%d/%s: primary exposure is %d events, not the declared %d"
+                                % (seed, rho, len(primary), TOTAL_EVENTS))
             if len(sensitivity) != len(stream(seed, rho, "sensitivity")):
                 problems.append("%d/%s: the sensitivity stream is not deterministic"
                                 % (seed, rho))
@@ -319,6 +321,10 @@ def run(out: Path = OUT, record: dict | None = None, scheme: str | None = None,
         seeds: tuple[int, ...] | None = None, append: bool = False,
         force: bool = False) -> dict:
     record = record or prereg()
+    if record["status"].startswith("HELD"):
+        review = record.get("review", {}).get("review", "a pre-run review")
+        raise SystemExit("the registration is held by %s; a held block may not run. "
+                         "A2 must be registered on its own artifact" % review)
     assert_grid(record)
     report = self_test(record)
     if not report["all_passed"]:
@@ -362,7 +368,7 @@ def run(out: Path = OUT, record: dict | None = None, scheme: str | None = None,
             "engine_runs": 0,
             "slices": {"scheme": scheme, "seeds": list(chosen)},
             "events_per_cycle": EVENTS_PER_CYCLE,
-            "primary_events": record["design"]["primary_cap"] and 400,
+            "primary_events": TOTAL_EVENTS,
             "recovery_caps": list(RECOVERY_CAPS),
             "cap_ladder": list(CAPS),
         },

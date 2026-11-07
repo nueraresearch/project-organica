@@ -45,8 +45,14 @@ def designed_cells():
 
 def test_the_registration_is_frozen_and_has_not_run():
     body = _body()
-    assert body["status"].startswith("FROZEN")
+    assert body["status"].split(",")[0] in ("FROZEN", "HELD")
     assert "NOT RUN" in body["status"]
+    if body["status"].startswith("HELD"):
+        review = json.loads((ROOT / "docs" / "density_interaction_review.json")
+                            .read_text(encoding="utf-8"))
+        assert review["verdict"].startswith("HELD")
+        assert body["review"]["review"] == review["review"]
+        assert body["review"]["blocking"]
     if body.get("run"):
         assert (ROOT / "docs" / "density_interaction_result.json").exists()
     else:
@@ -221,3 +227,57 @@ def test_the_world_reaches_the_dense_end_without_an_intra_cell_edge():
         world = world_edges(int(seed), 0.8)
         assert len(world) == 192
         assert not any(is_intra_cell(a, b) for a, b in world)
+
+
+def test_the_identity_fixture_is_not_decoration():
+    """A fixture that selects the whole pool cannot fail; the cap must bite."""
+    fixture = identity_cell(_body()["design"]["seeds"][0])
+    assert fixture["cap"] == 20 and fixture["pool"] > fixture["cap"]
+    assert fixture["passed"] and abs(fixture["delta"]) <= 1e-12
+
+
+def test_g0_compares_sets_and_not_stored_order(designed_cells):
+    """The same rows in a different order are not liveness."""
+    body = _body()
+    cells = json.loads(json.dumps(designed_cells["cells"]))
+    sparse = [c for c in cells if c["rho_world"] == 0.1 and c["cap"] == 20
+              and c["scheme"] == "primary"]
+    pairs = {}
+    for cell in sparse:
+        pairs.setdefault(cell["seed"], {})[cell["arm"]] = cell
+    for pair in pairs.values():
+        # same rows, different stored order, on EVERY seed
+        pair["intra_cell_excluded"]["selected"] = list(
+            reversed(pair["control"]["selected"]))
+    report = scorer.score({"cells": cells, "identity": designed_cells["identity"]}, body)
+    assert report["gates"]["G0_liveness"]["seeds_where_arms_differ"] <= 1
+    assert report["gates"]["G0_liveness"]["passed"] is False
+    assert report["decision"]["verdict"] == "VOID"
+
+
+def test_the_world_description_does_not_claim_a_share_it_does_not_have():
+    """The filler's count is (1 - rho) times a budget; its share falls faster."""
+    from benchmarks.density_worlds import FILLER_BUDGET, filler_events
+    for rho in _body()["design"]["densities"]:
+        assert filler_events(rho) == int(round((1.0 - rho) * FILLER_BUDGET))
+    text = (PREREG.read_text(encoding="utf-8")
+            + (ROOT / "benchmarks" / "density_worlds.py").read_text(encoding="utf-8"))
+    assert "share of the event budget is" not in text
+    assert "falls faster than" in text
+
+
+def test_the_review_holds_the_block_with_evidence():
+    """The hold must rest on measurement, and the measurement must hit both poles."""
+    review = json.loads((ROOT / "docs" / "density_interaction_review.json")
+                        .read_text(encoding="utf-8"))
+    dense = [r for r in review["dry_run"]["rows"]
+             if r["rho_world"] == 0.8 and r["scheme"] == "primary"][0]
+    assert dense["delta"] == [0.0] * len(dense["delta"]), "the dense end is not saturated"
+    assert review["dry_run"]["interaction_primary"] < 0
+    assert review["dry_run"]["interaction_sensitivity"] > 0
+    assert review["verdict"].startswith("HELD")
+    assert "no judged cell" in " ".join(review["method"]).lower()
+    assert review["not_a_result"].startswith("the dry-run figures")
+    doc = (ROOT / "docs" / "DENSITY-INTERACTION-REVIEW.md").read_text(encoding="utf-8")
+    assert "{" not in doc.replace("{%", "")
+    assert review["verdict"] in doc

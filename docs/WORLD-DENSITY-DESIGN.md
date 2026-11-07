@@ -48,10 +48,14 @@ Declared levels at a fixed 16 tags:
 | 0.6 | 144 |
 | 0.8 | 192 |
 
-One consequence is an arithmetic check, not a preference: **selection precision cannot exceed
-rho_rank.** If a cell reports precision above the true-edge share of the population it selected
-from, the cell is defective. Every precision figure this study reports travels with its
-rho_rank.
+One consequence is an arithmetic bound, and this record's first statement of it was
+**wrong**. **A k-row selection cannot contain more world rows than the pool holds**, so
+precision cannot exceed **min(1, |W and P_rank| / k)**. The earlier version of this
+paragraph said precision cannot exceed rho_rank; that is false whenever the ranker prefers
+world rows, and the density review measured it false: at rho_world 0.8 the control's
+precision was **1.000 against** a rho_rank of **0.800**
+(`docs/DENSITY-INTERACTION-REVIEW.md`). Every precision figure this study reports still
+travels with its rho_rank and with the budget it was measured at.
 
 ## 3. Exposure is a separate choice, named in advance
 

@@ -139,7 +139,7 @@
  },
  "analysis_rules": [
   "axis liveness: rho_rank must move with rho_world, or the manipulation did not reach the ranker and the cells measure nothing",
-  "precision cannot exceed rho_rank: a cell reporting precision above it is a defect, and any precision figure is reported beside rho_rank",
+  "precision cannot exceed min(1, |W and P_rank| / k): a k-row selection cannot contain more world rows than the pool holds. It is NOT bounded by rho_rank -- a ranker that prefers world rows can exceed it, measured at 1.000 against 0.800 in the density review (2026-11-07). Every precision figure is reported beside rho_rank and the budget it was measured at",
   "coverage is reported with its denominator |W|, because a denser world makes the same selection cover less of a larger W",
   "recovery is reported as a distribution across budgets, never as the rank of the first edge"
  ],

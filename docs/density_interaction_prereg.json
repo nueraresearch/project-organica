@@ -1,7 +1,7 @@
 {
  "prereg": "DENSITY-INTERACTION-1",
  "created": "2026-11-07",
- "status": "FROZEN, NOT RUN (ready; no judged cell). The criteria, gates, bars, seed block, exposure schemes and decision table are fixed here before the first cell.",
+ "status": "HELD, NOT RUN (pre-run review found the dense end has no headroom; docs/DENSITY-INTERACTION-REVIEW.md). The criteria, gates, bars, seed block, exposure schemes and decision table remain as frozen, and no judged cell has run",
  "design_record": "docs/WORLD-DENSITY-DESIGN.md",
  "question": "Does the value of excluding the intra-cell row class from the prediction budget depend on how dense the world's edge set is, and in which direction?",
  "design": {
@@ -47,7 +47,7 @@
    160,
    240
   ],
-  "world": "16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge; the within-cell filler's share of the event budget is (1 - rho_world)",
+  "world": "16 tags in four cells, |P_world| = 240 directed non-self pairs; W is a seed-and-density subset of the 192 cross-cell pairs, so no intra-cell row can ever be a world edge; the within-cell filler's event count is (1 - rho_world) times a fixed peak budget, so its share of the stream falls faster than (1 - rho_world) as |W| grows",
   "exposure": "primary = fixed total exposure (400 events, 50 cycles at every density); sensitivity = fixed exposure per edge (each world edge emitted twice, so the horizon grows with |W|)",
   "endpoint_cap_note": "precision at a fixed cap is the endpoint because it is budget-normalised: its denominator is the arm's own selection. Coverage divides by |W|, which grows eightfold across the ladder, so a coverage difference is forced by arithmetic and cannot test anything"
  },
@@ -258,5 +258,16 @@
   "a pass licenses an allocation change on this layer only, behind a recorded decision; the selection row's 'effect on behavior untested' half is untouched",
   "the designed-pool audit is a property of the world, not of the engine, and it is not scored"
  ],
- "registered_status": "FROZEN, NOT RUN (ready; no judged cell). No arm has run on this registration."
+ "registered_status": "FROZEN, NOT RUN (ready; no judged cell). No arm has run on this registration.",
+ "review": {
+  "review": "DENSITY-INTERACTION-REVIEW-1",
+  "date": "2026-11-07",
+  "verdict": "HELD - NOT RUNNABLE AS REGISTERED",
+  "artifact": "docs/density_interaction_review.json",
+  "document": "docs/DENSITY-INTERACTION-REVIEW.md",
+  "blocking": [
+   "F1",
+   "F2"
+  ]
+ }
 }

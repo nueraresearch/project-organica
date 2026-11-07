@@ -75,12 +75,16 @@ def test_the_treatment_is_named_for_what_it_changes():
     assert "intra-cell" in treatment["why_this_one"]
 
 
-def test_precision_is_bounded_by_the_rankers_own_density():
+def test_precision_is_bounded_by_the_selection_not_the_pool_share():
+    """The record's first bound was false; the corrected one binds the selection."""
     rules = " ".join(_body()["analysis_rules"])
-    assert "precision cannot exceed rho_rank" in rules
+    assert "cannot exceed min(1," in rules
+    assert "NOT bounded by rho_rank" in rules
     assert "rho_rank must move with rho_world" in rules
-    assert "cannot exceed rho_rank" in _flat()
-    assert "precision above the true-edge share" in _flat()
+    flat = _flat().replace("**", "")
+    assert "cannot exceed min(1," in flat
+    assert "said precision cannot exceed rho_rank" in flat
+    assert "1.000 against" in flat and "0.800" in flat
 
 
 def test_the_predicted_direction_is_registered_with_its_limit():

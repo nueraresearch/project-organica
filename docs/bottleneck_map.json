@@ -117,14 +117,15 @@
    "status": [
     "Not established / not measured"
    ],
-   "check": "the block is frozen and has not run: docs/density_interaction_prereg.json fixes the 160-cell grid, two bars, two exposure schemes and the decision table on eight fresh seeds, and its harness self-tests pass with no engine",
-   "does_not_say": "that density matters, or anything about behaviour. No cell has run; the 448-cell decay null held world geometry fixed and never varied density",
+   "check": "the block is held before the run: a pre-run review ran the harness on five unregistered seeds and found the dense end has no headroom (both arms score precision 1.000 at rho 0.8 under fixed total exposure), so the registered interaction cannot be positive as designed; no judged cell has run",
+   "does_not_say": "that density matters, or anything about behaviour. No judged cell has run, and the block is held on a pre-run review rather than scored",
    "would_change": "the block itself: the forecast sheet, the bars and the decision table are committed before the first cell",
    "evidence": [
+    "docs/DENSITY-INTERACTION-REVIEW.md",
+    "docs/density_interaction_review.json",
     "docs/DENSITY-INTERACTION-PREREGISTRATION.md",
     "docs/density_interaction_prereg.json",
-    "docs/WORLD-DENSITY-DESIGN.md",
-    "docs/world_density_design.json"
+    "docs/WORLD-DENSITY-DESIGN.md"
    ],
    "read_for_this_record": true,
    "study_specified": true,
