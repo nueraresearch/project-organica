@@ -816,6 +816,24 @@
       "decisions": [],
       "outcome": "SUPPORTED",
       "answer": "Yes, two interior points are viable. On the falsifier's lattice_L1 world, shipped, floor2 and floor5 all die at cycle 39; factor099 dies at 228 (+189, reproducing Q046); recency-observational dies at 76 (+37); and no_decay survives to cycle 300 (death 301), the first 1.0 measurement on this world. The floor arms did not fire: no temporal edge had a count below 5, so floor2 and floor5 lifted 0 edges and the floor mechanism is unrun, not null. 0.99 is the strongest tested interior point, but the predicted ordering P8 is incomplete because the floor arm was not live. Both viable arms are persistence candidates, not adoption recommendations; capability effects were not scored."
+    },
+    {
+      "id": "Q048",
+      "kind": "research",
+      "status": "open",
+      "question": "Between 0.985 and 1.0, is theory survival a smooth function of the temporal decay factor, a threshold, or a flat range; and what is the smallest factor in range that survives 300 cycles?",
+      "why_open": "Q047 measured 0.95, 0.99 and 1.0 on lattice_L1, but only two interior factor points. Two points cannot distinguish a smooth gradient from a threshold, and 1.0 is a ceiling control rather than an adoption candidate. The 0.985-0.999 range is untested.",
+      "evidence": [
+        "docs/OPERATING-POINT.md",
+        "docs/operating_point.json"
+      ],
+      "preregistrations": [
+        "DECAY-SWEEP-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": [],
+      "outcome": null,
+      "answer": null
     }
   ],
   "schema": {
