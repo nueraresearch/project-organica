@@ -184,3 +184,38 @@ carried-forward copies were not chiefly noise: removing them removes world and n
 about the same rate. The amendment is justified as a scoring correction — a prior carried across
 cycles is not this cycle's evidence — and **not** as a coverage improvement, which this sweep rules
 out. `docs/GATE13-PAIRED-CAPACITY-TEST.md` §8.
+
+## 7. Amendment 2 — diversity-first admission (2026-11-07)
+
+**Authorised by the owner, recorded in `docs/DECISION-ADMISSION-RULE.md`.** The licence is the
+confirmatory block in `docs/RANKING-ADMISSION-PREREGISTRATION.md`, which ran after that
+registration was committed and returned `ADOPT THE ADMISSION RULE`.
+
+**What changed: nothing in this list.** The adopted rule lives in a new module,
+`organica/admission.py`, as a `SleepService` subclass that overrides `_build_predictions`. No
+frozen engine file is edited, and that is checked rather than declared: `git diff` over the seven
+files in §1 must be empty, and the `count` arm of the new service delegates to
+`SleepService._build_predictions` and must return exactly what it returns
+(`tests/test_admission_rule.py`). The archival `v0.9.0` tag remains the reference for
+what Organica 1 was, and `SleepService` itself still applies its own ordering: transition
+probability inside a stratified quota. **The adopted order is therefore untested on this
+layer** — the confirmatory block compared it against a count-ranked control over a pooled
+edge table, not against the engine's prediction ordering, and the decision record says so.
+
+**Why an amendment is the right instrument anyway.** A new module that reproduces the engine is
+inert; a new module that an engine version uses is a cognition change, and rule 2 wants exactly
+this: the decision recorded before the change. The decision is recorded, the change is in a new
+module, and the frozen path is preserved rather than overwritten.
+
+**Measured consequence — disclosed, not re-scored.** The behaviour of the reference engine is
+unchanged, so no archived measurement moves. The consequence is prospective: any future run
+through `DiversityFirstSleepService` admits a different set from the count-ranked engine, and the
+published Gate 13 figures describe the count rule. A run through the adopted service must name
+its arm. Nothing here shows that broader coverage improves behaviour; the confirmatory evidence
+is coverage only.
+
+**The identity check cannot police this, and the record says so.** `tests/test_v1_freeze.py`
+skips its byte-identity comparison at package versions ≥ 0.12.0 (the guard Amendment 1 added), so
+an edit to `sleep.py` would not be caught by it. This amendment is therefore not "allowed because
+the test skips": it is allowed because no frozen file was edited, which `git diff` verifies
+directly. An edit to a frozen file would be a different act and would need its own record.

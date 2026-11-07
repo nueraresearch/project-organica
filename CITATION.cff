@@ -11,8 +11,8 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.12.1
-# 0.12.1 is unreleased working-tree work. The deposit is 0.12.0, cut and
+version: 0.13.0
+# 0.13.0 is unreleased working-tree work: the adopted admission rule. The deposit is 0.12.0, cut and
 # tagged on 2026-11-06; `date-released` below is that tag date. v0.9.0 remains the archival reference for the frozen
 # Organica 1 engine alone; the engine in this tree has advanced past that
 # freeze (see CHANGELOG.md and docs/V1-FREEZE.md), and v0.10.0 is the previous

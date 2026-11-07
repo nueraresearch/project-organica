@@ -2,7 +2,8 @@
 
 **Status: a specified architectural change, not an experiment.** This record names what
 `ORDERING SUPPORTED` licenses — the admission rule and its budget floor — and what it does not. It
-allocates nothing: no seed, no cell, no threshold, no bar. The numbers are in
+allocates nothing: no seed, no cell, no threshold, no bar. The decision is recorded in `docs/DECISION-ADMISSION-RULE.md`.
+The numbers are in
 `docs/ranking_admission_design.json`, and the evidence it cites is in
 `docs/rank_ordering_run.json` and `docs/rank_ordering_result.json`.
 

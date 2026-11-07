@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.12.1** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.13.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -27,6 +27,29 @@ entry is marked `(unreleased)` is allowed to have no tag yet, because
 there is nothing to check out.
 
 ---
+
+## [0.13.0] — (unreleased)
+
+### Changed — diversity-first admission, adopted on the confirmatory evidence (2026-11-07)
+
+- **`organica/admission.py`** carries the adopted admission rule: each budget slot takes the
+  eligible prediction whose source tag owns the fewest already-admitted outgoing edges, ties
+  broken on count and then on the stable key. `COUNT` is the confirmatory block's control
+  ordering and is retained beside it; the adopted service's `COUNT` arm delegates to the
+  engine and returns its admission unchanged.
+- **The budget floor is a floor, not an increase.** Under the adopted rule the cap is
+  `max(cap, eligible source tags)`, which is inert at the engine's own caps in a 16-source world
+  and binds only where a caller sets a cap below the source count.
+- **`DiversityFirstSleepService`** is a `SleepService` subclass that overrides `_build_predictions`
+  and nothing else. Under `COUNT` it delegates to the engine and returns its admission
+  unchanged; under `DIVERSITY` it ranks the eligible pool, which supersedes the engine's
+  stratified transition/co-occurrence quota (disclosed in the decision record). `organica/sleep.py` is not edited: the frozen engine keeps the frozen rule,
+  and every published count-basis measurement stays reproducible.
+- **The decision is recorded before the code**: `docs/DECISION-ADMISSION-RULE.md`, with
+  `docs/V1-FREEZE.md` §7 carrying the amendment. Coverage is not behaviour, and the record says so.
+- **`tests/test_admission_rule.py`** proves the count arm reproduces `SleepService`, that the
+  adopted arm differs where one source is crowded, that the floor is inert at the engine's caps
+  and binds below them, and that no frozen engine file is modified.
 
 ## [0.12.1] — (unreleased)
 
