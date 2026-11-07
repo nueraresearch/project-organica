@@ -178,7 +178,7 @@
   "engine_cycles": 0,
   "runner_built": true,
   "engine_cycles_scope": "judged block only; the smoke pool's cycles are counted in not_run.smoke",
-  "blocked": "M2 cannot pass: the precision difference in differences at cap 20 is zero or negative on all eight designed seeds (mean -0.075), and the smoke pool's 0.1 precision gap (0.2) is smaller than the 0.8 pool's designed gap (0.4), so the registered interaction has the opposite sign. The block can only return ORDERING HELPS, GRADIENT ABSENT (not_run.repair)",
+  "blocked": "M2 cannot pass: the precision difference in differences at cap 20 is zero or negative on all eight designed seeds (mean -0.0813), and the smoke pool's 0.1 precision gap (0.2) is smaller than the 0.8 pool's designed gap (0.4), so the registered interaction has the opposite sign. The block can only return ORDERING HELPS, GRADIENT ABSENT (not_run.repair)",
   "smoke": {
    "label": "SMOKE, NOT A JUDGED CELL, NOT EVIDENCE",
    "date": "2026-11-07",
