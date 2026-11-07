@@ -820,15 +820,36 @@
     {
       "id": "Q048",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Between 0.985 and 1.0, is theory survival a smooth function of the temporal decay factor, a threshold, or a flat range; and what is the smallest factor in range that survives 300 cycles?",
       "why_open": "Q047 measured 0.95, 0.99 and 1.0 on lattice_L1, but only two interior factor points. Two points cannot distinguish a smooth gradient from a threshold, and 1.0 is a ceiling control rather than an adoption candidate. The 0.985-0.999 range is untested.",
       "evidence": [
         "docs/OPERATING-POINT.md",
-        "docs/operating_point.json"
+        "docs/operating_point.json",
+        "docs/DECAY-SWEEP-PREREGISTRATION.md",
+        "docs/decay_sweep.json",
+        "docs/DECAY-SWEEP.md"
       ],
       "preregistrations": [
         "DECAY-SWEEP-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": [],
+      "outcome": "SUPPORTED",
+      "answer": "The range is a step, not a smooth ramp. On the falsifier's lattice_L1 world, 0.985 dies at cycle 150, 0.99 at 228 (reproducing Q047), and 0.9925, 0.995, 0.9975, 0.999 and 1.0 all survive to 301. The smallest surviving factor is 0.9925; the survival transition is the 73-cycle step from 0.99 to 0.9925, and the largest adjacent step is 78 cycles from 0.985 to 0.99. All five gates and all seven predictions held, and the shipped control reproduced the committed falsifier series. The scope is one world, one arm and three seeds; survival is theory-layer presence, not identity, and no prediction, revision or adaptation task was scored."
+    },
+    {
+      "id": "Q049",
+      "kind": "research",
+      "status": "open",
+      "question": "On the two Phase J gradual-shift families, do the smallest surviving factor 0.9925 and the ceiling 1.0 have a higher final post-shift prediction loss than shipped 0.95, and is the cost larger at 1.0?",
+      "why_open": "Q048 found that 0.9925 is the smallest factor that survives 300 cycles on lattice_L1, but survival is not adaptation. A no-decay system may keep a stale mapping after the world changes, and the threshold point may pay an adaptation cost too. The Phase J harness has no decay arm.",
+      "evidence": [
+        "docs/DECAY-SWEEP.md",
+        "docs/decay_sweep.json"
+      ],
+      "preregistrations": [
+        "DECAY-ADAPTATION-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": [],
