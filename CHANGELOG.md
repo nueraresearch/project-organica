@@ -30,31 +30,42 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
-### Changed — diversity-first admission, adopted on the confirmatory evidence (2026-11-07)
+### Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)
 
-- **`organica/admission.py`** carries the adopted admission rule: each budget slot takes the
-  eligible prediction whose source tag owns the fewest already-admitted outgoing edges, ties
+- **`organica/admission.py`** carried the adopted admission rule (removed at withdrawal,
+  below): each budget slot takes the eligible prediction whose source tag owns the fewest
+  already-admitted outgoing edges, ties
   broken on count and then on the stable key. `COUNT` is the confirmatory block's control
   ordering and is retained beside it; the adopted service's `COUNT` arm delegates to the
   engine and returns its admission unchanged.
 - **The budget floor is a floor, not an increase.** Under the adopted rule the cap is
   `max(cap, eligible source tags)`, which is inert at the engine's own caps in a 16-source world
   and binds only where a caller sets a cap below the source count.
-- **`DiversityFirstSleepService`** is a `SleepService` subclass that overrides `_build_predictions`
-  and nothing else. Under `COUNT` it delegates to the engine and returns its admission
-  unchanged; under `DIVERSITY` it ranks the eligible pool, which supersedes the engine's
+- **`DiversityFirstSleepService`** (removed at withdrawal) was a `SleepService` subclass that
+  overrode `_build_predictions` and nothing else. Under `COUNT` it delegated to the engine and
+  returned its admission unchanged; under `DIVERSITY` it ranked the eligible pool, which
+  superseded the engine's
   stratified transition/co-occurrence quota (disclosed in the decision record). `organica/sleep.py` is not edited: the frozen engine keeps the frozen rule,
   and every published count-basis measurement stays reproducible.
 - **The decision is recorded before the code**: `docs/DECISION-ADMISSION-RULE.md`, with
   `docs/V1-FREEZE.md` §7 carrying the amendment. Coverage is not behaviour, and the record says so.
+- **Withdrawn the same day, on that measurement.** A rule its own measurement closed is not a
+  policy an engine version should carry, so the adoption was reversed rather than left standing as
+  a non-default arm: `organica/admission.py` and `tests/test_admission_rule.py` are deleted, and
+  `SleepService` is again the only admission path in the package. The decision record is
+  `docs/DECISION-ADMISSION-RULE.md` — §6 keeps the measured outcome exactly as the frozen analysis
+  returned it, §7 records the withdrawal — and `docs/V1-FREEZE.md` §7 carries the reversal, with
+  §1 untouched at every step. The block stays reproducible from **`a82e890`**, the last commit that
+  contained the adopted arm; `benchmarks/run_admission_two_arm.py` resolves both arms lazily and
+  stops with that commit's name instead of an `ImportError`.
 - **Measured outcome (2026-11-07): the adopted order loses on the prediction layer.** The
   pre-registered two-arm comparison returned `NO GAIN ON THIS LAYER`: mean paired coverage
   gain -0.077009 over its interval, 0 of 8 seeds positive, precision also down. The pooled-edge
-  gain does not transfer; the layer is closed to this rule, the service is not the default, and
+  gain does not transfer; the layer is closed to this rule, the service was withdrawn (above), and
   `docs/DECISION-ADMISSION-RULE.md` §6 records the outcome.
-- **`tests/test_admission_rule.py`** proves the count arm reproduces `SleepService`, that the
-  adopted arm differs where one source is crowded, that the floor is inert at the engine's caps
-  and binds below them, and that no frozen engine file is modified.
+- **`tests/test_admission_rule.py`** (removed at withdrawal) proved the count arm reproduces
+  `SleepService`, that the adopted arm differs where one source is crowded, that the floor is
+  inert at the engine's caps and binds below them, and that no frozen engine file is modified.
 
 ## [0.12.1] — (unreleased)
 

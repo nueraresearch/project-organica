@@ -1,6 +1,6 @@
 # The adopted admission rule against the reference engine (2026-11-07)
 
-**This block has run: the frozen analysis path returned NO GAIN ON THIS LAYER.** §9 records the result, and §1–§7 are preserved exactly as committed before the run.
+**This block has run: the frozen analysis path returned NO GAIN ON THIS LAYER.** §9 records the result and §10 the withdrawal, and §1–§7 are preserved exactly as committed before the run.
 
 **Status: FROZEN, NOT RUN (ready; no cell).** No arm has run on this registration. The bar, the
 guard, the seeds, the endpoint and the decision table were committed before the first cell.
@@ -91,3 +91,25 @@ Every figure above is the paired difference between the two arms, and the arm or
 positive means the adopted arm covered more. Cells are in
 `docs/admission_two_arm_run.json`; the decision is in `docs/admission_two_arm_result.json`.
 The registration itself is unchanged: §1–§7 are exactly as committed before the run.
+
+## 10. Withdrawal (post-freeze)
+
+**WITHDRAWN on 2026-11-07.** The adoption this block was registered to test was removed the day
+the result was read: the reference engine (`organica.sleep.SleepService`) is again the only admission path in the package.
+
+**Removed from the package:**
+
+- `organica/admission.py`
+- `tests/test_admission_rule.py`
+
+**Why the code and not only the record.** A rule its own measurement closed is not a policy an
+engine version should carry, and a non-default arm that no document may present as a gain is a
+liability that still has to be maintained. Deleting it is the version of this negative result the
+code agrees with. §9 and the decision table above are unchanged: the result, the bar and the guard
+keep their numbers, and the confirmatory block's verdict keeps its own instrument.
+
+**Reproducibility.** The adopted arm was last present at commit **a82e890**. Checking that
+commit out reproduces this block end to end; `benchmarks/run_admission_two_arm.py` resolves its
+arms lazily and stops with that commit's name rather than raising an `ImportError`.
+
+**Not a wider finding.** The withdrawal closes the admission question on the engine's prediction layer, in one world family and at one horizon; it does not establish that diversity-first ordering is wrong anywhere else, and the pooled-table gain is neither retracted nor revived.

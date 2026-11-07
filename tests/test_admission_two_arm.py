@@ -203,3 +203,43 @@ def test_the_result_section_quotes_the_result_artifact():
     assert "preserved exactly as committed before the run" in flat
     for seed in result["criteria"]["per_seed"]:
         assert seed in flat
+
+
+def test_the_withdrawal_is_recorded_and_the_files_are_gone():
+    w = _body()["withdrawn"]
+    assert w["decision"] == "WITHDRAWN"
+    assert w["date"] == "2026-11-07"
+    assert w["reproducible_from"] == "a82e890"
+    assert "organica/admission.py" in w["removed"]
+    assert "tests/test_admission_rule.py" in w["removed"]
+    for path in w["removed"]:
+        assert not (ROOT / path).exists(), path
+
+
+def test_the_package_no_longer_offers_the_adopted_service():
+    assert not (ROOT / "organica" / "admission.py").exists()
+    sources = "\n".join(p.read_text(encoding="utf-8")
+                        for p in (ROOT / "organica").glob("*.py"))
+    assert "DiversityFirst" not in sources
+
+
+def test_the_runner_names_the_commit_that_still_has_the_adopted_arm():
+    from benchmarks import run_admission_two_arm as R
+
+    source = (ROOT / "benchmarks" / "run_admission_two_arm.py").read_text(encoding="utf-8")
+    # Importing the runner must not need the deleted module; only the lazy arm
+    # resolver may name it, and it is the thing that must stop.
+    assert "from organica" not in source.split("def arms()")[0]
+    assert R.WITHDRAWN_AT == _body()["withdrawn"]["reproducible_from"]
+    with pytest.raises(SystemExit) as excinfo:
+        R.arms()
+    assert R.WITHDRAWN_AT in str(excinfo.value)
+
+
+def test_the_document_renders_the_withdrawal_from_the_artifact():
+    w = _body()["withdrawn"]
+    raw, flat = DOC.read_text(encoding="utf-8"), _flat()
+    assert "## 10. Withdrawal (post-freeze)" in raw
+    assert w["reproducible_from"] in flat
+    assert "and §10 the withdrawal" in flat
+    assert not re.search(r"\{[a-z_]+\}", raw)

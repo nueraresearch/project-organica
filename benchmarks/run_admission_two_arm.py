@@ -2,6 +2,11 @@
 
 Both arms of a seed run through the Gate 13 harness on the same generated world
 with the same budget and cycles; only ``service_cls`` differs.
+
+The adopted arm was withdrawn on 2026-11-07 and its module deleted
+(`docs/DECISION-ADMISSION-RULE.md` §7). The arms are therefore resolved lazily:
+this runner still imports, and asking for the adopted arm stops with the commit
+that still contains it.
 """
 from __future__ import annotations
 
@@ -11,8 +16,6 @@ import subprocess
 from pathlib import Path
 
 from benchmarks.acquisition_harness import gate_acquisition_sufficiency
-from organica.admission import DiversityFirstSleepService
-from organica.sleep import SleepService
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "admission_two_arm_run.json"
@@ -22,7 +25,32 @@ FROZEN = ("organica/sleep.py", "organica/memory.py", "organica/paths.py",
           "organica/streams.py", "organica/branch_streams.py",
           "organica/scale_streams.py", "organica/ground_truth_worlds.py")
 
-ARMS = {"reference": SleepService, "adopted": DiversityFirstSleepService}
+#: The last commit that contained the adopted arm. The arm was removed at
+#: withdrawal, and this is the commit that reproduces this block.
+WITHDRAWN_AT = "a82e890"
+
+
+def arms() -> dict:
+    """Resolve both arms lazily, so the withdrawal does not break the runner.
+
+    The engine is imported here rather than at module scope, because importing
+    this module must keep working now that the adopted service is gone. Asking
+    for the adopted arm stops with the commit that still has it: a run that
+    cannot be reproduced is told how to reproduce it, not handed an
+    ``ImportError``.
+    """
+    from organica.sleep import SleepService
+
+    resolved = {"reference": SleepService}
+    if not (ROOT / "organica" / "admission.py").exists():
+        raise SystemExit(
+            "the adopted arm was withdrawn on 2026-11-07 and is not in this "
+            "package; check out %s to reproduce this block (see "
+            "docs/DECISION-ADMISSION-RULE.md section 7)" % WITHDRAWN_AT)
+    from organica.admission import DiversityFirstSleepService
+
+    resolved["adopted"] = DiversityFirstSleepService
+    return resolved
 
 
 def prereg(path: Path = PREREG) -> dict:
@@ -43,11 +71,12 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
     if not record["status"].startswith("FROZEN"):
         raise SystemExit("the registration is not frozen; no cell may run")
     cycles = int(record["design"]["cycles"])
+    resolved = arms()
     cells = []
     for seed in record["design"]["seeds"]:
         for arm in record["design"]["arms"]:
             stats = gate_acquisition_sufficiency(seed=int(seed), cycles=cycles,
-                                                 service_cls=ARMS[arm])
+                                                 service_cls=resolved[arm])
             cells.append({
                 "seed": int(seed), "arm": arm,
                 "coverage": stats["asserted_coverage"],
@@ -63,7 +92,7 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
             })
     first = int(record["design"]["seeds"][0])
     rerun = gate_acquisition_sufficiency(seed=first, cycles=cycles,
-                                         service_cls=SleepService)
+                                         service_cls=resolved["reference"])
     reference_first = next(c for c in cells
                            if c["seed"] == first and c["arm"] == "reference")
     payload = {"prereg": record["prereg"], "cycles": cycles, "cells": cells,
@@ -74,7 +103,8 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
                "boundary": boundary(),
                "provenance": {"runner": "benchmarks/run_admission_two_arm.py",
                               "instrument": "benchmarks/acquisition_harness.py:gate_acquisition_sufficiency",
-                              "arms": {a: ARMS[a].__name__ for a in record["design"]["arms"]},
+                              "arms": {a: resolved[a].__name__
+                                       for a in record["design"]["arms"]},
                               "engine_runs": len(record["design"]["seeds"]) * 2 + 1}}
     out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
     print("wrote", out, "| cells:", len(cells))

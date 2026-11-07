@@ -196,5 +196,16 @@
   "cells_artifact": "docs/admission_two_arm_run.json",
   "result_artifact": "docs/admission_two_arm_result.json",
   "note": "both arms ran on the same generated world for each seed, through the Gate 13 harness; the analysis path ran once, as frozen, and no criterion was re-read"
+ },
+ "withdrawn": {
+  "date": "2026-11-07",
+  "decision": "WITHDRAWN",
+  "removed": [
+   "organica/admission.py",
+   "tests/test_admission_rule.py"
+  ],
+  "reference": "the reference engine (`organica.sleep.SleepService`) is again the only admission path in the package",
+  "reproducible_from": "a82e890",
+  "note": "the withdrawal closes the admission question on the engine's prediction layer, in one world family and at one horizon; it does not establish that diversity-first ordering is wrong anywhere else, and the pooled-table gain is neither retracted nor revived"
  }
 }

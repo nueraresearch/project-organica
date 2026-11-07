@@ -1,7 +1,10 @@
-# Decision: diversity-first admission, adopted
+# Decision: diversity-first admission, adopted then withdrawn
 
 **Date:** 2026-11-07
-**Status:** decided by the owner and implemented; the reference engine is unchanged.
+**Status:** **WITHDRAWN (2026-11-07).** The rule was adopted on this evidence and withdrawn the
+same day, when the two-arm comparison in `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md` closed its
+layer (§6). The adopted module and its test were removed, and the reference engine is again the
+only admission path (§7).
 **Scope:** the admission rule — which eligible candidates occupy a budget slot. Not extraction,
 not the confidence formula, not the death and stability thresholds, not the caps.
 
@@ -34,6 +37,9 @@ block relied on: **the adoption raises no cap.** The floor only binds where a ca
 below the source count, and there it is a validity condition rather than a gain.
 
 ## 3. The implementation vehicle
+
+> *Removed at withdrawal (§7). This section records what was built and why that shape was
+> chosen; the module and its test no longer exist.*
 
 `organica/sleep.py` is frozen. Its own code says how a change of this kind is made: *the cap is
 changed by subclassing — the frozen file is never edited* (`benchmarks/acquisition_harness.py`,
@@ -110,17 +116,54 @@ The block is negative on its own pre-registered terms: the effect is negative on
 an interval that excludes zero and a width far below the underpowered threshold, so this is a
 measured loss and not an absence of evidence.
 
-**What follows for the code.** `organica/admission.py` and `DiversityFirstSleepService` remain as
-implemented and as the *non-default* policy; nothing in the engine uses them by default and no
-document may present them as a gain. Whether to withdraw the adoption outright is an owner
-decision, recorded as pending rather than taken here.
+**What followed for the code.** When the block closed, `organica/admission.py` and
+`DiversityFirstSleepService` stood as implemented and as the *non-default* policy; nothing in the
+engine used them by default and no document was to present them as a gain. Whether to withdraw
+the adoption outright was an owner decision left pending at that point, and it was taken in §7
+below.
 
 **What survives.** The methodological result survives: the same rule that gains on a pooled edge
 table loses on the engine's own ordering, which is exactly why the layer had to be measured. The
 confirmatory block's verdict is untouched and remains scoped to its instrument.
 
-## 7. Stop condition
+## 7. The withdrawal (2026-11-07)
 
-The decision is complete when the rule, the floor and the subclass exist, the reference
-reproduction test passes, and the freeze record carries the amendment. **No further admission
-variant may be added here.** This record may be fixed if it is found wrong; it may not grow.
+**Status: WITHDRAWN.** The adoption was reversed on the day it was made, on the measurement in
+§6. This section is the decision; it adds no evidence and re-scores nothing. Every present-tense
+statement about the module elsewhere in this record describes the period before this section.
+
+**Removed, not marked.** Withdrawal is the removal of the code, so the package no longer offers
+the rule at all:
+
+- **`organica/admission.py`** — deleted, with the rule, the budget floor and the subclass.
+- **`tests/test_admission_rule.py`** — deleted. Its subject no longer exists, so the reproduction
+  claim it carried is now discharged by the commit named below rather than by a live test.
+- **`benchmarks/run_admission_two_arm.py`** — no longer imports the adopted service. The arms are
+  resolved lazily, and asking for the adopted arm stops with a message naming the commit that
+  still contains it instead of raising an `ImportError`.
+
+**The reference engine is the only admission path again.** `SleepService._build_predictions` is
+the one ordering an engine version can reach, so the state before Amendment 2 is restored and
+there is no non-default arm left to maintain, to document, or to mistake for a gain.
+`organica/sleep.py` was not edited at any point, before or after the adoption, which is what makes
+the restoration a removal rather than a second change.
+
+**What is not withdrawn.** The negative result stands exactly as the frozen analysis returned it:
+its numbers are in §6 and its artifacts are untouched. The withdrawal is not a re-reading of it
+and does not soften it. The confirmatory block's `ADOPT THE ADMISSION RULE` verdict also stands,
+and remains scoped to its own instrument — a pooled edge table with a count-ranked control — which
+is the instrument it was registered on.
+
+**Reproducibility.** The adopted arm was last present at commit **`a82e890`**. Checking that
+commit out reproduces this block end to end, which is why the runner names it rather than letting
+the arm look as though it was never built.
+
+**Not a finding about the rule in general.** The withdrawal closes the admission question on the
+engine's prediction layer, in one world family and at one horizon. It does not establish that
+diversity-first ordering is wrong anywhere else, and the pooled-table gain is neither retracted
+nor revived.
+
+## 8. Stop condition
+
+This record is closed on 2026-11-07: **adopted, measured, withdrawn.** It may be fixed if it is
+found wrong; it may not grow, and **no admission variant may be added here.**

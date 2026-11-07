@@ -135,6 +135,35 @@ The registration itself is unchanged: §1–§7 are exactly as committed before 
     }
 
 
+def render_withdrawal(body: dict) -> str:
+    """§10 is post-freeze: the withdrawal is recorded beside the result, never over it."""
+    w = body["withdrawn"]
+    removed = "\n".join("- `%s`" % path for path in w["removed"])
+    return """## 10. Withdrawal (post-freeze)
+
+**%(decision)s on %(date)s.** The adoption this block was registered to test was removed the day
+the result was read: %(reference)s.
+
+**Removed from the package:**
+
+%(removed)s
+
+**Why the code and not only the record.** A rule its own measurement closed is not a policy an
+engine version should carry, and a non-default arm that no document may present as a gain is a
+liability that still has to be maintained. Deleting it is the version of this negative result the
+code agrees with. §9 and the decision table above are unchanged: the result, the bar and the guard
+keep their numbers, and the confirmatory block's verdict keeps its own instrument.
+
+**Reproducibility.** The adopted arm was last present at commit **%(commit)s**. Checking that
+commit out reproduces this block end to end; `benchmarks/run_admission_two_arm.py` resolves its
+arms lazily and stops with that commit's name rather than raising an `ImportError`.
+
+**Not a wider finding.** %(note)s.
+""" % {"decision": w["decision"], "date": w["date"], "reference": w["reference"],
+       "removed": removed, "commit": w["reproducible_from"],
+       "note": w["note"][:1].upper() + w["note"][1:]}
+
+
 def main() -> int:
     body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     text = render(body)
@@ -142,10 +171,13 @@ def main() -> int:
     if body.get("run") and RESULT.exists():
         result = json.loads(RESULT.read_text(encoding="utf-8"))
         banner = ("**This block has run: the frozen analysis path returned %s.** §9 records the "
-                  "result, and §1–§7 are preserved exactly as committed before the run."
-                  % result["decision"]["verdict"])
+                  "result%s, and §1–§7 are preserved exactly as committed before the run."
+                  % (result["decision"]["verdict"],
+                     " and §10 the withdrawal" if body.get("withdrawn") else ""))
         head, rest = text.split("\n\n", 1)
         text = head + "\n\n" + banner + "\n\n" + rest + "\n" + render_result(body, result)
+        if body.get("withdrawn"):
+            text += "\n" + render_withdrawal(body)
     assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
     OUT.write_text(text, encoding="utf-8")
     print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))

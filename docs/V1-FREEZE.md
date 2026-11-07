@@ -214,6 +214,18 @@ published Gate 13 figures describe the count rule. A run through the adopted ser
 its arm. Nothing here shows that broader coverage improves behaviour; the confirmatory evidence
 is coverage only.
 
+**Withdrawn, 2026-11-07 — the same day it was made.** The two-arm comparison registered in
+`docs/ADMISSION-TWO-ARM-PREREGISTRATION.md` returned `NO GAIN ON THIS LAYER`, so the adoption was
+withdrawn rather than left in place as a non-default arm. `organica/admission.py` and
+`tests/test_admission_rule.py` were deleted, and `SleepService` is again the only admission path
+in the package: the engine offers one ordering, not a default and a non-default, so the paragraph
+above describes a policy that no longer exists as code. Nothing in §1 was edited at any point,
+before or after. **The amendment's licence survives as a methodological result, not as a live
+change** — the rule that gained on a pooled edge table lost on the engine's own ordering, and that
+negative result is not retracted. `docs/DECISION-ADMISSION-RULE.md` §6 records the outcome, §7 the
+withdrawal; reproducing the adopted arm means checking out **`a82e890`**, the last commit that
+contained it.
+
 **The identity check cannot police this, and the record says so.** `tests/test_v1_freeze.py`
 skips its byte-identity comparison at package versions ≥ 0.12.0 (the guard Amendment 1 added), so
 an edit to `sleep.py` would not be caught by it. This amendment is therefore not "allowed because
