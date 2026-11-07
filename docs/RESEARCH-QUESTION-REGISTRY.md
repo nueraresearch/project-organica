@@ -351,11 +351,11 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution reads the schema row and both role rows. The pair resolver now follows that path on the calibration cell: 8 of 14 transfers resolve to the schema's role pair, and the other 6 do not span the schema's role sets because the prior licensed them by polarity agreement. The campaign has not run, so the question stays open.
+**Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution reads the schema row and both role rows. The pair resolver's single calibration cell (seed 20261101) resolved 8 of 14 transfers, but re-running the same instrument on six fresh seeds showed that split is a property of the draw: transfers ranged 12-25, resolved 2-9 (share 0.1429-0.5000), and polarity-only primings 6-19, while the calibration seed reproduced 14/8/6 exactly. The campaign has not run, so the question stays open.
 
 **Preregistered in.** `STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`
 
-**Evidence.** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`
+**Evidence.** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`, `docs/pair_resolver_stability.json`, `docs/PAIR-RESOLVER-STABILITY.md`
 
 **Decision record.** `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
 
