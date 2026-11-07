@@ -334,3 +334,49 @@ defined, before any calibration cell runs:
   mechanism claim. A selection above it is not boundary-selected.
 
 This defines a pre-committed edge case; it relaxes no clause of §7 or §11.
+
+## 18. Outcome — the calibration stage (2026-11-07, after the run)
+
+**The calibration returned no usable threshold, and the campaign stopped at §3's
+pre-committed line.** All 448 calibration cells ran on engine `0.12.0`
+(`5804e60`) with the harness at `841e3ff`; the degree audit passed; the sealed
+artifact verifies. Neither the transition arm nor the ratio control has a `tau`
+in the committed grid that is live on every cell *and* keeps precision at or
+above 0.95 on every cell, so both `choices[arm].reason` fields carry §3's own
+string, **"no global threshold clears all degree regimes"**.
+
+Per §3 and §10 the run ends there: **no held-out cell exists, no arm was scored,
+and nothing is adopted.** Option 2r remains unadopted, and it is untested at the
+held-out stage rather than refuted by one — a calibration-stage null is not a
+verdict about the formula and may not be quoted as one.
+
+**The reported shape of the rejection.** The artifact is on the owner's machine
+(`docs/confirmation/calibration.json`) and is not in this worktree, so these are
+the owner's reported rejections, not values recomputed here: the transition arm
+failed liveness at degree 12 at `0.20`, at degrees 6 and 12 at `0.25` and
+`0.30`, and the values below `0.20` failed the precision floor at degree 4; the
+ratio control selected nothing either.
+
+**The reading, labelled as an interpretation rather than a measurement.** The
+two gates bind at opposite ends of the ladder — the precision floor at low
+degree, liveness at high degree — so a single global threshold has no non-empty
+intersection on this ladder. If the artifact shows that, the finding is about
+the design's *one-threshold* assumption and not about either formula, because
+both fail it and the comparison §7 exists to make was never reached. Confirming
+it means reading `choices[arm].rejected` per threshold from the artifact, not
+inferring it from this summary.
+
+**What is excluded, and what would be a new study.** §3 rules per-degree
+thresholds out of scope: selecting one now, after seeing which cells rejected
+which threshold, would be a threshold chosen from the data that rejected it
+(rule 19) and would change the mechanism being tested. Any revival needs a new
+pre-registration, with its own calibration seeds, its decision rule fixed before
+cells, and a statement of what a degree-varying threshold means as a mechanism.
+The `0.12.0` decay collapse remains unfixed and action 11 remains open; nothing
+here changes the engine, the papers or the freeze.
+
+**Provenance.** Run by the owner on their own machine; harness `841e3ff`, engine
+`0.12.0` (`5804e60`); 448 cells; degree audit passed; seal verified locally. The
+artifact, its sha256 and its cells are the authority for every number above, and
+none of them is an independent re-measurement here. To make this record
+self-contained the artifact should be committed beside this section.

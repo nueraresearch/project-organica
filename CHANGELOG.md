@@ -54,6 +54,7 @@ there is nothing to check out.
 - **The engine is unchanged.** Option 2r remains a lead candidate, not an adopted fix, and no
   paper result is updated; the version moves only because `v0.12.0` is tagged at `5804e60`
   and master must not drift past a release it still declares.
+- **The pre-registered calibration ran and selected no threshold, so the campaign stopped and nothing was adopted.** 448 cells on `0.12.0` (`5804e60`) with the harness at `841e3ff`: the degree audit passed and the seal verified, but for both the transition arm and the ratio control no threshold in the grid was live on every cell while keeping precision at or above 0.95 on every cell, so both recorded the pre-committed `no global threshold clears all degree regimes`. No held-out cell was run. The artifact is on the owner's machine, not in this tree; the record is §18 of the preregistration.
 
 ## [0.12.0] — (2026-11-06)
 

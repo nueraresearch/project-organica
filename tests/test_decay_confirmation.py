@@ -389,3 +389,39 @@ def test_heldout_writes_an_artifact_analyze_accepts(tmp_path, monkeypatch, capsy
     printed = json.loads(capsys.readouterr().out)
     assert printed["verdict"] == "SMOKE — not a verdict"
     assert printed["protocol"] is False
+
+
+def test_a_calibration_that_selects_nothing_stops_the_campaign(tmp_path, monkeypatch):
+    """The 2026-11-07 outcome: no tau clears every degree, so no held-out cell may run.
+
+    The stub reproduces the reported shape -- the precision floor rejecting low
+    thresholds at low degree, liveness rejecting high ones at high degree -- so
+    the intersection is empty and every gate below is the real code path.
+    """
+    import benchmarks.decay_confirmation as dc
+
+    def no_threshold_clears_every_degree(func, tasks, workers, progress=False):
+        cells = []
+        for arm, tau, degree, seed, cycles in tasks:
+            live = not (degree >= 6 and tau >= 0.20)
+            cells.append({"arm": arm, "tau": tau, "degree": degree, "seed": seed,
+                          "cycles": cycles, "liveness": live,
+                          "precision": 1.0 if tau >= 0.20 else 0.5,
+                          "coverage": 0.5})
+        return cells
+
+    monkeypatch.setattr(dc, "_pool", no_threshold_clears_every_degree)
+    out = tmp_path / "calibration.json"
+    code = dc.main(["calibrate", "--smoke", "--seeds", "20300101",
+                    "--degrees", "2", "4", "6", "12", "--cycles", "1",
+                    "--workers", "1", "--out", str(out)])
+    assert code == 1, "a calibration that selects no threshold is a stop, not a success"
+    artifact = verify_seal(out)
+    assert artifact["thresholds"] == {"ratio": None, "transition": None}
+    assert artifact["boundary_selected"] == {"ratio": False, "transition": False}
+    for arm in ("ratio", "transition"):
+        assert artifact["choices"][arm]["reason"] == \
+            "no global threshold clears all degree regimes"
+    with pytest.raises(SystemExit, match="selected no threshold"):
+        dc.main(["heldout", "--smoke", "--calibration", str(out),
+                 "--seeds", "20300109", "--out", str(tmp_path / "heldout.json")])
