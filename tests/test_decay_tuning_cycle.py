@@ -16,6 +16,9 @@ ARTIFACT = ROOT / "docs" / "decay_tuning_cycle.json"
 DOC = ROOT / "docs" / "DECAY-TUNING-CYCLE.md"
 SELF = {str(ARTIFACT.relative_to(ROOT)), str(DOC.relative_to(ROOT)),
         "tests/test_decay_tuning_cycle.py"}
+# A derived inventory: Stage B's audit lists every consumed block, so it necessarily
+# restates these seeds. That is registration, not reuse -- and it is asserted below.
+INVENTORY = "docs/stage_b_protocol.json"
 
 
 def _recorded():
@@ -34,7 +37,7 @@ def _seeds_elsewhere():
             if path.suffix not in {".md", ".json", ".py", ".txt", ".cff"}:
                 continue
             rel = str(path.relative_to(ROOT))
-            if rel in SELF:
+            if rel in SELF or rel == INVENTORY:
                 continue
             text = path.read_text(encoding="utf-8", errors="ignore")
             for number in re.findall(r"\b20\d{6}\b", text):
@@ -61,6 +64,18 @@ def test_no_recorded_seed_appears_anywhere_else_in_the_repository():
 def test_the_scan_can_find_a_seed_that_is_used():
     """The scan must not be vacuous: the matrix seed is in the repository."""
     assert 20261023 in _seeds_elsewhere()
+
+
+def test_the_stage_b_inventory_registers_the_block_as_consumed():
+    """A declared block must be registered, so no later study can reallocate it."""
+    _, dev, conf = _recorded()
+    inventory = json.loads((ROOT / INVENTORY).read_text(encoding="utf-8"))
+    seeds = inventory["seeds"]
+    registered = seeds["consumed_blocks"]["docs/decay_tuning_cycle.json"]
+    assert registered == dev + conf
+    low, high = seeds["candidate_block"]
+    assert set(seeds["overlap_with_consumed"]).isdisjoint(set(dev + conf))
+    assert high < dev[0] or low > conf[-1], "the blocks must not overlap"
 
 
 def test_the_record_keeps_the_phases_apart():

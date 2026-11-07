@@ -63,7 +63,9 @@ Development: **20310101-20310108** (8 seeds). Confirmatory:
 **20310109-20310128** (20 seeds). They are the first contiguous window of
 28 seed numbers that appears in no file under `docs`, `tests`, `benchmarks`,
 `research-journal` or `papers`; `tests/test_decay_tuning_cycle.py` repeats that
-scan and fails if any recorded seed appears elsewhere.
+scan and fails if any recorded seed appears elsewhere. Recording the block also
+makes it *consumed* for Stage B's seed audit, which is the intended effect: a
+declared block is registered rather than left free to be reallocated.
 
 The **degree ladder cannot be renewed**: degree 3 is not constructible
 (`expanding_triangles` realises even degrees only) and the even ladder is fixed by
