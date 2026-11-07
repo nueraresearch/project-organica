@@ -41,8 +41,8 @@ which of the 23 questions in `docs/RESEARCH-QUESTION-REGISTRY.md` is affordable 
 | What is asked of a reviewer | Two to four hours inside a stated window, with a written verdict (`docs/REVIEW-REQUEST.md`) | `repo` | It sets the size of the ask; a request for a week of someone's time would not be sent |
 
 The honest reading of that table is that the project's **evidence** is documented to a
-standard its **capacity** is not. Four rows are `unknown` because nobody wrote them
-down, not because they do not exist.
+standard its **capacity** is not. The rows marked `unknown` are there because nobody
+wrote them down, not because they do not exist.
 
 ## 2. Audience and why
 

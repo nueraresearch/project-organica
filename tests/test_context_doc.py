@@ -69,6 +69,20 @@ def test_the_unknown_rows_are_present_and_named() -> None:
         assert fact in body, fact
 
 
+def test_the_capacity_table_keeps_its_unknowns() -> None:
+    """The unknowns are the deliverable; losing one would silently price the work again."""
+    capacity = None
+    for header, rows in tables():
+        if "Provenance" in header and any("Why it matters" in cell for cell in header):
+            capacity = (header, rows)
+            break
+    assert capacity is not None
+    header, rows = capacity
+    column = header.index("Provenance")
+    unknown = [row[0] for row in rows if row[column].startswith("`unknown`")]
+    assert len(unknown) >= 4, unknown
+
+
 def test_stage_b_compute_figure_agrees_with_the_artifact() -> None:
     estimate = json.loads((ROOT / "docs" / "stage_b_cost_estimate.json").read_text(encoding="utf-8"))
     hours = estimate["cycles_total"] * estimate["measured_seconds_per_cycle"]["mean"] / 3600
