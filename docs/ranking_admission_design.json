@@ -1,0 +1,96 @@
+{
+ "created": "2026-11-07",
+ "status": "DESIGN RECORD: a specified architectural change, untested. No cell, no seed, no bar.",
+ "hypothesis": "the admission rule, not the size of the budget, is what turns the measured coverage advantage of a source-diverse ordering into an adoptable engine change at the engine's own cap",
+ "nature": "a design record that allocates nothing; it follows the completed ordering run and names the change that run licenses. It adds no row to docs/BOTTLENECK-MAP.md, changes no claim status, and allocates no seed",
+ "licensed_by": {
+  "run": "docs/rank_ordering_run.json",
+  "result": "docs/rank_ordering_result.json",
+  "verdict": "ORDERING SUPPORTED",
+  "decision": "positive",
+  "criterion": "M1 passed: mean coverage delta 0.1615 at the sparsest density, 95% interval [0.1094, 0.2031] against the 0.15 bar",
+  "what_it_licenses": "the ordering basis is the lever at the sparsest density, so the admission rule is the next architectural object to change",
+  "what_it_does_not_license": [
+   "a behavioural gain: no cell in the completed run measures a downstream gain from a better-ranked selection",
+   "a gradient or a general density law: the ladder was reported as a characterization under Amendment 4",
+   "a larger budget: the run held the cap fixed, so it says nothing about enlarging it"
+  ]
+ },
+ "the_change": {
+  "admission": {
+   "from": "global count-ranked admission: every eligible candidate is ranked by count and the top k fill the budget",
+   "to": "diversity-first admission over the source side: each slot takes the eligible candidate whose left-hand tag has the fewest already-admitted outgoing edges, with count as the tie-break",
+   "scope": "which eligible candidate occupies a budget slot; eligibility, the scoring function and the admission window are unchanged",
+   "not_a_frequency_variant": "the primary term counts already-admitted edges sharing a source, not the candidate's own frequency, and count survives only as a tie-break"
+  },
+  "budget": {
+   "rule": "the cap must be at least the number of eligible source tags, because below that the diversity order has at most one slot per source and degenerates toward count order",
+   "floor": 16,
+   "increase": "none: the cap stays at the engine's own value for the adoption test",
+   "why_not_an_increase": "the budget route was measured at Gate 13: coverage needs 240-244 asserted edges, about twelve times the budget; precision never exceeded 0.3438 under either frequency allocation rule; a per-source rule did worse than the global one at the same budget. A larger budget buys noise, and mixing it with an ordering change would confound the one variable this run measured"
+  },
+  "unchanged": [
+   "eligibility of rows, including the intra-cell rows a density treatment would exclude",
+   "the scoring function and the admission window",
+   "the world family, the exposure scheme and the horizon",
+   "the frozen engine: v0.9.0 files are untouched, 0.12.0 is immutable, and the change is specified for the next engine version only"
+  ]
+ },
+ "the_claim": {
+  "claim": "adopting diversity-first admission at the engine's cap raises world-edge coverage at the sparsest density without lowering it where the world is dense",
+  "estimand": "Delta = diversity coverage - count coverage, at cap 20, at the sparsest and the densest declared densities, on a fresh seed block",
+  "primary": "the sparsest density at cap 20",
+  "guard": "the densest density at cap 20: a material loss voids adoption. It is a guard that voids, not a second criterion to score",
+  "not_claimed": [
+   "a behavioural gain",
+   "an information-theoretic ceiling",
+   "that the rule helps outside this world family",
+   "that the ladder's shape is an adoption condition"
+  ]
+ },
+ "decisions": {
+  "adopt": "the admission rule replaces count ranking in the next engine version, recorded as a cognition change under the repository rule that selection is a frozen primitive, and the budget floor is adopted with it",
+  "no_adopt": "the ordering advantage does not confirm on fresh seeds, so ordering is closed at this cap and world family, the line moves to the candidate space, and this record may not be followed by another admission variant",
+  "trade": "the rule gains at the sparse end and loses at the dense end, so neither pole is adopted until the trade is priced; that is a separate record and not a re-run of this one"
+ },
+ "why_each_pole_is_a_different_decision": "adoption changes which candidate occupies the budget in the next engine version; a failed sparse end closes the ordering line and moves work to which candidates exist at all; a failed dense-end guard opens a trade-off question that adoption would hide. None of the three is 'run it again'",
+ "harness_checks": [
+  "admission overlap at the sparsest density must be below 1.0, or the manipulation did not occur",
+  "the budget floor must bind: a cell whose cap is below the source count is void rather than a result",
+  "presence must be 1.0 in every pool, so a cell tests ranking rather than memory",
+  "the change is applied in-process to a copy; the frozen engine files are untouched and 0.12.0 is immutable"
+ ],
+ "falsifiers": [
+  "the diversity advantage does not reproduce on fresh seeds: the ordering result was a property of those eight seeds",
+  "the rule loses more at the dense end than it gains at the sparse end: the change is a trade, not a fix",
+  "the arms' admissions are identical at the sparsest density: an unrun experiment, not a null result",
+  "the budget floor is the only active difference: then the change is a budget change and must be relabelled before it is adopted"
+ ],
+ "stop_condition": {
+  "scope": [
+   "one world family, 16 tags",
+   "cap 20 primary, cap 40 secondary",
+   "the sparsest and the densest declared densities",
+   "fresh seeds fixed by a pre-registration",
+   "one horizon and one exposure scheme"
+  ],
+  "stops_when": [
+   "both ends pass: the decision is recorded and the engine change is specified separately",
+   "the sparse end fails: ordering is closed and no admission variant follows",
+   "the dense end fails: the trade-off is written as its own record"
+  ],
+  "no_growth": "no admission variant may be added to this record after the run; it may be fixed if it is found wrong, and it may not grow"
+ },
+ "allocation": {
+  "seeds": 0,
+  "cells": 0,
+  "thresholds": 0,
+  "bars": 0,
+  "note": "this record allocates nothing; the confirmatory pre-registration fixes the bar, the seeds and the cells, and its bar is calibrated on the completed ordering run, which is not the block being judged"
+ },
+ "open_questions": [
+  "whether the rule survives when the pool is not crowded by filler, since the completed run's world was repaired to partial crowding",
+  "whether the dense-end guard can be priced without a second confirmatory block",
+  "the bar's provenance belongs to the pre-registration; calibration may use data that is not being judged, and the completed ordering run is such data"
+ ]
+}
