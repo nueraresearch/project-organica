@@ -40,7 +40,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from benchmarks.force_matrix import COLONIES  # noqa: E402
+from benchmarks.force_matrix import COLONIES, row_reference_problems  # noqa: E402
 
 PARTS_DIR = REPO / ".scratch" / "matrix_parts"
 
@@ -81,10 +81,12 @@ def main() -> None:
         lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
         events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
         print("G1 code-path verification:")
-        checks = verify_colonies(events)
+        checks, problems = verify_colonies(events)
         by_name = {c["colony"]: c for c in checks}
         if len(by_name) < len(args.colonies):
             raise SystemExit("G1 did not verify every colony")
+        if problems:
+            raise SystemExit("G1 failed: " + "; ".join(problems))
     else:
         checks = []
 
@@ -161,6 +163,11 @@ def main() -> None:
 
     print(f"\nmerged {len(rows)} colonies into {out_path} "
           f"({round(time.time() - started, 1)}s total)")
+    dead = row_reference_problems(rows)
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

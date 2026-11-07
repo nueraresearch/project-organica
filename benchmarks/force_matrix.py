@@ -595,6 +595,46 @@ def _discovery(rows: list[dict]) -> dict:
     }
 
 
+def reference_arm_problems(checks: list[dict]) -> list[str]:
+    """Why the reference arm cannot be trusted, from the G1 checks.
+
+    A dead reference arm makes every other colony's comparison meaningless,
+    so the harness must fail rather than write an artifact that reads as a
+    verdict. `docs/RERUN-0.12.0.md` records the first version of this defect:
+    the check fired, printed the message, and the process exited 0.
+    """
+    by_name = {c.get("colony"): c for c in checks}
+    full = by_name.get("FULL")
+    if full is None:
+        return ["FULL was not verified -- the reference arm is missing"]
+    if (full.get("theories") or 0) == 0:
+        return ["FULL produced no theories -- the reference arm is broken"]
+    return []
+
+
+def row_reference_problems(rows: list[dict]) -> list[str]:
+    """Why a measured campaign cannot be reported, from its own rows.
+
+    G1 runs a few cycles, so it cannot see an arm that is alive at the start
+    and dead at the end -- the 0.12.0 rerun's failure mode. This reads the
+    reference colony's own trace and fails when it holds no theory in its
+    final tenth of cycles, or in no cycle at all.
+    """
+    full = next((r for r in rows if r.get("colony") == "FULL"), None)
+    if full is None:
+        return ["FULL is absent from the artifact -- the reference arm is missing"]
+    counts = list((full.get("series") or {}).get("theories") or [])
+    if not counts:
+        return ["FULL recorded no theory trace -- the reference arm is unmeasured"]
+    if not any(c > 0 for c in counts):
+        return ["FULL produced no theories -- the reference arm is broken"]
+    tail = counts[-max(1, len(counts) // 10):]
+    if not any(c > 0 for c in tail):
+        return ["FULL held no theory in its final tenth of cycles -- "
+                "the reference arm is dead"]
+    return []
+
+
 def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     """G1: prove each colony's intervention is actually in the code path.
 
@@ -651,20 +691,19 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
         problems.append("NO_QUESTIONS is still producing questions")
     if (by_name["NO_DREAMS"]["dreams"] or 0) != 0:
         problems.append("NO_DREAMS is still producing dreams")
-    if by_name["FULL"]["theories"] == 0:
-        problems.append("FULL produced no theories -- the reference arm is broken")
 
     for c in checks:
         print(f"  {c['colony']:<20} policy={c['retention_policy']:<14} "
               f"scale={c['contradiction_scale']:<5} Q={c['questions']:<3} "
               f"D={c['dreams']:<3} E={c['experiments']:<3} "
               f"beliefs={c['beliefs']:<3} theories={c['theories']}")
+    problems.extend(reference_arm_problems(checks))
     if problems:
         for p in problems:
             print(f"  !! {p}")
     else:
         print("  G1 code-path check: all six colonies verified distinct.")
-    return checks
+    return checks, problems
 
 
 def merge(parts: list[Path], out_path: Path,
@@ -719,6 +758,11 @@ def merge(parts: list[Path], out_path: Path,
         "rows": rows,
     }, indent=2), encoding="utf-8")
     print(f"merged {len(rows)} colonies into {out_path}")
+    dead = row_reference_problems(rows)
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
+        raise SystemExit(1)
 
 
 def main() -> None:
@@ -744,8 +788,11 @@ def main() -> None:
 
     if not args.no_verify:
         print("G1 code-path verification:")
-    checks = verify_colonies(events) if not args.no_verify else []
+    checks, problems = (verify_colonies(events) if not args.no_verify
+                        else ([], []))
     if args.verify_only:
+        if problems:
+            raise SystemExit(1)
         return
 
     rows = []
@@ -775,7 +822,13 @@ def main() -> None:
               f"({r['seconds']}s)")
         sys.stdout.flush()
 
+    dead = row_reference_problems(rows)
+    if dead:
+        for p in dead:
+            print(f"  !! {p}")
     print(f"\nwrote {out_path}")
+    if dead:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

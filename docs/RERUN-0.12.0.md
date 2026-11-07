@@ -176,3 +176,14 @@ path is the owner's decision (rule 2).
 their logs; `benchmarks/prediction_decay_probe.py` reproduces the diagnosis. The `v0.9.0` artifacts (`docs/force_matrix.json`,
 `docs/verdicts.json`, `docs/phase_k_results.json`, `docs/phase_l_results.json`)
 are unchanged.
+
+**Closed 2026-11-07.** Item 2 is implemented: `benchmarks/force_matrix.py`
+exits non-zero when G1 finds the reference arm dead, when the arm is missing,
+or when the reference colony's own trace holds no theory in its final tenth of
+cycles; `benchmarks/run_matrix.py` refuses to launch on a G1 problem and fails
+after merging a dead `FULL` row. The artifact is still written so the failure
+has a record, but the exit status no longer reports success. On the current
+build `--verify-only` exits 1, because the reference arm is still dead at G1 -
+the decay rule this document diagnosed has not been fixed, so the campaign
+remains blocked. `tests/test_force_matrix_exit.py` covers the dead, missing,
+late-dead and live cases.

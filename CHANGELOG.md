@@ -30,6 +30,20 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Fixed — The campaign fails closed on a dead reference arm (2026-11-07)
+
+- **`benchmarks/force_matrix.py` now exits non-zero when the reference arm is dead.** The G1
+  check already detected it and printed `FULL produced no theories -- the reference arm is
+  broken`; the process exited 0, so a caller reading the status saw success (row 40). G1 now
+  returns its problem list, the measured-campaign path and `--merge` check the `FULL` row's own
+  theory trace for an arm that dies in its final tenth of cycles, and every one of those paths
+  exits 1. The artifact is still written, so the failure has a record.
+- **`benchmarks/run_matrix.py` refuses to launch on a G1 problem** and fails after merging a
+  dead `FULL` row, instead of reporting a campaign whose comparison arm is empty.
+- **On the current build `--verify-only` exits 1**, because the reference arm is still dead at
+  G1: the campaign stays blocked until the decay rule is fixed, which is what fail-closed means.
+  `tests/test_force_matrix_exit.py` covers the dead, missing, late-dead and live cases.
+
 ### Added — The next cross-context run is licensed question by question (2026-11-07)
 
 - **`docs/ccre_question_licensing.json`** with its rendered `docs/CCRE-QUESTION-LICENSING.md`:
