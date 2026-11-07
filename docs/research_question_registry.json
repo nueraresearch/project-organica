@@ -492,52 +492,6 @@
       ]
     },
     {
-      "id": "Q040",
-      "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
-      "question": "Does the pinned 0.13.0 engine reproduce the historical death phenomenon?",
-      "answer": "Yes. On the falsifier's own setting (300 cycles, seed 20261023) theories are present in 37 cycles, the last at cycle 38, and none at the end, so the pinned engine reproduces the death the change map attributes to decay. The run is reported as VOID_REFERENCE_DEAD because the harness's own reference check failed it, which is the same death seen from the harness side; the loss of a scientific verdict does not weaken this observation, which is read from the series.",
-      "evidence": [
-        "docs/decay_falsifier.json",
-        "docs/decay_falsifier/harness.json"
-      ],
-      "preregistrations": [],
-      "supersedes": [],
-      "decisions": []
-    },
-    {
-      "id": "Q041",
-      "kind": "research",
-      "status": "closed",
-      "outcome": "UNSUPPORTED",
-      "question": "Can the decay falsifier be validly interpreted when its reference arm is dead?",
-      "answer": "No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.",
-      "evidence": [
-        "docs/decay_falsifier.json",
-        "docs/DECAY-FALSIFIER-RESULT.md"
-      ],
-      "preregistrations": [],
-      "supersedes": [],
-      "decisions": [
-        "DECISION-UNCERTIFIED-RUN.md"
-      ]
-    },
-    {
-      "id": "Q042",
-      "kind": "research",
-      "status": "open",
-      "question": "Is reference-arm death itself the dominant failure mode of 0.13.0?",
-      "why_open": "Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.",
-      "evidence": [
-        "docs/theory_budget_ceiling.json",
-        "docs/decay_falsifier.json"
-      ],
-      "preregistrations": [],
-      "supersedes": [],
-      "decisions": []
-    },
-    {
       "id": "Q029",
       "kind": "research",
       "status": "closed",
@@ -610,24 +564,6 @@
       "decisions": []
     },
     {
-      "id": "Q036",
-      "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
-      "question": "What is the persistence half-life of the peak structure?",
-      "answer": "65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.",
-      "evidence": [
-        "docs/decay_attribution.json",
-        "docs/DECAY-ATTRIBUTION.md"
-      ],
-      "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
-        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
-      ],
-      "supersedes": [],
-      "decisions": []
-    },
-    {
       "id": "Q033",
       "kind": "research",
       "status": "open",
@@ -674,6 +610,24 @@
       "decisions": []
     },
     {
+      "id": "Q036",
+      "kind": "research",
+      "status": "closed",
+      "outcome": "SUPPORTED",
+      "question": "What is the persistence half-life of the peak structure?",
+      "answer": "65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.",
+      "evidence": [
+        "docs/decay_attribution.json",
+        "docs/DECAY-ATTRIBUTION.md"
+      ],
+      "preregistrations": [
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": []
+    },
+    {
       "id": "Q037",
       "kind": "research",
       "status": "open",
@@ -686,6 +640,52 @@
       "preregistrations": [
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
+      "supersedes": [],
+      "decisions": []
+    },
+    {
+      "id": "Q040",
+      "kind": "research",
+      "status": "closed",
+      "outcome": "SUPPORTED",
+      "question": "Does the pinned 0.13.0 engine reproduce the historical death phenomenon?",
+      "answer": "Yes. On the falsifier's own setting (300 cycles, seed 20261023) theories are present in 37 cycles, the last at cycle 38, and none at the end, so the pinned engine reproduces the death the change map attributes to decay. The run is reported as VOID_REFERENCE_DEAD because the harness's own reference check failed it, which is the same death seen from the harness side; the loss of a scientific verdict does not weaken this observation, which is read from the series.",
+      "evidence": [
+        "docs/decay_falsifier.json",
+        "docs/decay_falsifier/harness.json"
+      ],
+      "preregistrations": [],
+      "supersedes": [],
+      "decisions": []
+    },
+    {
+      "id": "Q041",
+      "kind": "research",
+      "status": "closed",
+      "outcome": "UNSUPPORTED",
+      "question": "Can the decay falsifier be validly interpreted when its reference arm is dead?",
+      "answer": "No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.",
+      "evidence": [
+        "docs/decay_falsifier.json",
+        "docs/DECAY-FALSIFIER-RESULT.md"
+      ],
+      "preregistrations": [],
+      "supersedes": [],
+      "decisions": [
+        "DECISION-UNCERTIFIED-RUN.md"
+      ]
+    },
+    {
+      "id": "Q042",
+      "kind": "research",
+      "status": "open",
+      "question": "Is reference-arm death itself the dominant failure mode of 0.13.0?",
+      "why_open": "Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.",
+      "evidence": [
+        "docs/theory_budget_ceiling.json",
+        "docs/decay_falsifier.json"
+      ],
+      "preregistrations": [],
       "supersedes": [],
       "decisions": []
     },
@@ -707,6 +707,23 @@
       "decisions": [
         "DECISION-STORE-TIME-ROLE-RECORD.md"
       ]
+    },
+    {
+      "id": "Q044",
+      "kind": "research",
+      "status": "open",
+      "question": "When a stable edge misses re-emission, is the cause the admission count or the ranked slot?",
+      "why_open": "The attribution ledger records that 68.97 percent of engine-arm deaths were not re-emitted, but it attributes them to candidate decay without separating an edge that fell below the engine's admission floor from one that was admitted and lost one of the 40 prediction slots. The distinction needs the engine's pre-slice candidate list, which is observable but has not been measured.",
+      "evidence": [
+        "docs/decay_attribution.json",
+        "docs/DECAY-ATTRIBUTION.md",
+        "docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md"
+      ],
+      "preregistrations": [
+        "DECAY-ADMISSION-SLOT-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": []
     }
   ],
   "schema": {

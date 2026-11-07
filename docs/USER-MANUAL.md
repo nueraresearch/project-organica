@@ -285,7 +285,7 @@ run_dashboard_and_api.bat
 | `python benchmarks/archive_run.py --log organica.log` | Snapshots the daemon log into a per-cycle series (`docs/prefix_run_series.json`), re-deriving contradiction totals from the hypothesis snapshot. |
 | `python benchmarks/benchmark_suite.py` | BM1–BM5 growth benchmarks |
 | `python benchmarks/cross_domain_validation.py` | Phase F: the four reproduction domains, writes `docs/validation_report.json` |
-| `python -m pytest tests -q` | The test suite (<!-- tests:auto -->1333 passed, 13 skipped, 0 failed of 1346 collected (2026-11-07)<!-- /tests:auto -->) |
+| `python -m pytest tests -q` | The test suite (<!-- tests:auto -->1347 passed, 13 skipped, 0 failed of 1360 collected (2026-11-07)<!-- /tests:auto -->) |
 
 ### 4.6 The four reproduction domains
 

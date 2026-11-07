@@ -47,14 +47,6 @@ the finding: a result outside that scope is not established by it.
 
 **Claims resting on it.** C004
 
-### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Yes. On the falsifier's own setting (300 cycles, seed 20261023) theories are present in 37 cycles, the last at cycle 38, and none at the end, so the pinned engine reproduces the death the change map attributes to decay. The run is reported as VOID_REFERENCE_DEAD because the harness's own reference check failed it, which is the same death seen from the harness side; the loss of a scientific verdict does not weaken this observation, which is read from the series.
-
-**Evidence.** `docs/decay_falsifier.json`, `docs/decay_falsifier/harness.json`
-
 ### Q029 — Why do the structures that reach 35 stable edges on a degree-12 hub disappear?
 
 **Outcome.** SUPPORTED, status closed.
@@ -86,6 +78,14 @@ the finding: a result outside that scope is not established by it.
 **Answer.** 65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes. On the falsifier's own setting (300 cycles, seed 20261023) theories are present in 37 cycles, the last at cycle 38, and none at the end, so the pinned engine reproduces the death the change map attributes to decay. The run is reported as VOID_REFERENCE_DEAD because the harness's own reference check failed it, which is the same death seen from the harness side; the loss of a scientific verdict does not weaken this observation, which is read from the series.
+
+**Evidence.** `docs/decay_falsifier.json`, `docs/decay_falsifier/harness.json`
 
 ### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
 
@@ -154,14 +154,6 @@ means the test the project ran did not support the proposition, on the scope sta
 
 **Evidence.** `papers/07_architecture_predictions_reversed.md`
 
-### Q041 — Can the decay falsifier be validly interpreted when its reference arm is dead?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.
-
-**Evidence.** `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`
-
 ### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
 
 **Outcome.** UNSUPPORTED, status closed.
@@ -169,6 +161,14 @@ means the test the project ran did not support the proposition, on the scope sta
 **Answer.** No. The edges start falling at cycle 16 while the theory layer's last live cycle is 28 (zero at 29), so the loss precedes the theory death and cannot be caused by it; the pre-registered direction was reversed.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q041 — Can the decay falsifier be validly interpreted when its reference arm is dead?
+
+**Outcome.** UNSUPPORTED, status closed.
+
+**Answer.** No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.
+
+**Evidence.** `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`
 
 ## Withdrawn or superseded interpretations
 
@@ -272,12 +272,6 @@ as one.
 
 **What is in hand.** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`
 
-### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
-
-**Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
-
-**What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
-
 ### Q033 — During collapse, is a stable core retained or does the whole structure collapse?
 
 **Why it is open.** The per-cycle ledger records the stable-edge set every cycle, so a core is measurable, but no run has separated a surviving core from a full collapse beyond the first study's three seeds, where all 35 peak edges were dead by the final cycle.
@@ -301,6 +295,18 @@ as one.
 **Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss.
 
 **What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
+
+**Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
+
+**What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
+
+### Q044 — When a stable edge misses re-emission, is the cause the admission count or the ranked slot?
+
+**Why it is open.** The attribution ledger records that 68.97 percent of engine-arm deaths were not re-emitted, but it attributes them to candidate decay without separating an edge that fell below the engine's admission floor from one that was admitted and lost one of the 40 prediction slots. The distinction needs the engine's pre-slice candidate list, which is observable but has not been measured.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`
 
 ### Q022 — Can role representations transfer across domains?
 
