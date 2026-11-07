@@ -170,3 +170,36 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
         assert row["verdict"] in flat, row["verdict"]
     assert "Every figure this block produces carries its arm" in flat
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))
+
+
+def test_the_result_is_the_registered_grid_scored_by_the_frozen_path():
+    body = _body()
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    assert result["prereg"] == body["prereg"]
+    assert result["cells"] == body["design"]["cells"] == 16
+    assert result["gates"]["all_passed"] is True
+    assert result["decision"]["verdict"] in [r["verdict"] for r in body["decision_table"]]
+    assert body["run"]["verdict"] == result["decision"]["verdict"]
+    assert body["registered_status"].startswith("FROZEN, NOT RUN")
+
+
+def test_the_recorded_run_agrees_with_the_result_artifact():
+    body = _body()
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    assert body["run"]["adoption"] == result["criteria"]["adoption"]
+    assert body["run"]["guard"] == result["criteria"]["guard"]
+    assert body["run"]["per_seed"] == result["criteria"]["per_seed"]
+
+
+def test_the_result_section_quotes_the_result_artifact():
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    a, g = result["criteria"]["adoption"], result["criteria"]["guard"]
+    flat = _flat()
+    for token in ("%+.6f" % a["mean_paired_gain"],
+                  "%+.6f" % a["interval"][0], "%+.6f" % a["interval"][1],
+                  "%+.6f" % g["mean_paired_precision_difference"],
+                  result["decision"]["verdict"]):
+        assert token in flat, token
+    assert "preserved exactly as committed before the run" in flat
+    for seed in result["criteria"]["per_seed"]:
+        assert seed in flat

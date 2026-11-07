@@ -1,0 +1,100 @@
+{
+ "prereg": "ADMISSION-TWO-ARM-1",
+ "cells": 16,
+ "gates": {
+  "G0_liveness": {
+   "seeds_where_the_arms_differ": 8,
+   "of": 8,
+   "required": 7,
+   "passed": true
+  },
+  "G1_world_present": {
+   "min_raw_temporal_coverage": 1.0,
+   "passed": true
+  },
+  "G2_arithmetic": {
+   "problems": [],
+   "passed": true
+  },
+  "G3_determinism": {
+   "matched": true,
+   "passed": true
+  },
+  "G4_denominator": {
+   "min_world_edges": 112,
+   "passed": true
+  },
+  "G5_boundary": {
+   "frozen_files_clean": true,
+   "passed": true
+  },
+  "all_passed": true
+ },
+ "criteria": {
+  "adoption": {
+   "mean_paired_gain": -0.077009,
+   "interval": [
+    -0.099331,
+    -0.05692
+   ],
+   "interval_width": 0.042411,
+   "bar": 0.08,
+   "seeds_positive": 0,
+   "conditions": {
+    "mean_at_or_above_bar": false,
+    "interval_lower_above_zero": false,
+    "sign_test_met": false
+   },
+   "passed": false
+  },
+  "guard": {
+   "mean_paired_precision_difference": -0.096528,
+   "bar": -0.05,
+   "passed": false
+  },
+  "per_seed": {
+   "20320101": {
+    "coverage_gain": -0.044643,
+    "precision_difference": -0.065559
+   },
+   "20320102": {
+    "coverage_gain": -0.116072,
+    "precision_difference": -0.12431
+   },
+   "20320103": {
+    "coverage_gain": -0.044643,
+    "precision_difference": -0.086571
+   },
+   "20320104": {
+    "coverage_gain": -0.133929,
+    "precision_difference": -0.120615
+   },
+   "20320105": {
+    "coverage_gain": -0.089286,
+    "precision_difference": -0.134615
+   },
+   "20320106": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.106831
+   },
+   "20320107": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.050258
+   },
+   "20320108": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.083464
+   }
+  }
+ },
+ "decision": {
+  "verdict": "NO GAIN ON THIS LAYER",
+  "decision": "close",
+  "reading": "the adopted rule does not cover more of the world here; this layer is closed to this rule"
+ },
+ "not_evidence": [
+  "no behavioural claim: the endpoint is world-edge coverage in the asserted structure, not prediction, revision or retention",
+  "one world family and one horizon: the Gate 13 compositional world at 120 cycles",
+  "a pass licenses the adoption on this layer only, and the earlier pooled-table figure is not re-used as this block's result"
+ ]
+}

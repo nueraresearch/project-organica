@@ -1,16 +1,18 @@
 {
  "created": "2026-11-07",
  "prereg": "ADMISSION-TWO-ARM-1",
- "status": "FROZEN, NOT RUN (ready; no cell). No arm has run on this registration.",
+ "status": "FROZEN, RUN (result: NO GAIN ON THIS LAYER)",
  "question": "does the adopted diversity-first admission produce higher asserted world-edge coverage than the reference engine on the same real world, at the same budget and the same number of cycles?",
  "arms": {
   "reference": {
    "service": "organica.sleep.SleepService",
-   "rule": "the frozen engine's own builder: transition probability inside a stratified transition/co-occurrence quota, with a schema prior"
+   "rule": "the frozen engine's own builder: transition probability inside a stratified transition/co-occurrence quota, with a schema prior",
+   "ran": true
   },
   "adopted": {
    "service": "organica.admission.DiversityFirstSleepService",
-   "rule": "the adopted order: fewest already-admitted outgoing edges per source, ties on count then stable key, over the eligible pool"
+   "rule": "the adopted order: fewest already-admitted outgoing edges per source, ties on count then stable key, over the eligible pool",
+   "ran": true
   }
  },
  "design": {
@@ -127,5 +129,72 @@
   "no behavioural claim: the endpoint is world-edge coverage in the asserted structure, not prediction, revision or retention",
   "one world family and one horizon: the Gate 13 compositional world at 120 cycles",
   "a pass licenses the adoption on this layer only, and the earlier pooled-table figure is not re-used as this block's result"
- ]
+ ],
+ "registered_status": "FROZEN, NOT RUN (ready; no cell). No arm has run on this registration.",
+ "run": {
+  "ran": "2026-11-07",
+  "cells": 16,
+  "verdict": "NO GAIN ON THIS LAYER",
+  "decision": "close",
+  "reading": "the adopted rule does not cover more of the world here; this layer is closed to this rule",
+  "gates_all_passed": true,
+  "adoption": {
+   "mean_paired_gain": -0.077009,
+   "interval": [
+    -0.099331,
+    -0.05692
+   ],
+   "interval_width": 0.042411,
+   "bar": 0.08,
+   "seeds_positive": 0,
+   "conditions": {
+    "mean_at_or_above_bar": false,
+    "interval_lower_above_zero": false,
+    "sign_test_met": false
+   },
+   "passed": false
+  },
+  "guard": {
+   "mean_paired_precision_difference": -0.096528,
+   "bar": -0.05,
+   "passed": false
+  },
+  "per_seed": {
+   "20320101": {
+    "coverage_gain": -0.044643,
+    "precision_difference": -0.065559
+   },
+   "20320102": {
+    "coverage_gain": -0.116072,
+    "precision_difference": -0.12431
+   },
+   "20320103": {
+    "coverage_gain": -0.044643,
+    "precision_difference": -0.086571
+   },
+   "20320104": {
+    "coverage_gain": -0.133929,
+    "precision_difference": -0.120615
+   },
+   "20320105": {
+    "coverage_gain": -0.089286,
+    "precision_difference": -0.134615
+   },
+   "20320106": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.106831
+   },
+   "20320107": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.050258
+   },
+   "20320108": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.083464
+   }
+  },
+  "cells_artifact": "docs/admission_two_arm_run.json",
+  "result_artifact": "docs/admission_two_arm_result.json",
+  "note": "both arms ran on the same generated world for each seed, through the Gate 13 harness; the analysis path ran once, as frozen, and no criterion was re-read"
+ }
 }

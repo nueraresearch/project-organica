@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ARTIFACT = ROOT / "docs" / "admission_two_arm_prereg.json"
 OUT = ROOT / "docs" / "ADMISSION-TWO-ARM-PREREGISTRATION.md"
+RESULT = ROOT / "docs" / "admission_two_arm_result.json"
 
 
 def render(body: dict) -> str:
@@ -94,9 +95,57 @@ No arm may run before this file is committed.
     }
 
 
+def render_result(body: dict, result: dict) -> str:
+    """§9 is post-freeze: every number is read from the result artifact."""
+    a, g = result["criteria"]["adoption"], result["criteria"]["guard"]
+    level = int(round(body["criteria"]["interval"] * 100))
+    rows = "\n".join("| %s | %+.6f | %+.6f |" % (seed, v["coverage_gain"],
+                                                  v["precision_difference"])
+                     for seed, v in sorted(result["criteria"]["per_seed"].items()))
+    failed = sorted(k for k, v in result["gates"].items()
+                    if isinstance(v, dict) and v.get("passed") is False)
+    return """## 9. Result (post-freeze)
+
+**%(verdict)s.** %(reading)s
+
+- **Cells:** %(cells)d, all gates %(gates)s.
+- **Coverage gain, adopted minus reference:** mean %(mean)+.6f, %(level)d%% interval
+  [%(lo)+.6f, %(hi)+.6f], width %(width).6f, bar %(bar).2f, %(positive)d of %(of)d seeds positive.
+- **Precision guard:** mean %(gmean)+.6f against %(gbar)+.2f — %(guard_state)s.
+
+| Seed | Coverage gain (adopted − reference) | Precision difference |
+| --- | --- | --- |
+%(rows)s
+
+Every figure above is the paired difference between the two arms, and the arm order is fixed:
+positive means the adopted arm covered more. Cells are in
+`docs/admission_two_arm_run.json`; the decision is in `docs/admission_two_arm_result.json`.
+The registration itself is unchanged: §1–§7 are exactly as committed before the run.
+""" % {
+        "verdict": result["decision"]["verdict"],
+        "reading": result["decision"]["reading"][:1].upper()
+                   + result["decision"]["reading"][1:],
+        "cells": result["cells"],
+        "gates": "passed" if result["gates"]["all_passed"] else "failed: " + ", ".join(failed),
+        "mean": a["mean_paired_gain"], "level": level,
+        "lo": a["interval"][0], "hi": a["interval"][1], "width": a["interval_width"],
+        "bar": a["bar"], "positive": a["seeds_positive"], "of": body["criteria"]["sign_test"]["of"],
+        "gmean": g["mean_paired_precision_difference"], "gbar": g["bar"],
+        "guard_state": "passed" if g["passed"] else "failed", "rows": rows,
+    }
+
+
 def main() -> int:
     body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     text = render(body)
+    assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
+    if body.get("run") and RESULT.exists():
+        result = json.loads(RESULT.read_text(encoding="utf-8"))
+        banner = ("**This block has run: the frozen analysis path returned %s.** §9 records the "
+                  "result, and §1–§7 are preserved exactly as committed before the run."
+                  % result["decision"]["verdict"])
+        head, rest = text.split("\n\n", 1)
+        text = head + "\n\n" + banner + "\n\n" + rest + "\n" + render_result(body, result)
     assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
     OUT.write_text(text, encoding="utf-8")
     print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))

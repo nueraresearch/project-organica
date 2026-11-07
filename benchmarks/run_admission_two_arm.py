@@ -40,7 +40,7 @@ def boundary() -> dict:
 
 def run(out: Path = OUT, record: dict | None = None) -> dict:
     record = record or prereg()
-    if record["status"].split("(")[0].strip() != "FROZEN":
+    if not record["status"].startswith("FROZEN"):
         raise SystemExit("the registration is not frozen; no cell may run")
     cycles = int(record["design"]["cycles"])
     cells = []

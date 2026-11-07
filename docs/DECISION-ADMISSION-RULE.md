@@ -91,7 +91,35 @@ frozen one. Three properties make that checkable rather than asserted:
 - **A future Gate 13 run through the adopted service will differ from the published figure.** Any
   such run must say which arm it ran. Published figures are count-basis and are not re-scored.
 
-## 6. Stop condition
+## 6. The measured outcome (2026-11-07)
+
+The two-arm comparison registered in `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md` ran after that
+file was committed. All gates passed and the frozen analysis path returned **NO GAIN ON THIS
+LAYER**: mean paired coverage gain **-0.077009**, 95% interval **[-0.099331, -0.056920]**, width
+0.042411 against a bar of 0.08, **0 of 8** seeds positive, and the precision guard also failed at
+**-0.096528**. The figures are in `docs/admission_two_arm_result.json`, the cells that produced
+them in `docs/admission_two_arm_run.json`.
+
+**What this means, in the decision table's own words:** the adopted rule does not cover more of
+the world here. The gain the confirmatory block measured belongs to count-ranked admission on the
+pooled-edge instrument, and it **does not transfer** to the engine's prediction layer. This layer
+is closed to this rule.
+
+**What was not done to the result.** No criterion was re-read, no bar recomputed, no seed dropped.
+The block is negative on its own pre-registered terms: the effect is negative on every seed, with
+an interval that excludes zero and a width far below the underpowered threshold, so this is a
+measured loss and not an absence of evidence.
+
+**What follows for the code.** `organica/admission.py` and `DiversityFirstSleepService` remain as
+implemented and as the *non-default* policy; nothing in the engine uses them by default and no
+document may present them as a gain. Whether to withdraw the adoption outright is an owner
+decision, recorded as pending rather than taken here.
+
+**What survives.** The methodological result survives: the same rule that gains on a pooled edge
+table loses on the engine's own ordering, which is exactly why the layer had to be measured. The
+confirmatory block's verdict is untouched and remains scoped to its instrument.
+
+## 7. Stop condition
 
 The decision is complete when the rule, the floor and the subclass exist, the reference
 reproduction test passes, and the freeze record carries the amendment. **No further admission

@@ -47,6 +47,11 @@ there is nothing to check out.
   and every published count-basis measurement stays reproducible.
 - **The decision is recorded before the code**: `docs/DECISION-ADMISSION-RULE.md`, with
   `docs/V1-FREEZE.md` §7 carrying the amendment. Coverage is not behaviour, and the record says so.
+- **Measured outcome (2026-11-07): the adopted order loses on the prediction layer.** The
+  pre-registered two-arm comparison returned `NO GAIN ON THIS LAYER`: mean paired coverage
+  gain -0.077009 over its interval, 0 of 8 seeds positive, precision also down. The pooled-edge
+  gain does not transfer; the layer is closed to this rule, the service is not the default, and
+  `docs/DECISION-ADMISSION-RULE.md` §6 records the outcome.
 - **`tests/test_admission_rule.py`** proves the count arm reproduces `SleepService`, that the
   adopted arm differs where one source is crowded, that the floor is inert at the engine's caps
   and binds below them, and that no frozen engine file is modified.

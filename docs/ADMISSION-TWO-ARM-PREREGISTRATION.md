@@ -1,5 +1,7 @@
 # The adopted admission rule against the reference engine (2026-11-07)
 
+**This block has run: the frozen analysis path returned NO GAIN ON THIS LAYER.** §9 records the result, and §1–§7 are preserved exactly as committed before the run.
+
 **Status: FROZEN, NOT RUN (ready; no cell).** No arm has run on this registration. The bar, the
 guard, the seeds, the endpoint and the decision table were committed before the first cell.
 
@@ -64,3 +66,28 @@ runner writes, validates the grid, and imports nothing from the engine. The runn
 thresholds, 2 bars. two thresholds are fixed here: the gain bar and the precision guard
 
 No arm may run before this file is committed.
+
+## 9. Result (post-freeze)
+
+**NO GAIN ON THIS LAYER.** The adopted rule does not cover more of the world here; this layer is closed to this rule
+
+- **Cells:** 16, all gates passed.
+- **Coverage gain, adopted minus reference:** mean -0.077009, 95% interval
+  [-0.099331, -0.056920], width 0.042411, bar 0.08, 0 of 8 seeds positive.
+- **Precision guard:** mean -0.096528 against -0.05 — failed.
+
+| Seed | Coverage gain (adopted − reference) | Precision difference |
+| --- | --- | --- |
+| 20320101 | -0.044643 | -0.065559 |
+| 20320102 | -0.116072 | -0.124310 |
+| 20320103 | -0.044643 | -0.086571 |
+| 20320104 | -0.133929 | -0.120615 |
+| 20320105 | -0.089286 | -0.134615 |
+| 20320106 | -0.062500 | -0.106831 |
+| 20320107 | -0.062500 | -0.050258 |
+| 20320108 | -0.062500 | -0.083464 |
+
+Every figure above is the paired difference between the two arms, and the arm order is fixed:
+positive means the adopted arm covered more. Cells are in
+`docs/admission_two_arm_run.json`; the decision is in `docs/admission_two_arm_result.json`.
+The registration itself is unchanged: §1–§7 are exactly as committed before the run.
