@@ -13,11 +13,11 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 12 | a result constrained the space; the answer is recorded with its scope |
+| closed | 17 | a result constrained the space; the answer is recorded with its scope |
 | open | 8 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **31** | |
+| **total** | **36** | |
 
 ## How this stays current
 
@@ -192,6 +192,66 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Answer.** No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.
 
 **Evidence.** `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`
+
+### Q029 — Why do the structures that reach 35 stable edges on a degree-12 hub disappear?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Their strength is the ratio of a temporal count that decays 5% per cycle to a tag frequency that never decays, so the ratio falls (1.25 at the peak, 0.375 after it) while the denominator grows 18x; 31.0% of deaths are re-emitted below the 0.30 strength threshold and 69.0% are not re-emitted at all, so the engine's x0.8 candidate decay takes them under it. The same build with the graph decay disabled peaks at 42 and still holds 30 edges at cycle 300.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q030 — Is the engine's temporal edge decay the mechanism that removes the structure?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes on this world: the only difference between the arms is the 5% per-cycle graph decay, and removing it keeps 30 of 42 edges at the final cycle while the shipped build reaches zero at cycle 173. The candidate decay and the strength rule are identical in both arms.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q031 — At which cycle does the degree-12 fall begin, and how long does it take?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** The peak is at cycle 15 and the first fall at cycle 16, identically in three seeds; half the peak is gone 65 cycles later (cycle 80) and the count reaches zero at cycle 173. The decline is not a cliff and not monotone: the series grows again in 50 of the 285 cycles after the peak.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`
+
+### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
+
+*research question.*
+
+**Outcome.** UNSUPPORTED
+
+**Answer.** No. The edges start falling at cycle 16 while the theory layer's last live cycle is 28 (zero at 29), so the loss precedes the theory death and cannot be caused by it; the pre-registered direction was reversed.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+
+### Q036 — What is the persistence half-life of the peak structure?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** 65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.
+
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
 ## 2. Open — evidence in hand, no settled answer
 

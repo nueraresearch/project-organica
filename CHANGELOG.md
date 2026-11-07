@@ -30,6 +30,22 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — Decay attribution on the degree-12 hub (2026-11-07)
+
+- **The collapse is attributed, not assumed.** `benchmarks/decay_attribution.py` re-runs the budget
+  ceiling's own world with a per-cycle ledger and one causal control (temporal edge decay off). The
+  engine peaks at **35** edges at cycle **15**, first falls at cycle **16**, is at half by cycle
+  **80**, and reaches zero at **173**; the control peaks at **42** and still holds **30** at cycle
+  300. Verdict **`TEMPORAL_EDGE_DECAY`**.
+- **The mechanism is measured from the engine's own quantities.** Strength is
+  `temporal_count / source_frequency`; the median ratio falls from **1.25** to **0.375** while the
+  hub's frequency grows 18x and the graph's total grows 1.8x. 31.03% of deaths are re-emitted below
+  0.30, 68.97% miss re-emission and die by the x0.8 candidate decay.
+- **The protocol's failures are reported as failures.** Three pre-committed predictions failed —
+  edges fall *before* the theory layer dies (16 vs 28), the control's first fall is a dip, and the
+  strength rule is the smaller half of the loss. Registry: Q029-Q031, Q036 closed SUPPORTED, Q032
+  closed UNSUPPORTED.
+
 ### Changed — A dead reference arm voids the decay falsifier's verdict (2026-11-07)
 
 - **The gate now precedes every scientific bucket.** When the harness's own reference-arm check
