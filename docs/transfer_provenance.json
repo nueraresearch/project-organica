@@ -61,7 +61,7 @@
  },
  "cycles": 80,
  "events_recorded": 200,
- "generated_utc": "2026-11-07T17:43:05Z",
+ "generated_utc": "2026-11-07T19:41:11Z",
  "identical_pair_note": "counted and reported, but it cannot fire across disjoint vocabularies, so it is never the denominator",
  "identical_pair_reappearances": 0,
  "instrument": "benchmarks/transfer_provenance.py",
@@ -85,6 +85,687 @@
  "no_threshold": true,
  "no_verdict": true,
  "note": "This is the instrument's pre-run measurement, not a transfer result. It sets no threshold and makes no claim about the organism; the campaign that Q028 licenses has no preregistration on disk.",
+ "pair_comparator_rejects_a_broken_tracer": true,
+ "pair_controls": {
+  "all_passed": true,
+  "controls": {
+   "pair_empty_denominator_is_not_measurable": {
+    "expected": "measurable=True, share=None",
+    "passed": true,
+    "reason": "an unmeasurable quantity is never reported as zero (rule 13b)",
+    "status": "measurable=False, share=None"
+   },
+   "pair_events_removed_flips": {
+    "expected": "unresolved_missing_events",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_missing_events"
+   },
+   "pair_missing_role": {
+    "expected": "unresolved_missing_role",
+    "passed": true,
+    "reason": "role row(s) not in the recorded state (R2): role_motion",
+    "status": "unresolved_missing_role"
+   },
+   "pair_missing_row": {
+    "expected": "unresolved_missing_structure",
+    "passed": true,
+    "reason": "the transfer's own prediction row is not in the snapshot",
+    "status": "unresolved_missing_structure"
+   },
+   "pair_no_events": {
+    "expected": "unresolved_missing_events",
+    "passed": true,
+    "reason": "the prediction's parent_ids name no stored event, so the event leg is not in the recorded state",
+    "status": "unresolved_missing_events"
+   },
+   "pair_no_lineage": {
+    "expected": "unresolved_missing_events",
+    "passed": true,
+    "reason": "the prediction's parent_ids name no stored event, so the event leg is not in the recorded state",
+    "status": "unresolved_missing_events"
+   },
+   "pair_no_priming": {
+    "expected": "unresolved_no_priming",
+    "passed": true,
+    "reason": "the prediction records no schema prior, so no priming licensed it",
+    "status": "unresolved_no_priming"
+   },
+   "pair_no_schema": {
+    "expected": "unresolved_no_schema",
+    "passed": true,
+    "reason": "the primed schema row is not in the recorded state (R1)",
+    "status": "unresolved_no_schema"
+   },
+   "pair_priming_removed_flips": {
+    "expected": "unresolved_no_priming",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_no_priming"
+   },
+   "pair_resolved": {
+    "expected": "resolved_role_pair",
+    "passed": true,
+    "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+    "status": "resolved_role_pair"
+   },
+   "pair_reversed": {
+    "expected": "unresolved_pair_not_in_roles",
+    "passed": true,
+    "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent False",
+    "status": "unresolved_pair_not_in_roles"
+   },
+   "pair_role_removed_flips": {
+    "expected": "unresolved_missing_role",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_missing_role"
+   },
+   "pair_schema_removed_flips": {
+    "expected": "unresolved_no_schema",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_no_schema"
+   },
+   "pair_schema_without_roles": {
+    "expected": "unresolved_schema_without_roles",
+    "passed": true,
+    "reason": "the schema row carries no role ids (R3)",
+    "status": "unresolved_schema_without_roles"
+   }
+  }
+ },
+ "pair_criteria": {
+  "B1_coverage": true,
+  "B2_status_distribution_changed": true,
+  "B3_claim": "resolved to the schema's role pair"
+ },
+ "pair_measurement": {
+  "denominator": 14,
+  "measurable": true,
+  "not_measurable_reason": null,
+  "resolved": 8,
+  "share": 0.5714285714285714,
+  "statuses": {
+   "resolved_role_pair": 8,
+   "unresolved_missing_events": 0,
+   "unresolved_missing_role": 0,
+   "unresolved_missing_structure": 0,
+   "unresolved_no_priming": 0,
+   "unresolved_no_schema": 0,
+   "unresolved_pair_not_in_roles": 6,
+   "unresolved_schema_without_roles": 0
+  },
+  "transfer_events": 14,
+  "unresolved": 6
+ },
+ "pair_resolution": "schema_prior -> stored schema row -> source_role_id / target_role_id -> the two stored role rows -> the pair in the schema's direction -> the events that assert it",
+ "pair_roles_recorded": 4,
+ "pair_schemas_recorded": 2,
+ "pair_traces": [
+  {
+   "events": [
+    "0e454dd1-b89a-4975-adc4-ecb298e42647",
+    "133e481c-6713-4d10-8442-c88b03c0cfef",
+    "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+    "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+    "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+    "33a086c0-663a-473c-a197-8cb514d54d78",
+    "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+    "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+    "b50ad08c-7445-4b82-907e-f92407cda50d",
+    "e2171040-013c-4a1e-9800-32602142c078"
+   ],
+   "id": "pred_58883a8d",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "cosmos",
+   "status": "resolved_role_pair",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_58883a8d",
+    "parent_ids": [
+     "schema_8380303d",
+     "0e454dd1-b89a-4975-adc4-ecb298e42647",
+     "133e481c-6713-4d10-8442-c88b03c0cfef",
+     "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+     "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+     "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+     "b50ad08c-7445-4b82-907e-f92407cda50d",
+     "e2171040-013c-4a1e-9800-32602142c078"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [
+    "0e454dd1-b89a-4975-adc4-ecb298e42647",
+    "133e481c-6713-4d10-8442-c88b03c0cfef",
+    "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+    "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+    "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+    "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+    "0726071b-31b6-4566-8f3a-390458db332b",
+    "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+    "b50ad08c-7445-4b82-907e-f92407cda50d",
+    "beab146f-4b1a-484b-95b6-c59b69d570ba"
+   ],
+   "id": "pred_2ef567ba",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "cosmos",
+   "status": "resolved_role_pair",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_2ef567ba",
+    "parent_ids": [
+     "schema_8380303d",
+     "0e454dd1-b89a-4975-adc4-ecb298e42647",
+     "133e481c-6713-4d10-8442-c88b03c0cfef",
+     "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+     "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+     "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+     "0726071b-31b6-4566-8f3a-390458db332b",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+     "b50ad08c-7445-4b82-907e-f92407cda50d",
+     "beab146f-4b1a-484b-95b6-c59b69d570ba"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [
+    "0e454dd1-b89a-4975-adc4-ecb298e42647",
+    "133e481c-6713-4d10-8442-c88b03c0cfef",
+    "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+    "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+    "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+    "33a086c0-663a-473c-a197-8cb514d54d78",
+    "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+    "0726071b-31b6-4566-8f3a-390458db332b",
+    "c1fe9c91-3cc0-4d67-a4b3-53393ad8f819",
+    "1133053f-a5ff-41a2-aac9-0230a65d4c2a"
+   ],
+   "id": "pred_82a46d66",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "cosmos",
+   "status": "resolved_role_pair",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_82a46d66",
+    "parent_ids": [
+     "schema_8380303d",
+     "0e454dd1-b89a-4975-adc4-ecb298e42647",
+     "133e481c-6713-4d10-8442-c88b03c0cfef",
+     "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+     "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+     "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0726071b-31b6-4566-8f3a-390458db332b",
+     "c1fe9c91-3cc0-4d67-a4b3-53393ad8f819",
+     "1133053f-a5ff-41a2-aac9-0230a65d4c2a"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "quartz"
+   }
+  },
+  {
+   "events": [
+    "0e454dd1-b89a-4975-adc4-ecb298e42647",
+    "133e481c-6713-4d10-8442-c88b03c0cfef",
+    "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+    "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+    "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+    "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+    "beab146f-4b1a-484b-95b6-c59b69d570ba",
+    "cad63d12-626d-48a0-b7cf-930f2c5bd9f7",
+    "9d145723-ad93-4e62-9821-df5dd624a2ec",
+    "45218772-1dbe-481f-af7f-3d4b26bc4385"
+   ],
+   "id": "pred_f7ecea69",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "cosmos",
+   "status": "resolved_role_pair",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_f7ecea69",
+    "parent_ids": [
+     "schema_8380303d",
+     "0e454dd1-b89a-4975-adc4-ecb298e42647",
+     "133e481c-6713-4d10-8442-c88b03c0cfef",
+     "751cb24b-3e4c-4065-92af-7e26ee00cc81",
+     "8948702a-c1be-4c22-a69a-ae073e5d96ed",
+     "1e1e1596-1fa3-4e6b-8cdb-527cf6be7fb6",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+     "beab146f-4b1a-484b-95b6-c59b69d570ba",
+     "cad63d12-626d-48a0-b7cf-930f2c5bd9f7",
+     "9d145723-ad93-4e62-9821-df5dd624a2ec",
+     "45218772-1dbe-481f-af7f-3d4b26bc4385"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [
+    "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+    "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+    "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+    "13ac5d11-06bb-4439-8774-d1468644fb49",
+    "0739f32c-a024-41ef-8f89-4f53316c4758",
+    "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+    "0726071b-31b6-4566-8f3a-390458db332b",
+    "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+    "b50ad08c-7445-4b82-907e-f92407cda50d",
+    "beab146f-4b1a-484b-95b6-c59b69d570ba"
+   ],
+   "id": "pred_40a880f5",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "nebula",
+   "status": "resolved_role_pair",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_40a880f5",
+    "parent_ids": [
+     "schema_8380303d",
+     "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+     "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+     "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+     "13ac5d11-06bb-4439-8774-d1468644fb49",
+     "0739f32c-a024-41ef-8f89-4f53316c4758",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+     "0726071b-31b6-4566-8f3a-390458db332b",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+     "b50ad08c-7445-4b82-907e-f92407cda50d",
+     "beab146f-4b1a-484b-95b6-c59b69d570ba"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [
+    "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+    "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+    "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+    "13ac5d11-06bb-4439-8774-d1468644fb49",
+    "0739f32c-a024-41ef-8f89-4f53316c4758",
+    "33a086c0-663a-473c-a197-8cb514d54d78",
+    "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+    "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+    "b50ad08c-7445-4b82-907e-f92407cda50d",
+    "e2171040-013c-4a1e-9800-32602142c078"
+   ],
+   "id": "pred_c6cb2e05",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "nebula",
+   "status": "resolved_role_pair",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_c6cb2e05",
+    "parent_ids": [
+     "schema_8380303d",
+     "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+     "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+     "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+     "13ac5d11-06bb-4439-8774-d1468644fb49",
+     "0739f32c-a024-41ef-8f89-4f53316c4758",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b",
+     "b50ad08c-7445-4b82-907e-f92407cda50d",
+     "e2171040-013c-4a1e-9800-32602142c078"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [
+    "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+    "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+    "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+    "13ac5d11-06bb-4439-8774-d1468644fb49",
+    "0739f32c-a024-41ef-8f89-4f53316c4758",
+    "33a086c0-663a-473c-a197-8cb514d54d78",
+    "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+    "0726071b-31b6-4566-8f3a-390458db332b",
+    "c1fe9c91-3cc0-4d67-a4b3-53393ad8f819",
+    "1133053f-a5ff-41a2-aac9-0230a65d4c2a"
+   ],
+   "id": "pred_00a18668",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "nebula",
+   "status": "resolved_role_pair",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_00a18668",
+    "parent_ids": [
+     "schema_8380303d",
+     "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+     "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+     "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+     "13ac5d11-06bb-4439-8774-d1468644fb49",
+     "0739f32c-a024-41ef-8f89-4f53316c4758",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0726071b-31b6-4566-8f3a-390458db332b",
+     "c1fe9c91-3cc0-4d67-a4b3-53393ad8f819",
+     "1133053f-a5ff-41a2-aac9-0230a65d4c2a"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "quartz"
+   }
+  },
+  {
+   "events": [
+    "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+    "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+    "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+    "13ac5d11-06bb-4439-8774-d1468644fb49",
+    "0739f32c-a024-41ef-8f89-4f53316c4758",
+    "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+    "beab146f-4b1a-484b-95b6-c59b69d570ba",
+    "cad63d12-626d-48a0-b7cf-930f2c5bd9f7",
+    "9d145723-ad93-4e62-9821-df5dd624a2ec",
+    "45218772-1dbe-481f-af7f-3d4b26bc4385"
+   ],
+   "id": "pred_fb89724e",
+   "priming": "schema_8380303d",
+   "reason": "the schema's role pair contains the pair in its own direction and a recorded event asserts it",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "nebula",
+   "status": "resolved_role_pair",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_fb89724e",
+    "parent_ids": [
+     "schema_8380303d",
+     "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1",
+     "a113b6d7-4ff0-4522-a5d0-3c5dd430fd9c",
+     "d6bb92a0-928a-4715-9b0c-b6a881ca83d9",
+     "13ac5d11-06bb-4439-8774-d1468644fb49",
+     "0739f32c-a024-41ef-8f89-4f53316c4758",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+     "beab146f-4b1a-484b-95b6-c59b69d570ba",
+     "cad63d12-626d-48a0-b7cf-930f2c5bd9f7",
+     "9d145723-ad93-4e62-9821-df5dd624a2ec",
+     "45218772-1dbe-481f-af7f-3d4b26bc4385"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_8323c60f",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent True",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_8323c60f",
+    "parent_ids": [
+     "schema_8380303d",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038",
+     "0726071b-31b6-4566-8f3a-390458db332b",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_3e9b7441",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent False",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "plasma",
+   "transfer": {
+    "id": "pred_3e9b7441",
+    "parent_ids": [
+     "schema_8380303d",
+     "0e454dd1-b89a-4975-adc4-ecb298e42647",
+     "dec356a1-1aac-4b73-a902-527fbd1b530b",
+     "751cb24b-3e4c-4065-92af-7e26ee00cc81"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "plasma"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_91157d0a",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent False",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "pulsar",
+   "transfer": {
+    "id": "pred_91157d0a",
+    "parent_ids": [
+     "schema_8380303d",
+     "dec356a1-1aac-4b73-a902-527fbd1b530b",
+     "133e481c-6713-4d10-8442-c88b03c0cfef",
+     "a8d1a3d9-434d-4c62-8780-beaebb0c8ae1"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "pulsar"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_d47cc89f",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent True",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_d47cc89f",
+    "parent_ids": [
+     "schema_8380303d",
+     "4f7e7f71-22e0-4a9d-80a7-4713d1091038"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_eda93437",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent True",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_eda93437",
+    "parent_ids": [
+     "schema_8380303d",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0f9bcc7a-5e72-4cc3-97c1-c693f360468b"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_39ec612b",
+   "priming": "schema_8380303d",
+   "reason": "the pair does not span the schema's direction: source in antecedent False, target in consequent True",
+   "role_ids": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "role_pair": [
+    "role_a7695cfb",
+    "role_024d567b"
+   ],
+   "schema_id": "schema_8380303d",
+   "source": "reading",
+   "status": "unresolved_pair_not_in_roles",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_39ec612b",
+    "parent_ids": [
+     "schema_8380303d",
+     "33a086c0-663a-473c-a197-8cb514d54d78",
+     "3826cbb8-b138-4b30-85de-01f0ae8680b1",
+     "0726071b-31b6-4566-8f3a-390458db332b"
+    ],
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "quartz"
+   }
+  }
+ ],
  "phase_a_cycles": 40,
  "phase_b_cycles": 40,
  "priors_seen_in_a": 7,

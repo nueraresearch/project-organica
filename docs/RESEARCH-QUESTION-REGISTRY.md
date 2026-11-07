@@ -321,9 +321,11 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution depends on the schema row and both role rows surviving to the moment the trace reads them; the share of transfers resolving to an explicit role satisfaction has never been measured.
+**Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution reads the schema row and both role rows. The pair resolver now follows that path on the calibration cell: 8 of 14 transfers resolve to the schema's role pair, and the other 6 do not span the schema's role sets because the prior licensed them by polarity agreement. The campaign has not run, so the question stays open.
 
 **Preregistered in.** `STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`
+
+**Evidence.** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`
 
 **Decision record.** `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
 

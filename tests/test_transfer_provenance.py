@@ -99,3 +99,65 @@ def test_the_cli_exits_zero_on_a_passing_self_test():
 def test_the_cli_exits_non_zero_when_the_tracer_is_broken(monkeypatch):
     monkeypatch.setattr(tp, "trace_transfer", tp.always_resolved)
     assert tp.main(["--self-test"]) == 1
+
+
+# ---------------------------------------------------------------------------
+# The pair resolver (P0): schema_prior -> schema row -> source_role_id,
+# target_role_id -> the two role rows -> the pair in the schema's direction.
+# ---------------------------------------------------------------------------
+
+def _pair_trace(name):
+    fixture = tp._pair_fixtures()[name]
+    return tp.trace_transfer_pair(fixture["transfer"], fixture["schemas"],
+                                  fixture["roles"], fixture["events"],
+                                  fixture["snapshot"])
+
+
+def test_a_schema_primed_pair_resolves_to_its_role_pair():
+    got = _pair_trace("pair_resolved")
+    assert got["status"] == tp.PAIR_RESOLVED
+    assert got["schema_id"] == "schema_7"
+    assert got["role_pair"] == ["role_geometry", "role_motion"]
+    assert got["events"] == ["B:0:1", "B:0:2"]
+
+
+def test_each_pair_leg_has_its_own_status():
+    expected = {
+        "pair_no_priming": "unresolved_no_priming",
+        "pair_no_schema": "unresolved_no_schema",
+        "pair_schema_without_roles": "unresolved_schema_without_roles",
+        "pair_missing_role": "unresolved_missing_role",
+        "pair_reversed": "unresolved_pair_not_in_roles",
+        "pair_no_events": "unresolved_missing_events",
+        "pair_missing_row": "unresolved_missing_structure",
+    }
+    for name, status in expected.items():
+        got = _pair_trace(name)
+        assert got["status"] == status, name
+        assert got["reason"], name
+
+
+def test_the_pair_resolver_reads_both_role_ids_and_the_direction():
+    base = tp._pair_fixtures()["pair_resolved"]
+    reversed_pair = {"id": "pred_1", "source": "amber", "target": "willow",
+                     "schema_prior": "schema_7"}
+    got = tp.trace_transfer_pair(reversed_pair, base["schemas"], base["roles"],
+                                 [{"id": "B:9:1", "tags": ["amber", "willow"]}],
+                                 base["snapshot"])
+    assert got["status"] == "unresolved_pair_not_in_roles"
+    assert got["role_pair"] == ["role_geometry", "role_motion"]
+
+
+def test_the_pair_controls_pass_and_reject_a_tracer_that_always_resolves():
+    report = tp.run_pair_controls()
+    assert report["all_passed"] is True
+    broken = tp.compare_to_expected(tp.always_resolved_pair, controls=tp.run_pair_controls)
+    assert broken["passed"] is False
+    assert "pair_schema_removed_flips" in broken["failures"]
+
+
+def test_the_self_test_covers_both_resolvers():
+    result = tp.self_test()
+    assert result["all_passed"] is True
+    assert result["pair_controls"]["all_passed"] is True
+    assert result["pair_comparator_rejects_a_broken_tracer"] is True

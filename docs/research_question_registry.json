@@ -478,13 +478,17 @@
       "kind": "research",
       "status": "open",
       "question": "Can a transfer event be traced to the role satisfaction that licensed it?",
-      "why_open": "A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution depends on the schema row and both role rows surviving to the moment the trace reads them; the share of transfers resolving to an explicit role satisfaction has never been measured.",
+      "why_open": "A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution reads the schema row and both role rows. The pair resolver now follows that path on the calibration cell: 8 of 14 transfers resolve to the schema's role pair, and the other 6 do not span the schema's role sets because the prior licensed them by polarity agreement. The campaign has not run, so the question stays open.",
       "preregistrations": [
         "STORE-TIME-ROLE-RECORD-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": [
         "DECISION-STORE-TIME-ROLE-RECORD.md"
+      ],
+      "evidence": [
+        "docs/transfer_provenance.json",
+        "docs/TRANSFER-PROVENANCE.md"
       ]
     },
     {

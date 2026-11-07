@@ -7,10 +7,13 @@ and re-check the page with `--check`.
 ## What this is
 
 Q028 asks whether a transfer event can be traced to the role satisfaction that
-licensed it. This instrument answers that from **recorded state only**: a transfer
-is resolved when a role's exemplars contain the transferred pair, at least one
-recorded event asserts that role, and the prediction carries the schema prior that
-licensed it. Anything less is counted with its reason. **There is no threshold, no
+licensed it. This instrument answers that from **recorded state only**, through two
+readings of the same events. The **pair resolver** follows the priming id to the
+stored schema row, reads its `source_role_id` and `target_role_id`, loads both role
+rows, and resolves when the pair spans the schema's direction and an event asserts
+it. The **single-role reading** is kept as the comparison: it asks one role to
+contain both tags, which a schema built from two disjoint role sets cannot satisfy.
+Anything unresolved is counted with its reason. **There is no threshold, no
 verdict and no transfer claim in this document.**
 
 ## Controls, run before the measurement
@@ -52,6 +55,44 @@ on nothing.
 | `unresolved_missing_events` | 0 |
 | `unresolved_no_priming` | 0 |
 | `unresolved_missing_structure` | 0 |
+
+## The pair resolver (P0): `schema_prior` -> the schema's role pair
+
+A schema relates two disjoint role sets, so the single-role predicate above cannot
+resolve a schema-primed transfer by construction. The pair resolver follows the
+priming id to the stored schema row, reads `source_role_id` and `target_role_id`,
+loads those two stored role rows, and resolves only when the pair spans the
+schema's own direction and a recorded event asserts it. This is the resolution the
+decision selects, and its claim is narrower than "resolved to a role".
+
+| quantity | value |
+|---|---|
+| transfer events (denominator) | 14 |
+| resolved to the schema's role pair | 8 |
+| unresolved | 6 |
+| share resolved | 0.5714 |
+| schema rows read | 2 |
+| role rows read | 4 |
+
+| pair status | count |
+|---|---|
+| `resolved_role_pair` | 8 |
+| `unresolved_no_schema` | 0 |
+| `unresolved_schema_without_roles` | 0 |
+| `unresolved_missing_role` | 0 |
+| `unresolved_pair_not_in_roles` | 6 |
+| `unresolved_missing_events` | 0 |
+| `unresolved_no_priming` | 0 |
+| `unresolved_missing_structure` | 0 |
+
+| criterion | result |
+|---|---|
+| B1 every transfer resolves to a schema row or a named missing structure | yes |
+| B2 the status distribution changes from the single-role reading | yes |
+| B3 the claim is narrowed to resolved to the schema's role pair | recorded |
+
+The pair controls were also run against a tracer that always answers
+`resolved_role_pair`, and rejected it: yes.
 
 ## What the number is, and is not
 

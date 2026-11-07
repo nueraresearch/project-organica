@@ -196,3 +196,39 @@ cycles, and survival is not resolution.
 `0.13.0`. Artifacts: `docs/store_time_role_durability.json`,
 `docs/STORE-TIME-ROLE-DURABILITY.md`, `benchmarks/store_time_role_durability.py`.
 
+## 11. Amended 2026-11-07 — P0 exists, and it resolves eight of the fourteen
+
+The pair resolver is built in `benchmarks/transfer_provenance.py` and re-measured on the
+calibration seed **20261101** (40 + 40 cycles), the cell §9 fixed before the build:
+
+| reading | resolved | status distribution |
+| --- | --- | --- |
+| single role (§2) | 0 of 14 | 14 `unresolved_no_role` |
+| the schema's role pair (P0) | **8 of 14** | 8 `resolved_role_pair`, 0 resolved as a pair, 6 `unresolved_pair_not_in_roles` |
+
+**B1 holds**: every one of the 14 transfers read the stored schema row, so none was dropped from
+the denominator and none reports a missing structure. **B2 holds**: the distribution changed from
+one status to two, so §2's reading is confirmed on the same events -- the zero was the resolver's,
+not the organism's. **B3 applies**: the claim is *"resolved to the schema's role pair"*, not
+*"resolved to a role"*.
+
+**What the six are.** Their pair does not sit inside the schema's two role sets at all: the prior
+licensed them by **polarity agreement** (`role_polarity_match` in `sleep_extraction.py`), which
+reorders admissible candidates and never supplies role content
+(`docs/DECISION-EARNED-SCHEMA-PRIMING.md` D1-D2). So they were never traceable to a role
+satisfaction, and a pair resolver cannot make them so. That is a named outcome, not a residual:
+R1, R2 and R3 are all zero on this cell.
+
+**The event leg follows the engine's own lineage.** The first build demanded a single stored event
+containing both tags, which a cross-event temporal pair cannot satisfy (8 transfers were
+`unresolved_missing_events` for that reason alone). The leg now reads the prediction's
+`parent_ids`, minus the schema id, and checks those ids against the stored events. That is the
+record's own account of the events behind the edge, and it is event-level.
+
+**What this does not settle.** Eight of fourteen is **0.5714**, below CCRE-2's P4 bar of 0.90, but
+that bar belongs to the campaign's confirmatory block; this is the calibration cell. Q028 stays
+**open**: the instrument can now answer it, and what it answers here is that the schema prior often
+carries polarity rather than role content. No engine change, no version move.
+
+Artifacts: `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`,
+`benchmarks/transfer_provenance.py`.

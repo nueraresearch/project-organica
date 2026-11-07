@@ -30,6 +30,19 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Changed — The Q028 trace resolves through the schema's role pair (2026-11-07)
+
+- **P0 is built.** `benchmarks/transfer_provenance.py` follows `schema_prior` to the stored schema
+  row, reads `source_role_id` and `target_role_id`, loads both stored role rows, and resolves when
+  the pair spans the schema's direction and the prediction's `parent_ids` name stored events.
+- **Re-measured on seed 20261101 (40 + 40 cycles): 8 of 14 transfers resolve** (share 0.5714),
+  against 0 of 14 under the single-role reading. The other six are `unresolved_pair_not_in_roles`:
+  the prior licensed them by polarity agreement, not by role membership. R1/R2/R3 are all zero.
+- **The event leg was corrected before the result was read**: a single event containing both tags
+  is unsatisfiable for a cross-event temporal pair, so the leg now uses the engine's own lineage.
+- **Q028 stays open** with the claim narrowed to "resolved to the schema's role pair"
+  (`docs/DECISION-STORE-TIME-ROLE-RECORD.md` §11). No engine change, no version move.
+
 ### Added — Decay attribution on the degree-12 hub (2026-11-07)
 
 - **The collapse is attributed, not assumed.** `benchmarks/decay_attribution.py` re-runs the budget
