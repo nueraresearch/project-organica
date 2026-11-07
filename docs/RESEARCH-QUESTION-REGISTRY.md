@@ -15,9 +15,9 @@ where the method is.
 | --- | --- | --- |
 | closed | 10 | a result constrained the space; the answer is recorded with its scope |
 | open | 6 | evidence exists, no answer is settled |
-| retired | 5 | no longer worth resources; the reason is recorded |
+| retired | 6 | no longer worth resources; the reason is recorded |
 | future | 2 | valid only after a named prerequisite is met |
-| **total** | **23** | |
+| **total** | **24** | |
 
 ## How this stays current
 
@@ -31,6 +31,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** SUPPORTED
+
 **Answer.** Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports.
 
 **Scope.** Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.
@@ -40,6 +42,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 ### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
 
 *research question.*
+
+**Outcome.** SUPPORTED
 
 **Answer.** Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there.
 
@@ -53,6 +57,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one.
 
 **Scope.** The Gate 13 task and world family, under the two measured allocation rules.
@@ -65,9 +71,13 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** SUPPORTED
+
 **Answer.** Yes at the sparse end: 0.059375 against a pre-registered bar of 0.05, 13 of 16 seeds positive, reproduced by the other exposure scheme; the dense end is pinned by composition, and the slope is descriptive rather than judged.
 
 **Scope.** One world family, cap 20, precision endpoint; an allocation change with no behavioural claim.
+
+**Preregistered in.** `docs/density_interaction_a2_prereg.json`
 
 **Evidence.** `docs/density_interaction_a2_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
 
@@ -79,9 +89,13 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** Half of it. Whole-cycle padding lifts rho 0.4 from 0.0281 to 0.0844 but leaves the 0.4 to 0.6 step at -0.0344, so both pre-registered criteria fail; the residual is measured and not attributed.
 
 **Scope.** The same world family, cap and endpoint; the scheme varies total exposure, so it cannot separate pass count from exposure quantity.
+
+**Preregistered in.** `docs/density_padding_prereg.json`
 
 **Evidence.** `docs/density_padding_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
 
@@ -93,9 +107,13 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.
 
 **Scope.** The admission rule, not extraction, the confidence formula, the death threshold or the caps.
+
+**Preregistered in.** `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
 
@@ -106,6 +124,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 ### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
 
 *research question.*
+
+**Outcome.** UNSUPPORTED
 
 **Answer.** No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats.
 
@@ -119,6 +139,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction.
 
 **Scope.** Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.
@@ -131,6 +153,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *governance question.*
 
+**Outcome.** SUPPORTED
+
 **Answer.** No. It binds the design of V2, not diagnostics; the decision authorised one bounded Gate 13 diagnostic and amended no preregistration, verdict or frozen file.
 
 **Evidence.** `docs/DECISION-V2-SCOPE.md`
@@ -140,6 +164,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 ### Q010 — Can Stage B be authorised without the independent review?
 
 *governance question.*
+
+**Outcome.** SUPPORTED
 
 **Answer.** No. The independent review is the gate; the sequencing decision changed the route and no hypothesis, gate, threshold, endpoint, falsifier or seed.
 
@@ -156,6 +182,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Why it is open.** At this endpoint it does not: 3.6 cycles against 3.4 naive (TR 0.944) over 5 seeds with no p-value. The prior is applied (162 against 270 applications) and reorders candidates, target rank [7, 5, 4, 20, 7], so the flatness is a measurement rather than an unrun manipulation - but the pre-registered TR > 1.25 at p < 0.01 over 10 seeds was not met.
 
 **Scope.** One vocabulary boundary, 40/40 cycles, five seeds. No statistical claim.
+
+**Preregistered in.** `docs/CROSS-CONTEXT-REUSE-PREREGISTRATION.md`
 
 **Evidence.** `docs/cross_context_reuse_benchmark_earned.json`, `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`
 
@@ -215,6 +243,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** WITHDRAWN
+
 **Answer.** No. The rule was adopted, measured negative, and withdrawn the same day; the reference engine is again the only admission path, and another variant would repeat a layer that measurement closed.
 
 **Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
@@ -227,6 +257,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse.
 
 **Evidence.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`
@@ -236,6 +268,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 ### Q019 — Should another pool-moderator generation be built?
 
 *research question.*
+
+**Outcome.** UNSUPPORTED
 
 **Answer.** No. Every branch invents another moderator and no architectural decision follows, and the row already stands not supported on the owner's reading rather than on new cells.
 
@@ -247,6 +281,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** UNSUPPORTED
+
 **Answer.** No, for the same reason as the pool moderator: the design question is closed, not the measurement.
 
 **Evidence.** `docs/bottleneck_map.json`
@@ -257,9 +293,29 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
+**Outcome.** WITHDRAWN
+
 **Answer.** No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.
 
 **Evidence.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`
+
+### Q024 — Does diversity-first admission improve the real engine?
+
+*research question.*
+
+**Outcome.** WITHDRAWN
+
+**Answer.** No on this layer. It was adopted on pooled-edge evidence, then the two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER, and the adoption was withdrawn the same day; organica/admission.py was deleted and SleepService is again the only admission path.
+
+**Scope.** One layer, one comparison; the pooled result is not retracted, only the engine's benefit from it.
+
+**Preregistered in.** `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
+
+**Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
+
+**Decision record.** `docs/DECISION-ADMISSION-RULE.md`
+
+**Bottleneck rows.** Selection / allocation
 
 ## 4. Future — valid only after a prerequisite is met
 
@@ -269,7 +325,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Why it is open.** Valid only after role abstraction is validated on the single boundary it was proposed for.
 
-**Blocked by.** Q012
+**Prerequisites.** Q012
 
 ### Q023 — Can transfer recursively improve future transfer?
 
@@ -277,7 +333,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Why it is open.** Requires a transfer effect that exists first; asking it now would measure the absence of a prerequisite.
 
-**Blocked by.** Q022
+**Prerequisites.** Q022
 
 ## What this registry is not
 

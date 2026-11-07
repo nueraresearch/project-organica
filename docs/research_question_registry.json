@@ -19,7 +19,10 @@
       "evidence": [
         "docs/V1-SYNTHESIS.md",
         "docs/FACTS-SHEET.md"
-      ]
+      ],
+      "outcome": "SUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q002",
@@ -34,7 +37,10 @@
       ],
       "bottleneck_rows": [
         "World-edge candidate availability"
-      ]
+      ],
+      "outcome": "SUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q003",
@@ -49,7 +55,10 @@
       ],
       "bottleneck_rows": [
         "Selection / allocation"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q004",
@@ -68,7 +77,12 @@
       "bottleneck_rows": [
         "Selection / allocation",
         "Density interaction"
-      ]
+      ],
+      "outcome": "SUPPORTED",
+      "preregistrations": [
+        "docs/density_interaction_a2_prereg.json"
+      ],
+      "supersedes": []
     },
     {
       "id": "Q005",
@@ -86,7 +100,12 @@
       ],
       "bottleneck_rows": [
         "Density interaction"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [
+        "docs/density_padding_prereg.json"
+      ],
+      "supersedes": []
     },
     {
       "id": "Q006",
@@ -104,7 +123,12 @@
       ],
       "bottleneck_rows": [
         "Selection / allocation"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+      ],
+      "supersedes": []
     },
     {
       "id": "Q007",
@@ -119,7 +143,10 @@
       ],
       "bottleneck_rows": [
         "Structure to behavior coupling"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q008",
@@ -133,7 +160,10 @@
       ],
       "bottleneck_rows": [
         "Theory mismatch (motivational reversals)"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q009",
@@ -146,7 +176,10 @@
       ],
       "decisions": [
         "DECISION-V2-SCOPE.md"
-      ]
+      ],
+      "outcome": "SUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q010",
@@ -160,7 +193,10 @@
       ],
       "decisions": [
         "DECISION-STAGE-B-SEQUENCE.md"
-      ]
+      ],
+      "outcome": "SUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q011",
@@ -175,7 +211,11 @@
       ],
       "decisions": [
         "DECISION-EARNED-SCHEMA-PRIMING.md"
-      ]
+      ],
+      "preregistrations": [
+        "docs/CROSS-CONTEXT-REUSE-PREREGISTRATION.md"
+      ],
+      "supersedes": []
     },
     {
       "id": "Q012",
@@ -188,7 +228,9 @@
       ],
       "bottleneck_rows": [
         "Candidate-generation strategy (broader)"
-      ]
+      ],
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q013",
@@ -202,7 +244,9 @@
       ],
       "decisions": [
         "DECISION-CANDIDATE-SUPERSESSION.md"
-      ]
+      ],
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q014",
@@ -212,7 +256,9 @@
       "why_open": "The prior reorders candidates and the acquisition endpoint does not score rank, so a rank-sensitive endpoint is untested; this is the strongest surviving reading of the flat acquisition result and it has no cells.",
       "evidence": [
         "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
-      ]
+      ],
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q015",
@@ -225,7 +271,9 @@
       ],
       "bottleneck_rows": [
         "Decay necessity for liveness"
-      ]
+      ],
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q016",
@@ -239,7 +287,9 @@
       ],
       "bottleneck_rows": [
         "Candidate-generation strategy (broader)"
-      ]
+      ],
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q017",
@@ -256,7 +306,10 @@
       ],
       "bottleneck_rows": [
         "Selection / allocation"
-      ]
+      ],
+      "outcome": "WITHDRAWN",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q018",
@@ -270,7 +323,10 @@
       ],
       "bottleneck_rows": [
         "Selection / allocation"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q019",
@@ -283,7 +339,10 @@
       ],
       "bottleneck_rows": [
         "Pool-structure moderation"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q020",
@@ -296,7 +355,10 @@
       ],
       "bottleneck_rows": [
         "Loop-redundancy moderation"
-      ]
+      ],
+      "outcome": "UNSUPPORTED",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q021",
@@ -307,7 +369,10 @@
       "evidence": [
         "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md",
         "docs/cross_context_reuse_benchmark.json"
-      ]
+      ],
+      "outcome": "WITHDRAWN",
+      "preregistrations": [],
+      "supersedes": []
     },
     {
       "id": "Q022",
@@ -317,7 +382,12 @@
       "blocked_by": [
         "Q012"
       ],
-      "why_open": "Valid only after role abstraction is validated on the single boundary it was proposed for."
+      "why_open": "Valid only after role abstraction is validated on the single boundary it was proposed for.",
+      "preregistrations": [],
+      "supersedes": [],
+      "prerequisites": [
+        "Q012"
+      ]
     },
     {
       "id": "Q023",
@@ -327,7 +397,53 @@
       "blocked_by": [
         "Q022"
       ],
-      "why_open": "Requires a transfer effect that exists first; asking it now would measure the absence of a prerequisite."
+      "why_open": "Requires a transfer effect that exists first; asking it now would measure the absence of a prerequisite.",
+      "preregistrations": [],
+      "supersedes": [],
+      "prerequisites": [
+        "Q022"
+      ]
+    },
+    {
+      "id": "Q024",
+      "kind": "research",
+      "status": "retired",
+      "outcome": "WITHDRAWN",
+      "question": "Does diversity-first admission improve the real engine?",
+      "answer": "No on this layer. It was adopted on pooled-edge evidence, then the two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER, and the adoption was withdrawn the same day; organica/admission.py was deleted and SleepService is again the only admission path.",
+      "scope": "One layer, one comparison; the pooled result is not retracted, only the engine's benefit from it.",
+      "evidence": [
+        "docs/DECISION-ADMISSION-RULE.md",
+        "docs/admission_two_arm_result.json"
+      ],
+      "decisions": [
+        "DECISION-ADMISSION-RULE.md"
+      ],
+      "bottleneck_rows": [
+        "Selection / allocation"
+      ],
+      "preregistrations": [
+        "docs/RANKING-ADMISSION-PREREGISTRATION.md",
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+      ],
+      "supersedes": []
     }
-  ]
+  ],
+  "schema": {
+    "question_id": "id",
+    "status": [
+      "closed",
+      "open",
+      "retired",
+      "future"
+    ],
+    "outcome": [
+      "SUPPORTED",
+      "UNSUPPORTED",
+      "MIXED",
+      "INCONCLUSIVE",
+      "WITHDRAWN"
+    ],
+    "rule": "status and outcome are independent: closed or retired carry an outcome, open and future carry none"
+  }
 }

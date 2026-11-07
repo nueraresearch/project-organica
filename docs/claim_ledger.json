@@ -1,0 +1,233 @@
+{
+  "schema": {
+    "claim_id": "C001",
+    "classification": [
+      "DEMONSTRATED",
+      "SUPPORTED",
+      "HYPOTHESIS",
+      "ASPIRATION"
+    ],
+    "status": [
+      "ACTIVE",
+      "WITHDRAWN",
+      "SUPERSEDED"
+    ],
+    "rule": "a claim is a statement the project is prepared to make; it must cite the questions and artifacts behind it"
+  },
+  "date": "2026-11-07",
+  "claims": [
+    {
+      "claim_id": "C001",
+      "claim": "Organica forms developmental structure from its own event stream, with no pretrained weights.",
+      "classification": "DEMONSTRATED",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q001"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/V1-SYNTHESIS.md"
+      ],
+      "scope_limitations": [
+        "The stimulus families and world families the phases actually used.",
+        "Structure means substrate rows, edges and candidates, not semantic content.",
+        "Says nothing about external validity, task generality or capability."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C002",
+      "claim": "Structure that forms persists across sleep cycles and is read back on later cycles.",
+      "classification": "DEMONSTRATED",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q001"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/V1-SYNTHESIS.md"
+      ],
+      "scope_limitations": [
+        "Persistence is measured on the substrate's own record, not against an external task.",
+        "Decay is present and was not switched off for these runs."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C003",
+      "claim": "All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap.",
+      "classification": "SUPPORTED",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q002"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/force_matrix.json"
+      ],
+      "scope_limitations": [
+        "Presence in memory, not selection, ranking or use in a prediction.",
+        "Measured at the frozen cap of 20 predictions."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C004",
+      "claim": "Intra-cell exclusion buys precision at the sparse end of the density ladder.",
+      "classification": "SUPPORTED",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q004"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/density_interaction_a2_result.json"
+      ],
+      "scope_limitations": [
+        "The sparse end only; the dense end is pinned by the prediction cap and shows no separation.",
+        "One world family, one ordering basis."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C005",
+      "claim": "Diversity-first admission improves the real engine.",
+      "classification": "SUPPORTED",
+      "status": "WITHDRAWN",
+      "supporting_questions": [
+        "Q024"
+      ],
+      "contradicting_questions": [
+        "Q024"
+      ],
+      "supporting_evidence": [
+        "docs/admission_two_arm_result.json"
+      ],
+      "scope_limitations": [
+        "The pooled-edge result it was adopted on is not retracted; only the engine's benefit from it was."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": "The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted."
+    },
+    {
+      "claim_id": "C006",
+      "claim": "The v1 transfer result (TR 3.2) reproduced under a preregistered protocol.",
+      "classification": "HYPOTHESIS",
+      "status": "WITHDRAWN",
+      "supporting_questions": [
+        "Q021"
+      ],
+      "contradicting_questions": [
+        "Q021"
+      ],
+      "supporting_evidence": [
+        "docs/DIVERGENCE-MECHANISM-RESULTS.md"
+      ],
+      "scope_limitations": [
+        "No admissible test of H2 was ever run: F2 fired before the arm that would have tested it."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": "C1 failed as pre-registered (P2 not met) and an earlier version of the record that called it invariant was corrected; the narrower observation that survived is not a held control."
+    },
+    {
+      "claim_id": "C007",
+      "claim": "Role abstraction yields candidates that are reusable across worlds.",
+      "classification": "HYPOTHESIS",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q012"
+      ],
+      "contradicting_questions": [
+        "Q016"
+      ],
+      "supporting_evidence": [
+        "docs/CONTEXT.md"
+      ],
+      "scope_limitations": [
+        "Not tested. Nothing in the record supports or contradicts it yet; it is listed as a hypothesis so that it is not later quoted as a finding."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C008",
+      "claim": "Schema priming speeds acquisition by raising confidence on unseen tags.",
+      "classification": "HYPOTHESIS",
+      "status": "WITHDRAWN",
+      "supporting_questions": [
+        "Q011"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/CONTEXT.md"
+      ],
+      "scope_limitations": [
+        "The mechanism it named was replaced by a corrected account before it was tested."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": "Superseded by the corrected low-confidence-prior account of the same latency; the priming story was a mechanism explanation, not a measurement."
+    },
+    {
+      "claim_id": "C009",
+      "claim": "Transfer can be made to improve future transfer.",
+      "classification": "ASPIRATION",
+      "status": "ACTIVE",
+      "supporting_questions": [
+        "Q023"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/CONTEXT.md"
+      ],
+      "scope_limitations": [
+        "An aim, not a result. No measurement exists, and the record contains a negative cross-domain transfer result."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
+    },
+    {
+      "claim_id": "C010",
+      "claim": "Developmental structure improves held-out next-event prediction over the strongest simple baseline.",
+      "classification": "HYPOTHESIS",
+      "status": "WITHDRAWN",
+      "supporting_questions": [
+        "Q007"
+      ],
+      "contradicting_questions": [
+        "Q007"
+      ],
+      "supporting_evidence": [
+        "docs/FORCE-MATRIX-RESULTS.md"
+      ],
+      "scope_limitations": [
+        "Measured at the frozen cap on the worlds the phase used; a different readout could still find a gain."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": "No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin."
+    },
+    {
+      "claim_id": "C011",
+      "claim": "The architecture's stated mechanisms move development in the predicted direction.",
+      "classification": "HYPOTHESIS",
+      "status": "WITHDRAWN",
+      "supporting_questions": [
+        "Q008"
+      ],
+      "contradicting_questions": [
+        "Q008"
+      ],
+      "supporting_evidence": [
+        "docs/DIVERGENCE-MECHANISM-RESULTS.md"
+      ],
+      "scope_limitations": [
+        "Five preregistered predictions, one developmental contrast, one noise floor."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": "Three of five preregistered predictions reversed in the developmental direction (contradiction +0.166, question generation +1.266, EIG +0.366, against a 0.033 noise floor)."
+    }
+  ]
+}

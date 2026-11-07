@@ -2758,6 +2758,7 @@ belief pool, not a blanket inability to learn late structure. This is the risk
 §6 of the preregistration named before the run.
 
 ### Added
+- **Research accountability system.** `docs/research_question_registry.json` now records an outcome per question, independent of status, and every public claim lives in `docs/claim_ledger.json`; `benchmarks/research_accountability.py` generates `docs/CLAIM-LEDGER.md`, `docs/RESEARCH-DASHBOARD.md` and `docs/RESEARCH-FINDINGS.md` from the two records and fails on a load-bearing claim that cites a closed but unsupported question, a claim with no scope limitation, a withdrawn claim with no reason, or a stale page.
 
 - `docs/V1-SYNTHESIS.md` — **the formal synthesis of V1.** What the project established, what it did not, the distinction between the two goals it could serve, the danger of reading six negative task families as a verdict rather than a map, and the question the evidence leaves open: *what properties must a developmental intelligence have to remain adaptable without losing coherence?* It adds no new evidence — it is a reading of the record, and every claim in it cites a committed artifact.
 - `docs/phase_k_results.md` — the Phase K write-up: results, robustness, the

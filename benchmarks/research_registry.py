@@ -27,6 +27,7 @@ DOC = ROOT / "docs" / "RESEARCH-QUESTION-REGISTRY.md"
 MAP = ROOT / "docs" / "bottleneck_map.json"
 
 STATUSES = ("closed", "open", "retired", "future")
+OUTCOMES = ("SUPPORTED", "UNSUPPORTED", "MIXED", "INCONCLUSIVE", "WITHDRAWN")
 HEADINGS = {
     "closed": "1. Closed — answered, and the answer constrained the space",
     "open": "2. Open — evidence in hand, no settled answer",
@@ -67,12 +68,24 @@ def validate(reg: dict) -> dict:
                 errors.append("%s: closed or retired without evidence" % qid)
         if q.get("status") == "open" and not (q.get("why_open") or q.get("evidence")):
             errors.append("%s: open with neither evidence nor why_open" % qid)
+        prerequisites = q.get("prerequisites", q.get("blocked_by", []))
         if q.get("status") == "future":
-            if not q.get("blocked_by"):
-                errors.append("%s: future without blocked_by" % qid)
-            for prerequisite in q.get("blocked_by", []):
+            if not prerequisites:
+                errors.append("%s: future without prerequisites" % qid)
+            for prerequisite in prerequisites:
                 if prerequisite not in known:
-                    errors.append("%s: blocked_by unknown question %r" % (qid, prerequisite))
+                    errors.append("%s: prerequisite is not a question: %r" % (qid, prerequisite))
+        outcome = q.get("outcome")
+        status = q.get("status")
+        if status in ("closed", "retired"):
+            if outcome is None:
+                errors.append("%s: closed or retired without an outcome" % qid)
+            elif outcome not in OUTCOMES:
+                errors.append("%s: unknown outcome %r" % (qid, outcome))
+        elif outcome is not None:
+            errors.append("%s: open or future question carries an outcome" % qid)
+        if "prerequisites" in q and "blocked_by" in q and q["prerequisites"] != q["blocked_by"]:
+            errors.append("%s: prerequisites and blocked_by disagree" % qid)
         for path in q.get("evidence", []):
             if not (ROOT / path).exists():
                 errors.append("%s: evidence path does not exist: %s" % (qid, path))
@@ -142,14 +155,18 @@ def render(reg: dict, report: dict) -> str:
             lines += ["### %s — %s" % (q["id"], q["question"]), ""]
             if q.get("kind"):
                 lines += ["*%s question.*" % q["kind"], ""]
+            if q.get("outcome"):
+                lines += ["**Outcome.** %s" % q["outcome"], ""]
             if q.get("answer"):
                 lines += ["**Answer.** %s" % q["answer"], ""]
             if q.get("why_open"):
                 lines += ["**Why it is open.** %s" % q["why_open"], ""]
             if q.get("scope"):
                 lines += ["**Scope.** %s" % q["scope"], ""]
-            if q.get("blocked_by"):
-                lines += ["**Blocked by.** %s" % ", ".join(q["blocked_by"]), ""]
+            if q.get("prerequisites"):
+                lines += ["**Prerequisites.** %s" % ", ".join(q["prerequisites"]), ""]
+            if q.get("preregistrations"):
+                lines += ["**Preregistered in.** " + ", ".join("`%s`" % x for x in q["preregistrations"]), ""]
             if q.get("evidence"):
                 lines += ["**Evidence.** " + ", ".join("`%s`" % p for p in q["evidence"]), ""]
             if q.get("decisions"):
