@@ -1,0 +1,75 @@
+{
+ "title": "Decay operability at the matrix horizon: a reported result, not a judged one",
+ "date": "2026-11-07",
+ "provenance": {
+  "figures": "owner-reported, transcribed",
+  "run_by": "the owner, on their local machine",
+  "artifact": "docs/decay_operability.json",
+  "artifact_here": "absent from this worktree, so no figures were recomputed from a series",
+  "authority": "the artifact once committed; this record is re-checked against it then",
+  "why_it_matters": "a transcribed table is a new claim; the check must be mechanical, not careful reading"
+ },
+ "run": {
+  "harness": "benchmarks/decay_operability.py",
+  "cycles": 3000,
+  "horizon": "the Tier-1 matrix horizon",
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "arms": [
+   "decay_on 0.95 (shipped)",
+   "decay_off 1.0 (counterfactual)"
+  ],
+  "settings": "the matrix's own world, cadence and hash seed, both arms in one process"
+ },
+ "liveness_gate": "at least one theory in every cycle of the last tenth, and a mean of at least two beliefs across it",
+ "arms": {
+  "decay_off": {
+   "decay_factor": 1.0,
+   "live_through_cycle": 2999,
+   "liveness": true
+  },
+  "decay_on": {
+   "decay_factor": 0.95,
+   "status": "dies earlier; the matrix arm on the same build loses theories by cycle 37 and beliefs by cycle 112 (docs/RERUN-0.12.0.md)"
+  }
+ },
+ "edge_mass": {
+  "quantity": "SUM(precedes.count) over the precedes table: accumulated transition weight",
+  "not": "not a row count: edges are COUNT(*) and the artifact carries them separately",
+  "start": 1819,
+  "final": 197753
+ },
+ "derived": {
+  "edge_mass_ratio_end_over_first": 108.715,
+  "edge_mass_per_cycle": 65.333,
+  "note": "arithmetic on the two reported masses; a mean rate is not a trajectory"
+ },
+ "two_horizons": [
+  {
+   "cycles": 80,
+   "mass_start": 1819,
+   "mass_final": 6981,
+   "ratio": 3.838,
+   "source": "docs/RERUN-0.12.0.md"
+  },
+  {
+   "cycles": 3000,
+   "mass_start": 1819,
+   "mass_final": 197753,
+   "ratio": 108.715,
+   "source": "this record"
+  }
+ ],
+ "growth_criterion": "unset: no bound was pre-committed, so growth is reported and not judged",
+ "caveats": [
+  "no bar existed before the run, and a bar read off this curve is taken from the run it judges",
+  "a mean per-cycle rate is not a trajectory; the shape lives in the artifact's decile snapshots",
+  "one seed, one stimulus, one horizon"
+ ],
+ "certifies": "liveness at 3,000 cycles for the decay-off arm",
+ "does_not_certify": [
+  "resource soundness: growth is monotone across the measured horizon and no deceleration was measured",
+  "a decay verdict: the matched decay-on/off comparison has not run",
+  "a 0.9.0 versus 0.12.0 comparison",
+  "the longitudinal study's horizon, which is longer than this check"
+ ]
+}

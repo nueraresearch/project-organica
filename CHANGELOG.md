@@ -63,6 +63,8 @@ there is nothing to check out.
 - **`docs/DECAY-NULL-SCOPE.md` corrected: the untested threshold interval is one grid step, not two.** Against the verified artifact the transition arm is liveness-rejected already at 0.15 and precision-rejected at 0.10 and below, and the ratio arm at 0.20 and above forms no stable predictions at all, so its precision is `None` in every cell. Adjacent rejections for opposite reasons is where grid resolution decides the answer, so the null is either structural or a resolution artifact. The verdict and the adoption status are unchanged.
 - **`docs/WORLD-DENSITY-DESIGN.md` separates `P_world` from `P_rank` and registers a direction.** The manipulated quantity is `rho_world` = |W|/|P_world|; the ranker's own population `P_rank` is measured per cell, and selection precision cannot exceed its true-edge share — a bound the study checks rather than assumes. The treatment is intra-cell-excluded ranking against the engine's global count-ranked top-k, and the prediction is that the advantage declines with density and vanishes at rho = 1. Still no seed, cell, threshold or bar allocated.
 
+- **The 3,000-cycle decay-operability run is recorded as liveness, not as soundness.** The decay-off arm holds theories and beliefs through the matrix's full horizon while edge mass grows 1,819 -> 197,753 (×108.715; ×3.838 at 80 cycles). The mass is `SUM(precedes.count)` — accumulated transition weight, not a row count — and no growth bound was pre-committed, so the result is reported and explicitly not judged. Values come from `docs/decay_operability_record.json`, not from prose.
+
 ## [0.12.0] — (2026-11-06)
 
 ### Changed — The release identity is settled: v0.12.0 is the deposit object (2026-11-06)
