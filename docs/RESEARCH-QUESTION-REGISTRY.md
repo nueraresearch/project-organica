@@ -243,6 +243,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Why it is open.** The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.
 
+**Decision record.** `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
+
 ## 3. Retired — no longer worth resources
 
 ### Q017 — Should further Layer-1 admission variants be tried?

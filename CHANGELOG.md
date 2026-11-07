@@ -30,6 +30,22 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Decided — the licensing role is not recorded, because it is already recorded (2026-11-07)
+
+- **The decision**: no engine change. `organica/sleep_extraction.py` already writes
+  `source_role_id` and `target_role_id` on every schema (`:759-760`) and `schema_prior` on every
+  primed prediction (`:477`), so the role behind a transfer is already stored twice.
+- **Why the trace read zero**: `role_match` in `benchmarks/transfer_provenance.py` resolves a pair
+  through *one* role whose exemplars contain **both** tags, while a schema is built from two
+  **disjoint** role sets and gated on flow from A to B. The predicate was unsatisfiable by
+  construction, so `unresolved_no_role` was guaranteed for all 14 events regardless of behaviour.
+- **What is built instead**: a pair resolver in the instrument (no engine change, no re-pin), with
+  three criteria - full coverage, a status distribution that must change, and the claim narrowed
+  from "resolved to a role" to "resolved to the schema's role pair".
+- **Reserved, not applied**: `docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md` fixes the engine
+  change that would follow residuals R1-R3, with four neutrality criteria, a mutation control that
+  must be able to fail, exact coverage T1 and the 0.90 trace bar carried from CCRE-2.
+
 ### Added — The second cross-context run is preregistered and blocked (2026-11-07)
 
 - **`docs/CROSS-CONTEXT-REUSE-2-PREREGISTRATION.md`** fixes, before any cell: five arms

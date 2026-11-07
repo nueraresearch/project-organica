@@ -480,7 +480,10 @@
       "question": "Can a transfer event be traced to the role satisfaction that licensed it?",
       "why_open": "The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "decisions": [
+        "DECISION-STORE-TIME-ROLE-RECORD.md"
+      ]
     }
   ],
   "schema": {
