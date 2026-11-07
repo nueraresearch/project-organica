@@ -36,7 +36,7 @@
     "docs/GATE13-RELATION-SEPARATION.md",
     "docs/gate13_allocation_rule.json"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   },
@@ -53,7 +53,7 @@
     "docs/GATE13-CAUSAL-ACCOUNT.md",
     "docs/ACQUISITION-ENDPOINT-AUDIT.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   },
@@ -72,7 +72,7 @@
     "docs/gate13_allocation_rule.json",
     "docs/GATE13-CAUSAL-ACCOUNT.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   },
@@ -90,7 +90,7 @@
     "docs/PHASE-L-SYNTHESIS.md",
     "papers/01_developmental_structure_formation.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   },
@@ -107,7 +107,7 @@
     "papers/07_architecture_predictions_reversed.md",
     "docs/FORCE-MATRIX-RESULTS.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   },
@@ -129,7 +129,7 @@
     "docs/density_interaction_prereg.json",
     "docs/WORLD-DENSITY-DESIGN.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": true,
    "allocation": {
     "seeds": 16,
@@ -150,7 +150,7 @@
    "evidence": [
     "docs/GATE13-PAIRED-CAPACITY-TEST.md"
    ],
-   "read_for_this_record": false,
+   "provenance": "OWNER_READING",
    "study_specified": false,
    "allocation": null
   },
@@ -168,7 +168,7 @@
     "docs/GATE13-TEMPORAL-REDUNDANCY-PREREGISTRATION.md",
     "docs/gate13_redundancy_moderator_calibration.json"
    ],
-   "read_for_this_record": false,
+   "provenance": "OWNER_READING",
    "study_specified": false,
    "allocation": null
   },
@@ -185,7 +185,7 @@
     "docs/decay_operability_record.json",
     "docs/RERUN-0.12.0.md"
    ],
-   "read_for_this_record": true,
+   "provenance": "ARTIFACT_READ",
    "study_specified": false,
    "allocation": null
   }
@@ -212,15 +212,17 @@
   "note": "the only row with a registered block, and it has run: A2 executed 320 judged cells plus 320 exposure-check cells on sixteen fresh seeds and returned the positive branch of its own decision table; A1 is held and unrun"
  },
  "provenance": {
+  "module": "benchmarks/provenance.py",
   "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",
-  "checked_rows": 7,
-  "checked_note": "statuses and figures for these rows were checked against the records named in evidence",
-  "owner_reading_rows": [
-   "Pool-structure moderation",
-   "Loop-redundancy moderation"
-  ],
-  "owner_reading_note": "these statuses are the owner's reading; the named records are where a reader checks them, and this artifact restates none of their numbers",
-  "rule": "a status added here needs a check behind it, not a story"
+  "tags": {
+   "ARTIFACT_READ": "the status was checked, for this record, against the records named in the row's evidence",
+   "OWNER_READING": "the status is the owner's reading of the named records, which this record does not restate, and the check quotes no figure from them",
+   "AGENT_INFERRED": "an agent inferred the status; no reading was made for this record, and it cannot carry a supported status",
+   "PROTOCOL_CONSTRAINT": "the value is fixed by a registration rather than measured, so the tag must name the registration"
+  },
+  "rule": "every row carries exactly one tag, and the tag is checked rather than described: a tag the row's evidence cannot back is refused, a row may not quote a figure without claiming the reading that produced it, an inference may not carry a supported status, and a protocol-fixed value must name its registration",
+  "owner_reading_note": "the named records are where a reader checks these statuses; this artifact restates none of their numbers",
+  "status_rule": "a status added here needs a check behind it, not a story"
  },
  "not": [
   "a likelihood ranking: statuses are not probabilities and the rows are not ordered by promise",

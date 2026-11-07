@@ -196,31 +196,31 @@ view because a record that hides its corrections is not a record.
 
 ### C005 — Diversity-first admission improves the real engine.
 
-**Original interpretation.** Diversity-first admission improves the real engine., classified SUPPORTED when it was made.
+**Original interpretation.** Diversity-first admission improves the real engine., classified SUPPORTED when it was made, provenance `ARTIFACT_READ`.
 
 **Why it was withdrawn.** The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted.
 
 ### C006 — The v1 transfer result (TR 3.2) reproduced under a preregistered protocol.
 
-**Original interpretation.** The v1 transfer result (TR 3.2) reproduced under a preregistered protocol., classified HYPOTHESIS when it was made.
+**Original interpretation.** The v1 transfer result (TR 3.2) reproduced under a preregistered protocol., classified HYPOTHESIS when it was made, provenance `OWNER_READING`.
 
 **Why it was withdrawn.** C1 failed as pre-registered (P2 not met) and an earlier version of the record that called it invariant was corrected; the narrower observation that survived is not a held control.
 
 ### C008 — Schema priming speeds acquisition by raising confidence on unseen tags.
 
-**Original interpretation.** Schema priming speeds acquisition by raising confidence on unseen tags., classified HYPOTHESIS when it was made.
+**Original interpretation.** Schema priming speeds acquisition by raising confidence on unseen tags., classified HYPOTHESIS when it was made, provenance `OWNER_READING`.
 
 **Why it was withdrawn.** Superseded by the corrected low-confidence-prior account of the same latency; the priming story was a mechanism explanation, not a measurement.
 
 ### C010 — Developmental structure improves held-out next-event prediction over the strongest simple baseline.
 
-**Original interpretation.** Developmental structure improves held-out next-event prediction over the strongest simple baseline., classified HYPOTHESIS when it was made.
+**Original interpretation.** Developmental structure improves held-out next-event prediction over the strongest simple baseline., classified HYPOTHESIS when it was made, provenance `ARTIFACT_READ`.
 
 **Why it was withdrawn.** No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin.
 
 ### C011 — The architecture's stated mechanisms move development in the predicted direction.
 
-**Original interpretation.** The architecture's stated mechanisms move development in the predicted direction., classified HYPOTHESIS when it was made.
+**Original interpretation.** The architecture's stated mechanisms move development in the predicted direction., classified HYPOTHESIS when it was made, provenance `OWNER_READING`.
 
 **Why it was withdrawn.** Three of five preregistered predictions reversed in the developmental direction (contradiction +0.166, question generation +1.266, EIG +0.366, against a 0.033 noise floor).
 

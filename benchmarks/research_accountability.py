@@ -27,6 +27,7 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from benchmarks import provenance as prov
 from benchmarks import research_registry as rr
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,6 +64,10 @@ def validate(reg, ledger):
     errors = list(registry_report["errors"])
     questions = by_id(reg)
     claims = ledger.get("claims", [])
+    # A claim must say what its classification rests on. The tag's own rules live in
+    # `benchmarks.provenance`; they are errors here because the generated pages print them.
+    for finding in prov.check_ledger(ledger, ROOT):
+        errors.append("%s: %s" % (finding["code"], finding["message"]))
 
     seen = set()
     for c in claims:
@@ -233,12 +238,35 @@ def render_dashboard(reg, ledger):
 
 
 def _claim_row(c):
-    return "| %s | %s | %s | %s |" % (
+    return "| %s | %s | %s | %s | %s |" % (
         c["claim_id"],
         c["claim"],
         c["classification"],
         ", ".join(c.get("supporting_questions", [])) or "none",
+        c["provenance"],
     )
+
+
+def _provenance_sentence(ledger):
+    """The tally, generated from the tags rather than typed beside them."""
+    per_tag = prov.claim_counts(ledger)
+    total = len(ledger["claims"])
+    parts = []
+    for tag in prov.TAGS:
+        if not per_tag[tag]:
+            continue
+        ids = [c["claim_id"] for c in ledger["claims"] if c.get("provenance") == tag]
+        if tag == prov.ARTIFACT_READ:
+            parts.append("%d of %d claims are `%s` — their classification rests on a result the "
+                         "artifacts record." % (per_tag[tag], total, tag))
+        else:
+            parts.append("%d %s `%s` — %s (%s)." % (
+                per_tag[tag], "is" if per_tag[tag] == 1 else "are", tag,
+                prov.MEANINGS[tag], ", ".join(ids)))
+    parts.append("A tag says what the classification rests on, not how sure the project is; the "
+                 "figures a claim quotes are checked against the artifacts it cites, and "
+                 "`research_trace --provenance` names the ones that do not trace.")
+    return " ".join(parts)
 
 
 def render_ledger(reg, ledger):
@@ -258,12 +286,14 @@ def render_ledger(reg, ledger):
         "",
         "## Active claims",
         "",
-        "| Claim | Statement | Classification | Questions |",
-        "| --- | --- | --- | --- |",
+        "| Claim | Statement | Classification | Questions | Provenance |",
+        "| --- | --- | --- | --- | --- |",
     ]
     for c in active:
         lines.append(_claim_row(c))
     lines += [
+        "",
+        "**What each claim rests on.** " + _provenance_sentence(ledger),
         "",
         "## Withdrawn or superseded claims",
         "",
@@ -278,6 +308,8 @@ def render_ledger(reg, ledger):
             "**Original claim.** %s" % c["claim"],
             "",
             "**Classification when made.** %s" % c["classification"],
+            "",
+            "**Provenance.** `%s`" % c["provenance"],
             "",
             "**Why it was withdrawn.** %s" % (c.get("withdrawn_reason") or "superseded"),
         ]
@@ -416,8 +448,8 @@ def render_findings(reg, ledger):
         lines += [
             "### %s — %s" % (c["claim_id"], c["claim"]),
             "",
-            "**Original interpretation.** %s, classified %s when it was made."
-            % (c["claim"], c["classification"]),
+            "**Original interpretation.** %s, classified %s when it was made, provenance `%s`."
+            % (c["claim"], c["classification"], c["provenance"]),
             "",
             "**Why it was withdrawn.** %s" % (c.get("withdrawn_reason") or "superseded"),
             "",

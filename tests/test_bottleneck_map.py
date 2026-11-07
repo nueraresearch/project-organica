@@ -6,11 +6,15 @@ The two corrected rows are checked in both directions: the corrected wording mus
 and the superseded wording must not come back.
 """
 
+import copy
 import json
 import re
 from pathlib import Path
 
+import pytest
+
 from benchmarks import bottleneck_map as bm
+from benchmarks import provenance as prov
 
 ROOT = Path(__file__).resolve().parent.parent
 ARTIFACT = ROOT / "docs" / "bottleneck_map.json"
@@ -142,13 +146,50 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))
 
 
-def test_the_two_unread_rows_say_so():
+def test_every_row_carries_one_provenance_tag_and_the_counts_are_derived():
     body = _body()
-    prov = body["provenance"]
-    assert prov["checked_rows"] == sum(1 for r in body["rows"] if r["read_for_this_record"])
-    assert prov["owner_reading_rows"] == ["Pool-structure moderation",
-                                          "Loop-redundancy moderation"]
-    assert "carry the owner's reading" in _flat()
+    assert prov.check_map(body, ROOT) == []
+    per_tag = prov.counts(body)
+    assert sum(per_tag.values()) == len(body["rows"])
+    assert per_tag[prov.OWNER_READING] == 2
+    owner = [r["candidate"] for r in body["rows"] if r["provenance"] == prov.OWNER_READING]
+    assert owner == ["Pool-structure moderation", "Loop-redundancy moderation"]
+    assert body["provenance"]["module"] == "benchmarks/provenance.py"
+    assert set(body["provenance"]["tags"]) == set(prov.TAGS)
+    # The boolean and the hand-maintained list of names are both gone, from the artifact as
+    # text, not just from the rows a reader happens to walk.
+    raw = ARTIFACT.read_text(encoding="utf-8")
+    assert "read_for_this_record" not in raw
+    assert "owner_reading_rows" not in raw
+    assert "checked_rows" not in raw
+
+
+def test_the_document_prints_each_rows_provenance_and_the_derived_counts():
+    body = _body()
+    table = bm.render_map_table(body).splitlines()[2:]
+    for row, line in zip(body["rows"], table):
+        assert line.endswith("| %s |" % row["provenance"]), row["candidate"]
+    flat = _flat()
+    per_tag = prov.counts(body)
+    for tag in prov.TAGS:
+        if per_tag[tag]:
+            assert "`%s`" % tag in flat, tag
+    for row in body["rows"]:
+        if row["provenance"] == prov.OWNER_READING:
+            assert row["candidate"] in flat, row["candidate"]
+    assert "carry the owner's reading" not in flat, "the hand-maintained prose list came back"
+
+
+def test_the_provenance_check_rejects_a_retagged_row_and_stops_the_render():
+    body = copy.deepcopy(_body())
+    row = next(r for r in body["rows"] if r["provenance"] == prov.OWNER_READING)
+    row["check"] += " (precision 0.3438)"
+    assert [f["code"] for f in prov.check_map(body, ROOT)] == ["figure-without-reading"]
+    with pytest.raises(ValueError):
+        bm.render_document(DOC.read_text(encoding="utf-8"), body)
+    # Same row, same words, tagged as what it now claims to be: accepted.
+    row["provenance"] = prov.ARTIFACT_READ
+    assert prov.check_map(body, ROOT) == []
 
 
 def test_every_label_is_defined_and_mapped():

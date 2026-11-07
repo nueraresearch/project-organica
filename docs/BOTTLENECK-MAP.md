@@ -23,17 +23,17 @@ established" is not "unpromising"; it is "the record cannot say yet".
 ## 2. The map
 
 <!-- BEGIN MAP TABLE: generated from docs/bottleneck_map.json by benchmarks/bottleneck_map.py; do not edit by hand -->
-| Candidate | Map label | Status | The check behind it |
-|---|---|---|---|
-| World-edge candidate availability | weakened | Supported within the tested scope | all 112 true world edges were present in memory on the tested worlds, so a shortage of candidates is ruled out there as the constraint on coverage |
-| Candidate-generation strategy (broader) | unresolved | Not established / not measured | the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges |
-| Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established / not measured | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules |
-| Structure to behavior coupling | unresolved | Not established / not measured | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero |
-| Theory mismatch (motivational reversals) | supported concern | Supported within the tested scope | the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation |
-| Density interaction | supported at the sparse end | Supported within the tested scope | A2 ran all 640 registered cells: the sparse-end precision level was 0.059 (95 percent interval 0.041 to 0.078) against a bar of 0.05, thirteen of sixteen seeds positive, and the dense-minus-sparse difference was 0.091 (0.072 to 0.109) under both exposure schemes |
-| Pool-structure moderation | not supported | Not established / not measured | the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them |
-| Loop-redundancy moderation | not supported | Not established / not measured | the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them |
-| Decay necessity for liveness | unresolved | Not established / not measured | two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported) |
+| Candidate | Map label | Status | The check behind it | Provenance |
+|---|---|---|---|---|
+| World-edge candidate availability | weakened | Supported within the tested scope | all 112 true world edges were present in memory on the tested worlds, so a shortage of candidates is ruled out there as the constraint on coverage | ARTIFACT_READ |
+| Candidate-generation strategy (broader) | unresolved | Not established / not measured | the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges | ARTIFACT_READ |
+| Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established / not measured | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules | ARTIFACT_READ |
+| Structure to behavior coupling | unresolved | Not established / not measured | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero | ARTIFACT_READ |
+| Theory mismatch (motivational reversals) | supported concern | Supported within the tested scope | the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation | ARTIFACT_READ |
+| Density interaction | supported at the sparse end | Supported within the tested scope | A2 ran all 640 registered cells: the sparse-end precision level was 0.059 (95 percent interval 0.041 to 0.078) against a bar of 0.05, thirteen of sixteen seeds positive, and the dense-minus-sparse difference was 0.091 (0.072 to 0.109) under both exposure schemes | ARTIFACT_READ |
+| Pool-structure moderation | not supported | Not established / not measured | the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them | OWNER_READING |
+| Loop-redundancy moderation | not supported | Not established / not measured | the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them | OWNER_READING |
+| Decay necessity for liveness | unresolved | Not established / not measured | two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported) | ARTIFACT_READ |
 <!-- END MAP TABLE -->
 The table is generated from the artifact's `rows` by
 `python -m benchmarks.bottleneck_map --write`, and its status column carries each status
@@ -42,6 +42,24 @@ generated it printed the shortened *Not established* where the artifact records 
 / not measured*, which is not one of the four statuses and made the table's own vocabulary claim
 false. The check column is held to a 400-character single-sentence budget: a row that grows past
 it is a sign the check needs shortening in the artifact, not a reason to widen the table.
+
+**What each status rests on is a tag, not a boolean.** The artifact used to carry
+`read_for_this_record: true/false` beside every row and a prose list naming the rows that were the
+owner's reading. A boolean cannot say why a row was not read, and a list maintained beside the
+rows drifts the first time a row is renamed, so both are gone: each row carries one tag from a
+closed set of four — `ARTIFACT_READ`, `OWNER_READING`, `AGENT_INFERRED` and
+`PROTOCOL_CONSTRAINT`, the last for a value a registration fixes rather than a measurement — and
+`benchmarks/provenance.py` checks the tag against what the row itself carries before the page is
+generated. The counts below are computed from the tags rather than
+typed, so a retagged row makes this page stale instead of leaving an old number in place.
+
+<!-- BEGIN PROVENANCE: generated from docs/bottleneck_map.json by benchmarks/bottleneck_map.py; do not edit by hand -->
+7 of 9 rows are `ARTIFACT_READ` — the status was checked, for this map, against the records named in the row's evidence. 2 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate: Pool-structure moderation; Loop-redundancy moderation.
+
+`AGENT_INFERRED` is defined and unused here: an agent inferred the status; no reading was made for this record, and the validator refuses it on a row that claims support. `PROTOCOL_CONSTRAINT` is defined and unused here: the value is fixed by a registration rather than measured, so the tag must name the registration.
+
+The tag is checked rather than described: a tag the row's evidence cannot back is refused, a row may not quote a figure without claiming the reading that produced it, and an inference may not carry a supported status.
+<!-- END PROVENANCE -->
 
 ## 3. Labels are not statuses
 
@@ -133,10 +151,11 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 * **Not a likelihood ranking.** Nothing here says which explanation is most likely to be the cause.
 * **Not a re-scoring.** `H3-L — INCONCLUSIVE`, the 448-cell calibration null and the Phase K results
   stand exactly as recorded elsewhere.
-* **Not a substitute for the records it cites.** 7 of the 9 rows were checked
-  against the records named in `evidence` while writing this. The remaining 2 —
-  Pool-structure moderation, Loop-redundancy moderation — carry the owner's reading, and the artifact says so rather than restating
-  numbers it did not re-read.
+* **Not a substitute for the records it cites.** Each row's provenance tag says what its status
+  rests on: `ARTIFACT_READ` means it was checked against the records named in `evidence`,
+  `OWNER_READING` means it is the owner's reading of records this map does not restate. The
+  counts and the named rows are generated from those tags in §2 rather than typed here, and a
+  reading quotes no figure, because a quoted figure is a transcription and has to say so.
 * **Not open-ended.** A row is added with a check behind it, never with a story.
 
 ## 8. How it is checked
@@ -144,7 +163,9 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 `tests/test_bottleneck_map.py` asserts that every status is drawn from the four-status vocabulary,
 that every label is drawn from the closed label set and every label in that set is mapped,
 that each label's recorded status mapping is exactly the set of statuses its rows carry — and that
-both checks reject the input they exist to reject, that every evidence path exists, that exactly one row is a
+both checks reject the input they exist to reject, that every evidence path exists, that every
+row carries one provenance tag drawn from the closed set of four and that each provenance rule
+rejects the input it exists to reject, that exactly one row is a
 specified experiment with zero allocation, that the two corrected rows carry their corrected wording
 and not their old wording, that the "not supported" rows refuse refutation, that the vocabulary gap
 is named rather than absorbed, that availability and generation strategy are separate rows, and that

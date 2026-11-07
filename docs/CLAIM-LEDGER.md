@@ -10,14 +10,16 @@ artifacts it rests on, and the limits of its own scope.
 
 ## Active claims
 
-| Claim | Statement | Classification | Questions |
-| --- | --- | --- | --- |
-| C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | DEMONSTRATED | Q001 |
-| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | DEMONSTRATED | Q001 |
-| C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | SUPPORTED | Q002 |
-| C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | SUPPORTED | Q004 |
-| C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 |
-| C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 |
+| Claim | Statement | Classification | Questions | Provenance |
+| --- | --- | --- | --- | --- |
+| C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | DEMONSTRATED | Q001 | ARTIFACT_READ |
+| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | DEMONSTRATED | Q001 | ARTIFACT_READ |
+| C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | SUPPORTED | Q002 | ARTIFACT_READ |
+| C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | SUPPORTED | Q004 | ARTIFACT_READ |
+| C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
+| C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
+
+**What each claim rests on.** 6 of 11 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 5 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
 
 ## Withdrawn or superseded claims
 
@@ -30,6 +32,8 @@ record, and removing it would erase the correction.
 
 **Classification when made.** SUPPORTED
 
+**Provenance.** `ARTIFACT_READ`
+
 **Why it was withdrawn.** The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted.
 
 **Questions behind it.** Q024
@@ -39,6 +43,8 @@ record, and removing it would erase the correction.
 **Original claim.** The v1 transfer result (TR 3.2) reproduced under a preregistered protocol.
 
 **Classification when made.** HYPOTHESIS
+
+**Provenance.** `OWNER_READING`
 
 **Why it was withdrawn.** C1 failed as pre-registered (P2 not met) and an earlier version of the record that called it invariant was corrected; the narrower observation that survived is not a held control.
 
@@ -50,6 +56,8 @@ record, and removing it would erase the correction.
 
 **Classification when made.** HYPOTHESIS
 
+**Provenance.** `OWNER_READING`
+
 **Why it was withdrawn.** Superseded by the corrected low-confidence-prior account of the same latency; the priming story was a mechanism explanation, not a measurement.
 
 **Questions behind it.** Q011
@@ -60,6 +68,8 @@ record, and removing it would erase the correction.
 
 **Classification when made.** HYPOTHESIS
 
+**Provenance.** `ARTIFACT_READ`
+
 **Why it was withdrawn.** No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin.
 
 **Questions behind it.** Q007
@@ -69,6 +79,8 @@ record, and removing it would erase the correction.
 **Original claim.** The architecture's stated mechanisms move development in the predicted direction.
 
 **Classification when made.** HYPOTHESIS
+
+**Provenance.** `OWNER_READING`
 
 **Why it was withdrawn.** Three of five preregistered predictions reversed in the developmental direction (contradiction +0.166, question generation +1.266, EIG +0.366, against a 0.033 noise floor).
 

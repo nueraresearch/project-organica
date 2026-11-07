@@ -12,7 +12,14 @@
       "WITHDRAWN",
       "SUPERSEDED"
     ],
-    "rule": "a claim is a statement the project is prepared to make; it must cite the questions and artifacts behind it"
+    "rule": "a claim is a statement the project is prepared to make; it must cite the questions and artifacts behind it",
+    "provenance": [
+      "ARTIFACT_READ",
+      "OWNER_READING",
+      "AGENT_INFERRED",
+      "PROTOCOL_CONSTRAINT"
+    ],
+    "provenance_rule": "every claim carries exactly one tag saying what its classification rests on, checked by benchmarks/provenance.py: ARTIFACT_READ a result the cited artifacts record, OWNER_READING the owner's reading or intention with no measurement restated here, AGENT_INFERRED an inference that may not be DEMONSTRATED or SUPPORTED, PROTOCOL_CONSTRAINT a value a registration fixes and must name"
   },
   "date": "2026-11-07",
   "claims": [
@@ -21,6 +28,7 @@
       "claim": "Organica forms developmental structure from its own event stream, with no pretrained weights.",
       "classification": "DEMONSTRATED",
       "status": "ACTIVE",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q001"
       ],
@@ -41,6 +49,7 @@
       "claim": "Structure that forms persists across sleep cycles and is read back on later cycles.",
       "classification": "DEMONSTRATED",
       "status": "ACTIVE",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q001"
       ],
@@ -60,6 +69,7 @@
       "claim": "All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap.",
       "classification": "SUPPORTED",
       "status": "ACTIVE",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q002"
       ],
@@ -79,6 +89,7 @@
       "claim": "Intra-cell exclusion buys precision at the sparse end of the density ladder.",
       "classification": "SUPPORTED",
       "status": "ACTIVE",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q004"
       ],
@@ -98,6 +109,7 @@
       "claim": "Diversity-first admission improves the real engine.",
       "classification": "SUPPORTED",
       "status": "WITHDRAWN",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q024"
       ],
@@ -118,6 +130,7 @@
       "claim": "The v1 transfer result (TR 3.2) reproduced under a preregistered protocol.",
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q021"
       ],
@@ -138,6 +151,7 @@
       "claim": "Role abstraction yields candidates that are reusable across worlds.",
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q012"
       ],
@@ -158,6 +172,7 @@
       "claim": "Schema priming speeds acquisition by raising confidence on unseen tags.",
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q011"
       ],
@@ -176,6 +191,7 @@
       "claim": "Transfer can be made to improve future transfer.",
       "classification": "ASPIRATION",
       "status": "ACTIVE",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q023"
       ],
@@ -194,6 +210,7 @@
       "claim": "Developmental structure improves held-out next-event prediction over the strongest simple baseline.",
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
+      "provenance": "ARTIFACT_READ",
       "supporting_questions": [
         "Q007"
       ],
@@ -201,7 +218,8 @@
         "Q007"
       ],
       "supporting_evidence": [
-        "docs/FORCE-MATRIX-RESULTS.md"
+        "docs/FORCE-MATRIX-RESULTS.md",
+        "docs/acquisition_endpoint_audit.json"
       ],
       "scope_limitations": [
         "Measured at the frozen cap on the worlds the phase used; a different readout could still find a gain."
@@ -214,6 +232,7 @@
       "claim": "The architecture's stated mechanisms move development in the predicted direction.",
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q008"
       ],
@@ -221,7 +240,8 @@
         "Q008"
       ],
       "supporting_evidence": [
-        "docs/DIVERGENCE-MECHANISM-RESULTS.md"
+        "docs/DIVERGENCE-MECHANISM-RESULTS.md",
+        "docs/FORCE-MATRIX-RESULTS.md"
       ],
       "scope_limitations": [
         "Five preregistered predictions, one developmental contrast, one noise floor."

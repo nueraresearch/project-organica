@@ -1,0 +1,200 @@
+{
+  "kind": "decision_registry",
+  "version": 1,
+  "date": "2026-11-07",
+  "note": "An index into docs/DECISION-*.md, not a second record. The document is authoritative; every string here except rejected[].alternative must appear verbatim in the document it is attributed to, and tests/test_decision_graph.py fails otherwise. Questions are not stored here: they are derived from docs/research_question_registry.json.",
+  "statuses": {
+    "ADOPTED": "in force; the document records it as implemented or effective",
+    "WITHDRAWN": "reversed by its own record; kept because a correction is part of the record",
+    "PENDING": "decided and not in force; the document says so"
+  },
+  "decisions": [
+    {
+      "decision_id": "DECISION-ADMISSION-RULE",
+      "date": "2026-11-07",
+      "status": "WITHDRAWN",
+      "status_quote": "The rule was adopted on this evidence and withdrawn the same day",
+      "chosen": [
+        "Diversity-first admission replaces count-ranked admission."
+      ],
+      "rejected": [
+        {
+          "alternative": "Mark the module deprecated while keeping it callable",
+          "reason": "Withdrawal is the removal of the code, so the package no longer offers the rule at all"
+        }
+      ],
+      "evidence": [
+        "docs/admission_two_arm_result.json",
+        "docs/admission_two_arm_run.json",
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-CANDIDATE-SUPERSESSION",
+      "date": "2026-11-06",
+      "status": "ADOPTED",
+      "status_quote": "implemented; probe predictions recorded below **before** the run.",
+      "chosen": [
+        "An identity is read once, at its newest generation.",
+        "Death is recorded, not inferred from absence."
+      ],
+      "rejected": [
+        {
+          "alternative": "Infer death from absence, with no tombstone",
+          "reason": "D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"
+        }
+      ],
+      "evidence": [
+        "docs/candidate_supersession_probe.json",
+        "docs/cross_context_reuse_benchmark_earned.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-DENSITY-EXCLUSION",
+      "date": "2026-11-07",
+      "status": "PENDING",
+      "status_quote": "The allocation change is licensed; it is **NOT IMPLEMENTED** by this record.",
+      "chosen": [
+        "Intra-cell exclusion is adopted as an allocation change on the selection layer."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt the verdict's growth-with-density clause as a mechanism claim",
+          "reason": "The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"
+        }
+      ],
+      "evidence": [
+        "docs/density_interaction_a2_result.json",
+        "docs/density_interaction_a2_run.json",
+        "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-EARNED-SCHEMA-PRIMING",
+      "date": "2026-11-05",
+      "status": "ADOPTED",
+      "status_quote": "RECORDED, EFFECTIVE **BEFORE** THE RUN IT GOVERNS",
+      "chosen": [
+        "An edge must earn admission on its own evidence.",
+        "A consolidated schema may **reorder** admissible transition candidates; it may never admit one."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the confidence boost that lowered the evidence bar",
+          "reason": "The v1 advantage was produced by F4, which D1 removes"
+        }
+      ],
+      "evidence": [
+        "docs/cross_context_reuse_benchmark.json",
+        "docs/cross_context_reuse_benchmark_earned.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-STAGE-B-SEQUENCE",
+      "date": "2026-11-03",
+      "status": "ADOPTED",
+      "status_quote": "a sequencing decision by the owner",
+      "chosen": [
+        "a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit",
+        "an **authorisation decision** by the owner, dated, citing the pre-pass transcript"
+      ],
+      "rejected": [
+        {
+          "alternative": "Wait for an eligible independent reviewer",
+          "reason": "no eligible reviewer has been found"
+        }
+      ],
+      "evidence": [
+        "docs/AI-REVIEW-2026-11-02.md",
+        "docs/AI-REVIEW-2026-11-03.md",
+        "docs/AI-REVIEW-2026-11-03-chatgpt.md",
+        "docs/STAGE-B-PROTOCOL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-STORE-TIME-ROLE-RECORD",
+      "date": "2026-11-07",
+      "status": "ADOPTED",
+      "status_quote": "no engine change",
+      "chosen": [
+        "B first. No engine change (A), and no withdrawal of Q028 (C)."
+      ],
+      "rejected": [
+        {
+          "alternative": "Record the role on the prediction now (option A)",
+          "reason": "nothing, while the resolver demands one role for a two-role schema: the new field would be recorded and then ignored by the same unsatisfiable predicate"
+        },
+        {
+          "alternative": "Drop Q028 from the licence (option C)",
+          "reason": "removes a claim that cannot be resolved — premature while B is untested and cheap"
+        }
+      ],
+      "evidence": [
+        "docs/transfer_provenance.json",
+        "docs/store_time_role_durability.json",
+        "docs/STORE-TIME-ROLE-DURABILITY.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-UNCERTIFIED-RUN",
+      "date": "2026-11-07",
+      "status": "ADOPTED",
+      "status_quote": "adopted and enforced",
+      "chosen": [
+        "The gate precedes every scientific bucket.",
+        "A void run is not an unrun experiment",
+        "one run, one certificate, one verdict — or none."
+      ],
+      "rejected": [
+        {
+          "alternative": "Report the series' REPRODUCES as the verdict",
+          "reason": "Reporting the first as the verdict answers the scientific question with the prerequisite's status"
+        },
+        {
+          "alternative": "Discard the reading",
+          "reason": "Deleting it would erase the only evidence that the pinned engine reproduces the historical death"
+        },
+        {
+          "alternative": "Treat the void as a null result",
+          "reason": "A null is a measured absence; a void is no test."
+        }
+      ],
+      "evidence": [
+        "benchmarks/verdict_policy.py",
+        "benchmarks/decay_falsifier.py",
+        "docs/decay_falsifier.json",
+        "docs/DECAY-FALSIFIER-RESULT.md",
+        "tests/test_verdict_policy.py",
+        "tests/test_decay_falsifier.py"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-SCOPE",
+      "date": "2026-10-30",
+      "status": "ADOPTED",
+      "status_quote": "a scope decision and a bounded diagnostic authorization",
+      "chosen": [
+        "H2 stands and binds V2 design.",
+        "H2 does not bind one diagnostic arm."
+      ],
+      "rejected": [
+        {
+          "alternative": "Design a V2 architecture from the Gate 13 diagnosis",
+          "reason": "No task family was supported; the Gate 13 diagnosis does not reverse that result."
+        }
+      ],
+      "evidence": [
+        "docs/V2-CAPACITY-DESIGN-BRIEF.md",
+        "docs/G13-D-DIAGNOSTIC-PLAN.md"
+      ],
+      "superseded_by": null
+    }
+  ]
+}

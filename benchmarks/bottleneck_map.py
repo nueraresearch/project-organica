@@ -11,6 +11,11 @@ compound status reads as its two statuses joined by ` + `. The check column is
 kept to one sentence per row (`MAX_CHECK_CHARS`), because a markdown table cell
 cannot wrap and an over-long cell is where readability goes.
 
+The map table also carries each row's **provenance tag**, and the paragraph beneath it is
+generated from those tags rather than from a count typed beside them. The tags themselves are
+validated by `benchmarks.provenance` before anything is rendered: a row whose tag its evidence
+cannot back stops the write instead of reaching the page.
+
 Regenerate with:
 
     python -m benchmarks.bottleneck_map --write
@@ -23,6 +28,8 @@ import argparse
 import json
 from pathlib import Path
 
+from benchmarks import provenance as prov
+
 ROOT = Path(__file__).resolve().parent.parent
 ARTIFACT = ROOT / "docs" / "bottleneck_map.json"
 DOC = ROOT / "docs" / "BOTTLENECK-MAP.md"
@@ -33,9 +40,13 @@ MAP_END = "<!-- END MAP TABLE -->"
 BEGIN = ("<!-- BEGIN LABEL TABLE: generated from docs/bottleneck_map.json by "
          "benchmarks/bottleneck_map.py; do not edit by hand -->")
 END = "<!-- END LABEL TABLE -->"
+PROV_BEGIN = ("<!-- BEGIN PROVENANCE: generated from docs/bottleneck_map.json by "
+              "benchmarks/bottleneck_map.py; do not edit by hand -->")
+PROV_END = "<!-- END PROVENANCE -->"
 
 LABEL_COLUMNS = ("| Map label | What it means | Status it maps to |", "|---|---|---|")
-MAP_COLUMNS = ("| Candidate | Map label | Status | The check behind it |", "|---|---|---|---|")
+MAP_COLUMNS = ("| Candidate | Map label | Status | The check behind it | Provenance |",
+               "|---|---|---|---|---|")
 
 # A check cell is one sentence the reader can hold. Beyond this the row stops
 # being a table and becomes a paragraph with pipes in it.
@@ -78,11 +89,12 @@ def render_map_table(body: dict) -> str:
                 "the check for %r is %d characters, over the %d-character budget for a "
                 "readable cell; shorten it in the artifact rather than in the document"
                 % (candidate, len(check), MAX_CHECK_CHARS))
-        lines.append("| %s | %s | %s | %s |" % (
+        lines.append("| %s | %s | %s | %s | %s |" % (
             _cell(candidate, "candidate"),
             _cell(row["label"], "label of %r" % candidate),
             _cell(" + ".join(row["status"]), "status of %r" % candidate),
             check,
+            _cell(row["provenance"], "provenance of %r" % candidate),
         ))
     return "\n".join(lines)
 
@@ -102,7 +114,13 @@ def render_document(text: str, body: dict) -> str:
     Raises `ValueError` when a marker pair is missing, because a silently
     unrendered table is the failure this module exists to prevent.
     """
+    findings = prov.check_map(body, ROOT)
+    if findings:
+        raise ValueError(
+            "the artifact's provenance tags do not hold: "
+            + "; ".join(f["message"] for f in findings))
     for begin, end, render in ((MAP_BEGIN, MAP_END, render_map_table),
+                               (PROV_BEGIN, PROV_END, prov.render_summary),
                                (BEGIN, END, render_table)):
         text = _replace_block(text, begin, end, render(body))
     return text
@@ -121,8 +139,10 @@ def main(argv=None) -> int:
     fresh = render_document(text, body)
     if args.write:
         DOC.write_text(fresh, encoding="utf-8")
-        print("wrote %d map rows and %d label rows into %s"
-              % (len(body["rows"]), len(body["label_meanings"]), DOC.relative_to(ROOT)))
+        per_tag = prov.counts(body)
+        print("wrote %d map rows, %d label rows and %d provenance tags into %s"
+              % (len(body["rows"]), len(body["label_meanings"]), sum(per_tag.values()),
+                 DOC.relative_to(ROOT)))
         return 0
     if args.check:
         if fresh != text:
@@ -131,6 +151,8 @@ def main(argv=None) -> int:
         print("both tables match the artifact")
         return 0
     print(render_map_table(body))
+    print()
+    print(prov.render_summary(body))
     print()
     print(render_table(body))
     return 0
