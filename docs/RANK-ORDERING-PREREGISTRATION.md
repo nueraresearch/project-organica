@@ -1,11 +1,14 @@
 # The ranking experiment, frozen before any cell (2026-11-07)
 
 **Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
-generated, no judged engine cycle spent, and no result artifact exists. One smoke pool outside
-the block has been run; it is recorded in §7 and in `not_run.smoke`, it is not evidence, and it
-blocked the block. The criteria, gates, bar and allocation below were committed before the run;
-nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
-the pre-registered reading stands unless the amendment says plainly that it withdraws it.
+generated, no judged engine cycle spent, and no result artifact exists. Two smoke pools outside
+the block have been run and are recorded in §7; they are not evidence. The first found a defect
+that made the treatment unable to reach the world, the world's crowding was repaired, and the
+second proves the repair. The block is still not runnable: a second defect in M2 is visible in
+§7 and is not amended here. The criteria, gates, bar and allocation below were committed before
+the run; nothing here may be changed afterwards. A defect found later is disclosed as an
+amendment, and the pre-registered reading stands unless the amendment says plainly that it
+withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -103,7 +106,9 @@ file without `--force`. No cell may run before this file is committed.
 
 **A smoke pool was run before any judged cell, and it stopped the block.** Seed **20310301** at rho_world 0.1, 9 sleep cycles, 4 derived cells: every world edge was present (24 of 24), and **the control and the diversity arm each covered 0 world edges at cap 20 and at cap 40**. The 48 intra-cell filler rows carry counts 12-17, 3 per source across all 16 sources, while the world's rows carry 3-9 and the best ranks **51**, so the diversity ordering -- whose tie-break is count -- fills its remaining slots with filler once every source has one. Delta is therefore 0 by construction at the primary point, M1 cannot pass, and a zero-width interval is not underpowered, so the only reachable verdict is the negative pole. The pool itself behaved as the audits predicted (154 rows; presence 1.0), which is why this is a defect in what the arms can reach rather than in what the engine stores. No judged cell may run until the owner decides how to repair the treatment; the numbers are in `not_run.smoke`.
 
-**The harness now audits reach itself, and that audit is red.** `--self-test` and `run()` compare each arm's selection to the *world* at the primary point, on the pool the world design implies and before any engine cycle. Across 8 seeds at rho_world 0.1 the treatment reaches 0 world edges at cap 20, and the best world edge in its ordering ranks 49. The gate therefore fails, `all_passed` is false and `--run` refuses even when the blocked flag is cleared. This is the durable half of the finding: it does not depend on the smoke record, and it would have fired before the smoke pool was run.
+**The repair: the crowding is partial, and neither arm changed.** The filler is emitted from two of the four cells (`FILLER_CELLS = 2`), so eight sources are crowded and eight are free. On all 8 designed pools the treatment now reaches 5-8 world edges at cap 20 while the control reaches 0, so the reach gate passes. One smoke pool (seed 20310401, 7 sleep cycles) covered 4 of 24 world edges at cap 20 against 0, a Delta of 0.1667 above the 0.15 bar, and 6 of 24 at cap 40 against 5; every audit prediction held. **A second defect is visible and is not repaired here.** M2's precision difference in differences cannot pass: at cap 20 the diversity advantage at rho_world 0.1 is no wider than at 0.8 on any seed (per-seed values -0.15, -0.10, -0.05, -0.15, -0.10, -0.05, -0.05, 0.00, mean -0.0813), because the gap is set by how many crowded sources the spread must spend on -- the same count at every density -- while at 0.8 every non-filler row is a world edge. On the smoke pool the 0.1 precision gap is 0.20 and the designed 0.8 gap is 0.40, so the interaction has the opposite sign to the registered one. The block therefore stays blocked: it could only return ORDERING HELPS, GRADIENT ABSENT. Whether M2 is amended is the owner's decision, and nothing here amends it.
+
+**The reach gate passes after the repair.** `--self-test` and `run()` compare each arm's selection to the *world* at the primary point, on the pool the world design implies and before any engine cycle. On all 8 seeds the treatment reaches 5-8 world edges at cap 20 while the control reaches at most 0, so `all_passed` is true. The gate is the durable half of the first finding: it does not depend on the smoke records, and the unrepaired construction is kept as a fixture that makes it fail.
 
 ## 8. Allocation
 

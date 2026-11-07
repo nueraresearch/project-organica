@@ -1,7 +1,7 @@
 {
  "prereg": "docs/RANK-ORDERING-PREREGISTRATION.md",
  "created": "2026-11-07",
- "status": "FROZEN, NOT RUN (judged block). No judged cell has been executed, no judged world generated and no judged engine cycle spent; one smoke pool outside the block has been run and is recorded in not_run.smoke. It is not evidence, and the block is blocked until the defect it found is resolved.",
+ "status": "FROZEN, NOT RUN (judged block). No judged cell has been executed, no judged world generated and no judged engine cycle spent. Two smoke pools outside the block have been run and are recorded in not_run.smoke and not_run.repair; they are not evidence. The world's crowding was repaired and the reach gate now passes, but a second defect in M2 keeps the block un-runnable and is not amended here.",
  "design_record": "docs/NONFREQUENCY-RANKING-DESIGN.md",
  "question": "does ordering eligible candidates by source diversity, rather than by count, recover more of a sparse world's edges at the engine's own cap",
  "design": {
@@ -112,6 +112,13 @@
    "was": "the difference in differences of coverage, flagged as an interaction",
    "now": "the difference in differences of precision at cap 20",
    "why": "coverage is divided by |W|, which grows eightfold across the ladder while the cap is fixed, so a coverage gap is mechanically forced to shrink with density and M2 would have been satisfied by the denominator rather than by the mechanism. Precision is normalized by the budget and tends to 1 in both arms at density 1, so its collapse is the interaction the design claims. Amended before any cell ran; M1 is unchanged."
+  },
+  {
+   "on": "2026-11-07",
+   "gate": "world",
+   "was": "every cell emitted its intra-cell pairs as filler, so all sixteen sources were crowded",
+   "now": "two of the four cells emit filler, so eight sources are crowded and eight are free",
+   "why": "with every source crowded the diversity arm could reach no world edge at either cap: after one pick per source its count tie-break returns to filler. The smoke run proved it and the reach gate made it refuse. The change is to the world the run ticket builds, not to either arm's rule, and it was made before any judged cell."
   }
  ],
  "decision_table": [
@@ -171,7 +178,7 @@
   "engine_cycles": 0,
   "runner_built": true,
   "engine_cycles_scope": "judged block only; the smoke pool's cycles are counted in not_run.smoke",
-  "blocked": "the smoke pool covers zero world edges in both arms at caps 20 and 40, so Delta is zero by construction at the pre-registered primary point; the block cannot test the hypothesis until the treatment can reach a world row (not_run.smoke)",
+  "blocked": "M2 cannot pass: the precision difference in differences at cap 20 is zero or negative on all eight designed seeds (mean -0.075), and the smoke pool's 0.1 precision gap (0.2) is smaller than the 0.8 pool's designed gap (0.4), so the registered interaction has the opposite sign. The block can only return ORDERING HELPS, GRADIENT ABSENT (not_run.repair)",
   "smoke": {
    "label": "SMOKE, NOT A JUDGED CELL, NOT EVIDENCE",
    "date": "2026-11-07",
@@ -252,105 +259,273 @@
    "defect": "both arms cover zero world edges at caps 20 and 40. The 48 intra-cell filler rows carry counts 12-17, three per source across all 16 sources, while the world's rows carry 3-9 and the best ranks 51; the diversity ordering breaks ties on count, so after one pick per source its remaining 4 (cap 20) or 24 (cap 40) picks are more filler. Coverage is 0 in both arms, so Delta is 0 by construction at the pre-registered primary point; M1 cannot pass and its interval has width 0, which is not underpowered, so the only reachable verdict is ORDERING NOT THE LEVER -- a decisive negative produced by the world's construction, not by the ordering basis.",
    "why_the_audits_missed_it": "the liveness audit asks whether the arms select different rows, and they do, but the difference is which filler rows are chosen, not whether either arm reaches a world row. No audit compared either arm's selection to the world at the primary point, so liveness was satisfied without reach.",
    "recommendation": "do not run the block. The owner decides: concentrate the crowding on a subset of sources so spreading can escape it, drop the count tie-break (a different, separately disclosed rule), or move the question to the density and eligibility record. A third ordering variant added after the fact is what the design record's stop condition forbids.",
-   "not_evidence": true
+   "not_evidence": true,
+   "superseded_by": "not_run.repair"
   },
   "reach_audit": {
-   "passed": false,
+   "passed": true,
    "rho_world": 0.1,
    "cap": 20,
    "seeds": [
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 5,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310201
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 6,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310202
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 7,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310203
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 5,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310204
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 6,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310205
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 7,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310206
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 7,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310207
     },
     {
      "cap": 20,
-     "pool_rows": 72,
+     "pool_rows": 48,
      "world_rows": 24,
      "control_reach": 0,
-     "diversity_reach": 0,
-     "control_rank_of_first_world_edge": 49,
-     "diversity_rank_of_first_world_edge": 49,
+     "diversity_reach": 8,
+     "control_rank_of_first_world_edge": 25,
+     "diversity_rank_of_first_world_edge": 9,
      "seed": 20310208
     }
    ],
-   "problems": [
-    "20310201: the treatment reaches no world edge at cap 20",
-    "20310202: the treatment reaches no world edge at cap 20",
-    "20310203: the treatment reaches no world edge at cap 20",
-    "20310204: the treatment reaches no world edge at cap 20",
-    "20310205: the treatment reaches no world edge at cap 20",
-    "20310206: the treatment reaches no world edge at cap 20",
-    "20310207: the treatment reaches no world edge at cap 20",
-    "20310208: the treatment reaches no world edge at cap 20"
-   ],
-   "where": "benchmarks/run_rank_ordering.py: reach_audit, run by --self-test and by run() before any engine cycle"
+   "problems": []
+  },
+  "repair": {
+   "date": "2026-11-07",
+   "what": "the intra-cell filler is emitted from two of the four cells (FILLER_CELLS = 2) instead of all four, so eight sources are crowded and eight are free; neither arm's ordering rule changed",
+   "why": "with every source crowded the diversity ordering spends one pick per source and then its count tie-break returns to filler, so both arms cover zero world edges at both caps and the block can only return a decisive false negative. The crowding is a property of the world the run ticket builds, not of the ordering basis the block tests.",
+   "reach_before": {
+    "passed": false,
+    "diversity_reach": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "control_reach": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "reach_after": {
+    "passed": true,
+    "diversity_reach": [
+     5,
+     6,
+     7,
+     5,
+     6,
+     7,
+     7,
+     8
+    ],
+    "control_reach": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "diversity_rank_of_first_world_edge": [
+     9,
+     9,
+     9,
+     9,
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "smoke": {
+    "label": "SMOKE AFTER THE REPAIR, NOT A JUDGED CELL, NOT EVIDENCE",
+    "seed": 20310401,
+    "rho_world": 0.1,
+    "engine_cycles": 7,
+    "generator": {
+     "world_edges": 24,
+     "expected_world_edges": 24,
+     "events": 60,
+     "cycles": 7,
+     "all_world_edges_emitted": true,
+     "non_world_pairs_designed": 105,
+     "filler_pairs": 24,
+     "crowded_sources": 8
+    },
+    "pool": {
+     "rows": 129,
+     "world_rows": 24,
+     "filler_rows": 24,
+     "other_rows": 81,
+     "world_coverage_in_memory": 1.0,
+     "count_ranges": {
+      "world": [
+       3,
+       6
+      ],
+      "other": [
+       3,
+       9
+      ],
+      "filler": [
+       14,
+       21
+      ]
+     },
+     "world_edges_in_top_20": 0
+    },
+    "cells": {
+     "cap_20": {
+      "control": {
+       "coverage": 0.0,
+       "precision": 0.0,
+       "covered": 0
+      },
+      "diversity": {
+       "coverage": 0.166667,
+       "precision": 0.2,
+       "covered": 4
+      }
+     },
+     "cap_40": {
+      "control": {
+       "coverage": 0.208333,
+       "precision": 0.125,
+       "covered": 5
+      },
+      "diversity": {
+       "coverage": 0.25,
+       "precision": 0.15,
+       "covered": 6
+      }
+     }
+    },
+    "primary_delta": 0.166667,
+    "predictions": {
+     "G1 presence is 1.0 (every world edge is a row in memory)": true,
+     "G4 control coverage at cap 20 stays under the 0.15 ceiling": true,
+     "G0 the two arms select different rows at cap 20": true,
+     "the treatment reaches at least one world edge at cap 20": true,
+     "the treatment reaches at least one world edge at cap 40": true,
+     "rho_rank is the base rate of the pool (0.15-0.55 at rho 0.1)": true,
+     "the world's rows are the rarer ones (world count < filler count)": true,
+     "every selected row exists in the pool": true,
+     "Gate 13 precision ceiling holds (precision <= 0.3438)": true
+    },
+    "all_predictions_held": true,
+    "not_evidence": true
+   },
+   "finding_M2": {
+    "rule": "M2: precision difference in differences, rho 0.1 minus rho 0.8 at cap 20",
+    "designed_gap_rho_0_1": [
+     0.25,
+     0.3,
+     0.35,
+     0.25,
+     0.3,
+     0.35,
+     0.35,
+     0.4
+    ],
+    "designed_gap_rho_0_8": [
+     0.4,
+     0.4,
+     0.4,
+     0.4,
+     0.4,
+     0.4,
+     0.4,
+     0.4
+    ],
+    "designed_did": [
+     -0.15,
+     -0.1,
+     -0.05,
+     -0.15,
+     -0.1,
+     -0.05,
+     -0.05,
+     0.0
+    ],
+    "mean_did": -0.08125,
+    "smoke_precision_gap_rho_0_1": 0.2,
+    "why": "at cap 20 the precision gap is set by how many crowded sources the spread must spend on, which is the same at every density, and at rho 0.8 every non-filler row is a world edge, so the gap there is at least as wide as at 0.1. The difference in differences is therefore zero or negative on every seed, and the registered direction (wider at the sparse end) cannot occur.",
+    "consequence": "the block can only return ORDERING HELPS, GRADIENT ABSENT; it stays blocked and no judged cell may run until the owner decides whether M2 is amended",
+    "amended": false
+   }
   }
  },
  "not_evidence": [

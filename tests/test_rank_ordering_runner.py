@@ -18,19 +18,18 @@ ROOT = Path(__file__).resolve().parent.parent
 RUN = ROOT / "docs" / "rank_ordering_run.json"
 
 
-def test_the_instrument_audits_pass_and_the_reach_gate_fails():
+def test_the_instrument_audits_and_the_reach_gate_pass():
     report = R.self_test()
     assert report["mechanics_passed"], {k: v for k, v in report["checks"].items()
                                        if not v["passed"]}
     reach = report["gates"]["reach"]
-    assert reach["passed"] is False
+    assert reach["passed"] is True
     assert reach["rho_world"] == R.prereg()["design"]["densities"][0]
     assert reach["cap"] == R.prereg()["design"]["caps"][0]
     assert all(row["world_rows"] > 0 for row in reach["seeds"])
-    assert all(row["diversity_reach"] == 0 for row in reach["seeds"])
-    assert all(row["diversity_rank_of_first_world_edge"] > reach["cap"]
-               for row in reach["seeds"])
-    assert report["all_passed"] is False and report["run_ready"] is False
+    assert all(row["diversity_reach"] > 0 for row in reach["seeds"])
+    assert all(row["control_reach"] == 0 for row in reach["seeds"])
+    assert report["all_passed"] is True and report["run_ready"] is True
 
 
 def test_the_reach_gate_passes_when_the_treatment_can_reach():
@@ -122,7 +121,10 @@ def test_the_runner_refuses_a_record_blocked_by_a_smoke_finding(tmp_path):
     assert not (tmp_path / "never.json").exists()
 
 
-def test_the_runner_refuses_when_the_reach_gate_fails(tmp_path):
+def test_the_runner_refuses_when_the_reach_gate_fails(tmp_path, monkeypatch):
+    # restore the unrepaired construction: every cell emits filler
+    monkeypatch.setattr(R, "filler_pairs", lambda: [
+        (a, b) for group in R.cells() for a in group for b in group if a != b])
     body = json.loads(R.PREREG.read_text(encoding="utf-8"))
     body["not_run"]["blocked"] = ""
     with pytest.raises(SystemExit, match="reach"):

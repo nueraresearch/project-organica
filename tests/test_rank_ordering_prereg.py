@@ -250,10 +250,22 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert smoke["observed"]["diversity_cap_20"]["coverage"] == 0.0
     assert smoke["counts"]["world_edges_in_top_40"] == 0
     assert body["not_run"]["blocked"]
+    repair = body["not_run"]["repair"]
+    assert repair["smoke"]["seed"] == 20310401
+    assert repair["smoke"]["seed"] not in body["design"]["seeds"]
+    assert repair["smoke"]["seed"] != body["seeds"]["bootstrap"]
+    assert repair["smoke"]["all_predictions_held"] is True
+    assert repair["smoke"]["primary_delta"] >= body["criteria"]["M1_bar"]
+    assert repair["smoke"]["cells"]["cap_20"]["control"]["covered"] == 0
+    assert repair["smoke"]["cells"]["cap_20"]["diversity"]["covered"] > 0
+    assert repair["finding_M2"]["amended"] is False
+    assert all(v <= 0 for v in repair["finding_M2"]["designed_did"])
+    assert body["not_run"]["blocked"]
     reach = body["not_run"]["reach_audit"]
-    assert reach["passed"] is False
+    assert reach["passed"] is True
     assert all(row["world_rows"] > 0 for row in reach["seeds"])
-    assert all(row["diversity_reach"] == 0 for row in reach["seeds"])
+    assert all(row["diversity_reach"] > 0 for row in reach["seeds"])
+    assert all(row["control_reach"] == 0 for row in reach["seeds"])
 
 
 def test_the_design_record_still_allocates_nothing_and_the_map_is_untouched():
@@ -274,7 +286,9 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
         assert token in flat, token
     smoke = body["not_run"]["smoke"]
     for token in (str(smoke["seed"]), str(smoke["pool"]["rows"]),
-                  str(smoke["counts"]["rank_of_first_world_edge"])):
+                  str(smoke["counts"]["rank_of_first_world_edge"]),
+                  str(body["not_run"]["repair"]["smoke"]["seed"]),
+                  "%.4f" % body["not_run"]["repair"]["smoke"]["primary_delta"]):
         assert token in flat, token
     for row in body["decision_table"]:
         assert row["verdict"] in flat, row["verdict"]

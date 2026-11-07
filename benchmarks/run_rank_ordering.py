@@ -25,9 +25,10 @@ density, and `--self-test` audits that each of them does what this docstring say
 can be satisfied by two arms choosing different *filler* rows while neither reaches a
 world edge, and that is a decisive false negative waiting to happen. `reach_audit` asks
 whether the diversity arm's selection contains a world edge at the primary point, on the
-pool the world design implies, with no engine spent. It is red today: the treatment cannot
-reach a world row at the primary cap, so `--self-test` reports `all_passed: false` and
-`run()` refuses.
+pool the world design implies, with no engine spent. The first construction crowded every
+source, the gate failed, and the filler was moved into two of the four cells; the gate now
+passes, and the unrepaired construction is kept as a fixture that proves the gate can
+still fail.
 """
 from __future__ import annotations
 
@@ -53,9 +54,14 @@ VOCAB: tuple[str, ...] = (
 EVENTS_PER_CYCLE = 8
 #: Each world edge is emitted this many times, as one two-tag event per emission.
 EDGE_REPEATS = 2
-#: The intra-cell filler: one pair per source, repeated more often than a world edge,
-#: so a count ordering spends its budget on them exactly as Gate 13's top-20 did.
+#: The intra-cell filler: every pair inside a *filler* cell, repeated more often than a
+#: world edge, so a count ordering spends its budget on them as Gate 13's top-20 did.
 FILLER_REPEATS = 6
+#: How many of the four cells emit filler. Fewer than four, so the crowding is partial:
+#: eight sources are crowded and eight are free, and spreading off the crowded ones
+#: reaches world rows. With every source crowded the diversity arm cannot reach at all
+#: (the smoke run of 2026-11-07), which is what the reach gate is for.
+FILLER_CELLS = 2
 
 
 def prereg(path: Path = PREREG) -> dict:
@@ -112,10 +118,15 @@ def world_edges(seed: int, rho: float) -> set[tuple[str, str]]:
     return set(universe[:k])
 
 
+def filler_cells() -> list[tuple[str, ...]]:
+    """The cells that emit intra-cell filler. The crowding is deliberately partial."""
+    return list(cells()[:FILLER_CELLS])
+
+
 def filler_pairs() -> list[tuple[str, str]]:
-    """Every ordered pair inside a cell: the intra-cell rows the engine counts most."""
+    """Every ordered pair inside a filler cell: the intra-cell rows counted most."""
     out = []
-    for group in cells():
+    for group in filler_cells():
         out.extend((a, b) for a in group for b in group if a != b)
     return out
 
@@ -124,13 +135,15 @@ def density_stream(seed: int, rho: float) -> list[str]:
     """The event stream for one (seed, density) cell.
 
     Each world edge becomes `EDGE_REPEATS` two-tag events, so the edge is present as a
-    temporal transition by construction; each filler pair becomes `FILLER_REPEATS`
-    events, so its count exceeds a world edge's and a count ordering prefers it.
+    temporal transition by construction; each filler cell's four-tag event is emitted
+    `FILLER_REPEATS` times, so its intra-cell pairs outcount a world edge and a count
+    ordering prefers them. Only `FILLER_CELLS` cells emit filler, so half the sources are
+    crowded and half are free.
     """
     events: list[str] = []
     for a, b in sorted(world_edges(seed, rho)):
         events.extend(["%s %s" % (a, b)] * EDGE_REPEATS)
-    for group in cells():
+    for group in filler_cells():
         events.extend([" ".join(group)] * FILLER_REPEATS)
     return events
 
@@ -293,6 +306,12 @@ def generator_audit(record: dict | None = None) -> dict:
                 problems.append("%d/%s: an intra-cell row is a world edge" % (seed, rho))
             if EDGE_REPEATS >= baseline:
                 problems.append("a world edge must be rarer than the filler")
+            crowded = {a for a, _b in filler_pairs()}
+            if len(crowded) >= len(VOCAB):
+                problems.append("%d/%s: every source is crowded, so spreading cannot "
+                                "escape the filler" % (seed, rho))
+            if len(filler_pairs()) != 3 * len(crowded):
+                problems.append("the filler is not three rows per crowded source")
             checked += 1
     return {"passed": not problems, "cells_checked": checked, "problems": problems[:8]}
 

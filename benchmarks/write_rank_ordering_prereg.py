@@ -29,11 +29,14 @@ def render(body: dict) -> str:
     text = """# The ranking experiment, frozen before any cell (2026-11-07)
 
 **Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
-generated, no judged engine cycle spent, and no result artifact exists. One smoke pool outside
-the block has been run; it is recorded in §7 and in `not_run.smoke`, it is not evidence, and it
-blocked the block. The criteria, gates, bar and allocation below were committed before the run;
-nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
-the pre-registered reading stands unless the amendment says plainly that it withdraws it.
+generated, no judged engine cycle spent, and no result artifact exists. Two smoke pools outside
+the block have been run and are recorded in §7; they are not evidence. The first found a defect
+that made the treatment unable to reach the world, the world's crowding was repaired, and the
+second proves the repair. The block is still not runnable: a second defect in M2 is visible in
+§7 and is not amended here. The criteria, gates, bar and allocation below were committed before
+the run; nothing here may be changed afterwards. A defect found later is disclosed as an
+amendment, and the pre-registered reading stands unless the amendment says plainly that it
+withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -160,9 +163,12 @@ The bar is declared here and never computed from the outcome.
     )
     smoke = (body.get("not_run") or {}).get("smoke")
     gate = (body.get("not_run") or {}).get("reach_audit")
+    repair = (body.get("not_run") or {}).get("repair")
     extra = ""
     if smoke:
         extra += "\n\n" + _smoke(smoke)
+    if repair:
+        extra += "\n\n" + _repair(repair)
     if gate:
         extra += "\n\n" + _reach(gate)
     if extra:
@@ -196,19 +202,53 @@ def _smoke(smoke: dict) -> str:
             observed["control_cap_20"]["presence"]))
 
 
+def _repair(repair: dict) -> str:
+    smoke, m2 = repair["smoke"], repair["finding_M2"]
+    after, pool = repair["reach_after"], smoke["pool"]
+    reach = after["diversity_reach"]
+    c20, c40 = smoke["cells"]["cap_20"], smoke["cells"]["cap_40"]
+    return (
+        "**The repair: the crowding is partial, and neither arm changed.** The filler is "
+        "emitted from two of the four cells (`FILLER_CELLS = 2`), so eight sources are crowded "
+        "and eight are free. On all %d designed pools the treatment now reaches %d-%d world "
+        "edges at cap %d while the control reaches %d, so the reach gate passes. One smoke "
+        "pool (seed %d, %d sleep cycles) covered %d of %d world edges at cap 20 against %d, a "
+        "Delta of %.4f above the %.2f bar, and %d of %d at cap 40 against %d; every audit "
+        "prediction held. **A second defect is visible and is not repaired here.** M2's "
+        "precision difference in differences cannot pass: at cap 20 the diversity advantage at "
+        "rho_world 0.1 is no wider than at 0.8 on any seed (per-seed values %s, mean %.4f), "
+        "because the gap is set by how many crowded sources the spread must spend on -- the "
+        "same count at every density -- while at 0.8 every non-filler row is a world edge. On "
+        "the smoke pool the 0.1 precision gap is %.2f and the designed 0.8 gap is %.2f, so "
+        "the interaction has the opposite sign to the registered one. The block therefore "
+        "stays blocked: it could only return ORDERING HELPS, GRADIENT ABSENT. Whether M2 is "
+        "amended is the owner's decision, and nothing here amends it." % (
+            len(reach), min(reach), max(reach), after.get("cap", 20) if False else 20,
+            max(after["control_reach"]), smoke["seed"], smoke["engine_cycles"],
+            c20["diversity"]["covered"], pool["world_rows"], c20["control"]["covered"],
+            smoke["primary_delta"], 0.15, c40["diversity"]["covered"], pool["world_rows"],
+            c40["control"]["covered"],
+            ", ".join("%.2f" % v for v in m2["designed_did"]), m2["mean_did"],
+            m2["smoke_precision_gap_rho_0_1"],
+            sum(m2["designed_gap_rho_0_8"]) / len(m2["designed_gap_rho_0_8"])))
+
+
 def _reach(gate: dict) -> str:
     rows = gate["seeds"]
-    worst = min(row["diversity_reach"] for row in rows)
-    first = max(row["diversity_rank_of_first_world_edge"] or 0 for row in rows)
+    if not gate["passed"]:
+        worst = min(row["diversity_reach"] for row in rows)
+        return ("**The reach gate is red.** Across %d seeds the treatment reaches %d world "
+                "edges at cap %d; `--run` refuses." % (len(rows), worst, gate["cap"]))
+    reach = [row["diversity_reach"] for row in rows]
     return (
-        "**The harness now audits reach itself, and that audit is red.** `--self-test` and "
-        "`run()` compare each arm's selection to the *world* at the primary point, on the "
-        "pool the world design implies and before any engine cycle. Across %d seeds at "
-        "rho_world %.1f the treatment reaches %d world edges at cap %d, and the best world "
-        "edge in its ordering ranks %d. The gate therefore fails, `all_passed` is false and "
-        "`--run` refuses even when the blocked flag is cleared. This is the durable half of "
-        "the finding: it does not depend on the smoke record, and it would have fired before "
-        "the smoke pool was run." % (len(rows), gate["rho_world"], worst, gate["cap"], first))
+        "**The reach gate passes after the repair.** `--self-test` and `run()` compare each "
+        "arm's selection to the *world* at the primary point, on the pool the world design "
+        "implies and before any engine cycle. On all %d seeds the treatment reaches %d-%d "
+        "world edges at cap %d while the control reaches at most %d, so `all_passed` is true. "
+        "The gate is the durable half of the first finding: it does not depend on the smoke "
+        "records, and the unrepaired construction is kept as a fixture that makes it fail." % (
+            len(rows), min(reach), max(reach), gate["cap"],
+            max(row["control_reach"] for row in rows)))
 
 
 def main() -> None:
