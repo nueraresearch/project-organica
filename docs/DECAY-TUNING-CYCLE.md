@@ -9,7 +9,10 @@ a tuned rule may earn adoption, and what it may never inherit.
 The 448-cell calibration found no threshold on its fixed grid that was live on
 every cell while holding precision at or above 0.95 on every cell, for either the
 transition arm or the ratio control
-(`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md` §18). That is a result about
+(`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md` §18). The sealed artifact,
+`docs/confirmation/calibration.json`, is on the owner's machine and not in this
+worktree, so no cell value is read here; `docs/DECAY-NULL-SCOPE.md` states what
+the null does and does not cover. That is a result about
 **that grid and that selection rule on those cells**. It does not establish that
 every real value fails, and it is not evidence for whatever value a later search
 prefers.

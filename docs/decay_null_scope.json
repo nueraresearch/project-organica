@@ -1,0 +1,123 @@
+{
+ "created": "2026-11-07",
+ "question": "what the 448-cell calibration null rules out, and its sensitivity to the grid and to the selection rule",
+ "provenance": {
+  "protocol": "docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md (as amended by 13-17)",
+  "outcome": "same document, section 18 (2026-11-07)",
+  "recomputable": "grid, degrees, seeds, arms, cell count, selection semantics",
+  "not_recomputable_here": "per-cell values: docs/confirmation/calibration.json is on the owner's machine and is absent from this worktree, as section 18 states",
+  "reported_rejections_are": "the owner's summary in section 18, not a re-measurement"
+ },
+ "design": {
+  "grid": [
+   0.05,
+   0.075,
+   0.1,
+   0.15,
+   0.2,
+   0.25,
+   0.3
+  ],
+  "degrees": [
+   2,
+   4,
+   6,
+   12
+  ],
+  "calibration_seeds": [
+   20300101,
+   20300102,
+   20300103,
+   20300104,
+   20300105,
+   20300106,
+   20300107,
+   20300108
+  ],
+  "arms_calibrated": [
+   "ratio",
+   "transition"
+  ],
+  "cycles": 300,
+  "cells_per_arm_per_tau": 32,
+  "cells_total": 448,
+  "grid_steps": [
+   0.025,
+   0.025,
+   0.05,
+   0.05,
+   0.05,
+   0.05
+  ],
+  "min_grid_step": 0.025,
+  "precision_floor": 0.95,
+  "liveness": "every one of the final 10% of cycles holds >= 1 theory and the tail mean beliefs >= 2",
+  "selection": "highest mean coverage among taus that are live on every cell AND hold precision >= 0.95 on every cell; ties to the larger tau",
+  "precision_has_min_size_rule": false,
+  "min_stable_for_precision_in_decision_only": 40
+ },
+ "reported_rejections": {
+  "arm": "transition",
+  "per_tau": {
+   "0.05": [
+    "precision d4"
+   ],
+   "0.075": [
+    "precision d4"
+   ],
+   "0.1": [
+    "precision d4"
+   ],
+   "0.15": [
+    "precision d4"
+   ],
+   "0.2": [
+    "liveness d12"
+   ],
+   "0.25": [
+    "liveness d6",
+    "liveness d12"
+   ],
+   "0.3": [
+    "liveness d6",
+    "liveness d12"
+   ]
+  },
+  "note": "section 18 records no per-cell pattern for the ratio control, only that it selected nothing"
+ },
+ "derived_from_reported_pattern": {
+  "taus_with_no_reported_liveness_failure": [
+   0.05,
+   0.075,
+   0.1,
+   0.15
+  ],
+  "taus_with_no_reported_precision_failure": [
+   0.2,
+   0.25,
+   0.3
+  ],
+  "intersection": [],
+  "every_tested_tau_fails_at_least_one_gate": true,
+  "boundary_gap": [
+   0.15,
+   0.2
+  ],
+  "gap_width": 0.05,
+  "gap_midpoint": 0.175
+ },
+ "what_it_rules_out": [
+  "for each arm, a tau in the grid that is live on all 32 cells and holds precision >= 0.95 on all 32 cells",
+  "shipping either calibrated formula at a single global threshold, as tested"
+ ],
+ "what_it_does_not_rule_out": [
+  "a per-degree threshold (out of scope by section 3, not refuted)",
+  "a degree-aware or otherwise non-constant rule",
+  "another strength normalisation",
+  "the 0.95 floor relaxed, or precision pooled rather than required per cell",
+  "worlds, seeds, degrees or horizons outside the calibration design",
+  "anything about the held-out stage: no held-out cell exists",
+  "anything about the task endpoint: it was never measured at calibration",
+  "the mechanism: both arms died at the same stage"
+ ]
+}

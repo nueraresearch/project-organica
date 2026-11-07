@@ -2,7 +2,11 @@
  "created": "2026-11-07",
  "status": "design record for a new cycle; no cells, no candidate rule, no claim",
  "purpose": "separate exploratory tuning from confirmation, so a tuned rule is confirmed only by fresh data",
- "exploratory_source": "docs/confirmation/calibration.json",
+ "exploratory_source": {
+  "path": "docs/confirmation/calibration.json",
+  "present_in_worktree": false,
+  "note": "the owner's sealed calibration artifact; section 18 records that it is on the owner's machine, so no cell value is readable from this worktree"
+ },
  "exploratory_cells": 448,
  "exploratory_claim": "none: design input only, never confirmation",
  "degree_ladder": [
