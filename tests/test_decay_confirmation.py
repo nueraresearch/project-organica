@@ -358,3 +358,34 @@ def test_analyze_accepts_a_held_out_run_from_its_own_calibration(tmp_path, capsy
     assert main(["analyze", "--calibration", str(calibration),
                  "--heldout", str(heldout), "--reps", "100"]) == 0
     assert json.loads(capsys.readouterr().out)["label"] == "adopt"
+
+
+def test_heldout_writes_an_artifact_analyze_accepts(tmp_path, monkeypatch, capsys):
+    """The artifact contract, end to end: heldout's own output, then analyze.
+
+    Only the engine pool is stubbed, so this runs in seconds; the seal, the
+    threshold hand-off, the recorded calibration hash and the protocol flag are
+    all the real code paths.
+    """
+    import benchmarks.decay_confirmation as dc
+
+    calibration = _sealed(tmp_path)
+    monkeypatch.setattr(dc, "_pool",
+                        lambda func, tasks, workers, progress=False:
+                        [dict(cell) for cell in _cells()])
+    out = tmp_path / "heldout.json"
+    assert dc.main(["heldout", "--smoke", "--calibration", str(calibration),
+                    "--seeds", "20300109", "--workers", "1",
+                    "--out", str(out)]) == 0
+    artifact = json.loads(out.read_text(encoding="utf-8"))
+    assert artifact["calibration_sha256"] == json.loads(
+        calibration.read_text(encoding="utf-8"))["sha256"]
+    assert artifact["protocol"] is False, "a smoke run must not claim protocol status"
+    assert artifact["thresholds"] == {"ratio": 0.075, "transition": 0.075}
+
+    capsys.readouterr()
+    assert main(["analyze", "--calibration", str(calibration),
+                 "--heldout", str(out), "--reps", "100"]) == 0
+    printed = json.loads(capsys.readouterr().out)
+    assert printed["verdict"] == "SMOKE — not a verdict"
+    assert printed["protocol"] is False
