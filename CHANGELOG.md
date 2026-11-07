@@ -70,6 +70,19 @@ there is nothing to check out.
   `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
   density.
 
+### Added — The context that was held in conversation is now a labelled register (2026-11-07)
+
+`docs/CONTEXT.md` records three kinds of fact that existed only in conversation: what the owner
+can afford to run, who the work is addressed to, and what the project explicitly does **not**
+claim. Every row carries one of three provenance markers — `repo` (already in an artifact, cited),
+`owner-reported` (testimony, dated) or `unknown` (nobody has recorded it) — so a fact stated in
+passing cannot later be read as a measurement. The `unknown` rows are the finding: hours per week,
+the host machine, funding, any deadline and any institutional affiliation are unrecorded, while the
+one quantified capacity fact is derived from `docs/stage_b_cost_estimate.json` (about 29 hours of
+single-core-equivalent compute for one Stage B pass) and `tests/test_context_doc.py` recomputes it
+rather than trusting the prose. The not-claimed table gives each denial a licence condition — what
+result would force the claim to be made — instead of a disclaimer that no check can fail.
+
 ### Added — The project's questions are a generated registry, and outreach has its own note (2026-11-07)
 
 `docs/research_question_registry.json` records **23** questions — **10** closed, **6** open, **5**

@@ -11,6 +11,11 @@ The tally of the project's questions lives in
 `docs/research_question_registry.json`. That file is the one-page answer to "what has
 this project actually settled?", and it is the best thing to attach after the papers.
 
+[`docs/CONTEXT.md`](CONTEXT.md) is the internal companion: the owner-capacity, audience
+and not-claimed rows that were previously held in conversation only. It is for the
+sender, not the recipient, and every row in it is labelled `repo`, `owner-reported` or
+`unknown` so that none of it can be read as evidence.
+
 ## Why reach out at all
 
 Three reasons, in order of how much they are worth.
