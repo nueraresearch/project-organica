@@ -122,3 +122,21 @@ def test_check_mode_fails_when_a_bottleneck_row_is_unclaimed(tmp_path, monkeypat
     assert rr.main(["--check"]) == 1
     output = capsys.readouterr().out
     assert "A row no question claims" in output, output
+
+
+def test_check_passes_when_the_rendered_document_is_current():
+    from benchmarks import research_registry as rr
+
+    assert rr.main(["--check"]) == 0
+
+
+def test_check_fails_when_the_rendered_document_is_stale(tmp_path, monkeypatch):
+    from benchmarks import research_registry as rr
+
+    document = tmp_path / "RESEARCH-QUESTION-REGISTRY.md"
+    document.write_text("an out-of-date render\n", encoding="utf-8")
+    monkeypatch.setattr(rr, "DOC", document)
+    assert rr.main(["--check"]) == 1
+    assert document.read_text(encoding="utf-8") == "an out-of-date render\n", (
+        "--check must report a stale document, never repair it"
+    )

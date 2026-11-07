@@ -187,9 +187,30 @@ def render(reg: dict, report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+def stale(reg, report=None):
+    """Return a failure message when the document is not a fresh render, else None.
+
+    A document that was rendered once and then edited by hand passes every
+    record-level check while disagreeing with the record it claims to show, so
+    the comparison belongs in validation rather than in a separate courtesy the
+    author has to remember.
+    """
+    report = report or validate(reg)
+    expected = render(reg, report)
+    if not DOC.exists():
+        return "the rendered document does not exist: %s" % DOC
+    if DOC.read_text(encoding="utf-8") != expected:
+        return "%s is stale; rebuild with python -m benchmarks.research_registry" % DOC
+    return None
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="validate without rendering")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="validate and verify the rendered document against a fresh render, without writing",
+    )
     args = parser.parse_args(argv)
     reg = load()
     report = validate(reg)
@@ -197,7 +218,12 @@ def main(argv=None) -> int:
         for error in report["errors"]:
             print("FAIL:", error)
         return 1
-    if not args.check:
+    if args.check:
+        problem = stale(reg, report)
+        if problem:
+            print("FAIL:", problem)
+            return 1
+    else:
         DOC.write_text(render(reg, report), encoding="utf-8")
     print("tally:", report["tally"], "questions:", report["questions"])
     return 0

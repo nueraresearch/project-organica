@@ -116,3 +116,22 @@ def test_the_check_mode_writes_nothing():
     assert ra.main(["--check"]) == 0
     after = {p: p.read_bytes() for p in paths}
     assert before == after
+
+
+def test_the_check_mode_fails_when_a_generated_page_is_stale(tmp_path, monkeypatch):
+    stale = tmp_path / "RESEARCH-FINDINGS.md"
+    stale.write_text("an out-of-date page\n", encoding="utf-8")
+    monkeypatch.setattr(ra, "FINDINGS_DOC", stale)
+    assert ra.main(["--check"]) == 1
+    assert stale.read_text(encoding="utf-8") == "an out-of-date page\n", (
+        "--check must report a stale page, never repair it"
+    )
+
+
+def test_the_check_mode_fails_when_the_registry_page_is_stale(tmp_path, monkeypatch):
+    from benchmarks import research_registry as rr
+
+    stale = tmp_path / "RESEARCH-QUESTION-REGISTRY.md"
+    stale.write_text("an out-of-date render\n", encoding="utf-8")
+    monkeypatch.setattr(rr, "DOC", stale)
+    assert ra.main(["--check"]) == 1

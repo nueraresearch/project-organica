@@ -473,7 +473,11 @@ def build(reg, ledger):
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="validate without writing")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="validate and verify every generated page against a fresh render, without writing",
+    )
     args = parser.parse_args(argv)
     reg, ledger = load_pair()
     report = validate(reg, ledger)
@@ -482,7 +486,21 @@ def main(argv=None) -> int:
             print("FAIL:", error)
         return 1
     documents = build(reg, ledger)
-    if not args.check:
+    if args.check:
+        problem = rr.stale(reg)
+        problems = [problem] if problem else []
+        for path, text in documents.items():
+            if not path.exists():
+                problems.append("the generated document does not exist: %s" % path)
+            elif path.read_text(encoding="utf-8") != text:
+                problems.append(
+                    "%s is stale; rebuild with python -m benchmarks.research_accountability" % path
+                )
+        if problems:
+            for problem in problems:
+                print("FAIL:", problem)
+            return 1
+    else:
         for path, text in documents.items():
             path.write_text(text, encoding="utf-8")
     print(
