@@ -10,6 +10,8 @@ import json
 import re
 from pathlib import Path
 
+from benchmarks import bottleneck_map as bm
+
 ROOT = Path(__file__).resolve().parent.parent
 ARTIFACT = ROOT / "docs" / "bottleneck_map.json"
 DOC = ROOT / "docs" / "BOTTLENECK-MAP.md"
@@ -259,3 +261,37 @@ def test_the_document_says_the_mapping_is_asserted():
     flat = _flat()
     assert "A label's mapping is asserted, not just described." in flat
     assert "each label must map to exactly the set of statuses its rows carry" in flat
+
+
+def test_the_label_table_is_generated_from_the_artifact():
+    body = _body()
+    text = DOC.read_text(encoding="utf-8")
+    assert bm.BEGIN in text and bm.END in text
+    assert bm.render_document(text, body) == text, (
+        "the label table differs from the artifact; regenerate with "
+        "python -m benchmarks.bottleneck_map --write"
+    )
+
+
+def test_the_generated_table_has_one_row_per_label():
+    body = _body()
+    rows = bm.render_table(body).splitlines()[2:]
+    assert len(rows) == len(body["label_meanings"])
+    for label in body["label_meanings"]:
+        assert sum(1 for row in rows if row.startswith("| %s |" % label)) == 1, label
+
+
+def test_the_generation_check_rejects_a_hand_edited_cell():
+    body = _body()
+    text = DOC.read_text(encoding="utf-8")
+    drifted = text.replace("| weakened | evidence bears against",
+                           "| weakened | evidence favours", 1)
+    assert drifted != text, "the edit the check is supposed to notice did not happen"
+    assert bm.render_document(drifted, body) != drifted
+    stripped = text.replace(bm.BEGIN, "", 1).replace(bm.END, "", 1)
+    try:
+        bm.render_document(stripped, body)
+    except ValueError as exc:
+        assert "markers" in str(exc)
+    else:
+        raise AssertionError("a document with no markers was accepted")

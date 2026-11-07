@@ -40,6 +40,7 @@ The four statuses are the vocabulary of record. A **label** is the shorter worki
 and it exists because the statuses alone cannot say whether a question was never asked or was asked
 and answered with nothing.
 
+<!-- BEGIN LABEL TABLE: generated from docs/bottleneck_map.json by benchmarks/bottleneck_map.py; do not edit by hand -->
 | Map label | What it means | Status it maps to |
 |---|---|---|
 | weakened | evidence bears against the explanation as the dominant one, within the tested scope | Supported within the tested scope |
@@ -48,6 +49,12 @@ and answered with nothing.
 | not supported | a tested prediction did not materialize, or the evidence did not appear where it would have | Not established / not measured |
 | unresolved | the record cannot decide the question | Not established / not measured |
 | preregistered, untested | a design is frozen and no runtime evidence exists | Not established / not measured |
+<!-- END LABEL TABLE -->
+The table above is generated from the artifact by
+`python -m benchmarks.bottleneck_map --write`, and it is generated between the markers rather
+than typed: `tests/test_bottleneck_map.py` fails when the committed table is not what that
+command produces, so adding a label to `label_meanings` without regenerating is a test failure
+and not a quiet divergence between the document and the artifact.
 
 **The label vocabulary is closed.** `vocabulary.labels` in the artifact is the authoritative
 list, not a description of what rows happen to use: a row may carry only a label that is on it,
