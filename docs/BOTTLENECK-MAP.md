@@ -42,7 +42,7 @@ and answered with nothing.
 
 | Map label | What it means | Status it maps to |
 |---|---|---|
-| weakened | evidence bears against the explanation as the dominant one, within the tested scope | Supported within the tested scope + Not established / not measured |
+| weakened | evidence bears against the explanation as the dominant one, within the tested scope | Supported within the tested scope |
 | demonstrated constraint on coverage; effect on behavior untested | evidence supports a limit within the tested scope, and the wider effect was not measured | Supported within the tested scope + Not established / not measured |
 | supported concern | a prediction the explanation makes failed, so the concern is real | Supported within the tested scope |
 | not supported | a tested prediction did not materialize, or the evidence did not appear where it would have | Not established / not measured |
@@ -55,6 +55,8 @@ every label on it must have a meaning in the table above, and adding a label mea
 the same change. A label invented inside a row fails the suite instead of entering the record —
 the check is run on the rows and then run again on a row carrying an undefined label, so the
 guard is shown to fire rather than assumed to.
+
+**A label's mapping is asserted, not just described.** The status column above is checked against the rows: each label must map to exactly the set of statuses its rows carry. When candidate availability was split from candidate-generation strategy, this table was left claiming that `weakened` maps to a compound status, which was true before the split and false after it — the availability row now carries only the supported half while the unresolved half is a separate row. The table was corrected rather than the assertion relaxed, and the check was shown to reject the stale mapping before it was applied.
 
 One gap is recorded rather than absorbed: the repository's vocabulary has **no exact home for "not
 supported"**. "Not established / not measured" is right for a question the record cannot decide and
@@ -124,8 +126,9 @@ as a surprise. Its job is no longer to explain the past; it is to survive the ex
 ## 8. How it is checked
 
 `tests/test_bottleneck_map.py` asserts that every status is drawn from the four-status vocabulary,
-that every label is drawn from the closed label set and every label in that set is mapped — and
-that the closed-set check rejects a label the set does not define, that every evidence path exists, that exactly one row is a
+that every label is drawn from the closed label set and every label in that set is mapped,
+that each label's recorded status mapping is exactly the set of statuses its rows carry — and that
+both checks reject the input they exist to reject, that every evidence path exists, that exactly one row is a
 specified experiment with zero allocation, that the two corrected rows carry their corrected wording
 and not their old wording, that the "not supported" rows refuse refutation, that the vocabulary gap
 is named rather than absorbed, that availability and generation strategy are separate rows, and that

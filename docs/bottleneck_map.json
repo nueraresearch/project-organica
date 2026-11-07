@@ -224,7 +224,8 @@
  "label_meanings": {
   "weakened": {
    "means": "evidence bears against the explanation as the dominant one, within the tested scope",
-   "status": "Supported within the tested scope + Not established / not measured"
+   "status": "Supported within the tested scope",
+   "mapping_note": "Narrowed when candidate availability was split from candidate-generation strategy: the unresolved half of that claim now sits in its own row, so this label describes the supported half only."
   },
   "demonstrated constraint on coverage; effect on behavior untested": {
    "means": "evidence supports a limit within the tested scope, and the wider effect was not measured",

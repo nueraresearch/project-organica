@@ -210,3 +210,52 @@ def test_the_document_says_the_label_set_is_closed():
     assert "The label vocabulary is closed" in flat
     for label in _body()["vocabulary"]["labels"]:
         assert label in flat, label
+
+
+
+def _mapping_statuses(sentence):
+    return {part.strip() for part in sentence.split("+") if part.strip()}
+
+
+def _statuses_used_by_rows(body, label):
+    return {s for r in body["rows"] if r["label"] == label for s in r["status"]}
+
+
+def _check_label_mappings(body):
+    """A label's recorded mapping must be the mapping its rows actually carry."""
+    for label, meaning in body["label_meanings"].items():
+        recorded = _mapping_statuses(meaning["status"])
+        assert recorded <= VOCAB, (label, recorded - VOCAB)
+        observed = _statuses_used_by_rows(body, label)
+        if recorded != observed:
+            raise AssertionError(
+                "label %r is recorded as mapping to %s but its rows carry %s"
+                % (label, sorted(recorded), sorted(observed))
+            )
+
+
+def test_each_labels_recorded_mapping_is_the_mapping_its_rows_use():
+    body = _body()
+    _check_label_mappings(body)
+    for label in body["label_meanings"]:
+        assert _statuses_used_by_rows(body, label), "no row uses label %r" % label
+
+
+def test_the_mapping_check_rejects_a_drifted_label():
+    body = json.loads(json.dumps(_body()))
+    body["label_meanings"]["weakened"]["status"] = (
+        "Supported within the tested scope + Not established / not measured"
+    )
+    try:
+        _check_label_mappings(body)
+    except AssertionError as exc:
+        assert "weakened" in str(exc)
+    else:
+        raise AssertionError("a drifted label mapping was accepted")
+    _check_label_mappings(_body())
+
+
+def test_the_document_says_the_mapping_is_asserted():
+    flat = _flat()
+    assert "A label's mapping is asserted, not just described." in flat
+    assert "each label must map to exactly the set of statuses its rows carry" in flat
