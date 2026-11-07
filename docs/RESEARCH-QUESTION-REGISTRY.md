@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 20 | a result constrained the space; the answer is recorded with its scope |
-| open | 11 | evidence exists, no answer is settled |
+| open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **42** | |
+| **total** | **43** | |
 
 ## How this stays current
 
@@ -406,6 +406,16 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
+
+### Q045 — Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub?
+
+*research question.*
+
+**Why it is open.** Q044 found that all 1,920 missed re-emissions were slot losses, with 54 admitted candidates against 40 slots in each binding cycle, so the ranked slot is the gate on the edge layer. The ranking/admission block then measured the ordering lever at the coverage endpoint and adopted diversity-first admission, while its own record says coverage is not behaviour and retention is untested. The decay record attributes 68.97 percent of edge deaths to decay and the theory layer dies at cycle 29, so whether the slot lever reaches persistence is the open half.
+
+**Preregistered in.** `PERSISTENCE-REPAIR-PREREGISTRATION.md`
+
+**Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
 ## 3. Retired — no longer worth resources
 

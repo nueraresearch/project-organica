@@ -750,6 +750,26 @@
       "decisions": [],
       "outcome": "SUPPORTED",
       "answer": "Every miss was a slot loss, none an admission loss. Across eight engine seeds and 300 cycles, all 1,920 misses had a candidate built for them and lost one of the 40 ranked slots; zero fell below the admission floor of 5. The admitted set was 54 candidates against 40 slots in each of the 284 binding cycles per seed, and the no-temporal-decay control also recorded zero admission losses across its 77 misses. The pre-registered label is SLOT_DOMINANT; predictions P3 and P6 failed."
+    },
+    {
+      "id": "Q045",
+      "kind": "research",
+      "status": "open",
+      "question": "Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub?",
+      "why_open": "Q044 found that all 1,920 missed re-emissions were slot losses, with 54 admitted candidates against 40 slots in each binding cycle, so the ranked slot is the gate on the edge layer. The ranking/admission block then measured the ordering lever at the coverage endpoint and adopted diversity-first admission, while its own record says coverage is not behaviour and retention is untested. The decay record attributes 68.97 percent of edge deaths to decay and the theory layer dies at cycle 29, so whether the slot lever reaches persistence is the open half.",
+      "evidence": [
+        "docs/DECAY-ADMISSION-SLOT.md",
+        "docs/decay_admission_slot.json",
+        "docs/RANKING-ADMISSION-PREREGISTRATION.md",
+        "docs/ranking_admission_result.json",
+        "docs/decay_attribution_study.json",
+        "docs/PERSISTENCE-REPAIR-PREREGISTRATION.md"
+      ],
+      "preregistrations": [
+        "PERSISTENCE-REPAIR-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": []
     }
   ],
   "schema": {

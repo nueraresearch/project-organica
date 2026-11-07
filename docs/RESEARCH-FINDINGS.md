@@ -312,6 +312,12 @@ as one.
 
 **What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
+### Q045 — Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub?
+
+**Why it is open.** Q044 found that all 1,920 missed re-emissions were slot losses, with 54 admitted candidates against 40 slots in each binding cycle, so the ranked slot is the gate on the edge layer. The ranking/admission block then measured the ordering lever at the coverage endpoint and adopted diversity-first admission, while its own record says coverage is not behaviour and retention is untested. The decay record attributes 68.97 percent of edge deaths to decay and the theory layer dies at cycle 29, so whether the slot lever reaches persistence is the open half.
+
+**What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012
