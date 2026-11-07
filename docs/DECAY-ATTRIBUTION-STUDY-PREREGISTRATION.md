@@ -1,5 +1,5 @@
 study: decay-attribution confirmation
-executions: 0
+executions: 1
 seeds: 20301201, 20301202, 20301203, 20301204, 20301205, 20301206, 20301207, 20301208, 20301209, 20301210, 20301211, 20301212
 arms: engine, no_temporal_decay
 artifact: docs/decay_attribution_study.json
@@ -140,9 +140,60 @@ fails `--check`; a correction is a dated amendment appended to section 10, never
 
 ## 10. Outcome
 
-**Not yet written.** The runner may not write this section until `docs/decay_attribution_study.json`
-exists. Until then the protocol has not executed, and
-`benchmarks.decay_attribution_study_prereg --check` asserts exactly that state.
+**Measured 2026-11-07: `REPLICATED`.** 24 cells (2 arms x 12 seeds, 20301201-20301212), 300
+cycles each, degree 12. The artifact is `docs/decay_attribution_study.json`; the digest of sections
+1-9 is `535a6241f2a66a5441ff17edbca1222340192f30208574bbefb98a4bdf0146b5`, and the section 11 amendment digest is
+`f68208a512eb63d9115d07740377836c4df1a87c41308e119a4ab8f82fe51177`.
+
+| Gate | Result |
+| --- | --- |
+| G1_perturbation_happened | pass |
+| G2_ceiling_reproduced | pass |
+| G3_collapse_visible | pass |
+| G4_contrast_exists | pass |
+| G5_attribution_complete | pass |
+| G6_denominator_exists | pass |
+
+| Prediction | Result |
+| --- | --- |
+| P1_ceiling | held |
+| P2_final_zero | held |
+| P3_fall_before_theory_death | held |
+| P4_control_survives | held |
+| P5_below_threshold_band | held |
+| P6_half_life_band | held |
+| P7_decayed_majority | held |
+| P8_empty_core | held |
+
+Each engine seed recorded peak **35** at cycle **15** with coverage
+**0.5833**, first fall at cycle **16**, the theory layer last
+live at cycle **28**, zero stable edges at cycle **173**,
+a half-life of **65** cycles, **348** deaths of which
+**0.3103** were `below_threshold` and **0.6897** were
+`decayed`, and **0** peak edges surviving to the collapse. The control arm recorded
+peak **42**, final **30**, no zero cycle, and **25** surviving
+core edges.
+
+**Secondary characterizations.** The core is empty (`FULL_COLLAPSE`); the first-zero cycle range
+across the twelve engine seeds is **0** cycles (`COLLAPSE_SCHEDULED`);
+candidate decay after a missed re-emission is the main loss (`DECAY_DOMINANT`, P7 held at
+**0.6897** against the 50 percent bar). Q033, Q034 and Q037 remain `open`: these
+labels characterize this world, and one world family at one degree is not their answer.
+
+**All twelve engine cells were identical on every recorded quantity.** That is an observation about
+this world and this schedule, not twelve independent confirmations: the seeds change the draw, but
+the lattice hub's development is deterministic given the world. The replication's strength is
+therefore that the three-seed values reproduce exactly on a seed block the first study never
+touched, not that twelve draws agree.
+
+**Instrument correction, recorded rather than hidden.** The guard's digest was originally computed
+over the header block plus sections 1-9, so setting `executions` from 0 to 1 necessarily moved the
+digest. The domain is now sections 1-9 only, which is what section 9 says is hashed. The section
+bytes themselves are unchanged: the pre-run commit pinned the old value, and the new value is the
+hash of the same sections with the header excluded. The amendment digest is unaffected.
+
+The frozen table was applied once and not re-read: `REPLICATED` is the label its own conditions
+select, and no band was moved.
 
 ## 11. Amendment — 2026-11-07: the four numbers are now named
 

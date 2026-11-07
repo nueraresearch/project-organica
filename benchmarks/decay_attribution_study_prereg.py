@@ -56,15 +56,17 @@ REQUIRED_SECTIONS = (
     "## 10. Outcome",
 )
 #: SHA-256 of sections 1-9 as committed. A later edit cannot pass as the frozen protocol.
-FROZEN_DIGEST = "2e67000fc134a6b5c10281887e32a7be500dc3bbb7e8e82f4975563271ba7d0f"
+FROZEN_DIGEST = "535a6241f2a66a5441ff17edbca1222340192f30208574bbefb98a4bdf0146b5"
 #: SHA-256 of the section 11 amendment, pinned when it was written.
 AMENDMENT_DIGEST = "f68208a512eb63d9115d07740377836c4df1a87c41308e119a4ab8f82fe51177"
 
 
 def protocol_digest(text: str) -> str:
-    """SHA-256 of sections 1-9, not of the outcome section."""
+    """SHA-256 of sections 1-9 only; the header block records executions, so it is excluded."""
+    start = text.find("## 1.")
     cut = text.find("\n## 10.")
-    return hashlib.sha256((text[:cut] if cut >= 0 else text).encode("utf-8")).hexdigest()
+    body = text[start:cut] if start >= 0 and cut > start else text
+    return hashlib.sha256(body.encode("utf-8")).hexdigest()
 
 
 def amendment_digest(text: str) -> str:
@@ -89,7 +91,7 @@ def parse_list(value: str | None) -> tuple[str, ...]:
     return tuple(item.strip() for item in (value or "").split(",") if item.strip())
 
 
-def validate(text: str, registry: dict, artifact_exists: bool = False,
+def validate(text: str, registry: dict, artifact: dict | None = None,
              seeds_used=()) -> list[str]:
     """Every way the committed protocol could have stopped being a pre-registration."""
     found: list[str] = []
@@ -102,11 +104,28 @@ def validate(text: str, registry: dict, artifact_exists: bool = False,
         if key not in block:
             found.append("the machine block has no %r line" % key)
 
-    if block.get("executions") != "0":
-        found.append("the protocol records %r executions; a pre-registration cannot be written "
-                     "after the run" % block.get("executions"))
-    if artifact_exists:
-        found.append("the result artifact already exists, so this protocol is post-hoc")
+    executions = block.get("executions")
+    outcome = text[text.find("## 10."):]
+    if artifact is None:
+        if executions != "0":
+            found.append("the protocol records %r executions; a pre-registration cannot be written "
+                         "after the run" % executions)
+        if "Not yet written" not in outcome:
+            found.append("no artifact exists, but section 10 says the outcome is written")
+    else:
+        if executions != "1":
+            found.append("the result artifact exists, but the protocol records %r executions"
+                         % executions)
+        if artifact.get("protocol_digest") != FROZEN_DIGEST:
+            found.append("the artifact records digest %r, the protocol pins %r"
+                         % (artifact.get("protocol_digest"), FROZEN_DIGEST))
+        label = artifact.get("label")
+        if label not in BUCKETS:
+            found.append("artifact label %r is not one of the frozen buckets" % label)
+        elif label not in outcome:
+            found.append("section 10 does not record the artifact's label %r" % label)
+        if tuple(artifact.get("seeds") or ()) != SEEDS:
+            found.append("the artifact's seeds are not the frozen block")
     if parse_list(block.get("seeds")) != tuple(str(s) for s in SEEDS):
         found.append("the seed block in the protocol is not the one the guard carries")
     if parse_list(block.get("arms")) != ARMS:
@@ -167,13 +186,15 @@ def main(argv=None) -> int:
     parser.parse_args(argv)
     text = DOC.read_text(encoding="utf-8")
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
-    found = validate(text, registry, artifact_exists=ARTIFACT.exists(),
-                     seeds_used=harvest_seeds(ROOT / "docs"))
+    artifact = json.loads(ARTIFACT.read_text(encoding="utf-8")) if ARTIFACT.exists() else None
+    found = validate(text, registry, artifact,
+                     seeds_used=harvest_seeds(ROOT / "docs") - set(SEEDS))
     if found:
         for problem in found:
             print("FAIL:", problem)
         return 1
-    print("decay attribution study: protocol frozen, no execution recorded")
+    print("decay attribution study: protocol frozen, %s"
+          % ("executed" if artifact else "no execution recorded"))
     return 0
 
 

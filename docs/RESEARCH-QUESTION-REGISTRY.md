@@ -183,7 +183,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q030 — Is the engine's temporal edge decay the mechanism that removes the structure?
 
@@ -195,7 +195,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q031 — At which cycle does the degree-12 fall begin, and how long does it take?
 
@@ -207,7 +207,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`
+**Evidence.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
 
@@ -219,7 +219,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q036 — What is the persistence half-life of the peak structure?
 
@@ -231,7 +231,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
 
@@ -363,21 +363,21 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** The per-cycle ledger records the stable-edge set every cycle, so a core is measurable, but no run has separated a surviving core from a full collapse beyond the first study's three seeds, where all 35 peak edges were dead by the final cycle.
+**Why it is open.** The per-cycle ledger records the stable-edge set every cycle, so a core is measurable, but no run has separated a surviving core from a full collapse beyond the first study's three seeds, where all 35 peak edges were dead by the final cycle. The 12-seed replication (seeds 20301201-20301212) characterized this world as FULL_COLLAPSE: no edge survives to the collapse; the question stays open because one world family at one degree cannot answer it.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q034 — Is the collapse deterministic or stochastic across seeds?
 
 *research question.*
 
-**Why it is open.** The first study measured one first-fall cycle and one zero cycle per seed on three seeds, which cannot separate a schedule-driven collapse from a seed-driven one. Twelve seeds with the same instrument can, but the dispersion criterion has to be fixed before the run.
+**Why it is open.** The first study measured one first-fall cycle and one zero cycle per seed on three seeds, which cannot separate a schedule-driven collapse from a seed-driven one. Twelve seeds with the same instrument can, but the dispersion criterion has to be fixed before the run. The 12-seed replication (seeds 20301201-20301212) characterized this world as COLLAPSE_SCHEDULED: the collapse cycle is scheduled; the question stays open because one world family at one degree cannot answer it.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q035 — Is persistence independent of the theory budget?
 
@@ -391,11 +391,11 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss.
+**Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss. The 12-seed replication (seeds 20301201-20301212) characterized this world as DECAY_DOMINANT: candidate decay is the main loss; the question stays open because one world family at one degree cannot answer it.
 
 **Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
 

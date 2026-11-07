@@ -13,8 +13,12 @@ def _registry():
     return json.loads(g.REGISTRY.read_text(encoding="utf-8"))
 
 
-def test_the_committed_protocol_is_frozen_and_unexecuted():
-    assert g.validate(_text(), _registry()) == []
+def test_the_committed_protocol_is_frozen_and_executed():
+    artifact = {"protocol_digest": g.FROZEN_DIGEST, "label": "REPLICATED", "seeds": list(g.SEEDS)}
+    assert g.validate(_text(), _registry(), artifact=artifact) == []
+    unexecuted = _text().replace("executions: 1", "executions: 0", 1)
+    found = g.validate(unexecuted, _registry())
+    assert any("outcome is written" in m or "executions" in m for m in found), found
 
 
 def test_a_recorded_execution_is_rejected():
@@ -22,9 +26,28 @@ def test_a_recorded_execution_is_rejected():
     assert any("cannot be written after the run" in m for m in found), found
 
 
-def test_an_existing_artifact_is_rejected():
-    found = g.validate(_text(), _registry(), artifact_exists=True)
-    assert any("post-hoc" in m for m in found), found
+def _artifact(label="REPLICATED"):
+    return {"protocol_digest": g.FROZEN_DIGEST, "label": label, "seeds": list(g.SEEDS)}
+
+
+def test_an_artifact_under_an_unexecuted_protocol_is_rejected():
+    unexecuted = _text().replace("executions: 1", "executions: 0", 1)
+    found = g.validate(unexecuted, _registry(), artifact=_artifact())
+    assert any("executions" in m for m in found), found
+
+
+def test_an_artifact_with_the_pinned_digest_and_label_is_accepted():
+    text = _text().replace("executions: 0", "executions: 1", 1)
+    text = text.replace("**Not yet written.**", "**REPLICATED**", 1)
+    assert g.validate(text, _registry(), artifact=_artifact()) == []
+
+
+def test_an_artifact_with_a_moved_digest_is_rejected():
+    text = _text().replace("executions: 0", "executions: 1", 1)
+    text = text.replace("**Not yet written.**", "**REPLICATED**", 1)
+    found = g.validate(text, _registry(), artifact={
+        "protocol_digest": "0" * 64, "label": "REPLICATED", "seeds": list(g.SEEDS)})
+    assert any("digest" in m for m in found), found
 
 
 def test_a_moved_seed_is_rejected():

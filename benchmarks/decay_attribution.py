@@ -167,7 +167,8 @@ def _reason(
     return "unexplained"
 
 
-def cell(arm: str, seed: int, cycles: int = CYCLES) -> dict:
+def cell(arm: str, seed: int, cycles: int = CYCLES,
+         stable_history: list[set] | None = None) -> dict:
     events = lattice_world(DEGREE)
     world = world_edges(events)
     factor = 0.95 if arm == "engine" else 1.0
@@ -235,6 +236,8 @@ def cell(arm: str, seed: int, cycles: int = CYCLES) -> dict:
                 "decay_factor": call.get("factor"),
                 "decay_rows": call.get("rows"),
             })
+            if stable_history is not None:
+                stable_history.append(set(stable))
             history.append({"cycle": cycle + 1, "stable": set(stable),
                             "reasons": edge_reasons})
             previous = stable
