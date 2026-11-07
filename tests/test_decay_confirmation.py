@@ -14,7 +14,7 @@ import pytest
 from benchmarks.decay_confirmation import (
     ARMS, CALIBRATION_SEEDS, DEGREES, GRID, HELDOUT_SEEDS,
     audit_worlds, choose_threshold, decide, harvest_seeds, realised_out_degree,
-    degree_world, seal, verify_seal,
+    degree_world, main, seal, verify_seal,
 )
 
 
@@ -250,3 +250,68 @@ def test_the_grid_and_arms_are_the_amended_ones():
     assert GRID == (0.05, 0.075, 0.10, 0.15, 0.20, 0.25, 0.30)
     assert DEGREES == (2, 4, 6, 12)
     assert ARMS == ("shipped", "ratio", "transition")
+
+
+# ---------------------------------------------------------------------------
+# CLI plumbing: the guards the campaign will hit before it produces a cell
+# ---------------------------------------------------------------------------
+
+def _sealed(tmp_path, thresholds=None, protocol=True, name="calibration.json"):
+    path = tmp_path / name
+    seal({"protocol": protocol,
+          "thresholds": thresholds or {"ratio": 0.075, "transition": 0.075}}, path)
+    return path
+
+
+def test_heldout_refuses_an_unsealed_calibration(tmp_path):
+    path = tmp_path / "calibration.json"
+    path.write_text(json.dumps({"protocol": True,
+                                "thresholds": {"ratio": 0.075, "transition": 0.075}}),
+                    encoding="utf-8")
+    with pytest.raises(SystemExit, match="seal mismatch"):
+        main(["heldout", "--calibration", str(path), "--seeds", "1"])
+
+
+def test_heldout_refuses_when_an_arm_has_no_threshold(tmp_path):
+    path = _sealed(tmp_path, {"ratio": None, "transition": 0.075})
+    with pytest.raises(SystemExit, match="selected no threshold"):
+        main(["heldout", "--calibration", str(path), "--seeds", "1"])
+
+
+def test_heldout_refuses_a_seed_that_already_appears_in_the_repository(tmp_path):
+    """The scan must fire before any engine cell is created."""
+    path = _sealed(tmp_path)
+    with pytest.raises(SystemExit, match="already used"):
+        main(["heldout", "--calibration", str(path), "--seeds", "20261201"])
+
+
+def test_calibration_refuses_a_seed_that_already_appears_in_the_repository(tmp_path):
+    with pytest.raises(SystemExit, match="already used"):
+        main(["calibrate", "--smoke", "--seeds", "20261201", "--degrees", "2",
+              "--cycles", "1", "--workers", "1",
+              "--out", str(tmp_path / "calibration.json")])
+
+
+def test_analyze_cli_prints_the_verdict_and_writes_the_out_file(tmp_path, capsys):
+    calibration = _sealed(tmp_path)
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": True, "cells": _cells()}), encoding="utf-8")
+    out = tmp_path / "verdict.json"
+    code = main(["analyze", "--calibration", str(calibration),
+                 "--heldout", str(heldout), "--reps", "100", "--out", str(out)])
+    assert code == 0
+    printed = json.loads(capsys.readouterr().out)
+    assert printed["label"] == "adopt"
+    assert printed["protocol"] is True
+    assert json.loads(out.read_text(encoding="utf-8"))["label"] == "adopt"
+
+
+def test_analyze_marks_a_smoke_run_and_never_calls_it_a_verdict(tmp_path, capsys):
+    calibration = _sealed(tmp_path)
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": False, "cells": _cells()}), encoding="utf-8")
+    main(["analyze", "--calibration", str(calibration),
+          "--heldout", str(heldout), "--reps", "100"])
+    printed = json.loads(capsys.readouterr().out)
+    assert printed["verdict"] == "SMOKE — not a verdict"
+    assert printed["protocol"] is False
