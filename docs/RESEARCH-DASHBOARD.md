@@ -9,11 +9,11 @@ in its own row. No value is typed by hand, and the row names say what is counted
 
 | Metric | Value | Definition | Source |
 | --- | --- | --- | --- |
-| Questions registered | 24 | rows in the registry | `docs/research_question_registry.json` |
+| Questions registered | 28 | rows in the registry | `docs/research_question_registry.json` |
 | Questions closed | 10 | status is closed | `docs/research_question_registry.json` |
-| Questions open | 6 | status is open | `docs/research_question_registry.json` |
+| Questions open | 7 | status is open | `docs/research_question_registry.json` |
 | Questions retired | 6 | status is retired | `docs/research_question_registry.json` |
-| Questions deferred | 2 | status is future | `docs/research_question_registry.json` |
+| Questions deferred | 5 | status is future | `docs/research_question_registry.json` |
 | Findings supported | 5 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
 | Findings unsupported | 8 | closed or retired with outcome UNSUPPORTED | `docs/research_question_registry.json` |
 | Findings mixed | 0 | closed or retired with outcome MIXED | `docs/research_question_registry.json` |

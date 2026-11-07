@@ -427,6 +427,60 @@
         "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
       ],
       "supersedes": []
+    },
+    {
+      "id": "Q025",
+      "kind": "research",
+      "status": "future",
+      "question": "What fraction of the transfer signal is role-specific rather than general priming?",
+      "blocked_by": [
+        "Q012"
+      ],
+      "why_open": "The fraction has a zero numerator until role transfer exists at all: with no role-specific advantage the estimate is not measurable and must be reported as such rather than as zero (AGENTS.md rule 13).",
+      "preregistrations": [],
+      "supersedes": [],
+      "prerequisites": [
+        "Q012"
+      ]
+    },
+    {
+      "id": "Q026",
+      "kind": "research",
+      "status": "future",
+      "question": "Does role-based transfer persist once the origin context is gone?",
+      "blocked_by": [
+        "Q012"
+      ],
+      "why_open": "Transfer persistence is recorded at the end of the measured window only, so persistence and continued re-derivation cannot be told apart without a time course (AGENTS.md rule 22).",
+      "preregistrations": [],
+      "supersedes": [],
+      "prerequisites": [
+        "Q012"
+      ]
+    },
+    {
+      "id": "Q027",
+      "kind": "research",
+      "status": "future",
+      "question": "Do transferred structures survive selection on their own?",
+      "blocked_by": [
+        "Q012"
+      ],
+      "why_open": "No artifact counts transferred structures surviving selection after transfer; acquisition is measured and persistence is not, which is the count the change map's M09 falsifier asks for.",
+      "preregistrations": [],
+      "supersedes": [],
+      "prerequisites": [
+        "Q012"
+      ]
+    },
+    {
+      "id": "Q028",
+      "kind": "research",
+      "status": "open",
+      "question": "Can a transfer event be traced to the role satisfaction that licensed it?",
+      "why_open": "The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.",
+      "preregistrations": [],
+      "supersedes": []
     }
   ],
   "schema": {

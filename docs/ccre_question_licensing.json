@@ -1,0 +1,124 @@
+{
+  "title": "Questions the next cross-context run may answer",
+  "date": "2026-11-07",
+  "campaign": "Cross-context reuse, second run (RoleCandidate and SchemaCandidate)",
+  "preregistration": null,
+  "note": "A licensing record is not a preregistration. It names which questions the design can adjudicate, which it can only move, which observations are free to record, and which it may not answer at all. It sets no threshold, no bar and no sample size: those belong to the run's own preregistration, fixed before the first cell (AGENTS.md rule 19), and this record states no measured figure of its own. The fraction question was proposed as Q024, but Q024 is the retired diversity-first admission question, so the four new questions are registered as Q025 to Q028 and each proposal label is carried beside the subject it names.",
+  "licensed": [
+    {
+      "id": "Q012",
+      "tier": "answers",
+      "measurement": "The treatment-versus-orthogonal contrast on the same worlds and seeds: the transfer ratio and the cycles to acquisition in each arm, and whether the orthogonal arm keeps the advantage the earned run attributed to a schema that already exists.",
+      "observation": [
+        "transfer ratio per arm",
+        "cycles to acquisition per arm",
+        "orthogonal-context match rate of every reused structure",
+        "role match rate of every transfer event"
+      ],
+      "answered_if": "The orthogonal arm's advantage over the treatment arm shrinks to zero and the interval excludes the pre-change gap, on worlds where both arms get the same budget, the same stimulus and the same tuned baselines.",
+      "not_answered_if": "The orthogonal gap survives at its pre-change size, or the interval spans it, or role candidates never reach selection, in which case the intervention did not occur and the arm is not a test of anything (AGENTS.md rule 22).",
+      "decision_if_positive": "Role abstraction is the lever for orthogonal dependence, and Q022 becomes a live question rather than a prerequisite.",
+      "decision_if_negative": "Orthogonal dependence is not a role problem, and the next build is the context representation rather than another role variant.",
+      "prior_artifact": "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md"
+    },
+    {
+      "id": "Q022",
+      "tier": "moves",
+      "measurement": "Whether the reused structure is a role, meaning a position in a relation transferred to a new context, or a schema that exists in both contexts: the treatment arm's transfers are scored against the role match, the orthogonal arm's against schema existence.",
+      "observation": [
+        "role match per transfer",
+        "schema-existence match per transfer",
+        "transfer ratio per arm"
+      ],
+      "answered_if": "Not answered by this run. The registry's Q022 asks whether role representations transfer across domains, and this campaign varies context inside one world family: a role match here moves the question and does not settle the domain clause.",
+      "not_answered_if": "Every transfer resolves to schema existence in both arms, or the role matches cannot be separated from priming, in which case the role half is not demonstrated either.",
+      "decision_if_positive": "Reuse is role-specific, and the next model question is what a role is made of rather than whether one exists.",
+      "decision_if_negative": "Reuse is schema-existence-specific on this engine, and role abstraction stops being the route to transfer.",
+      "prior_artifact": null
+    },
+    {
+      "id": "Q023",
+      "tier": "moves",
+      "measurement": "One recursive step: a second transfer that reuses a structure which itself arrived by transfer.",
+      "observation": [
+        "whether any transfer cites a transferred structure as its source",
+        "cycles to the second transfer per arm"
+      ],
+      "answered_if": "Not answered by this run. One step establishes the first link of a recursion, and recursion needs a chain this protocol does not run.",
+      "not_answered_if": "No transfer cites a transferred structure, in which case the chain has no first link and the question stays untouched.",
+      "decision_if_positive": "The first recursive link exists, and a chain study becomes worth designing on its own terms.",
+      "decision_if_negative": "Transferred structure is not reusable as a source, and recursion has no route on this engine.",
+      "prior_artifact": null
+    },
+    {
+      "id": "Q028",
+      "tier": "answers",
+      "trace_derived": true,
+      "measurement": "The share of transfer events whose provenance resolves to an explicit role satisfaction: the role that matched, the events that asserted it, and the priming it licensed. Reported with its denominator and with its unresolved share.",
+      "observation": [
+        "transfer events resolved to a role match",
+        "transfer events unresolved, with the reason",
+        "events behind each role match"
+      ],
+      "answered_if": "Every transfer event is either resolved to a role match with the events behind it, or reported as unresolved with a reason. The answer is the reported share, and no transfer claim may be made from events that were not resolved.",
+      "not_answered_if": "Transfers cannot be resolved from the recorded state, in which case the share is reported as not measurable rather than as zero (AGENTS.md rule 13).",
+      "decision_if_positive": "Transfer is auditable at the event resolution, and the trace becomes a standing requirement of every transfer claim.",
+      "decision_if_negative": "Transfer stays observable but not attributable, and no claim about why a transfer happened may be made.",
+      "prior_artifact": null
+    },
+    {
+      "id": "Q025",
+      "tier": "records",
+      "measurement": "The fraction of the treatment arm's advantage that remains after the orthogonal arm's advantage is subtracted: a descriptive estimate reported with its interval, not a test of a hypothesis.",
+      "observation": [
+        "transfer ratio per arm",
+        "interval on the difference"
+      ],
+      "prior_artifact": null
+    },
+    {
+      "id": "Q026",
+      "tier": "records",
+      "measurement": "Transfer persistence per arm at the end of the measured window, recorded for treatment, orthogonal and pruned, so persistence is visible wherever transfer is.",
+      "observation": [
+        "transfer persistence in treatment",
+        "transfer persistence in orthogonal",
+        "transfer persistence in pruned",
+        "age of the oldest surviving transferred structure"
+      ],
+      "prior_artifact": null
+    },
+    {
+      "id": "Q027",
+      "tier": "records",
+      "measurement": "The count of transferred structures that survive selection after transfer, and the cycle at which each stops being admitted.",
+      "observation": [
+        "transferred structures surviving selection per cycle",
+        "first cycle a transferred structure is not admitted"
+      ],
+      "prior_artifact": null
+    }
+  ],
+  "not_licensed": [
+    {
+      "question": "Has the project achieved general intelligence?",
+      "reason": "The design measures acquisition latency and transfer ratio on synthetic worlds. No measurement in it is of general capability, and a faster treatment arm would not be one."
+    },
+    {
+      "question": "Does the organism improve itself without bound?",
+      "reason": "One run with one intervention on one world family cannot observe open-endedness, which is a property of a trajectory rather than of a cell."
+    },
+    {
+      "question": "Does the organism reason the way a person does?",
+      "reason": "The contrast is between two structural candidate types inside one engine. Human-likeness is not an endpoint the harness records and has no operational definition here to fail against."
+    },
+    {
+      "question": "Is the organism conscious?",
+      "reason": "There is no measurement of experience in this design, and none is planned. A behavioural contrast cannot adjudicate it in either direction, so the question is not licensed and not refuted."
+    },
+    {
+      "question": "Is acquired structure knowledge in any external sense?",
+      "reason": "The registry's Q023 asks whether transfer can recursively improve transfer, which is a measurable claim about the engine. Knowledge in the external sense requires a reader, a norm and a community, none of which the design contains."
+    }
+  ]
+}

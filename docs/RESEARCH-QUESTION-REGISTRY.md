@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 10 | a result constrained the space; the answer is recorded with its scope |
-| open | 6 | evidence exists, no answer is settled |
+| open | 7 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
-| future | 2 | valid only after a named prerequisite is met |
-| **total** | **24** | |
+| future | 5 | valid only after a named prerequisite is met |
+| **total** | **28** | |
 
 ## How this stays current
 
@@ -237,6 +237,12 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Bottleneck rows.** Candidate-generation strategy (broader)
 
+### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
+
+*research question.*
+
+**Why it is open.** The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.
+
 ## 3. Retired — no longer worth resources
 
 ### Q017 — Should further Layer-1 admission variants be tried?
@@ -334,6 +340,30 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Why it is open.** Requires a transfer effect that exists first; asking it now would measure the absence of a prerequisite.
 
 **Prerequisites.** Q022
+
+### Q025 — What fraction of the transfer signal is role-specific rather than general priming?
+
+*research question.*
+
+**Why it is open.** The fraction has a zero numerator until role transfer exists at all: with no role-specific advantage the estimate is not measurable and must be reported as such rather than as zero (AGENTS.md rule 13).
+
+**Prerequisites.** Q012
+
+### Q026 — Does role-based transfer persist once the origin context is gone?
+
+*research question.*
+
+**Why it is open.** Transfer persistence is recorded at the end of the measured window only, so persistence and continued re-derivation cannot be told apart without a time course (AGENTS.md rule 22).
+
+**Prerequisites.** Q012
+
+### Q027 — Do transferred structures survive selection on their own?
+
+*research question.*
+
+**Why it is open.** No artifact counts transferred structures surviving selection after transfer; acquisition is measured and persistence is not, which is the count the change map's M09 falsifier asks for.
+
+**Prerequisites.** Q012
 
 ## What this registry is not
 

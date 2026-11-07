@@ -30,6 +30,24 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — The next cross-context run is licensed question by question (2026-11-07)
+
+- **`docs/ccre_question_licensing.json`** with its rendered `docs/CCRE-QUESTION-LICENSING.md`:
+  every question the campaign may touch is tiered *answers*, *moves* or *records*, and the
+  questions the design cannot adjudicate are refused with a reason. Seven licensed (two answered,
+  two moved, three recorded), five refused. Q028 is the trace-derived diagnostic rule 18 requires.
+- **Three rules are checks, not prose.** `benchmarks/ccre_licensing.py` fails if no licensed
+  question is trace-derived, if a closed or retired registry question is licensed as unsettled,
+  or if an answered-tier row has one decision or two that agree (rule 30). `--check` also
+  compares the page against a fresh render and writes nothing.
+- **Q022 is licensed to move, not to answer**, because the registry asks about transfer across
+  domains while this design varies context inside one world family; the record states the gap
+  rather than letting a summary close it (rule 24).
+- **Four questions were registered to make the licence checkable** — Q025 to Q028, all open or
+  future with prerequisites named, taking the registry to 28. The fraction question arrived
+  labelled Q024, which is the retired admission question; the record discloses the renumbering.
+- **It sets no bar and authorises no run.** No threshold, sample size or measured figure appears
+  in the record; the campaign has no preregistration on disk and the page says nothing may run.
 ### Added — The decay falsifier ran first, and it blocks the campaign (2026-11-07)
 
 - **`benchmarks/decay_falsifier.py`** runs the change map's M04 falsifier on the pinned engine

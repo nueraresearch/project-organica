@@ -202,6 +202,10 @@ as one.
 
 **What is in hand.** `docs/GATE13-RELATION-SEPARATION.md`, `docs/gate13_allocation_rule.json`
 
+### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
+
+**Why it is open.** The audit trace reconstructs selection but no transfer event records the role match that licensed it, so the share of transfers resolving to an explicit role satisfaction has never been measured.
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012
@@ -209,6 +213,18 @@ as one.
 ### Q023 — Can transfer recursively improve future transfer?
 
 **Prerequisite.** Q022
+
+### Q025 — What fraction of the transfer signal is role-specific rather than general priming?
+
+**Prerequisite.** Q012
+
+### Q026 — Does role-based transfer persist once the origin context is gone?
+
+**Prerequisite.** Q012
+
+### Q027 — Do transferred structures survive selection on their own?
+
+**Prerequisite.** Q012
 
 ## What this page does not say
 
