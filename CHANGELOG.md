@@ -30,6 +30,24 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — Q028's transfer-provenance trace exists and can fail (2026-11-07)
+
+- **`benchmarks/transfer_provenance.py` traces a transfer event to a role satisfaction from
+  recorded state only**: the role whose exemplars contain the transferred pair, at least one
+  recorded event asserting it, and the schema prior the engine wrote on the prediction. Each
+  missing leg is its own status, and the share is reported with its denominator; a zero
+  denominator is `null` and not measurable (AGENTS rule 13b).
+- **It is proved able to fail before it measures.** Five known-answer fixtures, three flips that
+  remove one leg at a time, and a comparator pointed at a tracer that always answers "resolved"
+  all run first; `--self-test` exits non-zero if any fails, and a test substitutes the broken
+  tracer to check the exit status changes.
+- **The pre-run measurement recorded 14 transfer events and resolved 0**, all
+  `unresolved_no_role`, with 0 of the 14 prior ids also seen in context A: Q028's own
+  `not_answered_if` outcome. The first definition (an identical tag pair) was replaced before it
+  produced a denominator, because disjoint context vocabularies make it unfireable.
+- **Artifacts:** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`,
+  `tests/test_transfer_provenance.py`.
+
 ### Fixed — The campaign fails closed on a dead reference arm (2026-11-07)
 
 - **`benchmarks/force_matrix.py` now exits non-zero when the reference arm is dead.** The G1

@@ -1,0 +1,324 @@
+{
+ "comparator_rejects_a_broken_tracer": true,
+ "controls": {
+  "all_passed": true,
+  "controls": {
+   "empty_denominator_is_not_measurable": {
+    "expected": "measurable=True, share=None",
+    "passed": true,
+    "reason": "an unmeasurable quantity is never reported as zero (rule 13b)",
+    "status": "measurable=False, share=None"
+   },
+   "events_removed_flips": {
+    "expected": "unresolved_missing_events",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_missing_events"
+   },
+   "missing_row": {
+    "expected": "unresolved_missing_structure",
+    "passed": true,
+    "reason": "the transfer's own prediction row is not in the snapshot",
+    "status": "unresolved_missing_structure"
+   },
+   "no_events": {
+    "expected": "unresolved_missing_events",
+    "passed": true,
+    "reason": "the role matched but no recorded event asserts it",
+    "status": "unresolved_missing_events"
+   },
+   "no_priming": {
+    "expected": "unresolved_no_priming",
+    "passed": true,
+    "reason": "the prediction records no schema prior, so no priming licensed it",
+    "status": "unresolved_no_priming"
+   },
+   "no_role": {
+    "expected": "unresolved_no_role",
+    "passed": true,
+    "reason": "no recorded role's exemplars contain both tags",
+    "status": "unresolved_no_role"
+   },
+   "priming_removed_flips": {
+    "expected": "unresolved_no_priming",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_no_priming"
+   },
+   "resolved": {
+    "expected": "resolved_role_match",
+    "passed": true,
+    "reason": "role matched, its events are recorded, and a prior licensed the prediction",
+    "status": "resolved_role_match"
+   },
+   "role_removed_flips": {
+    "expected": "unresolved_no_role",
+    "passed": true,
+    "reason": "a leg that cannot change the answer is not being read",
+    "status": "unresolved_no_role"
+   }
+  }
+ },
+ "cycles": 80,
+ "events_recorded": 200,
+ "generated_utc": "2026-11-07T17:43:05Z",
+ "identical_pair_note": "counted and reported, but it cannot fire across disjoint vocabularies, so it is never the denominator",
+ "identical_pair_reappearances": 0,
+ "instrument": "benchmarks/transfer_provenance.py",
+ "kind": "transfer_provenance_measurement",
+ "measurement": {
+  "denominator": 14,
+  "measurable": true,
+  "not_measurable_reason": null,
+  "resolved": 0,
+  "share": 0.0,
+  "statuses": {
+   "resolved_role_match": 0,
+   "unresolved_missing_events": 0,
+   "unresolved_missing_structure": 0,
+   "unresolved_no_priming": 0,
+   "unresolved_no_role": 14
+  },
+  "transfer_events": 14,
+  "unresolved": 14
+ },
+ "no_threshold": true,
+ "no_verdict": true,
+ "note": "This is the instrument's pre-run measurement, not a transfer result. It sets no threshold and makes no claim about the organism; the campaign that Q028 licenses has no preregistration on disk.",
+ "phase_a_cycles": 40,
+ "phase_b_cycles": 40,
+ "priors_seen_in_a": 7,
+ "priors_shared_with_a": 0,
+ "question": "Q028",
+ "resolution": "event-level for the role leg (stored events), structure-level for the priming leg (a schema id, not its events)",
+ "roles_recorded": 7,
+ "roles_source": "report.roles",
+ "seed": 20261101,
+ "traces": [
+  {
+   "events": [],
+   "id": "pred_58883a8d",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "cosmos",
+   "status": "unresolved_no_role",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_58883a8d",
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_2ef567ba",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "cosmos",
+   "status": "unresolved_no_role",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_2ef567ba",
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_82a46d66",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "cosmos",
+   "status": "unresolved_no_role",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_82a46d66",
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "quartz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_f7ecea69",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "cosmos",
+   "status": "unresolved_no_role",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_f7ecea69",
+    "schema_prior": "schema_8380303d",
+    "source": "cosmos",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_40a880f5",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "nebula",
+   "status": "unresolved_no_role",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_40a880f5",
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_c6cb2e05",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "nebula",
+   "status": "unresolved_no_role",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_c6cb2e05",
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_00a18668",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "nebula",
+   "status": "unresolved_no_role",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_00a18668",
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "quartz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_fb89724e",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "nebula",
+   "status": "unresolved_no_role",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_fb89724e",
+    "schema_prior": "schema_8380303d",
+    "source": "nebula",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_8323c60f",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "granite",
+   "transfer": {
+    "id": "pred_8323c60f",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "granite"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_3e9b7441",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "plasma",
+   "transfer": {
+    "id": "pred_3e9b7441",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "plasma"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_91157d0a",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "pulsar",
+   "transfer": {
+    "id": "pred_91157d0a",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "pulsar"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_d47cc89f",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "topaz",
+   "transfer": {
+    "id": "pred_d47cc89f",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "topaz"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_eda93437",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "crystal",
+   "transfer": {
+    "id": "pred_eda93437",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "crystal"
+   }
+  },
+  {
+   "events": [],
+   "id": "pred_39ec612b",
+   "priming": null,
+   "reason": "no recorded role's exemplars contain both tags",
+   "role_id": null,
+   "source": "reading",
+   "status": "unresolved_no_role",
+   "target": "quartz",
+   "transfer": {
+    "id": "pred_39ec612b",
+    "schema_prior": "schema_8380303d",
+    "source": "reading",
+    "target": "quartz"
+   }
+  }
+ ],
+ "transfer_definition": "a prediction in B that carries a schema prior and at least PREDICTION_MIN_COUNT transitions; the prior is the transferred structure, because the two contexts share no tags"
+}
