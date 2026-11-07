@@ -30,6 +30,21 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Measured — The degree-12 coverage ceiling is 0.58 at every theory budget (2026-11-07)
+
+- **`benchmarks/theory_budget_ceiling.py`** measures the quantity the next bar is about: the
+  share of a degree-12 hub's world (60 edges) that the engine's stable predictions cover, at the
+  shipped theory budget and at two larger ones, recording the **peak** inside the run and the
+  **final-cycle** value separately.
+- **The result**: peak coverage **0.5833** (35 of 60 edges) at caps 8/15, **identical** at 16/30
+  and 64/128; final-cycle coverage **0.00** at all three. Theories reach 7 at the shipped budget
+  and 12 at the larger ones, and the theory cap never bound, so **the budget is not the
+  constraint** — decay is.
+- **Verdict `DECAY_DOMINATED`**, and the next bar is recorded with its endpoint: **0.58 on peak
+  coverage**, at most **0.00 on final-cycle coverage** on this build.
+- **The recorded 0.40 was not this engine's ceiling**: it came from the lift build that was
+  reverted, which is why a bar could not have been set from it.
+
 ### Changed — The decay runner trusts the harness exit status (2026-11-07)
 
 - **`benchmarks/decay_falsifier.py`** no longer greps the harness output for

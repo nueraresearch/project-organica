@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-07",
+  "degree": 12,
+  "cycles": 300,
+  "seeds": [
+    20300501,
+    20300502,
+    20300503
+  ],
+  "cells": 9,
+  "tolerance": 0.02,
+  "by_budget": {
+    "shipped": {
+      "caps": [
+        8,
+        15
+      ],
+      "cells": 3,
+      "median_final_coverage": 0.0,
+      "final_coverage_range": [
+        0.0,
+        0.0
+      ],
+      "median_peak_coverage": 0.5833,
+      "peak_coverage_range": [
+        0.5833,
+        0.5833
+      ],
+      "median_stable": 0,
+      "max_stable": 35,
+      "theories_max": 7,
+      "hypotheses_max": 21,
+      "cap_bound_theories": false,
+      "cap_bound_hypotheses": true
+    },
+    "doubled": {
+      "caps": [
+        16,
+        30
+      ],
+      "cells": 3,
+      "median_final_coverage": 0.0,
+      "final_coverage_range": [
+        0.0,
+        0.0
+      ],
+      "median_peak_coverage": 0.5833,
+      "peak_coverage_range": [
+        0.5833,
+        0.5833
+      ],
+      "median_stable": 0,
+      "max_stable": 35,
+      "theories_max": 12,
+      "hypotheses_max": 31,
+      "cap_bound_theories": false,
+      "cap_bound_hypotheses": true
+    },
+    "lifted": {
+      "caps": [
+        64,
+        128
+      ],
+      "cells": 3,
+      "median_final_coverage": 0.0,
+      "final_coverage_range": [
+        0.0,
+        0.0
+      ],
+      "median_peak_coverage": 0.5833,
+      "peak_coverage_range": [
+        0.5833,
+        0.5833
+      ],
+      "median_stable": 0,
+      "max_stable": 35,
+      "theories_max": 12,
+      "hypotheses_max": 31,
+      "cap_bound_theories": false,
+      "cap_bound_hypotheses": false
+    }
+  },
+  "max_stable_edge_any_cell": 35,
+  "peak_ceiling_at_shipped_budget": 0.5833,
+  "peak_ceiling_if_budget_lifted": 0.5833,
+  "final_cycle_coverage_at_shipped_budget": 0.0,
+  "budget_gap": 0.0,
+  "next_bar": 0.5833,
+  "next_bar_endpoint": "a peak within the 300-cycle run; the final-cycle ceiling is 0.0",
+  "verdict": "DECAY_DOMINATED",
+  "findings": [
+    "shipped (caps 8/15): median peak coverage 0.5833, median final coverage 0.0 over 3 cells, stable edge peak 35, theories max 7, hypotheses max 21, theory cap bound False",
+    "doubled (caps 16/30): median peak coverage 0.5833, median final coverage 0.0 over 3 cells, stable edge peak 35, theories max 12, hypotheses max 31, theory cap bound False",
+    "lifted (caps 64/128): median peak coverage 0.5833, median final coverage 0.0 over 3 cells, stable edge peak 35, theories max 12, hypotheses max 31, theory cap bound False"
+  ],
+  "failures": []
+}
