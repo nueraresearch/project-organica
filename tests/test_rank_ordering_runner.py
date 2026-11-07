@@ -18,10 +18,33 @@ ROOT = Path(__file__).resolve().parent.parent
 RUN = ROOT / "docs" / "rank_ordering_run.json"
 
 
-def test_the_self_tests_pass():
+def test_the_instrument_audits_pass_and_the_reach_gate_fails():
     report = R.self_test()
-    assert report["all_passed"], {k: v for k, v in report["checks"].items()
-                                  if not v["passed"]}
+    assert report["mechanics_passed"], {k: v for k, v in report["checks"].items()
+                                       if not v["passed"]}
+    reach = report["gates"]["reach"]
+    assert reach["passed"] is False
+    assert reach["rho_world"] == R.prereg()["design"]["densities"][0]
+    assert reach["cap"] == R.prereg()["design"]["caps"][0]
+    assert all(row["world_rows"] > 0 for row in reach["seeds"])
+    assert all(row["diversity_reach"] == 0 for row in reach["seeds"])
+    assert all(row["diversity_rank_of_first_world_edge"] > reach["cap"]
+               for row in reach["seeds"])
+    assert report["all_passed"] is False and report["run_ready"] is False
+
+
+def test_the_reach_gate_passes_when_the_treatment_can_reach():
+    # crowding on two sources, world rows spread over six: spreading escapes the filler
+    world = {("cedar", "slate"), ("maple", "teal"), ("indigo", "ochre"),
+             ("fern", "crimson"), ("willow", "umber"), ("yarrow", "verdant")}
+    crowded = [("amber", b) for b in ("birch", "cedar", "maple", "indigo", "fern", "willow")]
+    crowded += [("birch", b) for b in ("amber", "cedar", "maple", "indigo", "fern", "willow")]
+    pool = [(a, b, R.EDGE_REPEATS) for a, b in sorted(world)]
+    pool += [(a, b, R.FILLER_REPEATS) for a, b in crowded]
+    stats = R.reach_stats(pool, world, 8)
+    assert stats["world_rows"] == len(world)
+    assert stats["control_reach"] == 0
+    assert stats["diversity_reach"] > 0
 
 
 def test_the_world_generator_has_the_density_it_claims():
@@ -95,6 +118,14 @@ def test_the_runner_refuses_a_record_blocked_by_a_smoke_finding(tmp_path):
     body = json.loads(R.PREREG.read_text(encoding="utf-8"))
     body["not_run"]["blocked"] = "both arms cover zero world edges at the primary point"
     with pytest.raises(SystemExit, match="blocked"):
+        R.run(tmp_path / "never.json", body)
+    assert not (tmp_path / "never.json").exists()
+
+
+def test_the_runner_refuses_when_the_reach_gate_fails(tmp_path):
+    body = json.loads(R.PREREG.read_text(encoding="utf-8"))
+    body["not_run"]["blocked"] = ""
+    with pytest.raises(SystemExit, match="reach"):
         R.run(tmp_path / "never.json", body)
     assert not (tmp_path / "never.json").exists()
 

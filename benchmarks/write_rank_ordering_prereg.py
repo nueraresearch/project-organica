@@ -159,10 +159,15 @@ The bar is declared here and never computed from the outcome.
         alloc["thresholds"], alloc["bars"],
     )
     smoke = (body.get("not_run") or {}).get("smoke")
+    gate = (body.get("not_run") or {}).get("reach_audit")
+    extra = ""
     if smoke:
-        text = text.replace(
-            "No cell may run before this file is committed.",
-            "No cell may run before this file is committed.\n\n" + _smoke(smoke))
+        extra += "\n\n" + _smoke(smoke)
+    if gate:
+        extra += "\n\n" + _reach(gate)
+    if extra:
+        text = text.replace("No cell may run before this file is committed.",
+                            "No cell may run before this file is committed." + extra)
     return text
 
 
@@ -189,6 +194,21 @@ def _smoke(smoke: dict) -> str:
             counts["world"][0], counts["world"][-1],
             counts["rank_of_first_world_edge"], pool["rows"],
             observed["control_cap_20"]["presence"]))
+
+
+def _reach(gate: dict) -> str:
+    rows = gate["seeds"]
+    worst = min(row["diversity_reach"] for row in rows)
+    first = max(row["diversity_rank_of_first_world_edge"] or 0 for row in rows)
+    return (
+        "**The harness now audits reach itself, and that audit is red.** `--self-test` and "
+        "`run()` compare each arm's selection to the *world* at the primary point, on the "
+        "pool the world design implies and before any engine cycle. Across %d seeds at "
+        "rho_world %.1f the treatment reaches %d world edges at cap %d, and the best world "
+        "edge in its ordering ranks %d. The gate therefore fails, `all_passed` is false and "
+        "`--run` refuses even when the blocked flag is cleared. This is the durable half of "
+        "the finding: it does not depend on the smoke record, and it would have fired before "
+        "the smoke pool was run." % (len(rows), gate["rho_world"], worst, gate["cap"], first))
 
 
 def main() -> None:

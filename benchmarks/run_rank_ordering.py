@@ -20,6 +20,14 @@ used for the Gate 13 tables. Every database is a scratch database.
 not of the pre-registered criteria: the 16-tag vocabulary, the edge subset per density,
 the event stream and the intra-cell filler are all deterministic from the seed and the
 density, and `--self-test` audits that each of them does what this docstring says.
+
+**The treatment is audited against the world, not only against its control.** Liveness
+can be satisfied by two arms choosing different *filler* rows while neither reaches a
+world edge, and that is a decisive false negative waiting to happen. `reach_audit` asks
+whether the diversity arm's selection contains a world edge at the primary point, on the
+pool the world design implies, with no engine spent. It is red today: the treatment cannot
+reach a world row at the primary cap, so `--self-test` reports `all_passed: false` and
+`run()` refuses.
 """
 from __future__ import annotations
 
@@ -319,6 +327,69 @@ def identity_audit() -> dict:
     return body
 
 
+def harness_pool(seed: int, rho: float):
+    """The pool this world *designs*: every world edge, every filler pair, no engine.
+
+    Counts are the design's own (`EDGE_REPEATS`, `FILLER_REPEATS`). The engine adds
+    cross-event rows on top, which only crowd a count ordering further, so a pool that
+    cannot reach a world edge here cannot reach one in the measured pool either.
+    """
+    world = world_edges(seed, rho)
+    pool = [(a, b, EDGE_REPEATS) for a, b in sorted(world)]
+    pool += [(a, b, FILLER_REPEATS) for a, b in filler_pairs() if (a, b) not in world]
+    return pool, world
+
+
+def _first_world_rank(selected: list[tuple[str, str]],
+                      world: set[tuple[str, str]]) -> int | None:
+    for rank, edge in enumerate(selected, start=1):
+        if edge in world:
+            return rank
+    return None
+
+
+def reach_stats(pool: list[tuple[str, str, int]], world: set[tuple[str, str]],
+                cap: int) -> dict:
+    """Selection against the *world* at one cap, for both arms."""
+    control = rank_control(pool, len(pool))
+    diversity = rank_diversity(pool, len(pool))
+    return {
+        "cap": cap,
+        "pool_rows": len(pool),
+        "world_rows": sum(1 for a, b, _c in pool if (a, b) in world),
+        "control_reach": sum(1 for edge in control[:cap] if edge in world),
+        "diversity_reach": sum(1 for edge in diversity[:cap] if edge in world),
+        "control_rank_of_first_world_edge": _first_world_rank(control, world),
+        "diversity_rank_of_first_world_edge": _first_world_rank(diversity, world),
+    }
+
+
+def reach_audit(record: dict | None = None) -> dict:
+    """The treatment must be able to reach the signal at the primary point.
+
+    This is the audit the smoke run showed was missing: the existing ones compare the
+    arms to each other, so two selections that differ only in *which filler* they take
+    pass liveness while both cover nothing. A gate that only ever passes is decoration;
+    `tests/test_rank_ordering_runner.py` shows this one failing and passing.
+    """
+    record = record or prereg()
+    rho = record["design"]["densities"][0]
+    cap = record["design"]["caps"][0]
+    rows, problems = [], []
+    for seed in record["design"]["seeds"]:
+        pool, world = harness_pool(seed, rho)
+        stats = reach_stats(pool, world, cap)
+        stats["seed"] = seed
+        rows.append(stats)
+        if stats["world_rows"] == 0:
+            problems.append("%d: no world rows in the pool" % seed)
+        if stats["diversity_reach"] == 0:
+            problems.append("%d: the treatment reaches no world edge at cap %d"
+                            % (seed, cap))
+    return {"passed": not problems, "rho_world": rho, "cap": cap,
+            "seeds": rows, "problems": problems[:8]}
+
+
 def plan(record: dict | None = None) -> list[dict]:
     record = record or prereg()
     cells = []
@@ -366,7 +437,11 @@ def self_test(record: dict | None = None) -> dict:
         "liveness": liveness_audit(),
         "identity": identity_audit(),
     }
-    return {"all_passed": all(c["passed"] for c in checks.values()), "checks": checks}
+    gates = {"reach": reach_audit(record)}
+    mechanics = all(c["passed"] for c in checks.values())
+    ready = mechanics and all(g["passed"] for g in gates.values())
+    return {"all_passed": ready, "mechanics_passed": mechanics, "run_ready": ready,
+            "checks": checks, "gates": gates}
 
 
 # ---------------------------------------------------------------------------
@@ -382,9 +457,10 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
                          % blocked)
     report = self_test(record)
     if not report["all_passed"]:
-        raise SystemExit("the harness self-tests failed; no cell may run: %r"
-                         % {k: v for k, v in report["checks"].items()
-                            if not v["passed"]})
+        failed = {k: v for k, v in report["checks"].items() if not v["passed"]}
+        failed.update({"gate:" + k: v for k, v in report["gates"].items()
+                       if not v["passed"]})
+        raise SystemExit("the harness self-tests failed; no cell may run: %r" % failed)
     cells: list[dict] = []
     for seed in record["design"]["seeds"]:
         for rho in record["design"]["densities"]:
@@ -433,8 +509,9 @@ def main(argv=None) -> int:
             print("%d  rho=%.1f  cap=%d  %s" % (cell["seed"], cell["rho_world"],
                                                 cell["cap"], cell["arm"]))
         return 0
-    print(json.dumps(self_test(), indent=1))
-    return 0 if self_test()["all_passed"] else 1
+    report = self_test()
+    print(json.dumps(report, indent=1))
+    return 0 if report["all_passed"] else 1
 
 
 if __name__ == "__main__":

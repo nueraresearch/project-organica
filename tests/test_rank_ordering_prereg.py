@@ -250,6 +250,10 @@ def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     assert smoke["observed"]["diversity_cap_20"]["coverage"] == 0.0
     assert smoke["counts"]["world_edges_in_top_40"] == 0
     assert body["not_run"]["blocked"]
+    reach = body["not_run"]["reach_audit"]
+    assert reach["passed"] is False
+    assert all(row["world_rows"] > 0 for row in reach["seeds"])
+    assert all(row["diversity_reach"] == 0 for row in reach["seeds"])
 
 
 def test_the_design_record_still_allocates_nothing_and_the_map_is_untouched():

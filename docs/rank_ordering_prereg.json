@@ -253,6 +253,104 @@
    "why_the_audits_missed_it": "the liveness audit asks whether the arms select different rows, and they do, but the difference is which filler rows are chosen, not whether either arm reaches a world row. No audit compared either arm's selection to the world at the primary point, so liveness was satisfied without reach.",
    "recommendation": "do not run the block. The owner decides: concentrate the crowding on a subset of sources so spreading can escape it, drop the count tie-break (a different, separately disclosed rule), or move the question to the density and eligibility record. A third ordering variant added after the fact is what the design record's stop condition forbids.",
    "not_evidence": true
+  },
+  "reach_audit": {
+   "passed": false,
+   "rho_world": 0.1,
+   "cap": 20,
+   "seeds": [
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310201
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310202
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310203
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310204
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310205
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310206
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310207
+    },
+    {
+     "cap": 20,
+     "pool_rows": 72,
+     "world_rows": 24,
+     "control_reach": 0,
+     "diversity_reach": 0,
+     "control_rank_of_first_world_edge": 49,
+     "diversity_rank_of_first_world_edge": 49,
+     "seed": 20310208
+    }
+   ],
+   "problems": [
+    "20310201: the treatment reaches no world edge at cap 20",
+    "20310202: the treatment reaches no world edge at cap 20",
+    "20310203: the treatment reaches no world edge at cap 20",
+    "20310204: the treatment reaches no world edge at cap 20",
+    "20310205: the treatment reaches no world edge at cap 20",
+    "20310206: the treatment reaches no world edge at cap 20",
+    "20310207: the treatment reaches no world edge at cap 20",
+    "20310208: the treatment reaches no world edge at cap 20"
+   ],
+   "where": "benchmarks/run_rank_ordering.py: reach_audit, run by --self-test and by run() before any engine cycle"
   }
  },
  "not_evidence": [
