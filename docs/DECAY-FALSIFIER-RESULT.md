@@ -43,9 +43,12 @@ on this build. This document reports that run and nothing else.
 
 **REPRODUCES.** Theories reach zero and stay there well inside the run, so the mechanism is not falsified: this engine reproduces the failure the map attributes to decay.
 
-The harness also printed its own reference-arm warning and exited **0**, so the
-fail-open defect recorded in `docs/RERUN-0.12.0.md` is still present: a campaign whose
-reference arm is dead still writes an artifact and reports success.
+The harness exited **0**. The runner reads that status and never scans the output
+for a warning: since 2026-11-07 the harness is fail-closed, so a dead reference arm
+exits non-zero and this runner refuses to summarise it. **This artifact predates
+that change**, so its exit 0 was written by the fail-open build and is not evidence
+that the reference arm was alive; the raw report in
+`docs/decay_falsifier/harness.json` still carries that run's warning line.
 
 ## What this establishes
 

@@ -90,3 +90,58 @@ def test_check_writes_nothing():
     assert df.main(["--check"]) == 0
     assert df.ARTIFACT.read_bytes() == artifact_before
     assert df.DOC.read_bytes() == doc_before
+
+
+def test_the_runner_reads_the_status_and_never_the_warning_text(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+
+    raw = tmp_path / "parts" / "FULL.json"
+    harness = tmp_path / "harness.json"
+    monkeypatch.setattr(df, "RAW", raw)
+    monkeypatch.setattr(df, "HARNESS", harness)
+
+    outputs = {
+        1: "",   # fails, but prints nothing that says why
+        0: "!! FULL produced no theories -- the reference arm is broken",  # says it, exits 0
+    }
+
+    def fake_run(cmd, **kwargs):
+        return SimpleNamespace(returncode=fake_run.code, stdout=outputs[fake_run.code], stderr="")
+
+    monkeypatch.setattr(df.subprocess, "run", fake_run)
+
+    fake_run.code = 1
+    assert df.run() == 1
+    report = json.loads(harness.read_text(encoding="utf-8"))
+    assert report["reference_arm_failed"] is True
+    assert "reference_arm_warning" not in report
+
+    fake_run.code = 0
+    assert df.run() == 0
+    report = json.loads(harness.read_text(encoding="utf-8"))
+    assert report["reference_arm_failed"] is False
+    assert report["tail"][-1] == outputs[0]
+    assert "reference_arm_warning" not in report
+
+
+def test_the_arm_flag_is_derived_from_the_status_alone():
+    # Fails, and prints nothing that names the reason.
+    assert df.arm_status({"exit_code": 1, "tail": ["no message of any kind"]}) == (1, True)
+    # Prints the warning, but exits successfully: the status is what decides.
+    assert df.arm_status({"exit_code": 0, "tail": ["!! FULL produced no theories"]}) == (0, False)
+    # A legacy report with no flag falls back to its own status.
+    assert df.arm_status({"exit_code": 2}) == (2, True)
+    # No status at all is not success.
+    assert df.arm_status({"tail": []}) == (None, None)
+
+
+def test_a_failed_harness_status_is_rejected_by_the_artifact_check():
+    record = _record()
+    found = df.problems(dict(record, harness_exit_code=1, harness_reference_arm_failed=True))
+    assert any("exited 1" in message for message in found), found
+
+
+def test_a_flag_that_disagrees_with_the_status_is_rejected():
+    record = _record()
+    found = df.problems(dict(record, harness_exit_code=0, harness_reference_arm_failed=True))
+    assert any("disagrees" in message for message in found), found

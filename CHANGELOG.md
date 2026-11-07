@@ -30,6 +30,21 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Changed — The decay runner trusts the harness exit status (2026-11-07)
+
+- **`benchmarks/decay_falsifier.py`** no longer greps the harness output for
+  `produced no theories`. It records `exit_code`, derives `reference_arm_failed` from that
+  status, and keeps the last twelve lines as an uninterpreted `tail`.
+- **The trusted signal is enforced**: `problems()` rejects an artifact summarised from a
+  non-zero exit, and a failure flag that disagrees with the status.
+- **Regenerated artifacts**: `docs/decay_falsifier.json` and `docs/DECAY-FALSIFIER-RESULT.md`
+  carry `harness_reference_arm_failed` and `harness_tail` in place of
+  `harness_reference_arm_warning`, and the page states that this artifact's exit 0 predates
+  the fail-closed harness and is not evidence the reference arm was alive.
+- **Four tests** prove both directions: a silent failure is recorded as failed, the warning
+  printed on a zero exit is not, the summary derives the flag from the status, and the
+  artifact check rejects a non-zero status or a contradictory flag.
+
 ### Decided — the licensing role is not recorded, because it is already recorded (2026-11-07)
 
 - **The decision**: no engine change. `organica/sleep_extraction.py` already writes

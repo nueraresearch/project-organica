@@ -9,7 +9,20 @@
   "stimulus": "lattice_L1 (three disjoint triangles)",
   "py_hash_seed": 0,
   "harness_exit_code": 0,
-  "harness_reference_arm_warning": true,
+  "harness_reference_arm_failed": false,
+  "harness_tail": [
+    "G1 code-path verification:",
+    "  FULL                 policy=alphabetical   scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  SALIENCE             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_CONTRADICTIONS    policy=salience       scale=0.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_QUESTIONS         policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  NO_DREAMS            policy=salience       scale=1.0   Q=0   D=0   E=0   beliefs=6   theories=0",
+    "  ANTI_EIG             policy=salience       scale=1.0   Q=0   D=8   E=5   beliefs=6   theories=0",
+    "  !! FULL produced no theories -- the reference arm is broken",
+    "FULL                 TDC=0.123 QDC=0.123 CD=131.9489 CS=0.0 DV=19.0 gen=8 life=58.278 psi_b=-0.5298 rev=0 (17.8s)",
+    "",
+    "wrote /workspace/chats/41c104dc975752552e0b5d73/docs/decay_falsifier/parts/FULL.json"
+  ],
   "verdict": "REPRODUCES",
   "falsifier_fired": false,
   "theories": {
