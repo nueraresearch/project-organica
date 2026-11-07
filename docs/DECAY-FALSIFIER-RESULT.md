@@ -43,12 +43,20 @@ on this build. This document reports that run and nothing else.
 
 **REPRODUCES.** Theories reach zero and stay there well inside the run, so the mechanism is not falsified: this engine reproduces the failure the map attributes to decay.
 
-The harness exited **0**. The runner reads that status and never scans the output
-for a warning: since 2026-11-07 the harness is fail-closed, so a dead reference arm
-exits non-zero and this runner refuses to summarise it. **This artifact predates
-that change**, so its exit 0 was written by the fail-open build and is not evidence
-that the reference arm was alive; the raw report in
-`docs/decay_falsifier/harness.json` still carries that run's warning line.
+## The harness's own status
+
+| Item | Value |
+| --- | --- |
+| Build that wrote the status | fail-closed |
+| Exit code | **1** |
+| Reference-arm check | FULL held no theory in its final tenth of cycles -- the reference arm is dead |
+
+The harness exited **1** because its own reference-arm check fired,
+and it recorded that reason in the run artifact rather than only on the console:
+the status is attributable without reading a line of output. The runner records
+the status verbatim and does not override it. This falsifier exists to measure the
+death the harness is refusing to certify, so a non-zero status here is the
+finding, not a crashed run -- and the artifact says which it is.
 
 ## What this establishes
 

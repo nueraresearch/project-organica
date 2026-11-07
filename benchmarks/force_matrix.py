@@ -635,6 +635,22 @@ def row_reference_problems(rows: list[dict]) -> list[str]:
     return []
 
 
+def record_reference_check(out_path: Path, problems: list[str]) -> list[str]:
+    """Persist the reference-arm verdict beside the rows before the process exits.
+
+    The exit status must be attributable without parsing printed output: a pipeline reads
+    the artifact, not the console. Written on every run, so a pass is recorded with the same
+    shape as a failure, and a reader can tell the status apart from a crash.
+    """
+    try:
+        doc = json.loads(out_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        return list(problems) + ["the reference-arm check could not be recorded: %s" % exc]
+    doc["reference_arm"] = {"check": "row_reference_problems", "problems": list(problems)}
+    out_path.write_text(json.dumps(doc, indent=2), encoding="utf-8")
+    return list(problems)
+
+
 def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     """G1: prove each colony's intervention is actually in the code path.
 
@@ -758,7 +774,7 @@ def merge(parts: list[Path], out_path: Path,
         "rows": rows,
     }, indent=2), encoding="utf-8")
     print(f"merged {len(rows)} colonies into {out_path}")
-    dead = row_reference_problems(rows)
+    dead = record_reference_check(out_path, row_reference_problems(rows))
     if dead:
         for p in dead:
             print(f"  !! {p}")
@@ -822,7 +838,7 @@ def main() -> None:
               f"({r['seconds']}s)")
         sys.stdout.flush()
 
-    dead = row_reference_problems(rows)
+    dead = record_reference_check(out_path, row_reference_problems(rows))
     if dead:
         for p in dead:
             print(f"  !! {p}")

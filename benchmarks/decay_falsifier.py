@@ -69,6 +69,25 @@ def verdict_for(theories, beliefs, cycles):
     }
 
 
+def _reference_record(raw_path):
+    """The harness's own structured reference-arm check, if it wrote one.
+
+    Presence is the fail-closed build's signature: the older harness printed a warning and
+    exited 0, and wrote no such field. Nothing here reads the wording to decide anything --
+    the list is recorded and displayed, and attribution is the field's existence.
+    """
+    if not raw_path.exists():
+        return None
+    try:
+        doc = json.loads(raw_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    entry = doc.get("reference_arm")
+    if not isinstance(entry, dict) or not isinstance(entry.get("problems"), list):
+        return None
+    return {"check": entry.get("check"), "problems": [str(p) for p in entry["problems"]]}
+
+
 def run():
     """Run the harness at the falsifier's setting and record its own report."""
     env = dict(os.environ)
@@ -82,15 +101,22 @@ def run():
         cwd=str(ROOT), env=env, capture_output=True, text=True, timeout=1800,
     )
     output = (proc.stdout or "") + (proc.stderr or "")
+    record = _reference_record(RAW)
     HARNESS.write_text(
         json.dumps(
             {
                 "exit_code": proc.returncode,
                 # The status is the harness's own verdict on its reference arm
-                # (benchmarks/force_matrix.py, fail-closed since 2026-11-07). The output is
-                # kept as a raw tail for a reader, never scanned for a message: wording is
-                # not a signal, and a checker that greps for one inherits the wording's bugs.
-                "reference_arm_failed": proc.returncode != 0,
+                # (benchmarks/force_matrix.py, fail-closed since 2026-11-07). Since the
+                # harness persists that check in the artifact, a failure is attributed
+                # from the field, never from the printed wording: wording is not a signal,
+                # and a checker that greps for one inherits the wording's bugs.
+                "mode": "fail-closed" if record is not None else "pre-fail-closed",
+                "reference_arm": record,
+                "reference_arm_problems": record["problems"] if record else None,
+                "reference_arm_failed": (
+                    bool(record["problems"]) if record else proc.returncode != 0
+                ),
                 "tail": output.strip().splitlines()[-12:],
             },
             indent=2,
@@ -102,11 +128,11 @@ def run():
 
 
 def arm_status(harness):
-    """The reference arm's verdict, from the recorded exit status and never from output text.
+    """The reference arm's verdict, from recorded fields and never from output text.
 
-    A report written before the field existed falls back to its own exit code; a report with
-    no status at all returns None rather than a guess, so an unrecorded status is never read
-    as success.
+    A report written before the structured check existed falls back to its own exit code; a
+    report with no status at all returns None rather than a guess, so an unrecorded status is
+    never read as success.
     """
     status = harness.get("exit_code")
     failed = harness.get("reference_arm_failed")
@@ -135,6 +161,9 @@ def summarise():
         "py_hash_seed": 0,
         "harness_exit_code": harness_status,
         "harness_reference_arm_failed": arm_failed,
+        "harness_mode": harness.get("mode"),
+        "harness_reference_arm_problems": harness.get("reference_arm_problems"),
+        "harness_reference_arm_attributed": bool(harness.get("reference_arm_problems")),
         "harness_tail": harness.get("tail"),
     }
     record.update(verdict_for(series["theories"], series["beliefs"], int(record["cycles"])))
@@ -215,21 +244,36 @@ def render(record):
         "",
     ]
     if record.get("harness_exit_code") is not None:
-        if record.get("harness_reference_arm_failed"):
+        problems = record.get("harness_reference_arm_problems") or []
+        lines += [
+            "## The harness's own status",
+            "",
+            "| Item | Value |",
+            "| --- | --- |",
+            "| Build that wrote the status | %s |" % (record.get("harness_mode") or "unrecorded"),
+            "| Exit code | **%d** |" % record["harness_exit_code"],
+            "| Reference-arm check | %s |" % (
+                "; ".join(problems) if problems else "passed"),
+            "",
+        ]
+        if problems:
             lines += [
-                "The harness exited **" + str(record["harness_exit_code"]) + "**. The runner reads that",
-                "status as a dead reference arm, and an artifact summarised from a failed run is",
-                "rejected by this artifact's own check, so the state cannot reach a published page.",
+                "The harness exited **" + str(record["harness_exit_code"]) + "** because its own"
+                " reference-arm check fired,",
+                "and it recorded that reason in the run artifact rather than only on the console:",
+                "the status is attributable without reading a line of output. The runner records",
+                "the status verbatim and does not override it. This falsifier exists to measure the",
+                "death the harness is refusing to certify, so a non-zero status here is the",
+                "finding, not a crashed run -- and the artifact says which it is.",
                 "",
             ]
         else:
             lines += [
-                "The harness exited **0**. The runner reads that status and never scans the output",
-                "for a warning: since 2026-11-07 the harness is fail-closed, so a dead reference arm",
-                "exits non-zero and this runner refuses to summarise it. **This artifact predates",
-                "that change**, so its exit 0 was written by the fail-open build and is not evidence",
-                "that the reference arm was alive; the raw report in",
-                "`docs/decay_falsifier/harness.json` still carries that run's warning line.",
+                "The harness exited **0** under the fail-closed build, whose own reference check",
+                "requires a theory in the final tenth of cycles. That check passing is a weaker",
+                "statement than the series below: it asks for one live theory in the last tenth,",
+                "and the falsifier asks whether a theory lived in *every* cycle. The verdict is",
+                "read from the series, not from the status.",
                 "",
             ]
     lines += [
@@ -289,10 +333,17 @@ def problems(record):
     if not record.get("engine_pin_current"):
         found.append("the engine moved since the pin, so this result describes another build")
     status = record.get("harness_exit_code")
-    if status not in (None, 0):
+    reasons = record.get("harness_reference_arm_problems") or []
+    attributed = bool(reasons) and record.get("harness_reference_arm_failed") is True
+    if status not in (None, 0) and not attributed:
         found.append(
-            "the artifact was summarised from a harness run that exited %d, so the campaign it "
-            "describes failed its own reference check" % status
+            "the artifact was summarised from a harness run that exited %d without a recorded "
+            "reference-arm reason, so the failure cannot be told apart from a crashed run" % status
+        )
+    if attributed and record["theories"]["at_end"] != 0:
+        found.append(
+            "the harness refused the run for its reference arm, but the series does not end at "
+            "zero, so that refusal is not the condition this falsifier measures"
         )
     if record.get("harness_reference_arm_failed") and status == 0:
         found.append("the harness failure flag disagrees with its own exit status")
@@ -329,8 +380,13 @@ def main(argv=None) -> int:
     if not args.reuse:
         code = run()
         if code != 0:
-            print("FAIL: the harness exited %d; nothing written" % code)
-            return 1
+            harness = json.loads(HARNESS.read_text(encoding="utf-8"))
+            if not harness.get("reference_arm_problems"):
+                print("FAIL: the harness exited %d with no recorded reference-arm reason; "
+                      "nothing written" % code)
+                return 1
+            print("harness exited %d and named its reason; the refusal is the measurement"
+                  % code)
     record = summarise()
     ARTIFACT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     DOC.write_text(render(record), encoding="utf-8")

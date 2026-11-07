@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T16:33:36Z",
+  "generated_at": "2026-11-07T18:51:27Z",
   "cycles": 300,
   "seed": 20261023,
   "stimulus": "lattice_L1 (three disjoint triangles)",
@@ -71,7 +71,7 @@
       "description": "reference arm, alphabetical retention",
       "seed": 20261023,
       "cycles": 300,
-      "seconds": 17.8,
+      "seconds": 14.9,
       "metrics": {
         "M1_theory_duty_cycle": {
           "whole_run": 0.12333333333333334,
@@ -8013,5 +8013,11 @@
         }
       }
     }
-  ]
+  ],
+  "reference_arm": {
+    "check": "row_reference_problems",
+    "problems": [
+      "FULL held no theory in its final tenth of cycles -- the reference arm is dead"
+    ]
+  }
 }

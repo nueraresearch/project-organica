@@ -92,7 +92,7 @@ def test_check_writes_nothing():
     assert df.DOC.read_bytes() == doc_before
 
 
-def test_the_runner_reads_the_status_and_never_the_warning_text(monkeypatch, tmp_path):
+def test_the_runner_records_the_status_and_never_scans_the_text(monkeypatch, tmp_path):
     from types import SimpleNamespace
 
     raw = tmp_path / "parts" / "FULL.json"
@@ -114,6 +114,8 @@ def test_the_runner_reads_the_status_and_never_the_warning_text(monkeypatch, tmp
     assert df.run() == 1
     report = json.loads(harness.read_text(encoding="utf-8"))
     assert report["reference_arm_failed"] is True
+    assert report["mode"] == "pre-fail-closed"
+    assert report["reference_arm_problems"] is None
     assert "reference_arm_warning" not in report
 
     fake_run.code = 0
@@ -122,6 +124,36 @@ def test_the_runner_reads_the_status_and_never_the_warning_text(monkeypatch, tmp
     assert report["reference_arm_failed"] is False
     assert report["tail"][-1] == outputs[0]
     assert "reference_arm_warning" not in report
+
+
+def test_a_status_the_harness_explained_is_attributed_from_the_artifact(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+
+    raw = tmp_path / "parts" / "FULL.json"
+    harness = tmp_path / "harness.json"
+    raw.parent.mkdir(parents=True)
+    raw.write_text(json.dumps({
+        "rows": [],
+        "reference_arm": {
+            "check": "row_reference_problems",
+            "problems": ["FULL held no theory in its final tenth of cycles -- the reference arm is dead"],
+        },
+    }), encoding="utf-8")
+    monkeypatch.setattr(df, "RAW", raw)
+    monkeypatch.setattr(df, "HARNESS", harness)
+    monkeypatch.setattr(
+        df.subprocess, "run",
+        lambda cmd, **kwargs: SimpleNamespace(returncode=1, stdout="", stderr=""),
+    )
+
+    assert df.run() == 1
+    report = json.loads(harness.read_text(encoding="utf-8"))
+    assert report["mode"] == "fail-closed"
+    assert report["reference_arm_failed"] is True
+    assert report["reference_arm_problems"] == [
+        "FULL held no theory in its final tenth of cycles -- the reference arm is dead"
+    ]
+    assert df.arm_status(report) == (1, True)
 
 
 def test_the_arm_flag_is_derived_from_the_status_alone():
@@ -135,10 +167,20 @@ def test_the_arm_flag_is_derived_from_the_status_alone():
     assert df.arm_status({"tail": []}) == (None, None)
 
 
-def test_a_failed_harness_status_is_rejected_by_the_artifact_check():
+def test_an_unexplained_failure_is_rejected_by_the_artifact_check():
     record = _record()
-    found = df.problems(dict(record, harness_exit_code=1, harness_reference_arm_failed=True))
-    assert any("exited 1" in message for message in found), found
+    found = df.problems(dict(record, harness_exit_code=1, harness_reference_arm_failed=True,
+                             harness_reference_arm_problems=None))
+    assert any("without a recorded reference-arm reason" in message for message in found), found
+
+
+def test_an_explained_failure_must_match_the_series_it_judges():
+    record = _record()
+    wrong = dict(record, harness_exit_code=1, harness_reference_arm_failed=True,
+                 harness_reference_arm_problems=["reference arm is dead"],
+                 theories=dict(record["theories"], at_end=2))
+    found = df.problems(wrong)
+    assert any("not the condition this falsifier measures" in message for message in found), found
 
 
 def test_a_flag_that_disagrees_with_the_status_is_rejected():

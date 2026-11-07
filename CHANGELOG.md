@@ -30,6 +30,22 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Measured — The decay falsifier's artifact now carries an attributable exit status (2026-11-07)
+
+- **The harness persists its own verdict.** `benchmarks/force_matrix.py` writes
+  `reference_arm.problems` into the run artifact before it exits, so a non-zero status names its
+  reason in the artifact rather than only in console text.
+- **The falsifier records the status verbatim.** `benchmarks/decay_falsifier.py` re-ran under the
+  fail-closed build and now records `harness_exit_code` **1**, `harness_mode` `fail-closed`, and
+  the harness's own reason (`FULL held no theory in its final tenth of cycles`). Its artifact
+  check accepts a non-zero status only when it is attributed **and** the series it judges ends at
+  zero; an unexplained failure — or an explained one that disagrees with the series — is still
+  refused.
+- **The verdict is unchanged**: `REPRODUCES` — theories present in **37** of 300 cycles, last at
+  cycle **38**, none at the end. What changed is the evidence behind the status: the previous
+  exit 0 was written by the fail-open build and could not distinguish an alive arm from a warned
+  one.
+
 ### Scoped — The store-time role record is an engine change with its own pre-registration (2026-11-07)
 
 - **`docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md`** is now a scoped, live pre-registration
