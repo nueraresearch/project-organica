@@ -1,0 +1,21 @@
+{
+  "version": "0.13.0",
+  "head_at_pin": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "pinned": "2026-11-07",
+  "files": {
+    "organica/__init__.py": "1b927a69d0605b49c6fbbec7f32e0104ec49e3d9f1a3941bb3f44a7a4b7a6a90",
+    "organica/branch_streams.py": "e466ae55d3075fe4d31c88d22402a0f6df80ff73c97ff61143870e22d9b8c29f",
+    "organica/candidates.py": "a91d58b325b69ecaef9ab7fe9a1f006538a6d7418110c0a053eb8ceb36722d3a",
+    "organica/environment.py": "63aff73afcb9ee2ce5e93aeb8502e7d09ba9be850dec0008dd7770c6c69c99dd",
+    "organica/ground_truth_worlds.py": "6269ed21645372f8a7098a636643c1cb63fb85fdac9197b2c03df4877d9ee8bd",
+    "organica/memory.py": "dd40cce387ac668d9c3acf1675f4ffb0abf80a70a9a990999da68fe002775465",
+    "organica/paths.py": "0ae01842d788b408e3eb6a6f3e468cd4838de004939bb956a2dd72ffd0217e78",
+    "organica/scale_streams.py": "ac84794f053635423e24afab7e493fdd520c5df38b1d3b5a407f5d0c773405db",
+    "organica/sleep.py": "a1451ca4518f3a6758f4ed1f37fc37beba2ef25b9ce3a4e71e86cc33f271a75d",
+    "organica/sleep_extraction.py": "96546edab6f138042c80ea88bedce4eee79f65086825f475b2e917d024407000",
+    "organica/sleep_inquiry.py": "90eb625055c9c5fe2a2a910482fb0579d5dabf592e6c32028949937d11512c4c",
+    "organica/sleep_selection.py": "3741bd07776942719344cd64962bf819e9933596f3e3b2d8271b4e569098c868",
+    "organica/sleep_synthesis.py": "69e6c0b6404a6cd68bdf1b19e427731f6e3b41f677543934e29ac2c5f779f533",
+    "organica/streams.py": "8fc956ed3f6d03b81900e5ae72b8e016982384f2644945782aa25e6a0865aa2b"
+  }
+}

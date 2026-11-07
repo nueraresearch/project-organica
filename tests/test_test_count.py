@@ -8,6 +8,9 @@ from benchmarks import test_count as tc
 # bootstrap state only: the recorder writes the record and the documents from one
 # real run, and from then on these checks run in full. A missing record is not
 # silent at the gate -- `--check` fails on it rather than skipping.
+# The record-versus-collection comparison lives in the gate, not here: as a suite test it
+# deadlocks the recorder, because adding a test makes the record stale and the recorder
+# refuses to publish a suite that is red for that reason alone.
 needs_record = pytest.mark.skipif(
     not tc.ARTIFACT.exists(),
     reason="no recorded test count yet; run python -m benchmarks.test_count",
@@ -23,14 +26,6 @@ def test_the_documents_state_the_recorded_count():
         assert tc.region_of(path.read_text(encoding="utf-8")) == fragment, (
             "%s does not state the recorded count; run python -m benchmarks.test_count" % path.name
         )
-
-
-@needs_record
-def test_the_record_describes_the_suite_that_exists():
-    record = tc.load_record()
-    assert record["collected"] == tc.collect_count(), (
-        "the record describes a different suite; run python -m benchmarks.test_count"
-    )
 
 
 @needs_record
@@ -79,9 +74,12 @@ def test_a_suite_that_grew_is_reported(tmp_path, monkeypatch):
 
 @needs_record
 def test_check_writes_nothing():
+    # The invariant is that the check never writes, whatever it returns: a stale
+    # record makes it exit 1 by design, and a test that demanded 0 here would
+    # deadlock the recorder on every run that adds a test.
     before = {path: path.read_bytes() for path in tc.TARGETS}
     record_before = tc.ARTIFACT.read_bytes()
-    assert tc.main(["--check"]) == 0
+    assert tc.main(["--check"]) in (0, 1)
     assert {path: path.read_bytes() for path in before} == before
     assert tc.ARTIFACT.read_bytes() == record_before
 

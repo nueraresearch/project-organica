@@ -170,6 +170,12 @@ Ordered, and none of them runs a cell.
 1. **Pin the improved engine.** A commit plus a SHA-256 of every file under `organica/`, in an
    artifact, with a check that fails when the engine moves without a version bump. Without a
    pin, "the improved engine" is a moving target and no protocol can be frozen against it.
+
+**In place from 2026-11-07.** `docs/engine_pin.json` records a SHA-256 for each of the 14
+modules under `organica/` at version 0.13.0, with the commit the pin was taken at, and
+`python -m benchmarks.engine_pin --check` fails when one is added, removed or changed. It
+distinguishes the two cases: an engine that moved while the package still claims 0.13.0, and a pin
+that a version bump has outdated. `tests/test_engine_pin.py` runs that check inside the suite.
 2. **Choose the comparison, and choose it explicitly.** `v0.9.0` is the archival reference;
    `v0.12.0` is the deposit object and already contains most of the changes in §4. A
    three-way comparison (`v0.9.0`, `v0.12.0`, pinned candidate) costs one more arm and settles
