@@ -841,20 +841,23 @@
     {
       "id": "Q049",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "On the two Phase J gradual-shift families, do the smallest surviving factor 0.9925 and the ceiling 1.0 have a higher final post-shift prediction loss than shipped 0.95, and is the cost larger at 1.0?",
       "why_open": "Q048 found that 0.9925 is the smallest factor that survives 300 cycles on lattice_L1, but survival is not adaptation. A no-decay system may keep a stale mapping after the world changes, and the threshold point may pay an adaptation cost too. The Phase J harness has no decay arm.",
       "evidence": [
         "docs/DECAY-SWEEP.md",
-        "docs/decay_sweep.json"
+        "docs/decay_sweep.json",
+        "docs/DECAY-ADAPTATION-PREREGISTRATION.md",
+        "docs/decay_adaptation.json",
+        "docs/DECAY-ADAPTATION.md"
       ],
       "preregistrations": [
         "DECAY-ADAPTATION-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": [],
-      "outcome": null,
-      "answer": null
+      "outcome": "SUPPORTED",
+      "answer": "No adaptation cost was detected on the two Phase J gradual-shift families at five seeds. Pooled final post-shift NLL deltas against shipped: 0.99 -0.0144 [-0.1731, 0.1336], 0.9925 +0.0816 [-0.1550, 0.4166], 1.0 +0.0017 [-0.1549, 0.1466]. No arm met the 0.05 nats cost bar with a lower bound above zero. P3 failed: no_decay was not worse on mapping_mix; it was slightly better (-0.0970). P4 and P5 also failed. All five gates passed. This is a five-seed pilot on two synthetic families, not a Phase J verdict, and it does not make 1.0 or 0.9925 an adoption recommendation."
     }
   ],
   "schema": {

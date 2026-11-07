@@ -1,5 +1,5 @@
 study: decay factor sweep
-executions: 0
+executions: 1
 seeds: 20302501, 20302502, 20302503
 arms: 0.985, 0.99, 0.9925, 0.995, 0.9975, 0.999, 1.0
 world: lattice_L1
@@ -192,4 +192,27 @@ after section 12, never an edit in place.
 
 ## 12. Outcome
 
-**Not yet written.** No cell has run.
+**Measured 2026-11-07: `STEP`.** Seven factors × three fresh seeds 20302501-20302503 on the
+falsifier's `lattice_L1` world, reference arm FULL, 300 cycles.
+
+| Factor | Death cycles | Alive at 300 | Final stable edges |
+| --- | --- | --- | --- |
+| 0.985 | 150, 150, 150 | 0/3 | 12 |
+| 0.99 | 228, 228, 228 | 0/3 | 12 |
+| 0.9925 | 301, 301, 301 | 3/3 | 14 |
+| 0.995 | 301, 301, 301 | 3/3 | 18 |
+| 0.9975 | 301, 301, 301 | 3/3 | 21 |
+| 0.999 | 301, 301, 301 | 3/3 | 21 |
+| 1.0 | 301, 301, 301 | 3/3 | 21 |
+
+The smallest factor alive at cycle 300 is **0.9925**. The largest adjacent step is **78 cycles**
+(0.985 to 0.99); the survival transition itself is between **0.99** (228) and **0.9925** (301), a
+**73-cycle** step. All five gates passed and all seven predictions held. The 0.99 cell reproduced
+Q047's 228 on all three fresh seeds, and the shipped control reproduced the committed falsifier
+series exactly.
+
+**Decision.** The operating point on this range is a threshold, not a smooth ramp: once the factor
+reaches 0.9925 the theory layer survives the 300-cycle horizon. The next test is adaptation at
+**0.9925** and at **0.99**, the point immediately below the threshold; **1.0 remains the ceiling
+control**, not an adoption candidate. The sweep does not establish that forgetting is unnecessary,
+and it does not score prediction, revision or adaptation.

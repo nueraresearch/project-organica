@@ -1,5 +1,5 @@
 study: decay adaptation pilot
-executions: 0
+executions: 1
 seeds: 20302601, 20302602, 20302603, 20302604, 20302605
 arms: shipped, factor099, factor09925, no_decay
 families: cause_mix, mapping_mix
@@ -170,4 +170,29 @@ section 12, never an edit in place.
 
 ## 12. Outcome
 
-**Not yet written.** No cell has run.
+**Measured 2026-11-07: `NO_COST_DETECTED`.** 40 cells (4 arms × 2 families × 5 seeds), 80
+cycles each, on the two Phase J gradual-shift families. The endpoint is the mean next-event NLL
+over cycles 60-79 on the shifted world; the delta is against shipped at the same family and seed.
+
+| Arm | Pooled delta | 97.5% CI |
+| --- | --- | --- |
+| shipped | 0.0000 | [0.0000, 0.0000] |
+| factor099 | -0.0144 | [-0.1731, 0.1336] |
+| factor09925 | +0.0816 | [-0.1550, 0.4166] |
+| no_decay | +0.0017 | [-0.1549, 0.1466] |
+
+No arm met the 0.05 cost bar with a lower bound above zero, and no arm met the better bar. The
+per-family rows are reported beside the pooled rows: at 1.0, `cause_mix` is **+0.1005** with
+interval **[-0.0294, 0.2468]** and `mapping_mix` is **-0.0970** with interval **[-0.3198, 0.1207]**;
+at 0.9925, `cause_mix` is **+0.2734** with interval **[-0.0262, 0.7433]** and `mapping_mix` is
+**-0.1102** with interval **[-0.3303, 0.1067]**.
+
+All five gates passed. P1, P2 and P6 held; **P3** (no-decay mapping cost), **P4** (0.9925 no worse
+than the ceiling) and **P5** (a cost detected) failed. P3's failure is the substantive result:
+no-decay was not worse on the mapping-permutation family; it was slightly better there.
+
+**Decision.** On this pilot's two families, no adaptation cost was detected for 1.0 or 0.9925, so
+the stale-knowledge concern is not supported here. The 0.9925 point estimate (+0.0816 pooled) is
+not a confirmed cost because its interval includes zero; its `cause_mix` estimate (+0.2734) is the
+one to watch. 1.0 remains a persistence ceiling, not an adoption candidate. The next test, if the
+point estimate warrants it, is a Phase J-scale seed block, not another five-seed pilot.

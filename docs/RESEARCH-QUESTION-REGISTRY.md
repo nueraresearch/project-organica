@@ -13,11 +13,11 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 22 | a result constrained the space; the answer is recorded with its scope |
+| closed | 24 | a result constrained the space; the answer is recorded with its scope |
 | open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **45** | |
+| **total** | **47** | |
 
 ## How this stays current
 
@@ -320,6 +320,34 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `OPERATING-POINT-PREREGISTRATION.md`
 
 **Evidence.** `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`, `docs/substrate_repair.json`, `docs/SUBSTRATE-REPAIR.md`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution.json`, `docs/operating_point.json`, `docs/OPERATING-POINT.md`
+
+### Q048 — Between 0.985 and 1.0, is theory survival a smooth function of the temporal decay factor, a threshold, or a flat range; and what is the smallest factor in range that survives 300 cycles?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** The range is a step, not a smooth ramp. On the falsifier's lattice_L1 world, 0.985 dies at cycle 150, 0.99 at 228 (reproducing Q047), and 0.9925, 0.995, 0.9975, 0.999 and 1.0 all survive to 301. The smallest surviving factor is 0.9925; the survival transition is the 73-cycle step from 0.99 to 0.9925, and the largest adjacent step is 78 cycles from 0.985 to 0.99. All five gates and all seven predictions held, and the shipped control reproduced the committed falsifier series. The scope is one world, one arm and three seeds; survival is theory-layer presence, not identity, and no prediction, revision or adaptation task was scored.
+
+**Why it is open.** Q047 measured 0.95, 0.99 and 1.0 on lattice_L1, but only two interior factor points. Two points cannot distinguish a smooth gradient from a threshold, and 1.0 is a ceiling control rather than an adoption candidate. The 0.985-0.999 range is untested.
+
+**Preregistered in.** `DECAY-SWEEP-PREREGISTRATION.md`
+
+**Evidence.** `docs/OPERATING-POINT.md`, `docs/operating_point.json`, `docs/DECAY-SWEEP-PREREGISTRATION.md`, `docs/decay_sweep.json`, `docs/DECAY-SWEEP.md`
+
+### Q049 — On the two Phase J gradual-shift families, do the smallest surviving factor 0.9925 and the ceiling 1.0 have a higher final post-shift prediction loss than shipped 0.95, and is the cost larger at 1.0?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** No adaptation cost was detected on the two Phase J gradual-shift families at five seeds. Pooled final post-shift NLL deltas against shipped: 0.99 -0.0144 [-0.1731, 0.1336], 0.9925 +0.0816 [-0.1550, 0.4166], 1.0 +0.0017 [-0.1549, 0.1466]. No arm met the 0.05 nats cost bar with a lower bound above zero. P3 failed: no_decay was not worse on mapping_mix; it was slightly better (-0.0970). P4 and P5 also failed. All five gates passed. This is a five-seed pilot on two synthetic families, not a Phase J verdict, and it does not make 1.0 or 0.9925 an adoption recommendation.
+
+**Why it is open.** Q048 found that 0.9925 is the smallest factor that survives 300 cycles on lattice_L1, but survival is not adaptation. A no-decay system may keep a stale mapping after the world changes, and the threshold point may pay an adaptation cost too. The Phase J harness has no decay arm.
+
+**Preregistered in.** `DECAY-ADAPTATION-PREREGISTRATION.md`
+
+**Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-ADAPTATION-PREREGISTRATION.md`, `docs/decay_adaptation.json`, `docs/DECAY-ADAPTATION.md`
 
 ## 2. Open — evidence in hand, no settled answer
 
