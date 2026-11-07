@@ -29,7 +29,7 @@
     "",
     "wrote /workspace/chats/41c104dc975752552e0b5d73/docs/decay_falsifier/parts/FULL.json"
   ],
-  "verdict": "REPRODUCES",
+  "verdict": "VOID_REFERENCE_DEAD",
   "falsifier_fired": false,
   "theories": {
     "cycles": 300,
@@ -42,6 +42,14 @@
     "cycles_with_any": 112,
     "last_nonzero_cycle": 113,
     "at_end": 0
+  },
+  "series_verdict": "REPRODUCES",
+  "gate": {
+    "reference_arm_failed": true,
+    "problems": [
+      "FULL held no theory in its final tenth of cycles -- the reference arm is dead"
+    ],
+    "reason": "the harness's own reference-arm check failed the run"
   },
   "reference": {
     "artifact": "docs/rerun-0.12.0/parts/FULL.json",

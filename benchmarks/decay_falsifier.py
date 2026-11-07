@@ -166,7 +166,18 @@ def summarise():
         "harness_reference_arm_attributed": bool(harness.get("reference_arm_problems")),
         "harness_tail": harness.get("tail"),
     }
-    record.update(verdict_for(series["theories"], series["beliefs"], int(record["cycles"])))
+    series_verdict = verdict_for(series["theories"], series["beliefs"], int(record["cycles"]))
+    record.update(series_verdict)
+    # A dead reference arm precedes every scientific verdict: the run cannot test the
+    # hypothesis, so the headline says so and the series is kept as an observation.
+    record["series_verdict"] = series_verdict["verdict"]
+    record["verdict"] = "VOID_REFERENCE_DEAD" if arm_failed else series_verdict["verdict"]
+    record["gate"] = (
+        {"reference_arm_failed": True,
+         "problems": harness.get("reference_arm_problems") or [],
+         "reason": "the harness's own reference-arm check failed the run"}
+        if arm_failed else None
+    )
 
     if REFERENCE.exists():
         ref = json.loads(REFERENCE.read_text(encoding="utf-8"))
@@ -240,9 +251,17 @@ def render(record):
     lines += [
         "## Verdict",
         "",
-        "**%s.** " % record["verdict"] + _verdict_sentence(record),
-        "",
     ]
+    if record["verdict"] == "VOID_REFERENCE_DEAD":
+        lines += [
+            "**VOID_REFERENCE_DEAD.** The harness's own reference-arm check failed, so this run "
+            "cannot test the decay hypothesis and no scientific verdict is reported. The series "
+            "is kept as an observation with its own verdict, `%s`, and the gate's reason is "
+            "recorded below." % record["series_verdict"],
+            "",
+        ]
+    else:
+        lines += ["**%s.** " % record["verdict"] + _verdict_sentence(record), ""]
     if record.get("harness_exit_code") is not None:
         problems = record.get("harness_reference_arm_problems") or []
         lines += [
@@ -254,6 +273,7 @@ def render(record):
             "| Exit code | **%d** |" % record["harness_exit_code"],
             "| Reference-arm check | %s |" % (
                 "; ".join(problems) if problems else "passed"),
+            "| Series verdict, as an observation | %s |" % record.get("series_verdict"),
             "",
         ]
         if problems:
@@ -328,7 +348,13 @@ def problems(record):
     if record["beliefs"] != series_facts(series["beliefs"]):
         found.append("the artifact's belief counts do not match the raw series")
     expected = verdict_for(series["theories"], series["beliefs"], int(record["cycles"]))
-    if record["verdict"] != expected["verdict"]:
+    if record.get("series_verdict") != expected["verdict"]:
+        found.append("the recorded series verdict does not follow from the series")
+    if record.get("harness_reference_arm_failed") and record["verdict"] != "VOID_REFERENCE_DEAD":
+        found.append("the reference arm failed but the verdict is not VOID_REFERENCE_DEAD")
+    if record["verdict"] == "VOID_REFERENCE_DEAD" and not record.get("harness_reference_arm_failed"):
+        found.append("the verdict is VOID_REFERENCE_DEAD but the reference arm did not fail")
+    if record["verdict"] != "VOID_REFERENCE_DEAD" and record["verdict"] != expected["verdict"]:
         found.append("the recorded verdict does not follow from the series")
     if not record.get("engine_pin_current"):
         found.append("the engine moved since the pin, so this result describes another build")

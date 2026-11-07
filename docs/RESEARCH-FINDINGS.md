@@ -47,6 +47,14 @@ the finding: a result outside that scope is not established by it.
 
 **Claims resting on it.** C004
 
+### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes. On the falsifier's own setting (300 cycles, seed 20261023) theories are present in 37 cycles, the last at cycle 38, and none at the end, so the pinned engine reproduces the death the change map attributes to decay. The run is reported as VOID_REFERENCE_DEAD because the harness's own reference check failed it, which is the same death seen from the harness side; the loss of a scientific verdict does not weaken this observation, which is read from the series.
+
+**Evidence.** `docs/decay_falsifier.json`, `docs/decay_falsifier/harness.json`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
@@ -105,6 +113,14 @@ means the test the project ran did not support the proposition, on the scope sta
 **Scope.** Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.
 
 **Evidence.** `papers/07_architecture_predictions_reversed.md`
+
+### Q041 — Can the decay falsifier be validly interpreted when its reference arm is dead?
+
+**Outcome.** UNSUPPORTED, status closed.
+
+**Answer.** No. A dead reference arm means there is no subject whose persistence the hypothesis is about, so the run reports VOID_REFERENCE_DEAD and claims no scientific verdict; the series is kept as an observation with its own verdict, and the gate's own reason is recorded beside it. The verdict hierarchy makes the gate precede every scientific bucket.
+
+**Evidence.** `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`
 
 ## Withdrawn or superseded interpretations
 
@@ -205,6 +221,12 @@ as one.
 ### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
 
 **Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution depends on the schema row and both role rows surviving to the moment the trace reads them; the share of transfers resolving to an explicit role satisfaction has never been measured.
+
+### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
+
+**Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
+
+**What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
 
 ### Q022 — Can role representations transfer across domains?
 

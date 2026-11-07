@@ -22,12 +22,15 @@ def test_the_recorded_counts_match_the_raw_series():
     assert record["beliefs"] == df.series_facts(series["beliefs"])
 
 
-def test_the_recorded_verdict_follows_from_the_series():
+def test_the_recorded_series_verdict_follows_from_the_series():
     record = _record()
     series = _series()
     expected = df.verdict_for(series["theories"], series["beliefs"], int(record["cycles"]))
-    assert record["verdict"] == expected["verdict"]
-    assert record["falsifier_fired"] == expected["falsifier_fired"]
+    assert record["series_verdict"] == expected["verdict"]
+    if record["harness_reference_arm_failed"]:
+        assert record["verdict"] == "VOID_REFERENCE_DEAD"
+    else:
+        assert record["verdict"] == expected["verdict"]
 
 
 def test_the_result_describes_the_pinned_engine():
@@ -69,9 +72,35 @@ def test_the_document_matches_a_fresh_render():
 
 def test_a_verdict_that_does_not_follow_is_caught():
     record = _record()
-    wrong = "FALSIFIED" if record["verdict"] != "FALSIFIED" else "REPRODUCES"
-    found = df.problems(dict(record, verdict=wrong))
-    assert any("verdict does not follow" in message for message in found), found
+    wrong = "FALSIFIED" if record["series_verdict"] != "FALSIFIED" else "REPRODUCES"
+    found = df.problems(dict(record, series_verdict=wrong))
+    assert any("series verdict does not follow" in message for message in found), found
+
+
+def test_a_dead_reference_arm_voids_the_verdict_rather_than_reporting_one():
+    record = _record()
+    void = dict(record, harness_reference_arm_failed=True,
+                harness_reference_arm_problems=["the reference arm is dead"],
+                verdict="REPRODUCES")
+    found = df.problems(void)
+    assert any("not VOID_REFERENCE_DEAD" in message for message in found), found
+
+
+def test_a_void_verdict_without_a_dead_arm_is_rejected():
+    record = _record()
+    found = df.problems(dict(record, verdict="VOID_REFERENCE_DEAD",
+                             harness_reference_arm_failed=False))
+    assert any("did not fail" in message for message in found), found
+
+
+def test_the_page_reports_the_void_and_keeps_the_series_verdict():
+    record = _record()
+    page = df.render(dict(record, verdict="VOID_REFERENCE_DEAD", gate={
+        "reference_arm_failed": True,
+        "problems": ["FULL held no theory in its final tenth of cycles -- the reference arm is dead"],
+    }))
+    assert "VOID_REFERENCE_DEAD" in page
+    assert record["series_verdict"] in page
 
 
 def test_a_stale_document_is_caught():

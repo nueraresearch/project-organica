@@ -30,6 +30,19 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Changed — A dead reference arm voids the decay falsifier's verdict (2026-11-07)
+
+- **The gate now precedes every scientific bucket.** When the harness's own reference-arm check
+  fails, `benchmarks/decay_falsifier.py` records **`VOID_REFERENCE_DEAD`** and keeps the series
+  reading in its own field (`series_verdict`, `REPRODUCES` here). The artifact check rejects either
+  direction of disagreement: a failed arm with a scientific verdict, or a void verdict without a
+  failed arm.
+- **The registry now carries the questions the result opened**: **Q040** closed `SUPPORTED` (0.13.0
+  reproduces the death: theories in 37 of 300 cycles, last at cycle 38, none at the end), **Q041**
+  closed `UNSUPPORTED` (the falsifier cannot be interpreted with a dead reference arm), and **Q042**
+  open (is reference-arm death the dominant failure mode of 0.13.0?), whose why-open names the
+  missing per-cycle attribution rather than asserting the mechanism.
+
 ### Decided — The engine records no licensing role at store time; the record already survives (2026-11-07)
 
 - **Measured rather than argued.** `benchmarks/store_time_role_durability.py` joins every

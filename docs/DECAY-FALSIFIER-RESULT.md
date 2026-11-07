@@ -41,7 +41,7 @@ on this build. This document reports that run and nothing else.
 
 ## Verdict
 
-**REPRODUCES.** Theories reach zero and stay there well inside the run, so the mechanism is not falsified: this engine reproduces the failure the map attributes to decay.
+**VOID_REFERENCE_DEAD.** The harness's own reference-arm check failed, so this run cannot test the decay hypothesis and no scientific verdict is reported. The series is kept as an observation with its own verdict, `REPRODUCES`, and the gate's reason is recorded below.
 
 ## The harness's own status
 
@@ -50,6 +50,7 @@ on this build. This document reports that run and nothing else.
 | Build that wrote the status | fail-closed |
 | Exit code | **1** |
 | Reference-arm check | FULL held no theory in its final tenth of cycles -- the reference arm is dead |
+| Series verdict, as an observation | REPRODUCES |
 
 The harness exited **1** because its own reference-arm check fired,
 and it recorded that reason in the run artifact rather than only on the console:
