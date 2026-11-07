@@ -1,0 +1,171 @@
+{
+ "prereg": "docs/RANK-ORDERING-PREREGISTRATION.md",
+ "created": "2026-11-07",
+ "status": "FROZEN, NOT RUN. No cell has been executed, no world generated, no engine cycle spent.",
+ "design_record": "docs/NONFREQUENCY-RANKING-DESIGN.md",
+ "question": "does ordering eligible candidates by source diversity, rather than by count, recover more of a sparse world's edges at the engine's own cap",
+ "design": {
+  "arms": [
+   "control",
+   "diversity"
+  ],
+  "caps": [
+   20,
+   40
+  ],
+  "densities": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "world_family": "16 tags, the Gate 13 world family; |P_world| = 240 directed non-self pairs",
+  "world_edges_at_each_density": [
+   24,
+   48,
+   96,
+   144,
+   192
+  ],
+  "seeds": [
+   20310201,
+   20310202,
+   20310203,
+   20310204,
+   20310205,
+   20310206,
+   20310207,
+   20310208
+  ],
+  "cells": 160,
+  "cells_arithmetic": "2 arms x 2 caps x 5 densities x 8 seeds = 160",
+  "eligibility": "every candidate row, including intra-cell co-occurrence rows; the density record varies eligibility and this one does not",
+  "exposure": "fixed total exposure, the density record's primary scheme; the sensitivity scheme is not run and is not a licence to add cells",
+  "horizon": "one horizon, identical in both arms at each density"
+ },
+ "arms": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "rank every eligible candidate by count and take the top k at the cap"
+  },
+  "diversity": {
+   "name": "diversity-first ordering",
+   "rule": "greedy max-marginal-coverage over the source side: each slot takes the eligible candidate whose left-hand tag has the fewest already-selected outgoing edges, ties on count then a stable key"
+  }
+ },
+ "seeds": {
+  "block": [
+   20310201,
+   20310208
+  ],
+  "world": [
+   20310201,
+   20310202,
+   20310203,
+   20310204,
+   20310205,
+   20310206,
+   20310207,
+   20310208
+  ],
+  "bootstrap": 20310209,
+  "freshness": "the first contiguous window of nine numbers at or after 20310201 that appears in no file under docs, tests, benchmarks, research-journal or papers; the bootstrap seed is the ninth and is not a world seed",
+  "consumed": "recording this block makes it consumed for the corpus seed scan, which is the intended effect: a declared block is registered rather than left free to be reallocated"
+ },
+ "gates": {
+  "G0_liveness": "at rho_world = 0.1, at each cap, the two arms' selected sets differ on at least 7 of the 8 seeds",
+  "G1_presence_ceiling": "the world's edges present in memory over the world's edges equals 1.0 in every cell",
+  "G2_precision_bound": "no cell reports precision above its own rho_rank",
+  "G3_axis_live": "mean rho_rank at rho_world = 0.8 exceeds mean rho_rank at rho_world = 0.1, at each cap",
+  "G4_control_reproduces": "mean control coverage at cap 20 and rho_world = 0.1 does not exceed 0.15",
+  "control_coverage_ceiling": 0.15,
+  "G5_identity_at_density_1": "a harness self-test on a synthetic population where every candidate is a true edge selects identical sets in both arms and returns exactly zero delta; it spends no engine cell",
+  "void_rule": "any gate failure voids the block and is reported as the gate; no criterion is read"
+ },
+ "criteria": {
+  "M1_bar": 0.15,
+  "M1_rule": "mean Delta at cap 20 and rho_world = 0.1, where Delta = diversity coverage - control coverage per seed, is at least the bar and its 95% bootstrap interval's lower bound is above zero",
+  "M1_bar_provenance": "declared before any cell, not computed from a run: 0.15 of the world's 24 edges at the sparsest level is at least a sixth of the world recovered beyond control, and the control's sampling expectation at that density is 20 x 0.1 / 24, about 0.083",
+  "M2_rule": "the difference in differences, Delta at rho_world = 0.1 minus Delta at rho_world = 0.8, at cap 20, has a positive mean, a 95% interval lower bound above zero, and is positive on at least 7 of the 8 seeds, with a mean of at least 0.05, below which the gradient is called flat",
+  "M2_min_gradient": 0.05,
+  "sign_test": {
+   "required": 7,
+   "of": 8
+  },
+  "interval": 0.95,
+  "bootstrap_reps": 4000,
+  "underpowered_width": 0.3,
+  "underpowered_rule": "if M1 fails and its interval is wider than 0.30, the block is reported as underpowered and no line is closed; a wide interval is not a negative result"
+ },
+ "decision_table": [
+  {
+   "M1": "pass",
+   "M2": "pass",
+   "verdict": "ORDERING SUPPORTED",
+   "decision": "positive",
+   "reading": "the ordering basis is the lever: replace the count order with a diversity-based order in the next engine version, recorded as a cognition change"
+  },
+  {
+   "M1": "pass",
+   "M2": "fail",
+   "verdict": "ORDERING HELPS, GRADIENT ABSENT",
+   "decision": "neither",
+   "reading": "a level difference without the predicted interaction; no engine change follows"
+  },
+  {
+   "M1": "fail",
+   "M2": "pass",
+   "verdict": "GRADIENT WITHOUT LEVEL",
+   "decision": "neither",
+   "reading": "an interaction without a level the bar accepts; no engine change follows"
+  },
+  {
+   "M1": "fail",
+   "M2": "fail",
+   "verdict": "ORDERING NOT THE LEVER",
+   "decision": "negative",
+   "reading": "ordering is closed; the line moves to the candidate space, and no second ordering variant is run"
+  },
+  {
+   "M1": "fail, interval wider than 0.30",
+   "M2": "either",
+   "verdict": "UNDERPOWERED",
+   "decision": "neither",
+   "reading": "the interval cannot place the level; closing the line would read a draw as an absence"
+  }
+ ],
+ "analysis": {
+  "path": "benchmarks/score_rank_ordering.py",
+  "input": "docs/rank_ordering_run.json",
+  "output": "docs/rank_ordering_result.json",
+  "command": "./.venv/bin/python -m benchmarks.score_rank_ordering --results docs/rank_ordering_run.json --out docs/rank_ordering_result.json",
+  "frozen": true,
+  "refuses": [
+   "a cell set that is not exactly the pre-registered grid",
+   "a duplicate cell",
+   "a result with no identity self-test"
+  ],
+  "does_not_import_the_engine": true
+ },
+ "not_run": {
+  "cells_executed": 0,
+  "runner": "benchmarks/run_rank_ordering.py is not built; the run ticket is the runner plus its harness self-tests, and no cell may run before this file is committed",
+  "result_artifact_exists": false,
+  "engine_cycles": 0
+ },
+ "not_evidence": [
+  "the design record is an untested hypothesis; this file freezes how it would be tested, not what it has shown",
+  "no coverage, delta or interval exists yet",
+  "a pass would be support within one world family, two caps and eight seeds, and nothing wider"
+ ],
+ "allocation": {
+  "seeds": 9,
+  "world_seeds": 8,
+  "cells": 160,
+  "thresholds": 0,
+  "bars": 1,
+  "note": "the bar is declared here and may not be recomputed from the run it judges"
+ },
+ "revised": "2026-11-07"
+}
