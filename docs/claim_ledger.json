@@ -49,7 +49,7 @@
       "claim": "Structure that forms persists across sleep cycles and is read back on later cycles.",
       "classification": "DEMONSTRATED",
       "status": "ACTIVE",
-      "provenance": "ARTIFACT_READ",
+      "provenance": "OWNER_READING",
       "supporting_questions": [
         "Q001"
       ],
@@ -75,7 +75,8 @@
       ],
       "contradicting_questions": [],
       "supporting_evidence": [
-        "docs/force_matrix.json"
+        "docs/force_matrix.json",
+        "docs/GATE13-RELATION-SEPARATION.md"
       ],
       "scope_limitations": [
         "Presence in memory, not selection, ranking or use in a prediction.",

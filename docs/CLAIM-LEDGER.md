@@ -13,13 +13,13 @@ artifacts it rests on, and the limits of its own scope.
 | Claim | Statement | Classification | Questions | Provenance |
 | --- | --- | --- | --- | --- |
 | C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | DEMONSTRATED | Q001 | ARTIFACT_READ |
-| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | DEMONSTRATED | Q001 | ARTIFACT_READ |
+| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | DEMONSTRATED | Q001 | OWNER_READING |
 | C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | SUPPORTED | Q002 | ARTIFACT_READ |
 | C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | SUPPORTED | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
 
-**What each claim rests on.** 6 of 11 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 5 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
+**What each claim rests on.** 5 of 11 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 6 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C002, C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
 
 ## Withdrawn or superseded claims
 
