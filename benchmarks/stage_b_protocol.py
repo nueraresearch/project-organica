@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import glob
 import json
+import re
 import math
 from pathlib import Path
 
@@ -869,6 +870,18 @@ def build() -> dict:
 def main() -> dict:
     result = build()
     OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+
+    doc = ROOT / "docs" / "STAGE-B-PROTOCOL.md"
+    if doc.exists():
+        text = doc.read_text(encoding="utf-8")
+        figure = ("**%d** consumed seeds across **%d** artifacts"
+                  % (result["seeds"]["consumed_total"],
+                     result["seeds"]["disjoint_proved_against"]))
+        synced = re.sub(r"\*\*\d+\*\* consumed seeds across \*\*\d+\*\* artifacts",
+                        figure, text, count=1)
+        if synced != text:
+            doc.write_text(synced, encoding="utf-8")
+            print("synced", doc.relative_to(ROOT))
     print("wrote", OUT.relative_to(ROOT))
     s = result["sample_size"]
     print("\nagreement (reported, not used):",

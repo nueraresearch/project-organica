@@ -1,0 +1,272 @@
+"""The admission change's confirmatory analysis path: gates, adoption, guard, decision.
+
+Frozen before the run. It reads the cells a runner writes and nothing else, so the
+adoption rule cannot be re-chosen after a result is seen. Every gate can fail, and a
+failure is reported as the gate rather than as a verdict.
+
+The adoption criterion is a conjunction: the mean coverage gain at the sparsest density
+must clear the calibrated bar, its interval's lower bound must clear zero, and at least
+seven of eight seeds must move the same way. The densest density is a guard, not a second
+criterion: a material loss there voids adoption and routes the result to a priced trade.
+
+    ./.venv/bin/python -m benchmarks.score_ranking_admission \
+        --results docs/ranking_admission_run.json --out docs/ranking_admission_result.json
+
+No engine runs here, and the module imports nothing from `organica`.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import random
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+PREREG = ROOT / "docs" / "ranking_admission_prereg.json"
+
+ARMS = ("control", "diversity")
+CAPS = (20, 40)
+DENSITIES = (0.1, 0.2, 0.4, 0.6, 0.8)
+MIN_RHO = 0.1
+MAX_RHO = 0.8
+PRIMARY_CAP = 20
+TOL = 1e-9
+
+
+def prereg(path: Path = PREREG) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def expected_cells(record: dict | None = None) -> int:
+    record = record or prereg()
+    design = record["design"]
+    return (len(design["arms"]) * len(design["caps"])
+            * len(design["densities"]) * len(design["seeds"]))
+
+
+def _index(cells: list[dict]) -> dict[tuple, dict]:
+    index: dict[tuple, dict] = {}
+    for cell in cells:
+        key = (cell["arm"], int(cell["cap"]), round(float(cell["rho_world"]), 6),
+               int(cell["seed"]))
+        if key in index:
+            raise ValueError("duplicate cell %r" % (key,))
+        index[key] = cell
+    return index
+
+
+def validate(cells: list[dict], record: dict) -> None:
+    """The cell set must be exactly the pre-registered grid; a missing cell is not a null."""
+    design = record["design"]
+    wanted = {(arm, int(cap), round(float(rho), 6), int(seed))
+              for arm in design["arms"] for cap in design["caps"]
+              for rho in design["densities"] for seed in design["seeds"]}
+    seen = _index(cells)
+    missing = sorted(wanted - set(seen))
+    extra = sorted(set(seen) - wanted)
+    if missing or extra:
+        raise ValueError("cell set is not the pre-registered grid: %d missing, %d extra; "
+                         "missing=%r extra=%r" % (len(missing), len(extra),
+                                                  missing[:4], extra[:4]))
+
+
+def _mean(values) -> float:
+    values = list(values)
+    return sum(values) / len(values)
+
+
+def _interval(samples: list[float], seed: int, record: dict | None = None) -> list[float]:
+    record = record or prereg()
+    reps = int(record["criteria"]["bootstrap_reps"])
+    level = float(record["criteria"]["interval"])
+    rng = random.Random(seed)
+    n = len(samples)
+    means = sorted(_mean(samples[rng.randrange(n)] for _ in range(n)) for _ in range(reps))
+    tail = (1.0 - level) / 2.0
+    lo = means[min(int(tail * reps), reps - 1)]
+    hi = means[min(int((1 - tail) * reps), reps - 1)]
+    return [round(lo, 6), round(hi, 6)]
+
+
+def _delta(cells: list[dict], cap: int, rho: float) -> dict[int, float]:
+    index = _index(cells)
+    seeds = sorted({k[3] for k in index})
+    out = {}
+    for seed in seeds:
+        control = index[("control", cap, round(rho, 6), seed)]["coverage"]
+        treated = index[("diversity", cap, round(rho, 6), seed)]["coverage"]
+        out[seed] = treated - control
+    return out
+
+
+def _world(rho: float) -> int:
+    return round(float(rho) * 240)
+
+
+def gates(cells: list[dict], identity: dict, record: dict | None = None) -> dict:
+    """Comparability gates. Any failure voids the block and no criterion is read."""
+    record = record or prereg()
+    design = record["design"]
+    seeds = design["seeds"]
+    index = _index(cells)
+    out: dict = {}
+
+    differ = 0
+    for cap in CAPS:
+        for seed in seeds:
+            control = sorted(index[("control", cap, round(MIN_RHO, 6), seed)]["selected"])
+            treated = sorted(index[("diversity", cap, round(MIN_RHO, 6), seed)]["selected"])
+            if control != treated:
+                differ += 1
+    out["G0_liveness"] = {"seeds_where_the_arms_differ": differ,
+                          "expected": len(CAPS) * len(seeds),
+                          "passed": differ == len(CAPS) * len(seeds)}
+
+    presence = min(float(c["presence"]) for c in cells)
+    out["G1_presence_ceiling"] = {"min_presence": round(presence, 6),
+                                  "passed": presence >= 1.0 - TOL}
+
+    problems = []
+    for cell in cells:
+        if int(cell["covered"]) > int(cell["asserted"]):
+            problems.append("covered above asserted")
+        want = int(cell["covered"]) / _world(cell["rho_world"])
+        if abs(float(cell["coverage"]) - want) > 1e-6:
+            problems.append("coverage is not covered over the world")
+    out["G2_arithmetic_consistency"] = {"problems": problems[:4], "passed": not problems}
+
+    live = []
+    for cap in CAPS:
+        low = _mean(c["rho_rank"] for c in cells
+                    if c["cap"] == cap and abs(c["rho_world"] - MIN_RHO) < TOL)
+        high = _mean(c["rho_rank"] for c in cells
+                     if c["cap"] == cap and abs(c["rho_world"] - MAX_RHO) < TOL)
+        live.append(high > low)
+        out["G3_rho_rank_moves_by_cap_%d" % cap] = {"at_min": round(low, 4),
+                                                    "at_max": round(high, 4),
+                                                    "passed": high > low}
+    out["G3_axis_live"] = {"passed": all(live)}
+
+    control_floor = _mean(c["coverage"] for c in cells
+                          if c["arm"] == "control" and c["cap"] == PRIMARY_CAP
+                          and abs(c["rho_world"] - MIN_RHO) < TOL)
+    ceiling = record["gates"]["control_coverage_ceiling"]
+    out["G4_control_reproduces_gate13"] = {
+        "control_coverage_at_min_density": round(control_floor, 6),
+        "must_not_exceed": ceiling, "passed": control_floor <= ceiling + TOL}
+
+    identical = bool(identity.get("arms_identical"))
+    zero = abs(float(identity.get("delta", 1.0))) <= TOL
+    out["G5_identity_at_density_1"] = {"rho_world": identity.get("rho_world"),
+                                       "arms_identical": identical,
+                                       "delta": identity.get("delta"),
+                                       "passed": identical and zero}
+    out["all_passed"] = all(v.get("passed") for v in out.values() if isinstance(v, dict))
+    return out
+
+
+def criteria(cells: list[dict], record: dict | None = None) -> dict:
+    """Adoption (a conjunction) and the dense-end guard, on the primary cap."""
+    record = record or prereg()
+    crit = record["criteria"]
+    low, high = round(MIN_RHO, 6), round(MAX_RHO, 6)
+    seed = int(record["seeds"]["bootstrap"])
+
+    sparse = _delta(cells, PRIMARY_CAP, low)
+    mean = _mean(sparse.values())
+    interval = _interval(list(sparse.values()), seed, record)
+    width = round(interval[1] - interval[0], 6)
+    positive = sum(1 for v in sparse.values() if v > 0)
+    required = int(crit["sign_test"]["required"])
+    conditions = {
+        "mean_at_or_above_bar": mean >= crit["adoption_bar"],
+        "interval_lower_above_zero": interval[0] > 0,
+        "sign_test_met": positive >= required,
+    }
+    adoption = {
+        "mean_delta_at_sparsest": round(mean, 6),
+        "interval": interval,
+        "interval_width": width,
+        "bar": crit["adoption_bar"],
+        "seeds_positive": positive,
+        "sign_test": {"required": required, "of": crit["sign_test"]["of"]},
+        "conditions": conditions,
+        "passed": all(conditions.values()),
+    }
+
+    dense = _delta(cells, PRIMARY_CAP, high)
+    dense_mean = _mean(dense.values())
+    guard = {"mean_delta_at_densest": round(dense_mean, 6),
+             "bar": crit["guard_bar"],
+             "passed": dense_mean >= crit["guard_bar"]}
+
+    profile = {}
+    for rho in record["design"]["densities"]:
+        rho = round(float(rho), 6)
+        cov, prec = [], []
+        for s in sparse:
+            control = _index(cells)[("control", PRIMARY_CAP, rho, s)]
+            treated = _index(cells)[("diversity", PRIMARY_CAP, rho, s)]
+            cov.append(treated["coverage"] - control["coverage"])
+            prec.append(treated["precision"] - control["precision"])
+        profile["%.1f" % rho] = {"coverage_gap_mean": round(_mean(cov), 6),
+                                 "precision_gap_mean": round(_mean(prec), 6),
+                                 "seeds_with_a_positive_coverage_gap":
+                                     sum(1 for v in cov if v > 0)}
+    return {"adoption": adoption, "guard": guard, "density_profile": profile}
+
+
+def verdict(gate_report: dict, criterion_report: dict, record: dict | None = None) -> dict:
+    """Adoption, a priced trade, a closed line, or underpowered. Never 'run it again'."""
+    record = record or prereg()
+    if not gate_report["all_passed"]:
+        failed = sorted(k for k, v in gate_report.items()
+                        if isinstance(v, dict) and v.get("passed") is False)
+        return {"verdict": "VOID", "failed_gates": failed, "decision": "neither",
+                "reading": "a gate failed; no criterion is read"}
+    adoption = criterion_report["adoption"]
+    guard = criterion_report["guard"]
+    if adoption["passed"] and guard["passed"]:
+        return {"verdict": "ADOPT THE ADMISSION RULE", "decision": "adopt",
+                "reading": "the rule reproduces its gain on fresh seeds without a dense-end "
+                           "loss; the cognition change is recorded separately"}
+    if adoption["passed"]:
+        return {"verdict": "PRICE THE TRADE", "decision": "trade",
+                "reading": "the rule gains where the world is sparse and loses where it is "
+                           "dense; nothing is adopted until the trade is priced"}
+    if adoption["interval_width"] > record["criteria"]["underpowered_width"]:
+        return {"verdict": "UNDERPOWERED", "decision": "neither",
+                "reading": "the interval cannot place the level; closing the line would read "
+                           "a draw as an absence"}
+    return {"verdict": "CLOSE ORDERING", "decision": "close",
+            "reading": "the gain does not reproduce; ordering is closed at this cap and world "
+                       "family and no admission variant follows"}
+
+
+def score(payload: dict, record: dict | None = None) -> dict:
+    record = record or prereg()
+    cells = payload["cells"]
+    validate(cells, record)
+    gate_report = gates(cells, payload["identity"], record)
+    criterion_report = (criteria(cells, record) if gate_report["all_passed"]
+                        else {"adoption": {"passed": None}, "guard": {"passed": None}})
+    return {"prereg": record["prereg"], "cells": len(cells), "gates": gate_report,
+            "criteria": criterion_report,
+            "decision": verdict(gate_report, criterion_report, record),
+            "not_evidence": record["not_evidence"]}
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--results", default="docs/ranking_admission_run.json")
+    parser.add_argument("--out", default="docs/ranking_admission_result.json")
+    args = parser.parse_args(argv)
+    payload = json.loads(Path(args.results).read_text(encoding="utf-8"))
+    result = score(payload)
+    Path(args.out).write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
+    print(result["decision"]["verdict"], "->", args.out)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

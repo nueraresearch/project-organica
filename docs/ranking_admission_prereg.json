@@ -1,0 +1,158 @@
+{
+ "created": "2026-11-07",
+ "prereg": "RANKING-ADMISSION-CONFIRMATORY-1",
+ "status": "FROZEN, NOT RUN (ready; no judged cell). No cell, no judged world and no judged engine cycle exist for this block; the smoke and repair record of the ordering block belongs to that block.",
+ "question": "does diversity-first admission beat count-ranked admission in world-edge coverage at the sparsest density, on fresh seeds, without losing coverage where the world is dense?",
+ "design": {
+  "seeds": [
+   20310501,
+   20310502,
+   20310503,
+   20310504,
+   20310505,
+   20310506,
+   20310507,
+   20310508
+  ],
+  "densities": [
+   0.1,
+   0.2,
+   0.4,
+   0.6,
+   0.8
+  ],
+  "caps": [
+   20,
+   40
+  ],
+  "arms": [
+   "control",
+   "diversity"
+  ],
+  "cells": 160,
+  "cells_arithmetic": "2 arms x 2 caps x 5 densities x 8 seeds = 160",
+  "world_family": "one family, 16 tags",
+  "world_edges_at_each_density": [
+   24,
+   48,
+   96,
+   144,
+   192
+  ],
+  "eligibility": "all rows stay eligible, including intra-cell co-occurrence rows",
+  "exposure": "the ordering block's constant exposure scheme, unchanged",
+  "horizon": "the ordering block's constant horizon, unchanged",
+  "primary_density": 0.1,
+  "guard_density": 0.8
+ },
+ "seeds": {
+  "block": [
+   20310501,
+   20310508
+  ],
+  "world": [
+   20310501,
+   20310502,
+   20310503,
+   20310504,
+   20310505,
+   20310506,
+   20310507,
+   20310508
+  ],
+  "bootstrap": 20310509,
+  "freshness": "the first contiguous window of nine numbers at or after 20310501 that appears in no file under docs, tests, benchmarks, research-journal or papers; the bootstrap seed is the ninth and is not a world seed",
+  "consumed": "recording this block consumes it for the corpus seed scan, which is the intended effect: a declared block is registered rather than left free"
+ },
+ "arms": {
+  "control": {
+   "name": "global count-ranked admission",
+   "rule": "the engine's own selection: rank every eligible candidate by count and take the top k at the cap"
+  },
+  "diversity": {
+   "name": "diversity-first admission",
+   "rule": "each slot takes the eligible candidate whose left-hand tag has the fewest already-admitted outgoing edges, with count as the tie-break"
+  }
+ },
+ "criteria": {
+  "adoption_bar": 0.08,
+  "adoption_rule": "a conjunction, judged whole: mean coverage gain at the sparsest density at cap 20 at or above the bar, its interval's lower bound above zero, and at least seven of eight seeds with a positive gain",
+  "adoption_bar_provenance": "calibrated on the completed ordering run (docs/rank_ordering_result.json): one half of its measured mean delta, 0.1615, floored to two decimals. That run is not the block being judged, so the bar is not computed from the data it judges, and the rule is a policy rather than a fit: an adoption must retain half the observed effect under replication",
+  "guard_bar": -0.05,
+  "guard_rule": "the mean coverage gain at the densest density at cap 20 must be at or above the guard bar; a failure prevents adoption and routes the result to a priced trade",
+  "guard_bar_provenance": "declared, not calibrated: 0.05 is the smallest difference this instrument has been asked to distinguish, the bar the withdrawn M2 used, so a dense-end loss larger than it voids adoption",
+  "sign_test": {
+   "required": 7,
+   "of": 8
+  },
+  "interval": 0.95,
+  "bootstrap_reps": 4000,
+  "underpowered_width": 0.3,
+  "underpowered_rule": "if the adoption criterion fails and the interval is wider than 0.30, the block is underpowered and no line is closed; a wide interval is not a negative result"
+ },
+ "gates": {
+  "control_coverage_ceiling": 0.0,
+  "rules": {
+   "G0 liveness": "at the sparsest density, at both caps, the two arms' selected sets must differ on every seed, or the manipulation did not occur",
+   "G1 presence ceiling": "the world's edges must be present in memory in every cell, or the cell tests memory rather than ranking",
+   "G2 arithmetic consistency": "covered cannot exceed asserted, and coverage must equal covered over the world's edges",
+   "G3 axis live": "rho_rank must rise from the sparsest to the densest density at each cap",
+   "G4 control reproduces Gate 13": "the control's coverage at the sparsest density must not exceed the recorded ceiling",
+   "G5 identity at density 1": "at density 1 the two arms must select identical rows and Delta must be zero"
+  },
+  "void_rule": "a failed gate voids the block and no criterion is read; a gate cannot be reported as a verdict, and a cell set that is not the pre-registered grid is refused rather than scored"
+ },
+ "decision_table": [
+  {
+   "condition": "all gates pass; adoption passes; guard passes",
+   "verdict": "ADOPT THE ADMISSION RULE",
+   "reading": "the rule reproduces its gain on fresh seeds without a dense-end loss; the cognition change is recorded separately"
+  },
+  {
+   "condition": "all gates pass; adoption passes; guard fails",
+   "verdict": "PRICE THE TRADE",
+   "reading": "the rule gains where the world is sparse and loses where it is dense; nothing is adopted until the trade is priced"
+  },
+  {
+   "condition": "all gates pass; adoption fails; interval width at or below 0.30",
+   "verdict": "CLOSE ORDERING",
+   "reading": "the gain does not reproduce; ordering is closed at this cap and world family and no admission variant follows"
+  },
+  {
+   "condition": "all gates pass; adoption fails; interval width above 0.30",
+   "verdict": "UNDERPOWERED",
+   "reading": "the interval cannot place the level; closing the line would read a draw as an absence"
+  },
+  {
+   "condition": "a gate fails",
+   "verdict": "VOID",
+   "reading": "reported as the gate, never as a verdict"
+  }
+ ],
+ "analysis": {
+  "path": "benchmarks/score_ranking_admission.py",
+  "command": "./.venv/bin/python -m benchmarks.score_ranking_admission --results docs/ranking_admission_run.json --out docs/ranking_admission_result.json",
+  "runner": "./.venv/bin/python -m benchmarks.run_ranking_admission --run",
+  "input": "docs/ranking_admission_run.json",
+  "frozen": true
+ },
+ "allocation": {
+  "seeds": 8,
+  "world_seeds": 8,
+  "bootstrap_seeds": 1,
+  "cells": 160,
+  "thresholds": 2,
+  "bars": 2,
+  "note": "two thresholds are declared: the adoption bar and the dense-end guard. Both are fixed here, before any cell, and neither may be recomputed on the block it judges"
+ },
+ "pre_run": {
+  "blocked": null,
+  "runner_built": true,
+  "note": "the runner audits the grid and the freeze before any cell; a blocked record refuses to run"
+ },
+ "not_evidence": [
+  "the ordering block is a separate registration and its cells are not evidence here",
+  "coverage is not behaviour: no cell in either block measures a downstream gain from a better-ranked selection",
+  "a pass adopts an admission rule within one world family, two caps and eight seeds, and nothing wider"
+ ]
+}
