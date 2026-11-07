@@ -549,7 +549,8 @@
         "docs/DECAY-ATTRIBUTION.md"
       ],
       "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md"
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": []
@@ -566,7 +567,8 @@
         "docs/DECAY-ATTRIBUTION.md"
       ],
       "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md"
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": []
@@ -583,7 +585,8 @@
         "docs/decay_attribution/parts/cell_engine_s20300601.json"
       ],
       "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md"
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": []
@@ -600,7 +603,8 @@
         "docs/DECAY-ATTRIBUTION.md"
       ],
       "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md"
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": []
@@ -617,7 +621,8 @@
         "docs/DECAY-ATTRIBUTION.md"
       ],
       "preregistrations": [
-        "DECAY-ATTRIBUTION-PREREGISTRATION.md"
+        "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+        "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
       "decisions": []

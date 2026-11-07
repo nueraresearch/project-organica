@@ -203,7 +203,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Answer.** Their strength is the ratio of a temporal count that decays 5% per cycle to a tag frequency that never decays, so the ratio falls (1.25 at the peak, 0.375 after it) while the denominator grows 18x; 31.0% of deaths are re-emitted below the 0.30 strength threshold and 69.0% are not re-emitted at all, so the engine's x0.8 candidate decay takes them under it. The same build with the graph decay disabled peaks at 42 and still holds 30 edges at cycle 300.
 
-**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
@@ -215,7 +215,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Answer.** Yes on this world: the only difference between the arms is the 5% per-cycle graph decay, and removing it keeps 30 of 42 edges at the final cycle while the shipped build reaches zero at cycle 173. The candidate decay and the strength rule are identical in both arms.
 
-**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
@@ -227,7 +227,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Answer.** The peak is at cycle 15 and the first fall at cycle 16, identically in three seeds; half the peak is gone 65 cycles later (cycle 80) and the count reaches zero at cycle 173. The decline is not a cliff and not monotone: the series grows again in 50 of the 285 cycles after the peak.
 
-**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`
 
@@ -239,7 +239,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Answer.** No. The edges start falling at cycle 16 while the theory layer's last live cycle is 28 (zero at 29), so the loss precedes the theory death and cannot be caused by it; the pre-registered direction was reversed.
 
-**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 
@@ -251,7 +251,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Answer.** 65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.
 
-**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`
+**Preregistered in.** `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`
 

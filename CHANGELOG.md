@@ -30,6 +30,21 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — The decay-attribution replication is pre-registered (2026-11-07)
+
+- **`docs/DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`** freezes one instrumented run before it
+  exists: seeds **20301201-20301212** (verified unused against 2,609 seeds under `docs/`), 2 arms x
+  12 seeds = 24 cells, 300 cycles, degree 12.
+- **Six replication targets** are fixed in advance and labelled as restatements of the first study's
+  values, not new predictions; **six gates** separate `VOID_INSTRUMENT` (G1, G2, G5, G6) from the
+  scientific result `NOT_REPLICATED` (G3, G4), per `docs/DECISION-UNCERTIFIED-RUN.md`.
+- **`benchmarks/decay_attribution_study_prereg.py`** pins sections 1-9 by SHA-256 and rejects a
+  protocol that records an execution, cites a moved seed block, or whose artifact already exists.
+  The runner is not written yet, so this is a pre-registration, not a result.
+- **Scope stated, not widened:** Q029-Q032 and Q036 carry the protocol and keep their closed status;
+  Q033, Q034, Q035 and Q037 are not in the registry, and the protocol says so instead of inventing
+  them. No engine change, no version move.
+
 ### Changed — An uncertified falsifier run is void, not a verdict (2026-11-07)
 
 - **The rule:** when the harness refuses to certify a run, the falsifier records the run as
