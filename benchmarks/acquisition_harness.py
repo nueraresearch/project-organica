@@ -68,6 +68,7 @@ Design rules (mirror AGENTS.md discipline)
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import sys
@@ -518,6 +519,7 @@ def gate_acquisition_sufficiency(
     cycles: int = SHORT_CYCLES,
     threshold: float = SUFFICIENCY_THRESHOLD,
     max_predictions: int | None = None,
+    service_cls: type | None = None,
 ) -> dict:
     """Gate 13: verify Organica acquired enough of the world's structure.
 
@@ -534,6 +536,12 @@ def gate_acquisition_sufficiency(
     raw figure is retained as a diagnostic, because the difference between the
     two IS the finding: raw 1.0 with asserted 0.0 means the world was fully
     present in memory and the organism failed to assert it.
+
+    ``service_cls`` runs the gate with a different ``SleepService`` subclass --
+    the arm of a two-arm comparison. ``None`` (the default) is the frozen
+    engine, so every existing caller is byte-for-byte unaffected.
+    ``asserted_fingerprint`` names the arm's admitted edge set, which is what a
+    liveness check compares; it is a diagnostic of the arm, never a measurement.
 
     ``max_predictions`` raises the Layer-1 prediction cap for DIAGNOSTIC use
     only; ``None`` (the default) runs the frozen engine unchanged.  It is the
@@ -573,7 +581,9 @@ def gate_acquisition_sufficiency(
 
     ACQ_SOURCE = "env_acq"
 
-    if max_predictions is None:
+    if service_cls is not None:
+        sleep_svc = service_cls(mem)
+    elif max_predictions is None:
         sleep_svc = SleepService(mem)
     else:
         sleep_svc = _CapOverrideSleepService(mem, max_predictions=max_predictions)
@@ -638,6 +648,11 @@ def gate_acquisition_sufficiency(
         "max_predictions": max_predictions,
         "acquisition_failed": acquisition_failed,
         "failure_reason": failure_reason,
+        "arm": service_cls.__name__ if service_cls is not None else "SleepService",
+        "asserted_edges": len(asserted_pairs),
+        "asserted_fingerprint": hashlib.sha256(
+            "|".join("%s>%s" % edge for edge in sorted(asserted_pairs))
+            .encode("utf-8")).hexdigest()[:16],
     }
 
 

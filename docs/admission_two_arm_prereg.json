@@ -1,0 +1,131 @@
+{
+ "created": "2026-11-07",
+ "prereg": "ADMISSION-TWO-ARM-1",
+ "status": "FROZEN, NOT RUN (ready; no cell). No arm has run on this registration.",
+ "question": "does the adopted diversity-first admission produce higher asserted world-edge coverage than the reference engine on the same real world, at the same budget and the same number of cycles?",
+ "arms": {
+  "reference": {
+   "service": "organica.sleep.SleepService",
+   "rule": "the frozen engine's own builder: transition probability inside a stratified transition/co-occurrence quota, with a schema prior"
+  },
+  "adopted": {
+   "service": "organica.admission.DiversityFirstSleepService",
+   "rule": "the adopted order: fewest already-admitted outgoing edges per source, ties on count then stable key, over the eligible pool"
+  }
+ },
+ "design": {
+  "seeds": [
+   20320101,
+   20320102,
+   20320103,
+   20320104,
+   20320105,
+   20320106,
+   20320107,
+   20320108
+  ],
+  "cycles": 120,
+  "arms": [
+   "reference",
+   "adopted"
+  ],
+  "cells": 16,
+  "cells_arithmetic": "2 arms x 8 seeds = 16 cells",
+  "world": "generate_compositional_world(seed, cycles) -- the Gate 13 world, identical for both arms of a seed",
+  "endpoint": "asserted_coverage from gate_acquisition_sufficiency: the fraction of the world's compositional edges present in the arm's asserted structure (structure_edges over the surviving candidates)",
+  "pairing": "both arms of a seed run on the same generated world; only service_cls differs",
+  "threshold_for_acquisition_failed": 0.5
+ },
+ "seeds": {
+  "block": [
+   20320101,
+   20320108
+  ],
+  "world": [
+   20320101,
+   20320102,
+   20320103,
+   20320104,
+   20320105,
+   20320106,
+   20320107,
+   20320108
+  ],
+  "bootstrap": 20320109,
+  "freshness": "the first contiguous window of nine integers at or above 20320101 that appears in no file under docs, tests, benchmarks, research-journal or papers; the ninth is the bootstrap seed and is not a world seed"
+ },
+ "criteria": {
+  "bar": 0.08,
+  "bar_rule": "mean paired coverage difference (adopted minus reference) at or above the bar, interval lower bound above zero, and at least seven of eight seeds with a positive difference",
+  "bar_provenance": "carried as policy from the confirmatory block: one half of the order block's measured mean delta, 0.1615, floored to two decimals. It is NOT calibrated on this layer and this block is not a replication of that figure -- the comparison here is a different pair of orderings on a different instrument, and a pass means only that the adopted arm cleared a bar fixed before this run",
+  "guard_bar": -0.05,
+  "guard_rule": "mean paired precision difference (adopted minus reference) at or above the guard bar; a failure prices the trade instead of adopting the gain",
+  "guard_provenance": "declared, not calibrated: 0.05 is the smallest difference this project's instruments have been asked to distinguish",
+  "sign_test": {
+   "required": 7,
+   "of": 8
+  },
+  "interval": 0.95,
+  "bootstrap_reps": 4000,
+  "underpowered_width": 0.3
+ },
+ "gates": {
+  "rules": {
+   "G0 liveness": "the two arms' asserted fingerprints must differ on at least seven of eight seeds, or the manipulation did not occur",
+   "G1 world present": "raw temporal coverage must be 1.0 in both arms of every seed, or the cell tests memory rather than admission",
+   "G2 arithmetic": "covered cannot exceed asserted, and coverage and precision must equal covered over their denominators",
+   "G3 determinism": "the reference arm re-run on the first seed must produce the same asserted fingerprint",
+   "G4 denominator": "the world must have at least one compositional edge in every seed",
+   "G5 boundary": "no frozen engine file may differ from HEAD when the block runs"
+  },
+  "void_rule": "a failed gate voids the block and no criterion is read; a cell set that is not the pre-registered grid is refused"
+ },
+ "decision_table": [
+  {
+   "condition": "gates pass; gain passes; guard passes",
+   "verdict": "ADOPTED ARM GAINS",
+   "reading": "the adopted admission covers more of the world's edges than the reference engine on this world, at the same budget, without losing precision"
+  },
+  {
+   "condition": "gates pass; gain passes; guard fails",
+   "verdict": "PRICED TRADE",
+   "reading": "coverage rises and precision falls; the trade is recorded and nothing is claimed as a gain"
+  },
+  {
+   "condition": "gates pass; gain fails; interval width at or below 0.30",
+   "verdict": "NO GAIN ON THIS LAYER",
+   "reading": "the adopted rule does not cover more of the world here; the earlier pooled-table gain does not transfer, and this layer is closed to this rule"
+  },
+  {
+   "condition": "gates pass; gain fails; interval width above 0.30",
+   "verdict": "UNDERPOWERED",
+   "reading": "the interval cannot place the difference; absence of a gain is not established"
+  },
+  {
+   "condition": "a gate fails",
+   "verdict": "VOID",
+   "reading": "reported as the gate, never as a verdict"
+  }
+ ],
+ "analysis": {
+  "path": "benchmarks/score_admission_two_arm.py",
+  "runner": "./.venv/bin/python -m benchmarks.run_admission_two_arm --run",
+  "command": "./.venv/bin/python -m benchmarks.score_admission_two_arm --results docs/admission_two_arm_run.json --out docs/admission_two_arm_result.json",
+  "input": "docs/admission_two_arm_run.json",
+  "frozen": true
+ },
+ "allocation": {
+  "seeds": 8,
+  "world_seeds": 8,
+  "bootstrap_seeds": 1,
+  "cells": 16,
+  "thresholds": 2,
+  "bars": 2,
+  "note": "two thresholds are fixed here: the gain bar and the precision guard"
+ },
+ "not_evidence": [
+  "no behavioural claim: the endpoint is world-edge coverage in the asserted structure, not prediction, revision or retention",
+  "one world family and one horizon: the Gate 13 compositional world at 120 cycles",
+  "a pass licenses the adoption on this layer only, and the earlier pooled-table figure is not re-used as this block's result"
+ ]
+}

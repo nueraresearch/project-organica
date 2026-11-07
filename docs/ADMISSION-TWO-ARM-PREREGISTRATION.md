@@ -1,0 +1,66 @@
+# The adopted admission rule against the reference engine (2026-11-07)
+
+**Status: FROZEN, NOT RUN (ready; no cell).** No arm has run on this registration. The bar, the
+guard, the seeds, the endpoint and the decision table were committed before the first cell.
+
+**Every figure this block produces carries its arm.** The arms are `organica.sleep.SleepService` (the frozen engine's own builder: transition probability inside a stratified transition/co-occurrence quota, with a schema prior) and
+`organica.admission.DiversityFirstSleepService` (the adopted order: fewest already-admitted outgoing edges per source, ties on count then stable key, over the eligible pool). A number quoted from this block without its arm is not a number from
+this block.
+
+## 1. Question and endpoint
+
+does the adopted diversity-first admission produce higher asserted world-edge coverage than the reference engine on the same real world, at the same budget and the same number of cycles?
+
+The endpoint is `asserted_coverage from gate_acquisition_sufficiency: the fraction of the world's compositional edges present in the arm's asserted structure (structure_edges over the surviving candidates)`. It is coverage, not behaviour: it counts which world edges the
+arm's asserted structure contains, and says nothing about prediction, revision or retention.
+
+## 2. Design
+
+120 cycles of the Gate 13 compositional world, identical for both arms of a seed; the only
+difference is the service class. 16 cells — 2 arms x 8 seeds = 16 cells. Seeds **20320101–20320108**,
+bootstrap **20320109**: the first contiguous window of nine integers at or above 20320101 that appears in no file under docs, tests, benchmarks, research-journal or papers; the ninth is the bootstrap seed and is not a world seed
+
+## 3. The bar and the guard
+
+**Gain bar 0.08.** carried as policy from the confirmatory block: one half of the order block's measured mean delta, 0.1615, floored to two decimals. It is NOT calibrated on this layer and this block is not a replication of that figure -- the comparison here is a different pair of orderings on a different instrument, and a pass means only that the adopted arm cleared a bar fixed before this run
+
+**Precision guard -0.05.** declared, not calibrated: 0.05 is the smallest difference this project's instruments have been asked to distinguish
+
+The gain is a conjunction judged whole: the mean paired coverage difference at or above the bar,
+its 95% interval's lower bound above zero, and at least 7 of 8 seeds with
+a positive difference. The guard can only prevent a gain being claimed.
+
+## 4. Decision table
+
+| Condition | Verdict | Reading |
+| --- | --- | --- |
+| gates pass; gain passes; guard passes | **ADOPTED ARM GAINS** | the adopted admission covers more of the world's edges than the reference engine on this world, at the same budget, without losing precision |
+| gates pass; gain passes; guard fails | **PRICED TRADE** | coverage rises and precision falls; the trade is recorded and nothing is claimed as a gain |
+| gates pass; gain fails; interval width at or below 0.30 | **NO GAIN ON THIS LAYER** | the adopted rule does not cover more of the world here; the earlier pooled-table gain does not transfer, and this layer is closed to this rule |
+| gates pass; gain fails; interval width above 0.30 | **UNDERPOWERED** | the interval cannot place the difference; absence of a gain is not established |
+| a gate fails | **VOID** | reported as the gate, never as a verdict |
+
+## 5. Gates
+
+* **G0 liveness** — the two arms' asserted fingerprints must differ on at least seven of eight seeds, or the manipulation did not occur
+* **G1 world present** — raw temporal coverage must be 1.0 in both arms of every seed, or the cell tests memory rather than admission
+* **G2 arithmetic** — covered cannot exceed asserted, and coverage and precision must equal covered over their denominators
+* **G3 determinism** — the reference arm re-run on the first seed must produce the same asserted fingerprint
+* **G4 denominator** — the world must have at least one compositional edge in every seed
+* **G5 boundary** — no frozen engine file may differ from HEAD when the block runs
+
+**Void rule.** a failed gate voids the block and no criterion is read; a cell set that is not the pre-registered grid is refused
+
+## 6. Analysis
+
+`./.venv/bin/python -m benchmarks.score_admission_two_arm --results docs/admission_two_arm_run.json --out docs/admission_two_arm_result.json`
+
+The analysis path is `benchmarks/score_admission_two_arm.py`, frozen with this registration. It reads only the cells the
+runner writes, validates the grid, and imports nothing from the engine. The runner is `./.venv/bin/python -m benchmarks.run_admission_two_arm --run`.
+
+## 7. Allocation
+
+8 world seeds, 1 bootstrap seed, 16 cells, 2
+thresholds, 2 bars. two thresholds are fixed here: the gain bar and the precision guard
+
+No arm may run before this file is committed.
