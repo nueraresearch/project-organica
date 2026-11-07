@@ -295,3 +295,39 @@ def test_the_generation_check_rejects_a_hand_edited_cell():
         assert "markers" in str(exc)
     else:
         raise AssertionError("a document with no markers was accepted")
+
+
+def test_the_map_table_is_generated_from_the_artifact():
+    body = _body()
+    text = DOC.read_text(encoding="utf-8")
+    assert bm.MAP_BEGIN in text and bm.MAP_END in text
+    assert bm.render_document(text, body) == text, (
+        "a table differs from the artifact; regenerate with "
+        "python -m benchmarks.bottleneck_map --write"
+    )
+
+
+def test_the_map_table_has_one_row_per_candidate_and_exact_statuses():
+    body = _body()
+    rows = bm.render_map_table(body).splitlines()[2:]
+    assert len(rows) == len(body["rows"])
+    for row, line in zip(body["rows"], rows):
+        assert line.startswith("| %s | %s |" % (row["candidate"], row["label"]))
+        assert "| %s |" % " + ".join(row["status"]) in line
+    assert "| Supported within the tested scope + Not established |" not in bm.render_map_table(body)
+
+
+def test_the_check_column_is_kept_to_one_readable_sentence():
+    for row in _body()["rows"]:
+        assert len(row["check"]) <= bm.MAX_CHECK_CHARS, row["candidate"]
+        assert "\n" not in row["check"], row["candidate"]
+        assert "|" not in row["check"], row["candidate"]
+
+
+def test_the_map_table_check_rejects_a_hand_edited_check():
+    body = _body()
+    text = DOC.read_text(encoding="utf-8")
+    drifted = text.replace("all 112 true world edges were present in memory",
+                           "all 112 true world edges were present in the graph", 1)
+    assert drifted != text, "the edit the check is supposed to notice did not happen"
+    assert bm.render_document(drifted, body) != drifted

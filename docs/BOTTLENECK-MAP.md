@@ -22,17 +22,26 @@ established" is not "unpromising"; it is "the record cannot say yet".
 
 ## 2. The map
 
+<!-- BEGIN MAP TABLE: generated from docs/bottleneck_map.json by benchmarks/bottleneck_map.py; do not edit by hand -->
 | Candidate | Map label | Status | The check behind it |
 |---|---|---|---|
 | World-edge candidate availability | weakened | Supported within the tested scope | all 112 true world edges were present in memory on the tested worlds, so a shortage of candidates is ruled out there as the constraint on coverage |
-| Candidate-generation strategy (broader) | unresolved | Not established | the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges |
-| Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules |
-| Structure to behavior coupling | unresolved | Not established | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero |
+| Candidate-generation strategy (broader) | unresolved | Not established / not measured | the candidate space was characterized but no generator was intervened on: the measured defect is its ordering, not the presence of the edges |
+| Selection / allocation | demonstrated constraint on coverage; effect on behavior untested | Supported within the tested scope + Not established / not measured | under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules |
+| Structure to behavior coupling | unresolved | Not established / not measured | Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero |
 | Theory mismatch (motivational reversals) | supported concern | Supported within the tested scope | the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation |
-| Density interaction | preregistered, untested | Not established | none has run: a design record names the manipulated ratio, the treatment, the estimand and the falsifiers, and allocates nothing |
-| Pool-structure moderation | not supported | Not established | the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them |
-| Loop-redundancy moderation | not supported | Not established | the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them |
-| Decay necessity for liveness | unresolved | Not established | two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported) |
+| Density interaction | preregistered, untested | Not established / not measured | none has run: a design record names the manipulated ratio, the treatment, the estimand and the falsifiers, and allocates nothing |
+| Pool-structure moderation | not supported | Not established / not measured | the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them |
+| Loop-redundancy moderation | not supported | Not established / not measured | the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them |
+| Decay necessity for liveness | unresolved | Not established / not measured | two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported) |
+<!-- END MAP TABLE -->
+The table is generated from the artifact's `rows` by
+`python -m benchmarks.bottleneck_map --write`, and its status column carries each status
+verbatim, so a compound status reads as the two statuses joined by `+`. Before the table was
+generated it printed the shortened *Not established* where the artifact records *Not established
+/ not measured*, which is not one of the four statuses and made the table's own vocabulary claim
+false. The check column is held to a 400-character single-sentence budget: a row that grows past
+it is a sign the check needs shortening in the artifact, not a reason to widen the table.
 
 ## 3. Labels are not statuses
 
