@@ -70,6 +70,25 @@ there is nothing to check out.
   `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
   density.
 
+### Added — The engine-change audit, and the freeze finding it produced (2026-11-07)
+
+`docs/ENGINE-CHANGE-AUDIT.md` inventories what changed in the engine after the archival freeze:
+**20** commits touching `organica/` between 2026-10-25 and 2026-11-07, five new modules, a raised
+prediction cap, a lookback-contamination fix and a submodule split. Its central finding is that
+**none of the recorded failures was measured on the engine at HEAD**, so a rerun campaign is a
+different experiment rather than a replication.
+
+It also records that the freeze no longer checks the engine: all seven
+`test_engine_file_is_unchanged_since_the_freeze` cases **skip** at package versions at or above
+0.12.0, while the eight published-artifact checks in the same file pass. The skip is a version
+gate, not an unreadable tag, and `docs/V1-FREEZE.md` §6 states it — so the freeze is documentary
+from 0.12.0 onward and nothing compares the live engine against `v0.9.0`. A campaign that pins an
+engine needs its own identity check, built to fail.
+
+The audit also corrects a carried-forward status: **C1 failed as pre-registered** (P2 not met),
+and H2 is untested in an admissible form because F2 fired first. `tests/test_engine_change_audit.py`
+recomputes the commit count, the pinned commits and the frozen-file list rather than trusting them.
+
 ### Added — The context that was held in conversation is now a labelled register (2026-11-07)
 
 `docs/CONTEXT.md` records three kinds of fact that existed only in conversation: what the owner
