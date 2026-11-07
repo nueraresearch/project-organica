@@ -87,6 +87,14 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/decay_falsifier.json`, `docs/decay_falsifier/harness.json`
 
+### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes in the shared sense, and no in the reference-specific sense. All six arms' theory layers die at cycle 39 of 300 on the falsifier's world, so death is the dominant failure mode and the reference arm is not a distinct one; the reference reaches it by identifier supersession (102 of 126 removal events, with 24 parent losses) while every ablation is parent-loss dominated (249 each) and cap-bound on beliefs (300 capped removals). The 12-seed characterization does not extend beyond this world and stimulus.
+
+**Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`, `docs/reference_death_ledger.json`, `docs/REFERENCE-DEATH-LEDGER.md`, `docs/REFERENCE-DEATH-LEDGER-PREREGISTRATION.md`
+
 ### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
 
 **Outcome.** SUPPORTED, status closed.
@@ -303,12 +311,6 @@ as one.
 **Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss. The 12-seed replication (seeds 20301201-20301212) characterized this world as DECAY_DOMINANT: candidate decay is the main loss; the question stays open because one world family at one degree cannot answer it.
 
 **What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
-### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
-
-**Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
-
-**What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
 
 ### Q022 — Can role representations transfer across domains?
 

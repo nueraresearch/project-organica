@@ -1,0 +1,620 @@
+{
+ "date": "2026-11-07",
+ "engine_version": "0.13.0",
+ "resumed_from_parts": true,
+ "question": "Q042",
+ "protocol_digest": "9005e175d7a958425ff6e5557b2dd6e355f0d7ffc6e0007fb7d21520a8ccd19e",
+ "preregistration": "docs/REFERENCE-DEATH-LEDGER-PREREGISTRATION.md",
+ "seeds": [
+  20302001,
+  20302002,
+  20302003
+ ],
+ "control_seed": 20261023,
+ "cycles": 300,
+ "margin": 10,
+ "unexplained_band": 0.05,
+ "arms": [
+  "FULL",
+  "SALIENCE",
+  "NO_CONTRADICTIONS",
+  "NO_QUESTIONS",
+  "NO_DREAMS",
+  "ANTI_EIG"
+ ],
+ "cells": [
+  {
+   "arm": "FULL",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "FULL",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "FULL",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 184,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 8,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 10,
+    "not_reformed": 20
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "SALIENCE",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "SALIENCE",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "SALIENCE",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_CONTRADICTIONS",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 158,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 34,
+    "parent_loss": 85,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 102,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_QUESTIONS",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_DREAMS",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_DREAMS",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "NO_DREAMS",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "ANTI_EIG",
+   "seed": 20302001,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "ANTI_EIG",
+   "seed": 20302002,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  },
+  {
+   "arm": "ANTI_EIG",
+   "seed": 20302003,
+   "cycles": 300,
+   "theory_cycles": 37,
+   "last_nonzero_cycle": 38,
+   "death_cycle": 39,
+   "theories_total": 164,
+   "beliefs_total": 981,
+   "theory_removals": {
+    "superseded": 35,
+    "parent_loss": 83,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 100,
+    "not_reformed": 18
+   },
+   "unexplained": 0
+  }
+ ],
+ "summary": {
+  "FULL": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 102,
+    "parent_loss": 24,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 30,
+    "not_reformed": 60
+   },
+   "unexplained": 0,
+   "theories_total": 552
+  },
+  "SALIENCE": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 105,
+    "parent_loss": 249,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 300,
+    "not_reformed": 54
+   },
+   "unexplained": 0,
+   "theories_total": 492
+  },
+  "NO_CONTRADICTIONS": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 102,
+    "parent_loss": 255,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 306,
+    "not_reformed": 54
+   },
+   "unexplained": 0,
+   "theories_total": 474
+  },
+  "NO_QUESTIONS": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 105,
+    "parent_loss": 249,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 300,
+    "not_reformed": 54
+   },
+   "unexplained": 0,
+   "theories_total": 492
+  },
+  "NO_DREAMS": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 105,
+    "parent_loss": 249,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 300,
+    "not_reformed": 54
+   },
+   "unexplained": 0,
+   "theories_total": 492
+  },
+  "ANTI_EIG": {
+   "cells": 3,
+   "death_cycles": [
+    39,
+    39,
+    39
+   ],
+   "median_death_cycle": 39,
+   "min_death_cycle": 39,
+   "max_death_cycle": 39,
+   "theory_cycles": 111,
+   "theory_removals": {
+    "superseded": 105,
+    "parent_loss": 249,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 300,
+    "not_reformed": 54
+   },
+   "unexplained": 0,
+   "theories_total": 492
+  }
+ },
+ "label": "SHARED_DOMINANT",
+ "q042": {
+  "outcome": "SUPPORTED",
+  "answer": "Yes, but shared: every arm's theory layer dies within the margin, so death is the system's dominant failure mode and the lever is the common belief-formation and decay substrate, not any arm's policy."
+ },
+ "gates": {
+  "G1_neutral_observer": true,
+  "G2_attribution_complete": true,
+  "G3_axis_live": true,
+  "G4_denominators": true,
+  "G5_seed_independence": true
+ },
+ "predictions": {
+  "P1_every_arm_dies_before_end": true,
+  "P2_every_ablation_within_margin": true,
+  "P3_reference_modal_parent_loss": false,
+  "P4_no_unexplained_in_reference": true
+ },
+ "control": {
+  "seed": 20261023,
+  "cycles": 300,
+  "theory_match": true,
+  "belief_match": true,
+  "first_theory_mismatch": null,
+  "first_belief_mismatch": null,
+  "ledger_last_nonzero_theory_cycle": 38
+ },
+ "secondary": {
+  "total_theory_removals": 1899,
+  "reference_theory_removals": 126,
+  "reference_share_of_theory_removals": 0.0664,
+  "modal_mechanism": {
+   "FULL": "superseded",
+   "SALIENCE": "parent_loss",
+   "NO_CONTRADICTIONS": "parent_loss",
+   "NO_QUESTIONS": "parent_loss",
+   "NO_DREAMS": "parent_loss",
+   "ANTI_EIG": "parent_loss"
+  },
+  "reference_belief_removals": {
+   "capped": 30,
+   "not_reformed": 60
+  },
+  "unexplained_share": 0.0
+ }
+}

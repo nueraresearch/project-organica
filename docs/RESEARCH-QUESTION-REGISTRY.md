@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 19 | a result constrained the space; the answer is recorded with its scope |
-| open | 12 | evidence exists, no answer is settled |
+| closed | 20 | a result constrained the space; the answer is recorded with its scope |
+| open | 11 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **42** | |
@@ -255,6 +255,16 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Decision record.** `docs/DECISION-UNCERTIFIED-RUN.md`
 
+### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes in the shared sense, and no in the reference-specific sense. All six arms' theory layers die at cycle 39 of 300 on the falsifier's world, so death is the dominant failure mode and the reference arm is not a distinct one; the reference reaches it by identifier supersession (102 of 126 removal events, with 24 parent losses) while every ablation is parent-loss dominated (249 each) and cap-bound on beliefs (300 capped removals). The 12-seed characterization does not extend beyond this world and stimulus.
+
+**Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`, `docs/reference_death_ledger.json`, `docs/REFERENCE-DEATH-LEDGER.md`, `docs/REFERENCE-DEATH-LEDGER-PREREGISTRATION.md`
+
 ### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
 
 *research question.*
@@ -396,14 +406,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md`
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
-### Q042 — Is reference-arm death itself the dominant failure mode of 0.13.0?
-
-*research question.*
-
-**Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
-
-**Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
 
 ## 3. Retired — no longer worth resources
 
