@@ -25,15 +25,30 @@ def _text():
     return DOC.read_text(encoding="utf-8")
 
 
+def _flat():
+    """Prose wraps, so assertions about sentences must not depend on line breaks."""
+    return " ".join(_text().split())
+
+
 def test_the_design_is_the_harness_design():
     art = _artifact()["design"]
     assert art["grid"] == list(dc.GRID)
     assert art["degrees"] == list(dc.DEGREES)
-    assert art["calibration_seeds"] == list(dc.CALIBRATION_SEEDS)
-    assert len(art["grid"]) * len(art["degrees"]) * len(art["calibration_seeds"]) * 2 == 448
+    assert "calibration_seeds" not in art, "seed integers would be harvested as consumed"
+    seeds = list(dc.CALIBRATION_SEEDS)
+    assert "CALIBRATION_SEEDS" in art["calibration_block"]
+    assert f"{seeds[0]}-{seeds[-1]}" in art["calibration_block"]
+    assert len(art["grid"]) * len(art["degrees"]) * len(seeds) * 2 == 448
     assert art["cells_total"] == 448
     assert art["cells_per_arm_per_tau"] == 32
     assert art["precision_floor"] == dc.PRECISION_FLOOR
+
+
+def test_recording_the_design_does_not_consume_the_calibration_block():
+    """A scope record must not make the harness refuse to run its own calibration."""
+    assert not (set(dc.harvest_seeds()) & set(dc.CALIBRATION_SEEDS))
+    seeds = list(dc.CALIBRATION_SEEDS)
+    assert f"{seeds[0]}-{seeds[-1]}" in _flat()
 
 
 def test_the_derived_sets_follow_from_the_reported_pattern():
@@ -71,18 +86,17 @@ def test_the_selection_rule_description_matches_its_source():
     # The documented semantics: a None precision rejects, and there is no minimum size.
     assert 'row["precision"] is None' in src
     assert "MIN_STABLE_FOR_PRECISION" not in src
-    text = _text()
-    assert "no stable edges at all" in text
-    assert "no such floor" in text
+    flat = _flat()
+    assert "no stable edges at all" in flat
+    assert "no such floor" in flat
 
 
 def test_the_absent_artifact_is_named_as_absent():
     art = _artifact()
     assert "docs/confirmation/calibration.json" in art["provenance"]["not_recomputable_here"]
     assert not (ROOT / "docs" / "confirmation" / "calibration.json").exists()
-    assert "absent from this worktree" in _text()
+    assert "not in this worktree" in _flat()
 
 
 def test_the_ratio_arm_pattern_is_not_claimed():
-    text = _text()
-    assert "For the **ratio control** the same argument cannot be made" in text
+    assert "For the **ratio control** the same argument cannot be made" in _flat()

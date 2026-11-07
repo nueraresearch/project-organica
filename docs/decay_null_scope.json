@@ -24,16 +24,6 @@
    6,
    12
   ],
-  "calibration_seeds": [
-   20300101,
-   20300102,
-   20300103,
-   20300104,
-   20300105,
-   20300106,
-   20300107,
-   20300108
-  ],
   "arms_calibrated": [
    "ratio",
    "transition"
@@ -54,7 +44,8 @@
   "liveness": "every one of the final 10% of cycles holds >= 1 theory and the tail mean beliefs >= 2",
   "selection": "highest mean coverage among taus that are live on every cell AND hold precision >= 0.95 on every cell; ties to the larger tau",
   "precision_has_min_size_rule": false,
-  "min_stable_for_precision_in_decision_only": 40
+  "min_stable_for_precision_in_decision_only": 40,
+  "calibration_block": "harness CALIBRATION_SEEDS: 20300101-20300108 (8 seeds)"
  },
  "reported_rejections": {
   "arm": "transition",
