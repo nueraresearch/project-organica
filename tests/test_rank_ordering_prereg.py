@@ -232,7 +232,7 @@ def test_the_scorer_is_the_committed_script_and_does_not_touch_the_engine():
 # Frozen, and honest about it
 # ---------------------------------------------------------------------------
 
-def test_nothing_has_run():
+def test_no_judged_cell_has_run_and_the_smoke_run_is_recorded():
     body = _body()
     assert body["status"].startswith("FROZEN, NOT RUN")
     assert body["not_run"]["cells_executed"] == 0
@@ -240,6 +240,16 @@ def test_nothing_has_run():
     assert body["not_run"]["result_artifact_exists"] is False
     assert not (ROOT / "docs" / "rank_ordering_run.json").exists()
     assert not (ROOT / "docs" / "rank_ordering_result.json").exists()
+    smoke = body["not_run"]["smoke"]
+    assert smoke["seed"] not in body["design"]["seeds"]
+    assert smoke["seed"] != body["seeds"]["bootstrap"]
+    assert smoke["engine_cycles"] > 0
+    assert smoke["pool"]["world_coverage_in_memory"] == 1.0
+    assert smoke["audits_held"] is True
+    assert smoke["observed"]["control_cap_20"]["coverage"] == 0.0
+    assert smoke["observed"]["diversity_cap_20"]["coverage"] == 0.0
+    assert smoke["counts"]["world_edges_in_top_40"] == 0
+    assert body["not_run"]["blocked"]
 
 
 def test_the_design_record_still_allocates_nothing_and_the_map_is_untouched():
@@ -257,6 +267,10 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
     for token in ("160", "%d-%d" % (low, high), str(body["seeds"]["bootstrap"]),
                   "%.2f" % body["criteria"]["M1_bar"], "4000", "95%",
                   "%.2f" % body["criteria"]["underpowered_width"], "0.05"):
+        assert token in flat, token
+    smoke = body["not_run"]["smoke"]
+    for token in (str(smoke["seed"]), str(smoke["pool"]["rows"]),
+                  str(smoke["counts"]["rank_of_first_world_edge"])):
         assert token in flat, token
     for row in body["decision_table"]:
         assert row["verdict"] in flat, row["verdict"]

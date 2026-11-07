@@ -91,6 +91,14 @@ def test_the_runner_refuses_a_state_that_already_has_cells():
         R.plan(body)
 
 
+def test_the_runner_refuses_a_record_blocked_by_a_smoke_finding(tmp_path):
+    body = json.loads(R.PREREG.read_text(encoding="utf-8"))
+    body["not_run"]["blocked"] = "both arms cover zero world edges at the primary point"
+    with pytest.raises(SystemExit, match="blocked"):
+        R.run(tmp_path / "never.json", body)
+    assert not (tmp_path / "never.json").exists()
+
+
 def test_the_runner_never_opens_the_live_database():
     source = Path(R.__file__).read_text(encoding="utf-8")
     assert "temp_db(" in source

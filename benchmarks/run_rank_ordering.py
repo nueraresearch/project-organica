@@ -376,6 +376,10 @@ def self_test(record: dict | None = None) -> dict:
 def run(out: Path = OUT, record: dict | None = None) -> dict:
     record = record or prereg()
     assert_grid(record)
+    blocked = (record.get("not_run") or {}).get("blocked")
+    if blocked:
+        raise SystemExit("the block is blocked by a recorded finding; no cell may run: %s"
+                         % blocked)
     report = self_test(record)
     if not report["all_passed"]:
         raise SystemExit("the harness self-tests failed; no cell may run: %r"

@@ -26,13 +26,14 @@ def render(body: dict) -> str:
         "| %s | %s | **%s** | %s |" % (r["M1"], r["M2"], r["verdict"], r["reading"])
         for r in body["decision_table"])
 
-    return """# The ranking experiment, frozen before any cell (2026-11-07)
+    text = """# The ranking experiment, frozen before any cell (2026-11-07)
 
-**Status: FROZEN, NOT RUN.** No cell has been executed, no world generated, no engine cycle
-spent, and no result artifact exists. The criteria, gates, bar and allocation below were
-committed before the run; nothing here may be changed afterwards. A defect found later is
-disclosed as an amendment, and the pre-registered reading stands unless the amendment says
-plainly that it withdraws it.
+**Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
+generated, no judged engine cycle spent, and no result artifact exists. One smoke pool outside
+the block has been run; it is recorded in §7 and in `not_run.smoke`, it is not evidence, and it
+blocked the block. The criteria, gates, bar and allocation below were committed before the run;
+nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
+the pre-registered reading stands unless the amendment says plainly that it withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -157,6 +158,37 @@ The bar is declared here and never computed from the outcome.
         alloc["seeds"], alloc["world_seeds"], alloc["cells"],
         alloc["thresholds"], alloc["bars"],
     )
+    smoke = (body.get("not_run") or {}).get("smoke")
+    if smoke:
+        text = text.replace(
+            "No cell may run before this file is committed.",
+            "No cell may run before this file is committed.\n\n" + _smoke(smoke))
+    return text
+
+
+def _smoke(smoke: dict) -> str:
+    pool, counts, observed = smoke["pool"], smoke["counts"], smoke["observed"]
+    return (
+        "**A smoke pool was run before any judged cell, and it stopped the block.** Seed "
+        "**%d** at rho_world %.1f, %d sleep cycles, %d derived cells: every world edge was "
+        "present (%d of %d), and **the control and the diversity arm each covered 0 world "
+        "edges at cap 20 and at cap 40**. The %d intra-cell filler rows carry counts %d-%d, "
+        "%d per source across all %d sources, while the world's rows carry %d-%d and the best "
+        "ranks **%d**, so the diversity ordering -- whose tie-break is count -- fills its "
+        "remaining slots with filler once every source has one. Delta is therefore 0 by "
+        "construction at the primary point, M1 cannot pass, and a zero-width interval is not "
+        "underpowered, so the only reachable verdict is the negative pole. The pool itself "
+        "behaved as the audits predicted (%d rows; presence %s), which is why this is a defect "
+        "in what the arms can reach rather than in what the engine stores. No judged cell may "
+        "run until the owner decides how to repair the treatment; the numbers are in "
+        "`not_run.smoke`." % (
+            smoke["seed"], smoke["rho_world"], smoke["engine_cycles"],
+            smoke["cells_derived"], pool["world_rows"], smoke["generator"]["world_edges"],
+            pool["filler_rows"], counts["filler_range"][0], counts["filler_range"][1],
+            counts["filler_rows_per_source"], counts["sources_with_filler"],
+            counts["world"][0], counts["world"][-1],
+            counts["rank_of_first_world_edge"], pool["rows"],
+            observed["control_cap_20"]["presence"]))
 
 
 def main() -> None:

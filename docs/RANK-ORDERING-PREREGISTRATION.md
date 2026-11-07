@@ -1,10 +1,11 @@
 # The ranking experiment, frozen before any cell (2026-11-07)
 
-**Status: FROZEN, NOT RUN.** No cell has been executed, no world generated, no engine cycle
-spent, and no result artifact exists. The criteria, gates, bar and allocation below were
-committed before the run; nothing here may be changed afterwards. A defect found later is
-disclosed as an amendment, and the pre-registered reading stands unless the amendment says
-plainly that it withdraws it.
+**Status: FROZEN, NOT RUN (judged block).** No judged cell has been executed, no judged world
+generated, no judged engine cycle spent, and no result artifact exists. One smoke pool outside
+the block has been run; it is recorded in §7 and in `not_run.smoke`, it is not evidence, and it
+blocked the block. The criteria, gates, bar and allocation below were committed before the run;
+nothing here may be changed afterwards. A defect found later is disclosed as an amendment, and
+the pre-registered reading stands unless the amendment says plainly that it withdraws it.
 
 The hypothesis is in `docs/NONFREQUENCY-RANKING-DESIGN.md`; this file is the test of it. The
 numbers are in `docs/rank_ordering_prereg.json`, and this document is rendered from that
@@ -99,6 +100,8 @@ identity check on an all-true population, a generator audit of the density ladde
 arm-liveness check that the two orderings differ at the sparsest density. `--run` refuses a
 pre-registration that is not frozen, a seed block that is not contiguous, and an existing output
 file without `--force`. No cell may run before this file is committed.
+
+**A smoke pool was run before any judged cell, and it stopped the block.** Seed **20310301** at rho_world 0.1, 9 sleep cycles, 4 derived cells: every world edge was present (24 of 24), and **the control and the diversity arm each covered 0 world edges at cap 20 and at cap 40**. The 48 intra-cell filler rows carry counts 12-17, 3 per source across all 16 sources, while the world's rows carry 3-9 and the best ranks **51**, so the diversity ordering -- whose tie-break is count -- fills its remaining slots with filler once every source has one. Delta is therefore 0 by construction at the primary point, M1 cannot pass, and a zero-width interval is not underpowered, so the only reachable verdict is the negative pole. The pool itself behaved as the audits predicted (154 rows; presence 1.0), which is why this is a defect in what the arms can reach rather than in what the engine stores. No judged cell may run until the owner decides how to repair the treatment; the numbers are in `not_run.smoke`.
 
 ## 8. Allocation
 
