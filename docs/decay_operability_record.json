@@ -36,7 +36,10 @@
   "quantity": "SUM(precedes.count) over the precedes table: accumulated transition weight",
   "not": "not a row count: edges are COUNT(*) and the artifact carries them separately",
   "start": 1819,
-  "final": 197753
+  "final": 197753,
+  "rows_final": 27,
+  "mean_count_per_row": 7324.2,
+  "row_count_source": "owner-reported; the 80-cycle row count was not reported, so 'unchanged' is the owner's reading, not something this record checked"
  },
  "derived": {
   "edge_mass_ratio_end_over_first": 108.715,
@@ -70,6 +73,13 @@
   "resource soundness: growth is monotone across the measured horizon and no deceleration was measured",
   "a decay verdict: the matched decay-on/off comparison has not run",
   "a 0.9.0 versus 0.12.0 comparison",
-  "the longitudinal study's horizon, which is longer than this check"
- ]
+  "the longitudinal study's horizon, which is longer than this check",
+  "a latency or CPU cost estimate: wall-clock for the run was not part of what was reported"
+ ],
+ "db": {
+  "bytes_ratio_end_over_first": 1.55,
+  "source": "owner-reported ('about 1.55x')",
+  "reading": "storage did not track mass: a 1.55x database against a 108.715x mass"
+ },
+ "reading": "weight accumulation on a fixed relation set: the mass grew because stored pairs were reinforced, not because more pairs were stored; 197,753 is not a row count and the growth is not a storage multiplier"
 }

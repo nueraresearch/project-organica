@@ -92,9 +92,21 @@ over the `precedes` table, so 197,753 is transition weight and not
 Reading the mass as a table size overstates storage by the mean per-pair count,
 and it is the kind of unit slip that makes an operable engine look impossible.
 
+**The relation set did not grow.** The run ends on **27 temporal-edge rows**
+and a database about **1.55×** its starting size. 197,753 of weight across 27
+rows is a mean of roughly **7,324.2 accumulated counts per pair**, which is what
+repeated reinforcement of a small, fixed relation set looks like. So the three
+figures agree with each other and disagree with the alarming reading: this is
+not 200,000 new edges, and it is not a database that grew a hundredfold. The
+mass grew because each stored pair was reinforced, not because more pairs were
+stored — and a report that gives either the mass as a row count or the growth
+as a storage multiplier has the mechanism backwards. Whether the row count was
+already 27 at 80 cycles is the owner's reading, not something this table
+checked: the shorter run's row count was not reported.
+
 ### What the growth does and does not license
 
-Three cautions travel with the ×108.715 factor, and none of them is decoration:
+Four cautions travel with the ×108.715 factor, and none of them is decoration:
 
 * **No bar existed.** The payload's own `growth_criterion` reads `unset: no bound
   was pre-committed, so growth is reported and not judged` (rule 19), and a bar
@@ -106,6 +118,10 @@ Three cautions travel with the ×108.715 factor, and none of them is decoration:
   infer one (rule 28).
 * **One seed, one stimulus, one horizon.** The claim is bounded to this world
   family and this build.
+* **Storage did not track mass.** A 1.55× database against a 108.715× mass says
+  the exposure here is not file size. Latency and CPU were not reported, so no
+  cost estimate is offered — an engine can be live, cheap to store and too slow
+  to use, and this run cannot tell those apart.
 
 So the run **certifies liveness at 3,000 cycles for the decay-off arm**, and it
 **does not certify resource soundness**: growth is monotone across the measured

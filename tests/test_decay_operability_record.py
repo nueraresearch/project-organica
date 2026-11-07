@@ -149,3 +149,25 @@ def test_the_record_matches_the_artifact_when_it_lands():
     assert mass == rec["edge_mass"]["final"]
     assert body["arms"]["decay_off"]["series"]["edge_mass"][0] == rec["edge_mass"]["start"]
     assert body["comparison"]["growth_criterion"] == rec["growth_criterion"]
+
+
+def test_the_row_count_and_database_factor_make_the_mass_readable():
+    mass = _rec()["edge_mass"]
+    assert mass["rows_final"] == 27
+    assert mass["mean_count_per_row"] == round(mass["final"] / mass["rows_final"], 1)
+    assert _rec()["db"]["bytes_ratio_end_over_first"] == 1.55
+    joined = " ".join(_rec()["does_not_certify"])
+    assert "latency or CPU" in joined
+    flat = _flat()
+    assert "27 temporal-edge rows" in flat
+    assert f"{mass['mean_count_per_row']:,} accumulated counts per pair" in flat
+    assert "not 200,000 new edges" in flat
+    assert "Storage did not track mass" in flat
+    assert "Four cautions" in flat
+
+
+def test_the_row_count_is_labeled_as_reported_not_checked_across_horizons():
+    source = _rec()["edge_mass"]["row_count_source"]
+    assert "owner-reported" in source
+    assert "not something this record checked" in source
+    assert "not something this table checked" in _flat()
