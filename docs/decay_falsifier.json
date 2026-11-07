@@ -1,0 +1,43 @@
+{
+  "artifact": "docs/decay_falsifier/parts/FULL.json",
+  "command": "PYTHONHASHSEED=0 python benchmarks/force_matrix.py --cycles 300 --seed 20261023 --colonies FULL",
+  "date": "2026-11-07",
+  "engine_version": "0.13.0",
+  "engine_pin_current": true,
+  "seed": 20261023,
+  "cycles": 300,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "py_hash_seed": 0,
+  "harness_exit_code": 0,
+  "harness_reference_arm_warning": true,
+  "verdict": "REPRODUCES",
+  "falsifier_fired": false,
+  "theories": {
+    "cycles": 300,
+    "cycles_with_any": 37,
+    "last_nonzero_cycle": 38,
+    "at_end": 0
+  },
+  "beliefs": {
+    "cycles": 300,
+    "cycles_with_any": 112,
+    "last_nonzero_cycle": 113,
+    "at_end": 0
+  },
+  "reference": {
+    "artifact": "docs/rerun-0.12.0/parts/FULL.json",
+    "version": "0.12.0",
+    "theories": {
+      "cycles": 3000,
+      "cycles_with_any": 37,
+      "last_nonzero_cycle": 38,
+      "at_end": 0
+    },
+    "beliefs": {
+      "cycles": 3000,
+      "cycles_with_any": 112,
+      "last_nonzero_cycle": 113,
+      "at_end": 0
+    }
+  }
+}

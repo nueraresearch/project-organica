@@ -126,7 +126,7 @@ names, so the map cannot drift from a measurement it does not hold.
 
 **Artifact.** `docs/RERUN-0.12.0.md`
 
-**Measured on that build.** no.
+**Measured on that build.** yes.
 
 **Pre-change measurement.** The death was measured at 3,000 cycles under the frozen protocol, and the cause was isolated to temporal edge decay by disabling it on the same build.
 
@@ -135,6 +135,8 @@ names, so the map cannot drift from a measurement it does not hold.
 **Falsifier.** Run the pinned engine with decay enabled for 300 cycles. If live theories stay non-zero throughout, the decay-to-death mechanism does not hold on this build and the recorded death has another cause.
 
 **Observables.** live theories per cycle; beliefs per cycle; stable predictions per cycle
+
+**Result.** **REPRODUCES** — The falsifier ran on the pinned engine at 300 cycles: no theory survives past cycle 38 and no belief past cycle 113, so the mechanism is not falsified and the recorded death reproduces exactly. Read from `docs/decay_falsifier.json`.
 
 **If it holds.** Fix the decay rule and confirm it on held-out worlds before any campaign runs on this engine; a campaign on a dead reference arm measures nothing.
 

@@ -72,10 +72,15 @@
         "note": "The reference arm dies on 0.12.0: theories reach zero and every series is empty to the end of the run, while the frozen arm stays live throughout."
       },
       "prior_measurement": "The death was measured at 3,000 cycles under the frozen protocol, and the cause was isolated to temporal edge decay by disabling it on the same build.",
-      "measured_on_that_build": false,
+      "measured_on_that_build": true,
       "mechanism": "Prediction strength is a count over a source frequency; decaying the numerator while the denominator keeps growing drives strength below the stability threshold, so processes fall and theories follow them to zero.",
       "falsifier": "Run the pinned engine with decay enabled for 300 cycles. If live theories stay non-zero throughout, the decay-to-death mechanism does not hold on this build and the recorded death has another cause.",
       "observables": ["live theories per cycle", "beliefs per cycle", "stable predictions per cycle"],
+      "result": {
+        "artifact": "docs/decay_falsifier.json",
+        "verdict": "REPRODUCES",
+        "note": "The falsifier ran on the pinned engine at 300 cycles: no theory survives past cycle 38 and no belief past cycle 113, so the mechanism is not falsified and the recorded death reproduces exactly."
+      },
       "decision_if_positive": "Fix the decay rule and confirm it on held-out worlds before any campaign runs on this engine; a campaign on a dead reference arm measures nothing.",
       "decision_if_negative": "Treat the 0.12.0 death as a configuration artefact and allow the campaign to use the pinned engine as it stands.",
       "status": "stays"

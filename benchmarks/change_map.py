@@ -18,7 +18,8 @@ did not exist.
 
 No figure is stored in the rendered document. Measured values stay in the
 artifacts the rows name, so the map cannot drift from a measurement it does not
-hold.
+hold. A row that has been run carries a ``result``: a verdict and the artifact
+it was read from, never the numbers, which stay where they were measured.
 
 Nothing is written in ``--check`` mode.
 """
@@ -38,6 +39,7 @@ ENGINE = "organica"
 
 KINDS = ("recorded_failure", "open_question", "none")
 STATUSES = ("stays", "excluded")
+RESULT_VERDICTS = ("FALSIFIED", "REPRODUCES", "INTERMITTENT", "INCONCLUSIVE")
 MIN_TEXT = 60
 
 
@@ -93,6 +95,32 @@ def validate(data):
             errors.append("%s: failure artifact does not exist: %s" % (rid, artifact))
         if kind != "none" and not artifact:
             errors.append("%s: names a failure without an artifact" % rid)
+
+        result = row.get("result")
+        if result:
+            if status != "stays":
+                errors.append("%s: carries a result but is not in the campaign" % rid)
+            if result.get("verdict") not in RESULT_VERDICTS:
+                errors.append("%s: unknown result verdict %r" % (rid, result.get("verdict")))
+            result_artifact = result.get("artifact")
+            if not result_artifact:
+                errors.append("%s: a result must name the artifact it was read from" % rid)
+            elif not (ROOT / result_artifact).exists():
+                errors.append(
+                    "%s: result artifact does not exist: %s" % (rid, result_artifact)
+                )
+            elif result_artifact == artifact:
+                errors.append(
+                    "%s: the result artifact is the pre-change artifact; the falsifier writes "
+                    "its own" % rid
+                )
+            if row.get("measured_on_that_build") is not True:
+                errors.append(
+                    "%s: a result means the falsifier ran on this build, so "
+                    "measured_on_that_build must be true" % rid
+                )
+            if len(result.get("note", "")) < MIN_TEXT:
+                errors.append("%s: result note is too thin to say what it means" % rid)
 
         if status == "stays":
             if kind == "none":
@@ -218,6 +246,13 @@ def render(data, report):
         ]
         if row.get("observables"):
             lines += ["**Observables.** " + "; ".join(row["observables"]), ""]
+        if row.get("result"):
+            result = row["result"]
+            lines += [
+                "**Result.** **%s** — %s Read from `%s`."
+                % (result["verdict"], result["note"], result["artifact"]),
+                "",
+            ]
         lines += [
             "**If it holds.** %s" % row["decision_if_positive"],
             "",
