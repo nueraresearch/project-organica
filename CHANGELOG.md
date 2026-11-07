@@ -55,6 +55,8 @@ there is nothing to check out.
   paper result is updated; the version moves only because `v0.12.0` is tagged at `5804e60`
   and master must not drift past a release it still declares.
 - **The pre-registered calibration ran and selected no threshold, so the campaign stopped and nothing was adopted.** 448 cells on `0.12.0` (`5804e60`) with the harness at `841e3ff`: the degree audit passed and the seal verified, but for both the transition arm and the ratio control no threshold in the grid was live on every cell while keeping precision at or above 0.95 on every cell, so both recorded the pre-committed `no global threshold clears all degree regimes`. No held-out cell was run. The artifact is on the owner's machine, not in this tree; the record is §18 of the preregistration.
+- **`docs/DECAY-OPERABILITY-PROPOSAL.md` records the recommended next direction and authorises nothing.** No threshold is chosen or searched for; a decay-off version is the pragmatic route with `0.12.0` immutable, and restoration is not release-ready until long-run liveness and edge growth are checked. The seed block, the horizons and the edge-growth criterion are the owner's and left unset.
+- **`benchmarks/decay_operability.py` measures decay-on against decay-off on the matrix's own stimulus, seed and 3,000-cycle horizon.** Two arms differing in one class attribute, per-cycle theories, beliefs, stable predictions, temporal-edge rows and mass, and database bytes; a protocol artifact only at the matrix settings with `PYTHONHASHSEED=0`, pilots under `.scratch/` and marked. Growth is reported, not judged, and no engine file changes.
 
 ## [0.12.0] — (2026-11-06)
 
