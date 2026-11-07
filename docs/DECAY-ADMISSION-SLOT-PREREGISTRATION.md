@@ -1,5 +1,5 @@
 study: decay admission versus ranked slot
-executions: 0
+executions: 1
 seeds: 20301601, 20301602, 20301603, 20301604, 20301605, 20301606, 20301607, 20301608
 arms: engine, no_temporal_decay
 artifact: docs/decay_admission_slot.json
@@ -159,6 +159,36 @@ section 10, never an edit in place.
 
 ## 10. Outcome
 
-**Not yet written.** The runner may not write this section until `docs/decay_admission_slot.json`
-exists. Until then the protocol has not executed, and
-`benchmarks.decay_admission_slot_prereg --check` asserts exactly that state.
+**Measured 2026-11-07, label `SLOT_DOMINANT`.** `docs/decay_admission_slot.json` holds the run and
+`docs/DECAY-ADMISSION-SLOT.md` is rendered from it: eight engine seeds and eight control seeds, 300
+cycles each, 16 cells. The digest recorded in the artifact is
+`36b9000a954933de2e390e7c8df1ff32b013a1b4862166a94523ef196e9d9117`.
+
+- **1,920 engine-arm misses**, all classified: **0** below the admission floor, **1,920** lost a
+  ranked slot, **0** unexplained. Admission share 0.0000, slot share 1.0000.
+- The budget bound in **284 of 300 cycles per seed**, and the admitted set was **54** candidates
+  against **40** slots in every binding cycle: 14 admitted candidates were cut each time.
+- Peak **35** and coverage **0.5833** reproduced in every engine seed; first zero at cycle **173**;
+  final stable count zero.
+- The control (no temporal decay) peaked at **42** with coverage **0.7000**, ended at **30**, and its
+  **77** misses were also all slot losses: **0** admission losses.
+- All six gates passed. **P3 and P6 failed**: the pre-registered expectation that admission loss
+  would dominate, and that disabling decay would lower the admission share, were both wrong. P1,
+  P2, P4 and P5 held.
+
+**What the label licenses.** The admission floor did not remove a single dying edge in this world:
+every edge that was stable and then missed re-emission had a candidate built for it. The gate is the
+40-slot budget against a 54-candidate admitted set, so the lever is the ranking basis or the budget,
+not the decay rule or the admission floor.
+
+**What it does not say.** "Slot loss" here means an admitted candidate that was not selected; with 54
+admitted and 40 selected, 14 are cut every cycle and an admittee may be far from the cutoff, so this
+run establishes which gate removed the edge, not that the edge was narrowly outranked. The admission
+floor is not exonerated in general: it was not binding for these already-stable edges, in this world,
+at these counts.
+
+Both arms produced identical cell outcomes on all eight seeds, so this instrument is seed-invariant
+in this world. That is a property of the world, not evidence that seeds do not matter elsewhere.
+
+The 60 percent bar and the 6-of-8 seed majority were fixed before the run and were not adjusted
+after it.

@@ -95,6 +95,14 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/store_time_role_durability.json`, `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
 
+### Q044 — When a stable edge misses re-emission, is the cause the admission count or the ranked slot?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Every miss was a slot loss, none an admission loss. Across eight engine seeds and 300 cycles, all 1,920 misses had a candidate built for them and lost one of the 40 ranked slots; zero fell below the admission floor of 5. The admitted set was 54 candidates against 40 slots in each of the 284 binding cycles per seed, and the no-temporal-decay control also recorded zero admission losses across its 77 misses. The pre-registered label is SLOT_DOMINANT; predictions P3 and P6 failed.
+
+**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`, `docs/decay_admission_slot.json`, `docs/DECAY-ADMISSION-SLOT.md`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
@@ -301,12 +309,6 @@ as one.
 **Why it is open.** Three measurements point the same way at different budgets and lengths: the degree-12 ceiling peaks at 0.5833 and ends at 0.00 at caps 8/15, 16/30 and 64/128; the falsifier's reference arm is dead by cycle 38 of 300; and raising the theory budget moves neither the peak nor the endpoint. No artifact yet counts the death events per cycle and attributes each removal to a mechanism, so the claim that death is dominant is a pattern, not a measured share.
 
 **What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`
-
-### Q044 — When a stable edge misses re-emission, is the cause the admission count or the ranked slot?
-
-**Why it is open.** The attribution ledger records that 68.97 percent of engine-arm deaths were not re-emitted, but it attributes them to candidate decay without separating an edge that fell below the engine's admission floor from one that was admitted and lost one of the 40 prediction slots. The distinction needs the engine's pre-slice candidate list, which is observable but has not been measured.
-
-**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`
 
 ### Q022 — Can role representations transfer across domains?
 
