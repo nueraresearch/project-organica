@@ -1,0 +1,198 @@
+{
+ "title": "The bottleneck map: what each surviving explanation can claim",
+ "date": "2026-11-07",
+ "nature": "a reading of the record, not new evidence",
+ "vocabulary": {
+  "source": "papers/README.md",
+  "statuses": [
+   "Supported within the tested scope",
+   "Mixed / context-limited",
+   "Reversed",
+   "Not established / not measured"
+  ],
+  "rule": "the scope is part of the status; where the evidence splits, a compound status is required"
+ },
+ "rows": [
+  {
+   "candidate": "Candidate generation",
+   "label": "weakened",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "the candidate space was characterized, not intervened on: about a third of its rows are true edges and the signal is not clustered at the top of any frequency ordering, with 240-244 asserted edges needed for coverage",
+   "does_not_say": "that generation is irrelevant. It says the measured defect is the ordering of the candidate space, which no frequency-based generation rule changes",
+   "would_change": "a generation rule that changes which pairs enter at all, shown to move precision at a fixed budget",
+   "evidence": [
+    "docs/GATE13-CAUSAL-ACCOUNT.md",
+    "docs/gate13_allocation_rule.json",
+    "docs/ACQUISITION-ENDPOINT-AUDIT.md"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Selection / allocation",
+   "label": "demonstrated constraint on coverage; effect on behavior untested",
+   "status": [
+    "Supported within the tested scope",
+    "Not established / not measured"
+   ],
+   "check": "under the engine's own global count-ranked selection the 112 world edges are spread, not clustered: the top 20 recovers 0-1, the top 40 0-2, the top 80 8-16, the top 160 36-55 and the top 320 (about 16x the budget) 106-109; precision never exceeds 0.3438 across 36 measurements under two allocation rules",
+   "does_not_say": "that fixing selection fixes behavior. No cell has shown a downstream gain from a better-ranked selection, which is why the first status is scoped to coverage and the second is not established",
+   "would_change": "the density study's treatment arm, if the treated ranking moves a behavioral endpoint",
+   "evidence": [
+    "docs/GATE13-RELATION-SEPARATION.md",
+    "docs/gate13_allocation_rule.json",
+    "docs/GATE13-CAUSAL-ACCOUNT.md"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Structure to behavior coupling",
+   "label": "unresolved",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "Phase L measured structural displacement, and DI/PI are retention indices; its verdict stands at H3-L - INCONCLUSIVE. The capacity-1,000 confirmatory test found no improvement on held-out prediction, with its interval crossing zero",
+   "does_not_say": "that structure fails to transfer. Retention was measured; usability of what is retained was not",
+   "would_change": "a study that scores behavior from carried structure instead of retention of that structure",
+   "evidence": [
+    "docs/phase_l_results.md",
+    "docs/PHASE-L-SYNTHESIS.md",
+    "papers/01_developmental_structure_formation.md"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Theory mismatch (motivational reversals)",
+   "label": "supported concern",
+   "status": [
+    "Supported within the tested scope"
+   ],
+   "check": "the architecture's own motivational mechanisms were disabled one at a time and scored on the predicted direction: three of five predictions reversed, including contradiction's weight and question generation",
+   "does_not_say": "that the theory is refuted, or that these reversals cause any downstream failure. The concern is supported; the causal link is not",
+   "would_change": "a mechanism whose predicted direction holds under a matched ablation",
+   "evidence": [
+    "papers/07_architecture_predictions_reversed.md",
+    "docs/FORCE-MATRIX-RESULTS.md"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Density interaction",
+   "label": "preregistered, untested",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "none has run: a design record names the manipulated ratio, the treatment, the estimand and the falsifiers, and allocates nothing",
+   "does_not_say": "that density matters. No cell has run, and the 448-cell decay null held world geometry fixed and never varied density",
+   "would_change": "the study itself; its predicted direction and falsifiers are fixed before any cell",
+   "evidence": [
+    "docs/WORLD-DENSITY-DESIGN.md",
+    "docs/world_density_design.json"
+   ],
+   "read_for_this_record": true,
+   "study_specified": true,
+   "allocation": {
+    "seeds": 0,
+    "cells": 0,
+    "thresholds": 0,
+    "bars": 0
+   }
+  },
+  {
+   "candidate": "Pool-structure moderation",
+   "label": "not supported",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "the paired-capacity records found no pool-structure moderation; this artifact does not restate their numbers, and the status is the owner's reading of them",
+   "does_not_say": "that pool structure is refuted. No support in the conditions tested is not evidence of absence",
+   "would_change": "a test that manipulates pool structure independently of size and scale",
+   "evidence": [
+    "docs/GATE13-PAIRED-CAPACITY-TEST.md"
+   ],
+   "read_for_this_record": false,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Loop-redundancy moderation",
+   "label": "not supported",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "the ratio- and temporal-redundancy preregistrations and their block records tested redundancy as a moderator; this artifact does not restate their numbers, and the status is the owner's reading of them",
+   "does_not_say": "that redundancy is refuted",
+   "would_change": "a world where redundancy varies while pool and scale are held fixed",
+   "evidence": [
+    "docs/GATE13-RATIO-REDUNDANCY-PREREGISTRATION.md",
+    "docs/GATE13-TEMPORAL-REDUNDANCY-PREREGISTRATION.md",
+    "docs/gate13_redundancy_moderator_calibration.json"
+   ],
+   "read_for_this_record": false,
+   "study_specified": false,
+   "allocation": null
+  },
+  {
+   "candidate": "Decay necessity for liveness",
+   "label": "unresolved",
+   "status": [
+    "Not established / not measured"
+   ],
+   "check": "two points of the parameter range: 0.95 fails the harness liveness criterion on the matrix stream and horizon, while 1.0 passes it through cycle 2,999 (owner-reported)",
+   "does_not_say": "that decay is unnecessary, or that decay is necessary. Neither direction was tested",
+   "would_change": "the matched decay-on/off comparison that estimates the parameter's effect with everything else held fixed",
+   "evidence": [
+    "docs/decay_operability_record.json",
+    "docs/RERUN-0.12.0.md"
+   ],
+   "read_for_this_record": true,
+   "study_specified": false,
+   "allocation": null
+  }
+ ],
+ "corrections": [
+  {
+   "row": "Decay necessity for liveness",
+   "was": "not supported",
+   "now": "unresolved",
+   "why": "'not supported' reads as a tested hypothesis found against. What ran was two points of the parameter range on one stream and horizon; necessity was never tested"
+  },
+  {
+   "row": "Selection / allocation",
+   "was": "demonstrated contributor",
+   "now": "demonstrated constraint on coverage; effect on behavior untested",
+   "why": "the demonstrated result is that frequency ranking cannot surface the world's edges at the engine's budget. No cell shows that a better-ranked selection improves a behavioral endpoint, so the second half stays unestablished"
+  }
+ ],
+ "specified_experiment": {
+  "count": 1,
+  "row": "Density interaction",
+  "note": "the only row with a defined manipulation, an explicit estimand, a registered direction, falsifiers and zero allocated seeds"
+ },
+ "provenance": {
+  "source": "the owner's map, 2026-11-07, with two rows corrected in the same exchange",
+  "checked_rows": 6,
+  "checked_note": "statuses and figures for these rows were checked against the records named in evidence",
+  "owner_reading_rows": [
+   "Pool-structure moderation",
+   "Loop-redundancy moderation"
+  ],
+  "owner_reading_note": "these statuses are the owner's reading; the named records are where a reader checks them, and this artifact restates none of their numbers",
+  "rule": "a status added here needs a check behind it, not a story"
+ },
+ "not": [
+  "a likelihood ranking: statuses are not probabilities and the rows are not ordered by promise",
+  "a re-scoring of H3-L, of the 448-cell calibration null, or of any Phase K result",
+  "an allocation: no seed, cell, threshold or bar is spent here",
+  "a replacement for the records it points at; when they change, this map is re-read against them"
+ ]
+}

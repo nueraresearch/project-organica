@@ -65,6 +65,8 @@ there is nothing to check out.
 
 - **The 3,000-cycle decay-operability run is recorded as liveness, not as soundness.** The decay-off arm holds theories and beliefs through the matrix's full horizon while edge mass grows 1,819 -> 197,753 (×108.715; ×3.838 at 80 cycles). The mass is `SUM(precedes.count)` — accumulated transition weight, not a row count — and no growth bound was pre-committed, so the result is reported and explicitly not judged. Values come from `docs/decay_operability_record.json`, not from prose.
 
+- **The bottleneck map is recorded as a claim-status artifact.** Eight candidate explanations each carry one of the four statuses, the check behind them and what the status does not say. Writing it corrected two rows: decay necessity is *unresolved* rather than *not supported*, and selection/allocation is a demonstrated constraint on coverage whose effect on behavior is untested rather than a demonstrated contributor. Only the density interaction is a specified experiment, and it allocates nothing. `docs/BOTTLENECK-MAP.md`, `docs/bottleneck_map.json`.
+
 ## [0.12.0] — (2026-11-06)
 
 ### Changed — The release identity is settled: v0.12.0 is the deposit object (2026-11-06)
