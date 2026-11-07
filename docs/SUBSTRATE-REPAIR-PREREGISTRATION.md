@@ -1,5 +1,5 @@
 study: substrate repair across the six arms
-executions: 0
+executions: 1
 seeds: 20302301, 20302302, 20302303
 arms: FULL, SALIENCE, NO_CONTRADICTIONS, NO_QUESTIONS, NO_DREAMS, ANTI_EIG
 conditions: shipped, repaired
@@ -165,5 +165,22 @@ the frozen text fails the guard.
 
 ## 11. Outcome
 
-**Not yet written.** No cell has run, no artifact exists, and `executions` is 0. This section is
-replaced only by the runner's recorded label and figures after the frozen protocol has executed.
+**Measured 2026-11-07: `SUBSTRATE_REPAIR`.** 36 cells (six arms x two conditions x seeds
+20302301-20302303), 300 cycles each, on the falsifier's `lattice_L1` stimulus. The artifact is
+`docs/substrate_repair.json`, the page is `docs/SUBSTRATE-REPAIR.md`, and the digest of sections
+1-10 is `e1654d034df50d6602d062dabd6bc58d8a15b0c847c6ce340877b5d7043ea392`.
+
+- Shipped: every arm, every seed, death at cycle **39**.
+- Repaired (0.95 to 0.99): every arm, every seed, death at cycle **228** — **+189 cycles**, with
+  per-arm deltas 189/189/189 and a repaired cross-arm spread of **0** in every seed.
+- All five gates passed and all five predictions held, including P5 (FULL parent-loss removals
+  24 to 21). The seed-20261023 control matched the committed falsifier theory and belief series
+  exactly.
+
+**What the label licenses.** On this world, death is not only shared in timing: one uniform
+decay-rate repair moves every arm by the same amount. The arm policies are exonerated for the
+cycle-39 death, and the shared temporal decay layer is the lever.
+
+**What it does not say.** One world, one repair point (0.99) and three seeds; belief formation,
+admission, candidate decay and the theory cap are unchanged; theory presence is not identity; and
+no selection arm runs here.

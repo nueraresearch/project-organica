@@ -111,6 +111,14 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`, `docs/decay_admission_slot.json`, `docs/DECAY-ADMISSION-SLOT.md`
 
+### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes, at the tested repair point: one uniform temporal-decay repair (0.95 to 0.99) moved all six force-matrix arms from death at cycle 39 to death at cycle 228 on the falsifier's lattice_L1 world. Every arm and every seed gained exactly 189 cycles, with zero cross-arm spread, while the shipped condition reproduced cycle 39 in all 18 cells and the seed-20261023 control matched the committed falsifier series. All five gates and all five predictions held, including the parent-loss reduction in FULL (24 to 21). The scope is one world, one repair point and three seeds; belief formation, admission, candidate decay and the theory cap were not changed.
+
+**Evidence.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`, `docs/substrate_repair.json`, `docs/SUBSTRATE-REPAIR.md`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
@@ -317,12 +325,6 @@ as one.
 **Why it is open.** Q044 found that all 1,920 missed re-emissions were slot losses, with 54 admitted candidates against 40 slots in each binding cycle, so the ranked slot is the gate on the edge layer. The ranking/admission block then measured the ordering lever at the coverage endpoint and adopted diversity-first admission, while its own record says coverage is not behaviour and retention is untested. The decay record attributes 68.97 percent of edge deaths to decay and the theory layer dies at cycle 29, so whether the slot lever reaches persistence is the open half.
 
 **What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
-
-### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
-
-**Why it is open.** Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.
-
-**What is in hand.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`
 
 ### Q022 — Can role representations transfer across domains?
 

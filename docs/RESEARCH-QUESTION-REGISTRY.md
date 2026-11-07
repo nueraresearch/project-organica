@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 20 | a result constrained the space; the answer is recorded with its scope |
-| open | 13 | evidence exists, no answer is settled |
+| closed | 21 | a result constrained the space; the answer is recorded with its scope |
+| open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **44** | |
@@ -293,6 +293,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`, `docs/decay_admission_slot.json`, `docs/DECAY-ADMISSION-SLOT.md`
 
+### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes, at the tested repair point: one uniform temporal-decay repair (0.95 to 0.99) moved all six force-matrix arms from death at cycle 39 to death at cycle 228 on the falsifier's lattice_L1 world. Every arm and every seed gained exactly 189 cycles, with zero cross-arm spread, while the shipped condition reproduced cycle 39 in all 18 cells and the seed-20261023 control matched the committed falsifier series. All five gates and all five predictions held, including the parent-loss reduction in FULL (24 to 21). The scope is one world, one repair point and three seeds; belief formation, admission, candidate decay and the theory cap were not changed.
+
+**Why it is open.** Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.
+
+**Preregistered in.** `SUBSTRATE-REPAIR-PREREGISTRATION.md`
+
+**Evidence.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`, `docs/substrate_repair.json`, `docs/SUBSTRATE-REPAIR.md`
+
 ## 2. Open — evidence in hand, no settled answer
 
 ### Q011 — Does a consolidated schema buy acquisition latency across a vocabulary boundary?
@@ -416,16 +430,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
-
-### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
-
-*research question.*
-
-**Why it is open.** Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.
-
-**Preregistered in.** `SUBSTRATE-REPAIR-PREREGISTRATION.md`
-
-**Evidence.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`
 
 ## 3. Retired — no longer worth resources
 

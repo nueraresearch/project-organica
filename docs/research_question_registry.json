@@ -774,7 +774,7 @@
     {
       "id": "Q046",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?",
       "why_open": "Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.",
       "evidence": [
@@ -782,13 +782,17 @@
         "docs/reference_death_ledger.json",
         "docs/DECAY-ATTRIBUTION-STUDY.md",
         "docs/decay_attribution_study.json",
-        "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md"
+        "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md",
+        "docs/substrate_repair.json",
+        "docs/SUBSTRATE-REPAIR.md"
       ],
       "preregistrations": [
         "SUBSTRATE-REPAIR-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "outcome": "SUPPORTED",
+      "answer": "Yes, at the tested repair point: one uniform temporal-decay repair (0.95 to 0.99) moved all six force-matrix arms from death at cycle 39 to death at cycle 228 on the falsifier's lattice_L1 world. Every arm and every seed gained exactly 189 cycles, with zero cross-arm spread, while the shipped condition reproduced cycle 39 in all 18 cells and the seed-20261023 control matched the committed falsifier series. All five gates and all five predictions held, including the parent-loss reduction in FULL (24 to 21). The scope is one world, one repair point and three seeds; belief formation, admission, candidate decay and the theory cap were not changed."
     }
   ],
   "schema": {

@@ -311,7 +311,7 @@ def render(artifact: dict) -> str:
         "",
         "## Reading",
         "",
-        "All six arms extend by the margin: **%s**. The repaired death cycles across the six",
+        "All six arms extend by the margin: **%s**. The repaired death cycles across the six "
         "arms are %s, so the shared-timing prediction %s."
         % (artifact["predictions"]["P3_all_six_extend"],
            artifact["repaired_spread"],
