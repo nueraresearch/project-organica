@@ -315,3 +315,46 @@ def test_analyze_marks_a_smoke_run_and_never_calls_it_a_verdict(tmp_path, capsys
     printed = json.loads(capsys.readouterr().out)
     assert printed["verdict"] == "SMOKE — not a verdict"
     assert printed["protocol"] is False
+
+
+def test_analyze_refuses_a_missing_held_out_artifact_without_a_traceback(tmp_path):
+    calibration = _sealed(tmp_path)
+    with pytest.raises(SystemExit, match="no held-out artifact"):
+        main(["analyze", "--calibration", str(calibration),
+              "--heldout", str(tmp_path / "absent.json")])
+
+
+def test_analyze_refuses_a_missing_calibration_without_a_traceback(tmp_path):
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": True, "cells": _cells()}), encoding="utf-8")
+    with pytest.raises(SystemExit, match="no artifact at"):
+        main(["analyze", "--calibration", str(tmp_path / "absent.json"),
+              "--heldout", str(heldout)])
+
+
+def test_analyze_refuses_an_artifact_without_cells(tmp_path):
+    calibration = _sealed(tmp_path)
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": True}), encoding="utf-8")
+    with pytest.raises(SystemExit, match="carries no cell list"):
+        main(["analyze", "--calibration", str(calibration), "--heldout", str(heldout)])
+
+
+def test_analyze_refuses_a_held_out_run_from_another_calibration(tmp_path):
+    calibration = _sealed(tmp_path)
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": True, "cells": _cells(),
+                                   "calibration_sha256": "0" * 64}), encoding="utf-8")
+    with pytest.raises(SystemExit, match="different calibration"):
+        main(["analyze", "--calibration", str(calibration), "--heldout", str(heldout)])
+
+
+def test_analyze_accepts_a_held_out_run_from_its_own_calibration(tmp_path, capsys):
+    calibration = _sealed(tmp_path)
+    digest = json.loads(calibration.read_text(encoding="utf-8"))["sha256"]
+    heldout = tmp_path / "heldout.json"
+    heldout.write_text(json.dumps({"protocol": True, "cells": _cells(),
+                                   "calibration_sha256": digest}), encoding="utf-8")
+    assert main(["analyze", "--calibration", str(calibration),
+                 "--heldout", str(heldout), "--reps", "100"]) == 0
+    assert json.loads(capsys.readouterr().out)["label"] == "adopt"

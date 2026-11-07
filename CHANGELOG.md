@@ -37,6 +37,11 @@ there is nothing to check out.
   separate seed block and sealed with a sha256, held-out stationary/shift/task cells, and a
   conjunctive analysis that returns a named rejection instead of a weak pass.
   `tests/test_decay_confirmation.py` produces every rejection label, so no gate is decoration.
+- **`analyze` refuses an artifact it cannot honestly score.** A missing, malformed or
+  cell-less held-out file is a usage error with a message, not a `FileNotFoundError`
+  traceback, and a held-out run whose recorded `calibration_sha256` is not the calibration
+  passed to `analyze` is refused, so cells produced under one threshold pair cannot be
+  scored against another. Five CLI tests drive the real parser, seal and seed guard.
 - **`docs/DECAY-FIX-CONFIRMATION-PREREGISTRATION.md`** fixes the protocol before any cell,
   with five dated pre-run amendments: the shipped arm's closed-form `1/N` ceiling at degree
   4 and above, the measured even degree ladder (2/4/6/12) with scan-chosen seed blocks, and

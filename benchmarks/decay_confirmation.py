@@ -395,8 +395,27 @@ def seal(payload: dict, path: Path) -> dict:
     return sealed
 
 
+def _read_artifact(path: Path, what: str, require_cells: bool = False) -> dict:
+    """A missing or malformed artifact is a usage error, not a traceback."""
+    try:
+        text = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        raise SystemExit("no %s at %s" % (what, path))
+    except OSError as error:
+        raise SystemExit("%s: %s" % (path, error))
+    try:
+        payload = json.loads(text)
+    except json.JSONDecodeError as error:
+        raise SystemExit("%s is not JSON: %s" % (path, error))
+    if not isinstance(payload, dict):
+        raise SystemExit("%s is not an artifact object" % path)
+    if require_cells and not isinstance(payload.get("cells"), list):
+        raise SystemExit("%s carries no cell list; is it a %s?" % (path, what))
+    return payload
+
+
 def verify_seal(path: Path) -> dict:
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = _read_artifact(path, "artifact")
     recorded = payload.pop("sha256", None)
     actual = hashlib.sha256(_canonical(payload)).hexdigest()
     if recorded != actual:
@@ -782,7 +801,11 @@ def cmd_heldout(args):
 
 def cmd_analyze(args):
     calibration = verify_seal(Path(args.calibration))
-    heldout = json.loads(Path(args.heldout).read_text(encoding="utf-8"))
+    heldout = _read_artifact(Path(args.heldout), "held-out artifact", require_cells=True)
+    recorded = heldout.get("calibration_sha256")
+    if recorded is not None and recorded != calibration["sha256"]:
+        raise SystemExit("held-out artifact was produced under a different calibration "
+                         "(records %s, given %s)" % (recorded, calibration["sha256"]))
     verdict = decide(heldout["cells"], calibration, reps=args.reps)
     verdict["protocol"] = bool(heldout.get("protocol")) and bool(calibration.get("protocol"))
     if not verdict["protocol"]:
