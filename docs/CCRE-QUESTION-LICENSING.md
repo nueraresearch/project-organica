@@ -138,7 +138,6 @@ so a result from it says nothing about them in either direction.
 - **It cannot make a refused question partially answerable.** If someone later wants one, it
   needs its own design, and a design that measures it is a different experiment.
 
-## There is no preregistration yet
+## The preregistration this record belongs to
 
-This campaign has no protocol on disk, so nothing here is committed and no cell may run.
-The first artifact the run needs is that protocol, not a result.
+`docs/CROSS-CONTEXT-REUSE-2-PREREGISTRATION.md`.

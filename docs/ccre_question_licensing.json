@@ -2,7 +2,7 @@
   "title": "Questions the next cross-context run may answer",
   "date": "2026-11-07",
   "campaign": "Cross-context reuse, second run (RoleCandidate and SchemaCandidate)",
-  "preregistration": null,
+  "preregistration": "docs/CROSS-CONTEXT-REUSE-2-PREREGISTRATION.md",
   "note": "A licensing record is not a preregistration. It names which questions the design can adjudicate, which it can only move, which observations are free to record, and which it may not answer at all. It sets no threshold, no bar and no sample size: those belong to the run's own preregistration, fixed before the first cell (AGENTS.md rule 19), and this record states no measured figure of its own. The fraction question was proposed as Q024, but Q024 is the retired diversity-first admission question, so the four new questions are registered as Q025 to Q028 and each proposal label is carried beside the subject it names.",
   "licensed": [
     {

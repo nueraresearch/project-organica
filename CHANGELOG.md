@@ -30,6 +30,24 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Added — The second cross-context run is preregistered and blocked (2026-11-07)
+
+- **`docs/CROSS-CONTEXT-REUSE-2-PREREGISTRATION.md`** fixes, before any cell: five arms
+  (treatment, naive, pruned, orthogonal and a **shuffled-prior** attribution control), 60 cells
+  at 40/40 cycles, a fresh 24-seed block with 12 reserve never drawn, and every comparator with
+  its swept grid - including a decayed bigram over Context B's own events as the strongest
+  simple learner.
+- **Four criteria, judged together.** Transfer ratio at least 1.25 with its lower bound above
+  1.00; at least 0.10 above both the orthogonal and shuffled arms; rank at acquisition at least
+  2 positions better than naive; and Q028's trace resolving at least 0.90 of transfer events with
+  no unexplained unresolved transfer. **P4 can fail the protocol even when the behaviour is
+  right** (rule 18).
+- **Three void conditions and seven controls**, including endpoint saturation, a fail-closed
+  reference arm, the trace instrument's own self-test, and provenance pinning.
+- **It cannot start yet:** the trace resolves 0 of 14 transfers because the engine records no
+  role per prediction (C7), and `force_matrix --verify-only` exits 1 on the dead reference arm.
+  The licensing record now names this protocol.
+
 ### Added — Q028's transfer-provenance trace exists and can fail (2026-11-07)
 
 - **`benchmarks/transfer_provenance.py` traces a transfer event to a role satisfaction from
