@@ -793,6 +793,25 @@
       "decisions": [],
       "outcome": "SUPPORTED",
       "answer": "Yes, at the tested repair point: one uniform temporal-decay repair (0.95 to 0.99) moved all six force-matrix arms from death at cycle 39 to death at cycle 228 on the falsifier's lattice_L1 world. Every arm and every seed gained exactly 189 cycles, with zero cross-arm spread, while the shipped condition reproduced cycle 39 in all 18 cells and the seed-20261023 control matched the committed falsifier series. All five gates and all five predictions held, including the parent-loss reduction in FULL (24 to 21). The scope is one world, one repair point and three seeds; belief formation, admission, candidate decay and the theory cap were not changed."
+    },
+    {
+      "id": "Q047",
+      "kind": "research",
+      "status": "open",
+      "question": "Between shipped decay 0.95 and no decay 1.0, is there an operating point that materially delays the cycle-39 theory death on the falsifier's lattice_L1 world, and which mechanism accounts for it?",
+      "why_open": "Q046 moved all six arms from cycle 39 to 228 with a uniform 0.99 repair but tested only 0.95 and 0.99; 0.99 still dies at 228, and no-decay 1.0 has not been measured on lattice_L1 (the only no-decay artifact is the degree-12 hub). The interior mechanisms - eligibility floor, slower erosion and conditional forgetting - are untested on the cycle-39 world.",
+      "evidence": [
+        "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md",
+        "docs/substrate_repair.json",
+        "docs/SUBSTRATE-REPAIR.md",
+        "docs/DECAY-ATTRIBUTION-STUDY.md",
+        "docs/decay_attribution.json"
+      ],
+      "preregistrations": [
+        "OPERATING-POINT-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": []
     }
   ],
   "schema": {
