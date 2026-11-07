@@ -56,6 +56,21 @@ there is nothing to check out.
   (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
   still allocates nothing.
 
+### Changed — Intra-cell exclusion adopted as an allocation change, and not implemented (2026-11-07)
+
+- **`docs/DECISION-DENSITY-EXCLUSION.md`** records the owner's decision: rows whose two tags sit in
+  one cell are not eligible to occupy a fixed selection budget, and the same count ordering applies
+  to the eligible rows. It is dated, it names the evidence artifact, and its scope is the share of a
+  fixed budget spent on world edges — one world family, cap 20, both exposure schemes.
+- **The evidence is the A2 verdict, quoted from the artifact**: sparse-end level 0.059375 with
+  interval 0.040625–0.078125 against the 0.05 bar, 13 of 16 seeds positive, reproduced by the
+  sensitivity scheme. The slope is explicitly excluded as a reason: descriptive, dense end pinned at
+  0.150, primary-scheme middle non-monotone.
+- **Nothing is implemented.** No engine file changed; the record states that going live needs its own
+  implementation record and a behaviour-preserving test, and that absence of a behavioural gain is a
+  limit rather than a reversal. `tests/test_decision_density_exclusion.py` re-checks every quoted
+  figure against `docs/density_interaction_a2_result.json`.
+
 ### Added — The density block A2 ran and returned its positive branch (2026-11-07)
 
 - **All 640 registered cells executed** on seeds 20330201–20330216 with `PYTHONHASHSEED=0`,
