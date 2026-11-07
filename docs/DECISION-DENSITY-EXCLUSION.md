@@ -41,14 +41,49 @@ both registered exposure schemes.
   gain from a better-ranked allocation. The verdict is a selection reading.
 - **A density mechanism.** The density slope is **descriptive** and was registered as not judged:
   the dense end is pinned by the pool's composition at 0.150 under both schemes, and the primary
-  scheme's middle is **not monotone** (0.059 at 0.1, 0.028 at 0.4, 0.150 at 0.8). The decision does
-  not rest on the slope and must not be read as one.
+  scheme's middle is **not monotone** (0.059 at 0.1, 0.028 at 0.4, 0.150 at 0.8) — an exposure
+  artifact of that scheme's padding, explained below. The decision does not rest on the slope and
+  must not be read as one.
 - **Generality.** One world family, sixteen tags in four cells, one vocabulary, cap 20. A different
   candidate space is out of scope until measured.
 - **The withdrawn admission rule.** `docs/DECISION-ADMISSION-RULE.md` was withdrawn after its gain
   failed to transfer to the engine's prediction layer. This decision is a different intervention on
   a different layer and does not revive it.
 - **A1.** `DENSITY-INTERACTION-1` stays held and unrun; this record does not lift that hold.
+
+### Why the middle is non-monotone under the primary scheme
+
+The non-monotonicity is an **exposure artifact of the primary scheme**, not a property of the world.
+That scheme holds total exposure fixed at 400 events and builds the stream by cycling a base of length
+`2|W| + 24`. Because 400 is not a multiple of that length, the final, partial pass ends inside the
+world-edge head at rho 0.1-0.6 and inside the filler tail only at 0.8, where the 408-event base is cut
+at 400. The engine decays `precedes` by 0.95 per sleep cycle and floors at 1, so the least-decayed
+stretch of the stream holds the top of the ranking: the freshest cycle is all world edges at
+0.1-0.6 and all filler at 0.8 under the primary scheme, and always all filler under the sensitivity
+scheme, whose stream is the base exactly once.
+
+An intra-cell row inside the control's cap-20 is the treatment's entire purchase, and under the
+primary scheme that purchase is removed at mid densities by the padding rather than by the geometry.
+Slots are means over the sixteen registered seeds:
+
+| rho | control intra-cell slots (primary / sensitivity) | control cross-cell non-world slots (primary / sensitivity) | Delta (primary / sensitivity) |
+| --- | --- | --- | --- |
+| 0.1 | 3.75 / 4.06 | 8.44 / 8.38 | 0.0594 / 0.0594 |
+| 0.2 | 2.31 / 3.31 | 6.44 / 5.69 | 0.0531 / 0.0906 |
+| 0.4 | 0.88 / 3.75 | 5.00 / 1.75 | 0.0281 / 0.1469 |
+| 0.6 | 0.75 / 4.25 | 2.38 / 0.50 | 0.0312 / 0.1969 |
+| 0.8 | 3.00 / 3.00 | 0.00 / 0.00 | 0.1500 / 0.1500 |
+
+At rho 0.4 the primary control spends 0.88 of its 20 slots on the class the exclusion removes,
+against 3.75 under the sensitivity scheme, and 5.00 slots on cross-cell rows that no exclusion can
+remove, against 1.75. The two arms therefore differ by 0.0281 instead of 0.1469. The schemes agree at
+0.1 and at 0.8, where the class under test is exposed in both, which is where the registered
+criterion is read.
+
+**Consequence for reading the ladder.** The primary profile must not be quoted as evidence that the
+advantage shrinks with density; it reports that scheme's own padding phase. The sensitivity scheme
+is the one whose exposure is per edge rather than per run, and it rises through the middle before
+the dense end pins it.
 
 ## 3. The evidence it rests on
 

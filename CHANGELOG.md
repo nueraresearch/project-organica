@@ -56,6 +56,20 @@ there is nothing to check out.
   (8 seeds, 160 cells, 2 thresholds, 2 bars), with `run: false` beside it. The design record
   still allocates nothing.
 
+### Changed — The density ladder's mid-ladder dip is attributed to the primary scheme's padding (2026-11-07)
+
+- **`docs/DECISION-DENSITY-EXCLUSION.md` section 2 now explains the non-monotonicity instead of only
+  reporting it.** Total exposure is fixed at 400 events while the base grows as 2|W| + 24, so the final
+  partial pass ends in the world-edge head at rho 0.1–0.6 and in the filler tail only at 0.8; with the
+  engine's 0.95-per-cycle decay the freshest cycle holds the top of the ranking, so the intra-cell class
+  the exclusion removes is de-exposed at mid density by construction.
+- **Measured, not inferred:** the primary control spends 0.88 of its 20 cap slots on intra-cell rows at
+  0.4 (sensitivity: 3.75) and 5.00 on cross-cell rows no exclusion can remove (sensitivity: 1.75), so
+  Delta is 0.0281 there instead of 0.1469. The schemes agree at 0.1 and 0.8, where the criterion is read.
+- **No verdict, criterion or artifact changed.** The table is recomputed from the run by
+  `tests/test_decision_density_exclusion.py`, which also checks the generator's ending class at every
+  density.
+
 ### Changed — Intra-cell exclusion adopted as an allocation change, and not implemented (2026-11-07)
 
 - **`docs/DECISION-DENSITY-EXCLUSION.md`** records the owner's decision: rows whose two tags sit in
