@@ -1,0 +1,108 @@
+{
+ "prereg": "RANKING-ADMISSION-CONFIRMATORY-1",
+ "cells": 160,
+ "gates": {
+  "G0_liveness": {
+   "seeds_where_the_arms_differ": 16,
+   "expected": 16,
+   "passed": true
+  },
+  "G1_presence_ceiling": {
+   "min_presence": 1.0,
+   "passed": true
+  },
+  "G2_arithmetic_consistency": {
+   "problems": [],
+   "passed": true
+  },
+  "G3_rho_rank_moves_by_cap_20": {
+   "at_min": 0.2057,
+   "at_max": 0.8688,
+   "passed": true
+  },
+  "G3_rho_rank_moves_by_cap_40": {
+   "at_min": 0.2057,
+   "at_max": 0.8688,
+   "passed": true
+  },
+  "G3_axis_live": {
+   "passed": true
+  },
+  "G4_control_reproduces_gate13": {
+   "control_coverage_at_min_density": 0.0,
+   "must_not_exceed": 0.0,
+   "passed": true
+  },
+  "G5_identity_at_density_1": {
+   "rho_world": 1.0,
+   "arms_identical": true,
+   "delta": 0.0,
+   "passed": true
+  },
+  "all_passed": true
+ },
+ "criteria": {
+  "adoption": {
+   "mean_delta_at_sparsest": 0.171875,
+   "interval": [
+    0.135417,
+    0.213542
+   ],
+   "interval_width": 0.078125,
+   "bar": 0.08,
+   "seeds_positive": 8,
+   "sign_test": {
+    "required": 7,
+    "of": 8
+   },
+   "conditions": {
+    "mean_at_or_above_bar": true,
+    "interval_lower_above_zero": true,
+    "sign_test_met": true
+   },
+   "passed": true
+  },
+  "guard": {
+   "mean_delta_at_densest": 0.026042,
+   "bar": -0.05,
+   "passed": true
+  },
+  "density_profile": {
+   "0.1": {
+    "coverage_gap_mean": 0.171875,
+    "precision_gap_mean": 0.20625,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.2": {
+    "coverage_gap_mean": 0.130208,
+    "precision_gap_mean": 0.3125,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.4": {
+    "coverage_gap_mean": 0.059896,
+    "precision_gap_mean": 0.2875,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.6": {
+    "coverage_gap_mean": 0.030382,
+    "precision_gap_mean": 0.21875,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.8": {
+    "coverage_gap_mean": 0.026042,
+    "precision_gap_mean": 0.25,
+    "seeds_with_a_positive_coverage_gap": 8
+   }
+  }
+ },
+ "decision": {
+  "verdict": "ADOPT THE ADMISSION RULE",
+  "decision": "adopt",
+  "reading": "the rule reproduces its gain on fresh seeds without a dense-end loss; the cognition change is recorded separately"
+ },
+ "not_evidence": [
+  "the ordering block is a separate registration and its cells are not evidence here",
+  "coverage is not behaviour: no cell in either block measures a downstream gain from a better-ranked selection",
+  "a pass adopts an admission rule within one world family, two caps and eight seeds, and nothing wider"
+ ]
+}

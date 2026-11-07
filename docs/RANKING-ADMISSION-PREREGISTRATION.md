@@ -1,5 +1,7 @@
 # The admission change, pre-registered with fresh seeds (2026-11-07)
 
+**This block has run: the frozen analysis path returned ADOPT THE ADMISSION RULE.** §9 records the result, and §1–§8 are preserved exactly as committed before the run.
+
 **Status: FROZEN, NOT RUN (ready; no judged cell).** No cell, no judged world and no judged
 engine cycle exist for this block. The criteria, the bar, the guard, the seeds and the
 decision table below are committed before the run and may not be changed afterwards; a
@@ -83,3 +85,20 @@ pre-registered grid. Its input is `docs/ranking_admission_run.json`.
 2 thresholds and 2 bars. two thresholds are declared: the adoption bar and the dense-end guard. Both are fixed here, before any cell, and neither may be recomputed on the block it judges
 
 No cell may run before this file is committed.
+
+## 9. Result (post-freeze)
+
+The block ran on 160 cells and the frozen analysis path returned **ADOPT THE ADMISSION RULE**.
+
+- **Adoption:** mean gain +0.171875 at the sparsest density, 95% interval
+  [+0.135417, +0.213542], width 0.078125, 8 of 8 seeds positive,
+  bar 0.08 — passed.
+- **Guard:** mean gain +0.026042 at the densest density against -0.05 —
+  passed.
+- **Gates:** no gate failed.
+- **Coverage gap by density:** 0.1 -> +0.171875; 0.2 -> +0.130208; 0.4 -> +0.059896; 0.6 -> +0.030382; 0.8 -> +0.026042.
+
+Cells are in `docs/ranking_admission_run.json`; the decision is in
+`docs/ranking_admission_result.json`. The adoption this verdict licenses is a cognition
+change, so it is recorded as an owner decision in the manual and is not applied to the
+engine by this document.

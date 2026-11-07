@@ -1,7 +1,7 @@
 {
  "created": "2026-11-07",
  "prereg": "RANKING-ADMISSION-CONFIRMATORY-1",
- "status": "FROZEN, NOT RUN (ready; no judged cell). No cell, no judged world and no judged engine cycle exist for this block; the smoke and repair record of the ordering block belongs to that block.",
+ "status": "FROZEN, RUN (result: ADOPT THE ADMISSION RULE)",
  "question": "does diversity-first admission beat count-ranked admission in world-edge coverage at the sparsest density, on fresh seeds, without losing coverage where the world is dense?",
  "design": {
   "seeds": [
@@ -148,11 +148,66 @@
  "pre_run": {
   "blocked": null,
   "runner_built": true,
-  "note": "the runner audits the grid and the freeze before any cell; a blocked record refuses to run"
+  "note": "the block ran after 50ed468; the audit passed before any cell"
  },
  "not_evidence": [
   "the ordering block is a separate registration and its cells are not evidence here",
   "coverage is not behaviour: no cell in either block measures a downstream gain from a better-ranked selection",
   "a pass adopts an admission rule within one world family, two caps and eight seeds, and nothing wider"
- ]
+ ],
+ "registered_status": "FROZEN, NOT RUN (ready; no judged cell). No cell, no judged world and no judged engine cycle exist for this block; the smoke and repair record of the ordering block belongs to that block.",
+ "run": {
+  "ran": "2026-11-07",
+  "cells": 160,
+  "verdict": "ADOPT THE ADMISSION RULE",
+  "decision": "adopt",
+  "reading": "the rule reproduces its gain on fresh seeds without a dense-end loss; the cognition change is recorded separately",
+  "gates_all_passed": true,
+  "adoption": {
+   "mean_delta_at_sparsest": 0.171875,
+   "interval": [
+    0.135417,
+    0.213542
+   ],
+   "interval_width": 0.078125,
+   "bar": 0.08,
+   "seeds_positive": 8,
+   "passed": true
+  },
+  "guard": {
+   "mean_delta_at_densest": 0.026042,
+   "bar": -0.05,
+   "passed": true
+  },
+  "density_profile": {
+   "0.1": {
+    "coverage_gap_mean": 0.171875,
+    "precision_gap_mean": 0.20625,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.2": {
+    "coverage_gap_mean": 0.130208,
+    "precision_gap_mean": 0.3125,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.4": {
+    "coverage_gap_mean": 0.059896,
+    "precision_gap_mean": 0.2875,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.6": {
+    "coverage_gap_mean": 0.030382,
+    "precision_gap_mean": 0.21875,
+    "seeds_with_a_positive_coverage_gap": 8
+   },
+   "0.8": {
+    "coverage_gap_mean": 0.026042,
+    "precision_gap_mean": 0.25,
+    "seeds_with_a_positive_coverage_gap": 8
+   }
+  },
+  "cells_artifact": "docs/ranking_admission_run.json",
+  "result_artifact": "docs/ranking_admission_result.json",
+  "note": "the analysis path ran once, as frozen; no criterion was re-read and no bar was recomputed on the block it judged"
+ }
 }

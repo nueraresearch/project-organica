@@ -2282,6 +2282,16 @@
         20310508,
         20310509
       ],
+      "docs/ranking_admission_run.json": [
+        20310501,
+        20310502,
+        20310503,
+        20310504,
+        20310505,
+        20310506,
+        20310507,
+        20310508
+      ],
       "docs/regime_shift_results.json": [
         20261201,
         20261202,
@@ -2585,7 +2595,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 113,
+    "disjoint_proved_against": 114,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

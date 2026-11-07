@@ -125,9 +125,61 @@ No cell may run before this file is committed.
     return text
 
 
+def render_result(body: dict, result: dict) -> str:
+    """§9 is post-freeze: every number here is read from the result artifact."""
+    crit = body["criteria"]
+    a = result["criteria"]["adoption"]
+    g = result["criteria"]["guard"]
+    gates = result["gates"]
+    failed = sorted(k for k, v in gates.items()
+                    if isinstance(v, dict) and v.get("passed") is False)
+    passed = sum(1 for v in gates.values() if isinstance(v, dict) and "passed" in v)
+    gate_line = ("no gate failed" if not failed
+                  else "failed: " + ", ".join(failed))
+    profile = result["criteria"]["density_profile"]
+    prof = "; ".join("%s -> %+.6f" % (k, v["coverage_gap_mean"])
+                      for k, v in sorted(profile.items()))
+    return """## 9. Result (post-freeze)
+
+The block ran on %(cells)d cells and the frozen analysis path returned **%(verdict)s**.
+
+- **Adoption:** mean gain %(mean)+.6f at the sparsest density, %(level)d%% interval
+  [%(lo)+.6f, %(hi)+.6f], width %(width).6f, %(positive)d of %(of)d seeds positive,
+  bar %(bar).2f — %(adopt_state)s.
+- **Guard:** mean gain %(gmean)+.6f at the densest density against %(gbar)+.2f —
+  %(guard_state)s.
+- **Gates:** %(gate_line)s.
+- **Coverage gap by density:** %(profile)s.
+
+Cells are in `docs/ranking_admission_run.json`; the decision is in
+`docs/ranking_admission_result.json`. The adoption this verdict licenses is a cognition
+change, so it is recorded as an owner decision in the manual and is not applied to the
+engine by this document.
+""" % {
+        "cells": result["cells"], "verdict": result["decision"]["verdict"],
+        "mean": a["mean_delta_at_sparsest"], "level": int(round(crit["interval"] * 100)),
+        "lo": a["interval"][0], "hi": a["interval"][1], "width": a["interval_width"],
+        "positive": a["seeds_positive"], "of": crit["sign_test"]["of"],
+        "bar": crit["adoption_bar"],
+        "adopt_state": "passed" if a["passed"] else "failed",
+        "gmean": g["mean_delta_at_densest"], "gbar": crit["guard_bar"],
+        "guard_state": "passed" if g["passed"] else "failed",
+        "gate_line": gate_line, "profile": prof,
+    }
+
+
 def main() -> int:
     body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     text = render(body)
+    assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
+    result_path = ROOT / "docs" / "ranking_admission_result.json"
+    if body.get("run") and result_path.exists():
+        result = json.loads(result_path.read_text(encoding="utf-8"))
+        banner = ("**This block has run: the frozen analysis path returned %s.** §9 records the "
+                  "result, and §1–§8 are preserved exactly as committed before the run."
+                  % result["decision"]["verdict"])
+        head, rest = text.split("\n\n", 1)
+        text = head + "\n\n" + banner + "\n\n" + rest + "\n" + render_result(body, result)
     assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
     OUT.write_text(text, encoding="utf-8")
     print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))

@@ -56,7 +56,11 @@ def _used_elsewhere():
             for item in node:
                 walk(item)
 
-    recorded = {ARTIFACT, ROOT / "docs" / "stage_b_protocol.json"}
+    # this block's own files carry its seeds by construction, so freshness is judged
+    # against the artifacts that existed before it, never against its own outputs
+    recorded = {ARTIFACT, ROOT / "docs" / "stage_b_protocol.json",
+                ROOT / "docs" / "ranking_admission_run.json",
+                ROOT / "docs" / "ranking_admission_result.json"}
     for path in sorted((ROOT / "docs").glob("*.json")):
         if path in recorded:
             continue
@@ -250,4 +254,52 @@ def test_the_document_quotes_the_artifact_and_has_no_placeholders():
     assert "cap %d" % body["design"]["caps"][0] in flat
     assert "cap 0 " not in flat
     assert "No cell may run before this file is committed" in flat
+    assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))
+
+
+# ---------------------------------------------------------------------------
+# The result, once run
+# ---------------------------------------------------------------------------
+
+RESULT = ROOT / "docs" / "ranking_admission_result.json"
+
+
+def test_the_result_is_the_preregistered_grid_scored_by_the_frozen_path():
+    body = _body()
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    assert result["prereg"] == body["prereg"]
+    assert result["cells"] == body["design"]["cells"] == 160
+    assert result["gates"]["all_passed"] is True
+    assert result["criteria"]["adoption"]["bar"] == body["criteria"]["adoption_bar"]
+    assert result["criteria"]["guard"]["bar"] == body["criteria"]["guard_bar"]
+    assert result["decision"]["verdict"] in [r["verdict"] for r in body["decision_table"]]
+
+
+def test_the_recorded_run_agrees_with_the_result_artifact():
+    body = _body()
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    run = body["run"]
+    assert run["verdict"] == result["decision"]["verdict"]
+    assert run["cells"] == result["cells"]
+    assert run["adoption"]["mean_delta_at_sparsest"] == \
+        result["criteria"]["adoption"]["mean_delta_at_sparsest"]
+    assert run["adoption"]["interval"] == result["criteria"]["adoption"]["interval"]
+    assert run["guard"]["mean_delta_at_densest"] == \
+        result["criteria"]["guard"]["mean_delta_at_densest"]
+    assert run["gates_all_passed"] == result["gates"]["all_passed"]
+    assert body["registered_status"].startswith("FROZEN, NOT RUN")
+
+
+def test_the_result_section_quotes_the_result_artifact():
+    result = json.loads(RESULT.read_text(encoding="utf-8"))
+    a = result["criteria"]["adoption"]
+    g = result["criteria"]["guard"]
+    flat = _flat()
+    assert "## 9. Result" in DOC.read_text(encoding="utf-8")
+    for token in ("%+.6f" % a["mean_delta_at_sparsest"],
+                  "%+.6f" % a["interval"][0], "%+.6f" % a["interval"][1],
+                  "%+.6f" % g["mean_delta_at_densest"],
+                  result["decision"]["verdict"]):
+        assert token in flat, token
+    assert "preserved exactly as committed before the run" in flat
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))
