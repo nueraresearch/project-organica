@@ -184,6 +184,13 @@ that a version bump has outdated. `tests/test_engine_pin.py` runs that check ins
    depends on a fixed object needs its own identity check, built to fail, and proved to fire.
 4. **Replace §4's fourth column with mechanism and falsifier.** One row per change that stays
    in the campaign; rows without a named mechanism are out.
+
+**In place from 2026-11-07.** `docs/ENGINE-CHANGE-FAILURE-MAP.md` is generated from
+`docs/engine_change_failure_map.json`: **14** rows over the **20** commits that touched
+`organica/`, **10** staying in the campaign and **4** excluded. Every staying row names the
+failure, the mechanism, a falsifier, its observables, the pre-change measurement and two decisions
+that differ. `python -m benchmarks.change_map --check` recomputes coverage from git, so a new engine
+commit fails until a row explains it.
 5. **Fix the C1/H2 record before it is cited.** §7.
 6. **Get the preregistration reviewed independently.** `docs/DECISION-STAGE-B-SEQUENCE.md`
    already makes external review the gate for Stage B; the same gate applies to a campaign
