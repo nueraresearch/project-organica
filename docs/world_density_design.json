@@ -7,25 +7,36 @@
   "no result in this repository varies density as a manipulation"
  ],
  "universe": {
-  "definition": "C = directed non-self tag pairs of the world's own vocabulary",
-  "formula": "|C| = n(n-1) for n tags",
-  "table": [
-   {
-    "tags": 16,
-    "pairs": 240
-   },
-   {
-    "tags": 24,
-    "pairs": 552
-   },
-   {
-    "tags": 32,
-    "pairs": 992
-   }
-  ]
+  "world_pairs": {
+   "definition": "P_world = directed non-self tag pairs of the world's own vocabulary",
+   "formula": "|P_world| = n(n-1) for n tags",
+   "table": [
+    {
+     "tags": 16,
+     "pairs": 240
+    },
+    {
+     "tags": 24,
+     "pairs": 552
+    },
+    {
+     "tags": 32,
+     "pairs": 992
+    }
+   ],
+   "role": "the oracle-filtered universe; |W|/|P_world| is a property of the world"
+  },
+  "rank_population": {
+   "definition": "P_rank = the rows the ranker can actually select from at the end of a run: intra-cell co-occurrence rows, sleep-sourced pairs, and any pair over the world vocabulary the engine holds",
+   "role": "produced by the frozen engine, so it is measured per cell, never set",
+   "note": "|W|/|P_world| and |W and P_rank|/|P_rank| are different ratios and can move in different directions; a design that reports only the first reports a world property as if it were the ranker's difficulty"
+  }
  },
  "density": {
-  "measure": "|W| / |C|, where W is the world's true directed edge set",
+  "measure_world": "rho_world = |W| / |P_world|",
+  "measure_rank": "rho_rank = |W and P_rank| / |P_rank|",
+  "manipulated": "rho_world",
+  "measured": "rho_rank",
   "levels": [
    0.1,
    0.2,
@@ -40,7 +51,7 @@
    144,
    192
   ],
-  "note": "counts and densities are different manipulations: 500 true edges is impossible at 16 tags, because |C| is 240"
+  "note": "counts and densities are different manipulations: 500 true edges is impossible at 16 tags, because |P_world| is 240"
  },
  "counts_are_not_densities": {
   "example_edges": 500,
@@ -82,11 +93,11 @@
   "ceiling_caveat": "0.3438 is the maximum precision observed for the tested frequency-based allocation rules and budgets in that world family; it is not an information-theoretic bound and must not be quoted as the ceiling of what any selection could achieve"
  },
  "endpoints": [
-  "presence ceiling: |W available in memory| / |W|; must be 1.0 or the cell tests memory, not selection",
+  "presence ceiling: |W available in memory| / |W|; must be 1.0 or the cell tests memory",
   "coverage: |asserted and W| / |W|",
-  "precision: |asserted and W| / |asserted|",
-  "recovery distribution at each budget, reported as a distribution and never as the rank of the first edge",
-  "interaction: Delta(d) across density levels"
+  "precision: |asserted and W| / |asserted|, reported with rho_rank",
+  "recovery distribution at each budget",
+  "interaction: Delta(rho) across density levels, with a paired interval on the difference of differences"
  ],
  "falsifier": "Delta(d) flat in density falsifies the claim that geometry is the lever for this ranking bottleneck; it does not falsify density as a factor elsewhere",
  "allocation": {
@@ -95,5 +106,41 @@
   "thresholds": 0,
   "bars": 0,
   "note": "this record allocates nothing; a pre-registration with fresh seeds comes first, per docs/DECAY-TUNING-CYCLE.md"
- }
+ },
+ "revised": "2026-11-07",
+ "treatment": {
+  "control": {
+   "name": "global count-ranked top-k",
+   "rule": "the engine's own selection: rank every candidate by count and take the top k at the frozen cap"
+  },
+  "treatment": {
+   "name": "intra-cell-excluded ranking",
+   "rule": "identical cap, identical scoring, identical admission window; intra-cell co-occurrence rows are simply not eligible for the top-k"
+  },
+  "identical_by_construction": [
+   "candidate generation, the cap, the scoring function and the admission window",
+   "the world, the seed, the exposure scheme and the horizon at each density level"
+  ],
+  "mechanism_claim": "the intervention changes only what may occupy the budget, so any gain is budget competition, not a better score",
+  "why_this_one": "Gate 13 measured the top-20 as 75-100% intra-cell, so a row class that cannot be a world edge was occupying budget that world edges needed"
+ },
+ "predicted_direction": {
+  "predictions": [
+   "the control's top-k precision rises with rho_world, mechanically, because the population it samples is denser; this is predicted and is not the claim",
+   "Delta(rho) = treated - control declines as rho_world rises",
+   "the advantage is largest at the lowest density, where control coverage is near zero"
+  ],
+  "limit": "as rho_world approaches 1 every candidate is a true edge, the two arms select the same rows, and Delta must go to 0; a non-zero Delta there is a harness defect",
+  "falsifiers": [
+   "Delta flat in rho: geometry is not the lever for this ranking bottleneck",
+   "Delta rising in rho: the mechanism claim is wrong and something other than budget competition is being measured",
+   "Delta non-zero at rho_world = 1: the arms are not identical where they must be"
+  ]
+ },
+ "analysis_rules": [
+  "axis liveness: rho_rank must move with rho_world, or the manipulation did not reach the ranker and the cells measure nothing",
+  "precision cannot exceed rho_rank: a cell reporting precision above it is a defect, and any precision figure is reported beside rho_rank",
+  "coverage is reported with its denominator |W|, because a denser world makes the same selection cover less of a larger W",
+  "recovery is reported as a distribution across budgets, never as the rank of the first edge"
+ ]
 }

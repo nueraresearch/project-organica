@@ -1,38 +1,46 @@
-# World-edge density: a design record, not an explanation (2026-11-07)
+# World-edge density: a design record, not an explanation (2026-11-07, revised)
 
 **Status: an untested hypothesis. No cell, no seed, no threshold, no bar, no claim.**
-Everything numeric is in `docs/world_density_design.json`.
+Every number is in `docs/world_density_design.json`.
 
-## 1. The one non-inference to state first
+## 1. The non-inference to state first
 
-The 448-cell decay calibration is **not evidence for or against this hypothesis.** It
-held world geometry fixed and varied a threshold; density was never a manipulation.
-Its null belongs to the one-threshold question, and `docs/DECAY-NULL-SCOPE.md`
-already bounds it. Density is promoted here as a *serious, untested* possibility,
-not as the explanation for anything already observed.
+The 448-cell decay calibration is **not evidence for or against this hypothesis.** It held
+world geometry fixed and varied a threshold; density was never a manipulation. Its null
+belongs to the one-threshold question, bounded in `docs/DECAY-NULL-SCOPE.md`. Density is a
+serious, untested possibility here, not the explanation for anything already observed.
 
-## 2. The measure: density of W in C, not a count of edges
+## 2. Two candidate universes, and why the distinction is the design
 
-Let **C** be the directed, non-self tag pairs of the world's own vocabulary, so
-|C| = n(n-1), and let **W** be the world's true directed edges. The independent
-variable is **|W| / |C|**.
+There are two different populations, and only one of them is a world knob.
 
-| tags | |C| |
+* **`P_world`, the oracle-filtered universe.** Directed non-self pairs of the world's own
+  vocabulary, so |P_world| = n(n-1). The ratio **rho_world = |W| / |P_world|** is a property of
+  the world and is what this record manipulates.
+* **`P_rank`, the population the ranker actually sees.** The rows the frozen engine holds at
+  the end of a run — intra-cell co-occurrence, sleep-sourced pairs (the D2 mechanism), and any
+  pair over the world vocabulary. The ratio **rho_rank = |W and P_rank| / |P_rank|** is produced
+  by the engine, so it is **measured per cell, never set**.
+
+They can move in different directions. `P_rank` grows with contamination and with intra-cell
+mass, and it shrinks when a selector or a threshold prunes rows. A design that reports only
+rho_world is reporting a world property as if it were the ranker's difficulty.
+
+| tags | |P_world| |
 |---|---|
 | 16 | 240 |
 | 24 | 552 |
 | 32 | 992 |
 
-For 16 tags, |C| = 240, which is exactly the 240 world-tag pairs the Gate 13
-separation isolates. That is also why edge *counts* are the wrong axis: **500 true
-edges is impossible at 16 tags.** It needs at least **23** tags, where
-|C| = 506 and 500 edges is a density of **0.988** — a nearly complete graph,
-not a denser 16-tag world. Any protocol that says "500 edges" has silently changed
-the vocabulary, and with it the candidate universe.
+At 16 tags, |P_world| = **240** — the same 240 world-tag pairs the Gate 13 separation
+isolates. And 500 true edges is impossible there: it needs at least **23** tags,
+where |P_world| = **506** and 500 edges is rho_world **0.988**, a nearly complete
+graph. That is a scale change, not a density change, and it may not be pooled with the
+fixed-vocabulary ladder.
 
-At a fixed 16 tags the declared levels and their counts are:
+Declared levels at a fixed 16 tags:
 
-| density | true edges |
+| rho_world | true edges |
 |---|---|
 | 0.1 | 24 |
 | 0.2 | 48 |
@@ -40,81 +48,87 @@ At a fixed 16 tags the declared levels and their counts are:
 | 0.6 | 144 |
 | 0.8 | 192 |
 
-## 3. "Hold everything else fixed" is a choice, so name it
+One consequence is an arithmetic check, not a preference: **selection precision cannot exceed
+rho_rank.** If a cell reports precision above the true-edge share of the population it selected
+from, the cell is defective. Every precision figure this study reports travels with its
+rho_rank.
 
-Two schemes, both defensible, and they are not the same experiment:
+## 3. Exposure is a separate choice, named in advance
 
-* **Primary — fixed total exposure.** Same events and cycles at every density. The
-  world gets denser while the curriculum stays constant, so each edge is observed
-  **fewer times** as density rises. A density effect here may be an
-  observation-starvation effect.
-* **Sensitivity — fixed exposure per edge.** Cycles scale with |W|, so every edge is
-  observed about the same number of times and the curriculum **lengthens** with
-  density.
+* **Primary — fixed total exposure.** Same events and cycles at every level, so each edge is
+  observed fewer times as density rises.
+* **Sensitivity — fixed exposure per edge.** Cycles scale with |W|, so the curriculum lengthens
+  with density.
 
-The rule: **a density effect that reverses under the other scheme is an exposure
-artifact, not geometry.** Neither scheme is the truth; the pair is what separates
-the two accounts.
+The rule: **a density effect that reverses under the other scheme is an exposure artifact, not
+geometry.** Neither scheme is the truth; the pair separates the two accounts.
 
-Two confounds to hold explicitly: fix the **tag count**, so |C| and every
-source-frequency denominator stay fixed — adding tags for higher edge counts is a
-separate arm and is never pooled with the fixed-vocabulary ladder — and keep one
-world family and one horizon per arm.
+Held fixed: the tag count (so |P_world| and every source-frequency denominator stay put), one
+world family, one horizon per scheme, and the frozen engine.
 
-## 4. The comparison that can actually answer it
+## 4. Treatment and control, each named for what it changes
 
-At each density, run the **same ranking intervention and its control**, differing
-only in the selection rule. The estimand is
+* **Control — global count-ranked top-k.** The engine's own selection: rank every candidate by
+  count, take the top k at the frozen cap.
+* **Treatment — intra-cell-excluded ranking.** Identical cap, identical scoring, identical
+  admission window; intra-cell co-occurrence rows are simply not eligible for the top-k.
 
-> **Delta(d) = treated(d) − control(d)**
+The two arms are identical by construction in candidate generation, cap, scoring, admission
+window, world, seed, exposure and horizon. The treatment changes **only what may occupy the
+budget**, so a gain is budget competition, not a better score. That matters because Gate 13
+measured the top-20 as 75–100% intra-cell: a row class that cannot be a world edge was holding
+budget that world edges needed.
 
-and the hypothesis is about the **shape of Delta across densities**, not about
-density itself. Two things follow:
+## 5. Predicted direction, registered before any cell
 
-* A main effect of density is **not** an interaction. A world where everything gets
-  harder tells you nothing about whether geometry is the lever.
-* An interaction does **not** show that density caused an earlier failure. It shows
-  the intervention's value is density-dependent, which is a claim about the
-  interaction and nothing more.
+Three predictions, stated so they can fail:
 
-A flat Delta falsifies "geometry is the lever for this ranking bottleneck". It does
-not falsify density as a factor somewhere else, and it does not license the reverse
-reading either.
+1. The **control's** precision rises with rho_world, mechanically, because the population it
+   samples is denser. This is predicted and it is *not* the claim.
+2. **Delta(rho) = treated − control declines as rho_world rises.** The advantage is largest at
+   the lowest level, where control coverage is near zero.
+3. As rho_world approaches **1**, every candidate is a true edge, the two arms must select the
+   same rows, and Delta must go to **0**. A non-zero Delta there is a harness defect, not a
+   result.
 
-## 5. Why density is plausible, and why it is not yet the explanation
+Falsifiers, named in advance: **flat** Delta means geometry is not the lever for this ranking
+bottleneck; **rising** Delta means the mechanism claim is wrong and something other than budget
+competition is being measured; a non-zero Delta at rho_world = 1 means the arms are not
+identical where they must be.
 
-Gate 13 established that the constraint was **not presence**: all 112 true world
-edges were in memory, and the engine's own global count-ranked top 20 still
-recovered 0–1 of them (0–3 in the five-seed capacity sweep), rising only to 1–8 at
-cap 40 and 106–109 at top 320 — roughly sixteen times the engine's budget. The
-competition is intra-cell: a cell's two tags co-occur in every event of that cell,
-so co-occurrence rows outrank world relations that occur less often per cycle.
+## 6. The contrast that answers the question
 
-That makes density a plausible moderator — a world with more of its |C| realised
-gives a frequency-ranked selector more true edges to find near the top — but the
-same evidence points at **ranking** as the proximate bottleneck, and the two are
-not separable by looking at a single world. Separating them is what §4 is for.
+At each density, the same treatment and control; the estimand is Delta(rho) and the hypothesis
+is about its **shape across levels**. Two things it is not:
 
-One caution that must travel with the number: **0.3438** is the maximum precision
-observed for the tested frequency-based allocation rules and budgets in that world
-family. It is not an information-theoretic bound, and quoting it as "the ceiling"
-would turn a property of two rules into a property of the problem.
+* A **main effect of density** is not an interaction. A world where everything gets harder says
+  nothing about whether geometry is the lever.
+* An **interaction** does not show density caused an earlier failure. It shows the
+  intervention's value is density-dependent, and nothing wider.
 
-## 6. Endpoints, and what would count as an answer
+## 7. Endpoints
 
-* **Presence ceiling**: |W available in memory| / |W|, which must be 1.0 or the cell
-  is testing memory rather than selection.
-* **Coverage**: |asserted ∩ W| / |W|, the density-normalised main readout.
-* **Precision**: |asserted ∩ W| / |asserted|, reported beside coverage, never merged
-  with it.
-* **Recovery distribution** at each budget — a distribution, never the rank of the
-  first edge.
-* **Interaction**: Delta(d) across levels, with the paired interval on the
-  difference of differences.
+* **Presence ceiling**: |W available in memory| / |W|, which must be 1.0 or the cell tests memory.
+* **Coverage**: |asserted and W| / |W|, reported with its denominator.
+* **Precision**: |asserted and W| / |asserted|, reported beside rho_rank and bounded by it.
+* **Recovery distribution** across budgets — a distribution, never the rank of the first edge.
+* **Interaction**: Delta(rho) with a paired interval on the difference of differences.
 
-## 7. What this record does not do
+## 8. Why density is plausible, and why it is not yet the explanation
 
-It allocates nothing: **0 seeds, 0 cells, 0 thresholds, 0 bars**. Bars and seeds are
-fixed in a pre-registration with fresh seeds, per `docs/DECAY-TUNING-CYCLE.md`, and
-the calibration null may not be offered as support for the hypothesis in that
-document.
+Gate 13 established the constraint was **not presence**: all 112 true world edges were in
+memory, and the engine's own count-ranked top 20 still recovered 0–1 of them (0–3 in the
+five-seed capacity sweep), reaching 1–8 at cap 40 and 106–109 at top 320 — about sixteen times
+the engine's budget. The competition is intra-cell. That makes density a plausible moderator,
+and it points at **ranking** as the proximate bottleneck; a single world cannot separate them,
+which is what §5–§6 exist for.
+
+One caution that must travel with the number: **0.3438** is the maximum precision observed for
+the tested frequency-based allocation rules and budgets in that world family. It is not an
+information-theoretic bound, and quoting it as "the ceiling" would turn a property of two rules
+into a property of the problem.
+
+## 9. What this record does not do
+
+It allocates nothing: **0 seeds, 0 cells, 0 thresholds, 0 bars**. Bars and seeds are fixed in a
+pre-registration with fresh seeds, per `docs/DECAY-TUNING-CYCLE.md`.

@@ -1,8 +1,8 @@
-"""Density must be measured as |W|/|C|, and the record must allocate nothing.
+"""Density must be |W|/|P_world|, the ranker's own population must be reported, and the
+predicted direction must be registered before any cell.
 
-The arithmetic is recomputed from the artifact, so a counts-as-density slip or a
-vocabulary change cannot hide in prose; the non-inference about the decay null and
-the ceiling caveat are asserted rather than trusted.
+The arithmetic is recomputed from the artifact, so a counts-as-density slip, a vocabulary
+change or a silently different candidate universe cannot hide in prose.
 """
 
 import json
@@ -22,19 +22,29 @@ def _flat():
     return " ".join(DOC.read_text(encoding="utf-8").split())
 
 
-def test_the_candidate_universe_is_quadratic_in_the_tag_count():
-    body = _body()
-    for row in body["universe"]["table"]:
+def test_the_world_universe_is_quadratic_in_the_tag_count():
+    table = _body()["universe"]["world_pairs"]["table"]
+    for row in table:
         assert row["pairs"] == row["tags"] * (row["tags"] - 1)
-    assert {r["tags"]: r["pairs"] for r in body["universe"]["table"]}[16] == 240
+    assert {r["tags"]: r["pairs"] for r in table}[16] == 240
+
+
+def test_both_universes_exist_and_only_one_is_manipulated():
+    universe = _body()["universe"]
+    assert "world_pairs" in universe and "rank_population" in universe
+    assert "measured" in universe["rank_population"]["role"]
+    density = _body()["density"]
+    assert density["manipulated"] == "rho_world"
+    assert density["measured"] == "rho_rank"
+    flat = _flat()
+    assert "P_rank" in flat and "P_world" in flat
+    assert "measured per cell, never set" in flat
 
 
 def test_edge_counts_are_derived_from_density_not_declared():
-    body = _body()
-    levels = body["density"]["levels"]
-    counts = body["density"]["counts_at_16_tags"]
-    assert counts == [round(level * 240) for level in levels]
-    assert max(counts) <= 240, "a 16-tag world cannot hold more than 240 directed pairs"
+    density = _body()["density"]
+    assert density["counts_at_16_tags"] == [round(level * 240) for level in density["levels"]]
+    assert max(density["counts_at_16_tags"]) <= 240
 
 
 def test_a_five_hundred_edge_world_is_nearly_complete_and_needs_more_tags():
@@ -51,49 +61,72 @@ def test_the_exposure_choice_and_its_confound_rule_are_named():
     assert "fixed total exposure" in exposure["primary"]
     assert "fixed exposure per edge" in exposure["sensitivity"]
     assert "exposure artifact, not geometry" in exposure["confound_rule"]
+    assert "Held fixed: the tag count" in _flat()
+
+
+def test_the_treatment_is_named_for_what_it_changes():
+    treatment = _body()["treatment"]
+    assert treatment["control"]["name"] == "global count-ranked top-k"
+    assert treatment["treatment"]["name"] == "intra-cell-excluded ranking"
+    for arm in ("control", "treatment"):
+        assert "improved" not in treatment[arm]["name"]
+        assert "better" not in treatment[arm]["name"]
+    assert "budget competition" in treatment["mechanism_claim"]
+    assert "intra-cell" in treatment["why_this_one"]
+
+
+def test_precision_is_bounded_by_the_rankers_own_density():
+    rules = " ".join(_body()["analysis_rules"])
+    assert "precision cannot exceed rho_rank" in rules
+    assert "rho_rank must move with rho_world" in rules
+    assert "cannot exceed rho_rank" in _flat()
+    assert "precision above the true-edge share" in _flat()
+
+
+def test_the_predicted_direction_is_registered_with_its_limit():
+    prediction = _body()["predicted_direction"]
+    joined = " ".join(prediction["predictions"])
+    assert "declines as rho_world rises" in joined
+    assert "mechanically" in joined
+    assert "must go to 0" in prediction["limit"]
+    falsifiers = " ".join(prediction["falsifiers"])
+    assert "flat in rho" in falsifiers
+    assert "rising in rho" in falsifiers
     flat = _flat()
-    assert "fixed total exposure" in flat and "fixed exposure per edge" in flat
-    assert "fix the **tag count**" in flat
+    assert "Delta(rho) = treated − control declines" in flat
+    assert "harness defect, not a" in flat
 
 
 def test_the_claim_is_an_interaction_not_a_main_effect():
     comparison = _body()["comparison"]
-    assert "Delta(d)" in comparison["estimand"]
+    assert "Delta(d)" in comparison["estimand"] or "Delta(rho)" in comparison["estimand"]
     assert "depends on density" in comparison["claim"]
-    assert any("main effect of density is not an interaction" in x
-               for x in comparison["not_claimed"])
     flat = _flat()
-    assert "a main effect of density is **not** an interaction" in flat.lower()
-    assert "Delta(d)" in flat
+    assert "main effect of density" in flat and "is not an interaction" in flat.lower()
+    assert "Delta(rho)" in flat
 
 
 def test_the_decay_null_is_not_offered_as_evidence():
-    not_evidence = " ".join(_body()["not_evidence"])
-    assert "varied only the threshold" in not_evidence
-    flat = _flat()
-    assert "not evidence for or against this hypothesis" in flat
+    assert "varied only the threshold" in " ".join(_body()["not_evidence"])
+    assert "not evidence for or against this hypothesis" in _flat()
 
 
 def test_the_precision_ceiling_is_not_called_a_universal_bound():
     caveat = _body()["ranking_bottleneck"]["ceiling_caveat"]
-    assert "0.3438" in caveat
-    assert "not an information-theoretic bound" in caveat
-    flat = _flat()
-    assert "not an information-theoretic bound" in flat
+    assert "0.3438" in caveat and "not an information-theoretic bound" in caveat
 
 
 def test_the_record_allocates_nothing_and_consumes_no_seeds():
     allocation = _body()["allocation"]
     assert allocation["seeds"] == 0 and allocation["cells"] == 0
     assert allocation["thresholds"] == 0 and allocation["bars"] == 0
-    text = ARTIFACT.read_text(encoding="utf-8")
-    assert not re.search(r"\b20\d{6}\b", text), "a seed block must not be allocated here"
+    assert not re.search(r"\b20\d{6}\b", ARTIFACT.read_text(encoding="utf-8"))
 
 
 def test_the_document_quotes_the_artifact_and_has_no_placeholders():
     body = _body()
     flat = _flat()
-    assert f"|C| = {body['universe']['table'][0]['pairs']}" in flat
+    assert f"|P_world| = **{body['universe']['world_pairs']['table'][0]['pairs']}**" in flat
     assert str(body["counts_are_not_densities"]["min_tags"]) in flat
     assert str(body["counts_are_not_densities"]["density_then"]) in flat
     assert not re.search(r"\{[a-z_]+\}", DOC.read_text(encoding="utf-8"))
