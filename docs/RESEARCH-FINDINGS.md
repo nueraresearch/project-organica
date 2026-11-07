@@ -318,6 +318,12 @@ as one.
 
 **What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
+### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
+
+**Why it is open.** Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.
+
+**What is in hand.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012

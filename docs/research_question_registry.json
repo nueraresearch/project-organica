@@ -770,6 +770,25 @@
       ],
       "supersedes": [],
       "decisions": []
+    },
+    {
+      "id": "Q046",
+      "kind": "research",
+      "status": "open",
+      "question": "Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?",
+      "why_open": "Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.",
+      "evidence": [
+        "docs/REFERENCE-DEATH-LEDGER.md",
+        "docs/reference_death_ledger.json",
+        "docs/DECAY-ATTRIBUTION-STUDY.md",
+        "docs/decay_attribution_study.json",
+        "docs/SUBSTRATE-REPAIR-PREREGISTRATION.md"
+      ],
+      "preregistrations": [
+        "SUBSTRATE-REPAIR-PREREGISTRATION.md"
+      ],
+      "supersedes": [],
+      "decisions": []
     }
   ],
   "schema": {

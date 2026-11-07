@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 20 | a result constrained the space; the answer is recorded with its scope |
-| open | 12 | evidence exists, no answer is settled |
+| open | 13 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **43** | |
+| **total** | **44** | |
 
 ## How this stays current
 
@@ -416,6 +416,16 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
+
+### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
+
+*research question.*
+
+**Why it is open.** Q042 found all six arms die at cycle 39 on the falsifier's lattice_L1 world, which makes death shared in timing but does not identify the shared cause. The decay attribution identified temporal-edge decay on the degree-12 hub, but no uniform decay repair has been applied across the six arms on the cycle-39 world; the persistence repair study changes selection, not the substrate.
+
+**Preregistered in.** `SUBSTRATE-REPAIR-PREREGISTRATION.md`
+
+**Evidence.** `docs/REFERENCE-DEATH-LEDGER.md`, `docs/reference_death_ledger.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`, `docs/decay_attribution_study.json`, `docs/SUBSTRATE-REPAIR-PREREGISTRATION.md`
 
 ## 3. Retired — no longer worth resources
 
