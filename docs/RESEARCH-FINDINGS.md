@@ -318,17 +318,11 @@ as one.
 
 **What is in hand.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `docs/long_delay_capability_design.json`, `docs/long_delay_capability_confirm.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_design.py`, `benchmarks/long_delay_capability_confirm.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
 
-### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
-
-**Why it is open.** The framing ran on 2026-11-08 and returned `VOID`, on the lattice control rather than on the second family: the control reproduced the committed census exactly (299 live, 300 dead, `bravo` 866 = 433 + 433, empty competing census), but its mass ratio is 0.578 against the design's required 0.90, so the premise that support mass survives death fails under the design's own definition. No classification was made, so Q053 stays `lattice_L1`-scoped. What would settle it is a mass definition that is not moved by the death it measures, and a floor calibrated on a known world; both are recorded in the design record section 10 and deliberately not applied.
-
-**What is in hand.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`, `docs/q052_competition_census.json`, `docs/Q052-COMPETITION-CENSUS.md`, `benchmarks/competition_census.py`
-
 ### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
 
-**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. The preserve-to-capability link is unmeasured, and Q052's framing is a prerequisite: burst_L1's late collapse must be classified as the same mechanism before a lattice-only intervention is designed.
+**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052's prerequisite is now resolved in the direction that keeps this question lattice-scoped: burst_L1's late collapse classified `DIFFERENT_SUPPORT_COLLAPSE` under amendment A2, so it is not a second instance and may not be pooled with the lattice cells. The preserve-to-capability link remains unmeasured, and Track B still chooses no mechanism and allocates no seed.
 
-**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`
+**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`
 
 ### Q022 — Can role representations transfer across domains?
 

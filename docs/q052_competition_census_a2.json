@@ -1,0 +1,693 @@
+{
+ "date": "2026-11-08",
+ "engine_version": "0.13.0",
+ "question": "Q052 framing -- is burst_L1's late collapse competition loss?",
+ "amendment": "A2",
+ "amends": "docs/q052_competition_census.json",
+ "design": "docs/Q052-FRAMING-DESIGN.md",
+ "mass_definition": "support mass of the pairs retained at the last live cycle, tracked through death; a cohort member that is gone counts as zero and a hypothesis outside the cohort is never counted",
+ "floor": 0.5282,
+ "calibration": {
+  "source": "docs/decay_competition/parts",
+  "seeds": [
+   20302702,
+   20302703
+  ],
+  "ratios": {
+   "20302702": 0.578178,
+   "20302703": 0.578178
+  },
+  "margin": 0.05,
+  "floor": 0.5282
+ },
+ "calibration_note": "Calibrated on committed lattice cells at the control's own factor and family, excluding the control's seed. The floor is therefore a within-family consistency bound -- the minimum mass ratio the known-answer world is observed to give -- and not an independent ceiling. The collapse test is a single boundary at that floor: A1's extra 0.05 margin is removed, because a line 0.05 below the floor would sit below the known world's own ratio.",
+ "cycles": 300,
+ "window": [
+  1,
+  300
+ ],
+ "arm": "FULL",
+ "control": {
+  "family": "lattice_L1",
+  "factor": 0.9924,
+  "seed": 20302701,
+  "last_live_cycle": 299,
+  "death_cycle": 300,
+  "subject": "bravo",
+  "support_count": 866,
+  "supports": [
+   433,
+   433
+  ],
+  "theories_at_last_live": 3,
+  "theories_at_death": 0,
+  "top_theory": {
+   "subject": "bravo",
+   "support_count": 866,
+   "competing": [
+    {
+     "expectation": "charlie",
+     "support_count": 433
+    },
+    {
+     "expectation": "alpha",
+     "support_count": 433
+    }
+   ]
+  },
+  "cohort_size": 17,
+  "cohort_survived": 13,
+  "edge_mass_at_last_live": 4106,
+  "edge_mass_at_death": 2374,
+  "mass_ratio": 0.578178,
+  "subjects_with_pairs_at_death": {
+   "bravo": 2,
+   "charlie": 2,
+   "delta": 2,
+   "echo": 2,
+   "foxtrot": 2,
+   "golf": 2
+  },
+  "subjects_with_competing_at_death": {},
+  "subjects_with_competing_at_last_live": {
+   "alpha": 2,
+   "bravo": 2,
+   "charlie": 2
+  },
+  "retained_at_death": [
+   {
+    "subject": "bravo",
+    "expectation": "charlie",
+    "support_count": 430
+   },
+   {
+    "subject": "charlie",
+    "expectation": "bravo",
+    "support_count": 332
+   },
+   {
+    "subject": "delta",
+    "expectation": "echo",
+    "support_count": 433
+   },
+   {
+    "subject": "echo",
+    "expectation": "delta",
+    "support_count": 336
+   },
+   {
+    "subject": "foxtrot",
+    "expectation": "golf",
+    "support_count": 422
+   },
+   {
+    "subject": "golf",
+    "expectation": "foxtrot",
+    "support_count": 327
+   },
+   {
+    "subject": "alpha",
+    "expectation": "high_structural_significance",
+    "support_count": 20
+   },
+   {
+    "subject": "bravo",
+    "expectation": "high_structural_significance",
+    "support_count": 14
+   },
+   {
+    "subject": "foxtrot",
+    "expectation": "high_structural_significance",
+    "support_count": 14
+   },
+   {
+    "subject": "delta",
+    "expectation": "high_structural_significance",
+    "support_count": 15
+   },
+   {
+    "subject": "golf",
+    "expectation": "high_structural_significance",
+    "support_count": 10
+   },
+   {
+    "subject": "charlie",
+    "expectation": "high_structural_significance",
+    "support_count": 10
+   },
+   {
+    "subject": "echo",
+    "expectation": "high_structural_significance",
+    "support_count": 11
+   }
+  ],
+  "reproduced": true,
+  "mass_floor_met": true
+ },
+ "probed": {
+  "family": "burst_L1",
+  "factor": 0.9925,
+  "seeds": [
+   20303001,
+   20303002,
+   20303003
+  ],
+  "live_to_dead_transitions": {
+   "20303001": 1,
+   "20303002": 1,
+   "20303003": 1
+  }
+ },
+ "cells": [
+  {
+   "seed": 20303001,
+   "family": "burst_L1",
+   "factor": 0.9925,
+   "last_live_cycle": 133,
+   "death_cycle": 134,
+   "theories_at_last_live": 1,
+   "theories_at_death": 0,
+   "top_theory": {
+    "subject": "foxtrot",
+    "support_count": 642,
+    "competing": [
+     {
+      "expectation": "golf",
+      "support_count": 324
+     },
+     {
+      "expectation": "alpha",
+      "support_count": 318
+     }
+    ]
+   },
+   "cohort_size": 14,
+   "cohort_survived": 11,
+   "edge_mass_at_last_live": 1394,
+   "edge_mass_at_death": 429,
+   "mass_ratio": 0.307747,
+   "subjects_with_pairs_at_death": {
+    "novaaaa": 2,
+    "nvlpaaa": 2
+   },
+   "subjects_with_competing_at_death": {},
+   "subjects_with_competing_at_last_live": {
+    "foxtrot": 2
+   },
+   "retained_at_death": [
+    {
+     "subject": "novaaaa",
+     "expectation": "nvlpaaa",
+     "support_count": 163
+    },
+    {
+     "subject": "nvlpaaa",
+     "expectation": "novaaaa",
+     "support_count": 187
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "nvlqaai",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 21
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "nvlpaaa",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "novaaaa",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 11
+    },
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    }
+   ]
+  },
+  {
+   "seed": 20303002,
+   "family": "burst_L1",
+   "factor": 0.9925,
+   "last_live_cycle": 130,
+   "death_cycle": 131,
+   "theories_at_last_live": 1,
+   "theories_at_death": 0,
+   "top_theory": {
+    "subject": "delta",
+    "support_count": 629,
+    "competing": [
+     {
+      "expectation": "echo",
+      "support_count": 317
+     },
+     {
+      "expectation": "alpha",
+      "support_count": 312
+     }
+    ]
+   },
+   "cohort_size": 16,
+   "cohort_survived": 12,
+   "edge_mass_at_last_live": 1386,
+   "edge_mass_at_death": 437,
+   "mass_ratio": 0.315296,
+   "subjects_with_pairs_at_death": {
+    "novaaaa": 2,
+    "nvlpaaa": 2
+   },
+   "subjects_with_competing_at_death": {},
+   "subjects_with_competing_at_last_live": {
+    "delta": 2
+   },
+   "retained_at_death": [
+    {
+     "subject": "novaaaa",
+     "expectation": "nvlpaaa",
+     "support_count": 166
+    },
+    {
+     "subject": "nvlpaaa",
+     "expectation": "novaaaa",
+     "support_count": 190
+    },
+    {
+     "subject": "novaaai",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "nvlqaai",
+     "expectation": "high_structural_significance",
+     "support_count": 11
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 21
+    },
+    {
+     "subject": "nvlpaaa",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "novaaaa",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "foxtrot",
+     "expectation": "high_structural_significance",
+     "support_count": 8
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    }
+   ]
+  },
+  {
+   "seed": 20303003,
+   "family": "burst_L1",
+   "factor": 0.9925,
+   "last_live_cycle": 130,
+   "death_cycle": 131,
+   "theories_at_last_live": 2,
+   "theories_at_death": 0,
+   "top_theory": {
+    "subject": "bravo",
+    "support_count": 636,
+    "competing": [
+     {
+      "expectation": "charlie",
+      "support_count": 322
+     },
+     {
+      "expectation": "alpha",
+      "support_count": 314
+     }
+    ]
+   },
+   "cohort_size": 15,
+   "cohort_survived": 7,
+   "edge_mass_at_last_live": 1981,
+   "edge_mass_at_death": 67,
+   "mass_ratio": 0.033821,
+   "subjects_with_pairs_at_death": {},
+   "subjects_with_competing_at_death": {},
+   "subjects_with_competing_at_last_live": {
+    "bravo": 2,
+    "foxtrot": 2
+   },
+   "retained_at_death": [
+    {
+     "subject": "charlie",
+     "expectation": "high_structural_significance",
+     "support_count": 5
+    },
+    {
+     "subject": "alpha",
+     "expectation": "high_structural_significance",
+     "support_count": 22
+    },
+    {
+     "subject": "nvlqaai",
+     "expectation": "high_structural_significance",
+     "support_count": 10
+    },
+    {
+     "subject": "bravo",
+     "expectation": "high_structural_significance",
+     "support_count": 6
+    },
+    {
+     "subject": "golf",
+     "expectation": "high_structural_significance",
+     "support_count": 7
+    },
+    {
+     "subject": "delta",
+     "expectation": "high_structural_significance",
+     "support_count": 8
+    },
+    {
+     "subject": "echo",
+     "expectation": "high_structural_significance",
+     "support_count": 9
+    }
+   ]
+  }
+ ],
+ "transitions": {
+  "20303001": [
+   {
+    "cycle": 2,
+    "kind": "DEAD_TO_LIVE",
+    "census_before": {
+     "theories": 0,
+     "edge_mass": 0,
+     "subjects_with_pairs": {},
+     "subjects_with_competing": {},
+     "top_theory": null
+    },
+    "census_at": {
+     "theories": 3,
+     "edge_mass": 4388,
+     "subjects_with_pairs": {
+      "bravo": 3,
+      "delta": 2,
+      "echo": 2,
+      "foxtrot": 3,
+      "golf": 2
+     },
+     "subjects_with_competing": {
+      "bravo": 2,
+      "delta": 2,
+      "foxtrot": 2
+     },
+     "top_theory": {
+      "subject": "foxtrot",
+      "support_count": 970,
+      "competing": [
+       {
+        "expectation": "golf",
+        "support_count": 492
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 478
+       }
+      ]
+     }
+    }
+   },
+   {
+    "cycle": 134,
+    "kind": "LIVE_TO_DEAD",
+    "census_before": {
+     "theories": 1,
+     "edge_mass": 1394,
+     "subjects_with_pairs": {
+      "foxtrot": 3,
+      "golf": 2,
+      "novaaaa": 2,
+      "nvlpaaa": 2
+     },
+     "subjects_with_competing": {
+      "foxtrot": 2
+     },
+     "top_theory": {
+      "subject": "foxtrot",
+      "support_count": 642,
+      "competing": [
+       {
+        "expectation": "golf",
+        "support_count": 324
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 318
+       }
+      ]
+     }
+    },
+    "census_at": {
+     "theories": 0,
+     "edge_mass": 429,
+     "subjects_with_pairs": {
+      "novaaaa": 2,
+      "nvlpaaa": 2
+     },
+     "subjects_with_competing": {},
+     "top_theory": null
+    }
+   }
+  ],
+  "20303002": [
+   {
+    "cycle": 2,
+    "kind": "DEAD_TO_LIVE",
+    "census_before": {
+     "theories": 0,
+     "edge_mass": 0,
+     "subjects_with_pairs": {},
+     "subjects_with_competing": {},
+     "top_theory": null
+    },
+    "census_at": {
+     "theories": 3,
+     "edge_mass": 4372,
+     "subjects_with_pairs": {
+      "bravo": 3,
+      "charlie": 2,
+      "delta": 2,
+      "foxtrot": 3,
+      "golf": 2
+     },
+     "subjects_with_competing": {
+      "bravo": 2,
+      "delta": 2,
+      "foxtrot": 2
+     },
+     "top_theory": {
+      "subject": "foxtrot",
+      "support_count": 959,
+      "competing": [
+       {
+        "expectation": "golf",
+        "support_count": 490
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 469
+       }
+      ]
+     }
+    }
+   },
+   {
+    "cycle": 131,
+    "kind": "LIVE_TO_DEAD",
+    "census_before": {
+     "theories": 1,
+     "edge_mass": 1386,
+     "subjects_with_pairs": {
+      "delta": 3,
+      "echo": 2,
+      "novaaaa": 2,
+      "nvlpaaa": 2
+     },
+     "subjects_with_competing": {
+      "delta": 2
+     },
+     "top_theory": {
+      "subject": "delta",
+      "support_count": 629,
+      "competing": [
+       {
+        "expectation": "echo",
+        "support_count": 317
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 312
+       }
+      ]
+     }
+    },
+    "census_at": {
+     "theories": 0,
+     "edge_mass": 437,
+     "subjects_with_pairs": {
+      "novaaaa": 2,
+      "nvlpaaa": 2
+     },
+     "subjects_with_competing": {},
+     "top_theory": null
+    }
+   }
+  ],
+  "20303003": [
+   {
+    "cycle": 2,
+    "kind": "DEAD_TO_LIVE",
+    "census_before": {
+     "theories": 0,
+     "edge_mass": 0,
+     "subjects_with_pairs": {},
+     "subjects_with_competing": {},
+     "top_theory": null
+    },
+    "census_at": {
+     "theories": 4,
+     "edge_mass": 4700,
+     "subjects_with_pairs": {
+      "bravo": 3,
+      "charlie": 2,
+      "delta": 3,
+      "echo": 2,
+      "foxtrot": 2,
+      "golf": 3
+     },
+     "subjects_with_competing": {
+      "bravo": 2,
+      "delta": 2,
+      "foxtrot": 2,
+      "golf": 2
+     },
+     "top_theory": {
+      "subject": "delta",
+      "support_count": 959,
+      "competing": [
+       {
+        "expectation": "echo",
+        "support_count": 490
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 469
+       }
+      ]
+     }
+    }
+   },
+   {
+    "cycle": 131,
+    "kind": "LIVE_TO_DEAD",
+    "census_before": {
+     "theories": 2,
+     "edge_mass": 1981,
+     "subjects_with_pairs": {
+      "bravo": 3,
+      "charlie": 2,
+      "foxtrot": 3,
+      "golf": 2
+     },
+     "subjects_with_competing": {
+      "bravo": 2,
+      "foxtrot": 2
+     },
+     "top_theory": {
+      "subject": "bravo",
+      "support_count": 636,
+      "competing": [
+       {
+        "expectation": "charlie",
+        "support_count": 322
+       },
+       {
+        "expectation": "alpha",
+        "support_count": 314
+       }
+      ]
+     }
+    },
+    "census_at": {
+     "theories": 0,
+     "edge_mass": 67,
+     "subjects_with_pairs": {},
+     "subjects_with_competing": {},
+     "top_theory": null
+    }
+   }
+  ]
+ },
+ "fired": {
+  "control_reproduced": true,
+  "control_mass_floor": true,
+  "dying_cells": 3,
+  "intermittent": false,
+  "support_collapse": true,
+  "competition_present": false,
+  "same": false
+ },
+ "label": "DIFFERENT_SUPPORT_COLLAPSE",
+ "scope": "One family, one factor, three fresh seeds. The classification decides Q053's scope; it is not a capability result and scores no prediction task.",
+ "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+ "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "runner": "__main__"
+}

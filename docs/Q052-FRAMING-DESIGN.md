@@ -154,3 +154,68 @@ the death it measures -- the support mass of the pairs retained at the last live
 tracked through death, rather than the total retained at each cycle -- and a floor
 calibrated on a world where the answer is known. It is recorded here and **not applied**:
 changing the definition after reading this control would be re-scoring the protocol.
+
+## 11. Amendment A2, and what the amended run returned (2026-11-08)
+
+Section 10 named the fix and left it unapplied. This is the amendment that applies it, recorded
+before the cells were read: the A1 artifact stands as written (`VOID`), and A2 runs beside it as a
+second artifact rather than editing the first.
+
+**Two changes, and two disclosures.** (1) The mass is now the support mass of the hypotheses
+retained at the **last live cycle**, tracked through death: a cohort member that is gone counts as
+zero, and a hypothesis that was never in the cohort is never counted, so pruning outside the
+cohort cannot move the ratio. (2) The floor is calibrated, not asserted: on committed lattice
+cells at the control's own family and factor, floor = the lowest observed cohort ratio minus
+0.05. The control's seed (20302701) is **excluded** from that calibration, because a threshold
+computed from the cell it judges is not a threshold. The probed block is fresh --
+20303001-20303003, disjoint from the threshold block, the twelve-seed replication, the burst
+calibration and the A1 block. The control keeps seed 20302701 because its job is to reproduce a
+specific trajectory.
+
+**Disclosure 1: the calibration has no spread.** The two calibration cells return the same
+cohort ratio to six decimals (0.578178), and the A1 control's total-mass ratio was also 0.578.
+At the lattice death the retained set is a subset of the cohort, so the two definitions coincide
+there, and the lattice death transition is the same in mass terms across seeds. The consequence is
+that the calibrated floor (0.5282) is the known world's own value minus the margin.
+
+**Disclosure 2: the admissibility gate cannot fire.** Because the floor is the known world's
+value minus 0.05, a control that reproduces the known world passes it by construction. The gate
+is retained for the record but it carries no information, and the label below does not rest on
+it; it rests on the burst cells' ratios against a threshold whose provenance is the known world.
+A1's extra 0.05 collapse margin is removed for the same reason: with a calibrated floor, a line
+0.05 below it would sit below the known world's own ratio.
+
+**The control, under the amended mass.** Reproduced exactly: 299 live, 300 dead, `bravo` at
+866 = 433 + 433, empty competing census. Its cohort is 17 hypotheses at the last live cycle, 13 of
+which survive to death, and their mass falls 4,106 -> 2,374, a ratio of **0.578** against the
+floor of **0.528**.
+
+**The probed cells.** Each seed dies once, terminally:
+
+| Seed | Last live | Death | Top at last live | Cohort | Survived | Mass at last live -> death | Ratio | Pairs at death | Competing at death |
+|---|---|---|---|---|---|---|---|---|---|
+| 20303001 | 133 | 134 | `foxtrot` 642 | 14 | 11 | 1,394 -> 429 | 0.308 | 2 (`novaaaa`, `nvlpaaa`) | 0 |
+| 20303002 | 130 | 131 | `delta` 629 | 16 | 12 | 1,386 -> 437 | 0.315 | 2 (`novaaaa`, `nvlpaaa`) | 0 |
+| 20303003 | 130 | 131 | `bravo` 636 | 15 | 7 | 1,981 -> 67 | 0.034 | 0 | 0 |
+
+**The label is `DIFFERENT_SUPPORT_COLLAPSE`.** No cell is intermittent, none retains a competing
+census at death, and every cell's cohort mass falls below the calibrated floor -- by 0.21 to 0.49.
+Under the amended definition the burst deaths are not the lattice signature: the pairs' own
+supports are what fails at the death, far more sharply than in the known world.
+
+**What this decides.** `burst_L1` is not a second instance of the lattice competition-loss
+mechanism, so Q053 stays `lattice_L1`-scoped and burst cannot be pooled into a two-family
+mechanism claim. Q052's framing is answered to that extent and closed in the registry.
+
+**What it does not decide, and the confound that matters.** The burst cells die at cycles 131-134
+and the control at 300, so a lower one-step mass retention may reflect *where in the growth and
+decay history the death lands* rather than a different mechanism: at 131 the pairs' supports are
+smaller and the top cluster is smaller (629-642 against 866). The design contains no control for
+death age, so this record establishes that the **signature** differs, not **why**. A mechanism
+choice for Track B therefore still rests on the lattice cells alone, and a death-age-matched
+comparison is the missing cell, not a reparsed one.
+
+The amendment's artifact is `docs/q052_competition_census_a2.json`, its page is
+`docs/Q052-COMPETITION-CENSUS-A2.md`, its module is `benchmarks/q052_amendment_a2.py` -- a layer
+over the same instrument, which calls `competition_census.run_cell` and changes only the census
+arithmetic -- and its tests are `tests/test_q052_amendment_a2.py`.

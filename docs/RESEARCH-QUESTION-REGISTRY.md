@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 10 | a result constrained the space; the answer is recorded with its scope |
-| open | 34 | evidence exists, no answer is settled |
+| closed | 11 | a result constrained the space; the answer is recorded with its scope |
+| open | 33 | evidence exists, no answer is settled |
 | retired | 2 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **51** | |
@@ -171,6 +171,16 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `DECAY-THRESHOLD-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`, `docs/decay_threshold_edge.json`, `docs/DECAY-THRESHOLD-EDGE.md`, `docs/decay_support_probe.json`, `docs/DECAY-SUPPORT-PROBE.md`, `docs/decay_paired_bracket.json`, `docs/DECAY-PAIRED-BRACKET.md`, `docs/decay_competition_probe.json`, `docs/DECAY-COMPETITION-PROBE.md`
+
+### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
+
+*research question.*
+
+**Outcome.** MIXED
+
+**Answer.** MIXED. The A1 framing returned `VOID` on its own control (0.578 against a required 0.90), so no classification was made on that run. Amendment A2 replaced the mass with the support mass of the pairs retained at the last live cycle, tracked through death, and calibrated the floor on committed lattice cells with the control's seed excluded (0.5282). The control reproduced the committed census exactly (299 live, 300 dead, `bravo` 866 = 433 + 433) and passes at 0.578. Three fresh burst seeds (20303001-20303003) give `DIFFERENT_SUPPORT_COLLAPSE`: terminal deaths at 134/131/131, no competing census at death in any cell, and cohort mass ratios 0.308, 0.315 and 0.034. `burst_L1`'s late collapse is therefore not the lattice competition-loss signature and cannot serve as a second instance, so Q053 stays `lattice_L1`-scoped. What this does not establish: the burst deaths are at 131-134 against the control's 300 and no cell controls for death age, so the signature differs but the reason is not identified; the calibration has no spread, so the admissibility gate cannot fire for a control that reproduces its own calibration value; no capability claim follows.
+
+**Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`, `docs/q052_competition_census.json`, `docs/Q052-COMPETITION-CENSUS.md`, `benchmarks/competition_census.py`, `docs/q052_competition_census_a2.json`, `docs/Q052-COMPETITION-CENSUS-A2.md`, `benchmarks/q052_amendment_a2.py`, `tests/test_q052_amendment_a2.py`
 
 ## 2. Open — evidence in hand, no settled answer
 
@@ -598,21 +608,13 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `docs/long_delay_capability_design.json`, `docs/long_delay_capability_confirm.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_design.py`, `benchmarks/long_delay_capability_confirm.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
 
-### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
-
-*research question.*
-
-**Why it is open.** The framing ran on 2026-11-08 and returned `VOID`, on the lattice control rather than on the second family: the control reproduced the committed census exactly (299 live, 300 dead, `bravo` 866 = 433 + 433, empty competing census), but its mass ratio is 0.578 against the design's required 0.90, so the premise that support mass survives death fails under the design's own definition. No classification was made, so Q053 stays `lattice_L1`-scoped. What would settle it is a mass definition that is not moved by the death it measures, and a floor calibrated on a known world; both are recorded in the design record section 10 and deliberately not applied.
-
-**Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`, `docs/q052_competition_census.json`, `docs/Q052-COMPETITION-CENSUS.md`, `benchmarks/competition_census.py`
-
 ### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
 
 *research question.*
 
-**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. The preserve-to-capability link is unmeasured, and Q052's framing is a prerequisite: burst_L1's late collapse must be classified as the same mechanism before a lattice-only intervention is designed.
+**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052's prerequisite is now resolved in the direction that keeps this question lattice-scoped: burst_L1's late collapse classified `DIFFERENT_SUPPORT_COLLAPSE` under amendment A2, so it is not a second instance and may not be pooled with the lattice cells. The preserve-to-capability link remains unmeasured, and Track B still chooses no mechanism and allocates no seed.
 
-**Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`
+**Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`
 
 ## 3. Retired — no longer worth resources
 
