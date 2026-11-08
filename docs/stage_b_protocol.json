@@ -2470,6 +2470,18 @@
         20303002,
         20303003
       ],
+      "docs/q053_mechanism_prereg.json": [
+        20410101,
+        20410102,
+        20410103,
+        20410104,
+        20410105,
+        20410106,
+        20410107,
+        20410108,
+        20410109,
+        20410110
+      ],
       "docs/rank_ordering_prereg.json": [
         20310201,
         20310202,
@@ -2804,7 +2816,7 @@
         20261130
       ]
     },
-    "consumed_total": 1437,
+    "consumed_total": 1447,
     "candidate_block": [
       700000001,
       700000724
@@ -2840,7 +2852,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 144,
+    "disjoint_proved_against": 145,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

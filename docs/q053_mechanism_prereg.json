@@ -1,0 +1,181 @@
+{
+  "created": "2026-11-08",
+  "prereg": "Q053-MECHANISM-1",
+  "status": "FROZEN, NOT RUN",
+  "question": "Can a second-competing retention floor preserve competing hypotheses through consolidation without touching the decay constant, and does preserving them produce a late recall@5 gain over shipped 0.95?",
+  "scope": {
+    "family": "lattice_L1",
+    "stimulus": "L1_hub1_t3_disjoint",
+    "instrument": "benchmarks/long_delay_capability.py -- the online next-cycle recall@5 instrument, k = 5",
+    "burst_excluded": "burst_L1 is excluded: Q052 amendment A2 classified its late collapse DIFFERENT_SUPPORT_COLLAPSE, so it is not a second instance of this mechanism and may not be pooled. A burst block would need its own matched arms.",
+    "why_this_family": "the mechanism's evidence is the lattice death, where six subjects retain two pairs each and no subject retains two competing hypotheses"
+  },
+  "mechanism": {
+    "name": "second-competing retention floor",
+    "arm_class": "RetainSecondCompetingSleepService",
+    "changes": "at the consolidation prune, for each subject that still holds hypotheses, keep the highest-support hypothesis of each of the subject's top two expectations, exempt from the death threshold. Every other candidate is pruned exactly as shipped.",
+    "parameter": {
+      "competition_floor": 2,
+      "order": "expectations ordered by their best hypothesis's support_count descending; ties broken on the expectation tag",
+      "scope": "applies per subject, inside the existing prune pass; no other layer changes"
+    },
+    "preserves": [
+      "the decay constant 0.95",
+      "the death threshold 0.15",
+      "the confidence formula",
+      "the hypothesis cap",
+      "the candidate set and which structures compete"
+    ],
+    "does_not": [
+      "create or regenerate hypotheses",
+      "lower the global decay factor",
+      "reserve a separate budget pool",
+      "displace high-support structure outside the subject",
+      "change admission, ranking or selection"
+    ],
+    "prediction": "the control's death leaves subjects holding two retention pairs but no subject holding two competing expectations, so exempting the top two expectations keeps exactly the structure theory formation needs, and can raise the late competition share without moving any decay constant",
+    "risk": "a stale minority survives on old evidence and competes with the current best, which is why the capability criterion and the early-cost bound are judged separately rather than merged into one score",
+    "off_by_one": "if a subject holds one expectation only, the floor keeps it and adds nothing; the mechanism cannot manufacture competition",
+    "implemented": false
+  },
+  "arms": {
+    "control": {
+      "service": "organica.sleep.SleepService",
+      "decay": 0.95,
+      "death_threshold": 0.15,
+      "rule": "the shipped engine, no subclass, no-op"
+    },
+    "treatment": {
+      "service": "the in-process RetainSecondCompetingSleepService",
+      "decay": 0.95,
+      "death_threshold": 0.15,
+      "rule": "the shipped engine plus the second-competing retention floor at the prune"
+    }
+  },
+  "design": {
+    "seeds": [
+      20410101,
+      20410102,
+      20410103,
+      20410104,
+      20410105,
+      20410106,
+      20410107,
+      20410108,
+      20410109,
+      20410110
+    ],
+    "bootstrap": 20410111,
+    "window_floor": 20410101,
+    "arms": [
+      "control",
+      "treatment"
+    ],
+    "cells": 20,
+    "cells_arithmetic": "2 arms x 10 seeds = 20 cells",
+    "cycles": 300,
+    "early": [
+      40,
+      90
+    ],
+    "late": [
+      240,
+      300
+    ],
+    "k": 5,
+    "pairing": "both arms of a seed run on the same seed-determined world; only the service class differs",
+    "freshness": "the first contiguous window of eleven integers at or above 20410101 that appears in no artifact, harness, test, document or journal in the repository; the eleventh is the bootstrap seed and is not a world seed",
+    "no_cells_run": true
+  },
+  "criteria": {
+    "judged_whole": true,
+    "order": [
+      "M1_mechanism",
+      "C1_capability",
+      "C2_early_cost"
+    ],
+    "M1_mechanism": {
+      "quantity": "late-window competition share -- the fraction of late cycles in which at least one subject retains two competing hypotheses",
+      "rule": "median per-seed gap (treatment minus control) at or above the manipulation bar",
+      "bar": 0.25,
+      "bar_provenance": "declared, not calibrated: no committed block measures this quantity, so there is no honest calibration set, and the bar is placed where the manipulation is visible rather than marginal. It is a manipulation check, not a capability criterion.",
+      "on_failure": "the capability endpoint is unread, because the mechanism did not operate; this is an unrun experiment, not a null"
+    },
+    "C1_capability": {
+      "quantity": "late-window recall@5 over cycles 240-300, median per-seed gap (treatment minus control)",
+      "rule": "median gap at or above the bar, bootstrap interval lower bound above zero, and at least seven of ten seeds with a positive gap",
+      "bar": 0.0133,
+      "bar_provenance": "carried as policy from Q051's confirmatory block: one half of its measured late median gap, 0.0265 / 2 = 0.01325, rounded up to 0.0133. It is NOT calibrated on this layer, this contrast or this mechanism; a pass means the treatment cleared a bar fixed before this block ran.",
+      "interval": 0.95,
+      "bootstrap_reps": 4000,
+      "sign_test": {
+        "required": 7,
+        "of": 10
+      }
+    },
+    "C2_early_cost": {
+      "quantity": "early-window recall@5 over cycles 40-90, median per-seed gap",
+      "rule": "median gap at or above the early-cost bound",
+      "bar": -0.01,
+      "bar_provenance": "Q051's early equivalence margin, carried unchanged; a larger early loss prices the trade and blocks adoption"
+    },
+    "underpowered_width": 0.3
+  },
+  "gates": {
+    "G1_liveness": "the control's late theory count must be zero in at least 90 percent of its late cycles on every seed; if the control survives, the block compares two live arms and is void",
+    "G2_noop_control": "the control's structure fingerprint must equal the shipped engine's fingerprint recorded in the run artifact",
+    "G3_determinism": "the control re-run on the first seed must reproduce its recorded fingerprint",
+    "G4_persistence_confound": "both arms must record decay 0.95 and death threshold 0.15 in the run artifact; a treatment that differs on either is void, because the mechanism may not buy its effect with persistence",
+    "G5_seed_block": "the cells must be exactly the frozen block, with both arms of every seed and no cell outside it",
+    "G6_denominator": "every cell must report at least one prediction in each window; a cell with none is not measurable and the block is void",
+    "void_rule": "a failed gate voids the block and no criterion is read"
+  },
+  "decision_table": [
+    {
+      "condition": "any gate fails",
+      "verdict": "VOID",
+      "reading": "the block is unrun; the gate that failed names what did not happen, and no criterion is read"
+    },
+    {
+      "condition": "gates pass; M1 fails",
+      "verdict": "MECHANISM DID NOT OPERATE",
+      "reading": "the floor did not raise the late competition share, so the capability endpoint was never run; this is not evidence that preservation cannot help"
+    },
+    {
+      "condition": "gates pass; M1 passes; C1 passes; C2 passes",
+      "verdict": "COMPETITION PRESERVED WITH CAPABILITY GAIN",
+      "reading": "the mechanism keeps competing hypotheses alive and the late ranking gain clears the bar without an early cost; adoption is still an owner decision and is not implied by the label"
+    },
+    {
+      "condition": "gates pass; M1 passes; C1 fails",
+      "verdict": "COMPETITION PRESERVED, NO CAPABILITY GAIN",
+      "reading": "preservation is real and insufficient: the preserve-to-capability link is not established, and the mechanism is recorded without adoption"
+    },
+    {
+      "condition": "gates pass; M1 passes; C1 passes; C2 fails",
+      "verdict": "GAIN AT AN EARLY COST",
+      "reading": "the late gain is bought with early ranking, so the trade is priced and nothing is adopted"
+    },
+    {
+      "condition": "gates pass; M1 passes; C1 interval wider than 0.30",
+      "verdict": "UNDERPOWERED",
+      "reading": "the block cannot separate a gain from zero; this is reported as underpowered rather than as a negative"
+    }
+  ],
+  "adoption": {
+    "rule": "a capability gain is necessary but not sufficient: the mechanism must also pass M1, clear C1, keep C2, and pass every gate; adoption then requires a recorded owner decision, and nothing in this block changes the engine by itself",
+    "not_authorised": [
+      "a decay-factor sweep",
+      "a second mechanism or a parameter sweep of this one",
+      "pooling burst_L1 cells into this block",
+      "re-scoring a criterion after the block runs"
+    ]
+  },
+  "stop_condition": "one mechanism, one protocol, one confirmatory block of twenty cells. The record may be fixed if it is found wrong; it may not grow into a second mechanism, a second endpoint or an additional block without a new preregistration.",
+  "cost": {
+    "cells": 20,
+    "cycles_per_cell": 300,
+    "note": "no cell has run; the cost is stated so the block is not opened casually"
+  },
+  "no_cells_run": true
+}

@@ -320,9 +320,9 @@ as one.
 
 ### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
 
-**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052's prerequisite is now resolved in the direction that keeps this question lattice-scoped: burst_L1's late collapse classified `DIFFERENT_SUPPORT_COLLAPSE` under amendment A2, so it is not a second instance and may not be pooled with the lattice cells. The preserve-to-capability link remains unmeasured, and Track B still chooses no mechanism and allocates no seed.
+**Why it is open.** The mechanism is chosen and frozen: a second-competing retention floor keeps the highest-support hypothesis of each subject's top two expectations through consolidation, exempt from the death threshold, and changes nothing else. The block is 20 cells on `lattice_L1` (burst excluded by Q052's classification) over a fresh block with one bootstrap seed; the reading is a mechanism gate first, then a capability bar carried from Q051, then an early-cost bound. Nothing is implemented and no cell has run, so the preserve-to-capability link remains unmeasured.
 
-**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`
+**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`
 
 ### Q022 — Can role representations transfer across domains?
 
