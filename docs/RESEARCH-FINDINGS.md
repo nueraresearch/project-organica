@@ -358,12 +358,6 @@ as one.
 
 **What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
-### Q051 — Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?
-
-**Why it is open.** The persistence program settled the threshold but never scored capability. The committed held-out benchmark freezes after cycle 200, so decay cannot act inside its scored window; the online rank instrument is the first one that can see the persistence difference during the readout. No confirmatory cell has run.
-
-**What is in hand.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
-
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012

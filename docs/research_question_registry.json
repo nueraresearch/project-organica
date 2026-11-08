@@ -891,12 +891,16 @@
     {
       "id": "Q051",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?",
       "why_open": "The persistence program settled the threshold but never scored capability. The committed held-out benchmark freezes after cycle 200, so decay cannot act inside its scored window; the online rank instrument is the first one that can see the persistence difference during the readout. No confirmatory cell has run.",
       "evidence": [
         "docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md",
+        "docs/long_delay_capability_design.json",
+        "docs/long_delay_capability_confirm.json",
         "benchmarks/long_delay_capability.py",
+        "benchmarks/long_delay_capability_design.py",
+        "benchmarks/long_delay_capability_confirm.py",
         "benchmarks/long_delay_capability_prereg.py",
         "tests/test_long_delay_capability_prereg.py"
       ],
@@ -905,8 +909,8 @@
       ],
       "supersedes": [],
       "decisions": [],
-      "outcome": null,
-      "answer": null
+      "outcome": "INCONCLUSIVE",
+      "answer": "INCONCLUSIVE. The ten confirmatory seeds give a late recall@5 median gap of +0.0265 (bootstrap interval [0.0111, 0.0355]) against the design bar of 0.0412, with 9 of 10 seeds positive. The early median is +0.0119, outside the 0.010 equivalence margin, and growth (late > early) holds in only 6 of 10 seeds. All seven gates passed. P2 fails on the median, P1 fails on the early difference, and P3 fails on growth, so no capability claim follows. The late advantage is positive and consistent but below the calibrated bar; the INCONCLUSIVE bucket's 'intervals too wide' rationale does not fit because the interval lies entirely below the bar. This is one world family and one engine, and it does not license adoption. Log loss was secondary (median gap -0.1370, 0.9925 better calibrated) and made no decision."
     }
   ],
   "schema": {

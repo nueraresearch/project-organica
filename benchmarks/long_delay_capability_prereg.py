@@ -89,10 +89,17 @@ def seed_live(per_arm_early: dict[str, list[float]]) -> bool:
 
 
 def classify(*, early_gap: float, late_gap: float, late_positive: int,
-             transition_positive: int, gates_ok: bool) -> str:
+             transition_positive: int, gates_ok: bool,
+             bar: float | None = None) -> str:
+    """Apply the frozen decision table.
+
+    ``bar`` is the design-calibrated late bar.  It defaults to the 0.010
+    floor so a caller that has not run the design block cannot silently use
+    a tighter criterion.
+    """
     if not gates_ok:
         return "VOID"
-    bar = delta(0.0)
+    bar = delta(0.0) if bar is None else float(bar)
     early_ok = abs(early_gap) < PROTOCOL["early_equivalence"]
     late_ok = (late_gap >= bar and
                late_positive >= PROTOCOL["positive_seeds_required"])

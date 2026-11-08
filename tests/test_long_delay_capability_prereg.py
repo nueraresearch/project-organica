@@ -54,15 +54,25 @@ def test_classify_void_when_a_gate_fails():
                     transition_positive=10, gates_ok=False) == "VOID"
 
 
+def test_classify_uses_the_calibrated_bar():
+    assert classify(early_gap=0.0, late_gap=0.02, late_positive=9,
+                    transition_positive=9, gates_ok=True,
+                    bar=0.0412) == "INCONCLUSIVE"
+
+
 def test_seed_live_can_fail():
     assert not seed_live({"0.95": [0.90, 0.90], "0.9925": [0.91, 0.91]})
     assert seed_live({"0.95": [0.90, 0.91], "0.9925": [0.91, 0.91]})
 
 
-def test_seed_blocks_are_unused():
+def test_seed_blocks_were_consumed_and_are_disjoint():
     harvested = harvest_seeds()
-    assert unused_seeds(harvested)
     assert set(PROTOCOL["design_seeds"]) <= harvested
+    assert set(PROTOCOL["confirm_seeds"]) <= harvested
+    assert not (set(PROTOCOL["design_seeds"])
+                & set(PROTOCOL["confirm_seeds"]))
+    assert unused_seeds(set())
+    assert not unused_seeds({PROTOCOL["confirm_seeds"][0]})
 
 
 def test_windows_do_not_overlap():

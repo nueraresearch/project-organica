@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 25 | a result constrained the space; the answer is recorded with its scope |
-| open | 13 | evidence exists, no answer is settled |
+| closed | 26 | a result constrained the space; the answer is recorded with its scope |
+| open | 12 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **49** | |
@@ -363,6 +363,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`, `docs/decay_threshold_edge.json`, `docs/DECAY-THRESHOLD-EDGE.md`, `docs/decay_support_probe.json`, `docs/DECAY-SUPPORT-PROBE.md`, `docs/decay_paired_bracket.json`, `docs/DECAY-PAIRED-BRACKET.md`, `docs/decay_competition_probe.json`, `docs/DECAY-COMPETITION-PROBE.md`
 
+### Q051 — Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?
+
+*research question.*
+
+**Outcome.** INCONCLUSIVE
+
+**Answer.** INCONCLUSIVE. The ten confirmatory seeds give a late recall@5 median gap of +0.0265 (bootstrap interval [0.0111, 0.0355]) against the design bar of 0.0412, with 9 of 10 seeds positive. The early median is +0.0119, outside the 0.010 equivalence margin, and growth (late > early) holds in only 6 of 10 seeds. All seven gates passed. P2 fails on the median, P1 fails on the early difference, and P3 fails on growth, so no capability claim follows. The late advantage is positive and consistent but below the calibrated bar; the INCONCLUSIVE bucket's 'intervals too wide' rationale does not fit because the interval lies entirely below the bar. This is one world family and one engine, and it does not license adoption. Log loss was secondary (median gap -0.1370, 0.9925 better calibrated) and made no decision.
+
+**Why it is open.** The persistence program settled the threshold but never scored capability. The committed held-out benchmark freezes after cycle 200, so decay cannot act inside its scored window; the online rank instrument is the first one that can see the persistence difference during the readout. No confirmatory cell has run.
+
+**Preregistered in.** `LONG-DELAY-CAPABILITY-PREREGISTRATION.md`
+
+**Evidence.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `docs/long_delay_capability_design.json`, `docs/long_delay_capability_confirm.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_design.py`, `benchmarks/long_delay_capability_confirm.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
+
 ## 2. Open — evidence in hand, no settled answer
 
 ### Q011 — Does a consolidated schema buy acquisition latency across a vocabulary boundary?
@@ -486,16 +500,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
-
-### Q051 — Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?
-
-*research question.*
-
-**Why it is open.** The persistence program settled the threshold but never scored capability. The committed held-out benchmark freezes after cycle 200, so decay cannot act inside its scored window; the online rank instrument is the first one that can see the persistence difference during the readout. No confirmatory cell has run.
-
-**Preregistered in.** `LONG-DELAY-CAPABILITY-PREREGISTRATION.md`
-
-**Evidence.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
 
 ## 3. Retired — no longer worth resources
 
