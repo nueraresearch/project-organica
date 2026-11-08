@@ -219,3 +219,19 @@ The amendment's artifact is `docs/q052_competition_census_a2.json`, its page is
 `docs/Q052-COMPETITION-CENSUS-A2.md`, its module is `benchmarks/q052_amendment_a2.py` -- a layer
 over the same instrument, which calls `competition_census.run_cell` and changes only the census
 arithmetic -- and its tests are `tests/test_q052_amendment_a2.py`.
+
+## 12. Addendum A2a: the same mass, at the same age (2026-11-08)
+
+A2's label carried one confound: the burst cells die at 131-134 and the lattice control at 300, so a lower one-step mass retention might belong to the death's *age* rather than to a different mechanism. This addendum was specified to separate them, and its reading rule was fixed before any cell: a lattice death within **10 cycles** of a burst death is a family-matched, age-matched comparator, and a cohort-ratio difference within **0.10** means age explains the gap.
+
+**No exact match exists at the factors first run.** The lattice deaths are at 0.610312 at 39; 0.591253 at 69; 0.580496 at 112; 0.583749 at 150; 0.578947 at 228; 0.578178 at 300. The first three factors (0.9924, 0.95, 0.97) put no death inside the tolerance, and three more were run to search for one; the tolerance and the band were not changed, and the addition is recorded in the artifact. The nearest lattice deaths to 131-134 are 112 and 150, at distances of 19 and 16 cycles, so the pre-committed label is **`AGE_MATCH_UNAVAILABLE`**.
+
+**The age trend is the finding.** Across the lattice deaths the cohort mass ratio is 0.610312 at 39; 0.591253 at 69; 0.580496 at 112; 0.583749 at 150; 0.578947 at 228; 0.578178 at 300 -- a spread of **0.032134**, flat against the 0.10 band. Death age barely moves the quantity A2 scored. Interpolating between the deaths either side of the burst ages gives **0.582122** at 131 (from 112 and 150) and **0.582379** at 134, against the burst ratios **0.315296** and **0.307747**: differences of -0.548301 and -0.274632, far outside the band. The third burst seed is further still (**0.033821**).
+
+**What a live cycle costs at those ages.** The lattice control is alive at 131 and 134. Its transitions there retain **0.9998** of the cohort's mass (22 of 22 survived) and **0.934338** (21 of 22), so a live cycle at those ages is nearly free, while the burst deaths at the same ages cost the cohort 69 to 97 percent of it.
+
+**What this decides.** The mass gap is not attributable to the age of the death: the known world's death ratio is essentially the same at cycle 39 as at 300, and the bracketed estimate at the burst ages sits near that plateau, not near the burst figures. A2's `DIFFERENT_SUPPORT_COLLAPSE` stands as recorded and its recorded confound is answered in the direction that strengthens the classification's *reason* -- though the honest form of the argument is a bracketing, not an exact age match, because no lattice factor dies at those ages.
+
+**What it does not establish.** Why the burst world's death is destructive at that age is not identified: the burst cells' top clusters are smaller (629-642 against 866), and the burst regime injects novelty triangles every 30 cycles, which a one-step mass ratio cannot separate from a mechanism difference. The addendum changes no label, no threshold and no engine file; it adds one artifact and one page.
+
+Artifacts: `docs/q052_age_matched.json`, `docs/Q052-AGE-MATCHED.md`, `benchmarks/q052_age_matched.py`, `tests/test_q052_age_matched.py`.

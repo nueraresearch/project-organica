@@ -143,7 +143,14 @@ def events_for(family: str, seed: int) -> list[str]:
     return stream_for(seed, cycles=CYCLES, family=family)
 
 
-def run_cell(family: str, factor: float, seed: int, events: list[str]) -> dict:
+def run_cell(family: str, factor: float, seed: int, events: list[str],
+             capture: tuple[int, ...] = ()) -> dict:
+    """Run one cell and keep the censuses the caller asks for.
+
+    `capture` names extra cycles whose (cycle - 1, cycle) pair is kept even when no transition
+    happens there. The default keeps transition cycles only, which is what every committed
+    artifact was built with: the parameter adds rows, never removes or rewrites one.
+    """
     db = temp_db("q052_%s_%s.db" % (family, seed))
     db.unlink(missing_ok=True)
     memory = SweepMemory(db_path=str(db), factor=factor)
@@ -173,7 +180,12 @@ def run_cell(family: str, factor: float, seed: int, events: list[str]) -> dict:
         # millions of lines once each cycle's retained hypotheses and edges are serialized,
         # and the design asks for the census at the transitions, not at every cycle.
         steps = _transitions_from(window)
-        keep = sorted({step["cycle"] - 1 for step in steps} | {step["cycle"] for step in steps})
+        keep = set()
+        for step in steps:
+            keep |= {step["cycle"] - 1, step["cycle"]}
+        for cycle in capture:
+            keep |= {c for c in (cycle - 1, cycle) if c in window}
+        keep = sorted(keep)
         facts["live_cycles"] = sum(1 for row in window.values() if row["theories"])
         return {"family": family, "factor": factor, "seed": seed, "facts": facts,
                 "window": {str(cycle): window[cycle] for cycle in keep},
