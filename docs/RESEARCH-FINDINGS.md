@@ -143,6 +143,14 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-ADAPTATION-PREREGISTRATION.md`, `docs/decay_adaptation.json`, `docs/DECAY-ADAPTATION.md`
 
+### Q050 — Within 0.9901-0.9924, which is the smallest four-decimal temporal decay factor whose theory layer survives 300 cycles on lattice_L1, and is that boundary confirmed on three seeds?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** None of the 24 four-decimal factors between 0.99 and 0.9925 survived the screen. On seed 20302701, 0.9901 dies at 231 and death rises monotonically to 300 at 0.9923 and 0.9924; no interior candidate reaches 301. 0.9925 remains the first tested survivor (Q048, three seeds), so the threshold is between 0.9924 and 0.9925 at 0.0001 resolution. All six gates passed; P1 held and P2-P6 failed. The 0.9924 cell is a one-seed screen, not a three-seed confirmation: no confirmation step fired because no interior candidate survived.
+
+**Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.

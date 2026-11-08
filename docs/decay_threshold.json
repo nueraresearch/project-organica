@@ -1,0 +1,812 @@
+{
+ "date": "2026-11-07",
+ "engine_version": "0.13.0",
+ "question": "Q050",
+ "protocol_digest": "8e2f821d09b26591f2188de0ad30a1514731976aa95ba4d4f99d56ff220f6f89",
+ "preregistration": "docs/DECAY-THRESHOLD-PREREGISTRATION.md",
+ "world": "lattice_L1",
+ "arm": "FULL",
+ "seeds": [
+  20302701,
+  20302702,
+  20302703
+ ],
+ "screen_seed": 20302701,
+ "cycles": 300,
+ "candidates": [
+  0.9901,
+  0.9902,
+  0.9903,
+  0.9904,
+  0.9905,
+  0.9906,
+  0.9907,
+  0.9908,
+  0.9909,
+  0.991,
+  0.9911,
+  0.9912,
+  0.9913,
+  0.9914,
+  0.9915,
+  0.9916,
+  0.9917,
+  0.9918,
+  0.9919,
+  0.992,
+  0.9921,
+  0.9922,
+  0.9923,
+  0.9924
+ ],
+ "screen_cells": 24,
+ "screen": [
+  {
+   "factor": 0.9901,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9901
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 229,
+   "last_nonzero_cycle": 230,
+   "death_cycle": 231,
+   "theories_total": 1141,
+   "beliefs_total": 3842,
+   "theory_removals": {
+    "superseded": 221,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 50,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9902,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9902
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 235,
+   "last_nonzero_cycle": 236,
+   "death_cycle": 237,
+   "theories_total": 1169,
+   "beliefs_total": 3891,
+   "theory_removals": {
+    "superseded": 226,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 50,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9903,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9903
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 235,
+   "last_nonzero_cycle": 236,
+   "death_cycle": 237,
+   "theories_total": 1169,
+   "beliefs_total": 3891,
+   "theory_removals": {
+    "superseded": 225,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 50,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9904,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9904
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 235,
+   "last_nonzero_cycle": 236,
+   "death_cycle": 237,
+   "theories_total": 1171,
+   "beliefs_total": 3896,
+   "theory_removals": {
+    "superseded": 211,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 50,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9905,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9905
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 241,
+   "last_nonzero_cycle": 242,
+   "death_cycle": 243,
+   "theories_total": 1199,
+   "beliefs_total": 3946,
+   "theory_removals": {
+    "superseded": 217,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 85,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9906,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9906
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 241,
+   "last_nonzero_cycle": 242,
+   "death_cycle": 243,
+   "theories_total": 1203,
+   "beliefs_total": 3956,
+   "theory_removals": {
+    "superseded": 218,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 52,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9907,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9907
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 244,
+   "last_nonzero_cycle": 245,
+   "death_cycle": 246,
+   "theories_total": 1214,
+   "beliefs_total": 3973,
+   "theory_removals": {
+    "superseded": 218,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 52,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9908,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9908
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 247,
+   "last_nonzero_cycle": 248,
+   "death_cycle": 249,
+   "theories_total": 1231,
+   "beliefs_total": 4004,
+   "theory_removals": {
+    "superseded": 238,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 54,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9909,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9909
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 253,
+   "last_nonzero_cycle": 254,
+   "death_cycle": 255,
+   "theories_total": 1259,
+   "beliefs_total": 4053,
+   "theory_removals": {
+    "superseded": 242,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 54,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.991,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.991
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 253,
+   "last_nonzero_cycle": 254,
+   "death_cycle": 255,
+   "theories_total": 1259,
+   "beliefs_total": 4053,
+   "theory_removals": {
+    "superseded": 242,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 54,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9911,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9911
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 255,
+   "last_nonzero_cycle": 256,
+   "death_cycle": 257,
+   "theories_total": 1271,
+   "beliefs_total": 4078,
+   "theory_removals": {
+    "superseded": 229,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 56,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9912,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9912
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 259,
+   "last_nonzero_cycle": 260,
+   "death_cycle": 261,
+   "theories_total": 1293,
+   "beliefs_total": 4118,
+   "theory_removals": {
+    "superseded": 234,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 56,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9913,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9913
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 262,
+   "last_nonzero_cycle": 263,
+   "death_cycle": 264,
+   "theories_total": 1304,
+   "beliefs_total": 4135,
+   "theory_removals": {
+    "superseded": 234,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 56,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9914,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9914
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 265,
+   "last_nonzero_cycle": 266,
+   "death_cycle": 267,
+   "theories_total": 1319,
+   "beliefs_total": 4162,
+   "theory_removals": {
+    "superseded": 253,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 58,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9915,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9915
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 271,
+   "last_nonzero_cycle": 272,
+   "death_cycle": 273,
+   "theories_total": 1349,
+   "beliefs_total": 4215,
+   "theory_removals": {
+    "superseded": 259,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 58,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9916,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9916
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 271,
+   "last_nonzero_cycle": 272,
+   "death_cycle": 273,
+   "theories_total": 1349,
+   "beliefs_total": 4215,
+   "theory_removals": {
+    "superseded": 259,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 42,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9917,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9917
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 277,
+   "last_nonzero_cycle": 278,
+   "death_cycle": 279,
+   "theories_total": 1379,
+   "beliefs_total": 4270,
+   "theory_removals": {
+    "superseded": 248,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 60,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9918,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9918
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 280,
+   "last_nonzero_cycle": 281,
+   "death_cycle": 282,
+   "theories_total": 1394,
+   "beliefs_total": 4296,
+   "theory_removals": {
+    "superseded": 250,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 60,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9919,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9919
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 280,
+   "last_nonzero_cycle": 281,
+   "death_cycle": 282,
+   "theories_total": 1398,
+   "beliefs_total": 4307,
+   "theory_removals": {
+    "superseded": 269,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 61,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.992,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.992
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 286,
+   "last_nonzero_cycle": 287,
+   "death_cycle": 288,
+   "theories_total": 1428,
+   "beliefs_total": 4361,
+   "theory_removals": {
+    "superseded": 274,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 62,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9921,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9921
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 289,
+   "last_nonzero_cycle": 290,
+   "death_cycle": 291,
+   "theories_total": 1439,
+   "beliefs_total": 4377,
+   "theory_removals": {
+    "superseded": 276,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 62,
+    "not_reformed": 10
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9922,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9922
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 295,
+   "last_nonzero_cycle": 296,
+   "death_cycle": 297,
+   "theories_total": 1469,
+   "beliefs_total": 4431,
+   "theory_removals": {
+    "superseded": 263,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 64,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9923,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9923
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 298,
+   "last_nonzero_cycle": 299,
+   "death_cycle": 300,
+   "theories_total": 1484,
+   "beliefs_total": 4458,
+   "theory_removals": {
+    "superseded": 266,
+    "parent_loss": 5,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 121,
+    "not_reformed": 11
+   },
+   "unexplained": 0
+  },
+  {
+   "factor": 0.9924,
+   "seed": 20302701,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9924
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 298,
+   "last_nonzero_cycle": 299,
+   "death_cycle": 300,
+   "theories_total": 1488,
+   "beliefs_total": 4469,
+   "theory_removals": {
+    "superseded": 285,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 65,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  }
+ ],
+ "confirm_factors": [],
+ "confirm_cells": 0,
+ "confirm": [],
+ "screen_boundary": null,
+ "smallest_survivor": null,
+ "confirmed_boundary": null,
+ "gates": {
+  "G1_screen_factor_live": true,
+  "G2_confirmation_factor_live": true,
+  "G3_denominators": true,
+  "G4_seeds_fresh": true,
+  "G5_screen_complete": true,
+  "G6_confirmation_complete": true
+ },
+ "predictions": {
+  "P1_screen_monotone": true,
+  "P2_interior_survivor": false,
+  "P3_below_09925": false,
+  "P4_boundary_alive_3": false,
+  "P5_lower_dead_3": false,
+  "P6_upper_alive_3": false
+ },
+ "label": "NO_INTERIOR_SURVIVOR"
+}
