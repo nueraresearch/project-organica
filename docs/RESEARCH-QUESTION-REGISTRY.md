@@ -355,13 +355,13 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Outcome.** SUPPORTED
 
-**Answer.** None of the 24 four-decimal factors between 0.99 and 0.9925 survived the screen. On seed 20302701, 0.9901 dies at 231 and death rises monotonically to 300 at 0.9923 and 0.9924; no interior candidate reaches 301. 0.9925 remains the first tested survivor (Q048, three seeds), so the threshold is between 0.9924 and 0.9925 at 0.0001 resolution. All six gates passed; P1 held and P2-P6 failed. The 0.9924 cell is a one-seed screen, not a three-seed confirmation: no confirmation step fired because no interior candidate survived.
+**Answer.** None of the 24 four-decimal factors between 0.99 and 0.9925 survived the screen. On seed 20302701, 0.9901 dies at 231 and death rises monotonically to 300 at 0.9923 and 0.9924; no interior candidate reaches 301. 0.9925 remains the first tested survivor (Q048, three seeds), so the threshold is between 0.9924 and 0.9925 at 0.0001 resolution. All six gates passed; P1 held and P2-P6 failed. The 0.9924 cell is a one-seed screen, not a three-seed confirmation: no confirmation step fired because no interior candidate survived. A post-screen edge check reran 0.9924 on seeds 20302702-20302703; both died at 300, so all three threshold seeds are dead (EDGE_CONFIRMED).
 
 **Why it is open.** Q048 tested 0.99 (death 228) and 0.9925 (alive at 301) but left a 0.0025 gap containing 24 four-decimal factors. The smallest tested survivor is not necessarily the smallest survivor; the boundary has not been measured.
 
 **Preregistered in.** `DECAY-THRESHOLD-PREREGISTRATION.md`
 
-**Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`
+**Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`, `docs/decay_threshold_edge.json`, `docs/DECAY-THRESHOLD-EDGE.md`
 
 ## 2. Open — evidence in hand, no settled answer
 

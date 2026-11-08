@@ -176,3 +176,26 @@ All six gates passed. P1 held; P2 (an interior survivor), P3 (a survivor below 0
 (confirmation predictions) failed. The negative is a screen-level result: 0.9924 dies at 300 on
 seed 20302701, one cycle before survival, and no three-seed confirmation was pre-registered for the
 no-survivor branch.
+
+
+## 13. Post-screen edge check (2026-11-07)
+
+**Requested after Q050's outcome; written before the two edge cells ran.** Q050's no-survivor
+branch did not pre-register confirmation. This amendment tests only whether the 0.9924 screen
+death is seed-stable. It does not change the Q050 label and it is not a new threshold.
+
+**Check.** Rerun 0.9924 on seeds **20302702** and **20302703** (20302701 is the existing screen
+cell), 300 cycles, same `lattice_L1` world, arm and runner. A seed is `DEAD` if its theory death
+cycle is at most 300; it is `ALIVE` if the death cycle is 301.
+
+**Decision.** `EDGE_CONFIRMED` if all three seeds are dead; `EDGE_NOT_CONFIRMED` if any seed is
+alive at 301; `VOID` if the factor or denominator gates fail.
+
+**Prediction.** All three seeds are dead, matching the screen. This is a robustness check, not a
+new threshold, and Q050 remains `NO_INTERIOR_SURVIVOR`.
+
+**Outcome.** **`EDGE_CONFIRMED`.** Seed 20302701 dies at 300 (screen cell), 20302702 at 300, and
+20302703 at 300; all three seeds are dead. The prediction held. Q050 remains
+`NO_INTERIOR_SURVIVOR`; this check hardens the 0.9924 edge but does not turn it into a new
+threshold claim.
+

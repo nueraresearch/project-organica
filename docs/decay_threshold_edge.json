@@ -1,0 +1,118 @@
+{
+ "date": "2026-11-08",
+ "engine_version": "0.13.0",
+ "question": "Q050 edge check",
+ "preregistration": "docs/DECAY-THRESHOLD-PREREGISTRATION.md",
+ "world": "lattice_L1",
+ "arm": "FULL",
+ "factor": 0.9924,
+ "seeds": [
+  20302701,
+  20302702,
+  20302703
+ ],
+ "cycles": 300,
+ "cells": [
+  {
+   "seed": 20302701,
+   "factor": 0.9924,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9924
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 298,
+   "last_nonzero_cycle": 299,
+   "death_cycle": 300,
+   "theories_total": 1488,
+   "beliefs_total": 4469,
+   "theory_removals": {
+    "superseded": 285,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 65,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "seed": 20302702,
+   "factor": 0.9924,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9924
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 298,
+   "last_nonzero_cycle": 299,
+   "death_cycle": 300,
+   "theories_total": 1488,
+   "beliefs_total": 4469,
+   "theory_removals": {
+    "superseded": 285,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 65,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  },
+  {
+   "seed": 20302703,
+   "factor": 0.9924,
+   "stable_peak": 21,
+   "stable_final": 12,
+   "stable_zero": 301,
+   "decay_calls_count": 300,
+   "decay_factors": [
+    0.9924
+   ],
+   "decay_rows_min": 27,
+   "mass_unchanged": false,
+   "cycles": 300,
+   "theory_cycles": 298,
+   "last_nonzero_cycle": 299,
+   "death_cycle": 300,
+   "theories_total": 1488,
+   "beliefs_total": 4469,
+   "theory_removals": {
+    "superseded": 285,
+    "parent_loss": 7,
+    "competing_collapse": 0,
+    "capped": 0,
+    "unexplained": 0
+   },
+   "belief_removals": {
+    "capped": 65,
+    "not_reformed": 12
+   },
+   "unexplained": 0
+  }
+ ],
+ "gates": {
+  "G1_factor_live": true,
+  "G2_denominators": true,
+  "G3_seed_block": true,
+  "G4_cells_complete": true
+ },
+ "prediction_all_dead": true,
+ "label": "EDGE_CONFIRMED"
+}
