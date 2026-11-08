@@ -140,3 +140,54 @@ def test_check_fails_when_the_rendered_document_is_stale(tmp_path, monkeypatch):
     assert document.read_text(encoding="utf-8") == "an out-of-date render\n", (
         "--check must report a stale document, never repair it"
     )
+
+
+def test_reopened_questions_rest_on_no_artifact_that_names_the_pinned_build() -> None:
+    """The reopening criterion is a property of the data, not a sentence about it.
+
+    A question is reopened because the artifacts behind its answer do not name the build
+    pinned now. If an evidence artifact does name that release, the reopening is wrong and
+    this fails.
+    """
+    reg = registry()
+    pinned = reg["reopening"]["engine_version"]
+    reopened = [q for q in reg["questions"] if q.get("reopened")]
+    assert reopened, "no question carries a reopening record"
+    for question in reopened:
+        assert question["status"] == "open", question["id"]
+        assert question.get("outcome") is None, question["id"]
+        for path in question.get("evidence", []):
+            artifact = ROOT / path
+            if artifact.suffix != ".json":
+                continue
+            try:
+                data = json.loads(artifact.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if isinstance(data, dict):
+                assert data.get("engine_version") != pinned, (
+                    "%s was reopened but %s names the pinned build %s"
+                    % (question["id"], path, pinned))
+
+
+def test_the_reopening_record_names_every_row_and_every_exception() -> None:
+    reg = registry()
+    opening = reg["reopening"]
+    rows = sorted(q["id"] for q in reg["questions"] if q.get("reopened"))
+    assert sorted(opening["reopened"]) == rows, (opening["reopened"], rows)
+    kept = [exception["id"] for exception in opening["kept_closed"]]
+    assert not set(kept) & set(rows), "a question cannot be reopened and kept closed"
+    assert all(exception["reason"].strip() for exception in opening["kept_closed"])
+    from benchmarks import engine_stamp
+
+    assert opening["engine_sha256"] == engine_stamp.engine_sha256(), (
+        "the reopening must name the engine bytes it was made against")
+
+
+def test_a_reopening_without_the_build_it_was_measured_on_fails_validation() -> None:
+    """Proof the new check can fire: a reopening that cannot say what it replaces."""
+    reg = json.loads(json.dumps(registry()))
+    target = next(q for q in reg["questions"] if q.get("reopened"))
+    del target["reopened"]["measured_on"]
+    problems = rr.validate(reg)["errors"]
+    assert any(target["id"] in problem and "measured_on" in problem for problem in problems), problems

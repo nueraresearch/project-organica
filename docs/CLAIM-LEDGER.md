@@ -15,7 +15,7 @@ artifacts it rests on, and the limits of its own scope.
 | C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | HYPOTHESIS | Q001 | ARTIFACT_READ |
 | C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | HYPOTHESIS | Q001 | OWNER_READING |
 | C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | HYPOTHESIS | Q002 | ARTIFACT_READ |
-| C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | SUPPORTED | Q004 | ARTIFACT_READ |
+| C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | HYPOTHESIS | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
 
@@ -102,6 +102,7 @@ Each claim carries its own limits in the ledger. The ones that recur:
 - **C003.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
 - **C004.** The sparse end only; the dense end is pinned by the prediction cap and shows no separation.
 - **C004.** One world family, one ordering basis.
+- **C004.** Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim.
 - **C007.** Not tested. Nothing in the record supports or contradicts it yet; it is listed as a hypothesis so that it is not later quoted as a finding.
 - **C009.** An aim, not a result. No measurement exists, and the record contains a negative cross-domain transfer result.
 

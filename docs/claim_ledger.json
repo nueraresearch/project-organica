@@ -91,7 +91,7 @@
     {
       "claim_id": "C004",
       "claim": "Intra-cell exclusion buys precision at the sparse end of the density ladder.",
-      "classification": "SUPPORTED",
+      "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
       "supporting_questions": [
@@ -103,7 +103,8 @@
       ],
       "scope_limitations": [
         "The sparse end only; the dense end is pinned by the prediction cap and shows no separation.",
-        "One world family, one ordering basis."
+        "One world family, one ordering basis.",
+        "Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""

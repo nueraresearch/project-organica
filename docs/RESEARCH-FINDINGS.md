@@ -11,50 +11,6 @@ questions behind it. Nothing appears here that cannot be traced back to an artif
 Closed questions whose recorded outcome is SUPPORTED. The scope beside each one is part of
 the finding: a result outside that scope is not established by it.
 
-### Q004 — Does excluding intra-cell rows buy precision at a fixed cap?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Yes at the sparse end: 0.059375 against a pre-registered bar of 0.05, 13 of 16 seeds positive, reproduced by the other exposure scheme; the dense end is pinned by composition, and the slope is descriptive rather than judged.
-
-**Scope.** One world family, cap 20, precision endpoint; an allocation change with no behavioural claim.
-
-**Evidence.** `docs/density_interaction_a2_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
-
-**Claims resting on it.** C004
-
-### Q029 — Why do the structures that reach 35 stable edges on a degree-12 hub disappear?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Their strength is the ratio of a temporal count that decays 5% per cycle to a tag frequency that never decays, so the ratio falls (1.25 at the peak, 0.375 after it) while the denominator grows 18x; 31.0% of deaths are re-emitted below the 0.30 strength threshold and 69.0% are not re-emitted at all, so the engine's x0.8 candidate decay takes them under it. The same build with the graph decay disabled peaks at 42 and still holds 30 edges at cycle 300.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
-### Q030 — Is the engine's temporal edge decay the mechanism that removes the structure?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Yes on this world: the only difference between the arms is the 5% per-cycle graph decay, and removing it keeps 30 of 42 edges at the final cycle while the shipped build reaches zero at cycle 173. The candidate decay and the strength rule are identical in both arms.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
-### Q031 — At which cycle does the degree-12 fall begin, and how long does it take?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** The peak is at cycle 15 and the first fall at cycle 16, identically in three seeds; half the peak is gone 65 cycles later (cycle 80) and the count reaches zero at cycle 173. The decline is not a cliff and not monotone: the series grows again in 50 of the 285 cycles after the peak.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
-### Q036 — What is the persistence half-life of the peak structure?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** 65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
 ### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
 
 **Outcome.** SUPPORTED, status closed.
@@ -70,22 +26,6 @@ the finding: a result outside that scope is not established by it.
 **Answer.** Yes in the shared sense, and no in the reference-specific sense. All six arms' theory layers die at cycle 39 of 300 on the falsifier's world, so death is the dominant failure mode and the reference arm is not a distinct one; the reference reaches it by identifier supersession (102 of 126 removal events, with 24 parent losses) while every ablation is parent-loss dominated (249 each) and cap-bound on beliefs (300 capped removals). The 12-seed characterization does not extend beyond this world and stimulus.
 
 **Evidence.** `docs/theory_budget_ceiling.json`, `docs/decay_falsifier.json`, `docs/reference_death_ledger.json`, `docs/REFERENCE-DEATH-LEDGER.md`, `docs/REFERENCE-DEATH-LEDGER-PREREGISTRATION.md`
-
-### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** No engine change is needed. 405 of 405 schema-primed predictions are recoverable from the stored rows -- the schema id, both role ids and both role rows -- across 16,962 scanned rows, with zero R1, R2 and R3 residuals. A schema_prior_roles field would be a second copy of what the record already holds, and the scoped change was retired unapplied.
-
-**Evidence.** `docs/store_time_role_durability.json`, `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
-
-### Q044 — When a stable edge misses re-emission, is the cause the admission count or the ranked slot?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Every miss was a slot loss, none an admission loss. Across eight engine seeds and 300 cycles, all 1,920 misses had a candidate built for them and lost one of the 40 ranked slots; zero fell below the admission floor of 5. The admitted set was 54 candidates against 40 slots in each of the 284 binding cycles per seed, and the no-temporal-decay control also recorded zero admission losses across its 77 misses. The pre-registered label is SLOT_DOMINANT; predictions P3 and P6 failed.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`, `docs/decay_admission_slot.json`, `docs/DECAY-ADMISSION-SLOT.md`
 
 ### Q046 — Does repairing the shared temporal decay layer delay the cycle-39 death across all six arms?
 
@@ -136,34 +76,6 @@ dashboard counts them under questions rather than under findings.
 Closed questions whose recorded outcome is UNSUPPORTED. Not supported is not refuted: it
 means the test the project ran did not support the proposition, on the scope stated.
 
-### Q005 — Does the primary scheme's partial final pass explain the ladder's non-monotonicity?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** Half of it. Whole-cycle padding lifts rho 0.4 from 0.0281 to 0.0844 but leaves the 0.4 to 0.6 step at -0.0344, so both pre-registered criteria fail; the residual is measured and not attributed.
-
-**Scope.** The same world family, cap and endpoint; the scheme varies total exposure, so it cannot separate pass count from exposure quantity.
-
-**Evidence.** `docs/density_padding_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
-
-### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.
-
-**Scope.** The admission rule, not extraction, the confidence formula, the death threshold or the caps.
-
-**Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
-
-### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** No. The edges start falling at cycle 16 while the theory layer's last live cycle is 28 (zero at 29), so the loss precedes the theory death and cannot be caused by it; the pre-registered direction was reversed.
-
-**Evidence.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
-
 ### Q041 — Can the decay falsifier be validly interpreted when its reference arm is dead?
 
 **Outcome.** UNSUPPORTED, status closed.
@@ -177,24 +89,6 @@ means the test the project ran did not support the proposition, on the scope sta
 Interpretations that were once held and are not held now. Each entry states what was
 originally claimed, why it was withdrawn, and what replaced it. These are kept in public
 view because a record that hides its corrections is not a record.
-
-### Q017 — Should further Layer-1 admission variants be tried?
-
-**Original interpretation.** No. The rule was adopted, measured negative, and withdrawn the same day; the reference engine is again the only admission path, and another variant would repeat a layer that measurement closed.
-
-**Why it was withdrawn.** see the evidence artifact
-
-### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
-
-**Original interpretation.** No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.
-
-**Why it was withdrawn.** see the evidence artifact
-
-### Q024 — Does diversity-first admission improve the real engine?
-
-**Original interpretation.** No on this layer. It was adopted on pooled-edge evidence, then the two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER, and the adoption was withdrawn the same day; organica/admission.py was deleted and SleepService is again the only admission path.
-
-**Why it was withdrawn.** One layer, one comparison; the pooled result is not retracted, only the engine's benefit from it.
 
 ### C005 — Diversity-first admission improves the real engine.
 
@@ -250,6 +144,24 @@ as one.
 
 **What is in hand.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
+### Q004 — Does excluding intra-cell rows buy precision at a fixed cap?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/density_interaction_a2_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
+
+### Q005 — Does the primary scheme's partial final pass explain the ladder's non-monotonicity?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/density_padding_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
+
+### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
+
 ### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
 
 **Why it is open.** Reopened 2026-11-08: the confirmatory endpoint ran on 2026-11-02, before the 0.12.0 rework introduced single-pass natural selection, Layer 1 grounding and the new ranking. The structures that reach the readout are not the same structures.
@@ -298,17 +210,59 @@ as one.
 
 **What is in hand.** `docs/GATE13-RELATION-SEPARATION.md`, `docs/gate13_allocation_rule.json`
 
+### Q017 — Should further Layer-1 admission variants be tried?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
+
 ### Q018 — Should another Gate 13 ranking variant be run?
 
 **Why it is open.** Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed.
 
 **What is in hand.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
+### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`
+
+### Q024 — Does diversity-first admission improve the real engine?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
+
 ### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
 
 **Why it is open.** A transfer prediction records the schema id that primed it but not the role pair that licensed it, so resolution reads the schema row and both role rows. The pair resolver's single calibration cell (seed 20261101) resolved 8 of 14 transfers, but re-running the same instrument on six fresh seeds showed that split is a property of the draw: transfers ranged 12-25, resolved 2-9 (share 0.1429-0.5000), and polarity-only primings 6-19, while the calibration seed reproduced 14/8/6 exactly. The campaign has not run, so the question stays open.
 
 **What is in hand.** `docs/transfer_provenance.json`, `docs/TRANSFER-PROVENANCE.md`, `docs/pair_resolver_stability.json`, `docs/PAIR-RESOLVER-STABILITY.md`
+
+### Q029 — Why do the structures that reach 35 stable edges on a degree-12 hub disappear?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
+
+### Q030 — Is the engine's temporal edge decay the mechanism that removes the structure?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
+
+### Q031 — At which cycle does the degree-12 fall begin, and how long does it take?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/decay_attribution/parts/cell_engine_s20300601.json`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
+
+### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
 ### Q033 — During collapse, is a stable core retained or does the whole structure collapse?
 
@@ -328,17 +282,41 @@ as one.
 
 **What is in hand.** `docs/theory_budget_ceiling.json`, `docs/decay_attribution.json`
 
+### Q036 — What is the persistence half-life of the peak structure?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
+
 ### Q037 — Which mechanism accounts for most of the loss?
 
 **Why it is open.** The death ledger names a reason per death, and the first study measured 31.03 percent below_threshold against 68.97 percent decayed on three seeds. No independent seed block has yet tested which reason accounts for most of the loss. The 12-seed replication (seeds 20301201-20301212) characterized this world as DECAY_DOMINANT: candidate decay is the main loss; the question stays open because one world family at one degree cannot answer it.
 
 **What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/decay_attribution_study.json`, `docs/DECAY-ATTRIBUTION-STUDY.md`
 
+### Q043 — Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/store_time_role_durability.json`, `docs/DECISION-STORE-TIME-ROLE-RECORD.md`
+
+### Q044 — When a stable edge misses re-emission, is the cause the admission count or the ranked slot?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/decay_attribution.json`, `docs/DECAY-ATTRIBUTION.md`, `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md`, `docs/decay_admission_slot.json`, `docs/DECAY-ADMISSION-SLOT.md`
+
 ### Q045 — Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub?
 
 **Why it is open.** Q044 found that all 1,920 missed re-emissions were slot losses, with 54 admitted candidates against 40 slots in each binding cycle, so the ranked slot is the gate on the edge layer. The ranking/admission block then measured the ordering lever at the coverage endpoint and adopted diversity-first admission, while its own record says coverage is not behaviour and retention is untested. The decay record attributes 68.97 percent of edge deaths to decay and the theory layer dies at cycle 29, so whether the slot lever reaches persistence is the open half.
 
 **What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
+
+### Q051 — Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?
+
+**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
+
+**What is in hand.** `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md`, `docs/long_delay_capability_design.json`, `docs/long_delay_capability_confirm.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_design.py`, `benchmarks/long_delay_capability_confirm.py`, `benchmarks/long_delay_capability_prereg.py`, `tests/test_long_delay_capability_prereg.py`
 
 ### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
 

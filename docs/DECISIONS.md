@@ -33,7 +33,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 - *Mark the module deprecated while keeping it callable* — because *"Withdrawal is the removal of the code, so the package no longer offers the rule at all"*
 
-**Rests on.** Q006 (closed), Q017 (retired), Q024 (retired)
+**Rests on.** Q006 (open), Q017 (open), Q024 (open)
 
 **Evidence.** `docs/admission_two_arm_result.json`, `docs/admission_two_arm_run.json`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
 
@@ -70,7 +70,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 - *Adopt the verdict's growth-with-density clause as a mechanism claim* — because *"The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"*
 
-**Rests on.** Q004 (closed), Q005 (closed)
+**Rests on.** Q004 (open), Q005 (open)
 
 **Evidence.** `docs/density_interaction_a2_result.json`, `docs/density_interaction_a2_run.json`, `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`
 
@@ -127,7 +127,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 - *Record the role on the prediction now (option A)* — because *"nothing, while the resolver demands one role for a two-role schema: the new field would be recorded and then ignored by the same unsatisfiable predicate"*
 - *Drop Q028 from the licence (option C)* — because *"removes a claim that cannot be resolved — premature while B is untested and cheap"*
 
-**Rests on.** Q028 (open), Q043 (closed)
+**Rests on.** Q028 (open), Q043 (open)
 
 **Evidence.** `docs/transfer_provenance.json`, `docs/store_time_role_durability.json`, `docs/STORE-TIME-ROLE-DURABILITY.md`
 

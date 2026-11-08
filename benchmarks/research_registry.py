@@ -84,6 +84,13 @@ def validate(reg: dict) -> dict:
                 errors.append("%s: unknown outcome %r" % (qid, outcome))
         elif outcome is not None:
             errors.append("%s: open or future question carries an outcome" % qid)
+        reopened = q.get("reopened")
+        if reopened is not None:
+            if status != "open":
+                errors.append("%s: carries a reopening record but is %r" % (qid, status))
+            for field in ("date", "reason", "measured_on"):
+                if not reopened.get(field):
+                    errors.append("%s: reopening record has no %s" % (qid, field))
         if "prerequisites" in q and "blocked_by" in q and q["prerequisites"] != q["blocked_by"]:
             errors.append("%s: prerequisites and blocked_by disagree" % qid)
         for path in q.get("evidence", []):
@@ -109,6 +116,29 @@ def validate(reg: dict) -> dict:
     unclaimed = [name for name in rows if name not in claimed]
     if unclaimed:
         errors.append("bottleneck rows no question claims: %r" % (unclaimed,))
+
+    opening = reg.get("reopening")
+    if opening is None:
+        errors.append("the registry records no reopening; a bulk status change needs its criterion")
+    else:
+        for field in ("date", "criterion", "engine_version", "engine_sha256"):
+            if not opening.get(field):
+                errors.append("reopening record has no %s" % field)
+        with_record = sorted(q["id"] for q in questions if q.get("reopened"))
+        if sorted(opening.get("reopened", [])) != with_record:
+            errors.append("reopening names %r but the rows carrying a reopening record are %r"
+                          % (sorted(opening.get("reopened", [])), with_record))
+        for qid in opening.get("reopened", []):
+            if qid not in known:
+                errors.append("reopening names a question that does not exist: %r" % (qid,))
+        for exception in opening.get("kept_closed", []):
+            if exception.get("id") not in known:
+                errors.append("reopening keeps closed a question that does not exist: %r"
+                              % (exception.get("id"),))
+            if not exception.get("reason"):
+                errors.append("reopening keeps %r closed without a reason" % (exception.get("id"),))
+            if exception.get("id") in with_record:
+                errors.append("reopening keeps %r closed and reopened it" % (exception.get("id"),))
 
     tally = Counter(q["status"] for q in questions)
     return {"passed": not errors, "errors": errors,
@@ -140,6 +170,24 @@ def render(reg: dict, report: dict) -> str:
         "| future | %d | valid only after a named prerequisite is met |" % tally["future"],
         "| **total** | **%d** | |" % report["questions"],
         "",
+    ]
+    opening = reg.get("reopening")
+    if opening:
+        lines += [
+            "## 0. Reopened on %s" % opening["date"],
+            "",
+            opening["criterion"],
+            "",
+            "**Reopened: %s.** **Kept closed: %d**, each with its reason below. The build the "
+            "criterion names is `%s` (`%s`)." % (
+                ", ".join(opening["reopened"]), len(opening.get("kept_closed", [])),
+                opening["engine_version"], opening["engine_sha256"][:16]),
+            "",
+        ]
+        for exception in opening.get("kept_closed", []):
+            lines += ["- **%s** -- %s" % (exception["id"], exception["reason"])]
+        lines += [""]
+    lines += [
         "## How this stays current",
         "",
         "Three checks run in the test suite and can fail: a new `docs/DECISION-*.md` that no question",
@@ -159,6 +207,10 @@ def render(reg: dict, report: dict) -> str:
                 lines += ["**Outcome.** %s" % q["outcome"], ""]
             if q.get("answer"):
                 lines += ["**Answer.** %s" % q["answer"], ""]
+            if q.get("reopened"):
+                lines += ["**Reopened %s.** Measured on: %s. %s" % (
+                    q["reopened"]["date"], q["reopened"]["measured_on"],
+                    q["reopened"]["reason"]), ""]
             if q.get("why_open"):
                 lines += ["**Why it is open.** %s" % q["why_open"], ""]
             if q.get("scope"):

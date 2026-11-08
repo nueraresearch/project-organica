@@ -69,7 +69,7 @@
     {
       "id": "Q004",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Does excluding intra-cell rows buy precision at a fixed cap?",
       "answer": "Yes at the sparse end: 0.059375 against a pre-registered bar of 0.05, 13 of 16 seeds positive, reproduced by the other exposure scheme; the dense end is pinned by composition, and the slope is descriptive rather than judged.",
       "scope": "One world family, cap 20, precision endpoint; an allocation change with no behavioural claim.",
@@ -84,16 +84,21 @@
         "Selection / allocation",
         "Density interaction"
       ],
-      "outcome": "SUPPORTED",
       "preregistrations": [
         "docs/density_interaction_a2_prereg.json"
       ],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: density_interaction_a2_result.json, DECISION-DENSITY-EXCLUSION.md carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q005",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Does the primary scheme's partial final pass explain the ladder's non-monotonicity?",
       "answer": "Half of it. Whole-cycle padding lifts rho 0.4 from 0.0281 to 0.0844 but leaves the 0.4 to 0.6 step at -0.0344, so both pre-registered criteria fail; the residual is measured and not attributed.",
       "scope": "The same world family, cap and endpoint; the scheme varies total exposure, so it cannot separate pass count from exposure quantity.",
@@ -107,16 +112,21 @@
       "bottleneck_rows": [
         "Density interaction"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [
         "docs/density_padding_prereg.json"
       ],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: density_padding_result.json, DECISION-DENSITY-EXCLUSION.md carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q006",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
       "answer": "Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.",
       "scope": "The admission rule, not extraction, the confidence formula, the death threshold or the caps.",
@@ -130,11 +140,16 @@
       "bottleneck_rows": [
         "Selection / allocation"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [
         "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
       ],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: DECISION-ADMISSION-RULE.md, admission_two_arm_result.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q007",
@@ -304,7 +319,7 @@
     {
       "id": "Q017",
       "kind": "research",
-      "status": "retired",
+      "status": "open",
       "question": "Should further Layer-1 admission variants be tried?",
       "answer": "No. The rule was adopted, measured negative, and withdrawn the same day; the reference engine is again the only admission path, and another variant would repeat a layer that measurement closed.",
       "evidence": [
@@ -317,9 +332,14 @@
       "bottleneck_rows": [
         "Selection / allocation"
       ],
-      "outcome": "WITHDRAWN",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: DECISION-ADMISSION-RULE.md, admission_two_arm_result.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q018",
@@ -375,16 +395,21 @@
     {
       "id": "Q021",
       "kind": "research",
-      "status": "retired",
+      "status": "open",
       "question": "Can a transfer claim rest on the v1 TR = 3.2 result?",
       "answer": "No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.",
       "evidence": [
         "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md",
         "docs/cross_context_reuse_benchmark.json"
       ],
-      "outcome": "WITHDRAWN",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: CROSS-CONTEXT-REUSE-EARNED-RESULTS.md, cross_context_reuse_benchmark.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q022",
@@ -419,8 +444,7 @@
     {
       "id": "Q024",
       "kind": "research",
-      "status": "retired",
-      "outcome": "WITHDRAWN",
+      "status": "open",
       "question": "Does diversity-first admission improve the real engine?",
       "answer": "No on this layer. It was adopted on pooled-edge evidence, then the two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER, and the adoption was withdrawn the same day; organica/admission.py was deleted and SleepService is again the only admission path.",
       "scope": "One layer, one comparison; the pooled result is not retracted, only the engine's benefit from it.",
@@ -438,7 +462,13 @@
         "docs/RANKING-ADMISSION-PREREGISTRATION.md",
         "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
       ],
-      "supersedes": []
+      "supersedes": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: DECISION-ADMISSION-RULE.md, admission_two_arm_result.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q025",
@@ -508,8 +538,7 @@
     {
       "id": "Q029",
       "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
+      "status": "open",
       "question": "Why do the structures that reach 35 stable edges on a degree-12 hub disappear?",
       "answer": "Their strength is the ratio of a temporal count that decays 5% per cycle to a tag frequency that never decays, so the ratio falls (1.25 at the peak, 0.375 after it) while the denominator grows 18x; 31.0% of deaths are re-emitted below the 0.30 strength threshold and 69.0% are not re-emitted at all, so the engine's x0.8 candidate decay takes them under it. The same build with the graph decay disabled peaks at 42 and still holds 30 edges at cycle 300.",
       "evidence": [
@@ -523,13 +552,18 @@
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, DECAY-ATTRIBUTION.md, decay_attribution_study.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q030",
       "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
+      "status": "open",
       "question": "Is the engine's temporal edge decay the mechanism that removes the structure?",
       "answer": "Yes on this world: the only difference between the arms is the 5% per-cycle graph decay, and removing it keeps 30 of 42 edges at the final cycle while the shipped build reaches zero at cycle 173. The candidate decay and the strength rule are identical in both arms.",
       "evidence": [
@@ -543,13 +577,18 @@
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, DECAY-ATTRIBUTION.md, decay_attribution_study.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q031",
       "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
+      "status": "open",
       "question": "At which cycle does the degree-12 fall begin, and how long does it take?",
       "answer": "The peak is at cycle 15 and the first fall at cycle 16, identically in three seeds; half the peak is gone 65 cycles later (cycle 80) and the count reaches zero at cycle 173. The decline is not a cliff and not monotone: the series grows again in 50 of the 285 cycles after the peak.",
       "evidence": [
@@ -563,13 +602,18 @@
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, cell_engine_s20300601.json, decay_attribution_study.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q032",
       "kind": "research",
-      "status": "closed",
-      "outcome": "UNSUPPORTED",
+      "status": "open",
       "question": "Do theories die before the edges, so that theory death causes the edge loss?",
       "answer": "No. The edges start falling at cycle 16 while the theory layer's last live cycle is 28 (zero at 29), so the loss precedes the theory death and cannot be caused by it; the pre-registered direction was reversed.",
       "evidence": [
@@ -583,7 +627,13 @@
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, DECAY-ATTRIBUTION.md, decay_attribution_study.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q033",
@@ -638,8 +688,7 @@
     {
       "id": "Q036",
       "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
+      "status": "open",
       "question": "What is the persistence half-life of the peak structure?",
       "answer": "65 cycles from the peak: the stable-edge count is at or below half of 35 from cycle 80. The control never reaches half of its 42-edge peak, so its half-life is not measurable rather than infinite.",
       "evidence": [
@@ -653,7 +702,13 @@
         "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, DECAY-ATTRIBUTION.md, decay_attribution_study.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q037",
@@ -726,8 +781,7 @@
     {
       "id": "Q043",
       "kind": "research",
-      "status": "closed",
-      "outcome": "SUPPORTED",
+      "status": "open",
       "question": "Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?",
       "answer": "No engine change is needed. 405 of 405 schema-primed predictions are recoverable from the stored rows -- the schema id, both role ids and both role rows -- across 16,962 scanned rows, with zero R1, R2 and R3 residuals. A schema_prior_roles field would be a second copy of what the record already holds, and the scoped change was retired unapplied.",
       "evidence": [
@@ -740,14 +794,20 @@
       "supersedes": [],
       "decisions": [
         "DECISION-STORE-TIME-ROLE-RECORD.md"
-      ]
+      ],
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: store_time_role_durability.json, DECISION-STORE-TIME-ROLE-RECORD.md carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      },
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
     },
     {
       "id": "Q044",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "When a stable edge misses re-emission, is the cause the admission count or the ranked slot?",
-      "why_open": "The attribution ledger records that 68.97 percent of engine-arm deaths were not re-emitted, but it attributes them to candidate decay without separating an edge that fell below the engine's admission floor from one that was admitted and lost one of the 40 prediction slots. The distinction needs the engine's pre-slice candidate list, which is observable but has not been measured.",
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.",
       "evidence": [
         "docs/decay_attribution.json",
         "docs/DECAY-ATTRIBUTION.md",
@@ -760,8 +820,12 @@
       ],
       "supersedes": [],
       "decisions": [],
-      "outcome": "SUPPORTED",
-      "answer": "Every miss was a slot loss, none an admission loss. Across eight engine seeds and 300 cycles, all 1,920 misses had a candidate built for them and lost one of the 40 ranked slots; zero fell below the admission floor of 5. The admitted set was 54 candidates against 40 slots in each of the 284 binding cycles per seed, and the no-temporal-decay control also recorded zero admission losses across its 77 misses. The pre-registered label is SLOT_DOMINANT; predictions P3 and P6 failed."
+      "answer": "Every miss was a slot loss, none an admission loss. Across eight engine seeds and 300 cycles, all 1,920 misses had a candidate built for them and lost one of the 40 ranked slots; zero fell below the admission floor of 5. The admitted set was 54 candidates against 40 slots in each of the 284 binding cycles per seed, and the no-temporal-decay control also recorded zero admission losses across its 77 misses. The pre-registered label is SLOT_DOMINANT; predictions P3 and P6 failed.",
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: decay_attribution.json, DECAY-ATTRIBUTION.md, DECAY-ADMISSION-SLOT-PREREGISTRATION.md carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
+      }
     },
     {
       "id": "Q045",
@@ -903,9 +967,9 @@
     {
       "id": "Q051",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?",
-      "why_open": "The persistence program settled the threshold but never scored capability. The committed held-out benchmark freezes after cycle 200, so decay cannot act inside its scored window; the online rank instrument is the first one that can see the persistence difference during the readout. No confirmatory cell has run.",
+      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.",
       "evidence": [
         "docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md",
         "docs/long_delay_capability_design.json",
@@ -921,8 +985,12 @@
       ],
       "supersedes": [],
       "decisions": [],
-      "outcome": "INCONCLUSIVE",
-      "answer": "INCONCLUSIVE. The ten confirmatory seeds give a late recall@5 median gap of +0.0265 (bootstrap interval [0.0111, 0.0355]) against the design bar of 0.0412, with 9 of 10 seeds positive. The early median is +0.0119, outside the 0.010 equivalence margin, and growth (late > early) holds in only 6 of 10 seeds. All seven gates passed. P2 fails on the median, P1 fails on the early difference, and P3 fails on growth, so no capability claim follows. The late advantage is positive and consistent but below the calibrated bar; the INCONCLUSIVE bucket's 'intervals too wide' rationale does not fit because the interval lies entirely below the bar. This is one world family and one engine, and it does not license adoption. Log loss was secondary (median gap -0.1370, 0.9925 better calibrated) and made no decision."
+      "answer": "INCONCLUSIVE. The ten confirmatory seeds give a late recall@5 median gap of +0.0265 (bootstrap interval [0.0111, 0.0355]) against the design bar of 0.0412, with 9 of 10 seeds positive. The early median is +0.0119, outside the 0.010 equivalence margin, and growth (late > early) holds in only 6 of 10 seeds. All seven gates passed. P2 fails on the median, P1 fails on the early difference, and P3 fails on growth, so no capability claim follows. The late advantage is positive and consistent but below the calibrated bar; the INCONCLUSIVE bucket's 'intervals too wide' rationale does not fit because the interval lies entirely below the bar. This is one world family and one engine, and it does not license adoption. Log loss was secondary (median gap -0.1370, 0.9925 better calibrated) and made no decision.",
+      "reopened": {
+        "date": "2026-11-08",
+        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
+        "reason": "The answer was measured on a build that cannot be named: LONG-DELAY-CAPABILITY-PREREGISTRATION.md, long_delay_capability_design.json, long_delay_capability_confirm.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build. The confirmatory verdict therefore cannot be attributed to the pinned engine, and the decision not to adopt 0.9925 rests on it."
+      }
     },
     {
       "id": "Q052",
@@ -980,5 +1048,78 @@
       "WITHDRAWN"
     ],
     "rule": "status and outcome are independent: closed or retired carry an outcome, open and future carry none"
+  },
+  "reopening": {
+    "date": "2026-11-08",
+    "criterion": "A closed or retired answer was reopened when **no artifact it rests on names the build pinned now** (`engine_version` 0.13.0, whose fourteen files `python -m benchmarks.engine_pin --check` verifies against the current tree). An answer without that attribution stands as the result on the engine that produced it; it cannot be carried into this build. It was kept closed only where its evidence names the pinned release, or where the closure was a governance or design decision rather than a measurement. A release-level stamp is weaker than the byte-level `engine_sha256` the stamp now writes, so the kept-closed answers are the first candidates for a byte-level re-verification.",
+    "engine_version": "0.13.0",
+    "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+    "head_at_pin": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+    "reopened": [
+      "Q004",
+      "Q005",
+      "Q006",
+      "Q017",
+      "Q021",
+      "Q024",
+      "Q029",
+      "Q030",
+      "Q031",
+      "Q032",
+      "Q036",
+      "Q043",
+      "Q044",
+      "Q051"
+    ],
+    "kept_closed": [
+      {
+        "id": "Q009",
+        "reason": "the answer is about the scope of the charter (what 'no V2' forbids), not about an engine measurement"
+      },
+      {
+        "id": "Q010",
+        "reason": "the answer is about the Stage B authorisation route, a protocol decision with no engine in it"
+      },
+      {
+        "id": "Q019",
+        "reason": "retired on design logic -- every branch invents another moderator and no architectural decision follows -- which is AGENTS.md rule 30, not a measurement"
+      },
+      {
+        "id": "Q020",
+        "reason": "retired for the same design reason as Q019; the record says the design question closed, not the measurement"
+      },
+      {
+        "id": "Q040",
+        "reason": "its evidence includes decay_falsifier.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q041",
+        "reason": "its evidence includes decay_falsifier.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q042",
+        "reason": "its evidence includes decay_falsifier.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q046",
+        "reason": "its evidence includes reference_death_ledger.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q047",
+        "reason": "its evidence includes substrate_repair.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q048",
+        "reason": "its evidence includes operating_point.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q049",
+        "reason": "its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q050",
+        "reason": "its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      }
+    ]
   }
 }
