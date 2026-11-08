@@ -60,7 +60,9 @@ def test_seed_live_can_fail():
 
 
 def test_seed_blocks_are_unused():
-    assert unused_seeds(harvest_seeds())
+    harvested = harvest_seeds()
+    assert unused_seeds(harvested)
+    assert set(PROTOCOL["design_seeds"]) <= harvested
 
 
 def test_windows_do_not_overlap():

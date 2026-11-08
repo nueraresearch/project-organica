@@ -181,10 +181,19 @@ def run_cell(seed: int, factor: float, cycles: int) -> dict:
             last_theories = len(getattr(report, "theories", []) or [])
             previous = chunk[-1]
         return {"seed": seed, "factor": factor, "rows": rows,
-                "stream_digest": stream_digest(seed)}
+                "stream_digest": stream_digest(seed),
+                "final_theories": last_theories}
     finally:
         memory.close()
         db.unlink(missing_ok=True)
+
+
+def _control() -> bool:
+    """The scorer must recover a planted top-1 and reject a wrong one."""
+    predictions = {("alpha", "bravo"): 0.9, ("alpha", "charlie"): 0.05}
+    good = _recall_at_k(predictions, "alpha", ["bravo"], k=1)
+    bad = _recall_at_k(predictions, "alpha", ["charlie"], k=1)
+    return good == 1.0 and bad == 0.0
 
 
 def _window(rows: list[dict], window: tuple[int, int]) -> dict:

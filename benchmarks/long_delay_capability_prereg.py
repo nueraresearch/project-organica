@@ -72,8 +72,12 @@ def validate() -> list[str]:
 
 
 def unused_seeds(harvested: set[int]) -> bool:
-    return not (set(PROTOCOL["design_seeds"]) |
-                set(PROTOCOL["confirm_seeds"])) & set(harvested)
+    """True when no confirmatory seed has been harvested.
+
+    The design seeds are consumed by the design block by construction; only
+    the confirmatory block's seeds must be untouched.
+    """
+    return not set(PROTOCOL["confirm_seeds"]) & set(harvested)
 
 
 def seed_live(per_arm_early: dict[str, list[float]]) -> bool:
