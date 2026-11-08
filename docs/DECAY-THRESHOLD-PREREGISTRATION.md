@@ -199,3 +199,38 @@ new threshold, and Q050 remains `NO_INTERIOR_SURVIVOR`.
 `NO_INTERIOR_SURVIVOR`; this check hardens the 0.9924 edge but does not turn it into a new
 threshold claim.
 
+
+## 14. Paired same-block check (2026-11-08)
+
+**Requested after section 13; written before the three 0.9925 cells ran.** Section 13 established
+that 0.9924 dies on seeds 20302701-20302703. Q048's 0.9925 survivor was measured on a different
+seed block (20302501-20302503), so one ambiguity remains: the 0.9924/0.9925 difference could be a
+factor effect or a seed-block effect. This amendment removes that ambiguity by measuring both
+factors on the same three seeds, the same world, the same arm and the same runner.
+
+**Check.** Run 0.9925 on seeds **20302701, 20302702 and 20302703** (300 cycles, `lattice_L1`,
+FULL), reusing the three committed 0.9924 cells: `screen_0.9924_20302701.json`,
+`edge_0.9924_20302702.json` and `edge_0.9924_20302703.json`. A cell is `DEAD` if its theory death
+cycle is at most 300; it is `ALIVE` if the death cycle is 301.
+
+**Decision.** `PAIRED_BRACKET_CONFIRMED` if all three 0.9924 cells are dead and all three 0.9925
+cells are alive; `PAIRED_BRACKET_NOT_CONFIRMED` if any cell disagrees; `VOID` if a gate fails.
+This is a paired robustness check. It does not change Q050's label and it is not a new threshold:
+the resolution remains 0.0001, and the boundary remains between these two factors.
+
+**Gates.** G1 the factor fires in every 0.9925 cell (300 decay calls, the cell's own factor, rows
+updated); G2 every cell has 300 cycles and at least one theory cycle; G3 all six cells have a
+300-cycle ledger; G4 both factors are measured on exactly the same three seeds; G5 the artifact's
+per-cell facts equal the facts in the committed parts.
+
+**Prediction.** All three 0.9924 cells are dead and all three 0.9925 cells are alive, so the edge
+survives the seed-block match. If 0.9925 dies on this block, the threshold story is seed-dependent
+and the Q048 survivor does not transfer.
+
+**Outcome.** Not yet written; no 0.9925 cell has run.
+
+**Outcome.** **`PAIRED_BRACKET_CONFIRMED`.** 0.9924 dies at 300 on 20302701, 20302702 and
+20302703; 0.9925 is alive at 301 on the same three seeds. All five gates passed and the
+prediction held. The factor is the only difference between the two sides of the edge: same
+seeds, same world, same arm and same runner. Q050 remains `NO_INTERIOR_SURVIVOR`, the
+resolution remains 0.0001, and this is a paired robustness check rather than a new threshold.
