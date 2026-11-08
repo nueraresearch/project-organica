@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 26 | a result constrained the space; the answer is recorded with its scope |
-| open | 13 | evidence exists, no answer is settled |
+| open | 14 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **50** | |
+| **total** | **51** | |
 
 ## How this stays current
 
@@ -508,6 +508,14 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 survive late while 0.99 and 0.9925 die, so the same arm pair cannot carry the contrast on the second family. No second-family protocol has been frozen.
 
 **Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`
+
+### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
+
+*research question.*
+
+**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052 is a separate second-family replication.
+
+**Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`
 
 ## 3. Retired — no longer worth resources
 

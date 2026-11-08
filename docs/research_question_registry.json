@@ -929,6 +929,25 @@
       "decisions": [],
       "outcome": null,
       "answer": null
+    },
+    {
+      "id": "Q053",
+      "kind": "research",
+      "status": "open",
+      "question": "Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?",
+      "why_open": "The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052 is a separate second-family replication.",
+      "evidence": [
+        "docs/COMPETITION-PRESERVATION-DESIGN.md",
+        "docs/decay_support_probe.json",
+        "docs/decay_competition_probe.json",
+        "docs/long_delay_capability_confirm.json",
+        "docs/long_delay_capability_burst_L1_calibration.json"
+      ],
+      "preregistrations": [],
+      "supersedes": [],
+      "decisions": [],
+      "outcome": null,
+      "answer": null
     }
   ],
   "schema": {

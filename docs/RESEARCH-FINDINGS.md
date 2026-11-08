@@ -364,6 +364,12 @@ as one.
 
 **What is in hand.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`
 
+### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
+
+**Why it is open.** The support and competition probes locate the boundary at loss of competing hypotheses, not support mass, but no competition-preserving mechanism has been chosen, frozen or run. Q052 is a separate second-family replication.
+
+**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012
