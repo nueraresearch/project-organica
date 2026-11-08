@@ -12,53 +12,59 @@
     {
       "id": "Q001",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Can developmental structure form in Organica 1?",
-      "answer": "Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports.",
       "scope": "Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.",
       "evidence": [
         "docs/V1-SYNTHESIS.md",
-        "docs/FACTS-SHEET.md"
+        "docs/FACTS-SHEET.md",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
-      "outcome": "SUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the recorded answer rests on the V1 synthesis, measured on the 0.9.x engine before the 0.12.0 cognitive rework. Whether structure still forms under the current build is unmeasured on it."
     },
     {
       "id": "Q002",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?",
-      "answer": "Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there.",
       "scope": "Presence in one world family, not availability in general.",
       "evidence": [
         "docs/gate13_allocation_rule.json",
-        "docs/GATE13-RELATION-SEPARATION.md"
+        "docs/GATE13-RELATION-SEPARATION.md",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
       "bottleneck_rows": [
         "World-edge candidate availability"
       ],
-      "outcome": "SUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40."
     },
     {
       "id": "Q003",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Can a frequency-ranked selection find the world's edges at the engine's cap?",
-      "answer": "No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one.",
       "scope": "The Gate 13 task and world family, under the two measured allocation rules.",
       "evidence": [
         "docs/gate13_allocation_rule.json",
-        "docs/GATE13-RELATION-SEPARATION.md"
+        "docs/GATE13-RELATION-SEPARATION.md",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
       "bottleneck_rows": [
         "Selection / allocation"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured."
     },
     {
       "id": "Q004",
@@ -133,37 +139,41 @@
     {
       "id": "Q007",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Does internal structure improve held-out prediction at the tested endpoint?",
-      "answer": "No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats.",
       "scope": "The confirmatory endpoint and its world family; no claim that structure is irrelevant anywhere else.",
       "evidence": [
         "docs/functional_structure_confirmatory.json",
-        "docs/acquisition_endpoint_audit.json"
+        "docs/acquisition_endpoint_audit.json",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
       "bottleneck_rows": [
         "Structure to behavior coupling"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the confirmatory endpoint ran on 2026-11-02, before the 0.12.0 rework introduced single-pass natural selection, Layer 1 grounding and the new ranking. The structures that reach the readout are not the same structures."
     },
     {
       "id": "Q008",
       "kind": "research",
-      "status": "closed",
+      "status": "open",
       "question": "Do the architecture's own motivational mechanisms drive development in the predicted direction?",
-      "answer": "Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction.",
       "scope": "Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.",
       "evidence": [
-        "papers/07_architecture_predictions_reversed.md"
+        "papers/07_architecture_predictions_reversed.md",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
       "bottleneck_rows": [
         "Theory mismatch (motivational reversals)"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed UNSUPPORTED on pre-0.12.0 evidence: Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the motivational reversals were measured on the pre-0.12.0 engine; contradiction density and the EIG fix both landed in the 0.12.0 work, so the mechanisms scored are not the mechanisms now shipped."
     },
     {
       "id": "Q009",
@@ -314,19 +324,21 @@
     {
       "id": "Q018",
       "kind": "research",
-      "status": "retired",
+      "status": "open",
       "question": "Should another Gate 13 ranking variant be run?",
-      "answer": "No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse.",
       "evidence": [
         "docs/gate13_allocation_rule.json",
-        "docs/bottleneck_map.json"
+        "docs/bottleneck_map.json",
+        "docs/ENGINE-VERSION-AUDIT.md",
+        "docs/engine_version_audit.json"
       ],
       "bottleneck_rows": [
         "Selection / allocation"
       ],
-      "outcome": "UNSUPPORTED",
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
+      "why_open": "Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed."
     },
     {
       "id": "Q019",

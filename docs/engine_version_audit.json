@@ -1,0 +1,274 @@
+{
+  "kind": "engine_version_audit",
+  "date": "2026-11-08",
+  "freeze_tag": "v0.9.0",
+  "questions_taken_from": "docs/research_question_registry.json",
+  "commits_touching_organica_since_freeze": 20,
+  "insertions": 3043,
+  "deletions": 1791,
+  "files_changed": 9,
+  "frozen_files_changed": [
+    "organica/sleep.py",
+    "organica/memory.py"
+  ],
+  "frozen_files_list": [
+    "organica/sleep.py",
+    "organica/memory.py",
+    "organica/paths.py",
+    "organica/streams.py",
+    "organica/branch_streams.py",
+    "organica/scale_streams.py",
+    "organica/ground_truth_worlds.py"
+  ],
+  "guard_disabled_at_version": "0.12.0",
+  "guard_disabled_commit": "fa47ae0",
+  "guard_disabled_date": "2026-11-04",
+  "guard_behaviour": "tests/test_v1_freeze.py calls pytest.skip for every frozen engine file when organica.__version__ >= 0.12.0",
+  "per_file": [
+    {
+      "file": "organica/__init__.py",
+      "commits": 6,
+      "added": 5,
+      "removed": 1
+    },
+    {
+      "file": "organica/branch_streams.py",
+      "commits": 0,
+      "added": 0,
+      "removed": 0
+    },
+    {
+      "file": "organica/candidates.py",
+      "commits": 2,
+      "added": 315,
+      "removed": 0
+    },
+    {
+      "file": "organica/environment.py",
+      "commits": 1,
+      "added": 239,
+      "removed": 0
+    },
+    {
+      "file": "organica/ground_truth_worlds.py",
+      "commits": 0,
+      "added": 0,
+      "removed": 0
+    },
+    {
+      "file": "organica/memory.py",
+      "commits": 5,
+      "added": 64,
+      "removed": 13
+    },
+    {
+      "file": "organica/paths.py",
+      "commits": 0,
+      "added": 0,
+      "removed": 0
+    },
+    {
+      "file": "organica/scale_streams.py",
+      "commits": 0,
+      "added": 0,
+      "removed": 0
+    },
+    {
+      "file": "organica/sleep.py",
+      "commits": 12,
+      "added": 291,
+      "removed": 1777
+    },
+    {
+      "file": "organica/sleep_extraction.py",
+      "commits": 2,
+      "added": 826,
+      "removed": 0
+    },
+    {
+      "file": "organica/sleep_inquiry.py",
+      "commits": 1,
+      "added": 401,
+      "removed": 0
+    },
+    {
+      "file": "organica/sleep_selection.py",
+      "commits": 3,
+      "added": 454,
+      "removed": 0
+    },
+    {
+      "file": "organica/sleep_synthesis.py",
+      "commits": 1,
+      "added": 448,
+      "removed": 0
+    },
+    {
+      "file": "organica/streams.py",
+      "commits": 0,
+      "added": 0,
+      "removed": 0
+    }
+  ],
+  "tags": [
+    {
+      "tag": "v0.6.0",
+      "date": "2026-10-23"
+    },
+    {
+      "tag": "v0.7.0",
+      "date": "2026-10-23"
+    },
+    {
+      "tag": "v0.8.0",
+      "date": "2026-10-24"
+    },
+    {
+      "tag": "v0.9.0",
+      "date": "2026-10-24"
+    },
+    {
+      "tag": "audit-trace-v1",
+      "date": "2026-10-29"
+    },
+    {
+      "tag": "v0.10.0",
+      "date": "2026-10-31"
+    },
+    {
+      "tag": "v0.12.0",
+      "date": "2026-11-06"
+    }
+  ],
+  "artifacts_with_engine_version": [
+    {
+      "path": "docs/candidate_membership_audit.json",
+      "engine_version": "0.11.0",
+      "date": "2026-10-31"
+    },
+    {
+      "path": "docs/decay_adaptation.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/decay_competition_probe.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-08"
+    },
+    {
+      "path": "docs/decay_falsifier.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/decay_paired_bracket.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-08"
+    },
+    {
+      "path": "docs/decay_sweep.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/decay_threshold.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-08"
+    },
+    {
+      "path": "docs/decay_threshold_edge.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-08"
+    },
+    {
+      "path": "docs/formation_utilization.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-31"
+    },
+    {
+      "path": "docs/formation_utilization_pre_correction.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-31"
+    },
+    {
+      "path": "docs/formation_utilization_timing.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-31"
+    },
+    {
+      "path": "docs/formation_utilization_timing_pre_amendment.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-30"
+    },
+    {
+      "path": "docs/formation_utilization_timing_pre_correction.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-31"
+    },
+    {
+      "path": "docs/operating_point.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/reference_death_ledger.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/substrate_repair.json",
+      "engine_version": "0.13.0",
+      "date": "2026-11-07"
+    },
+    {
+      "path": "docs/use_path_diagnostic.json",
+      "engine_version": "0.10.0",
+      "date": "2026-10-31"
+    }
+  ],
+  "artifacts_without_engine_version": [
+    "docs/gate13_allocation_rule.json",
+    "docs/acquisition_single_seed_pilot.json",
+    "docs/acquisition_endpoint_audit.json",
+    "docs/functional_structure_confirmatory.json",
+    "docs/density_interaction_a2_result.json",
+    "docs/density_padding_result.json",
+    "docs/transfer_provenance.json",
+    "docs/store_time_role_durability.json",
+    "docs/decay_attribution.json",
+    "docs/decay_admission_slot.json",
+    "docs/candidate_membership_audit.json"
+  ],
+  "reopened": [
+    {
+      "id": "Q001",
+      "reason": "Reopened 2026-11-08: the recorded answer rests on the V1 synthesis, measured on the 0.9.x engine before the 0.12.0 cognitive rework. Whether structure still forms under the current build is unmeasured on it."
+    },
+    {
+      "id": "Q002",
+      "reason": "Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40."
+    },
+    {
+      "id": "Q003",
+      "reason": "Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured."
+    },
+    {
+      "id": "Q007",
+      "reason": "Reopened 2026-11-08: the confirmatory endpoint ran on 2026-11-02, before the 0.12.0 rework introduced single-pass natural selection, Layer 1 grounding and the new ranking. The structures that reach the readout are not the same structures."
+    },
+    {
+      "id": "Q008",
+      "reason": "Reopened 2026-11-08: the motivational reversals were measured on the pre-0.12.0 engine; contradiction density and the EIG fix both landed in the 0.12.0 work, so the mechanisms scored are not the mechanisms now shipped."
+    },
+    {
+      "id": "Q018",
+      "reason": "Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed."
+    }
+  ],
+  "claims_downgraded": [
+    "C001",
+    "C002",
+    "C003"
+  ]
+}

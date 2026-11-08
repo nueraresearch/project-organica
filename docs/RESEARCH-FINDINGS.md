@@ -11,30 +11,6 @@ questions behind it. Nothing appears here that cannot be traced back to an artif
 Closed questions whose recorded outcome is SUPPORTED. The scope beside each one is part of
 the finding: a result outside that scope is not established by it.
 
-### Q001 — Can developmental structure form in Organica 1?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports.
-
-**Scope.** Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.
-
-**Evidence.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`
-
-**Claims resting on it.** C001, C002
-
-### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
-
-**Outcome.** SUPPORTED, status closed.
-
-**Answer.** Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there.
-
-**Scope.** Presence in one world family, not availability in general.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`
-
-**Claims resting on it.** C003
-
 ### Q004 — Does excluding intra-cell rows buy precision at a fixed cap?
 
 **Outcome.** SUPPORTED, status closed.
@@ -160,16 +136,6 @@ dashboard counts them under questions rather than under findings.
 Closed questions whose recorded outcome is UNSUPPORTED. Not supported is not refuted: it
 means the test the project ran did not support the proposition, on the scope stated.
 
-### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one.
-
-**Scope.** The Gate 13 task and world family, under the two measured allocation rules.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`
-
 ### Q005 — Does the primary scheme's partial final pass explain the ladder's non-monotonicity?
 
 **Outcome.** UNSUPPORTED, status closed.
@@ -189,26 +155,6 @@ means the test the project ran did not support the proposition, on the scope sta
 **Scope.** The admission rule, not extraction, the confidence formula, the death threshold or the caps.
 
 **Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
-
-### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats.
-
-**Scope.** The confirmatory endpoint and its world family; no claim that structure is irrelevant anywhere else.
-
-**Evidence.** `docs/functional_structure_confirmatory.json`, `docs/acquisition_endpoint_audit.json`
-
-### Q008 — Do the architecture's own motivational mechanisms drive development in the predicted direction?
-
-**Outcome.** UNSUPPORTED, status closed.
-
-**Answer.** Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction.
-
-**Scope.** Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.
-
-**Evidence.** `papers/07_architecture_predictions_reversed.md`
 
 ### Q032 — Do theories die before the edges, so that theory death causes the edge loss?
 
@@ -286,6 +232,36 @@ Open questions are under active investigation. Future questions are blocked by a
 prerequisite and are not being worked on. Neither is a finding, and neither may be quoted
 as one.
 
+### Q001 — Can developmental structure form in Organica 1?
+
+**Why it is open.** Reopened 2026-11-08: the recorded answer rests on the V1 synthesis, measured on the 0.9.x engine before the 0.12.0 cognitive rework. Whether structure still forms under the current build is unmeasured on it.
+
+**What is in hand.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
+
+**Why it is open.** Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.
+
+**What is in hand.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
+
+**Why it is open.** Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured.
+
+**What is in hand.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
+
+**Why it is open.** Reopened 2026-11-08: the confirmatory endpoint ran on 2026-11-02, before the 0.12.0 rework introduced single-pass natural selection, Layer 1 grounding and the new ranking. The structures that reach the readout are not the same structures.
+
+**What is in hand.** `docs/functional_structure_confirmatory.json`, `docs/acquisition_endpoint_audit.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+### Q008 — Do the architecture's own motivational mechanisms drive development in the predicted direction?
+
+**Why it is open.** Reopened 2026-11-08: the motivational reversals were measured on the pre-0.12.0 engine; contradiction density and the EIG fix both landed in the 0.12.0 work, so the mechanisms scored are not the mechanisms now shipped.
+
+**What is in hand.** `papers/07_architecture_predictions_reversed.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
 ### Q011 — Does a consolidated schema buy acquisition latency across a vocabulary boundary?
 
 **Why it is open.** At this endpoint it does not: 3.6 cycles against 3.4 naive (TR 0.944) over 5 seeds with no p-value. The prior is applied (162 against 270 applications) and reorders candidates, target rank [7, 5, 4, 20, 7], so the flatness is a measurement rather than an unrun manipulation - but the pre-registered TR > 1.25 at p < 0.01 over 10 seeds was not met.
@@ -321,6 +297,12 @@ as one.
 **Why it is open.** Gate 13 closed frequency-based ranking, not the candidate space: precision was flat and low across budgets and rules, which locates the defect in the space rather than the budget, and no candidate-space intervention has been measured.
 
 **What is in hand.** `docs/GATE13-RELATION-SEPARATION.md`, `docs/gate13_allocation_rule.json`
+
+### Q018 — Should another Gate 13 ranking variant be run?
+
+**Why it is open.** Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed.
+
+**What is in hand.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
 ### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
 

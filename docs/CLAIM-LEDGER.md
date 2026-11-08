@@ -12,9 +12,9 @@ artifacts it rests on, and the limits of its own scope.
 
 | Claim | Statement | Classification | Questions | Provenance |
 | --- | --- | --- | --- | --- |
-| C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | DEMONSTRATED | Q001 | ARTIFACT_READ |
-| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | DEMONSTRATED | Q001 | OWNER_READING |
-| C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | SUPPORTED | Q002 | ARTIFACT_READ |
+| C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | HYPOTHESIS | Q001 | ARTIFACT_READ |
+| C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | HYPOTHESIS | Q001 | OWNER_READING |
+| C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | HYPOTHESIS | Q002 | ARTIFACT_READ |
 | C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | SUPPORTED | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
@@ -93,10 +93,13 @@ Each claim carries its own limits in the ledger. The ones that recur:
 - **C001.** The stimulus families and world families the phases actually used.
 - **C001.** Structure means substrate rows, edges and candidates, not semantic content.
 - **C001.** Says nothing about external validity, task generality or capability.
+- **C001.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
 - **C002.** Persistence is measured on the substrate's own record, not against an external task.
 - **C002.** Decay is present and was not switched off for these runs.
+- **C002.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
 - **C003.** Presence in memory, not selection, ranking or use in a prediction.
 - **C003.** Measured at the frozen cap of 20 predictions.
+- **C003.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
 - **C004.** The sparse end only; the dense end is pinned by the prediction cap and shows no separation.
 - **C004.** One world family, one ordering basis.
 - **C007.** Not tested. Nothing in the record supports or contradicts it yet; it is listed as a hypothesis so that it is not later quoted as a finding.

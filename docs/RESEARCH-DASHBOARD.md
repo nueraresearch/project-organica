@@ -4,18 +4,18 @@
 `python -m benchmarks.research_accountability`; `--check` validates without writing.
 
 Sources: `docs/research_question_registry.json` (dated 2026-11-08) and `docs/claim_ledger.json`
-(dated 2026-11-07). Every value below is computed from those files or from the documents named
+(dated 2026-11-08). Every value below is computed from those files or from the documents named
 in its own row. No value is typed by hand, and the row names say what is counted.
 
 | Metric | Value | Definition | Source |
 | --- | --- | --- | --- |
 | Questions registered | 51 | rows in the registry | `docs/research_question_registry.json` |
-| Questions closed | 26 | status is closed | `docs/research_question_registry.json` |
-| Questions open | 14 | status is open | `docs/research_question_registry.json` |
-| Questions retired | 6 | status is retired | `docs/research_question_registry.json` |
+| Questions closed | 21 | status is closed | `docs/research_question_registry.json` |
+| Questions open | 20 | status is open | `docs/research_question_registry.json` |
+| Questions retired | 5 | status is retired | `docs/research_question_registry.json` |
 | Questions deferred | 5 | status is future | `docs/research_question_registry.json` |
-| Findings supported | 18 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
-| Findings unsupported | 10 | closed or retired with outcome UNSUPPORTED | `docs/research_question_registry.json` |
+| Findings supported | 16 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
+| Findings unsupported | 6 | closed or retired with outcome UNSUPPORTED | `docs/research_question_registry.json` |
 | Findings mixed | 0 | closed or retired with outcome MIXED | `docs/research_question_registry.json` |
 | Findings inconclusive | 1 | closed or retired with outcome INCONCLUSIVE | `docs/research_question_registry.json` |
 | Findings withdrawn | 3 | closed or retired with outcome WITHDRAWN | `docs/research_question_registry.json` |

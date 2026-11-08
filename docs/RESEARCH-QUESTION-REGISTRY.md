@@ -13,9 +13,9 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 26 | a result constrained the space; the answer is recorded with its scope |
-| open | 14 | evidence exists, no answer is settled |
-| retired | 6 | no longer worth resources; the reason is recorded |
+| closed | 21 | a result constrained the space; the answer is recorded with its scope |
+| open | 20 | evidence exists, no answer is settled |
+| retired | 5 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **51** | |
 
@@ -26,46 +26,6 @@ tallies, a bottleneck-map row that no question claims, and a question that cites
 which is not on disk. Registering a decision is therefore part of making one.
 
 ## 1. Closed — answered, and the answer constrained the space
-
-### Q001 — Can developmental structure form in Organica 1?
-
-*research question.*
-
-**Outcome.** SUPPORTED
-
-**Answer.** Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports.
-
-**Scope.** Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.
-
-**Evidence.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`
-
-### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
-
-*research question.*
-
-**Outcome.** SUPPORTED
-
-**Answer.** Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there.
-
-**Scope.** Presence in one world family, not availability in general.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`
-
-**Bottleneck rows.** World-edge candidate availability
-
-### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
-
-*research question.*
-
-**Outcome.** UNSUPPORTED
-
-**Answer.** No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one.
-
-**Scope.** The Gate 13 task and world family, under the two measured allocation rules.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`
-
-**Bottleneck rows.** Selection / allocation
 
 ### Q004 — Does excluding intra-cell rows buy precision at a fixed cap?
 
@@ -120,34 +80,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Decision record.** `docs/DECISION-ADMISSION-RULE.md`
 
 **Bottleneck rows.** Selection / allocation
-
-### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
-
-*research question.*
-
-**Outcome.** UNSUPPORTED
-
-**Answer.** No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats.
-
-**Scope.** The confirmatory endpoint and its world family; no claim that structure is irrelevant anywhere else.
-
-**Evidence.** `docs/functional_structure_confirmatory.json`, `docs/acquisition_endpoint_audit.json`
-
-**Bottleneck rows.** Structure to behavior coupling
-
-### Q008 — Do the architecture's own motivational mechanisms drive development in the predicted direction?
-
-*research question.*
-
-**Outcome.** UNSUPPORTED
-
-**Answer.** Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction.
-
-**Scope.** Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.
-
-**Evidence.** `papers/07_architecture_predictions_reversed.md`
-
-**Bottleneck rows.** Theory mismatch (motivational reversals)
 
 ### Q009 — Does 'no V2' forbid all engine-adjacent work?
 
@@ -379,6 +311,74 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 ## 2. Open — evidence in hand, no settled answer
 
+### Q001 — Can developmental structure form in Organica 1?
+
+*research question.*
+
+**Answer.** Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes, within the tested scope: structure forms repeatedly under the study protocol, and the synthesis states which parts of that answer the record supports. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the recorded answer rests on the V1 synthesis, measured on the 0.9.x engine before the 0.12.0 cognitive rework. Whether structure still forms under the current build is unmeasured on it.
+
+**Scope.** Organica 1, the study protocol and the synthetic worlds; not transfer and not any organism outside this engine.
+
+**Evidence.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
+
+*research question.*
+
+**Answer.** Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.
+
+**Scope.** Presence in one world family, not availability in general.
+
+**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Bottleneck rows.** World-edge candidate availability
+
+### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
+
+*research question.*
+
+**Answer.** Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured.
+
+**Scope.** The Gate 13 task and world family, under the two measured allocation rules.
+
+**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Bottleneck rows.** Selection / allocation
+
+### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
+
+*research question.*
+
+**Answer.** Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No gain was detected: the capacity-1,000 confirmatory test found none, with a 98.33% interval crossing zero, and against the strongest simple baseline the headroom is 0.005647 nats. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the confirmatory endpoint ran on 2026-11-02, before the 0.12.0 rework introduced single-pass natural selection, Layer 1 grounding and the new ranking. The structures that reach the readout are not the same structures.
+
+**Scope.** The confirmatory endpoint and its world family; no claim that structure is irrelevant anywhere else.
+
+**Evidence.** `docs/functional_structure_confirmatory.json`, `docs/acquisition_endpoint_audit.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Bottleneck rows.** Structure to behavior coupling
+
+### Q008 — Do the architecture's own motivational mechanisms drive development in the predicted direction?
+
+*research question.*
+
+**Answer.** Formerly closed UNSUPPORTED on pre-0.12.0 evidence: Not as predicted. P1 (retention) and P4 (dreams) were supported; P2 (contradiction's weight), P3 (question generation) and P5 (EIG) reversed in the developmental direction. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the motivational reversals were measured on the pre-0.12.0 engine; contradiction density and the EIG fix both landed in the 0.12.0 work, so the mechanisms scored are not the mechanisms now shipped.
+
+**Scope.** Each mechanism was disabled in its own colony and scored on the predicted direction, not on movement.
+
+**Evidence.** `papers/07_architecture_predictions_reversed.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Bottleneck rows.** Theory mismatch (motivational reversals)
+
 ### Q011 — Does a consolidated schema buy acquisition latency across a vocabulary boundary?
 
 *research question.*
@@ -440,6 +440,18 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/GATE13-RELATION-SEPARATION.md`, `docs/gate13_allocation_rule.json`
 
 **Bottleneck rows.** Candidate-generation strategy (broader)
+
+### Q018 — Should another Gate 13 ranking variant be run?
+
+*research question.*
+
+**Answer.** Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
+
+**Why it is open.** Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed.
+
+**Evidence.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Bottleneck rows.** Selection / allocation
 
 ### Q028 — Can a transfer event be traced to the role satisfaction that licensed it?
 
@@ -530,18 +542,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
 
 **Decision record.** `docs/DECISION-ADMISSION-RULE.md`
-
-**Bottleneck rows.** Selection / allocation
-
-### Q018 — Should another Gate 13 ranking variant be run?
-
-*research question.*
-
-**Outcome.** UNSUPPORTED
-
-**Answer.** No. Both outcomes are 'try another variant', and the space is closed by measurement: a 0.3438 precision ceiling across 36 measurements under two rules, ~12x the cap needed for coverage, and a per-source rule that does worse.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`
 
 **Bottleneck rows.** Selection / allocation
 

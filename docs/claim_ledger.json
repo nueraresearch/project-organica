@@ -21,12 +21,12 @@
     ],
     "provenance_rule": "every claim carries exactly one tag saying what its classification rests on, checked by benchmarks/provenance.py: ARTIFACT_READ a result the cited artifacts record, OWNER_READING the owner's reading or intention with no measurement restated here, AGENT_INFERRED an inference that may not be DEMONSTRATED or SUPPORTED, PROTOCOL_CONSTRAINT a value a registration fixes and must name"
   },
-  "date": "2026-11-07",
+  "date": "2026-11-08",
   "claims": [
     {
       "claim_id": "C001",
       "claim": "Organica forms developmental structure from its own event stream, with no pretrained weights.",
-      "classification": "DEMONSTRATED",
+      "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
       "supporting_questions": [
@@ -39,7 +39,8 @@
       "scope_limitations": [
         "The stimulus families and world families the phases actually used.",
         "Structure means substrate rows, edges and candidates, not semantic content.",
-        "Says nothing about external validity, task generality or capability."
+        "Says nothing about external validity, task generality or capability.",
+        "Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""
@@ -47,7 +48,7 @@
     {
       "claim_id": "C002",
       "claim": "Structure that forms persists across sleep cycles and is read back on later cycles.",
-      "classification": "DEMONSTRATED",
+      "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "OWNER_READING",
       "supporting_questions": [
@@ -59,7 +60,8 @@
       ],
       "scope_limitations": [
         "Persistence is measured on the substrate's own record, not against an external task.",
-        "Decay is present and was not switched off for these runs."
+        "Decay is present and was not switched off for these runs.",
+        "Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""
@@ -67,7 +69,7 @@
     {
       "claim_id": "C003",
       "claim": "All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap.",
-      "classification": "SUPPORTED",
+      "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
       "supporting_questions": [
@@ -80,7 +82,8 @@
       ],
       "scope_limitations": [
         "Presence in memory, not selection, ranking or use in a prediction.",
-        "Measured at the frozen cap of 20 predictions."
+        "Measured at the frozen cap of 20 predictions.",
+        "Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""
