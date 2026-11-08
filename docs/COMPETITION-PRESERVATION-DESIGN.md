@@ -1,9 +1,29 @@
-# Competition preservation as the next development target (Q053)
+# Competition preservation as the best-supported unexplored hypothesis (Q053)
 
 **Status: a design record, not an experiment and not a decision to change the engine.**
 It names the measured failure mode, five candidate interventions, and the comparison that
 would test one of them. It selects no mechanism, allocates no seed, fixes no bar, and runs
 no cell. The owner decision that motivates it is action 50 in `docs/USER-MANUAL.md`.
+
+## 0. Epistemic status (2026-11-08)
+
+**High confidence.** Decay-factor tuning is no longer the highest-value research area:
+the operating point and threshold are established, the 0.9924/0.9925 edge is bracketed and
+paired, and Q051 did not earn adoption. The active boundary is competition loss, not
+support-mass loss: the supports at death are in the 400s, and theory formation fails because
+no subject retains two competing hypotheses. 0.9925 should not be adopted because it did not
+clear the preregistered capability bar, not because the effect is zero.
+
+**Medium confidence.** Competition preservation is the best-supported *unexplored*
+hypothesis, not the proven next move. The evidence supports the observed boundary
+(competition loss); it does not support the intervention-to-capability link. Preserving
+competition has not been tested, and a mechanism that raises the competition count may still
+fail to improve ranking.
+
+**Ordering.** Q052 framing comes first, then the Q053 design, then a preregistration. No
+intervention is built before those records exist. The framing must establish whether
+`burst_L1`'s late collapse is the same competition-loss mechanism; if it is not, a
+competition intervention designed only on `lattice_L1` would be premature.
 
 The evidence is in `docs/decay_support_probe.json`,
 `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json` and
@@ -28,6 +48,19 @@ into a capability-sized ranking gain: the confirmatory late median was **+0.0265
 10** seeds positive, an early median of **+0.0119**, and growth in **6 of 10**. The
 persistence route is closed for adoption, not because the late effect is zero, but because
 it is neither large enough nor isolated enough.
+
+## 1a. Q052 framing comes first
+
+Q052 is not a parallel task; its framing is the prerequisite for choosing a mechanism.
+Before Q053 selects an intervention, the second family must be classified: does
+`burst_L1`'s late collapse also occur with subjects still holding two pairs but no subject
+holding two competing hypotheses, or does it fail for a different reason? The calibration
+already shows that its decay arms reverse, so the second family cannot inherit Q051's arms.
+
+If the collapse mechanism is the same, Q053 may test one intervention on both families with
+matched arms. If it differs, Q053 stays `lattice_L1`-scoped and `burst_L1` needs its own
+diagnosis before it can carry a capability result. "Finish Q052 framing" means recording
+that comparison design; it does not authorise running either family.
 
 ## 2. The question
 
@@ -109,7 +142,7 @@ must change competition without changing the global decay constant.
 
 ## 7. Stop condition and scope
 
-One mechanism, one protocol, one confirmatory block. **No decay-factor sweep, no further
+One mechanism, one protocol, one confirmatory block. **No intervention is built until the Q052 framing and the Q053 mechanism choice are recorded and a preregistration is frozen.** **No decay-factor sweep, no further
 0.9924/0.9925 verification, and no additional persistence diagnostic on `lattice_L1` is
 planned.** The mechanism is applied in-process as a `SleepService` subclass; the frozen
 engine files are untouched, and no engine version adopts it without a recorded decision
