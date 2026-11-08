@@ -26,6 +26,7 @@ from benchmarks.acquisition_compositional import generate_compositional_world, P
 from benchmarks.acquisition_runner import _world_compositional_edges, structure_edges, EVENTS_PER_CYCLE
 from benchmarks.run_ratio_admission_arm import make_arm
 from benchmarks.run_paired_capacity_test import NON_VOCAB_MARKERS
+from benchmarks import engine_stamp
 
 BLOCK = json.loads((REPO / "docs/gate13_ratio_block2.json").read_text())
 
@@ -156,7 +157,7 @@ def main():
         "seeds_failing": failing, "matched": match, "per_seed_uplift_delta": rows,
         "replay_mismatches": mismatches, "cells": cells_run,
     }
-    (REPO / "docs/gate13_assertion_path.json").write_text(json.dumps(art, indent=2) + "\n")
+    (REPO / "docs/gate13_assertion_path.json").write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
 
     print("\nmismatches:", len(mismatches))
     for k, v in cells_run.items():

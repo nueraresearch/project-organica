@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 p = Path("docs/gate13_assertion_path.json")
 art = json.loads(p.read_text())
@@ -74,5 +75,5 @@ art["field_notes"] = {
     "covered_in_window": "covered edges that did appear in at least one window",
     "covered_outside_window": "covered edges that appeared in no window (other structure types)",
 }
-p.write_text(json.dumps(art, indent=2) + "\n")
+p.write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
 print(json.dumps(summary, indent=2))

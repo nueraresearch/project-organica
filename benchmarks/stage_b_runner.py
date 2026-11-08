@@ -79,6 +79,7 @@ from benchmarks.stage_b_stream_withholding import (  # noqa: E402
     CONFIG_RATIOS, CONFIRMATION_CYCLE, DESIGN_SEEDS, LEARN_CYCLES, TEST_CYCLES,
     build_world, withheld_tag_pairs, window,
 )
+from benchmarks import engine_stamp
 
 OUT = ROOT / "docs" / "stage_b_runner.json"
 SELF_TEST_OUT = ROOT / "docs" / "stage_b_runner_self_test.json"
@@ -159,6 +160,8 @@ def cell_path(config: str, seed: int) -> Path:
 def save_cell(cell: dict) -> Path:
     CACHE.mkdir(parents=True, exist_ok=True)
     path = cell_path(cell["configuration"], cell["seed"])
+    # A cache cell is disposable scratch, not a result: it is compared field for field when it
+    # is reloaded, so it carries no stamp of its own. The run artifacts this module writes do.
     path.write_text(json.dumps(cell, indent=2) + "\n", encoding="utf-8")
     return path
 
@@ -863,7 +866,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.self_test:
         result = self_test()
-        SELF_TEST_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        SELF_TEST_OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result, indent=2))
         return 0 if result["passed"] else 1
 
@@ -899,7 +902,7 @@ def main(argv: list[str] | None = None) -> int:
                                   "analysis. " + note,
                   "cells": cells, "analysis": analyse(cells), "limits": LIMITS}
         target = Path(args.out) if args.out else OUT
-        target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        target.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result["analysis"], indent=2))
         return 0
 
@@ -912,7 +915,7 @@ def main(argv: list[str] | None = None) -> int:
         cells = [json.loads(p.read_text(encoding="utf-8"))
                  for p in sorted(CACHE.glob("cell_*.json"))]
         result = rate_proportionality(cells)
-        RATE_CHECK_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        RATE_CHECK_OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result, indent=2))
         return 0
 
@@ -927,7 +930,7 @@ def main(argv: list[str] | None = None) -> int:
                 done = sum(c["engine_seconds"] for c in smoke["cells"])
                 efficiency = done / smoke["wall_seconds"] / smoke["workers"]
         result = cost_estimate(cells, efficiency=efficiency)
-        ESTIMATE_OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        ESTIMATE_OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
         print(json.dumps({k: v for k, v in result.items() if k != "measured_from"},
                          indent=2))
         return 0

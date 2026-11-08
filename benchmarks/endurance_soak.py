@@ -49,6 +49,7 @@ TASKS     = ["backup", "cleanup", "report", "sync", "audit"]
 ENDPOINTS = ["login", "logout", "profile", "search", "checkout"]
 
 import random
+from benchmarks import engine_stamp
 random.seed(42)
 
 def make_event(i: int) -> str:
@@ -163,7 +164,7 @@ def run_soak(duration_seconds: float, events_per_cycle: int = 20):
         "all_lineage_checks_passed": all(s["lineage_sample_ok"] for s in telemetry),
         "telemetry": telemetry,
     }
-    report_path.write_text(json.dumps(soak_report, indent=2))
+    report_path.write_text(json.dumps(engine_stamp.stamp(soak_report), indent=2))
 
     print("\n" + "=" * 85)
     print(f"[SOAK] COMPLETE: {cycle} cycles | {event_counter} events | {elapsed}s elapsed")

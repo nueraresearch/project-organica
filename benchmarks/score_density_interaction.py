@@ -21,6 +21,7 @@ import argparse
 import json
 import random
 from pathlib import Path
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 PREREG = ROOT / "docs" / "density_interaction_prereg.json"
@@ -296,7 +297,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     payload = json.loads(Path(args.results).read_text(encoding="utf-8"))
     result = score(payload)
-    Path(args.out).write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp(result), indent=1) + "\n", encoding="utf-8")
     print(result["decision"]["verdict"], "->", args.out)
     return 0
 

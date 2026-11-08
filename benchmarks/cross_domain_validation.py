@@ -22,6 +22,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from organica import MemoryService, SleepService
+from benchmarks import engine_stamp
 
 DOMAINS = [
     {
@@ -210,7 +211,7 @@ def run_validation():
         "domains": results,
     }
     out = Path(__file__).parent.parent / "docs" / "validation_report.json"
-    out.write_text(json.dumps(report, indent=2))
+    out.write_text(json.dumps(engine_stamp.stamp(report), indent=2))
     print(f"\nFull report written to: {out}")
     return all_pass
 

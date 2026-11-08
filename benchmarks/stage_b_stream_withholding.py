@@ -33,6 +33,7 @@ from benchmarks.phase_l_campaign import (
     ARRIVAL_FRACTION, EVENTS_PER_CYCLE, NOISE_FEATURES, NOISE_RATE, Entity,
     _core_entities,
 )
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "stage_b_stream_withholding.json"
@@ -328,7 +329,7 @@ def main() -> None:
     ap.add_argument("--reps", type=int, default=REPS)
     args = ap.parse_args()
     result = build(args.reps)
-    OUT.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     a = result["audit"]
     print("audit:", {k: a[k] for k in ("passed", "withheld_pairs_declared",
                                        "withheld_pairs_in_formation_of_the_withholding_world",

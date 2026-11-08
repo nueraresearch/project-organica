@@ -54,6 +54,7 @@ sys.path.insert(0, str(REPO))
 
 from benchmarks import formation_utilization as fu          # noqa: E402
 from organica.memory import MemoryService                   # noqa: E402
+from benchmarks import engine_stamp
 
 #: The candidate-membership audit, which says where each seed diverges.
 MEMBERSHIP_ARTIFACT = REPO / "docs" / "candidate_membership_audit.json"
@@ -242,7 +243,7 @@ def run_worker(task: str, seed: int, cycles: list[int],
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(payload, f, indent=1, sort_keys=True)
+        json.dump(engine_stamp.stamp(payload), f, indent=1, sort_keys=True)
         f.write("\n")
     return payload
 
@@ -898,7 +899,7 @@ def main(argv: list[str] | None = None) -> int:
     artifact = build(args)
     with open(REPO / "docs" / "divergence_cycle_capture.json", "w",
               encoding="utf-8", newline="\n") as f:
-        json.dump(artifact, f, indent=1, sort_keys=True)
+        json.dump(engine_stamp.stamp(artifact), f, indent=1, sort_keys=True)
         f.write("\n")
     with open(REPO / "docs" / "DIVERGENCE-CYCLE-CAPTURE.md", "w",
               encoding="utf-8", newline="\n") as f:

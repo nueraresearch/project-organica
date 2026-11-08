@@ -54,6 +54,7 @@ from benchmarks.ablation_metrics import edges_implied_by_structures  # noqa: E40
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService  # noqa: E402
+from benchmarks import engine_stamp
 
 EVENTS_PER_CYCLE = 8
 BOOTSTRAP_REPLICATES = 10_000
@@ -783,7 +784,7 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
             f for f, s in payload["summaries"].items() if s["verdict"] == "SUPPORTED"]
         out_path.parent.mkdir(parents=True, exist_ok=True)
         tmp = out_path.with_suffix(out_path.suffix + ".tmp")
-        tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        tmp.write_text(json.dumps(engine_stamp.stamp(payload), indent=2), encoding="utf-8")
         os.replace(tmp, out_path)
 
     if workers > 1:
@@ -994,7 +995,7 @@ def main() -> None:
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(f"  wrote {out}")
 
 

@@ -32,6 +32,7 @@ import json
 from pathlib import Path
 
 from benchmarks.transfer_provenance import PAIR_STATUSES, measure, self_test
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -141,7 +142,7 @@ def run(seeds=SEEDS) -> int:
         "scope": ("same instrument, same two contexts, same 40+40 cycles; stability of the "
                   "split across seeds, not a property of other worlds or cycle counts"),
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     PAGE.write_text(render(artifact), encoding="utf-8")
     print("label:", artifact["label"])
     return 0

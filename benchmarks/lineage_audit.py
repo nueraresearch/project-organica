@@ -49,6 +49,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from organica.memory import _extract_tags  # noqa: E402
+from benchmarks import engine_stamp
 
 # Layer 1 candidates are grounded in raw experience through these fields.
 GROUNDING_FIELDS = {
@@ -221,7 +222,7 @@ def main() -> int:
 
     out = Path(__file__).parent.parent / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Law II Lineage Audit (resolution to Generation 0)",
@@ -230,7 +231,7 @@ def main() -> int:
                   "experience event. Unverifiable and ungrounded are reported "
                   "separately rather than conflated.",
         "result": result,
-    }, indent=2))
+    }), indent=2))
     print(f"\n  Full report written to: {out}")
     return 0
 

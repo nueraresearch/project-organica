@@ -29,6 +29,7 @@ from organica.environment import ActiveInquiryLoop, ReactiveWorld
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.sleep import SleepService
+from benchmarks import engine_stamp
 
 
 def run_passive_arm(cycles: int) -> dict[str, Any]:
@@ -175,7 +176,7 @@ def main():
 
     out_path = REPO / "docs" / "active_inquiry_benchmark.json"
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(engine_stamp.stamp(payload), f, indent=2)
     print(f"Wrote active inquiry benchmark to {out_path}")
 
 

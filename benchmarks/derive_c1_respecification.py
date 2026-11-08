@@ -14,6 +14,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 SWEEP = REPO / "docs" / "gate13_control_precision_sweep.json"
@@ -82,7 +83,7 @@ def main() -> None:
         "decision_rule": {"pass": "|mean(C at cap 20) - 0.4667| <= delta", "band": [round(lo, 4), round(hi, 4)],
                           "fail_low_and_fail_high": "both are 'not comparable'; reported separately"},
     }
-    OUT.write_text(json.dumps(art, indent=2) + "\n")
+    OUT.write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
     print(f"reference n={len(prec)} mean={mean:.4f} sd={sd:.4f} se={se:.4f} offset={offset:+.4f}")
     print(f"margin analytic={delta_analytic:.4f} chosen={delta:.3f} pass={cov[delta]:.3f} band=[{lo:.4f},{hi:.4f}]")
     print(f"shift at 50%: {shift_50} | stability p05/med/p95 = {deltas[25]:.4f}/{st.median(deltas):.4f}/{deltas[474]:.4f}")

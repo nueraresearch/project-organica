@@ -29,6 +29,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.run_loop_free_admission_block import run_cell
+from benchmarks import engine_stamp
 
 CAND_START = 20271603      # first candidate after block 5's 20271403-20271502
 N_CAL = 10
@@ -180,7 +181,7 @@ cal = {
     "caveat": "ten calibration seeds give a noisy sd; the power table is an estimate from them, not a guarantee, "
               "and the block reports its own observed effect beside the bar either way",
 }
-(REPO / "docs" / "gate13_loop_free_admission_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs" / "gate13_loop_free_admission_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("effect:", cal["effect"])
 print("perturbation:", cal["perturbation"])

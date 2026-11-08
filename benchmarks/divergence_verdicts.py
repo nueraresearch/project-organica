@@ -19,6 +19,7 @@ import sys
 import time
 from pathlib import Path
 from typing import Any
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
@@ -232,7 +233,7 @@ def main():
     }
 
     with open(OUT_JSON, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(engine_stamp.stamp(payload), f, indent=2)
 
     report_md = generate_report(results, control_result)
     with open(OUT_MD, "w", encoding="utf-8") as f:

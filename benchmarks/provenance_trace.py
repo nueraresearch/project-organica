@@ -40,6 +40,7 @@ from collections import defaultdict
 from typing import Any, Iterable
 
 from organica.memory import _extract_tags  # noqa: E402
+from benchmarks import engine_stamp
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -708,7 +709,7 @@ def run_diagnostic(seeds: tuple[int, ...] | None = None,
         if per_seed and time.monotonic() - started > budget_seconds:
             break
         entry = _trace_seed(rk, seed, cap)
-        cache.write_text(json.dumps(entry, sort_keys=True) + "\n", encoding="utf-8")
+        cache.write_text(json.dumps(engine_stamp.stamp(entry), sort_keys=True) + "\n", encoding="utf-8")
         per_seed.append(entry)
     done = [entry["seed"] for entry in per_seed]
     if len(done) < len(target):
@@ -748,7 +749,7 @@ def run_diagnostic(seeds: tuple[int, ...] | None = None,
         "artifact_written": True,
     }
     _assert_diagnostic(art)
-    (ROOT / DIAGNOSTIC_OUT).write_text(json.dumps(art, indent=1, sort_keys=True) + "\n",
+    (ROOT / DIAGNOSTIC_OUT).write_text(json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n",
                                        encoding="utf-8")
     (ROOT / DIAGNOSTIC_DOC).write_text(render_report(art), encoding="utf-8")
     return art

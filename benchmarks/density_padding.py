@@ -32,6 +32,7 @@ from statistics import mean
 from benchmarks.density_worlds import (PRIMARY_CAP, RANKERS, TOTAL_EVENTS, base_stream,
                                        is_intra_cell, measure, stream, world_edges)
 from benchmarks.run_density_interaction import run_pool
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 PREREG = ROOT / "docs" / "density_padding_prereg.json"
@@ -149,7 +150,7 @@ def write_registration() -> None:
     if RUN.exists() or RESULT.exists():
         raise SystemExit("cells or results exist without a registration")
     body = registration()
-    PREREG.write_text(json.dumps(body, indent=2) + "\n", encoding="utf-8")
+    PREREG.write_text(json.dumps(engine_stamp.stamp(body), indent=2) + "\n", encoding="utf-8")
     DOC.write_text(render_document(body), encoding="utf-8")
     print("registered %s" % body["prereg"])
 
@@ -261,13 +262,13 @@ def run(seed_slice: str | None = None, append: bool = False) -> dict:
         "provenance": {"runner": "benchmarks/density_padding.py",
                        "engine": "frozen v1 via benchmarks.run_density_interaction.run_pool"},
     }
-    RUN.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    RUN.write_text(json.dumps(engine_stamp.stamp(payload), indent=2) + "\n", encoding="utf-8")
     body["status"] = "RUN" if complete else "RUNNING"
     body["run"] = {"cells": len(cells), "seeds": len(covered), "of_seeds": len(seeds),
                    "densities": len(densities), "gate_passed": True,
                    "artifact": "docs/density_padding_run.json",
                    "slices": len(slices)}
-    PREREG.write_text(json.dumps(body, indent=2) + "\n", encoding="utf-8")
+    PREREG.write_text(json.dumps(engine_stamp.stamp(body), indent=2) + "\n", encoding="utf-8")
     print("%d cells written (%d of %d seeds)" % (len(cells), len(covered), len(seeds)))
     return payload
 
@@ -363,7 +364,7 @@ def score() -> dict:
                        "prereg": "docs/density_padding_prereg.json",
                        "a2": "docs/density_interaction_a2_result.json"},
     }
-    RESULT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    RESULT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
     DOC.write_text(render_document(body, result), encoding="utf-8")
     print(verdict)
     return result

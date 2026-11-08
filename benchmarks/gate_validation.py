@@ -31,6 +31,7 @@ import json
 import math
 import statistics
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 AB = REPO / "docs" / "ablation_study.json"
@@ -153,7 +154,7 @@ def main() -> None:
         },
     }
     p = REPO / "docs" / "gate_validation.json"
-    p.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    p.write_text(json.dumps(engine_stamp.stamp(out), indent=2), encoding="utf-8")
     print(f"\nwrote {p}")
 
 

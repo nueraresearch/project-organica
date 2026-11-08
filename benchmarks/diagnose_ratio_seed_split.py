@@ -16,6 +16,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 VARS = ["delta", "uplift", "C_top20", "R_top20", "count_tie_share", "count_tie_rows", "ratio_tie_share",
         "C_distinct", "R_distinct", "distinct_ratio", "C_prec", "C_asserted", "R_asserted"]
@@ -145,7 +146,7 @@ def main() -> None:
                            "C_prec": m["C_prec"]} for m in groups["block2_not"]],
         "seeds": b1 + b2,
     }
-    Path("docs/gate13_ratio_seed_split.json").write_text(json.dumps(art, indent=2) + "\n")
+    Path("docs/gate13_ratio_seed_split.json").write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
 
     print("spread block1:", art["spread"]["block1"])
     print("spread block2:", art["spread"]["block2"])

@@ -42,6 +42,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 SCRATCH = REPO / ".scratch"
@@ -100,7 +101,7 @@ def spawn_worker(task: str, seed: int, hash_seed: int,
     part["kind"] = "divergence_onset_part"
     part["observer_version"] = OBSERVER_VERSION
     with open(out, "w", encoding="utf-8") as f:
-        json.dump(part, f, indent=1, sort_keys=True)
+        json.dump(engine_stamp.stamp(part), f, indent=1, sort_keys=True)
     return task, seed, hash_seed, out
 
 
@@ -611,7 +612,7 @@ def main(argv: list[str] | None = None) -> int:
                        "--control-seeds %d,%d --workers %d"
                        % (seeds[0], seeds[1], args.workers),
         }
-        ARTIFACT.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n",
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n",
                             encoding="utf-8")
         REPORT.write_text(render(artifact) + "\n", encoding="utf-8")
         print("control re-run at %r: %d run(s), %d cached" % (seeds, ran, cached))
@@ -620,7 +621,7 @@ def main(argv: list[str] | None = None) -> int:
         artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     else:
         artifact = analyse(capture_all(args))
-        ARTIFACT.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n",
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n",
                             encoding="utf-8")
     REPORT.write_text(render(artifact) + "\n", encoding="utf-8")
     print("wrote %s and %s (%d runs, %d cached)"

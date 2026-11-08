@@ -20,6 +20,7 @@ from pathlib import Path
 
 from benchmarks.decay_sweep import run_cell
 from benchmarks.reference_death_ledger import CYCLES, cell_facts, stimulus
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_threshold" / "parts"
@@ -78,7 +79,7 @@ def measure(seeds=SEEDS) -> int:
         part = {"factor": UPPER, "seed": seed, "facts": facts,
                 "ledger": rows, "stable_series": extra["stable_series"]}
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(part, indent=1) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8")
         print("paired 0.9925 %d death=%s stable_zero=%s live=%s"
               % (seed, facts["death_cycle"], facts["stable_zero"], facts["decay_factors"]),
               flush=True)
@@ -180,7 +181,7 @@ def finish() -> dict:
     problems = validate(artifact, cells)
     if problems:
         raise SystemExit("refusing to write: " + "; ".join(problems))
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

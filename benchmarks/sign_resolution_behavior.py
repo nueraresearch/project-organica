@@ -24,6 +24,7 @@ import math
 import random
 from pathlib import Path
 from statistics import NormalDist
+from benchmarks import engine_stamp
 
 ART = Path(__file__).resolve().parent.parent / "docs" / "sign_resolution_structure_behavior.json"
 
@@ -336,7 +337,7 @@ def build():
         ],
         "generated_by": "python -m benchmarks.sign_resolution_behavior",
     }
-    ART.write_text(json.dumps(block, indent=2) + "\n", encoding="utf-8")
+    ART.write_text(json.dumps(engine_stamp.stamp(block), indent=2) + "\n", encoding="utf-8")
     return block
 
 

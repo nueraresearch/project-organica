@@ -26,6 +26,7 @@ from benchmarks.long_delay_capability import (                      # noqa: E402
     _window,
     run_cell,
 )
+from benchmarks import engine_stamp
 
 EARLY = (40, 90)
 LATE = (240, 300)
@@ -84,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
     artifact = calibrate(args.family, args.seed, args.cycles)
     out = args.out or (REPO / "docs" / ("long_delay_capability_%s_calibration.json"
                                         % args.family))
-    out.write_text(json.dumps(artifact, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2), encoding="utf-8")
     print("\nsurvivors at 300:", artifact["survivors_at_300"])
     print("contrast ready:", artifact["contrast_ready"])
     print("wrote", out.relative_to(REPO))

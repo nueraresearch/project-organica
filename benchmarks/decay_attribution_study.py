@@ -40,6 +40,7 @@ from benchmarks.decay_attribution_study_prereg import (
     amendment_digest,
     protocol_digest,
 )
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -266,7 +267,7 @@ def run(seeds=SEEDS, arms=ARMS) -> int:
                 print("cached", path.name, flush=True)
                 continue
             row = cell(arm, seed)
-            path.write_text(json.dumps(row, indent=1) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(row), indent=1) + "\n", encoding="utf-8")
             print(
                 "%-17s s%d peak=%2d final=%2d zero=%s half=%s below=%s decayed=%s core=%d"
                 % (arm, seed, row["peak"], row["final"], row["first_zero_cycle"],
@@ -419,7 +420,7 @@ def main(argv=None) -> int:
         return run(SEEDS, arms)
     if args.render:
         artifact = build(load_cells())
-        ARTIFACT.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n", encoding="utf-8")
         PAGE.write_text(render(artifact), encoding="utf-8")
         print("label:", artifact["label"])
         print("gates:", artifact["gates"])

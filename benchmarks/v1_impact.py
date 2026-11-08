@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -443,14 +444,14 @@ def main() -> None:
         print(f"  {p['population']:<18} pre={p['pre']:>4} post={p['post']:>4}  {p['verdict']}")
 
     out = REPO / "docs" / "v1_impact.json"
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "pre_artifact": str(pre_path.relative_to(REPO)),
         "post_artifact": str(post_path.relative_to(REPO)),
         "tally": counts,
         "census_comparison": census_rows_out,
         "interpretations": interpretations,
         **result,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

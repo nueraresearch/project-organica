@@ -25,6 +25,7 @@ if str(ROOT) not in sys.path:
 from benchmarks.formation_provenance_study import (  # noqa: E402
     CONFIRMATORY_SEEDS, RESULT_OUT, _difference, _rate,
 )
+from benchmarks import engine_stamp
 
 OUT = "docs/formation_provenance_robustness.json"
 DOC = "docs/FORMATION-PROVENANCE-ROBUSTNESS.md"
@@ -195,7 +196,7 @@ def render(art: dict) -> str:
 
 def main() -> int:
     art = analyse()
-    (ROOT / OUT).write_text(json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    (ROOT / OUT).write_text(json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     (ROOT / DOC).write_text(render(art), encoding="utf-8")
     print(json.dumps({
         "per_seed_range": [min(s["difference"] for s in art["per_seed"]),

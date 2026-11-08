@@ -34,6 +34,7 @@ from benchmarks.density_worlds import (CAPS, EVENTS_PER_CYCLE, PRIMARY_CAP, RANK
                                        TOTAL_EVENTS, designed_pool, identity_cell,
                                        is_intra_cell, leverage_audit, measure, stream,
                                        universe_size, world_edges)
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 PREREG = ROOT / "docs" / "density_interaction_prereg.json"
@@ -394,7 +395,7 @@ def run(out: Path = OUT, record: dict | None = None, scheme: str | None = None,
             "cap_ladder": list(CAPS),
         },
     }
-    out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(payload), indent=1) + "\n", encoding="utf-8")
     print("wrote", out, "| cells:", len(cells), "| recovery:", len(recovery))
     return payload
 

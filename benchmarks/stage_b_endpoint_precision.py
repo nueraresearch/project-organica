@@ -44,6 +44,7 @@ from benchmarks.reusable_knowledge import (
     CYCLES, broken_rule_holder, generate_compositional_world,
     latent_rule_holder, limbs,
 )
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "stage_b_endpoint_precision.json"
@@ -215,7 +216,7 @@ def main() -> None:
     ap.add_argument("--reps", type=int, default=REPS)
     args = ap.parse_args()
     artifact = build(args.reps)
-    OUT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}  reps={args.reps}")
     for cell in artifact["cells"]:
         for name, row in cell["readouts"].items():

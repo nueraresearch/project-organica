@@ -46,6 +46,7 @@ from benchmarks import formation_utilization as fu          # noqa: E402
 from organica.memory import MemoryService                   # noqa: E402
 from benchmarks.divergence_cycle_capture import (                 # noqa: E402
     newest_marker_cycle, window_candidates)
+from benchmarks import engine_stamp
 
 #: Bumped when the record shape changes.  A part from another version is stale.
 OBSERVER_VERSION = 2
@@ -665,7 +666,7 @@ def known_positive(cycles: tuple[int, ...] = KNOWN_POSITIVE_CYCLES) -> dict[str,
         "verdict": verdict,
     }
     Path("docs/store_time_observer_f4.json").write_text(
-        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        json.dumps(engine_stamp.stamp(result), indent=1, sort_keys=True, default=str) + "\n",
         encoding="utf-8")
     return result
 
@@ -730,9 +731,9 @@ def run_cell(task: str, seed: int, hash_seed: int, cycle: int,
         rec["hash_seed"] = hash_seed
         rec["requested_cycle"] = cycle
         parts[arm] = rec
-    out.write_text(json.dumps({"task": task, "seed": seed,
+    out.write_text(json.dumps(engine_stamp.stamp({"task": task, "seed": seed,
                                "hash_seed": hash_seed, "cycle": cycle,
-                               "parts": parts}, indent=1, sort_keys=True,
+                               "parts": parts}), indent=1, sort_keys=True,
                               default=str) + "\n", encoding="utf-8")
     return out
 
@@ -836,7 +837,7 @@ def verdicts(cap: int = fu.CAP_B) -> dict[str, Any]:
         "seconds": round(time.time() - started, 1),
     }
     Path("docs/store_time_observer_verdicts.json").write_text(
-        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        json.dumps(engine_stamp.stamp(result), indent=1, sort_keys=True, default=str) + "\n",
         encoding="utf-8")
     Path("docs/STORE-TIME-OBSERVER-VERDICTS.md").write_text(
         render_verdicts(result), encoding="utf-8")
@@ -960,7 +961,7 @@ def verdicts_pairs(cap: int = fu.CAP_B) -> dict[str, Any]:
         "seconds": round(time.time() - started, 1),
     }
     Path("docs/store_time_observer_verdicts_pairs.json").write_text(
-        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        json.dumps(engine_stamp.stamp(result), indent=1, sort_keys=True, default=str) + "\n",
         encoding="utf-8")
     Path("docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md").write_text(
         render_verdicts_pairs(result), encoding="utf-8")
@@ -999,7 +1000,7 @@ def aggregate_pairs(path_for=cell_part_path) -> dict[str, Any]:
         "outcome_counts": counts,
     }
     Path("docs/store_time_observer_verdicts_pairs.json").write_text(
-        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        json.dumps(engine_stamp.stamp(result), indent=1, sort_keys=True, default=str) + "\n",
         encoding="utf-8")
     Path("docs/STORE-TIME-OBSERVER-VERDICTS-PAIRS.md").write_text(
         render_verdicts_pairs(result), encoding="utf-8")
@@ -1143,7 +1144,7 @@ def lineage_report(task: str = "T2", seed: int = 20261120, arm: str = "B",
         "rows": rows,
     }
     Path("docs/store_time_observer_lineage.json").write_text(
-        json.dumps(result, indent=1, sort_keys=True, default=str) + "\n",
+        json.dumps(engine_stamp.stamp(result), indent=1, sort_keys=True, default=str) + "\n",
         encoding="utf-8")
     return result
 
@@ -1245,7 +1246,7 @@ def main(argv: list[str] | None = None) -> int:
                           trace=None, windows_at=set(cycles))
         part["hash_seed"] = int(os.environ.get("PYTHONHASHSEED", "0"))
         part["requested_cycles"] = list(cycles)
-        out.write_text(json.dumps(part, indent=1, sort_keys=True, default=str) + "\n",
+        out.write_text(json.dumps(engine_stamp.stamp(part), indent=1, sort_keys=True, default=str) + "\n",
                        encoding="utf-8")
         print(json.dumps({"part": str(out)}, sort_keys=True))
         return 0

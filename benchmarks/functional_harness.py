@@ -71,6 +71,7 @@ from benchmarks.reusable_knowledge import (  # noqa: E402
 )
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import LIVE_DB, temp_db  # noqa: E402
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Fixed constants (§3, §5, §11.1).  None of these is a parameter of this module.
@@ -690,7 +691,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.confirmatory:
         artifact = run_confirmatory()
         out = ROOT / CONFIRMATORY_OUT
-        out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n",
+        out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n",
                        encoding="utf-8")
         print(json.dumps({"status": artifact["status"], "claim": artifact["claim"],
                           "primary": {k: artifact["primary"][k]
@@ -703,7 +704,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     artifact = run_design_audit((args.only,) if args.only else DESIGN_SEEDS)
     out = pathlib.Path("/tmp/functional_design_only.json") if args.only else ROOT / DESIGN_OUT
-    out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({k: artifact[k] for k in ("status", "seeds", "failures", "seconds")},
                      indent=1))
     print(f"wrote {out}")

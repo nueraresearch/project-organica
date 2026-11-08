@@ -49,6 +49,7 @@ from organica.ground_truth_worlds import generate_cause_world  # noqa: E402
 from organica.memory import MemoryService  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService, SleepReport, _make_id  # noqa: E402
+from benchmarks import engine_stamp
 
 CYCLES = 120
 EVENTS_PER_CYCLE = 8
@@ -1348,7 +1349,7 @@ def main() -> None:
     result.update(run_invariance())
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in result.items() if k != "cycles"}, indent=2))
     print(f"wrote {out}")
 

@@ -40,6 +40,7 @@ from organica.branch_streams import lattice_stream
 from organica.memory import MemoryService
 from organica.scale_streams import expanding_triangles
 from organica.sleep import SleepService
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_fix_confirm" / "parts"
@@ -173,7 +174,7 @@ def run(degrees, seeds, arms) -> int:
                     print("cached", path.name)
                     continue
                 row = cell(arm, degree, seed)
-                path.write_text(json.dumps(row, indent=2) + "\n", encoding="utf-8")
+                path.write_text(json.dumps(engine_stamp.stamp(row), indent=2) + "\n", encoding="utf-8")
                 print(
                     "%-8s d%-3d s%d  live=%-5s theories=%3d stable=%3d coverage=%s"
                     % (
@@ -276,7 +277,7 @@ def main(argv=None) -> int:
         return run(args.degrees, seeds, args.arms)
     if args.analyze:
         report = analyse(load_cells())
-        RESULT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        RESULT.write_text(json.dumps(engine_stamp.stamp(report), indent=2) + "\n", encoding="utf-8")
         for line in report["findings"]:
             print("finding:", line)
         for line in report["failures"]:

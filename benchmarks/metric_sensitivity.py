@@ -31,6 +31,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 
@@ -327,7 +328,7 @@ def main() -> None:
     except ValueError:
         matrix_ref = str(path)
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "matrix_artifact": matrix_ref,
         "cycles": doc.get("cycles"),
         "stimulus": doc.get("stimulus"),
@@ -337,7 +338,7 @@ def main() -> None:
         "deviation_from_reference": by_dev,
         "downstream_deviation_from_reference": downstream,
         "own_metric_exclusions": {k: list(v) for k, v in OWN_METRIC.items()},
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

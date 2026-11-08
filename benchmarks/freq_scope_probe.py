@@ -62,6 +62,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -206,12 +207,12 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     def flush():
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "purpose": "M0.5 - is the tag-frequency scope the collapse mechanism?",
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
 
     for name, events in designs:
         for scope in ("all", "world"):

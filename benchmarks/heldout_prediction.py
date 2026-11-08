@@ -27,6 +27,7 @@ from organica.paths import temp_db
 from organica.scale_streams import burst_stream, scale_designs, triangle_events
 from organica.sleep import SleepService
 from organica.streams import EVENTS_PER_CYCLE
+from benchmarks import engine_stamp
 
 TRAIN_CYCLES = 200
 TEST_CYCLES = 100
@@ -195,7 +196,7 @@ def main() -> None:
     result = run(args.seed)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps(result, indent=2))
     print(f"wrote {out}")
 

@@ -62,6 +62,7 @@ from benchmarks.reusable_knowledge import (  # noqa: E402
 from benchmarks.strength_assignment_harness import (  # noqa: E402
     CONFIRMATORY_SEEDS as SA_CONFIRMATORY, DESIGN_SEEDS as SA_DESIGN,
 )
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Fixed constants. None of these is a parameter of the study.
@@ -852,7 +853,7 @@ def run(seeds: Sequence[int] = SEEDS) -> dict[str, Any]:
 def write(art: dict[str, Any], out: str = OUT) -> pathlib.Path:
     path = ROOT / out
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(art, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n", encoding="utf-8")
     return path
 
 

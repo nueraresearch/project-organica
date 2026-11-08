@@ -14,6 +14,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 ART = json.loads((REPO / "docs/gate13_structure_provenance.json").read_text())
@@ -136,7 +137,7 @@ for n in (25, 50, 100):
     cal["power"][f"n{n}_calibration_implied"] = simulate(n, b, resid_sd)
     cal["power"][f"n{n}_mechanism_sized"] = simulate(n, -0.10, resid_sd)
 cal["power"]["n100_null"] = simulate(100, 0.0, resid_sd)
-(REPO / "docs/gate13_redundancy_moderator_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs/gate13_redundancy_moderator_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("files scanned:", files, "| occurrences in range:", len(occupancy))
 print("threshold r*:", R_THR, "| association:", cal["association"], "| fit:", cal["linear_fit"])

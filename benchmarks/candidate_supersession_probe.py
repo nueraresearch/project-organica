@@ -39,6 +39,7 @@ if str(ROOT) not in sys.path:
 
 from organica.memory import MemoryService  # noqa: E402
 from organica.sleep import SleepService   # noqa: E402
+from benchmarks import engine_stamp
 
 OUT = ROOT / "docs" / "candidate_supersession_probe.json"
 RESULTS = ROOT / "docs" / "CANDIDATE-SUPERSESSION-RESULTS.md"
@@ -439,7 +440,7 @@ def update_manual(block: str) -> None:
 
 def main() -> None:
     art = run()
-    OUT.write_text(json.dumps(art, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n", encoding="utf-8")
     RESULTS.write_text(results_document(art), encoding="utf-8")
     update_manual(manual_block(art))
     s = art["summary"]

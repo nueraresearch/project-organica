@@ -77,6 +77,7 @@ from ablation_metrics import (  # noqa: E402
     structure_tags,
 )
 from lineage_audit import audit as lineage_audit  # noqa: E402
+from benchmarks import engine_stamp
 
 
 # ---------------------------------------------------------------------------
@@ -958,7 +959,7 @@ def main() -> int:
 
     out = REPO_ROOT / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Organica Ablation Study",
@@ -987,7 +988,7 @@ def main() -> int:
         "cross_domain_transfer": cdt,
         "conditions": results,
         "comparisons": comparisons,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\n  Full report written to: {out}")
     return 0
 

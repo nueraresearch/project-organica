@@ -32,6 +32,7 @@ import hashlib
 import json
 import statistics
 from pathlib import Path
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "docs" / "phase_l_results.json"
@@ -748,7 +749,7 @@ def build() -> dict:
 
 def main() -> dict:
     result = build()
-    OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
     print("wrote", OUT.relative_to(ROOT))
     print("\nper configuration (native units)")
     for lab, row in result["per_config"].items():

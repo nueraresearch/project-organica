@@ -35,6 +35,7 @@ from benchmarks.long_delay_capability_prereg import (               # noqa: E402
     unused_seeds,
     validate,
 )
+from benchmarks import engine_stamp
 
 SEEDS = tuple(PROTOCOL["confirm_seeds"])
 FACTORS = tuple(PROTOCOL["primary"])
@@ -61,7 +62,7 @@ def measure_seed(seed: int) -> dict:
             part = json.loads(path.read_text(encoding="utf-8"))
         else:
             part = run_cell(seed, factor, CYCLES)
-            path.write_text(json.dumps(part), encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(part)), encoding="utf-8")
         cells["%g" % factor] = part
     return {"seed": seed, "cells": cells}
 
@@ -202,7 +203,7 @@ def finish() -> int:
                  "log loss is reported only. This is one world family and "
                  "one engine, and it does not license adoption."),
     }
-    OUT.write_text(json.dumps(artifact, indent=2), encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2), encoding="utf-8")
 
     print("seed       early gap   late gap   logloss gap")
     for seed in SEEDS:

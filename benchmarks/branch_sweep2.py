@@ -53,6 +53,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -229,13 +230,13 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     def flush():
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "policy": args.policy,
             "gate_definition": "evaluated on the PRE-retention belief pool",
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
 
     caps = [20, 32, 48]
     for name, events, predict in designs:

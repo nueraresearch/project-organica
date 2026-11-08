@@ -21,6 +21,7 @@ from organica.memory import MemoryService, _extract_tags  # noqa: E402
 from organica.paths import temp_db  # noqa: E402
 from organica.sleep import SleepService  # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE  # noqa: E402
+from benchmarks import engine_stamp
 
 TRAIN_CYCLES = 200
 MIN_EDGE_COUNT = 5
@@ -135,7 +136,7 @@ def main() -> None:
                  false_correlation_rate=args.false_correlation_rate)
     output = Path(args.out)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    output.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     print(json.dumps(result, indent=2))
     print(f"wrote {output}")
 

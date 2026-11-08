@@ -77,6 +77,7 @@ from organica.sleep import SleepService            # noqa: E402
 from organica.streams import (                     # noqa: E402
     DOMAINS, EVENTS_PER_CYCLE, STUDY_STREAM)
 from organica.paths import temp_db                 # noqa: E402
+from benchmarks import engine_stamp
 
 INF = 10 ** 9
 
@@ -562,7 +563,7 @@ def main() -> None:
         results["audit3_stimulus_sweep"] = stimulus
 
     out = Path(args.out)
-    out.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(results), indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

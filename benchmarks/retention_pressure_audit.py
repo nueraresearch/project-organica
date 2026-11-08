@@ -32,6 +32,7 @@ from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.sleep import SleepService
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM
+from benchmarks import engine_stamp
 
 
 def audit_policy(policy: str, cycles: int = 300) -> dict[str, Any]:
@@ -124,7 +125,7 @@ def main():
 
     out_path = REPO / "docs" / "retention_pressure_audit.json"
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2)
+        json.dump(engine_stamp.stamp(results), f, indent=2)
     print(f"Wrote retention audit to {out_path}")
 
 

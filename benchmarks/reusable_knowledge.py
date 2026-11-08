@@ -122,6 +122,7 @@ KINDS = ("flip_p", "flip_q")
 from benchmarks.acquisition_compositional import (  # noqa: E402
     LAW_R1, PHASE_REVISION_LEARN, PHASE_REVISION_TEST,
 )
+from benchmarks import engine_stamp
 
 HASH_SEED_ENV = "PYTHONHASHSEED"
 
@@ -1063,7 +1064,7 @@ def run_postmortem(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
     }
     _assert_diagnostic(art)
     (ROOT / POSTMORTEM_OUT).write_text(
-        json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return art
 
 
@@ -1586,7 +1587,7 @@ def run_calibration(cap: int = MAX_PREDICTIONS) -> dict[str, Any]:
             "point and stops the study before any confirmatory seed."),
     }
     (ROOT / CALIBRATION_OUT).write_text(
-        json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return art
 
 

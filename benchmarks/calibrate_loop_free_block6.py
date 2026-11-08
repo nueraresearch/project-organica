@@ -23,6 +23,7 @@ import json
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 SOFT = json.loads((REPO / "docs/gate13_loop_free_admission_calibration.json").read_text())
@@ -123,7 +124,7 @@ cal = {
     "caveat": "ten seeds give a noisy sd and a noisy mean; the power table is an estimate from them, and the block "
               "reports its own observed mean and interval beside the bar either way",
 }
-(REPO / "docs" / "gate13_loop_free_block6_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs" / "gate13_loop_free_block6_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("effect:", json.dumps(cal["effect"], indent=1))
 print("bar:", cal["bar"])

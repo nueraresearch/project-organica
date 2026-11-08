@@ -30,6 +30,7 @@ from benchmarks.decay_threshold_prereg import (
 )
 from benchmarks.decay_threshold_prereg import DOC as PREREG
 from benchmarks.reference_death_ledger import CYCLES, cell_facts, stimulus
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_threshold" / "parts"
@@ -77,7 +78,7 @@ def _run(prefix: str, factor: float, seed: int, events: list[str]) -> dict:
     part = {"factor": float(factor), "seed": seed, "facts": facts,
             "ledger": rows, "stable_series": extra["stable_series"]}
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(part, indent=1) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8")
     print("%s %s %d death=%s stable_zero=%s live=%s"
           % (prefix, factor, seed, facts["death_cycle"], facts["stable_zero"],
              facts["decay_factors"]), flush=True)
@@ -282,7 +283,7 @@ def finish() -> dict:
         "predictions": predictions,
         "label": label,
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

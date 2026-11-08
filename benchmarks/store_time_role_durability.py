@@ -28,6 +28,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -371,7 +372,7 @@ def main(argv=None) -> int:
     artifact["controls"] = result["controls"]
     artifact["a_blind_classifier_is_rejected"] = result["a_blind_classifier_is_rejected"]
     artifact["generated_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    ARTIFACT.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     DOC.write_text(render(artifact), encoding="utf-8")
     m = artifact["measurement"]
     print(json.dumps({"decision": m["decision"], "primed": m["denominator"],

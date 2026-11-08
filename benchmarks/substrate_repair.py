@@ -40,6 +40,7 @@ from benchmarks.substrate_repair_prereg import (
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.streams import EVENTS_PER_CYCLE
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "substrate_repair" / "parts"
@@ -137,7 +138,7 @@ def measure(condition: str) -> int:
             })
             part = {"arm": arm, "condition": condition, "seed": seed,
                     "facts": facts, "ledger": rows}
-            path.write_text(json.dumps(part, indent=1) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8")
             print("%s %s %d death=%s" % (arm, condition, seed, facts["death_cycle"]), flush=True)
     return 0
 
@@ -274,7 +275,7 @@ def finish() -> dict:
         "predictions": predictions,
         "control": control,
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

@@ -51,6 +51,7 @@ from benchmarks.functional_harness import (  # noqa: E402
 from benchmarks.reusable_knowledge import (  # noqa: E402
     MAX_PREDICTIONS, TUNE_CYCLES, comparator_sweep, conditioned_formation_stream, limbs,
 )
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Fixed constants (§3, §5, §8). None of these is a parameter of this module.
@@ -526,7 +527,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.confirmatory:
         artifact = run_confirmatory()
         out = ROOT / CONFIRMATORY_OUT
-        out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n", encoding="utf-8")
         print(json.dumps({"status": artifact["status"], "n": artifact["n"],
                           "primary": {name: artifact["primary"][name]
                                       for name in CONTRASTS},
@@ -538,7 +539,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     artifact = run_design_audit((args.only,) if args.only else DESIGN_SEEDS)
     out = pathlib.Path("/tmp/strength_design_only.json") if args.only else ROOT / DESIGN_OUT
-    out.write_text(json.dumps(artifact, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({k: artifact[k] for k in ("status", "seeds", "failures", "seconds")},
                      indent=1))
     print(f"wrote {out}")

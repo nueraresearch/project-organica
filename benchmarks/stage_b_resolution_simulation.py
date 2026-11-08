@@ -33,6 +33,7 @@ from statistics import NormalDist
 from benchmarks.stage_b_protocol import (
     LEVEL, RELIABILITY_GRID, SMALLEST_EFFECT, _attenuate, _worlds_for,
 )
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "stage_b_resolution_simulation.json"
@@ -236,7 +237,7 @@ def main() -> None:
             "error model, not a measured property of DI",
         ],
     }
-    OUT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
 
     print(f"wrote {OUT.relative_to(ROOT)}  sims={args.sims} reps={args.reps}")
     for label, row in artifact["size_sensitivity_at_planning_effect"].items():

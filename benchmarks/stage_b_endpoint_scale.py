@@ -46,6 +46,7 @@ from pathlib import Path
 
 from benchmarks.acquisition_compositional import score
 from benchmarks.phase_l_campaign import NOISE_FEATURES, NOISE_RATE, build_world
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "stage_b_endpoint_scale.json"
@@ -317,7 +318,7 @@ def main() -> None:
     ap.add_argument("--reps", type=int, default=REPS)
     args = ap.parse_args()
     result = build(args.reps)
-    OUT.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2), encoding="utf-8")
     for label, row in result["configurations"].items():
         print(f"{label}: ceiling 2SE {row['ceiling_twice_se_min']}-{row['ceiling_twice_se_max']} "
               f"| wrong law {row['wrong_law_twice_se_min']}-{row['wrong_law_twice_se_max']} "

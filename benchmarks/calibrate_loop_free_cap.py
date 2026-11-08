@@ -25,6 +25,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.run_loop_free_admission_block import run_cell
+from benchmarks import engine_stamp
 
 CAND_START = 20271815     # first candidate after block 7's 20271715-20271814
 N_CAL = 10
@@ -170,7 +171,7 @@ cal = {
                        "calibration seeds",
     "freshness": {"files_scanned": FILES, "rejected_hits": sorted(x for x in SEEN if CAND_START <= x < CAL_LO)},
 }
-(REPO / "docs" / "gate13_loop_free_cap_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs" / "gate13_loop_free_cap_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("effect:", json.dumps(cal["effect"], indent=1))
 print("liveness:", cal["liveness"], "| perturbation:", cal["perturbation"])

@@ -41,6 +41,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.force_matrix import COLONIES, row_reference_problems  # noqa: E402
+from benchmarks import engine_stamp
 
 PARTS_DIR = REPO / ".scratch" / "matrix_parts"
 
@@ -139,7 +140,7 @@ def main() -> None:
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": args.cycles,
         "seed": args.seed,
@@ -159,7 +160,7 @@ def main() -> None:
             "g1_verification": checks,
         },
         "rows": rows,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
 
     print(f"\nmerged {len(rows)} colonies into {out_path} "
           f"({round(time.time() - started, 1)}s total)")

@@ -49,6 +49,7 @@ from benchmarks.acquisition_harness import (  # noqa: E402
     _world_compositional_edges,
     generate_compositional_world,
 )
+from benchmarks import engine_stamp
 
 SEEDS = [20261101, 20261102, 20261103]
 GLOBAL_KS = (5, 10, 20, 40, 80, 160, 320)
@@ -166,7 +167,7 @@ def main():
         print(flush=True)
 
     out = REPO / "docs" / "gate13_allocation_rule.json"
-    out.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(results), indent=2), encoding="utf-8")
     print(f"wrote {out}")
 
 

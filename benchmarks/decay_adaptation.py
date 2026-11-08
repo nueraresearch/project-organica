@@ -41,6 +41,7 @@ from benchmarks.post_shift_adaptation import (
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.sleep import SleepService
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_adaptation" / "parts"
@@ -154,7 +155,7 @@ def measure(arm: str) -> int:
                     print("cached", path.name, flush=True)
                     continue
             facts = run_cell(arm, family, seed)
-            path.write_text(json.dumps(facts, indent=1) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(facts), indent=1) + "\n", encoding="utf-8")
             print("%s %s %d final=%.5f mass=%s"
                   % (arm, family, seed, facts["final_nll"], facts["decay_factors"]),
                   flush=True)
@@ -323,7 +324,7 @@ def finish() -> dict:
         "predictions": predictions,
         "label": label,
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

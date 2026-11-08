@@ -44,6 +44,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE        # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -647,7 +648,7 @@ def record_reference_check(out_path: Path, problems: list[str]) -> list[str]:
     except (OSError, ValueError) as exc:
         return list(problems) + ["the reference-arm check could not be recorded: %s" % exc]
     doc["reference_arm"] = {"check": "row_reference_problems", "problems": list(problems)}
-    out_path.write_text(json.dumps(doc, indent=2), encoding="utf-8")
+    out_path.write_text(json.dumps(engine_stamp.stamp(doc), indent=2), encoding="utf-8")
     return list(problems)
 
 
@@ -764,7 +765,7 @@ def merge(parts: list[Path], out_path: Path,
     }
     if provenance:
         prov.update(provenance)
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "cycles": rows[0]["cycles"] if rows else None,
         "seed": rows[0]["seed"] if rows else None,
@@ -772,7 +773,7 @@ def merge(parts: list[Path], out_path: Path,
         "merged_from": [p.name for p in parts],
         "provenance": prov,
         "rows": rows,
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"merged {len(rows)} colonies into {out_path}")
     dead = record_reference_check(out_path, row_reference_problems(rows))
     if dead:
@@ -817,14 +818,14 @@ def main() -> None:
     for name in args.colonies:
         r = run_colony(name, events, args.cycles, args.seed)
         rows.append(r)
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "seed": args.seed,
             "stimulus": "lattice_L1 (three disjoint triangles)",
             "g1_verification": checks,
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
         m = r["metrics"]
         print(f"{name:<20} TDC={m['M1_theory_duty_cycle']['whole_run']:.3f} "
               f"QDC={m['M2_question_duty_cycle']['whole_run']:.3f} "

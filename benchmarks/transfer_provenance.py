@@ -40,6 +40,7 @@ import sys
 import time
 from pathlib import Path
 from typing import Any, Callable
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -786,7 +787,7 @@ def main(argv: list[str] | None = None) -> int:
     art["pair_comparator_rejects_a_broken_tracer"] = (
         result["pair_comparator_rejects_a_broken_tracer"])
     art["generated_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    ARTIFACT.write_text(json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     DOC.write_text(render_report(art), encoding="utf-8")
     m = art["measurement"]
     print(json.dumps({"wrote": [ARTIFACT.name, DOC.name],

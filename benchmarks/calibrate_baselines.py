@@ -33,6 +33,7 @@ from benchmarks.acquisition_compositional import (
     PHASE_WARMUP,
     PHASE_ACQUISITION,
 )
+from benchmarks import engine_stamp
 
 CALIBRATION_SEED = 20261099
 CYCLES = 300
@@ -148,7 +149,7 @@ def main():
 
     out_path = REPO / "docs" / "acquisition_baseline_calibration.json"
     with open(out_path, "w") as f:
-        json.dump(artifact, f, indent=2)
+        json.dump(engine_stamp.stamp(artifact), f, indent=2)
 
     print(f"\nSaved to {out_path}")
     print(f"Best Replay: {best_replay}")

@@ -46,6 +46,7 @@ sys.path.insert(0, str(REPO))
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.sleep import SleepService
+from benchmarks import engine_stamp
 
 # Disjoint vocabularies for Context A, Context B, and Control C
 VOCAB_A = {
@@ -301,7 +302,7 @@ def main():
 
     out_file = Path(args.out_path) if args.out_path else REPO / "docs" / "cross_context_reuse_benchmark.json"
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2)
+        json.dump(engine_stamp.stamp(summary), f, indent=2)
     print("=" * 65)
     print(f"Results written to {out_file}")
     print(f"Transfer Ratio (Treatment vs Naïve): {tr_treatment}")

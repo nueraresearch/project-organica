@@ -29,6 +29,7 @@ import json
 import re
 import math
 from pathlib import Path
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 CONSTRUCT = ROOT / "docs" / "di_transition_construct.json"
@@ -869,7 +870,7 @@ def build() -> dict:
 
 def main() -> dict:
     result = build()
-    OUT.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
 
     doc = ROOT / "docs" / "STAGE-B-PROTOCOL.md"
     if doc.exists():

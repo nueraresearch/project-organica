@@ -38,6 +38,7 @@ import math
 import random
 from collections import Counter
 from pathlib import Path
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 PREREG = ROOT / "docs" / "rank_ordering_prereg.json"
@@ -505,7 +506,7 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
             "filler_repeats": FILLER_REPEATS,
         },
     }
-    out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(payload), indent=1) + "\n", encoding="utf-8")
     print("wrote", out, "| cells:", len(cells))
     return payload
 

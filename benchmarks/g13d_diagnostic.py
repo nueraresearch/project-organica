@@ -43,6 +43,7 @@ from benchmarks.acquisition_compositional import (  # noqa: E402
 from benchmarks.acquisition_runner import (  # noqa: E402
     evaluate_shapes, fit_replay_learner, make_organica_backoff, structure_edges,
 )
+from benchmarks import engine_stamp
 
 #: The authorization fixes these; none may be changed after a number is seen.
 SEEDS: tuple[int, ...] = (20261101, 20261102, 20261103, 20261104, 20261105)
@@ -292,7 +293,7 @@ def run_diagnostic(budget_seconds: float = 200.0) -> dict[str, Any]:
         if per_seed and time.monotonic() - started > budget_seconds:
             break
         result = _score_arms(seed)
-        cached.write_text(json.dumps(result, sort_keys=True) + "\n", encoding="utf-8")
+        cached.write_text(json.dumps(engine_stamp.stamp(result), sort_keys=True) + "\n", encoding="utf-8")
         per_seed.append(result)
     done = [entry["seed"] for entry in per_seed]
     if len(done) < len(SEEDS):
@@ -330,7 +331,7 @@ def run_diagnostic(budget_seconds: float = 200.0) -> dict[str, Any]:
         "artifact_written": True,
     }
     (ROOT / DIAGNOSTIC_OUT).write_text(
-        json.dumps(art, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     (ROOT / DIAGNOSTIC_DOC).write_text(render_report(art), encoding="utf-8")
     return art
 

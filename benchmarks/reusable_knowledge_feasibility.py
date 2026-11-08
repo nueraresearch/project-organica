@@ -30,6 +30,7 @@ from benchmarks.acquisition_compositional import (  # noqa: E402
     PHASE_WARMUP, PHASE_ACQUISITION, PHASE_RETENTION, PHASE_TRANSFER,
     cell_name, generate_compositional_world,
 )
+from benchmarks import engine_stamp
 
 KINDS = ("flip_p", "flip_q")
 ORDER = [(c, k) for c in sorted(CELLS) for k in KINDS]      # 8 directed transitions
@@ -259,9 +260,9 @@ def main():
     out["feasible_as_transfer"] = bool(chosen)
     out["gate_definitions"] = definitions(out)
     pathlib.Path(ROOT / "docs/reusable_knowledge_feasibility.json").write_text(
-        json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        json.dumps(engine_stamp.stamp(out), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     pathlib.Path(ROOT / "docs/reusable_knowledge_gate_definitions.json").write_text(
-        json.dumps(out["gate_definitions"], indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        json.dumps(engine_stamp.stamp(out["gate_definitions"]), indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return out
 
 

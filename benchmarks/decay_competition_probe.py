@@ -26,6 +26,7 @@ from benchmarks.force_matrix import COLONIES
 from benchmarks.reference_death_ledger import CYCLES, stimulus
 from organica.paths import temp_db
 from organica.streams import EVENTS_PER_CYCLE
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_competition" / "parts"
@@ -157,7 +158,7 @@ def measure(seeds=SEEDS) -> int:
             continue
         part = run_cell(seed, events)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(part, indent=1) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8")
         print("competition 0.9924 %d live=%s death=%s"
               % (seed, part["window"][str(CYCLES - 1)]["theories"] and "yes" or "no",
                  part["window"][str(CYCLES)]["theories"] and "yes" or "no"), flush=True)
@@ -329,7 +330,7 @@ def finish() -> dict:
     problems = validate(artifact, cells, control)
     if problems:
         raise SystemExit("refusing to write: " + "; ".join(problems))
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

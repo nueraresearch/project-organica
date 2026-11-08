@@ -43,6 +43,7 @@ from benchmarks.acquisition_compositional import (  # noqa: E402
     PHASE_RETENTION, PHASE_TRANSFER, generate_compositional_world,
     make_broken_rule, make_ceiling, make_rule_holder, make_swapped_law,
 )
+from benchmarks import engine_stamp
 
 EPC = 8
 GATE = 0.05
@@ -342,7 +343,7 @@ def main() -> int:
                                        "upper_99": sw_hi},
            "checks": checks, "per_world": rows}
     dest = REPO / "docs" / "acquisition_compositional_gate.json"
-    dest.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    dest.write_text(json.dumps(engine_stamp.stamp(out), indent=2), encoding="utf-8")
     print(f"\n  wrote {dest.relative_to(REPO)}")
     allok = all(checks.values())
     print(f"  ALL CHECKS: {'PASS' if allok else 'FAIL — the study does not run'}")

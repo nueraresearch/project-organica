@@ -45,6 +45,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 import benchmarks.phase_l_campaign as P
+from benchmarks import engine_stamp
 
 #: The fresh seeds are drawn ONCE, from a fixed random draw over a wide
 #: range, so they are not consecutive and carry no block structure. The draw
@@ -135,14 +136,14 @@ def main() -> int:
                           flush=True)
 
     results.sort(key=lambda r: r["seed"])
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "audit": "seed_exchangeability",
         "note": "Instrument audit. Produces no experimental claim.",
         "label": args.label,
         "fresh_seed_draw": FRESH_SEED_DRAW,
         "fresh_seeds": seeds,
         "records": results,
-    }, indent=1), encoding="utf-8")
+    }), indent=1), encoding="utf-8")
 
     fresh_di = [r["results"]["organica"]["displacement_index"] for r in results]
     fresh_pi = [r["results"]["organica"]["preservation_index"] for r in results]

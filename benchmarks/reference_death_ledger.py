@@ -42,6 +42,7 @@ from organica.branch_streams import (
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.streams import EVENTS_PER_CYCLE
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "reference_death_ledger" / "parts"
@@ -444,7 +445,7 @@ def measure() -> dict:
             facts = cell_facts(rows)
             part = {"arm": arm, "seed": seed, "facts": facts, "ledger": rows}
             (PARTS / ("%s_%d.json" % (arm, seed))).write_text(
-                json.dumps(part, indent=1) + "\n", encoding="utf-8"
+                json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8"
             )
             cells.append({"arm": arm, "seed": seed, **facts})
 
@@ -538,7 +539,7 @@ def assemble(cells: list[dict], control: dict, fresh: bool, resumed: bool = Fals
             ),
         },
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

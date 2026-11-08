@@ -14,6 +14,7 @@ import json
 import math
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 BASE, N, CAPS, CR = 0.4667, 25, (20, 100, 1000), (10, 20, 100, 1000)
 
@@ -120,7 +121,7 @@ def main() -> None:
                "seeds_falling": sum(1 for x in sd if x < 0), "bracketed": len(matched), "rows": c4_rows},
         "per_cap": per_cap, "marginal_cap20_to_1000": marg, "raw": rows,
     }
-    Path(args.out).write_text(json.dumps(art, indent=2) + "\n")
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
     print(f"verdict: {verdict}")
     print(f"C0 {'pass' if c0_pass else 'FAIL'} digest-diffs {by_cap} cap1000 full {full}")
     print(f"C1' {'pass' if c1_pass else 'FAIL'} mean {c1_mean:.4f} offset {c1_mean - BASE:+.4f} band {band} ({c1_dir})")

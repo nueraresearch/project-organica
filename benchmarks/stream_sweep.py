@@ -36,6 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from organica import MemoryService, SleepService  # noqa: E402
+from benchmarks import engine_stamp
 
 
 # ---------------------------------------------------------------------------
@@ -227,7 +228,7 @@ def main() -> int:
 
     out = Path(__file__).parent.parent / args.out
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps({
+    out.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "phase": "G",
         "title": "Study Stream Sweep",
@@ -235,7 +236,7 @@ def main() -> int:
                   f"{args.slice}-event slice per cycle, identical to the daemon's injection.",
         "best": best,
         "candidates": results,
-    }, indent=2))
+    }), indent=2))
     print(f"  Full report written to: {out}")
     return 0
 

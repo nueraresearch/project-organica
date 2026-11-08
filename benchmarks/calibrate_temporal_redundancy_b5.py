@@ -23,6 +23,7 @@ import os
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 os.environ.setdefault("PYTHONHASHSEED", "0")
 
@@ -190,7 +191,7 @@ cal = {
 }
 for label, slope in (("mechanism_sized", SLOPE_MECH), ("calibration_implied", b), ("null", 0.0)):
     cal["power"][f"n100_{label}"] = simulate(100, slope, resid)
-(REPO / "docs/gate13_temporal_redundancy_b5_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs/gate13_temporal_redundancy_b5_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("o range:", cal["o_range"])
 print("denominator <=2:", cal["denominator"])

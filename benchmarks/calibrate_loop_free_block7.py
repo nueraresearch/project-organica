@@ -26,6 +26,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 B6 = json.loads((REPO / "docs/gate13_loop_free_block6.json").read_text())
@@ -147,7 +148,7 @@ cal = {
     "caveat": "the pooled sd is dominated by block 6's void cells, which is the best estimate available and still a "
               "single draw of 110; the block reports its own observed mean and interval beside the bar",
 }
-(REPO / "docs" / "gate13_loop_free_block7_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs" / "gate13_loop_free_block7_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("liveness:", cal["liveness"])
 print("effect:", json.dumps(cal["effect"], indent=1))

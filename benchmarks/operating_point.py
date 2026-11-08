@@ -38,6 +38,7 @@ from benchmarks.reference_death_ledger import (
 from organica.memory import MemoryService
 from organica.paths import temp_db
 from organica.streams import EVENTS_PER_CYCLE
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "operating_point" / "parts"
@@ -218,7 +219,7 @@ def measure(condition: str) -> int:
         facts.update({"condition": condition, "seed": seed, **extra})
         part = {"condition": condition, "seed": seed, "facts": facts,
                 "ledger": rows, "stable_series": extra.pop("stable_series")}
-        path.write_text(json.dumps(part, indent=1) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(engine_stamp.stamp(part), indent=1) + "\n", encoding="utf-8")
         print("%s %d death=%s stable_zero=%s lifted=%s exempted=%s"
               % (condition, seed, facts["death_cycle"], facts["stable_zero"],
                  facts["lifted_total"], facts["exempted_total"]), flush=True)
@@ -401,7 +402,7 @@ def finish() -> dict:
         "predictions": predictions,
         "control": control,
     }
-    ARTIFACT.write_text(json.dumps(artifact, indent=1) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n", encoding="utf-8")
     return artifact
 
 

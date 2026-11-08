@@ -38,6 +38,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from benchmarks.ablation_metrics import edges_implied_by_structures  # noqa: E402
+from benchmarks import engine_stamp
 
 # ----------------------------------------------------------------------
 # Protocol constants. Every one of these is declared in the frozen
@@ -1313,7 +1314,7 @@ def run_campaign(families: list[str], seeds: list[int], workers: int,
         }
         out_path.parent.mkdir(parents=True, exist_ok=True)
         tmp = out_path.with_suffix(out_path.suffix + ".tmp")
-        tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        tmp.write_text(json.dumps(engine_stamp.stamp(payload), indent=2), encoding="utf-8")
         os.replace(tmp, out_path)
 
     if workers > 1:

@@ -54,6 +54,7 @@ sys.path.insert(0, str(REPO))
 from organica.scale_streams import (  # noqa: E402
     rung_for_run, scale_designs, scale_stream, scaffold_stream,
     burst_stream, triangle_events)
+from benchmarks import engine_stamp
 
 
 def run_rung(rung: str, cycles: int, seed: int, colony: str = "FULL") -> dict:
@@ -292,7 +293,7 @@ def main() -> None:
         print(f"  INVENTORY: {inventories}. Mixed -- read the curve, "
               f"not the endpoint.")
 
-    Path(args.out).write_text(json.dumps({
+    Path(args.out).write_text(json.dumps(engine_stamp.stamp({
         "cycles":      args.cycles,
         "seed":        args.seed,
         "colony":      args.colony,
@@ -300,7 +301,7 @@ def main() -> None:
         "inventories": inventories,
         "h24_reading": ("consistent" if grows else
                         "falsified"  if flat  else "mixed"),
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"\nwrote {args.out}")
 
 

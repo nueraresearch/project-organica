@@ -49,6 +49,7 @@ from organica.memory import MemoryService, _extract_tags              # noqa: E4
 from organica.paths import temp_db                                   # noqa: E402
 from organica.sleep import SleepService                              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE                        # noqa: E402
+from benchmarks import engine_stamp
 
 STATIONARY_CYCLES = 300
 SHIFT_A_CYCLES = 80
@@ -361,7 +362,7 @@ def main() -> int:
                       "lookback": LOOKBACK, "markers": MARKERS},
            "arms": results}
     path = REPO / "docs" / "prediction-decay-options.json"
-    path.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    path.write_text(json.dumps(engine_stamp.stamp(out), indent=1), encoding="utf-8")
 
     by = {r["summary"]["arm"]: r["summary"] for r in results}
     problems = []

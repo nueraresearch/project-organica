@@ -37,6 +37,7 @@ from organica.memory import MemoryService            # noqa: E402
 from organica.sleep import SleepService              # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE, STUDY_STREAM  # noqa: E402
 from organica.paths import temp_db                   # noqa: E402
+from benchmarks import engine_stamp
 
 MAX_THEORIES = SleepService.MAX_THEORIES
 MAX_HYPOTHESES = SleepService.MAX_HYPOTHESES
@@ -168,7 +169,7 @@ def main() -> None:
 
     def flush(rows):
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(json.dumps({
+        out_path.write_text(json.dumps(engine_stamp.stamp({
             "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "cycles": args.cycles,
             "gates": {
@@ -178,7 +179,7 @@ def main() -> None:
                 "G_EXP": "theory population never reaches MAX_THEORIES (8)",
             },
             "rows": list(rows),
-        }, indent=2), encoding="utf-8")
+        }), indent=2), encoding="utf-8")
 
     for name, events in designs:
         r = evaluate(name, events, args.cycles)

@@ -6,6 +6,7 @@ REPO = Path(r"C:\Users\monte\anti\project-organica")
 sys.path.insert(0, str(REPO))
 
 from benchmarks.scale_ladder import run_rung
+from benchmarks import engine_stamp
 
 print("=" * 80)
 print("RUNNING 600-CYCLE HORIZON: ARM 1 (BASELINE RUNG 0)")
@@ -59,7 +60,7 @@ print(f"VERDICT: {reading}")
 print("=" * 80)
 
 out_file = REPO / "docs" / "scale_horizon_600.json"
-out_file.write_text(json.dumps({
+out_file.write_text(json.dumps(engine_stamp.stamp({
     "cycles": 600,
     "seed": 20261023,
     "baseline": r0,
@@ -67,5 +68,5 @@ out_file.write_text(json.dumps({
     "epochs": epochs_data,
     "assimilation_efficiency": eff,
     "reading": reading,
-}, indent=2), encoding="utf-8")
+}), indent=2), encoding="utf-8")
 print(f"Wrote artifact to {out_file}")

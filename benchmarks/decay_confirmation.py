@@ -45,6 +45,7 @@ from organica.paths import temp_db                          # noqa: E402
 from organica.scale_streams import expanding_triangles, scale_stream  # noqa: E402
 from organica.sleep import SleepService                     # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE               # noqa: E402
+from benchmarks import engine_stamp
 
 # Regimes are measured hub out-degrees.  Each triangle contributes two hub
 # targets through the engine's lookback, so only even degrees are constructible
@@ -388,8 +389,10 @@ def _canonical(payload: dict) -> bytes:
 
 
 def seal(payload: dict, path: Path) -> dict:
-    sealed = dict(payload)
-    sealed["sha256"] = hashlib.sha256(_canonical(payload)).hexdigest()
+    # The stamp is part of the sealed content. A seal that covers less than is written verifies a
+    # file that no longer exists, so the record is stamped first and the stamp is hashed with it.
+    sealed = engine_stamp.stamp(dict(payload))
+    sealed["sha256"] = hashlib.sha256(_canonical(sealed)).hexdigest()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(sealed, indent=1), encoding="utf-8")
     return sealed
@@ -794,7 +797,7 @@ def cmd_heldout(args):
     if not protocol and CONFIRMATION_DIR in out.parents:
         raise SystemExit("a smoke held-out run may not be written under docs/confirmation")
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, indent=1), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(payload), indent=1), encoding="utf-8")
     print("wrote %s (protocol=%s)" % (out, protocol))
     return 0
 
@@ -813,7 +816,7 @@ def cmd_analyze(args):
     print(json.dumps(verdict, indent=1))
     if args.out:
         Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.out).write_text(json.dumps(verdict, indent=1), encoding="utf-8")
+        Path(args.out).write_text(json.dumps(engine_stamp.stamp(verdict), indent=1), encoding="utf-8")
     return 0
 
 

@@ -34,6 +34,7 @@ from benchmarks.decay_confirmation import (
 )
 from benchmarks.decay_fix_confirm import lattice_world
 from organica.memory import MemoryService
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "decay_attribution" / "parts"
@@ -293,7 +294,7 @@ def run(seeds: list[int]) -> int:
                 print("cached", path.name)
                 continue
             row = cell(arm, seed)
-            path.write_text(json.dumps(row, indent=2) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(row), indent=2) + "\n", encoding="utf-8")
             peak = max((s["stable"] for s in row["series"]), default=0)
             final = row["series"][-1]["stable"] if row["series"] else None
             print("%-17s s%d  peak=%2d final=%2d" % (arm, seed, peak, final), flush=True)
@@ -829,7 +830,7 @@ def main(argv=None) -> int:
         if args.measure:
             run(seeds)
         record = analyse(load_parts())
-        ARTIFACT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(record), indent=2) + "\n", encoding="utf-8")
         DOC.write_text(render(record), encoding="utf-8")
         for line in record["findings"]:
             print("finding:", line)

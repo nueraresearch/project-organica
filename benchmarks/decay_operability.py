@@ -41,6 +41,7 @@ from organica.memory import MemoryService                   # noqa: E402
 from organica.paths import temp_db                          # noqa: E402
 from organica.sleep import SleepService                     # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE               # noqa: E402
+from benchmarks import engine_stamp
 
 CYCLES = 3000
 SEED = 20261023
@@ -304,7 +305,7 @@ def main(argv=None) -> int:
     }
     path = destination(protocol, args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=1), encoding="utf-8")
+    path.write_text(json.dumps(engine_stamp.stamp(payload), indent=1), encoding="utf-8")
     print("wrote %s (protocol=%s)" % (path, protocol))
     return 0
 

@@ -39,6 +39,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_REMOTE = "https://github.com/nueraresearch/project-organica.git"
@@ -226,7 +227,7 @@ def main() -> int:
 
     out_path = REPO_ROOT / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps({
+    out_path.write_text(json.dumps(engine_stamp.stamp({
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "remote": args.remote,
         "branch": args.branch,
@@ -234,7 +235,7 @@ def main() -> int:
         "examples": example_results,
         "passed": passed,
         "total": len(results),
-    }, indent=2), encoding="utf-8")
+    }), indent=2), encoding="utf-8")
     print(f"  Report written to: {out_path}")
 
     if args.keep:

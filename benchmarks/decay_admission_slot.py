@@ -39,6 +39,7 @@ from benchmarks.decay_admission_slot_prereg import (
     SEEDS,
     protocol_digest,
 )
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -248,7 +249,7 @@ def run(seeds=SEEDS) -> int:
                 print("cached", path.name, flush=True)
                 continue
             row = cell(arm, seed)
-            path.write_text(json.dumps(row, indent=2) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(row), indent=2) + "\n", encoding="utf-8")
             print(
                 "%-17s s%d  peak=%2d final=%2d misses=%3d below=%3d slot=%3d bind=%3d"
                 % (arm, seed, row["peak"], row["final"], row["misses"],
@@ -439,7 +440,7 @@ def main(argv=None) -> int:
         return run(tuple(args.seeds))
     if args.render:
         artifact = analyse(load_parts())
-        ARTIFACT.write_text(json.dumps(artifact, indent=2) + "\n", encoding="utf-8")
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
         PAGE.write_text(render(artifact), encoding="utf-8")
         print("label: %s" % artifact["label"])
         print("pooled: %s" % artifact["pooled"])

@@ -115,6 +115,7 @@ from benchmarks.stage_b_stream_withholding import (  # noqa: E402
     CONFIRMATION_CYCLE, CONFIG_RATIOS, DESIGN_SEEDS, build_world,
 
 )
+from benchmarks import engine_stamp
 
 
 
@@ -186,7 +187,7 @@ def _write_json_atomic(path: Path, value: dict) -> None:
 
     with tmp.open("w", encoding="utf-8", newline="\n") as handle:
 
-        json.dump(value, handle, indent=2)
+        json.dump(engine_stamp.stamp(value), handle, indent=2)
 
         handle.write("\n")
 

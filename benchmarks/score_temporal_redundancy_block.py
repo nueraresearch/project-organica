@@ -10,6 +10,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 CAL = json.loads((REPO / "docs/gate13_temporal_redundancy_calibration.json").read_text())
@@ -121,7 +122,7 @@ art = {
     "verdict": verdict,
     "seed_rows": per, "excluded": excluded,
 }
-(REPO / "docs/gate13_temporal_redundancy_block4.json").write_text(json.dumps(art, indent=2) + "\n")
+(REPO / "docs/gate13_temporal_redundancy_block4.json").write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
 print("gates:", art["gates"])
 print("criteria:", json.dumps(art["criteria"], indent=2))
 print("descriptive:", art["descriptive"])

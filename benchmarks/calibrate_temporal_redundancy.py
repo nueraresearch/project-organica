@@ -22,6 +22,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.run_temporal_redundancy_block import run_cell  # noqa: E402
+from benchmarks import engine_stamp
 
 PREV = json.loads((REPO / "docs/gate13_redundancy_moderator_calibration.json").read_text())
 GAINS = {int(p["seed"]): float(p["gain"]) for p in PREV["pairs"]}
@@ -138,7 +139,7 @@ for n in (100,):
     cal["power"][f"n{n}_mechanism_sized"] = simulate(n, 0.10, resid)
     cal["power"][f"n{n}_calibration_implied"] = simulate(n, b, resid)
     cal["power"][f"n{n}_null"] = simulate(n, 0.0, resid)
-(REPO / "docs/gate13_temporal_redundancy_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs/gate13_temporal_redundancy_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 print("threshold o*:", THR, "| association:", cal["association"], "| fit:", cal["linear_fit"])
 for k, v in cal["power"].items():
     print(" ", k, v)

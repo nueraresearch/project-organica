@@ -47,6 +47,7 @@ from organica.sleep import (  # noqa: E402
 )
 
 import cold_start as cs  # noqa: E402
+from benchmarks import engine_stamp
 
 # ---------------------------------------------------------------------------
 # Design constants -- these are the protocol's, not the run's
@@ -439,7 +440,7 @@ def run_jobs(jobs: list[dict], workers: int) -> list[dict]:
             job = futures[future]
             cell = future.result()
             path = cell_path(job["stream"], job["arm"], job["seed"])
-            path.write_text(json.dumps(cell, indent=2), encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(cell), indent=2), encoding="utf-8")
             done.append(cell)
             print(f"  {job['stream']:<22} {job['arm']:<20} {job['seed']}  "
                   f"G5={'yes' if cell['g5_present'] else 'no '}", flush=True)
@@ -541,7 +542,7 @@ def main() -> int:
         "cells": sorted(cells, key=lambda c: (c["stream"], c["arm"], c["seed"])),
     }
     out = Path(args.out)
-    out.write_text(json.dumps(artifact, indent=2), encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2), encoding="utf-8")
     print(f"\nreading: {analysis['reading']}")
     for key, value in analysis["predictions"].items():
         print(f"  {key}: {value}")

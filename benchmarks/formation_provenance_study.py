@@ -48,6 +48,7 @@ from benchmarks.formation_provenance import (  # noqa: E402
 from benchmarks.reusable_knowledge import (  # noqa: E402
     WITHHELD, conditioned_formation_stream, stored_rowid,
 )
+from benchmarks import engine_stamp
 
 DESIGN_SEEDS: tuple[int, ...] = (20270101, 20270102, 20270103, 20270104, 20270105)
 CONFIRMATORY_SEEDS: tuple[int, ...] = tuple(range(20270106, 20270121))
@@ -161,7 +162,7 @@ def run_seed(seed: int) -> dict[str, Any]:
     if cached.exists():
         return json.loads(cached.read_text(encoding="utf-8"))
     result = _run_engine(seed, hook=True)
-    cached.write_text(json.dumps(result, sort_keys=True) + "\n", encoding="utf-8")
+    cached.write_text(json.dumps(engine_stamp.stamp(result), sort_keys=True) + "\n", encoding="utf-8")
     return result
 
 
@@ -407,13 +408,13 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.design:
         art = _design()
-        (ROOT / DESIGN_OUT).write_text(json.dumps(art, indent=1, sort_keys=True) + "\n",
+        (ROOT / DESIGN_OUT).write_text(json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n",
                                        encoding="utf-8")
         print(json.dumps(art, indent=1, sort_keys=True))
         return 0 if art["all_gates_passed"] else 1
     if args.confirmatory:
         art = _confirmatory()
-        (ROOT / RESULT_OUT).write_text(json.dumps(art, indent=1, sort_keys=True) + "\n",
+        (ROOT / RESULT_OUT).write_text(json.dumps(engine_stamp.stamp(art), indent=1, sort_keys=True) + "\n",
                                        encoding="utf-8")
         (ROOT / RESULT_DOC).write_text(render_doc(art), encoding="utf-8")
         print(json.dumps({k: art[k] for k in ("arms", "difference", "interval",

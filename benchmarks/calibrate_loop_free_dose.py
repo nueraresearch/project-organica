@@ -26,6 +26,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.run_loop_free_admission_block import run_cell
+from benchmarks import engine_stamp
 
 BASE = json.loads((REPO / "docs/gate13_loop_free_admission_calibration.json").read_text())
 SEEDS = [int(s) for s in BASE["calibration_seeds"]]
@@ -133,7 +134,7 @@ cal = {
     "caveat": "ten seeds give a noisy sd and a noisy sign share; the power table is an estimate from them, and the "
               "block reports its own observed effect beside the bar either way",
 }
-(REPO / "docs" / "gate13_loop_free_dose_calibration.json").write_text(json.dumps(cal, indent=2) + "\n")
+(REPO / "docs" / "gate13_loop_free_dose_calibration.json").write_text(json.dumps(engine_stamp.stamp(cal), indent=2) + "\n")
 
 print("effect:", cal["effect"])
 print("perturbation:", cal["perturbation"])

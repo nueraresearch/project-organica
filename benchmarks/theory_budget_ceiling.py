@@ -31,6 +31,7 @@ from benchmarks.decay_confirmation import (
 )
 from benchmarks.decay_fix_confirm import lattice_world
 from organica.memory import MemoryService
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / "docs" / "theory_budget_ceiling" / "parts"
@@ -155,7 +156,7 @@ def run(seeds: list[int]) -> int:
                 print("cached", path.name)
                 continue
             row = cell(budget, seed)
-            path.write_text(json.dumps(row, indent=2) + "\n", encoding="utf-8")
+            path.write_text(json.dumps(engine_stamp.stamp(row), indent=2) + "\n", encoding="utf-8")
             print(
                 "%-8s s%d  theories=%3d hypotheses=%3d stable=%3d coverage=%s"
                 % (
@@ -474,7 +475,7 @@ def main(argv=None) -> int:
         if args.measure:
             run(seeds)
         record = analyse(load_cells())
-        ARTIFACT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+        ARTIFACT.write_text(json.dumps(engine_stamp.stamp(record), indent=2) + "\n", encoding="utf-8")
         DOC.write_text(render(record), encoding="utf-8")
         for line in record["findings"]:
             print("finding:", line)

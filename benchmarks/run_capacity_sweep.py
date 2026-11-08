@@ -32,6 +32,7 @@ from benchmarks.acquisition_runner import (
 from benchmarks.acquisition_harness import _make_scratch_db
 from organica.memory import MemoryService
 from organica.sleep import SleepService
+from benchmarks import engine_stamp
 
 SEEDS = [20261101, 20261102, 20261103, 20261104, 20261105]
 CAPS = [20, 40, 80, None]
@@ -171,7 +172,7 @@ def main():
 
     out_file = REPO / "docs" / "gate13_capacity_sweep.json"
     with open(out_file, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(engine_stamp.stamp(results), f, indent=2)
     print(f"\nSaved capacity sweep results to {out_file}")
 
 

@@ -20,6 +20,7 @@ import math
 import random
 import statistics as st
 from pathlib import Path
+from benchmarks import engine_stamp
 
 BASE = 0.4667
 BAND = 0.05
@@ -130,7 +131,7 @@ def main() -> None:
         "raw": rows,
     }
     out = Path(args.out)
-    out.write_text(json.dumps(art, indent=2) + "\n")
+    out.write_text(json.dumps(engine_stamp.stamp(art), indent=2) + "\n")
 
     p = art["precision"]
     print(f"seeds {seeds[0]}-{seeds[-1]}  n={p['n']}  comparator constant={art['comparator_check']['constant']}")

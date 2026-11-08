@@ -26,6 +26,7 @@ from pathlib import Path
 
 from benchmarks import engine_pin as ep
 from benchmarks import verdict_policy as vp
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "docs" / "decay_falsifier" / "parts" / "FULL.json"
@@ -105,7 +106,7 @@ def run():
     record = _reference_record(RAW)
     HARNESS.write_text(
         json.dumps(
-            {
+            engine_stamp.stamp({
                 "exit_code": proc.returncode,
                 # The status is the harness's own verdict on its reference arm
                 # (benchmarks/force_matrix.py, fail-closed since 2026-11-07). Since the
@@ -119,7 +120,7 @@ def run():
                     bool(record["problems"]) if record else proc.returncode != 0
                 ),
                 "tail": output.strip().splitlines()[-12:],
-            },
+            }),
             indent=2,
         )
         + "\n",
@@ -424,7 +425,7 @@ def main(argv=None) -> int:
             print("harness exited %d and named its reason; the refusal is the measurement"
                   % code)
     record = summarise()
-    ARTIFACT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(record), indent=2) + "\n", encoding="utf-8")
     DOC.write_text(render(record), encoding="utf-8")
     print("decay falsifier: %s" % record["verdict"])
     return 0

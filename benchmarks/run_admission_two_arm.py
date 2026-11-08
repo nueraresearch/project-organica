@@ -16,6 +16,7 @@ import subprocess
 from pathlib import Path
 
 from benchmarks.acquisition_harness import gate_acquisition_sufficiency
+from benchmarks import engine_stamp
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "admission_two_arm_run.json"
@@ -106,7 +107,7 @@ def run(out: Path = OUT, record: dict | None = None) -> dict:
                               "arms": {a: resolved[a].__name__
                                        for a in record["design"]["arms"]},
                               "engine_runs": len(record["design"]["seeds"]) * 2 + 1}}
-    out.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
+    out.write_text(json.dumps(engine_stamp.stamp(payload), indent=1) + "\n", encoding="utf-8")
     print("wrote", out, "| cells:", len(cells))
     return payload
 

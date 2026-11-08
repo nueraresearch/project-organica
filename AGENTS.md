@@ -105,12 +105,13 @@ See `docs/USER-MANUAL.md` §6.4 for the full table.
 ## Verifying a change
 
 ```bash
-python -m pytest tests -q                 # <!-- tests:auto -->1582 passed, 6 skipped, 0 failed of 1588 collected (2026-11-08)<!-- /tests:auto -->, must be green
+python -m pytest tests -q                 # <!-- tests:auto -->1593 passed, 6 skipped, 0 failed of 1599 collected (2026-11-08)<!-- /tests:auto -->, must be green
 python benchmarks/study_health.py          # study must stay healthy
 python benchmarks/lineage_audit.py         # Law II must stay at 100% grounded
 python benchmarks/g5_gap_diagnostic.py --cycles 10   # G5 must remain reachable
 python benchmarks/cold_start.py --cycles 40          # unassisted bootstrap
 python benchmarks/clone_check.py           # a fresh clone works end to end
+python -m benchmarks.engine_stamp --check           # every artifact names its engine
 python benchmarks/ablation_study.py --cycles 300     # the ablation suite (~25 min)
 ```
 

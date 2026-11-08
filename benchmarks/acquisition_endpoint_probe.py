@@ -54,6 +54,7 @@ from benchmarks.acquisition_world import (  # noqa: E402
     GROUPS, PHASE_ACQUISITION, PHASE_RETENTION, PHASE_REVISION,
     generate_rule_world, group_of, next_event_distribution,
 )
+from benchmarks import engine_stamp
 
 EPS = 1e-12
 TOL = 1e-9
@@ -274,7 +275,7 @@ def main() -> int:
         },
     }
     dest = REPO / "docs" / "acquisition_endpoint_audit.json"
-    dest.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    dest.write_text(json.dumps(engine_stamp.stamp(out), indent=2), encoding="utf-8")
     print(f"\n  wrote {dest.relative_to(REPO)}")
     allok = all(out["checks"].values())
     print(f"  ALL CHECKS: {'PASS' if allok else 'FAIL — the study does not run'}")

@@ -54,6 +54,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from benchmarks import engine_stamp
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / ".scratch" / "deposit"
@@ -351,7 +352,7 @@ def build_reproduction() -> list[Path]:
         "papers": papers,
     }
     (bundle / "ENVIRONMENT.json").write_text(
-        json.dumps(environment, indent=1) + "\n", encoding="utf-8",
+        json.dumps(engine_stamp.stamp(environment), indent=1) + "\n", encoding="utf-8",
         newline="\n")
     (bundle / "REPRODUCE.md").write_text(
         reproduce_markdown(environment), encoding="utf-8", newline="\n")
@@ -421,7 +422,7 @@ def write_manifests(ref: str, bundles: dict[str, list[Path]]) -> dict:
             }],
         }
         (record_dir / "DEPOSIT-MANIFEST.json").write_text(
-            json.dumps(record, indent=1, sort_keys=True) + "\n",
+            json.dumps(engine_stamp.stamp(record), indent=1, sort_keys=True) + "\n",
             encoding="utf-8", newline="\n")
         manifest["records"][key] = record
 
@@ -443,7 +444,7 @@ def write_manifests(ref: str, bundles: dict[str, list[Path]]) -> dict:
 
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "MANIFEST.json").write_text(
-        json.dumps(manifest, indent=1, sort_keys=True) + "\n",
+        json.dumps(engine_stamp.stamp(manifest), indent=1, sort_keys=True) + "\n",
         encoding="utf-8", newline="\n")
     return manifest
 
