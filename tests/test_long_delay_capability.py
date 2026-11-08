@@ -5,10 +5,13 @@ import math
 import sys
 from pathlib import Path
 
+import pytest
+
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from benchmarks.long_delay_capability import (  # noqa: E402
+    FAMILIES,
     _chunk,
     _logloss,
     _window,
@@ -32,6 +35,31 @@ def test_seeded_triangles_vary_the_block_order():
 def test_stream_digest_depends_on_the_seed():
     assert stream_for(20302801) != stream_for(20302802)
     assert stream_digest(20302801) != stream_digest(20302802)
+
+
+def test_stream_families_are_distinct_and_deterministic():
+    lattice = stream_for(20302801, family="lattice_L1")
+    burst = stream_for(20302801, family="burst_L1")
+    assert lattice != burst
+    assert stream_digest(20302801, "lattice_L1") != stream_digest(
+        20302801, "burst_L1")
+    for family in FAMILIES:
+        assert stream_for(20302801, family=family) == stream_for(
+            20302801, family=family)
+
+
+def test_unknown_family_is_rejected():
+    with pytest.raises(ValueError):
+        stream_for(20302801, family="no_such_world")
+
+
+def test_the_rare_edge_is_overlaid_in_both_families():
+    for family in FAMILIES:
+        stream = stream_for(20302801, cycles=120, family=family)
+        edges = [stream[cycle * 8 + 7] for cycle in (0, 40, 80)]
+        assert len(set(edges)) == 1
+        assert len(edges[0].split()) == 2
+        assert all(len(tag) >= 4 for tag in edges[0].split())
 
 
 def test_chunk_wraps_the_stream():

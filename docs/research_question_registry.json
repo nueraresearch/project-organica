@@ -911,6 +911,24 @@
       "decisions": [],
       "outcome": "INCONCLUSIVE",
       "answer": "INCONCLUSIVE. The ten confirmatory seeds give a late recall@5 median gap of +0.0265 (bootstrap interval [0.0111, 0.0355]) against the design bar of 0.0412, with 9 of 10 seeds positive. The early median is +0.0119, outside the 0.010 equivalence margin, and growth (late > early) holds in only 6 of 10 seeds. All seven gates passed. P2 fails on the median, P1 fails on the early difference, and P3 fails on growth, so no capability claim follows. The late advantage is positive and consistent but below the calibrated bar; the INCONCLUSIVE bucket's 'intervals too wide' rationale does not fit because the interval lies entirely below the bar. This is one world family and one engine, and it does not license adoption. Log loss was secondary (median gap -0.1370, 0.9925 better calibrated) and made no decision."
+    },
+    {
+      "id": "Q052",
+      "kind": "research",
+      "status": "open",
+      "question": "Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?",
+      "why_open": "Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 survive late while 0.99 and 0.9925 die, so the same arm pair cannot carry the contrast on the second family. No second-family protocol has been frozen.",
+      "evidence": [
+        "docs/long_delay_capability_burst_L1_calibration.json",
+        "benchmarks/long_delay_capability.py",
+        "benchmarks/long_delay_capability_family.py",
+        "tests/test_long_delay_capability.py"
+      ],
+      "preregistrations": [],
+      "supersedes": [],
+      "decisions": [],
+      "outcome": null,
+      "answer": null
     }
   ],
   "schema": {

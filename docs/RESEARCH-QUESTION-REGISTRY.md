@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 26 | a result constrained the space; the answer is recorded with its scope |
-| open | 12 | evidence exists, no answer is settled |
+| open | 13 | evidence exists, no answer is settled |
 | retired | 6 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **49** | |
+| **total** | **50** | |
 
 ## How this stays current
 
@@ -500,6 +500,14 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
 **Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
+
+### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
+
+*research question.*
+
+**Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 survive late while 0.99 and 0.9925 die, so the same arm pair cannot carry the contrast on the second family. No second-family protocol has been frozen.
+
+**Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`
 
 ## 3. Retired — no longer worth resources
 

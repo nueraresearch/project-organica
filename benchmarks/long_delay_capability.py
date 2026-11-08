@@ -36,12 +36,14 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from organica.branch_streams import lattice_designs, lattice_stream  # noqa: E402
+from organica.scale_streams import burst_stream                          # noqa: E402
 from organica.memory import MemoryService, _extract_tags                   # noqa: E402
 from organica.paths import temp_db                                        # noqa: E402
 from organica.sleep import SleepService                                   # noqa: E402
 from organica.streams import EVENTS_PER_CYCLE                              # noqa: E402
 
 STIMULUS = "L1_hub1_t3_disjoint"
+FAMILIES = ("lattice_L1", "burst_L1")
 ARMS = {"shipped": 0.95, "0.99": 0.99, "0.9925": 0.9925, "1.0": 1.0}
 EARLY = (40, 90)
 LATE = (150, 200)
@@ -58,36 +60,49 @@ def seeded_triangles(seed: int) -> list[tuple[str, str, str]]:
 RARE_PERIOD = 40
 
 
-def stream_for(seed: int, cycles: int = 400) -> list[str]:
-    """Lattice_L1 with one seed-determined rare but stable cross-triangle edge.
+def stream_for(seed: int, cycles: int = 400,
+               family: str = "lattice_L1") -> list[str]:
+    """A world family with one seed-determined rare but stable edge.
 
-    Random distractors were noise: they recurred only by chance, so the
-    persistence arm retained spurious edges and looked worse for a reason
-    unrelated to capability.  Here the seed chooses one cross-triangle pair
-    that recurs on a fixed period (every ``RARE_PERIOD`` cycles).  The edge is
-    stable and learnable, but its occurrences are far enough apart that a
-    fast-decaying arm loses the association between them.  That is the
-    structure a persistence advantage should exploit.
+    ``lattice_L1`` is the static triangle lattice used by Q051.  ``burst_L1``
+    is the scale ladder's burst world: a stable core scaffold with a fresh
+    novelty triangle introduced every 30 cycles and reinforced for 8 cycles.
+    It shares the lattice's tag vocabulary and triangle unit but changes the
+    regime from a static block schedule to recurring novelty bursts.
+
+    In both families random distractors were rejected as noise: they recur
+    only by chance, so the persistence arm retained spurious edges for a
+    reason unrelated to capability.  The seed instead chooses one
+    cross-triangle pair that recurs on a fixed period (every ``RARE_PERIOD``
+    cycles).  The edge is stable and learnable, but its occurrences are far
+    enough apart that a fast-decaying arm loses the association between
+    them.  That is the structure a persistence advantage should exploit.
     """
+    if family not in FAMILIES:
+        raise ValueError("unknown world family %r; choose from %r"
+                         % (family, FAMILIES))
     rng = random.Random(seed ^ 0x5EED)
     triangles = seeded_triangles(seed)
-    base = lattice_stream(triangles)
+    if family == "lattice_L1":
+        base = lattice_stream(triangles)
+        length = cycles * EVENTS_PER_CYCLE
+        stream = []
+        while len(stream) < length:
+            stream.extend(base)
+        stream = stream[:length]
+    else:
+        stream = burst_stream(triangles, total_cycles=cycles)
     tags = sorted({tag for triangle in triangles for tag in triangle})
     source, target = rng.sample(tags, 2)
-    length = cycles * EVENTS_PER_CYCLE
-    stream = []
-    while len(stream) < length:
-        stream.extend(base)
-    stream = stream[:length]
     for cycle in range(0, cycles, RARE_PERIOD):
         index = cycle * EVENTS_PER_CYCLE + EVENTS_PER_CYCLE - 1
         stream[index] = "%s %s" % (source, target)
     return stream
 
 
-def stream_digest(seed: int) -> str:
+def stream_digest(seed: int, family: str = "lattice_L1") -> str:
     return hashlib.sha256(
-        json.dumps(stream_for(seed)).encode("utf-8")
+        json.dumps([family, stream_for(seed, family=family)]).encode("utf-8")
     ).hexdigest()[:16]
 
 
@@ -147,9 +162,10 @@ def _recall_at_k(predictions: dict[tuple[str, str], float],
     return (hits / total) if total else None
 
 
-def run_cell(seed: int, factor: float, cycles: int) -> dict:
-    events = stream_for(seed)
-    db = temp_db("long_delay_%d_%s.db" % (seed, factor))
+def run_cell(seed: int, factor: float, cycles: int,
+             family: str = "lattice_L1") -> dict:
+    events = stream_for(seed, family=family)
+    db = temp_db("long_delay_%s_%d_%s.db" % (family, seed, factor))
     db.unlink(missing_ok=True)
     memory = MemoryService(db_path=str(db))
     service = _arm(factor)(memory)
@@ -180,8 +196,9 @@ def run_cell(seed: int, factor: float, cycles: int) -> dict:
                        for p in (report.predictions if report else [])}
             last_theories = len(getattr(report, "theories", []) or [])
             previous = chunk[-1]
-        return {"seed": seed, "factor": factor, "rows": rows,
-                "stream_digest": stream_digest(seed),
+        return {"seed": seed, "factor": factor, "family": family,
+                "rows": rows,
+                "stream_digest": stream_digest(seed, family),
                 "final_theories": last_theories}
     finally:
         memory.close()
@@ -215,13 +232,15 @@ def _window(rows: list[dict], window: tuple[int, int]) -> dict:
             "theories": [r.get("theories") for r in picked]}
 
 
-def probe(seeds: list[int], factors: list[float], cycles: int) -> int:
+def probe(seeds: list[int], factors: list[float], cycles: int,
+          family: str = "lattice_L1") -> int:
     cells = {}
     for seed in seeds:
         for factor in factors:
             label = "%g" % factor
-            cells[(seed, label)] = run_cell(seed, factor, cycles)
-            print("ran seed %d factor %s (%d cycles)" % (seed, factor, cycles))
+            cells[(seed, label)] = run_cell(seed, factor, cycles, family)
+            print("ran seed %d factor %s (%d cycles, %s)"
+                  % (seed, factor, cycles, family))
 
     digests = {seed: cells[(seed, "%g" % factors[0])]["stream_digest"]
                for seed in seeds}
@@ -265,13 +284,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cycles", type=int, default=200)
     parser.add_argument("--seeds", type=int, default=2)
     parser.add_argument("--factors", type=str, default="shipped,0.9925")
+    parser.add_argument("--family", choices=FAMILIES, default="lattice_L1")
     args = parser.parse_args(argv)
     if not args.probe:
         parser.error("only --probe is implemented")
     names = [n for n in args.factors.split(",") if n]
     factors = [ARMS[n] for n in names]
     seeds = [20302800 + i for i in range(1, args.seeds + 1)]
-    return probe(seeds, factors, args.cycles)
+    return probe(seeds, factors, args.cycles, args.family)
 
 
 if __name__ == "__main__":

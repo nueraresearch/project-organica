@@ -358,6 +358,12 @@ as one.
 
 **What is in hand.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
+### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
+
+**Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 survive late while 0.99 and 0.9925 die, so the same arm pair cannot carry the contrast on the second family. No second-family protocol has been frozen.
+
+**What is in hand.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012

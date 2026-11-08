@@ -622,7 +622,7 @@ becomes a search for 104 that worked.
 - **Disjoint seeds, proved rather than asserted.** The candidate block is **700000001**–**700000724**: **724**
   integers, chosen as a plain block rather than a date-like one so that no reader mistakes it for calendar
   values. At build time the protocol scans every artifact in `docs/` for integers filed under a key naming a seed
-  and compares: **1433** consumed seeds across **141** artifacts, and **0 overlap** with the candidate block.
+  and compares: **1434** consumed seeds across **142** artifacts, and **0 overlap** with the candidate block.
 - **Pre-assigned, with the spares named.** The **720** worlds are assigned to configurations *before* any run —
   **180** each, in four contiguous ranges recorded in the artifact — and the remaining **four** seeds
   (`700000721`–`700000724`) are recorded as **unused**. **Substitution is prohibited**: a censored world does not
