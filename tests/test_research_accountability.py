@@ -65,7 +65,10 @@ def test_a_load_bearing_claim_on_an_unsupported_question_is_rejected(records):
     reg, ledger = records
     ledger = json.loads(json.dumps(ledger))
     claim = next(c for c in ledger["claims"] if c["claim_id"] == "C001")
-    claim["supporting_questions"] = ["Q003"]  # closed, but UNSUPPORTED
+    # Build the precondition instead of relying on today's ledger: the rule applies to a
+    # load-bearing claim, and it must fire when the question it cites is not closed+SUPPORTED.
+    claim["classification"] = "DEMONSTRATED"
+    claim["supporting_questions"] = ["Q003"]  # not closed+SUPPORTED on the current record
     report = ra.validate(reg, ledger)
     assert not report["passed"]
     assert any("C001" in e and "Q003" in e for e in report["errors"]), report["errors"]

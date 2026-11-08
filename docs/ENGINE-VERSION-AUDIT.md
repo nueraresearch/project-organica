@@ -152,6 +152,24 @@ record, that any published number is false, or that the reopened questions will 
 It claims one thing: the record spans several engines, and no verdict from before the 0.12.0 rework
 describes the engine that is in this repository now.
 
+## 12. The guard is unlocked and re-baselined (2026-11-08)
+
+`tests/test_v1_freeze.py` no longer skips at version 0.12.0 and above. It compares the shipped engine
+against a recorded commit in `docs/engine_reference.json` instead of the archival tag, and it guards
+thirteen files: the seven rule 12 names plus `candidates.py`, `sleep_extraction.py`,
+`sleep_selection.py`, `sleep_synthesis.py`, `sleep_inquiry.py` and `environment.py`, because the
+engine was split into modules and a guard watching only `sleep.py` would be watching a shell.
+
+The semantics changed with it. A guard pinned to `v0.9.0` could only fail or be switched off, since
+the engine is supposed to move; a guard pinned to a recorded commit fails only when a change is
+**unrecorded**. Changing the engine on purpose still requires bumping the version, adding a CHANGELOG
+entry and updating the reference in the same commit -- the guard fails until that happens, which is
+what makes the change a recorded act rather than a silent one. `test_the_comparator_detects_a_real_change`
+proves the mechanism separates two differing files, so the check is demonstrated rather than asserted.
+
+This does not amend `docs/V1-FREEZE.md`, which remains the owner's record of the archival reference;
+the discrepancy between what it says and what the engine is stays disclosed in sections 2 and 3.
+
 ## 11. Stop condition
 
 One audit, one reopening, one record. This is not a licence to re-run the project, and it does not

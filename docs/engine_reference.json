@@ -1,0 +1,24 @@
+{
+  "kind": "engine_reference",
+  "date": "2026-11-08",
+  "engine_version": "0.13.0",
+  "commit": "a329ef1420a3710cad56cc511a2e267823ca9141",
+  "archival_tag": "v0.9.0",
+  "reason": "The archival tag no longer describes the engine on master: since v0.9.0 the package gained six modules, sleep.py lost 1777 lines to a refactor, memory.py changed, and the guard skipped every comparison at version 0.12.0 and above. The guard is re-baselined on the shipped engine so that the next change to it has to be deliberate.",
+  "guarded_files": [
+    "organica/sleep.py",
+    "organica/memory.py",
+    "organica/paths.py",
+    "organica/streams.py",
+    "organica/branch_streams.py",
+    "organica/scale_streams.py",
+    "organica/ground_truth_worlds.py",
+    "organica/candidates.py",
+    "organica/sleep_extraction.py",
+    "organica/sleep_selection.py",
+    "organica/sleep_synthesis.py",
+    "organica/sleep_inquiry.py",
+    "organica/environment.py"
+  ],
+  "how_to_change": "Change the engine deliberately: bump the version, add a CHANGELOG entry, then update this file's commit, engine_version and date in the same commit. The guard fails until the reference is updated, which is what makes the change a recorded act."
+}
