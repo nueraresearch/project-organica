@@ -177,6 +177,12 @@ least the seven files rule 12 names, because the engine was split into `sleep_ex
 watching only `sleep.py` would be watching a shell. `tests/test_v1_freeze.py` asserts that coverage,
 and that the comparator can still report a changed frozen file.
 
+The split is no longer argued from the diff. `tests/test_sleep_split_equivalence.py` extracts
+`organica/` at `7becdb5^` and at `7becdb5`, runs both on the same twelve cycles of `STUDY_STREAM` in
+separate processes, and compares every report field and every substrate row. It is the same
+discipline as `tests/test_substrate_equivalence.py`, applied to a refactor rather than to a
+performance change.
+
 This does not amend `docs/V1-FREEZE.md`, which remains the owner's record of the archival reference.
 The discrepancy between its account of enforcement and the mechanism is disclosed in sections 2 and 3,
 and the record now carries a dated status correction at the top pointing here.
