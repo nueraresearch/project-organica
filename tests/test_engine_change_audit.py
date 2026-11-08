@@ -59,14 +59,23 @@ def test_engine_commit_count_is_derived_from_git() -> None:
     assert f"**{count}** commits" in text(), count
 
 
-def test_the_skip_finding_matches_the_guard() -> None:
-    """The audit's central claim is that the freeze check skips at >= 0.12.0."""
+def test_the_skip_finding_is_resolved_and_the_guard_agrees() -> None:
+    """The audit's central finding was that the freeze check skipped at >= 0.12.0.
+
+    That was true when it was written, so the document keeps it; it is no longer true of the
+    code, so the test asserts both halves. An audit test that demanded the defect remain
+    would pin a bug in place and call it documentation.
+    """
     guard = GUARD.read_text(encoding="utf-8")
-    assert 'organica.__version__ >= "0.12.0"' in guard
+    assert 'organica.__version__ >= "0.12.0"' not in guard, (
+        "the version gate is back in tests/test_v1_freeze.py: the engine files would skip again, "
+        "and the freeze would silently stop checking the engine (see docs/ENGINE-VERSION-AUDIT.md)")
     body = text()
     assert "0.12.0" in body
     assert "SKIPPED" in body
     assert "version gate, not a shallow clone" in body
+    assert "Resolved 2026-11-08" in body, (
+        "section 3 records a defect that has since been fixed and must say when it was resolved")
 
 
 def test_c1_is_recorded_as_failed_not_supported() -> None:

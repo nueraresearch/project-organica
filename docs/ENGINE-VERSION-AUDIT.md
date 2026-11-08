@@ -6,6 +6,10 @@ questions whose evidence predates the rework. It changes no engine file, runs no
 result is false. Everything numeric below is computed from git and from the artifacts by
 `docs/engine_version_audit.json`, which this document restates.
 
+This is the version-scoped companion to `docs/ENGINE-CHANGE-AUDIT.md`: that document maps *what*
+changed in the engine, and this one asks *which build* each recorded result ran on and what follows
+for the questions resting on it.
+
 ## 1. The claim that was being made
 
 `docs/V1-FREEZE.md` says Organica 1 is a fixed reference object and that everything after it
@@ -152,25 +156,32 @@ record, that any published number is false, or that the reopened questions will 
 It claims one thing: the record spans several engines, and no verdict from before the 0.12.0 rework
 describes the engine that is in this repository now.
 
-## 12. The guard is unlocked and re-baselined (2026-11-08)
+## 11. One guard, not two (2026-11-08)
 
-`tests/test_v1_freeze.py` no longer skips at version 0.12.0 and above. It compares the shipped engine
-against a recorded commit in `docs/engine_reference.json` instead of the archival tag, and it guards
-thirteen files: the seven rule 12 names plus `candidates.py`, `sleep_extraction.py`,
-`sleep_selection.py`, `sleep_synthesis.py`, `sleep_inquiry.py` and `environment.py`, because the
-engine was split into modules and a guard watching only `sleep.py` would be watching a shell.
+The freeze test no longer skips at 0.12.0 and above, and it does not re-implement the engine pin. The
+two halves now do different jobs: `tests/test_v1_freeze.py` compares the eight published result
+artifacts against the archival tag, and the engine's identity is enforced by `docs/engine_pin.json` --
+a SHA-256 for every module under `organica/`, checked by `benchmarks/engine_pin.py --check` and by
+`tests/test_engine_pin.py` in the suite. The pin fails when a module is added, removed or changed
+without the version bump that records the change, which is what turns an engine edit into a recorded
+act instead of a silent one.
 
-The semantics changed with it. A guard pinned to `v0.9.0` could only fail or be switched off, since
-the engine is supposed to move; a guard pinned to a recorded commit fails only when a change is
-**unrecorded**. Changing the engine on purpose still requires bumping the version, adding a CHANGELOG
-entry and updating the reference in the same commit -- the guard fails until that happens, which is
-what makes the change a recorded act rather than a silent one. `test_the_comparator_detects_a_real_change`
-proves the mechanism separates two differing files, so the check is demonstrated rather than asserted.
+**This section replaces an earlier version of itself, dated the same day.** That version introduced a
+second, redundant guard: a `docs/engine_reference.json` pinning thirteen files to a commit and
+comparing them through `git hash-object`. The pin already did the job, by content rather than by
+history, and it does it in a shallow clone, where a recorded commit's objects may be absent entirely.
+Two pins with two failure messages and two file sets are worse than either alone, so the duplicate was
+deleted rather than documented. What survives from it is the coverage point: the pin must cover at
+least the seven files rule 12 names, because the engine was split into `sleep_extraction`,
+`sleep_selection`, `sleep_synthesis`, `sleep_inquiry`, `candidates` and `environment`, and a guard
+watching only `sleep.py` would be watching a shell. `tests/test_v1_freeze.py` asserts that coverage,
+and that the comparator can still report a changed frozen file.
 
-This does not amend `docs/V1-FREEZE.md`, which remains the owner's record of the archival reference;
-the discrepancy between what it says and what the engine is stays disclosed in sections 2 and 3.
+This does not amend `docs/V1-FREEZE.md`, which remains the owner's record of the archival reference.
+The discrepancy between its account of enforcement and the mechanism is disclosed in sections 2 and 3,
+and the record now carries a dated status correction at the top pointing here.
 
-## 11. Stop condition
+## 12. Stop condition
 
 One audit, one reopening, one record. This is not a licence to re-run the project, and it does not
 authorise a decay sweep, an intervention or a capability cell. Re-closing a reopened question needs

@@ -1,6 +1,14 @@
 # Organica 1 — The Freeze
 
 > **Status: FROZEN as of the `v0.9.0` tag (2026-10-24).**
+>
+> **Status correction, 2026-11-08.** The sections below describe the archival reference and are
+> accurate about it: the tag does not move and the published artifacts are unchanged. What was
+> not true is their account of enforcement. The freeze test stopped comparing engine files at
+> package version 0.12.0, and the engine did move -- six new modules and a rewritten sleep path.
+> Engine identity is now enforced by a hash pin (`docs/engine_pin.json`, `benchmarks/engine_pin.py`)
+> rather than by this tag, and the history is recorded in `docs/ENGINE-VERSION-AUDIT.md`. These
+> sections are left as written: the archival record is the owner's, and an agent does not amend it.
 
 Organica 1 is now a **fixed reference object**. It is not abandoned and it is
 not being worked on any more: it is finished, and it is the thing every

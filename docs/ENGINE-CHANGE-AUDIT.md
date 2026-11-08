@@ -93,6 +93,15 @@ rather than by the test.
 3. The submodule split in §2 is the change most in need of a behaviour-preserving proof, and
    it is exactly the class of change the disabled check was written to catch.
 
+**Resolved 2026-11-08.** The gate is gone, and consequence 1 no longer holds: since 2026-11-07 a
+frozen engine file that changes without a version bump fails the suite. The mechanism is
+`docs/engine_pin.json` -- a SHA-256 of every module under `organica/`, checked by
+`benchmarks/engine_pin.py --check` and by `tests/test_engine_pin.py` -- and
+`tests/test_v1_freeze.py` now keeps the artifact comparison while asserting that the pin still
+covers the seven frozen files and can still report a changed one. Section 3 above is left as
+written, because it is the measurement that motivated the pin; `docs/ENGINE-VERSION-AUDIT.md`
+section 11 records the mechanism as it stands.
+
 ## 4. The changes, in order
 
 20 commits, grouped into 14 entries. The last two columns are the audit's actual product and
@@ -180,7 +189,7 @@ that a version bump has outdated. `tests/test_engine_pin.py` runs that check ins
    `v0.12.0` is the deposit object and already contains most of the changes in §4. A
    three-way comparison (`v0.9.0`, `v0.12.0`, pinned candidate) costs one more arm and settles
    which of the two the campaign is actually arguing against.
-3. **Enforce the pin.** The existing freeze check is off above 0.12.0 (§3). A campaign that
+3. **Enforce the pin.** The existing freeze check was off above 0.12.0 (§3); since 2026-11-08 identity is enforced by `docs/engine_pin.json`, which fails the suite when a module is added, removed or changed without a version bump. A campaign that
    depends on a fixed object needs its own identity check, built to fail, and proved to fire.
 4. **Replace §4's fourth column with mechanism and falsifier.** One row per change that stays
    in the campaign; rows without a named mechanism are out.

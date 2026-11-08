@@ -1,45 +1,39 @@
 """
 tests/test_v1_freeze.py
 ------------------------------------------------------------------
-The engine guard. It compares the shipped engine against a recorded reference commit and fails when
-a guarded file has been edited without the reference being updated.
+The freeze, in the two parts it actually has.
 
-**What this replaced.** The guard used to compare against the archival tag `v0.9.0` and to skip
-itself for every file once `organica.__version__ >= "0.12.0"`. Between those two facts it stopped
-checking anything: the engine gained six modules and had `sleep.py` cut down by 1,777 lines while the
-test kept reporting success by declining to look. `docs/ENGINE-VERSION-AUDIT.md` records that.
+**Part 1 -- the published artifacts are immutable.** Organica 1's published results are compared with
+the archival tag `v0.9.0` and fail if edited in place. Corrections are documented, not applied.
 
-**Why a commit reference rather than the tag.** Organica 1 at `v0.9.0` is an archive. The engine on
-master is a live object that is supposed to change. A guard pinned to the archive can only ever fail
-or be switched off; a guard pinned to a recorded commit fails only when a change is *unrecorded*, and
-that is the failure worth catching. Changing the engine is expected. Changing it silently is not.
+**Part 2 -- the engine is pinned, not archived.** The engine on master is supposed to move, so its
+identity is enforced by `docs/engine_pin.json` and `benchmarks/engine_pin.py`: a SHA-256 for every
+module under `organica/`, and a `--check` that fails when a module is added, removed or changed
+without the version bump that records the change. This file asserts the pin passes, that it covers
+the seven files `AGENTS.md` rule 12 names, and that its comparator can report a change in one of
+them -- so a pin that silently shrank, or a check that cannot fire, cannot be read as a passing
+freeze.
 
-**How to change the engine on purpose.** Bump the version, add a CHANGELOG entry, and update
-`docs/engine_reference.json` (commit, engine_version, date) in the same commit. The guard then passes
-against the new reference, and the change is in the record.
-
-Three properties this test deliberately has:
-
-1. **It can fail.** `test_the_comparator_detects_a_real_change` hashes two different files and
-   asserts the comparison separates them, so the mechanism is proved rather than asserted.
-2. **It skips honestly.** A shallow clone has no objects for the reference commit. The test skips and
-   says why; it never passes silently because it could not check.
-3. **It covers the engine, not the seven-file list.** The engine was split into modules that carry the
-   cognition -- selection, synthesis, extraction, inquiry -- so a guard watching only `sleep.py`
-   would be watching a shell.
+**Why not one guard against the tag.** The original test compared the seven frozen files with
+`v0.9.0` and skipped itself at package version 0.12.0 and above. Between those two facts it stopped
+checking anything: the engine gained six modules and lost 1,777 lines of `sleep.py` while the test
+reported success by declining to look. A guard pinned to an archive can only fail or be switched off;
+a guard pinned to recorded bytes fails only on an *unrecorded* change. `docs/ENGINE-VERSION-AUDIT.md`
+records that history, and `tests/test_engine_pin.py` owns the pin's own behaviour.
 
 Run:  python -m pytest tests/test_v1_freeze.py -v
 """
 
 from __future__ import annotations
 
-import json
+import copy
 import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
+from benchmarks import engine_pin
 from organica import __version__
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -47,10 +41,7 @@ ROOT = Path(__file__).resolve().parent.parent
 #: The archival tag. Organica 1 is frozen as of this commit, for the published record.
 FREEZE_TAG = "v0.9.0"
 
-#: The recorded reference the guard compares against.
-REFERENCE = ROOT / "docs" / "engine_reference.json"
-
-#: The seven files rule 12 names as the engine.
+#: The seven files rule 12 names as the engine. The pin must cover at least these.
 FROZEN_ENGINE = (
     "organica/sleep.py",
     "organica/memory.py",
@@ -61,8 +52,7 @@ FROZEN_ENGINE = (
     "organica/ground_truth_worlds.py",
 )
 
-#: The published artifacts. A frozen architecture whose results could drift is not frozen at all, so
-#: these are checked against the archival tag for modification too.
+#: The published artifacts. A frozen architecture whose results could drift is not frozen at all.
 FROZEN_ARTIFACTS = (
     "docs/force_matrix.json",
     "docs/verdicts.json",
@@ -85,71 +75,33 @@ def _git(*args: str, timeout: int = 60):
 
 
 def _commit_is_present(commit: str) -> bool:
-    """Is this commit's object actually in this checkout's object store?
-
-    A shallow clone knows the SHA without the objects, and knowing a SHA is not the same as being
-    able to read a file from it.
-    """
+    """Is this commit's object actually in this checkout's object store?"""
     out = _git("cat-file", "-e", commit + "^{commit}")
     return out is not None and out.returncode == 0
 
 
-def _tag_commit() -> str | None:
+def _tag_commit():
     """The commit the archival tag points at, or None if it cannot be read here."""
     out = _git("rev-list", "-n", "1", FREEZE_TAG + "^{commit}")
-    if out is not None and out.returncode == 0 and out.stdout.strip():
-        commit = out.stdout.strip()
-        if _commit_is_present(commit):
-            return commit
+    if out is None or out.returncode != 0 or not out.stdout.strip():
         return None
-    ls = _git("ls-remote", "--tags", "origin", FREEZE_TAG + "*")
-    if ls is None or ls.returncode != 0:
-        return None
-    remote = None
-    for line in ls.stdout.splitlines():
-        sha, _, name = line.partition("\t")
-        if name.strip() == "refs/tags/" + FREEZE_TAG + "^{}":
-            remote = sha.strip()
-    if remote is None:
-        return None
-    if _commit_is_present(remote):
-        return remote
-    peeled = _git("rev-parse", remote + "^{commit}")
-    if peeled is not None and peeled.returncode == 0 and peeled.stdout.strip():
-        commit = peeled.stdout.strip()
-        if _commit_is_present(commit):
-            return commit
-    return None
+    commit = out.stdout.strip()
+    return commit if _commit_is_present(commit) else None
 
 
-def _reference() -> dict:
-    return json.loads(REFERENCE.read_text(encoding="utf-8"))
-
-
-def _blob_id_at(relpath: str, commit: str) -> str | None:
+def _blob_id_at(relpath: str, commit: str):
     out = _git("rev-parse", commit + ":" + relpath)
     if out is None or out.returncode != 0 or not out.stdout.strip():
         return None
     return out.stdout.strip()
 
 
-def _working_blob_id(relpath: str) -> str | None:
-    """The object ID the working-tree file would get if committed now.
-
-    `hash-object --path` applies the same clean filter the index uses, so a file differing only in
-    line endings -- routine under `core.autocrlf` -- correctly compares equal.
-    """
+def _working_blob_id(relpath: str):
+    """The object ID the working-tree file would get if committed now."""
     f = ROOT / relpath
     if not f.exists():
         return None
     out = _git("hash-object", "--path", relpath, str(f))
-    if out is None or out.returncode != 0 or not out.stdout.strip():
-        return None
-    return out.stdout.strip()
-
-
-def _blob_id_of_file(path: Path) -> str | None:
-    out = _git("hash-object", str(path))
     if out is None or out.returncode != 0 or not out.stdout.strip():
         return None
     return out.stdout.strip()
@@ -163,74 +115,6 @@ def _first_difference(relpath: str, commit: str) -> str:
         if lines:
             return "\n    " + "\n    ".join(lines[:12])
     return ""
-
-
-@pytest.fixture(scope="module")
-def reference_commit() -> dict:
-    data = _reference()
-    commit = data["commit"]
-    if not _commit_is_present(commit):
-        pytest.skip(
-            "the engine reference commit " + commit[:12] + " cannot be read here, so the guard cannot "
-            "check it. A shallow clone knows the SHA but not the objects -- this is a skip, not a pass. "
-            "Run a full clone or `git fetch` to check it.")
-    return data
-
-
-GUARDED = tuple(_reference()["guarded_files"])
-
-
-@pytest.mark.parametrize("relpath", GUARDED)
-def test_engine_file_matches_the_recorded_reference(relpath, reference_commit):
-    """A guarded engine file must be identical to the recorded reference commit."""
-    commit = reference_commit["commit"]
-    tagged = _blob_id_at(relpath, commit)
-    working = _working_blob_id(relpath)
-
-    if tagged is None:
-        pytest.fail(
-            relpath + " does not exist at the reference commit " + commit[:12] + ". The reference and "
-            "the repository disagree about what the engine is.")
-
-    assert working is not None, (
-        relpath + " has been deleted. The engine still needs it; restoring the file is the fix, and if "
-        "the deletion is intended, record that and re-baseline docs/engine_reference.json.")
-
-    if tagged == working:
-        return
-
-    detail = _first_difference(relpath, commit)
-    pytest.fail(
-        relpath + " has changed since the recorded engine reference " + commit[:12] + "." + detail +
-        "\n\nAn unrecorded engine change is the failure this guard exists to catch. If the change is "
-        "intended: bump the version, add a CHANGELOG entry, and update docs/engine_reference.json "
-        "(commit, engine_version, date) in the same commit. If it is not intended: revert it.")
-
-
-def test_the_comparator_detects_a_real_change(tmp_path):
-    """The guard can fail: two different files must produce different object IDs."""
-    a = tmp_path / "a.py"
-    b = tmp_path / "b.py"
-    same = tmp_path / "same.py"
-    a.write_text("PREDICTIONS = 40\n", encoding="utf-8")
-    b.write_text("PREDICTIONS = 20\n", encoding="utf-8")
-    same.write_text("PREDICTIONS = 40\n", encoding="utf-8")
-    first, second, third = _blob_id_of_file(a), _blob_id_of_file(b), _blob_id_of_file(same)
-    assert first is not None and second is not None and third is not None
-    assert first == third, "identical content must compare equal"
-    assert first != second, "a one-token change must compare unequal"
-
-
-def test_the_reference_records_a_version_and_a_reason():
-    """The reference cannot drift silently: its version must match the package."""
-    data = _reference()
-    assert data["engine_version"] == __version__, (
-        "docs/engine_reference.json records engine_version " + str(data["engine_version"]) +
-        " but the package declares " + __version__ + ". A version bump is a deliberate act: update the "
-        "reference in the same commit.")
-    assert data.get("date") and data.get("reason"), "the reference must say when and why"
-    assert set(data["guarded_files"]) >= set(FROZEN_ENGINE), (
-        "the reference must guard at least the seven files rule 12 names")
 
 
 @pytest.mark.parametrize("relpath", FROZEN_ARTIFACTS)
@@ -255,6 +139,35 @@ def test_published_artifact_is_unchanged_since_the_freeze(relpath):
             relpath + " has changed since Organica 1 was frozen at " + FREEZE_TAG + "." + detail +
             "\n\nIt is a published result. Corrections are documented, not quietly applied: add the "
             "correction to the journal and the facts sheet and leave the artifact alone.")
+
+
+def test_the_engine_pin_describes_the_engine():
+    """The engine's identity is the pin's job, and the pin must currently hold."""
+    problems = engine_pin.compare(engine_pin.load_pin())
+    assert problems == [], problems
+
+
+def test_the_pin_covers_the_engine_this_record_freezes():
+    """A pin that quietly stopped covering a frozen file would be a freeze that stopped."""
+    pin = engine_pin.load_pin()
+    missing = sorted(set(FROZEN_ENGINE) - set(pin["files"]))
+    assert not missing, (
+        "docs/engine_pin.json does not cover " + repr(missing) + ", so a change to it would not be "
+        "caught. Re-pin with python -m benchmarks.engine_pin.")
+    assert pin["version"] == __version__, (
+        "the pin records version " + str(pin["version"]) + " but the package declares " + __version__ +
+        "; a version bump is a deliberate act and the pin records it.")
+    assert pin.get("pinned") and pin.get("head_at_pin"), "the pin must say when and where it was taken"
+
+
+def test_the_pin_comparator_reports_a_change_in_a_frozen_file():
+    """Not vacuous: the comparison this file relies on must separate a changed frozen file."""
+    pin = copy.deepcopy(engine_pin.load_pin())
+    name = "organica/sleep.py"
+    now = dict(pin["files"])
+    now[name] = "0" * 64
+    found = engine_pin.compare(pin, now=now, version=pin["version"])
+    assert any(name in message for message in found), found
 
 
 def test_the_freeze_record_exists_and_names_the_tag():
