@@ -360,9 +360,9 @@ as one.
 
 ### Q052 — Does the Q051 late rank advantage replicate on a second world family, and does burst_L1's novelty regime reverse the late survival ordering?
 
-**Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 survive late while 0.99 and 0.9925 die, so the same arm pair cannot carry the contrast on the second family. Framing must first classify whether burst_L1's late collapse is competition loss or a different mechanism; no second-family protocol has been frozen.
+**Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 alive at 300 while 0.99 is dead and 0.9925 is intermittent, so the ordering is non-monotone and the Q051 arm pair cannot transfer. docs/Q052-FRAMING-DESIGN.md fixes what would count as the same competition-loss mechanism and what each outcome decides for Q053's scope, but no cell has run on burst's competition census and no second-family protocol is frozen.
 
-**What is in hand.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`
+**What is in hand.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`
 
 ### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
 
