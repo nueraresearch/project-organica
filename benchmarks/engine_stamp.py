@@ -11,7 +11,7 @@ So a harness stamps the record it writes:
     record = engine_stamp.stamp(record)
     json.dump(record, handle, indent=2)
 
-`stamp` adds two fields and keeps the rest of the schema alone:
+`stamp` adds four fields and keeps the rest of the schema alone:
 
 ``engine_version``
     the package version the harness is running in, read from ``organica/__init__.py`` without
@@ -19,6 +19,14 @@ So a harness stamps the record it writes:
 ``engine_commit``
     the commit the pin was taken at. It is provenance: the pin guarantees the bytes are unchanged
     since that commit, so the pair together says *these bytes produced this file*.
+``engine_sha256``
+    one digest over the pin's whole file map, so the artifact names the exact byte set rather than a
+    commit that a later re-pin could point somewhere else. `engine_commit` says *when the bytes were
+    recorded*; this says *which bytes*, and it is checkable against `docs/engine_pin.json` alone.
+``runner``
+    the module that called `stamp`, found from the call stack. The commit names the engine; this
+    names the harness, which is the other half of "what produced this file" when two harnesses run
+    the same pinned engine.
 
 A list of records is stamped record by record, because several harnesses write their artifact as a
 list of cells and changing that to an envelope would break every reader of it.
@@ -44,8 +52,10 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 from benchmarks import engine_pin
@@ -55,8 +65,10 @@ BENCH = ROOT / "benchmarks"
 DOCS = ROOT / "docs"
 AUDIT = DOCS / "engine_version_audit.json"
 
-#: The two fields a run artifact must carry.
-STAMPED = ("engine_version", "engine_commit")
+#: What a run artifact must carry to name its build and the process that ran it. The last two were
+#: added after the first rule landed; the artifacts stamped before them are grandfathered by path,
+#: and `stamp` now writes all four at once, so a new artifact cannot be written with fewer.
+STAMPED = ("engine_version", "engine_commit", "engine_sha256", "runner")
 
 #: Writers of *derived* documents: they render other records and run no engine, so a stamp would
 #: name the build of a document that measured nothing.
@@ -140,6 +152,32 @@ def engine_version() -> str:
     return engine_pin.package_version()
 
 
+def engine_sha256() -> str:
+    """One digest over the pinned file map: the engine's *bytes*, not the commit they were found at.
+
+    `engine_commit` is a pointer, and a pointer can be re-pointed by a later re-pin at the same
+    history. This value is computed from the hashes themselves, so an artifact that carries it can
+    be compared against `docs/engine_pin.json` with no reference to git at all.
+    """
+    files = engine_pin.load_pin().get("files") or {}
+    if not files:
+        raise RuntimeError(
+            "docs/engine_pin.json records no file hashes, so an artifact cannot name the bytes it "
+            "ran; re-pin with python -m benchmarks.engine_pin")
+    canonical = json.dumps(files, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def runner() -> str:
+    """The module that called `stamp`, skipping this module's own frames."""
+    frame = sys._getframe(1)
+    while frame is not None:
+        if frame.f_globals.get("__name__") != __name__:
+            return frame.f_globals.get("__name__") or "<module>"
+        frame = frame.f_back
+    return "<unknown>"
+
+
 def pinned_commit() -> str:
     """The commit the engine pin was taken at, which is the engine's provenance."""
     pin = engine_pin.load_pin()
@@ -163,6 +201,10 @@ def stamp(record):
     stamped = dict(record)
     stamped["engine_version"] = engine_version()
     stamped["engine_commit"] = pinned_commit()
+    stamped["engine_sha256"] = engine_sha256()
+    # Read before the caller's frame unwinds; a list is stamped item by item and every item must
+    # name the same writer as the list, so it is resolved on the outermost call and reused.
+    stamped["runner"] = record.get("runner") or runner()
     return stamped
 
 
@@ -243,7 +285,7 @@ def main(argv=None) -> int:
     if args.check:
         failures = ["benchmarks/%s writes a JSON artifact without engine_stamp" % name
                     for name in unstamped_writers()]
-        failures += ["%s names an engine_version and no engine_commit" % rel
+        failures += ["%s names an engine_version and does not name its build fully" % rel
                      for rel in half_stamped()]
         failures += ["%s has an engine_commit that is not a 40-character sha" % rel
                      for rel in bad_commits()]

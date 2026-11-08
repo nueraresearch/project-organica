@@ -1,5 +1,6 @@
 """An artifact that does not name its build cannot be attributed to one."""
 
+import hashlib
 import json
 
 import pytest
@@ -7,11 +8,31 @@ import pytest
 from benchmarks import engine_stamp as es
 
 
-def test_the_stamp_records_the_version_and_the_pinned_commit():
+def test_the_stamp_records_the_version_the_pinned_commit_and_the_bytes():
     record = es.stamp({"kind": "probe", "cells": 3})
     assert record["engine_version"] == es.engine_version()
     assert record["engine_commit"] == es.pinned_commit()
+    assert record["engine_sha256"] == es.engine_sha256()
     assert record["kind"] == "probe" and record["cells"] == 3, "the stamp must not drop fields"
+
+
+def test_the_runner_is_the_module_that_wrote_the_record():
+    """The commit names the engine; this names the harness, which the commit cannot say."""
+    assert es.stamp({"cells": 1})["runner"] == __name__
+    assert es.stamp([{"cells": 1}, {"cells": 2}])[1]["runner"] == __name__, (
+        "a list artifact must not name this module as its own writer")
+
+
+def test_the_byte_digest_is_computed_from_the_pin_and_moves_when_one_file_does(monkeypatch):
+    """A digest with no sensitivity to its input would name nothing."""
+    pin = json.loads((es.ROOT / "docs/engine_pin.json").read_text(encoding="utf-8"))
+    canonical = json.dumps(pin["files"], sort_keys=True, separators=(",", ":"))
+    assert es.engine_sha256() == hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+    altered = dict(pin["files"])
+    altered[sorted(altered)[0]] = "0" * 64
+    monkeypatch.setattr(es.engine_pin, "load_pin", lambda: {"files": altered})
+    assert es.engine_sha256() != hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def test_stamping_a_list_stamps_every_record_and_keeps_it_a_list():
@@ -27,8 +48,9 @@ def test_the_stamp_overwrites_a_stale_one():
 
 
 def test_a_record_without_a_stamp_is_reported():
-    assert es.missing({"engine_version": "1.2.3"}) == ["engine_commit"]
-    assert es.missing({}) == ["engine_commit", "engine_version"]
+    assert es.missing({"engine_version": "1.2.3"}) == [
+        "engine_commit", "engine_sha256", "runner"]
+    assert es.missing({}) == ["engine_commit", "engine_sha256", "engine_version", "runner"]
 
 
 def test_an_object_that_is_not_a_record_is_refused():
