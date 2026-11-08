@@ -234,3 +234,53 @@ and the Q048 survivor does not transfer.
 prediction held. The factor is the only difference between the two sides of the edge: same
 seeds, same world, same arm and same runner. Q050 remains `NO_INTERIOR_SURVIVOR`, the
 resolution remains 0.0001, and this is a paired robustness check rather than a new threshold.
+
+## 15. Competition-collapse signature across the threshold block (2026-11-08)
+
+**Requested after section 14; written before any 0.9924 capture cell ran.** Section 12's probe
+measured one seed and found that the 0.9924 layer dies when every subject stops retaining two
+competing hypotheses, not when a support count falls near the admission floor. One seed cannot
+distinguish a subject-specific last pair from a general competition-collapse mechanism. This
+amendment asks which one it is by capturing the same state on all three threshold seeds.
+
+**Check.** Run 0.9924 on seeds **20302701, 20302702 and 20302703** with an in-process observer
+that records, for cycles 295-300, the retained hypotheses, the formed theories and the pre-decay
+temporal edge counts. Seed 20302701 is a **control**: its last-live top theory must reproduce
+section 12's committed probe exactly (`bravo`, support **866 = 433 + 433**).
+
+**Endpoint.** For each seed: the last cycle with at least one theory, the top theory's subject and
+support, its competing hypotheses and their supports, the theory count in the death cycle, and
+whether any subject retains at least two hypotheses in the death cycle.
+
+**Decision.** `SAME_PAIR` if all three seeds' last-live top theory is the same subject and every
+seed shows the pair-loss signature; `SAME_MECHANISM` if the signature holds on all three seeds but
+the subject differs; `SIGNATURE_ABSENT` if any seed's death is not preceded by a last-pair loss;
+`VOID` if a gate fails. This is a mechanism diagnostic. It does not change Q050's label, is not a
+new threshold, and does not score adaptation or capability.
+
+**Gates.** G1 the factor fires in every cell (300 decay calls, the cell's own factor, rows
+updated); G2 each capture covers the last-live and death cycles; G3 the 20302701 control
+reproduces the committed probe; G4 the cells are the three threshold seeds; G5 the artifact's
+per-cell endpoint facts equal the committed parts.
+
+**Prediction.** All three seeds resolve to `bravo` at **866 = 433 + 433**, so the answer is
+`SAME_PAIR`: the boundary object is a subject-specific last competitive pair, not a general
+competition collapse. If different subjects hold the last pair but the signature is the same, the
+mechanism generalizes and the label is `SAME_MECHANISM`.
+
+**Outcome.** Not yet written; no capture cell has run.
+
+### 15.1 Correction to the endpoint's hypothesis population (2026-11-08)
+
+**Written after the three capture cells ran and before the label was recorded.** The first pass
+counted every retained hypothesis per subject. In the death cycle that count is two for each
+subject, which would have read as `SIGNATURE_ABSENT`. Reading the engine's own formation rule
+(`organica/sleep.py`, Layer 5) shows that this is not the population the rule uses: hypotheses
+whose expectation is `high_structural_significance` are dropped before subjects are grouped for
+theory formation. In the death cycle each subject retains exactly one competing hypothesis plus
+one such marker, so the engine's competition population has one member per subject and no theory
+forms. The endpoint is corrected to count **competing** hypotheses only, matching the engine. The
+raw count is still recorded in the artifact, and the first-pass reading is disclosed: raw pairs
+are present at death, competing pairs are absent. This is a correction to the instrument so that
+it measures the rule the theory layer applies; it does not relax a threshold, and no label was
+recorded before it.

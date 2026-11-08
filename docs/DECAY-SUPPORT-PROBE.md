@@ -38,3 +38,9 @@ requirement. The threshold label is unchanged; the mechanism is corrected.
 
 One seed (20302701), one world (`lattice_L1`), one arm (FULL), one factor pair and 300 cycles.
 This is a mechanism diagnostic, not a new threshold and not an adaptation or capability result.
+
+**Correction (2026-11-08).** "Only one retained hypothesis" above means one *competing*
+hypothesis. The raw retained list also carries one `high_structural_significance` marker per
+subject, and the engine's theory formation drops that marker before grouping by subject. The
+section-15 capture on all three threshold seeds confirms that the competing population is one per
+subject in the death cycle and that `bravo` still holds the last pair at cycle 299.
