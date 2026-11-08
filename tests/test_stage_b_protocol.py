@@ -28,6 +28,7 @@ import pytest
 
 
 
+from benchmarks import engine_stamp
 from benchmarks.stage_b_protocol import CLAIMED, OUT, PUBLISHED_FLOOR, _worlds_for, build
 
 
@@ -76,7 +77,14 @@ def construct() -> dict:
 
 def test_the_stored_artifact_is_current(stage):
 
-    assert json.loads(OUT.read_text(encoding="utf-8")) == stage
+    stored = json.loads(OUT.read_text(encoding="utf-8"))
+    content = {key: value for key, value in stored.items() if key not in engine_stamp.STAMPED}
+    assert content == stage, "the stored artifact's content is not a fresh build"
+    assert engine_stamp.missing(stored) == [], (
+        "the stored artifact must name the engine that wrote it: %r"
+        % engine_stamp.missing(stored))
+    assert stored["engine_sha256"] == engine_stamp.engine_sha256(), (
+        "the stored artifact names different engine bytes than the pin holds")
 
 
 

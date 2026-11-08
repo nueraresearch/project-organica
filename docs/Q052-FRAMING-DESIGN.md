@@ -121,3 +121,36 @@ Nothing here says whether `burst_L1`'s collapse is competition loss. No cell has
 family's competition census, no mechanism is chosen, and no Q053 transfer is established. It also
 does not claim the two families differ in difficulty: the calibration measures survival of decay
 arms, not capability, and it records `contrast_ready: false`.
+
+## 10. What the run returned (2026-11-08)
+
+The framing instrument ran: `benchmarks/competition_census.py`, three fresh burst seeds
+(20302901-20302903) at factor 0.9925, and the lattice control (seed 20302701, 0.9924)
+through the same code path. The control reproduced the committed census exactly -- cycle
+299 live, 300 dead, `bravo` at 866 = 433 + 433, empty competing census at death -- so the
+instrument is the same instrument and the second family is measured on it.
+
+**The label is `VOID`, and it is void on this record's own admissibility floor, not on the
+family.** The control's `mass_ratio` is **0.578** against the required 0.90: at the death
+cycle, retained support mass falls to 58 % of its last-live value. The premise imported
+from the lattice probe -- that supports do not collapse at death -- is therefore false
+under this record's own definition of edge mass. Section 3 says that case stops the framing
+as VOID rather than comparing against a control that no longer means what it did, and that
+is what happened.
+
+**What the defect is.** Edge mass as defined here sums every retained hypothesis's
+`support_count`. At the death cycle the theory layer is empty but thirteen pairs are still
+retained, so the drop is the mass of the hypotheses that died with the layer -- most
+plausibly the competing ones. The definition cannot separate the cause from the consequence:
+if competition collapse prunes the competitors, total retained mass falls whether or not
+support collapse is the mechanism. A floor of 0.90 on this quantity tests the premise with a
+measure the hypothesis itself predicts will fall.
+
+**What is left open.** No classification was made, so Q053's scope is unchanged and stays
+`lattice_L1`-only pending a fixed instrument. The burst cells' own ratios (0.314, 0.184,
+0.041) and censuses are in `docs/q052_competition_census.json` as observations, not as a
+verdict. The fix this record needs before a re-run is a mass definition that is not moved by
+the death it measures -- the support mass of the pairs retained at the last live cycle,
+tracked through death, rather than the total retained at each cycle -- and a floor
+calibrated on a world where the answer is known. It is recorded here and **not applied**:
+changing the definition after reading this control would be re-scoring the protocol.

@@ -602,9 +602,9 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 *research question.*
 
-**Why it is open.** Q051 closed INCONCLUSIVE on lattice_L1. The burst_L1 calibration shows 0.95 and 1.0 alive at 300 while 0.99 is dead and 0.9925 is intermittent, so the ordering is non-monotone and the Q051 arm pair cannot transfer. docs/Q052-FRAMING-DESIGN.md fixes what would count as the same competition-loss mechanism and what each outcome decides for Q053's scope, but no cell has run on burst's competition census and no second-family protocol is frozen.
+**Why it is open.** The framing ran on 2026-11-08 and returned `VOID`, on the lattice control rather than on the second family: the control reproduced the committed census exactly (299 live, 300 dead, `bravo` 866 = 433 + 433, empty competing census), but its mass ratio is 0.578 against the design's required 0.90, so the premise that support mass survives death fails under the design's own definition. No classification was made, so Q053 stays `lattice_L1`-scoped. What would settle it is a mass definition that is not moved by the death it measures, and a floor calibrated on a known world; both are recorded in the design record section 10 and deliberately not applied.
 
-**Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`
+**Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`, `docs/q052_competition_census.json`, `docs/Q052-COMPETITION-CENSUS.md`, `benchmarks/competition_census.py`
 
 ### Q053 — Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?
 
