@@ -79,6 +79,8 @@ cannot be made from here at all. The failure is authentication, not a rejected u
 | `git ls-remote origin` filtered for `0.12` | nothing: no tag, branch or other ref containing `0.12` |
 | `git ls-remote --heads origin` | `master` at `1f9f7130e3695c49b73ba46c6fb2ab9a7e94ce06`; `evaluation-pilots-2026-10-23` |
 
+*Master has since moved: section 3c records the new tip. The tag rows above stand as read.*
+
 The tag exists here and is intact: annotated object `df56bc20c38153c1518b5916c931bd04cf99a98e`,
 peeled commit `5804e609e5978bb6437da79827f14002b006457a`.
 
@@ -155,6 +157,51 @@ match this record, which must then be disclosed rather than quietly edited.
 
 **Not done here:** no push was attempted from this workspace. It is not authorised, and with the
 credential environment measured above it could not have succeeded.
+
+*(Amended 2026-11-09: a **branch** push was made from this workspace through the
+branch-scoped authenticated path, and `master` is now at `747d3dd` — section 3c. No **tag**
+push was made, and none can be made from here.)*
+
+## 3c. Amendment — 2026-11-09: `master` is published at `747d3dd`
+
+**State.** `refs/heads/master` on the canonical remote moved from `1f9f713` to `747d3dd`
+(`747d3dd1083368753970bc41840d33f21cd34db5`). Three commits, all dated 2026-11-09, were pushed from
+this workspace through the environment's authenticated, branch-scoped push path — the path §3b
+describes, which sends HEAD to a branch and cannot publish a tag. The push reported
+`1f9f713..747d3dd  HEAD -> master`; `git ls-remote --heads origin master` returns the new tip, and a
+fresh fetch returns the same commit as `FETCH_HEAD` and as local `HEAD`.
+
+| Commit | Subject | Files |
+|---|---|---|
+| `6ad8735` | Repair the ablation harness and record its 0.13.0 run | ablation harness, artifacts, records |
+| `3c9948e` | Bind the changelog figures and the ablation overrides with tests | `tests/test_changelog_figures.py`, `tests/test_ablation_arm_signatures.py`, manual |
+| `747d3dd` | Close the Q052 tally and commit the rerun plan's guards | registry, Stage B block, release-gate rename, rerun plan and its tests |
+
+**What this does not change.** Gate 1 is still open. `git ls-remote --tags origin` returns
+`v0.6.0`–`v0.10.0` and `audit-trace-v1` and no `v0.12.0`, so the missing ref is still the tag alone;
+the tag object `df56bc20c38153c1518b5916c931bd04cf99a98e` and its peeled commit
+`5804e609e5978bb6437da79827f14002b006457a` are unchanged. `clone_check` has not been re-run: the
+**7/8** in §3a at `2026-11-09T02:49:24Z` is that measurement, and nothing here clears it. Gate 3
+stays unsettled for the same reason. No tag was created, no version bumped, no pin changed, no
+artifact regenerated and no deposit reference moved; the 0.13.0 heading still says `(unreleased)`.
+
+**Counts that moved, because a branch push moves every count taken from HEAD.** Measured with
+`git rev-list --count` here:
+
+| Quantity | At `1f9f713` | At `747d3dd` |
+|---|---|---|
+| Commits after the pin `6e0ff24` | 64 | **67** |
+| Of those touching `organica/` | 0 | **0** |
+| Commits after `v0.12.0` | 123 | **126** |
+
+The engine is untouched: `python -m benchmarks.engine_pin --check` reports 14 files at 0.13.0, and
+still 0 commits since the pin touch `organica/`. Gate 2's figures are the measurement at `1f9f713`;
+the gap it records widens by three, all dated 2026-11-09, so the changelog's 0.13.0 section — which
+still ends at 2026-11-07 — is three commits further behind than it was.
+
+**Supersession.** §3a and §3b describe `refs/heads/master` as `1f9f713`; that was true when read and
+is superseded **for master only** by this section. Their other observations — the missing tag ref,
+the authentication cause, and the branch-scoped push path — stand.
 
 ## 4. The order, once the decisions are made
 
