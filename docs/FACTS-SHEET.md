@@ -24,7 +24,7 @@ it is in §F.
 |---|------|----------|
 | A1 | The core is standard-library only. `requirements.txt` lists no runtime dependency. | `docs/clone_check.json` → `core_dependencies` |
 | A2 | A fresh clone from GitHub imports and runs with no install step. | `docs/clone_check.json` → `import_organica` |
-| A3 | A fresh clone passes **8/8** verification checks: clone, import, core deps, pytest (**17 passed**), `build.py`, **9/9** examples, `study_health`, live-study isolation. | `docs/clone_check.json` (2026-10-22T21:11:21Z) |
+| A3 | A fresh clone passes **8/8** verification checks: clone, import, core deps, pytest (**1641 passed, 19 skipped**), `build.py`, **9/9** examples, `study_health`, live-study isolation. The nineteen skips are honest absences, not passes: thirteen are the deposit bundle, which cannot render its manuscript PDFs in a clone (a prerequisite it now states), plus the six that were already skipped. | `docs/clone_check.json` (2026-11-09T14:40:19Z) |
 | A4 | Lineage integrity is **100%**: 138 of 138 candidates that require a lineage anchor are grounded in Generation-0 experience tags; 0 ungrounded, 0 unverifiable-evicted. | `docs/lineage_audit.json` |
 | A5 | The sleep-cycle counter is monotonic: **3,725 cycles, 1…3725, no gaps, no regressions.** | `memory.db` → `sleep_cycles` |
 | A6 | A clone cannot touch the live substrate: its scratch directory resolves inside the clone by construction. | `docs/clone_check.json` → `live_study_untouched` |

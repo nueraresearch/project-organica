@@ -22,7 +22,7 @@ entry (`§C2`) or a committed artifact.
 | Gate | Status | Evidence |
 |------|--------|----------|
 | Architecture exists | ✅ | 3,725 sleep cycles, counter monotonic 1…3725, 0 non-monotonic (`memory.db` → `sleep_cycles`) |
-| Usable by a stranger | ✅ | Fresh clone passes 8/8 checks, 17 pytest, 9/9 examples (`docs/clone_check.json`) |
+| Usable by a stranger | ✅ | Fresh clone passes 8/8 checks, 1641 pytest passed with 19 skipped (13 of them the deposit bundle, which needs rendered PDFs), 9/9 examples (`docs/clone_check.json`, 2026-11-09T14:40:19Z) |
 | Lineage integrity | ✅ | 138/138 candidates grounded, 100%, 0 unverifiable (`docs/lineage_audit.json`) |
 | Substrate endurance | ✅ | 3,725 cycles without leak or regression; log archived 8.36 MB (`logs/organica_prefix_20261022.log`) |
 | Ablation campaign complete | 🟡 | **V1 complete** — 11 conditions, mechanism-verified, 6 disclosed measurement defects. V2 (Tier-1 forces) pending |

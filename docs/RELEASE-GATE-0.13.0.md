@@ -48,7 +48,7 @@ Three consequences follow, and they are easy to get wrong:
 
 | # | Gate | State today | Who decides |
 |---|---|---|---|
-| 1 | **`v0.12.0` must be checkable** | **Blocked: the 2026-11-09 push did not land.** `origin` still has only `v0.6.0`–`v0.10.0` + `audit-trace-v1`, and no ref contains `0.12`; a push from this workspace fails authentication (`could not read Username`, exit 128); `clone_check` is **7/8** (`1 failed, 1615 passed, 7 skipped, 13 errors`, `2026-11-09T02:49:24Z`). Evidence and the check that clears it: section 3a. **Amended 2026-11-09 (section 3f):** the tag was published and the annotated object verified on the remote, so the ref is no longer the blocker; `clone_check` still reports **7/8**, now because a clone cannot render the paper PDFs the deposit tests need | Owner, on a machine with push access; or the deposit decision that makes the tag unnecessary |
+| 1 | **`v0.12.0` must be checkable** | **Cleared 2026-11-09.** `refs/tags/v0.12.0` is on the remote as annotated object `df56bc2` peeling to `5804e60` (section 3f), and `clone_check` reports **8/8** for `2026-11-09T14:40:19Z`: `1641 passed, 19 skipped`, the thirteen new skips being the deposit bundle in a clone with no rendered PDFs. It was blocked twice for different reasons — the tag ref was absent (section 3a), and then thirteen deposit tests raised in a clone without `papers/build/`; section 3f records both and the fix. `docs/FACTS-SHEET.md` A3 and `docs/GATE-BOARD.md` now carry this artifact's numbers, which table 3c had withheld until it reported 8/8 | Owner: nothing left on this gate; gate 3 carries the deposit decision |
 | 2 | **The changelog must cover the release range** | **Cleared as an edit 2026-11-09.** `v0.12.0..9cba01f` is **128** commits, and the 0.13.0 section has **45** subsections: **7** dated 2026-11-09, **10** dated 2026-11-08 and **28** dated 2026-11-07. The **34** commits after 2026-11-07 that `9cba01f` contains are covered by the 17 entries dated after that day, by work item rather than one entry per commit; the three still missing on 2026-11-09 (`2ed31ce`, `747d3dd`, `3c9948e`) now have entries of their own. This row first said **123 commits**, **28** subsections all dated 2026-11-07 and **29** unrepresented commits; section 3d records the correction. | Owner: confirm the release's scope now runs through 2026-11-09 |
 | 3 | **The deposit reference** | `benchmarks/deposit_bundle.py` pins `SOFTWARE_REF = "v0.12.0"`, described as "the release a reader can cite today". After 0.13.0 that sentence is false unless the deposit moves or states that it deliberately pins 0.12.0 | Owner: move to `v0.13.0` and re-archive, or keep and disclose |
 | 4 | **The ablation suite** | **Repaired 2026-11-09.** `NoFalsificationService._natural_selection()` now accepts the engine's full G1-G8 keyword set, and all **eleven** conditions ran at 300 cycles, writing `docs/ablation_study_0.13.0.json` (engine 0.13.0, `6e0ff24d84d3`, `2026-11-09T03:01:52Z`, 266.6 s). The pre-repair crash is preserved in `docs/VERIFICATION-SWEEP-2026-11-09.md` | Owner: whether the 0.13.0 re-run supersedes or is reported beside the pre-0.13.0 artifact |
@@ -269,6 +269,8 @@ line number is today's anchor, and the quoted text is the locator that survives 
 | `docs/FACTS-SHEET.md:27` (A3) | a fresh clone passes **8/8** with **17 passed**, dated 2026-10-22 | the artifact must first report 8/8, which needs the missing `v0.12.0` tag ref (gate 1); the row's own date marks it as a measurement, not a tag-time claim |
 | `docs/GATE-BOARD.md:25` | fresh clone passes 8/8 checks, 17 pytest, 9/9 examples | the same condition, and the same correction follows the same artifact |
 
+**Both corrected 2026-11-09**, from `docs/clone_check.json` at `2026-11-09T14:40:19Z` — **8/8**, `1641 passed, 19 skipped` — once a clone stopped erroring on the deposit tests; section 3f records the fix and the measurement.
+
 ### d. Conditional on gate 3 (one)
 
 | Where | Says now | When it changes |
@@ -325,6 +327,8 @@ longer exercises the deposit checks at all; **(b)** gate 1's criterion is restat
 can check without the PDFs, and A3 and the gate board are rewritten from the new artifact; **(c)**
 `clone_check.py` renders the papers itself, which makes the check depend on pandoc and a LaTeX
 toolchain. Committing the PDFs is not among them: that was decided against on 2026-11-06.
+
+**Closed 2026-11-09.** The `manifest` fixture in `tests/test_deposit_bundle.py` now skips, naming the files, when the rendered manuscripts are absent, and a control test asserts that condition fires on an empty tree and stays silent once the PDFs exist — so a drifted path fails there rather than silently skipping thirteen tests. Measured here, with the PDFs present, the module runs **15** tests and skips none; in a clone without `papers/build/` it reports **2 passed, 13 skipped**. With the change on `master` (`82df9e8`), `clone_check` returns **8/8** (`docs/clone_check.json`, `2026-11-09T14:40:19Z`): `1641 passed, 19 skipped`, 9/9 examples, and `build.py`, `study_health` and live-study isolation unchanged. A3 and the gate board are corrected from that artifact, which is the edit table c said to wait for. Gate 1 is cleared; gate 3, the deposit reference, is the remaining owner decision.
 
 ## 4. The order, once the decisions are made
 
