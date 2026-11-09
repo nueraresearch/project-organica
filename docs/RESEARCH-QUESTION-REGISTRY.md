@@ -23,7 +23,7 @@ where the method is.
 
 A closed or retired answer was reopened when **no artifact it rests on names the build pinned now** (`engine_version` 0.13.0, whose fourteen files `python -m benchmarks.engine_pin --check` verifies against the current tree). An answer without that attribution stands as the result on the engine that produced it; it cannot be carried into this build. It was kept closed only where its evidence names the pinned release, or where the closure was a governance or design decision rather than a measurement. A release-level stamp is weaker than the byte-level `engine_sha256` the stamp now writes, so the kept-closed answers are the first candidates for a byte-level re-verification.
 
-**Reopened: Q004, Q005, Q006, Q017, Q021, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 12**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
+**Reopened: Q004, Q005, Q006, Q017, Q021, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 13**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
 
 - **Q009** -- the answer is about the scope of the charter (what 'no V2' forbids), not about an engine measurement
 - **Q010** -- the answer is about the Stage B authorisation route, a protocol decision with no engine in it
@@ -37,6 +37,7 @@ A closed or retired answer was reopened when **no artifact it rests on names the
 - **Q048** -- its evidence includes operating_point.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree
 - **Q049** -- its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree
 - **Q050** -- its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree
+- **Q052** -- every artifact behind the answer records engine_version 0.13.0, so the closure carries into this build
 
 ## How this stays current
 

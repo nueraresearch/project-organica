@@ -154,7 +154,7 @@ copies were restored, with the re-runs kept in `.scratch/verify/`.
 `phase_k_diagnose --scale 4 --seeds 5` are campaigns of many seeds at thousands of cycles. Each far
 exceeds this session's five-minute command budget, and each writes a result artifact that would have to
 be adjudicated as a *new-engine experiment* under the direction recorded in
-`docs/DECISION-V0.13.0-RELEASE.md` §5 — not silently produced here and read as a reproduction.
+`docs/RELEASE-GATE-0.13.0.md` §5 — not silently produced here and read as a reproduction.
 
 
 ## Amendment — 2026-11-09: the ablation harness was repaired and all eleven conditions ran

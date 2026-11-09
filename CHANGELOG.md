@@ -130,8 +130,11 @@ there is nothing to check out.
   release pinned now (`0.13.0`, whose fourteen files the pin check verifies against the current tree).
   Fourteen closed questions qualified: Q004, Q005, Q006, Q017, Q021, Q024, Q029-Q032, Q036, Q043, Q044
   and Q051.
-- **Twelve kept closed with reasons** — eight because their evidence does name the pinned release, and
-  four because those closures were governance or design decisions rather than measurements.
+- **Thirteen kept closed with reasons** — nine because their evidence does name the pinned release
+  (including **Q052**, which the first pass omitted), and four because those closures were governance
+  or design decisions rather than measurements. This entry first said twelve: Q052 was closed before
+  the pass and was missed, so the count was short by one and is corrected here rather than edited
+  silently.
 - **The cross-layer rule then did its job:** C004 was a SUPPORTED claim resting on Q004, so it is
   downgraded to HYPOTHESIS with the reason recorded rather than the rule being relaxed. The suite
   asserts that no reopened question's evidence names the pinned release.

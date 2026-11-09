@@ -1,6 +1,12 @@
 # Decision — tag 0.13.0 as a release?
 
+> **This is a release-gate record, not a decision.** It is filed outside the `DECISION-`
+> namespace because nothing in it has been decided: the graph and the question registry both
+> index decisions, and an undecided gate tallied to a research question would be a false
+> statement in the registry.
+
 **Date**: 2026-11-09
+
 **Status**: **OPEN — owner decision pending. Nothing in this record has been done**: no tag was
 created, no changelog heading was changed, no version was bumped, no artifact was regenerated,
 no deposit reference was moved.
@@ -94,7 +100,61 @@ the tag object and the peeled commit above.
 
 **What clears it.** The tag appears on the canonical remote, `clone_check.py` then returns 8/8, and its
 artifact supplies the numbers A3 and the gate board need. Until then gate 1 stays open and gate 3
-cannot be settled either, because the reference it names is not checkable.
+cannot be settled either, because the reference it names is not checkable. Section 3b records the measured cause of the failed
+attempt and the exact commands that publish the tag.
+
+## 3b. Why the push failed, and the exact steps that publish it (2026-11-09, measured here)
+
+**The remote state, read live from this workspace.** `git ls-remote --tags origin` returns
+`v0.6.0`, `v0.7.0`, `v0.8.0`, `v0.9.0`, `v0.10.0` and `audit-trace-v1`; nothing matching `0.12`
+appears in any ref, and `refs/heads/master` is `1f9f7130e3695c49b73ba46c6fb2ab9a7e94ce06`. The absence is confirmed, not
+inferred.
+
+**The tag is intact here and needs no new commit.** `v0.12.0` is an annotated tag, object
+`df56bc20c38153c1518b5916c931bd04cf99a98e`, peeling to commit `5804e609e5978bb6437da79827f14002b006457a` (*Cut v0.12.0 and make the deposit descriptions true of it*, tagged 2026-11-06T21:49:42+00:00).
+It is already an ancestor of `origin/master`, so the remote's history already contains it. What is missing from the remote is the **tag ref**, not a branch: publishing it
+needs no new commit and no branch push.
+
+**Why the earlier attempt failed.** It was authentication, and the cause is now measurable in the
+workspace rather than guessed. The remote is HTTPS
+(`https://github.com/nueraresearch/project-organica.git`) and the environment holds no credential
+material at all: `credential.helper` is unset, and `GITHUB_TOKEN`, `GH_TOKEN`, `GIT_ASKPASS` and
+`SSH_AUTH_SOCK` are all unset. Git therefore falls back to prompting for a username, the shell is
+non-interactive, and the attempt dies with `could not read Username for 'https://github.com':
+terminal prompts disabled` (exit 128). The asymmetry is the whole diagnosis: **read access works
+without credentials because the repository is public, write access never does** -- which is why
+`ls-remote` could prove the tag was missing while `push` could not put it there. The authenticated
+push available to an agent in this workspace is branch-scoped (it sends HEAD to a branch), so it
+cannot publish a tag either.
+
+**The exact steps, in a checkout that has push rights.**
+
+1. `git remote -v` -- confirm the push URL is `nueraresearch/project-organica`. A fork's `origin` is
+   the one failure mode that looks exactly like this one.
+2. `git cat-file -t v0.12.0` -> `tag`, and `git rev-parse v0.12.0^{}` -> `5804e609e5978bb6437da79827f14002b006457a`. If the
+   checkout lacks the tag, fetch it first: `git fetch origin tag v0.12.0`.
+3. `git push origin refs/tags/v0.12.0` -- one ref, no `--force`, and **no branch push**: master is
+   already ahead of the release commit, so the tag is the only missing object.
+4. If step 3 prompts for a username, authenticate in that checkout (a personal access token through
+   `gh auth login` or a credential helper, or an SSH remote with a loaded key). Never paste the token
+   into a file, a command line or this chat.
+5. Verify from outside the checkout: `git ls-remote --tags origin v0.12.0` must print **both** the
+   tag object `df56bc20c38153c1518b5916c931bd04cf99a98e` and the peeled commit `5804e609e5978bb6437da79827f14002b006457a^{}`. A single line means a
+   lightweight tag was created instead, which does not match this record.
+6. Verify a stranger can use it: `git clone <remote> /tmp/pc`, then `git -C /tmp/pc checkout v0.12.0`
+   and `git -C /tmp/pc log -1 --format=%H` -> `5804e609e5978bb6437da79827f14002b006457a`.
+7. Re-run `python benchmarks/clone_check.py` and expect **8/8**. Only then correct the fresh-clone
+   numbers in `docs/FACTS-SHEET.md` A3 and `docs/GATE-BOARD.md`, which are deliberately withheld
+   while the artifact reports 7/8.
+8. Gate 3 (the deposit reference) can then be settled, because the tag it names becomes checkable.
+
+**If the owner has no push access from any checkout.** Create the tag at commit `5804e609e5978bb6437da79827f14002b006457a` through
+GitHub's UI or API instead. Prefer recreating the annotated object so the object id stays
+`df56bc20c38153c1518b5916c931bd04cf99a98e`; a lightweight tag created in the UI carries no tagger or message and will not
+match this record, which must then be disclosed rather than quietly edited.
+
+**Not done here:** no push was attempted from this workspace. It is not authorised, and with the
+credential environment measured above it could not have succeeded.
 
 ## 4. The order, once the decisions are made
 

@@ -323,6 +323,19 @@
         1009,
         1010
       ],
+      "docs/ablation_study_0.13.0.json": [
+        1000,
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008,
+        1009,
+        1010
+      ],
       "docs/ablation_study_postfix.json": [
         1000,
         1001,
@@ -2857,7 +2870,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 146,
+    "disjoint_proved_against": 147,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

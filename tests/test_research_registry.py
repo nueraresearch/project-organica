@@ -191,3 +191,43 @@ def test_a_reopening_without_the_build_it_was_measured_on_fails_validation() -> 
     del target["reopened"]["measured_on"]
     problems = rr.validate(reg)["errors"]
     assert any(target["id"] in problem and "measured_on" in problem for problem in problems), problems
+
+
+def _unclassified_closures(reg: dict) -> list[str]:
+    """Closed or retired questions the reopening record never classified."""
+    kept = {exception["id"] for exception in reg["reopening"]["kept_closed"]}
+    reopened = set(reg["reopening"]["reopened"])
+    closed = {q["id"] for q in reg["questions"] if q["status"] in ("closed", "retired")}
+    return sorted(closed - kept - reopened)
+
+
+def test_every_closed_or_retired_question_is_classified_in_the_reopening_record() -> None:
+    """A closure the pass never classified is an unaccounted row, not an exception.
+
+    Q052 was closed before the 2026-11-08 reopening pass and was omitted from both
+    lists, so the record named 26 of the 27 closed or retired answers. The partition
+    is now checked rather than tallied by hand: every closed or retired question must
+    appear in `reopened` or `kept_closed`.
+    """
+    missing = _unclassified_closures(registry())
+    assert not missing, missing
+
+
+def test_the_reopening_partition_sums_to_the_registry() -> None:
+    reg = registry()
+    status = {q["id"]: q["status"] for q in reg["questions"]}
+    reopened = reg["reopening"]["reopened"]
+    kept = [exception["id"] for exception in reg["reopening"]["kept_closed"]]
+    never = [question_id for question_id in status
+             if question_id not in set(reopened) and question_id not in set(kept)]
+    assert len(reopened) + len(kept) + len(never) == len(reg["questions"])
+    assert len(set(reopened) | set(kept) | set(never)) == len(reg["questions"])
+    assert {status[question_id] for question_id in reopened} == {"open"}
+    assert {status[question_id] for question_id in never} <= {"open", "future"}
+
+
+def test_the_closure_check_fires_when_a_closed_question_is_omitted() -> None:
+    reg = json.loads(json.dumps(registry()))
+    reg["reopening"]["kept_closed"] = [exception for exception in reg["reopening"]["kept_closed"]
+                                       if exception["id"] != "Q052"]
+    assert _unclassified_closures(reg) == ["Q052"]

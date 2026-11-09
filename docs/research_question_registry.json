@@ -1136,6 +1136,10 @@
       {
         "id": "Q050",
         "reason": "its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree"
+      },
+      {
+        "id": "Q052",
+        "reason": "every artifact behind the answer records engine_version 0.13.0, so the closure carries into this build"
       }
     ]
   }
