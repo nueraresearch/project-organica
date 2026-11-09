@@ -25,6 +25,13 @@ are present now, and they really were absent from the tag, so the test would
 have failed before the fix.
 
 The test fails on a doctored manifest, so a passing run is not a formality.
+
+The deposit bundles carry the **rendered** manuscripts, and ``papers/build/`` is
+gitignored: a fresh clone holds the sources and not the PDFs, and rendering them
+needs pandoc and a LaTeX toolchain.  The module skips on that condition and names
+the command that would fix it; ``test_the_render_prerequisite_names_the_files_it_skips_on``
+asserts the condition itself, so a drifted path fails there instead of turning
+thirteen tests into silent skips.
 """
 
 from __future__ import annotations
@@ -51,10 +58,36 @@ LATE_ARTIFACTS = (
     "docs/FUNCTIONAL-STRUCTURE-PREREGISTRATION.md",
 )
 
+#: The rendered manuscripts the bundles carry, in the order ``PAPERS`` declares.
+#: ``papers/build/`` is gitignored and written by ``benchmarks/render_papers.py``.
+RENDERED_PAPERS = tuple(
+    Path("papers") / "build" / (Path(rel).stem + ".pdf")
+    for rel in deposit_bundle.PAPERS.values()
+)
+
+
+def missing_rendered_papers(root: Path = REPO) -> list[Path]:
+    """The rendered manuscripts absent under ``root``, in bundle order."""
+    return [rel for rel in RENDERED_PAPERS if not (root / rel).exists()]
+
 
 @pytest.fixture(scope="module")
 def manifest():
-    """The built manifest.  The bundles are rebuilt once for this module."""
+    """The built manifest.  The bundles are rebuilt once for this module.
+
+    Skipped, naming the files, when the rendered manuscripts are absent: the
+    bundles carry the PDFs and ``build_paper`` refuses to invent them, and
+    rendering needs pandoc and a LaTeX toolchain that a fresh clone does not
+    have.  The skip states the command that would produce them, so "cannot run
+    here" stays distinguishable from "passed".
+    """
+    missing = missing_rendered_papers()
+    if missing:
+        pytest.skip(
+            "the deposit bundles carry the rendered manuscripts and these are "
+            "absent: " + ", ".join(str(p) for p in missing) +
+            ". Render them first: python benchmarks/render_papers.py "
+            "(needs pandoc and a LaTeX toolchain).")
     if deposit_bundle.OUT.exists():
         shutil.rmtree(deposit_bundle.OUT)
     bundles = {
@@ -242,6 +275,27 @@ def test_a_missing_cited_artifact_is_detected():
     # ... and the tree really is the working tree's committed state, not an
     # older snapshot: a file the v0.10.0 tag lacks is present here.
     assert "docs/DIVERGENCE-CYCLE-CAPTURE.md" in tree
+
+
+def test_the_render_prerequisite_names_the_files_it_skips_on(tmp_path):
+    """The skip condition must fire, and must not fire when the PDFs are there.
+
+    A prerequisite that quietly reported nothing missing would let ``build_paper``
+    raise instead of skipping, and one that always reported something missing
+    would skip every bundle test above without running one.
+    """
+    assert missing_rendered_papers(tmp_path) == list(RENDERED_PAPERS), (
+        "an empty tree must report every rendered manuscript as missing")
+    assert len(RENDERED_PAPERS) == len(deposit_bundle.PAPERS) == 2, (
+        "the prerequisite must cover exactly the manuscripts the deposit carries")
+    for rel in RENDERED_PAPERS:
+        (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / rel).write_bytes(b"%PDF-1.4 stub")
+    assert missing_rendered_papers(tmp_path) == [], (
+        "the prerequisite reports a file as missing after it was written")
+    # This tree is only ever in one of those two states; here it is the second,
+    # so every bundle test above is running for real rather than skipping.
+    assert missing_rendered_papers() in ([], list(RENDERED_PAPERS))
 
 
 def test_the_manifest_records_a_commit_not_a_tag_object(manifest):

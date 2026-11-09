@@ -48,7 +48,7 @@ Three consequences follow, and they are easy to get wrong:
 
 | # | Gate | State today | Who decides |
 |---|---|---|---|
-| 1 | **`v0.12.0` must be checkable** | **Blocked: the 2026-11-09 push did not land.** `origin` still has only `v0.6.0`–`v0.10.0` + `audit-trace-v1`, and no ref contains `0.12`; a push from this workspace fails authentication (`could not read Username`, exit 128); `clone_check` is **7/8** (`1 failed, 1615 passed, 7 skipped, 13 errors`, `2026-11-09T02:49:24Z`). Evidence and the check that clears it: section 3a | Owner, on a machine with push access; or the deposit decision that makes the tag unnecessary |
+| 1 | **`v0.12.0` must be checkable** | **Blocked: the 2026-11-09 push did not land.** `origin` still has only `v0.6.0`–`v0.10.0` + `audit-trace-v1`, and no ref contains `0.12`; a push from this workspace fails authentication (`could not read Username`, exit 128); `clone_check` is **7/8** (`1 failed, 1615 passed, 7 skipped, 13 errors`, `2026-11-09T02:49:24Z`). Evidence and the check that clears it: section 3a. **Amended 2026-11-09 (section 3f):** the tag was published and the annotated object verified on the remote, so the ref is no longer the blocker; `clone_check` still reports **7/8**, now because a clone cannot render the paper PDFs the deposit tests need | Owner, on a machine with push access; or the deposit decision that makes the tag unnecessary |
 | 2 | **The changelog must cover the release range** | **Cleared as an edit 2026-11-09.** `v0.12.0..9cba01f` is **128** commits, and the 0.13.0 section has **45** subsections: **7** dated 2026-11-09, **10** dated 2026-11-08 and **28** dated 2026-11-07. The **34** commits after 2026-11-07 that `9cba01f` contains are covered by the 17 entries dated after that day, by work item rather than one entry per commit; the three still missing on 2026-11-09 (`2ed31ce`, `747d3dd`, `3c9948e`) now have entries of their own. This row first said **123 commits**, **28** subsections all dated 2026-11-07 and **29** unrepresented commits; section 3d records the correction. | Owner: confirm the release's scope now runs through 2026-11-09 |
 | 3 | **The deposit reference** | `benchmarks/deposit_bundle.py` pins `SOFTWARE_REF = "v0.12.0"`, described as "the release a reader can cite today". After 0.13.0 that sentence is false unless the deposit moves or states that it deliberately pins 0.12.0 | Owner: move to `v0.13.0` and re-archive, or keep and disclose |
 | 4 | **The ablation suite** | **Repaired 2026-11-09.** `NoFalsificationService._natural_selection()` now accepts the engine's full G1-G8 keyword set, and all **eleven** conditions ran at 300 cycles, writing `docs/ablation_study_0.13.0.json` (engine 0.13.0, `6e0ff24d84d3`, `2026-11-09T03:01:52Z`, 266.6 s). The pre-repair crash is preserved in `docs/VERIFICATION-SWEEP-2026-11-09.md` | Owner: whether the 0.13.0 re-run supersedes or is reported beside the pre-0.13.0 artifact |
@@ -286,6 +286,45 @@ tagging does not make a dated statement false.
 **The checklist for the tag commit:** table a, all nine, in the same commit as the tag. Table b was
 **corrected on 2026-11-09** — nothing in it depended on the tag — and table c must wait for
 `clone_check` to report 8/8, which gate 1 blocks.
+
+## 3f. Amendment — 2026-11-09: `v0.12.0` is published, and gate 1's remaining failure is not the tag
+
+**The tag ref is on the remote.** After the owner authorised a device login for this workspace,
+`git push origin refs/tags/v0.12.0` reported `* [new tag] v0.12.0 -> v0.12.0`. `git ls-remote --tags
+origin v0.12.0` returns both lines — object `df56bc20c38153c1518b5916c931bd04cf99a98e` and peeled
+`5804e609e5978bb6437da79827f14002b006457a` — so the annotated object travelled and its id matches the
+one this record names. No branch was pushed and no force was used: `refs/heads/master` stayed at
+`e2d031e`.
+
+**What that clears.** In a fresh `git clone` of the canonical remote, `benchmarks/deposit_bundle.py
+--check` now exits 0 and prints `cited artifacts: 40, missing from the v0.12.0 tree: 0`. The deposit's
+citations are checkable by a stranger, which is the thing the missing ref blocked.
+
+**What it does not clear.** `benchmarks/clone_check.py` re-run after the push still reports **7/8**
+(`docs/clone_check.json`, 2026-11-09): `1640 passed, 6 skipped, 13 errors` in 159.5 s. Every error is in
+`tests/test_deposit_bundle.py`, raised in that module's `manifest` fixture:
+
+    RuntimeError: .../papers/build/01_developmental_structure_formation.pdf is missing.
+    Build it first: python benchmarks/render_papers.py
+
+`papers/build/` is gitignored (`.gitignore:16 build/`) and `benchmarks/render_papers.py` needs pandoc,
+which this environment does not have (`pdflatex` is present). A clone therefore carries the source but
+not the rendered PDFs, and the deposit tests cannot build their bundle without them. **This is a build
+prerequisite of the check, not a tag defect.** Section 3a recorded the same **13** errors before the
+push and attributed them to the missing ref; with the ref present the same thirteen tests still error,
+now one step later, at `build_paper`. Publishing the tag was necessary and is not sufficient, and §3a's
+statement that the failing step "is the deposit's `git archive v0.12.0`" does not survive this
+measurement.
+
+**Consequence.** Gate 1 stays open on its 8/8 criterion, so `docs/FACTS-SHEET.md` A3 and the
+`docs/GATE-BOARD.md` row keep their 2026-10-22 numbers — which now also disagree with the suite the
+clone collects (**1,659**, where those rows say "17 pytest"). Three ways to close it, and this record
+does not choose between them: **(a)** the deposit fixture skips with a stated reason when the rendered
+PDFs are absent, which makes a clone report 8/8 with thirteen skips and means a stranger's clone no
+longer exercises the deposit checks at all; **(b)** gate 1's criterion is restated around what a clone
+can check without the PDFs, and A3 and the gate board are rewritten from the new artifact; **(c)**
+`clone_check.py` renders the papers itself, which makes the check depend on pandoc and a LaTeX
+toolchain. Committing the PDFs is not among them: that was decided against on 2026-11-06.
 
 ## 4. The order, once the decisions are made
 
