@@ -67,6 +67,23 @@ def _at(obj, *path):
     return obj
 
 
+def _find_key(obj, key):
+    """The first value filed under ``key`` anywhere in a JSON artifact."""
+    if isinstance(obj, dict):
+        if key in obj:
+            return obj[key]
+        for value in obj.values():
+            found = _find_key(value, key)
+            if found is not None:
+                return found
+    elif isinstance(obj, list):
+        for value in obj:
+            found = _find_key(value, key)
+            if found is not None:
+                return found
+    return None
+
+
 def _git(*args: str) -> str:
     proc = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
     if proc.returncode:
@@ -1047,6 +1064,69 @@ def _check(entries: str) -> list[dict]:
         _at(admission, "withdrawn", "decision"),
         _at(admission, "withdrawn", "decision") == "WITHDRAWN")
 
+
+    # --- E43. The release gate records the published master ------------------
+    release = (ROOT / "docs/RELEASE-GATE-0.13.0.md").read_text(encoding="utf-8")
+    pushed = int(_git("rev-list", "--count", "1f9f713..747d3dd"))
+    add("747d3dd", "docs/RELEASE-GATE-0.13.0.md section 3c; git rev-list 1f9f713..747d3dd",
+        _git("rev-parse", "747d3dd").strip()[:7],
+        "747d3dd" in release and pushed == 3,
+        "the tip the push moved to, and the three commits it carried")
+    add("1f9f713", "git rev-parse 1f9f713", _git("rev-parse", "1f9f713").strip()[:7],
+        _git("rev-parse", "1f9f713").strip().startswith("1f9f713"),
+        "the tip the gate record was read at")
+    after_pin = int(_git("rev-list", "--count", "6e0ff24..747d3dd"))
+    add("67", "git rev-list --count 6e0ff24..747d3dd", after_pin, after_pin == 67)
+    engine_touched = int(_git("rev-list", "--count", "6e0ff24..747d3dd", "--", "organica/"))
+    add("0", "git rev-list --count 6e0ff24..747d3dd -- organica/",
+        engine_touched, engine_touched == 0, "no engine commit since the pin")
+    after_release = int(_git("rev-list", "--count", "v0.12.0..747d3dd"))
+    add("126", "git rev-list --count v0.12.0..747d3dd", after_release, after_release == 126)
+    before_release = int(_git("rev-list", "--count", "v0.12.0..1f9f713"))
+    add("123", "git rev-list --count v0.12.0..1f9f713", before_release,
+        before_release == 123)
+
+    # --- E44. The reopening tally, the Stage B block and the rerun plan -----
+    reg = _load("docs/research_question_registry.json")
+    kept = _at(reg, "reopening", "kept_closed")
+    reopened = _at(reg, "reopening", "reopened")
+    questions = _at(reg, "questions")
+    add("51", "docs/research_question_registry.json .questions", len(questions),
+        len(questions) == 51)
+    add("14", "docs/research_question_registry.json .reopening.reopened",
+        len(reopened), len(reopened) == 14)
+    add("13", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 13)
+    never = [q for q in questions
+             if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
+    add("24", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 24)
+    runnable = [q for q in never if q["status"] == "open"]
+    add("19", "docs/research_question_registry.json, never-closed rows with status open",
+        len(runnable), len(runnable) == 19)
+    stage_b = _load("docs/stage_b_protocol.json")
+    proved = _find_key(stage_b, "disjoint_proved_against")
+    add("147", "docs/stage_b_protocol.json disjoint_proved_against", proved, proved == 147)
+    overlap = _find_key(stage_b, "overlap_with_consumed")
+    add("0", "docs/stage_b_protocol.json overlap_with_consumed",
+        overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
+    earlier_stage_b = json.loads(_git("show", "747d3dd^:docs/stage_b_protocol.json"))
+    earlier_proved = _find_key(earlier_stage_b, "disjoint_proved_against")
+    add("146", "git show 747d3dd^:docs/stage_b_protocol.json disjoint_proved_against",
+        earlier_proved, earlier_proved == 146)
+
+    # --- E45. Every entry pinned, every override invoked --------------------
+    at_commit = _git("show", "3c9948e:CHANGELOG.md")
+    start = at_commit.index(VERSION_HEADING)
+    stop = at_commit.index("\n## [", start + len(VERSION_HEADING))
+    pinned_entries = re.findall(r"^### ", at_commit[start:stop], re.M)
+    add("42", "git show 3c9948e:CHANGELOG.md, 0.13.0 headings", len(pinned_entries),
+        len(pinned_entries) == 42)
+    add("0", "tests/test_changelog_figures.py UNCOVERED_ENTRIES",
+        len(UNCOVERED_ENTRIES), len(UNCOVERED_ENTRIES) == 0)
+    add("3c9948e", "git cat-file -t 3c9948e", _git("cat-file", "-t", "3c9948e").strip(),
+        _git("cat-file", "-t", "3c9948e").strip() == "commit")
+
     return rows
 
 
@@ -1074,6 +1154,13 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
     failures = _failures(mutated)
     assert failures, "the checker accepted a changed figure"
     assert any("59.440" in failure for failure in failures), failures
+
+    # The control must reach the rows added with the 2026-11-09 entries too,
+    # or a new block could be inert and nothing would say so.
+    stage_b_drift = entries.replace("**147** artifacts", "**148** artifacts")
+    assert "**148** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_failures = _failures(stage_b_drift)
+    assert any("147" in failure for failure in stage_b_failures), stage_b_failures
 
 # The entries whose figures are pinned by _check() above: the 14 the version
 # sweep examined, then the 28 earlier entries pinned on 2026-11-09.
@@ -1120,6 +1207,9 @@ COVERED_ENTRIES = [
     'Changed — The density block is held before the run: its dense end has no headroom (2026-11-07)',
     'Added — The density interaction, block A2: held A1 replaced by a runnable registration (2026-11-07)',
     'Changed — diversity-first admission, adopted, measured and withdrawn (2026-11-07)',
+    'Changed — The release gate records that master is published at `747d3dd` (2026-11-09)',
+    'Changed — The reopening tally closed around Q052, and the rerun plan landed with its guards (2026-11-09)',
+    'Added — Every 0.13.0 entry is pinned to its artifact, and every ablation override is invoked (2026-11-09)',
 ]
 
 UNCOVERED_ENTRIES: list[str] = []

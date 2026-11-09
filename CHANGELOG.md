@@ -30,6 +30,59 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Changed — The release gate records that master is published at `747d3dd` (2026-11-09)
+
+- **The gate record named a remote tip that had stopped being true.** Sections 3a and 3b of
+  `docs/RELEASE-GATE-0.13.0.md` were read when `refs/heads/master` was `1f9f713`; the three 0.13.0
+  commits were then pushed through the environment's branch-scoped authenticated path, so the remote
+  now carries `747d3dd` (`747d3dd1083368753970bc41840d33f21cd34db5`). A dated section 3c records the
+  push, its receipt `1f9f713..747d3dd` and the three commits, and 3a and 3b point at it rather than
+  having their readings rewritten.
+- **It does not clear a gate.** `git ls-remote --tags origin` still returns `v0.6.0`-`v0.10.0` plus
+  `audit-trace-v1` and no `v0.12.0`, so the missing ref is still the tag alone; `clone_check` was not
+  re-run, so its recorded result stands as the last measurement, and gate 3 stays unsettled with it.
+  No tag, version bump, re-pin, artifact regeneration or deposit change was made, and the 0.13.0
+  heading still says `(unreleased)`.
+- **A branch push moves every count taken from HEAD**, and the amendment records the ones it moved:
+  **67** commits after the pin `6e0ff24` with **0** of them touching `organica/`, and **126** commits
+  after `v0.12.0` against the gate's **123**. The pin check still reports fourteen files at 0.13.0.
+
+### Changed — The reopening tally closed around Q052, and the rerun plan landed with its guards (2026-11-09)
+
+- **The partition omitted one question.** Q052 was closed before the 2026-11-08 reopening pass and
+  appeared in neither `reopened` nor `kept_closed`, so the kept-closed count was short by one and the
+  entry above it had said twelve. It is now in `kept_closed` with its artifact evidence, which makes
+  the partition **14** reopened + **13** kept closed + **24** never closed over **51** questions;
+  three tests in `tests/test_research_registry.py` check that every closed or retired question is
+  classified, that the three groups partition the registry with reopened answers open, and that
+  removing Q052 fires the check.
+- **The Stage B block follows the artifact that landed.** The seed scan covers **147** artifacts with
+  **0** overlap against the candidate block, one more than the **146** it recorded before
+  `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
+  together so they describe the same state.
+- **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** **14**
+  re-derivations with a comparator and **24** first answers with none, **19** of the first answers
+  runnable now. `tests/test_rerun_plan.py` recomputes every count from the registry, and
+  `tests/test_rule30.py` checks that each campaign row and judged decision table names a different
+  decision per outcome, with a control that fires on a "do it again" branch.
+
+### Added — Every 0.13.0 entry is pinned to its artifact, and every ablation override is invoked (2026-11-09)
+
+- **The section's figures are checked rather than transcribed.** `tests/test_changelog_figures.py`
+  requires each quoted figure to occur in the section and the artifact behind it to round to exactly
+  that string at the quoted precision. All **42** entries present at `3c9948e` are classified, **0**
+  are left uncovered, and a control changes the ablation entry's ES band and asserts the checker
+  reports the drift, so a rename or a new entry cannot slip past unseen.
+- **Figures with no artifact behind them are declared, not given provenance:** the aborted run's
+  four conditions, the superseded registry tallies, and the cap-slot shares another test recomputes.
+  A figure that merely begins with the same digits is not accepted as the number either, because the
+  check reads each artifact by field path rather than searching the section for a value.
+- **The ablation guard invokes the overrides instead of only binding them.** The union of the
+  arguments `organica/*.py` supplies at every call site is passed to every override on every arm
+  against a probe whose `self` answers any attribute, so a body that accepts the call but forwards a
+  stale argument set to `super()` fails in the suite rather than after four conditions of an ablation
+  run; a narrow-override control proves the invocation path fires.
+
 ### Fixed — The ablation harness runs all eleven conditions on 0.13.0 (2026-11-09)
 
 - **The failure was a signature, not a result.** Condition D's override spelled the five G1
