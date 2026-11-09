@@ -99,6 +99,14 @@ class AntiEigService(SleepService):
         return experiments[:self.MAX_EXPERIMENTS]
 
 
+#: The stimulus G1 witnesses on. On the campaign stimulus the reference arm is dead by cycle
+#: 39, so a cycle-40 snapshot reads as a broken arm; `docs/DECISION-G1-WITNESS.md` records the
+#: measurement, and `L3_hub1_t3_mixed` holds 12 beliefs and 4 theories at the same horizon.
+WITNESS_DESIGN = "L3_hub1_t3_mixed"
+CAMPAIGN_DESIGN = "L1_hub1_t3_disjoint"
+WITNESS_CYCLES = 40
+VERIFY_SEED = 20261023
+
 COLONIES = {
     "FULL": (FullService, "reference arm, alphabetical retention"),
     "SALIENCE": (SalienceService, "salience retention"),
@@ -608,9 +616,36 @@ def reference_arm_problems(checks: list[dict]) -> list[str]:
     full = by_name.get("FULL")
     if full is None:
         return ["FULL was not verified -- the reference arm is missing"]
+    series = (full.get("series") or {}).get("theories")
+    if series is not None:
+        # A terminal snapshot cannot tell a dead arm from one that collapsed after a plateau,
+        # so the witness reads every cycle. `reference` keeps the old field for callers that
+        # still pass synthetic checks.
+        if not any(count > 0 for count in series):
+            return ["FULL produced no theories in any cycle -- the reference arm is broken"]
+        return []
     if (full.get("theories") or 0) == 0:
         return ["FULL produced no theories -- the reference arm is broken"]
     return []
+
+
+def negative_control_problems(checks: list[dict]) -> list[str]:
+    """A suppression arm that stops suppressing must fail the check.
+
+    The two suppression colonies are the negative controls: on every cycle of the witness,
+    `NO_DREAMS` must record zero dreams and `NO_QUESTIONS` zero questions. A terminal count
+    could pass while the intervention failed in the middle of the run, so the control is
+    checked against the whole trace.
+    """
+    by_name = {c.get("colony"): c for c in checks}
+    problems = []
+    for colony, layer, noun in (("NO_DREAMS", "dreams", "a dream"),
+                                ("NO_QUESTIONS", "questions", "a question")):
+        series = ((by_name.get(colony) or {}).get("series") or {}).get(layer)
+        if series and any(count > 0 for count in series):
+            problems.append("%s produced %s -- the negative control is not active"
+                            % (colony, noun))
+    return problems
 
 
 def row_reference_problems(rows: list[dict]) -> list[str]:
@@ -664,37 +699,35 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     This is rung G1 of the perturbation ladder (code path). Rung G2 (the
     candidate pools) and G3 (the final outputs) are what the campaign
     itself measures.
+
+    The witness is the whole trace, not the last cycle. On the campaign's own
+    `L1_hub1_t3_disjoint` stimulus the reference arm plateaus at cycle 5 and is
+    dead by 39, so a cycle-40 terminal snapshot reports zero theories and G1
+    calls a live arm broken (`docs/DECISION-G1-WITNESS.md`). G1 therefore runs
+    on `WITNESS_DESIGN` and reads every cycle, and the caller records the
+    campaign stimulus's own trace beside the pass.
     """
     checks = []
 
     for name in COLONIES:
-        db = temp_db(f"verify_{name}.db")
-        if db.exists():
-            db.unlink()
-        mem = MemoryService(db_path=str(db))
-        svc = colony_class(name)(mem)
-        for text in events:
-            mem.store(text, event_type="event", source="seed:bootstrap")
-        for i in range(cycles):
-            start = (i * EVENTS_PER_CYCLE) % len(events)
-            for text in events[start:start + EVENTS_PER_CYCLE]:
-                mem.store(text, event_type="event", source=f"cycle:{i}")
-            svc.run_sleep_cycle()
-        row = capture_cycle(svc)
-        policy = type(svc).HYPOTHESIS_RETENTION
-        scale = type(svc).CONTRADICTION_SCALE
+        row = run_colony(name, events, cycles, seed=VERIFY_SEED)
+        series = row["series"]
+        cls = colony_class(name)
         checks.append({
             "colony": name,
-            "retention_policy": policy,
-            "contradiction_scale": scale,
-            "questions": row.get("question_count"),
-            "dreams": row.get("dream_count"),
-            "experiments": row.get("experiment_count"),
-            "beliefs": row.get("pre_beliefs"),
-            "theories": row.get("theory_count"),
+            "retention_policy": cls.HYPOTHESIS_RETENTION,
+            "contradiction_scale": cls.CONTRADICTION_SCALE,
+            "questions": series["questions"][-1] if series["questions"] else 0,
+            "dreams": series["dreams"][-1] if series["dreams"] else 0,
+            "experiments": series["experiments"][-1] if series["experiments"] else 0,
+            "beliefs": series["beliefs"][-1] if series["beliefs"] else 0,
+            "pre_beliefs": series["pre_beliefs"][-1] if series["pre_beliefs"] else 0,
+            "theories": series["theories"][-1] if series["theories"] else 0,
+            "theory_cycles": sum(1 for count in series["theories"] if count > 0),
+            "series": {"theories": series["theories"],
+                       "questions": series["questions"],
+                       "dreams": series["dreams"]},
         })
-        mem.close()
-        db.unlink(missing_ok=True)
 
     by_name = {c["colony"]: c for c in checks}
     problems = []
@@ -713,7 +746,9 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
         print(f"  {c['colony']:<20} policy={c['retention_policy']:<14} "
               f"scale={c['contradiction_scale']:<5} Q={c['questions']:<3} "
               f"D={c['dreams']:<3} E={c['experiments']:<3} "
-              f"beliefs={c['beliefs']:<3} theories={c['theories']}")
+              f"beliefs={c['beliefs']:<3} theories={c['theories']:<3} "
+              f"theory_cycles={c['theory_cycles']}/{cycles}")
+    problems.extend(negative_control_problems(checks))
     problems.extend(reference_arm_problems(checks))
     if problems:
         for p in problems:
@@ -721,6 +756,78 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     else:
         print("  G1 code-path check: all six colonies verified distinct.")
     return checks, problems
+
+
+def design_events(design: str) -> list[str]:
+    """The event stream for one frozen lattice design, by name."""
+    lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
+    if design not in lattice:
+        raise KeyError("no such lattice design: %s (have %s)"
+                       % (design, ", ".join(sorted(lattice))))
+    return lattice_stream(lattice[design]["triangles"])
+
+
+def trace_reference(design: str, horizon: int, seed: int = VERIFY_SEED,
+                    stop_at_death: bool = True) -> dict:
+    """The reference arm's theory count per cycle on one design.
+
+    D2 of `docs/DECISION-G1-WITNESS.md`: the campaign may not launch until this trace shows the
+    reference arm alive at the campaign horizon. The run stops at the first cycle with zero
+    theories after a positive one, because that is the quantity D2 reads; with
+    ``stop_at_death=False`` it runs the full horizon, which the witness uses.
+    """
+    events = design_events(design)
+    db = temp_db("preflight_%s.db" % design)
+    if db.exists():
+        db.unlink()
+    mem = MemoryService(db_path=str(db))
+    svc = colony_class("FULL")(mem)
+    if hasattr(svc, "_rng"):
+        svc._rng.seed(seed)
+    for text in events:
+        mem.store(text, event_type="event", source="seed:bootstrap")
+
+    counts: list[int] = []
+    peak = 0
+    first_zero = None
+    positive = False
+    for i in range(horizon):
+        start = (i * EVENTS_PER_CYCLE) % len(events)
+        for text in events[start:start + EVENTS_PER_CYCLE]:
+            mem.store(text, event_type="event", source=f"cycle:{i}")
+        svc.run_sleep_cycle()
+        capture_cycle(svc)
+        count = svc.rows[-1]["theory_count"]
+        counts.append(count)
+        peak = max(peak, count)
+        if count > 0:
+            positive = True
+        elif positive and first_zero is None:
+            first_zero = i + 1
+            if stop_at_death:
+                break
+
+    mem.close()
+    db.unlink(missing_ok=True)
+    return {
+        "design": design,
+        "horizon": horizon,
+        "cycles_run": len(counts),
+        "peak": peak,
+        "first_zero_cycle": first_zero,
+        "alive_at_horizon": bool(peak and first_zero is None),
+        "theory_counts": counts,
+    }
+
+
+def persistence_verdict(trace: dict) -> str:
+    """D2's reading of a reference trace: alive at the horizon, dead before it, or never formed."""
+    if not trace.get("peak"):
+        return "REFERENCE_ARM_BROKEN"
+    first_zero = trace.get("first_zero_cycle")
+    if first_zero is not None and first_zero <= trace.get("horizon", 0):
+        return "NOT_MEASURABLE_AS_DESIGNED"
+    return "ALIVE_AT_HORIZON"
 
 
 def merge(parts: list[Path], out_path: Path,
@@ -801,11 +908,12 @@ def main() -> None:
         return
 
     lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
-    events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
+    events = lattice_stream(lattice[CAMPAIGN_DESIGN]["triangles"])
+    witness_events = lattice_stream(lattice[WITNESS_DESIGN]["triangles"])
 
     if not args.no_verify:
-        print("G1 code-path verification:")
-    checks, problems = (verify_colonies(events) if not args.no_verify
+        print("G1 code-path verification on %s:" % WITNESS_DESIGN)
+    checks, problems = (verify_colonies(witness_events) if not args.no_verify
                         else ([], []))
     if args.verify_only:
         if problems:

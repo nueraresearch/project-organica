@@ -40,7 +40,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
-from benchmarks.force_matrix import COLONIES, row_reference_problems  # noqa: E402
+from benchmarks.force_matrix import (  # noqa: E402
+    CAMPAIGN_DESIGN, COLONIES, WITNESS_DESIGN, persistence_verdict,
+    row_reference_problems, trace_reference)
 from benchmarks import engine_stamp
 
 PARTS_DIR = REPO / ".scratch" / "matrix_parts"
@@ -76,18 +78,26 @@ def main() -> None:
 
     # ---- G1: prove the six colonies are genuinely distinct code paths -------
     if not args.no_verify:
-        from benchmarks.force_matrix import verify_colonies
-        from organica.branch_streams import (
-            NEUTRAL_HUB, NEUTRAL_PETALS, lattice_designs, lattice_stream)
-        lattice = lattice_designs(NEUTRAL_HUB, NEUTRAL_PETALS)
-        events = lattice_stream(lattice["L1_hub1_t3_disjoint"]["triangles"])
-        print("G1 code-path verification:")
-        checks, problems = verify_colonies(events)
+        from benchmarks.force_matrix import design_events, verify_colonies
+        print("G1 code-path verification on %s:" % WITNESS_DESIGN)
+        checks, problems = verify_colonies(design_events(WITNESS_DESIGN))
         by_name = {c["colony"]: c for c in checks}
         if len(by_name) < len(args.colonies):
             raise SystemExit("G1 did not verify every colony")
         if problems:
             raise SystemExit("G1 failed: " + "; ".join(problems))
+
+        # D2: the campaign may not launch on a design its reference arm does not survive.
+        # The pre-flight runs the campaign stimulus itself, to the campaign horizon, and stops
+        # at the first zero after a positive cycle.
+        persistence = trace_reference(CAMPAIGN_DESIGN, args.cycles, args.seed)
+        verdict = persistence_verdict(persistence)
+        if verdict != "ALIVE_AT_HORIZON":
+            raise SystemExit(
+                "Tier-1 pre-flight: %s -- the reference arm's theory count first reaches zero "
+                "at cycle %s against a horizon of %s, so the campaign is not measurable as "
+                "designed and does not run (docs/DECISION-G1-WITNESS.md D2)."
+                % (verdict, persistence["first_zero_cycle"], args.cycles))
     else:
         checks = []
 

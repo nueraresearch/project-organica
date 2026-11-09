@@ -2728,10 +2728,21 @@
         20302302,
         20302303
       ],
+      "docs/temporal_presence_0.13.0.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
       "docs/theory_budget_ceiling.json": [
         20300501,
         20300502,
         20300503
+      ],
+      "docs/tier1_preflight.json": [
+        20261023
       ],
       "docs/transfer_provenance.json": [
         20261101
@@ -2880,7 +2891,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 149,
+    "disjoint_proved_against": 151,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

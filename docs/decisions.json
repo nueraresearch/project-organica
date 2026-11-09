@@ -131,7 +131,7 @@
         },
         {
           "alternative": "Drop Q028 from the licence (option C)",
-          "reason": "removes a claim that cannot be resolved — premature while B is untested and cheap"
+          "reason": "removes a claim that cannot be resolved \u2014 premature while B is untested and cheap"
         }
       ],
       "evidence": [
@@ -149,7 +149,7 @@
       "chosen": [
         "The gate precedes every scientific bucket.",
         "A void run is not an unrun experiment",
-        "one run, one certificate, one verdict — or none."
+        "one run, one certificate, one verdict \u2014 or none."
       ],
       "rejected": [
         {
@@ -193,6 +193,36 @@
       "evidence": [
         "docs/V2-CAPACITY-DESIGN-BRIEF.md",
         "docs/G13-D-DIAGNOSTIC-PLAN.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-G1-WITNESS",
+      "date": "2026-11-09",
+      "status": "ADOPTED",
+      "status_quote": "The Tier-1 pre-flight is re-based on a witness the arm is alive at",
+      "chosen": [
+        "G1's witness is the per-cycle trace on a design the arm is alive at, not a terminal snapshot.",
+        "The Tier-1 campaign may not launch until a persistence pre-flight on its own stimulus shows the reference arm alive at the campaign horizon."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the 40-cycle L1 snapshot and lower the probe to 35 cycles",
+          "reason": "It moves the witness to a cliff edge and passes only because the collapse is three cycles later, so the next unrelated change re-breaks it."
+        },
+        {
+          "alternative": "Run the Tier-1 matrix and drop the early cycles afterwards",
+          "reason": "Selecting the window after seeing the result is the defect the preregistration exists to prevent."
+        },
+        {
+          "alternative": "Change the decay rule so the reference arm survives",
+          "reason": "It is a cognition change with no preregistration, and it would make the run measure the fix rather than the engine."
+        }
+      ],
+      "evidence": [
+        "docs/DECISION-G1-WITNESS.md",
+        "docs/pruning_by_type.json",
+        "docs/force_matrix.json"
       ],
       "superseded_by": null
     }

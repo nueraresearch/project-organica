@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 6 | in force; the document records it as implemented or effective |
+| ADOPTED | 7 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 1 | decided and not in force; the document says so |
-| **total** | **8** | |
+| **total** | **9** | |
 
 ## The decisions
 
@@ -173,6 +173,27 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 **Evidence.** `docs/V2-CAPACITY-DESIGN-BRIEF.md`, `docs/G13-D-DIAGNOSTIC-PLAN.md`
 
 **Record.** `docs/DECISION-V2-SCOPE.md`
+
+### DECISION-G1-WITNESS — Decision: the G1 reference-arm witness
+
+**Status.** ADOPTED — *"The Tier-1 pre-flight is re-based on a witness the arm is alive at"*
+
+**Decided.**
+
+- G1's witness is the per-cycle trace on a design the arm is alive at, not a terminal snapshot.
+- The Tier-1 campaign may not launch until a persistence pre-flight on its own stimulus shows the reference arm alive at the campaign horizon.
+
+**Rejected.**
+
+- *Keep the 40-cycle L1 snapshot and lower the probe to 35 cycles* — because *"It moves the witness to a cliff edge and passes only because the collapse is three cycles later, so the next unrelated change re-breaks it."*
+- *Run the Tier-1 matrix and drop the early cycles afterwards* — because *"Selecting the window after seeing the result is the defect the preregistration exists to prevent."*
+- *Change the decay rule so the reference arm survives* — because *"It is a cognition change with no preregistration, and it would make the run measure the fix rather than the engine."*
+
+**Rests on.** Q002 (open)
+
+**Evidence.** `docs/DECISION-G1-WITNESS.md`, `docs/pruning_by_type.json`, `docs/force_matrix.json`
+
+**Record.** `docs/DECISION-G1-WITNESS.md`
 
 ## What this graph is not
 
