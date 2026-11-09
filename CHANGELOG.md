@@ -514,7 +514,7 @@ chain as a research programme rather than a finding. AGI is recorded as not demo
   `SleepService`, that the adopted arm differs where one source is crowded, that the floor is
   inert at the engine's caps and binds below them, and that no frozen engine file is modified.
 
-## [0.12.1] — (unreleased)
+## [0.12.1] — (unreleased; superseded by 0.13.0)
 
 ### Added — The temporal-decay confirmation harness and its pre-registration (2026-11-06)
 
@@ -2104,10 +2104,12 @@ the instrumentation is **tagged `audit-trace-v1`**.
 be *fixed* if it is found to be wrong, but not *extended*; a new requirement
 goes to the study's wish-list instead.
 
-**The package version stays untagged.** `audit-trace-v1` marks the
+**The package version was left untagged at that freeze.** `audit-trace-v1` marks the
 *instrumentation*, not a release of the package — which keeps the three version
 namespaces (package version, architecture generation, research campaign) separate
-as this changelog requires.
+as this changelog requires. (Corrected 2026-11-09: the package version that freeze
+left untagged, 0.10.0, was tagged on 2026-10-31, and 0.12.0 was tagged on
+2026-11-06. What the tag marks is unchanged: the instrumentation, not a release.)
 
 Verification at the freeze: **128 tests pass** · 83 anchors / 0 broken · 1,142
 document paths all exist · the live study untouched at **5,396** sleep cycles

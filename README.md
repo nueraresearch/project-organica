@@ -21,7 +21,8 @@
 > met, the three probe arms are regenerated, and the instrumentation is tagged
 > **`audit-trace-v1`**. From that tag **no feature may be added to it**; it may
 > still be *fixed* if it is found wrong, but not *extended*. The package
-> version stays untagged — the tag marks the instrumentation, not a release.
+> version was left untagged at that freeze and was released later as **`v0.10.0`** —
+> `audit-trace-v1` marks the instrumentation, not a release.
 >
 > **Superseded readings.** The V1 synthesis's forward look toward a plasticity study is
 > **superseded (2026-10-26)** by the acquisition experiment as the center of the project. The
@@ -730,8 +731,9 @@ live instrument that can defeat a claim.
 > **The audit layer is FINISHED (2026-10-28).** A1–A7 are all met, the three
 > probe arms are regenerated, and the instrumentation is **tagged and frozen**
 > at **`audit-trace-v1`**. From that tag no feature may be added to it; it may
-> still be *fixed* if found wrong, but not *extended*. The package version
-> stays untagged — the tag marks the instrumentation, not a release.
+> still be *fixed* if found wrong, but not *extended*. The package version was
+> left untagged at that freeze and was released later as **`v0.10.0`** — the tag
+> marks the instrumentation, not a release.
 
 ### Six task families, six negatives — and what the project does with them
 
