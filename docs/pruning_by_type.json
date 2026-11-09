@@ -1,0 +1,133 @@
+{
+  "kind": "pruning_by_type",
+  "date": "2026-11-09",
+  "arms": {
+    "engine": {
+      "seeds": [
+        20300601,
+        20300602,
+        20300603
+      ],
+      "cycles": 300,
+      "peak_edges": 105,
+      "terminal": {
+        "pruned": 96,
+        "withdrawn_without_pruning": 9,
+        "alive": 0
+      },
+      "deaths": 105,
+      "pruned_share_of_deaths": 0.9143,
+      "retired_by_type": {
+        "dream": 1326,
+        "experiment": 1320,
+        "hypothesis": 123,
+        "investigation": 1320,
+        "loop_candidate": 21,
+        "phrase_candidate": 3,
+        "prediction_candidate": 2478,
+        "process_candidate": 246,
+        "question": 93,
+        "role_candidate": 9,
+        "schema_candidate": 18,
+        "theory": 51,
+        "workflow_concept": 114
+      },
+      "reconciliation_mismatches": 0,
+      "per_seed": [
+        {
+          "seed": 20300601,
+          "peak_edges": 35,
+          "pruned": 32,
+          "withdrawn_without_pruning": 3,
+          "alive": 0,
+          "retired_prediction_edges": 36
+        },
+        {
+          "seed": 20300602,
+          "peak_edges": 35,
+          "pruned": 32,
+          "withdrawn_without_pruning": 3,
+          "alive": 0,
+          "retired_prediction_edges": 36
+        },
+        {
+          "seed": 20300603,
+          "peak_edges": 35,
+          "pruned": 32,
+          "withdrawn_without_pruning": 3,
+          "alive": 0,
+          "retired_prediction_edges": 36
+        }
+      ]
+    },
+    "no_temporal_decay": {
+      "seeds": [
+        20300601,
+        20300602,
+        20300603
+      ],
+      "cycles": 300,
+      "peak_edges": 126,
+      "terminal": {
+        "pruned": 42,
+        "withdrawn_without_pruning": 0,
+        "alive": 84
+      },
+      "deaths": 42,
+      "pruned_share_of_deaths": 1.0,
+      "retired_by_type": {
+        "dream": 1047,
+        "experiment": 1038,
+        "hypothesis": 39,
+        "investigation": 1038,
+        "loop_candidate": 18,
+        "phrase_candidate": 3,
+        "prediction_candidate": 78,
+        "process_candidate": 474,
+        "question": 819,
+        "role_candidate": 9,
+        "schema_candidate": 18,
+        "theory": 33,
+        "workflow_concept": 306
+      },
+      "reconciliation_mismatches": 0,
+      "per_seed": [
+        {
+          "seed": 20300601,
+          "peak_edges": 42,
+          "pruned": 14,
+          "withdrawn_without_pruning": 0,
+          "alive": 28,
+          "retired_prediction_edges": 14
+        },
+        {
+          "seed": 20300602,
+          "peak_edges": 42,
+          "pruned": 14,
+          "withdrawn_without_pruning": 0,
+          "alive": 28,
+          "retired_prediction_edges": 14
+        },
+        {
+          "seed": 20300603,
+          "peak_edges": 42,
+          "pruned": 14,
+          "withdrawn_without_pruning": 0,
+          "alive": 28,
+          "retired_prediction_edges": 14
+        }
+      ]
+    }
+  },
+  "gates": {
+    "G1_the_observer_reconciles_with_the_engine": true,
+    "G2_prediction_candidates_are_among_the_retired_types": true,
+    "G3_the_denominator_exists": true,
+    "G4_every_peak_edge_has_a_terminal_category": true
+  },
+  "label": "PRUNING_PARTIAL",
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
+}

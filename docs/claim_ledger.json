@@ -19,9 +19,10 @@
       "AGENT_INFERRED",
       "PROTOCOL_CONSTRAINT"
     ],
-    "provenance_rule": "every claim carries exactly one tag saying what its classification rests on, checked by benchmarks/provenance.py: ARTIFACT_READ a result the cited artifacts record, OWNER_READING the owner's reading or intention with no measurement restated here, AGENT_INFERRED an inference that may not be DEMONSTRATED or SUPPORTED, PROTOCOL_CONSTRAINT a value a registration fixes and must name"
+    "provenance_rule": "every claim carries exactly one tag saying what its classification rests on, checked by benchmarks/provenance.py: ARTIFACT_READ a result the cited artifacts record, OWNER_READING the owner's reading or intention with no measurement restated here, AGENT_INFERRED an inference that may not be DEMONSTRATED or SUPPORTED, PROTOCOL_CONSTRAINT a value a registration fixes and must name",
+    "engine_version": "the build the claim's cited artifacts name, derived by benchmarks/provenance.py: a package version when every cited JSON artifact agrees, unattributed when they record none, document_only when the claim cites prose only; checked by check_engine_attribution"
   },
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "claims": [
     {
       "claim_id": "C001",
@@ -29,6 +30,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q001"
       ],
@@ -51,6 +53,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q001"
       ],
@@ -72,6 +75,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
+      "engine_version": "unattributed",
       "supporting_questions": [
         "Q002"
       ],
@@ -94,6 +98,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
+      "engine_version": "unattributed",
       "supporting_questions": [
         "Q004"
       ],
@@ -115,6 +120,7 @@
       "classification": "SUPPORTED",
       "status": "WITHDRAWN",
       "provenance": "ARTIFACT_READ",
+      "engine_version": "unattributed",
       "supporting_questions": [
         "Q024"
       ],
@@ -136,6 +142,7 @@
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q021"
       ],
@@ -157,6 +164,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q012"
       ],
@@ -178,6 +186,7 @@
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q011"
       ],
@@ -197,6 +206,7 @@
       "classification": "ASPIRATION",
       "status": "ACTIVE",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q023"
       ],
@@ -216,6 +226,7 @@
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
       "provenance": "ARTIFACT_READ",
+      "engine_version": "unattributed",
       "supporting_questions": [
         "Q007"
       ],
@@ -238,6 +249,7 @@
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
       "provenance": "OWNER_READING",
+      "engine_version": "document_only",
       "supporting_questions": [
         "Q008"
       ],

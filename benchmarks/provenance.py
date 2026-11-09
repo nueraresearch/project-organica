@@ -39,6 +39,7 @@ Standard library only; nothing here reads or writes an engine file.
 """
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 
@@ -251,6 +252,98 @@ def check_ledger(ledger, root=None) -> list:
                 "constraint-without-registration", cid,
                 "%s is tagged %s, which claims a value fixed by a protocol, and names no "
                 "registration" % (cid, tag)))
+    return findings
+
+
+ENGINE_FIELD = "engine_version"
+
+#: The two values that name an *absence* rather than a build. `unattributed` is an artifact that
+#: records no engine; `document_only` is evidence that is prose, which has no field to carry one.
+UNATTRIBUTED = "unattributed"
+DOCUMENT_ONLY = "document_only"
+
+
+def _stamp_of(path: Path):
+    """The engine version a JSON artifact names, or None. A list is read item by item."""
+    try:
+        record = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    for item in (record if isinstance(record, list) else [record]):
+        if isinstance(item, dict) and item.get("engine_version"):
+            return str(item["engine_version"])
+    return None
+
+
+def evidence_engine_versions(claim, root=None):
+    """The claim's JSON evidence, and the build each artifact names.
+
+    Prose is not an artifact for this purpose: a document cites results, it does not carry the
+    engine that produced them, so it is counted separately rather than failed. Path existence is
+    left to `benchmarks.research_accountability`, as it is for the tag checks.
+    """
+    rows = []
+    if root is None:
+        return rows
+    for path in claim.get("supporting_evidence") or []:
+        if not path or not str(path).endswith(".json"):
+            continue
+        rows.append((path, _stamp_of(Path(root) / path)))
+    return rows
+
+
+def derived_engine_version(claim, root):
+    """The build the claim's evidence names: a version, or the reason there is none.
+
+    Derived, never recorded by hand. `check_engine_attribution` fails when the ledger's own value
+    disagrees with this, so a claim cannot name a build its artifacts do not carry.
+    """
+    rows = evidence_engine_versions(claim, root)
+    if not rows:
+        return DOCUMENT_ONLY
+    versions = sorted({version for _path, version in rows if version})
+    if not versions:
+        return UNATTRIBUTED
+    if len(versions) == 1:
+        return versions[0]
+    return "mixed:" + "+".join(versions)
+
+
+def check_engine_attribution(ledger, root=None) -> list:
+    """Every claim names the build its evidence came from, or says plainly that it cannot.
+
+    Three failures. **Missing** and **stale** are the mechanical join: the ledger's value must be
+    the one the artifacts yield, so a hand-typed version — or an artifact gaining a stamp while
+    the ledger stands still — is refused. **Unattributed load-bearing** is the substantive rule: a
+    claim classified DEMONSTRATED or SUPPORTED while active may not rest on evidence that names
+    no build, because that is the claim a reader would take as measured. A hypothesis or an
+    aspiration may be unattributed; the ledger counts those rather than failing them, since the
+    measurement debt they represent is the registry's to close, not a check's to hide.
+    """
+    findings = []
+    if root is None:
+        return findings
+    for claim in (ledger.get("claims") or []):
+        cid = claim.get("claim_id") or "<unnamed claim>"
+        derived = derived_engine_version(claim, root)
+        recorded = claim.get(ENGINE_FIELD)
+        if recorded is None:
+            findings.append(_finding(
+                "claim-engine-version-missing", cid,
+                "%s records no %s; the build is derived from its evidence (%s) and must be "
+                "stated" % (cid, ENGINE_FIELD, derived)))
+        elif str(recorded) != derived:
+            findings.append(_finding(
+                "claim-engine-version-stale", cid,
+                "%s records %r and its evidence yields %r; the ledger is not the authority on "
+                "the build, the artifact is" % (cid, recorded, derived)))
+        if (claim.get("classification") in ("DEMONSTRATED", "SUPPORTED")
+                and claim.get("status") == "ACTIVE"
+                and derived in (UNATTRIBUTED, DOCUMENT_ONLY)):
+            findings.append(_finding(
+                "claim-load-bearing-unattributed", cid,
+                "%s is a load-bearing claim whose evidence names no engine build (%s); a claim "
+                "may not be read as measured on a build it cannot name" % (cid, derived)))
     return findings
 
 

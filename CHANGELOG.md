@@ -56,7 +56,7 @@ there is nothing to check out.
   three tests in `tests/test_research_registry.py` check that every closed or retired question is
   classified, that the three groups partition the registry with reopened answers open, and that
   removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **147** artifacts with
+- **The Stage B block follows the artifact that landed.** The seed scan covers **149** artifacts (the count moves as records land: the pruning-reachability and pruning-by-type records were added that day) with
   **0** overlap against the candidate block, one more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
   together so they describe the same state.

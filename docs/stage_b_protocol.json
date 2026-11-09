@@ -2469,6 +2469,16 @@
         20261204,
         20261205
       ],
+      "docs/pruning_by_type.json": [
+        20300601,
+        20300602,
+        20300603
+      ],
+      "docs/pruning_reachability.json": [
+        20300601,
+        20300602,
+        20300603
+      ],
       "docs/q052_age_matched.json": [
         20303001,
         20303002,
@@ -2870,7 +2880,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 147,
+    "disjoint_proved_against": 149,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

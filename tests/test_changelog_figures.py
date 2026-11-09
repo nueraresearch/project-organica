@@ -1106,7 +1106,7 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("147", "docs/stage_b_protocol.json disjoint_proved_against", proved, proved == 147)
+    add("149", "docs/stage_b_protocol.json disjoint_proved_against", proved, proved == 149)
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
         overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
@@ -1157,10 +1157,10 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**147** artifacts", "**148** artifacts")
-    assert "**148** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_drift = entries.replace("**149** artifacts", "**150** artifacts")
+    assert "**150** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
-    assert any("147" in failure for failure in stage_b_failures), stage_b_failures
+    assert any("149" in failure for failure in stage_b_failures), stage_b_failures
 
 # The entries whose figures are pinned by _check() above: the 14 the version
 # sweep examined, then the 28 earlier entries pinned on 2026-11-09.

@@ -68,6 +68,9 @@ def validate(reg, ledger):
     # `benchmarks.provenance`; they are errors here because the generated pages print them.
     for finding in prov.check_ledger(ledger, ROOT):
         errors.append("%s: %s" % (finding["code"], finding["message"]))
+    # The build behind a claim is derived from the artifacts it cites; the ledger must agree.
+    for finding in prov.check_engine_attribution(ledger, ROOT):
+        errors.append("%s: %s" % (finding["code"], finding["message"]))
 
     seen = set()
     for c in claims:
@@ -153,6 +156,8 @@ def metrics(reg, ledger):
 
     reg_src = "docs/research_question_registry.json"
     led_src = "docs/claim_ledger.json"
+    builds = Counter(prov.derived_engine_version(c, ROOT) for c in claims)
+    named = len(claims) - builds[prov.UNATTRIBUTED] - builds[prov.DOCUMENT_ONLY]
 
     return [
         ("Questions registered", len(questions), "rows in the registry", reg_src),
@@ -169,6 +174,24 @@ def metrics(reg, ledger):
         ("Claims active", cstatus["ACTIVE"], "status is ACTIVE", led_src),
         ("Claims withdrawn", cstatus["WITHDRAWN"], "status is WITHDRAWN", led_src),
         ("Claims superseded", cstatus["SUPERSEDED"], "status is SUPERSEDED", led_src),
+        (
+            "Claims naming an engine build",
+            named,
+            "the cited JSON artifacts agree on an engine_version",
+            led_src,
+        ),
+        (
+            "Claims whose evidence names no build",
+            builds[prov.UNATTRIBUTED],
+            "a cited JSON artifact records no engine_version",
+            led_src,
+        ),
+        (
+            "Claims citing a document instead of a result",
+            builds[prov.DOCUMENT_ONLY],
+            "no cited evidence path is a JSON artifact",
+            led_src,
+        ),
         (
             "Preregistered experiments",
             len(prereg),
@@ -247,6 +270,15 @@ def _claim_row(c):
     )
 
 
+def _engine_evidence(claim):
+    """The paths a claim cites, saying which of them could carry a stamp and which do not."""
+    rows = prov.evidence_engine_versions(claim, ROOT)
+    if rows:
+        return ", ".join("`%s`%s" % (path, "" if version else " (no build)")
+                         for path, version in rows)
+    return ", ".join("`%s` (a document)" % path for path in claim.get("supporting_evidence", [])) or "none"
+
+
 def _provenance_sentence(ledger):
     """The tally, generated from the tags rather than typed beside them."""
     per_tag = prov.claim_counts(ledger)
@@ -295,6 +327,21 @@ def render_ledger(reg, ledger):
         "",
         "**What each claim rests on.** " + _provenance_sentence(ledger),
         "",
+        "## The build each claim was measured on",
+        "",
+        "Derived from the artifacts a claim cites, never typed. A version means every cited JSON",
+        "artifact agrees on it; `unattributed` means they record no build, and `document_only` means",
+        "the claim cites prose rather than a result. The ledger and the artifacts must agree, and a",
+        "load-bearing active claim may not be `unattributed`.",
+        "",
+        "| Claim | Engine | Evidence named |",
+        "| --- | --- | --- |",
+    ]
+    for c in ledger["claims"]:
+        lines.append("| %s | `%s` | %s |" % (
+            c["claim_id"], c.get(prov.ENGINE_FIELD, "<unstated>"), _engine_evidence(c)))
+    lines += [
+        "",
         "## Withdrawn or superseded claims",
         "",
         "These are kept, not deleted. A claim that was made and then withdrawn is part of the",
@@ -310,6 +357,8 @@ def render_ledger(reg, ledger):
             "**Classification when made.** %s" % c["classification"],
             "",
             "**Provenance.** `%s`" % c["provenance"],
+            "",
+            "**Engine named by its evidence.** `%s`" % c.get(prov.ENGINE_FIELD, "<unstated>"),
             "",
             "**Why it was withdrawn.** %s" % (c.get("withdrawn_reason") or "superseded"),
         ]
@@ -337,6 +386,9 @@ def render_ledger(reg, ledger):
         "  outrun the question it rests on.",
         "- Every claim cites at least one question, and every cited question must exist.",
         "- Every claim states a scope limitation; a claim with no stated limit is wider than its check.",
+        "- Every claim states the engine its evidence was measured on. The value is derived from the",
+        "  artifact, so the check fails when the two disagree — and a DEMONSTRATED or SUPPORTED claim",
+        "  that is active may not name no build at all.",
         "- A withdrawn claim states why it was withdrawn, or names the claim that superseded it.",
         "- An active claim may not carry a withdrawal reason, and a withdrawn claim may not be",
         "  presented as active anywhere in the generated public pages.",

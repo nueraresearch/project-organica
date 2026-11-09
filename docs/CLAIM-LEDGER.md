@@ -21,6 +21,27 @@ artifacts it rests on, and the limits of its own scope.
 
 **What each claim rests on.** 5 of 11 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 6 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C002, C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
 
+## The build each claim was measured on
+
+Derived from the artifacts a claim cites, never typed. A version means every cited JSON
+artifact agrees on it; `unattributed` means they record no build, and `document_only` means
+the claim cites prose rather than a result. The ledger and the artifacts must agree, and a
+load-bearing active claim may not be `unattributed`.
+
+| Claim | Engine | Evidence named |
+| --- | --- | --- |
+| C001 | `document_only` | `docs/V1-SYNTHESIS.md` (a document) |
+| C002 | `document_only` | `docs/V1-SYNTHESIS.md` (a document) |
+| C003 | `unattributed` | `docs/force_matrix.json` (no build) |
+| C004 | `unattributed` | `docs/density_interaction_a2_result.json` (no build) |
+| C005 | `unattributed` | `docs/admission_two_arm_result.json` (no build) |
+| C006 | `document_only` | `docs/DIVERGENCE-MECHANISM-RESULTS.md` (a document) |
+| C007 | `document_only` | `docs/CONTEXT.md` (a document) |
+| C008 | `document_only` | `docs/CONTEXT.md` (a document) |
+| C009 | `document_only` | `docs/CONTEXT.md` (a document) |
+| C010 | `unattributed` | `docs/acquisition_endpoint_audit.json` (no build) |
+| C011 | `document_only` | `docs/DIVERGENCE-MECHANISM-RESULTS.md` (a document), `docs/FORCE-MATRIX-RESULTS.md` (a document) |
+
 ## Withdrawn or superseded claims
 
 These are kept, not deleted. A claim that was made and then withdrawn is part of the
@@ -34,6 +55,8 @@ record, and removing it would erase the correction.
 
 **Provenance.** `ARTIFACT_READ`
 
+**Engine named by its evidence.** `unattributed`
+
 **Why it was withdrawn.** The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted.
 
 **Questions behind it.** Q024
@@ -45,6 +68,8 @@ record, and removing it would erase the correction.
 **Classification when made.** HYPOTHESIS
 
 **Provenance.** `OWNER_READING`
+
+**Engine named by its evidence.** `document_only`
 
 **Why it was withdrawn.** C1 failed as pre-registered (P2 not met) and an earlier version of the record that called it invariant was corrected; the narrower observation that survived is not a held control.
 
@@ -58,6 +83,8 @@ record, and removing it would erase the correction.
 
 **Provenance.** `OWNER_READING`
 
+**Engine named by its evidence.** `document_only`
+
 **Why it was withdrawn.** Superseded by the corrected low-confidence-prior account of the same latency; the priming story was a mechanism explanation, not a measurement.
 
 **Questions behind it.** Q011
@@ -70,6 +97,8 @@ record, and removing it would erase the correction.
 
 **Provenance.** `ARTIFACT_READ`
 
+**Engine named by its evidence.** `unattributed`
+
 **Why it was withdrawn.** No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin.
 
 **Questions behind it.** Q007
@@ -81,6 +110,8 @@ record, and removing it would erase the correction.
 **Classification when made.** HYPOTHESIS
 
 **Provenance.** `OWNER_READING`
+
+**Engine named by its evidence.** `document_only`
 
 **Why it was withdrawn.** Three of five preregistered predictions reversed in the developmental direction (contradiction +0.166, question generation +1.266, EIG +0.366, against a 0.033 noise floor).
 
@@ -113,6 +144,9 @@ Each claim carries its own limits in the ledger. The ones that recur:
   outrun the question it rests on.
 - Every claim cites at least one question, and every cited question must exist.
 - Every claim states a scope limitation; a claim with no stated limit is wider than its check.
+- Every claim states the engine its evidence was measured on. The value is derived from the
+  artifact, so the check fails when the two disagree — and a DEMONSTRATED or SUPPORTED claim
+  that is active may not name no build at all.
 - A withdrawn claim states why it was withdrawn, or names the claim that superseded it.
 - An active claim may not carry a withdrawal reason, and a withdrawn claim may not be
   presented as active anywhere in the generated public pages.

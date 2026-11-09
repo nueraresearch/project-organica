@@ -4,7 +4,7 @@
 `python -m benchmarks.research_accountability`; `--check` validates without writing.
 
 Sources: `docs/research_question_registry.json` (dated 2026-11-08) and `docs/claim_ledger.json`
-(dated 2026-11-08). Every value below is computed from those files or from the documents named
+(dated 2026-11-09). Every value below is computed from those files or from the documents named
 in its own row. No value is typed by hand, and the row names say what is counted.
 
 | Metric | Value | Definition | Source |
@@ -23,6 +23,9 @@ in its own row. No value is typed by hand, and the row names say what is counted
 | Claims active | 6 | status is ACTIVE | `docs/claim_ledger.json` |
 | Claims withdrawn | 5 | status is WITHDRAWN | `docs/claim_ledger.json` |
 | Claims superseded | 0 | status is SUPERSEDED | `docs/claim_ledger.json` |
+| Claims naming an engine build | 0 | the cited JSON artifacts agree on an engine_version | `docs/claim_ledger.json` |
+| Claims whose evidence names no build | 4 | a cited JSON artifact records no engine_version | `docs/claim_ledger.json` |
+| Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
 | Preregistered experiments | 7 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
 | Architectural changes adopted | 5 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
