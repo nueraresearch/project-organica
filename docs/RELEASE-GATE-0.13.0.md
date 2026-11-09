@@ -7,9 +7,15 @@
 
 **Date**: 2026-11-09
 
-**Status**: **OPEN — owner decision pending. Nothing in this record has been done**: no tag was
-created, no changelog heading was changed, no version was bumped, no artifact was regenerated,
-no deposit reference was moved.
+**Status (current, 2026-11-09)**: `v0.13.0` is **not tagged** and the release decision is still the
+owner's. Of the six gates, **1**, **2** and **4** are cleared and **3**, **5** and **6** remain — the
+deposit reference, the two pre-0.13.0 artifacts, and the nine tag-time edits. **This line is the
+current statement**; everything below it is a chronological record, and where a measurement
+contradicted an earlier reading the correction is dated and points at the section that supersedes it.
+
+**Status at filing**: OPEN — owner decision pending, and nothing had been done: no tag was created,
+no changelog heading was changed, no version was bumped, no artifact was regenerated, no deposit
+reference was moved.
 **Question**: what must be true before `v0.13.0` can be tagged, and which of those things only the
 owner can decide?
 **Answer**: the engine side is already ready; the release side is not. Six gates are open, and four
@@ -105,6 +111,10 @@ artifact supplies the numbers A3 and the gate board need. Until then gate 1 stay
 cannot be settled either, because the reference it names is not checkable. Section 3b records the measured cause of the failed
 attempt and the exact commands that publish the tag.
 
+*(Corrected 2026-11-09: only half of that held. With the tag on the remote, `deposit_bundle.py
+--check` passes and `clone_check` still returned **7/8** — the tag was **necessary and not
+sufficient**. Section 3f records the second cause and the fix.)*
+
 ## 3b. Why the push failed, and the exact steps that publish it (2026-11-09, measured here)
 
 **The remote state, read live from this workspace.** `git ls-remote --tags origin` returns
@@ -148,6 +158,9 @@ cannot publish a tag either.
 7. Re-run `python benchmarks/clone_check.py` and expect **8/8**. Only then correct the fresh-clone
    numbers in `docs/FACTS-SHEET.md` A3 and `docs/GATE-BOARD.md`, which are deliberately withheld
    while the artifact reports 7/8.
+   *(Corrected 2026-11-09: the expectation was wrong. The tag was published and `clone_check` still
+   returned **7/8**, because thirteen deposit tests raise in a clone with no rendered PDFs; 8/8 came
+   only after those tests were made to skip on that condition. Section 3f.)*
 8. Gate 3 (the deposit reference) can then be settled, because the tag it names becomes checkable.
 
 **If the owner has no push access from any checkout.** Create the tag at commit `5804e609e5978bb6437da79827f14002b006457a` through
