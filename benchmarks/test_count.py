@@ -12,6 +12,13 @@ gate red, instead of leaving a number that quietly describes an older suite.
 
 Nothing is written in ``--check`` mode: a gate that regenerates before judging
 would pass a stale count every time.
+
+The date in the record is the date the result was **established**, not the date it was last
+seen. A re-run that reproduces the same counts and the same exit code keeps the date already
+on record, so it rewrites the marked region identically and leaves the tree clean; a run whose
+result differs takes the day it ran, because that is a new measurement. Refreshing the count
+is therefore an edit owed when the suite changes, not a chore that dirties the tree every
+morning.
 """
 
 from __future__ import annotations
@@ -110,6 +117,30 @@ def load_record():
     return json.loads(ARTIFACT.read_text(encoding="utf-8"))
 
 
+# The fields that make a record a *measurement*. The date is deliberately absent: it says when
+# the result was established, and comparing it would make every later day a new record.
+RESULT_FIELDS = ("exit_code", "collected", "passed", "skipped", "failed")
+
+
+def same_result(left, right):
+    """True when two records describe the same suite result, whenever they were seen."""
+    return all(left.get(field) == right.get(field) for field in RESULT_FIELDS)
+
+
+def with_recorded_date(record, existing):
+    """Keep the date already on record when the new run reproduces that record.
+
+    The alternative -- stamping today on every run -- makes the two documents and the
+    artifact dirty on each new day for no change in what they report. A different result
+    is a different measurement and carries the day it ran.
+    """
+    if existing and same_result(existing, record):
+        kept = dict(record)
+        kept["date"] = existing.get("date", record["date"])
+        return kept
+    return record
+
+
 def problems(record, live=None):
     """Everything wrong with the published count, as a list of sentences."""
     found = []
@@ -140,6 +171,13 @@ def problems(record, live=None):
 
 
 def write(record):
+    existing = None
+    if ARTIFACT.exists():
+        try:
+            existing = load_record()
+        except (OSError, ValueError):
+            existing = None
+    record = with_recorded_date(record, existing)
     ARTIFACT.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     fragment = render_fragment(record)
     for path in TARGETS:
@@ -173,6 +211,9 @@ def main(argv=None) -> int:
         )
         return 1
     print("test count:", write(record))
+    published = load_record()
+    if published["date"] != date.today().isoformat():
+        print("the result is unchanged, so the recorded date %s was kept" % published["date"])
     return 0
 
 

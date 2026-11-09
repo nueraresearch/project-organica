@@ -1,5 +1,7 @@
 """The published test count must be measured, and it must not go stale."""
 
+import json
+
 import pytest
 
 from benchmarks import test_count as tc
@@ -114,3 +116,57 @@ def test_the_recorder_refuses_to_publish_a_red_suite(tmp_path, monkeypatch):
     )
     assert tc.main([]) == 1
     assert not (tmp_path / "test_count.json").exists(), "a red run must not be published"
+
+
+def _record(**changes):
+    base = {
+        "command": "python -m pytest tests -q",
+        "date": "2026-11-01",
+        "exit_code": 0,
+        "collected": 100,
+        "passed": 94,
+        "skipped": 6,
+        "failed": 0,
+    }
+    base.update(changes)
+    return base
+
+
+def test_an_unchanged_result_keeps_the_recorded_date(tmp_path, monkeypatch):
+    # A later run that reproduces the same counts must leave both the record and the
+    # documents byte-identical, or every new day reports churn that measures nothing.
+    artifact = tmp_path / "test_count.json"
+    document = tmp_path / "AGENTS.md"
+    recorded = _record()
+    artifact.write_text(json.dumps(recorded) + "\n", encoding="utf-8")
+    document.write_text(tc.MARK_START + tc.render_fragment(recorded) + tc.MARK_END, encoding="utf-8")
+    monkeypatch.setattr(tc, "ARTIFACT", artifact)
+    monkeypatch.setattr(tc, "TARGETS", (document,))
+    fragment = tc.write(_record(date="2026-11-09"))
+    assert json.loads(artifact.read_text(encoding="utf-8"))["date"] == "2026-11-01"
+    assert fragment == tc.render_fragment(recorded)
+    assert document.read_text(encoding="utf-8") == (
+        tc.MARK_START + tc.render_fragment(recorded) + tc.MARK_END
+    )
+
+
+def test_a_changed_result_takes_the_day_it_ran(tmp_path, monkeypatch):
+    # Changing what the suite reports *is* a new measurement and is dated by the run.
+    artifact = tmp_path / "test_count.json"
+    document = tmp_path / "AGENTS.md"
+    recorded = _record()
+    artifact.write_text(json.dumps(recorded) + "\n", encoding="utf-8")
+    document.write_text(tc.MARK_START + tc.render_fragment(recorded) + tc.MARK_END, encoding="utf-8")
+    monkeypatch.setattr(tc, "ARTIFACT", artifact)
+    monkeypatch.setattr(tc, "TARGETS", (document,))
+    changed = _record(date="2026-11-09", collected=101, passed=95)
+    fragment = tc.write(changed)
+    assert json.loads(artifact.read_text(encoding="utf-8"))["date"] == "2026-11-09"
+    assert fragment == tc.render_fragment(changed)
+
+
+def test_the_date_rule_ignores_when_the_result_was_seen():
+    assert tc.same_result(_record(), _record(date="2030-01-01"))
+    assert not tc.same_result(_record(), _record(passed=93, skipped=7))
+    assert tc.with_recorded_date(_record(date="2026-11-09"), _record())["date"] == "2026-11-01"
+    assert tc.with_recorded_date(_record(date="2026-11-09"), None)["date"] == "2026-11-09"
