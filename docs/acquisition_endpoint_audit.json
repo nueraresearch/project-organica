@@ -24,5 +24,9 @@
     "I4_metric_readout_pinned": true,
     "R3_limbs_separate": true,
     "phase_regime_aligned": true
-  }
+  },
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
 }

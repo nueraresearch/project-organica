@@ -71,23 +71,24 @@
     },
     {
       "claim_id": "C003",
-      "claim": "All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap.",
+      "claim": "All 112 edges of the Gate-13 compositional world are present in raw temporal memory on the six measured seeds, independent of the frozen prediction cap.",
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
-      "engine_version": "unattributed",
+      "engine_version": "0.13.0",
       "supporting_questions": [
         "Q002"
       ],
       "contradicting_questions": [],
       "supporting_evidence": [
-        "docs/force_matrix.json",
+        "docs/temporal_presence_0.13.0.json",
         "docs/GATE13-RELATION-SEPARATION.md"
       ],
       "scope_limitations": [
-        "Presence in memory, not selection, ranking or use in a prediction.",
-        "Measured at the frozen cap of 20 predictions.",
-        "Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine."
+        "Presence in raw temporal memory, not selection, ranking or use in a prediction.",
+        "The asserted basis is far lower (0.2500-0.3214 on the same seeds): the world is present and the organism does not assert it, which is the finding the claim must not blur.",
+        "Re-specified 2026-11-09: the 112-edge world is the Gate-13 acquisition world, not the force-matrix world (lattice_L1, three disjoint triangles); citing force_matrix.json for this number was a mis-citation. Measured on 0.13.0 at 112 of 112 on all six seeds, so the earlier downgrade (evidence predating the rework) no longer applies to the presence half.",
+        "Promotion to SUPPORTED waits on Q002, which is still open: the measurement licenses the presence half on 0.13.0, and a load-bearing classification needs the question closed."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""
@@ -98,7 +99,7 @@
       "classification": "HYPOTHESIS",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
-      "engine_version": "unattributed",
+      "engine_version": "unreproducible",
       "supporting_questions": [
         "Q004"
       ],
@@ -109,10 +110,15 @@
       "scope_limitations": [
         "The sparse end only; the dense end is pinned by the prediction cap and shows no separation.",
         "One world family, one ordering basis.",
-        "Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim."
+        "Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim.",
+        "Re-measurement attempted 2026-11-09 and refused by the runner: the A1 block is held by DENSITY-INTERACTION-REVIEW-1 and a held block may not run, so no A2 number can be produced on the pinned engine until that registration is resolved."
       ],
       "superseded_by": null,
-      "withdrawn_reason": ""
+      "withdrawn_reason": "",
+      "blocked_by": {
+        "evidence": "benchmarks/run_density_interaction.py",
+        "symbol": "a held block may not run"
+      }
     },
     {
       "claim_id": "C005",
@@ -120,7 +126,7 @@
       "classification": "SUPPORTED",
       "status": "WITHDRAWN",
       "provenance": "ARTIFACT_READ",
-      "engine_version": "unattributed",
+      "engine_version": "unreproducible",
       "supporting_questions": [
         "Q024"
       ],
@@ -131,10 +137,15 @@
         "docs/admission_two_arm_result.json"
       ],
       "scope_limitations": [
-        "The pooled-edge result it was adopted on is not retracted; only the engine's benefit from it was."
+        "The pooled-edge result it was adopted on is not retracted; only the engine's benefit from it was.",
+        "Re-measurement attempted 2026-11-09 and refused: the adopted arm was withdrawn on 2026-11-07 and its module deleted, so this block exists only at `a82e890` and cannot be produced on the pinned engine at all."
       ],
       "superseded_by": null,
-      "withdrawn_reason": "The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted."
+      "withdrawn_reason": "The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted.",
+      "blocked_by": {
+        "evidence": "benchmarks/run_admission_two_arm.py",
+        "symbol": "WITHDRAWN_AT"
+      }
     },
     {
       "claim_id": "C006",
@@ -226,7 +237,7 @@
       "classification": "HYPOTHESIS",
       "status": "WITHDRAWN",
       "provenance": "ARTIFACT_READ",
-      "engine_version": "unattributed",
+      "engine_version": "0.13.0",
       "supporting_questions": [
         "Q007"
       ],
@@ -238,7 +249,8 @@
         "docs/acquisition_endpoint_audit.json"
       ],
       "scope_limitations": [
-        "Measured at the frozen cap on the worlds the phase used; a different readout could still find a gain."
+        "Measured at the frozen cap on the worlds the phase used; a different readout could still find a gain.",
+        "Re-measured 2026-11-09 on the pinned 0.13.0 engine: the audit reproduces its payload exactly (headroom 0.105032, same checks) and now stamps the build that produced it."
       ],
       "superseded_by": null,
       "withdrawn_reason": "No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin."

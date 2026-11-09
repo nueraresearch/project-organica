@@ -257,22 +257,65 @@ def check_ledger(ledger, root=None) -> list:
 
 ENGINE_FIELD = "engine_version"
 
-#: The two values that name an *absence* rather than a build. `unattributed` is an artifact that
-#: records no engine; `document_only` is evidence that is prose, which has no field to carry one.
+#: The values that name an *absence* rather than a build. `unattributed` is an artifact that
+#: records no engine; `document_only` is evidence that is prose, which has no field to carry one;
+#: `unreproducible` is an artifact whose runner now refuses to produce it, so no build on the
+#: pinned engine can be named and the ledger has to say so against the blocker it read.
 UNATTRIBUTED = "unattributed"
 DOCUMENT_ONLY = "document_only"
+UNREPRODUCIBLE = "unreproducible"
 
 
 def _stamp_of(path: Path):
-    """The engine version a JSON artifact names, or None. A list is read item by item."""
+    """The build a JSON artifact names, or None. A list is read item by item.
+
+    Two shapes count. The engine stamp is the top-level `engine_version` a harness writes. A
+    matrix predates that rule and carries its build deeper, under `provenance` (`git_describe`,
+    then `git_commit`), which is still the build it was measured on — reading only the top level
+    reported such an artifact as unattributed while it named `v0.7.0-14-gea8e6d2` three lines in.
+    """
     try:
         record = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
-    for item in (record if isinstance(record, list) else [record]):
-        if isinstance(item, dict) and item.get("engine_version"):
+    items = [item for item in (record if isinstance(record, list) else [record])
+             if isinstance(item, dict)]
+    for item in items:
+        if item.get("engine_version"):
             return str(item["engine_version"])
+    for item in items:
+        provenance = item.get("provenance")
+        if not isinstance(provenance, dict):
+            continue
+        if provenance.get("engine_version"):
+            return str(provenance["engine_version"])
+        if provenance.get("git_describe"):
+            return str(provenance["git_describe"])
+        if provenance.get("git_commit"):
+            return str(provenance["git_commit"])[:12]
     return None
+
+
+def blocker_problems(claim, root) -> list:
+    """Why a claim's `unreproducible` value is unbacked, empty when it holds.
+
+    The blocker is a file and a symbol inside it — the runner that refuses to produce the
+    artifact. The symbol is read rather than quoted, so renaming or deleting the refusal fails
+    the gate instead of leaving a stale explanation behind, which is the same rule the engine
+    attribution itself follows.
+    """
+    blocked = claim.get("blocked_by") or {}
+    cid = claim.get("claim_id") or "<unnamed claim>"
+    if not isinstance(blocked, dict) or not blocked.get("evidence") or not blocked.get("symbol"):
+        return ["%s records `unreproducible` and does not name `blocked_by.evidence` and "
+                "`blocked_by.symbol`" % cid]
+    target = Path(root) / blocked["evidence"]
+    if not target.exists():
+        return ["%s names %s as its blocker, which is not on disk" % (cid, blocked["evidence"])]
+    if blocked["symbol"] not in _text(target):
+        return ["%s names %r as its blocker and %s no longer contains it"
+                % (cid, blocked["symbol"], blocked["evidence"])]
+    return []
 
 
 def evidence_engine_versions(claim, root=None):
@@ -312,9 +355,12 @@ def derived_engine_version(claim, root):
 def check_engine_attribution(ledger, root=None) -> list:
     """Every claim names the build its evidence came from, or says plainly that it cannot.
 
-    Three failures. **Missing** and **stale** are the mechanical join: the ledger's value must be
+    Four failures. **Missing** and **stale** are the mechanical join: the ledger's value must be
     the one the artifacts yield, so a hand-typed version — or an artifact gaining a stamp while
-    the ledger stands still — is refused. **Unattributed load-bearing** is the substantive rule: a
+    the ledger stands still — is refused. A ledger value of `unreproducible` is admitted only while
+    the artifact still names nothing and the refusal the claim points at still exists, so it
+    cannot become a place to park a versionless claim. **Unattributed load-bearing** is the
+    substantive rule: a
     claim classified DEMONSTRATED or SUPPORTED while active may not rest on evidence that names
     no build, because that is the claim a reader would take as measured. A hypothesis or an
     aspiration may be unattributed; the ledger counts those rather than failing them, since the
@@ -332,6 +378,14 @@ def check_engine_attribution(ledger, root=None) -> list:
                 "claim-engine-version-missing", cid,
                 "%s records no %s; the build is derived from its evidence (%s) and must be "
                 "stated" % (cid, ENGINE_FIELD, derived)))
+        elif str(recorded) == UNREPRODUCIBLE:
+            if derived != UNATTRIBUTED:
+                findings.append(_finding(
+                    "claim-unreproducible-but-attributed", cid,
+                    "%s records `unreproducible` and its evidence now names %r; the refusal it "
+                    "recorded no longer holds" % (cid, derived)))
+            for problem in blocker_problems(claim, root):
+                findings.append(_finding("claim-unreproducible-unbacked", cid, problem))
         elif str(recorded) != derived:
             findings.append(_finding(
                 "claim-engine-version-stale", cid,

@@ -14,7 +14,7 @@ artifacts it rests on, and the limits of its own scope.
 | --- | --- | --- | --- | --- |
 | C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | HYPOTHESIS | Q001 | ARTIFACT_READ |
 | C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | HYPOTHESIS | Q001 | OWNER_READING |
-| C003 | All 112 edges of the ground-truth worlds are present in memory at the frozen prediction cap. | HYPOTHESIS | Q002 | ARTIFACT_READ |
+| C003 | All 112 edges of the Gate-13 compositional world are present in raw temporal memory on the six measured seeds, independent of the frozen prediction cap. | HYPOTHESIS | Q002 | ARTIFACT_READ |
 | C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | HYPOTHESIS | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
@@ -24,22 +24,24 @@ artifacts it rests on, and the limits of its own scope.
 ## The build each claim was measured on
 
 Derived from the artifacts a claim cites, never typed. A version means every cited JSON
-artifact agrees on it; `unattributed` means they record no build, and `document_only` means
-the claim cites prose rather than a result. The ledger and the artifacts must agree, and a
-load-bearing active claim may not be `unattributed`.
+artifact agrees on it; a commit or describe string is a matrix that records its build under
+`provenance`; `unattributed` means they record no build; `document_only` means the claim
+cites prose rather than a result; and `unreproducible` means the runner that produced the
+artifact now refuses, so the ledger names that refusal instead of a build. The ledger and
+the artifacts must agree, and a load-bearing active claim may not be `unattributed`.
 
 | Claim | Engine | Evidence named |
 | --- | --- | --- |
 | C001 | `document_only` | `docs/V1-SYNTHESIS.md` (a document) |
 | C002 | `document_only` | `docs/V1-SYNTHESIS.md` (a document) |
-| C003 | `unattributed` | `docs/force_matrix.json` (no build) |
-| C004 | `unattributed` | `docs/density_interaction_a2_result.json` (no build) |
-| C005 | `unattributed` | `docs/admission_two_arm_result.json` (no build) |
+| C003 | `0.13.0` | `docs/temporal_presence_0.13.0.json` |
+| C004 | `unreproducible` | `docs/density_interaction_a2_result.json` (no build) |
+| C005 | `unreproducible` | `docs/admission_two_arm_result.json` (no build) |
 | C006 | `document_only` | `docs/DIVERGENCE-MECHANISM-RESULTS.md` (a document) |
 | C007 | `document_only` | `docs/CONTEXT.md` (a document) |
 | C008 | `document_only` | `docs/CONTEXT.md` (a document) |
 | C009 | `document_only` | `docs/CONTEXT.md` (a document) |
-| C010 | `unattributed` | `docs/acquisition_endpoint_audit.json` (no build) |
+| C010 | `0.13.0` | `docs/acquisition_endpoint_audit.json` |
 | C011 | `document_only` | `docs/DIVERGENCE-MECHANISM-RESULTS.md` (a document), `docs/FORCE-MATRIX-RESULTS.md` (a document) |
 
 ## Withdrawn or superseded claims
@@ -55,7 +57,7 @@ record, and removing it would erase the correction.
 
 **Provenance.** `ARTIFACT_READ`
 
-**Engine named by its evidence.** `unattributed`
+**Engine named by its evidence.** `unreproducible`
 
 **Why it was withdrawn.** The two-arm comparison on the engine's own ordering returned NO GAIN ON THIS LAYER; the adoption was withdrawn the same day and the module deleted.
 
@@ -97,7 +99,7 @@ record, and removing it would erase the correction.
 
 **Provenance.** `ARTIFACT_READ`
 
-**Engine named by its evidence.** `unattributed`
+**Engine named by its evidence.** `0.13.0`
 
 **Why it was withdrawn.** No held-out gain was found and the interval crosses zero; the headroom against the strongest baseline was 0.005647 nats, which is a task property, not a learner's margin.
 
@@ -128,12 +130,14 @@ Each claim carries its own limits in the ledger. The ones that recur:
 - **C002.** Persistence is measured on the substrate's own record, not against an external task.
 - **C002.** Decay is present and was not switched off for these runs.
 - **C002.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
-- **C003.** Presence in memory, not selection, ranking or use in a prediction.
-- **C003.** Measured at the frozen cap of 20 predictions.
-- **C003.** Downgraded 2026-11-08: the question behind it was reopened because its evidence predates the 0.12.0 cognitive rework (docs/ENGINE-VERSION-AUDIT.md). This is a statement about the build it was measured on, not about the current engine.
+- **C003.** Presence in raw temporal memory, not selection, ranking or use in a prediction.
+- **C003.** The asserted basis is far lower (0.2500-0.3214 on the same seeds): the world is present and the organism does not assert it, which is the finding the claim must not blur.
+- **C003.** Re-specified 2026-11-09: the 112-edge world is the Gate-13 acquisition world, not the force-matrix world (lattice_L1, three disjoint triangles); citing force_matrix.json for this number was a mis-citation. Measured on 0.13.0 at 112 of 112 on all six seeds, so the earlier downgrade (evidence predating the rework) no longer applies to the presence half.
+- **C003.** Promotion to SUPPORTED waits on Q002, which is still open: the measurement licenses the presence half on 0.13.0, and a load-bearing classification needs the question closed.
 - **C004.** The sparse end only; the dense end is pinned by the prediction cap and shows no separation.
 - **C004.** One world family, one ordering basis.
 - **C004.** Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim.
+- **C004.** Re-measurement attempted 2026-11-09 and refused by the runner: the A1 block is held by DENSITY-INTERACTION-REVIEW-1 and a held block may not run, so no A2 number can be produced on the pinned engine until that registration is resolved.
 - **C007.** Not tested. Nothing in the record supports or contradicts it yet; it is listed as a hypothesis so that it is not later quoted as a finding.
 - **C009.** An aim, not a result. No measurement exists, and the record contains a negative cross-domain transfer result.
 

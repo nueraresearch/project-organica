@@ -44,7 +44,10 @@
       "preregistrations": [],
       "supersedes": [],
       "answer": "Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
-      "why_open": "Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40."
+      "why_open": "Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.",
+      "decisions": [
+        "DECISION-G1-WITNESS.md"
+      ]
     },
     {
       "id": "Q003",

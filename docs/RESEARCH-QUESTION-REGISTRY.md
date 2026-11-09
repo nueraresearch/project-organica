@@ -209,6 +209,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
+**Decision record.** `docs/DECISION-G1-WITNESS.md`
+
 **Bottleneck rows.** World-edge candidate availability
 
 ### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?

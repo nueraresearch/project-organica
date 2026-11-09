@@ -54,24 +54,78 @@ def test_the_published_ledger_states_the_build_for_every_claim():
     ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
     for claim in ledger["claims"]:
         assert prov.ENGINE_FIELD in claim, claim["claim_id"]
-        assert str(claim[prov.ENGINE_FIELD]) == prov.derived_engine_version(claim, ROOT), (
-            "%s records %r but its evidence yields %r"
-            % (claim["claim_id"], claim[prov.ENGINE_FIELD],
-               prov.derived_engine_version(claim, ROOT))
-        )
+        derived = prov.derived_engine_version(claim, ROOT)
+        recorded = str(claim[prov.ENGINE_FIELD])
+        if recorded == prov.UNREPRODUCIBLE:
+            # A refusal is admitted only while it is still true and still enforced.
+            assert derived == prov.UNATTRIBUTED, claim["claim_id"]
+            assert prov.blocker_problems(claim, ROOT) == [], claim["claim_id"]
+        else:
+            assert recorded == derived, (
+                "%s records %r but its evidence yields %r"
+                % (claim["claim_id"], recorded, derived)
+            )
     assert prov.check_engine_attribution(ledger, ROOT) == []
 
 
-def test_the_current_ledger_names_no_build_and_records_that_rather_than_hiding_it():
-    """The debt is disclosed, not absent: four claims cite unstamped artifacts, seven cite prose."""
+def test_the_current_ledger_records_each_kind_of_attribution():
+    """Two builds are named, two runs refuse, seven claims cite prose, and none is silent."""
     ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
-    derived = [prov.derived_engine_version(c, ROOT) for c in ledger["claims"]]
-    assert derived.count(prov.UNATTRIBUTED) == 4, derived
-    assert derived.count(prov.DOCUMENT_ONLY) == 7, derived
-    assert not [d for d in derived if d not in (prov.UNATTRIBUTED, prov.DOCUMENT_ONLY)], derived
-    assert [c["claim_id"] for c, d in zip(ledger["claims"], derived) if d == prov.UNATTRIBUTED] == [
-        "C003", "C004", "C005", "C010"
-    ]
+    derived = {c["claim_id"]: prov.derived_engine_version(c, ROOT) for c in ledger["claims"]}
+    assert derived["C010"] == "0.13.0"
+    assert derived["C003"] == "0.13.0", derived["C003"]
+    assert derived["C004"] == prov.UNATTRIBUTED and derived["C005"] == prov.UNATTRIBUTED
+    assert [c["claim_id"] for c in ledger["claims"]
+            if c.get(prov.ENGINE_FIELD) == prov.UNREPRODUCIBLE] == ["C004", "C005"]
+    assert list(derived.values()).count(prov.UNATTRIBUTED) == 2, derived
+    assert list(derived.values()).count(prov.DOCUMENT_ONLY) == 7, derived
+
+
+def test_a_matrix_that_records_its_build_under_provenance_names_it(tmp_path):
+    """The shape `force_matrix.json` uses: no top-level stamp, a describe string three levels in."""
+    root = _root(tmp_path)
+    (root / "docs" / "result.json").write_text(json.dumps({
+        "rows": [], "provenance": {"git_commit": "d" * 40,
+                                   "git_describe": "v0.7.0-14-gdeadbee"},
+    }), encoding="utf-8")
+    claim = _claim(engine_version="v0.7.0-14-gdeadbee")
+    assert prov.derived_engine_version(claim, root) == "v0.7.0-14-gdeadbee"
+    assert _codes(claim, root) == []
+
+
+def test_unreproducible_holds_when_the_runner_still_refuses(tmp_path):
+    root = _root(tmp_path, stamped=False)
+    (root / "benchmarks").mkdir(exist_ok=True)
+    (root / "benchmarks" / "runner.py").write_text(
+        'WITHDRAWN_AT = "a82e890"\n', encoding="utf-8")
+    claim = _claim(engine_version=prov.UNREPRODUCIBLE, blocked_by={
+        "evidence": "benchmarks/runner.py", "symbol": "WITHDRAWN_AT"})
+    assert _codes(claim, root) == []
+
+
+def test_unreproducible_is_refused_once_the_evidence_names_a_build(tmp_path):
+    """The refusal is a claim about now; a later stamp ends it."""
+    root = _root(tmp_path)
+    (root / "benchmarks").mkdir(exist_ok=True)
+    (root / "benchmarks" / "runner.py").write_text("WITHDRAWN_AT = 'x'\n", encoding="utf-8")
+    claim = _claim(engine_version=prov.UNREPRODUCIBLE, blocked_by={
+        "evidence": "benchmarks/runner.py", "symbol": "WITHDRAWN_AT"})
+    assert _codes(claim, root) == ["claim-unreproducible-but-attributed"]
+
+
+def test_unreproducible_is_refused_when_the_refusal_is_gone(tmp_path):
+    root = _root(tmp_path, stamped=False)
+    (root / "benchmarks").mkdir(exist_ok=True)
+    (root / "benchmarks" / "runner.py").write_text("nothing here\n", encoding="utf-8")
+    claim = _claim(engine_version=prov.UNREPRODUCIBLE, blocked_by={
+        "evidence": "benchmarks/runner.py", "symbol": "WITHDRAWN_AT"})
+    assert _codes(claim, root) == ["claim-unreproducible-unbacked"]
+
+
+def test_unreproducible_without_a_blocker_is_refused(tmp_path):
+    root = _root(tmp_path, stamped=False)
+    claim = _claim(engine_version=prov.UNREPRODUCIBLE)
+    assert _codes(claim, root) == ["claim-unreproducible-unbacked"]
 
 
 def test_a_claim_without_the_field_is_refused(tmp_path):
@@ -157,9 +211,15 @@ def test_the_dashboard_counts_are_computed_from_the_claims():
     derived = [prov.derived_engine_version(c, ROOT) for c in ledger["claims"]]
     assert metrics["Claims naming an engine build"] == sum(
         1 for d in derived if d not in (prov.UNATTRIBUTED, prov.DOCUMENT_ONLY))
-    assert metrics["Claims whose evidence names no build"] == derived.count(prov.UNATTRIBUTED)
+    assert metrics["Claims whose evidence names no build"] == sum(
+        1 for c in ledger["claims"]
+        if prov.derived_engine_version(c, ROOT) == prov.UNATTRIBUTED
+        and c.get(prov.ENGINE_FIELD) != prov.UNREPRODUCIBLE)
     assert metrics["Claims citing a document instead of a result"] == derived.count(
         prov.DOCUMENT_ONLY)
+    assert metrics["Claims whose evidence cannot be re-measured"] == sum(
+        1 for c in ledger["claims"] if c.get(prov.ENGINE_FIELD) == prov.UNREPRODUCIBLE)
     assert (metrics["Claims naming an engine build"]
             + metrics["Claims whose evidence names no build"]
-            + metrics["Claims citing a document instead of a result"]) == len(ledger["claims"])
+            + metrics["Claims citing a document instead of a result"]
+            + metrics["Claims whose evidence cannot be re-measured"]) == len(ledger["claims"])

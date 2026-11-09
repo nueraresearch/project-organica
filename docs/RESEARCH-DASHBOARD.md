@@ -23,12 +23,13 @@ in its own row. No value is typed by hand, and the row names say what is counted
 | Claims active | 6 | status is ACTIVE | `docs/claim_ledger.json` |
 | Claims withdrawn | 5 | status is WITHDRAWN | `docs/claim_ledger.json` |
 | Claims superseded | 0 | status is SUPERSEDED | `docs/claim_ledger.json` |
-| Claims naming an engine build | 0 | the cited JSON artifacts agree on an engine_version | `docs/claim_ledger.json` |
-| Claims whose evidence names no build | 4 | a cited JSON artifact records no engine_version | `docs/claim_ledger.json` |
+| Claims naming an engine build | 2 | the cited JSON artifacts agree on a build (engine_version, or the commit a matrix records under its provenance) | `docs/claim_ledger.json` |
+| Claims whose evidence names no build | 0 | a cited JSON artifact records no engine_version, and the claim records no refusal | `docs/claim_ledger.json` |
+| Claims whose evidence cannot be re-measured | 2 | the ledger records `unreproducible` against a blocker the runner still enforces | `docs/claim_ledger.json` |
 | Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
 | Preregistered experiments | 7 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
-| Architectural changes adopted | 5 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
+| Architectural changes adopted | 6 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
 | Architectural changes withdrawn | 3 | decision records whose text contains WITHDRAWN | `docs/DECISION-*.md` |
 | Independent reviews | 1 | documents in docs/ whose filename begins INDEPENDENT- | `docs/INDEPENDENT-*.md` |
 

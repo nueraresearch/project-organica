@@ -177,13 +177,22 @@ def metrics(reg, ledger):
         (
             "Claims naming an engine build",
             named,
-            "the cited JSON artifacts agree on an engine_version",
+            "the cited JSON artifacts agree on a build (engine_version, or the commit a matrix "
+            "records under its provenance)",
             led_src,
         ),
         (
             "Claims whose evidence names no build",
-            builds[prov.UNATTRIBUTED],
-            "a cited JSON artifact records no engine_version",
+            sum(1 for c in claims
+                if prov.derived_engine_version(c, ROOT) == prov.UNATTRIBUTED
+                and c.get(prov.ENGINE_FIELD) != prov.UNREPRODUCIBLE),
+            "a cited JSON artifact records no engine_version, and the claim records no refusal",
+            led_src,
+        ),
+        (
+            "Claims whose evidence cannot be re-measured",
+            sum(1 for c in claims if c.get(prov.ENGINE_FIELD) == prov.UNREPRODUCIBLE),
+            "the ledger records `unreproducible` against a blocker the runner still enforces",
             led_src,
         ),
         (
@@ -330,9 +339,11 @@ def render_ledger(reg, ledger):
         "## The build each claim was measured on",
         "",
         "Derived from the artifacts a claim cites, never typed. A version means every cited JSON",
-        "artifact agrees on it; `unattributed` means they record no build, and `document_only` means",
-        "the claim cites prose rather than a result. The ledger and the artifacts must agree, and a",
-        "load-bearing active claim may not be `unattributed`.",
+        "artifact agrees on it; a commit or describe string is a matrix that records its build under",
+        "`provenance`; `unattributed` means they record no build; `document_only` means the claim",
+        "cites prose rather than a result; and `unreproducible` means the runner that produced the",
+        "artifact now refuses, so the ledger names that refusal instead of a build. The ledger and",
+        "the artifacts must agree, and a load-bearing active claim may not be `unattributed`.",
         "",
         "| Claim | Engine | Evidence named |",
         "| --- | --- | --- |",
