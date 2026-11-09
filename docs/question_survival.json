@@ -1,0 +1,821 @@
+{
+  "kind": "question_survival",
+  "date": "2026-11-09",
+  "note": "Derived from the registry, the decisions index and the engine-version audit. No status is changed and no engine is run.",
+  "pinned_version": "0.13.0",
+  "populations": {
+    "open": 33,
+    "future": 5,
+    "closed": 11,
+    "retired": 2,
+    "reviewed": 38,
+    "reopened_by_the_sweep": 14,
+    "open_and_never_closed": 19,
+    "reopened_in_prose": 20
+  },
+  "evidence": {
+    "json_refs": 56,
+    "named_build": 3,
+    "unnamed_build": 53,
+    "missing_paths": [],
+    "missing_path_count": 0,
+    "distinct_builds": [
+      "0.13.0"
+    ]
+  },
+  "states": {
+    "broken-evidence": 0,
+    "prerequisite": 5,
+    "governance-held": 2,
+    "answered-older-build": 18,
+    "answered-at-pin": 0,
+    "answered-no-build": 0,
+    "open-with-evidence": 13,
+    "open-no-evidence": 0
+  },
+  "questions": [
+    {
+      "id": "Q001",
+      "status": "open",
+      "question": "Can developmental structure form in Organica 1?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q002",
+      "status": "open",
+      "question": "Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q003",
+      "status": "open",
+      "question": "Can a frequency-ranked selection find the world's edges at the engine's cap?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q004",
+      "status": "open",
+      "question": "Does excluding intra-cell rows buy precision at a fixed cap?",
+      "state": "governance-held",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [
+        "DECISION-DENSITY-EXCLUSION"
+      ],
+      "preregistrations": [
+        {
+          "ref": "docs/density_interaction_a2_prereg.json",
+          "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q005",
+      "status": "open",
+      "question": "Does the primary scheme's partial final pass explain the ladder's non-monotonicity?",
+      "state": "governance-held",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [
+        "DECISION-DENSITY-EXCLUSION"
+      ],
+      "preregistrations": [
+        {
+          "ref": "docs/density_padding_prereg.json",
+          "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q006",
+      "status": "open",
+      "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md",
+          "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q007",
+      "status": "open",
+      "question": "Does internal structure improve held-out prediction at the tested endpoint?",
+      "state": "answered-older-build",
+      "builds": [
+        "0.13.0"
+      ],
+      "builds_include_pin": true,
+      "evidence": 4,
+      "json_evidence": 3,
+      "named_build": 1,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q008",
+      "status": "open",
+      "question": "Do the architecture's own motivational mechanisms drive development in the predicted direction?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 3,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q011",
+      "status": "open",
+      "question": "Does a consolidated schema buy acquisition latency across a vocabulary boundary?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "docs/CROSS-CONTEXT-REUSE-PREREGISTRATION.md",
+          "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q012",
+      "status": "open",
+      "question": "Does role abstraction remove the orthogonal-context dependence?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 1,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q013",
+      "status": "open",
+      "question": "Does the corrected prior reader change the retention reading?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q014",
+      "status": "open",
+      "question": "Does a rank-sensitive endpoint reward the prior that the acquisition endpoint cannot?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 1,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q015",
+      "status": "open",
+      "question": "Is temporal decay necessary for liveness?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 1,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q016",
+      "status": "open",
+      "question": "Can the candidate space be changed so that world edges cluster under some ranking?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q017",
+      "status": "open",
+      "question": "Should further Layer-1 admission variants be tried?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q018",
+      "status": "open",
+      "question": "Should another Gate 13 ranking variant be run?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 3,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q021",
+      "status": "open",
+      "question": "Can a transfer claim rest on the v1 TR = 3.2 result?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q022",
+      "status": "future",
+      "question": "Can role representations transfer across domains?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 0,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q012"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q023",
+      "status": "future",
+      "question": "Can transfer recursively improve future transfer?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 0,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q022"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q024",
+      "status": "open",
+      "question": "Does diversity-first admission improve the real engine?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "docs/RANKING-ADMISSION-PREREGISTRATION.md",
+          "resolved": "path"
+        },
+        {
+          "ref": "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md",
+          "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q025",
+      "status": "future",
+      "question": "What fraction of the transfer signal is role-specific rather than general priming?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 0,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q012"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q026",
+      "status": "future",
+      "question": "Does role-based transfer persist once the origin context is gone?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 0,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q012"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q027",
+      "status": "future",
+      "question": "Do transferred structures survive selection on their own?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 0,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q012"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q028",
+      "status": "open",
+      "question": "Can a transfer event be traced to the role satisfaction that licensed it?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "STORE-TIME-ROLE-RECORD-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q029",
+      "status": "open",
+      "question": "Why do the structures that reach 35 stable edges on a degree-12 hub disappear?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        },
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q030",
+      "status": "open",
+      "question": "Is the engine's temporal edge decay the mechanism that removes the structure?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        },
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q031",
+      "status": "open",
+      "question": "At which cycle does the degree-12 fall begin, and how long does it take?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 3,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        },
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q032",
+      "status": "open",
+      "question": "Do theories die before the edges, so that theory death causes the edge loss?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        },
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q033",
+      "status": "open",
+      "question": "During collapse, is a stable core retained or does the whole structure collapse?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q034",
+      "status": "open",
+      "question": "Is the collapse deterministic or stochastic across seeds?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q035",
+      "status": "open",
+      "question": "Is persistence independent of the theory budget?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": []
+    },
+    {
+      "id": "Q036",
+      "status": "open",
+      "question": "What is the persistence half-life of the peak structure?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        },
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q037",
+      "status": "open",
+      "question": "Which mechanism accounts for most of the loss?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 4,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q043",
+      "status": "open",
+      "question": "Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 2,
+      "json_evidence": 1,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "STORE-TIME-ROLE-RECORD-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q044",
+      "status": "open",
+      "question": "When a stable edge misses re-emission, is the cause the admission count or the ranked slot?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 5,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "DECAY-ADMISSION-SLOT-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q045",
+      "status": "open",
+      "question": "Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub?",
+      "state": "open-with-evidence",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 6,
+      "json_evidence": 3,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "PERSISTENCE-REPAIR-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q051",
+      "status": "open",
+      "question": "Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?",
+      "state": "answered-older-build",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 8,
+      "json_evidence": 2,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": true,
+      "answered": true,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "LONG-DELAY-CAPABILITY-PREREGISTRATION.md",
+          "resolved": "docs-convention"
+        }
+      ]
+    },
+    {
+      "id": "Q053",
+      "status": "open",
+      "question": "Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95?",
+      "state": "open-with-evidence",
+      "builds": [
+        "0.13.0"
+      ],
+      "builds_include_pin": true,
+      "evidence": 10,
+      "json_evidence": 6,
+      "named_build": 2,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [],
+      "preregistrations": [
+        {
+          "ref": "docs/Q053-MECHANISM-PREREGISTRATION.md",
+          "resolved": "path"
+        }
+      ]
+    }
+  ]
+}

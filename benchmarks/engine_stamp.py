@@ -75,6 +75,7 @@ STAMPED = ("engine_version", "engine_commit", "engine_sha256", "runner")
 DERIVED = {
     "change_map.py",  # renders docs/ENGINE-CHANGE-FAILURE-MAP.md from git history
     "engine_pin.py",  # writes the pin itself; the pin is the reference, not a result
+    "question_survival.py",  # joins the registry to the audit; measures nothing
     "research_accountability.py",  # renders the findings and dashboard from the registry
     "research_registry.py",  # writes the question registry itself
     "test_count.py",  # records the suite's own counts
