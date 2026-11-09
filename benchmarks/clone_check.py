@@ -105,18 +105,24 @@ def main() -> int:
 
     # ---- 1. clone ----------------------------------------------------
     t0 = time.time()
-    code, out = run(["git", "clone", "--depth", "1", "--branch", args.branch,
+    # A full clone, not `--depth 1`. Three parts of the suite need history: the
+    # change map walks `v0.9.0..HEAD` and claims every post-freeze engine commit,
+    # the engine-change audit derives its commit count from git, and the deposit
+    # bundle archives the `v0.12.0` tag. A depth-1 clone has one commit and no
+    # tags, so on 2026-11-09 this check reported 6 failed and 13 errors while the
+    # same suite passed in a full checkout -- a failure that measured the clone
+    # rather than the repository. A stranger's clone is a normal clone, so the
+    # check makes one.
+    code, out = run(["git", "clone", "--branch", args.branch,
                      args.remote, str(clone)], cwd=workdir, timeout=600)
     ok = code == 0 and clone.exists()
     tag_detail = ""
     if ok:
-        # `--depth 1` fetches only tags pointing at the cloned commit, so
-        # the archival tag -- an ancestor -- is absent, and
-        # tests/test_v1_freeze.py skips all fifteen comparisons. A green
-        # clone check would then say nothing about the freeze. Fetch the
-        # tag explicitly: a depth limit bounds commits, not trees, so the
-        # tagged blobs arrive and the comparisons can run.
-        tag_code, tag_out = run(["git", "fetch", "--depth", "1", "origin",
+        # A full clone brings every tag, but the freeze comparison is the reason
+        # this repository's clones matter, so the archival tag is fetched
+        # explicitly rather than assumed: if it is ever moved or dropped, this
+        # check says so instead of skipping the comparisons silently.
+        tag_code, tag_out = run(["git", "fetch", "origin",
                                  f"refs/tags/{FREEZE_TAG}:refs/tags/{FREEZE_TAG}"],
                                 cwd=clone, timeout=300)
         if tag_code != 0:

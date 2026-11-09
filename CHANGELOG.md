@@ -30,6 +30,208 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
+### Fixed — The ablation harness runs all eleven conditions on 0.13.0 (2026-11-09)
+
+- **The failure was a signature, not a result.** Condition D's override spelled the five G1
+  arguments and did not accept the `meta_concepts` keyword the engine now passes, so the
+  2026-11-09 verification run stopped after four conditions and wrote nothing. The override now
+  accepts the engine's G1-G8 keyword set, re-stores the non-current composite generations
+  untouched under `no_extinction`, and builds both sides of the identity comparison with
+  `_candidate_key`, so the arm still measures "no extinction" rather than "no selection at all".
+- **All eleven conditions run and the artifact names its engine.** `--cycles 300` exits 0 with
+  11 of 11 conditions and writes `docs/ablation_study_0.13.0.json`, stamped
+  `engine_version 0.13.0`, `engine_commit 6e0ff24d84d3`, `engine_sha256 ed0851d1...` and
+  generated 2026-11-09T03:01:52Z. The pre-0.13.0 `docs/ablation_study.json` was not touched.
+- **The measured result, not a re-scoring.** `O_FULL` is ES 59.440. A (No Sleep) and J
+  (Memory Without Structure) are **existential** at 59.440 and 59.440; I (Random Sleep) is
+  **important** at 15.180; and B-H are **cosmetic** at 0.000, 0.084, 2.504, -0.574, -0.876,
+  0.193 and -0.224. The bands are the artifact's own.
+- **A control pins the contract.** `tests/test_ablation_arm_signatures.py` reads every
+  `self.<method>(...)` call in `organica/*.py` and binds each arm override to the arguments that
+  call passes; its second test reproduces the pre-repair signature and asserts the checker fires.
+  No engine file changed.
+
+### Changed — The version statements were swept and six stale ones corrected (2026-11-09)
+
+- **Six current-state claims disagreed with the repository.** The manual's Git row named `0.12.1` and
+  a version-gated skip that was removed on 2026-11-08; the `0.12.1` changelog heading was not marked
+  superseded; and four places still said the package version stays untagged after `v0.10.0` and
+  `v0.12.0` were tagged.
+- **Dated records that were true when written are disclosed, not rewritten.** The sweep note
+  `docs/VERSION-STATE-SWEEP-2026-11-09.md` records each correction with its old and new text, and the
+  facts sheet gains AA27.
+- **A Git row cannot describe a guard that no longer exists.** It now names `0.13.0` and the per-file
+  content pin, which has no version-gated skip.
+
+### Changed — A re-run that reproduces a recorded result keeps its recorded date (2026-11-09)
+
+- **The test-count recorder stamped today's date on every run**, so re-running the suite on a new day
+  dirtied `docs/test_count.json` and both documents that restate it without reporting anything new.
+- **The date now means when the recorded result was established:** an identical result keeps the
+  existing date, and only a different result takes the day it ran. The count was re-recorded for the
+  three tests that pin the rule.
+
+### Changed — The two superseded stashes were inventoried, disclosed and dropped (2026-11-09)
+
+- **Both held only the version-guard test change plus release-state prose**, and the test change is
+  byte-identical to the committed one, so disposing of them lost nothing.
+- **`docs/SUPERSEDED-STASHES-2026-11-09.md` records the inventory and the evidence**, including a
+  corrected attribution: the pre-carried-forward engine snapshot belongs to the dangling WIP commit
+  `08f3cb1`, not to either stash.
+
+### Measured — The burst deaths were matched against lattice deaths at the same age (2026-11-08)
+
+- **A2's label carried a death-age confound:** the burst cells die at cycles 131-134 and the lattice
+  control at 300. The addendum fixed its reading rule before measuring — a lattice death within 10
+  cycles is age-matched, and a 0.10 ratio difference means age explains the gap — then measured six
+  lattice factors.
+- **No lattice death falls within the tolerance** (the nearest are 112 and 150), so the label is
+  `AGE_MATCH_UNAVAILABLE`. The cohort ratio is flat across lattice deaths (0.578-0.610, spread 0.032),
+  and bracketing the burst ages gives 0.582 against the burst cells' 0.308, 0.315 and 0.034, with
+  live cycles at those ages retaining 0.9998 and 0.934.
+- **The mass gap is not an age artifact**, and A2's classification stands unchanged.
+
+### Added — Q053 was narrowed to one mechanism and preregistered on the lattice evidence (2026-11-08)
+
+- **The design fixes the measured boundary at loss of competing hypotheses**, names five candidate
+  interventions without choosing one, and specifies shipped 0.95 against 0.95 plus one mechanism. No
+  engine change, seed or cell is allocated.
+- **Q053 was then narrowed to the best-supported hypothesis and Q052's framing ordered first**, because
+  competition preservation is the most promising unexplored direction rather than the proven next
+  move: the boundary is measured, but the preserve-to-capability link is not.
+- **One mechanism is preregistered** (`benchmarks/q053_mechanism_prereg.py`,
+  `docs/Q053-MECHANISM-PREREGISTRATION.md`) on the lattice evidence, with no cell run.
+
+### Added — Q052's census ran on burst_L1, returned VOID, and was completed by a disclosed amendment (2026-11-08)
+
+- **The framing design pre-committed five labels** over the existing competition-probe fields plus an
+  edge-mass ratio, with their precedence stated before any cell, and recorded that the shipped 0.95
+  arm is alive at 300, so the intervention contrast has no dying control on that family. No seed was
+  allocated and no engine file changed.
+- **The first census is VOID on its own control.** The lattice control reproduced the committed census
+  exactly — 299 live, 300 dead, `bravo` 866 = 433 + 433, empty competing census at death — but its
+  mass ratio is 0.578 against an uncalibrated floor of 0.90, and edge mass sums every retained
+  hypothesis, so the competitors pruned at death sit inside the drop. Design section 3 stops the
+  framing as VOID, no label was read, and the capture window was widened to the whole run before any
+  label was read (amendment A1).
+- **Amendment A2 changed only the census arithmetic:** the mass is the support mass of the pairs
+  retained at the last live cycle, tracked through death, and the floor is calibrated on committed
+  lattice cells with the control's seed excluded. The control passes at 0.578; three burst seeds give
+  0.308, 0.315 and 0.034 with no competing census at death, which classifies as
+  `DIFFERENT_SUPPORT_COLLAPSE` and keeps Q053 on `lattice_L1`.
+- **Two limits are recorded rather than smoothed over:** the calibration has no spread, so the
+  admissibility gate cannot fire, and the burst deaths are not matched to the control's death age, so
+  the signature differs but the reason is not identified. The separate age-match addendum is the
+  follow-up, and it leaves the label standing.
+
+### Changed — Fourteen closed answers that never named their build were reopened (2026-11-08)
+
+- **The criterion is mechanical:** an answer is reopened when no artifact it rests on records the
+  release pinned now (`0.13.0`, whose fourteen files the pin check verifies against the current tree).
+  Fourteen closed questions qualified: Q004, Q005, Q006, Q017, Q021, Q024, Q029-Q032, Q036, Q043, Q044
+  and Q051.
+- **Twelve kept closed with reasons** — eight because their evidence does name the pinned release, and
+  four because those closures were governance or design decisions rather than measurements.
+- **The cross-layer rule then did its job:** C004 was a SUPPORTED claim resting on Q004, so it is
+  downgraded to HYPOTHESIS with the reason recorded rather than the rule being relaxed. The suite
+  asserts that no reopened question's evidence names the pinned release.
+
+### Added — Every run artifact now names the engine's bytes and the writer (2026-11-08)
+
+- **`engine_version` and the pinned commit are not a build.** `benchmarks/engine_stamp.py` adds
+  `engine_sha256` — one digest over the pin's file map, checkable against `docs/engine_pin.json` with
+  no git — and `runner`, the calling module read from the stack. Both are computed inside `stamp`, so
+  a writer cannot omit them by forgetting a call site.
+- **`--check` fails when an artifact writer never stamps, when an artifact names a version and no
+  commit, or when a commit field is not a sha.** Writers are found from the syntax tree, so printing
+  or round-tripping `json.dumps` is not mistaken for an artifact, and a row-at-a-time JSONL write is a
+  data stream rather than a result.
+- **Two cases needed care rather than a blanket wrap:** a sealed calibration now hashes the stamped
+  record, because a seal must cover what is written, and a disposable cache cell is left unstamped
+  because it is compared field for field on reload. Artifacts stamped before the rule are grandfathered
+  from the list the audit already records, so no published artifact was edited.
+- **`protocol_digest` was deliberately left out:** most artifacts are governed by no preregistration,
+  and a field that is empty for most of them is the null-record defect the version audit found. The
+  owner's three-track roadmap is recorded in the manual's action list, with decay-factor tuning stopped
+  at the characterised operating point.
+
+### Added — The sleep-path split is proven behaviour-preserving (2026-11-08)
+
+- **A refactor is a claim about behaviour, and a diff cannot support it:** `7becdb5` removed 2,400
+  lines from `sleep.py` and added 2,313 across four sleep modules and `candidates.py`, and a moved
+  line looks exactly like a rewritten one.
+- **`tests/test_sleep_split_equivalence.py` extracts `organica/` at `7becdb5^` and at `7becdb5` with
+  `git archive`**, runs both on the same twelve cycles of the study stream in isolated processes with
+  `PYTHONHASHSEED` pinned, and compares every `SleepReport` field and every substrate row. Wall-clock
+  fields (including `ran_at` inside sleep payloads) and the store's per-row event handle are excluded;
+  everything else must match.
+- **The comparison is controlled so equality means something:** the same variant must agree with itself
+  across two processes, and one extra stream word must produce a different fingerprint.
+
+### Changed — The engine guard was unlocked, consolidated and re-baselined on the shipped engine (2026-11-08)
+
+- **The guard skipped every engine-file comparison at version 0.12.0 and above**, so it reported
+  success without looking. It now compares the guarded files against the content pin and fails on an
+  unrecorded change, with the diff in the message.
+- **A second guard — a reference commit plus `git` blob comparison — was added and deleted the same
+  day.** Two pins with different file sets and different failure messages are worse than either alone:
+  the per-file hash pin enforces identity by content, works in a shallow clone, and has no
+  version-gated skip.
+- **`tests/test_v1_freeze.py` keeps the published-artifact comparison** while asserting the pin still
+  covers the seven frozen files and can still report a changed one. One accountability test built its
+  precondition implicitly and is fixed to construct it; another required the guard to keep containing
+  the 0.12.0 skip, which pinned the defect in place, and now requires the opposite.
+- **The documents that described the old enforcement were corrected:** `AGENTS.md` rule 12, the facts
+  sheet's U1/U2, manual section 8.7, the README's package version (which still said 0.12.1) and the
+  audit, whose own no-version list contradicted its scan.
+
+### Added — The engine-version audit found that the record could not name its engine (2026-11-08)
+
+- **The freeze narrative assumed one engine and many measurements, but 20 commits since `v0.9.0`
+  changed `organica/` by +3,043/-1,791 lines across nine files**, including two of the seven frozen
+  ones, and `tests/test_v1_freeze.py` had skipped every engine comparison since 0.12.0.
+- **The audit maps every artifact to a build** and reopens Q001, Q002, Q003, Q007, Q008 and Q018,
+  whose evidence predates the rework; C001-C003 drop to HYPOTHESIS, because a load-bearing claim may
+  not cite an open question.
+- **Prior outcomes are kept and labelled as measurements of their own build.** No engine file changed
+  and no cell ran.
+
+### Added — Q051's long-delay capability protocol was frozen, run and refused (2026-11-08)
+
+- **The protocol is frozen around recall@5:** 0.9925 against the shipped 0.95 on a seed-varying
+  stable-law world, with fresh design and confirmatory blocks, recall@5 as the primary endpoint and log
+  loss secondary. The two-seed pilot is disclosed and its seeds are excluded; the question is
+  registered as Q051.
+- **The design block passed all seven gates and fixed the late bar at 0.0412.** Five design seeds gave
+  a late-gap median of +0.0477 with sd 0.0275, one seed reversed, and an early median already outside
+  the 0.010 equivalence margin, so P1 was at risk before confirmation. The seed guard now checks only
+  the confirmatory block, since the design seeds are consumed by construction.
+- **The confirmatory block returned INCONCLUSIVE.** Ten seeds put the late recall@5 median at +0.0265
+  against the 0.0412 bar, with 9 of 10 seeds positive; the early median is +0.0119 and growth holds in
+  6 of 10. All seven gates pass, but P2, P1 and P3 fail, so no capability claim follows.
+- **The `burst_L1` family was added to test whether the arm pair transfers.** At 300 cycles 0.95 and
+  1.0 retain theories while 0.99 and 0.9925 do not, so it does not; Q052 records the open question.
+  The decision is to keep 0.95: action 50 authorises no engine change and sets a
+  competition-preserving intervention and preregistration as the next step.
+
+### Measured — The decay threshold's edge is a competition boundary, not a support floor (2026-11-08)
+
+- **The 24-factor screen found no interior survivor.** Every four-decimal factor from 0.9901 to 0.9924
+  dies before cycle 301; 0.9923 and 0.9924 reach 300, so 0.9925 remains the first survivor. The screen
+  is one seed and no confirmation branch fired.
+- **0.9924 dies at 300 on all three threshold seeds** (20302701-20302703), so the screen's upper edge
+  is not a seed accident; Q050 keeps `NO_INTERIOR_SURVIVOR`, and this is a post-screen robustness check
+  rather than a new threshold.
+- **The support probe corrected the earlier 49-count inference.** 0.9924's last live theory is `bravo`
+  at 866 = 433 + 433 at cycle 299, and 0.9925's top theory is `alpha` at 1309 = 438 + 438 + 433 at
+  cycle 300, so the edge is a competition/retention boundary, not a support-count floor.
+- **The paired bracket ruled out a seed-block effect:** 0.9925 is alive at 301 where 0.9924 dies at
+  300, on the same three seeds.
+- **The collapse signature is one competing hypothesis per subject at cycle 300**, so no theory forms;
+  0.9924's last live cycle is 299 on all three seeds, with `bravo` holding the final pair at 866. The
+  engine drops the `high_structural_significance` marker before grouping, which section 15.1 records
+  as a correction to the first pass.
+
 ### Added — The four remaining decay questions are registered and scoped (2026-11-07)
 
 - **Q033, Q034, Q035 and Q037 are now registry questions** with the owner's wording; the frozen

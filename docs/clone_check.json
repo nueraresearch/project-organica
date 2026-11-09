@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-30T21:45:54Z",
+  "generated_at": "2026-11-09T02:49:24Z",
   "remote": "https://github.com/nueraresearch/project-organica.git",
   "branch": "master",
   "checks": [
     {
       "step": "clone",
       "ok": true,
-      "seconds": 3.5,
+      "seconds": 2.5,
       "detail": "v0.9.0 fetched so the freeze checks can run"
     },
     {
       "step": "import_organica",
       "ok": true,
-      "detail": "organica import OK C:\\Users\\monte\\AppData\\Local\\Temp\\organica_clone_jc1ij5vm\\project-organica\\organica\\__init__.py"
+      "detail": "organica import OK /tmp/organica_clone_0nxbs_j3/project-organica/organica/__init__.py"
     },
     {
       "step": "core_dependencies",
@@ -21,15 +21,15 @@
     },
     {
       "step": "pytest",
-      "ok": true,
-      "seconds": 525.3,
-      "detail": "159 passed in 523.42s (0:08:43)"
+      "ok": false,
+      "seconds": 161.3,
+      "detail": "1 failed, 1615 passed, 7 skipped, 5 warnings, 13 errors in 160.79s (0:02:40)"
     },
     {
       "step": "build_py",
       "ok": true,
-      "seconds": 1.5,
-      "detail": "        Gen 0  Experience events      1228  ######################################## |         experience events retained (never evicted):             1228 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 1.500 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  15   theories  3   questions  3   dreams  8   experiments  5"
+      "seconds": 0.5,
+      "detail": "        Gen 0  Experience events      1691  ######################################## |         experience events retained (never evicted):             1691 |         theories, and the uncertainty between them is non-zero. |         top experiment priority (EIG / cost): 2.078 |         max question uncertainty            : 1.000 |   study_stream           lineage  100.0%   hyps  21   theories  1   questions  1   dreams  7   experiments  5"
     },
     {
       "step": "examples",
@@ -49,51 +49,55 @@
   ],
   "examples": [
     {
-      "script": "examples\\01_sleep_consolidation.py",
+      "script": "examples/01_sleep_consolidation.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\02_composition_lineage.py",
+      "script": "examples/02_composition_lineage.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\03_selection_workflows.py",
+      "script": "examples/03_selection_workflows.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\04_falsification_hypotheses.py",
+      "script": "examples/04_falsification_hypotheses.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\05_curiosity_investigation_agenda.py",
+      "script": "examples/05_curiosity_investigation_agenda.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\01_developer_workflow.py",
+      "script": "examples/domains/01_developer_workflow.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\02_bug_tracking.py",
+      "script": "examples/domains/02_bug_tracking.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\03_synthetic_ecology.py",
+      "script": "examples/domains/03_synthetic_ecology.py",
       "ok": true,
       "detail": ""
     },
     {
-      "script": "examples\\domains\\04_robot_simulation.py",
+      "script": "examples/domains/04_robot_simulation.py",
       "ok": true,
       "detail": ""
     }
   ],
-  "passed": 8,
-  "total": 8
+  "passed": 7,
+  "total": 8,
+  "engine_version": "0.13.0",
+  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "runner": "__main__"
 }

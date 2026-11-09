@@ -3,9 +3,9 @@ tests/test_sleep_split_equivalence.py
 ------------------------------------------------------------------
 The sleep-path split is a claim about behaviour, so it is checked by two runs.
 
-`7becdb5` moved 2,436 lines out of `organica/sleep.py` into `sleep_extraction`,
-`sleep_selection`, `sleep_synthesis`, `sleep_inquiry` and `candidates`, and added twelve lines
-of covering indexes to `memory.py`. A diff cannot show that this changed nothing: a moved line
+`7becdb5` removed 2,400 lines from `organica/sleep.py` and added 2,313 across
+`sleep_extraction`, `sleep_selection`, `sleep_synthesis`, `sleep_inquiry` and `candidates`,
+plus twelve lines of covering indexes to `memory.py`. A diff cannot show that this changed nothing: a moved line
 and a rewritten line look identical. So the engine is run twice -- once at the parent commit and
 once at the split -- on the same stream, in separate processes, and the outputs are compared.
 
