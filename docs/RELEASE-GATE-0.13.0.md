@@ -49,7 +49,7 @@ Three consequences follow, and they are easy to get wrong:
 | # | Gate | State today | Who decides |
 |---|---|---|---|
 | 1 | **`v0.12.0` must be checkable** | **Blocked: the 2026-11-09 push did not land.** `origin` still has only `v0.6.0`–`v0.10.0` + `audit-trace-v1`, and no ref contains `0.12`; a push from this workspace fails authentication (`could not read Username`, exit 128); `clone_check` is **7/8** (`1 failed, 1615 passed, 7 skipped, 13 errors`, `2026-11-09T02:49:24Z`). Evidence and the check that clears it: section 3a | Owner, on a machine with push access; or the deposit decision that makes the tag unnecessary |
-| 2 | **The changelog must cover the release range** | `v0.12.0..HEAD` is **123 commits**; the 0.13.0 section has **28** subsections, **all dated 2026-11-07**. The **29 commits from 2026-11-08/09** (test-count recorder, artifact stamping, engine-version audit, Q052/Q053 work, stash inventory, version sweep) are unrepresented | Owner: complete the section, or declare the release's scope to be the 2026-11-07 state |
+| 2 | **The changelog must cover the release range** | **Cleared as an edit 2026-11-09.** `v0.12.0..9cba01f` is **128** commits, and the 0.13.0 section has **45** subsections: **7** dated 2026-11-09, **10** dated 2026-11-08 and **28** dated 2026-11-07. The **34** commits after 2026-11-07 that `9cba01f` contains are covered by the 17 entries dated after that day, by work item rather than one entry per commit; the three still missing on 2026-11-09 (`2ed31ce`, `747d3dd`, `3c9948e`) now have entries of their own. This row first said **123 commits**, **28** subsections all dated 2026-11-07 and **29** unrepresented commits; section 3d records the correction. | Owner: confirm the release's scope now runs through 2026-11-09 |
 | 3 | **The deposit reference** | `benchmarks/deposit_bundle.py` pins `SOFTWARE_REF = "v0.12.0"`, described as "the release a reader can cite today". After 0.13.0 that sentence is false unless the deposit moves or states that it deliberately pins 0.12.0 | Owner: move to `v0.13.0` and re-archive, or keep and disclose |
 | 4 | **The ablation suite** | **Repaired 2026-11-09.** `NoFalsificationService._natural_selection()` now accepts the engine's full G1-G8 keyword set, and all **eleven** conditions ran at 300 cycles, writing `docs/ablation_study_0.13.0.json` (engine 0.13.0, `6e0ff24d84d3`, `2026-11-09T03:01:52Z`, 266.6 s). The pre-repair crash is preserved in `docs/VERIFICATION-SWEEP-2026-11-09.md` | Owner: whether the 0.13.0 re-run supersedes or is reported beside the pre-0.13.0 artifact |
 | 5 | **Stale committed artifacts** | `docs/cold_start.json` and `docs/g5_gap_diagnostic.json` were generated 2026-10-30, before the 2026-11-06 engine changes; re-running moves 22 and 1,132 leaf values respectively, while `cold_start`'s generation outcomes are unchanged | Owner direction recorded in §5: the experiments are **re-run** on 0.13.0 as new runs, and these two artifacts stay as labelled records of the pre-0.13.0 engine — not regenerated to look current |
@@ -203,10 +203,44 @@ still ends at 2026-11-07 — is three commits further behind than it was.
 is superseded **for master only** by this section. Their other observations — the missing tag ref,
 the authentication cause, and the branch-scoped push path — stand.
 
+*[Amended 2026-11-09: section 3d supersedes the counts in this section for gate 2. The master tip
+and the gate statuses this section records are unchanged.]*
+
+## 3d. Amendment — 2026-11-09: gate 2's figures were the pre-entry state
+
+**State.** Gate 2 was written before the section had entries for the 2026-11-08/09 work: it said
+`v0.12.0..HEAD` was **123** commits, the section had **28** subsections all dated 2026-11-07, and
+**29** commits from 2026-11-08/09 were unrepresented. Measured here at `9cba01f`, `v0.12.0..9cba01f` is
+**128** commits and the section has **45** subsections — **7** dated 2026-11-09,
+**10** dated 2026-11-08 and **28** dated 2026-11-07 — against the **34** commits after
+2026-11-07 in `9cba01f`.
+
+**What the coverage is, and what it is not.** It is one entry per *work item*, not one entry per
+commit: the decay-edge work, the engine audit and its guard, the artifact stamping, the sleep-path
+split, the reopening pass, the Q051/Q052/Q053 cells, and the 2026-11-09 repairs were each a cluster
+of commits that one entry describes. The three commits that were still missing — `2ed31ce` (the
+master-published amendment to this record), `747d3dd` (the Q052 tally, the Stage B block and the
+rerun plan) and `3c9948e` (the changelog-figure pass itself) — now have entries of their own, and
+every figure they quote is pinned in `tests/test_changelog_figures.py` blocks E43–E45, whose
+classification list now carries **45** headings with **0** uncovered. Nothing mechanical asserts
+one entry per commit and this record does not claim it; the claim is that every dated work item
+after 2026-11-07 has an entry, which is what gate 2 asked for.
+
+**The engine is still untouched by any of it:** no commit since the pin `6e0ff24` touches
+`organica/`, and `engine_pin --check` reports its fourteen files at 0.13.0. No tag was created, no
+version bumped, no artifact regenerated and no deposit reference moved.
+
+**Gate status.** Gate 2 is no longer an edit owed; what remains in it is the owner's scope
+statement, which is a decision rather than a document change. With gate 4 repaired and gate 2
+cleared, four of the six remain as §3 lists them — gates 1, 3, 5 and 6 — and gates 1 and 3 are
+still blocked on the missing `v0.12.0` tag ref.
+
 ## 4. The order, once the decisions are made
 
 1. Push `v0.12.0` (gate 1), or make the deposit decision that makes it unnecessary (gate 3).
-2. Complete the changelog for the release range and set `CITATION.cff`'s `date-released` (gates 2, 6).
+2. Set `CITATION.cff`'s `date-released` (gate 6). The changelog half is done — gate 2 was
+   cleared as an edit on 2026-11-09, because the 0.13.0 section now covers every work item after
+   2026-11-07 (section 3d).
 3. **Done 2026-11-09:** the ablation harness was repaired (gate 4) and all eleven conditions ran; label the two stale artifacts as pre-0.13.0 records instead of regenerating them (gate 5, §5).
 4. Run the guards: full `pytest`, `engine_pin --check`, `engine_stamp --check`, and
    `clone_check` — 8/8 only if gate 1 is cleared.
