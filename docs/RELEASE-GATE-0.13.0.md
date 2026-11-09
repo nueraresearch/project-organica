@@ -53,7 +53,7 @@ Three consequences follow, and they are easy to get wrong:
 | 3 | **The deposit reference** | `benchmarks/deposit_bundle.py` pins `SOFTWARE_REF = "v0.12.0"`, described as "the release a reader can cite today". After 0.13.0 that sentence is false unless the deposit moves or states that it deliberately pins 0.12.0 | Owner: move to `v0.13.0` and re-archive, or keep and disclose |
 | 4 | **The ablation suite** | **Repaired 2026-11-09.** `NoFalsificationService._natural_selection()` now accepts the engine's full G1-G8 keyword set, and all **eleven** conditions ran at 300 cycles, writing `docs/ablation_study_0.13.0.json` (engine 0.13.0, `6e0ff24d84d3`, `2026-11-09T03:01:52Z`, 266.6 s). The pre-repair crash is preserved in `docs/VERIFICATION-SWEEP-2026-11-09.md` | Owner: whether the 0.13.0 re-run supersedes or is reported beside the pre-0.13.0 artifact |
 | 5 | **Stale committed artifacts** | `docs/cold_start.json` and `docs/g5_gap_diagnostic.json` were generated 2026-10-30, before the 2026-11-06 engine changes; re-running moves 22 and 1,132 leaf values respectively, while `cold_start`'s generation outcomes are unchanged | Owner direction recorded in §5: the experiments are **re-run** on 0.13.0 as new runs, and these two artifacts stay as labelled records of the pre-0.13.0 engine — not regenerated to look current |
-| 6 | **Documents that will flip at tag time** | `CHANGELOG.md:16` and `docs/ENGINE-CHANGE-AUDIT.md:26` say 0.13.0 is `(unreleased)`; `README.md:475` says "the latest cut version is 0.12.0"; `docs/ZENODO-DEPOSIT.md:105` says v0.9.0 is the latest published release; `docs/FACTS-SHEET.md` A3 and `docs/GATE-BOARD.md` claim a fresh clone passes 8/8 with "17 pytest" while the check reports 7/8 | Agent work, but it must land in the same commit as the tag, or the record contradicts itself |
+| 6 | **Documents that will flip at tag time** | **Settled 2026-11-09.** The exact list is section 3e: **nine** statements across **six** files that the tag commit must carry, **two** that are already stale and are not the tag's consequence, **two** the earlier list wrongly included because they follow `clone_check` rather than this tag, and **one** conditional on gate 3's deposit decision. The earlier row named `CHANGELOG.md:16` but missed `CHANGELOG.md:31` — the heading `tests/test_versioning.py` actually reads — and omitted `CITATION.cff`, the manual's Git row and this record itself. | Agent work, in the same commit as the tag |
 
 ## 3a. Open blocker — the `v0.12.0` publish attempt did not reach `origin` (2026-11-09)
 
@@ -235,6 +235,58 @@ statement, which is a decision rather than a document change. With gate 4 repair
 cleared, four of the six remain as §3 lists them — gates 1, 3, 5 and 6 — and gates 1 and 3 are
 still blocked on the missing `v0.12.0` tag ref.
 
+## 3e. Gate 6 settled — the exact statements that flip at tag time
+
+The row's earlier list was short and partly wrong, and a tag commit written from it would have left
+prose contradicted by the tag. Every citation below was checked against the file as it stands: the
+line number is today's anchor, and the quoted text is the locator that survives a shift.
+
+### a. Statements the tag commit must change (nine, in six files)
+
+| # | Where | Says now | Becomes at the tag |
+|---|---|---|---|
+| 1 | `CHANGELOG.md:31` | heading `## [0.13.0] — (unreleased)` | the heading carries the tag date, because this is the line `tests/test_versioning.py` reads; the earlier list named line 16 instead and would have left this one unedited |
+| 2 | `CHANGELOG.md:16` | version table: 0.13.0 `(unreleased)`, 0.12.0 cut 2026-11-06, v0.10.0 the previous tag, v0.9.0 the latest published release | 0.13.0 released on the tag date and the previous cut becomes 0.12.0; the published-release clause moves only if a GitHub release page is created for 0.13.0 |
+| 3 | `docs/ENGINE-CHANGE-AUDIT.md:26` | the HEAD row: `0.13.0` (unreleased), current master | the HEAD row names the tag date and `v0.13.0` as the tag on this commit |
+| 4 | `README.md:466` | 0.13.0 is **unreleased** work on top of the **0.12.0 deposit**, which is cut, dated and tagged; v0.9.0 is the latest published release | 0.13.0 is the latest cut version and the deposit, dated and tagged; the published-release clause follows whether a release page exists |
+| 5 | `README.md:475` | "the latest cut version is 0.12.0", and 0.13.0 is unreleased work on top of it | "the latest cut version is 0.13.0", with 0.12.0 the deposit it was cut on top of |
+| 6 | `CITATION.cff:15` | comment: 0.13.0 is unreleased working-tree work, and `date-released` below is the deposit's tag date | the comment describes 0.13.0 as the release and names the tag date |
+| 7 | `CITATION.cff:20` | `date-released: "2026-11-06"` | the tag date of 0.13.0, because the field must agree with the `version` above it |
+| 8 | `docs/USER-MANUAL.md:90` | Git row: package version 0.13.0, **unreleased** work; v0.9.0 still the latest published release; `CITATION.cff` records the deposit's tag date because 0.13.0 has no release of its own yet | 0.13.0 tagged on the tag date, with 0.12.0's deposit date kept separate and the published-release clause following the release page |
+| 9 | `docs/RELEASE-GATE-0.13.0.md:9-12` and §4 | status: "Nothing in this record has been done: no tag was created"; step 5 still asks for the heading to be changed | the status records the tag object, its peeled commit and the push, and the order's remaining steps are marked done |
+
+### b. Already stale, and not the tag's consequence (two)
+
+| Where | Says now | Why it is already wrong |
+|---|---|---|
+| `docs/ZENODO-DEPOSIT.md:104-105` | "**0.10.0 is the latest cut version — dated, tagged and pushed — and v0.9.0 is the latest published release.**" | the second clause was true; the first was overtaken when `v0.12.0` was cut on 2026-11-06. **Corrected 2026-11-09:** the paragraph now says 0.12.0 is the latest cut version, dated and tagged at `5804e60` on 2026-11-06, states that the tag ref is not yet on the remote (gate 1, section 3b), and notes that neither `v0.10.0` nor `v0.12.0` has a GitHub release; the same file's engine paragraph was corrected with it, since it repeated the removed version-gated skip in the present tense |
+| `papers/01_developmental_structure_formation.md:54` | "on the current package (`0.12.0`) its engine-identity checks are skipped … the package version is `0.12.0`, and `v0.10.0` is the last tag cut" | wrong twice already: the package is 0.13.0, and the version-gated skip was removed on 2026-11-08 when the per-file pin replaced it; the tag would have made it wrong a third way. **Corrected 2026-11-09:** §2.2 now names `0.13.0`, describes the pin and records that it replaced the skip on 2026-11-08, and names `v0.12.0` (2026-11-06) as the latest tag cut; the paper's Draft-status line carries the correction as a dated note, and no measurement, number or conclusion changed |
+
+### c. Removed from the list — these follow `clone_check`, not the tag (two)
+
+| Where | Says now | What actually gates it |
+|---|---|---|
+| `docs/FACTS-SHEET.md:27` (A3) | a fresh clone passes **8/8** with **17 passed**, dated 2026-10-22 | the artifact must first report 8/8, which needs the missing `v0.12.0` tag ref (gate 1); the row's own date marks it as a measurement, not a tag-time claim |
+| `docs/GATE-BOARD.md:25` | fresh clone passes 8/8 checks, 17 pytest, 9/9 examples | the same condition, and the same correction follows the same artifact |
+
+### d. Conditional on gate 3 (one)
+
+| Where | Says now | When it changes |
+|---|---|---|
+| `zenodo/software-v0.12.0.json:36` | the v0.12.0 software record's note says v0.9.0 is the latest published release | only if gate 3 moves the deposit to 0.13.0, which needs a new record; if the deposit stays on 0.12.0 the record is unchanged and gate 3 carries the disclosure |
+
+### e. Dated records that must not be edited
+
+`CHANGELOG.md:45` (an entry's statement that the heading still said `(unreleased)` on 2026-11-09),
+`docs/V1-FREEZE.md:8` and `:238`, `docs/DECISION-V2-SCOPE.md:54`, `docs/AUDIT-TRACE-SPEC.md:509`,
+`docs/ZENODO-DEPOSIT.md`'s 2026-10-31 route section, and the manual's revision rows are records of
+what was true when they were written. The version sweep of 2026-11-09 already declared them, and
+tagging does not make a dated statement false.
+
+**The checklist for the tag commit:** table a, all nine, in the same commit as the tag. Table b was
+**corrected on 2026-11-09** — nothing in it depended on the tag — and table c must wait for
+`clone_check` to report 8/8, which gate 1 blocks.
+
 ## 4. The order, once the decisions are made
 
 1. Push `v0.12.0` (gate 1), or make the deposit decision that makes it unnecessary (gate 3).
@@ -244,7 +296,9 @@ still blocked on the missing `v0.12.0` tag ref.
 3. **Done 2026-11-09:** the ablation harness was repaired (gate 4) and all eleven conditions ran; label the two stale artifacts as pre-0.13.0 records instead of regenerating them (gate 5, §5).
 4. Run the guards: full `pytest`, `engine_pin --check`, `engine_stamp --check`, and
    `clone_check` — 8/8 only if gate 1 is cleared.
-5. Remove `(unreleased)` from the 0.13.0 heading and record the release date.
+5. Carry gate 6's settled list (section 3e) in this commit: the nine tag-time edits — the
+   `(unreleased)` heading, the version table, the audit's HEAD row, both README statements,
+   `CITATION.cff`'s comment and `date-released`, the manual's Git row, and this record's status.
 6. Confirm `origin/master` is at the release commit, create the annotated tag `v0.13.0` there, and
    push master and the tag.
 7. Verify from outside: `git ls-remote --tags origin` peels `v0.13.0` to the same commit as

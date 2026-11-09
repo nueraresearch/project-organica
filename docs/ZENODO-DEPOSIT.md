@@ -32,9 +32,12 @@ resolved commit SHA (`software_commit`).
 **The engine is not frozen in this tree, and the record now says so.** The `v0.9.0` tag
 remains the archival reference for the frozen Organica 1 engine and does not move, but the
 working tree has advanced past it: the sleep path was rewritten into submodules, the
-candidate-supersession amendment landed, and `tests/test_v1_freeze.py` now skips its
-engine-identity checks at `>= 0.12.0`. `docs/V1-FREEZE.md` §6 records what changed and its
-measured effect. So the record describes the engine as it stands at the deposited commit,
+candidate-supersession amendment landed. Engine identity is enforced by a per-file hash pin
+rather than by the tag: `docs/engine_pin.json` holds a SHA-256 for each of the **14** modules
+under `organica/`, and `python -m benchmarks.engine_pin --check` fails when one is added,
+removed or changed without the version bump that records it. The freeze test's engine-file
+comparison, which had skipped at `>= 0.12.0`, was replaced by that pin on 2026-11-08.
+`docs/V1-FREEZE.md` §6 records what changed and its measured effect. So the record describes the engine as it stands at the deposited commit,
 and each paper's numbers belong to the builds recorded with their artifacts — not to this
 tree.
 
@@ -98,11 +101,16 @@ yields the same version-scoped DOI, it leaves the file list under the
 owner's eyes, and it does not stand up an automatic minting pipeline that
 nobody has asked for.
 
-**A GitHub release for v0.10.0 is not cut.** Cutting one is the owner's act
-and it is one step from publishing, so it was not done here. The repository's
-own statements say which thing they mean, so the gap is recorded rather than
-papered over: **0.10.0 is the latest cut version — dated, tagged and pushed —
-and v0.9.0 is the latest published release.**
+**No GitHub release exists for v0.10.0 or for v0.12.0.** Cutting one is the
+owner's act and it is one step from publishing, so it was not done here. The
+repository's own statements say which thing they mean, so the gap is recorded
+rather than papered over: **0.12.0 is the latest cut version — dated and tagged
+at `5804e60` on 2026-11-06 — and v0.9.0 is the latest published release.** The
+`v0.12.0` tag ref is not yet on the remote — `git ls-remote --tags origin`
+stops at `v0.10.0` plus `audit-trace-v1` — so publishing it is a separate
+owner step, recorded in `docs/RELEASE-GATE-0.13.0.md` section 3b. The bundles
+below are built from the local tag and the manifest records the resolved
+commit SHA, so nothing here waits on that ref.
 
 ### The files
 
