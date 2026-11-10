@@ -473,6 +473,38 @@
         20261104,
         20261105
       ],
+      "docs/d3_persistence_engine_replication_prereg.json": [
+        20611201,
+        20611202,
+        20611203,
+        20611204,
+        20611205,
+        20611206
+      ],
+      "docs/d3_persistence_engine_replication_run.json": [
+        20611201,
+        20611202,
+        20611203,
+        20611204,
+        20611205,
+        20611206
+      ],
+      "docs/d3_persistence_g1_recalibrated_prereg.json": [
+        20611301,
+        20611302,
+        20611303,
+        20611304,
+        20611305,
+        20611306
+      ],
+      "docs/d3_persistence_g1_recalibrated_run.json": [
+        20611301,
+        20611302,
+        20611303,
+        20611304,
+        20611305,
+        20611306
+      ],
       "docs/d3_persistence_prereg.json": [
         20410301,
         20410302,
@@ -488,6 +520,22 @@
         20410304,
         20410305,
         20410306
+      ],
+      "docs/d3_persistence_seed_varying_prereg.json": [
+        20611101,
+        20611102,
+        20611103,
+        20611104,
+        20611105,
+        20611106
+      ],
+      "docs/d3_persistence_seed_varying_run.json": [
+        20611101,
+        20611102,
+        20611103,
+        20611104,
+        20611105,
+        20611106
       ],
       "docs/decay_adaptation.json": [
         20261023,
@@ -735,6 +783,9 @@
         20261130
       ],
       "docs/force_matrix.json": [
+        20261023
+      ],
+      "docs/force_matrix_0.14.0.json": [
         20261023
       ],
       "docs/force_matrix_pilot.json": [
@@ -2469,6 +2520,31 @@
       "docs/prediction-decay-options.json": [
         20261023
       ],
+      "docs/presence_assertion_audit_0.14.0.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/presence_assertion_ladder_0.14.0.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/presence_cap_prereg.json": [
+        20261100,
+        20611401,
+        20611402,
+        20611403,
+        20611404,
+        20611405,
+        20611406
+      ],
       "docs/process_noise.json": [
         20261023
       ],
@@ -2926,7 +3002,7 @@
         20261130
       ]
     },
-    "consumed_total": 1473,
+    "consumed_total": 1497,
     "candidate_block": [
       700000001,
       700000724
@@ -2962,7 +3038,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 157,
+    "disjoint_proved_against": 167,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",
@@ -3075,8 +3151,8 @@
     "status_field_as_published": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone."
   },
   "no_engine": "No engine ran, no seed was spent, no world was generated, and no coefficient was computed. This artifact is a protocol.",
-  "engine_version": "0.13.0",
-  "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
-  "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+  "engine_version": "0.14.0",
+  "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
+  "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
   "runner": "__main__"
 }

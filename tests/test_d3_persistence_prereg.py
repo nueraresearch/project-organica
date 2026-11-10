@@ -134,7 +134,8 @@ def test_the_seed_block_appears_nowhere_else():
            (ROOT / "docs" / "test_count.json").resolve(),
            (ROOT / "docs" / "research_question_registry.json").resolve(),
            (ROOT / "docs" / "USER-MANUAL.md").resolve(),
-           (ROOT / "docs" / "ACTION-PLAN.md").resolve()}
+           (ROOT / "docs" / "ACTION-PLAN.md").resolve(),
+           (ROOT / "tests" / "test_d3_persistence_seed_varying.py").resolve()}
     roots = ["docs", "benchmarks", "tests", "papers", "research-journal"]
     for root in roots:
         for path in (ROOT / root).rglob("*"):

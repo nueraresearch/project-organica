@@ -89,7 +89,29 @@ def seed_axis(cells: list[dict]) -> dict:
             "seeds": len({cell["seed"] for cell in cells})}
 
 
-def run_cell(stage: str, seed: int, arm: str, colony: str = "FULL") -> dict:
+class SeedAxisDegenerate(RuntimeError):
+    """The seed labels did not vary the treatment trajectory."""
+
+
+def require_varied_treatment(run: dict) -> None:
+    """Refuse a multi-seed D3 run whose treatment is one repeated trajectory.
+
+    A run can meet every within-block criterion while all six seeds replay the same
+    trajectory; that is one world, not six confirmations. This is checked at the result
+    writer, before an artifact or page can be written. The historical D3-1 artifact is
+    left readable and caveated rather than re-scored.
+    """
+    axis = run.get("seed_axis") or {}
+    seeds = axis.get("seeds", 0)
+    distinct = (axis.get("distinct_signatures") or {}).get("preflight/treatment", 0)
+    if seeds > 1 and distinct < 2:
+        raise SeedAxisDegenerate(
+            "%d seeds produced %d distinct preflight treatment trajectory; "
+            "a single-world pass cannot be reported as %d confirmations"
+            % (seeds, distinct, seeds))
+
+
+def run_cell(stage: str, seed: int, arm: str, colony: str = "FULL", events=None) -> dict:
     """Run one cell through the same per-cycle loop as the pre-flight.
 
     The loop is deliberately the shape of `force_matrix.trace_reference`/`q053_mechanism_run`:
@@ -99,7 +121,8 @@ def run_cell(stage: str, seed: int, arm: str, colony: str = "FULL") -> dict:
     design = design_for(stage)
     horizon = horizon_for(stage)
     stop_at_death = stage == "preflight" and arm == "control"
-    events = fm.design_events(design)
+    if events is None:
+        events = fm.design_events(design)
     db = temp_db("d3_%s_%s_%d.db" % (stage, arm, seed))
     db.unlink(missing_ok=True)
     memory = MemoryService(db_path=str(db))
@@ -162,6 +185,7 @@ def run_cell(stage: str, seed: int, arm: str, colony: str = "FULL") -> dict:
             "design": design,
             "seed": seed,
             "arm": arm,
+            "stimulus_digest": hashlib.sha256(" ".join(events).encode("utf-8")).hexdigest()[:16],
             "colony": colony,
             "cycles_run": len(theory_counts),
             "theory_counts": theory_counts,
@@ -360,6 +384,10 @@ def finish() -> int:
     if problems:
         raise SystemExit("the preregistration is not valid: " + "; ".join(problems))
     artifact = build()
+    try:
+        require_varied_treatment(artifact)
+    except SeedAxisDegenerate as exc:
+        raise SystemExit("REFUSED: %s" % exc) from None
     ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n",
                         encoding="utf-8")
     DOC.write_text(render(artifact), encoding="utf-8")
@@ -378,8 +406,10 @@ def check() -> int:
         problems.append("the verdict is not what the cells imply")
     if details != artifact.get("details"):
         problems.append("the details are not what the cells imply")
-    if ARTIFACT.read_text(encoding="utf-8") != json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n":
-        problems.append("the artifact is not stamped consistently")
+    # D3-1 is a historical 0.13.0 run. Re-stamping it with today's pin would
+    # make it claim the 0.14.0 engine; require its own build to be fully named.
+    if engine_stamp.missing(artifact):
+        problems.append("the artifact is not fully stamped: %r" % engine_stamp.missing(artifact))
     if DOC.read_text(encoding="utf-8") != render(artifact):
         problems.append("the result page is stale")
     if problems:

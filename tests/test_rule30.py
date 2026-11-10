@@ -34,6 +34,7 @@ PREREGS = ROOT / "docs"
 
 # Tables that state the decision each outcome branch enables.
 JUDGED = {
+    "presence_cap_prereg.json",
     "density_interaction_prereg.json",
     "density_interaction_a2_prereg.json",
     "density_padding_prereg.json",
@@ -43,6 +44,9 @@ JUDGED = {
 # new table cannot join them by default; the reason has to be written down.
 EXEMPT = {
     "d3_persistence_prereg.json": "records a verdict and a reading per condition, not the decision",
+    "d3_persistence_seed_varying_prereg.json": "records a verdict and a reading per condition, not the decision",
+    "d3_persistence_engine_replication_prereg.json": "records a verdict and a reading per condition, not the decision",
+    "d3_persistence_g1_recalibrated_prereg.json": "records a verdict and a reading per condition, not the decision",
     "admission_two_arm_prereg.json": "records a verdict and a reading per condition, not the decision",
     "q006_admission_rederivation_prereg.json": "records a survival verdict and a reading per condition, not a new design decision",
     "ranking_admission_prereg.json": "records a verdict and a reading per condition, not the decision",

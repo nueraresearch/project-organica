@@ -33,12 +33,11 @@ def test_the_recorded_series_verdict_follows_from_the_series():
         assert record["verdict"] == expected["verdict"]
 
 
-def test_the_result_describes_the_pinned_engine():
+def test_the_result_describes_the_engine_it_was_measured_on():
     record = _record()
+    # The falsifier was run on 0.13.0. The 0.14.0 promotion does not rewrite its record.
     assert record["engine_pin_current"] is True
-    assert record["engine_version"] == json.loads(
-        (df.ROOT / "docs" / "engine_pin.json").read_text(encoding="utf-8")
-    )["version"]
+    assert record["engine_version"] == "0.13.0"
 
 
 def test_verdict_falsified_when_theories_stay_live():

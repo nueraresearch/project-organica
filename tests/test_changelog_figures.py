@@ -797,11 +797,11 @@ def _check(entries: str) -> list[dict]:
     # --- E26. The licensing role is already recorded ------------------------
     extraction = (ROOT / "organica/sleep_extraction.py").read_text(
         encoding="utf-8").splitlines()
-    add("759", "organica/sleep_extraction.py:759-760",
-        (extraction[758].strip(), extraction[759].strip()),
-        "source_role_id" in extraction[758] and "target_role_id" in extraction[759])
-    add("477", "organica/sleep_extraction.py:477", extraction[476].strip(),
-        "schema_prior" in extraction[476])
+    add("762", "organica/sleep_extraction.py:762-763",
+        (extraction[761].strip(), extraction[762].strip()),
+        "source_role_id" in extraction[761] and "target_role_id" in extraction[762])
+    add("480", "organica/sleep_extraction.py:480", extraction[479].strip(),
+        "schema_prior" in extraction[479])
     add("14", "docs/transfer_provenance.json .measurement.transfer_events",
         _at(prov, "measurement", "transfer_events"),
         _at(prov, "measurement", "transfer_events") == 14)
@@ -1105,8 +1105,8 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 18)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**157** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 157 and "**157** artifacts" in entries,
+    add("**167** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 167 and "**167** artifacts" in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
@@ -1158,10 +1158,10 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**157** artifacts", "**158** artifacts")
-    assert "**158** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_drift = entries.replace("**167** artifacts", "**166** artifacts")
+    assert "**166** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
-    assert any("157" in failure for failure in stage_b_failures), stage_b_failures
+    assert any("167" in failure for failure in stage_b_failures), stage_b_failures
 
 # The entries whose figures are pinned by _check() above: the 14 the version
 # sweep examined, then the 28 earlier entries pinned on 2026-11-09.
@@ -1211,6 +1211,7 @@ COVERED_ENTRIES = [
     'Changed — The release gate records that master is published at `747d3dd` (2026-11-09)',
     'Changed — The reopening tally closed around Q052, and the rerun plan landed with its guards (2026-11-09)',
     'Added — Every 0.13.0 entry is pinned to its artifact, and every ablation override is invoked (2026-11-09)',
+    "Changed — D3's persistence repair survives six distinct seed-varying worlds (2026-11-10)",
 ]
 
 UNCOVERED_ENTRIES: list[str] = []

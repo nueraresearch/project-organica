@@ -32,6 +32,14 @@ VERDICTS = (
 STAGES = ("witness", "preflight")
 ARMS = ("control", "treatment")
 
+POST_FREEZE_RESULT = (
+    "**Post-freeze result.** The status and text above are the frozen pre-run record. The block "
+    "has since run; its result is `docs/D3-PERSISTENCE-RESULT.md`, and the seed-varying "
+    "confirmation is `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`. The repair was promoted into "
+    "the engine at 0.14.0 by the dated owner decision. This pointer is outside the frozen "
+    "protocol and changes no criterion, bar, seed, arm or gate."
+)
+
 
 def prereg() -> dict:
     return json.loads(PREREG.read_text(encoding="utf-8"))
@@ -126,6 +134,8 @@ def render(body: dict) -> str:
         "**Status: %s.** No cell has run. The repair is available only as the in-process "
         "`MatchedFrequencySleepService`; it is **not promoted into the engine**, and "
         "promotion is an owner decision." % body["status"],
+        "",
+        POST_FREEZE_RESULT,
         "",
         "D3 in `docs/DECISION-G1-WITNESS.md` is **PENDING** and requires its own preregistration. "
         "This is that record. It does not change an engine file and does not authorise a run.",
@@ -305,9 +315,17 @@ def verdict(body: dict, run: dict) -> tuple[str, dict]:
             or controls.get("NO_QUESTIONS", {}).get("questions_max") != 0):
         return "VOID", {"gate": "G7_negative_controls"}
 
+    if "G8_seed_axis_live" in body.get("gates", {}):
+        axis = run.get("seed_axis") or {}
+        distinct = (axis.get("distinct_signatures") or {}).get("preflight/treatment", 0)
+        if distinct < 2:
+            return "VOID", {"gate": "G8_seed_axis_live",
+                            "distinct_preflight_treatment": distinct}
+
+    g1_max = int(body.get("g1_max_first_zero", 60))
     for seed in seeds:
         first_zero = cells[("preflight", seed, "control")].get("first_zero_cycle")
-        if first_zero is None or not (1 <= first_zero <= 60):
+        if first_zero is None or not (1 <= first_zero <= g1_max):
             return "VOID", {"gate": "G1_baseline_death", "seed": seed}
 
     witness_ok = 0

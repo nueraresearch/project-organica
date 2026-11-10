@@ -77,7 +77,7 @@ def build(witness_cycles: int = fm.WITNESS_CYCLES, horizon: int = 3000,
     verdict = decide(problems, persistence)
     return {
         "kind": "tier1_preflight",
-        "date": "2026-11-09",
+        "date": "2026-11-10",
         "seed": seed,
         "witness": {
             "design": fm.WITNESS_DESIGN,
@@ -121,7 +121,7 @@ def render_page(record: dict) -> str:
         "",
         "**Verdict: `%s` — %s.**" % (record["verdict"], MEANINGS[record["verdict"]]),
         "",
-        "Decision: `docs/DECISION-G1-WITNESS.md` (ADOPTED, D1 and D2). The campaign's own",
+        "Decision: `docs/DECISION-G1-WITNESS.md` (ADOPTED, D1, D2 and D3). The campaign's own",
         "stimulus is `%s`; the witness G1 reads is `%s`." % (
             campaign["design"], witness["design"]),
         "",
@@ -178,11 +178,12 @@ def render_page(record: dict) -> str:
         "",
         "## What this does not do",
         "",
-        "- **It does not restore persistence.** D3 is PENDING; that is a cognition change and needs",
-        "  its own preregistration.",
+        "- **It does not restore persistence by itself.** D3's matched-frequency repair is promoted",
+        "  into the engine by the owner's 2026-11-10 decision; this pre-flight verifies the promoted",
+        "  build, but it does not run the campaign.",
         "- **It does not run the campaign.** The verdict says whether the campaign may launch.",
         "- **It does not re-score the recorded G1.** The `v0.7.0-14-gea8e6d2` artifact remains what",
-        "  it measured; this pre-flight is about whether a campaign can be run on 0.13.0.",
+        "  it measured; this pre-flight is about whether a campaign can be run on the promoted engine.",
         "",
     ]
     return "\n".join(lines)
@@ -192,10 +193,17 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--render", action="store_true", help="rebuild the page from the artifact")
     parser.add_argument("--check", action="store_true", help="verify the page and the verdict")
+    parser.add_argument(
+        "--require-pass",
+        action="store_true",
+        help="with --check, fail unless the recorded verdict is PASSES",
+    )
     parser.add_argument("--cycles", type=int, default=fm.WITNESS_CYCLES,
                         help="witness cycles (40 keeps the L3 arm alive)")
     parser.add_argument("--horizon", type=int, default=3000, help="the campaign horizon D2 tests")
     args = parser.parse_args(argv)
+    if args.require_pass and not args.check:
+        parser.error("--require-pass requires --check")
 
     if args.render or args.check:
         if not ARTIFACT.exists():
@@ -212,6 +220,9 @@ def main(argv=None) -> int:
                 return 1
             if record["launch_blocked"] != (record["verdict"] != "PASSES"):
                 print("FAIL: launch_blocked disagrees with the verdict")
+                return 1
+            if args.require_pass and record["verdict"] != "PASSES":
+                print("FAIL: pre-flight is %s, not PASSES" % record["verdict"])
                 return 1
             print("pre-flight: %s (%s)" % (record["verdict"],
                                            MEANINGS[record["verdict"]]))

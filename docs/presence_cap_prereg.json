@@ -1,0 +1,241 @@
+{
+  "prereg": "PRESENCE-CAP-1",
+  "status": "FROZEN, NOT RUN",
+  "no_cells_run": true,
+  "frozen_on": "2026-11-10",
+  "freeze_notes": {
+    "corrections_before_any_cell": [
+      "K4's third clause first required the higher caps to change `S_ever` on at least five of six seeds. That made `CAP NOT LIMITING` unreachable: flat assertion with a changed `S_ever` on five seeds is already `ADMISSION SCALES, ASSERTION FLAT`, and the remaining flat case would have failed K4 and returned `CAP NOT BINDING`. The gate now requires the cap to change `S_ever` on at least one seed, and the number of seeds that change reach is the reading that separates the two verdicts.",
+      "The correction was made at freeze time, before any cell, and is recorded here rather than folded in silently. No level, seed, cycle count, bar or ceiling moved."
+    ]
+  },
+  "program": {
+    "draft": "docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md",
+    "question": "Q2 cap sweep",
+    "relationship": "This is the Q2 half of the draft program, frozen on its own so the cap question can be answered without waiting for Q1. It uses Q2's quantities (`S_ever`, `A_W`), its four levels, its K1-K6 gates and its four readings without renaming them. It adds one thing Q2 did not have: a magnitude bar and an admission ceiling derived from committed artifacts, because a direction on six seeds is not a decision-grade bar. It runs ahead of Q1 deliberately and states the consequence: it may not claim construct separation, and if Q1 later changes a definition this block is not re-scored."
+  },
+  "question": "With the world, presence and every non-cap parameter held fixed, does raising only the Layer-1 prediction cap add world edges to the final asserted structure?",
+  "hypothesis": {
+    "statement": "The 40-slot window truncates a ranked candidate list that holds roughly 225-238 candidates per cycle, so most world edges never receive a slot; if admission is what limits assertion, raising the cap should add asserted world edges, and if it is not, coverage should stay flat.",
+    "prediction": "If the budget is limiting, asserted world edges rise from the cap-40 arm to the cap-112 arm on at least five of six seeds, in the same direction across levels, by a mean of at least the declared bar.",
+    "falsifier": "Coverage stays flat at cap 112 and at the uncapped ceiling while admitted coverage rises: the budget reaches more edges and assertion does not follow, which closes the budget route.",
+    "alternative": "The admitted-but-unasserted edges are already the majority of the loss, so a budget increase may simply admit more edges of the kind that do not consolidate; that outcome is reported as a below-bar or flat result, not as a mechanism claim."
+  },
+  "engine": {
+    "version": "0.14.0",
+    "edit": "none",
+    "pin": "docs/engine_pin.json",
+    "treatment": "benchmarks.presence_cap_experiment.CapOnlySleepService",
+    "treatment_base": "organica.sleep.SleepService",
+    "overrides": [
+      "__init__"
+    ],
+    "changes": [
+      "MAX_PREDICTIONS"
+    ],
+    "why_not_the_existing_override": "`benchmarks.acquisition_harness._CapOverrideSleepService` overrides `_build_predictions` and rebuilds the candidate list with a different evidence dict and a different sort key. It is a capacity diagnostic, not a one-variable treatment, so it cannot answer this question. The treatment here overrides no pipeline method at all: it sets the instance constant in `__init__` and returns the engine's own list unchanged.",
+    "recorded_per_cell": "engine version, engine sha256 and the effective cap, so a mixed-build or mixed-cap row is caught rather than averaged"
+  },
+  "prior": [
+    {
+      "block": "same-build presence/assertion audit",
+      "artifact": "docs/presence_assertion_audit_0.14.0.json",
+      "reading": "112 of 112 world edges present, 34-47 asserted, at the shipped cap of 40 on six seeds",
+      "why_it_does_not_answer": "it measures one cap level only, so it cannot separate a capacity limit from a conversion limit"
+    },
+    {
+      "block": "presence-to-assertion ladder trace",
+      "artifact": "docs/presence_assertion_ladder_0.14.0.json",
+      "reading": "every world edge is offered by the ranking; 171 of 423 misses are never admitted and 252 are admitted and not asserted; the verdict is MIXED",
+      "why_it_does_not_answer": "it traces one cap level and its offered arm changes the cap in a recording subclass, so it quantifies the split but cannot show what a different budget would do"
+    },
+    {
+      "block": "Gate 13 paired capacity diagnostic",
+      "artifact": "docs/gate13_paired_capacity_test.json",
+      "reading": "the cap is manipulable in-process and a raised cap changes acquisition coverage",
+      "why_it_does_not_answer": "its treatment replaces candidate construction as well as the cap, so its gain cannot be attributed to the budget alone; this block does not re-score it"
+    }
+  ],
+  "ceiling": {
+    "value": 28.5,
+    "unit": "world edges per seed",
+    "source": "docs/presence_assertion_ladder_0.14.0.json",
+    "derivation": "mean of `buckets.offered_not_admitted` over the six ladder seeds (25, 33, 23, 26, 36, 28)",
+    "note": "This is the reach-limited part of the loss: edges no 40-row window ever admitted. It is a bound on what a larger budget can buy by reach alone, not a hard bound on the gain, because a larger budget can also admit an already-admitted edge more often, and repetition may feed consolidation. A gain above this number is possible and is reported as repeat-driven rather than smoothed into the estimate."
+  },
+  "bar": {
+    "value": 10,
+    "unit": "asserted world edges",
+    "source": "docs/presence_assertion_audit_0.14.0.json",
+    "derivation": "round(2 * stdev(asserted_world_edges over the six audit seeds)) = round(2 * 5.0498) = 10: twice the seed-to-seed spread already measured at cap 40",
+    "fragility": "One block, one world family, six seeds. The bar is not calibrated on the seeds this block runs, but it is not independent of the engine or the world family either, so it is a starting bar rather than a constant."
+  },
+  "design": {
+    "variable": "layer1_prediction_cap",
+    "levels": [
+      40,
+      80,
+      112,
+      1000000000
+    ],
+    "level_notes": {
+      "40": "the shipped cap; the control arm and the same instrument the audit measured",
+      "80": "one doubling, below the world's edge count",
+      "112": "the world's edge count; the adoptable comparison level for the reading",
+      "1000000000": "diagnostic ceiling, not a proposed setting: the positive control for whether capacity binds at all"
+    },
+    "seeds": [
+      20611401,
+      20611402,
+      20611403,
+      20611404,
+      20611405,
+      20611406
+    ],
+    "bootstrap": 20611407,
+    "cycles": 120,
+    "cells": 24,
+    "witness_cell": {
+      "seed": 20261100,
+      "cap": 40,
+      "why": "the audit's first seed, run through this block's treatment at the shipped cap; it must reproduce the published audit row exactly, which is what proves the treatment at 40 IS the shipped engine"
+    },
+    "pairing": "same seed and world across all four caps; only the cap differs, so each seed contributes its own paired difference",
+    "world": "the Gate-13 compositional world (generate_compositional_world, 16 tags, 112 derivable edges), 120 cycles covering warmup and acquisition",
+    "freshness": "The six seeds and the bootstrap are fresh: they appear in no other docs artifact except this record and the registry echo that records every artifact's seeds. The audit seeds are not reused, so the bar is not computed from the seeds it judges.",
+    "no_cells_run": true,
+    "shipped_cap": 40
+  },
+  "endpoints": {
+    "W": "the world's derivable edges from the training stream",
+    "P": "world edges present in raw temporal memory at the end of the run (`temporal_edges(min_count=1)`), before any cap",
+    "S_cycle": "the prediction edges the engine returned from one sleep cycle, read from the `SleepReport` the public API already returns",
+    "S_ever": "the union of `S_cycle` over the run; this can exceed the cap",
+    "S_final": "the admitted prediction edges still present in the surviving candidate snapshots",
+    "A": "the final asserted structure over all six structure types (`structure_edges`)",
+    "A_W": "`A` intersected with `W`, the assertion endpoint",
+    "A_pred": "`A_W` intersected with `S_ever`: world edges asserted and ever admitted",
+    "A_other": "`A_W` minus `S_ever`: world edges asserted without ever being admitted, the non-prediction assertion route"
+  },
+  "retention_profile": {
+    "rule": "Before any mechanism is proposed, every cell records its stage counts, the retention ratios P/W, S_ever/P and A_W/S_ever (with the admitted-only variant A_W|admitted/S_ever beside the last), and the absolute world-edge count retained at each observed stage: W, P, S_ever and A_pred. The primary suspect stage is the earliest stage with the largest absolute drop, ties going to the earlier stage, which is the conversion draft's own loss rule; the relative shares are reported beside it and never name a suspect on their own, because a large relative loss on a small denominator is not the same finding as a large absolute one. The retained chain ends at A_pred, not at A_W: an edge asserted without ever being admitted is a bypass, reported separately and counted neither as retention nor as loss. A stage whose denominator is zero is not measured and is excluded from the comparison; it is never reported as 0.0. The rule names the stage to inspect next and licenses no mechanism, no engine change and no verdict.",
+    "steps": [
+      {
+        "from": "W",
+        "to": "P",
+        "ratio": "P/W",
+        "cell_fields": [
+          "world_edges",
+          "present_world_edges"
+        ]
+      },
+      {
+        "from": "P",
+        "to": "S_ever",
+        "ratio": "S_ever/P",
+        "cell_fields": [
+          "present_world_edges",
+          "s_ever_world_edges"
+        ]
+      },
+      {
+        "from": "S_ever",
+        "to": "A_W",
+        "ratio": "A_W/S_ever",
+        "cell_fields": [
+          "s_ever_world_edges",
+          "asserted_world_edges",
+          "asserted_without_admission"
+        ]
+      }
+    ],
+    "identity_steps": [
+      "`S_cycle` to `S_ever` is a union, not a retention step: `S_ever` is the union of the per-cycle predictions and can exceed the cap, so it is recorded as window sizes rather than as a ratio.",
+      "The surviving candidate snapshot is the asserted structure, so `A = S_final` and `A/S_final` is 1 by definition in this engine; `A_W` is that structure intersected with the world, which is why the last measured step is `A_W/S_ever`.",
+      "`A_W/S_ever` is not a pure retention ratio, because `structure_edges` aggregates six structure types and some asserted edges were never admitted. The ladder separates them as `asserted_without_admission`; the profile prints the admitted-only ratio beside the raw one and never treats the bypass as a loss or as retention."
+    ],
+    "prior_from_ladder": "Recomputed from `docs/presence_assertion_ladder_0.14.0.json` on every render and check: the retained totals at W, P, S_ever and A_pred, the absolute drop at each step, the relative shares, the bypass set (asserted without admission), the ladder's own bucket shares, and the primary suspect stage. The buckets count misses while the admitted field counts every admitted edge, so the prior reads both and reports the bypass instead of forcing the two to reconcile."
+  },
+  "gates": {
+    "K1_build": "all cells and the witness name one engine version, one sha256 and the effective cap; no mixed-build row is averaged",
+    "K2_same_world": "`W` is identical across the four caps of every seed (same world digest)",
+    "K3_presence_invariant": "`P` is identical across the four caps of every seed (same presence fingerprint)",
+    "K4_cap_live": "each cell records its cap; the 40 arm never returns more than 40 rows; at least five of six seeds produce a full 40-row cycle; the higher caps produce a different `S_ever` on at least one seed, so the cap is live somewhere. How many seeds change reach is a reading, not a gate. Failure is `CAP NOT BINDING`, not a void",
+    "K5_cap_only": "the treatment overrides no pipeline method (only `__init__`, which sets the constant), and the witness cell at cap 40 reproduces the published audit row: presence, asserted count and asserted fingerprint. A failure is `VOID`",
+    "K6_denominator": "`W`, `P` and `S_ever` are non-empty in every cell; a zero denominator is not measurable"
+  },
+  "readings": {
+    "SCALES": "moving from 40 to 112 or uncapped adds world edges to `A_W` on at least five of six seeds, with the three level steps (40->80, 80->112, 112->uncapped) non-decreasing within each counted seed",
+    "FLAT": "at least five of six seeds gain no `A_W` edge at 112 or uncapped relative to 40, while `S_ever` changes on fewer than five seeds; when `S_ever` does change on at least five the reading is `ADMISSION SCALES, ASSERTION FLAT`",
+    "ADMISSION SCALES, ASSERTION FLAT": "`S_ever` changes at 112 or uncapped while `A_W` does not, on at least five of six seeds",
+    "MIXED": "none of the above; report the per-seed membership changes and force no label",
+    "threshold": "A `SCALES` reading is split by magnitude: `CAP LIMITING` requires the mean paired gain at 112 to be at least the bar, the 95% paired t lower bound above zero, and a positive gain on at least five of six seeds; otherwise the reading is `CAP LIMITING BELOW BAR`. The threshold is read after the membership reading, never instead of it"
+  },
+  "decision_table": [
+    {
+      "condition": "a K gate other than K4 fails",
+      "verdict": "VOID",
+      "reading": "the block is inadmissible; no reading is made and nothing is recorded as a cap result",
+      "decision": "none; fix the harness and register a new block, never this one re-read"
+    },
+    {
+      "condition": "K4 fails: the window never fills or the higher caps do not change admission",
+      "verdict": "CAP NOT BINDING",
+      "reading": "the budget is not the constraint at these levels and no scaling reading is made",
+      "decision": "do not run a larger-cap block at these levels; report the window and move the question to another constraint"
+    },
+    {
+      "condition": "`S_ever` changes and `A_W` does not on at least five of six seeds",
+      "verdict": "ADMISSION-ONLY BOTTLENECK",
+      "reading": "the budget reaches more world edges and assertion does not follow; the budget route is closed and the next question is conversion, not capacity",
+      "decision": "close the budget route and move the line to the assertion step; no cap change"
+    },
+    {
+      "condition": "`SCALES` and the magnitude conditions hold",
+      "verdict": "CAP LIMITING",
+      "reading": "the admission budget limits assertion at the declared bar; this licenses an owner decision on the cap, not an adoption and not a capability claim",
+      "decision": "take the budget to the owner as a limiting factor and license a cap-change decision with its own date and rationale"
+    },
+    {
+      "condition": "`SCALES` but the magnitude conditions fail",
+      "verdict": "CAP LIMITING BELOW BAR",
+      "reading": "the budget moves assertion in the predicted direction but by less than twice the seed spread; the cap is a weak lever and the next question is why admission converts at a low rate",
+      "decision": "do not spend an owner decision on the cap; the gain sits inside the seed spread, so record it and diagnose why admission converts at a low rate"
+    },
+    {
+      "condition": "`FLAT` on at least five of six seeds while `S_ever` changes on fewer than five",
+      "verdict": "CAP NOT LIMITING",
+      "reading": "more slots do not buy more assertion; the ranking or the consolidation path is the constraint, and the budget route is closed",
+      "decision": "close the budget route; the constraint is ranking or consolidation, not capacity"
+    },
+    {
+      "condition": "none of the above",
+      "verdict": "MIXED",
+      "reading": "the per-seed changes are reported and no label is forced; a mixed result does not license a cap change",
+      "decision": "neither pole; re-register on a fresh seed block rather than re-reading this one"
+    }
+  ],
+  "adoption": {
+    "rule": "Only `CAP LIMITING` licenses anything, and what it licenses is an owner decision to change `MAX_PREDICTIONS`, recorded with its own date and rationale, because the cap governs which structures the Layer-1 layer selects and is therefore a cognition constant rather than a measurement detail. No arm of this block edits `organica/`.",
+    "withdrawal": "The reading is withdrawn if the cap-40 witness stops reproducing the audit row, if the treatment class gains a second override, if the engine pin moves without a version bump, or if a later block finds the cap-40 control was not the shipped build. A withdrawn reading is recorded, not deleted.",
+    "not_authorised": [
+      "raising the cap in the engine",
+      "adding a level, a seed or a criterion after the first cell",
+      "a capability, transfer or generalization claim",
+      "re-scoring the audit, the ladder or the Gate 13 capacity diagnostic"
+    ]
+  },
+  "stop_condition": "One block, four levels, six seeds, one endpoint. When it is analysed the cap question is closed in one of the six verdicts above. A follow-up may read these cells at a different resolution; it may not add a cap level, swap an arm or re-run a failing seed. Any intervention on admission or allocation needs its own preregistration.",
+  "cost": {
+    "cells": 24,
+    "witness_cells": 1,
+    "cycles": 3000,
+    "wall_clock_estimate": "about four minutes sequentially on this machine at roughly eight seconds per cell"
+  },
+  "authorisation": {
+    "required": true,
+    "granted": false,
+    "note": "The draft program's freeze checklist requires the owner's authorisation before a run. This record fixes the protocol and does not authorise cells; the runner refuses `--measure` until `authorisation.granted` is recorded as true."
+  },
+  "not_evidence": "This record measures admitted and asserted world-edge membership on one world family, one engine build and 120 cycles. It does not show that the cap causes the presence/assertion gap, that the gap is a defect, that any structure type is responsible, or that raising the cap would improve capability. `U`, the readout/use stage, is not measured. The uncapped level is a diagnostic ceiling, not a proposal, and a gain above the reach-limited ceiling is attributable to repetition rather than to reach and is reported as such."
+}

@@ -2,7 +2,7 @@
   "kind": "question_survival",
   "date": "2026-11-09",
   "note": "Derived from the registry, the decisions index and the engine-version audit. No status is changed and no engine is run.",
-  "pinned_version": "0.13.0",
+  "pinned_version": "0.14.0",
   "populations": {
     "open": 30,
     "future": 5,
@@ -124,7 +124,7 @@
       "builds": [
         "0.13.0"
       ],
-      "builds_include_pin": true,
+      "builds_include_pin": false,
       "evidence": 4,
       "json_evidence": 3,
       "named_build": 1,
@@ -750,7 +750,7 @@
       "builds": [
         "0.13.0"
       ],
-      "builds_include_pin": true,
+      "builds_include_pin": false,
       "evidence": 13,
       "json_evidence": 7,
       "named_build": 3,

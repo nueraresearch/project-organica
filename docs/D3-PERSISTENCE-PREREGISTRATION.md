@@ -4,6 +4,8 @@ Generated from `docs/d3_persistence_prereg.json` by `python -m benchmarks.d3_per
 
 **Status: FROZEN, NOT RUN.** No cell has run. The repair is available only as the in-process `MatchedFrequencySleepService`; it is **not promoted into the engine**, and promotion is an owner decision.
 
+**Post-freeze result.** The status and text above are the frozen pre-run record. The block has since run; its result is `docs/D3-PERSISTENCE-RESULT.md`, and the seed-varying confirmation is `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`. The repair was promoted into the engine at 0.14.0 by the dated owner decision. This pointer is outside the frozen protocol and changes no criterion, bar, seed, arm or gate.
+
 D3 in `docs/DECISION-G1-WITNESS.md` is **PENDING** and requires its own preregistration. This is that record. It does not change an engine file and does not authorise a run.
 
 ## The question

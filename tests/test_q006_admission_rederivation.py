@@ -6,7 +6,6 @@ import json
 import re
 from pathlib import Path
 
-from benchmarks import engine_stamp
 from benchmarks import q006_admission_rederivation as Q
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,10 +33,11 @@ def test_the_page_is_generated_from_the_record():
     assert "SURVIVED" in page
 
 
-def test_the_record_names_the_pinned_engine_and_clean_boundary():
+def test_the_record_names_the_engine_it_was_measured_on_and_clean_boundary():
     record = json.loads(Q.ARTIFACT.read_text(encoding="utf-8"))
+    # Q006 ran on 0.13.0; the promotion does not rewrite its historical result.
     assert record["engine_version"] == "0.13.0"
-    assert record["engine_sha256"] == engine_stamp.engine_sha256()
+    assert record["engine_sha256"] == "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2"
     assert record["boundary"]["frozen_files_clean"] is True
 
 

@@ -1,0 +1,482 @@
+"""D3-PERSISTENCE-2: the persistence repair on seed-varying worlds.
+
+The first D3 block seeded the service RNG but fed every seed the same frozen lattice, so all six
+seeds produced one trajectory. This block keeps the mechanism, arms, endpoints, criteria and
+horizon frozen and changes only the world schedule: the seed shuffles the design's triangle order
+and rotates the resulting stream. The multiset and local triangle structure are unchanged; the
+sequence is seed-determined. A pre-committed G8 gate voids the block if the treatment's preflight
+trajectory is still identical across seeds.
+
+    ./.venv/bin/python -m benchmarks.d3_persistence_seed_varying --render-prereg
+    ./.venv/bin/python -m benchmarks.d3_persistence_seed_varying --measure --workers 2
+    ./.venv/bin/python -m benchmarks.d3_persistence_seed_varying --finish
+    ./.venv/bin/python -m benchmarks.d3_persistence_seed_varying --check
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import random
+import sys
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from benchmarks import d3_persistence_prereg as P                         # noqa: E402
+from benchmarks import d3_persistence_run as R                           # noqa: E402
+from benchmarks import engine_stamp                                      # noqa: E402
+from benchmarks import force_matrix as fm                                # noqa: E402
+from organica import __version__ as ENGINE_VERSION                       # noqa: E402
+
+PREREG = ROOT / "docs" / "d3_persistence_seed_varying_prereg.json"
+PREREG_DOC = ROOT / "docs" / "D3-PERSISTENCE-SEED-VARYING-PREREGISTRATION.md"
+ARTIFACT = ROOT / "docs" / "d3_persistence_seed_varying_run.json"
+RESULT = ROOT / "docs" / "D3-PERSISTENCE-SEED-VARYING-RESULT.md"
+PARTS = ROOT / ".scratch" / "d3_persistence_seed_varying" / "parts"
+
+STAGES = ("witness", "preflight")
+ARMS = ("control", "treatment")
+
+
+def prereg() -> dict:
+    return json.loads(PREREG.read_text(encoding="utf-8"))
+
+
+def seeded_events(design: str, seed: int) -> list[str]:
+    """A seed-determined schedule with the design's fixed triangle multiset."""
+    lattice = fm.lattice_designs(fm.NEUTRAL_HUB, fm.NEUTRAL_PETALS)
+    triangles = list(lattice[design]["triangles"])
+    random.Random(seed).shuffle(triangles)
+    events = fm.lattice_stream(triangles)
+    if events:
+        offset = seed % len(events)
+        events = events[offset:] + events[:offset]
+    return events
+
+
+def world_digest(events: list[str]) -> str:
+    return hashlib.sha256("\n".join(events).encode("utf-8")).hexdigest()[:16]
+
+
+def part_path(stage: str, seed: int, arm: str) -> Path:
+    return PARTS / ("%s_%d_%s.json" % (stage, seed, arm))
+
+
+def run_cell(stage: str, seed: int, arm: str, colony: str = "FULL") -> dict:
+    design = R.design_for(stage)
+    events = seeded_events(design, seed)
+    cell = R.run_cell(stage, seed, arm, colony, events=events)
+    cell["world_digest"] = world_digest(events)
+    return cell
+
+
+def _job(args: tuple[str, int, str, str]) -> dict:
+    stage, seed, arm, colony = args
+    return run_cell(stage, seed, arm, colony)
+
+
+def measure(workers: int = 1) -> int:
+    body = prereg()
+    seeds = list(body["design"]["seeds"])
+    jobs = [(stage, seed, arm, "FULL") for stage in STAGES for seed in seeds for arm in ARMS]
+    jobs += [("witness", seeds[0], "control", "NO_DREAMS"),
+             ("witness", seeds[0], "control", "NO_QUESTIONS")]
+
+    pending = []
+    for job in jobs:
+        stage, seed, arm, colony = job
+        path = part_path(stage, seed, arm) if colony == "FULL" else PARTS / (
+            "witness_%d_%s.json" % (seed, colony))
+        if path.exists():
+            print("cached %s" % path.name, flush=True)
+            continue
+        pending.append((job, path))
+
+    if workers <= 1:
+        for job, path in pending:
+            cell = _job(job)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(engine_stamp.stamp(cell), indent=1) + "\n",
+                            encoding="utf-8")
+            print("cell %s %d %-9s cycles=%d theories=%d peak=%d first_zero=%s"
+                  % (cell["stage"], cell["seed"], cell["arm"], cell["cycles_run"],
+                     cell["theory_cycles"], cell["peak"], cell["first_zero_cycle"]),
+                  flush=True)
+        return 0
+
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(_job, job): (job, path) for job, path in pending}
+        for future in as_completed(futures):
+            _job_args, path = futures[future]
+            cell = future.result()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(engine_stamp.stamp(cell), indent=1) + "\n",
+                            encoding="utf-8")
+            print("cell %s %d %-9s cycles=%d theories=%d peak=%d first_zero=%s"
+                  % (cell["stage"], cell["seed"], cell["arm"], cell["cycles_run"],
+                     cell["theory_cycles"], cell["peak"], cell["first_zero_cycle"]),
+                  flush=True)
+    return 0
+
+
+def _load_parts() -> dict:
+    body = prereg()
+    seeds = list(body["design"]["seeds"])
+    cells = []
+    for stage in STAGES:
+        for seed in seeds:
+            for arm in ARMS:
+                path = part_path(stage, seed, arm)
+                if not path.exists():
+                    raise SystemExit("missing part %s; run --measure" % path.name)
+                cells.append(json.loads(path.read_text(encoding="utf-8")))
+    controls = {}
+    for colony in ("NO_DREAMS", "NO_QUESTIONS"):
+        path = PARTS / ("witness_%d_%s.json" % (seeds[0], colony))
+        if not path.exists():
+            raise SystemExit("missing negative control %s; run --measure" % path.name)
+        controls[colony] = json.loads(path.read_text(encoding="utf-8"))
+    return {"cells": cells, "controls": controls}
+
+
+def seed_axis(cells: list[dict]) -> dict:
+    axis = R.seed_axis(cells)
+    treatment = axis["distinct_signatures"].get("preflight/treatment", 0)
+    axis["independent_treatment_trajectories"] = treatment
+    axis["live"] = treatment > 1
+    axis["effective_n"] = treatment if treatment > 1 else 1
+    return axis
+
+
+def build() -> dict:
+    body = prereg()
+    parts = _load_parts()
+    cells = parts["cells"]
+    seeds = list(body["design"]["seeds"])
+    fingerprint = engine_stamp.engine_sha256()
+    first = next(cell for cell in cells
+                 if cell["stage"] == "witness" and cell["seed"] == seeds[0]
+                 and cell["arm"] == "control")
+    rerun = run_cell("witness", seeds[0], "control")
+    deterministic = rerun["digest"] == first["digest"]
+    run = {
+        "kind": "d3_persistence_seed_varying_run",
+        "prereg": body["prereg"],
+        "engine": {"fingerprint": fingerprint, "version": ENGINE_VERSION},
+        "arms": {
+            "control": {"decay": body["arms"]["control"]["decay"],
+                        "death_threshold": body["arms"]["control"]["death_threshold"],
+                        "frequency_decay": body["arms"]["control"]["frequency_decay"],
+                        "fingerprint": fingerprint},
+            "treatment": {"decay": body["arms"]["treatment"]["decay"],
+                          "death_threshold": body["arms"]["treatment"]["death_threshold"],
+                          "frequency_decay": body["arms"]["treatment"]["frequency_decay"],
+                          "fingerprint": fingerprint + "+matched"},
+        },
+        "control_rerun_fingerprint": fingerprint if deterministic else "mismatch",
+        "control_rerun_digest": rerun["digest"],
+        "witness_negative_controls": {
+            "NO_DREAMS": {"dreams_max": parts["controls"]["NO_DREAMS"]["dreams_max"]},
+            "NO_QUESTIONS": {"questions_max": parts["controls"]["NO_QUESTIONS"]["questions_max"]},
+        },
+        "cells": cells,
+    }
+    run["seed_axis"] = seed_axis(cells)
+    label, details = P.verdict(body, run)
+    return dict(run, verdict=label, details=details)
+
+
+def validate(body: dict | None = None) -> list[str]:
+    found: list[str] = []
+    body = body or prereg()
+    if body.get("prereg") != "D3-PERSISTENCE-2":
+        found.append("the record is not D3-PERSISTENCE-2")
+    if body.get("status") != "FROZEN, NOT RUN":
+        found.append("the record is not frozen and unrun")
+    if body.get("no_cells_run") is not True:
+        found.append("the record does not state that no cell has run")
+    design = body.get("design", {})
+    seeds = design.get("seeds", [])
+    if len(seeds) != 6 or len(set(seeds)) != 6:
+        found.append("the seed block is not six distinct seeds")
+    if design.get("bootstrap") in seeds:
+        found.append("the bootstrap seed is also a world seed")
+    if design.get("cells") != 24:
+        found.append("the block is not 24 cells")
+    if not design.get("world_variation"):
+        found.append("the record does not say how the seed varies the world")
+    if "G8_seed_axis_live" not in body.get("gates", {}):
+        found.append("the record has no G8 seed-axis gate")
+    if "seed_axis" not in body.get("scope", {}):
+        found.append("the record does not scope the seed axis")
+    return found
+
+
+POST_FREEZE_RESULT = (
+    "**Post-freeze result.** The status and text above are the frozen pre-run record. The block "
+    "has since run; its result is `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`. The repair was "
+    "promoted into the engine at 0.14.0 by the dated owner decision. This pointer is outside the "
+    "frozen protocol and changes no criterion, bar, seed, arm or gate."
+)
+
+
+def render_prereg(body: dict) -> str:
+    design = body["design"]
+    stages = design["stages"]
+    lines = [
+        "# D3 persistence seed-varying confirmation — preregistration",
+        "",
+        "Generated from `docs/d3_persistence_seed_varying_prereg.json` by "
+        "`python -m benchmarks.d3_persistence_seed_varying --render-prereg`. Do not edit by hand.",
+        "",
+        "**Status: %s.** No cell has run. The mechanism is the already-built "
+        "`MatchedFrequencySleepService`; this record changes no engine file." % body["status"],
+        "",
+        POST_FREEZE_RESULT,
+        "",
+        "## The question",
+        "",
+        body["question"],
+        "",
+        "**Prior result.** `%s` on `%s` returned **%s**, but its seed axis was degenerate: %s"
+        % (body["prior"]["prereg"], body["prior"]["artifact"], body["prior"]["result"],
+           body["prior"]["defect"]),
+        "",
+        body["prior"]["reading"],
+        "",
+        "## The mechanism",
+        "",
+        "**%s** (`%s`)." % (body["mechanism"]["name"], body["mechanism"]["arm_class"]),
+        "",
+        body["mechanism"]["changes"],
+        "",
+        "It preserves: %s. It does not: %s."
+        % ("; ".join(body["mechanism"]["preserves"]), "; ".join(body["mechanism"]["does_not"])),
+        "",
+        "## The seed-varying world",
+        "",
+        "For each seed, the design's triangle list is shuffled by `random.Random(seed)`, passed "
+        "through the frozen `lattice_stream`, and rotated by `seed % len(events)`. The triangle "
+        "multiset and local triangle structure are fixed; the schedule is seed-determined. Both "
+        "arms of a seed receive the same stream.",
+        "",
+        "**Why this is the only change.** The first block seeded the service RNG, but the lattice "
+        "stimulus was the same for every seed, so the seed never varied a world. This block makes "
+        "the seed vary the schedule, which is the quantity the earlier protocol claimed was "
+        "seed-determined.",
+        "",
+        "## The block",
+        "",
+        "| Stage | Design | Cycles | What it reads |",
+        "| --- | --- | --- | --- |",
+        "| witness | `%s` | %s | %s |" % (stages["witness"]["design"], stages["witness"]["cycles"],
+                                          stages["witness"]["reads"]),
+        "| preflight | `%s` | %s | %s |" % (stages["preflight"]["design"],
+                                            stages["preflight"]["horizon"],
+                                            stages["preflight"]["reads"]),
+        "",
+        "| Field | Value |",
+        "| --- | --- |",
+        "| world seeds | %s |" % ", ".join(str(s) for s in design["seeds"]),
+        "| bootstrap seed | %s |" % design["bootstrap"],
+        "| cells | %s (%s) |" % (design["cells"], design["cells_arithmetic"]),
+        "| early window | %s-%s |" % tuple(design["early"]),
+        "| k | %s |" % design["k"],
+        "| pairing | %s |" % design["pairing"],
+        "",
+        "**Gate G8 is pre-committed.** %s" % body["gates"]["G8_seed_axis_live"],
+        "",
+        "## Criteria, in the order they are read",
+        "",
+        "| Criterion | Quantity | Rule | Bar | Provenance |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for name in body["criteria"]["order"]:
+        block = body["criteria"][name]
+        lines.append("| %s | %s | %s | %s | %s |" % (
+            name, block["quantity"], block["rule"], block["bar"], block["bar_provenance"]))
+    lines += [
+        "",
+        "The criteria are judged whole. A failed W1 leaves P1 and C1 unread.",
+        "",
+        "## Gates, which void the block before any criterion is read",
+        "",
+        "| Gate | Requirement |",
+        "| --- | --- |",
+    ]
+    for name, rule in body["gates"].items():
+        if name == "void_rule":
+            continue
+        lines.append("| %s | %s |" % (name, rule))
+    lines += [
+        "",
+        "Void rule: %s." % body["gates"]["void_rule"],
+        "",
+        "## The decision table",
+        "",
+        "| Condition | Verdict | Reading |",
+        "| --- | --- | --- |",
+    ]
+    for row in body["decision_table"]:
+        lines.append("| %s | %s | %s |" % (row["condition"], row["verdict"], row["reading"]))
+    lines += [
+        "",
+        "## Adoption and stop condition",
+        "",
+        body["adoption"]["rule"],
+        "",
+        "**Withdrawal.** %s" % body["adoption"]["withdrawal"],
+        "",
+        "**Stop condition.** %s" % body["stop_condition"],
+        "",
+        "## What this does not claim",
+        "",
+        body["not_evidence"],
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def render_result(artifact: dict) -> str:
+    body = prereg()
+    axis = artifact.get("seed_axis", {})
+    details = artifact.get("details", {})
+    witness_ok = sum(
+        1 for cell in artifact.get("cells", [])
+        if cell.get("stage") == "witness" and cell.get("arm") == "treatment"
+        and cell.get("theory_cycles", 0) >= 39 and cell.get("peak", 0) >= 6)
+    lines = [
+        "# D3 persistence seed-varying result",
+        "",
+        "Generated from `docs/d3_persistence_seed_varying_run.json` by",
+        "`python -m benchmarks.d3_persistence_seed_varying --finish`. Do not edit by hand.",
+        "",
+        "Protocol: `docs/D3-PERSISTENCE-SEED-VARYING-PREREGISTRATION.md`. "
+        "Treatment: `MatchedFrequencySleepService`, in process only; the engine is unchanged.",
+        "",
+        "**Verdict: `%s`**" % artifact["verdict"],
+        "",
+    ]
+    if axis.get("live"):
+        lines += [
+            "## Seed axis is live",
+            "",
+            "The six seeds produced **%s distinct preflight treatment trajectories**; the "
+            "treatment's world digest is distinct for every seed. The block is no longer a "
+            "single trajectory repeated under six labels."
+            % axis.get("independent_treatment_trajectories"),
+            "",
+        ]
+    else:
+        lines += [
+            "## Measurement caveat: the seed axis is still degenerate",
+            "",
+            "The preflight treatment did not produce two distinct trajectory signatures across "
+            "the six seeds, so G8 voids the block before its criteria are read. The seed change "
+            "did not vary the measured trajectory.",
+            "",
+        ]
+    lines += [
+        "| Criterion | Result |",
+        "| --- | --- |",
+        "| W1 witness | %d of %s seeds held 39/40 cycles and peak 6 |"
+        % (witness_ok, len(body["design"]["seeds"])),
+        "| P1 persistence | %s of %s seeds alive at the horizon |"
+        % (details.get("alive_seeds", "unread"), len(body["design"]["seeds"])),
+        "| C1 early cost | median gap %s (bar %s) |"
+        % (details.get("early_median_gap", "unread"),
+           details.get("early_bar", body["criteria"]["C1_early_cost"]["bar"])),
+        "",
+        "| Stage | Seed | Arm | World | Cycles | Theory cycles | Peak | First zero | Early recall@5 | Early predictions |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for cell in artifact["cells"]:
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
+            cell["stage"], cell["seed"], cell["arm"], cell.get("world_digest", "?"),
+            cell["cycles_run"], cell["theory_cycles"], cell["peak"],
+            cell["first_zero_cycle"] if cell["first_zero_cycle"] is not None else "none",
+            cell["recall_early"] if cell["recall_early"] is not None else "not measurable",
+            cell["predictions_early"]))
+    lines += [
+        "",
+        "The control's preflight death is the G1 baseline gate; the treatment's full 3,000-cycle "
+        "trace is the P1 reading. Both negative controls are at zero across the witness.",
+        "",
+        "**Scope.** One engine, two designs, six seed-determined schedules. A pass licenses no "
+        "adoption; promotion is an owner decision, and the Tier-1 campaign still requires its own run.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def finish() -> int:
+    problems = validate()
+    if problems:
+        raise SystemExit("the preregistration is not valid: " + "; ".join(problems))
+    artifact = build()
+    try:
+        R.require_varied_treatment(artifact)
+    except R.SeedAxisDegenerate as exc:
+        raise SystemExit("REFUSED: %s" % exc) from None
+    ARTIFACT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=1) + "\n",
+                        encoding="utf-8")
+    RESULT.write_text(render_result(artifact), encoding="utf-8")
+    print("%s: %s" % (artifact["verdict"], json.dumps(artifact["details"], indent=1)))
+    return 0
+
+
+def check() -> int:
+    if not ARTIFACT.exists():
+        raise SystemExit("no run artifact; run --finish")
+    artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    body = prereg()
+    label, details = P.verdict(body, artifact)
+    problems = []
+    if label != artifact.get("verdict"):
+        problems.append("the verdict is not what the cells imply")
+    if details != artifact.get("details"):
+        problems.append("the details are not what the cells imply")
+    # The artifact is a historical run. Re-stamping it with today's pin would make a
+    # 0.13.0 result claim the 0.14.0 engine; check that its build is fully named instead.
+    if engine_stamp.missing(artifact):
+        problems.append("the artifact is not fully stamped: %r" % engine_stamp.missing(artifact))
+    if RESULT.read_text(encoding="utf-8") != render_result(artifact):
+        problems.append("the result page is stale")
+    if PREREG_DOC.exists() and PREREG_DOC.read_text(encoding="utf-8") != render_prereg(body):
+        problems.append("the preregistration page is stale")
+    if problems:
+        raise SystemExit("FAIL: " + "; ".join(problems))
+    print("d3 seed-varying %s: %s" % (artifact["verdict"], details))
+    return 0
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--render-prereg", action="store_true")
+    group.add_argument("--measure", action="store_true")
+    group.add_argument("--finish", action="store_true")
+    group.add_argument("--check", action="store_true")
+    parser.add_argument("--workers", type=int, default=1)
+    args = parser.parse_args(argv)
+    if args.render_prereg:
+        problems = validate()
+        if problems:
+            raise SystemExit("the preregistration is not valid: " + "; ".join(problems))
+        PREREG_DOC.write_text(render_prereg(prereg()), encoding="utf-8")
+        print("rendered %s" % PREREG_DOC.name)
+        return 0
+    if args.measure:
+        return measure(max(1, args.workers))
+    if args.finish:
+        return finish()
+    return check()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

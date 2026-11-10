@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.13.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.14.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -28,7 +28,54 @@ there is nothing to check out.
 
 ---
 
+## [0.14.0] — (unreleased)
+
+### Changed — D3's matched-frequency persistence repair is promoted into the engine (2026-11-10)
+
+- **The owner adopted the repair after the seed-varying confirmation.** `D3-PERSISTENCE-2` produced
+  six distinct preflight treatment trajectories, all six alive through the 3,000-cycle horizon,
+  with the L3 witness at 39 of 40 cycles and peak 6 and the early-recall median gap at 0.0 against
+  the -0.01 bar. The preserved `D3-PERSISTENCE-1` single-world record keeps its effective-n = 1
+  caveat and is not rewritten.
+- **The engine now decays the source-frequency denominator.** Each sleep cycle maintains a per-tag
+  denominator `D = 0.95 * D_previous + delta`, where `delta` is the increase in
+  `MemoryService.tag_frequencies()` since the previous cycle; prediction strength divides the
+  temporal count by `max(D, 1)`. The temporal decay constant, death threshold, stable threshold,
+  candidate decay, admission floor, caps, retention policy and candidate set are unchanged.
+  `benchmarks/d3_persistence_arm.py` is now a compatibility name only; it no longer overrides
+  engine behavior.
+- **D2's pre-flight passes on the promoted build.** The 2026-11-10 run returns `PASSES`: the
+  reference arm holds 39 of 40 witness cycles at peak 6, both negative controls stay at zero, and
+  the campaign stimulus has no first zero through the 3,000-cycle horizon. The campaign has since run on the promoted engine; its result is recorded in
+  `docs/FORCE-MATRIX-0.14.0-RESULTS.md` and `docs/force_matrix_0.14.0.json`. Record: `docs/tier1_preflight.json`, page `docs/TIER1-PREFLIGHT.md`.
+- **The promotion is a recorded release-boundary change.** The package version is `0.14.0` in the
+  three declarations, `docs/engine_pin.json` is re-pinned over the promoted bytes, and the owner
+  decision is recorded in `docs/DECISION-G1-WITNESS.md` §9. No published result artifact was
+  rebuilt.
+
 ## [0.13.0] — (unreleased)
+
+### Changed — D3's persistence repair survives six distinct seed-varying worlds (2026-11-10)
+
+- **The first D3 block varied the service seed but not the world.** The fixed lattice stimulus was
+  identical across its six seeds, so the block returned one trajectory six times and effective
+  n = 1. The result page and decision record already carry that caveat; the prior artifact is not
+  rewritten.
+- **The seed-varying confirmation reran the same 24 cells on six distinct schedules.** Each seed
+  shuffles the design's triangle order and rotates the resulting 216-event stream; pre-committed
+  gate G8 voids the block if the treatment trajectory repeats. All six preflight treatment
+  trajectories differ, all six stay alive through the 3,000-cycle horizon, the witness holds
+  39 of 40 cycles and peak 6 on every seed, and the early-recall median gap is 0.0 against the
+  -0.01 bar. Verdict: `PERSISTENCE REPAIRED`, effective n = 6.
+- **Nothing is promoted.** The arm remains an in-process subclass, no engine file changed, and
+  adoption still requires a recorded owner decision and an engine re-pin. New record
+  `docs/d3_persistence_seed_varying_run.json`, page
+  `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`.
+- **A degenerate seed axis is now refused at the runner.** Both D3 result writers call a shared
+  guard before writing: more than one seed with fewer than two distinct preflight treatment
+  trajectories raises `SeedAxisDegenerate` and writes no artifact or page. The preserved D3-1
+  record keeps its caveat; the guard stops a new single-world pass from being reported as six
+  confirmations.
 
 ### Changed — The release gate records that master is published at `747d3dd` (2026-11-09)
 
@@ -57,7 +104,7 @@ there is nothing to check out.
   closed over **51** questions. Three tests in `tests/test_research_registry.py` check that every
   closed or retired question is classified, that the three groups partition the registry with
   reopened answers open, and that removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **157** artifacts (the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day) with
+- **The Stage B block follows the artifact that landed.** The seed scan covers **167** artifacts (amended 2026-11-10: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the cap preregistration, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day) with
   **0** overlap against the candidate block, eleven more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
   together so they describe the same state.
@@ -475,8 +522,8 @@ there is nothing to check out.
 ### Decided — the licensing role is not recorded, because it is already recorded (2026-11-07)
 
 - **The decision**: no engine change. `organica/sleep_extraction.py` already writes
-  `source_role_id` and `target_role_id` on every schema (`:759-760`) and `schema_prior` on every
-  primed prediction (`:477`), so the role behind a transfer is already stored twice.
+  `source_role_id` and `target_role_id` on every schema (`:762-763`) and `schema_prior` on every
+  primed prediction (`:480`), so the role behind a transfer is already stored twice.
 - **Why the trace read zero**: `role_match` in `benchmarks/transfer_provenance.py` resolves a pair
   through *one* role whose exemplars contain **both** tags, while a schema is built from two
   **disjoint** role sets and gated on flow from A to B. The predicate was unsatisfiable by

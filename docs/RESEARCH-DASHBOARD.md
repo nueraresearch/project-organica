@@ -27,7 +27,7 @@ in its own row. No value is typed by hand, and the row names say what is counted
 | Claims whose evidence names no build | 0 | a cited JSON artifact records no engine_version, and the claim records no refusal | `docs/claim_ledger.json` |
 | Claims whose evidence cannot be re-measured | 2 | the ledger records `unreproducible` against a blocker the runner still enforces | `docs/claim_ledger.json` |
 | Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
-| Preregistered experiments | 9 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
+| Preregistered experiments | 13 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
 | Architectural changes adopted | 6 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
 | Architectural changes withdrawn | 3 | decision records whose text contains WITHDRAWN | `docs/DECISION-*.md` |

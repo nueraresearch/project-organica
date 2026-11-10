@@ -351,6 +351,9 @@ class SleepExtractionMixin:
         return loops[:self.MAX_LOOPS]
 
     def _build_predictions(self, temporal, freqs, prior_schemas: list[dict] | None = None) -> list[PredictionCandidate]:
+        # Source-frequency decay is promoted engine behavior: the denominator that
+        # normalises a temporal edge must decay with the graph it divides.
+        freqs = self._prediction_frequencies(freqs)
         if prior_schemas is None:
             prior_schemas = getattr(self, "_current_prior_schemas", None)
         cooc = getattr(self, "_current_cooc", None)

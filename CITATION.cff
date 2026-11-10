@@ -11,12 +11,12 @@ abstract: >-
   provenance, cognitive isolation, grounded dreaming, epistemic attention, and
   natural selection.
 type: software
-version: 0.13.0
-# 0.13.0 is unreleased working-tree work: the adopted admission rule. The deposit is 0.12.0, cut and
-# tagged on 2026-11-06; `date-released` below is that tag date. v0.9.0 remains the archival reference for the frozen
-# Organica 1 engine alone; the engine in this tree has advanced past that
-# freeze (see CHANGELOG.md and docs/V1-FREEZE.md), and v0.10.0 is the previous
-# cut tag, with no GitHub release page.
+version: 0.14.0
+# 0.14.0 is unreleased working-tree work: D3's matched-frequency persistence repair is promoted into
+# the engine. The deposit is 0.12.0, cut and tagged on 2026-11-06; `date-released` below is that tag
+# date. v0.9.0 remains the archival reference for the frozen Organica 1 engine alone; the engine in
+# this tree has advanced past that freeze (see CHANGELOG.md and docs/V1-FREEZE.md), and v0.10.0 is
+# the previous cut tag, with no GitHub release page.
 date-released: "2026-11-06"
 license: Apache-2.0
 repository-code: "https://github.com/nueraresearch/project-organica"

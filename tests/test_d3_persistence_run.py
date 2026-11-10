@@ -2,6 +2,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 from benchmarks import d3_persistence_prereg as P
 from benchmarks import d3_persistence_run as R
 
@@ -24,3 +26,16 @@ def test_the_degenerate_seed_axis_is_recorded_not_hidden():
     assert artifact["seed_axis"]["effective_n"] == 1
     assert "seed axis is degenerate" in DOC.read_text(encoding="utf-8")
     assert "PERSISTENCE REPAIRED" in DOC.read_text(encoding="utf-8")
+
+
+def test_a_degenerate_run_is_refused_before_it_can_be_reported(monkeypatch, tmp_path):
+    artifact = json.loads(ARTIFACT.read_text(encoding="utf-8"))
+    out = tmp_path / "d3_persistence_run.json"
+    doc = tmp_path / "D3-PERSISTENCE-RESULT.md"
+    monkeypatch.setattr(R, "ARTIFACT", out)
+    monkeypatch.setattr(R, "DOC", doc)
+    monkeypatch.setattr(R, "build", lambda: artifact)
+    with pytest.raises(SystemExit, match="single-world pass cannot be reported"):
+        R.finish()
+    assert not out.exists()
+    assert not doc.exists()

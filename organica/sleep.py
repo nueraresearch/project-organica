@@ -87,6 +87,12 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
     # 0.95 = 5% per-cycle decay; early-regime counts fade over ~20 cycles.
     TEMPORAL_DECAY_FACTOR   = 0.95
 
+    # Source-frequency denominator decay, matched to the temporal graph.
+    # The raw tag count grows without bound on a repeated stimulus, so dividing a
+    # decayed temporal count by it dilutes a re-presented edge with its own history.
+    # D3-PERSISTENCE-2 measured this repair; the owner promoted it on 2026-11-10.
+    FREQUENCY_DECAY         = 0.95
+
     MAX_HYPOTHESES          = 15
     MAX_THEORIES            = 8
     MAX_QUESTIONS           = 6
@@ -126,6 +132,34 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
     def __init__(self, memory: MemoryService):
         self.memory = memory
         self._rng = random.Random(self.RANDOM_SEED)
+        self._decayed_freqs: dict[str, float] = {}
+        self._last_raw_freqs: dict[str, float] = {}
+        self._frequency_cycle_key = None
+        self.frequency_updates = 0
+
+    def _update_frequency_denominator(self, raw: dict[str, int]) -> dict[str, float]:
+        """One cycle's decayed counter: D = 0.95 * D_previous + the raw count delta."""
+        raw = {tag: float(count) for tag, count in raw.items()}
+        if not self._decayed_freqs:
+            self._decayed_freqs = dict(raw)
+        else:
+            tags = set(raw) | set(self._decayed_freqs) | set(self._last_raw_freqs)
+            self._decayed_freqs = {
+                tag: (self.FREQUENCY_DECAY * self._decayed_freqs.get(tag, 0.0)
+                      + max(0.0, raw.get(tag, 0.0) - self._last_raw_freqs.get(tag, 0.0)))
+                for tag in tags
+            }
+        self._last_raw_freqs = raw
+        self.frequency_updates += 1
+        return self._decayed_freqs
+
+    def _prediction_frequencies(self, raw: dict[str, int]) -> dict[str, float]:
+        """Update once per sleep cycle, so a second prediction call cannot apply a delta twice."""
+        key = self.memory.latest_sleep_cycle()
+        if key != self._frequency_cycle_key:
+            self._frequency_cycle_key = key
+            self._update_frequency_denominator(raw)
+        return self._decayed_freqs
 
     def run_sleep_cycle(self) -> SleepReport:
         """Public API used by ``run_continuous.py``."""

@@ -182,16 +182,21 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 - G1's witness is the per-cycle trace on a design the arm is alive at, not a terminal snapshot.
 - The Tier-1 campaign may not launch until a persistence pre-flight on its own stimulus shows the reference arm alive at the campaign horizon.
+- The matched-frequency persistence repair is promoted into the engine on 2026-11-10.
+- Each sleep cycle maintains a per-tag denominator `D = 0.95 * D_previous + delta`, where `delta` is the increase in `MemoryService.tag_frequencies()` since the previous cycle; prediction strength divides the temporal count by `max(D, 1)`.
+- The temporal decay constant, death threshold, stable threshold, candidate decay, admission floor, caps, retention policy and candidate set are unchanged.
 
 **Rejected.**
 
 - *Keep the 40-cycle L1 snapshot and lower the probe to 35 cycles* — because *"It moves the witness to a cliff edge and passes only because the collapse is three cycles later, so the next unrelated change re-breaks it."*
 - *Run the Tier-1 matrix and drop the early cycles afterwards* — because *"Selecting the window after seeing the result is the defect the preregistration exists to prevent."*
 - *Change the decay rule so the reference arm survives* — because *"It is a cognition change with no preregistration, and it would make the run measure the fix rather than the engine."*
+- *Keep the repair in process only* — because *"It would leave D2's gate measured on an engine that is not the one the campaign would run."*
+- *Promote without a version bump and re-pin* — because *"The pin would stop describing the engine, and AGENTS.md rule 12 would record the change as unrecorded bytes."*
 
 **Rests on.** Q002 (closed)
 
-**Evidence.** `docs/DECISION-G1-WITNESS.md`, `docs/pruning_by_type.json`, `docs/force_matrix.json`
+**Evidence.** `docs/DECISION-G1-WITNESS.md`, `docs/pruning_by_type.json`, `docs/force_matrix.json`, `docs/d3_persistence_seed_varying_run.json`, `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`, `docs/tier1_preflight.json`, `docs/engine_pin.json`
 
 **Record.** `docs/DECISION-G1-WITNESS.md`
 

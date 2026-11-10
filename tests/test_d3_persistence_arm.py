@@ -53,14 +53,14 @@ def test_the_preflight_forwards_the_fixed_arm_to_the_witness_and_the_campaign(mo
 def test_the_denominator_decays_with_the_temporal_graph():
     arm = object.__new__(Arm)
     arm._decayed_freqs = {}
-    arm._last_raw = {}
+    arm._last_raw_freqs = {}
     arm.frequency_updates = 0
 
-    assert arm._update({"a": 10}) == {"a": 10.0}
+    assert arm._update_frequency_denominator({"a": 10}) == {"a": 10.0}
     # D = 0.95 * previous + the raw count's increase, per tag.
-    assert arm._update({"a": 20, "b": 5}) == {"a": 19.5, "b": 5.0}
+    assert arm._update_frequency_denominator({"a": 20, "b": 5}) == {"a": 19.5, "b": 5.0}
     # A tag absent from the raw graph decays; it does not vanish.
-    assert arm._update({"a": 20}) == {"a": 18.525, "b": 4.75}
+    assert arm._update_frequency_denominator({"a": 20}) == {"a": 18.525, "b": 4.75}
     assert arm.frequency_updates == 3
 
 

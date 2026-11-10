@@ -1,9 +1,10 @@
 # Decision: the G1 reference-arm witness
 
 **Date:** 2026-11-09
-**Status:** **ADOPTED.** The Tier-1 pre-flight is re-based on a witness the arm is alive at, and the
-campaign is gated on a persistence pre-flight it has never had. No engine file changed and no
-published result was rebuilt.
+**Status:** **ADOPTED (amended 2026-11-10).** The Tier-1 pre-flight is re-based on a witness the
+arm is alive at, and the campaign is gated on a persistence pre-flight it has never had. D3's
+matched-frequency repair is now adopted and promoted into the engine; see §9. The dated statements
+in §§1–8 are the filing record and are not rewritten.
 **Scope:** the witness `benchmarks/run_matrix.py` uses to verify the reference arm (G1), and the
 condition under which the Tier-1 campaign may launch. Not the decay rule, not the matrix's
 metrics, not any published artifact.
@@ -133,3 +134,41 @@ establish seed robustness, and D3's adoption remains PENDING. Record:
 source-frequency decay on 24 cells over six fresh seeds, measured on this decision's L3
 witness and on D2's L1 pre-flight at the 3000-cycle horizon. It does not change this
 decision's PENDING status, and no cell has run.
+
+**D3 seed-varying result (2026-11-10, post-freeze).** The frozen `D3-PERSISTENCE-2` block reran
+the same 24 cells on six seeds that shuffle and rotate the design's fixed triangle lattice. The
+six preflight treatment trajectories are distinct; all six are alive at the 3,000-cycle horizon
+(with at least four theories in the last 100 cycles), and the early-recall median gap is 0.0
+against the -0.01 bar. The witness holds 39 of 40 cycles and peak 6 on all six seeds, and both
+negative controls remain at zero. **The seed axis is live and effective n = 6**, so the
+persistence repair survives independent trajectories. The prior `D3-PERSISTENCE-1` single-world
+result is preserved, not rewritten. No engine file changed; the arm remains in-process only, and
+D3's adoption stays PENDING for the owner. Both D3 result writers now refuse to write a result
+when more than one seed produces fewer than two distinct preflight treatment trajectories, so a
+single-world pass cannot be reported as six confirmations; the preserved D3-1 record remains
+readable and caveated. Record: `docs/d3_persistence_seed_varying_run.json`,
+page `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`.
+
+
+## 9. D3 promotion — owner decision (2026-11-10)
+
+**Status: ADOPTED.** The owner directed that the matched-frequency persistence repair be promoted
+into the engine, re-pinned, and D2's pre-flight rerun. This supersedes the PENDING clause in §4 D3.
+
+The matched-frequency persistence repair is promoted into the engine on 2026-11-10. Each sleep cycle
+maintains a per-tag denominator `D = 0.95 * D_previous + delta`, where `delta` is the increase in
+`MemoryService.tag_frequencies()` since the previous cycle; prediction strength divides the temporal
+count by `max(D, 1)`. The temporal decay constant, death threshold, stable threshold, candidate decay,
+admission floor, caps, retention policy and candidate set are unchanged. `MatchedFrequencySleepService`
+remains only as a compatibility name and no longer overrides engine behavior.
+
+**Why this is enough.** The frozen `D3-PERSISTENCE-2` block produced six distinct preflight treatment
+trajectories, all six alive through 3,000 cycles, with the L3 witness and early-recall criteria intact.
+The earlier `D3-PERSISTENCE-1` single-world result remains caveated and is not re-scored. The owner's
+decision is the adoption step the preregistration required; it is not a new statistical result.
+
+**Rejected — keep the repair in process only.** It would leave D2's gate measured on an engine that is
+not the one the campaign would run.
+
+**Rejected — promote without a version bump and re-pin.** The pin would stop describing the engine,
+and AGENTS.md rule 12 would record the change as unrecorded bytes.

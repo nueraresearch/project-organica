@@ -908,6 +908,9 @@ def main() -> None:
     ap.add_argument("--no-verify", action="store_true",
                     help="skip the G1 code-path check (it is run once per "
                          "campaign, not once per colony process)")
+    ap.add_argument("--part", action="store_true",
+                    help="write one colony's part artifact; the reference-arm "
+                         "check belongs to the merged campaign")
     ap.add_argument("--merge", nargs="*", default=None,
                     help="merge per-colony artifacts into --out")
     ap.add_argument("--out", default=str(REPO / "docs" / "force_matrix.json"))
@@ -956,6 +959,10 @@ def main() -> None:
               f"rev={m['M9_cognitive_revolutions']['revolutions']} "
               f"({r['seconds']}s)")
         sys.stdout.flush()
+
+    if args.part:
+        print(f"\nwrote {out_path}")
+        return
 
     dead = record_reference_check(out_path, row_reference_problems(rows))
     if dead:

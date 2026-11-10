@@ -178,9 +178,9 @@ def test_the_reopening_record_names_every_row_and_every_exception() -> None:
     kept = [exception["id"] for exception in opening["kept_closed"]]
     assert not set(kept) & set(rows), "a question cannot be reopened and kept closed"
     assert all(exception["reason"].strip() for exception in opening["kept_closed"])
-    from benchmarks import engine_stamp
-
-    assert opening["engine_sha256"] == engine_stamp.engine_sha256(), (
+    # The reopening pass was made on 0.13.0; the 0.14.0 promotion does not rewrite it.
+    assert opening["engine_version"] == "0.13.0"
+    assert opening["engine_sha256"] == "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2", (
         "the reopening must name the engine bytes it was made against")
 
 

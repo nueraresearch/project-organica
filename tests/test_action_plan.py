@@ -27,10 +27,12 @@ def _fragments():
     gated = [r for r in sur["questions"] if r["state"] == "prerequisite"]
     open_ev = [r for r in sur["questions"] if r["state"] == "open-with-evidence"]
     at_pin = [r for r in sur["questions"] if r["state"] == "answered-at-pin"]
+    first_zero = ("first zero at cycle %d" % persistence["first_zero_cycle"]
+                  if persistence["first_zero_cycle"] is not None else "no first zero")
     return [
         "%d of %d cycles" % (witness["reference_theory_cycles"], witness["cycles"]),
         "%d of %d" % (sur["evidence"]["named_build"], sur["evidence"]["json_refs"]),
-        "first zero at cycle %d" % persistence["first_zero_cycle"],
+        first_zero,
         "%d-cycle horizon" % persistence["horizon"],
         "%d open + %d future = %d" % (sur["populations"]["open"],
                                       sur["populations"]["future"],

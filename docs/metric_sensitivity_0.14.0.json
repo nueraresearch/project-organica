@@ -1,0 +1,749 @@
+{
+  "matrix_artifact": "docs/force_matrix_0.14.0.json",
+  "cycles": 3000,
+  "stimulus": "lattice_L1 (three disjoint triangles)",
+  "reference_arm": "FULL",
+  "table": [
+    {
+      "metric": "M1",
+      "name": "Theory duty cycle",
+      "values": {
+        "FULL": 0.9996666666666667,
+        "SALIENCE": 0.9996666666666667,
+        "NO_CONTRADICTIONS": 0.9996666666666667,
+        "NO_QUESTIONS": 0.9996666666666667,
+        "NO_DREAMS": 0.9996666666666667,
+        "ANTI_EIG": 0.9996666666666667
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": null
+    },
+    {
+      "metric": "M2",
+      "name": "Question duty cycle",
+      "values": {
+        "FULL": 0.9996666666666667,
+        "SALIENCE": 0.9996666666666667,
+        "NO_CONTRADICTIONS": 0.9996666666666667,
+        "NO_QUESTIONS": 0.0,
+        "NO_DREAMS": 0.9996666666666667,
+        "ANTI_EIG": 0.9996666666666667
+      },
+      "spread": 0.9996666666666667,
+      "relative_spread": 1.0,
+      "verdict": "SENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.999667,
+          "relative": 1.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": "NO_QUESTIONS"
+    },
+    {
+      "metric": "M3",
+      "name": "Contradiction density (mean)",
+      "values": {
+        "FULL": 193.8038,
+        "SALIENCE": 194.5824,
+        "NO_CONTRADICTIONS": 194.698,
+        "NO_QUESTIONS": 194.5824,
+        "NO_DREAMS": 194.5824,
+        "ANTI_EIG": 194.5824
+      },
+      "spread": 0.8942000000000121,
+      "relative_spread": 0.0046,
+      "verdict": "INSENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.7786,
+          "relative": 0.004001
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.8942,
+          "relative": 0.004593
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.7786,
+          "relative": 0.004001
+        },
+        "NO_DREAMS": {
+          "absolute": 0.7786,
+          "relative": 0.004001
+        },
+        "ANTI_EIG": {
+          "absolute": 0.7786,
+          "relative": 0.004001
+        }
+      },
+      "most_sensitive_colony": "NO_CONTRADICTIONS"
+    },
+    {
+      "metric": "M4",
+      "name": "Contradiction survival",
+      "values": {
+        "FULL": 0.8824,
+        "SALIENCE": 0.8333,
+        "NO_CONTRADICTIONS": 0.8333,
+        "NO_QUESTIONS": 0.8333,
+        "NO_DREAMS": 0.8333,
+        "ANTI_EIG": 0.8333
+      },
+      "spread": 0.04909999999999992,
+      "relative_spread": 0.0556,
+      "verdict": "SENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0491,
+          "relative": 0.055644
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0491,
+          "relative": 0.055644
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0491,
+          "relative": 0.055644
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0491,
+          "relative": 0.055644
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0491,
+          "relative": 0.055644
+        }
+      },
+      "most_sensitive_colony": "SALIENCE"
+    },
+    {
+      "metric": "M5",
+      "name": "Development velocity (new/100 cycles)",
+      "values": {
+        "FULL": 1.667,
+        "SALIENCE": 1.733,
+        "NO_CONTRADICTIONS": 1.733,
+        "NO_QUESTIONS": 1.167,
+        "NO_DREAMS": 1.4,
+        "ANTI_EIG": 1.733
+      },
+      "spread": 0.5660000000000001,
+      "relative_spread": 0.3266,
+      "verdict": "SENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.066,
+          "relative": 0.038084
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.066,
+          "relative": 0.038084
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.5,
+          "relative": 0.29994
+        },
+        "NO_DREAMS": {
+          "absolute": 0.267,
+          "relative": 0.160168
+        },
+        "ANTI_EIG": {
+          "absolute": 0.066,
+          "relative": 0.038084
+        }
+      },
+      "most_sensitive_colony": "NO_QUESTIONS"
+    },
+    {
+      "metric": "M6",
+      "name": "Lineage depth (max generation)",
+      "values": {
+        "FULL": 8,
+        "SALIENCE": 8,
+        "NO_CONTRADICTIONS": 8,
+        "NO_QUESTIONS": 8,
+        "NO_DREAMS": 8,
+        "ANTI_EIG": 8
+      },
+      "spread": 0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": null
+    },
+    {
+      "metric": "M7",
+      "name": "Mean hypothesis lifetime",
+      "values": {
+        "FULL": 1497.5,
+        "SALIENCE": 2997.667,
+        "NO_CONTRADICTIONS": 2997.667,
+        "NO_QUESTIONS": 2997.667,
+        "NO_DREAMS": 2997.667,
+        "ANTI_EIG": 2997.667
+      },
+      "spread": 1500.167,
+      "relative_spread": 0.5004,
+      "verdict": "SENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 1500.167,
+          "relative": 0.500445
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 1500.167,
+          "relative": 0.500445
+        },
+        "NO_QUESTIONS": {
+          "absolute": 1500.167,
+          "relative": 0.500445
+        },
+        "NO_DREAMS": {
+          "absolute": 1500.167,
+          "relative": 0.500445
+        },
+        "ANTI_EIG": {
+          "absolute": 1500.167,
+          "relative": 0.500445
+        }
+      },
+      "most_sensitive_colony": "SALIENCE"
+    },
+    {
+      "metric": "M8",
+      "name": "Population stability (beliefs)",
+      "values": {
+        "FULL": 0.9817,
+        "SALIENCE": 0.9817,
+        "NO_CONTRADICTIONS": 0.9817,
+        "NO_QUESTIONS": 0.9817,
+        "NO_DREAMS": 0.9817,
+        "ANTI_EIG": 0.9817
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "INSENSITIVE",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": null
+    },
+    {
+      "metric": "M9",
+      "name": "Cognitive revolutions",
+      "values": {
+        "FULL": 0,
+        "SALIENCE": 0,
+        "NO_CONTRADICTIONS": 0,
+        "NO_QUESTIONS": 0,
+        "NO_DREAMS": 0,
+        "ANTI_EIG": 0
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "verdict": "STRUCTURALLY ZERO",
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": null
+    }
+  ],
+  "populations": [
+    {
+      "population": "theories",
+      "values": {
+        "FULL": 4.999,
+        "SALIENCE": 4.5,
+        "NO_CONTRADICTIONS": 4.167,
+        "NO_QUESTIONS": 4.5,
+        "NO_DREAMS": 4.5,
+        "ANTI_EIG": 4.5
+      },
+      "spread": 0.832,
+      "relative_spread": 0.1664,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.832,
+          "relative": 0.166433
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        },
+        "NO_DREAMS": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        },
+        "ANTI_EIG": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        }
+      },
+      "most_sensitive_colony": "NO_CONTRADICTIONS"
+    },
+    {
+      "population": "questions",
+      "values": {
+        "FULL": 4.999,
+        "SALIENCE": 4.5,
+        "NO_CONTRADICTIONS": 4.167,
+        "NO_QUESTIONS": 0.0,
+        "NO_DREAMS": 4.5,
+        "ANTI_EIG": 4.5
+      },
+      "spread": 4.999,
+      "relative_spread": 1.0,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.832,
+          "relative": 0.166433
+        },
+        "NO_QUESTIONS": {
+          "absolute": 4.999,
+          "relative": 1.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        },
+        "ANTI_EIG": {
+          "absolute": 0.499,
+          "relative": 0.09982
+        }
+      },
+      "most_sensitive_colony": "NO_QUESTIONS"
+    },
+    {
+      "population": "dreams",
+      "values": {
+        "FULL": 7.997,
+        "SALIENCE": 7.997,
+        "NO_CONTRADICTIONS": 7.997,
+        "NO_QUESTIONS": 7.997,
+        "NO_DREAMS": 0.0,
+        "ANTI_EIG": 7.997
+      },
+      "spread": 7.997,
+      "relative_spread": 1.0,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 7.997,
+          "relative": 1.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": "NO_DREAMS"
+    },
+    {
+      "population": "experiments",
+      "values": {
+        "FULL": 4.998,
+        "SALIENCE": 4.998,
+        "NO_CONTRADICTIONS": 4.998,
+        "NO_QUESTIONS": 4.998,
+        "NO_DREAMS": 4.5,
+        "ANTI_EIG": 4.998
+      },
+      "spread": 0.498,
+      "relative_spread": 0.0996,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.498,
+          "relative": 0.09964
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": "NO_DREAMS"
+    },
+    {
+      "population": "pre_beliefs",
+      "values": {
+        "FULL": 17.993,
+        "SALIENCE": 17.993,
+        "NO_CONTRADICTIONS": 17.994,
+        "NO_QUESTIONS": 17.993,
+        "NO_DREAMS": 17.993,
+        "ANTI_EIG": 17.993
+      },
+      "spread": 0.001,
+      "relative_spread": 0.0001,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.001,
+          "relative": 5.6e-05
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": "NO_CONTRADICTIONS"
+    },
+    {
+      "population": "pre_ge2",
+      "values": {
+        "FULL": 6.998,
+        "SALIENCE": 6.998,
+        "NO_CONTRADICTIONS": 6.998,
+        "NO_QUESTIONS": 6.998,
+        "NO_DREAMS": 6.998,
+        "ANTI_EIG": 6.998
+      },
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "distance_from_reference": {
+        "FULL": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "SALIENCE": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_CONTRADICTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_QUESTIONS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "NO_DREAMS": {
+          "absolute": 0.0,
+          "relative": 0.0
+        },
+        "ANTI_EIG": {
+          "absolute": 0.0,
+          "relative": 0.0
+        }
+      },
+      "most_sensitive_colony": null
+    }
+  ],
+  "deviation_from_reference": [
+    {
+      "colony": "NO_QUESTIONS",
+      "mean_relative_distance": 0.20667,
+      "max_relative_distance": 1.0,
+      "metrics_moved": 5,
+      "excluded_own_metrics": [
+        "M2"
+      ],
+      "downstream_mean_relative_distance": 0.1075,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "NO_DREAMS",
+      "mean_relative_distance": 0.08003,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.08003,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "NO_CONTRADICTIONS",
+      "mean_relative_distance": 0.06653,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [
+        "M3",
+        "M4"
+      ],
+      "downstream_mean_relative_distance": 0.07693,
+      "downstream_metrics_moved": 2
+    },
+    {
+      "colony": "SALIENCE",
+      "mean_relative_distance": 0.06646,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.06646,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "ANTI_EIG",
+      "mean_relative_distance": 0.06646,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.06646,
+      "downstream_metrics_moved": 4
+    }
+  ],
+  "downstream_deviation_from_reference": [
+    {
+      "colony": "NO_QUESTIONS",
+      "mean_relative_distance": 0.20667,
+      "max_relative_distance": 1.0,
+      "metrics_moved": 5,
+      "excluded_own_metrics": [
+        "M2"
+      ],
+      "downstream_mean_relative_distance": 0.1075,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "NO_DREAMS",
+      "mean_relative_distance": 0.08003,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.08003,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "NO_CONTRADICTIONS",
+      "mean_relative_distance": 0.06653,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [
+        "M3",
+        "M4"
+      ],
+      "downstream_mean_relative_distance": 0.07693,
+      "downstream_metrics_moved": 2
+    },
+    {
+      "colony": "SALIENCE",
+      "mean_relative_distance": 0.06646,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.06646,
+      "downstream_metrics_moved": 4
+    },
+    {
+      "colony": "ANTI_EIG",
+      "mean_relative_distance": 0.06646,
+      "max_relative_distance": 0.50045,
+      "metrics_moved": 4,
+      "excluded_own_metrics": [],
+      "downstream_mean_relative_distance": 0.06646,
+      "downstream_metrics_moved": 4
+    }
+  ],
+  "own_metric_exclusions": {
+    "NO_QUESTIONS": [
+      "M2"
+    ],
+    "NO_CONTRADICTIONS": [
+      "M3",
+      "M4"
+    ],
+    "NO_DREAMS": [],
+    "ANTI_EIG": [],
+    "SALIENCE": [],
+    "FULL": []
+  },
+  "engine_version": "0.14.0",
+  "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
+  "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+  "runner": "__main__"
+}

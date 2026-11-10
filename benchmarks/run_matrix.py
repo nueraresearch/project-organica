@@ -110,7 +110,8 @@ def main() -> None:
         part = parts_dir / f"{name}.json"
         cmd = [sys.executable, str(REPO / "benchmarks" / "force_matrix.py"),
                "--cycles", str(args.cycles), "--seed", str(args.seed),
-               "--no-verify", "--colonies", name, "--out", str(part)]
+               "--no-verify", "--part", "--colonies", name,
+               "--out", str(part)]
         print(f"  launching {name} (PYTHONHASHSEED={args.hash_seed}) ...",
               flush=True)
         procs[name] = (subprocess.Popen(cmd, cwd=str(REPO), env=env,
