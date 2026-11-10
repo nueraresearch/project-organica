@@ -51,18 +51,20 @@ there is nothing to check out.
 
 - **The partition omitted one question.** Q052 was closed before the 2026-11-08 reopening pass and
   appeared in neither `reopened` nor `kept_closed`, so the kept-closed count was short by one and the
-  entry above it had said twelve. It is now in `kept_closed` with its artifact evidence, which makes
-  the partition **14** reopened + **13** kept closed + **24** never closed over **51** questions;
-  three tests in `tests/test_research_registry.py` check that every closed or retired question is
-  classified, that the three groups partition the registry with reopened answers open, and that
-  removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **151** artifacts (the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival and pre-flight records were added that day) with
-  **0** overlap against the candidate block, one more than the **146** it recorded before
+  entry above it had said twelve. It is now in `kept_closed` with its artifact evidence. Q052's
+  closure left the reopened side one row larger than it is now: Q006 has since moved to
+  `kept_closed`, so the current partition is **12** reopened + **16** kept closed + **23** never
+  closed over **51** questions. Three tests in `tests/test_research_registry.py` check that every
+  closed or retired question is classified, that the three groups partition the registry with
+  reopened answers open, and that removing Q052 fires the check.
+- **The Stage B block follows the artifact that landed.** The seed scan covers **157** artifacts (the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day) with
+  **0** overlap against the candidate block, eleven more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
   together so they describe the same state.
-- **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** **14**
-  re-derivations with a comparator and **24** first answers with none, **19** of the first answers
-  runnable now. `tests/test_rerun_plan.py` recomputes every count from the registry, and
+- **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** after
+  Q006 and Q021 closed, **12** re-derivations remain with a comparator and **23** first answers
+  have none, **18** of the first answers runnable now. `tests/test_rerun_plan.py` recomputes every
+  count from the registry, and
   `tests/test_rule30.py` checks that each campaign row and judged decision table names a different
   decision per outcome, with a control that fires on a "do it again" branch.
 
@@ -181,16 +183,34 @@ there is nothing to check out.
 
 - **The criterion is mechanical:** an answer is reopened when no artifact it rests on records the
   release pinned now (`0.13.0`, whose fourteen files the pin check verifies against the current tree).
-  Fourteen closed questions qualified: Q004, Q005, Q006, Q017, Q021, Q024, Q029-Q032, Q036, Q043, Q044
-  and Q051.
+  Thirteen closed questions qualified: Q004, Q005, Q006, Q017, Q024, Q029-Q032, Q036, Q043, Q044
+  and Q051. Q021 was reopened in the same pass but closed on 2026-11-09 by its pinned 40-cell
+  re-derivation; Q006 closed on the same date by its pinned 16-cell block, so both now sit in
+  `kept_closed` and the current partition is **12** reopened + **16** kept closed. Twelve closed
+  questions remain open today.
 - **Thirteen kept closed with reasons** — nine because their evidence does name the pinned release
   (including **Q052**, which the first pass omitted), and four because those closures were governance
   or design decisions rather than measurements. This entry first said twelve: Q052 was closed before
   the pass and was missed, so the count was short by one and is corrected here rather than edited
   silently.
+- **Q002 was open at this pass and closed on 2026-11-09**, after its 0.13.0 presence
+  re-measurement (112 of 112 on six seeds). It is now classified kept closed, so the record holds
+  **16** kept closed, **23** first answers and **18** runnable cells.
 - **The cross-layer rule then did its job:** C004 was a SUPPORTED claim resting on Q004, so it is
   downgraded to HYPOTHESIS with the reason recorded rather than the rule being relaxed. The suite
   asserts that no reopened question's evidence names the pinned release.
+
+- **The historical negative re-derived on the pinned bytes.** A fresh eight-seed, sixteen-cell
+  two-arm block on 0.13.0 returned `NO GAIN ON THIS LAYER`: mean paired coverage gain
+  `-0.069197`, 95% interval `[-0.095982, -0.043527]`, **0** of **8** seeds positive, and mean
+  precision difference `-0.075631`; all six gates passed and the determinism re-run matched. The
+  filter changes what is admitted, but it does not cover more of the world on this layer, so the
+  answer survives and Q006 moves to `kept_closed` instead of joining the pending campaign.
+- **The old record was compared, not re-scored.** `docs/admission_two_arm_result.json` remains the
+  historical comparator, with its unattributed build and consumed seed block recorded as such; the
+  fresh block is frozen in `docs/q006_admission_rederivation_prereg.json`, the result is stamped in
+  `docs/q006_admission_rederivation.json`, and `tests/test_q006_admission_rederivation.py` guards the
+  cells, gates, page and seed freshness.
 
 ### Added — Every run artifact now names the engine's bytes and the writer (2026-11-08)
 

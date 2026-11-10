@@ -14,7 +14,7 @@ artifacts it rests on, and the limits of its own scope.
 | --- | --- | --- | --- | --- |
 | C001 | Organica forms developmental structure from its own event stream, with no pretrained weights. | HYPOTHESIS | Q001 | ARTIFACT_READ |
 | C002 | Structure that forms persists across sleep cycles and is read back on later cycles. | HYPOTHESIS | Q001 | OWNER_READING |
-| C003 | All 112 edges of the Gate-13 compositional world are present in raw temporal memory on the six measured seeds, independent of the frozen prediction cap. | HYPOTHESIS | Q002 | ARTIFACT_READ |
+| C003 | All 112 edges of the Gate-13 compositional world are present in raw temporal memory on the six measured seeds, independent of the frozen prediction cap. | SUPPORTED | Q002 | ARTIFACT_READ |
 | C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | HYPOTHESIS | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
@@ -133,7 +133,7 @@ Each claim carries its own limits in the ledger. The ones that recur:
 - **C003.** Presence in raw temporal memory, not selection, ranking or use in a prediction.
 - **C003.** The asserted basis is far lower (0.2500-0.3214 on the same seeds): the world is present and the organism does not assert it, which is the finding the claim must not blur.
 - **C003.** Re-specified 2026-11-09: the 112-edge world is the Gate-13 acquisition world, not the force-matrix world (lattice_L1, three disjoint triangles); citing force_matrix.json for this number was a mis-citation. Measured on 0.13.0 at 112 of 112 on all six seeds, so the earlier downgrade (evidence predating the rework) no longer applies to the presence half.
-- **C003.** Promotion to SUPPORTED waits on Q002, which is still open: the measurement licenses the presence half on 0.13.0, and a load-bearing classification needs the question closed.
+- **C003.** Promoted to SUPPORTED 2026-11-09: Q002 closed SUPPORTED on the same six-seed measurement, and the artifact's stale cap note is corrected by docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md (MAX_PREDICTIONS is 40, not 20; presence is counted before the cap, asserted coverage at it).
 - **C004.** The sparse end only; the dense end is pinned by the prediction cap and shows no separation.
 - **C004.** One world family, one ordering basis.
 - **C004.** Downgraded 2026-11-08: Q004 was reopened because the artifact it rests on (density_interaction_a2_result.json) records no engine build, so this claim now rests on an open question and may not be load-bearing. The measured value stands for the build that produced it; re-measuring on the pinned engine is what would restore the claim.

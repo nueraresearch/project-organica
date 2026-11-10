@@ -33,7 +33,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 - *Mark the module deprecated while keeping it callable* — because *"Withdrawal is the removal of the code, so the package no longer offers the rule at all"*
 
-**Rests on.** Q006 (open), Q017 (open), Q024 (open)
+**Rests on.** Q006 (closed), Q017 (open), Q024 (open)
 
 **Evidence.** `docs/admission_two_arm_result.json`, `docs/admission_two_arm_run.json`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
 
@@ -189,7 +189,7 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 - *Run the Tier-1 matrix and drop the early cycles afterwards* — because *"Selecting the window after seeing the result is the defect the preregistration exists to prevent."*
 - *Change the decay rule so the reference arm survives* — because *"It is a cognition change with no preregistration, and it would make the run measure the fix rather than the engine."*
 
-**Rests on.** Q002 (open)
+**Rests on.** Q002 (closed)
 
 **Evidence.** `docs/DECISION-G1-WITNESS.md`, `docs/pruning_by_type.json`, `docs/force_matrix.json`
 

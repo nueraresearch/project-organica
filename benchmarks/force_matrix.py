@@ -455,13 +455,18 @@ def colony_class(name: str):
     return composed
 
 
-def run_colony(name: str, events: list[str], cycles: int, seed: int) -> dict:
+def run_colony(name: str, events: list[str], cycles: int, seed: int,
+               service_class=None) -> dict:
     cls, description = COLONIES[name]
     db = temp_db(f"matrix_{name}.db")
     if db.exists():
         db.unlink()
     mem = MemoryService(db_path=str(db))
-    svc = colony_class(name)(mem)
+    if name == "FULL" and service_class is not None:
+        svc = type("Instrumented_FULL_%s" % service_class.__name__,
+                   (Instrumented, service_class), {})(mem)
+    else:
+        svc = colony_class(name)(mem)
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
 
@@ -687,7 +692,7 @@ def record_reference_check(out_path: Path, problems: list[str]) -> list[str]:
     return list(problems)
 
 
-def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
+def verify_colonies(events: list[str], cycles: int = 40, service_class=None) -> list[dict]:
     """G1: prove each colony's intervention is actually in the code path.
 
     The first pilot of this harness produced a byte-identical FULL and
@@ -710,7 +715,8 @@ def verify_colonies(events: list[str], cycles: int = 40) -> list[dict]:
     checks = []
 
     for name in COLONIES:
-        row = run_colony(name, events, cycles, seed=VERIFY_SEED)
+        row = run_colony(name, events, cycles, seed=VERIFY_SEED,
+                         service_class=service_class if name == "FULL" else None)
         series = row["series"]
         cls = colony_class(name)
         checks.append({
@@ -768,7 +774,7 @@ def design_events(design: str) -> list[str]:
 
 
 def trace_reference(design: str, horizon: int, seed: int = VERIFY_SEED,
-                    stop_at_death: bool = True) -> dict:
+                    stop_at_death: bool = True, service_class=None) -> dict:
     """The reference arm's theory count per cycle on one design.
 
     D2 of `docs/DECISION-G1-WITNESS.md`: the campaign may not launch until this trace shows the
@@ -781,7 +787,11 @@ def trace_reference(design: str, horizon: int, seed: int = VERIFY_SEED,
     if db.exists():
         db.unlink()
     mem = MemoryService(db_path=str(db))
-    svc = colony_class("FULL")(mem)
+    if service_class is not None:
+        svc = type("Instrumented_FULL_%s" % service_class.__name__,
+                   (Instrumented, service_class), {})(mem)
+    else:
+        svc = colony_class("FULL")(mem)
     if hasattr(svc, "_rng"):
         svc._rng.seed(seed)
     for text in events:

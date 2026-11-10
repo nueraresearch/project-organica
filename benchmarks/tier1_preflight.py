@@ -64,14 +64,15 @@ def decide(g1_problems: list, persistence: str) -> str:
 
 
 def build(witness_cycles: int = fm.WITNESS_CYCLES, horizon: int = 3000,
-          seed: int = fm.VERIFY_SEED) -> dict:
+          seed: int = fm.VERIFY_SEED, reference_class=None) -> dict:
     """Run the witness, the controls and the persistence gate, and return the record."""
     checks, problems = fm.verify_colonies(fm.design_events(fm.WITNESS_DESIGN),
-                                          witness_cycles)
+                                          witness_cycles, service_class=reference_class)
     by_name = {c["colony"]: c for c in checks}
     negatives = fm.negative_control_problems(checks)
     full = by_name["FULL"]
-    campaign = fm.trace_reference(fm.CAMPAIGN_DESIGN, horizon, seed)
+    campaign = fm.trace_reference(fm.CAMPAIGN_DESIGN, horizon, seed,
+                                  service_class=reference_class)
     persistence = fm.persistence_verdict(campaign)
     verdict = decide(problems, persistence)
     return {

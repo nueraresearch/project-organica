@@ -29,25 +29,27 @@
     {
       "id": "Q002",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?",
       "scope": "Presence in one world family, not availability in general.",
       "evidence": [
         "docs/gate13_allocation_rule.json",
         "docs/GATE13-RELATION-SEPARATION.md",
         "docs/ENGINE-VERSION-AUDIT.md",
-        "docs/engine_version_audit.json"
+        "docs/engine_version_audit.json",
+        "docs/temporal_presence_0.13.0.json",
+        "docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md"
       ],
       "bottleneck_rows": [
         "World-edge candidate availability"
       ],
       "preregistrations": [],
       "supersedes": [],
-      "answer": "Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
-      "why_open": "Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.",
+      "answer": "Yes on the Gate-13 compositional world at 0.13.0: all 112 world edges are present in raw temporal memory on all six measured seeds (presence 1.0000), so availability is not the constraint on coverage. Asserted coverage is 0.2500-0.3214 (28-36 edges) at the engine cap of 40, so the limit is selection/assertion rather than candidate supply. Re-measured 2026-11-09 on the pinned build; the pre-0.10.0 figure is superseded. See docs/temporal_presence_0.13.0.json and docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md.",
       "decisions": [
         "DECISION-G1-WITNESS.md"
-      ]
+      ],
+      "outcome": "SUPPORTED"
     },
     {
       "id": "Q003",
@@ -129,13 +131,17 @@
     {
       "id": "Q006",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
-      "answer": "Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.",
-      "scope": "The admission rule, not extraction, the confidence formula, the death threshold or the caps.",
+      "answer": "Not as a coverage gain on 0.13.0. The pinned 16-cell re-derivation on a fresh eight-seed block returned NO GAIN ON THIS LAYER: mean paired coverage gain -0.069197, 95% interval [-0.095982, -0.043527], 0 of 8 seeds positive, and mean paired precision difference -0.075631. The filter changes what is admitted (G0 liveness), but it does not improve coverage on this layer. The historical negative answer survives; see docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md.",
+      "scope": "The admission rule on one compositional world family, one cap and one 120-cycle horizon; it does not establish that diversity-first ordering is wrong elsewhere.",
       "evidence": [
         "docs/DECISION-ADMISSION-RULE.md",
-        "docs/admission_two_arm_result.json"
+        "docs/admission_two_arm_result.json",
+        "docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md",
+        "docs/q006_admission_rederivation_prereg.json",
+        "docs/q006_admission_rederivation.json",
+        "docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md"
       ],
       "decisions": [
         "DECISION-ADMISSION-RULE.md"
@@ -144,15 +150,12 @@
         "Selection / allocation"
       ],
       "preregistrations": [
-        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md",
+        "docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md",
+        "docs/q006_admission_rederivation_prereg.json"
       ],
       "supersedes": [],
-      "reopened": {
-        "date": "2026-11-08",
-        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
-        "reason": "The answer was measured on a build that cannot be named: DECISION-ADMISSION-RULE.md, admission_two_arm_result.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
-      },
-      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
+      "outcome": "UNSUPPORTED"
     },
     {
       "id": "Q007",
@@ -335,7 +338,9 @@
       "bottleneck_rows": [
         "Selection / allocation"
       ],
-      "preregistrations": [],
+      "preregistrations": [
+        "docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md"
+      ],
       "supersedes": [],
       "reopened": {
         "date": "2026-11-08",
@@ -398,21 +403,21 @@
     {
       "id": "Q021",
       "kind": "research",
-      "status": "open",
+      "status": "closed",
       "question": "Can a transfer claim rest on the v1 TR = 3.2 result?",
-      "answer": "No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.",
+      "answer": "No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold. The earned run returned TR 0.944, and the pinned 40-cell re-derivation returned NO_TRANSFER_ADVANTAGE: treatment, naive, pruned and orthogonal all acquired at 3.4 cycles, TR 1.0 with a 1.0-1.0 interval, 0 of 10 paired seeds favoured treatment, and mean TP was 20.5. See docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md.",
       "evidence": [
         "docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md",
-        "docs/cross_context_reuse_benchmark.json"
+        "docs/cross_context_reuse_benchmark.json",
+        "docs/q021_transfer_rederivation.json",
+        "docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md"
       ],
-      "preregistrations": [],
+      "preregistrations": [
+        "docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md"
+      ],
       "supersedes": [],
-      "reopened": {
-        "date": "2026-11-08",
-        "measured_on": "unattributed -- no artifact it rests on records an engine_version",
-        "reason": "The answer was measured on a build that cannot be named: CROSS-CONTEXT-REUSE-EARNED-RESULTS.md, cross_context_reuse_benchmark.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build."
-      },
-      "why_open": "Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it."
+      "outcome": "UNSUPPORTED",
+      "scope": "One cross-context world family on 0.13.0, four arms, ten seeds, 40/40 cycles; the v1 claim only, not transfer in general."
     },
     {
       "id": "Q022",
@@ -1041,7 +1046,10 @@
         "docs/q053_mechanism_prereg.json",
         "docs/Q053-MECHANISM-PREREGISTRATION.md",
         "benchmarks/q053_mechanism_prereg.py",
-        "tests/test_q053_mechanism_prereg.py"
+        "tests/test_q053_mechanism_prereg.py",
+        "docs/q053_mechanism_run.json",
+        "docs/Q053-MECHANISM-RESULT.md",
+        "benchmarks/q053_mechanism_run.py"
       ],
       "preregistrations": [
         "docs/Q053-MECHANISM-PREREGISTRATION.md"
@@ -1078,9 +1086,7 @@
     "reopened": [
       "Q004",
       "Q005",
-      "Q006",
       "Q017",
-      "Q021",
       "Q024",
       "Q029",
       "Q030",
@@ -1143,6 +1149,18 @@
       {
         "id": "Q052",
         "reason": "every artifact behind the answer records engine_version 0.13.0, so the closure carries into this build"
+      },
+      {
+        "id": "Q002",
+        "reason": "Closed 2026-11-09 on its 0.13.0 re-measurement (112 of 112 presence on six seeds); it was open at the 2026-11-08 sweep and sits outside the campaign."
+      },
+      {
+        "id": "Q021",
+        "reason": "Closed 2026-11-09 by the pinned 40-cell re-derivation; it was reopened on 2026-11-08, and the result now names the pinned build."
+      },
+      {
+        "id": "Q006",
+        "reason": "Closed 2026-11-09 by the pinned 16-cell re-derivation; the historical negative answer survived, so it is outside the campaign."
       }
     ]
   }

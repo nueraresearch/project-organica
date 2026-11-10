@@ -14,24 +14,24 @@ exists*. This page separates those, and changes no status.
 | population | count |
 | --- | --- |
 | questions in the registry | 51 |
-| open | 33 |
+| open | 30 |
 | future | 5 |
-| closed | 11 |
+| closed | 14 |
 | retired | 2 |
-| **reviewed here (open + future)** | **38** |
+| **reviewed here (open + future)** | **35** |
 
-The dashboard's narrower population is 19: the open questions the 2026-11-08 sweep neither
-reopened nor kept closed. The other 14 were reopened by that sweep and are still open;
-20 of the reviewed questions say in their own `why_open` that the recorded answer
+The dashboard's narrower population is 18: the open questions the 2026-11-08 sweep neither
+reopened nor kept closed. The other 12 were reopened by that sweep and are still open;
+17 of the reviewed questions say in their own `why_open` that the recorded answer
 predates a later build.
 
 ## Evidence by build
 
 | quantity | count |
 | --- | --- |
-| JSON artifacts cited by reviewed questions | 56 |
-| of those, naming a build | 3 |
-| of those, naming no build | 53 |
+| JSON artifacts cited by reviewed questions | 53 |
+| of those, naming a build | 4 |
+| of those, naming no build | 49 |
 | cited paths that do not exist | 0 |
 
 Builds named anywhere in the reviewed evidence: `0.13.0`.
@@ -44,7 +44,7 @@ Pinned build: `0.13.0`.
 | `broken-evidence` | 0 | a cited path does not exist, so the row cannot be read at all |
 | `prerequisite` | 5 | blocked_by names another question; that question is the debt |
 | `governance-held` | 2 | a cited decision is PENDING; the block is a decision, not a measurement |
-| `answered-older-build` | 18 | the answer predates a later build by its own record, or names a build and none is the pin |
+| `answered-older-build` | 15 | the answer predates a later build by its own record, or names a build and none is the pin |
 | `answered-at-pin` | 0 | the answer was not reopened, and a cited artifact names the pinned build |
 | `answered-no-build` | 0 | an answer is recorded and no cited artifact names any build |
 | `open-with-evidence` | 13 | no answer recorded, but at least one evidence path exists |
@@ -63,11 +63,9 @@ builds column reports what those artifacts name today, not the build behind the 
 | id | status | state | builds named | JSON evidence named | reopened |
 | --- | --- | --- | --- | --- | --- |
 | Q001 | open | `answered-older-build` | none | 0 of 1 | yes |
-| Q002 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q003 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q004 | open | `governance-held` | none | 0 of 1 | yes |
 | Q005 | open | `governance-held` | none | 0 of 1 | yes |
-| Q006 | open | `answered-older-build` | none | 0 of 1 | yes |
 | Q007 | open | `answered-older-build` | 0.13.0 | 1 of 3 | yes |
 | Q008 | open | `answered-older-build` | none | 0 of 1 | yes |
 | Q011 | open | `open-with-evidence` | none | 0 of 1 | no |
@@ -78,7 +76,6 @@ builds column reports what those artifacts name today, not the build behind the 
 | Q016 | open | `open-with-evidence` | none | 0 of 1 | no |
 | Q017 | open | `answered-older-build` | none | 0 of 1 | yes |
 | Q018 | open | `answered-older-build` | none | 0 of 3 | yes |
-| Q021 | open | `answered-older-build` | none | 0 of 1 | yes |
 | Q022 | future | `prerequisite` | none | 0 of 0 | no |
 | Q023 | future | `prerequisite` | none | 0 of 0 | no |
 | Q024 | open | `answered-older-build` | none | 0 of 1 | yes |
@@ -99,7 +96,7 @@ builds column reports what those artifacts name today, not the build behind the 
 | Q044 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q045 | open | `open-with-evidence` | none | 0 of 3 | no |
 | Q051 | open | `answered-older-build` | none | 0 of 2 | yes |
-| Q053 | open | `open-with-evidence` | 0.13.0 | 2 of 6 | no |
+| Q053 | open | `open-with-evidence` | 0.13.0 | 3 of 7 | no |
 
 ## What this page does not say
 

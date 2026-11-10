@@ -42,7 +42,9 @@ JUDGED = {
 # Tables frozen before the decision text was recorded. Listed rather than skipped silently, so a
 # new table cannot join them by default; the reason has to be written down.
 EXEMPT = {
+    "d3_persistence_prereg.json": "records a verdict and a reading per condition, not the decision",
     "admission_two_arm_prereg.json": "records a verdict and a reading per condition, not the decision",
+    "q006_admission_rederivation_prereg.json": "records a survival verdict and a reading per condition, not a new design decision",
     "ranking_admission_prereg.json": "records a verdict and a reading per condition, not the decision",
     "q053_mechanism_prereg.json": "records a verdict and a reading per condition, not the decision",
     "rank_ordering_prereg.json": "decisions are categorical labels (positive, negative, neither)",

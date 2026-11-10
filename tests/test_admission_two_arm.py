@@ -73,7 +73,12 @@ def test_the_seed_block_is_fresh_and_contiguous():
     # judged against documents that predate it.
     recorded = {ARTIFACT, DOC, RUN, RESULT,
                 ROOT / "docs" / "stage_b_protocol.json",
-                ROOT / "docs" / "USER-MANUAL.md"}
+                ROOT / "docs" / "USER-MANUAL.md",
+                # Q006's registration and page name this block only as the historical
+                # result it must not re-score. Their fresh block is checked by
+                # test_q006_admission_rederivation.
+                ROOT / "docs" / "q006_admission_rederivation_prereg.json",
+                ROOT / "docs" / "Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md"}
     for path in sorted(list((ROOT / "docs").glob("*.json"))
                        + list((ROOT / "docs").glob("*.md"))):
         if path in recorded:

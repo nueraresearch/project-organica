@@ -119,3 +119,17 @@ The pre-flight run of 2026-11-09 reports:
 
 Record: `docs/tier1_preflight.json`, page `docs/TIER1-PREFLIGHT.md`. D3 (restoring persistence)
 remains PENDING: no engine file changed and no published result was rebuilt.
+
+**D3 result (2026-11-09, post-freeze).** The frozen block ran: **`PERSISTENCE REPAIRED`**. The
+control's first zero is cycle 60 on every seed; the treatment has no first zero through cycle 3000
+and at least four theories in its last 100 cycles; the early-recall median gap is 0.0 against the
+-0.01 bar. **The six seeds are byte-identical**, so the block is one deterministic trajectory
+repeated six times, effective n = 1, and its seed axis is a design defect. The pass does not
+establish seed robustness, and D3's adoption remains PENDING. Record:
+`docs/d3_persistence_run.json`, page `docs/D3-PERSISTENCE-RESULT.md`.
+
+**D3 preregistration (2026-11-09).** D3 now has the preregistration it required:
+`docs/D3-PERSISTENCE-PREREGISTRATION.md`, frozen and unrun. It specifies matched
+source-frequency decay on 24 cells over six fresh seeds, measured on this decision's L3
+witness and on D2's L1 pre-flight at the 3000-cycle horizon. It does not change this
+decision's PENDING status, and no cell has run.

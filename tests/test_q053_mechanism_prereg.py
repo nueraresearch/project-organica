@@ -130,7 +130,9 @@ def test_the_seed_block_appears_nowhere_else():
            (ROOT / "docs" / "stage_b_protocol.json").resolve(),
            (ROOT / "docs" / "test_count.json").resolve(),
            (ROOT / "docs" / "research_question_registry.json").resolve(),
-           (ROOT / "docs" / "USER-MANUAL.md").resolve()}
+           (ROOT / "docs" / "USER-MANUAL.md").resolve(),
+           (ROOT / "docs" / "q053_mechanism_run.json").resolve(),
+           (ROOT / "docs" / "Q053-MECHANISM-RESULT.md").resolve()}
     roots = ["docs", "benchmarks", "tests", "papers", "research-journal"]
     for root in roots:
         for path in (ROOT / root).rglob("*"):

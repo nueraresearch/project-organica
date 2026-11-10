@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 11 | a result constrained the space; the answer is recorded with its scope |
-| open | 33 | evidence exists, no answer is settled |
+| closed | 14 | a result constrained the space; the answer is recorded with its scope |
+| open | 30 | evidence exists, no answer is settled |
 | retired | 2 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
 | **total** | **51** | |
@@ -23,7 +23,7 @@ where the method is.
 
 A closed or retired answer was reopened when **no artifact it rests on names the build pinned now** (`engine_version` 0.13.0, whose fourteen files `python -m benchmarks.engine_pin --check` verifies against the current tree). An answer without that attribution stands as the result on the engine that produced it; it cannot be carried into this build. It was kept closed only where its evidence names the pinned release, or where the closure was a governance or design decision rather than a measurement. A release-level stamp is weaker than the byte-level `engine_sha256` the stamp now writes, so the kept-closed answers are the first candidates for a byte-level re-verification.
 
-**Reopened: Q004, Q005, Q006, Q017, Q021, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 13**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
+**Reopened: Q004, Q005, Q017, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 16**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
 
 - **Q009** -- the answer is about the scope of the charter (what 'no V2' forbids), not about an engine measurement
 - **Q010** -- the answer is about the Stage B authorisation route, a protocol decision with no engine in it
@@ -38,6 +38,9 @@ A closed or retired answer was reopened when **no artifact it rests on names the
 - **Q049** -- its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree
 - **Q050** -- its evidence includes decay_sweep.json, which records engine_version 0.13.0 -- the release whose bytes the pin verifies against the current tree
 - **Q052** -- every artifact behind the answer records engine_version 0.13.0, so the closure carries into this build
+- **Q002** -- Closed 2026-11-09 on its 0.13.0 re-measurement (112 of 112 presence on six seeds); it was open at the 2026-11-08 sweep and sits outside the campaign.
+- **Q021** -- Closed 2026-11-09 by the pinned 40-cell re-derivation; it was reopened on 2026-11-08, and the result now names the pinned build.
+- **Q006** -- Closed 2026-11-09 by the pinned 16-cell re-derivation; the historical negative answer survived, so it is outside the campaign.
 
 ## How this stays current
 
@@ -46,6 +49,40 @@ tallies, a bottleneck-map row that no question claims, and a question that cites
 which is not on disk. Registering a decision is therefore part of making one.
 
 ## 1. Closed — answered, and the answer constrained the space
+
+### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes on the Gate-13 compositional world at 0.13.0: all 112 world edges are present in raw temporal memory on all six measured seeds (presence 1.0000), so availability is not the constraint on coverage. Asserted coverage is 0.2500-0.3214 (28-36 edges) at the engine cap of 40, so the limit is selection/assertion rather than candidate supply. Re-measured 2026-11-09 on the pinned build; the pre-0.10.0 figure is superseded. See docs/temporal_presence_0.13.0.json and docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md.
+
+**Scope.** Presence in one world family, not availability in general.
+
+**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`, `docs/temporal_presence_0.13.0.json`, `docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md`
+
+**Decision record.** `docs/DECISION-G1-WITNESS.md`
+
+**Bottleneck rows.** World-edge candidate availability
+
+### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
+
+*research question.*
+
+**Outcome.** UNSUPPORTED
+
+**Answer.** Not as a coverage gain on 0.13.0. The pinned 16-cell re-derivation on a fresh eight-seed block returned NO GAIN ON THIS LAYER: mean paired coverage gain -0.069197, 95% interval [-0.095982, -0.043527], 0 of 8 seeds positive, and mean paired precision difference -0.075631. The filter changes what is admitted (G0 liveness), but it does not improve coverage on this layer. The historical negative answer survives; see docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md.
+
+**Scope.** The admission rule on one compositional world family, one cap and one 120-cycle horizon; it does not establish that diversity-first ordering is wrong elsewhere.
+
+**Preregistered in.** `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`, `docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md`, `docs/q006_admission_rederivation_prereg.json`
+
+**Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`, `docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md`, `docs/q006_admission_rederivation_prereg.json`, `docs/q006_admission_rederivation.json`, `docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md`
+
+**Decision record.** `docs/DECISION-ADMISSION-RULE.md`
+
+**Bottleneck rows.** Selection / allocation
 
 ### Q009 — Does 'no V2' forbid all engine-adjacent work?
 
@@ -70,6 +107,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/DECISION-STAGE-B-SEQUENCE.md`, `docs/STAGE-B-PROTOCOL.md`
 
 **Decision record.** `docs/DECISION-STAGE-B-SEQUENCE.md`
+
+### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
+
+*research question.*
+
+**Outcome.** UNSUPPORTED
+
+**Answer.** No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold. The earned run returned TR 0.944, and the pinned 40-cell re-derivation returned NO_TRANSFER_ADVANTAGE: treatment, naive, pruned and orthogonal all acquired at 3.4 cycles, TR 1.0 with a 1.0-1.0 interval, 0 of 10 paired seeds favoured treatment, and mean TP was 20.5. See docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md.
+
+**Scope.** One cross-context world family on 0.13.0, four arms, ten seeds, 40/40 cycles; the v1 claim only, not transfer in general.
+
+**Preregistered in.** `docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md`
+
+**Evidence.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`, `docs/q021_transfer_rederivation.json`, `docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md`
 
 ### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
 
@@ -197,22 +248,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
-### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
-
-*research question.*
-
-**Answer.** Formerly closed SUPPORTED on pre-0.12.0 evidence: Yes on the tested worlds: all 112 true world edges were present in memory, so availability is not the constraint on coverage there. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.
-
-**Why it is open.** Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.
-
-**Scope.** Presence in one world family, not availability in general.
-
-**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
-
-**Decision record.** `docs/DECISION-G1-WITNESS.md`
-
-**Bottleneck rows.** World-edge candidate availability
-
 ### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
 
 *research question.*
@@ -266,26 +301,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Decision record.** `docs/DECISION-DENSITY-EXCLUSION.md`
 
 **Bottleneck rows.** Density interaction
-
-### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
-
-*research question.*
-
-**Answer.** Not as a filter. The temporal lookback includes the organism's own sleep rows, so changing what is admitted changes availability; the rule was adopted on its evidence and withdrawn the same day when the two-arm comparison closed the layer.
-
-**Reopened 2026-11-08.** Measured on: unattributed -- no artifact it rests on records an engine_version. The answer was measured on a build that cannot be named: DECISION-ADMISSION-RULE.md, admission_two_arm_result.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build.
-
-**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
-
-**Scope.** The admission rule, not extraction, the confidence formula, the death threshold or the caps.
-
-**Preregistered in.** `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
-
-**Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
-
-**Decision record.** `docs/DECISION-ADMISSION-RULE.md`
-
-**Bottleneck rows.** Selection / allocation
 
 ### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
 
@@ -387,6 +402,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
 
+**Preregistered in.** `docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md`
+
 **Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
 
 **Decision record.** `docs/DECISION-ADMISSION-RULE.md`
@@ -404,18 +421,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
 **Bottleneck rows.** Selection / allocation
-
-### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
-
-*research question.*
-
-**Answer.** No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold; removing that substitution flattens every arm, and the earned run returns TR 0.944.
-
-**Reopened 2026-11-08.** Measured on: unattributed -- no artifact it rests on records an engine_version. The answer was measured on a build that cannot be named: CROSS-CONTEXT-REUSE-EARNED-RESULTS.md, cross_context_reuse_benchmark.json carry no build field. It stands as the result on the engine that produced it and cannot be carried into the pinned build.
-
-**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
-
-**Evidence.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`
 
 ### Q024 — Does diversity-first admission improve the real engine?
 
@@ -619,7 +624,7 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Preregistered in.** `docs/Q053-MECHANISM-PREREGISTRATION.md`
 
-**Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`
+**Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`, `docs/q053_mechanism_run.json`, `docs/Q053-MECHANISM-RESULT.md`, `benchmarks/q053_mechanism_run.py`
 
 ## 3. Retired — no longer worth resources
 

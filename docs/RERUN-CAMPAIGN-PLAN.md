@@ -35,13 +35,13 @@ partition of its own; it splits one group.
 
 | Group | Count | Where it comes from |
 | --- | --- | --- |
-| Re-derivations | **14** | `reopening.reopened` |
-| First answers | **24** | every question in neither `reopened` nor `kept_closed` |
-| First answers runnable now | **19** | of the 24, status `open` |
-| First answers gated | **5** | of the 24, status `future` |
-| Kept closed, outside the campaign | **13** | `reopening.kept_closed` |
-| Campaign questions | **38** | 14 + 24 |
-| Registry questions | **51** | 38 + 13 |
+| Re-derivations | **12** | `reopening.reopened` |
+| First answers | **23** | open and future questions in neither `reopened` nor `kept_closed` |
+| First answers runnable now | **18** | of the 23, status `open` |
+| First answers gated | **5** | of the 23, status `future` |
+| Kept closed, outside the campaign | **16** | `reopening.kept_closed` |
+| Campaign questions | **35** | 12 + 23 |
+| Registry questions | **51** | 35 + 16 |
 
 The reopening was made against `engine_version` 0.13.0, whose bytes are
 `ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2` in the same record. That
@@ -49,39 +49,77 @@ pin — not a date and not the word "HEAD" — is the campaign's fixed object.
 
 **Disclosure.** The request for this plan named 25 first answers. The registry supports
 **24**: 19 `open` and 5 `future`, with no question carrying a prior outcome, and
-14 + 24 + 13 is the 51 the partition test checks. The plan uses the artifact's 24. If a
-twenty-fifth question is meant, it has to arrive as a registry row with a status and a
+14 + 24 + 14 was the 51 the partition test checks. **Q002 closed on 2026-11-09** — its presence
+measurement was re-made on 0.13.0 — so the table now reads 23 first answers, 18 runnable, 35
+campaign questions, with Q002 outside the campaign. The frozen 24/19 are the counts the campaign
+started from, not a licence to schedule a closed row. If a twenty-fifth question is meant, it has to arrive as a registry row with a status and a
 question, because a campaign slot with no row behind it cannot be preregistered.
 
-## 3. Half A — the 14 re-derivations
+## 3. Half A — the 12 re-derivations, triaged
 
-Every one of these carries `measured_on: unattributed -- no artifact it rests on records an
-engine_version`, and every one was reopened for that reason. The question text, the
-preregistration the registry names, and the first artifact in its evidence are reproduced
-below from the registry.
+The twelve reopened questions are not one kind of work. `benchmarks/rerun_triage.py` assigns
+each one from the registry and the files, and `tests/test_rerun_plan.py` fails when the buckets
+and the files disagree.
 
-| ID | The question, as the registry records it | Preregistration named | First artifact in its evidence |
-| --- | --- | --- | --- |
-| **Q004** | Does excluding intra-cell rows buy precision at a fixed cap? | `docs/density_interaction_a2_prereg.json` | `docs/density_interaction_a2_result.json` |
-| **Q005** | Does the primary scheme's partial final pass explain the ladder's non-monotonicity? | `docs/density_padding_prereg.json` | `docs/density_padding_result.json` |
-| **Q006** | Does a Layer-1 admission filter change candidate availability on this engine? | `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md` | `docs/DECISION-ADMISSION-RULE.md` |
-| **Q017** | Should further Layer-1 admission variants be tried? | none recorded | `docs/DECISION-ADMISSION-RULE.md` |
-| **Q021** | Can a transfer claim rest on the v1 TR = 3.2 result? | none recorded | `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md` |
-| **Q024** | Does diversity-first admission improve the real engine? | `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md` | `docs/DECISION-ADMISSION-RULE.md` |
-| **Q029** | Why do the structures that reach 35 stable edges on a degree-12 hub disappear? | `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q030** | Is the engine's temporal edge decay the mechanism that removes the structure? | `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q031** | At which cycle does the degree-12 fall begin, and how long does it take? | `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q032** | Do theories die before the edges, so that theory death causes the edge loss? | `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q036** | What is the persistence half-life of the peak structure? | `DECAY-ATTRIBUTION-PREREGISTRATION.md`, `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q043** | Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs? | `STORE-TIME-ROLE-RECORD-PREREGISTRATION.md` | `docs/store_time_role_durability.json` |
-| **Q044** | When a stable edge misses re-emission, is the cause the admission count or the ranked slot? | `DECAY-ADMISSION-SLOT-PREREGISTRATION.md` | `docs/decay_attribution.json` |
-| **Q051** | Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early? | `LONG-DELAY-CAPABILITY-PREREGISTRATION.md` | `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md` |
+| Bucket | Count | Entry condition |
+| --- | --- | --- |
+| Re-runnable | 11 | a frozen protocol resolves, a JSON comparator exists in the evidence, and a harness module exists |
+| Needs harness | 0 | code and a comparator exist, but no frozen protocol does |
+| Decision-only | 1 | the question is a judgment; its protocol names the inputs and the decision rule, but it is not a cell |
+| Prose-only | 0 | the answer is a judgment with no protocol and no dedicated harness |
 
-Twelve of the fourteen name a preregistration. **Q017 and Q021 name none**, and a re-derivation
-without a protocol is a fresh measurement wearing an old question's number — so each of those
-two needs its own preregistration before its first cell. Several of the named records are
-written without the `docs/` prefix; each is resolved to a file path at freeze, because a
-citation that does not resolve cannot be checked.
+**Disclosure.** Eight of the eleven re-runnable rows name at least one protocol without the
+`docs/` prefix. The registry is not rewritten; each path is resolved under `docs/` and the
+resolved path is listed below, because a citation that does not resolve cannot be checked.
+
+### 3.1 Re-runnable — the eleven cells
+
+| ID | The question, as the registry records it | Protocol | Comparator | Harness |
+| --- | --- | --- | --- | --- |
+| **Q024** | Does diversity-first admission improve the real engine? | `docs/RANKING-ADMISSION-PREREGISTRATION.md` | `docs/admission_two_arm_result.json` | `benchmarks/run_ranking_admission.py`, `benchmarks/score_ranking_admission.py` |
+| **Q004** | Does excluding intra-cell rows buy precision at a fixed cap? | `docs/density_interaction_a2_prereg.json` | `docs/density_interaction_a2_result.json` | `benchmarks/run_density_interaction.py`, `benchmarks/score_density_interaction_a2.py` |
+| **Q005** | Does the primary scheme's partial final pass explain the ladder's non-monotonicity? | `docs/density_padding_prereg.json` | `docs/density_padding_result.json` | `benchmarks/density_padding.py` |
+| **Q029** | Why do the structures that reach 35 stable edges on a degree-12 hub disappear? | `docs/DECAY-ATTRIBUTION-PREREGISTRATION.md` | `docs/decay_attribution.json` | `benchmarks/decay_attribution.py` |
+| **Q030** | Is the engine's temporal edge decay the mechanism that removes the structure? | `docs/DECAY-ATTRIBUTION-PREREGISTRATION.md` | `docs/decay_attribution.json` | `benchmarks/decay_attribution.py` |
+| **Q031** | At which cycle does the degree-12 fall begin, and how long does it take? | `docs/DECAY-ATTRIBUTION-PREREGISTRATION.md` | `docs/decay_attribution.json` | `benchmarks/decay_attribution.py` |
+| **Q032** | Do theories die before the edges, so that theory death causes the edge loss? | `docs/DECAY-ATTRIBUTION-PREREGISTRATION.md` | `docs/decay_attribution.json` | `benchmarks/decay_attribution.py` |
+| **Q036** | What is the persistence half-life of the peak structure? | `docs/DECAY-ATTRIBUTION-PREREGISTRATION.md` | `docs/decay_attribution.json` | `benchmarks/decay_attribution.py` |
+| **Q044** | When a stable edge misses re-emission, is the cause the admission count or the ranked slot? | `docs/DECAY-ADMISSION-SLOT-PREREGISTRATION.md` | `docs/decay_admission_slot.json` | `benchmarks/decay_admission_slot.py` |
+| **Q043** | Does the engine need a store-time role record, or does the stored record already contain the evidence a transfer trace needs? | `docs/STORE-TIME-ROLE-RECORD-PREREGISTRATION.md` | `docs/store_time_role_durability.json` | `benchmarks/store_time_role_durability.py` |
+| **Q051** | Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early? | `docs/LONG-DELAY-CAPABILITY-PREREGISTRATION.md` | `docs/long_delay_capability_confirm.json` | `benchmarks/long_delay_capability_confirm.py`, `benchmarks/long_delay_capability_design.py` |
+
+### 3.2 Needs harness — none
+
+No reopened row is waiting on code. Q021's harness and comparator already existed; the missing
+piece was its protocol, now frozen at `docs/Q021-TRANSFER-RE-DERIVATION-PREREGISTRATION.md`.
+
+### 3.3 Decision-only — Q017
+
+| ID | The question | Why it is not a cell |
+| --- | --- | --- |
+| **Q017** | Should further Layer-1 admission variants be tried? | The answer is a judgment, not a mechanism. `docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md` names Q006 and Q024 as inputs and decides between `RETIRE_NO_FURTHER_VARIANTS`, `BUILD_REQUIRED_VARIANT` and `UNREAD`; it runs no engine and cannot be a cell. |
+
+### 3.4 The Half-A re-derivation list
+
+The eleven re-runnable rows, in execution order. The selection and admission rows come first
+because they reuse one comparator and carry the acquisition-bound and Gate 13 traps; the decay
+cluster follows in causal order; Q044 extends it; Q043 is independent; Q051 is last because its
+endpoint rests on Q024 and Q044.
+
+1. **Q024** — diversity-first admission on the two-arm harness.
+2. **Q004** — density exclusion, acquisition-bound comparison.
+3. **Q005** — density padding, primary-scheme partial pass.
+4. **Q029** — why the degree-12 structure disappears.
+5. **Q030** — whether temporal decay is the removal mechanism.
+6. **Q031** — when the fall begins and how long it takes.
+7. **Q032** — whether theory death causes the edge loss.
+8. **Q036** — the peak structure's half-life.
+9. **Q044** — admission count or ranked slot.
+10. **Q043** — store-time role record.
+11. **Q051** — long-delay capability at 0.9925.
+
+Q017 is outside the list: its decision protocol is read after Q024, and it is not a cell.
+Q006 and Q021 are closed by their pinned results and are not pending rows.
 
 ## 4. Half A protocol
 
@@ -118,13 +156,12 @@ reads as a replication and is not.
 
 ## 5. Half B — the 24 first answers
 
-None of these has an outcome on record, so none has a comparator. Nineteen are `open`; five are
+None of these has an outcome on record, so none has a comparator. Eighteen are `open`; five are
 `future` and name the question that gates them.
 
 | ID | The question, as the registry records it | Preregistration named |
 | --- | --- | --- |
 | **Q001** | Can developmental structure form in Organica 1? | none recorded |
-| **Q002** | Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out? | none recorded |
 | **Q003** | Can a frequency-ranked selection find the world's edges at the engine's cap? | none recorded |
 | **Q007** | Does internal structure improve held-out prediction at the tested endpoint? | none recorded |
 | **Q008** | Do the architecture's own motivational mechanisms drive development in the predicted direction? | none recorded |
@@ -154,7 +191,7 @@ The five gated rows are not scheduled. They are valid only after their prerequis
 | **Q026** | Does role-based transfer persist once the origin context is gone? | `Q012` |
 | **Q027** | Do transferred structures survive selection on their own? | `Q012` |
 
-Seven of the twenty-four name a preregistration; the other seventeen need one written. Two of
+Seven of the twenty-three name a preregistration; the other sixteen need one written. Two of
 them are live questions the record already constrains: Q018's space is closed by measurement
 rather than by taste — precision never exceeded the ceiling across the measurements in
 `docs/gate13_allocation_rule.json` under two allocation rules, and a per-source rule does worse
@@ -166,7 +203,7 @@ about to re-derive.
 1. **Say in the protocol's first line that it is a first measurement.** A first answer may not
    be compared to a pre-0.13.0 number as though the two were one series; where the old number
    is quoted it is labelled a cross-build observation.
-2. **One preregistration per question, before its cells.** The seventeen without one are
+2. **One preregistration per question, before its cells.** The sixteen without one are
    written first. A first answer without a frozen criterion has no bar to clear, and whatever it
    returns becomes the answer by default.
 3. **A decision table per row, before any cell** (AGENTS.md rule 30). Each row names the
@@ -187,13 +224,13 @@ about to re-derive.
    guard, and its build is labelled separately (AGENTS.md rule 17d).
 6. **No first answer widens past its endpoint.** The claim is what the endpoint measured, on the
    population and axis it measured it on (AGENTS.md rule 24).
-7. **Q012 runs first among the open nineteen**, because four gated rows and one further
+7. **Q012 runs first among the open eighteen**, because four gated rows and one further
    question wait on it. The gated five are scheduled only after their prerequisite is answered
    in this build.
 
 ## 7. What is outside the campaign
 
-The thirteen kept-closed questions are not cells. Nine are kept closed because an artifact
+The fourteen kept-closed questions are not cells. Ten are kept closed because an artifact
 behind the answer names the pinned release; four because the closure was a governance or design
 decision rather than a measurement. The registry itself says the stamped ones are the first
 candidates for **byte-level re-verification**, which is a check of attribution, not a research
@@ -201,7 +238,8 @@ cell — and the four governance closures are not measurements that a cell could
 
 ## 8. Sequencing and gates
 
-**Half A before Half B.** Half A's protocols are already frozen for twelve of its fourteen rows,
+**Half A before Half B.** Eleven of Half A's twelve rows are re-runnable; Q006 and Q021 are
+closed by their pinned results, and Q017 is decision-only, so it is not scheduled as a cell.
 and several Half B rows rest on instruments Half A re-derives: Q045 and Q053 assume the
 diversity-first ranking and the decay/admission findings that Q024, Q044 and Q051 are about.
 Running Half B first would ask a first question on top of an answer that has not yet been shown

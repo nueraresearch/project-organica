@@ -13,6 +13,8 @@ import json
 import re
 from pathlib import Path
 
+from benchmarks import rerun_triage as T
+
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "docs/RERUN-CAMPAIGN-PLAN.md"
 REGISTRY = ROOT / "docs/research_question_registry.json"
@@ -30,7 +32,9 @@ def campaign(reg: dict) -> dict:
     reopened = list(reg["reopening"]["reopened"])
     kept = [exception["id"] for exception in reg["reopening"]["kept_closed"]]
     status = {question["id"]: question["status"] for question in reg["questions"]}
-    first = [qid for qid in status if qid not in set(reopened) and qid not in set(kept)]
+    first = [qid for qid in status
+             if qid not in set(reopened) and qid not in set(kept)
+             and status[qid] in ("open", "future")]
     gated = [qid for qid in first if status[qid] == "future"]
     runnable = [qid for qid in first if qid not in set(gated)]
     return {
@@ -117,7 +121,7 @@ def test_the_plan_lists_exactly_the_campaign_questions() -> None:
     split = campaign(reg)
     assert sorted(page_ids(text, "## 3. Half A")) == sorted(split["reopened"])
     assert sorted(page_ids(text, "## 5. Half B")) == sorted(split["first"])
-    assert len(split["runnable"]) == 19 and len(split["gated"]) == 5
+    assert len(split["runnable"]) == 18 and len(split["gated"]) == 5
     assert not set(split["reopened"]) & set(split["first"]), "a question cannot be in both halves"
 
 
@@ -155,3 +159,37 @@ def test_the_comparison_fires_when_a_question_moves() -> None:
     problems = mismatches(moved, text)
     assert problems, "moving a question between groups must be reported"
     assert any(target in problem for problem in problems), problems
+
+
+def test_the_triage_partitions_every_reopened_question() -> None:
+    reg = registry()
+    assert T.problems(reg) == [], T.problems(reg)
+    rows = T.triage(reg)
+    assert {qid for qid, row in rows.items() if row["bucket"] == "re-runnable"} == set(T.RE_RUNNABLE)
+    assert {qid for qid, row in rows.items() if row["bucket"] == "needs-harness"} == set(T.NEEDS_HARNESS)
+    assert {qid for qid, row in rows.items() if row["bucket"] == "decision-only"} == set(T.DECISION_ONLY)
+    assert {qid for qid, row in rows.items() if row["bucket"] == "prose-only"} == set(T.PROSE_ONLY)
+    assert len(T.RE_RUNNABLE) == 11
+    assert len(T.NEEDS_HARNESS) == 0 and len(T.DECISION_ONLY) == 1
+    assert len(T.PROSE_ONLY) == 0
+
+
+def test_the_half_a_list_is_the_re_runnable_order() -> None:
+    text = PLAN.read_text(encoding="utf-8")
+    start = text.index("### 3.4")
+    end = text.index("## 4. Half A protocol")
+    listed = re.findall(r"^\d+\. \*\*(Q\d{3})\*\*", text[start:end], re.M)
+    assert listed == list(T.RE_RUNNABLE), (listed, list(T.RE_RUNNABLE))
+    assert "Q017" not in listed
+
+
+def test_the_triage_control_fires_when_a_row_moves_bucket() -> None:
+    reg = registry()
+    moved = {
+        "re-runnable": set(T.RE_RUNNABLE) - {"Q051"},
+        "needs-harness": set(T.NEEDS_HARNESS) | {"Q051"},
+        "prose-only": set(T.PROSE_ONLY),
+    }
+    problems = T.problems(reg, moved)
+    assert problems, "moving Q051 must be reported"
+    assert any("Q051" in problem for problem in problems), problems

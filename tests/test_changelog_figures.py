@@ -324,12 +324,12 @@ def _check(entries: str) -> list[dict]:
     add("DIFFERENT_SUPPORT_COLLAPSE", "docs/q052_competition_census_a2.json .label",
         _at(a2, "label"), _at(a2, "label") == "DIFFERENT_SUPPORT_COLLAPSE")
 
-    # --- E7. Fourteen closed answers reopened -------------------------------
+    # --- E7. Thirteen closed answers reopened (Q021 later closed) ------------
     registry = _load("docs/research_question_registry.json")
     reopened = _at(registry, "reopening", "reopened")
-    expected = ["Q004", "Q005", "Q006", "Q017", "Q021", "Q024", "Q029", "Q030",
+    expected = ["Q004", "Q005", "Q017", "Q024", "Q029", "Q030",
                 "Q031", "Q032", "Q036", "Q043", "Q044", "Q051"]
-    add("Fourteen closed questions", "docs/research_question_registry.json .reopening.reopened",
+    add("Twelve closed questions", "docs/research_question_registry.json .reopening.reopened",
         len(reopened), reopened == expected)
     add("0.13.0", "docs/research_question_registry.json .reopening.engine_version",
         _at(registry, "reopening", "engine_version"),
@@ -338,10 +338,9 @@ def _check(entries: str) -> list[dict]:
     add("fourteen files", "docs/engine_pin.json .files", len(_at(pin, "files")),
         len(_at(pin, "files")) == 14)
     kept = _at(registry, "reopening", "kept_closed")
-    add("Thirteen kept closed", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 13,
-        "Q052 was closed before the 2026-11-08 pass and was omitted from it; the correction "
-        "is recorded in the entry")
+    add("16", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 16,
+        "Q002, Q006 and Q021 closed on 2026-11-09 after their 0.13.0 re-measurements, so the record now holds 16")
     named = sum(1 for e in kept if "records engine_version 0.13.0" in e["reason"])
     governance = sum(1 for e in kept
                      if "the answer is about" in e["reason"]
@@ -1093,21 +1092,21 @@ def _check(entries: str) -> list[dict]:
     questions = _at(reg, "questions")
     add("51", "docs/research_question_registry.json .questions", len(questions),
         len(questions) == 51)
-    add("14", "docs/research_question_registry.json .reopening.reopened",
-        len(reopened), len(reopened) == 14)
-    add("13", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 13)
+    add("12", "docs/research_question_registry.json .reopening.reopened",
+        len(reopened), len(reopened) == 12)
+    add("16", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 16)
     never = [q for q in questions
              if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
-    add("24", "docs/research_question_registry.json, questions in neither list",
-        len(never), len(never) == 24)
+    add("23", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 23)
     runnable = [q for q in never if q["status"] == "open"]
-    add("19", "docs/research_question_registry.json, never-closed rows with status open",
-        len(runnable), len(runnable) == 19)
+    add("18", "docs/research_question_registry.json, never-closed rows with status open",
+        len(runnable), len(runnable) == 18)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**151** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 151 and "**151** artifacts" in entries,
+    add("**157** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 157 and "**157** artifacts" in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
@@ -1159,10 +1158,10 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**151** artifacts", "**152** artifacts")
-    assert "**152** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_drift = entries.replace("**157** artifacts", "**158** artifacts")
+    assert "**158** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
-    assert any("151" in failure for failure in stage_b_failures), stage_b_failures
+    assert any("157" in failure for failure in stage_b_failures), stage_b_failures
 
 # The entries whose figures are pinned by _check() above: the 14 the version
 # sweep examined, then the 28 earlier entries pinned on 2026-11-09.

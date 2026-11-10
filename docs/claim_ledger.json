@@ -72,7 +72,7 @@
     {
       "claim_id": "C003",
       "claim": "All 112 edges of the Gate-13 compositional world are present in raw temporal memory on the six measured seeds, independent of the frozen prediction cap.",
-      "classification": "HYPOTHESIS",
+      "classification": "SUPPORTED",
       "status": "ACTIVE",
       "provenance": "ARTIFACT_READ",
       "engine_version": "0.13.0",
@@ -88,7 +88,7 @@
         "Presence in raw temporal memory, not selection, ranking or use in a prediction.",
         "The asserted basis is far lower (0.2500-0.3214 on the same seeds): the world is present and the organism does not assert it, which is the finding the claim must not blur.",
         "Re-specified 2026-11-09: the 112-edge world is the Gate-13 acquisition world, not the force-matrix world (lattice_L1, three disjoint triangles); citing force_matrix.json for this number was a mis-citation. Measured on 0.13.0 at 112 of 112 on all six seeds, so the earlier downgrade (evidence predating the rework) no longer applies to the presence half.",
-        "Promotion to SUPPORTED waits on Q002, which is still open: the measurement licenses the presence half on 0.13.0, and a load-bearing classification needs the question closed."
+        "Promoted to SUPPORTED 2026-11-09: Q002 closed SUPPORTED on the same six-seed measurement, and the artifact's stale cap note is corrected by docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md (MAX_PREDICTIONS is 40, not 20; presence is counted before the cap, asserted coverage at it)."
       ],
       "superseded_by": null,
       "withdrawn_reason": ""

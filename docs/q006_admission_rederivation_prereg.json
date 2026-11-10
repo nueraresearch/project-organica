@@ -1,0 +1,131 @@
+{
+  "kind": "q006_admission_rederivation_prereg",
+  "prereg": "Q006-ADMISSION-RE-DERIVATION-1",
+  "date": "2026-11-09",
+  "status": "FROZEN, NOT RUN",
+  "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
+  "comparator": {
+    "artifact": "docs/admission_two_arm_result.json",
+    "verdict": "NO GAIN ON THIS LAYER",
+    "mean_paired_gain": -0.077009,
+    "interval": [
+      -0.099331,
+      -0.05692
+    ],
+    "seeds_positive": 0,
+    "of_seeds": 8,
+    "build": "unattributed; the artifact carries no engine_version",
+    "seeds": [
+      20320101,
+      20320102,
+      20320103,
+      20320104,
+      20320105,
+      20320106,
+      20320107,
+      20320108
+    ],
+    "note": "The historical result stands for the build that produced it. Its seed block is consumed and is not reused here."
+  },
+  "design": {
+    "seeds": [
+      20510101,
+      20510102,
+      20510103,
+      20510104,
+      20510105,
+      20510106,
+      20510107,
+      20510108
+    ],
+    "bootstrap": 20510109,
+    "cycles": 120,
+    "arms": [
+      "reference",
+      "adopted"
+    ],
+    "cells": 16,
+    "cells_arithmetic": "2 arms x 8 seeds = 16 cells",
+    "world": "generate_compositional_world(seed, cycles), the Gate 13 world, identical for both arms of a seed",
+    "endpoint": "asserted_coverage from gate_acquisition_sufficiency: covered_asserted_edges / world_edges",
+    "pairing": "both arms of a seed run on the same generated world; only service_cls differs",
+    "reference_arm": "organica.sleep.SleepService",
+    "adopted_arm": "DiversityFirstSleepService, restored in-process from the definition at a82e890 because the module was removed at withdrawal",
+    "threshold_for_acquisition_failed": 0.5
+  },
+  "seeds": {
+    "block": [
+      20510101,
+      20510108
+    ],
+    "world": [
+      20510101,
+      20510102,
+      20510103,
+      20510104,
+      20510105,
+      20510106,
+      20510107,
+      20510108
+    ],
+    "bootstrap": 20510109,
+    "freshness": "the first contiguous window of nine integers at or above 20510101 that appears in no file under docs, tests, benchmarks, research-journal or papers; the ninth is the bootstrap seed and is not a world seed"
+  },
+  "criteria": {
+    "bar": 0.08,
+    "bar_rule": "mean paired coverage difference (adopted minus reference) at or above the bar, interval lower bound above zero, and at least seven of eight seeds with a positive difference",
+    "bar_provenance": "carried as policy from the original ADMISSION-TWO-ARM-1 registration: one half of the order block's measured mean delta, 0.1615, floored to two decimals; it is not calibrated on this layer",
+    "guard_bar": -0.05,
+    "guard_rule": "mean paired precision difference (adopted minus reference) at or above the guard bar",
+    "guard_provenance": "declared, not calibrated: 0.05 is the smallest difference this project's instruments have been asked to distinguish",
+    "sign_test": {
+      "required": 7,
+      "of": 8
+    },
+    "interval": 0.95,
+    "bootstrap_reps": 4000,
+    "underpowered_width": 0.3
+  },
+  "decision_table": [
+    {
+      "condition": "gates pass; gain passes; guard passes",
+      "verdict": "ADOPTED ARM GAINS",
+      "reading": "the restored adopted admission covers more of the world's edges at the same budget without losing precision"
+    },
+    {
+      "condition": "gates pass; gain passes; guard fails",
+      "verdict": "PRICED TRADE",
+      "reading": "coverage rises and precision falls; the trade is recorded and nothing is claimed as a gain"
+    },
+    {
+      "condition": "gates pass; gain fails; interval width at or below 0.30",
+      "verdict": "NO GAIN ON THIS LAYER",
+      "reading": "the adopted rule does not cover more of the world here; the historical negative answer survives"
+    },
+    {
+      "condition": "gates pass; gain fails; interval width above 0.30",
+      "verdict": "UNDERPOWERED",
+      "reading": "the interval cannot place the difference; absence of a gain is not established"
+    },
+    {
+      "condition": "a gate fails",
+      "verdict": "VOID",
+      "reading": "reported as the gate, never as a gain or a loss"
+    }
+  ],
+  "classification": {
+    "SURVIVED": "the re-derived verdict is NO GAIN ON THIS LAYER, matching the historical answer",
+    "REVERSED": "the re-derived verdict is ADOPTED ARM GAINS",
+    "CHANGED": "the re-derived verdict is PRICED TRADE",
+    "NOT_MEASURABLE": "the re-derived verdict is UNDERPOWERED or VOID"
+  },
+  "gates": {
+    "G0_liveness": "the two arms' asserted fingerprints must differ on at least seven of eight seeds",
+    "G1_world_present": "raw temporal coverage must be 1.0 in both arms of every seed",
+    "G2_arithmetic": "covered cannot exceed asserted; coverage and precision must equal their stated ratios",
+    "G3_determinism": "the reference arm re-run on the first seed must produce the same asserted fingerprint",
+    "G4_denominator": "the world must have at least one compositional edge in every seed",
+    "G5_boundary": "no frozen engine file may differ from HEAD when the block runs"
+  },
+  "not_evidence": "This is one world family at one horizon and one cap. It says whether the historical admission answer survives on 0.13.0; it does not establish that diversity-first ordering is wrong anywhere else."
+}

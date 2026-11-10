@@ -1,0 +1,334 @@
+{
+ "kind": "q006_admission_rederivation",
+ "date": "2026-11-09",
+ "protocol": "docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md",
+ "prereg": "Q006-ADMISSION-RE-DERIVATION-1",
+ "seeds": [
+  20510101,
+  20510102,
+  20510103,
+  20510104,
+  20510105,
+  20510106,
+  20510107,
+  20510108
+ ],
+ "bootstrap_seed": 20510109,
+ "cycles": 120,
+ "cells": [
+  {
+   "seed": 20510101,
+   "arm": "reference",
+   "coverage": 0.232143,
+   "covered": 26,
+   "asserted": 95,
+   "precision": 0.273684,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "1d1d39df0c34e607",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510101,
+   "arm": "adopted",
+   "coverage": 0.116071,
+   "covered": 13,
+   "asserted": 87,
+   "precision": 0.149425,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "5a64ede5ddb4b63c",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510102,
+   "arm": "reference",
+   "coverage": 0.25,
+   "covered": 28,
+   "asserted": 85,
+   "precision": 0.329412,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "475a593dc25ded54",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510102,
+   "arm": "adopted",
+   "coverage": 0.205357,
+   "covered": 23,
+   "asserted": 89,
+   "precision": 0.258427,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "4a8f931593defc4e",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510103,
+   "arm": "reference",
+   "coverage": 0.339286,
+   "covered": 38,
+   "asserted": 105,
+   "precision": 0.361905,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "1eb1d3761628921d",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510103,
+   "arm": "adopted",
+   "coverage": 0.330357,
+   "covered": 37,
+   "asserted": 110,
+   "precision": 0.336364,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "0701b3cfe8eb1f07",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510104,
+   "arm": "reference",
+   "coverage": 0.401786,
+   "covered": 45,
+   "asserted": 107,
+   "precision": 0.420561,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "770d438da378c417",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510104,
+   "arm": "adopted",
+   "coverage": 0.276786,
+   "covered": 31,
+   "asserted": 99,
+   "precision": 0.313131,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "43a51aa9b2ec1a40",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510105,
+   "arm": "reference",
+   "coverage": 0.321429,
+   "covered": 36,
+   "asserted": 97,
+   "precision": 0.371134,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "07998cb15b99b54f",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510105,
+   "arm": "adopted",
+   "coverage": 0.241071,
+   "covered": 27,
+   "asserted": 97,
+   "precision": 0.278351,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "f169c854abc6aadb",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510106,
+   "arm": "reference",
+   "coverage": 0.410714,
+   "covered": 46,
+   "asserted": 112,
+   "precision": 0.410714,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "ba56d44a1f8b567c",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510106,
+   "arm": "adopted",
+   "coverage": 0.330357,
+   "covered": 37,
+   "asserted": 111,
+   "precision": 0.333333,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "43a5d5ec42ae785c",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510107,
+   "arm": "reference",
+   "coverage": 0.241071,
+   "covered": 27,
+   "asserted": 88,
+   "precision": 0.306818,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "f2bce10c5869283d",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510107,
+   "arm": "adopted",
+   "coverage": 0.178571,
+   "covered": 20,
+   "asserted": 83,
+   "precision": 0.240964,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "8aeb858e62959a9d",
+   "service": "DiversityFirstSleepService"
+  },
+  {
+   "seed": 20510108,
+   "arm": "reference",
+   "coverage": 0.294643,
+   "covered": 33,
+   "asserted": 98,
+   "precision": 0.336735,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "0a74dc34cdb63693",
+   "service": "SleepService"
+  },
+  {
+   "seed": 20510108,
+   "arm": "adopted",
+   "coverage": 0.258929,
+   "covered": 29,
+   "asserted": 98,
+   "precision": 0.295918,
+   "world_edges": 112,
+   "raw_temporal_coverage": 1.0,
+   "asserted_fingerprint": "f5403f682ba00182",
+   "service": "DiversityFirstSleepService"
+  }
+ ],
+ "determinism": {
+  "seed": 20510101,
+  "rerun_fingerprint": "1d1d39df0c34e607",
+  "matched": true
+ },
+ "boundary": {
+  "frozen_files_clean": true,
+  "checked": [
+   "organica/sleep.py",
+   "organica/memory.py",
+   "organica/paths.py",
+   "organica/streams.py",
+   "organica/branch_streams.py",
+   "organica/scale_streams.py",
+   "organica/ground_truth_worlds.py"
+  ]
+ },
+ "provenance": {
+  "runner": "benchmarks/q006_admission_rederivation.py",
+  "instrument": "benchmarks/acquisition_harness.py:gate_acquisition_sufficiency",
+  "arms": {
+   "reference": "SleepService",
+   "adopted": "DiversityFirstSleepService"
+  },
+  "engine_runs": 17
+ },
+ "gates": {
+  "G0_liveness": {
+   "seeds_where_the_arms_differ": 8,
+   "of": 8,
+   "required": 7,
+   "passed": true
+  },
+  "G1_world_present": {
+   "min_raw_temporal_coverage": 1.0,
+   "passed": true
+  },
+  "G2_arithmetic": {
+   "problems": [],
+   "passed": true
+  },
+  "G3_determinism": {
+   "matched": true,
+   "passed": true
+  },
+  "G4_denominator": {
+   "min_world_edges": 112,
+   "passed": true
+  },
+  "G5_boundary": {
+   "frozen_files_clean": true,
+   "passed": true
+  },
+  "all_passed": true
+ },
+ "criteria": {
+  "adoption": {
+   "mean_paired_gain": -0.069197,
+   "interval": [
+    -0.095982,
+    -0.043527
+   ],
+   "interval_width": 0.052455,
+   "bar": 0.08,
+   "seeds_positive": 0,
+   "conditions": {
+    "mean_at_or_above_bar": false,
+    "interval_lower_above_zero": false,
+    "sign_test_met": false
+   },
+   "passed": false
+  },
+  "guard": {
+   "mean_paired_precision_difference": -0.075631,
+   "bar": -0.05,
+   "passed": false
+  },
+  "per_seed": {
+   "20510101": {
+    "coverage_gain": -0.116072,
+    "precision_difference": -0.124259
+   },
+   "20510102": {
+    "coverage_gain": -0.044643,
+    "precision_difference": -0.070985
+   },
+   "20510103": {
+    "coverage_gain": -0.008929,
+    "precision_difference": -0.025541
+   },
+   "20510104": {
+    "coverage_gain": -0.125,
+    "precision_difference": -0.10743
+   },
+   "20510105": {
+    "coverage_gain": -0.080358,
+    "precision_difference": -0.092783
+   },
+   "20510106": {
+    "coverage_gain": -0.080357,
+    "precision_difference": -0.077381
+   },
+   "20510107": {
+    "coverage_gain": -0.0625,
+    "precision_difference": -0.065854
+   },
+   "20510108": {
+    "coverage_gain": -0.035714,
+    "precision_difference": -0.040817
+   }
+  }
+ },
+ "decision": {
+  "verdict": "NO GAIN ON THIS LAYER",
+  "decision": "close",
+  "reading": "the adopted rule does not cover more of the world here; the historical negative answer survives"
+ },
+ "survival": "SURVIVED",
+ "engine_version": "0.13.0",
+ "engine_commit": "6e0ff24d84d34fd7e99b79173e2247f035e194c1",
+ "engine_sha256": "ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2",
+ "runner": "__main__"
+}

@@ -11,6 +11,18 @@ questions behind it. Nothing appears here that cannot be traced back to an artif
 Closed questions whose recorded outcome is SUPPORTED. The scope beside each one is part of
 the finding: a result outside that scope is not established by it.
 
+### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes on the Gate-13 compositional world at 0.13.0: all 112 world edges are present in raw temporal memory on all six measured seeds (presence 1.0000), so availability is not the constraint on coverage. Asserted coverage is 0.2500-0.3214 (28-36 edges) at the engine cap of 40, so the limit is selection/assertion rather than candidate supply. Re-measured 2026-11-09 on the pinned build; the pre-0.10.0 figure is superseded. See docs/temporal_presence_0.13.0.json and docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md.
+
+**Scope.** Presence in one world family, not availability in general.
+
+**Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`, `docs/temporal_presence_0.13.0.json`, `docs/AMENDMENT-2026-11-09-PRESENCE-CAP.md`
+
+**Claims resting on it.** C003
+
 ### Q040 — Does the pinned 0.13.0 engine reproduce the historical death phenomenon?
 
 **Outcome.** SUPPORTED, status closed.
@@ -76,6 +88,26 @@ dashboard counts them under questions rather than under findings.
 Closed questions whose recorded outcome is UNSUPPORTED. Not supported is not refuted: it
 means the test the project ran did not support the proposition, on the scope stated.
 
+### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
+
+**Outcome.** UNSUPPORTED, status closed.
+
+**Answer.** Not as a coverage gain on 0.13.0. The pinned 16-cell re-derivation on a fresh eight-seed block returned NO GAIN ON THIS LAYER: mean paired coverage gain -0.069197, 95% interval [-0.095982, -0.043527], 0 of 8 seeds positive, and mean paired precision difference -0.075631. The filter changes what is admitted (G0 liveness), but it does not improve coverage on this layer. The historical negative answer survives; see docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md.
+
+**Scope.** The admission rule on one compositional world family, one cap and one 120-cycle horizon; it does not establish that diversity-first ordering is wrong elsewhere.
+
+**Evidence.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`, `docs/Q006-ADMISSION-RE-DERIVATION-PREREGISTRATION.md`, `docs/q006_admission_rederivation_prereg.json`, `docs/q006_admission_rederivation.json`, `docs/Q006-ADMISSION-RE-DERIVATION-RESULT.md`
+
+### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
+
+**Outcome.** UNSUPPORTED, status closed.
+
+**Answer.** No. The v1 advantage came from a confidence boost keyed on the existence of a schema, which lifted a one-transition edge past the prediction threshold. The earned run returned TR 0.944, and the pinned 40-cell re-derivation returned NO_TRANSFER_ADVANTAGE: treatment, naive, pruned and orthogonal all acquired at 3.4 cycles, TR 1.0 with a 1.0-1.0 interval, 0 of 10 paired seeds favoured treatment, and mean TP was 20.5. See docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md.
+
+**Scope.** One cross-context world family on 0.13.0, four arms, ten seeds, 40/40 cycles; the v1 claim only, not transfer in general.
+
+**Evidence.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`, `docs/q021_transfer_rederivation.json`, `docs/Q021-TRANSFER-RE-DERIVATION-RESULTS.md`
+
 ### Q041 — Can the decay falsifier be validly interpreted when its reference arm is dead?
 
 **Outcome.** UNSUPPORTED, status closed.
@@ -132,12 +164,6 @@ as one.
 
 **What is in hand.** `docs/V1-SYNTHESIS.md`, `docs/FACTS-SHEET.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
 
-### Q002 — Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?
-
-**Why it is open.** Reopened 2026-11-08: the 112-edge presence figure comes from docs/gate13_allocation_rule.json (2026-10-29), produced before the 0.10.0 tag and before MAX_PREDICTIONS moved from 20 to 40.
-
-**What is in hand.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
-
 ### Q003 — Can a frequency-ranked selection find the world's edges at the engine's cap?
 
 **Why it is open.** Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured.
@@ -155,12 +181,6 @@ as one.
 **Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
 
 **What is in hand.** `docs/density_padding_result.json`, `docs/DECISION-DENSITY-EXCLUSION.md`
-
-### Q006 — Does a Layer-1 admission filter change candidate availability on this engine?
-
-**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
-
-**What is in hand.** `docs/DECISION-ADMISSION-RULE.md`, `docs/admission_two_arm_result.json`
 
 ### Q007 — Does internal structure improve held-out prediction at the tested endpoint?
 
@@ -221,12 +241,6 @@ as one.
 **Why it is open.** Reopened 2026-11-08: the retirement was argued from a pre-0.10.0 precision ceiling. That measurement does not describe the current engine, so the variant space is unmeasured there rather than closed.
 
 **What is in hand.** `docs/gate13_allocation_rule.json`, `docs/bottleneck_map.json`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
-
-### Q021 — Can a transfer claim rest on the v1 TR = 3.2 result?
-
-**Why it is open.** Reopened 2026-11-08 because the engine has changed since the answer was measured and the artifacts behind it name no build; re-testing on the pinned engine is what would settle it.
-
-**What is in hand.** `docs/CROSS-CONTEXT-REUSE-EARNED-RESULTS.md`, `docs/cross_context_reuse_benchmark.json`
 
 ### Q024 — Does diversity-first admission improve the real engine?
 
@@ -322,7 +336,7 @@ as one.
 
 **Why it is open.** The mechanism is chosen and frozen: a second-competing retention floor keeps the highest-support hypothesis of each subject's top two expectations through consolidation, exempt from the death threshold, and changes nothing else. The block is 20 cells on `lattice_L1` (burst excluded by Q052's classification) over a fresh block with one bootstrap seed; the reading is a mechanism gate first, then a capability bar carried from Q051, then an early-cost bound. Nothing is implemented and no cell has run, so the preserve-to-capability link remains unmeasured.
 
-**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`
+**What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`, `docs/q053_mechanism_run.json`, `docs/Q053-MECHANISM-RESULT.md`, `benchmarks/q053_mechanism_run.py`
 
 ### Q022 — Can role representations transfer across domains?
 

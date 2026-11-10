@@ -4,19 +4,19 @@
   "note": "Derived from the registry, the decisions index and the engine-version audit. No status is changed and no engine is run.",
   "pinned_version": "0.13.0",
   "populations": {
-    "open": 33,
+    "open": 30,
     "future": 5,
-    "closed": 11,
+    "closed": 14,
     "retired": 2,
-    "reviewed": 38,
-    "reopened_by_the_sweep": 14,
-    "open_and_never_closed": 19,
-    "reopened_in_prose": 20
+    "reviewed": 35,
+    "reopened_by_the_sweep": 12,
+    "open_and_never_closed": 18,
+    "reopened_in_prose": 17
   },
   "evidence": {
-    "json_refs": 56,
-    "named_build": 3,
-    "unnamed_build": 53,
+    "json_refs": 53,
+    "named_build": 4,
+    "unnamed_build": 49,
     "missing_paths": [],
     "missing_path_count": 0,
     "distinct_builds": [
@@ -27,7 +27,7 @@
     "broken-evidence": 0,
     "prerequisite": 5,
     "governance-held": 2,
-    "answered-older-build": 18,
+    "answered-older-build": 15,
     "answered-at-pin": 0,
     "answered-no-build": 0,
     "open-with-evidence": 13,
@@ -43,23 +43,6 @@
       "builds_include_pin": false,
       "evidence": 4,
       "json_evidence": 1,
-      "named_build": 0,
-      "missing": [],
-      "reopened_in_prose": true,
-      "answered": true,
-      "blocked_by": [],
-      "pending_decisions": [],
-      "preregistrations": []
-    },
-    {
-      "id": "Q002",
-      "status": "open",
-      "question": "Are the world's own edges present in memory at the engine's budget, so that a candidate shortage is ruled out?",
-      "state": "answered-older-build",
-      "builds": [],
-      "builds_include_pin": false,
-      "evidence": 4,
-      "json_evidence": 2,
       "named_build": 0,
       "missing": [],
       "reopened_in_prose": true,
@@ -129,28 +112,6 @@
       "preregistrations": [
         {
           "ref": "docs/density_padding_prereg.json",
-          "resolved": "path"
-        }
-      ]
-    },
-    {
-      "id": "Q006",
-      "status": "open",
-      "question": "Does a Layer-1 admission filter change candidate availability on this engine?",
-      "state": "answered-older-build",
-      "builds": [],
-      "builds_include_pin": false,
-      "evidence": 2,
-      "json_evidence": 1,
-      "named_build": 0,
-      "missing": [],
-      "reopened_in_prose": true,
-      "answered": true,
-      "blocked_by": [],
-      "pending_decisions": [],
-      "preregistrations": [
-        {
-          "ref": "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md",
           "resolved": "path"
         }
       ]
@@ -313,7 +274,12 @@
       "answered": true,
       "blocked_by": [],
       "pending_decisions": [],
-      "preregistrations": []
+      "preregistrations": [
+        {
+          "ref": "docs/Q017-ADMISSION-DECISION-PREREGISTRATION.md",
+          "resolved": "path"
+        }
+      ]
     },
     {
       "id": "Q018",
@@ -324,23 +290,6 @@
       "builds_include_pin": false,
       "evidence": 4,
       "json_evidence": 3,
-      "named_build": 0,
-      "missing": [],
-      "reopened_in_prose": true,
-      "answered": true,
-      "blocked_by": [],
-      "pending_decisions": [],
-      "preregistrations": []
-    },
-    {
-      "id": "Q021",
-      "status": "open",
-      "question": "Can a transfer claim rest on the v1 TR = 3.2 result?",
-      "state": "answered-older-build",
-      "builds": [],
-      "builds_include_pin": false,
-      "evidence": 2,
-      "json_evidence": 1,
       "named_build": 0,
       "missing": [],
       "reopened_in_prose": true,
@@ -802,9 +751,9 @@
         "0.13.0"
       ],
       "builds_include_pin": true,
-      "evidence": 10,
-      "json_evidence": 6,
-      "named_build": 2,
+      "evidence": 13,
+      "json_evidence": 7,
+      "named_build": 3,
       "missing": [],
       "reopened_in_prose": false,
       "answered": false,
