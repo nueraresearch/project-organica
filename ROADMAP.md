@@ -1,5 +1,13 @@
 # Project Organica: Research Roadmap
 
+> **Current information-gain priority (2026-11-11): assertion provenance.** The 26
+> asserted-but-never-served edges are classified per edge — 0 recording gaps, 18
+> reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
+> prediction-only residuals — and the open question is why the loop/dream structures carry
+> those pairs. This is a planning pointer only; it changes no verdict, gate, seed or
+> artifact. See [`docs/FINDINGS-LEDGER.md`](docs/FINDINGS-LEDGER.md) §5 and
+> [`docs/ASSERTION-PROVENANCE.md`](docs/ASSERTION-PROVENANCE.md).
+>
 > ### Superseded for planning purposes — 2026-10-26 · updated 2026-10-29
 >
 > This roadmap describes the project's earlier structure and is **superseded for planning**
