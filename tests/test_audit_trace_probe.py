@@ -20,6 +20,7 @@ and watch the reconciliation break.
 Reference: docs/AUDIT-TRACE-SPEC.md, acceptance criteria A1, A2, A4, A7.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

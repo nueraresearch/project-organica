@@ -7,6 +7,7 @@ artifact; and both documents are checked for the retirement of the word
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

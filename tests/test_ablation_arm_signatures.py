@@ -33,6 +33,7 @@ argument set still carries the `meta_concepts` keyword that broke it.
 """
 
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import ast
 import contextlib

@@ -7,6 +7,7 @@ longer has.  The heading is the source of truth, and the project's "Paper N:"
 label is not part of the paper's title -- it must not reach the document
 properties.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import importlib.util
 import json

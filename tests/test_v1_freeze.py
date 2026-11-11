@@ -25,6 +25,7 @@ Run:  python -m pytest tests/test_v1_freeze.py -v
 """
 
 from __future__ import annotations
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import subprocess

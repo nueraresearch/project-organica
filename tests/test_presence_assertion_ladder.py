@@ -5,6 +5,7 @@ change to a cell, to the declared rule or to the renderer is caught rather than 
 The declared dominance threshold is pinned too: the result sits just under it, and moving
 the threshold after the run would be re-scoring the protocol.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json
@@ -149,3 +150,14 @@ def test_the_gate_fails_on_a_stale_verdict(tmp_path, monkeypatch):
 
 def test_the_runner_check_is_clean():
     assert L.check() == 0
+
+def test_the_admission_table_names_the_bypass_separately():
+    page = L.PAGE.read_text(encoding="utf-8")
+    asserted_edges = sum(row["asserted_admission_stats"]["edges"] for row in BODY["rows"])
+    bypass = sum(row["asserted_without_admission"] for row in BODY["rows"])
+    offered = sum(row["admission_stats"]["offered_not_admitted"]["edges"]
+                  for row in BODY["rows"])
+    assert "| Set | Edges | Bypass | Never admitted (non-bypass) |" in page
+    assert "| asserted | %d | %d | 0 |" % (asserted_edges, bypass) in page
+    assert "| offered_not_admitted | %d | 0 | %d |" % (offered, offered) in page
+    assert "Bypass is not a miss." in page

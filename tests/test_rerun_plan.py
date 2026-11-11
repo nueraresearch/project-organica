@@ -8,6 +8,7 @@ reports it, so a checker that can never fire cannot pass for a guard.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re
@@ -121,7 +122,7 @@ def test_the_plan_lists_exactly_the_campaign_questions() -> None:
     split = campaign(reg)
     assert sorted(page_ids(text, "## 3. Half A")) == sorted(split["reopened"])
     assert sorted(page_ids(text, "## 5. Half B")) == sorted(split["first"])
-    assert len(split["runnable"]) == 18 and len(split["gated"]) == 5
+    assert len(split["runnable"]) == 19 and len(split["gated"]) == 5
     assert not set(split["reopened"]) & set(split["first"]), "a question cannot be in both halves"
 
 

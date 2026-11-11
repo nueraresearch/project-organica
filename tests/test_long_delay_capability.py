@@ -1,5 +1,6 @@
 """Tests for the online long-delay capability instrument."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import math
 import sys

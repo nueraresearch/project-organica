@@ -6,6 +6,7 @@ conjunctive decision on synthetic cells.  If a gate cannot fire, the protocol is
 decoration, so each rejection label has a test that produces it.
 """
 from __future__ import annotations
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

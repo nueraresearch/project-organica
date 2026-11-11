@@ -4,6 +4,7 @@ Counts are recomputed from the harness constants or from the verified rejection
 pattern, so the record cannot drift from the grid it describes; the claim about
 the selection rule is checked against the rule's own source.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import inspect
 import json

@@ -1,4 +1,5 @@
 """The Tier-1 pre-flight must be able to pass, block, and fail for the stated reasons."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 from benchmarks import force_matrix as fm

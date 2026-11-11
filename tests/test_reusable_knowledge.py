@@ -6,6 +6,7 @@ available relations and that the gate CAN fire, that the ceiling is the closed
 form of §14, and that the confirmatory guard refuses before calibration passes.
 """
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import time
 from unittest import mock

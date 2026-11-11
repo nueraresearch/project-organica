@@ -1,5 +1,6 @@
 """Q006's pinned result must be the frozen block's result, not a typed summary."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

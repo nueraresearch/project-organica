@@ -1,0 +1,95 @@
+{
+ "kind": "presence_cap112_prereg",
+ "not_a_result": true,
+ "status": "FROZEN, NOT RUN",
+ "no_cells_run": true,
+ "frozen_on": "2026-11-11",
+ "cap": 112,
+ "engine": {
+  "target_version": "0.15.0",
+  "shipped_today": "0.15.0, cap 112 (landed 2026-11-11)",
+  "requires": "`DECISION-CAP-LEVEL` C landed: `SleepService.MAX_PREDICTIONS` set to 112, version 0.15.0, pin re-recorded, canaries re-recorded and attributed"
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-11",
+  "document": "docs/AUTHORISATION-PRESENCE-CAP-112.md",
+  "quote": "Write the dated cap-112 authorisation document for the comparator, Q1 and Q2, recording the owner's grant against the three frozen records.",
+  "scope": "the three cap-112 records: PRESENCE-COMPARATOR-112, PRESENCE-CONSTRUCT-1-112 and PRESENCE-CAP-1-112, once the cap is landed and a harness exists",
+  "why": "the owner granted the cap-112 campaign on 2026-11-11; the grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md` and quoted there. It does not land the cap and does not authorise a run under cap 40."
+ },
+ "runner": {
+  "status": "built",
+  "module": "benchmarks/presence_cap112_runners.py",
+  "built_on": "2026-11-11",
+  "refuses": "`--measure` refuses while the shipped cap is not 112, the installed version is not 0.15.0, the pin does not name it, or the block canaries were not re-recorded on the installed bytes",
+  "why": "the three blocks are implemented against these frozen designs and their gates. On the landed build (0.15.0, cap 112) the preflight is satisfied, so `--measure` would open a cell; no cell has been started here"
+ },
+ "amendments": [
+  {
+   "date": "2026-11-11",
+   "kind": "runner-built",
+   "reason": "the owner's grant of 2026-11-11 authorised the cells, and the runners were the separate step the draft named",
+   "disclosure": "`benchmarks/presence_cap112_runners.py` implements the comparator, Q1 and Q2 cells and their gates, with verdict rules and gate controls that run on hand-built rows. `--measure` refuses on this build: the shipped cap is 40 and the installed version is 0.14.0. No cell has run, no verdict is adjudicated, and the design, seeds, gates and verdict rules above are unchanged."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "cap-landed",
+   "reason": "the owner instructed the 0.15.0 landing: version 0.15.0, cap 112, engine re-pin and canaries re-recorded with attribution",
+   "disclosure": "`SleepService.MAX_PREDICTIONS` is 112 and the package is 0.15.0. Each of the four runner conditions is met, so the records are runnable; landing does not run them. The records' status stays FROZEN, NOT RUN and their design, seeds, gates and verdict rules are unchanged. The 0.14.0 cap-40 records are superseded, not re-scored: each carries a dated build_superseded block."
+  }
+ ],
+ "decision_table_source": "docs/presence_construct_audit_prereg.json",
+ "result": null,
+ "not_evidence": "A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.",
+ "prereg": "PRESENCE-CONSTRUCT-1-112",
+ "block": "Q1",
+ "question": "At cap 112, are presence, admitted and asserted measured as comparable quantities on the same world edges, the same build and the same window, so a conversion or cap reading rests on an edge-level measurement?",
+ "claim": "Q1's six gates describe an object relation, not a cap: A_W must be a subset of P, recorded per seed. The cap-40 record returned `CONSTRUCT VALID`. This record asks the same question with the cap the project intends to ship.",
+ "design": {
+  "seeds": [
+   20261100,
+   20261101,
+   20261102,
+   20261103,
+   20261104,
+   20261105
+  ],
+  "cycles": 120,
+  "cells": 6,
+  "cap": 112,
+  "control_cell": {
+   "seed": 20261100,
+   "why": "a fresh-process rerun whose fingerprints must match the reading cell"
+  },
+  "world": "the Gate-13 compositional world (16 tags, 112 derivable edges)",
+  "pairing": "one cell per seed, paired with the cap-112 comparator row for that seed"
+ },
+ "gates": {
+  "C1_build": "one build at the pinned sha256 and cap 112",
+  "C2_world": "one W per seed",
+  "C3_presence": "P is a set with a digest and per-edge membership",
+  "C4_denominator": "W, P and S_ever non-empty; a zero denominator is NOT MEASURABLE",
+  "C5_object": "A_W is a subset of P; failure is OBJECT MISMATCH",
+  "C6_witnesses": "at least one positive A_W edge and one P-minus-A_W edge per seed",
+  "C7_seed_axis": "at least two distinct fingerprints across the six seeds",
+  "C8_determinism": "the control rerun reproduces its fingerprints and ordered admission window",
+  "C9_comparator_row": "each cell reproduces the cap-112 comparator row for its seed: world edges, present edges, asserted world edges and asserted fingerprint. This replaces the cap-40 `audit row reproduced` clause, whose published row does not exist at 112."
+ },
+ "verdict_rule": "Q1's own gate set over C1-C9: `CONSTRUCT VALID`, `OBJECT MISMATCH`, `NOT MEASURABLE`, `VOID`",
+ "gates_control": "`--check` builds a record with a cap-40 design and one with C1 deleted and requires both to be rejected, so the guard can fail.",
+ "page": "PRESENCE-CONSTRUCT-1-112-PREREGISTRATION.md",
+ "seed_block": [
+  20261100,
+  20261101,
+  20261102,
+  20261103,
+  20261104,
+  20261105
+ ],
+ "seed_reuse": "the six historical audit seeds, reused so the level comparison is paired; declared against docs/presence_assertion_audit_0.14.0.json",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

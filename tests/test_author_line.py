@@ -7,6 +7,7 @@ the title page printed the literal characters (journal §131).  The sentinel is
 what makes that testable without rendering a PDF.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import pytest
 

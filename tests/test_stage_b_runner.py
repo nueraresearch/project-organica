@@ -7,6 +7,7 @@ relation must be detected and a flat outcome must not be -- because a statistic 
 cannot fail is decoration (AGENTS rule 25c).
 """
 from __future__ import annotations
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

@@ -1,5 +1,6 @@
 """The formation-provenance instrument, proven on synthetic controls only."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from benchmarks import formation_provenance as fp
 from benchmarks import provenance_trace as pt

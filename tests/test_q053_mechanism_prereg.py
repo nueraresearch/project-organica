@@ -3,6 +3,7 @@
 The fixtures are synthetic cells: no engine runs, no world is generated, and the scorer is the
 committed one, so a verdict that cannot be reached here cannot be reached in the block either.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

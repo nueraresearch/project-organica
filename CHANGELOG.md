@@ -13,7 +13,7 @@ They are deliberately distinct, and they are what the version number
 
 | Namespace | Form | Meaning | Current |
 |---|---|---|---|
-| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.14.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
+| **Package version** | `0.x.y` (SemVer 2) | the released, installable, citable artifact | **0.15.0** (unreleased) · 0.12.0 cut 2026-11-06 · v0.10.0 is the previous tag · v0.9.0 the latest published release |
 | **Architecture generation** | *Organica 1*, *Organica 2* | a generation of the eight-layer engine. Organica 1 is frozen; Organica 2 is planned | **Organica 1** |
 | **Research campaign** | *Ablation Study 1*, *Ablation Study 2* | the experimental series. Study 1 is the eleven-condition ablation; Study 2 is the six-colony Tier-1 matrix | **Study 2 in flight** |
 
@@ -28,7 +28,143 @@ there is nothing to check out.
 
 ---
 
+## [0.15.0] — (unreleased)
+
+### Changed — The layer-1 cap is 112, and the canaries say so (2026-11-11)
+
+- **The cap moved from 40 to 112, and only the cap moved.** `SleepService.MAX_PREDICTIONS` is
+  `112`; no other engine constant, method or ordering was touched, and the E1 allocation
+  (`returned_budget`, `transition_budget`, `cooccurrence_budget`) is unchanged. The level change
+  is `DECISION-CAP-LEVEL` choice C, which stays PENDING: landing the cap does not promote the
+  decision, and no lineage link is recorded for it.
+- **The canary digests moved because the cap is inside the cell, not because of E1.** On the
+  re-recorded build `PRESENCE-CONSTRUCT-1` is `8ffefa8d1ec7957ebe82124225648a95ab350fcc07e2b93bffd81736d9a06486` and `PRESENCE-CONVERSION-1` is
+  `3d8d83ed6f723c81573525778cb44d9d9816ea0aec7c2056937657c170dc965f`; both changed, and the changelog attributes the change to the level, not to the
+  E1 allocation whose proof is preserved unchanged in `docs/block_canaries_0.14.0_e1.json`.
+- **Two frozen cells did not move, and the checklist's blanket rule is wrong about them.**
+  `PRESENCE-CAP-1` stays `a32ae3bc3d00dd4fc54a39f3a5629d1f237b900944c9a96e32a2685ad2b70f8d` because its cell passes an explicit `cap: 40` arm — the level is
+  pinned inside the cell, so the shipped constant cannot reach it. `PRESENCE-CONVERSION-2` stays
+  `f8ead12b63221c9db5b261b7969f8797b4ceb4ad1b44d67cce415b8036972aca` because it is a refusal canary: it records that a cell is refused, and no cap is
+  read. Unchanged is the correct reading for both, and is disclosed rather than restamped.
+- **The 0.14.0 equivalence link is retired, not carried.** A cap change is a behaviour change, so
+  no lineage link can join the two builds; `docs/engine_lineage.json` now carries no links and the
+  E1 link is kept as the historical `docs/engine_lineage_0.14.0.json`. The cap-40 records
+  (`PRESENCE-CONSTRUCT-1`, `PRESENCE-CAP-1`, `PRESENCE-CONVERSION-1`) keep their status and
+  verdicts and gain a dated `build_superseded` disclosure naming the build they measured; their
+  checks accept that build explicitly instead of the shipped one.
+- **The cap-112 records are the live design, not a re-score.** The comparator, Q1 and Q2 records
+  at cap 112 remain `FROZEN, NOT RUN` with their runners built and gated; landing makes them
+  runnable without running a cell. `python -m benchmarks.presence_cap112_prereg --check` is the
+  record check.
+- **Version and pin move together:** the package is `0.15.0` in the three declarations,
+- **The band-identifiable arm is frozen, not run.** `PRESENCE-BAND-1`
+  (`docs/presence_band_rank_prereg.json`, `docs/PRESENCE-BAND-RANK-PREREGISTRATION.md`)
+  names the 62 Q4 rank-21–40 transition edges by identity and fixes a 40-versus-112
+  per-edge arm on Q4's six worlds: twelve cells, gates B1–B8, the admission decision's
+  acceptance condition quoted verbatim. It is the instrument Q2's count-only payload lacked,
+  not a re-read of Q2. Its runner was built at `benchmarks/presence_band_rank_arm.py`, and the
+  block later ran under a dated grant (the next entry).
+  `docs/engine_pin.json` re-pins fourteen files at 0.15.0, and no tag is cut.
+- **The band arm ran under a dated grant and returned `VOID` on B5 (2026-11-11).**
+  `docs/AUTHORISATION-PRESENCE-BAND-1.md` records the instruction; the twelve cells and the
+  determinism rerun produced `docs/presence_band_rank_run.json`. All **62** named edges were
+  served at 112 (12, 9, 16, 9, 14, 2) and **0** at 40, but **B5** failed on every seed: the
+  cap-112 transition allocation is 64-69, not the frozen **56**, and the rank comparison read
+  no served edge. Seven of eight gates pass, so the frozen table reads **VOID** and the
+  acceptance stays **unadjudicated**; the decision stays **PENDING**. Two harness defects
+  (`dict & set` in B4 and character tuples in `_served`) were fixed after the cells ran; no
+  cell re-ran and no gate was rescored. Stage B now quotes **180** artifacts.
+- **BAND-2 is frozen with a corrected B5 and a fixed rank reading, before any cell (2026-11-11).**
+  `docs/presence_band_rank_2_prereg.json` and `docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md`
+  keep BAND-1's 62 Q4 rank-21-40 edges and six worlds but correct the two harness defects.
+  B5 now reads **56** as the engine's floor (`MAX_PREDICTIONS // 2`) and allows the cooccurrence
+  backfill, so the observed 64-69 is no longer a gate failure; the rank reader splits
+  `source>target` at exactly one `>` into two non-empty tags, takes the minimum recorded rank
+  for that exact edge, and fails a served edge with no rank rather than contributing 0. BAND-2
+  is a new, unrun block, not a re-score: BAND-1 stays VOID, no arm is built, no grant is
+  recorded, and no cell has run. Stage B now quotes **183** artifacts.
+- **The 56-transition budget is reconciled with the 112 cap allocation (2026-11-11).**
+  The engine's `transition_budget = returned_budget // 2` is a guaranteed floor, and
+  `_build_predictions` backfills unused cooccurrence slots with further transitions. At 112 the
+  floor is **56**, while BAND-1's cells served **64-69**; its exact-56 gate was therefore a gate
+  defect. `docs/CAP-DECISION-BRIEF.md`, `docs/DECISION-ADMISSION-STEP.md`,
+  `docs/DECISION-CAP-SEMANTICS.md` and the decision index now say this, and BAND-1 carries a dated
+  `budget-reconciled` disclosure without changing its gates or VOID verdict. BAND-2 freezes the
+  corrected `>= 56` condition and remains unrun. The cap, Q2's `CAP LIMITING`, Q4's
+  `CONVERSION STAGE MEASURED`, the decision's PENDING status and its acceptance condition are
+  unchanged; no cell re-ran.
+- **The persistence intervention is chosen: carry counts, not a lower floor or a longer lookback (2026-11-11).**
+  `docs/DECISION-PERSISTENCE-INTERVENTION.md` follows Q055/T1b and records the intervention as
+  cross-cycle carry, with the floor at **5** and the event lookback at **3** fixed. Lowering the
+  floor is rejected: floor 4 leaves three of the five zero cells at zero, while floor 2 or 1
+  admits almost every world edge; extending the lookback is rejected because event rows persist
+  across the reset, so a longer window reintroduces cross-cycle context and is a carry channel in
+  disguise. The follow-up arm is **`PERSISTENCE-CARRY-1`**: carry versus an explicit reset at
+  every cycle boundary, 12 cells on six fresh seeds at cap 112, with a clean reset that closes
+  T1b's skipped-boundary leak. The decision is **PENDING**; no grant, arm, runner or cell exists,
+  and `PERSISTENCE-MECHANISM-1` remains frozen and unrun.
+- **The persistence-mechanism follow-up is frozen before any cell (2026-11-11).**
+  `PERSISTENCE-MECHANISM-1` (`docs/persistence_mechanism_prereg.json` and
+  `docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md`) follows T1b's decision to pursue the
+  persistence mechanism (decay, floor, denominator) with a 2 x 2 at cap 112 on 0.15.0:
+  decay **0.95** versus no decay **1.0**, and read floor **5** versus **1**. It plans
+  **24** cells (4 arms x 6 fresh seeds, 20612301-20612306) at 120 cycles, with G1-G7
+  fixing the build, world, live treatments, denominator, seed axis, determinism and cell
+  count. No grant is recorded, no runner is built, no result exists and `cells_run` is 0;
+  T1 and T1b are not re-read. Stage B now quotes **184** artifacts.
+- **The T1b persistence result is now an established finding (2026-11-11).**
+  `docs/RESEARCH-FINDINGS.md` gains **Q055**, sourced from the registry rather than edited by
+  hand. At cap 112, T1b's six fresh seeds show shipped `S_ever` 101, 95, 100, 103, 98 and 99
+  against persistence-off 0, 1, 0, 3, 0 and 3; the paired differences are 101, 94, 100, 100,
+  98 and 96 (mean **98.167**, 95% interval **[96, 100]**), all six above the margin of 10, with
+  all seven gates passing and three zero `S_ever` cells read as measured zeros. The finding
+  carries its scope — one build, one cap, one world family, six seeds, one no-carry
+  intervention; a direction, not an effect size — and the prior T1 context: T1 is VOID on G4
+  because its frozen rule treated zero `S_ever` as unmeasurable, its computed mean is not
+  adjudicated, and T1b changed only that reading before any cell. No verdict, gate, cap,
+  engine byte or seed moved. The registry now holds **53** questions and 17 kept-closed rows.
+- **T1b ran with a zero-admitting denominator gate and returned `PERSISTENCE CONTRIBUTES` (2026-11-11).**
+  `docs/AUTHORISATION-T1B-PERSISTENCE-OFF.md` records the instruction; the twelve cells and the
+  rerun on six fresh seeds produced `docs/t1b_persistence_off_run.json`. G4 now treats P as the
+  denominator and S_ever as a measured count: P = 112 in every cell, three persistence-off cells
+  served zero world edges and are reported as zeros, and all seven gates pass. The paired
+  differences are 101, 94, 100, 100, 98 and 96 (mean **98.167**, 95% interval **[96, 100]**),
+  positive on 6 of 6 seeds against the margin of 10. T1 remains VOID on its own G4 and is not
+  re-read. Stage B now quotes **182** artifacts.
+- **The zero-S_ever persistence-off cells are explained by the prediction floor (2026-11-11).**
+  `benchmarks/persistence_zero_diagnostic.py` replays the committed T1 and T1b store sequences
+  and runs the full observer/sleep path on the five zero cells plus two controls. The reset leaves only within-cycle counts, and `_build_predictions`
+  admits a transition only at `PREDICTION_MIN_COUNT = 5`. The five zero cells (T1 20612204 and
+  20612205; T1b 20612208, 20612210 and 20612212) never let a world edge reach 5 inside a cycle
+  (max 3 or 4), so 0 world edges are admissible and the full path serves 0 on all five. The
+  seven non-zero off cells' ceilings equal their `S_ever` exactly; the controls serve 9 and 3, and
+  the shipped arm stays at or below its ceiling. No verdict moved:
+  T1 stays VOID and T1b stays `PERSISTENCE CONTRIBUTES`. Stage B stays at **182** artifacts: the diagnostic is marked not-a-result and does not count as a consumed seed.
+
+- **The admission decision's open question is carried into the next-work views (2026-11-11).**
+  `python -m benchmarks.research_accountability` renders a **Next work — open question**
+  section from `docs/decisions.json`, quoting the `open_question` of every PENDING
+  decision; `python -m benchmarks.research_trace --next` prints the same quote under its
+  pending-decision row. The admission decision stays PENDING and its acceptance condition
+  stays unadjudicated; the views add no decision and change no status.
+
 ## [0.14.0] — (unreleased)
+
+### Changed — the prediction budget is an allocation, and a recorded lineage carries behaviour-identical builds (2026-11-11)
+
+- **The owner's E1 is in force.** `MAX_PREDICTIONS` is the returned prediction window; inside
+  `_build_predictions` it is named `returned_budget` and split into `transition_budget`
+  (`returned_budget // 2`) and `cooccurrence_budget` (the remainder after transitions are served).
+  Every override that moves the cap moves all three, because they are derived, not stored.
+  `docs/DECISION-CAP-SEMANTICS.md` records the decision; the four block-canary digests in
+  `docs/block_canaries.json` are unchanged, which is the proof that no served row moved.
+- **A behaviour-preserving edit can now land without restamping a measurement.**
+  `docs/engine_lineage.json` records a link from the build the canaries were recorded on to the
+  split build, authorised by that decision and proving the recorded digests;
+  `benchmarks.engine_lineage.same_build` is the build check for the block canaries, the assertion
+  audit, the construct audit and the cap block. `block_canaries --check` re-runs the cells on the
+  successor, so a link cannot bless a build that serves different rows, and no frozen verdict was
+  re-derived.
 
 ### Changed — D3's matched-frequency persistence repair is promoted into the engine (2026-11-10)
 
@@ -100,12 +236,12 @@ there is nothing to check out.
   appeared in neither `reopened` nor `kept_closed`, so the kept-closed count was short by one and the
   entry above it had said twelve. It is now in `kept_closed` with its artifact evidence. Q052's
   closure left the reopened side one row larger than it is now: Q006 has since moved to
-  `kept_closed`, so the current partition is **12** reopened + **16** kept closed + **23** never
-  closed over **51** questions. Three tests in `tests/test_research_registry.py` check that every
+  `kept_closed`, so the current partition is **12** reopened + **16** kept closed + **24** never
+  closed over **52** questions; Q054, the Q4 conversion-repair protocol, is the twenty-fourth never-closed row and joined as a first answer on 2026-11-10. Three tests in `tests/test_research_registry.py` check that every
   closed or retired question is classified, that the three groups partition the registry with
   reopened answers open, and that removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **167** artifacts (amended 2026-11-10: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the cap preregistration, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day) with
-  **0** overlap against the candidate block, eleven more than the **146** it recorded before
+- **The Stage B block follows the artifact that landed.** The seed scan covers **184** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record after it) with
+  **0** overlap against the candidate block, **27** more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
   together so they describe the same state.
 - **`docs/RERUN-CAMPAIGN-PLAN.md` splits the registry into two halves and runs nothing:** after

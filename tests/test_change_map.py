@@ -1,4 +1,5 @@
 """The change-to-failure map must cover the engine and be able to fail."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 

@@ -1,4 +1,5 @@
 """An artifact that does not name its build cannot be attributed to one."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import hashlib
 import json

@@ -7,6 +7,7 @@ Tests:
   Test C: Dream Poison (Adversarial counterfactual injection without reality support)
   Test D: Memory Pressure & Lineage Tractability (Large-scale event stream)
 """
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 import time

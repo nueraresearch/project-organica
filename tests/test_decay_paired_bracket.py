@@ -1,6 +1,7 @@
 """The paired 0.9924/0.9925 check is reproducible, and its gates can fail."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

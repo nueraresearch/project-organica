@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from benchmarks import engine_stamp                                      # noqa: E402
+from benchmarks import engine_lineage, engine_stamp                      # noqa: E402
 from benchmarks.acquisition_harness import gate_acquisition_sufficiency, SHORT_CYCLES  # noqa: E402
 from organica.sleep import SleepService                                  # noqa: E402
 
@@ -243,8 +243,9 @@ def check() -> int:
         problems.append("artifact kind")
     if SleepService.MAX_PREDICTIONS != CAP:
         problems.append("shipped cap is not %d" % CAP)
-    if art.get("same_build", {}).get("sha256") != engine_stamp.engine_sha256():
-        problems.append("artifact build does not match the shipped engine")
+    if not engine_lineage.same_build(art.get("same_build", {}).get("sha256")):
+        problems.append("artifact build is neither the shipped engine nor a recorded "
+                        "behaviour-identical successor")
     if engine_stamp.missing(art):
         problems.append("artifact is not fully stamped: %r" % engine_stamp.missing(art))
     rows = art.get("rows") or []

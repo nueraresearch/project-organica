@@ -25,6 +25,7 @@ category that has not been tested.
 Reference: docs/AUDIT-TRACE-SPEC.md sections 6 and 12.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

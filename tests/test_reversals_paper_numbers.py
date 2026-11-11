@@ -9,6 +9,7 @@ absolute delta only where the artifact declares none (P1 does not), so a change 
 expectation.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import json

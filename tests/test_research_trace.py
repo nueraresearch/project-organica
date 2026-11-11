@@ -6,12 +6,14 @@ the pair it exists to catch -- a contradiction that became evidence, support tha
 gate that opened without the status moving, and a gate that can never open. A check that only
 ever passes is decoration, so each rule is shown failing on a constructed record.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re
 
 import pytest
 
+from benchmarks import decision_graph as dg
 from benchmarks import research_trace as rt
 
 
@@ -158,6 +160,22 @@ def test_the_work_queue_separates_uncovered_questions_from_unblocked_ones():
     assert queue["unblocked"] == ["Q004"]
     assert queue["uncovered"] == ["Q002"]
     assert queue["contested"] == ["C001"]
+
+
+def test_the_next_view_carries_the_pending_open_question(records):
+    reg, ledger, _mapdoc = records
+    page = rt.render_next(reg, ledger, dg.load())
+    assert "DECISION-ADMISSION-STEP" in page
+    assert "mechanism question" in page
+
+
+def test_a_pending_decision_without_an_open_question_is_not_in_the_next_view(records):
+    reg, ledger, _mapdoc = records
+    decisions = json.loads(json.dumps(dg.load()))
+    for decision in decisions["decisions"]:
+        decision.pop("open_question", None)
+    page = rt.render_next(reg, ledger, decisions)
+    assert "mechanism question" not in page
 
 
 def test_the_rendered_queue_names_the_question_and_its_gate():

@@ -5,6 +5,7 @@ the sparse-end level, the interaction is descriptive because the dense end is pi
 bar has a provenance from unregistered seeds, the 16-seed grid runs through the shared
 runner, and the frozen scorer reaches every pole of the decision table.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

@@ -20,6 +20,7 @@ are not in the stop-word list.
 """
 
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import pytest
 

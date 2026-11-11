@@ -188,6 +188,17 @@ def drift(reg, ledger, mapdoc=None) -> list:
 # ---------------------------------------------------------------------------
 
 
+def pending_open_questions(decisions) -> list:
+    """The open question attached to each pending decision, if it has one."""
+    if decisions is None:
+        return []
+    return [
+        {"decision_id": d["decision_id"], "open_question": d["open_question"]}
+        for d in decisions.get("decisions", [])
+        if d.get("status") == "PENDING" and d.get("open_question")
+    ]
+
+
 def work_queue(reg, ledger, decisions=None) -> dict:
     """What the records imply is worth doing next, in buckets that lead to different work.
 
@@ -231,6 +242,7 @@ def work_queue(reg, ledger, decisions=None) -> dict:
         "deadlocked": deadlocked,
         "contested": contested,
         "pending_decisions": dg.pending(decisions) if decisions is not None else [],
+        "pending_questions": pending_open_questions(decisions),
     }
 
 
@@ -285,7 +297,12 @@ def render_next(reg, ledger, decisions=None) -> str:
         "",
     ]
     if queue["pending_decisions"]:
-        lines += ["- **%s**" % did for did in queue["pending_decisions"]]
+        by_id = {d["decision_id"]: d for d in (decisions or {}).get("decisions", [])}
+        for did in queue["pending_decisions"]:
+            lines.append("- **%s**" % did)
+            question = by_id.get(did, {}).get("open_question")
+            if question:
+                lines.append("  **Open question.** *\"%s\"*" % question)
     else:
         lines.append("None.")
 

@@ -5,6 +5,7 @@ satisfy it — a guard that cannot fail is decoration, which is the failure `AGE
 names. The committed map is checked in `tests/test_bottleneck_map.py`; this file checks the
 validator.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

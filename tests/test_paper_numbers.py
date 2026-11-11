@@ -30,6 +30,7 @@ Discipline (mirrors AGENTS.md):
   * Nothing here re-scores anything. The artifacts are read, never written.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import io
 import json

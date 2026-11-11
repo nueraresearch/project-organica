@@ -5,6 +5,7 @@ that keep the seed blocks apart, and the two gates that must be able to fire.
 No study seed is generated here.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import pathlib
 import pytest

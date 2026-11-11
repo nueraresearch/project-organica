@@ -1,4 +1,5 @@
 """The licensing record must bound the run, and the bound must be able to fire."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

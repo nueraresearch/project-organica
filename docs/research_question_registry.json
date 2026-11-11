@@ -1,7 +1,7 @@
 {
   "kind": "research_question_registry",
   "version": 1,
-  "date": "2026-11-08",
+  "date": "2026-11-11",
   "statuses": {
     "closed": "a result meaningfully constrained the space, and the answer carries its scope",
     "open": "evidence exists but no answer is settled",
@@ -69,7 +69,11 @@
       "preregistrations": [],
       "supersedes": [],
       "answer": "Formerly closed UNSUPPORTED on pre-0.12.0 evidence: No. Precision never exceeded 0.3438 across 36 measurements under two allocation rules; coverage needs 240-244 asserted edges, about 12x the cap, and a per-source rule does worse than the global one. That measurement is retained as a historical observation of the build it ran on, and is not evidence about the current engine. See docs/ENGINE-VERSION-AUDIT.md.",
-      "why_open": "Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured."
+      "why_open": "Reopened 2026-11-08: the precision ceiling and the coverage budget were measured on a pre-0.10.0 build; the 0.13.0 engine's ordering basis, relation-family stratification and entropy ranking did not exist when they were measured.",
+      "decisions": [
+        "DECISION-CAP-SEMANTICS.md",
+        "DECISION-CAP-LEVEL.md"
+      ]
     },
     {
       "id": "Q004",
@@ -853,7 +857,9 @@
         "PERSISTENCE-REPAIR-PREREGISTRATION.md"
       ],
       "supersedes": [],
-      "decisions": []
+      "decisions": [
+        "DECISION-ENGINE-EFFECT-STANDARD.md"
+      ]
     },
     {
       "id": "Q046",
@@ -1058,6 +1064,54 @@
       "decisions": [],
       "outcome": null,
       "answer": null
+    },
+    {
+      "id": "Q054",
+      "kind": "research",
+      "status": "open",
+      "question": "Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits?",
+      "why_open": "Q3's observer was not neutral: it lifted MAX_PREDICTIONS and returned the first cap rows, and the cap is a quota split rather than a truncation, so the arms served differently composed candidate lists. PRESENCE-CONVERSION-2 is frozen and ungranted with a repaired observer that returns the engine's own shipped-cap list untouched and records the pre-cap universe with a second call. No cell has run; no runner is installed, and the repaired observer is the prerequisite.",
+      "scope": "the compositional world family, six fresh seeds, 120 cycles, shipped cap 40; not a capability claim and not a re-reading of PRESENCE-CONVERSION-1",
+      "evidence": [
+        "docs/presence_conversion_observer_run.json",
+        "docs/PRESENCE-CONVERSION-OBSERVER-RESULT.md",
+        "docs/presence_conversion_repair_prereg.json",
+        "docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md",
+        "docs/AUTHORISATION-PRESENCE-CONVERSION-2.md",
+        "docs/presence_unexplained_edges.json"
+      ],
+      "preregistrations": [
+        "PRESENCE-CONVERSION-2"
+      ],
+      "supersedes": [],
+      "decisions": [
+        "DECISION-ADMISSION-STEP.md"
+      ]
+    },
+    {
+      "id": "Q055",
+      "kind": "research",
+      "status": "closed",
+      "question": "At the shipped cap of 112, does conversion from constructed edges to served and asserted world edges depend on temporal edge counts carried across sleep cycles, when a zero S_ever is read as a measured count?",
+      "scope": "One build (0.15.0), one cap (112), one compositional world family, six fresh seeds, 120 cycles and one no-carry intervention (temporal-edge counts zeroed at cycle end). The result is a direction, not an effect size, and it does not establish capability, retention, transfer, generalisation to other worlds or a mechanism decomposition beyond this arm. The zero S_ever cells are measured threshold consequences, not missing denominators.",
+      "evidence": [
+        "docs/t1b_persistence_off_prereg.json",
+        "docs/t1b_persistence_off_run.json",
+        "docs/T1B-PERSISTENCE-OFF-RESULT.md",
+        "docs/t1_persistence_off_run.json",
+        "docs/T1-PERSISTENCE-OFF-RESULT.md",
+        "docs/persistence_zero_served_diagnostic.json",
+        "docs/PERSISTENCE-ZERO-SERVED-NOTE.md"
+      ],
+      "preregistrations": [
+        "T1B-PERSISTENCE-OFF"
+      ],
+      "supersedes": [],
+      "decisions": [
+        "DECISION-PERSISTENCE-INTERVENTION.md"
+      ],
+      "outcome": "SUPPORTED",
+      "answer": "Yes, in this block's direction. T1b ran 12 cells plus a determinism rerun on six fresh seeds at cap 112 on 0.15.0. Shipped S_ever was 101, 95, 100, 103, 98 and 99; persistence-off served 0, 1, 0, 3, 0 and 3, so the paired differences were 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96.000, 100.000]); all six are above the margin of 10, P is 112 in every cell, all seven gates pass, and three zero S_ever cells are measured zeros. Prior T1 ran the same intervention on six earlier fresh seeds and returned VOID on its own G4 because its frozen rule treated zero S_ever as unmeasurable; its computed mean 95.667 [91.167, 100.167] is not adjudicated. T1b changed only that reading before any cell and used fresh seeds; T1 remains VOID and is not re-read. The zero-S_ever diagnostic explains the five zero cells as the prediction floor: no world edge reaches 5 within-cycle observations (max 3-4), so zero is a measured threshold consequence, not missing data."
     }
   ],
   "schema": {
@@ -1161,6 +1215,10 @@
       {
         "id": "Q006",
         "reason": "Closed 2026-11-09 by the pinned 16-cell re-derivation; the historical negative answer survived, so it is outside the campaign."
+      },
+      {
+        "id": "Q055",
+        "reason": "Closed 2026-11-11 by T1b on the pinned 0.15.0 build; it was not part of the 2026-11-08 reopening sweep."
       }
     ]
   }

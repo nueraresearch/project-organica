@@ -9,7 +9,7 @@ no file.
     python -m benchmarks.gate_runner --list     # show the commands, run none
 
 The gate set is the engine pin, D3-1 through D3-4, D2's pre-flight, the presence/assertion audit,
-the presence-to-assertion ladder, the presence-cap preregistration, the research registry,
+the presence-to-assertion ladder, the construct-audit preregistration, the presence-cap preregistration, the conversion-observer and conversion-repair preregistrations, the test-layer census, the research registry,
 research accountability and the decision graph. D2 is checked
 with ``--require-pass`` so a consistent page that records a blocked campaign fails the gate.
 D3-4 is checked with ``--check`` against its completed run artifact, and so are the audit's
@@ -38,7 +38,11 @@ GATES = (
     ("D2 pre-flight", "benchmarks.tier1_preflight", ("--check", "--require-pass")),
     ("presence/assertion audit", "benchmarks.presence_assertion_audit", ("--check",)),
     ("presence->assertion ladder", "benchmarks.presence_assertion_ladder", ("--check",)),
+    ("construct audit prereg", "benchmarks.presence_construct_audit", ("--check-prereg",)),
     ("presence cap prereg", "benchmarks.presence_cap_experiment", ("--check-prereg",)),
+    ("conversion observer prereg", "benchmarks.presence_conversion_observer", ("--check-prereg",)),
+    ("conversion repair prereg", "benchmarks.presence_conversion_repair", ("--check-prereg",)),
+    ("test layers", "benchmarks.test_layers", ("--check",)),
     ("research registry", "benchmarks.research_registry", ("--check",)),
     ("research accountability", "benchmarks.research_accountability", ("--check",)),
     ("decision graph", "benchmarks.decision_graph", ("--check",)),

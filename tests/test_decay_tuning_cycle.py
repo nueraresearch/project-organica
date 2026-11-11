@@ -4,6 +4,7 @@ The exploratory phase may read the 448-cell calibration; the confirmatory phase
 may not. These checks are mechanical: no recorded seed appears in any other file,
 and the design record states the separation instead of implying it.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

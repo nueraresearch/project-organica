@@ -4,6 +4,7 @@ The bar and the ceiling are recomputed from the audit and ladder artifacts, the 
 checked for method overrides, and every verdict in the decision table is driven from a
 synthetic run so no outcome is unreachable code.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import inspect
@@ -77,13 +78,34 @@ def _steps(base=40, steps=(4, 4, 4)):
     return out
 
 
-def test_the_record_is_frozen_unrun_and_unauthorised():
+def test_the_record_is_frozen_authorised_and_run():
     assert BODY["prereg"] == "PRESENCE-CAP-1"
-    assert BODY["status"] == "FROZEN, NOT RUN"
-    assert BODY["no_cells_run"] is True
-    assert BODY["design"]["no_cells_run"] is True
-    assert BODY["authorisation"]["granted"] is False
-    assert C.ARTIFACT.exists() is False, "no run artifact exists for an unrun block"
+    assert BODY["status"] == "FROZEN, RUN"
+    assert BODY["no_cells_run"] is False
+    assert BODY["design"]["no_cells_run"] is False
+    auth = BODY["authorisation"]
+    assert auth["granted"] is True
+    assert auth["granted_on"] == "2026-11-10"
+    assert auth["quote"] == "Authorize all runs"
+    assert auth["document"] == "docs/" + C.AUTHORISATION_DOC.name
+    assert auth["scope"].startswith("all three frozen conversion blocks")
+    assert C.authorisation_problems(BODY) == []
+    assert C.ARTIFACT.exists(), "the authorised block ran and wrote its artifact"
+    assert BODY["result"]["verdict"] == "CAP LIMITING"
+    assert BODY["result"]["artifact"] == "docs/" + C.ARTIFACT.name
+    assert C.check() == 0
+
+
+def test_a_grant_needs_a_dated_document_and_a_quote():
+    doc = C.AUTHORISATION_DOC
+    assert doc.exists(), "Q2 had no request document before the grant"
+    text = doc.read_text(encoding="utf-8")
+    assert BODY["authorisation"]["quote"] in text
+    assert "REQUESTED — NOT GRANTED" not in text
+    bare = copy.deepcopy(BODY)
+    bare["authorisation"] = {"required": True, "granted": True,
+                             "request": BODY["authorisation"]["request"]}
+    assert any("granted without" in problem for problem in C.validate(bare))
 
 
 def test_the_treatment_overrides_no_pipeline_method():
@@ -93,7 +115,7 @@ def test_the_treatment_overrides_no_pipeline_method():
     shipped = C.SleepService.MAX_PREDICTIONS
     service = C.CapOnlySleepService.__new__(C.CapOnlySleepService)
     service.MAX_PREDICTIONS = 112
-    assert service.MAX_PREDICTIONS == 112 and shipped == 40
+    assert service.MAX_PREDICTIONS == 112 and shipped == 112
 
 
 def test_the_levels_seeds_and_cells_are_the_declared_block():
@@ -106,7 +128,8 @@ def test_the_levels_seeds_and_cells_are_the_declared_block():
 
 
 def test_the_seed_block_is_fresh_against_every_other_artifact():
-    assert C.seed_collisions(SEEDS + [BODY["design"]["bootstrap"]], allow=(C.PREREG,)) == {}
+    assert C.seed_collisions(SEEDS + [BODY["design"]["bootstrap"]],
+                             allow=(C.PREREG, C.ARTIFACT)) == {}
     # The freshness check can fail: the audit seed is already consumed.
     assert 20261100 in C.seed_collisions([20261100], allow=(C.PREREG,))
 
@@ -142,7 +165,8 @@ def test_the_retention_profile_names_the_largest_drop():
     assert profile["steps"]["A_W/S_ever"]["ratio"] == 0.5
     assert profile["ratios"]["A_W|admitted/S_ever"] == 0.45
     assert profile["retained"] == {"W": 112, "P": 112, "S_ever": 80, "A_pred": 36}
-    assert profile["absolute_drop"] == {"P->S_ever": 32, "S_ever->A_W": 44}
+    assert profile["absolute_drop"] == {"P->S_ever": 28, "S_ever->A_W": 44}
+    assert sum(profile["absolute_drop"].values()) == 112 - 40
     assert profile["bypass"] == 4
     assert profile["primary_suspect"] == "S_ever->A_W"
 
@@ -165,6 +189,8 @@ def test_the_bypass_is_reported_and_never_counted_as_retention():
     assert profile["ratios"]["A_W|admitted/S_ever"] == 0.5
     assert profile["retained"]["A_pred"] == 30
     assert profile["absolute_drop"]["S_ever->A_W"] == 30
+    assert profile["absolute_drop"]["P->S_ever"] == 42
+    assert sum(profile["absolute_drop"].values()) == 112 - 40
     assert profile["bypass"] == 10
 
 
@@ -195,6 +221,11 @@ def test_the_prior_profile_is_the_ladder_record_and_reconciles_its_buckets():
     # The retained chain ends at A_pred, so the last drop is the admitted-not-asserted count and
     # the bypass never inflates it.
     assert prior["absolute_drop"]["S_ever->A_W"] == pooled["admitted_not_asserted"]
+    assert prior["absolute_drop"]["P->S_ever"] == pooled["offered_not_admitted"] == 171
+    assert prior["stage_difference"]["P->S_ever"] == 212
+    assert prior["stage_difference"]["P->S_ever"] == \
+        prior["absolute_drop"]["P->S_ever"] + prior["edges"]["bypass"]
+    assert sum(prior["absolute_drop"].values()) == prior["misses_total"] == 423
     assert prior["retained"]["A_pred"] + prior["edges"]["bypass"] == \
         prior["edges"]["A_W"]
     assert prior["edges"]["admitted_asserted"] == \
@@ -216,6 +247,34 @@ def test_the_page_reports_the_prior_suspect_and_the_bypass():
     page = (C.ROOT / "docs" / "PRESENCE-CAP-PREREGISTRATION.md").read_text(encoding="utf-8")
     assert "primary suspect stage is **S_ever->A_W**" in page
     assert "excluded from the retained chain" in page
+    assert "no edge is counted twice" in page
+
+
+def test_the_live_audit_is_current():
+    assert C.audit_problems() == []
+
+
+def test_a_stale_audit_page_fails_the_cap_check(tmp_path):
+    page = tmp_path / "audit.md"
+    page.write_text(C.AUDIT_PAGE.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+    problems = C.audit_problems(page=page)
+    assert any("audit page is stale" in problem for problem in problems), problems
+
+
+def test_an_audit_built_by_another_engine_fails_the_cap_check(tmp_path):
+    art = json.loads(C.AUDIT.read_text(encoding="utf-8"))
+    art["same_build"]["sha256"] = "0" * 64
+    forged = tmp_path / "audit.json"
+    forged.write_text(json.dumps(art), encoding="utf-8")
+    problems = C.audit_problems(artifact=forged)
+    assert any("different engine" in problem for problem in problems), problems
+
+
+def test_check_prereg_refuses_when_the_audit_is_stale(monkeypatch):
+    monkeypatch.setattr(C, "audit_problems", lambda *args, **kwargs: ["the audit page is stale"])
+    with pytest.raises(SystemExit) as caught:
+        C.check_prereg()
+    assert "the audit page is stale" in str(caught.value)
 
 
 def test_the_page_is_the_record():
@@ -245,6 +304,19 @@ def test_an_engine_edit_is_refused():
 
 
 def test_nothing_runs_and_nothing_is_written_without_authorisation(monkeypatch, tmp_path):
+    """The refusal path is driven by a forged ungranted record, never by the real one.
+
+    The shipped record is authorised, so calling `measure` against it would run 24 cells.
+    """
+    forged = copy.deepcopy(BODY)
+    forged["status"] = "FROZEN, NOT RUN"
+    forged["no_cells_run"] = True
+    forged["design"]["no_cells_run"] = True
+    forged.pop("result", None)
+    forged["authorisation"] = {"required": True, "granted": False,
+                               "request": BODY["authorisation"]["request"],
+                               "note": "an ungranted record is refused"}
+    monkeypatch.setattr(C, "prereg", lambda: forged)
     monkeypatch.setattr(C, "ARTIFACT", tmp_path / "run.json")
     monkeypatch.setattr(C, "RESULT", tmp_path / "RESULT.md")
     with pytest.raises(SystemExit, match="not authorised"):
@@ -336,3 +408,19 @@ def test_the_result_page_renders_from_a_scored_run():
     page = C.render_result(artifact)
     assert label in page and "bar" in page
     assert "{" not in page, "a placeholder survived into the result page"
+
+def test_the_witness_cell_fingerprints_the_set_the_audit_published():
+    """The audit's asserted_fingerprint covers the whole asserted structure, not A_W."""
+    source = inspect.getsource(C.run_cell)
+    assert '"asserted_fingerprint": witness_rows.fingerprint(asserted_pairs)' in source
+    assert '"asserted_fingerprint": witness_rows.fingerprint(world_asserted)' not in source
+
+
+def test_the_prior_miss_count_is_the_artifact_s_not_misses_plus_bypass():
+    ladder = json.loads(C.LADDER.read_text(encoding="utf-8"))
+    page = C.render_prereg(BODY)
+    total = ladder["summary"]["misses_total"]
+    bypass = sum(row["asserted_without_admission"] for row in ladder["rows"])
+    assert "over its %d misses" % total in page
+    assert "over its %d misses" % (total + bypass) not in page
+    assert "| presence-to-assertion ladder trace (exploratory) |" in page

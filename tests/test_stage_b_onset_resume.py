@@ -30,6 +30,7 @@ not actually restore, and that is what
 `test_a_resume_that_did_not_restore_its_database_is_caught` asserts.
 """
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import time as real_time

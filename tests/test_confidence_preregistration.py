@@ -23,6 +23,7 @@ before one does.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import re
 from pathlib import Path

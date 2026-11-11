@@ -1,6 +1,7 @@
 """The competition-collapse probe is reproducible, and its labels can be reached."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

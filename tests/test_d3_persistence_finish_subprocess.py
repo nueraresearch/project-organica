@@ -5,6 +5,7 @@ module's own ``main(["--finish"])`` in a child process, injects only the synthet
 and checks the process exit and the absence of both output files.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

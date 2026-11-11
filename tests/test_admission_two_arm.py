@@ -5,6 +5,7 @@ cannot be reached here it cannot be reached by the block either.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

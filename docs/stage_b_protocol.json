@@ -2393,6 +2393,14 @@
         20301805,
         20301806
       ],
+      "docs/persistence_mechanism_prereg.json": [
+        20612301,
+        20612302,
+        20612303,
+        20612304,
+        20612305,
+        20612306
+      ],
       "docs/phase_h_results.json": [
         20261023,
         20261024,
@@ -2536,6 +2544,39 @@
         20261104,
         20261105
       ],
+      "docs/presence_band_rank_2_prereg.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
+      "docs/presence_band_rank_prereg.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
+      "docs/presence_band_rank_run.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
+      "docs/presence_cap_1_112_run.json": [
+        20261100,
+        20611901,
+        20611902,
+        20611903,
+        20611904,
+        20611905,
+        20611906
+      ],
       "docs/presence_cap_prereg.json": [
         20261100,
         20611401,
@@ -2544,6 +2585,76 @@
         20611404,
         20611405,
         20611406
+      ],
+      "docs/presence_cap_run.json": [
+        20261100,
+        20611401,
+        20611402,
+        20611403,
+        20611404,
+        20611405,
+        20611406
+      ],
+      "docs/presence_comparator_112_run.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/presence_construct_audit_prereg.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/presence_construct_audit_run.json": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "docs/presence_conversion_observer_prereg.json": [
+        20261100,
+        20611501,
+        20611502,
+        20611503,
+        20611504,
+        20611505,
+        20611506
+      ],
+      "docs/presence_conversion_observer_run.json": [
+        20261100,
+        20611501,
+        20611502,
+        20611503,
+        20611504,
+        20611505,
+        20611506
+      ],
+      "docs/presence_conversion_repair_prereg.json": [
+        20261100,
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
+      "docs/presence_conversion_repair_run.json": [
+        20261100,
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606,
+        20611607
       ],
       "docs/process_noise.json": [
         20261023
@@ -2875,6 +2986,40 @@
         20302302,
         20302303
       ],
+      "docs/t1_persistence_off_prereg.json": [
+        20612201,
+        20612202,
+        20612203,
+        20612204,
+        20612205,
+        20612206
+      ],
+      "docs/t1_persistence_off_run.json": [
+        20612201,
+        20612202,
+        20612203,
+        20612204,
+        20612205,
+        20612206,
+        20612207
+      ],
+      "docs/t1b_persistence_off_prereg.json": [
+        20612208,
+        20612209,
+        20612210,
+        20612211,
+        20612212,
+        20612213
+      ],
+      "docs/t1b_persistence_off_run.json": [
+        20612208,
+        20612209,
+        20612210,
+        20612211,
+        20612212,
+        20612213,
+        20612214
+      ],
       "docs/temporal_presence_0.13.0.json": [
         20261100,
         20261101,
@@ -3002,7 +3147,7 @@
         20261130
       ]
     },
-    "consumed_total": 1497,
+    "consumed_total": 1536,
     "candidate_block": [
       700000001,
       700000724
@@ -3038,8 +3183,8 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 167,
-    "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory",
+    "disjoint_proved_against": 184,
+    "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory. A pre-run table marked not_a_result is skipped: it reserves its own block's design cells and has consumed no seed.",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",
     "scan_outside_docs": {
@@ -3151,8 +3296,8 @@
     "status_field_as_published": "provisional. The block's size is withheld pending independent review, and the reviewer is to see the 48-world floor and the attenuation table together, not the floor alone."
   },
   "no_engine": "No engine ran, no seed was spent, no world was generated, and no coefficient was computed. This artifact is a protocol.",
-  "engine_version": "0.14.0",
-  "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
-  "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+  "engine_version": "0.15.0",
+  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
   "runner": "__main__"
 }

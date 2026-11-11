@@ -1,4 +1,5 @@
 """The budget ceiling must come from the cells, and the analysis must be able to fail."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from benchmarks import theory_budget_ceiling as tbc
 from organica.sleep import SleepService

@@ -4,6 +4,7 @@ The engine run here is 40 cycles on the matrix stimulus -- enough for the decay
 arm to diverge from the no-decay arm, which is the audit that matters: an arm
 comparison whose intervention never fired is not a comparison.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import pytest
 

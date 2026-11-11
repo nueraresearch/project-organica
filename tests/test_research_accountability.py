@@ -1,4 +1,5 @@
 """The accountability layers must agree with each other and with their records."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re
@@ -59,6 +60,23 @@ def test_the_dashboard_reports_the_counts_the_records_contain(records):
         row = [line for line in dashboard.splitlines() if line.startswith("| %s |" % name)]
         assert len(row) == 1, "metric row missing or duplicated: %s" % name
         assert row[0].split("|")[2].strip() == str(value)
+
+
+def test_the_dashboard_carries_the_pending_open_question(records):
+    reg, ledger = records
+    dashboard = ra.render_dashboard(reg, ledger)
+    assert "## Next work" in dashboard
+    assert "DECISION-ADMISSION-STEP" in dashboard
+    assert "mechanism question" in dashboard
+
+
+def test_a_pending_decision_without_an_open_question_is_not_in_the_dashboard(records):
+    reg, ledger = records
+    decisions = json.loads(ra.DECISIONS.read_text(encoding="utf-8"))
+    for decision in decisions["decisions"]:
+        decision.pop("open_question", None)
+    dashboard = ra.render_dashboard(reg, ledger, decisions=decisions)
+    assert "mechanism question" not in dashboard
 
 
 def test_a_load_bearing_claim_on_an_unsupported_question_is_rejected(records):

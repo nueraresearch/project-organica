@@ -1,18 +1,22 @@
 {
   "prereg": "PRESENCE-CAP-1",
-  "status": "FROZEN, NOT RUN",
-  "no_cells_run": true,
+  "status": "FROZEN, RUN",
+  "no_cells_run": false,
   "frozen_on": "2026-11-10",
   "freeze_notes": {
     "corrections_before_any_cell": [
       "K4's third clause first required the higher caps to change `S_ever` on at least five of six seeds. That made `CAP NOT LIMITING` unreachable: flat assertion with a changed `S_ever` on five seeds is already `ADMISSION SCALES, ASSERTION FLAT`, and the remaining flat case would have failed K4 and returned `CAP NOT BINDING`. The gate now requires the cap to change `S_ever` on at least one seed, and the number of seeds that change reach is the reading that separates the two verdicts.",
       "The correction was made at freeze time, before any cell, and is recorded here rather than folded in silently. No level, seed, cycle count, bar or ceiling moved."
-    ]
+    ],
+    "ordering_reconciliation": "On 2026-11-10, before any cell, the program relationship was clarified to name Q3 as well as Q1 and to state that this block does not use either block's cells and is not re-scored if either changes a definition. No design, gate, seed, reading, verdict or authorisation changed.",
+    "bypass_ledger_reconciliation": "On 2026-11-10, before any cell, the per-cell and pooled retention arithmetic was corrected for bypass folding. The previous P->S_ever drop was the raw present-minus-admitted difference (212 pooled), which included the 41 asserted edges that never passed admission while those same edges were also reported as bypass. The drop now excludes the bypass and uses the ladder's offered_not_admitted bucket (171); the raw 212 difference is retained separately and decomposes as 171 lost + 41 bypass, so 171 + 252 = 423 misses. No gate, seed, level, bar, ceiling or authorisation changed.",
+    "authorisation_recorded": "On 2026-11-10, after the freeze and before any cell, the owner authorised all three frozen conversion blocks: `Authorize all runs`, recorded in `docs/AUTHORISATION-PRESENCE-CAP-1.md` with the scope and the absence of an authorised commit. The amendment sets `granted`, `granted_on`, `document`, `quote`, `scope` and `request` and changes no seed, gate, endpoint, verdict or cycle count. No cell was run while recording it.",
+    "execution_record": "On 2026-11-10 the authorised block was run on the shipped engine: verdict `CAP LIMITING`, recorded in `docs/presence_cap_run.json` with the generated page `docs/PRESENCE-CAP-RESULT.md`. No seed, level, gate, endpoint, verdict or decision-table row was changed before or after the run; the result is the one the frozen gates produced."
   },
   "program": {
     "draft": "docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md",
     "question": "Q2 cap sweep",
-    "relationship": "This is the Q2 half of the draft program, frozen on its own so the cap question can be answered without waiting for Q1. It uses Q2's quantities (`S_ever`, `A_W`), its four levels, its K1-K6 gates and its four readings without renaming them. It adds one thing Q2 did not have: a magnitude bar and an admission ceiling derived from committed artifacts, because a direction on six seeds is not a decision-grade bar. It runs ahead of Q1 deliberately and states the consequence: it may not claim construct separation, and if Q1 later changes a definition this block is not re-scored."
+    "relationship": "This is the Q2 half of the draft program, frozen on its own so the cap question can be answered without waiting for Q1 or Q3. It uses Q2's quantities (`S_ever`, `A_W`), its four levels, its K1-K6 gates and its four readings without renaming them. It adds one thing Q2 did not have: a magnitude bar and an admission ceiling derived from committed artifacts, because a direction on six seeds is not a decision-grade bar. It runs ahead of Q1 and Q3 deliberately and states the consequences: it may not claim construct separation, it does not use either block's cells, and if Q1 or Q3 later changes a definition this block is not re-scored."
   },
   "question": "With the world, presence and every non-cap parameter held fixed, does raising only the Layer-1 prediction cap add world edges to the final asserted structure?",
   "hypothesis": {
@@ -103,7 +107,7 @@
     "pairing": "same seed and world across all four caps; only the cap differs, so each seed contributes its own paired difference",
     "world": "the Gate-13 compositional world (generate_compositional_world, 16 tags, 112 derivable edges), 120 cycles covering warmup and acquisition",
     "freshness": "The six seeds and the bootstrap are fresh: they appear in no other docs artifact except this record and the registry echo that records every artifact's seeds. The audit seeds are not reused, so the bar is not computed from the seeds it judges.",
-    "no_cells_run": true,
+    "no_cells_run": false,
     "shipped_cap": 40
   },
   "endpoints": {
@@ -118,7 +122,7 @@
     "A_other": "`A_W` minus `S_ever`: world edges asserted without ever being admitted, the non-prediction assertion route"
   },
   "retention_profile": {
-    "rule": "Before any mechanism is proposed, every cell records its stage counts, the retention ratios P/W, S_ever/P and A_W/S_ever (with the admitted-only variant A_W|admitted/S_ever beside the last), and the absolute world-edge count retained at each observed stage: W, P, S_ever and A_pred. The primary suspect stage is the earliest stage with the largest absolute drop, ties going to the earlier stage, which is the conversion draft's own loss rule; the relative shares are reported beside it and never name a suspect on their own, because a large relative loss on a small denominator is not the same finding as a large absolute one. The retained chain ends at A_pred, not at A_W: an edge asserted without ever being admitted is a bypass, reported separately and counted neither as retention nor as loss. A stage whose denominator is zero is not measured and is excluded from the comparison; it is never reported as 0.0. The rule names the stage to inspect next and licenses no mechanism, no engine change and no verdict.",
+    "rule": "Before any mechanism is proposed, every cell records its stage counts, the retention ratios P/W, S_ever/P and A_W/S_ever (with the admitted-only variant A_W|admitted/S_ever beside the last), and the absolute loss at each observed step: W to P, P to S_ever and S_ever to A_pred. The retained chain ends at A_pred, not at A_W: an edge asserted without ever being admitted is a bypass, reported separately and counted neither as retention nor as loss. The P to S_ever loss excludes the bypass, because those edges leave the admitted chain but survive into assertion; the bypass is removed from that drop rather than added to it. The primary suspect stage is the earliest step with the largest absolute loss, ties going to the earlier step, which is the conversion draft's own loss rule; the relative shares are reported beside it and never name a suspect on their own, because a large relative loss on a small denominator is not the same finding as a large absolute one. A stage whose denominator is zero is not measured and is excluded from the comparison; it is never reported as 0.0. The rule names the stage to inspect next and licenses no mechanism, no engine change and no verdict.",
     "steps": [
       {
         "from": "W",
@@ -154,7 +158,7 @@
       "The surviving candidate snapshot is the asserted structure, so `A = S_final` and `A/S_final` is 1 by definition in this engine; `A_W` is that structure intersected with the world, which is why the last measured step is `A_W/S_ever`.",
       "`A_W/S_ever` is not a pure retention ratio, because `structure_edges` aggregates six structure types and some asserted edges were never admitted. The ladder separates them as `asserted_without_admission`; the profile prints the admitted-only ratio beside the raw one and never treats the bypass as a loss or as retention."
     ],
-    "prior_from_ladder": "Recomputed from `docs/presence_assertion_ladder_0.14.0.json` on every render and check: the retained totals at W, P, S_ever and A_pred, the absolute drop at each step, the relative shares, the bypass set (asserted without admission), the ladder's own bucket shares, and the primary suspect stage. The buckets count misses while the admitted field counts every admitted edge, so the prior reads both and reports the bypass instead of forcing the two to reconcile."
+    "prior_from_ladder": "Recomputed from `docs/presence_assertion_ladder_0.14.0.json` on every render and check: the retained totals at W, P, S_ever and A_pred, the absolute loss at each step, the relative shares, the bypass set (asserted without admission), the ladder's own bucket shares, and the primary suspect stage. The pooled P to S_ever loss is the ladder's `offered_not_admitted` bucket (171), not the raw stage difference (212), because 41 asserted edges bypass admission. The 41 are reported separately and are not added to either drop, so 171 + 252 = 423 misses and no edge is counted twice."
   },
   "gates": {
     "K1_build": "all cells and the witness name one engine version, one sha256 and the effective cap; no mixed-build row is averaged",
@@ -234,8 +238,65 @@
   },
   "authorisation": {
     "required": true,
-    "granted": false,
-    "note": "The draft program's freeze checklist requires the owner's authorisation before a run. This record fixes the protocol and does not authorise cells; the runner refuses `--measure` until `authorisation.granted` is recorded as true."
+    "granted": true,
+    "granted_on": "2026-11-10",
+    "document": "docs/AUTHORISATION-PRESENCE-CAP-1.md",
+    "quote": "Authorize all runs",
+    "scope": "all three frozen conversion blocks: PRESENCE-CONSTRUCT-1 (Q1), PRESENCE-CAP-1 (Q2) and PRESENCE-CONVERSION-1 (Q3); the grants are recorded and no cell has been executed",
+    "request": "docs/AUTHORISATION-PRESENCE-CAP-1.md",
+    "note": "The draft program's freeze checklist requires the owner's authorisation before a run, and the owner gave it on 2026-11-10: `Authorize all runs`, covering all three frozen conversion blocks. This record had no request document before the grant, so `docs/AUTHORISATION-PRESENCE-CAP-1.md` records the request scope and the decision together. The record stays FROZEN, NOT RUN and no cell has run; `--measure` refuses unless `authorisation.granted` is true and the document check passes. A grant is not a run: executing the first cell is a separate, dated act."
   },
-  "not_evidence": "This record measures admitted and asserted world-edge membership on one world family, one engine build and 120 cycles. It does not show that the cap causes the presence/assertion gap, that the gap is a defect, that any structure type is responsible, or that raising the cap would improve capability. `U`, the readout/use stage, is not measured. The uncapped level is a diagnostic ceiling, not a proposal, and a gain above the reach-limited ceiling is attributable to repetition rather than to reach and is reported as such."
+  "not_evidence": "This record measures admitted and asserted world-edge membership on one world family, one engine build and 120 cycles. It does not show that the cap causes the presence/assertion gap, that the gap is a defect, that any structure type is responsible, or that raising the cap would improve capability. `U`, the readout/use stage, is not measured. The uncapped level is a diagnostic ceiling, not a proposal, and a gain above the reach-limited ceiling is attributable to repetition rather than to reach and is reported as such.",
+  "result": {
+    "artifact": "docs/presence_cap_run.json",
+    "page": "docs/PRESENCE-CAP-RESULT.md",
+    "verdict": "CAP LIMITING",
+    "details": {
+      "gains_112": [
+        14,
+        15,
+        30,
+        14,
+        14,
+        8
+      ],
+      "mean_gain": 15.833333,
+      "lower_bound": 8.081175,
+      "bar": 10,
+      "positive_seeds": 6,
+      "ceiling": 28.5,
+      "ceiling_ratio": 0.555556,
+      "scaling_seeds": 6,
+      "flat_seeds": 0,
+      "reach_changed_seeds": 6
+    },
+    "engine_version": "0.14.0",
+    "ran_on": "2026-11-10"
+  },
+  "amendments": [
+    {
+      "date": "2026-11-11",
+      "kind": "sibling-independence",
+      "reason": "The three run conversion blocks share an engine build and an audit lineage and partly a seed set, so each record states what its verdict is independent of before any sibling result can be read as support.",
+      "clause": "PRESENCE-CONSTRUCT-1, PRESENCE-CAP-1 and PRESENCE-CONVERSION-1 are siblings: they measure different quantities on the same 0.14.0 build. This record's verdict is independent of its siblings in four senses. (a) No rows are pooled across the three, and no gate is satisfied by a sibling's measurement. (b) A sibling's verdict is not evidence for this record, in either direction: CONSTRUCT VALID does not support this verdict, CAP LIMITING does not support it, and OBSERVER NOT NEUTRAL does not withdraw it. (c) A sibling's failure does not void this record, and this record's verdict does not rescue a sibling. (d) What the three do share is disclosed rather than claimed as independence: the same engine build and the comparator audit lineage, which Q1 and Q2 reuse by design. Independence here means independence of evidence and verdict, not of seeds or build.",
+      "specific": "This record derives its bar and its witness from the audit row; that derivation is a disclosed dependency on the audit lineage, not support from a sibling.",
+      "unchanged": [
+        "status",
+        "verdict",
+        "gates",
+        "seeds",
+        "result",
+        "authorisation"
+      ]
+    }
+  ],
+  "build_superseded": {
+    "date": "2026-11-11",
+    "recorded_version": "0.14.0",
+    "recorded_cap": 40,
+    "recorded_sha256": "1fc7be8fae436fa154ce8a142412ffaeb8f54768f3b3ceaacd18d457b13f33f2",
+    "shipped_version": "0.15.0",
+    "shipped_cap": 112,
+    "note": "This record fixes the cap-40 build it was written on. The cap landed at 112 in 0.15.0 under DECISION-CAP-LEVEL; the record is not re-scored and its verdict, if any, stands for the 0.14.0 cap-40 build. The cap-112 reading has its own record."
+  }
 }

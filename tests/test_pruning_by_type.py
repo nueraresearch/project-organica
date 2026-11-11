@@ -5,6 +5,7 @@ the attribution record needed. This harness observes the retirement write, recon
 that counter on every cycle, and follows each peak edge to a terminal category. The checks below
 hold the split to the engine's own number, and hold the gate able to fail.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

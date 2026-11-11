@@ -5,6 +5,7 @@ that can drift while looking like a sentence. The guard here is mechanical -- ev
 ``docs/decisions.json`` must appear verbatim in the document it is attributed to -- and every rule
 below is exercised on input it exists to reject.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import shutil
@@ -143,11 +144,15 @@ def test_a_withdrawn_decision_is_never_reported_as_orphaned(records):
     assert dg.drift(data, reg) == []
 
 
-def test_the_pending_decision_reaches_the_work_queue(records, ledger):
+def test_every_pending_decision_reaches_the_work_queue(records, ledger):
+    """A decided-but-unlanded decision is work; the queue and the page must both carry it."""
     data, reg = records
-    assert dg.pending(data) == ["DECISION-DENSITY-EXCLUSION"]
-    assert rt.work_queue(reg, ledger, data)["pending_decisions"] == ["DECISION-DENSITY-EXCLUSION"]
-    assert "DECISION-DENSITY-EXCLUSION" in rt.render_next(reg, ledger, data)
+    pending = dg.pending(data)
+    assert pending, "no pending decision to check"
+    assert rt.work_queue(reg, ledger, data)["pending_decisions"] == pending
+    page = rt.render_next(reg, ledger, data)
+    for decision_id in pending:
+        assert decision_id in page, decision_id
 
 
 def test_the_trace_quotes_the_decision_and_its_rejection(records):
@@ -171,3 +176,21 @@ def test_check_fails_on_a_stale_page(records, tmp_path, monkeypatch):
     monkeypatch.setattr(dg, "DOC", stale)
     assert dg.main(["--check"]) == 1
     assert stale.read_text(encoding="utf-8") == "an out-of-date page\n"
+
+
+def test_a_paraphrased_open_question_is_rejected(records):
+    data, reg = records
+    data = clone(data)
+    entry = next(d for d in data["decisions"] if d["decision_id"] == "DECISION-ADMISSION-STEP")
+    entry["open_question"] = "Does the band arm answer the question?"
+    report = dg.validate(data, reg)
+    assert not report["passed"]
+    assert any("open_question" in error for error in report["errors"]), report["errors"]
+
+
+def test_the_open_question_renders_with_the_status(records):
+    data, reg = records
+    page = dg.render(data, reg)
+    assert "**Open question.**" in page
+    assert "mechanism question" in page
+    assert "unadjudicated" in page

@@ -5,6 +5,7 @@ owner capacity, audience, and the not-claimed list. A row whose marker drifts, o
 "would be licensed by" cell pointing at nothing, would turn testimony back into an
 unlabelled assertion — which is the failure the document was written to prevent.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 import re
 from pathlib import Path

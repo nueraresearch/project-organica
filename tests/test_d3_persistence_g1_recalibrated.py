@@ -4,6 +4,7 @@ The stamped artifact is the record. These assertions recompute each criterion fr
 cells rather than reading the verdict's prose, so a change to any cell, to the G1 bound or
 to the frozen scorer is caught here instead of being restated as a passing block.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import statistics

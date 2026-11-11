@@ -1,4 +1,5 @@
 """The published test count must be measured, and it must not go stale."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

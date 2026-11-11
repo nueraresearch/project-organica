@@ -6,6 +6,7 @@ fails, an intermittent arm, and an arm that still had competition when its theor
 died. The last two are the labels Q053's scope decision turns on, so a classifier that
 could only ever return VOID would be decoration.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

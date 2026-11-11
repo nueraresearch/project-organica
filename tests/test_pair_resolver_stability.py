@@ -1,6 +1,7 @@
 """Controls for the pair-resolver stability rule and page."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

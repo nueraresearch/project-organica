@@ -1,4 +1,5 @@
 """The D3 result must stay the frozen scorer's result, with its seed defect visible."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

@@ -13,17 +13,17 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 14 | a result constrained the space; the answer is recorded with its scope |
-| open | 30 | evidence exists, no answer is settled |
+| closed | 15 | a result constrained the space; the answer is recorded with its scope |
+| open | 31 | evidence exists, no answer is settled |
 | retired | 2 | no longer worth resources; the reason is recorded |
 | future | 5 | valid only after a named prerequisite is met |
-| **total** | **51** | |
+| **total** | **53** | |
 
 ## 0. Reopened on 2026-11-08
 
 A closed or retired answer was reopened when **no artifact it rests on names the build pinned now** (`engine_version` 0.13.0, whose fourteen files `python -m benchmarks.engine_pin --check` verifies against the current tree). An answer without that attribution stands as the result on the engine that produced it; it cannot be carried into this build. It was kept closed only where its evidence names the pinned release, or where the closure was a governance or design decision rather than a measurement. A release-level stamp is weaker than the byte-level `engine_sha256` the stamp now writes, so the kept-closed answers are the first candidates for a byte-level re-verification.
 
-**Reopened: Q004, Q005, Q017, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 16**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
+**Reopened: Q004, Q005, Q017, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 17**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
 
 - **Q009** -- the answer is about the scope of the charter (what 'no V2' forbids), not about an engine measurement
 - **Q010** -- the answer is about the Stage B authorisation route, a protocol decision with no engine in it
@@ -41,6 +41,7 @@ A closed or retired answer was reopened when **no artifact it rests on names the
 - **Q002** -- Closed 2026-11-09 on its 0.13.0 re-measurement (112 of 112 presence on six seeds); it was open at the 2026-11-08 sweep and sits outside the campaign.
 - **Q021** -- Closed 2026-11-09 by the pinned 40-cell re-derivation; it was reopened on 2026-11-08, and the result now names the pinned build.
 - **Q006** -- Closed 2026-11-09 by the pinned 16-cell re-derivation; the historical negative answer survived, so it is outside the campaign.
+- **Q055** -- Closed 2026-11-11 by T1b on the pinned 0.15.0 build; it was not part of the 2026-11-08 reopening sweep.
 
 ## How this stays current
 
@@ -234,6 +235,22 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/long_delay_capability_burst_L1_calibration.json`, `benchmarks/long_delay_capability.py`, `benchmarks/long_delay_capability_family.py`, `tests/test_long_delay_capability.py`, `docs/Q052-FRAMING-DESIGN.md`, `benchmarks/decay_competition_probe.py`, `docs/q052_competition_census.json`, `docs/Q052-COMPETITION-CENSUS.md`, `benchmarks/competition_census.py`, `docs/q052_competition_census_a2.json`, `docs/Q052-COMPETITION-CENSUS-A2.md`, `benchmarks/q052_amendment_a2.py`, `tests/test_q052_amendment_a2.py`, `docs/q052_age_matched.json`, `docs/Q052-AGE-MATCHED.md`, `benchmarks/q052_age_matched.py`, `tests/test_q052_age_matched.py`
 
+### Q055 — At the shipped cap of 112, does conversion from constructed edges to served and asserted world edges depend on temporal edge counts carried across sleep cycles, when a zero S_ever is read as a measured count?
+
+*research question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Yes, in this block's direction. T1b ran 12 cells plus a determinism rerun on six fresh seeds at cap 112 on 0.15.0. Shipped S_ever was 101, 95, 100, 103, 98 and 99; persistence-off served 0, 1, 0, 3, 0 and 3, so the paired differences were 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96.000, 100.000]); all six are above the margin of 10, P is 112 in every cell, all seven gates pass, and three zero S_ever cells are measured zeros. Prior T1 ran the same intervention on six earlier fresh seeds and returned VOID on its own G4 because its frozen rule treated zero S_ever as unmeasurable; its computed mean 95.667 [91.167, 100.167] is not adjudicated. T1b changed only that reading before any cell and used fresh seeds; T1 remains VOID and is not re-read. The zero-S_ever diagnostic explains the five zero cells as the prediction floor: no world edge reaches 5 within-cycle observations (max 3-4), so zero is a measured threshold consequence, not missing data.
+
+**Scope.** One build (0.15.0), one cap (112), one compositional world family, six fresh seeds, 120 cycles and one no-carry intervention (temporal-edge counts zeroed at cycle end). The result is a direction, not an effect size, and it does not establish capability, retention, transfer, generalisation to other worlds or a mechanism decomposition beyond this arm. The zero S_ever cells are measured threshold consequences, not missing denominators.
+
+**Preregistered in.** `T1B-PERSISTENCE-OFF`
+
+**Evidence.** `docs/t1b_persistence_off_prereg.json`, `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/t1_persistence_off_run.json`, `docs/T1-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`
+
+**Decision record.** `docs/DECISION-PERSISTENCE-INTERVENTION.md`
+
 ## 2. Open — evidence in hand, no settled answer
 
 ### Q001 — Can developmental structure form in Organica 1?
@@ -259,6 +276,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Scope.** The Gate 13 task and world family, under the two measured allocation rules.
 
 **Evidence.** `docs/gate13_allocation_rule.json`, `docs/GATE13-RELATION-SEPARATION.md`, `docs/ENGINE-VERSION-AUDIT.md`, `docs/engine_version_audit.json`
+
+**Decision record.** `docs/DECISION-CAP-SEMANTICS.md`, `docs/DECISION-CAP-LEVEL.md`
 
 **Bottleneck rows.** Selection / allocation
 
@@ -602,6 +621,8 @@ which is not on disk. Registering a decision is therefore part of making one.
 
 **Evidence.** `docs/DECAY-ADMISSION-SLOT.md`, `docs/decay_admission_slot.json`, `docs/RANKING-ADMISSION-PREREGISTRATION.md`, `docs/ranking_admission_result.json`, `docs/decay_attribution_study.json`, `docs/PERSISTENCE-REPAIR-PREREGISTRATION.md`
 
+**Decision record.** `docs/DECISION-ENGINE-EFFECT-STANDARD.md`
+
 ### Q051 — Does 0.9925 rank next-cycle tags better than shipped 0.95 at a late horizon where the shipped theory layer is already dead, but not early?
 
 *research question.*
@@ -625,6 +646,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Preregistered in.** `docs/Q053-MECHANISM-PREREGISTRATION.md`
 
 **Evidence.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`, `docs/q053_mechanism_run.json`, `docs/Q053-MECHANISM-RESULT.md`, `benchmarks/q053_mechanism_run.py`
+
+### Q054 — Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits?
+
+*research question.*
+
+**Why it is open.** Q3's observer was not neutral: it lifted MAX_PREDICTIONS and returned the first cap rows, and the cap is a quota split rather than a truncation, so the arms served differently composed candidate lists. PRESENCE-CONVERSION-2 is frozen and ungranted with a repaired observer that returns the engine's own shipped-cap list untouched and records the pre-cap universe with a second call. No cell has run; no runner is installed, and the repaired observer is the prerequisite.
+
+**Scope.** the compositional world family, six fresh seeds, 120 cycles, shipped cap 40; not a capability claim and not a re-reading of PRESENCE-CONVERSION-1
+
+**Preregistered in.** `PRESENCE-CONVERSION-2`
+
+**Evidence.** `docs/presence_conversion_observer_run.json`, `docs/PRESENCE-CONVERSION-OBSERVER-RESULT.md`, `docs/presence_conversion_repair_prereg.json`, `docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md`, `docs/AUTHORISATION-PRESENCE-CONVERSION-2.md`, `docs/presence_unexplained_edges.json`
+
+**Decision record.** `docs/DECISION-ADMISSION-STEP.md`
 
 ## 3. Retired — no longer worth resources
 

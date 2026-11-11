@@ -36,12 +36,12 @@ partition of its own; it splits one group.
 | Group | Count | Where it comes from |
 | --- | --- | --- |
 | Re-derivations | **12** | `reopening.reopened` |
-| First answers | **23** | open and future questions in neither `reopened` nor `kept_closed` |
-| First answers runnable now | **18** | of the 23, status `open` |
+| First answers | **24** | open and future questions in neither `reopened` nor `kept_closed` |
+| First answers runnable now | **19** | of the 24, status `open` |
 | First answers gated | **5** | of the 23, status `future` |
-| Kept closed, outside the campaign | **16** | `reopening.kept_closed` |
-| Campaign questions | **35** | 12 + 23 |
-| Registry questions | **51** | 35 + 16 |
+| Kept closed, outside the campaign | **17** | `reopening.kept_closed` |
+| Campaign questions | **36** | 12 + 24 |
+| Registry questions | **53** | 36 + 17 |
 
 The reopening was made against `engine_version` 0.13.0, whose bytes are
 `ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2` in the same record. That
@@ -154,9 +154,9 @@ reads as a replication and is not.
    (`ENGINE-CHANGE-AUDIT.md` §6). C1's corrected status — **failed as pre-registered** — and
    H2's **untested in an admissible form** travel with the campaign and are not upgraded in it.
 
-## 5. Half B — the 24 first answers
+## 5. Half B — the 25 first answers
 
-None of these has an outcome on record, so none has a comparator. Eighteen are `open`; five are
+None of these has an outcome on record, so none has a comparator. Nineteen are `open`; five are
 `future` and name the question that gates them.
 
 | ID | The question, as the registry records it | Preregistration named |
@@ -179,6 +179,7 @@ None of these has an outcome on record, so none has a comparator. Eighteen are `
 | **Q037** | Which mechanism accounts for most of the loss? | `DECAY-ATTRIBUTION-STUDY-PREREGISTRATION.md` |
 | **Q045** | Does raising the prediction budget or applying the adopted diversity-first ranking extend theory-layer persistence on the degree-12 hub? | `PERSISTENCE-REPAIR-PREREGISTRATION.md` |
 | **Q053** | Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95? | `docs/Q053-MECHANISM-PREREGISTRATION.md` |
+| **Q054** | Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits? | `docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md` |
 
 The five gated rows are not scheduled. They are valid only after their prerequisite, and
 **Q012 is the lock on four of them**:

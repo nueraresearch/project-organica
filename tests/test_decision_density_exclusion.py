@@ -4,6 +4,7 @@ Every figure it states is recomputed here from `docs/density_interaction_a2_resu
 scope sentences are asserted so a later edit cannot quietly widen the claim to behaviour or to the
 descriptive slope.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

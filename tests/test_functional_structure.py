@@ -1,5 +1,6 @@
 """The scoring layer must reproduce the house scorer and its gate must fire."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import random
 

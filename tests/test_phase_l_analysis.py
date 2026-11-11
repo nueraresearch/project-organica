@@ -15,6 +15,7 @@ test can fail.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import importlib.util
 import json

@@ -224,7 +224,7 @@ tag pairs at the world's own behavioural window, by the readout whose precision 
 onset is measured on it (twelve design-block cells, none censored) and the withheld endpoint's precision is
 measured on it. Protocol §5a carries the closure beside the finding, which is kept as the record of why the
 choice was needed. `status.blocked_before_run.blocked` is **false** in `docs/stage_b_protocol.json`, with the
-world named and `still_not_runnable_because` recording that no runner exists and no seed is allocated.
+world named and `still_not_runnable_because` recording that no runner existed and no seed was allocated at the time (the runner paragraph below records the 2026-11-03 build).
 
 **2. The horizon: an eligibility rule, not a longer block.** A world is eligible iff `onset + 101 <= its
 horizon`, so its follow-up is complete inside the world built for it; a world whose onset lands later is reported

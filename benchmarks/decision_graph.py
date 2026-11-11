@@ -27,7 +27,7 @@ record; ``docs/decisions.json`` is an index *into* it. Three consequences shape 
 
 **Stop condition.** This build indexes the decisions that exist, and adds no decision, no
 field beyond ``decision_id``, ``date``, ``status``, ``status_quote``, ``chosen``, ``rejected``,
-``evidence``, ``superseded_by``, and no query beyond the trace and the drift rule below. It may be
+``open_question``, ``evidence``, ``superseded_by``, and no query beyond the trace and the drift rule below. It may be
 fixed if it is found wrong; it may not grow.
 """
 from __future__ import annotations
@@ -110,6 +110,8 @@ def validate(data, reg) -> dict:
         else:
             text = doc_text(name)
             quotes = [("status_quote", d.get("status_quote", ""))]
+            if d.get("open_question"):
+                quotes.append(("open_question", d["open_question"]))
             quotes += [("chosen", phrase) for phrase in d.get("chosen", [])]
             quotes += [("rejected.reason", r.get("reason", "")) for r in d.get("rejected", [])]
             for field, phrase in quotes:
@@ -189,6 +191,10 @@ def trace(decision_id, data, reg) -> str:
         "",
         "quoted status",
         "  %s" % entry["status_quote"],
+    ]
+    if entry.get("open_question"):
+        lines += ["", "open question", "  %s" % entry["open_question"]]
+    lines += [
         "",
         "chosen",
     ]
@@ -253,6 +259,8 @@ def render(data, reg, report=None) -> str:
         name = "%s.md" % did
         lines += ["### %s — %s" % (did, title_of(name)), ""]
         lines += ["**Status.** %s — *\"%s\"*" % (entry["status"], entry["status_quote"]), ""]
+        if entry.get("open_question"):
+            lines += ["**Open question.** *\"%s\"*" % entry["open_question"], ""]
         lines += ["**Decided.**", ""]
         lines += ["- %s" % phrase for phrase in entry["chosen"]]
         lines += [""]

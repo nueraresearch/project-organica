@@ -1,4 +1,5 @@
 """The review brief must hand the reviewer files that exist, and outcomes that can reject."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 import re

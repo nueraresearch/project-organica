@@ -1,4 +1,5 @@
 """The jitter result document restates its artifact; check the restatement mechanically."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 import re
 from pathlib import Path

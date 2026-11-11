@@ -15,6 +15,7 @@ not make -- that onset is validated, and that a relation has been measured.
 
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 
 

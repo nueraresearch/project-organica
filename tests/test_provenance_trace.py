@@ -1,5 +1,6 @@
 """The provenance tracer's controls, before it touches any real data."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import pytest
 

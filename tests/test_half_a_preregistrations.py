@@ -1,4 +1,5 @@
 """The two missing Half-A registrations must exist, resolve, and keep their commitments."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

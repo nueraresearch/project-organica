@@ -1,4 +1,5 @@
 """The computed sign resolution must be reproducible from its module and quoted from its artifact."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 import json

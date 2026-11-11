@@ -6,7 +6,9 @@
   "changes": [
     {
       "id": "M01",
-      "commits": ["fa47ae0"],
+      "commits": [
+        "fa47ae0"
+      ],
       "title": "The evidence lookback no longer returns the organism's own sleep rows (D2)",
       "what_changed": "Belief support is drawn from a lookback that excludes sleep-sourced rows, so a belief cannot be supported by the payload it wrote itself.",
       "failure": {
@@ -18,14 +20,22 @@
       "measured_on_that_build": false,
       "mechanism": "If part of a belief's support came from its own payload, excluding those rows lowers its support count, which changes which belief wins a contest and therefore every belief-support figure downstream of selection.",
       "falsifier": "Run the audit trace on the pinned engine and count surviving beliefs whose support cites a sleep-sourced row. If the count is zero, the fix cannot move any belief figure and this mechanism is false.",
-      "observables": ["share of belief support rows by event_type", "support count per belief", "belief revision accuracy"],
+      "observables": [
+        "share of belief support rows by event_type",
+        "support count per belief",
+        "belief revision accuracy"
+      ],
       "decision_if_positive": "Re-run the belief-revision comparison with the self-sourcing disqualifier armed, since the defect is material to the measurement.",
       "decision_if_negative": "Drop self-sourcing as an explanation for the belief-revision gap and leave the gap unexplained rather than attributed.",
       "status": "stays"
     },
     {
       "id": "M02",
-      "commits": ["8752c66", "5d9538f", "b955ccb"],
+      "commits": [
+        "8752c66",
+        "5d9538f",
+        "b955ccb"
+      ],
       "title": "Ranking rebuilt: relation-family stratification, transition predictiveness, generation alignment",
       "what_changed": "Candidates are ordered by transition predictiveness and stratified by relation family instead of by raw frequency, and generation indices are aligned.",
       "failure": {
@@ -37,14 +47,20 @@
       "measured_on_that_build": false,
       "mechanism": "A ceiling in precision-at-budget is a property of the ordering: any ranking that is not equivalent to count-ranked frequency must produce a different curve, and if world edges surface earlier the ceiling moves without any change to the budget.",
       "falsifier": "Recompute precision at every budget under the new ranking. If the curve is the same as the recorded one at every budget, the reordering never reaches the signal and the mechanism is false.",
-      "observables": ["precision at each budget", "coverage at each budget", "rank of the first world edge"],
+      "observables": [
+        "precision at each budget",
+        "coverage at each budget",
+        "rank of the first world edge"
+      ],
       "decision_if_positive": "Re-measure the ceiling on the pinned engine and treat the ordering basis as the lever for an allocation change.",
       "decision_if_negative": "Treat the candidate space, not the ordering, as the binding defect and stop varying the ranking.",
       "status": "stays"
     },
     {
       "id": "M03",
-      "commits": ["52c43f4"],
+      "commits": [
+        "52c43f4"
+      ],
       "title": "Layer 1 grounding, conditional-entropy ranking, experiment execution",
       "what_changed": "Candidates are grounded to the events that asserted them, ranking gains a conditional-entropy term, and the executor path exists.",
       "failure": {
@@ -56,14 +72,19 @@
       "measured_on_that_build": false,
       "mechanism": "Grounding ties a candidate to the event that asserted it, so a prediction that previously rested on co-occurrence now rests on an assertion; that changes which candidates can be cited as support and therefore what the readout is able to use.",
       "falsifier": "Count grounded assertions per cycle on the pinned engine. If candidates carry none, grounding cannot change a prediction and the row is inert at this cap.",
-      "observables": ["grounded assertions per cycle", "held-out nats against the strongest baseline"],
+      "observables": [
+        "grounded assertions per cycle",
+        "held-out nats against the strongest baseline"
+      ],
       "decision_if_positive": "Re-run the held-out comparison with grounding as the named mechanism rather than as an unexplained engine difference.",
       "decision_if_negative": "Stop treating internal structure as sufficient evidence for a readout pathway and invest in the pathway instead.",
       "status": "stays"
     },
     {
       "id": "M04",
-      "commits": ["c13d67e"],
+      "commits": [
+        "c13d67e"
+      ],
       "title": "Decay and promotion: EIG fix, natural-selection decay, temporal edge decay",
       "what_changed": "Temporal edges decay, candidates decay by generation, a promotion loop runs, and the EIG term is fixed.",
       "failure": {
@@ -75,7 +96,11 @@
       "measured_on_that_build": true,
       "mechanism": "Prediction strength is a count over a source frequency; decaying the numerator while the denominator keeps growing drives strength below the stability threshold, so processes fall and theories follow them to zero.",
       "falsifier": "Run the pinned engine with decay enabled for 300 cycles. If live theories stay non-zero throughout, the decay-to-death mechanism does not hold on this build and the recorded death has another cause.",
-      "observables": ["live theories per cycle", "beliefs per cycle", "stable predictions per cycle"],
+      "observables": [
+        "live theories per cycle",
+        "beliefs per cycle",
+        "stable predictions per cycle"
+      ],
       "result": {
         "artifact": "docs/decay_falsifier.json",
         "verdict": "REPRODUCES",
@@ -87,7 +112,9 @@
     },
     {
       "id": "M05",
-      "commits": ["9f2c8e1"],
+      "commits": [
+        "9f2c8e1"
+      ],
       "title": "Prediction cap raised, structural ranking for loops and anomalies, question closure",
       "what_changed": "The admitted prediction budget was raised and loop and anomaly candidates gained structural ranking; contradiction density and question closure changed with them.",
       "failure": {
@@ -99,14 +126,20 @@
       "measured_on_that_build": false,
       "mechanism": "A raised cap admits more asserted rows per cycle, so coverage can change only if the additional admitted rows include world edges; the recorded distribution says the ordering recovers very few even at several times the budget, so the cap bounds how many rows are in play, not which rows are available.",
       "falsifier": "Measure asserted coverage at the new cap on the recorded worlds. If it stays at the pre-change level, raising the cap did not address the acquisition failure.",
-      "observables": ["asserted edges recovered", "coverage at the new cap"],
+      "observables": [
+        "asserted edges recovered",
+        "coverage at the new cap"
+      ],
       "decision_if_positive": "The bound was the cap, and the acquisition experiment becomes retestable on the pinned engine.",
       "decision_if_negative": "The candidate space, not the cap, is the binding constraint; keep the acquisition experiment out of the campaign rather than enlarging the budget again.",
       "status": "stays"
     },
     {
       "id": "M06",
-      "commits": ["6165523", "7201d79"],
+      "commits": [
+        "6165523",
+        "7201d79"
+      ],
       "title": "Substrate performance, single-pass selection and candidate caching",
       "what_changed": "Substrate reads were made faster, selection was collapsed into one pass, and candidate construction is cached.",
       "failure": {
@@ -118,7 +151,10 @@
       "measured_on_that_build": "partial",
       "mechanism": "Caching and a single pass can change results only if the cached candidate set differs from a recomputed one, or if one pass admits a different set than repeated passes did.",
       "falsifier": "Run both paths on the same seed and compare the candidate sets and scores. Any difference makes this a behavioural change and moves the row into the campaign.",
-      "observables": ["candidate set per cycle", "score equality across paths"],
+      "observables": [
+        "candidate set per cycle",
+        "score equality across paths"
+      ],
       "decision_if_positive": "Keep it as a substrate change with no campaign row.",
       "decision_if_negative": "Treat it as a behavioural change and add it to the map before any comparison uses this engine.",
       "status": "excluded",
@@ -126,7 +162,9 @@
     },
     {
       "id": "M07",
-      "commits": ["9dd6fe0"],
+      "commits": [
+        "9dd6fe0"
+      ],
       "title": "Active environment dispatcher and world-complexity ladder confirmation",
       "what_changed": "The environment is dispatched actively rather than held fixed, and the world-complexity ladder was confirmed on the new path.",
       "failure": {
@@ -138,14 +176,19 @@
       "measured_on_that_build": false,
       "mechanism": "If the dispatcher presents worlds in a different order or at a different complexity than the October harness did, the K1 and K2 comparisons move for a reason that has nothing to do with the organism.",
       "falsifier": "Replay the ladder on the pinned engine and compare the world sequence and per-cycle complexity against the recorded one. If they differ, the earlier K figures are not comparable.",
-      "observables": ["world sequence", "complexity per cycle"],
+      "observables": [
+        "world sequence",
+        "complexity per cycle"
+      ],
       "decision_if_positive": "Treat the earlier K comparisons as invalidated and re-run them rather than re-using the numbers.",
       "decision_if_negative": "Treat the dispatcher as presentation-neutral and keep the recorded K figures as the reference.",
       "status": "stays"
     },
     {
       "id": "M08",
-      "commits": ["6d45eb7"],
+      "commits": [
+        "6d45eb7"
+      ],
       "title": "Active inquiry and retention pressure",
       "what_changed": "The organism can generate questions when information is missing, and retention pressure is audited.",
       "failure": {
@@ -157,14 +200,19 @@
       "measured_on_that_build": false,
       "mechanism": "The reversal says generating more questions made development worse; active inquiry changes when questions are generated, so the rate that produced the reversal is not the rate this engine produces.",
       "falsifier": "Measure questions generated per cycle on the pinned engine against the pre-change rate. If the rate is unchanged, the change cannot explain any movement in the P3 direction.",
-      "observables": ["questions generated per cycle", "question closure rate"],
+      "observables": [
+        "questions generated per cycle",
+        "question closure rate"
+      ],
       "decision_if_positive": "Re-run the mechanism contrast with question generation as the named mechanism.",
       "decision_if_negative": "Treat the P3 reversal as a property of the architecture rather than of the inquiry layer.",
       "status": "stays"
     },
     {
       "id": "M09",
-      "commits": ["19246a2"],
+      "commits": [
+        "19246a2"
+      ],
       "title": "RoleCandidate and SchemaCandidate for cross-context reuse",
       "what_changed": "Two candidate types were added that abstract over the context a structure was learned in.",
       "failure": {
@@ -176,14 +224,19 @@
       "measured_on_that_build": false,
       "mechanism": "A role candidate abstracts the context away from the instance, so a structure that survived only inside its origin context could survive outside it; if no role candidate ever survives selection, nothing about reuse has changed.",
       "falsifier": "Count role candidates that survive to selection outside their origin context across seeds. If the count is zero, the layer cannot remove the dependence and the mechanism is false.",
-      "observables": ["role candidates surviving selection", "origin-context match rate"],
+      "observables": [
+        "role candidates surviving selection",
+        "origin-context match rate"
+      ],
       "decision_if_positive": "Q012 becomes measurable and the orthogonal-context dependence gets its first direct test.",
       "decision_if_negative": "Role abstraction is inert at this cap, and Q012 stays open rather than being answered.",
       "status": "stays"
     },
     {
       "id": "M10",
-      "commits": ["7becdb5"],
+      "commits": [
+        "7becdb5"
+      ],
       "title": "sleep.py split into submodules, with memory indexes",
       "what_changed": "One module became five and the memory layer gained indexes; the commit claims behaviour is unchanged.",
       "failure": {
@@ -195,7 +248,10 @@
       "measured_on_that_build": false,
       "mechanism": "There is none by design. The claim being made is that behaviour is identical, which is a proof obligation rather than a mechanism.",
       "falsifier": "Run the frozen engine and the split engine on the same seeds and worlds and compare candidate sets and scores. Any difference means the split changed behaviour, and every comparison against the current engine is then confounded.",
-      "observables": ["candidate set per cycle", "scores per cycle"],
+      "observables": [
+        "candidate set per cycle",
+        "scores per cycle"
+      ],
       "decision_if_positive": "The current engine may be compared to the frozen reference, and the split is not a campaign row.",
       "decision_if_negative": "Fix or revert the split before any campaign measurement, because the reference arm and the candidate arm would differ for a reason nobody recorded.",
       "status": "excluded",
@@ -203,7 +259,9 @@
     },
     {
       "id": "M11",
-      "commits": ["e6d1bcc"],
+      "commits": [
+        "e6d1bcc"
+      ],
       "title": "Acquisition scored on unboosted evidence, with content-sensitive priming",
       "what_changed": "Acquisition is scored on evidence that carries no confidence boost, and priming depends on content rather than on a fixed prior.",
       "failure": {
@@ -215,14 +273,20 @@
       "measured_on_that_build": true,
       "mechanism": "Removing the boost changes what counts as evidence for acquisition, so the latency the result reports is a different quantity from the one the October runs reported and cannot be compared to them without rescoring.",
       "falsifier": "Rescore the same run on boosted evidence. If the reported latency and prior-application counts are unchanged, the change did not move the result and the row is inert.",
-      "observables": ["acquisition latency in cycles", "prior applications"],
+      "observables": [
+        "acquisition latency in cycles",
+        "prior applications"
+      ],
       "decision_if_positive": "The cross-context result is the campaign's reference, and this row fixes exactly what it measures.",
       "decision_if_negative": "The result depends on the scoring basis and must not be compared across the change.",
       "status": "stays"
     },
     {
       "id": "M12",
-      "commits": ["6c87f63", "0507b8f"],
+      "commits": [
+        "6c87f63",
+        "0507b8f"
+      ],
       "title": "Candidate supersession and the decay confirmation harness",
       "what_changed": "A superseded candidate is kept rather than dropped, and a harness was added to confirm a decay fix on separate seeds.",
       "failure": {
@@ -234,14 +298,20 @@
       "measured_on_that_build": true,
       "mechanism": "Supersession keeps a candidate alive when a newer one replaces it, so cycles that previously dropped a candidate now retain it, and asserted coverage counts surviving asserted candidates.",
       "falsifier": "Measure coverage with supersession disabled. If it returns the pre-amendment figure, supersession is the cause; if it returns the amended figure, something else moved coverage.",
-      "observables": ["asserted coverage", "superseded candidates per cycle"],
+      "observables": [
+        "asserted coverage",
+        "superseded candidates per cycle"
+      ],
       "decision_if_positive": "Every Gate 13 figure recorded before the amendment is described by a named cause rather than an unexplained shift.",
       "decision_if_negative": "Supersession is not the cause, and the coverage change must be attributed elsewhere before it is used.",
       "status": "stays"
     },
     {
       "id": "M13",
-      "commits": ["c845fd8", "024a475"],
+      "commits": [
+        "c845fd8",
+        "024a475"
+      ],
       "title": "Diversity-first admission adopted and withdrawn the same day",
       "what_changed": "An admission module was added, then deleted after the two-arm comparison on the engine's own ordering returned no gain.",
       "failure": {
@@ -253,7 +323,9 @@
       "measured_on_that_build": true,
       "mechanism": "None remains. The module is gone, so there is no live behaviour for a campaign to test; the only mechanism left is the one that decided the withdrawal.",
       "falsifier": "Re-read the two-arm artifact: if the arm had shown a gain, the withdrawal would have been wrong. There is nothing to re-run.",
-      "observables": ["absence of the module from the package"],
+      "observables": [
+        "absence of the module from the package"
+      ],
       "decision_if_positive": "Keep the withdrawal and cite the artifact when admission is discussed.",
       "decision_if_negative": "Re-open admission only with a new preregistration, not by restoring a module deleted on a measured negative.",
       "status": "excluded",
@@ -261,7 +333,10 @@
     },
     {
       "id": "M14",
-      "commits": ["a95305d", "fdb505d"],
+      "commits": [
+        "a95305d",
+        "fdb505d"
+      ],
       "title": "Phase L harness defects fixed, release state documented",
       "what_changed": "Four harness defects were corrected and the release state was documented; both are outside the engine.",
       "failure": {
@@ -273,11 +348,40 @@
       "measured_on_that_build": true,
       "mechanism": "The fixes change how Phase L is measured, so they can move a Phase L number without moving the organism; treating them as engine changes would attribute an instrument effect to the subject.",
       "falsifier": "Re-run the committed analysis on the frozen Phase L artifacts. If the verdict changes, the harness fix altered the measurement rather than the report.",
-      "observables": ["Phase L verdict", "primary axis readings"],
+      "observables": [
+        "Phase L verdict",
+        "primary axis readings"
+      ],
       "decision_if_positive": "Keep the harness fixes out of the campaign and cite the frozen analysis.",
       "decision_if_negative": "The harness fix changed the measurement, and the earlier Phase L readings must be marked incomparable.",
       "status": "excluded",
       "reason": "Harness and documentation, not engine behaviour; including it in a campaign would attribute an instrument effect to the organism."
+    },
+    {
+      "id": "M15",
+      "commits": [
+        "fb701f4"
+      ],
+      "status": "stays",
+      "title": "The source-frequency denominator decays with the temporal graph (D3-PERSISTENCE-2)",
+      "what_changed": "The denominator that normalises a prediction's temporal support now decays at 0.95 per cycle, matched to the temporal graph, instead of dividing a decayed temporal count by a raw tag count that grows without bound on a repeated stimulus.",
+      "mechanism": "A raw tag count grows without bound while the temporal count decays, so a re-presented edge is diluted by its own history and loses the ordering contest it used to win. Decaying the denominator restores the ratio's scale, so a re-presented world edge can be admitted again after a quiet period.",
+      "observables": [
+        "world edges admitted per cycle at cap 40",
+        "S_ever world edges",
+        "asserted world edges",
+        "cycles at cap"
+      ],
+      "prior_measurement": "D3-PERSISTENCE-2 measured the repair and its run artifact records the admission and assertion counts on this build; the 0.13.0 records on the same seeds are the comparison.",
+      "falsifier": "Run the same six seeds at cap 40 on this build and compare admitted and asserted world-edge counts with the 0.13.0 records. If neither count moves, the undecayed denominator was not what diluted re-presented edges.",
+      "failure": {
+        "kind": "recorded_failure",
+        "artifact": "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md",
+        "note": "The seed-varying block recorded that the shipped denominator dilutes a re-presented edge, and D3-PERSISTENCE-2 measured the repair before the owner promoted it."
+      },
+      "measured_on_that_build": false,
+      "decision_if_positive": "Keep the decayed denominator and read the 0.14.0 admission and assertion records as measuring the repaired denominator.",
+      "decision_if_negative": "Reopen the frequency denominator: the dilution explanation is wrong, and the promotion must be withdrawn before any 0.14.0 reading is compared with 0.13.0."
     }
   ]
 }

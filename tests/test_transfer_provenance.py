@@ -7,6 +7,7 @@ control set rejects a tracer which always says "resolved".
 """
 
 from __future__ import annotations
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

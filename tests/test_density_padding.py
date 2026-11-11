@@ -3,6 +3,7 @@
 Every number is recomputed from the committed artifacts. The negative control is part of the file
 because a monotonicity criterion that cannot fail on the profile it was written for is decoration.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

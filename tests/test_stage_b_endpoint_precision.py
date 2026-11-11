@@ -9,6 +9,7 @@ other way round.
 """
 
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

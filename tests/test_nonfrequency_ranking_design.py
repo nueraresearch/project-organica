@@ -4,6 +4,7 @@ must license a decision from both outcomes.
 The last test guards a neighbouring artifact: the bottleneck map claims exactly one
 specified experiment, and a second design record must not quietly become a second row there.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

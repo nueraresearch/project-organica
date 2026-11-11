@@ -1,4 +1,5 @@
 """The D3 preregistration must be reachable in every direction it claims, and its seeds fresh."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

@@ -4,6 +4,7 @@ The plan is prose, but every number in it is a restatement of a measured record.
 same defect rule 27 names: a document that restates an artifact is a new claim and needs a
 mechanical check against it. `missing()` is that check, and the second test proves it can fail.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

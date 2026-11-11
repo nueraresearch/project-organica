@@ -1,0 +1,101 @@
+{
+ "kind": "cap112_admission_plan",
+ "not_a_result": true,
+ "question": "What does the landed 0.15.0 build still need before the cap-112 admission arm can run, and what blocks each remaining step?",
+ "build": {
+  "version": "0.15.0",
+  "cap": 112,
+  "pin_version": "0.15.0",
+  "pin_files": 14,
+  "canaries_version": "0.15.0"
+ },
+ "records": {
+  "presence_comparator_112_prereg.json": {
+   "status": "FROZEN, RUN",
+   "granted": true,
+   "runner": "built"
+  },
+  "presence_construct_1_112_prereg.json": {
+   "status": "FROZEN, NOT RUN",
+   "granted": true,
+   "runner": "built"
+  },
+  "presence_cap_1_112_prereg.json": {
+   "status": "FROZEN, RUN",
+   "granted": true,
+   "runner": "built"
+  }
+ },
+ "preflight": [],
+ "decision": {
+  "status": "PENDING",
+  "acceptance": "21\u201340 transitions must be served at 112"
+ },
+ "steps": [
+  {
+   "id": "land",
+   "state": "done",
+   "needs": "version 0.15.0 in the three declarations; the Layer-1 cap 112; a fourteen-file pin at 0.15.0; canaries re-recorded on those bytes",
+   "blocked_by": []
+  },
+  {
+   "id": "frozen-records",
+   "state": "done",
+   "needs": "the comparator, Q1 and Q2 records FROZEN (RUN or NOT RUN), granted, with their runners built",
+   "blocked_by": []
+  },
+  {
+   "id": "runner-preflight",
+   "state": "done",
+   "needs": "benchmarks/presence_cap112_runners.py, its preflight empty on the installed build, and its self-test green",
+   "blocked_by": []
+  },
+  {
+   "id": "comparator-112",
+   "state": "done",
+   "needs": "`--measure --block comparator` on the six audit seeds, then `--finish --block comparator`; this is the row Q1's C9 anchors to",
+   "blocked_by": []
+  },
+  {
+   "id": "admission-arm",
+   "state": "done",
+   "needs": "`--measure --block Q2` on six seeds \u00d7 four levels (24 cells) plus the 112 witness, then `--finish --block Q2`; the acceptance condition is that the 21\u201340 transitions are served at 112, per seed, with K1\u2013K6 passing",
+   "blocked_by": []
+  },
+  {
+   "id": "verdict",
+   "state": "done",
+   "needs": "the arm's 24 cells, its witness and the Q2 verdict rule, read against the bar the cap-40 record fixes",
+   "blocked_by": []
+  },
+  {
+   "id": "band-arm",
+   "state": "done",
+   "needs": "record a dated grant for PRESENCE-BAND-1, then `--measure` and `--finish`; the band arm reads the 62 named rank-21-40 edges at 40 and 112 on Q4's six worlds and is the decision's designated test",
+   "blocked_by": []
+  },
+  {
+   "id": "decision",
+   "state": "blocked",
+   "needs": "the band arm's verdict (recorded: VOID on B5), then the owner updates the PENDING admission-step decision with a date and a rationale",
+   "blocked_by": [
+    "the owner's update of the PENDING decision"
+   ]
+  }
+ ],
+ "summary": {
+  "landing": "done",
+  "arm": "done",
+  "arm_blockers": [],
+  "band": "done",
+  "band_blockers": [],
+  "later_blockers": [
+   "the owner's update of the PENDING decision"
+  ]
+ },
+ "not_evidence": "A plan is not a run. No cell was started, no verdict is adjudicated, and the admission-step decision stays PENDING until the arm's verdict exists.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

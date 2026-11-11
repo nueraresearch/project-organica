@@ -1,0 +1,2029 @@
+{
+ "kind": "presence_construct_cell",
+ "seed": 20261100,
+ "cycles": 91,
+ "cap": 40,
+ "engine_version": "0.14.0",
+ "engine_sha256": "477aeb2ff34dd2cc857520d139d1b452892ec95a8158aedf72a089e8318f05e2",
+ "world_edges": 112,
+ "world_digest": "f52852ce6fe960dc",
+ "present_world_edges": 112,
+ "present_fingerprint": "f52852ce6fe960dc",
+ "s_cycle_world_edges": [
+  0,
+  0,
+  0,
+  0,
+  1,
+  2,
+  3,
+  4,
+  10,
+  14,
+  20,
+  18,
+  18,
+  17,
+  16,
+  14,
+  15,
+  13,
+  8,
+  10,
+  5,
+  12,
+  10,
+  12,
+  11,
+  11,
+  12,
+  12,
+  11,
+  8,
+  11,
+  7,
+  7,
+  10,
+  10,
+  7,
+  11,
+  11,
+  8,
+  10,
+  10,
+  12,
+  8,
+  10,
+  8,
+  10,
+  8,
+  8,
+  8,
+  8,
+  11,
+  8,
+  8,
+  10,
+  10,
+  10,
+  11,
+  8,
+  8,
+  10,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  10,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  11,
+  8,
+  11,
+  12,
+  8,
+  8,
+  8,
+  10,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  11,
+  10
+ ],
+ "s_cycle_max": 20,
+ "s_ever_world_edges": 84,
+ "s_ever_fingerprint": "5417a2a45d288f3a",
+ "s_final_world_edges": 37,
+ "s_final_fingerprint": "2d0d088940aaf59c",
+ "asserted_total": 119,
+ "asserted_fingerprint": "db2b1a46db2f4b7f",
+ "asserted_world_edges": 40,
+ "asserted_world_fingerprint": "80a74704b569b544",
+ "a_pred_world_edges": 37,
+ "a_other_world_edges": 3,
+ "a_w_subset_of_p": true,
+ "stage_fingerprint": "007eb38987732265",
+ "pse_fingerprint": "91a757970b6c4df1",
+ "windows_world": [
+  [],
+  [],
+  [],
+  [],
+  [
+   "yarrow>fern"
+  ],
+  [
+   "yarrow>fern",
+   "willow>ochre"
+  ],
+  [
+   "yarrow>fern",
+   "willow>ochre",
+   "crimson>teal"
+  ],
+  [
+   "fern>ochre",
+   "yarrow>fern",
+   "willow>ochre",
+   "crimson>teal"
+  ],
+  [
+   "verdant>ochre",
+   "yarrow>fern",
+   "umber>verdant",
+   "ochre>verdant",
+   "fern>ochre",
+   "fern>umber",
+   "crimson>teal",
+   "willow>ochre",
+   "willow>crimson",
+   "willow>umber"
+  ],
+  [
+   "fern>ochre",
+   "teal>crimson",
+   "umber>verdant",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "fern>umber",
+   "yarrow>fern",
+   "ochre>verdant",
+   "ochre>willow",
+   "crimson>teal",
+   "crimson>sable",
+   "willow>ochre",
+   "willow>crimson",
+   "willow>umber"
+  ],
+  [
+   "yarrow>fern",
+   "olive>ochre",
+   "olive>umber",
+   "indigo>maple",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "fern>ochre",
+   "fern>umber",
+   "sable>ochre",
+   "crimson>sable",
+   "crimson>teal",
+   "teal>crimson",
+   "teal>umber",
+   "umber>sable",
+   "umber>teal",
+   "umber>verdant",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "ochre>willow"
+  ],
+  [
+   "yarrow>fern",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "olive>ochre",
+   "olive>umber",
+   "indigo>crimson",
+   "indigo>maple",
+   "crimson>sable",
+   "crimson>teal",
+   "fern>ochre",
+   "fern>umber",
+   "teal>crimson",
+   "teal>umber",
+   "sable>ochre",
+   "umber>sable",
+   "umber>teal",
+   "umber>verdant",
+   "willow>ochre"
+  ],
+  [
+   "yarrow>fern",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "slate>birch",
+   "maple>verdant",
+   "fern>ochre",
+   "fern>umber",
+   "umber>sable",
+   "umber>teal",
+   "umber>verdant",
+   "crimson>sable",
+   "crimson>teal",
+   "crimson>willow",
+   "teal>crimson",
+   "teal>birch",
+   "teal>umber",
+   "indigo>crimson",
+   "indigo>maple"
+  ],
+  [
+   "slate>birch",
+   "maple>verdant",
+   "verdant>ochre",
+   "verdant>umber",
+   "verdant>yarrow",
+   "teal>crimson",
+   "teal>birch",
+   "teal>umber",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "indigo>crimson",
+   "indigo>maple",
+   "crimson>sable",
+   "crimson>teal",
+   "crimson>willow",
+   "crimson>slate"
+  ],
+  [
+   "verdant>yarrow",
+   "slate>birch",
+   "maple>verdant",
+   "verdant>ochre",
+   "verdant>umber",
+   "indigo>crimson",
+   "indigo>maple",
+   "teal>crimson",
+   "teal>birch",
+   "teal>umber",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "crimson>sable",
+   "crimson>teal",
+   "crimson>willow"
+  ],
+  [
+   "slate>birch",
+   "maple>teal",
+   "maple>verdant",
+   "verdant>umber",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "teal>crimson",
+   "teal>birch",
+   "teal>umber",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "crimson>sable",
+   "crimson>teal"
+  ],
+  [
+   "yarrow>fern",
+   "slate>birch",
+   "slate>yarrow",
+   "maple>teal",
+   "maple>verdant",
+   "verdant>umber",
+   "verdant>ochre",
+   "verdant>yarrow",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "teal>crimson",
+   "teal>birch",
+   "teal>umber",
+   "teal>ochre"
+  ],
+  [
+   "yarrow>fern",
+   "maple>teal",
+   "maple>verdant",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "slate>birch",
+   "slate>umber",
+   "slate>maple",
+   "slate>yarrow",
+   "verdant>umber",
+   "verdant>ochre",
+   "verdant>yarrow"
+  ],
+  [
+   "fern>ochre",
+   "fern>umber",
+   "maple>teal",
+   "maple>verdant",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "fern>crimson"
+  ],
+  [
+   "maple>indigo",
+   "maple>sable",
+   "sable>ochre",
+   "sable>maple",
+   "indigo>ochre",
+   "indigo>maple",
+   "ochre>indigo",
+   "ochre>sable",
+   "maple>teal",
+   "maple>verdant"
+  ],
+  [
+   "yarrow>fern",
+   "amber>fern",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson"
+  ],
+  [
+   "birch>fern",
+   "birch>olive",
+   "amber>fern",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "slate>birch",
+   "slate>umber",
+   "slate>maple",
+   "slate>cedar",
+   "slate>yarrow",
+   "yarrow>fern"
+  ],
+  [
+   "amber>fern",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "slate>birch",
+   "slate>maple",
+   "slate>umber",
+   "slate>cedar",
+   "slate>yarrow",
+   "yarrow>fern"
+  ],
+  [
+   "verdant>birch",
+   "birch>fern",
+   "birch>verdant",
+   "fern>birch",
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "willow>birch",
+   "amber>fern",
+   "amber>olive",
+   "slate>birch",
+   "slate>cedar"
+  ],
+  [
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "willow>birch",
+   "amber>fern",
+   "amber>olive",
+   "slate>birch",
+   "slate>cedar",
+   "slate>maple",
+   "slate>umber",
+   "slate>amber"
+  ],
+  [
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "willow>birch",
+   "amber>fern",
+   "amber>olive",
+   "slate>birch",
+   "slate>cedar",
+   "slate>maple",
+   "slate>umber",
+   "slate>amber"
+  ],
+  [
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "willow>birch",
+   "crimson>sable",
+   "crimson>slate",
+   "crimson>teal",
+   "crimson>indigo",
+   "crimson>willow",
+   "crimson>verdant",
+   "amber>fern",
+   "amber>olive"
+  ],
+  [
+   "willow>ochre",
+   "willow>umber",
+   "willow>crimson",
+   "willow>birch",
+   "crimson>sable",
+   "crimson>teal",
+   "crimson>slate",
+   "crimson>indigo",
+   "crimson>willow",
+   "crimson>verdant",
+   "amber>fern",
+   "amber>olive"
+  ],
+  [
+   "slate>birch",
+   "slate>cedar",
+   "slate>amber",
+   "slate>maple",
+   "slate>umber",
+   "slate>yarrow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant",
+   "yarrow>verdant",
+   "yarrow>fern"
+  ],
+  [
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant",
+   "slate>birch"
+  ],
+  [
+   "willow>cedar",
+   "willow>yarrow",
+   "crimson>olive",
+   "crimson>fern",
+   "verdant>yarrow",
+   "verdant>cedar",
+   "ochre>olive",
+   "ochre>fern",
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive"
+  ],
+  [
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant"
+  ],
+  [
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "umber>olive",
+   "umber>fern",
+   "sable>cedar",
+   "sable>yarrow",
+   "slate>cedar",
+   "slate>yarrow",
+   "yarrow>fern",
+   "yarrow>verdant"
+  ],
+  [
+   "umber>fern",
+   "ochre>fern",
+   "verdant>yarrow",
+   "verdant>cedar",
+   "olive>yarrow",
+   "olive>cedar",
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "yarrow>fern",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant"
+  ],
+  [
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow",
+   "crimson>sable",
+   "crimson>slate",
+   "crimson>teal",
+   "crimson>indigo",
+   "crimson>willow",
+   "crimson>olive",
+   "crimson>verdant"
+  ],
+  [
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow",
+   "crimson>sable",
+   "crimson>slate",
+   "crimson>teal",
+   "crimson>indigo",
+   "crimson>willow",
+   "crimson>olive",
+   "crimson>verdant"
+  ],
+  [
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow",
+   "amber>fern",
+   "amber>olive",
+   "amber>verdant",
+   "amber>willow"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "umber>olive",
+   "umber>fern",
+   "sable>yarrow",
+   "sable>cedar",
+   "indigo>cedar",
+   "indigo>yarrow",
+   "yarrow>verdant",
+   "yarrow>fern"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "umber>olive",
+   "umber>fern",
+   "slate>cedar",
+   "slate>yarrow",
+   "teal>cedar",
+   "teal>yarrow",
+   "yarrow>verdant",
+   "yarrow>fern"
+  ],
+  [
+   "willow>yarrow",
+   "willow>cedar",
+   "umber>olive",
+   "umber>fern",
+   "verdant>yarrow",
+   "verdant>cedar",
+   "maple>fern",
+   "maple>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "crimson>fern",
+   "umber>fern",
+   "willow>yarrow",
+   "willow>cedar",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>olive",
+   "fern>cedar",
+   "fern>yarrow",
+   "birch>olive",
+   "willow>cedar",
+   "willow>yarrow",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "yarrow>verdant"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "yarrow>fern"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>olive",
+   "yarrow>willow",
+   "yarrow>fern"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "fern>umber",
+   "fern>crimson",
+   "fern>ochre",
+   "fern>maple",
+   "fern>cedar",
+   "fern>birch",
+   "fern>amber"
+  ],
+  [
+   "fern>cedar",
+   "fern>yarrow",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>verdant",
+   "amber>fern",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>verdant",
+   "amber>fern",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "ochre>fern",
+   "ochre>olive",
+   "slate>cedar",
+   "slate>yarrow",
+   "teal>cedar",
+   "teal>yarrow",
+   "amber>verdant",
+   "amber>fern"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "sable>yarrow",
+   "sable>cedar",
+   "ochre>fern",
+   "ochre>olive",
+   "slate>cedar",
+   "slate>yarrow",
+   "amber>verdant",
+   "amber>fern"
+  ],
+  [
+   "umber>fern",
+   "willow>cedar",
+   "willow>yarrow",
+   "olive>yarrow",
+   "olive>cedar",
+   "maple>fern",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "fern>umber",
+   "fern>crimson",
+   "fern>ochre",
+   "fern>maple",
+   "fern>cedar",
+   "fern>amber",
+   "fern>yarrow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "fern>cedar",
+   "fern>yarrow",
+   "crimson>olive",
+   "willow>cedar",
+   "willow>yarrow",
+   "ochre>olive",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>willow",
+   "yarrow>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "fern>cedar",
+   "fern>yarrow",
+   "willow>cedar",
+   "willow>yarrow",
+   "crimson>olive",
+   "ochre>olive",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "fern>cedar",
+   "fern>yarrow",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "birch>fern",
+   "willow>yarrow",
+   "willow>cedar",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "crimson>olive",
+   "crimson>fern",
+   "umber>olive",
+   "umber>fern",
+   "slate>cedar",
+   "slate>yarrow",
+   "teal>cedar",
+   "teal>yarrow",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow"
+  ],
+  [
+   "willow>cedar",
+   "willow>yarrow",
+   "crimson>olive",
+   "crimson>fern",
+   "verdant>yarrow",
+   "verdant>cedar",
+   "ochre>fern",
+   "ochre>olive",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "fern>cedar",
+   "fern>yarrow",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>willow",
+   "amber>olive",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "verdant>yarrow",
+   "verdant>cedar",
+   "olive>yarrow",
+   "olive>cedar",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "yarrow>verdant",
+   "yarrow>fern",
+   "yarrow>olive",
+   "yarrow>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "cedar>fern",
+   "cedar>verdant",
+   "cedar>olive",
+   "cedar>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "cedar>fern",
+   "cedar>verdant",
+   "cedar>olive",
+   "cedar>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "cedar>fern",
+   "cedar>verdant",
+   "cedar>olive",
+   "cedar>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "cedar>fern",
+   "cedar>verdant",
+   "cedar>olive",
+   "cedar>willow"
+  ],
+  [
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow",
+   "cedar>fern",
+   "cedar>verdant",
+   "cedar>olive",
+   "cedar>willow"
+  ],
+  [
+   "slate>cedar",
+   "slate>yarrow",
+   "umber>olive",
+   "umber>fern",
+   "maple>fern",
+   "maple>olive",
+   "teal>yarrow",
+   "teal>cedar",
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive"
+  ],
+  [
+   "birch>fern",
+   "birch>olive",
+   "sable>yarrow",
+   "sable>cedar",
+   "indigo>yarrow",
+   "indigo>cedar",
+   "amber>fern",
+   "amber>verdant",
+   "amber>olive",
+   "amber>willow"
+  ]
+ ],
+ "edges": [
+  {
+   "source": "amber",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 63
+  },
+  {
+   "source": "amber",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 57
+  },
+  {
+   "source": "amber",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 55
+  },
+  {
+   "source": "amber",
+   "target": "willow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 47
+  },
+  {
+   "source": "birch",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 4
+  },
+  {
+   "source": "birch",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 3
+  },
+  {
+   "source": "birch",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "birch",
+   "target": "willow",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "cedar",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "cedar",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "cedar",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "cedar",
+   "target": "willow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "crimson",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 9
+  },
+  {
+   "source": "crimson",
+   "target": "indigo",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 4
+  },
+  {
+   "source": "crimson",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 12
+  },
+  {
+   "source": "crimson",
+   "target": "sable",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 11
+  },
+  {
+   "source": "crimson",
+   "target": "slate",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "crimson",
+   "target": "teal",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 14
+  },
+  {
+   "source": "crimson",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 4
+  },
+  {
+   "source": "crimson",
+   "target": "willow",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 7
+  },
+  {
+   "source": "fern",
+   "target": "amber",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 2
+  },
+  {
+   "source": "fern",
+   "target": "birch",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 2
+  },
+  {
+   "source": "fern",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 8
+  },
+  {
+   "source": "fern",
+   "target": "crimson",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 3
+  },
+  {
+   "source": "fern",
+   "target": "maple",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 2
+  },
+  {
+   "source": "fern",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 9
+  },
+  {
+   "source": "fern",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 8
+  },
+  {
+   "source": "fern",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 7
+  },
+  {
+   "source": "indigo",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "indigo",
+   "target": "birch",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "indigo",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 2
+  },
+  {
+   "source": "indigo",
+   "target": "crimson",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 4
+  },
+  {
+   "source": "indigo",
+   "target": "maple",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 6
+  },
+  {
+   "source": "indigo",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "indigo",
+   "target": "umber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "indigo",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 2
+  },
+  {
+   "source": "maple",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 3
+  },
+  {
+   "source": "maple",
+   "target": "indigo",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "maple",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 2
+  },
+  {
+   "source": "maple",
+   "target": "sable",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "maple",
+   "target": "slate",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "maple",
+   "target": "teal",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 5
+  },
+  {
+   "source": "maple",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 8
+  },
+  {
+   "source": "maple",
+   "target": "willow",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "ochre",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "ochre",
+   "target": "indigo",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "ochre",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 6
+  },
+  {
+   "source": "ochre",
+   "target": "sable",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "ochre",
+   "target": "slate",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "ochre",
+   "target": "teal",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "ochre",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 2
+  },
+  {
+   "source": "ochre",
+   "target": "willow",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 2
+  },
+  {
+   "source": "olive",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": true,
+   "admissions": 0
+  },
+  {
+   "source": "olive",
+   "target": "birch",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "olive",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 8
+  },
+  {
+   "source": "olive",
+   "target": "crimson",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "olive",
+   "target": "maple",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "olive",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 2
+  },
+  {
+   "source": "olive",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 2
+  },
+  {
+   "source": "olive",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 8
+  },
+  {
+   "source": "sable",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "sable",
+   "target": "birch",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "sable",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 4
+  },
+  {
+   "source": "sable",
+   "target": "crimson",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "sable",
+   "target": "maple",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "sable",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 3
+  },
+  {
+   "source": "sable",
+   "target": "umber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "sable",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 4
+  },
+  {
+   "source": "slate",
+   "target": "amber",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 3
+  },
+  {
+   "source": "slate",
+   "target": "birch",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 13
+  },
+  {
+   "source": "slate",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 12
+  },
+  {
+   "source": "slate",
+   "target": "crimson",
+   "present": true,
+   "admitted": false,
+   "asserted": true,
+   "admissions": 0
+  },
+  {
+   "source": "slate",
+   "target": "maple",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 6
+  },
+  {
+   "source": "slate",
+   "target": "ochre",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "slate",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 6
+  },
+  {
+   "source": "slate",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 11
+  },
+  {
+   "source": "teal",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "teal",
+   "target": "birch",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 5
+  },
+  {
+   "source": "teal",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 4
+  },
+  {
+   "source": "teal",
+   "target": "crimson",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 8
+  },
+  {
+   "source": "teal",
+   "target": "maple",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "teal",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "teal",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 7
+  },
+  {
+   "source": "teal",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 4
+  },
+  {
+   "source": "umber",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 9
+  },
+  {
+   "source": "umber",
+   "target": "indigo",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "umber",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 6
+  },
+  {
+   "source": "umber",
+   "target": "sable",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 3
+  },
+  {
+   "source": "umber",
+   "target": "slate",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "umber",
+   "target": "teal",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 3
+  },
+  {
+   "source": "umber",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 5
+  },
+  {
+   "source": "umber",
+   "target": "willow",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "verdant",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": true,
+   "admissions": 0
+  },
+  {
+   "source": "verdant",
+   "target": "birch",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 1
+  },
+  {
+   "source": "verdant",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 5
+  },
+  {
+   "source": "verdant",
+   "target": "crimson",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "verdant",
+   "target": "maple",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "verdant",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 10
+  },
+  {
+   "source": "verdant",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 5
+  },
+  {
+   "source": "verdant",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 14
+  },
+  {
+   "source": "willow",
+   "target": "amber",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "willow",
+   "target": "birch",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 5
+  },
+  {
+   "source": "willow",
+   "target": "cedar",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 9
+  },
+  {
+   "source": "willow",
+   "target": "crimson",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 17
+  },
+  {
+   "source": "willow",
+   "target": "maple",
+   "present": true,
+   "admitted": false,
+   "asserted": false,
+   "admissions": 0
+  },
+  {
+   "source": "willow",
+   "target": "ochre",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 21
+  },
+  {
+   "source": "willow",
+   "target": "umber",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 17
+  },
+  {
+   "source": "willow",
+   "target": "yarrow",
+   "present": true,
+   "admitted": true,
+   "asserted": false,
+   "admissions": 9
+  },
+  {
+   "source": "yarrow",
+   "target": "fern",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 56
+  },
+  {
+   "source": "yarrow",
+   "target": "olive",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 36
+  },
+  {
+   "source": "yarrow",
+   "target": "verdant",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 43
+  },
+  {
+   "source": "yarrow",
+   "target": "willow",
+   "present": true,
+   "admitted": true,
+   "asserted": true,
+   "admissions": 35
+  }
+ ],
+ "engine_commit": "8f9d3b71340729d3c61165d5e51ad0db3c2694c3",
+ "runner": "__main__"
+}

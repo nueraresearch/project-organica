@@ -1,4 +1,5 @@
 """The decay falsifier must publish what the series says, and be able to fail."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

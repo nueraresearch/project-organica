@@ -3,6 +3,7 @@
 Every row is rebuilt from the artifact and asserted to appear verbatim; the document is
 not allowed to drift from the numbers it claims to report.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 from pathlib import Path
 

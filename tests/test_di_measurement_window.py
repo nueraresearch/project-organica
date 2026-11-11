@@ -6,6 +6,7 @@ scope limit (Stage B specified but not authorised). All three are checked here.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

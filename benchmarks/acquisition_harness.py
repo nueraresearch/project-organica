@@ -514,6 +514,18 @@ class _CapOverrideSleepService(SleepService):
         return candidates[:self.diagnostic_max_predictions]
 
 
+def asserted_fingerprint(pairs) -> str:
+    """The audit's canonical whole-set asserted fingerprint.
+
+    This is the function the Gate-13 audit itself calls.  A witness that needs
+    the same fingerprint must call this function rather than restating the
+    sorted-pair, pipe-joined, truncated-SHA recipe.
+    """
+    return hashlib.sha256(
+        "|".join("%s>%s" % edge for edge in sorted(pairs)).encode("utf-8")
+    ).hexdigest()[:16]
+
+
 def gate_acquisition_sufficiency(
     seed: int = DEFAULT_SEED,
     cycles: int = SHORT_CYCLES,
@@ -650,9 +662,7 @@ def gate_acquisition_sufficiency(
         "failure_reason": failure_reason,
         "arm": service_cls.__name__ if service_cls is not None else "SleepService",
         "asserted_edges": len(asserted_pairs),
-        "asserted_fingerprint": hashlib.sha256(
-            "|".join("%s>%s" % edge for edge in sorted(asserted_pairs))
-            .encode("utf-8")).hexdigest()[:16],
+        "asserted_fingerprint": asserted_fingerprint(asserted_pairs),
     }
 
 

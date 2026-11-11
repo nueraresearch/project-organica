@@ -277,6 +277,37 @@
       ],
       "superseded_by": null,
       "withdrawn_reason": "Three of five preregistered predictions reversed in the developmental direction (contradiction +0.166, question generation +1.266, EIG +0.366, against a 0.033 noise floor)."
+    },
+    {
+      "claim_id": "C012",
+      "claim": "Across the D3 persistence chain the decayed source-frequency denominator keeps structure alive across cycle gaps: the seed block measured the repair in process on the 0.13.0 engine, and the recalibrated G1 arm reproduced repaired persistence under the shipped 0.14.0 engine.",
+      "classification": "HYPOTHESIS",
+      "status": "ACTIVE",
+      "provenance": "ARTIFACT_READ",
+      "engine_version": "mixed:0.13.0+0.14.0",
+      "supporting_questions": [
+        "Q045",
+        "Q044"
+      ],
+      "contradicting_questions": [],
+      "supporting_evidence": [
+        "docs/d3_persistence_seed_varying_prereg.json",
+        "docs/d3_persistence_seed_varying_run.json",
+        "docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md",
+        "docs/d3_persistence_g1_recalibrated_prereg.json",
+        "docs/d3_persistence_g1_recalibrated_run.json",
+        "docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md",
+        "docs/D3-PERSISTENCE-ENGINE-REPLICATION-RESULT.md"
+      ],
+      "scope_limitations": [
+        "Six synthetic compositional seeds on one stimulus family at the shipped cap; no other world family is measured by this chain.",
+        "The seed-varying arm is an in-process treatment on the unchanged 0.13.0 engine; only the recalibrated G1 arm runs the shipped 0.14.0 code end to end.",
+        "The independent-harness replication arm is VOID on its preflight gate, so cross-harness replication is not established and this claim does not rest on it.",
+        "Persistence here means structure surviving cycle gaps in these artifacts, not belief persistence, transfer or any capability.",
+        "The repair is an engine-behaviour change the owner promoted; this claim records what the two builds measured and does not re-argue the promotion."
+      ],
+      "superseded_by": null,
+      "withdrawn_reason": ""
     }
   ]
 }

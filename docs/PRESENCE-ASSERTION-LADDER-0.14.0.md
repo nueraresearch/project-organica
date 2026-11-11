@@ -32,11 +32,13 @@ Of the world edges that are present in raw temporal memory but absent from the f
 
 ## How often an edge got a slot
 
-| Set | Edges | Never admitted | Median admissions | Min-max |
-| --- | --- | --- | --- | --- |
-| asserted | 249 | 41 | 3.0-13.5 | 0-93 |
-| admitted_not_asserted | 252 | 0 | 5-9 | 1-54 |
-| offered_not_admitted | 171 | 171 | 0-0 | 0-0 |
+| Set | Edges | Bypass | Never admitted (non-bypass) | Median admissions | Min-max |
+| --- | --- | --- | --- | --- | --- |
+| asserted | 249 | 41 | 0 | 3.0-13.5 | 0-93 |
+| admitted_not_asserted | 252 | 0 | 0 | 5-9 | 1-54 |
+| offered_not_admitted | 171 | 0 | 171 | 0-0 | 0-0 |
+
+**Bypass is not a miss.** The 41 never-admitted edges in the asserted set are the bypass: they are asserted through a non-prediction structure type without ever entering a prediction window. They are not part of the 423 present-but-unasserted misses; the 171 offered-but-not-admitted edges are the misses in that table.
 
 ## Pooled over the six seeds
 

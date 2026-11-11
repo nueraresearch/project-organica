@@ -1,4 +1,5 @@
 """The engine pin must describe the engine that exists."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 

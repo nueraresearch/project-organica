@@ -1,0 +1,101 @@
+{
+ "kind": "presence_cap112_prereg",
+ "not_a_result": true,
+ "status": "FROZEN, RUN",
+ "no_cells_run": false,
+ "frozen_on": "2026-11-11",
+ "cap": 112,
+ "engine": {
+  "target_version": "0.15.0",
+  "shipped_today": "0.15.0, cap 112 (landed 2026-11-11)",
+  "requires": "`DECISION-CAP-LEVEL` C landed: `SleepService.MAX_PREDICTIONS` set to 112, version 0.15.0, pin re-recorded, canaries re-recorded and attributed"
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-11",
+  "document": "docs/AUTHORISATION-PRESENCE-CAP-112.md",
+  "quote": "Write the dated cap-112 authorisation document for the comparator, Q1 and Q2, recording the owner's grant against the three frozen records.",
+  "scope": "the three cap-112 records: PRESENCE-COMPARATOR-112, PRESENCE-CONSTRUCT-1-112 and PRESENCE-CAP-1-112, once the cap is landed and a harness exists",
+  "why": "the owner granted the cap-112 campaign on 2026-11-11; the grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md` and quoted there. It does not land the cap and does not authorise a run under cap 40."
+ },
+ "runner": {
+  "status": "built",
+  "module": "benchmarks/presence_cap112_runners.py",
+  "built_on": "2026-11-11",
+  "refuses": "`--measure` refuses while the shipped cap is not 112, the installed version is not 0.15.0, the pin does not name it, or the block canaries were not re-recorded on the installed bytes",
+  "why": "the three blocks are implemented against these frozen designs and their gates. The comparator's seven planned runs (six audit seeds plus the control) executed on 2026-11-11; Q1 and Q2 remain unrun.",
+  "cells_run": 7
+ },
+ "amendments": [
+  {
+   "date": "2026-11-11",
+   "kind": "runner-built",
+   "reason": "the owner's grant of 2026-11-11 authorised the cells, and the runners were the separate step the draft named",
+   "disclosure": "`benchmarks/presence_cap112_runners.py` implements the comparator, Q1 and Q2 cells and their gates, with verdict rules and gate controls that run on hand-built rows. `--measure` refuses on this build: the shipped cap is 40 and the installed version is 0.14.0. No cell has run, no verdict is adjudicated, and the design, seeds, gates and verdict rules above are unchanged."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "cap-landed",
+   "reason": "the owner instructed the 0.15.0 landing: version 0.15.0, cap 112, engine re-pin and canaries re-recorded with attribution",
+   "disclosure": "`SleepService.MAX_PREDICTIONS` is 112 and the package is 0.15.0. Each of the four runner conditions is met, so the records are runnable; landing does not run them. The records' status stays FROZEN, NOT RUN and their design, seeds, gates and verdict rules are unchanged. The 0.14.0 cap-40 records are superseded, not re-scored: each carries a dated build_superseded block."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "run-completed",
+   "reason": "the preflight became empty when 0.15.0 landed, and the owner's 2026-11-11 grant already covered these cells",
+   "disclosure": "The seven planned runs executed on 2026-11-11: six audit seeds and the control, on the shipped 0.15.0 build at cap 112. `--finish` wrote docs/presence_comparator_112_run.json and docs/PRESENCE-COMPARATOR-112-RESULT.md; the verdict is `PRESENCE NOT ASSERTION`, all six gates A1-A6 pass, and the asserted world edges are 51-64 of 112 (conversion 0.455-0.571). Status moved to FROZEN, RUN. The design, seeds, gates, verdict rule and acceptance condition are unchanged, and no other block ran."
+  }
+ ],
+ "decision_table_source": "docs/presence_assertion_audit_0.14.0.json",
+ "result": {
+  "artifact": "docs/presence_comparator_112_run.json",
+  "page": "docs/PRESENCE-COMPARATOR-112-RESULT.md",
+  "verdict": "PRESENCE NOT ASSERTION",
+  "date": "2026-11-11"
+ },
+ "not_evidence": "A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.",
+ "prereg": "PRESENCE-COMPARATOR-112",
+ "block": "comparator",
+ "question": "On a build whose Layer-1 cap is 112, are presence and assertion the same object on the same world edges, the same build and the same observation window -- and does the 0.14.0 comparator's reading survive the level?",
+ "claim": "The comparator measures present edges and asserted world edges as sets on one build. At cap 40 it returned `PRESENCE NOT ASSERTION`: the asserted set was a strict subset of presence. This record re-asks the same question at 112 so the level change is not read through a cap-40 instrument.",
+ "design": {
+  "seeds": [
+   20261100,
+   20261101,
+   20261102,
+   20261103,
+   20261104,
+   20261105
+  ],
+  "cycles": 120,
+  "cells": 6,
+  "cap": 112,
+  "world": "the Gate-13 compositional world (16 tags, 112 derivable edges)",
+  "pairing": "one cell per audit seed; each cell pairs with the cap-112 row of the same seed",
+  "reuse": "The six historical audit seeds, reused so the level comparison is paired per seed. This is reuse and is disclosed; it is not an independence claim."
+ },
+ "gates": {
+  "A1_build": "one build, one sha256, the cap 112 the pin will name; no mixed-build row",
+  "A2_world": "one W per seed, no perturbation of order or window",
+  "A3_denominator": "W, P and S_ever non-empty in every cell; a zero denominator is not measurable",
+  "A4_object": "the asserted edge set is recorded as a set, not a count",
+  "A5_seed_axis": "at least two distinct (P, S_ever, A_W) fingerprints across the six seeds",
+  "A6_control": "a fresh-process rerun of seed 20261100 reproduces its fingerprints"
+ },
+ "verdict_rule": "the comparator's own `_verdict(rows)` over the six cells, unchanged: `PRESENCE NOT FULL`, `PRESENCE NOT ASSERTION`, `PRESENCE AND ASSERTION COINCIDE`",
+ "gates_control": "`_verdict` is checked against a hand-built row set for each of its three verdicts before any cell runs, so a verdict that cannot be reached is a draft defect rather than a result.",
+ "page": "PRESENCE-COMPARATOR-112-PREREGISTRATION.md",
+ "seed_block": [
+  20261100,
+  20261101,
+  20261102,
+  20261103,
+  20261104,
+  20261105
+ ],
+ "seed_reuse": "the six historical audit seeds, reused so the level comparison is paired; declared against docs/presence_assertion_audit_0.14.0.json",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

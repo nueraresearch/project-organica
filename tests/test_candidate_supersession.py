@@ -11,6 +11,7 @@ pin the three properties the decision claims:
 """
 
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

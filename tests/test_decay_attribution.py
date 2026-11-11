@@ -1,6 +1,7 @@
 """Tests for the decay-attribution ledger (benchmarks/decay_attribution.py)."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

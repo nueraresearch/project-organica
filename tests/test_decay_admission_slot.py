@@ -1,6 +1,7 @@
 """Controls for the admission-versus-slot instrument and its pre-registration guard."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

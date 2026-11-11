@@ -16,6 +16,7 @@ The check is built to fail: `test_the_check_can_fail` doctors a record and
 asserts that the comparison reports it.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import hashlib
 import json

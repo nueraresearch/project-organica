@@ -1,5 +1,6 @@
 """The engine binding may only run the design block, and its gates must be able to fail."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import pathlib

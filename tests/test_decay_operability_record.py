@@ -6,6 +6,7 @@ worktree, so the check pins the arithmetic and the provenance rather than preten
 series was read. When `docs/decay_operability.json` is committed, the skip-guarded
 checks start asserting against it instead of skipping.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

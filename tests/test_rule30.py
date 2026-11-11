@@ -21,6 +21,7 @@ Every control below is a case the detector must reject. A guard that cannot fire
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re
@@ -38,6 +39,14 @@ JUDGED = {
     "density_interaction_prereg.json",
     "density_interaction_a2_prereg.json",
     "density_padding_prereg.json",
+    "presence_conversion_observer_prereg.json",
+    "presence_conversion_repair_prereg.json",
+    "presence_band_rank_prereg.json",
+    "presence_band_rank_2_prereg.json",
+    "presence_construct_audit_prereg.json",
+    "t1_persistence_off_prereg.json",
+    "t1b_persistence_off_prereg.json",
+    "persistence_mechanism_prereg.json",
 }
 
 # Tables frozen before the decision text was recorded. Listed rather than skipped silently, so a

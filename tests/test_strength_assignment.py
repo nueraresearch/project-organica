@@ -6,6 +6,7 @@ that topology survives it exactly, that the null is reachable with unequal
 weights, and that the fixtures can fail.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import pathlib

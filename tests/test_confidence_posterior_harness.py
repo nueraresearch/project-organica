@@ -18,6 +18,7 @@ Nothing here runs a cell or reads a result.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

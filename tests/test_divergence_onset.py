@@ -5,6 +5,7 @@ synthetic parts with the same shape the worker writes.  Each one is written to
 fail if the corresponding rule is broken.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

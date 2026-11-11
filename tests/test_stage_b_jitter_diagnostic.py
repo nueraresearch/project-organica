@@ -3,6 +3,7 @@
 The document claims a band, a population and a cost. All three are recomputed here from the
 committed artifacts, so the definition cannot drift away from the block it describes.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 import re
 from pathlib import Path

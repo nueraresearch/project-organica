@@ -511,18 +511,18 @@ class SleepExtractionMixin:
         # Stratified allocation:
         # Guarantee transitions a minimum allocation of half the budget (e.g. 10 of 20),
         # letting transitions expand into any unused cooccurrence quota.
-        half_cap = self.MAX_PREDICTIONS // 2
-        selected_transitions = transitions[:half_cap]
-        remaining_budget = self.MAX_PREDICTIONS - len(selected_transitions)
+        returned_budget = self.MAX_PREDICTIONS
+        transition_budget = returned_budget // 2
+        selected_transitions = transitions[:transition_budget]
+        remaining_budget = returned_budget - len(selected_transitions)
         selected_cooc = cooccurrences[:remaining_budget]
-        
+
         candidates = selected_transitions + selected_cooc
         # Fill any remainder with more transitions if cooccurrences didn't fill the quota
-        if len(candidates) < self.MAX_PREDICTIONS:
-            more_trans = [t for t in transitions[half_cap:] if t not in candidates]
-            candidates.extend(more_trans[:self.MAX_PREDICTIONS - len(candidates)])
-
-        return candidates[:self.MAX_PREDICTIONS]
+        if len(candidates) < returned_budget:
+            more_trans = [t for t in transitions[transition_budget:] if t not in candidates]
+            candidates.extend(more_trans[:returned_budget - len(candidates)])
+        return candidates[:returned_budget]
 
     def _build_anomalies(self, temporal, freqs) -> list[AnomalyCandidate]:
         anomalies = []

@@ -5,6 +5,7 @@ only ever sees a clean protocol has not been shown to fire.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

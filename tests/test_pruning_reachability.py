@@ -5,6 +5,7 @@ share, which reads as "pruning does not participate". The branch is unreachable 
 the ledger follows, and the engine prunes on the same run. Both halves are checked here, and the
 gate that reports them is proved able to fail (AGENTS.md rule 25(c)).
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

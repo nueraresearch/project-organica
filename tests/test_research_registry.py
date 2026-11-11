@@ -9,6 +9,7 @@ map row that nothing tallies fails on commit rather than on the next time someon
 remembers to run the renderer. Two of the tests prove the check can fire; a check that
 only ever passes is decoration.
 """
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import json
 import os
 import re

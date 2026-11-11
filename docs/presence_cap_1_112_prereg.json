@@ -1,0 +1,113 @@
+{
+ "kind": "presence_cap112_prereg",
+ "not_a_result": true,
+ "status": "FROZEN, RUN",
+ "no_cells_run": false,
+ "frozen_on": "2026-11-11",
+ "cap": 112,
+ "engine": {
+  "target_version": "0.15.0",
+  "shipped_today": "0.15.0, cap 112 (landed 2026-11-11)",
+  "requires": "`DECISION-CAP-LEVEL` C landed: `SleepService.MAX_PREDICTIONS` set to 112, version 0.15.0, pin re-recorded, canaries re-recorded and attributed"
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-11",
+  "document": "docs/AUTHORISATION-PRESENCE-CAP-112.md",
+  "quote": "Write the dated cap-112 authorisation document for the comparator, Q1 and Q2, recording the owner's grant against the three frozen records.",
+  "scope": "the three cap-112 records: PRESENCE-COMPARATOR-112, PRESENCE-CONSTRUCT-1-112 and PRESENCE-CAP-1-112, once the cap is landed and a harness exists",
+  "why": "the owner granted the cap-112 campaign on 2026-11-11; the grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md` and quoted there. It does not land the cap and does not authorise a run under cap 40."
+ },
+ "runner": {
+  "status": "built",
+  "module": "benchmarks/presence_cap112_runners.py",
+  "built_on": "2026-11-11",
+  "refuses": "`--measure` refuses while the shipped cap is not 112, the installed version is not 0.15.0, the pin does not name it, or the block canaries were not re-recorded on the installed bytes",
+  "why": "the 24 cells and the 112 witness executed on 2026-11-11; Q1 remains unrun.",
+  "cells_run": 25
+ },
+ "amendments": [
+  {
+   "date": "2026-11-11",
+   "kind": "runner-built",
+   "reason": "the owner's grant of 2026-11-11 authorised the cells, and the runners were the separate step the draft named",
+   "disclosure": "`benchmarks/presence_cap112_runners.py` implements the comparator, Q1 and Q2 cells and their gates, with verdict rules and gate controls that run on hand-built rows. `--measure` refuses on this build: the shipped cap is 40 and the installed version is 0.14.0. No cell has run, no verdict is adjudicated, and the design, seeds, gates and verdict rules above are unchanged."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "cap-landed",
+   "reason": "the owner instructed the 0.15.0 landing: version 0.15.0, cap 112, engine re-pin and canaries re-recorded with attribution",
+   "disclosure": "`SleepService.MAX_PREDICTIONS` is 112 and the package is 0.15.0. Each of the four runner conditions is met, so the records are runnable; landing does not run them. The records' status stays FROZEN, NOT RUN and their design, seeds, gates and verdict rules are unchanged. The 0.14.0 cap-40 records are superseded, not re-scored: each carries a dated build_superseded block."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "run-completed",
+   "reason": "the comparator-112 rows existed and the preflight was empty, so the arm's 24 cells and witness could run",
+   "disclosure": "The 24 cells (six seeds x 40/80/112/uncapped) and the 112 witness executed on 2026-11-11 on the shipped 0.15.0 build. `--finish` wrote docs/presence_cap_1_112_run.json and docs/PRESENCE-CAP-1-112-RESULT.md; the verdict is `CAP LIMITING`, all six K gates pass, mean paired gain is 17.833333 with lower bound 13.613754 against a bar of 10 on 6 of 6 seeds. The 21-40 band is not identifiable from this block: its fresh seeds differ from Q4's and its cells record counts, not per-edge ranks, so the decision's acceptance condition remains unadjudicated and the decision stays PENDING. The design, seeds, gates, verdict rule and acceptance condition are unchanged, and Q1 remains unrun."
+  }
+ ],
+ "decision_table_source": "docs/presence_cap_prereg.json",
+ "result": {
+  "artifact": "docs/presence_cap_1_112_run.json",
+  "page": "docs/PRESENCE-CAP-1-112-RESULT.md",
+  "verdict": "CAP LIMITING",
+  "date": "2026-11-11"
+ },
+ "not_evidence": "A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.",
+ "prereg": "PRESENCE-CAP-1-112",
+ "block": "Q2",
+ "question": "With 112 as the shipped Layer-1 cap, does the 40-to-112 paired gain in asserted world edges reproduce on a fresh seed block -- and is 112 still limiting?",
+ "claim": "The cap-40 block returned `CAP LIMITING` on its own seeds: mean paired gain 15.833333, lower bound 8.081175 against a bar of 10. This record re-runs the same four-level design with 112 shipped and a fresh block, so the level decision rests on a reproduction rather than on a carried number.",
+ "design": {
+  "variable": "layer1_prediction_cap",
+  "levels": [
+   40,
+   80,
+   112,
+   1000000000
+  ],
+  "shipped_cap": 112,
+  "seeds": [
+   20611901,
+   20611902,
+   20611903,
+   20611904,
+   20611905,
+   20611906
+  ],
+  "bootstrap": 20611907,
+  "cycles": 120,
+  "cells": 24,
+  "witness_cell": {
+   "seed": 20261100,
+   "cap": 112,
+   "why": "the 112 arm reproduces the cap-112 comparator row for this seed, which is what proves the treatment at 112 is the shipped engine; the 40 arm is a treatment arm below the shipped default, not a witness"
+  },
+  "pairing": "same seed and world across all four caps; only the cap differs",
+  "freshness": "a fresh seed block, disjoint from every committed artifact; the 40 arm is kept so the pre-registered 40-to-112 comparison is repeated rather than assumed from another block's runs"
+ },
+ "gates": {
+  "K1_build": "all cells and the witness name one engine version, one sha256 and the effective cap",
+  "K2_same_world": "W identical across the four caps of every seed",
+  "K3_presence_invariant": "P identical across the four caps of every seed",
+  "K4_cap_live": "each cell records its cap; the 40 arm never returns more than 40 rows; the 112 arm never more than 112; higher caps change S_ever on at least one seed",
+  "K5_cap_only": "the treatment overrides no pipeline method and the cap-112 witness reproduces the comparator-112 row; a failure is VOID",
+  "K6_denominator": "W, P and S_ever non-empty in every cell"
+ },
+ "verdict_rule": "Q2's own decision table, adopted unchanged from `docs/presence_cap_prereg.json`: VOID, CAP NOT BINDING, ADMISSION-ONLY BOTTLENECK, CAP LIMITING, CAP LIMITING BELOW BAR, CAP NOT LIMITING, MIXED",
+ "gates_control": "the level list, the shipped cap and the witness cap are each checked against a mutated record that must be rejected; `K4` is checked against a row set whose 40 arm returns 41 rows.",
+ "page": "PRESENCE-CAP-1-112-PREREGISTRATION.md",
+ "seed_block": [
+  20611901,
+  20611902,
+  20611903,
+  20611904,
+  20611905,
+  20611906
+ ],
+ "seed_reuse": null,
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

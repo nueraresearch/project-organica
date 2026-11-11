@@ -12,6 +12,7 @@ is the defect this project's rule 13 exists to prevent.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

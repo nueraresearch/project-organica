@@ -4,6 +4,7 @@ can reach every branch of the decision table and be voided by every gate.
 The fixtures are synthetic cells: no engine runs, no world is generated. The scorer is the
 committed one, so a criterion that cannot fire here cannot fire in the run either.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

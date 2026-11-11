@@ -4,6 +4,7 @@ predicted direction must be registered before any cell.
 The arithmetic is recomputed from the artifact, so a counts-as-density slip, a vocabulary
 change or a silently different candidate universe cannot hide in prose.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

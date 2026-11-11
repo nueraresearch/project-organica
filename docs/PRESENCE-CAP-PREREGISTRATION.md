@@ -2,9 +2,9 @@
 
 Generated from `docs/presence_cap_prereg.json` by `python -m benchmarks.presence_cap_experiment --render-prereg`. Do not edit by hand.
 
-**Status: FROZEN, NOT RUN. Not authorised.** No cell has run. This record fixes the protocol; it does not licence a run.
+**Status: FROZEN, RUN. Authorised 2026-11-10 and run.** The verdict is `CAP LIMITING`; the artifact is `docs/presence_cap_run.json` and the result page is `docs/PRESENCE-CAP-RESULT.md`.
 
-Question 2 of the conversion program (`docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md`), frozen on its own. This is the Q2 half of the draft program, frozen on its own so the cap question can be answered without waiting for Q1. It uses Q2's quantities (`S_ever`, `A_W`), its four levels, its K1-K6 gates and its four readings without renaming them. It adds one thing Q2 did not have: a magnitude bar and an admission ceiling derived from committed artifacts, because a direction on six seeds is not a decision-grade bar. It runs ahead of Q1 deliberately and states the consequence: it may not claim construct separation, and if Q1 later changes a definition this block is not re-scored.
+Question 2 of the conversion program (`docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md`), frozen on its own. This is the Q2 half of the draft program, frozen on its own so the cap question can be answered without waiting for Q1 or Q3. It uses Q2's quantities (`S_ever`, `A_W`), its four levels, its K1-K6 gates and its four readings without renaming them. It adds one thing Q2 did not have: a magnitude bar and an admission ceiling derived from committed artifacts, because a direction on six seeds is not a decision-grade bar. It runs ahead of Q1 and Q3 deliberately and states the consequences: it may not claim construct separation, it does not use either block's cells, and if Q1 or Q3 later changes a definition this block is not re-scored.
 
 ## The question
 
@@ -41,7 +41,7 @@ The 40-slot window truncates a ranked candidate list that holds roughly 225-238 
 | Block | Artifact | Reading | Why it does not answer this question |
 | --- | --- | --- | --- |
 | same-build presence/assertion audit | `docs/presence_assertion_audit_0.14.0.json` | 112 of 112 world edges present, 34-47 asserted, at the shipped cap of 40 on six seeds | it measures one cap level only, so it cannot separate a capacity limit from a conversion limit |
-| presence-to-assertion ladder trace | `docs/presence_assertion_ladder_0.14.0.json` | every world edge is offered by the ranking; 171 of 423 misses are never admitted and 252 are admitted and not asserted; the verdict is MIXED | it traces one cap level and its offered arm changes the cap in a recording subclass, so it quantifies the split but cannot show what a different budget would do |
+| presence-to-assertion ladder trace (exploratory) | `docs/presence_assertion_ladder_0.14.0.json` | every world edge is offered by the ranking; 171 of 423 misses are never admitted and 252 are admitted and not asserted; the verdict is MIXED | it traces one cap level and its offered arm changes the cap in a recording subclass, so it quantifies the split but cannot show what a different budget would do |
 | Gate 13 paired capacity diagnostic | `docs/gate13_paired_capacity_test.json` | the cap is manipulable in-process and a raised cap changes acquisition coverage | its treatment replaces candidate construction as well as the cap, so its gain cannot be attributed to the budget alone; this block does not re-score it |
 
 ## The ceiling the ladder already implies
@@ -118,12 +118,12 @@ The readings are membership readings, not aggregate counts: adding a world edge 
 
 ## The retention profile, declared before any cell
 
-Before any mechanism is proposed, every cell records its stage counts, the retention ratios P/W, S_ever/P and A_W/S_ever (with the admitted-only variant A_W|admitted/S_ever beside the last), and the absolute world-edge count retained at each observed stage: W, P, S_ever and A_pred. The primary suspect stage is the earliest stage with the largest absolute drop, ties going to the earlier stage, which is the conversion draft's own loss rule; the relative shares are reported beside it and never name a suspect on their own, because a large relative loss on a small denominator is not the same finding as a large absolute one. The retained chain ends at A_pred, not at A_W: an edge asserted without ever being admitted is a bypass, reported separately and counted neither as retention nor as loss. A stage whose denominator is zero is not measured and is excluded from the comparison; it is never reported as 0.0. The rule names the stage to inspect next and licenses no mechanism, no engine change and no verdict.
+Before any mechanism is proposed, every cell records its stage counts, the retention ratios P/W, S_ever/P and A_W/S_ever (with the admitted-only variant A_W|admitted/S_ever beside the last), and the absolute loss at each observed step: W to P, P to S_ever and S_ever to A_pred. The retained chain ends at A_pred, not at A_W: an edge asserted without ever being admitted is a bypass, reported separately and counted neither as retention nor as loss. The P to S_ever loss excludes the bypass, because those edges leave the admitted chain but survive into assertion; the bypass is removed from that drop rather than added to it. The primary suspect stage is the earliest step with the largest absolute loss, ties going to the earlier step, which is the conversion draft's own loss rule; the relative shares are reported beside it and never name a suspect on their own, because a large relative loss on a small denominator is not the same finding as a large absolute one. A stage whose denominator is zero is not measured and is excluded from the comparison; it is never reported as 0.0. The rule names the stage to inspect next and licenses no mechanism, no engine change and no verdict.
 
 | Stage | Prior retained | Prior drop |
 | --- | --- | --- |
 | W | 672 | - |
-| P | 672 | 212 |
+| P | 672 | 171 |
 | S_ever | 460 | 252 |
 | A_pred | 208 | - |
 
@@ -133,10 +133,10 @@ Before any mechanism is proposed, every cell records its stage counts, the reten
 | S_ever/P | 0.684524 | - |
 | A_W/S_ever | 0.541304 | - |
 | A_W|admitted/S_ever | 0.452174 | - |
-| P->S_ever | - | 0.315476 |
+| P->S_ever | - | 0.254464 |
 | S_ever->A_W | - | 0.547826 |
 
-The prior columns are recomputed from `presence_assertion_ladder_0.14.0.json` on every render, pooled over its six rows. The primary suspect stage is **S_ever->A_W**, and the ladder's own bucket shares over its 464 misses are 0.404255 at admission, 0.0 before it and 0.595745 after it. 41 asserted edges never passed admission: they are a bypass, excluded from the retained chain, and counted neither as retention nor as loss.
+The prior columns are recomputed from the **exploratory** `presence_assertion_ladder_0.14.0.json` on every render, pooled over its six rows. The primary suspect stage is **S_ever->A_W**, and the ladder's own bucket shares over its 423 misses are 0.404255 at admission, 0.0 before it and 0.595745 after it. The P->S_ever loss is the **171** offered-not-admitted edges, not the raw stage difference of **212**: the **41** asserted edges that never passed admission are a bypass, excluded from the retained chain and removed from the P->S_ever drop rather than added to it. The two drops sum to **171 + 252 = 423**, the full miss count, so the bypass is counted once and no edge is counted twice.
 
 **The steps the engine makes identities.** `S_cycle` to `S_ever` is a union, not a retention step: `S_ever` is the union of the per-cycle predictions and can exceed the cap, so it is recorded as window sizes rather than as a ratio.
 
@@ -170,7 +170,7 @@ Only `CAP LIMITING` licenses anything, and what it licenses is an owner decision
 
 24 cells (1 witness) x 3000 cycles. about four minutes sequentially on this machine at roughly eight seconds per cell
 
-**Authorisation.** The draft program's freeze checklist requires the owner's authorisation before a run. This record fixes the protocol and does not authorise cells; the runner refuses `--measure` until `authorisation.granted` is recorded as true.
+**Authorisation.** The draft program's freeze checklist requires the owner's authorisation before a run, and the owner gave it on 2026-11-10: `Authorize all runs`, covering all three frozen conversion blocks. This record had no request document before the grant, so `docs/AUTHORISATION-PRESENCE-CAP-1.md` records the request scope and the decision together. The record stays FROZEN, NOT RUN and no cell has run; `--measure` refuses unless `authorisation.granted` is true and the document check passes. A grant is not a run: executing the first cell is a separate, dated act.
 
 ## What this does not claim
 

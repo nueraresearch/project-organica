@@ -1,4 +1,5 @@
 """A run the harness will not certify is void; the policy must be able to fail."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

@@ -2,32 +2,34 @@
   "kind": "question_survival",
   "date": "2026-11-09",
   "note": "Derived from the registry, the decisions index and the engine-version audit. No status is changed and no engine is run.",
-  "pinned_version": "0.14.0",
+  "pinned_version": "0.15.0",
   "populations": {
-    "open": 30,
+    "open": 31,
     "future": 5,
-    "closed": 14,
+    "closed": 15,
     "retired": 2,
-    "reviewed": 35,
+    "reviewed": 36,
     "reopened_by_the_sweep": 12,
-    "open_and_never_closed": 18,
+    "open_and_never_closed": 19,
     "reopened_in_prose": 17
   },
   "evidence": {
-    "json_refs": 53,
-    "named_build": 4,
-    "unnamed_build": 49,
+    "json_refs": 56,
+    "named_build": 6,
+    "unnamed_build": 50,
     "missing_paths": [],
     "missing_path_count": 0,
     "distinct_builds": [
-      "0.13.0"
+      "0.13.0",
+      "0.14.0",
+      "0.15.0"
     ]
   },
   "states": {
     "broken-evidence": 0,
     "prerequisite": 5,
-    "governance-held": 2,
-    "answered-older-build": 15,
+    "governance-held": 4,
+    "answered-older-build": 14,
     "answered-at-pin": 0,
     "answered-no-build": 0,
     "open-with-evidence": 13,
@@ -55,7 +57,7 @@
       "id": "Q003",
       "status": "open",
       "question": "Can a frequency-ranked selection find the world's edges at the engine's cap?",
-      "state": "answered-older-build",
+      "state": "governance-held",
       "builds": [],
       "builds_include_pin": false,
       "evidence": 4,
@@ -65,7 +67,9 @@
       "reopened_in_prose": true,
       "answered": true,
       "blocked_by": [],
-      "pending_decisions": [],
+      "pending_decisions": [
+        "DECISION-CAP-LEVEL"
+      ],
       "preregistrations": []
     },
     {
@@ -763,6 +767,33 @@
         {
           "ref": "docs/Q053-MECHANISM-PREREGISTRATION.md",
           "resolved": "path"
+        }
+      ]
+    },
+    {
+      "id": "Q054",
+      "status": "open",
+      "question": "Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits?",
+      "state": "governance-held",
+      "builds": [
+        "0.14.0",
+        "0.15.0"
+      ],
+      "builds_include_pin": true,
+      "evidence": 6,
+      "json_evidence": 3,
+      "named_build": 2,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [],
+      "pending_decisions": [
+        "DECISION-ADMISSION-STEP"
+      ],
+      "preregistrations": [
+        {
+          "ref": "PRESENCE-CONVERSION-2",
+          "resolved": "missing"
         }
       ]
     }

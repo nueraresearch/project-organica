@@ -1,4 +1,5 @@
 """The age-matched addendum must be able to say "age explains it" and "age does not"."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

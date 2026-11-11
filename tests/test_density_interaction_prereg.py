@@ -5,6 +5,7 @@ declared grid, the seeds are fresh, the harness passes its own audits, the crite
 whole conjunction rather than a count, every gate can fire, and the document is the
 artifact rendered rather than prose about it.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

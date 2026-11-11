@@ -1,4 +1,5 @@
 """The durability probe must report each missing leg, and must reject a blind classifier."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

@@ -1,4 +1,5 @@
 """The decay-attribution replication must stay unexecuted and frozen."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 

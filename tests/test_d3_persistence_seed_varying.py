@@ -1,4 +1,5 @@
 """Guards for the D3 seed-varying confirmation block and its frozen protocol."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 

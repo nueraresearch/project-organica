@@ -1,4 +1,5 @@
 """The Q021 result must be the frozen block's result, not a typed summary."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import copy
 import json
 

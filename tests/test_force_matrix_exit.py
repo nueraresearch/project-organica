@@ -6,6 +6,7 @@ printed `FULL produced no theories -- the reference arm is broken` and exited
 """
 
 from __future__ import annotations
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import sys

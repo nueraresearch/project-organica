@@ -443,8 +443,8 @@ def render(body: dict) -> str:
         "",
         "## How often an edge got a slot",
         "",
-        "| Set | Edges | Never admitted | Median admissions | Min-max |",
-        "| --- | --- | --- | --- | --- |",
+        "| Set | Edges | Bypass | Never admitted (non-bypass) | Median admissions | Min-max |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for name in ("asserted", "admitted_not_asserted", "offered_not_admitted"):
         stats = ([row["asserted_admission_stats"] for row in rows] if name == "asserted"
@@ -452,12 +452,23 @@ def render(body: dict) -> str:
         medians = [item["median"] for item in stats if item["median"] is not None]
         edges = sum(item["edges"] for item in stats)
         zero = sum(item["zero"] for item in stats)
-        lines.append("| %s | %d | %d | %s-%s | %s-%s |" % (
-            name, edges, zero,
+        # In the asserted set the zero-admission edges are exactly the bypass;
+        # they are not misses, so they get their own column rather than sitting
+        # under the "Never admitted" count with the offered-but-not-admitted set.
+        bypass = (sum(row["asserted_without_admission"] for row in rows)
+                  if name == "asserted" else 0)
+        never = zero - bypass
+        lines.append("| %s | %d | %d | %d | %s-%s | %s-%s |" % (
+            name, edges, bypass, never,
             min(medians) if medians else "n/a", max(medians) if medians else "n/a",
             min(item["min"] for item in stats if item["min"] is not None) if medians else "n/a",
             max(item["max"] for item in stats if item["max"] is not None) if medians else "n/a"))
     lines += [
+        "",
+        "**Bypass is not a miss.** The 41 never-admitted edges in the asserted set are the "
+        "bypass: they are asserted through a non-prediction structure type without ever "
+        "entering a prediction window. They are not part of the 423 present-but-unasserted "
+        "misses; the 171 offered-but-not-admitted edges are the misses in that table.",
         "",
         "## Pooled over the six seeds",
         "",

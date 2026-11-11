@@ -1,3 +1,4 @@
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 from pathlib import Path
 from organica import MemoryService, SleepService
 

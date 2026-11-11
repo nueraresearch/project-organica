@@ -5,6 +5,7 @@ something outside the cohort is pruned, because that is exactly what the first d
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 

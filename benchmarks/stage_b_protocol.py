@@ -159,6 +159,8 @@ def _consumed_seeds() -> dict[str, list[int]]:
             continue
         try:
             obj = json.loads(Path(path).read_text(encoding="utf-8"))
+            if isinstance(obj, dict) and obj.get("not_a_result") is True:  # pre-run table
+                continue
         except (json.JSONDecodeError, UnicodeDecodeError):
             continue
         seeds: set[int] = set()
@@ -705,7 +707,9 @@ def build() -> dict:
             "overlap_with_consumed": overlap,
             "disjoint_proved_against": len(consumed),
             "scan_scope": "every *.json directly under docs/, which is where every "
-                          "artifact lives; docs/ contains no subdirectory",
+                          "artifact lives; docs/ contains no subdirectory. A pre-run "
+                          "table marked not_a_result is skipped: it reserves its own "
+                          "block's design cells and has consumed no seed.",
             "self_artifact_excluded": "docs/stage_b_protocol.json, "
                                       "docs/stage_b_allocation.json and "
                                       "docs/stage_b_runner.json, because each records "

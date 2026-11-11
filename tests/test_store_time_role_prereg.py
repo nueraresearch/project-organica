@@ -1,4 +1,5 @@
 """The scope guard must accept a scoped preregistration and reject each defect in it."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 
 from benchmarks import store_time_role_prereg as guard
 

@@ -1,4 +1,5 @@
 """The design record must state a level it can defend, and name no seed."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 from pathlib import Path
 import re

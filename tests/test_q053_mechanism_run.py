@@ -1,4 +1,5 @@
 """The Q053 block's mechanism is bounded, and its recorded verdict is the scorer's."""
+LAYER = "dry-run"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 from benchmarks import q053_mechanism_run as R

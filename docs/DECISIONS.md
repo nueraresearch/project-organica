@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 7 | in force; the document records it as implemented or effective |
+| ADOPTED | 9 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 1 | decided and not in force; the document says so |
-| **total** | **9** | |
+| PENDING | 4 | decided and not in force; the document says so |
+| **total** | **14** | |
 
 ## The decisions
 
@@ -199,6 +199,121 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 **Evidence.** `docs/DECISION-G1-WITNESS.md`, `docs/pruning_by_type.json`, `docs/force_matrix.json`, `docs/d3_persistence_seed_varying_run.json`, `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`, `docs/tier1_preflight.json`, `docs/engine_pin.json`
 
 **Record.** `docs/DECISION-G1-WITNESS.md`
+
+### DECISION-ENGINE-EFFECT-STANDARD — Decision: what an engine-effect claim must rest on
+
+**Status.** ADOPTED — *"An engine-effect claim rests on a single-variable arm, a same-build control, a shipped-build reproduction and a live seed axis."*
+
+**Decided.**
+
+- A treatment that changes one engine constant and nothing else is measured in process first, against the shipped arm on the same seeds.
+- The control is the same build the claim names: the pre-repair behaviour is measured, not inferred from an earlier version.
+- The repair is reproduced with the shipped engine at the new version, end to end.
+- The seed axis must be live: distinct per-seed trajectories, or the block is a single case wearing a seed count.
+- Gates are fixed before the run, and a block that fails its own preflight gate is VOID.
+- A VOID block may not be cited as confirmation and may not be cited as a failed replication; it measured nothing about the engine.
+- The claim's build is derived from artifact stamps, and a chain that spans builds says so instead of naming one of them.
+- Promotion into the engine is a separate owner decision with its own date, its own record and a version bump.
+
+**Rejected.**
+
+- *Accept the in-process treatment as evidence about the shipped engine.* — because *"An in-process subclass is not the shipped build, and rule 22 already separates a perturbation of the observer from one of the organism."*
+- *Cite the VOID replication arm as a failed replication.* — because *"A block that fails its own preflight gate measured nothing about the engine, and reporting it as a failed replication turns an inadmissible run into evidence."*
+- *Let the claim's engine version be the one the author remembers.* — because *"The build is derived from artifact stamps; a chain that spans builds must say so, and a mixed field is the honest record."*
+
+**Rests on.** Q045 (open)
+
+**Evidence.** `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`, `docs/D3-PERSISTENCE-ENGINE-REPLICATION-RESULT.md`, `docs/D3-PERSISTENCE-G1-RECALIBRATED-RESULT.md`, `docs/d3_persistence_g1_recalibrated_run.json`, `docs/claim_ledger.json`, `docs/ENGINE-CHANGE-AUDIT.md`
+
+**Record.** `docs/DECISION-ENGINE-EFFECT-STANDARD.md`
+
+### DECISION-CAP-SEMANTICS — Decision: the prediction budget is an allocation, not a capacity
+
+**Status.** ADOPTED — *"In force: the split landed through a recorded lineage link, proven by unchanged canary digests."*
+
+**Decided.**
+
+- Split the prediction budget into named transition and cooccurrence allocations, with their values derived from the returned window.
+
+**Rejected.**
+
+- *Leave the constant as one integer.* — because *"Leaving the constant as one integer keeps the coupling implicit and the name misleading."*
+- *Rename `MAX_PREDICTIONS` and give the allocations stored values.* — because *"A stored value can drift from the window it is spent from, and a second override site is a second way for the served set to change without a digest moving."*
+
+**Rests on.** Q003 (open)
+
+**Evidence.** `docs/CAP-DECISION-BRIEF.md`, `docs/presence_cap_run.json`, `docs/block_canaries.json`, `docs/DECISION-CAP-SEMANTICS.md`
+
+**Record.** `docs/DECISION-CAP-SEMANTICS.md`
+
+### DECISION-CAP-LEVEL — Decision: raise the Layer-1 prediction cap to 112
+
+**Status.** PENDING — *"Decided, not in force: the cap-40 comparator and the three frozen blocks cannot run under 112, so landing it needs a version bump and fresh records for them."*
+
+**Decided.**
+
+- Raise the Layer-1 prediction cap from 40 to 112.
+
+**Rejected.**
+
+- *B — raise the cap to 80.* — because *"The midpoint is descriptive, not judged: its mean gain is 3.50 asserted edges and no interval was registered for it, so choosing 80 would trade the one pre-registered comparison for a smaller step with no passed criterion."*
+- *A — keep the cap at 40.* — because *"Keeping 40 would record the CAP LIMITING reading and then discard the only pre-registered comparison that cleared its bar, closing the budget route at this cap and world family."*
+
+**Rests on.** Q003 (open)
+
+**Evidence.** `docs/CAP-DECISION-BRIEF.md`, `docs/presence_cap_run.json`, `docs/PRESENCE-CAP-RESULT.md`, `docs/block_canaries.json`, `docs/PRESENCE-REBUILD-PLAN.md`, `docs/DECISION-CAP-LEVEL.md`
+
+**Record.** `docs/DECISION-CAP-LEVEL.md`
+
+### DECISION-ADMISSION-STEP — Decision: the admission step is named — constructed, not admitted
+
+**Status.** PENDING — *"Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state."*
+
+**Open question.** *"The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- is not answered. Q2 measured counts, not per-edge ceiling ranks, and its fresh seeds have different worlds from Q4's, so the acceptance condition above stays **unadjudicated**."*
+
+**Decided.**
+
+- Name the step: the loss is constructed but not admitted — 179 of 671 candidate world edges, 16–41 per seed, never entered a served window.
+- Do not change the engine on this record: a stage measurement authorises no cap, allocation, ranking or threshold edit.
+- Test the step with an allocation arm, not another description: the registered cap-112 records raise the guaranteed transition budget from 20 to 56; at 112 the band arm observed 64-69 transitions because unused cooccurrence slots were backfilled, and the arm is the designated counterfactual.
+- Accept the allocation explanation only if the 21–40 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.
+- No capability, retention or transfer claim follows from this record; it locates a loss, it does not measure an ability.
+
+**Rejected.**
+
+- *Treat the 62 rank-21–40 misses as a ranking defect and change the ranking.* — because *"The 62 rank-21–40 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."*
+- *Close the conversion route as assertion losing nothing.* — because *"A_W is an end-state stock and S_ever a cumulative union, and 26 asserted edges were never admitted, so the assertion step was not measured as a loss."*
+- *Call the step admitted but not constructed.* — because *"Served edges are a subset of the recorded universe in every cycle, so admitted-but-not-constructed is zero by construction and cannot be the step that was measured."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/presence_conversion_repair_run.json`, `docs/PRESENCE-CONVERSION-2-RESULT.md`, `docs/presence_conversion_repair_prereg.json`, `docs/presence_conversion_2_n3_tables.json`, `docs/DECISION-CAP-LEVEL.md`, `docs/LANDING-0.15.0.md`, `docs/presence_band_rank_prereg.json`, `docs/PRESENCE-BAND-RANK-PREREGISTRATION.md`, `docs/presence_band_rank_run.json`, `docs/PRESENCE-BAND-RANK-RESULT.md`, `docs/AUTHORISATION-PRESENCE-BAND-1.md`
+
+**Record.** `docs/DECISION-ADMISSION-STEP.md`
+
+### DECISION-PERSISTENCE-INTERVENTION — Decision: the persistence intervention is carry counts, with an explicit boundary reset
+
+**Status.** PENDING — *"The choice is recorded; the carry arm is not in force and no cell has run."*
+
+**Open question.** *"Does an explicitly reset cycle-boundary carry arm preserve the T1b direction while closing the skipped-reset leak?"*
+
+**Decided.**
+
+- Carry counts across cycles is the persistence intervention; the floor and the event lookback stay fixed.
+- The arm that follows is PERSISTENCE-CARRY-1, a clean carry-versus-reset block at cap 112.
+
+**Rejected.**
+
+- *Lower PREDICTION_MIN_COUNT from 5 to 4, 3, 2 or 1* — because *"It changes a global admission threshold and admits edges that never crossed the persistence threshold; at 4 it leaves three of the five zero cells at zero, and at 2 or 1 it makes almost every world edge admissible, so it cannot isolate persistence."*
+- *Extend the temporal event lookback from 3 to 4, 6, 8 or 16* — because *"It changes the event graph globally and, because event rows persist across the reset, it reintroduces cross-cycle context through the lookback; at 8 it admits 86-93 edges from the carried replay, so it is a carry channel in disguise."*
+- *Amend PERSISTENCE-MECHANISM-1 to add a lookback arm* — because *"The frozen 2x2 remains unrun and is not amended; a lookback arm is a separate treatment and would confound its decay and floor contrasts."*
+- *Promote the zero-cell diagnostic to a capability finding* — because *"The diagnostic explains a ceiling on five seeds; it is not a new cell and cannot support a capability, retention or transfer claim."*
+
+**Rests on.** Q055 (closed)
+
+**Evidence.** `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`, `docs/persistence_mechanism_prereg.json`, `docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md`
+
+**Record.** `docs/DECISION-PERSISTENCE-INTERVENTION.md`
 
 ## What this graph is not
 

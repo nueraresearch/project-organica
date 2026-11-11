@@ -4,6 +4,7 @@ Its reference commits, its frozen-file list and its commit count are all facts t
 repository can re-derive. A typed count drifts, which is the exact failure the audit
 documents, so the test recomputes rather than trusts.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import subprocess
 from pathlib import Path
 

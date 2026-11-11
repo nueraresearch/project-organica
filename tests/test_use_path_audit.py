@@ -6,6 +6,7 @@ refuses an incomplete artifact, and the result document is a rendering of the
 committed artifact that can disagree with it.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

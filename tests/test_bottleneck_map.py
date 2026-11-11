@@ -5,6 +5,7 @@ experiment behind it.
 The two corrected rows are checked in both directions: the corrected wording must be present,
 and the superseded wording must not come back.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

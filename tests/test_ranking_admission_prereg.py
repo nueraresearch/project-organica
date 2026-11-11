@@ -4,6 +4,7 @@ not judge, and let every outcome of its decision table be reached and voided.
 The fixtures are synthetic cells: no engine runs, no world is generated. The scorer is the
 committed one, so a verdict that cannot be reached here cannot be reached in the run either.
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import re

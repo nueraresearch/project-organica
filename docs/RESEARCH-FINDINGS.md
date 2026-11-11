@@ -79,6 +79,16 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/DECAY-SWEEP.md`, `docs/decay_sweep.json`, `docs/DECAY-THRESHOLD-PREREGISTRATION.md`, `docs/decay_threshold.json`, `docs/DECAY-THRESHOLD.md`, `docs/decay_threshold_edge.json`, `docs/DECAY-THRESHOLD-EDGE.md`, `docs/decay_support_probe.json`, `docs/DECAY-SUPPORT-PROBE.md`, `docs/decay_paired_bracket.json`, `docs/DECAY-PAIRED-BRACKET.md`, `docs/decay_competition_probe.json`, `docs/DECAY-COMPETITION-PROBE.md`
 
+### Q055 — At the shipped cap of 112, does conversion from constructed edges to served and asserted world edges depend on temporal edge counts carried across sleep cycles, when a zero S_ever is read as a measured count?
+
+**Outcome.** SUPPORTED, status closed.
+
+**Answer.** Yes, in this block's direction. T1b ran 12 cells plus a determinism rerun on six fresh seeds at cap 112 on 0.15.0. Shipped S_ever was 101, 95, 100, 103, 98 and 99; persistence-off served 0, 1, 0, 3, 0 and 3, so the paired differences were 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96.000, 100.000]); all six are above the margin of 10, P is 112 in every cell, all seven gates pass, and three zero S_ever cells are measured zeros. Prior T1 ran the same intervention on six earlier fresh seeds and returned VOID on its own G4 because its frozen rule treated zero S_ever as unmeasurable; its computed mean 95.667 [91.167, 100.167] is not adjudicated. T1b changed only that reading before any cell and used fresh seeds; T1 remains VOID and is not re-read. The zero-S_ever diagnostic explains the five zero cells as the prediction floor: no world edge reaches 5 within-cycle observations (max 3-4), so zero is a measured threshold consequence, not missing data.
+
+**Scope.** One build (0.15.0), one cap (112), one compositional world family, six fresh seeds, 120 cycles and one no-carry intervention (temporal-edge counts zeroed at cycle end). The result is a direction, not an effect size, and it does not establish capability, retention, transfer, generalisation to other worlds or a mechanism decomposition beyond this arm. The zero S_ever cells are measured threshold consequences, not missing denominators.
+
+**Evidence.** `docs/t1b_persistence_off_prereg.json`, `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/t1_persistence_off_run.json`, `docs/T1-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`
+
 Closed governance questions are not findings and are not listed above: Q009, Q010. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
@@ -337,6 +347,12 @@ as one.
 **Why it is open.** The mechanism is chosen and frozen: a second-competing retention floor keeps the highest-support hypothesis of each subject's top two expectations through consolidation, exempt from the death threshold, and changes nothing else. The block is 20 cells on `lattice_L1` (burst excluded by Q052's classification) over a fresh block with one bootstrap seed; the reading is a mechanism gate first, then a capability bar carried from Q051, then an early-cost bound. Nothing is implemented and no cell has run, so the preserve-to-capability link remains unmeasured.
 
 **What is in hand.** `docs/COMPETITION-PRESERVATION-DESIGN.md`, `docs/decay_support_probe.json`, `docs/decay_competition_probe.json`, `docs/long_delay_capability_confirm.json`, `docs/long_delay_capability_burst_L1_calibration.json`, `docs/q052_competition_census_a2.json`, `docs/q053_mechanism_prereg.json`, `docs/Q053-MECHANISM-PREREGISTRATION.md`, `benchmarks/q053_mechanism_prereg.py`, `tests/test_q053_mechanism_prereg.py`, `docs/q053_mechanism_run.json`, `docs/Q053-MECHANISM-RESULT.md`, `benchmarks/q053_mechanism_run.py`
+
+### Q054 — Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits?
+
+**Why it is open.** Q3's observer was not neutral: it lifted MAX_PREDICTIONS and returned the first cap rows, and the cap is a quota split rather than a truncation, so the arms served differently composed candidate lists. PRESENCE-CONVERSION-2 is frozen and ungranted with a repaired observer that returns the engine's own shipped-cap list untouched and records the pre-cap universe with a second call. No cell has run; no runner is installed, and the repaired observer is the prerequisite.
+
+**What is in hand.** `docs/presence_conversion_observer_run.json`, `docs/PRESENCE-CONVERSION-OBSERVER-RESULT.md`, `docs/presence_conversion_repair_prereg.json`, `docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md`, `docs/AUTHORISATION-PRESENCE-CONVERSION-2.md`, `docs/presence_unexplained_edges.json`
 
 ### Q022 — Can role representations transfer across domains?
 

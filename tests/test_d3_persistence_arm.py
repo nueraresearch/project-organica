@@ -1,4 +1,5 @@
 """The frozen D3 arm must be usable by the pre-flight, and its denominator must decay as frozen."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 from benchmarks import tier1_preflight as tp
 from benchmarks.d3_persistence_arm import MatchedFrequencySleepService as Arm
 

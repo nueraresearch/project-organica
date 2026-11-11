@@ -13,8 +13,8 @@ names, so the map cannot drift from a measurement it does not hold.
 
 ## Coverage
 
-- **20** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
-- **14** rows: **10** stay in the campaign, **4** are excluded.
+- **21** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
+- **15** rows: **11** stay in the campaign, **4** are excluded.
 - A row stays only if it names a failure with an artifact, a mechanism, a falsifier,
   observables, a pre-change measurement, and two decisions that differ. A diagnostic whose
   two outcomes lead to the same place spends the resource and changes no design, so the
@@ -40,6 +40,7 @@ names, so the map cannot drift from a measurement it does not hold.
 | M12 | `6c87f63`, `0507b8f` | Candidate supersession and the decay confirmation harness | recorded failure in `docs/V1-FREEZE.md` | stays |
 | M13 | `c845fd8`, `024a475` | Diversity-first admission adopted and withdrawn the same day | recorded failure in `docs/admission_two_arm_result.json` | excluded |
 | M14 | `a95305d`, `fdb505d` | Phase L harness defects fixed, release state documented | recorded failure in `docs/phase_l_results.md` | excluded |
+| M15 | `fb701f4` | The source-frequency denominator decays with the temporal graph (D3-PERSISTENCE-2) | recorded failure in `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md` | stays |
 
 ## M01 — The evidence lookback no longer returns the organism's own sleep rows (D2)
 
@@ -395,6 +396,31 @@ names, so the map cannot drift from a measurement it does not hold.
 **If it does not.** The harness fix changed the measurement, and the earlier Phase L readings must be marked incomparable.
 
 **Why it is not in the campaign.** Harness and documentation, not engine behaviour; including it in a campaign would attribute an instrument effect to the organism.
+
+
+## M15 — The source-frequency denominator decays with the temporal graph (D3-PERSISTENCE-2)
+
+**Commits.** `fb701f4`
+
+**What changed.** The denominator that normalises a prediction's temporal support now decays at 0.95 per cycle, matched to the temporal graph, instead of dividing a decayed temporal count by a raw tag count that grows without bound on a repeated stimulus.
+
+**Failure.** The seed-varying block recorded that the shipped denominator dilutes a re-presented edge, and D3-PERSISTENCE-2 measured the repair before the owner promoted it.
+
+**Artifact.** `docs/D3-PERSISTENCE-SEED-VARYING-RESULT.md`
+
+**Measured on that build.** no.
+
+**Pre-change measurement.** D3-PERSISTENCE-2 measured the repair and its run artifact records the admission and assertion counts on this build; the 0.13.0 records on the same seeds are the comparison.
+
+**Mechanism.** A raw tag count grows without bound while the temporal count decays, so a re-presented edge is diluted by its own history and loses the ordering contest it used to win. Decaying the denominator restores the ratio's scale, so a re-presented world edge can be admitted again after a quiet period.
+
+**Falsifier.** Run the same six seeds at cap 40 on this build and compare admitted and asserted world-edge counts with the 0.13.0 records. If neither count moves, the undecayed denominator was not what diluted re-presented edges.
+
+**Observables.** world edges admitted per cycle at cap 40; S_ever world edges; asserted world edges; cycles at cap
+
+**If it holds.** Keep the decayed denominator and read the 0.14.0 admission and assertion records as measuring the repaired denominator.
+
+**If it does not.** Reopen the frequency denominator: the dilution explanation is wrong, and the promotion must be withdrawn before any 0.14.0 reading is compared with 0.13.0.
 
 ## What this map does not establish
 

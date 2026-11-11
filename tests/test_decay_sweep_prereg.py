@@ -1,6 +1,7 @@
 """The decay-sweep pre-registration is frozen, executable, and checkable."""
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import copy
 import json

@@ -1,0 +1,195 @@
+{
+  "created": "2026-11-11",
+  "frozen_on": "2026-11-11",
+  "prereg": "T1-PERSISTENCE-OFF",
+  "status": "FROZEN, RUN",
+  "no_cells_run": false,
+  "question": "At the shipped cap of 112, does conversion from constructed edges to served and asserted edges depend on temporal edge counts carried across sleep cycles?",
+  "hypothesis": "If carried counts are what keep an edge available between cycles, then removing the carry should lower served and asserted world edges at the same cap, world and seed. If the stage table is unchanged, conversion at 112 is created inside the cycle and the persistence route is not the lever.",
+  "program": {
+    "name": "presence and conversion",
+    "draft": "docs/T1-PERSISTENCE-OFF-PREREGISTRATION.md",
+    "relationship": "Frozen on its own; it does not wait for another block and a later definition change is not re-scored. It reuses the Q4 stage table derivation and no Q4 cell."
+  },
+  "engine": {
+    "version": "0.15.0",
+    "edit": "none",
+    "cap": 112,
+    "pin": "the 0.15.0 pin verified by benchmarks.landing_0_15_0 --check",
+    "why_this_build": "0.15.0 is the shipped build and the first with cap 112. The Q4 stage table was measured on 0.14.0 at cap 40, so its figures are prior evidence, not a T1 result."
+  },
+  "design": {
+    "arms": [
+      "shipped",
+      "persistence_off"
+    ],
+    "seeds": [
+      20612201,
+      20612202,
+      20612203,
+      20612204,
+      20612205,
+      20612206
+    ],
+    "bootstrap": 20612207,
+    "cycles": 120,
+    "cells": 12,
+    "cells_arithmetic": "2 arms x 6 seeds = 12 cells",
+    "world": "the compositional world family of PHASE_ACQUISITION at cap 112 and 120 cycles",
+    "pairing": "both arms of a seed share the seed-determined world and stimulus; only the memory wrapper differs",
+    "freshness": "the first contiguous window of seven integers at or above 20612201 that appears in no committed docs artifact; the seventh is the bootstrap seed and is not a world seed. The check scans every docs JSON and a collision is a validation failure.",
+    "seed_axis": "six seeds are a direction, not an effect size; no seed is dropped and no seed is added after the freeze"
+  },
+  "arms": {
+    "shipped": {
+      "service": "organica.sleep.SleepService",
+      "carried": "the decayed count is carried across cycles"
+    },
+    "persistence_off": {
+      "service": "benchmarks.t1_persistence_off_arm.PersistenceOffMemory with the shipped SleepService",
+      "carried": "reset to zero at the end of every cycle"
+    }
+  },
+  "mechanism": {
+    "name": "cycle-zero reset of temporal edge counts",
+    "arm_class": "PersistenceOffMemory",
+    "changes": "A MemoryService subclass overrides decay_temporal_edges to set every precedes row to count = 0 at the end of each cycle instead of carrying the decayed count forward. The temporal read requires count >= 1, so a reset edge is not returned; an edge observed once in the next cycle increments from 0 to 1 and is returned. Rows are not deleted, the schema is unchanged, and no engine file is edited.",
+    "parameter": {
+      "reset_value": 0,
+      "read_floor": 1,
+      "reset_when": "once per cycle, at the point the engine applies temporal decay",
+      "ignored": "the decay factor, which becomes irrelevant once the count is zeroed"
+    },
+    "preserves": [
+      "the shipped build, its cap of 112 and the pin",
+      "the world, the seed and the stimulus",
+      "the decay applied to every other structure",
+      "the admission rule and the assertion rule",
+      "the temporal edge rows themselves"
+    ],
+    "does_not": [
+      "delete a row, so the arm is a no-carry arm, not a no-evidence arm",
+      "change a threshold, a cap or a ranking key",
+      "add a budget, a reserved pool or a second mechanism"
+    ],
+    "implemented": true,
+    "implementation": "benchmarks/t1_persistence_off_arm.py: PersistenceOffMemory zeroes every precedes count after the engine's decay call, and the runner records the maximum carried count after every cycle.",
+    "risk": "An edge observed once in a cycle is returned at count 1 from that cycle's evidence, so the arm removes carried support, not current evidence. G3 checks the reset, not the absence of edges, and the stage table is read as a no-carry arm."
+  },
+  "endpoints": [
+    {
+      "stage": "P",
+      "definition": "present world edges: the world's edges, the denominator of every share",
+      "role": "denominator"
+    },
+    {
+      "stage": "C",
+      "definition": "constructed candidates: the pre-cap universe intersect the world",
+      "role": "secondary"
+    },
+    {
+      "stage": "S_ever",
+      "definition": "served world edges: the union of every served window intersect the world, counted once",
+      "role": "primary"
+    },
+    {
+      "stage": "A_W",
+      "definition": "asserted world edges at the end of the run",
+      "role": "secondary"
+    },
+    {
+      "stage": "U",
+      "definition": "asserted world edges that never enter a served window",
+      "role": "reported, not a verdict"
+    }
+  ],
+  "endpoint_note": "The stage table is recomputed from each cell's committed per-cycle tables with the Q4 derivation; S_ever is a union, not a sum, so an edge served twice counts once. Every stage is reported as a count and as a share of P, and no ratio is a verdict.",
+  "gates": {
+    "G1_build": "both arms run the shipped 0.15.0 build at cap 112 and the pin is unchanged; an engine edit voids the block",
+    "G2_world": "each seed contributes one world and stimulus to both arms; a differing world digest voids the pair",
+    "G3_manipulation_live": "after the first cycle of every treatment cell the maximum carried temporal count is zero at the end of each cycle, and the control's maximum exceeds zero in at least one cycle on every seed; a reset that never fires, or a control that also resets, is void",
+    "G4_denominator": "P and S_ever are non-zero in every cell; a zero stage is not measurable",
+    "G5_seed_axis": "the six shipped cells hold at least three distinct (S_ever, A_W) pairs; one outcome repeated six times is not a seed axis",
+    "G6_determinism": "the first seed re-run reproduces its stage row exactly",
+    "G7_cells": "exactly twelve cells, both arms x six seeds, with no extra seed, cap or cycle"
+  },
+  "decision_rule": {
+    "rule": "The primary endpoint is the paired per-seed difference in S_ever, shipped minus persistence-off. The table is read once, in the frozen order, and both directions are decisions: a shortfall names persistence as the lever, no shortfall names the in-cycle stage.",
+    "bar": {
+      "margin": 10,
+      "positive_seeds": 5,
+      "confidence": 95,
+      "resamples": 10000,
+      "provenance": "10 is the smallest difference the cap decision treated as decision-relevant (Q2's ten-edge bar); it is imported as a declared margin, not calibrated on this arm. Five of six seeds guards against one seed; the paired interval guards the magnitude. No prior measurement of this ablation exists."
+    }
+  },
+  "decision_table": [
+    {
+      "condition": "any gate fails",
+      "verdict": "VOID",
+      "reading": "the block is unrun and the failed gate names what did not happen",
+      "decision": "record VOID; read no endpoint and keep the direction unanswered"
+    },
+    {
+      "condition": "gates pass; shipped S_ever exceeds persistence-off by at least the margin on at least five of six seeds, with the paired lower bound above zero",
+      "verdict": "PERSISTENCE CONTRIBUTES",
+      "reading": "carried counts are a necessary input to conversion at cap 112: removing the carry removes served edges at the same cap, world and seed",
+      "decision": "pursue the persistence mechanism (decay, floor, denominator); do not read the cap arm as an answer to this question"
+    },
+    {
+      "condition": "gates pass; the difference is at or below zero, or at most two seeds are positive, or the paired interval's upper bound is below the margin",
+      "verdict": "PERSISTENCE NOT LIMITING",
+      "reading": "conversion at 112 is created inside the cycle; carried counts do not explain the served or asserted stage",
+      "decision": "pursue the in-cycle stage (construction or admission), and stop treating retention as the conversion lever"
+    },
+    {
+      "condition": "gates pass; the direction or magnitude falls between the two rows",
+      "verdict": "MIXED",
+      "reading": "the direction is not resolved and the per-seed rows disagree",
+      "decision": "make no mechanism claim; the only follow-up is a larger fresh seed axis, not a re-read of this block"
+    }
+  ],
+  "predicts": "The Q4 artifact records 26 asserted edges that never enter a served window and served arrivals late in the run. If carried support is what keeps an edge available between cycles, the persistence-off arm should serve and assert fewer world edges. The record does not commit to a magnitude, and the opposite result is informative, not a failure.",
+  "cost": "twelve cells plus the determinism rerun at 120 cycles each; ran on 2026-11-11 and returned VOID",
+  "stop_condition": "any gate failure stops the block as VOID; no endpoint is read, no direction is chosen and no cell is rerun to escape the gate",
+  "authorisation": {
+    "required": true,
+    "granted": true,
+    "granted_on": "2026-11-11",
+    "document": "docs/AUTHORISATION-T1-PERSISTENCE-OFF.md",
+    "quote": "Run the T1 persistence-off block at the shipped cap and finish it into its result.",
+    "note": "Granted 2026-11-11 against this record; the quoted instruction authorises the twelve cells and the determinism rerun, not an engine edit, a cap change or a re-score."
+  },
+  "runner": {
+    "built": true,
+    "module": "benchmarks/t1_persistence_off_arm.py",
+    "cells_run": 13,
+    "why": "the arm and the twelve-cell loop were built after the grant; the thirteenth run is the determinism rerun of the first seed's treatment cell"
+  },
+  "not_evidence": "No cell has run. This record licenses no conversion claim, no persistence claim, no effect size and no direction. The Q4 artifact's 26 asserted-but-never-served edges are prior evidence for the question, not a T1 observation, and no figure from that artifact is restated here as a T1 result.",
+  "decision": "Ran on 2026-11-11 and returned VOID on G4: two persistence-off cells served zero world edges, so the frozen rule reads no endpoint and the direction stays unanswered. A new block is required; this one is not re-read and its gate is not relaxed.",
+  "amendments": [
+    {
+      "date": "2026-11-11",
+      "kind": "runner-built",
+      "note": "PersistenceOffMemory and the twelve-cell runner built and self-tested; no cell had run."
+    },
+    {
+      "date": "2026-11-11",
+      "kind": "run-completed",
+      "note": "Twelve cells plus the determinism rerun executed on 0.15.0 at cap 112. G4 failed on two treatment cells and the verdict is VOID; no gate was changed after the run."
+    },
+    {
+      "date": "2026-11-11",
+      "kind": "diagnostic-disclosure",
+      "note": "The zero-S_ever diagnostic names this block's seeds. The freshness allow-list gains `docs/persistence_zero_served_diagnostic.json` and its page; the block's freeze-time proof was scored before those files existed, no cell re-ran, and its verdict is not re-scored."
+    }
+  ],
+  "result": {
+    "artifact": "docs/t1_persistence_off_run.json",
+    "page": "docs/T1-PERSISTENCE-OFF-RESULT.md",
+    "verdict": "VOID",
+    "date": "2026-11-11",
+    "note": "G4_denominator failed: S_ever is zero in the persistence-off cells for seeds 20612204 and 20612205, so the block is VOID and no endpoint is adjudicated. The paired differences are computed and reported, not read as a verdict."
+  }
+}

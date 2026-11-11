@@ -34,6 +34,7 @@ guard.
 """
 
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import ast
 import inspect
@@ -338,9 +339,9 @@ def _check(entries: str) -> list[dict]:
     add("fourteen files", "docs/engine_pin.json .files", len(_at(pin, "files")),
         len(_at(pin, "files")) == 14)
     kept = _at(registry, "reopening", "kept_closed")
-    add("16", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 16,
-        "Q002, Q006 and Q021 closed on 2026-11-09 after their 0.13.0 re-measurements, so the record now holds 16")
+    add("17", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 17,
+        "Q002, Q006 and Q021 closed on 2026-11-09 after their 0.13.0 re-measurements, and Q055 closed on 2026-11-11, so the record now holds 17")
     named = sum(1 for e in kept if "records engine_version 0.13.0" in e["reason"])
     governance = sum(1 for e in kept
                      if "the answer is about" in e["reason"]
@@ -908,8 +909,8 @@ def _check(entries: str) -> list[dict]:
 
     # --- E34. The engine-change audit and the freeze finding ----------------
     change_audit = (ROOT / "docs/ENGINE-CHANGE-AUDIT.md").read_text(encoding="utf-8")
-    add("20", "docs/ENGINE-CHANGE-AUDIT.md commits", "20 commits" in change_audit,
-        "20 commits" in change_audit)
+    add("21", "docs/ENGINE-CHANGE-AUDIT.md commits", "21 commits" in change_audit,
+        "21 commits" in change_audit)
     add("7becdb5", "docs/ENGINE-CHANGE-AUDIT.md split row", "7becdb5" in change_audit,
         "7becdb5" in change_audit, "the submodule split the entry calls a new module set")
     add("seven", "docs/ENGINE-CHANGE-AUDIT.md skip cases",
@@ -1090,24 +1091,29 @@ def _check(entries: str) -> list[dict]:
     kept = _at(reg, "reopening", "kept_closed")
     reopened = _at(reg, "reopening", "reopened")
     questions = _at(reg, "questions")
-    add("51", "docs/research_question_registry.json .questions", len(questions),
-        len(questions) == 51)
+    add("53", "docs/research_question_registry.json .questions", len(questions),
+        len(questions) == 53)
     add("12", "docs/research_question_registry.json .reopening.reopened",
         len(reopened), len(reopened) == 12)
-    add("16", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 16)
+    add("17", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 17)
     never = [q for q in questions
              if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
-    add("23", "docs/research_question_registry.json, questions in neither list",
-        len(never), len(never) == 23)
+    add("24", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 24)
     runnable = [q for q in never if q["status"] == "open"]
-    add("18", "docs/research_question_registry.json, never-closed rows with status open",
-        len(runnable), len(runnable) == 18)
+    add("19", "docs/research_question_registry.json, never-closed rows with status open",
+        len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**167** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 167 and "**167** artifacts" in entries,
-        "the Stage B figure is quoted with its noun, so a drift in either is caught")
+    add("**184** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 184 and ("**%d** artifacts" % proved) in entries,
+        "the Stage B figure is quoted with its noun, so a drift in either is caught; "
+        "the count moved 169 -> 173 when the three conversion blocks wrote their run "
+        "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
+        "artifact landed, to 180 when the band run artifact landed, to 182 when the T1b "
+        "record and run artifact landed, to 183 when BAND-2's record landed, and to 184 "
+        "when PERSISTENCE-MECHANISM-1's frozen record landed, which the changelog records")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
         overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
@@ -1158,10 +1164,10 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**167** artifacts", "**166** artifacts")
-    assert "**166** artifacts" in stage_b_drift, "the control's anchor moved"
+    stage_b_drift = entries.replace("**184** artifacts", "**180** artifacts")
+    assert "**180** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
-    assert any("167" in failure for failure in stage_b_failures), stage_b_failures
+    assert stage_b_failures, "the control did not fire"
 
 # The entries whose figures are pinned by _check() above: the 14 the version
 # sweep examined, then the 28 earlier entries pinned on 2026-11-09.

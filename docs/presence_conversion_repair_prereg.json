@@ -1,0 +1,250 @@
+{
+ "prereg": "PRESENCE-CONVERSION-2",
+ "status": "FROZEN, RUN",
+ "no_cells_run": false,
+ "frozen_on": "2026-11-10",
+ "program": {
+  "draft": "docs/PRESENCE-ASSERTION-CONVERSION-PREREGISTRATION.md",
+  "question": "Q054",
+  "relationship": "This block is Q4, frozen on its own and it does not wait for Q1, Q2 or Q3. It re-asks Q3's question with an instrument that returns the engine's own shipped-cap list untouched and records the pre-cap universe with a second call, because MAX_PREDICTIONS is a quota split rather than a truncation. It supersedes no verdict: Q3's OBSERVER NOT NEUTRAL stands and is not re-scored, and neither Q1's CONSTRUCT VALID nor Q2's CAP LIMITING is re-read by this block."
+ },
+ "question": "Once the observer provably does not change what the engine admits, where do world edges leave the path between raw presence and final assertion on the compositional world family?",
+ "hypothesis": {
+  "statement": "With a behaviour-neutral observer the loss chain W -> P -> C -> S_cycle -> S_ever -> A_pred can be measured without the instrument contributing to it, and the dominant step can be named from the record rather than from a lifted-cap reconstruction.",
+  "prediction": "P equals W (presence is not the loss); C is at least P (every present edge is constructible above the prediction minimum), and the dominant loss sits between C and S_ever, at the admission step.",
+  "falsifier": "A stage table in which C < P for reasons other than the prediction minimum, or in which the dominant loss sits at S_ever -> A_pred, contradicts the prediction and is reported as it stands.",
+  "alternative": "The earlier reconstruction was not only non-neutral but also wrong about the location of the loss, in which case the repaired table will name a different step."
+ },
+ "engine": {
+  "version": "0.14.0",
+  "edit": "none",
+  "cap": 40,
+  "mechanism": "MAX_PREDICTIONS is a quota split, not a truncation: `half_cap = MAX_PREDICTIONS // 2` transitions are served first (ranked by schema prior, target entropy, transition probability, count), then `remaining_budget = MAX_PREDICTIONS - len(selected_transitions)` count-ranked cooccurrences, then leftovers are refilled with more transitions and the list is cut at the cap. Lifting the cap therefore changes which candidates are served, not only how many.",
+  "why_the_first_observer_failed": "Measured on PRESENCE-CONVERSION-1's own parts (Q3's published diagnosis seed, 89 cycles, 190 candidates per cycle): the lifted top-40 equalled the shipped window in 0 of 89 cycles, mean overlap 0.297, and 70.8% of the admitted edges ranked at or below 40 in the lifted order. Presence was identical, and the divergence appeared exactly in admission windows, admitted union, final assertion and asserted world edges."
+ },
+ "observer": {
+  "construction": "double call",
+  "served": "the engine's own list from a call at the shipped cap, returned untouched",
+  "observed": "a second call at the diagnostic ceiling, recorded only and never served",
+  "ceiling": 1000000000,
+  "shipped_cap": 40,
+  "records": {
+   "C": "one row per constructed candidate before the cap: edge, rank, strength, support, ratio, and whether it is a cooccurrence",
+   "E": "one outcome per present world edge: constructed, below_prediction_min_count, or unexplained (unexplained fails N4)",
+   "R": "the rank each candidate carried in the observed universe",
+   "allocation": "per cycle, how many transitions and how many cooccurrences were served, and that the two sum to the served window size",
+   "served_rows": "each served row tagged transition or cooccurrence, with its rank in the pre-cap universe, so the allocation is recoverable per row and not only per cycle"
+  },
+  "identity_note": "The engine permits the double call: `_prediction_frequencies` updates once per sleep cycle so a second prediction call cannot apply a decay delta twice, candidate ids are content hashes with no counter, and `_build_predictions` performs no memory write. That is the assumption N2 tests rather than trusts."
+ },
+ "design": {
+  "arms": [
+   "off",
+   "on"
+  ],
+  "seeds": [
+   20611601,
+   20611602,
+   20611603,
+   20611604,
+   20611605,
+   20611606
+  ],
+  "bootstrap": 20611607,
+  "cycles": 120,
+  "cells": 12,
+  "witness_cell": {
+   "seed": 20261100,
+   "why": "the published audit's own seed, so N5 can reproduce its row"
+  },
+  "pairing": "same seed and world across both arms; only the observer differs, so each seed contributes its own paired identity check",
+  "world": "the compositional world family of PHASE_ACQUISITION at the shipped cap and 120 cycles",
+  "freshness": "six seeds and one bootstrap chosen fresh for this block; the check scans every committed docs artifact and a collision is a validation failure"
+ },
+ "stages": {
+  "W": "world edges in the generated world",
+  "P": "world edges present in the temporal graph",
+  "C": "world edges that became candidates above the prediction minimum",
+  "E": "the reason each present edge did or did not become a candidate",
+  "R": "each candidate's rank in the observed pre-cap universe",
+  "S_cycle": "world edges served in one cycle's admission window",
+  "S_ever": "union of served world edges over the run",
+  "A": "final asserted edges",
+  "A_W": "asserted edges that are world edges",
+  "A_pred": "asserted predictive edges",
+  "A_other": "asserted edges that are neither world nor predictive, reported as a bypass"
+ },
+ "loss": {
+  "rule": "The chain is W -> P -> C -> S_cycle -> S_ever -> A_pred. Each step reports the absolute drop and its share of the misses; the step with the largest absolute drop names the primary suspect, with ties to the earlier step. Shares are printed beside the rule and never name a suspect on their own.",
+  "chain": [
+   "W",
+   "P",
+   "C",
+   "S_cycle",
+   "S_ever",
+   "A_pred"
+  ],
+  "zero_denominator": "a ratio with a zero denominator is `not measurable` and excluded; it is never reported as 0.0",
+  "bypass": "A_other is reported as a bypass, not folded into a loss step"
+ },
+ "gates": {
+  "N1_served_is_engine": "for every seed and cycle the on arm's served window is identical, in order, to a plain SleepService run on the same world and cap; one difference is SERVED NOT ENGINE",
+  "N2_observation_cannot_leak": "the observation is behaviour-neutral in the sense the project's rule 17(c) requires, in three parts: (a) the served window equals a plain engine run's, in order; (b) the next cycle's state is identical with and without the observation \u2014 same served window, same asserted set, same memory rows and counters; and (c) the pre-cap diagnostic universe is nevertheless available and complete enough to rank every served edge. Served equality alone is close to automatic under this construction; (b) and (c) are the claims that can fail. The check is built to fail and a test proves it fires",
+  "N3_allocation_recorded": "every served row carries whether it is a transition or a cooccurrence, and every cycle records how many of each were served with the two counts summing to the window size; this is the split the previous record's rows did not preserve, which is why its diagnosis needed source inspection rather than its own artifact",
+  "N4_stage_complete": "every present world edge is classified as constructed, below the prediction minimum, or unexplained; no unobserved edge is imputed and no denominator is zero",
+  "N5_witness_reproduces_audit": "the observer-off witness cell reproduces the published audit row at cap 40: presence, asserted count and asserted fingerprint",
+  "N6_seed_axis": "the six seeds and the bootstrap are fresh against every committed artifact, and W is identical across the two arms of each seed",
+  "N7_determinism": "the first seed rerun in a fresh process reproduces the on arm's served fingerprints exactly"
+ },
+ "decision_table": [
+  {
+   "condition": "N1 fails on any seed: the served window differs from a plain engine run",
+   "verdict": "SERVED NOT ENGINE",
+   "reading": "the wiring is not what this record claims and nothing about conversion is measured",
+   "decision": "void the block; fix the wiring and register a new block, never re-read this one"
+  },
+  {
+   "condition": "N2 fails: mutating or disabling the observation changes the served window",
+   "verdict": "OBSERVATION LEAKS",
+   "reading": "the double-call construction is not observation-only, so the pre-cap universe cannot be recorded without changing the engine",
+   "decision": "void the block; the repair route is closed and conversion needs a different instrument, never re-read this one"
+  },
+  {
+   "condition": "any other gate fails (N3-N7)",
+   "verdict": "VOID",
+   "reading": "the record is incomplete or non-reproducible and no stage table is read",
+   "decision": "none; fix the harness and register a new block"
+  },
+  {
+   "condition": "all gates pass and A_pred < S_ever",
+   "verdict": "CONVERSION STAGE MEASURED",
+   "reading": "the stage table locates the loss on these seeds; this is a measurement of the path, not a capability result",
+   "decision": "report the stage table; the next step is an owner decision on the named step, with no engine change implied"
+  },
+  {
+   "condition": "all gates pass and A_pred == S_ever",
+   "verdict": "CONVERSION STAGE MEASURED",
+   "reading": "no world edge that was admitted was lost before assertion on these seeds, so conversion is closed as a loss route",
+   "decision": "close the conversion stage route and move the line to formation or to reach"
+  }
+ ],
+ "adoption": {
+  "rule": "none: this block measures and licenses no adoption, no engine change and no capability claim; MAX_PREDICTIONS stays 40",
+  "not_authorised": [
+   "an engine edit",
+   "a change to MAX_PREDICTIONS",
+   "a capability claim",
+   "re-scoring PRESENCE-CONVERSION-1's verdict",
+   "pooling this block with Q1 or Q2"
+  ]
+ },
+ "stop_condition": "The block closes when the fourteen planned runs have produced their parts, N1-N7 have been scored once in the frozen order, and the verdict is recorded. No feature may be added afterwards; a defect is fixed and disclosed, never extended.",
+ "cost": {
+  "cells": 12,
+  "witness_cells": 1,
+  "determinism_reruns": 1,
+  "cycles": 120,
+  "wall_clock_estimate": "~14 runs at 120 cycles each"
+ },
+ "runner": {
+  "built": true,
+  "kind": "observer",
+  "module": "benchmarks/presence_conversion_repair_runner.py",
+  "cells_run": 14,
+  "why": "The harness is built at `benchmarks/presence_conversion_repair_runner.py`: twelve design cells, the cap-40 witness and the fresh-process rerun, plus six plain N1 references. The fourteen planned runs executed on 2026-11-11 and N1-N7 were scored once in the frozen order."
+ },
+ "authorisation": {
+  "required": true,
+  "granted": true,
+  "granted_on": "2026-11-11",
+  "document": "docs/AUTHORISATION-PRESENCE-CONVERSION-2.md",
+  "quote": "then run the twelve-cell campaign and adjudicate N1\u2013N7",
+  "request": "docs/AUTHORISATION-PRESENCE-CONVERSION-2.md",
+  "note": "Granted 2026-11-11. The block stays FROZEN, NOT RUN because it has no runner: `--measure` refuses with 'authorised but has no runner'."
+ },
+ "not_evidence": "This record is a protocol, not a result. It measures where world edges leave the conversion path on one world family; it does not measure intelligence, does not license a capability claim, and cannot re-score PRESENCE-CONVERSION-1's OBSERVER NOT NEUTRAL, which stands.",
+ "amendments": [
+  {
+   "date": "2026-11-10",
+   "reason": "Pre-grant review. N2 as first frozen proved only that the served list was unchanged, which the repaired construction makes close to automatic. The claim that needs testing is behavioural: that recording the expanded universe neither changes the next cycle nor is silent about what it recorded.",
+   "changed": [
+    "N2 now requires served equality, next-cycle state identity, and availability of the pre-cap universe",
+    "N3 now requires a per-row transition/cooccurrence flag, not only per-cycle totals",
+    "observer.records gains the served-row tag"
+   ],
+   "unchanged": [
+    "every gate name",
+    "the seeds and the witness cell",
+    "the verdicts and the decision table",
+    "the engine pin and the shipped cap",
+    "the absence of a grant"
+   ],
+   "disclosure": "Amended while frozen and ungranted, before any cell and before any runner exists; there is no result to re-score and the block remains not evidence."
+  },
+  {
+   "date": "2026-11-10",
+   "kind": "build",
+   "reason": "The block named the repaired observer as its prerequisite. It is now built and proven inert on a fixture, so the record should say that rather than that no runner exists.",
+   "disclosure": "`runner` changed from `built: false` (and a note that the observer must be built) to `built: true` with the module path, `cells_run: 0`, and the N2 fixture result. Nothing else moved: the seeds, the eleven gates, the decision table, the frozen status and the absence of authorisation are unchanged, and no cell has run. The fixture is 24 cycles on one fresh seed at the shipped cap; it is instrument evidence, not a reading, and does not enter the decision table.",
+   "changed": [
+    "runner.built",
+    "runner.kind",
+    "runner.module",
+    "runner.cells_run",
+    "runner.why"
+   ],
+   "unchanged": [
+    "design",
+    "gates",
+    "decision_table",
+    "status",
+    "authorisation",
+    "no_cells_run"
+   ]
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "The owner granted the fourteen runs, naming this block and its request document.",
+   "disclosure": "Grant recorded with the owner's words and date; the block remains FROZEN, NOT RUN because no runner is installed, and no cell has run."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "N4's harness treated a non-zero `unexplained` bucket as a gate failure.",
+   "disclosure": "The frozen gate names three buckets, so `unexplained` is a reported category, not a failure. The first `--finish` therefore returned VOID incorrectly. The harness was corrected to fail only on imputed edges or a zero denominator and the gate was re-scored once from the same parts; no part was re-run and no gate was relaxed, and the unexplained count is reported in the stage table."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "N6's seed scan treated the block's own prereg and result as external consumers.",
+   "disclosure": "Freshness is proved before the result is written; the prereg and result name the block's own seeds by definition, so both are excluded from the collision scan exactly as the other frozen blocks exclude their own records. No external artifact was allowed."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "The stage table's buckets were mislabelled: `constructed` reported S_ever and `below minimum` reported every never-served edge.",
+   "disclosure": "A join of the same parts to the recorded pre-cap universe shows that 671 of 672 present world edges appear as candidates, and 153 of the 154 edges reported under `below minimum` were candidates too. The frozen record's first label described C, the second described a bucket the engine's cap creates after C, so the page read as a construction loss when the loss is at admission. The table is re-derived from the same parts with `constructed` = present intersecting the recorded universe, `below minimum` = present minus that universe (1 edge in total), and the never-served edges reported as the admission step, split by rank band in the recorded universe. No cell was re-run, no gate was relaxed and no verdict moved: N4's completeness, no-imputation and zero-denominator checks are unchanged. The frozen three-bucket taxonomy has no bucket for an edge a candidate list excluded, so the page reports that row itself rather than folding it into a bucket, and the frozen name `below the prediction minimum` now returns 1 of 672. The frozen decision table's S_ever-to-A_pred step compares a cumulative union with an end-state stock, and 26 asserted world edges were never admitted, so that step is not read as assertion loss and does not name the primary suspect. A follow-up check of the same parts fixes what the recorded rank is: the universe is the ceiling call's list, which places every transition before every cooccurrence, so a rank is a block position and not an admission position. Served windows are an order-preserving subsequence of that list in 720 of 720 cycles, served transitions are the transition prefix in 720 of 720 and never rank above 20, and served cooccurrences are the cooccurrence prefix in 720 of 720 with ranks offset by up to 192 transition rows (maximum served rank 212), so a cooccurrence rank cannot be compared with the cap. All 179 never-served present edges are transitions, none ranked inside the 20-slot transition allocation, and 62 ranked 21-40: inside the overall cap but outside the transition half-budget, which is the stated allocation policy rather than a ranking failure beyond the cap. These counts are recorded in the artifact's rank_semantics block and recomputed by the harness on every --finish. The in-cap audit is the sharper test: 62 of the 179 never-served edges rank inside the overall cap (21-40) and none ranked inside the transitions actually served in its best cycle; of the 26 asserted-without-admission edges, 10 rank inside the cap, none ranked inside the served transitions, and the closest miss was 1 rank short (2 among the ten). Both facts are recorded in the artifact's rank_semantics block and recomputed on every --finish. The split is proven rather than inferred: the engine computes `is_cooccurrence` from its own cooccurrence table and uses the same variable to choose the append list, a source guard asserts those lines together, and the fixture recomputes every candidate's label from the engine table independently (0 mismatches, 0 unlabelled). The campaign record has no unlabelled universe row and its labels form two contiguous blocks in 720 of 720 cycles."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "The later band arm deliberately reuses this block's six worlds, so its frozen record names these seeds.",
+   "disclosure": "The freshness allow-list gains `docs/presence_band_rank_prereg.json` and its page, because the band arm's world identity is the point: it re-runs these six seeds at cap 112 to read the named edges. This is not a weakening of this block's freeze-time proof, which was scored before those documents existed; it excludes only the later record that declares the reuse. No cell re-ran, no gate changed, and the CONVERSION STAGE MEASURED verdict is not re-scored."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "The band arm ran its twelve cells on these six worlds, so its run artifact names them.",
+   "disclosure": "The freshness allow-list gains `docs/presence_band_rank_run.json`, its result page and its grant, because the run names the six reused Q4 seeds. This block's freeze-time proof was scored before those files existed; no Q4 cell re-ran, no gate changed, and the CONVERSION STAGE MEASURED verdict is not re-scored."
+  },
+  {
+   "date": "2026-11-11",
+   "reason": "A second band arm reuses these six worlds to correct its predecessor's B5 without re-scoring it.",
+   "disclosure": "The freshness allow-list gains `docs/presence_band_rank_2_prereg.json` and its page, because BAND-2 repeats the same-world measurement on these six Q4 seeds under a corrected B5 and a fixed rank reader. BAND-2 is a new, unrun block: it does not re-score Q4 or BAND-1. This is not a weakening of Q4's freeze-time proof, which was scored before those documents existed; no Q4 cell re-ran, no gate changed, and CONVERSION STAGE MEASURED is not re-scored."
+  }
+ ],
+ "result": {
+  "artifact": "docs/presence_conversion_repair_run.json",
+  "page": "docs/PRESENCE-CONVERSION-2-RESULT.md",
+  "verdict": "CONVERSION STAGE MEASURED",
+  "gates_passed": 7,
+  "gates_total": 7,
+  "stage_rows": 6,
+  "stage_note": "Re-derived 2026-11-11 from the same parts with C taken from the recorded pre-cap universe; the loss is at admission, not at construction."
+ }
+}

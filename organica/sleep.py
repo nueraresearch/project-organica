@@ -102,7 +102,9 @@ class SleepService(SleepExtractionMixin, SleepSynthesisMixin, SleepInquiryMixin,
 
     # Per-layer output caps
     MAX_LOOPS               = 15
-    MAX_PREDICTIONS         = 40
+    # 112 since 0.15.0: DECISION-CAP-LEVEL option C, landed 2026-11-11. The cap is the
+    # returned window and its transition/cooccurrence split is derived from it (E1).
+    MAX_PREDICTIONS         = 112
     MAX_ANOMALIES           = 10
     MAX_META_CONCEPTS       = 15
     MAX_PROCESSES           = 10

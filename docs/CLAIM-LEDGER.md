@@ -18,8 +18,9 @@ artifacts it rests on, and the limits of its own scope.
 | C004 | Intra-cell exclusion buys precision at the sparse end of the density ladder. | HYPOTHESIS | Q004 | ARTIFACT_READ |
 | C007 | Role abstraction yields candidates that are reusable across worlds. | HYPOTHESIS | Q012 | OWNER_READING |
 | C009 | Transfer can be made to improve future transfer. | ASPIRATION | Q023 | OWNER_READING |
+| C012 | Across the D3 persistence chain the decayed source-frequency denominator keeps structure alive across cycle gaps: the seed block measured the repair in process on the 0.13.0 engine, and the recalibrated G1 arm reproduced repaired persistence under the shipped 0.14.0 engine. | HYPOTHESIS | Q045, Q044 | ARTIFACT_READ |
 
-**What each claim rests on.** 5 of 11 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 6 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C002, C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
+**What each claim rests on.** 6 of 12 claims are `ARTIFACT_READ` — their classification rests on a result the artifacts record. 6 are `OWNER_READING` — the status is the owner's reading of the named records, which this entry does not restate (C002, C006, C007, C008, C009, C011). A tag says what the classification rests on, not how sure the project is; the figures a claim quotes are checked against the artifacts it cites, and `research_trace --provenance` names the ones that do not trace.
 
 ## The build each claim was measured on
 
@@ -43,6 +44,7 @@ the artifacts must agree, and a load-bearing active claim may not be `unattribut
 | C009 | `document_only` | `docs/CONTEXT.md` (a document) |
 | C010 | `0.13.0` | `docs/acquisition_endpoint_audit.json` |
 | C011 | `document_only` | `docs/DIVERGENCE-MECHANISM-RESULTS.md` (a document), `docs/FORCE-MATRIX-RESULTS.md` (a document) |
+| C012 | `mixed:0.13.0+0.14.0` | `docs/d3_persistence_seed_varying_prereg.json` (no build), `docs/d3_persistence_seed_varying_run.json`, `docs/d3_persistence_g1_recalibrated_prereg.json` (no build), `docs/d3_persistence_g1_recalibrated_run.json` |
 
 ## Withdrawn or superseded claims
 
@@ -140,6 +142,11 @@ Each claim carries its own limits in the ledger. The ones that recur:
 - **C004.** Re-measurement attempted 2026-11-09 and refused by the runner: the A1 block is held by DENSITY-INTERACTION-REVIEW-1 and a held block may not run, so no A2 number can be produced on the pinned engine until that registration is resolved.
 - **C007.** Not tested. Nothing in the record supports or contradicts it yet; it is listed as a hypothesis so that it is not later quoted as a finding.
 - **C009.** An aim, not a result. No measurement exists, and the record contains a negative cross-domain transfer result.
+- **C012.** Six synthetic compositional seeds on one stimulus family at the shipped cap; no other world family is measured by this chain.
+- **C012.** The seed-varying arm is an in-process treatment on the unchanged 0.13.0 engine; only the recalibrated G1 arm runs the shipped 0.14.0 code end to end.
+- **C012.** The independent-harness replication arm is VOID on its preflight gate, so cross-harness replication is not established and this claim does not rest on it.
+- **C012.** Persistence here means structure surviving cycle gaps in these artifacts, not belief persistence, transfer or any capability.
+- **C012.** The repair is an engine-behaviour change the owner promoted; this claim records what the two builds measured and does not re-argue the promotion.
 
 ## What this ledger enforces
 

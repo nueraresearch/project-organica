@@ -2,6 +2,7 @@
 tests/test_environment.py
 Unit tests for organica.environment: ReactiveWorld and ActiveInquiryLoop.
 """
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import pytest
 from organica.environment import ReactiveWorld, ActiveInquiryLoop

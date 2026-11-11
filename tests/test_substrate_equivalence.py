@@ -33,6 +33,7 @@ Run:  python -m pytest tests/test_substrate_equivalence.py -v
 """
 
 from __future__ import annotations
+LAYER = "synthetic"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import sqlite3

@@ -6,6 +6,7 @@ the strongest test — a 2e-4 perturbation must fail it, and a failed gate must
 make the analysis raise and the result document refuse a mechanism section.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import hashlib
 import json

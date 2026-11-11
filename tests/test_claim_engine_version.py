@@ -5,6 +5,7 @@ direction: a claim naming a build its evidence does not carry, and a load-bearin
 none. Every branch is proved to fire on input built to break it, and proved not to fire on input
 built to satisfy it — a guard that cannot fail is decoration (AGENTS.md rule 25(c)).
 """
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 from pathlib import Path

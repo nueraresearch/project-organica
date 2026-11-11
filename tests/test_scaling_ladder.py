@@ -5,6 +5,7 @@ whether its numbers mean anything: the seed guard, the decision rule, the
 clustering diagnostic, and the prefix check the slicing depends on.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import json
 import pathlib

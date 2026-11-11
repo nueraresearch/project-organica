@@ -1,5 +1,6 @@
 """Tests for the frozen long-delay capability protocol."""
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import sys
 from pathlib import Path

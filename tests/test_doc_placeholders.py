@@ -19,6 +19,7 @@ value** is written as prose.  Only the second kind is a defect.
 Reference: AGENTS.md rule 20; journal section 46; facts sheet AA17.
 """
 from __future__ import annotations
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 
 import re
 import sys

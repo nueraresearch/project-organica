@@ -1,4 +1,5 @@
 """The question-survival page is derived, complete, and its classifier can fail."""
+LAYER = "static"  # benchmarks/test_layers.py: the module's execution layer
 import json
 
 from benchmarks import question_survival as qs
