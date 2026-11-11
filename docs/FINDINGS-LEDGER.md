@@ -66,10 +66,25 @@ This is a **location, not a cause**. It rules out "the assertion step loses noth
 "inside the cap means served," but it does not identify an admission rule or an assertion
 mechanism. It is also not a claim that serving those edges would have changed `A_W`.
 
-The anomaly is the main current constraint on the emerging pipeline because it suggests one
-of three different things: a parallel assertion path, an incomplete served-window record, or
-an identity/attribution mismatch. Those need to be separated before treating the 26 edges as
-a single mechanism. See `docs/UNEXPLAINED-EDGES-NOTE.md`.
+**Provenance traced (2026-11-11).** A behaviour-neutral replay on the same six Q4 seeds,
+120 cycles and cap 40 reproduces every seed's asserted-world fingerprint and committed
+served-world set. It assigns the 26 rows in `docs/assertion_provenance.json`:
+
+- **0 recording gaps.** The replay's served-world set equals the committed N3 set on every
+  seed, and every direct edge has zero direct service in both records.
+- **18 identity mismatches.** The direct edge was never served, but the same endpoint pair
+  was served in the reverse orientation. The reverse is itself a world edge, and the
+  loop/dream readout is symmetric, so this is an orientation mismatch in the direct record,
+  not proof that the directed edge was served.
+- **8 alternate assertion paths.** Neither orientation was served; loop/dream structures
+  carry the edge independently of the prediction window.
+- **0 genuine assertions without service.** No edge is carried only by a prediction
+  candidate, so the prediction path supplies no assertion that service failed to provide.
+
+All 26 rows have a non-prediction structural carrier. This is a **provenance classification
+of the readout**, not a mechanism: it does not show why loop/dream structures carry those
+pairs, whether serving them would change `A_W`, or whether the split holds on another world
+family. See `docs/ASSERTION-PROVENANCE.md` and Q054.
 
 ## 3. Presence band: class-level result, separate named-edge ledger
 
@@ -92,15 +107,18 @@ carry / decay
   -> assertion
 ```
 
-The first links have evidence, but this is not a necessary single path. The 26 edges are the
-conspicuous gap: assertion appears able to occur without a served window, or the served
-record is incomplete. The map is a way to place claims, not a claim that a unified theory
-already exists.
+The first links have evidence, but this is not a necessary single path. The 26 edges now have
+a provenance separation: none is a recording gap, 18 are reverse-orientation mismatches and
+8 are alternate loop/dream paths. The map is a way to place claims, not a claim that a
+unified theory already exists; the remaining question is why loop/dream structures assert
+those pairs.
 
 ## 5. Priority for information gain — judgment, not evidence
 
-1. **Assertion provenance**: trace the 26 edges per edge. Separate recording gaps, alternate
-   assertion paths, identity mismatches and genuine assertion without service.
+1. **Assertion provenance — traced 2026-11-11.** The 26 edges are separated into 0 recording
+   gaps, 18 reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
+   prediction-only residuals. The next question is why the loop/dream structures carry
+   those pairs, not how the readout's provenance divides.
 2. **The 1-4 count distribution**: explain why the population sits there before testing
    another floor or a longer engine lookback.
 3. **BAND-2**: keep the governance block live, but it is less likely than the first two to

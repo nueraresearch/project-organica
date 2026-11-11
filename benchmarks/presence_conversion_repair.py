@@ -55,6 +55,9 @@ N3_ARTIFACT = ROOT / "docs" / "presence_conversion_2_n3_tables.json"
 #: The per-edge record of the 26 asserted-but-never-served edges. It names this block's own
 #: seeds, so it is a seed *source* for the block that recorded it; the freshness scan skips it.
 UNEXPLAINED_ARTIFACT = ROOT / "docs" / "presence_unexplained_edges.json"
+#: The per-edge provenance ledger derived from this block's own cells. It names the six
+#: design seeds by definition, so it is a declared seed *source* for this block.
+ASSERTION_ARTIFACT = ROOT / "docs" / "assertion_provenance.json"
 #: The one-seed transition-allocation probe. It is a derived diagnostic of this block and
 #: deliberately reuses one of its design seeds, so it is a declared seed *source*, not a new
 #: block: excluding it would make the freshness scan read the reuse as a collision.
@@ -152,7 +155,7 @@ def validate(body: dict | None = None) -> list[str]:
     if "result" in body and not ran:
         found.append("an unrun record carries a result block")
 
-    allow = [PREREG, DOC, N3_ARTIFACT, UNEXPLAINED_ARTIFACT, PROBE_ARTIFACT,
+    allow = [PREREG, DOC, N3_ARTIFACT, UNEXPLAINED_ARTIFACT, ASSERTION_ARTIFACT, PROBE_ARTIFACT,
              TURNOVER_ARTIFACT, ROOT / "docs/presence_band_rank_prereg.json",
              ROOT / "docs/PRESENCE-BAND-RANK-PREREGISTRATION.md",
              ROOT / "docs/presence_band_rank_run.json",

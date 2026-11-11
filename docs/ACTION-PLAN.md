@@ -76,7 +76,7 @@ Admission and density first because they share a comparator and carry the acquis
 Gate 13 traps; decay follows in causal order; Q044 extends it; Q043 is independent; Q051 is last
 because its endpoint rests on Q024 and Q044.
 
-**The comparator gap remains the real risk.** Only 6 of 56 cited JSON artifacts name any build,
+**The comparator gap remains the real risk.** Only 7 of 57 cited JSON artifacts name any build,
 and all five name 0.13.0 or 0.14.0. The old number's build is carried by prose, which is why Half A's
 protocol names the comparator explicitly and reuses the endpoint rather than rewriting it.
 
