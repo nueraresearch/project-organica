@@ -1,0 +1,294 @@
+{
+ "kind": "t1b_persistence_off_run",
+ "prereg": "T1B-PERSISTENCE-OFF",
+ "cells": [
+  {
+   "seed": 20612208,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 101,
+   "a_w": 57,
+   "served_fingerprint": "2a6c9402b26df5f8"
+  },
+  {
+   "seed": 20612208,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 0,
+   "a_w": 0,
+   "served_fingerprint": "d88c4d10637fa28f"
+  },
+  {
+   "seed": 20612209,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 95,
+   "a_w": 53,
+   "served_fingerprint": "f34fad0a1a3031de"
+  },
+  {
+   "seed": 20612209,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 1,
+   "a_w": 0,
+   "served_fingerprint": "07cb0c6b7953c619"
+  },
+  {
+   "seed": 20612210,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 100,
+   "a_w": 65,
+   "served_fingerprint": "6f50ba40f1376ca6"
+  },
+  {
+   "seed": 20612210,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 0,
+   "a_w": 0,
+   "served_fingerprint": "e878d179cdc65d12"
+  },
+  {
+   "seed": 20612211,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 103,
+   "a_w": 62,
+   "served_fingerprint": "30b0bfec365a9a61"
+  },
+  {
+   "seed": 20612211,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 3,
+   "a_w": 2,
+   "served_fingerprint": "72e7f31c21890ac4"
+  },
+  {
+   "seed": 20612212,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 98,
+   "a_w": 54,
+   "served_fingerprint": "6f28fc5c50bcc281"
+  },
+  {
+   "seed": 20612212,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 0,
+   "a_w": 0,
+   "served_fingerprint": "85f75713d44f7ecd"
+  },
+  {
+   "seed": 20612213,
+   "arm": "shipped",
+   "present": 112,
+   "s_ever": 99,
+   "a_w": 57,
+   "served_fingerprint": "66266d483fcfa267"
+  },
+  {
+   "seed": 20612213,
+   "arm": "persistence_off",
+   "present": 112,
+   "s_ever": 3,
+   "a_w": 0,
+   "served_fingerprint": "67a0226ab9ab8be2"
+  }
+ ],
+ "stage_table": [
+  {
+   "seed": 20612208,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 101,
+   "asserted_final": 57,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612208,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 0,
+   "served_ever": 0,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612209,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 95,
+   "asserted_final": 53,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612209,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 1,
+   "served_ever": 1,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612210,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 100,
+   "asserted_final": 65,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612210,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 0,
+   "served_ever": 0,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612211,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 103,
+   "asserted_final": 62,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612211,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 3,
+   "served_ever": 3,
+   "asserted_final": 2,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612212,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 111,
+   "served_ever": 98,
+   "asserted_final": 54,
+   "unexplained": 3
+  },
+  {
+   "seed": 20612212,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 0,
+   "served_ever": 0,
+   "asserted_final": 0,
+   "unexplained": 0
+  },
+  {
+   "seed": 20612213,
+   "arm": "shipped",
+   "present": 112,
+   "constructed": 112,
+   "served_ever": 99,
+   "asserted_final": 57,
+   "unexplained": 2
+  },
+  {
+   "seed": 20612213,
+   "arm": "persistence_off",
+   "present": 112,
+   "constructed": 3,
+   "served_ever": 3,
+   "asserted_final": 0,
+   "unexplained": 0
+  }
+ ],
+ "gates": {
+  "G1_build": {
+   "passed": true,
+   "builds": [
+    [
+     "0.15.0",
+     "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+    ]
+   ]
+  },
+  "G2_world": {
+   "passed": true,
+   "differing_seeds": []
+  },
+  "G3_manipulation_live": {
+   "passed": true,
+   "treatment_not_zero": [],
+   "control_never_positive": []
+  },
+  "G4_denominator": {
+   "passed": true,
+   "zero_p": [],
+   "zero_s_ever": [
+    [
+     20612208,
+     "persistence_off"
+    ],
+    [
+     20612210,
+     "persistence_off"
+    ],
+    [
+     20612212,
+     "persistence_off"
+    ]
+   ],
+   "note": "P is the denominator and is non-zero in every cell; a zero S_ever is a measured count and is reported, not excluded."
+  },
+  "G5_seed_axis": {
+   "passed": true,
+   "distinct": 6
+  },
+  "G6_determinism": {
+   "passed": true,
+   "seed": 20612208,
+   "fingerprint": "d88c4d10637fa28f"
+  },
+  "G7_cells": {
+   "passed": true,
+   "cells": 12,
+   "seeds": 6
+  }
+ },
+ "verdict": "PERSISTENCE CONTRIBUTES",
+ "reading": "Removing the carried temporal count removes served world edges at the same cap, world and seed: 6 of 6 seeds lose at least 10 edges.",
+ "decision": "Pursue the persistence mechanism (decay, floor, denominator); the cap arm does not answer this question.",
+ "bootstrap": {
+  "mean": 98.16666666666667,
+  "lower": 96,
+  "upper": 100,
+  "reps": 10000,
+  "seed": 20612214,
+  "positive_seeds": 6,
+  "margin": 10,
+  "diffs": [
+   101,
+   94,
+   100,
+   100,
+   98,
+   96
+  ]
+ },
+ "controls": {
+  "determinism_rerun": 1,
+  "cells_run": 13
+ },
+ "not_evidence": "One ablation on six fresh seeds at cap 112; it is not a capability, retention or transfer result, and it does not re-read T1, Q4 or Q2.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}
