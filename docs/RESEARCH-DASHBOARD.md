@@ -28,7 +28,7 @@ by hand, and the row names say what is counted.
 | Claims whose evidence names no build | 0 | a cited JSON artifact records no engine_version, and the claim records no refusal | `docs/claim_ledger.json` |
 | Claims whose evidence cannot be re-measured | 2 | the ledger records `unreproducible` against a blocker the runner still enforces | `docs/claim_ledger.json` |
 | Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
-| Preregistered experiments | 24 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
+| Preregistered experiments | 27 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
 | Architectural changes adopted | 11 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
 | Architectural changes withdrawn | 3 | decision records whose text contains WITHDRAWN | `docs/DECISION-*.md` |
@@ -39,7 +39,7 @@ by hand, and the row names say what is counted.
 Every pending decision below carries an `open_question`. It is quoted from
 `docs/decisions.json`; this section adds no decision and changes no status.
 
-> **DECISION-ADMISSION-STEP.** The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- is not answered. Q2 measured counts, not per-edge ceiling ranks, and its fresh seeds have different worlds from Q4's, so the acceptance condition above stays **unadjudicated**.
+> **DECISION-ADMISSION-STEP.** The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- stays **unadjudicated**: BAND-5 confirmed the allocation-law band on fresh worlds, with **89 of 89** measured rank-21-40 edges served at 112 and **0** at 40, but its fresh seeds and measured band are not the **62** named Q4 edges, so it is not a re-score and does not satisfy this decision's specific condition.
 
 > **DECISION-PERSISTENCE-INTERVENTION.** Does an explicitly reset cycle-boundary carry arm preserve the T1b direction while closing the skipped-reset leak?
 

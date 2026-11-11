@@ -1093,7 +1093,7 @@
       "kind": "research",
       "status": "closed",
       "question": "At the shipped cap of 112, does conversion from constructed edges to served and asserted world edges depend on temporal edge counts carried across sleep cycles, when a zero S_ever is read as a measured count?",
-      "scope": "One build (0.15.0), one cap (112), one compositional world family, six fresh seeds, 120 cycles and one no-carry intervention (temporal-edge counts zeroed at cycle end). The result is a direction, not an effect size, and it does not establish capability, retention, transfer, generalisation to other worlds or a mechanism decomposition beyond this arm. The zero S_ever cells are measured threshold consequences, not missing denominators.",
+      "scope": "One build (0.15.0), one cap (112), one compositional world family, six fresh seeds, 120 cycles and one conditional no-carry intervention. It establishes an eligibility localization on the five zero seeds: no cross-cycle accumulation means no world edge reaches PREDICTION_MIN_COUNT = 5 within a cycle, so no world-edge candidate exists, and the zero occurs before ranking, admission or assertion. It does not identify the exact contribution of the read floor, lookback horizon, cycle-boundary reset behavior or world structure, alone or in mixture. It is not a threshold-calibration verdict and does not establish that lowering the floor is right. PersistenceOff is no carried support conditional on cycle completion, not a perfect no-memory condition: a withheld block-end event can suppress the reset. The window sweep is a counterfactual, not a clean horizon treatment, because persistent event rows reintroduce cross-cycle context. It is not a mechanism decomposition for the non-zero seeds, where ranking, admission, assertion and service remain candidate mechanisms. It does not explain the 26 asserted-but-never-served edges, and it does not establish capability, retention, transfer, generalisation to other worlds or an effect size. The zero S_ever cells are measured threshold consequences, not missing denominators. Lowering PREDICTION_MIN_COUNT is a separate intervention, not licensed by this record.",
       "evidence": [
         "docs/t1b_persistence_off_prereg.json",
         "docs/t1b_persistence_off_run.json",
@@ -1101,7 +1101,9 @@
         "docs/t1_persistence_off_run.json",
         "docs/T1-PERSISTENCE-OFF-RESULT.md",
         "docs/persistence_zero_served_diagnostic.json",
-        "docs/PERSISTENCE-ZERO-SERVED-NOTE.md"
+        "docs/PERSISTENCE-ZERO-SERVED-NOTE.md",
+        "docs/ceiling_diagnostic.json",
+        "docs/CEILING-DIAGNOSTIC.md"
       ],
       "preregistrations": [
         "T1B-PERSISTENCE-OFF"
@@ -1111,7 +1113,7 @@
         "DECISION-PERSISTENCE-INTERVENTION.md"
       ],
       "outcome": "SUPPORTED",
-      "answer": "Yes, in this block's direction. T1b ran 12 cells plus a determinism rerun on six fresh seeds at cap 112 on 0.15.0. Shipped S_ever was 101, 95, 100, 103, 98 and 99; persistence-off served 0, 1, 0, 3, 0 and 3, so the paired differences were 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96.000, 100.000]); all six are above the margin of 10, P is 112 in every cell, all seven gates pass, and three zero S_ever cells are measured zeros. Prior T1 ran the same intervention on six earlier fresh seeds and returned VOID on its own G4 because its frozen rule treated zero S_ever as unmeasurable; its computed mean 95.667 [91.167, 100.167] is not adjudicated. T1b changed only that reading before any cell and used fresh seeds; T1 remains VOID and is not re-read. The zero-S_ever diagnostic explains the five zero cells as the prediction floor: no world edge reaches 5 within-cycle observations (max 3-4), so zero is a measured threshold consequence, not missing data."
+      "answer": "Yes, as an eligibility mechanism on these seeds, not as a broader persistence effect. T1b ran 12 cells plus a determinism rerun on six fresh seeds at cap 112 on 0.15.0. Shipped S_ever was 101, 95, 100, 103, 98 and 99; persistence-off served 0, 1, 0, 3, 0 and 3, so the paired differences were 101, 94, 100, 100, 98 and 96 (mean 98.167, 95% interval [96.000, 100.000]); all six are above the margin of 10, P is 112 in every cell, all seven gates pass, and three zero S_ever cells are measured zeros. Prior T1 ran the same intervention on six earlier fresh seeds and returned VOID on its own G4 because its frozen rule treated zero S_ever as unmeasurable; its computed mean 95.667 [91.167, 100.167] is not adjudicated. T1 remains VOID and is not re-read. The zero-S_ever diagnostic now localizes the zero to candidate formation: on the five zero cells no world edge reaches PREDICTION_MIN_COUNT = 5 within a cycle, so no world-edge candidate is built, none can be served, and S_ever is zero. The zero is created before ranking, admission or assertion can operate. This is a localization, not a full mechanism decomposition: the exact contribution of the read floor, lookback horizon, cycle-boundary reset behavior and world structure remains unresolved. PersistenceOff is no carried support conditional on cycle completion, not a perfect no-memory condition; a withheld block-end event can suppress the reset. The 3-event window sweep is a counterfactual: window 6 lifts many zero-cell edges above 5, but engine lookback keeps persistent event rows and is a different treatment family. The 26 asserted-but-never-served edges are outside this Q055 claim and remain unexplained."
     }
   ],
   "schema": {

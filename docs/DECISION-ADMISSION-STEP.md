@@ -26,6 +26,7 @@ are frozen and unrun. Nothing on disk in the engine changes. **Superseded later 
 - Test the step with an allocation arm, not another description: the registered cap-112 records raise the guaranteed transition budget from 20 to 56; at 112 the band arm observed 64-69 transitions because unused cooccurrence slots were backfilled, and the arm is the designated counterfactual.
 - Accept the allocation explanation only if the 21–40 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.
 - No capability, retention or transfer claim follows from this record; it locates a loss, it does not measure an ability.
+- Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not as a re-score of BAND-1 and not as acceptance of the named-Q4-edge condition.
 
 ## The conditions
 
@@ -127,28 +128,17 @@ BAND-2 (`docs/presence_band_rank_2_prereg.json`) freezes the corrected `>= 56` c
 strict rank reader; it is frozen, unrun and ungranted. The decision remains **PENDING**, the
 acceptance condition is unchanged, and BAND-1 is not re-scored.
 
-## Open question: the outcome is answered, the mechanism is not
+## Open question: the outcome is answered, the mechanism stays unadjudicated
 
-The record now has two questions that must not be read as one. The **outcome question** -- does
-raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered:
-`CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world
-edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question**
--- do the specific rank-21-40 transitions named by this decision enter service? -- is not
-answered. Q2 measured counts, not per-edge ceiling ranks, and its fresh seeds have different
-worlds from Q4's, so the acceptance condition above stays **unadjudicated**.
+The record now has two questions that must not be read as one. The **outcome question** -- does raising the Layer-1 cap from 40 to 112 increase admission and assertion? -- is answered: `CAP LIMITING`, positive on 6 of 6 seeds, with a mean paired gain of **17.833333** asserted world edges and a 95% lower bound of **13.613754** against the bar of **10**. The **mechanism question** -- do the specific rank-21-40 transitions named by this decision enter service? -- stays **unadjudicated**: BAND-5 confirmed the allocation-law band on fresh worlds, with **89 of 89** measured rank-21-40 edges served at 112 and **0** at 40, but its fresh seeds and measured band are not the **62** named Q4 edges, so it is not a re-score and does not satisfy this decision's specific condition.
 
-The missing instrument is a per-edge rank ledger at both caps on the named edges. It now exists as
-`PRESENCE-BAND-1` (`docs/presence_band_rank_prereg.json`), frozen and unrun: the 62 Q4 rank-21-40
-edges named by identity, twelve cells at 40 and 112 on Q4's six worlds, gates B1-B8, and the
-acceptance condition above quoted verbatim. Until that block runs, this record must not present
-the outcome result as evidence that the named transitions carry the effect, and must not present
-the per-edge design as a result.
+**BAND-5 verdict.** `PRESENCE-BAND-5` ran twelve cells on fresh seeds 20612601-20612606 at caps 40 and 112, plus the determinism rerun. B1-B8 pass; every full cap-112 window has 64-68 transitions and 48 cooccurrences, satisfying the full-window allocation law; all 89 measured rank-21-40 edges are served at 112 and none at 40. The block is a fresh-world confirmation of the allocation-law mechanism, not a re-score of BAND-1.
 
-**Updated 2026-11-11.** BAND-1 ran and returned VOID on B5; BAND-2 freezes the corrected floor and
-rank reading and remains unrun. The mechanism question is still unanswered.
+**What remains open.** The specific acceptance condition in this decision is about the 62 Q4 rank-21-40 edges named by BAND-1. BAND-5 does not measure those edges, because its worlds and its measured band are fresh. The named-edge mechanism question therefore stays **unadjudicated**; the decision remains **PENDING**; Q2's `CAP LIMITING` and Q4's `CONVERSION STAGE MEASURED` are not re-read.
 
-Neither question licenses a capability, retention or transfer claim. The decision remains
-**PENDING**, and the acceptance condition is unchanged.
+Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not as a re-score of BAND-1 and not as acceptance of the named-Q4-edge condition.
+
+Neither question licenses a capability, retention or transfer claim. The decision remains **PENDING**, and the acceptance condition is unchanged.
 
 ## Rejected alternatives
 

@@ -30,6 +30,23 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Added — The 3-4 ceiling is localized to candidate formation, not fully explained (2026-11-11)
+
+- **`benchmarks/ceiling_diagnostic.py` replays the five zero cells and all seven controls.** The five zero-S_ever persistence-off cells are T1 `20612204`, `20612205` and T1b `20612208`, `20612210`, `20612212`; the seven controls are the remaining off cells. The replay preserves the engine's persistent event rows across cycle boundaries and the cell loop's processed reset boundaries, which is what makes the control maxima 5-6 rather than 4.
+- **The exact replay reproduces every committed source maximum.** Zero-cell maxima are 4, 3, 4, 3 and 4; control maxima are 6, 6, 5, 6, 5, 6 and 5, matching `docs/persistence_zero_served_diagnostic.json`. The zero cells remain below floor 5 at the engine's 3-event window.
+- **The record localizes the zero, but does not explain the mechanism.** The zero is created before ranking, admission or assertion: no world-edge candidate exists. The exact contribution of the read floor, lookback horizon, cycle-boundary reset behavior and world structure remains unresolved. PersistenceOff means **no carried support conditional on cycle completion**, not a perfect no-memory condition.
+- **The window sweep is a counterfactual, not a clean treatment.** At window 6 the zero cells reach 8-9 on their best edge and 61-69 edges at floor 5; 1,000 fixed-seed within-cycle order permutations put the observed maxima below the null p95 (5-6). An engine lookback extension is different because persistent event rows reintroduce cross-cycle context, so it needs its own preregistration. The verdict is **LOCALIZED (window-sensitive)**, not `WINDOW-BOUND`.
+- **This is a `not_a_result` diagnostic.** It runs no engine cell, consumes no fresh seed, writes no treatment partcache, and adjudicates no block. T1 stays VOID, T1b stays `PERSISTENCE CONTRIBUTES`, and Stage B stays at **188** artifacts. The artifact and page are `docs/ceiling_diagnostic.json` and `docs/CEILING-DIAGNOSTIC.md`.
+
+- **Q055 carries the localization, not only the diagnostic page.** The registry answer and scope now separate candidate formation from the unresolved floor/horizon/boundary/world-structure decomposition, record `PersistenceOff` as no carried support conditional on cycle completion, and link the ceiling artifact. `docs/FINDINGS-LEDGER.md` is the durable, not-a-result synthesis for the current persistence chain, the 26 asserted-but-never-served edges, BAND-5's class-level scope, the working mechanism map and the information-gain ordering. The generated findings page, question registry and dashboard were regenerated; no cell ran and no verdict moved.
+
+### Changed — BAND-5 ran on fresh worlds and confirmed the allocation-law band (2026-11-11)
+
+- **`PRESENCE-BAND-5` returned `CONFIRMED`.** Six fresh seeds (20612601-20612606), twelve cells at 40 and 112, and one determinism rerun produced `docs/presence_band_rank_5_run.json`. All **89** measured rank-21-40 edges (18, 14, 19, 11, 11, 16 per seed) are served at 112 and none at 40; B1-B8 pass, with 64-68 transitions and 48 cooccurrences on every full cap-112 window.
+- **B5 is the BAND-4 allocation law, not a fit to 64-69.** A full window needs `transitions + cooccurrences = 112`, `transitions >= 56` and `cooccurrences <= 56`. The dated grant `docs/AUTHORISATION-PRESENCE-BAND-5.md` preceded the arm and every cell.
+- **This is a fresh block, not a re-score.** BAND-1 stays VOID; BAND-2/BAND-3/BAND-4 stay unrun. The per-edge ledger and page are `docs/presence_band_rank_5_run.json` and `docs/PRESENCE-BAND-RANK-5-RESULT.md`. Stage B now quotes **188** artifacts and **1,554** consumed seeds.
+- **The admission decision records the verdict without moving its status.** BAND-5 is class-level mechanism evidence on fresh worlds, but it does not re-score BAND-1's 62 named Q4 edges. The decision stays **PENDING**, and its named-edge mechanism condition stays **unadjudicated**.
+
 ### Changed — The layer-1 cap is 112, and the canaries say so (2026-11-11)
 
 - **The cap moved from 40 to 112, and only the cap moved.** `SleepService.MAX_PREDICTIONS` is
@@ -83,6 +100,35 @@ there is nothing to check out.
   for that exact edge, and fails a served edge with no rank rather than contributing 0. BAND-2
   is a new, unrun block, not a re-score: BAND-1 stays VOID, no arm is built, no grant is
   recorded, and no cell has run. Stage B now quotes **183** artifacts.
+- **BAND-3 repairs the band block with fresh seeds and a B5 that can fail (2026-11-11).**
+  `PRESENCE-BAND-3` uses six unused seeds (20612401-20612406), 12 cells at 40 and 112,
+  and a band measured per fresh world: every present transition at block rank 21-40 in
+  the cap-112 ceiling universe. It keeps BAND-2's strict `source>target` parser and the
+  corrected `>= 56` floor, but B5 is a live cap test rather than a restatement of the
+  band: a 20-transition fixture, a maximum served rank of 40, an unranked served edge and
+  a malformed edge must all fail. The grant is recorded before the arm or any cell;
+  `runner.built` is false, `cells_run` is 0, and no result exists. BAND-1 stays VOID and
+  BAND-2 stays unrun. Stage B now quotes **186** artifacts.
+- **Q055 states the eligibility mechanism behind the persistence result (2026-11-11).**
+  The finding now says what the zero-S_ever replay actually established: with cross-cycle
+  counts reset, the five zero seeds never reach `PREDICTION_MIN_COUNT = 5` inside a cycle
+  (maximum 3-4), so no world-edge transition candidate is built, none can be served, and
+  the full observer/sleep path reproduces 0 served edges; the controls serve 3 and 9. It
+  does not claim that threshold 5 is wrong. Why those seeds top out at 3-4 is recorded as
+  the next question, and lowering the floor is a separate intervention. The mechanism is
+  scoped to the five zero seeds; ranking, admission, assertion and service remain candidate
+  mechanisms on the non-zero seeds.
+- **BAND-4 is a confirmatory allocation block with two independent failure modes (2026-11-11).**
+  `PRESENCE-BAND-4` replaces the exact-56 reading with the engine's full-window
+  law: at cap 112 a full window has `transitions + cooccurrences = 112`, with
+  `transitions >= 56` and `cooccurrences <= 56`; 64-69 is the floor plus backfill,
+  not a threshold. The block uses six fresh seeds (20612501-20612506), 12 cells,
+  and a B5 fixture that passes 64+48 and 56+56 but fails 56+0, 20+20, a bad sum,
+  an over-ceiling cooccurrence count, a rank ceiling at 40, an unranked edge and
+  a malformed edge. Acceptance is co-primary: perfect band service cannot rescue
+  a failed allocation law, and a perfect allocation cannot rescue an unserved
+  band edge. It is frozen with no grant, arm, cell or result. Stage B now quotes
+  **186** artifacts.
 - **The 56-transition budget is reconciled with the 112 cap allocation (2026-11-11).**
   The engine's `transition_budget = returned_budget // 2` is a guaranteed floor, and
   `_build_predictions` backfills unused cooccurrence slots with further transitions. At 112 the
@@ -111,7 +157,7 @@ there is nothing to check out.
   **24** cells (4 arms x 6 fresh seeds, 20612301-20612306) at 120 cycles, with G1-G7
   fixing the build, world, live treatments, denominator, seed axis, determinism and cell
   count. No grant is recorded, no runner is built, no result exists and `cells_run` is 0;
-  T1 and T1b are not re-read. Stage B now quotes **184** artifacts.
+  T1 and T1b are not re-read. Stage B now quotes **186** artifacts.
 - **The T1b persistence result is now an established finding (2026-11-11).**
   `docs/RESEARCH-FINDINGS.md` gains **Q055**, sourced from the registry rather than edited by
   hand. At cap 112, T1b's six fresh seeds show shipped `S_ever` 101, 95, 100, 103, 98 and 99
@@ -240,7 +286,7 @@ there is nothing to check out.
   closed over **52** questions; Q054, the Q4 conversion-repair protocol, is the twenty-fourth never-closed row and joined as a first answer on 2026-11-10. Three tests in `tests/test_research_registry.py` check that every
   closed or retired question is classified, that the three groups partition the registry with
   reopened answers open, and that removing Q052 fires the check.
-- **The Stage B block follows the artifact that landed.** The seed scan covers **184** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record after it) with
+- **The Stage B block follows the artifact that landed.** The seed scan covers **188** artifacts, up from the **180** artifacts it held after the band run (amended 2026-11-10, and again when the three conversion blocks wrote their run artifacts: the D3 seed-varying, engine-replication, G1-recalibrated-preregistration and run, the presence/assertion audit, the presence-to-assertion ladder, the construct-audit and cap preregistrations, and Tier-1 records raised the count from 157; the count moves as records land: the pruning-reachability, pruning-by-type, temporal-presence, question-survival, pre-flight and Q006 records were added that day, and the construct-audit, cap and conversion-observer run artifacts took it from 169 to 173, the presence band arm's frozen record carried one, and its run artifact the next, and BAND-2's frozen record, and PERSISTENCE-MECHANISM-1's frozen record, and BAND-3's frozen record after it, and BAND-5's record and run artifact after that) with
   **0** overlap against the candidate block, **27** more than the **146** it recorded before
   `docs/ablation_study_0.13.0.json` existed, and the stored artifact and the quoted block are rebuilt
   together so they describe the same state.

@@ -113,10 +113,11 @@
     {
       "id": "M05",
       "commits": [
-        "9f2c8e1"
+        "9f2c8e1",
+        "7dbbe84"
       ],
       "title": "Prediction cap raised, structural ranking for loops and anomalies, question closure",
-      "what_changed": "The admitted prediction budget was raised and loop and anomaly candidates gained structural ranking; contradiction density and question closure changed with them.",
+      "what_changed": "The admitted prediction budget was raised, to 112 in 0.15.0, and loop and anomaly candidates gained structural ranking; contradiction density and question closure changed with them.",
       "failure": {
         "kind": "recorded_failure",
         "artifact": "docs/acquisition_single_seed_pilot.json",

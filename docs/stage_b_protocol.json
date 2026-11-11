@@ -2552,6 +2552,38 @@
         20611605,
         20611606
       ],
+      "docs/presence_band_rank_3_prereg.json": [
+        20612401,
+        20612402,
+        20612403,
+        20612404,
+        20612405,
+        20612406
+      ],
+      "docs/presence_band_rank_4_prereg.json": [
+        20612501,
+        20612502,
+        20612503,
+        20612504,
+        20612505,
+        20612506
+      ],
+      "docs/presence_band_rank_5_prereg.json": [
+        20612601,
+        20612602,
+        20612603,
+        20612604,
+        20612605,
+        20612606
+      ],
+      "docs/presence_band_rank_5_run.json": [
+        20612601,
+        20612602,
+        20612603,
+        20612604,
+        20612605,
+        20612606
+      ],
       "docs/presence_band_rank_prereg.json": [
         20611601,
         20611602,
@@ -3147,7 +3179,7 @@
         20261130
       ]
     },
-    "consumed_total": 1536,
+    "consumed_total": 1554,
     "candidate_block": [
       700000001,
       700000724
@@ -3183,7 +3215,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 184,
+    "disjoint_proved_against": 188,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory. A pre-run table marked not_a_result is skipped: it reserves its own block's design cells and has consumed no seed.",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

@@ -13,7 +13,7 @@ names, so the map cannot drift from a measurement it does not hold.
 
 ## Coverage
 
-- **21** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
+- **22** commits touched `organica` between `v0.9.0` and HEAD, and every one is claimed below.
 - **15** rows: **11** stay in the campaign, **4** are excluded.
 - A row stays only if it names a failure with an artifact, a mechanism, a falsifier,
   observables, a pre-change measurement, and two decisions that differ. A diagnostic whose
@@ -30,7 +30,7 @@ names, so the map cannot drift from a measurement it does not hold.
 | M02 | `8752c66`, `5d9538f`, `b955ccb` | Ranking rebuilt: relation-family stratification, transition predictiveness, generation alignment | recorded failure in `docs/gate13_allocation_rule.json` | stays |
 | M03 | `52c43f4` | Layer 1 grounding, conditional-entropy ranking, experiment execution | recorded failure in `docs/FORCE-MATRIX-RESULTS.md` | stays |
 | M04 | `c13d67e` | Decay and promotion: EIG fix, natural-selection decay, temporal edge decay | recorded failure in `docs/RERUN-0.12.0.md` | stays |
-| M05 | `9f2c8e1` | Prediction cap raised, structural ranking for loops and anomalies, question closure | recorded failure in `docs/acquisition_single_seed_pilot.json` | stays |
+| M05 | `9f2c8e1`, `7dbbe84` | Prediction cap raised, structural ranking for loops and anomalies, question closure | recorded failure in `docs/acquisition_single_seed_pilot.json` | stays |
 | M06 | `6165523`, `7201d79` | Substrate performance, single-pass selection and candidate caching | none recorded | excluded |
 | M07 | `9dd6fe0` | Active environment dispatcher and world-complexity ladder confirmation | recorded failure in `docs/PHASE-K-PREREGISTRATION.md` | stays |
 | M08 | `6d45eb7` | Active inquiry and retention pressure | recorded failure in `docs/DIVERGENCE-MECHANISM-RESULTS.md` | stays |
@@ -146,9 +146,9 @@ names, so the map cannot drift from a measurement it does not hold.
 
 ## M05 — Prediction cap raised, structural ranking for loops and anomalies, question closure
 
-**Commits.** `9f2c8e1`
+**Commits.** `9f2c8e1`, `7dbbe84`
 
-**What changed.** The admitted prediction budget was raised and loop and anomaly candidates gained structural ranking; contradiction density and question closure changed with them.
+**What changed.** The admitted prediction budget was raised, to 112 in 0.15.0, and loop and anomaly candidates gained structural ranking; contradiction density and question closure changed with them.
 
 **Failure.** The acquisition gate failed against a named bound: asserted coverage of the world's edges was a handful at most under the frozen cap.
 

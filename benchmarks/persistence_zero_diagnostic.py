@@ -272,6 +272,15 @@ def render(art: dict) -> str:
         "exactly the seeds where the ceiling is zero. The full serving run confirms the "
         "zero cells serve nothing and the controls serve what the stored cells recorded.",
         "",
+        "## What this establishes",
+        "",
+        "This is a mechanism-level statement for these seeds: cross-cycle accumulation is "
+        "required to reach `PREDICTION_MIN_COUNT = 5` within a cycle when the reset removes "
+        "the carried counts. It is not evidence that threshold 5 is mis-calibrated. The "
+        "measured 3-4 within-cycle ceiling is the next question: topology, tag pattern, "
+        "lookback and calibration are untested explanations. Lowering the floor is a "
+        "separate intervention, not licensed by this diagnostic.",
+        "",
         art["not_evidence"],
         "",
     ]

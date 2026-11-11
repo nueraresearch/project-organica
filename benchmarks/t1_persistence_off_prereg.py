@@ -192,7 +192,9 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     from benchmarks.presence_cap_experiment import seed_collisions
     collisions = seed_collisions(list(seeds) + [bootstrap],
                                  allow=(RECORD, PAGE, RUN, RESULT_PAGE, AUTH_DOC,
-                                        ROOT / "docs" / "persistence_zero_served_diagnostic.json", ROOT / "docs" / "PERSISTENCE-ZERO-SERVED-NOTE.md"))
+                                        ROOT / "docs" / "persistence_zero_served_diagnostic.json",
+                                        ROOT / "docs" / "PERSISTENCE-ZERO-SERVED-NOTE.md",
+                                        ROOT / "docs" / "ceiling_diagnostic.json"))
     for seed, paths in collisions.items():
         found.append("seed %d is not fresh: %s" % (seed, ", ".join(paths)))
 

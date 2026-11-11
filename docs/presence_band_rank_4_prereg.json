@@ -1,0 +1,197 @@
+{
+ "prereg": "PRESENCE-BAND-4",
+ "status": "FROZEN, NOT RUN",
+ "frozen_on": "2026-11-11",
+ "no_cells_run": true,
+ "question": "On the shipped 0.15.0 build, with six fresh worlds, does the cap-112 allocation satisfy the full-window floor-plus-backfill identity and does the measured rank-21-40 band enter service, with the allocation law and band service able to fail independently?",
+ "program": {
+  "draft": "docs/DECISION-ADMISSION-STEP.md",
+  "question": "Q054",
+  "relationship": "BAND-1 froze an exact-56 allocation, observed 64-69, and was VOID on that gate. BAND-2 and BAND-3 corrected the point to a floor. BAND-4 is the confirmatory allocation block: it does not repeat the point, does not use 64-69 as a cutoff, and does not re-read BAND-1, BAND-2 or BAND-3. BAND-1 stays VOID; BAND-2 and BAND-3 stay unrun."
+ },
+ "reconciliation": {
+  "frozen_point": "BAND-1's B5 required exactly 56 transitions at cap 112.",
+  "engine_law": "`organica/sleep_extraction.py` sets `transition_budget = returned_budget // 2` (56 at 112), seats up to 56 cooccurrences in the remainder, then backfills unused cooccurrence slots with further transitions (`more_trans`). A full window therefore has `transitions + cooccurrences = 112` with `transitions >= 56` and `cooccurrences <= 56`.",
+  "observed_64_69": "The six BAND-1 cells served 64-69 transitions, so their full-window cooccurrence counts were 48-43. That is the floor plus backfill; it is not a new allocation rule and it is not an acceptance threshold.",
+  "why_not_exact_56": "A correct engine can serve more than 56 transitions whenever fewer than 56 cooccurrence candidates fill the remainder. Requiring exactly 56 rejects a healthy backfill.",
+  "why_not_floor_only": "A floor-only gate accepts 56 transitions with no cooccurrences in a 56-row window. That is not the full allocation law and would pass without showing the backfill that produced 64-69. BAND-4 therefore requires a full 112-row window and the sum identity.",
+  "not_fitted": "The law and its fixtures are written from `sleep_extraction.py` before any BAND-4 cell. The observed 64-69 is a consistency check, not a calibrated range, and no threshold is set to 64 or 69."
+ },
+ "design": {
+  "arms": [
+   "cap 40",
+   "cap 112"
+  ],
+  "caps": [
+   40,
+   112
+  ],
+  "shipped_cap": 112,
+  "seeds": [
+   20612501,
+   20612502,
+   20612503,
+   20612504,
+   20612505,
+   20612506
+  ],
+  "cycles": 120,
+  "cells": 12,
+  "cells_arithmetic": "2 caps x 6 seeds = 12 cells",
+  "variable": "SleepService.MAX_PREDICTIONS, set per cell",
+  "observer": "the repaired observer of PRESENCE-CONVERSION-2, returning the engine's own served list and recording the pre-cap universe and allocation",
+  "world": "the compositional world family of PHASE_ACQUISITION at 120 cycles on six fresh seeds; no Q4, BAND-1, BAND-2 or BAND-3 world is reused",
+  "pairing": "each seed contributes one world and one stimulus to both caps; only the cap changes, and each band edge is paired across the two cells",
+  "freshness": "All six seeds are fresh at freeze time: seed_collisions over every docs JSON returns no hit. The record and page are the only allowed artifacts that name them.",
+  "reuse": "No prior block's cells, named band or result is reused. The 64-69 observation is cited only as the prior that motivates the allocation law; it is not BAND-4 evidence."
+ },
+ "band": {
+  "definition": "For each seed, the band is every present transition whose minimum block rank in the cap-112 ceiling universe is 21-40. It is measured from the 112 arm and is not filtered by cap-40 service.",
+  "derivation": "Read the cap-112 cell's present_edges and universe; keep each edge whose relation is transition and whose minimum recorded rank is 21-40. A missing rank is a failure, not a zero.",
+  "size": "measured per seed; no fixed total",
+  "zero_band": "A seed with zero rank-21-40 present transitions is a zero denominator: B6 fails and the block is VOID, never split as 0 served.",
+  "service_separation": "Band membership is independent of cap-40 service and is not filtered by it. B4 measures whether the 40 arm served a band edge."
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 112,
+  "edit": "none",
+  "treatment": "only SleepService.MAX_PREDICTIONS is set per cell"
+ },
+ "endpoints": [
+  {
+   "stage": "W",
+   "definition": "world edges generated for the seed",
+   "role": "denominator"
+  },
+  {
+   "stage": "P",
+   "definition": "world edges present in the temporal graph",
+   "role": "band universe"
+  },
+  {
+   "stage": "band",
+   "definition": "present transitions at minimum block rank 21-40 in the 112 ceiling",
+   "role": "measured treatment group"
+  },
+  {
+   "stage": "S40",
+   "definition": "band edges served in at least one cap-40 cycle",
+   "role": "pre-treatment control"
+  },
+  {
+   "stage": "S112",
+   "definition": "band edges served in at least one cap-112 cycle",
+   "role": "band endpoint"
+  },
+  {
+   "stage": "A112",
+   "definition": "band edges asserted at the end of the cap-112 run",
+   "role": "secondary, reported not adjudicated"
+  },
+  {
+   "stage": "alloc",
+   "definition": "per cycle transitions and cooccurrences in the 112 window",
+   "role": "allocation endpoint"
+  },
+  {
+   "stage": "ledger",
+   "definition": "per edge: rank, cycles served at each cap, asserted, relation",
+   "role": "per-edge record"
+  }
+ ],
+ "gates": {
+  "B1_build": "all twelve cells run the shipped 0.15.0 build at the named cap, with one sha256 across the run and only MAX_PREDICTIONS overridden; a mixed or edited build is VOID",
+  "B2_world_fresh": "each seed's world digest and present fingerprint are identical at 40 and 112, and every seed is absent from every prior docs artifact; a different world or a reused seed is VOID",
+  "B3_band_identity": "at cap 112 every band edge is a present transition whose minimum recorded rank is 21-40 and whose rank is present; each seed's band is non-empty; a missing edge, duplicate, missing rank or out-of-band rank fails B3. The band is read before cap-40 service is considered.",
+  "B4_control_40": "at cap 40 no band edge is served on any seed, and the 40-row allocator satisfies the same sum identity with its 20-transition floor; a band edge served at 40, an incomplete full window, or a 40-row allocation that does not sum fails B4",
+  "B5_allocation_law": "at cap 112 every cell has at least one full 112-row window; every full window satisfies transitions >= 56, cooccurrences <= 56 and transitions + cooccurrences = 112, and every allocation row sums to its own served window. The maximum served transition rank is above block rank 40, every served edge parses as exactly one source>target, and every served transition is ranked. A 56-transition, 56-row window; a 64-transition, 104-row sum; a cooccurrence count above 56; a rank ceiling at 40; an unparseable edge; or an unranked served transition fails B5. B5 is not conditional on band service.",
+  "B6_denominator": "each seed's band is non-empty and every band edge reaches the ledger; a zero band or a zero P is not measurable and is VOID, never 0.0",
+  "B7_determinism": "a fresh-process rerun of seed 20612501 at 112 reproduces its per-edge ledger and allocation exactly",
+  "B8_seed_axis": "the six 112 ledgers hold at least three distinct served-band edge sets; a repeated set is one world, not six"
+ },
+ "b5_fixture": {
+  "pass_64_plus_48": "64 transitions + 48 cooccurrences in a 112-row window, maximum rank 64",
+  "pass_56_plus_56": "56 transitions + 56 cooccurrences in a 112-row window, maximum rank 56",
+  "fail_56_only": "56 transitions + 0 cooccurrences in a 56-row window",
+  "fail_short_20": "20 transitions + 20 cooccurrences in a 40-row window",
+  "fail_sum": "64 transitions + 40 cooccurrences in a 112-row window",
+  "fail_cooccurrence_ceiling": "64 transitions + 60 cooccurrences in a 124-row window",
+  "fail_rank_ceiling": "a full window whose maximum served transition rank is 40",
+  "fail_unranked": "a served transition with no recorded rank",
+  "fail_malformed": "an edge with more than one source>target separator",
+  "rule": "the same allocation_law helper is used by the record check and the future arm; the pass fixtures cover both the observed backfill shape and the exact floor, and every failure fixture must fail"
+ },
+ "acceptance": {
+  "kind": "co-primary, independently falsifiable",
+  "criterion_a": "B5 passes: the cap-112 allocation law holds on every full window and the rank ceiling is live.",
+  "criterion_b": "B3, B4 and B6 pass: every measured rank-21-40 band edge is served at 112, none is served at 40, and the seed axis is live.",
+  "confirmed": "CONFIRMED only when both criterion A and criterion B pass.",
+  "independent_failure": "The criteria fail independently: a block with perfect band service but a failed B5 is ALLOCATION LAW NOT CONFIRMED. A block with a perfect allocation but any unserved band edge is BAND NOT CONFIRMED. Neither result can be averaged into or rescued by the other.",
+  "not_fitted": "The 64-69 observation is not used as a threshold. The allocation identity is fixed from the engine source, and the band criterion is the same rank rule fixed before the cells.",
+  "source": "organica/sleep_extraction.py and docs/DECISION-ADMISSION-STEP.md"
+ },
+ "decision_table": [
+  {
+   "condition": "B1, B2, B3 identity, B6, B7 or B8 fails",
+   "verdict": "VOID",
+   "reading": "the block is unrun or non-reproducible and the failed gate names what did not happen",
+   "decision": "record VOID; fix the failed gate and register a new block; read no acceptance"
+  },
+  {
+   "condition": "allocation law fails, band service passes",
+   "verdict": "ALLOCATION LAW NOT CONFIRMED",
+   "reading": "the band can be served while the full-window floor-plus-backfill identity is false",
+   "decision": "report the allocation failure; do not call the band a confirmation; fix the allocation rule before another band block"
+  },
+  {
+   "condition": "allocation law passes, any band edge is unserved at 112 or served at 40",
+   "verdict": "BAND NOT CONFIRMED",
+   "reading": "the allocation is correct but the measured rank-21-40 band does not enter service as claimed",
+   "decision": "report the per-edge misses; the next step is the admission rule, not another cap level"
+  },
+  {
+   "condition": "allocation law and band service both pass on every seed",
+   "verdict": "CONFIRMED",
+   "reading": "the floor-plus-backfill law and fresh-world rank-21-40 service both hold",
+   "decision": "record the confirmation; the owner decides any engine or promotion step; no capability claim"
+  }
+ ],
+ "authorisation": {
+  "required": true,
+  "granted": false,
+  "granted_on": null,
+  "document": null,
+  "quote": null,
+  "note": "No dated grant exists. A grant naming the twelve cells, the determinism rerun and the result artifact must be recorded against this record before an arm is built or a cell is opened. This record authorises nothing to run."
+ },
+ "runner": {
+  "built": false,
+  "planned_module": "benchmarks/presence_band_rank_4_arm.py",
+  "cells_run": 0,
+  "why": "the record and page precede any grant, arm or cell"
+ },
+ "cost": {
+  "cells": 12,
+  "witness_cells": "one fresh-process determinism rerun",
+  "cycles": 120,
+  "wall_clock_estimate": "twelve cells plus one rerun at 120 cycles each"
+ },
+ "stop_condition": "No cell runs until a dated grant is recorded and the arm's preflight passes. After that, the block closes when the twelve cells and rerun have produced their parts, B1-B8 have been scored once in the frozen order, and the verdict is recorded. Any gate failure is VOID; no cell is rerun to escape a gate and no gate is amended after a result.",
+ "not_evidence": "A preregistration and page, not a result. No grant, arm, runner or cell exists. BAND-1 stays VOID; BAND-2 and BAND-3 stay unrun and are not re-read. This record licenses no capability, retention or transfer claim.",
+ "amendments": [
+  {
+   "date": "2026-11-11",
+   "kind": "frozen",
+   "note": "The confirmatory allocation block and its independent criteria were frozen before any grant, arm or cell."
+  },
+  {
+   "date": "2026-11-11",
+   "kind": "wording-correction",
+   "note": "Before any grant, arm or cell, the acceptance text was corrected to say explicitly that the two criteria fail independently. No criterion, seed, gate or threshold changed."
+  }
+ ],
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

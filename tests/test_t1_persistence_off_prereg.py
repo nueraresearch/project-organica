@@ -55,7 +55,8 @@ def test_the_seed_block_is_fresh():
         doc["design"]["seeds"] + [doc["design"]["bootstrap"]],
         allow=(t1.RECORD, t1.PAGE, t1.RUN, t1.RESULT_PAGE, t1.AUTH_DOC,
                t1.ROOT / "docs/persistence_zero_served_diagnostic.json",
-               t1.ROOT / "docs/PERSISTENCE-ZERO-SERVED-NOTE.md"))
+               t1.ROOT / "docs/PERSISTENCE-ZERO-SERVED-NOTE.md",
+               t1.ROOT / "docs/ceiling_diagnostic.json"))
     assert collisions == {}
 
 

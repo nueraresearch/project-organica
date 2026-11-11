@@ -1106,14 +1106,15 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**184** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 184 and ("**%d** artifacts" % proved) in entries,
+    add("**188** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 188 and ("**%d** artifacts" % proved) in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught; "
         "the count moved 169 -> 173 when the three conversion blocks wrote their run "
         "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
         "artifact landed, to 180 when the band run artifact landed, to 182 when the T1b "
         "record and run artifact landed, to 183 when BAND-2's record landed, and to 184 "
-        "when PERSISTENCE-MECHANISM-1's frozen record landed, which the changelog records")
+        "when PERSISTENCE-MECHANISM-1's frozen record landed, and to 185 when "
+        "BAND-3's frozen record landed, which the changelog records")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
         overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
@@ -1164,7 +1165,7 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**184** artifacts", "**180** artifacts")
+    stage_b_drift = entries.replace("**188** artifacts", "**180** artifacts")
     assert "**180** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
     assert stage_b_failures, "the control did not fire"

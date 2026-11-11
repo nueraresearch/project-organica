@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from pathlib import Path
 
 from benchmarks import engine_stamp
@@ -231,6 +232,7 @@ def build() -> dict:
         cells.append(cell_table(arms["on"], seed=seed, cap=cap))
     campaign = _campaign_cells() if RUN.exists() else []
     return engine_stamp.stamp({
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "kind": KIND,
         "not_a_result": True,
         "source": ("benchmarks.presence_conversion_repair_observer.fixture, %d cycles, "

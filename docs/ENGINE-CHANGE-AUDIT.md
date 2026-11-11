@@ -25,7 +25,7 @@ and it needs its own preregistration.
 | `v0.12.0` | `5804e60` | the deposit object: the release a reader can cite today (`CHANGELOG.md`) |
 | HEAD | `0.13.0` (unreleased) | current master |
 
-**21** commits after `v0.9.0` touched `organica/`, the first on 2026-10-25 and the last on
+**22** commits after `v0.9.0` touched `organica/`, the first on 2026-10-25 and the last on
 2026-11-07. That number is derived from git, not typed: `tests/test_engine_change_audit.py`
 recomputes it and fails if this document disagrees.
 
@@ -195,7 +195,7 @@ that a version bump has outdated. `tests/test_engine_pin.py` runs that check ins
    in the campaign; rows without a named mechanism are out.
 
 **In place from 2026-11-07.** `docs/ENGINE-CHANGE-FAILURE-MAP.md` is generated from
-`docs/engine_change_failure_map.json`: **15** rows over the **21** commits that touched
+`docs/engine_change_failure_map.json`: **15** rows over the **22** commits that touched
 `organica/`, **10** staying in the campaign and **4** excluded. Every staying row names the
 failure, the mechanism, a falsifier, its observables, the pre-change measurement and two decisions
 that differ. `python -m benchmarks.change_map --check` recomputes coverage from git, so a new engine
