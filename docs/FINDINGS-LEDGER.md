@@ -33,10 +33,19 @@ completion**, not a perfect no-memory condition. The reset fires when a processe
 completes an 8-event block; a withheld block-end event can suppress the reset. Positive
 off-arm cells are therefore not necessarily a contradiction.
 
-**Floor distribution.** Within-cycle maxima on the five zero cells are **4, 3, 4, 3, 4**;
-the seven non-zero off controls reproduce **6, 6, 5, 6, 5, 6, 5**. The population occupies
-1-4 and floor 5 slices through it. The next distributional question is why the counts
-concentrate there, not simply whether to lower the floor.
+**Floor distribution — measured 2026-11-11.** The zero-cell maxima **4, 3, 4, 3, 4** and
+control maxima **6, 6, 5, 6, 5, 6, 5** are maxima of a population, not its support. Across
+the zero cells' **600** processed reset groups (all 4-8 events), the **14,279** edge-cycle
+rows are **12,278** at count 1 (86.0%), **1,861** at 2 (13.0%), **136** at 3 (1.0%) and
+**4** at 4 (0.03%); no row reaches 5. The same-group count, which excludes the engine's
+lookback into the previous group, is also 1-4; cross-group lookback supplies **2,508**
+pair observations (15.3%) and on seed `20612208` is what lifts the group maximum from 3
+to 4. In the controls, **149** of **609** groups are longer than 8 events because a
+withheld block-end event suppressed the reset; all **30** count-5+ rows occur in those
+merged groups. Across the **1,060** groups of at most 8 events in both roles, the maximum
+is **4**. The 1-4 concentration is therefore the support of short groups, not a separate
+floor regime: floor 5 sits above that support, and counts 5-6 require the extra repetition
+of a merged group, which no zero cell has.
 
 **Window sweep is a counterfactual.** At window 6 the zero cells reach 8-9 on their best
 edge and 61-69 edges at floor 5; 1,000 fixed-seed within-cycle permutations put the observed
@@ -45,13 +54,14 @@ not establish a clean horizon treatment: an engine-lookback extension keeps pers
 rows and reintroduces cross-cycle context. It is a different treatment family and needs its
 own preregistration.
 
-**Not established.** The exact contribution of the read floor, lookback horizon,
-cycle-boundary reset behavior and world structure remains unresolved, as does any mixture
-of them.
+**Not established.** The group-length contribution is measured; the exact contribution of
+the read floor, lookback horizon and world structure remains unresolved, as does any
+mixture of them.
 
 **Evidence.** `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`,
 `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`,
-`docs/ceiling_diagnostic.json`, `docs/CEILING-DIAGNOSTIC.md`, Q055 in
+`docs/ceiling_diagnostic.json`, `docs/CEILING-DIAGNOSTIC.md`,
+`docs/within_cycle_distribution.json`, `docs/WITHIN-CYCLE-DISTRIBUTION.md`, Q055 in
 `docs/RESEARCH-FINDINGS.md`.
 
 ## 2. Assertion anomaly: the 26 asserted-but-never-served edges
@@ -119,8 +129,9 @@ those pairs.
    gaps, 18 reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
    prediction-only residuals. The next question is why the loop/dream structures carry
    those pairs, not how the readout's provenance divides.
-2. **The 1-4 count distribution**: explain why the population sits there before testing
-   another floor or a longer engine lookback.
+2. **The 1-4 count distribution — measured 2026-11-11.** It is the support of 5-8-event
+   groups; 5-6 requires a merged group longer than 8. The next question is whether a
+   nominal 8-event cycle can be made to carry more repetition, not another floor.
 3. **BAND-2**: keep the governance block live, but it is less likely than the first two to
    produce a large jump in understanding.
 

@@ -23,7 +23,7 @@
 
 - The five zero cells have 0 admissible world-edge candidates at floor 5.
 - The zero is created at candidate formation, before ranking, admission and assertion.
-- Within-cycle counts on these seeds occupy 1-4; floor 5 slices through that distribution.
+- Within-cycle counts on these seeds occupy 1-4; the distribution follow-up finds floor 5 above that support (docs/WITHIN-CYCLE-DISTRIBUTION.md).
 - PersistenceOff removes carried support only when a processed cycle boundary fires; a withheld block-end event suppresses the reset.
 
 ## What this does not establish

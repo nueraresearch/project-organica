@@ -194,7 +194,8 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
                                  allow=(RECORD, PAGE, RUN, RESULT_PAGE, AUTH_DOC,
                                         ROOT / "docs" / "persistence_zero_served_diagnostic.json",
                                         ROOT / "docs" / "PERSISTENCE-ZERO-SERVED-NOTE.md",
-                                        ROOT / "docs" / "ceiling_diagnostic.json"))
+                                        ROOT / "docs" / "ceiling_diagnostic.json",
+                                        ROOT / "docs" / "within_cycle_distribution.json"))
     for seed, paths in collisions.items():
         found.append("seed %d is not fresh: %s" % (seed, ", ".join(paths)))
 
