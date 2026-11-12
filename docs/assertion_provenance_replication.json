@@ -1,0 +1,684 @@
+{
+ "kind": "assertion_provenance_replication",
+ "status": "RUN",
+ "prereg": "docs/assertion_provenance_replication_prereg.json",
+ "question": "Does the 18 identity-mismatch / 8 alternate-path provenance split replicate on a fresh six-seed block?",
+ "scope": "Six fresh seeds, one compositional world family, 120 cycles, cap 40 and one replay per seed. This block tests whether the reverse-orientation provenance split replicates; it does not test recording fidelity (one replay makes the recording-gap category structurally zero) or whether service would change A_W.",
+ "design": {
+  "seeds": [
+   20613101,
+   20613102,
+   20613103,
+   20613104,
+   20613105,
+   20613106
+  ],
+  "cells": 6,
+  "cycles": 120,
+  "cap": 40,
+  "world": "generate_compositional_world(seed=, cycles=120), PHASE_ACQUISITION schedule",
+  "population": "asserted world edges with zero direct served windows",
+  "classifier": "benchmarks.assertion_provenance.classify",
+  "recording_gap_testable": false,
+  "recording_gap_note": "A single replay supplies both the direct service count and the recorded service count, so the recording-gap category is zero by construction; this block tests the orientation split, not recording fidelity."
+ },
+ "reference": {
+  "source": "docs/assertion_provenance.json",
+  "edges": 26,
+  "identity_mismatch": 18,
+  "alternate_assertion_path": 8,
+  "identity_share": 0.6923076923076923
+ },
+ "endpoint": {
+  "name": "identity share among never-served asserted world edges",
+  "numerator": "identity_mismatch",
+  "denominator": "identity_mismatch + alternate_assertion_path",
+  "interval": "95% Wilson score interval",
+  "original_share": 0.6923076923076923
+ },
+ "criteria": [
+  {
+   "id": "R1",
+   "name": "direction",
+   "test": "identity_mismatch > alternate_assertion_path"
+  },
+  {
+   "id": "R2",
+   "name": "magnitude compatibility",
+   "test": "the 95% Wilson interval for the fresh identity share includes 18/26 = 0.6923076923076923"
+  },
+  {
+   "id": "R3",
+   "name": "both classes present",
+   "test": "identity_mismatch > 0 and alternate_assertion_path > 0"
+  }
+ ],
+ "seeds": [
+  {
+   "seed": 20613101,
+   "asserted_world_edges": 30,
+   "served_world_edges": 81,
+   "never_served_asserted": 1,
+   "categories": {
+    "identity_mismatch": 1
+   },
+   "rows": [
+    {
+     "seed": 20613101,
+     "edge": "verdant>ochre",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 77,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  },
+  {
+   "seed": 20613102,
+   "asserted_world_edges": 49,
+   "served_world_edges": 75,
+   "never_served_asserted": 5,
+   "categories": {
+    "identity_mismatch": 5
+   },
+   "rows": [
+    {
+     "seed": 20613102,
+     "edge": "cedar>indigo",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 27,
+     "assertion_sources": {
+      "loop_candidate": 3.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613102,
+     "edge": "crimson>indigo",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 30,
+     "assertion_sources": {
+      "loop_candidate": 2.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613102,
+     "edge": "maple>amber",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 1,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613102,
+     "edge": "maple>indigo",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 12,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613102,
+     "edge": "willow>maple",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 4,
+     "assertion_sources": {
+      "loop_candidate": 2.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  },
+  {
+   "seed": 20613103,
+   "asserted_world_edges": 37,
+   "served_world_edges": 79,
+   "never_served_asserted": 1,
+   "categories": {
+    "identity_mismatch": 1
+   },
+   "rows": [
+    {
+     "seed": 20613103,
+     "edge": "sable>teal",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 13,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  },
+  {
+   "seed": 20613104,
+   "asserted_world_edges": 50,
+   "served_world_edges": 80,
+   "never_served_asserted": 8,
+   "categories": {
+    "identity_mismatch": 8
+   },
+   "rows": [
+    {
+     "seed": 20613104,
+     "edge": "birch>olive",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 19,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "birch>verdant",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 35,
+     "assertion_sources": {
+      "loop_candidate": 4.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "teal>cedar",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 5,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "teal>olive",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 16,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "teal>umber",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 50,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "teal>verdant",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 35,
+     "assertion_sources": {
+      "loop_candidate": 7.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "teal>yarrow",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 16,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613104,
+     "edge": "willow>teal",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 1,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  },
+  {
+   "seed": 20613105,
+   "asserted_world_edges": 23,
+   "served_world_edges": 72,
+   "never_served_asserted": 6,
+   "categories": {
+    "identity_mismatch": 6
+   },
+   "rows": [
+    {
+     "seed": 20613105,
+     "edge": "cedar>willow",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 51,
+     "assertion_sources": {
+      "loop_candidate": 2.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613105,
+     "edge": "indigo>willow",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 38,
+     "assertion_sources": {
+      "loop_candidate": 1.0,
+      "workflow_concept": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613105,
+     "edge": "olive>amber",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 1,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613105,
+     "edge": "olive>teal",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 77,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613105,
+     "edge": "slate>olive",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 7,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613105,
+     "edge": "slate>umber",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 1,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  },
+  {
+   "seed": 20613106,
+   "asserted_world_edges": 29,
+   "served_world_edges": 73,
+   "never_served_asserted": 5,
+   "categories": {
+    "alternate_assertion_path": 2,
+    "identity_mismatch": 3
+   },
+   "rows": [
+    {
+     "seed": 20613106,
+     "edge": "birch>teal",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 0,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "alternate_assertion_path"
+    },
+    {
+     "seed": 20613106,
+     "edge": "cedar>indigo",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 27,
+     "assertion_sources": {
+      "workflow_concept": 1.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613106,
+     "edge": "teal>birch",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 0,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "alternate_assertion_path"
+    },
+    {
+     "seed": 20613106,
+     "edge": "teal>indigo",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 37,
+     "assertion_sources": {
+      "loop_candidate": 7.0
+     },
+     "category": "identity_mismatch"
+    },
+    {
+     "seed": 20613106,
+     "edge": "willow>teal",
+     "direct_served_windows": 0,
+     "reverse_served_windows": 7,
+     "assertion_sources": {
+      "loop_candidate": 1.0
+     },
+     "category": "identity_mismatch"
+    }
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "seed": 20613101,
+   "edge": "verdant>ochre",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 77,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613102,
+   "edge": "cedar>indigo",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 27,
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613102,
+   "edge": "crimson>indigo",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 30,
+   "assertion_sources": {
+    "loop_candidate": 2.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613102,
+   "edge": "maple>amber",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 1,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613102,
+   "edge": "maple>indigo",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 12,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613102,
+   "edge": "willow>maple",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 4,
+   "assertion_sources": {
+    "loop_candidate": 2.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613103,
+   "edge": "sable>teal",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 13,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "birch>olive",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 19,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "birch>verdant",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 35,
+   "assertion_sources": {
+    "loop_candidate": 4.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "teal>cedar",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 5,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "teal>olive",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 16,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "teal>umber",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 50,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "teal>verdant",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 35,
+   "assertion_sources": {
+    "loop_candidate": 7.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "teal>yarrow",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 16,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613104,
+   "edge": "willow>teal",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 1,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "cedar>willow",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 51,
+   "assertion_sources": {
+    "loop_candidate": 2.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "indigo>willow",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 38,
+   "assertion_sources": {
+    "loop_candidate": 1.0,
+    "workflow_concept": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "olive>amber",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 1,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "olive>teal",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 77,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "slate>olive",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 7,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613105,
+   "edge": "slate>umber",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 1,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613106,
+   "edge": "birch>teal",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 0,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "alternate_assertion_path"
+  },
+  {
+   "seed": 20613106,
+   "edge": "cedar>indigo",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 27,
+   "assertion_sources": {
+    "workflow_concept": 1.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613106,
+   "edge": "teal>birch",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 0,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "alternate_assertion_path"
+  },
+  {
+   "seed": 20613106,
+   "edge": "teal>indigo",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 37,
+   "assertion_sources": {
+    "loop_candidate": 7.0
+   },
+   "category": "identity_mismatch"
+  },
+  {
+   "seed": 20613106,
+   "edge": "willow>teal",
+   "direct_served_windows": 0,
+   "reverse_served_windows": 7,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "category": "identity_mismatch"
+  }
+ ],
+ "summary": {
+  "asserted_world_edges": 218,
+  "served_world_edges": 460,
+  "never_served_asserted": 26,
+  "identity_mismatch": 24,
+  "alternate_assertion_path": 2,
+  "assertion_without_service": 0,
+  "recording_gap": 0,
+  "identity_share": 0.923077,
+  "wilson_95": [
+   0.758584,
+   0.978645
+  ],
+  "original_identity": 18,
+  "original_alternate": 8,
+  "original_edges": 26,
+  "original_share": 0.692308,
+  "criteria": {
+   "R1_direction": true,
+   "R2_original_share_in_interval": false,
+   "R3_both_classes_present": true,
+   "wilson_95": [
+    0.758584,
+    0.978645
+   ],
+   "n": 26,
+   "identity_share": 0.923077
+  },
+  "verdict": "DIRECTIONAL ONLY"
+ },
+ "not_evidence": "A fresh-seed diagnostic of one provenance split. It is not a capability, retention, transfer or engine-effect claim, and it does not show whether serving the direct edges would change A_W.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

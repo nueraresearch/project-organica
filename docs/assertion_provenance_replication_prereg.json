@@ -1,0 +1,71 @@
+{
+  "prereg": "ASSERTION-PROVENANCE-REPLICATION-1",
+  "kind": "assertion_provenance_replication_prereg",
+  "status": "FROZEN, RUN",
+  "frozen_on": "2026-11-11",
+  "question": "Does the 18 identity-mismatch / 8 alternate-path provenance split replicate on a fresh six-seed block?",
+  "reference": {
+    "source": "docs/assertion_provenance.json",
+    "edges": 26,
+    "identity_mismatch": 18,
+    "alternate_assertion_path": 8,
+    "identity_share": 0.6923076923076923
+  },
+  "design": {
+    "seeds": [
+      20613101,
+      20613102,
+      20613103,
+      20613104,
+      20613105,
+      20613106
+    ],
+    "cells": 6,
+    "cycles": 120,
+    "cap": 40,
+    "world": "generate_compositional_world(seed=, cycles=120), PHASE_ACQUISITION schedule",
+    "population": "asserted world edges with zero direct served windows",
+    "classifier": "benchmarks.assertion_provenance.classify",
+    "recording_gap_testable": false,
+    "recording_gap_note": "A single replay supplies both the direct service count and the recorded service count, so the recording-gap category is zero by construction; this block tests the orientation split, not recording fidelity."
+  },
+  "endpoint": {
+    "name": "identity share among never-served asserted world edges",
+    "numerator": "identity_mismatch",
+    "denominator": "identity_mismatch + alternate_assertion_path",
+    "interval": "95% Wilson score interval",
+    "original_share": 0.6923076923076923
+  },
+  "criteria": [
+    {
+      "id": "R1",
+      "name": "direction",
+      "test": "identity_mismatch > alternate_assertion_path"
+    },
+    {
+      "id": "R2",
+      "name": "magnitude compatibility",
+      "test": "the 95% Wilson interval for the fresh identity share includes 18/26 = 0.6923076923076923"
+    },
+    {
+      "id": "R3",
+      "name": "both classes present",
+      "test": "identity_mismatch > 0 and alternate_assertion_path > 0"
+    }
+  ],
+  "verdicts": {
+    "REPLICATED": "R1, R2 and R3 all pass.",
+    "DIRECTIONAL ONLY": "R1 and R3 pass, but the fresh 95% interval excludes the original share.",
+    "NOT REPLICATED": "R1 or R3 fails, or the block is measurable but does not reproduce the split.",
+    "VOID": "No never-served asserted edge is available, or the seed block is not fresh."
+  },
+  "engine": {
+    "version": "0.15.0",
+    "cap": 40,
+    "edit": "none"
+  },
+  "result": "docs/assertion_provenance_replication.json",
+  "completed_on": "2026-11-11",
+  "verdict": "DIRECTIONAL ONLY",
+  "not_evidence": "A fresh-seed diagnostic of one provenance split. It is not a capability, retention, transfer or engine-effect claim, and it does not show whether serving the direct edges would change A_W."
+}

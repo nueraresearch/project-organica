@@ -96,6 +96,29 @@ of the readout**, not a mechanism: it does not show why loop/dream structures ca
 pairs, whether serving them would change `A_W`, or whether the split holds on another world
 family. See `docs/ASSERTION-PROVENANCE.md` and Q054.
 
+**Carrier traced (2026-11-11).** A second replay on the same six Q4 seeds starts at the
+carrier's candidate formation. All 26 rows have a loop carrier: **61** loop-candidate
+occurrences, **58** 3-cycles and **3** 2-cycles. One row also has a dream co-carrier; no row
+is dream-only. Every loop path contains the pair and `structure_edges` adds both directions,
+so the 18 reverse-served rows and the 8 alternate rows reach the assertion by the same
+symmetric loop readout. The direct edge is present in the temporal graph in every row at
+count **23-47**, above the prediction floor, although **0** rows have a final prediction
+source; the trace does not decompose the intervening rank/cap selection. First carrier
+formations span cycles **37-117** (median **78.5**), and the loop builder requires a
+minimum temporal edge count of **5**. This explains the loop/dream carrier path, not whether
+serving the direct edge would change `A_W` or whether the split holds on another world
+family. See `docs/ASSERTION-CARRIER-TRACE.md` and Q054.
+
+**Fresh-block replication (2026-11-11).** A pre-registered six-seed block
+(`20613101-20613106`) found **26** asserted-but-never-served edges: **24 identity
+mismatches** and **2 alternate paths**, with **0** prediction residuals. The fresh
+identity share **0.923** (95% Wilson **[0.759, 0.979]**) excludes the original
+**0.692**, so the pre-specified verdict is **`DIRECTIONAL ONLY`**: the reverse
+orientation remains the dominant path, but the **18/8** magnitude did not replicate.
+Both alternate paths occur on one seed (`20613106`); five of six seeds have none.
+The original 18/8 classification remains correct for its block. This does not show
+whether service would change `A_W`. See `docs/ASSERTION-PROVENANCE-REPLICATION.md`.
+
 ## 3. Presence band: class-level result, separate named-edge ledger
 
 **BAND-5 is `CONFIRMED` at class level.** Six fresh seeds (20612601-20612606), twelve cells
@@ -125,10 +148,13 @@ those pairs.
 
 ## 5. Priority for information gain — judgment, not evidence
 
-1. **Assertion provenance — traced 2026-11-11.** The 26 edges are separated into 0 recording
+1. **Top information-gain priority — assertion provenance — carrier traced 2026-11-11.** The 26 edges are separated into 0 recording
    gaps, 18 reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
-   prediction-only residuals. The next question is why the loop/dream structures carry
-   those pairs, not how the readout's provenance divides.
+   prediction-only residuals. The carrier trace now shows the loop/dream formation path:
+   61 loop candidates and one dream co-carrier, with all direct temporal counts above the
+   prediction floor. The fresh-block replication is **directional only** (24 identity /
+   2 alternate, original 18/8 magnitude outside the fresh interval). The next question
+   is whether serving the direct edge would change `A_W`.
 2. **The 1-4 count distribution — measured 2026-11-11.** It is the support of 5-8-event
    groups; 5-6 requires a merged group longer than 8. The next question is whether a
    nominal 8-event cycle can be made to carry more repetition, not another floor.

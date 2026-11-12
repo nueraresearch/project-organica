@@ -14,9 +14,9 @@
     "reopened_in_prose": 17
   },
   "evidence": {
-    "json_refs": 57,
-    "named_build": 7,
-    "unnamed_build": 50,
+    "json_refs": 60,
+    "named_build": 9,
+    "unnamed_build": 51,
     "missing_paths": [],
     "missing_path_count": 0,
     "distinct_builds": [
@@ -780,9 +780,9 @@
         "0.15.0"
       ],
       "builds_include_pin": true,
-      "evidence": 8,
-      "json_evidence": 4,
-      "named_build": 3,
+      "evidence": 13,
+      "json_evidence": 7,
+      "named_build": 5,
       "missing": [],
       "reopened_in_prose": false,
       "answered": false,
