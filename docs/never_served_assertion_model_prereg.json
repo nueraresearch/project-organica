@@ -1,0 +1,78 @@
+{
+ "prereg": "NEVER-SERVED-ASSERTION-MODEL-1",
+ "status": "FROZEN, FIT",
+ "frozen_on": "2026-11-12",
+ "question": "Across every never-served world edge in the six Q4 seeds, what is the association between final assertion and (a) ever forming a reported loop, (b) the edge's best full-universe prediction rank, and (c) its direct temporal count, with seed held fixed?",
+ "population": {
+  "definition": "Every world edge with served=false in .scratch/carrier_census.json: 180 edges over seeds 20611601-20611606, of which 26 are asserted.",
+  "unit": "one edge within one seed",
+  "outcome": "asserted=true in the final structure, from the carrier census",
+  "complete_case": "An edge must have a finite minimum full-universe rank; one count-4, never-asserted, no-loop edge has no rank and is excluded. The fit therefore uses 179 edges and 26 events.",
+  "no_imputation": "Missing rank is not imputed; the excluded row is named in the result."
+ },
+ "predictors": {
+  "loop": "Binary ever_loop from the census: at least one reported loop candidate contains the edge in either orientation in any of the 120 cycles.",
+  "rank": "Minimum full-universe prediction rank across all 120 cycles, measured at cap 40 with the repaired observer. Lower is better. Analyzed as log2(min_rank), then standardized over the 179 complete cases.",
+  "count": "Direct temporal count at the end of the run, from the census; standardized over the 179 complete cases.",
+  "seed": "Six-level fixed effect; treatment coded with 20611601 as reference.",
+  "interactions": "None.",
+  "selection": "No variable selection; all three predictors and seed enter once."
+ },
+ "model": {
+  "family": "binary logistic regression",
+  "formula": "logit P(asserted) = b0 + b_loop*loop + b_rank*z(log2(min_rank)) + b_count*z(direct_count) + seed fixed effects",
+  "estimator": "Firth penalized likelihood (Jeffreys prior), because loop is quasi-separated: all 26 events have loop=1 and all 118 complete-case loop=0 edges are non-events.",
+  "why_firth": "The ordinary MLE for the loop coefficient diverges under this zero cell. Firth returns a finite estimate; it does not turn the zero cell into evidence of an infinite effect.",
+  "penalty": "0.5 * log|X' W X|, with W = diag(p*(1-p)).",
+  "standardization": "Complete-case mean and population SD; no outcome-based scaling.",
+  "convergence": "max absolute Newton step < 1e-8, at most 200 iterations."
+ },
+ "inference": {
+  "primary": "Firth Wald 95% confidence intervals for the three reported coefficients, from the inverse information at the penalized estimate.",
+  "odds_ratios": "exp(beta): loop is a 0/1 contrast; rank and count are per 1 SD. A rank odds ratio below 1 means a worse (larger) rank is associated with lower assertion.",
+  "marginal_effects": "Average marginal effects on the probability scale, computed at the observed covariates: loop 1 vs 0; rank +1 SD; count +1 SD.",
+  "sensitivity": "Leave-one-seed-out refits with the same full-sample standardization; the range of each coefficient is reported. No cluster-robust SE claim is made.",
+  "alpha": 0.05,
+  "multiplicity": "One model, three reported coefficients; intervals are unadjusted.",
+  "no_verdict": "The model is descriptive. No coefficient-significance rule selects a verdict, and no causal claim is licensed."
+ },
+ "expected_directions": {
+  "loop": "positive association; the sample has no asserted edge without a loop",
+  "rank": "negative coefficient for log2 rank; a worse rank should reduce assertion",
+  "count": "positive association; more direct transitions should increase assertion"
+ },
+ "gates": {
+  "M1_population": "180 never-served edges, 26 asserted; no duplicate seed-edge rows",
+  "M2_rank_coverage": "at least 95% of never-served edges have a finite minimum rank",
+  "M3_label_replay": "the rank replay reproduces every census asserted and ever_loop label",
+  "M4_loop_variation": "both loop levels are present; the zero cell is disclosed, not hidden",
+  "M5_convergence": "the Firth fit converges with finite coefficients and information matrix",
+  "M6_complete_predictors": "every fitted row has loop, rank and count; no silent row loss",
+  "M7_seed_levels": "all six seeds contribute rows and the seed fixed effect is full rank"
+ },
+ "decision": {
+  "kind": "descriptive fit, not a verdict",
+  "reading": "Report the three adjusted odds ratios, their intervals, the average marginal effects, the separation table, and the leave-one-seed-out ranges. A coefficient whose interval includes 1 is not read as an association.",
+  "labels": {
+   "fit": "FIT",
+   "void": "VOID: a gate failed; no coefficient is read"
+  }
+ },
+ "data_sources": {
+  "census": ".scratch/carrier_census.json",
+  "ranks": ".scratch/never_served_ranks.json",
+  "rank_capture": "A fresh replay of the same six Q4 seeds, 120 cycles, cap 40, using the repaired observer's full-universe call; each seed's asserted fingerprint and count match docs/assertion_provenance.json."
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 40,
+  "cycles": 120,
+  "edit": "none"
+ },
+ "not_evidence": "An observational model on one synthetic world family and six seeds, with 26 events. Firth stabilizes a separated coefficient; it does not establish causation, capability, retention, transfer, or a general engine property.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__",
+ "result": "docs/never_served_assertion_model.json"
+}

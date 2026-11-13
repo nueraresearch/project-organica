@@ -482,6 +482,22 @@
         700001011,
         700001012
       ],
+      "docs/core_band_admission.json": [
+        20617101,
+        20617102,
+        20617103,
+        20617104,
+        20617105,
+        20617106
+      ],
+      "docs/core_band_admission_prereg.json": [
+        20617101,
+        20617102,
+        20617103,
+        20617104,
+        20617105,
+        20617106
+      ],
       "docs/cross_context_reuse_benchmark.json": [
         20261101,
         20261102,
@@ -2394,6 +2410,113 @@
         20302904,
         20302905
       ],
+      "docs/loop_only_assertion_model.json": [
+        20616101,
+        20616102,
+        20616103,
+        20616104,
+        20616105,
+        20616106,
+        20616107,
+        20616108,
+        20616109,
+        20616110,
+        20616111,
+        20616112
+      ],
+      "docs/loop_only_assertion_model_prereg.json": [
+        20616101,
+        20616102,
+        20616103,
+        20616104,
+        20616105,
+        20616106,
+        20616107,
+        20616108,
+        20616109,
+        20616110,
+        20616111,
+        20616112
+      ],
+      "docs/loop_persistence_assertion_model.json": [
+        20616101,
+        20616102,
+        20616103,
+        20616104,
+        20616105,
+        20616106,
+        20616107,
+        20616108,
+        20616109,
+        20616110,
+        20616111,
+        20616112
+      ],
+      "docs/matched_carrier_replication_2.json": [
+        20261112,
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606,
+        20615101,
+        20615102,
+        20615103,
+        20615104,
+        20615105,
+        20615106,
+        20615201,
+        20615202,
+        20615203,
+        20615204,
+        20615205,
+        20615206
+      ],
+      "docs/matched_carrier_replication_2_prereg.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606,
+        20615101,
+        20615102,
+        20615103,
+        20615104,
+        20615105,
+        20615106,
+        20615201,
+        20615202,
+        20615203,
+        20615204,
+        20615205,
+        20615206
+      ],
+      "docs/never_served_assertion_model.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
+      "docs/never_served_assertion_model_replication.json": [
+        20613101,
+        20613102,
+        20613103,
+        20613104,
+        20613105,
+        20613106
+      ],
+      "docs/never_served_assertion_model_replication_prereg.json": [
+        20613101,
+        20613102,
+        20613103,
+        20613104,
+        20613105,
+        20613106
+      ],
       "docs/operating_point.json": [
         20261023,
         20302401,
@@ -2624,6 +2747,14 @@
         20611904,
         20611905,
         20611906
+      ],
+      "docs/presence_cap_ladder_prereg.json": [
+        20614101,
+        20614102,
+        20614103,
+        20614104,
+        20614105,
+        20614106
       ],
       "docs/presence_cap_prereg.json": [
         20261100,
@@ -2888,6 +3019,88 @@
         20261219,
         20261220
       ],
+      "docs/retention_entry_transition_prereg.json": [
+        20620101,
+        20620102,
+        20620103,
+        20620104,
+        20620105,
+        20620106,
+        20620107,
+        20620108,
+        20620109,
+        20620110,
+        20620111,
+        20620112,
+        20620113,
+        20620114,
+        20620115,
+        20620116,
+        20620117,
+        20620118,
+        20620119,
+        20620120,
+        20620121,
+        20620122,
+        20620123,
+        20620124
+      ],
+      "docs/retention_formation_anchored.json": [
+        20619101,
+        20619102,
+        20619103,
+        20619104,
+        20619105,
+        20619106,
+        20619107,
+        20619108,
+        20619109,
+        20619110,
+        20619111,
+        20619112
+      ],
+      "docs/retention_formation_anchored_prereg.json": [
+        20619101,
+        20619102,
+        20619103,
+        20619104,
+        20619105,
+        20619106,
+        20619107,
+        20619108,
+        20619109,
+        20619110,
+        20619111,
+        20619112
+      ],
+      "docs/retention_incremental.json": [
+        20618101,
+        20618102,
+        20618103,
+        20618104,
+        20618105,
+        20618106,
+        20618107,
+        20618108,
+        20618109,
+        20618110,
+        20618111,
+        20618112
+      ],
+      "docs/retention_incremental_prereg.json": [
+        20618101,
+        20618102,
+        20618103,
+        20618104,
+        20618105,
+        20618106,
+        20618107,
+        20618108,
+        20618109,
+        20618110,
+        20618111,
+        20618112
+      ],
       "docs/reusable_knowledge_calibration.json": [
         20261201,
         20261202,
@@ -2975,6 +3188,14 @@
         20270505,
         20270506
       ],
+      "docs/schema_priority_gate.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
+      ],
       "docs/seed_noise.json": [
         20261023,
         20261024,
@@ -2986,6 +3207,14 @@
         20270503,
         20270504,
         20270505
+      ],
+      "docs/source_diversified_top20.json": [
+        20613101,
+        20613102,
+        20613103,
+        20613104,
+        20613105,
+        20613106
       ],
       "docs/stage_b_runner_design_block.json": [
         20261023,
@@ -3010,6 +3239,14 @@
       ],
       "docs/store_time_role_durability.json": [
         20261101
+      ],
+      "docs/stored_field_tiebreak.json": [
+        20611601,
+        20611602,
+        20611603,
+        20611604,
+        20611605,
+        20611606
       ],
       "docs/strength_assignment_design_audit.json": [
         1013,
@@ -3195,7 +3432,7 @@
         20261130
       ]
     },
-    "consumed_total": 1560,
+    "consumed_total": 1644,
     "candidate_block": [
       700000001,
       700000724
@@ -3231,7 +3468,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 190,
+    "disjoint_proved_against": 209,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory. A pre-run table marked not_a_result is skipped: it reserves its own block's design cells and has consumed no seed.",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

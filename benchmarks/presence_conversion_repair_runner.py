@@ -233,7 +233,8 @@ def adjudicate(parts: dict) -> dict:
     # The block's own records are not consumers: freshness was proved before the result was
     # written, and the prereg and result name the block by definition.
     allow = (repair.PREREG, repair.DOC, repair.N3_ARTIFACT, repair.UNEXPLAINED_ARTIFACT,
-             repair.PROBE_ARTIFACT, repair.TURNOVER_ARTIFACT, ARTIFACT)
+             repair.ASSERTION_ARTIFACT, repair.CARRIER_ARTIFACT, repair.PROBE_ARTIFACT,
+             repair.TURNOVER_ARTIFACT, ARTIFACT)
     collisions = cap.seed_collisions(seeds + [body["bootstrap"]], allow=allow)
     world_diff = [seed for seed in seeds if
                   load(seed, "off")["world_digest"] != load(seed, "on")["world_digest"]]

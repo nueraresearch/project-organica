@@ -2,6 +2,8 @@
 
 **Status:** durable synthesis, **not a result**. Last updated 2026-11-11.
 
+**Companion:** [`docs/RESEARCH-HIERARCHY.md`](RESEARCH-HIERARCHY.md) carries the block-specific hierarchy and the loop-population counts; this ledger keeps the earlier scope record.
+
 **Authority.** The cited artifacts and the research registry are authoritative. If this page
 disagrees with either, the artifact/registry wins. This page exists so the current claim
 scope does not depend on chat history, a context window or memory.
@@ -143,21 +145,23 @@ carry / decay
 The first links have evidence, but this is not a necessary single path. The 26 edges now have
 a provenance separation: none is a recording gap, 18 are reverse-orientation mismatches and
 8 are alternate loop/dream paths. The map is a way to place claims, not a claim that a
-unified theory already exists; the remaining question is why loop/dream structures assert
-those pairs.
+unified theory already exists; the remaining question is which non-prediction structures
+carry those pairs, how those carriers form and are selected, and why the fresh block adds a
+workflow-only carrier.
 
 ## 5. Priority for information gain — judgment, not evidence
 
-1. **Top information-gain priority — assertion provenance — carrier traced 2026-11-11.** The 26 edges are separated into 0 recording
-   gaps, 18 reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
-   prediction-only residuals. The carrier trace now shows the loop/dream formation path:
-   61 loop candidates and one dream co-carrier, with all direct temporal counts above the
-   prediction floor. The fresh-block replication is **directional only** (24 identity /
-   2 alternate, original 18/8 magnitude outside the fresh interval). The next question
-   is whether serving the direct edge would change `A_W`.
-2. **The 1-4 count distribution — measured 2026-11-11.** It is the support of 5-8-event
-   groups; 5-6 requires a merged group longer than 8. The next question is whether a
-   nominal 8-event cycle can be made to carry more repetition, not another floor.
+1. **Top information-gain priority — structural carrier formation — updated 2026-11-12.** The 26 edges are not
+   prediction-only residuals: 0 recording gaps, 18 reverse-orientation identity mismatches
+   and 8 alternate loop/dream paths on the original block, with all 26 loop-carried there.
+   The fresh block is **directional only** (24 identity / 2 alternate) and has 25 loop
+   carriers plus one workflow-only carrier. The next questions are what forms and selects
+   those carriers, why both fresh alternate paths concentrate on seed `20613106`, and why
+   the direct edge never becomes a final prediction source. This does not establish that
+   loops cause assertion or that serving the direct edge would change `A_W`.
+2. **Short-group topology — measured 2026-11-11.** The 1-4 count distribution is the support
+   of 5-8-event groups; 5-6 requires a merged group longer than 8. The next question is why
+   reset groups stop at 4-8 events and only longer merged groups reach 5-6, not another floor.
 3. **BAND-2**: keep the governance block live, but it is less likely than the first two to
    produce a large jump in understanding.
 

@@ -1106,16 +1106,29 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**190** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 190 and ("**%d** artifacts" % proved) in entries,
+    add("**209** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 209 and ("**%d** artifacts" % proved) in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught; "
         "the count moved 169 -> 173 when the three conversion blocks wrote their run "
         "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
         "artifact landed, to 180 when the band run artifact landed, to 182 when the T1b "
         "record and run artifact landed, to 183 when BAND-2's record landed, and to 184 "
         "when PERSISTENCE-MECHANISM-1's frozen record landed, to 185 when "
-        "BAND-3's frozen record landed, and to 190 when the fresh-block provenance "
-        "replication landed, which the changelog records")
+        "BAND-3's frozen record landed, to 190 when the fresh-block provenance "
+        "replication landed, to 192 when the never-served assertion model's "
+        "preregistration and result landed, to 194 when the matched carrier "
+        "replication's preregistration and result landed, to 196 when the "
+        "never-served assertion model replication's preregistration and result "
+        "landed, to 198 when the loop-only assertion model's preregistration "
+        "and result landed, to 199 when the loop persistence extension landed, "
+        "to 200 when the schema-priority gate landed, to 201 when the "
+        "stored-field tie-break landed, to 202 when the source-diversified "
+        "top-20 diagnostic landed, and to 204 when the core+band block registered "
+        "and ran, and to 205 when the retention preregistration landed, to 206 when the "
+        "retention run result landed, to 207 when the formation-anchored "
+        "preregistration landed, and to 208 when the formation-anchored run "
+        "result landed, and to 209 when the entry-transition preregistration "
+        "landed, which the changelog records")
     overlap = _find_key(stage_b, "overlap_with_consumed")
     add("0", "docs/stage_b_protocol.json overlap_with_consumed",
         overlap, overlap == [], "the candidate block does not intersect the consumed seeds")
@@ -1166,7 +1179,7 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**190** artifacts", "**180** artifacts")
+    stage_b_drift = entries.replace("**209** artifacts", "**180** artifacts")
     assert "**180** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
     assert stage_b_failures, "the control did not fire"

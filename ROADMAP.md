@@ -1,12 +1,17 @@
 # Project Organica: Research Roadmap
 
-> **Current information-gain priority (2026-11-11): assertion provenance.** The 26
-> asserted-but-never-served edges are classified per edge — 0 recording gaps, 18
-> reverse-orientation identity mismatches, 8 alternate loop/dream paths and 0
-> prediction-only residuals — and the open question is why the loop/dream structures carry
-> those pairs. This is a planning pointer only; it changes no verdict, gate, seed or
-> artifact. See [`docs/FINDINGS-LEDGER.md`](docs/FINDINGS-LEDGER.md) §5 and
-> [`docs/ASSERTION-PROVENANCE.md`](docs/ASSERTION-PROVENANCE.md).
+> **Current information-gain priority (2026-11-12): structural carrier formation.** None
+> of the 26 never-served asserted edges is a prediction-only residual. On the original block
+> all 26 have a loop carrier; the fresh block has **25** loop carriers and **1** workflow-only
+> carrier, with **24 identity / 2 alternate** and a `DIRECTIONAL ONLY` replication verdict.
+> The open question is what forms and selects these carriers, including why both fresh
+> alternate paths concentrate on seed `20613106`. **Second:** short-group topology — why
+> reset groups stop at 4–8 events and only longer merged groups reach 5–6. **Third:** BAND-2,
+> the governance/evidence gap. This is a planning pointer only; it changes no verdict, gate,
+> seed or artifact. See [`docs/FINDINGS-LEDGER.md`](docs/FINDINGS-LEDGER.md) §5,
+> [`docs/ASSERTION-CARRIER-TRACE.md`](docs/ASSERTION-CARRIER-TRACE.md),
+> [`docs/ASSERTION-PROVENANCE-REPLICATION.md`](docs/ASSERTION-PROVENANCE-REPLICATION.md) and
+> [`docs/WITHIN-CYCLE-DISTRIBUTION.md`](docs/WITHIN-CYCLE-DISTRIBUTION.md).
 >
 > ### Superseded for planning purposes — 2026-10-26 · updated 2026-10-29
 >

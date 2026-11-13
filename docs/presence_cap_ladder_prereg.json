@@ -1,0 +1,250 @@
+{
+ "prereg": "PRESENCE-CAP-LADDER-1",
+ "status": "FROZEN, NOT RUN",
+ "frozen_on": "2026-11-12",
+ "no_cells_run": true,
+ "question": "On the shipped 0.15.0 build, with six fresh worlds, does a transition budget of 40 recover the measured rank-21-40 band without a false-admission rate more than 10 percentage points above the cap-40 baseline, and at which lower rung does recovery begin?",
+ "program": {
+  "draft": "docs/DECISION-ADMISSION-STEP.md",
+  "relationship": "BAND-5 established the endpoints on fresh worlds: 0 of 89 measured rank-21-40 edges entered service at cap 40 and 89 of 89 did at cap 112. This block is the dose-response between those endpoints. It does not reuse BAND-5 cells, band identities or verdicts."
+ },
+ "reconciliation": {
+  "endpoints_known": "BAND-5 measured 0/89 band service at cap 40 and 89/89 at cap 112 on seeds 20612601-20612606. Those endpoints are prior evidence, not cells of this block.",
+  "gap": "Caps 56 and 80 are the untested rungs. Cap 80 is the smallest rung whose nominal 40-transition floor reaches rank 40; cap 56 reaches only rank 28.",
+  "allocation": "The shipped split gives half the cap to entropy-ranked transitions and half to count-ranked cooccurrences. The engine may backfill unused cooccurrence seats with further transitions, so actual transition counts are recorded per window rather than assumed.",
+  "false_admission": "A higher cap can recover the band by serving more rows. The block therefore charges every served row that is not a present world edge, not only rows outside the named band."
+ },
+ "design": {
+  "arms": [
+   "cap 40",
+   "cap 56",
+   "cap 80",
+   "cap 112"
+  ],
+  "caps": [
+   40,
+   56,
+   80,
+   112
+  ],
+  "rungs": [
+   {
+    "cap": 40,
+    "transition_floor": 20,
+    "cooccurrence_cap": 20
+   },
+   {
+    "cap": 56,
+    "transition_floor": 28,
+    "cooccurrence_cap": 28
+   },
+   {
+    "cap": 80,
+    "transition_floor": 40,
+    "cooccurrence_cap": 40
+   },
+   {
+    "cap": 112,
+    "transition_floor": 56,
+    "cooccurrence_cap": 56
+   }
+  ],
+  "primary_cap": 80,
+  "shipped_cap": 112,
+  "seeds": [
+   20614101,
+   20614102,
+   20614103,
+   20614104,
+   20614105,
+   20614106
+  ],
+  "seed_clusters": 6,
+  "cycles": 120,
+  "cells": 24,
+  "cells_arithmetic": "4 caps x 6 seeds = 24 cells; one fresh-process determinism rerun at cap 80",
+  "variable": "SleepService.MAX_PREDICTIONS, set per cell",
+  "observer": "the repaired observer of PRESENCE-CONVERSION-2",
+  "world": "the PHASE_ACQUISITION compositional world at 120 cycles",
+  "pairing": "each seed's world and stimulus are identical at all four caps",
+  "freshness": "Six fresh seeds; seed_collisions is empty at freeze time.",
+  "reuse": "No prior block's cells, named band or verdict is reused; BAND-5 is cited only as prior evidence."
+ },
+ "band": {
+  "definition": "For each seed, every present transition at minimum cap-112 block rank 21-40; measured from the 112 universe and not filtered by service at any lower cap.",
+  "identity": "Each band edge is named by source>target and carries its minimum cap-112 rank; a missing rank is a ledger failure, not a zero.",
+  "expected_size": "Measured per seed; BAND-5 observed 11-19 edges per seed, and no fixed band size is assumed.",
+  "zero_band": "A zero band is a zero denominator and makes the block VOID."
+ },
+ "false_admission": {
+  "definition": "A served row whose source>target edge is not in the seed's present world transitions, where present = world edges intersected with the temporal rows retained at the end of the cell.",
+  "numerator": "served rows that are not present world transitions, summed over all cycles and windows",
+  "denominator": "all served rows, summed over all cycles and windows",
+  "unit": "computed per seed and pooled by summing rows, never by averaging per-cycle ratios",
+  "baseline_cap": 40,
+  "margin": 0.1,
+  "comparison": "Paired cap-80 minus cap-40 false-admission rate for each seed; the upper bound of a 10,000-resample seed-cluster bootstrap must be at or below +0.10.",
+  "why_10pp": "The margin is pre-set, not fitted. The earlier cap-40 ladder recorded a world-row share of 0.239-0.278, so the non-world baseline is roughly 0.72-0.76; +10 pp bounds the worsening to about one-eighth of that baseline rather than permitting a free precision collapse.",
+  "not_the_same_as": "A served world edge outside rank 21-40 is collateral service, not a false admission; it is reported separately."
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 112,
+  "edit": "none"
+ },
+ "gates": {
+  "L1_build": "one shipped 0.15.0 build across all cells; only MAX_PREDICTIONS differs",
+  "L2_world": "each seed has the same world digest and present fingerprint at all four caps",
+  "L3_band_identity": "each band edge is a present transition at rank 21-40 with a recorded rank and source>target identity",
+  "L4_control_40": "cap 40 serves no band edge and its full 40-row windows satisfy the 20-transition floor and the 20-cooccurrence cap",
+  "L5_allocation_law": "every full window has transitions + cooccurrences = cap, transitions >= cap//2, cooccurrences <= cap//2, with actual counts and relations recorded",
+  "L6_denominator": "every seed has a non-empty band, at least one served row, and every band edge reaches the ledger",
+  "L7_determinism": "a fresh-process rerun of seed 20614101 at cap 80 reproduces its windows and ledger",
+  "L8_seed_axis": "at least three distinct served-band sets across the six seeds",
+  "L9_false_ledger": "every served row is classified present or not-present, and no served row is unparsed or missing a rank where a transition rank is required"
+ },
+ "endpoints": {
+  "kind": "co-primary, independently falsifiable",
+  "primary_band_recovery": {
+   "cap": 80,
+   "metric": "measured band edges served at least once / measured band edges",
+   "bar": 0.9,
+   "pooled": "pooled numerator and denominator across the six seeds",
+   "per_seed": "reported; no seed is dropped",
+   "prediction": "0.85-1.00, with schema cycles the likely shortfall"
+  },
+  "co_primary_false_admission": {
+   "cap": 80,
+   "metric": "paired cap-80 minus cap-40 false-admission rate",
+   "non_inferiority_margin": 0.1,
+   "decision_rule": "upper 95% seed-cluster-bootstrap bound <= +0.10",
+   "per_seed": "reported with numerator and denominator"
+  },
+  "ceiling": {
+   "cap": 112,
+   "metric": "measured band edges served at least once / measured band edges",
+   "bar": 0.95,
+   "role": "ceiling control, not the primary rung",
+   "false_admission": {
+    "metric": "paired cap-112 minus cap-40 false-admission rate",
+    "margin": 0.1,
+    "decision_rule": "upper 95% seed-cluster-bootstrap bound <= +0.10"
+   }
+  },
+  "secondary": [
+   "cap-56 band recovery",
+   "cap-80 and cap-112 actual transition and cooccurrence counts",
+   "served world edges outside the band (collateral service)",
+   "monotonicity of band recovery across the four caps"
+  ]
+ },
+ "predictions": [
+  {
+   "id": "P1",
+   "cap": 40,
+   "prediction": "0.00 band recovery; the cap-40 control serves no rank-21-40 edge."
+  },
+  {
+   "id": "P2",
+   "cap": 56,
+   "prediction": "0.30-0.60 band recovery, because only ranks 21-28 are nominally reached."
+  },
+  {
+   "id": "P3",
+   "cap": 80,
+   "prediction": "0.85-1.00 band recovery; schema rows can push a few rank-40 edges past the 40-transition floor."
+  },
+  {
+   "id": "P4",
+   "cap": 112,
+   "prediction": "0.95-1.00 band recovery; BAND-5 observed 89/89 at this cap."
+  },
+  {
+   "id": "P5",
+   "cap": "all",
+   "prediction": "false-admission rate rises weakly with cap; the cap-80 paired upper bound stays at or below +0.10."
+  },
+  {
+   "id": "P6",
+   "cap": "all",
+   "prediction": "band recovery is nondecreasing across 40, 56, 80 and 112."
+  }
+ ],
+ "analysis": {
+  "primary": "Pooled and per-seed band recovery at cap 80; exact McNemar on the paired band-edge service indicator against cap 40, where the cap-40 control should leave every band edge unserved.",
+  "false_admission": "Per-seed false-admission rates with numerators and denominators; paired cap-80 minus cap-40 difference, plus the cap-112 minus cap-40 difference used by the ceiling branch; 10,000-resample seed-cluster bootstrap for each upper 95% bound. The seed is the resampling unit.",
+  "dose": "Report cap 56 and cap 112 recovery and the four-rung sequence. A monotonicity failure is reported as a failure, not smoothed.",
+  "multiplicity": "The cap-80 band and false-admission endpoints are co-primary; all other rungs and outcomes are secondary and labelled so.",
+  "missing_data": "No seed, cap or cycle is dropped; a missing cell makes the block VOID.",
+  "no_fitting": "The band definition, primary rung, margin and bars are frozen before any cell."
+ },
+ "decision_table": [
+  {
+   "condition": "L1-L4, L6 or L9 fails; a band is empty; or a required ledger row is missing",
+   "verdict": "VOID",
+   "reading": "the block did not produce a readable band, a valid control or a complete false-admission ledger",
+   "decision": "record VOID; fix the failed gate and register a new block; read no recovery"
+  },
+  {
+   "condition": "L5, L7 or L8 fails",
+   "verdict": "VOID",
+   "reading": "the allocation, determinism or seed-axis gate did not hold",
+   "decision": "record VOID; do not interpret a band rate from an unreadable ladder"
+  },
+  {
+   "condition": "gates pass and cap-112 band recovery is below 0.50",
+   "verdict": "NO RECOVERY",
+   "reading": "even the ceiling control does not recover the band on these worlds",
+   "decision": "the cap or transition budget is not the gate; next test candidate formation or the rank itself"
+  },
+  {
+   "condition": "gates pass and cap-112 band recovery is 0.50-0.90",
+   "verdict": "PARTIAL RECOVERY",
+   "reading": "the budget helps but does not recover the measured band uniformly",
+   "decision": "report the per-edge misses; do not adopt a cap; next test the residual rank or allocation rule"
+  },
+  {
+   "condition": "gates pass; cap-80 recovery is below 0.90; cap-112 recovery is at least 0.90 and its false-admission upper bound is at most +0.10",
+   "verdict": "RECOVERY AT 112 ONLY",
+   "reading": "80 is insufficient, while the shipped 112 budget recovers the band at acceptable false-admission cost",
+   "decision": "record the threshold; the owner may consider 112 as the operating rung, with the measured cost"
+  },
+  {
+   "condition": "gates pass; cap-80 recovery is at least 0.90; false-admission upper bound is above +0.10",
+   "verdict": "RECOVERY WITH COST",
+   "reading": "the band returns at 80, but the window pays more than the pre-set false-admission margin",
+   "decision": "do not adopt 80 on band recovery alone; report the trade-off and test a precision-preserving admission rule"
+  },
+  {
+   "condition": "gates pass; cap-80 recovery is at least 0.90; false-admission upper bound is at most +0.10; cap-112 recovery is at least 0.95",
+   "verdict": "CONFIRMED",
+   "reading": "the 80 rung recovers the measured 21-40 band without excessive false admissions, and 112 remains the ceiling control",
+   "decision": "record the confirmation; the owner decides any engine or operating change; no capability claim"
+  }
+ ],
+ "authorisation": {
+  "required": true,
+  "granted": false,
+  "granted_on": null,
+  "document": null,
+  "quote": null,
+  "note": "No grant is recorded and no authorisation request is made by this record. The runner and every cell refuse while granted is false."
+ },
+ "runner": {
+  "built": true,
+  "planned_module": "benchmarks.presence_cap_ladder_arm",
+  "cells_run": 0,
+  "why": "The cell runner is built behind the grant check. It opens no database and runs no cell while granted is false."
+ },
+ "cost": {
+  "cells": 24,
+  "witness_cells": "one determinism rerun at cap 80",
+  "cycles": 120,
+  "runtime": "not claimed; no cell has run"
+ },
+ "not_evidence": "A preregistration, not a result. It measures band service and false admissions on one synthetic world family. It does not establish capability, retention, transfer, or a general operating cap.",
+ "amendments": [],
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711"
+}

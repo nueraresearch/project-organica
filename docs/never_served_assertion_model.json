@@ -1,0 +1,244 @@
+{
+ "kind": "never_served_assertion_model",
+ "prereg": "NEVER-SERVED-ASSERTION-MODEL-1",
+ "status": "FIT",
+ "not_a_result": false,
+ "n_population": 180,
+ "n_complete": 179,
+ "n_events": 26,
+ "excluded": [
+  {
+   "seed": 20611601,
+   "edge": "sable>ochre",
+   "direct_count": 4,
+   "reason": "no finite full-universe rank"
+  }
+ ],
+ "separation": {
+  "loop_1_asserted": 26,
+  "loop_1_not": 35,
+  "loop_0_asserted": 0,
+  "loop_0_not": 118
+ },
+ "standardization": {
+  "rank_log2_mean": 5.732592001376272,
+  "rank_log2_sd": 0.7911947371345073,
+  "count_mean": 25.0,
+  "count_sd": 10.045705605746091
+ },
+ "coefficients": [
+  {
+   "name": "intercept",
+   "beta": -5.368240854029992,
+   "se": 1.3811232786972791,
+   "z": -3.8868658119306287,
+   "p": 0.00010154685111603368,
+   "odds_ratio": 0.004662325812170911,
+   "ci95": [
+    0.00031116328902188535,
+    0.06985811869762777
+   ]
+  },
+  {
+   "name": "loop",
+   "beta": 4.318872933399502,
+   "se": 1.236206314035233,
+   "z": 3.4936506021408418,
+   "p": 0.00047646415613615507,
+   "odds_ratio": 75.10393343767421,
+   "ci95": [
+    6.658891840745417,
+    847.078005276501
+   ]
+  },
+  {
+   "name": "rank_log2_z",
+   "beta": 0.08981385898017458,
+   "se": 0.29582779685569927,
+   "z": 0.3036018248953953,
+   "p": 0.7614312611056502,
+   "odds_ratio": 1.093970631942736,
+   "ci95": [
+    0.6126276387467204,
+    1.9535059600012146
+   ]
+  },
+  {
+   "name": "count_z",
+   "beta": 0.6733569391483238,
+   "se": 0.41263210596074695,
+   "z": 1.6318578448483096,
+   "p": 0.102709436261537,
+   "odds_ratio": 1.9608085999240463,
+   "ci95": [
+    0.873377737781521,
+    4.402184987336926
+   ]
+  },
+  {
+   "name": "seed_20611602",
+   "beta": 0.3691961026002076,
+   "se": 0.9666993177070629,
+   "z": 0.3819141028007681,
+   "p": 0.7025250792688469,
+   "odds_ratio": 1.4465712522456704,
+   "ci95": [
+    0.21751232922129382,
+    9.620458735903009
+   ]
+  },
+  {
+   "name": "seed_20611603",
+   "beta": 0.6065522977683147,
+   "se": 0.8412771090493639,
+   "z": 0.7209898988618788,
+   "p": 0.47091572957929223,
+   "odds_ratio": 1.834097065063542,
+   "ci95": [
+    0.35263542821820937,
+    9.539347935265097
+   ]
+  },
+  {
+   "name": "seed_20611604",
+   "beta": 0.12179408808192035,
+   "se": 1.1390456313626942,
+   "z": 0.10692643448903125,
+   "p": 0.9148473417209493,
+   "odds_ratio": 1.1295214958952466,
+   "ci95": [
+    0.12115381696150246,
+    10.53057049036133
+   ]
+  },
+  {
+   "name": "seed_20611605",
+   "beta": -0.0067837894407645405,
+   "se": 1.0218466879855266,
+   "z": -0.006638754639541999,
+   "p": 0.994703079078768,
+   "odds_ratio": 0.9932391685155089,
+   "ci95": [
+    0.1340467719387578,
+    7.359550935878517
+   ]
+  },
+  {
+   "name": "seed_20611606",
+   "beta": 0.8241079812456137,
+   "se": 1.0439891834210504,
+   "z": 0.7893836395364676,
+   "p": 0.4298878151250253,
+   "odds_ratio": 2.2798461924648414,
+   "ci95": [
+    0.29461872432359315,
+    17.642119227926486
+   ]
+  }
+ ],
+ "average_marginal_effects": {
+  "loop": 0.3272254689628837,
+  "rank_per_sd": 0.007241371374032968,
+  "count_per_sd": 0.0553539010854617
+ },
+ "fit": {
+  "auc": 0.9253393665158371,
+  "brier": 0.07425882503273155,
+  "loglik_penalized": -34.32708376417011,
+  "iterations": 20,
+  "converged": true,
+  "max_abs_step": 2.748308959599008e-09
+ },
+ "calibration": [
+  {
+   "bin": 1,
+   "n": 35,
+   "mean_predicted": 0.002468297875087224,
+   "observed": 0.0
+  },
+  {
+   "bin": 2,
+   "n": 36,
+   "mean_predicted": 0.004231947898510732,
+   "observed": 0.0
+  },
+  {
+   "bin": 3,
+   "n": 36,
+   "mean_predicted": 0.007778907324774413,
+   "observed": 0.0
+  },
+  {
+   "bin": 4,
+   "n": 36,
+   "mean_predicted": 0.19959610897763191,
+   "observed": 0.16666666666666666
+  },
+  {
+   "bin": 5,
+   "n": 36,
+   "mean_predicted": 0.5415918066442371,
+   "observed": 0.5555555555555556
+  }
+ ],
+ "leave_one_seed_out": [
+  {
+   "held_out": 20611601,
+   "loop": 4.1216579516012075,
+   "rank": -0.1631870031450439,
+   "count": 0.9154203543366022
+  },
+  {
+   "held_out": 20611602,
+   "loop": 4.174762655422201,
+   "rank": 0.11284656300967472,
+   "count": 0.5126299315726817
+  },
+  {
+   "held_out": 20611603,
+   "loop": 4.015558768774472,
+   "rank": 0.20231154602514062,
+   "count": 0.7559705990568516
+  },
+  {
+   "held_out": 20611604,
+   "loop": 4.228284627450554,
+   "rank": 0.12031475054232339,
+   "count": 0.6836616102946957
+  },
+  {
+   "held_out": 20611605,
+   "loop": 4.176900350023103,
+   "rank": 0.13753512277203214,
+   "count": 0.6216055939717615
+  },
+  {
+   "held_out": 20611606,
+   "loop": 4.2704152954719765,
+   "rank": 0.0921400411948137,
+   "count": 0.5306737909786696
+  }
+ ],
+ "gates": {
+  "M1_population": true,
+  "M2_rank_coverage": true,
+  "M3_label_replay": true,
+  "M4_loop_variation": true,
+  "M5_convergence": true,
+  "M6_complete_predictors": true,
+  "M7_seed_levels": true
+ },
+ "engine": {
+  "version": "0.15.0",
+  "cap": 40,
+  "cycles": 120,
+  "edit": "none"
+ },
+ "not_evidence": "An observational model on one synthetic world family and six seeds, with 26 events. Firth stabilizes a separated coefficient; it does not establish causation, capability, retention, transfer, or a general engine property.",
+ "all_gates": true,
+ "verdict": "FIT",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}

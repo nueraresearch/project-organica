@@ -142,6 +142,7 @@ class RepairedObserverSleepService(SleepService):
         finally:
             self.MAX_PREDICTIONS = shipped
 
+        self.full_candidates = list(full)
         rows = record_universe(full, getattr(self, "_current_cooc", None))
         self.universe.append(rows)
         served_rows = [row for row in rows
