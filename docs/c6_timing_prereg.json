@@ -1,0 +1,76 @@
+{
+  "kind": "c6_timing_prereg",
+  "id": "C6-TIMING-1",
+  "status": "FROZEN",
+  "frozen_on": "2026-11-13",
+  "question": "Across a fresh six-seed block, does the non-carrier assertion readout Y_ind exist and does the K/Y_ind order vary in both directions?",
+  "design": {
+    "seeds": [
+      20621101,
+      20621102,
+      20621103,
+      20621104,
+      20621105,
+      20621106
+    ],
+    "cycles": 120,
+    "cap": 40,
+    "world": "generate_compositional_world(seed=, cycles=120), deterministic",
+    "acquisition": "PHASE_ACQUISITION schedule, source env_acq inside the acquisition window",
+    "arms": [
+      "off",
+      "on"
+    ],
+    "cells": 12,
+    "preflight_seed_excluded": 20611601,
+    "seed_collision_scan": "empty at freeze time for 20621101-20621106"
+  },
+  "readouts": {
+    "Y_full": "assertion from all candidate types",
+    "Y_ind": "assertion from all candidate types except loop_candidate and dream",
+    "K": "assertion from loop_candidate and dream only",
+    "ordering_classes": [
+      "K_BEFORE_Y_IND",
+      "Y_IND_BEFORE_K",
+      "SAME_CYCLE",
+      "NO_K",
+      "NO_Y_IND"
+    ]
+  },
+  "criteria": {
+    "min_per_order_per_seed": 10,
+    "min_seeds_with_both_orders": 5,
+    "require_N1_neutrality": true,
+    "require_N3_parity": true,
+    "require_engine_pin": true,
+    "no_optional_seeds": true,
+    "no_seed_replacement": true
+  },
+  "outcomes": {
+    "C6 ORDER VARIATION CONFIRMED": "N1 and N3 pass on all six seeds; every seed has at least 10 K_BEFORE_Y_IND and at least 10 Y_IND_BEFORE_K; both orders occur on at least 5 of 6 seeds.",
+    "C6 NOT SEPARATED": "N1 and N3 pass, but the per-order floor or the 5-of-6 coverage rule is not met.",
+    "C6 NOT MEASURABLE": "Any seed has no edge with Y_ind.",
+    "VOID": "Any N1, N3 or engine-pin gate fails."
+  },
+  "falsifiers": [
+    "A seed with zero Y_ind edges makes C6 not measurable for this block.",
+    "A seed with only one order means the block does not establish order variation.",
+    "An N1 or N3 failure voids the block; the observer is not trusted.",
+    "A changed engine pin voids the block; this is not the pinned build."
+  ],
+  "not_authorised": [
+    "A- admission block",
+    "K- carrier block",
+    "Y- assertion block",
+    "engine edit or version bump",
+    "a causal mechanism claim",
+    "V2 work"
+  ],
+  "authorisation": {
+    "document": "docs/AUTHORISATION-C6-TIMING.md",
+    "quote": "Preregister the C6 seed block and minimum per-order counts, then run the remaining seeds."
+  },
+  "question_registry": "Q054",
+  "design_record": "docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md",
+  "runner": "benchmarks/c6_timing_observer.run_one_seed"
+}
