@@ -1,10 +1,11 @@
 # C6 assertion-timing instrumentation
 
-**Status: OBSERVER BUILT — NEUTRALITY SELF-TEST PASSES; C6 NOT RUN, NO GRANT.**
+**Status: OBSERVER BUILT — ONE-SEED OFF/ON PREFLIGHT PASSES N1/N3; ORDER VARIATION PRESENT; SEED BLOCK NOT RUN, NO GRANT.**
 
 This document specifies the measurement needed to clear `C6_temporal_resolution`. The observer and
-its neutrality/mutation harness are implemented in `benchmarks/c6_timing_observer.py`. No C6 seed
-run has been made, no cell has been assigned and no engine file has changed.
+its neutrality/mutation harness are implemented in `benchmarks/c6_timing_observer.py`. A one-seed
+preflight has been run; no C6 seed block has been made, no cell has been assigned and no engine file
+has changed.
 
 ## 1. What C6 needs
 
@@ -67,7 +68,7 @@ class TimingObservedSleepService(SleepService):
         report = super().run_sleep_cycle()
         if self.mutate_report:
             self.mutation_applied = _mutate_report(report)
-        self.observer.record(report.cycle, report_candidates_as_dicts(report))
+        self.observer.record(report.cycle, self._load_prior_candidates())
         return report
 ```
 
@@ -81,14 +82,18 @@ It runs the stock and observed services on the same deterministic synthetic stre
 `N3` pass. The synthetic stream has no order variation, so the harness reports
 `C6 NOT SEPARATED`; that is a property of the harness scenario, not a C6 result.
 
-`report_candidates_as_dicts` serializes the candidate lists already returned in the `SleepReport`.
-It reads no database and mutates no candidate. The parent call is made exactly once, with the same
-arguments, and its return value is passed through unchanged.
+The observer snapshots `_load_prior_candidates()` after the parent cycle. That is the same live set
+the final readout uses. It does not populate `_prior_cache`, and the parent call is made exactly
+once with its return value passed through unchanged.
 
-Why use the report rather than `_load_prior_candidates()`: the report is the cycle's post-selection
-output, and reading it avoids touching the prior cache. A separate parity check compares the
-report-derived readout with `structure_edges(_load_prior_candidates())` at the final cycle. If they
-differ, the observer is not a faithful reconstruction and C6 is void.
+The report alone is insufficient. In the real one-seed preflight, the last `SleepReport` contained
+**101** readout edges while the live set contained **196**; the missing **95** were carried
+survivors that were not re-emitted in the final cycle. `N3` caught this. A report-only observer is
+not a faithful reconstruction of the final assertion and must not be used for C6.
+
+A separate parity check compares the live-set `Y_full` with
+`structure_edges(_load_prior_candidates())` at the final cycle. If they differ, the observer is not
+a faithful reconstruction and C6 is void.
 
 The sink writes JSONL to `.scratch/` or a dedicated artifact path. It never writes `memory.db` and
 never appends to `organica.log`.
@@ -146,14 +151,15 @@ the same sleep cycle; calling it "carrier first" would be an imputation.
 | --- | --- | --- |
 | `N1_neutrality` | Same seed, observer off vs on: canonicalized-identical `SleepReport` sequence (all fields except `ran_at`) and final `Y_full` fingerprint | `OBSERVER NOT NEUTRAL`; no C6 data |
 | `N2_mutation` | A test-only arm deliberately alters one reported candidate; `N1` must then fail | `GATE CANNOT FIRE`; build rejected |
-| `N3_parity` | Report-derived `Y_full` equals `structure_edges(_load_prior_candidates())` at the final cycle | `RECONSTRUCTION MISMATCH` |
+| `N3_parity` | Live-set `Y_full` equals `structure_edges(_load_prior_candidates())` at the final cycle | `RECONSTRUCTION MISMATCH` |
 | `N4_coverage` | Every analysed edge has at least one `K` cycle and one `Y_ind` cycle | Edge excluded as `NOT MEASURABLE`; not read as zero |
 | `N5_engine` | `python -m benchmarks.engine_pin --check` and `tests/test_v1_freeze.py` pass | `ENGINE CHANGED`; stop |
 | `N6_order_variation` | Both `K_BEFORE_Y_IND` and `Y_IND_BEFORE_K` occur in the analysed set | `NO ORDER VARIATION`; C6 not separated |
 | `N7_determinism` | Same seed twice gives identical edge records | `NON-DETERMINISTIC`; stop |
 
-`N3` is the gate that makes the report-derived readout acceptable. `N2` is the gate that proves `N1`
-can fail. `N6` is the gate that prevents a one-sided timing distribution from being reported as
+`N3` is the gate that makes the live-set readout acceptable. The report-only implementation failed
+it on seed 20611601; do not revert to report-only snapshots. `N2` is the gate that proves `N1` can
+fail. `N6` is the gate that prevents a one-sided timing distribution from being reported as
 identification. `N1` must not compare `ran_at`: that field is a wall-clock timestamp and differs
 between otherwise identical runs. The canonical comparison excludes it and retains every candidate
 payload, cycle number and count.
@@ -178,15 +184,38 @@ The primary sample is **all asserted world edges in the run**, fixed before the 
 26 Q4 never-served edges are a prespecified diagnostic subset, not the primary sample. Selecting the
 sample on never-served status would condition on the anomaly and make the timing question circular.
 
-The design does not assign seeds. A timing run needs a separate seed block, a preregistration and the
-owner's grant.
+The design does not assign a seed block. One preflight seed, **20611601**, has been run; a C6 timing
+block still needs a preregistration and the owner's grant.
+
+## 9.1 One-seed preflight (2026-11-13)
+
+The off/on preflight on seed **20611601**, **120** cycles and cap **40** found:
+
+| Quantity | Value |
+| --- | ---: |
+| World edges | 112 |
+| Asserted world edges at the final cycle | 70 |
+| World edges that ever entered `Y_full` | 106 |
+| World edges with `Y_ind` | 92 |
+| World edges with `K` | 94 |
+| `K_BEFORE_Y_IND` | 36 |
+| `Y_IND_BEFORE_K` | 32 |
+| `SAME_CYCLE` | 12 |
+| `NO_K` | 12 |
+| `NO_Y_IND` | 14 |
+
+`Y_ind` exists, both orders occur, and the real off/on arms pass `N1` neutrality and `N3`
+final-readout parity. C6 is **not** cleared: one seed is not a seed block and no minimum
+per-order count has been precommitted. See
+[`C6-ONE-SEED-PREFLIGHT.md`](C6-ONE-SEED-PREFLIGHT.md).
 
 ## 10. Stop condition
 
 **Build status: the observer, edge extractor and neutrality/mutation harness are implemented; the
-self-test passes `N1`–`N3`; no C6 seed has been run.** The remaining bounded steps are:
+self-test passes `N1`–`N3`; one off/on preflight seed has been run and passes `N1`/`N3`.**
+The remaining bounded steps are:
 
-- Run one seed.
+- Run the first seed of the preregistered block.
 - If no edge has `Y_ind`, stop: C6 is not measurable in this engine, and the readout branch must be
   dropped or the observable changed.
 - If `Y_ind` exists but only one order occurs, stop: C6 is not separated, and more seeds will not
@@ -215,4 +244,5 @@ These must be fixed in the preregistration, not in this design:
 4. Whether same-cycle edges are reported only, or used in a separate within-cycle analysis.
 5. The exact carrier definition: loop and dream only, or every structure type designated a carrier.
 
-Until those are fixed, the observer exists but the C6 protocol is not runnable.
+Until those are fixed, the observer exists and the one-seed preflight has run, but the C6 seed block
+is not runnable.

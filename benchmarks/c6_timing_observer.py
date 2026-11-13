@@ -30,7 +30,14 @@ from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any
 
-from benchmarks.acquisition_runner import structure_edges
+from benchmarks.acquisition_compositional import generate_compositional_world
+from benchmarks.acquisition_harness import _make_scratch_db
+from benchmarks.acquisition_runner import EVENTS_PER_CYCLE, structure_edges
+from benchmarks.presence_construct_audit import (
+    ACQ_SOURCE,
+    PHASE_ACQUISITION,
+    _world_compositional_edges,
+)
 from organica.memory import MemoryService
 from organica.sleep import SleepService
 
@@ -62,15 +69,6 @@ def _candidate_dict(candidate: Any) -> dict:
     if is_dataclass(candidate):
         return asdict(candidate)
     raise TypeError("unsupported candidate type: %r" % (type(candidate),))
-
-
-def report_candidates_as_dicts(report: Any) -> list[dict]:
-    """Serialize the report's candidate lists without reading the database."""
-    out: list[dict] = []
-    for field in REPORT_FIELDS:
-        for candidate in getattr(report, field, []) or []:
-            out.append(_candidate_dict(candidate))
-    return out
 
 
 def canonical_report(report: Any) -> dict:
@@ -217,7 +215,12 @@ class TimingObservedSleepService(SleepService):
         report = super().run_sleep_cycle()
         if self.mutate_report:
             self.mutation_applied = _mutate_report(report)
-        self.observer.record(report.cycle, report_candidates_as_dicts(report))
+        # The report holds this cycle's emitted candidates, not every live
+        # survivor carried in the database. The final readout uses the live
+        # set, so the observer snapshots the same set, read-only, after the
+        # cycle. _load_prior_candidates() does not populate the cache.
+        snapshot = self._load_prior_candidates()
+        self.observer.record(report.cycle, snapshot)
         return report
 
 
@@ -307,6 +310,127 @@ def _run_arm(
     }
 
 
+def _world_edge_rows(summary: dict, world_edges: set[tuple[str, str]]) -> list[dict]:
+    rows = []
+    for row in summary["rows"]:
+        edge = tuple(row["edge"].split(">", 1))
+        if len(edge) == 2 and edge in world_edges:
+            rows.append(dict(row, class_=row["class"]))
+    return rows
+
+
+def _run_world_arm(*, seed: int, cycles: int, cap: int, observed: bool) -> dict:
+    random_state = random.getstate()
+    original_uuid4 = uuid.uuid4
+    original_time = time.time
+    uid_counter = itertools.count(1)
+    tick_counter = itertools.count()
+    world = generate_compositional_world(seed=seed, cycles=cycles)
+    world_edges = _world_compositional_edges(world)
+    db_path = _make_scratch_db("c6_one_seed_%s" % ("on" if observed else "off"))
+    memory = MemoryService(str(db_path))
+    observer = TimingObserver(seed)
+    service = (
+        TimingObservedSleepService(memory, observer)
+        if observed
+        else SleepService(memory)
+    )
+    service.MAX_PREDICTIONS = int(cap)
+    reports = []
+    try:
+        random.seed(seed)
+        # Generation noise must be identical across the two arms.
+        uuid.uuid4 = lambda: uuid.UUID(int=next(uid_counter))
+        time.time = lambda: 1700000000.0 + next(tick_counter) * 1e-6
+        for i, (text, trainable) in enumerate(zip(world["events"], world["trainable"])):
+            in_acq = (
+                PHASE_ACQUISITION[0] * EVENTS_PER_CYCLE
+                <= i < PHASE_ACQUISITION[1] * EVENTS_PER_CYCLE
+            )
+            if in_acq and not trainable:
+                continue
+            if i % EVENTS_PER_CYCLE == 0:
+                memory.current_cycle = i // EVENTS_PER_CYCLE
+            memory.store(
+                text,
+                event_type="observe",
+                source=ACQ_SOURCE if in_acq else "env",
+            )
+            if (i + 1) % EVENTS_PER_CYCLE == 0:
+                reports.append(canonical_report(service.run_sleep_cycle()))
+        final_full = edge_set(structure_edges(service._load_prior_candidates()))
+    finally:
+        memory.close()
+        try:
+            db_path.unlink(missing_ok=True)
+        except OSError:
+            pass
+        uuid.uuid4 = original_uuid4
+        time.time = original_time
+        random.setstate(random_state)
+    return {
+        "reports": reports,
+        "world_edges": world_edges,
+        "final_full": final_full,
+        "observer": observer.summary() if observed else None,
+    }
+
+
+def run_one_seed(*, seed: int = 20611601, cycles: int = 120, cap: int = 40) -> dict:
+    """Run the real Q4-shaped world off and on, then report the C6 preflight."""
+    off = _run_world_arm(seed=seed, cycles=cycles, cap=cap, observed=False)
+    on = _run_world_arm(seed=seed, cycles=cycles, cap=cap, observed=True)
+    world_edges = on["world_edges"]
+    rows = _world_edge_rows(on["observer"], world_edges)
+    classes: dict[str, int] = {}
+    for row in rows:
+        classes[row["class_"]] = classes.get(row["class_"], 0) + 1
+    y_ind_edges = sum(1 for row in rows if row["first_y_ind"] is not None)
+    k_edges = sum(1 for row in rows if row["first_k"] is not None)
+    order_variation = (
+        "K_BEFORE_Y_IND" in classes and "Y_IND_BEFORE_K" in classes
+    )
+    n1 = off["reports"] == on["reports"]
+    n3 = on["observer"]["last_y_full"] == sorted(
+        "%s>%s" % edge for edge in on["final_full"]
+    )
+    if not n1 or not n3:
+        verdict = "HARNESS FAILED"
+    elif not y_ind_edges:
+        verdict = "C6 NOT MEASURABLE"
+    elif not order_variation:
+        verdict = "C6 NOT SEPARATED"
+    else:
+        verdict = "C6 ORDER VARIATION PRESENT"
+
+    asserted_world = on["final_full"] & world_edges
+    return {
+        "kind": "c6_one_seed_preflight",
+        "not_a_result": True,
+        "seed": seed,
+        "cycles": cycles,
+        "cap": cap,
+        "world_edges": len(world_edges),
+        "asserted_world_edges": len(asserted_world),
+        "y_full_edges": sum(1 for row in rows if row["first_y_full"] is not None),
+        "y_ind_edges": y_ind_edges,
+        "k_edges": k_edges,
+        "classes": dict(sorted(classes.items())),
+        "order_variation": order_variation,
+        "gates": {
+            "N1_neutrality": n1,
+            "N3_parity": n3,
+            "N6_order_variation": order_variation,
+        },
+        "verdict": verdict,
+        "rows": rows,
+        "not_evidence": (
+            "One seed, one world family, one build and one cap. It is a C6 "
+            "preflight, not a seed block and not a mechanism result."
+        ),
+    }
+
+
 def self_test(*, cycles: int = 8, seed: int = 20611601) -> dict:
     events = _scenario()
     off = _run_arm(
@@ -368,9 +492,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cycles", type=int, default=8)
     parser.add_argument("--seed", type=int, default=20611601)
     parser.add_argument("--json", action="store_true", help="print the full JSON")
+    parser.add_argument(
+        "--run-one-seed",
+        action="store_true",
+        help="run the real 120-cycle Q4-shaped world once and report C6 preflight",
+    )
     args = parser.parse_args(argv)
-    if not args.self_test:
-        parser.error("--self-test is required")
+    if not args.self_test and not args.run_one_seed:
+        parser.error("choose --self-test or --run-one-seed")
+
+    if args.run_one_seed:
+        result = run_one_seed(seed=args.seed, cycles=120, cap=40)
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0
 
     result = self_test(cycles=args.cycles, seed=args.seed)
     gates = result["gates"]

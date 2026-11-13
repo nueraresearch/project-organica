@@ -205,6 +205,7 @@ synthesis, not a second plan.
 - Two-path design: `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`
 - C1–C9 preflight: `docs/c1_c9_preflight.json`, `docs/C1-C9-PREFLIGHT.md`
 - C6 timing observer: `docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`, `benchmarks/c6_timing_observer.py`
+- C6 one-seed preflight: `docs/c6_one_seed_preflight.json`, `docs/C6-ONE-SEED-PREFLIGHT.md`
 - Retention: `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`,
   `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`
 - Acquisition: `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`

@@ -102,8 +102,10 @@ so it cannot establish positivity; no artifact records an assertion cycle, so `C
 **C6 observer:** [`docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`](docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md)
 is built, and the self-test passes neutrality, mutation and parity. It reads `Y_ind` — assertion from
 non-carrier structures — because the full readout `Y_full` is simultaneous with a loop carrier by construction.
-C6 has not been run; the synthetic self-test has no order variation and reports `C6 NOT SEPARATED`, which is
-not a timing result.
+A one-seed preflight (20611601, 120 cycles, cap 40) found `Y_ind` on 92 of 106 asserted world edges and both
+orders (36 K-before, 32 Y-before; 12 same-cycle, 12 no-K, 14 no-Y-ind). Order variation is present and the real off/on arms pass
+`N1` neutrality and `N3` parity, but C6 is not cleared: no seed block or minimum per-order count has
+been run.
 
 **C6 stop condition.** Build only the observer, the edge extractor and the neutrality/mutation
 harness. Run one seed. Stop and record `C6 NOT MEASURABLE` if no edge has `Y_ind`; stop and record
