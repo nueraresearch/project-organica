@@ -69,6 +69,10 @@ cycles **37–117**, median first formation **76**. The carrier exists at or bef
 rank in **17** rows and after it in **9**. Admission and carrier formation are parallel paths to
 assertion, not one upstream chain.
 
+**Reading.** A0 narrowed the admissible design space. It did not narrow the biological hypothesis
+space. The next step must either widen that space with instrumentation or close the carrier branch
+as not identifiable.
+
 **Work.** Classify carrier formation timing, source diversity, schema priority, persistence and
 final readout. Explain the direct-edge exclusion and the seed concentration. Distinguish
 loop-carried paths from workflow-only paths. Pre-register a fresh confirmatory block before making
@@ -94,6 +98,16 @@ uses `A−K−` as a positive control. It assigns no seeds, implements no runner
 unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) finds the design blocked by
 missing instrumentation, not by a demonstrated impossibility. The 26-row A0 slice is entirely `A−K+`,
 so it cannot establish positivity; no artifact records an assertion cycle, so `C6` cannot be read.
+
+**C6 design:** [`docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`](docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md)
+is registered but not built. It reads `Y_ind` — assertion from non-carrier structures — because the
+full readout `Y_full` is simultaneous with a loop carrier by construction.
+
+**C6 stop condition.** Build only the observer, the edge extractor and the neutrality/mutation
+harness. Run one seed. Stop and record `C6 NOT MEASURABLE` if no edge has `Y_ind`; stop and record
+`C6 NOT SEPARATED` if only one timing order occurs. Expand to the preregistered seed block only if
+both orders occur. Do not add instrumentation after the build closes; a new requirement goes to the
+wish-list.
 
 **Question.** Do admission and carrier availability each contribute to assertion independently, and
 is the carrier–assertion association causal, a shared-cause association, no carrier relation, or a
