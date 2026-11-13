@@ -90,9 +90,14 @@ the replacement is
 admission and carrier availability as parallel factors, adds an assertion-blockade ordering arm and
 uses `A−K−` as a positive control. It assigns no seeds, implements no runner and authorises no cell.
 
+**Preflight (2026-11-13): `NOT ADMISSIBLE` — 0/9 satisfied, 9 requiring instrumentation, 0
+unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) finds the design blocked by
+missing instrumentation, not by a demonstrated impossibility. The 26-row A0 slice is entirely `A−K+`,
+so it cannot establish positivity; no artifact records an assertion cycle, so `C6` cannot be read.
+
 **Question.** Do admission and carrier availability each contribute to assertion independently, and
-is the carrier–assertion association causal, a shared-cause association, an admission-only
-association, or a readout of assertion?
+is the carrier–assertion association causal, a shared-cause association, no carrier relation, or a
+readout of assertion?
 
 **Design requirements.** The registered design is two-path, not a single-stage 2×2.
 
@@ -109,7 +114,7 @@ association, or a readout of assertion?
 
 - **`CARRIER CAUSAL`:** carrier availability contributes to assertion at `A−`, the association
   survives within `U`, and assertion blockade does not remove the carrier.
-- **`ADMISSION ONLY`:** the carrier effect is null and the association vanishes given admission.
+- **`NO CARRIER RELATION`:** the carrier effect is null and the association vanishes given admission.
 - **`SHARED CAUSE`:** the carrier effect is null and the association vanishes within `U`.
 - **`READOUT`:** the carrier effect is null and assertion blockade reduces the carrier.
 - **`THIRD ROUTE PRESENT` / `SHARED CAUSE / READOUT NOT SEPARATED` / `MIXED`:** no model is selected;
@@ -120,7 +125,7 @@ verdict (`THIRD ROUTE PRESENT`, `SHARED CAUSE / READOUT NOT SEPARATED`, `MIXED`,
 with no causal claim.
 
 **What it licenses.** A causal carrier result licenses a carrier-targeted A3 and V2 discussion; an
-admission-only result targets admission; a shared-cause result targets `U`; a readout result demotes
+no-carrier-relation result targets admission; a shared-cause result targets `U`; a readout result demotes
 the carrier. A structural failure licenses no A3 and no V2 design.
 
 ### M1. Mechanism branch — after A1
@@ -133,11 +138,15 @@ denying it causal status.
 | Branch | A1 signature | M1 status | A3 target | V2 implication |
 | --- | --- | --- | --- | --- |
 | **M1-C — Causal carrier** | Carrier effect at `A−`; association survives within `U`; carrier precedes assertion; `Y−` does not remove carrier | **PASS — carrier mechanism** | Carrier → external | Carrier-targeted V2 eligible |
-| **M1-A — Admission only** | No carrier effect at `A−`; association vanishes given admission; admission effect positive | **PASS — admission mechanism** | Admission → external | Admission-targeted V2 eligible; no carrier V2 |
+| **M1-A — No carrier relation** | No carrier effect at `A−`; association vanishes given admission; admission effect positive | **PASS — no carrier relation; admission target** | Admission → external | Admission-targeted V2 eligible; no carrier V2 |
 | **M1-CC — Shared cause** | No carrier effect; association persists given admission but vanishes within `U`; `Y−` does not remove carrier | **PASS — shared-cause target** | `U` → external | Shared-cause V2 eligible; no carrier V2 |
 | **M1-RO — Readout only** | No carrier effect; `Y−` reduces carrier; assertion precedes carrier | **PASS — readout target; carrier demoted** | Assertion or admission → external, never carrier | No carrier-targeted V2 |
 | **M1-X — Not identified** | Signatures conflict, `THIRD ROUTE PRESENT`, or shared cause and readout are not separated | **FAIL — no mechanism branch** | None | None; redesign only with a named defect |
 | **M1-V — Void** | A manipulation, independence, pairing or determinism gate fails | **VOID** | None until the instrument is fixed | None |
+
+Scientific verdicts are graph-level statements about `K` and `Y`: `CARRIER CAUSAL`, `NO CARRIER
+RELATION`, `SHARED CAUSE` and `READOUT`. The `M1-*` labels are routing labels that map a verdict to an
+A3 target; they are not a second taxonomy.
 
 M1 does **not** mean “the carrier is causal.” It means “the surviving mechanism is named.” Under
 M1-A, M1-CC and M1-RO the carrier is not the target, and an A3 study that manipulates the carrier

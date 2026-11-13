@@ -26,7 +26,7 @@ and tests whether either route contributes to assertion.
 ## Question
 
 Does carrier availability contribute to assertion **independently of admission**, and is the
-carrier–assertion association causal, a shared-cause association, an admission-only association, or a
+carrier–assertion association causal, a shared-cause association, no carrier relation, or a
 readout of assertion?
 
 ## The two paths
@@ -55,9 +55,9 @@ M-K — Carrier causal
 U ──► K ──► Y
 U ──► A ──► Y
 
-M-A — Admission only
+M-N — No carrier relation
 U ──► A ──► Y
-K independent of Y given A
+K ⫫ Y | A            (K has no path to Y)
 
 M-S — Shared cause
 U ──► K
@@ -68,9 +68,13 @@ M-R — Readout
 U ──► A ──► Y ──► K     (K follows assertion; K has no path to Y)
 ```
 
-M-A and M-S differ in the conditional association: M-A predicts `K ⫫ Y | A`; M-S predicts a residual
+M-N and M-S differ in the conditional association: M-N predicts `K ⫫ Y | A`; M-S predicts a residual
 association through `U`. M-S and M-R differ in temporal order and in what an assertion blockade does to
-`K`. If `U` cannot be measured, M-A and M-S are not separated; the design says so rather than choosing.
+`K`. If `U` cannot be measured, M-N and M-S are not separated; the design says so rather than choosing.
+
+All four labels are graph-level statements about the relation between `K` and `Y`. `M-N` is not a
+stage claim; it says the carrier is independent of assertion given admission. The routing target is a
+separate decision.
 
 ## Identifiability conditions — before intervention or outcome
 
@@ -90,7 +94,7 @@ condition.
 | `C2_treatment_consistency` | Each intervention changes the path it names | `A−` reduces the target edge's served availability to zero; `K−` reduces its carrier availability to zero; `Y−` reduces assertion | `VOID`: the intervention did not happen as specified |
 | `C3_positivity` | Every required cell is observable | Eligible edges and both path states exist in all four `A×K` cells on every seed; `Y−` is observable at `A+K+` and `A−K+` | `VOID` or `NOT MEASURABLE`: an empty cell cannot be read as zero |
 | `C4_no_interference` | Edge-level interventions do not move other edges | An intervention on one edge leaves other edges' `A`, `K` and `Y` within the precommitted tolerance | `NOT IDENTIFIED`: the edge-level estimand is not defined; cluster or redesign |
-| `C5_common_cause` | `U` is measured before the outcome | Direct temporal count, reverse count and strength are fixed before the carrier becomes available and before `Y` is read; no post-outcome rank is used | `SHARED CAUSE / ADMISSION ONLY NOT SEPARATED`: the two non-carrier models remain equivalent |
+| `C5_common_cause` | `U` is measured before the outcome | Direct temporal count, reverse count and strength are fixed before the carrier becomes available and before `Y` is read; no post-outcome rank is used | `SHARED CAUSE / NO CARRIER RELATION NOT SEPARATED`: the two non-carrier models remain equivalent |
 | `C6_temporal_resolution` | `K` and `Y` are ordered at the same cycle resolution | The record can distinguish `K` before `Y` from `Y` before `K`; no reverse-time imputation is used | `SHARED CAUSE / READOUT NOT SEPARATED`: order cannot be read |
 | `C7_assertion_block` | `Y−` is independent of both paths | `Y−` reduces assertion without changing `A` or `K` formation beyond tolerance | `SHARED CAUSE / READOUT NOT SEPARATED`: the ordering arm is confounded |
 | `C8_third_route` | The double block is interpretable | `A−K−` has a precommitted ceiling and can distinguish “no route” from “third route” | `TWO-PATH MODEL NOT TESTABLE`: the completeness control is absent |
@@ -150,7 +154,7 @@ design returns **`SHARED CAUSE / READOUT NOT SEPARATED`**.
 Let `Y` be the assertion rate. The signatures are fixed before any cell. They are qualitative; the
 runnable preregistration must fix the estimator, seed count and materiality bar.
 
-| Signature | M-K Carrier causal | M-A Admission only | M-S Shared cause | M-R Readout |
+| Signature | M-K Carrier causal | M-N No carrier relation | M-S Shared cause | M-R Readout |
 | --- | --- | --- | --- | --- |
 | `K` effect at `A−` (`A−K+` vs `A−K−`) | positive | null | null | null |
 | `A` effect at `K−` (`A+K−` vs `A−K−`) | positive | positive | positive | positive |
@@ -186,7 +190,7 @@ check. The `A−K−` cell is the completeness check. The `U`-conditional row se
 | any `T1`–`T6` fails | `VOID` | the intervention did not happen as specified; no model is read |
 | `T8` fails | `THIRD ROUTE PRESENT` | assertion survives both known routes; the two-path model is incomplete and no model is selected |
 | `K` effect at `A−` is positive; association persists within `U`; `K` precedes `Y`; `Y−` does not reduce `K` | `CARRIER CAUSAL` | carrier availability contributes independently of admission |
-| `K` effect at `A−` is null; `K`–`Y` association vanishes given `A`; `A` effect is positive | `ADMISSION ONLY` | the carrier is not a route; admission carries the assertion |
+| `K` effect at `A−` is null; `K`–`Y` association vanishes given `A`; `A` effect is positive | `NO CARRIER RELATION` | the carrier is not a route; admission carries the assertion |
 | `K` effect is null; association persists given `A` but vanishes within `U`; `Y−` does not reduce `K` | `SHARED CAUSE` | `U` moves both carrier and assertion; the carrier is not the path |
 | `K` effect is null; `Y−` reduces `K`; `Y` precedes `K` | `READOUT` | the carrier follows assertion; it is not a cause |
 | `T7` cannot be run or is not implemented | `SHARED CAUSE / READOUT NOT SEPARATED` | the two non-causal models remain observationally equivalent under the available interventions |
@@ -199,7 +203,7 @@ The roadmap records the outcome by branch:
 | Design verdict | M1 branch | A3 target | V2 implication |
 | --- | --- | --- | --- |
 | `CARRIER CAUSAL` | `M1-C` | Carrier → external | Carrier-targeted V2 eligible |
-| `ADMISSION ONLY` | `M1-A` | Admission → external | Admission-targeted V2 eligible; no carrier V2 |
+| `NO CARRIER RELATION` | `M1-A` | Admission → external | Admission-targeted V2 eligible; no carrier V2 |
 | `SHARED CAUSE` | `M1-CC` | `U` → external | Shared-cause V2 eligible; no carrier V2 |
 | `READOUT` | `M1-RO` | Assertion or admission → external, never carrier | No carrier-targeted V2 |
 | `THIRD ROUTE PRESENT`, `MIXED`, `VOID` | `M1-X` or `M1-V` | None | None |

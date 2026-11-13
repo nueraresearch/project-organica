@@ -1,0 +1,143 @@
+{
+  "kind": "c1_c9_preflight",
+  "not_a_result": true,
+  "date": "2026-11-13",
+  "question": "Can the registered two-path design be admitted with the records in hand?",
+  "definition": "A read-only audit of C1-C9 against the A0, provenance and carrier-trace artifacts. It runs no cell and chooses no intervention.",
+  "sources": {
+    "a0": "docs/carrier_formation_a0.json",
+    "provenance": "docs/assertion_provenance.json",
+    "carrier_trace": "docs/assertion_carrier_trace.json"
+  },
+  "verdict": "NOT ADMISSIBLE \u2014 0 SATISFIED, 9 REQUIRING INSTRUMENTATION, 0 UNSATISFIABLE",
+  "reading": "No condition is impossible. None is cleared. The design is blocked by missing instrumentation, not by a demonstrated impossibility.",
+  "counts": {
+    "satisfied": 0,
+    "requires_instrumentation": 9,
+    "unsatisfiable": 0
+  },
+  "conditions": [
+    {
+      "id": "C1_path_separation",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "A0 supports the parallel-path premise: 26/26 rows form a carrier with zero direct service; candidate formation is upstream but not independent, and admission leaves the carrier intact. No A- or K- cross-block was executed, so the two manipulations have not been shown to leave each other's path intact.",
+      "clears_with": "Implement A- and K-; show A- leaves K intact and K- leaves served availability intact on every seed within the precommitted tolerance.",
+      "evidence": {
+        "candidate_formation_independently_manipulable": true,
+        "admission_independently_manipulable": true,
+        "admission_leaves_carrier_intact": true
+      }
+    },
+    {
+      "id": "C2_treatment_consistency",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "No A-, K- or Y- execution exists in the committed artifacts. The A0 and provenance records are observational joins, not manipulations.",
+      "clears_with": "Run each manipulation and verify it drives its named path to zero while leaving the other path's measured quantity above zero.",
+      "evidence": {
+        "intervention_artifacts": 0
+      }
+    },
+    {
+      "id": "C3_positivity",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "The 26-row A0 slice is selected on never-served direct edges and every row has a carrier: 26 A-K+, 0 A+K+, 0 A+K- and 0 A-K-. The full candidate set has 492 served edges, but it has not been joined to carrier availability, so no four-cell denominator exists.",
+      "clears_with": "Join every eligible edge to both factors and require a non-zero denominator in all four cells and in the Y- arm at A+K+ and A-K+.",
+      "evidence": {
+        "a0_slice_cells": {
+          "A+K+": 0,
+          "A+K-": 0,
+          "A-K+": 26,
+          "A-K-": 0
+        },
+        "a0_slice_selected_on": "direct_committed_windows == 0",
+        "full_candidate_set_served_ever": 492
+      }
+    },
+    {
+      "id": "C4_no_interference",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "No edge-level intervention was run, so there is no neighbour or spillover measurement to compare against a tolerance.",
+      "clears_with": "Run an edge-level manipulation with precommitted neighbour tolerances for A, K and Y; cluster or redesign if the tolerance is exceeded.",
+      "evidence": {
+        "intervention_artifacts": 0
+      }
+    },
+    {
+      "id": "C5_common_cause",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "Direct and reverse temporal counts are present for all 26 rows (23-47 direct), and they are formed before the carrier. The specified U also includes strength, but no edge-level strength field exists; carrier strength is a different quantity. U has not been joined to all four cells.",
+      "clears_with": "Record direct count, reverse count and edge strength before the outcome for every eligible edge, and join U to all cells without using a post-outcome rank.",
+      "evidence": {
+        "u_count_fields": [
+          "direct_temporal_count",
+          "reverse_temporal_count"
+        ],
+        "edge_strength_fields": [
+          "strength"
+        ],
+        "a0_rows_with_u_counts": 26
+      }
+    },
+    {
+      "id": "C6_temporal_resolution",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "Carrier formation cycles are present (37-117, median 76.0), but no artifact records an assertion cycle. K and Y therefore cannot be ordered at the same cycle resolution.",
+      "clears_with": "Record the assertion cycle per edge at the same resolution as formation, then test K-before-Y against Y-before-K without reverse-time imputation.",
+      "evidence": {
+        "carrier_formation_cycle_min": 37,
+        "carrier_formation_cycle_max": 117,
+        "assertion_cycle_fields": []
+      }
+    },
+    {
+      "id": "C7_assertion_block",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "No assertion blockade exists. The Y- arm is a design specification, not an implemented manipulation, so its independence from A and K has not been measured.",
+      "clears_with": "Implement Y- and show it reduces assertion without changing A or K formation beyond the precommitted tolerance.",
+      "evidence": {
+        "intervention_artifacts": 0
+      }
+    },
+    {
+      "id": "C8_third_route",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "No A-K- double block exists and no precommitted ceiling has been fixed. The positive control is specified but not executable.",
+      "clears_with": "Fix the A-K- ceiling before the run, execute the double block, and distinguish no route from a third route.",
+      "evidence": {
+        "intervention_artifacts": 0
+      }
+    },
+    {
+      "id": "C9_same_object",
+      "status": "REQUIRES INSTRUMENTATION",
+      "basis": "No four-cell runner exists. A0 fixes six committed seeds, one world family, 120 cycles and cap 40, but it does not pair the four cells or the Y- arm.",
+      "clears_with": "Build a runner that fixes world, seed, cycles, cap, candidate universe and U across all cells; refuse any cell whose object differs.",
+      "evidence": {
+        "a0_seeds": 6,
+        "a0_cycles": 120,
+        "a0_cap": 40,
+        "paired_cells": 0
+      }
+    }
+  ],
+  "evidence": {
+    "a0_rows": 26,
+    "a0_carrier_rows": 26,
+    "a0_no_carrier_rows": 0,
+    "a0_direct_served_zero": 26,
+    "a0_slice_cells": {
+      "A+K+": 0,
+      "A+K-": 0,
+      "A-K+": 26,
+      "A-K-": 0
+    },
+    "formation_cycle_min": 37,
+    "formation_cycle_max": 117,
+    "formation_cycle_median": 76.0,
+    "assertion_cycle_fields": [],
+    "edge_strength_fields": [
+      "strength"
+    ]
+  },
+  "not_evidence": "A design audit on six committed Q4 seeds, one world family, one build and one cap. It establishes no mechanism and runs no intervention."
+}

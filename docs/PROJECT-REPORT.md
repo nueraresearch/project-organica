@@ -105,7 +105,10 @@ they would in a slower program.
   in **17** rows and after it in **9**. The two are parallel paths to assertion, so the 2×2
   discrimination design is **`NOT IDENTIFIED`** as written. The replacement is a registered two-path
   design — admission × carrier availability, with an assertion-blockade arm and a double-block
-  positive control — but it is design-only, with no seeds, runner or grant. This blocks A1 as
+  positive control — but it is design-only, with no seeds, runner or grant. The **C1–C9 preflight**
+  classified **0 satisfied, 9 requiring instrumentation, 0 unsatisfiable**: the 26-row slice is
+  entirely `A−K+`, no artifact records an assertion cycle, and none of the interventions exists. A1
+  is therefore not admissible yet, but no condition has been shown impossible. This blocks A1 as
   written; it does not show that no selection process exists.
 - Loops are strongly enriched among asserted never-served edges: **26/26** cases against **13/26**
   matched controls on the original block; **29/29** against **11/29** on the fresh matched block.
@@ -200,6 +203,7 @@ synthesis, not a second plan.
   `docs/matched_carrier_replication_2.json`
 - Carrier A0: `docs/carrier_formation_a0.json`, `docs/CARRIER-FORMATION-A0.md`
 - Two-path design: `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`
+- C1–C9 preflight: `docs/c1_c9_preflight.json`, `docs/C1-C9-PREFLIGHT.md`
 - Retention: `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`,
   `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`
 - Acquisition: `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`
