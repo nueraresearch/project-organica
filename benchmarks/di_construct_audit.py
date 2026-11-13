@@ -221,7 +221,7 @@ def build() -> dict:
 def main() -> dict:
     result = build()
     OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
-    print("wrote", OUT.relative_to(ROOT))
+    print("wrote", OUT.relative_to(ROOT).as_posix())
     print("  protocol window zeros:", result["q4_window"]["protocol_window"]["mean_of_window_means"],
           "| matched window zero share:", result["q4_window"]["matched_post_arrival_window"]["zero_share"])
     print("  asymptote ICC:", round(result["q3_construct"]["icc"], 3),

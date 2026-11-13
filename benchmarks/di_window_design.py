@@ -185,7 +185,7 @@ def build() -> dict:
 def main() -> dict:
     result = build()
     OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
-    print("wrote", OUT.relative_to(ROOT))
+    print("wrote", OUT.relative_to(ROOT).as_posix())
     for lab, e in result["emergence"].items():
         print("  %-4s ever %2d/%2d  zero_only=%-5s  first %s  sustained %s"
               % (lab, e["runs_ever_nonzero"], e["runs"], e["identically_zero"],

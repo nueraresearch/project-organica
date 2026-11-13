@@ -750,7 +750,7 @@ def build() -> dict:
 def main() -> dict:
     result = build()
     OUT.write_text(json.dumps(engine_stamp.stamp(result), indent=2) + "\n", encoding="utf-8")
-    print("wrote", OUT.relative_to(ROOT))
+    print("wrote", OUT.relative_to(ROOT).as_posix())
     print("\nper configuration (native units)")
     for lab, row in result["per_config"].items():
         print("  %-4s onset %-28s exposure %-28s censored %2d"

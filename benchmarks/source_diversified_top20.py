@@ -214,7 +214,7 @@ def render(art: dict) -> str:
         "# Source-diversified top 20 — post hoc diagnostic",
         "",
         "Generated from `%s` by `python -m benchmarks.source_diversified_top20 --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** A cap of three seats per source recovers **one** "
         "additional positive, on one seed. It is not a reliable recovery gain."

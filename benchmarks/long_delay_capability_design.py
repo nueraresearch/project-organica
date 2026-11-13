@@ -156,7 +156,7 @@ def finish() -> int:
     for name, value in gates.items():
         print("%-18s %s" % (name, "PASS" if value else "FAIL"))
     print("\n%s -> %s" % ("DESIGN_GATES_PASS" if not void else "VOID",
-                          OUT.relative_to(REPO)))
+                          OUT.relative_to(REPO).as_posix()))
     return 0 if not void else 1
 
 

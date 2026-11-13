@@ -51,7 +51,7 @@ def render(doc: dict) -> str:
         "# PRESENCE-BAND-1 — the 21–40 transitions at 40 versus 112",
         "",
         "**Status.** %s. This page is rendered from `%s`; it is not edited by hand."
-        % (doc["status"], RECORD.relative_to(ROOT)),
+        % (doc["status"], RECORD.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -233,9 +233,9 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     if doc.get("no_cells_run") is not False:
         found.append("the record does not declare that the cells ran")
     if not RUN.exists():
-        found.append("%s does not exist" % RUN.relative_to(ROOT))
+        found.append("%s does not exist" % RUN.relative_to(ROOT).as_posix())
     if not ARM.exists():
-        found.append("%s does not exist" % ARM.relative_to(ROOT))
+        found.append("%s does not exist" % ARM.relative_to(ROOT).as_posix())
     engine = doc.get("engine") or {}
     if engine.get("version") != "0.15.0" or engine.get("cap") != 112:
         found.append("the engine is not the shipped 0.15.0 at cap 112")
@@ -385,7 +385,7 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     if runner.get("cells_run") != 13:
         found.append("the runner claims %r cells, not 13" % (runner.get("cells_run"),))
     if runner.get("planned_module") != ARM.relative_to(ROOT).as_posix():
-        found.append("the planned arm module is not %s" % ARM.relative_to(ROOT))
+        found.append("the planned arm module is not %s" % ARM.relative_to(ROOT).as_posix())
     if not doc.get("not_evidence") or "capability" not in doc["not_evidence"].lower():
         found.append("the record does not disclaim a capability claim")
     if "no cell has run" in (doc.get("not_evidence") or "").lower():
@@ -402,7 +402,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     if args.render:
         PAGE.write_text(render(record()), encoding="utf-8")
-        print("rendered %s" % PAGE.relative_to(ROOT))
+        print("rendered %s" % PAGE.relative_to(ROOT).as_posix())
         return 0
     found = problems()
     for problem in found:

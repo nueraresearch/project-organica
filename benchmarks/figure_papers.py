@@ -926,7 +926,7 @@ def main():
         if args.only and args.only not in fn.__name__:
             continue
         path = fn()
-        print(f"wrote {path.relative_to(REPO)}")
+        print(f"wrote {path.relative_to(REPO).as_posix()}")
 
 
 if __name__ == "__main__":

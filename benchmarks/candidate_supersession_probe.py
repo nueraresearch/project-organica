@@ -291,7 +291,7 @@ def results_document(art: dict) -> str:
     add = out.append
     add("# Candidate supersession — probe results")
     add("")
-    add(f"**Generated from** `{OUT.relative_to(ROOT)}`. **Decision**: "
+    add(f"**Generated from** `{OUT.relative_to(ROOT).as_posix()}`. **Decision**: "
         f"[`{Path(art['decision']).name}`]({Path(art['decision']).name}). "
         f"**Freeze amendment**: "
         f"[`{Path(art['freeze_amendment']).name}`]({Path(art['freeze_amendment']).name}) §6. "
@@ -444,7 +444,7 @@ def main() -> None:
     RESULTS.write_text(results_document(art), encoding="utf-8")
     update_manual(manual_block(art))
     s = art["summary"]
-    print("wrote", OUT.relative_to(ROOT), "and", RESULTS.relative_to(ROOT), "and manual §8.24")
+    print("wrote", OUT.relative_to(ROOT).as_posix(), "and", RESULTS.relative_to(ROOT).as_posix(), "and manual §8.24")
     print("verdict:", s["verdict"])
     for name in ("prediction", "schema"):
         arm = art["arms"][name]

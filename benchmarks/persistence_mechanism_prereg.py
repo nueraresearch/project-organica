@@ -298,7 +298,7 @@ def render(doc: dict) -> str:
         "# PERSISTENCE-MECHANISM-1 — decay and the read floor at cap 112",
         "",
         "**Status.** %s. This page is rendered from `%s`; it is not edited by hand."
-        % (doc["status"], RECORD.relative_to(ROOT)),
+        % (doc["status"], RECORD.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -407,9 +407,9 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     if doc.get("no_cells_run") is not True:
         found.append("the record does not declare that no cell has run")
     if RUN.exists():
-        found.append("%s exists for an unrun block" % RUN.relative_to(ROOT))
+        found.append("%s exists for an unrun block" % RUN.relative_to(ROOT).as_posix())
     if ARM.exists():
-        found.append("%s exists although the record says the runner is not built" % ARM.relative_to(ROOT))
+        found.append("%s exists although the record says the runner is not built" % ARM.relative_to(ROOT).as_posix())
 
     design = doc.get("design") or {}
     seeds = list(design.get("seeds") or [])
@@ -490,7 +490,7 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     if runner.get("built") is not False or runner.get("cells_run") != 0:
         found.append("the record claims a built runner or a run cell")
     if runner.get("planned_module") != ARM.relative_to(ROOT).as_posix():
-        found.append("the planned arm module is not %s" % ARM.relative_to(ROOT))
+        found.append("the planned arm module is not %s" % ARM.relative_to(ROOT).as_posix())
     if "no cell has run" not in (doc.get("not_evidence") or "").lower():
         found.append("the record does not say that no cell has run")
     if "capability" not in (doc.get("not_evidence") or "").lower():
@@ -502,12 +502,12 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
 
 def freeze() -> int:
     if RECORD.exists():
-        print("REFUSED: %s already exists and is frozen" % RECORD.relative_to(ROOT))
+        print("REFUSED: %s already exists and is frozen" % RECORD.relative_to(ROOT).as_posix())
         return 2
     doc = engine_stamp.stamp(build())
     RECORD.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
-    print("froze %s and %s" % (RECORD.relative_to(ROOT), PAGE.relative_to(ROOT)))
+    print("froze %s and %s" % (RECORD.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
     return 0
 
 
@@ -522,7 +522,7 @@ def main(argv=None) -> int:
         return freeze()
     if args.render:
         PAGE.write_text(render(record()), encoding="utf-8")
-        print("rendered %s" % PAGE.relative_to(ROOT))
+        print("rendered %s" % PAGE.relative_to(ROOT).as_posix())
         return 0
     found = problems()
     for problem in found:

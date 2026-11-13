@@ -600,7 +600,7 @@ def render(art: dict) -> str:
         "",
         "Generated from `%s` by "
         "`python -m benchmarks.loop_persistence_assertion_model --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Post hoc, not confirmatory.** This extends the confirmed model on the "
         "same twelve consumed seeds. It has no preregistration and no verdict. "

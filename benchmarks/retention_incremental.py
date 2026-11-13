@@ -536,10 +536,10 @@ def render(art: dict) -> str:
         "# Retention incremental — result",
         "",
         "Generated from `%s` by `python -m benchmarks.retention_incremental --finish`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** The design was frozen in `%s` before this block ran."
-        % (s["verdict"], block.PREREG.relative_to(ROOT)),
+        % (s["verdict"], block.PREREG.relative_to(ROOT).as_posix()),
         "",
         "## Design",
         "",

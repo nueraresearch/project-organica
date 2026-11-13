@@ -178,7 +178,7 @@ def render_prereg(doc: dict) -> str:
         "# NEVER-SERVED-ASSERTION-MODEL-1 — preregistration",
         "",
         "**Status.** %s. Generated from `%s`; never edited by hand."
-        % (doc["status"], PREREG.relative_to(ROOT)),
+        % (doc["status"], PREREG.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -520,7 +520,7 @@ def render_result(result: dict) -> str:
         "# Never-served assertion model — result",
         "",
         "**Status.** %s. Generated from `%s`; never edited by hand."
-        % (result["verdict"], RESULT.relative_to(ROOT)),
+        % (result["verdict"], RESULT.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -603,7 +603,7 @@ def freeze() -> int:
     doc = engine_stamp.stamp(build_prereg())
     PREREG.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
     PREREG_PAGE.write_text(render_prereg(doc), encoding="utf-8")
-    print("froze %s and %s" % (PREREG.relative_to(ROOT), PREREG_PAGE.relative_to(ROOT)))
+    print("froze %s and %s" % (PREREG.relative_to(ROOT).as_posix(), PREREG_PAGE.relative_to(ROOT).as_posix()))
     return 0
 
 
@@ -616,7 +616,7 @@ def run_fit() -> int:
     RESULT.write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
     RESULT_PAGE.write_text(render_result(result), encoding="utf-8")
     prereg["status"] = "FROZEN, FIT"
-    prereg["result"] = str(RESULT.relative_to(ROOT))
+    prereg["result"] = str(RESULT.relative_to(ROOT).as_posix())
     PREREG.write_text(json.dumps(prereg, indent=1) + "\n", encoding="utf-8")
     PREREG_PAGE.write_text(render_prereg(prereg), encoding="utf-8")
     print("fit %s: %s, n=%d, events=%d, gates=%s"

@@ -134,7 +134,7 @@ def render(doc: dict) -> str:
     lines = [
         "# CORE-BAND-ADMISSION-1 — core+band at the cap-112 ceiling",
         "",
-        "Generated from `%s`; never edited by hand." % RECORD.relative_to(ROOT),
+        "Generated from `%s`; never edited by hand." % RECORD.relative_to(ROOT).as_posix(),
         "",
         "**Status.** %s. **Grant.** %s." % (
             doc["status"], "granted" if doc["authorisation"]["granted"] else "not granted"),
@@ -233,7 +233,7 @@ def freeze() -> int:
     doc = engine_stamp.stamp(build())
     RECORD.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
-    print("froze %s and %s" % (RECORD.relative_to(ROOT), PAGE.relative_to(ROOT)))
+    print("froze %s and %s" % (RECORD.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
     return 0
 
 

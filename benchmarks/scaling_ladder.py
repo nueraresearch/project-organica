@@ -896,7 +896,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         art = json.loads(path.read_text(encoding="utf-8"))
         audit = audit_sign_estimator(art["per_seed"], art["summary"])
         out = write(audit, SIGN_AUDIT_OUT)
-        print(f"wrote {out.relative_to(ROOT)}")
+        print(f"wrote {out.relative_to(ROOT).as_posix()}")
         for f in audit["findings"]:
             print(f"  - {f}")
         print("  nesting (overlap of judged window in its reference):")
@@ -928,7 +928,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     art = run(seeds)
     path = write(art, args.out)
     s = art["summary"]
-    print(f"wrote {path.relative_to(ROOT)}")
+    print(f"wrote {path.relative_to(ROOT).as_posix()}")
     for label in SCALES:
         row = s[label]
         print(f"  {label:>3}  pairs={row['pairs']:>5}  delta={row['delta_mean']:+.6f}  "

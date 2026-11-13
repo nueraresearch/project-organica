@@ -433,7 +433,7 @@ def render(body: dict) -> str:
         "",
         "Generated from `%s` by "
         "`python -m benchmarks.retention_entry_transition_prereg --freeze`. "
-        "Do not edit by hand." % PREREG.relative_to(ROOT),
+        "Do not edit by hand." % PREREG.relative_to(ROOT).as_posix(),
         "",
         "**Status: `%s`.** The design was frozen before any cell. The runner "
         "is built behind the grant check; there is no grant, part or result."
@@ -566,7 +566,7 @@ def freeze() -> int:
     body = engine_stamp.stamp(build_prereg())
     PREREG.write_text(json.dumps(body, indent=1) + "\n", encoding="utf-8")
     PAGE.write_text(render(body), encoding="utf-8")
-    print("froze %s" % PREREG.relative_to(ROOT))
+    print("froze %s" % PREREG.relative_to(ROOT).as_posix())
     return 0
 
 

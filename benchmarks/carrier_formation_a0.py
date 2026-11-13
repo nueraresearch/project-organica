@@ -363,7 +363,7 @@ def main() -> None:
     if args.write:
         ARTIFACT.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
         PAGE.write_text(text, encoding="utf-8")
-        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT), PAGE.relative_to(ROOT)))
+        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
         return
     current = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     if current != doc:

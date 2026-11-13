@@ -180,7 +180,7 @@ def main() -> int:
             text += "\n" + render_withdrawal(body)
     assert "{" not in text.replace("{%", ""), "a placeholder survived the render"
     OUT.write_text(text, encoding="utf-8")
-    print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))
+    print("wrote", OUT.relative_to(ROOT).as_posix(), "lines:", len(text.splitlines()))
     return 0
 
 

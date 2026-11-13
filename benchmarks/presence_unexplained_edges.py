@@ -472,8 +472,8 @@ def main(argv=None) -> int:
         ARTIFACT.write_text(json.dumps(art, indent=1) + "\n", encoding="utf-8")
         PAGE.write_text(render(art), encoding="utf-8")
         NOTE.write_text(render_note(art), encoding="utf-8")
-        print("wrote %s, %s and %s" % (ARTIFACT.relative_to(ROOT), PAGE.relative_to(ROOT),
-                                        NOTE.relative_to(ROOT)))
+        print("wrote %s, %s and %s" % (ARTIFACT.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix(),
+                                        NOTE.relative_to(ROOT).as_posix()))
         return 0
     if args.check or not argv:
         return check()

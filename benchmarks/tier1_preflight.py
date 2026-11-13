@@ -207,7 +207,7 @@ def main(argv=None) -> int:
 
     if args.render or args.check:
         if not ARTIFACT.exists():
-            print("FAIL: no pre-flight artifact to read:", ARTIFACT.relative_to(ROOT))
+            print("FAIL: no pre-flight artifact to read:", ARTIFACT.relative_to(ROOT).as_posix())
             return 1
         record = json.loads(ARTIFACT.read_text(encoding="utf-8"))
         expected = render_page(record)
@@ -228,7 +228,7 @@ def main(argv=None) -> int:
                                            MEANINGS[record["verdict"]]))
             return 0
         PAGE.write_text(expected, encoding="utf-8")
-        print("rebuilt", PAGE.relative_to(ROOT))
+        print("rebuilt", PAGE.relative_to(ROOT).as_posix())
         return 0
 
     record = engine_stamp.stamp(build(args.cycles, args.horizon))

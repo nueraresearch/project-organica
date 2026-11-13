@@ -515,7 +515,7 @@ def main(argv=None) -> int:
         art = build()
         ARTIFACT.write_text(json.dumps(art, indent=1) + "\n", encoding="utf-8")
         PAGE.write_text(render(art), encoding="utf-8")
-        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT), PAGE.relative_to(ROOT)))
+        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
         print("%s: %s" % (art["summary"]["verdict"], art["summary"]["reading"]))
         return 0
     found = problems()

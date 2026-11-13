@@ -566,10 +566,10 @@ def render(art: dict) -> str:
         "# Never-served assertion model — replication",
         "",
         "Generated from `%s` by `python -m benchmarks.never_served_assertion_model_replication --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** The model and gates were frozen in `%s` before the replay."
-        % (summary["verdict"], PREREG.relative_to(ROOT)),
+        % (summary["verdict"], PREREG.relative_to(ROOT).as_posix()),
         "",
         "## Design",
         "",
@@ -755,7 +755,7 @@ def freeze() -> int:
         return 2
     doc = engine_stamp.stamp(build_prereg())
     PREREG.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
-    print("froze %s" % PREREG.relative_to(ROOT))
+    print("froze %s" % PREREG.relative_to(ROOT).as_posix())
     return 0
 
 

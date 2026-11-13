@@ -330,7 +330,7 @@ def main(argv=None) -> int:
     if args.init:
         if RECORD.exists():
             raise SystemExit("%s already exists; a lineage is appended, never rewritten"
-                             % RECORD.relative_to(ROOT))
+                             % RECORD.relative_to(ROOT).as_posix())
         body = engine_stamp.stamp({
             "kind": KIND,
             "policy": POLICY,
@@ -338,7 +338,7 @@ def main(argv=None) -> int:
             "recorded": date.today().isoformat(),
         })
         RECORD.write_text(json.dumps(body, indent=2) + "\n", encoding="utf-8")
-        print("wrote %s with no links" % RECORD.relative_to(ROOT))
+        print("wrote %s with no links" % RECORD.relative_to(ROOT).as_posix())
         return 0
 
     if args.record:

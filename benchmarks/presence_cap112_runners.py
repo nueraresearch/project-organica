@@ -673,25 +673,25 @@ def dry_run(block: str | None = None) -> int:
                 for cap in design["levels"]:
                     path = part_path(name, seed, cap)
                     print("  cell seed=%d cap=%d part=%s%s" % (
-                        seed, cap, path.relative_to(ROOT),
+                        seed, cap, path.relative_to(ROOT).as_posix(),
                         " (cached)" if path.exists() else ""))
                     total += 1
             witness = design["witness_cell"]
             path = part_path(name, witness["seed"], witness["cap"], "-witness")
             print("  witness seed=%d cap=%d part=%s%s" % (
-                witness["seed"], witness["cap"], path.relative_to(ROOT),
+                witness["seed"], witness["cap"], path.relative_to(ROOT).as_posix(),
                 " (cached)" if path.exists() else ""))
             total += 1
         else:
             for seed in design["seeds"]:
                 path = part_path(name, seed)
                 print("  cell seed=%d part=%s%s" % (
-                    seed, path.relative_to(ROOT), " (cached)" if path.exists() else ""))
+                    seed, path.relative_to(ROOT).as_posix(), " (cached)" if path.exists() else ""))
                 total += 1
             control = design.get("control_cell", {}).get("seed", design["seeds"][0])
             path = part_path(name, control, suffix="-control")
             print("  control seed=%d part=%s%s" % (
-                control, path.relative_to(ROOT), " (cached)" if path.exists() else ""))
+                control, path.relative_to(ROOT).as_posix(), " (cached)" if path.exists() else ""))
             total += 1
     print("planned cells: %d" % total)
     return 0

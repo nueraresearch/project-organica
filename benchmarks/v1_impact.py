@@ -445,8 +445,8 @@ def main() -> None:
 
     out = REPO / "docs" / "v1_impact.json"
     out.write_text(json.dumps(engine_stamp.stamp({
-        "pre_artifact": str(pre_path.relative_to(REPO)),
-        "post_artifact": str(post_path.relative_to(REPO)),
+        "pre_artifact": str(pre_path.relative_to(REPO).as_posix()),
+        "post_artifact": str(post_path.relative_to(REPO).as_posix()),
         "tally": counts,
         "census_comparison": census_rows_out,
         "interpretations": interpretations,

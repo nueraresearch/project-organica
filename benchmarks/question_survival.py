@@ -348,7 +348,7 @@ def stale(record=None, reg=None, root=ROOT):
     for path, payload in ((Path(root) / "docs/question_survival.json", expected),
                           (Path(root) / "docs/question_survival.md", render(expected))):
         if not path.exists():
-            return "missing: %s" % path.relative_to(root)
+            return "missing: %s" % path.relative_to(root).as_posix()
     on_disk = json.loads((Path(root) / "docs/question_survival.json").read_text(encoding="utf-8"))
     if on_disk != expected:
         return "docs/question_survival.json is stale; rebuild with python -m benchmarks.question_survival"

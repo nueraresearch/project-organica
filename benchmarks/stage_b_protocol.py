@@ -886,8 +886,8 @@ def main() -> dict:
                         figure, text, count=1)
         if synced != text:
             doc.write_text(synced, encoding="utf-8")
-            print("synced", doc.relative_to(ROOT))
-    print("wrote", OUT.relative_to(ROOT))
+            print("synced", doc.relative_to(ROOT).as_posix())
+    print("wrote", OUT.relative_to(ROOT).as_posix())
     s = result["sample_size"]
     print("\nagreement (reported, not used):",
           result["sustention_rule_agreement"]["worst_pair_spearman"])

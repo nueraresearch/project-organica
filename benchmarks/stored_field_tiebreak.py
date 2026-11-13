@@ -299,7 +299,7 @@ def render(art: dict) -> str:
         "# Stored-field tie-break — post hoc diagnostic",
         "",
         "Generated from `%s` by `python -m benchmarks.stored_field_tiebreak --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** Replacing source/target with the stored strength/ratio "
         "proxy changes no top-20 membership. It changes only the order inside "

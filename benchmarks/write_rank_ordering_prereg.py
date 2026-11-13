@@ -313,7 +313,7 @@ def main() -> None:
     body = json.loads(ARTIFACT.read_text(encoding="utf-8"))
     text = render(body)
     OUT.write_text(text, encoding="utf-8")
-    print("wrote", OUT.relative_to(ROOT), "lines:", len(text.splitlines()))
+    print("wrote", OUT.relative_to(ROOT).as_posix(), "lines:", len(text.splitlines()))
 
 
 if __name__ == "__main__":

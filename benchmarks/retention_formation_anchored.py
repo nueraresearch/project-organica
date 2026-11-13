@@ -672,10 +672,10 @@ def render(art: dict) -> str:
         "# Retention formation-anchored — result",
         "",
         "Generated from `%s` by `python -m benchmarks.retention_formation_anchored --finish`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** The design was frozen in `%s` before this block ran."
-        % (s["verdict"], block.PREREG.relative_to(ROOT)),
+        % (s["verdict"], block.PREREG.relative_to(ROOT).as_posix()),
         "",
         "## Design",
         "",

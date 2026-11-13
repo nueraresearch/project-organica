@@ -323,7 +323,7 @@ def main() -> None:
         print(f"{label}: ceiling 2SE {row['ceiling_twice_se_min']}-{row['ceiling_twice_se_max']} "
               f"| wrong law {row['wrong_law_twice_se_min']}-{row['wrong_law_twice_se_max']} "
               f"| clears gap: {row['clears_the_assumed_gap']}")
-    print("wrote", OUT.relative_to(ROOT))
+    print("wrote", OUT.relative_to(ROOT).as_posix())
 
 
 if __name__ == "__main__":

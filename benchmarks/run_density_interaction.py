@@ -291,7 +291,7 @@ def freshness_audit(record: dict | None = None) -> dict:
             text = path.read_text(encoding="utf-8", errors="ignore")
             found = {int(m.group()) for m in re.finditer(r"\b\d{8}\b", text)} & seeds
             if found:
-                hits.append({"path": str(path.relative_to(ROOT)), "seeds": sorted(found)})
+                hits.append({"path": str(path.relative_to(ROOT).as_posix()), "seeds": sorted(found)})
     return {"passed": not hits, "collisions": hits[:5], "seeds": sorted(seeds)}
 
 

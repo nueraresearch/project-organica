@@ -88,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     out.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2), encoding="utf-8")
     print("\nsurvivors at 300:", artifact["survivors_at_300"])
     print("contrast ready:", artifact["contrast_ready"])
-    print("wrote", out.relative_to(REPO))
+    print("wrote", out.relative_to(REPO).as_posix())
     return 0
 
 

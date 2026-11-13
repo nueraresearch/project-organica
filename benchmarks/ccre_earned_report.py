@@ -41,8 +41,8 @@ def results_document(new, old, prov) -> str:
     add = out.append
     add("# Cross-Context Reuse Experiment — earned-evidence run")
     add("")
-    add(f"**Generated from** `{NEW.relative_to(ROOT)}` and "
-        f"`{PROV.relative_to(ROOT)}` (this run), and `{OLD.relative_to(ROOT)}` (v1, superseded). "
+    add(f"**Generated from** `{NEW.relative_to(ROOT).as_posix()}` and "
+        f"`{PROV.relative_to(ROOT).as_posix()}` (this run), and `{OLD.relative_to(ROOT).as_posix()}` (v1, superseded). "
         f"**Protocol**: {new['protocol']}.")
     add(f"**Seeds**: {new['seeds']} at {new['phase_a_cycles']}/{new['phase_b_cycles']} cycles; "
         f"{new['total_seconds']} s across {new['chunked_run']['chunks']} processes.")
@@ -200,7 +200,7 @@ def main() -> None:
     prov = json.loads(PROV.read_text())
     OUT.write_text(results_document(new, old, prov))
     update_manual(manual_block(new, prov))
-    print("wrote", OUT.relative_to(ROOT), "and manual §8.23 + revision row")
+    print("wrote", OUT.relative_to(ROOT).as_posix(), "and manual §8.23 + revision row")
 
 
 if __name__ == "__main__":

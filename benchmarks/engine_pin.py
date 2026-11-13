@@ -3,9 +3,9 @@
 The v0.9.0 freeze stopped checking the engine above 0.12.0 -- its seven
 engine-file checks skip there (``docs/ENGINE-CHANGE-AUDIT.md``, section 3) -- so
 nothing compared the live engine to any recorded state. This pin is that
-comparison: every module under ``organica/`` with its SHA-256, the package
-version they belong to, and the commit that was checked out when the pin was
-taken.
+comparison: every module under ``organica/`` with its newline-normalized
+SHA-256, the package version they belong to, and the commit that was checked out
+when the pin was taken.
 
 ``--check`` fails when a file is added, removed or changed, and it separates the
 two cases that matter. An engine that moved while the package still claims the
@@ -43,8 +43,24 @@ def engine_files():
     return sorted(path.relative_to(ROOT).as_posix() for path in ENGINE.rglob("*.py"))
 
 
+def _digest(path: Path) -> str:
+    """Hash text after normalizing CRLF and lone CR to LF.
+
+    A Windows checkout with autocrlf must describe the same engine as an LF
+    checkout. Binary files, if one is ever added under organica/, keep their raw
+    bytes so the fallback cannot silently rewrite them.
+    """
+    data = Path(path).read_bytes()
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return hashlib.sha256(data).hexdigest()
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
 def hashes():
-    return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in engine_files()}
+    return {name: _digest(ROOT / name) for name in engine_files()}
 
 
 def package_version():

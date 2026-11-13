@@ -225,8 +225,8 @@ def main():
         "status": "measured",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "source_artifacts": [
-            str(CAPTURE_ARTIFACT.relative_to(REPO)),
-            str(MEMBERSHIP_ARTIFACT.relative_to(REPO)),
+            str(CAPTURE_ARTIFACT.relative_to(REPO).as_posix()),
+            str(MEMBERSHIP_ARTIFACT.relative_to(REPO).as_posix()),
         ],
         "control_seed": control_result,
         "results": results,

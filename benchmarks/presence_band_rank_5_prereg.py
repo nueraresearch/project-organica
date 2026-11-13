@@ -180,7 +180,7 @@ def render(doc: dict) -> str:
     lines = [
         "# PRESENCE-BAND-5 — runnable allocation-law band block",
         "",
-        "**Status.** %s. Generated from `%s`." % (doc["status"], RECORD.relative_to(ROOT)),
+        "**Status.** %s. Generated from `%s`." % (doc["status"], RECORD.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -272,7 +272,7 @@ def freeze() -> int:
     doc = engine_stamp.stamp(build())
     RECORD.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
-    print("froze %s and %s" % (RECORD.relative_to(ROOT), PAGE.relative_to(ROOT)))
+    print("froze %s and %s" % (RECORD.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
     return 0
 
 
@@ -281,7 +281,7 @@ def mark_result(art: dict) -> None:
     doc["status"] = "FROZEN, RUN"
     doc["no_cells_run"] = False
     doc["runner"].update({"built": True, "cells_run": 13})
-    doc["result"] = {"verdict": art["verdict"], "artifact": str(RUN.relative_to(ROOT))}
+    doc["result"] = {"verdict": art["verdict"], "artifact": str(RUN.relative_to(ROOT).as_posix())}
     doc["amendments"].append({
         "date": FROZEN_ON,
         "kind": "run-completed",

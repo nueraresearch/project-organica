@@ -41,7 +41,7 @@ def render(doc: dict) -> str:
         "# T1 — persistence-off at the shipped cap 112",
         "",
         "**Status.** %s. This page is rendered from `%s`; it is not edited by hand."
-        % (doc["status"], RECORD.relative_to(ROOT)),
+        % (doc["status"], RECORD.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -70,7 +70,7 @@ def render(doc: dict) -> str:
         "",
         "The arm is named `%s` and is not implemented: `%s` does not exist. The class is the "
         "frozen definition, not a built runner."
-        % (doc["mechanism"]["arm_class"], ARM.relative_to(ROOT)),
+        % (doc["mechanism"]["arm_class"], ARM.relative_to(ROOT).as_posix()),
         "",
         "## Endpoints",
         "",
@@ -134,14 +134,14 @@ def problems(doc: dict | None = None, page: str | None = None) -> list[str]:
     if engine.get("edit") != "none":
         found.append("the record does not declare no engine edit")
     if not ARM.exists():
-        found.append("%s does not exist" % ARM.relative_to(ROOT))
+        found.append("%s does not exist" % ARM.relative_to(ROOT).as_posix())
     runner = doc.get("runner") or {}
     if runner.get("built") is not True:
         found.append("the record does not claim a built runner")
     if runner.get("cells_run") != 13:
         found.append("the runner claims %r cells, not 13" % (runner.get("cells_run"),))
     if runner.get("module") != ARM.relative_to(ROOT).as_posix():
-        found.append("the runner module is not %s" % ARM.relative_to(ROOT))
+        found.append("the runner module is not %s" % ARM.relative_to(ROOT).as_posix())
 
     auth = doc.get("authorisation") or {}
     for field in ("granted_on", "document", "quote"):
@@ -240,7 +240,7 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     if args.render:
         PAGE.write_text(render(record()), encoding="utf-8")
-        print("rendered %s" % PAGE.relative_to(ROOT))
+        print("rendered %s" % PAGE.relative_to(ROOT).as_posix())
         return 0
     found = problems()
     for problem in found:

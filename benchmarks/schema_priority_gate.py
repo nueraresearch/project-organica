@@ -336,7 +336,7 @@ def render(art: dict) -> str:
         "# Gated schema priority — post hoc diagnostic",
         "",
         "Generated from `%s` by `python -m benchmarks.schema_priority_gate --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** This is a diagnostic, not a confirmatory result and "
         "not evidence that gated priority improves downstream behavior."

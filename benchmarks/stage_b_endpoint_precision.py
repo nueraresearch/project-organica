@@ -217,7 +217,7 @@ def main() -> None:
     args = ap.parse_args()
     artifact = build(args.reps)
     OUT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)}  reps={args.reps}")
+    print(f"wrote {OUT.relative_to(ROOT).as_posix()}  reps={args.reps}")
     for cell in artifact["cells"]:
         for name, row in cell["readouts"].items():
             print(f"  cell {cell['design_block_cell']}  {name:>11}  T={row['withheld_transitions']:>3}  "

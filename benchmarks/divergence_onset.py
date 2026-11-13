@@ -625,7 +625,7 @@ def main(argv: list[str] | None = None) -> int:
                             encoding="utf-8")
     REPORT.write_text(render(artifact) + "\n", encoding="utf-8")
     print("wrote %s and %s (%d runs, %d cached)"
-          % (ARTIFACT.relative_to(REPO), REPORT.relative_to(REPO),
+          % (ARTIFACT.relative_to(REPO).as_posix(), REPORT.relative_to(REPO).as_posix(),
              artifact["runs"], artifact["cached"]))
     return 0
 

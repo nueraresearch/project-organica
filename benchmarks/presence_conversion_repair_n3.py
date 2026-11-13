@@ -490,7 +490,7 @@ def main(argv=None) -> int:
             print("campaign %d: %d cycles, %d served / %d universe rows"
                   % (cell["seed"], cell["cycles_recorded"], cell["served_rows"],
                      cell["universe_rows"]))
-        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT), PAGE.relative_to(ROOT)))
+        print("wrote %s and %s" % (ARTIFACT.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
         return 0
 
     if args.check or not argv:

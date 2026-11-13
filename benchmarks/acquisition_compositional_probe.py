@@ -344,7 +344,7 @@ def main() -> int:
            "checks": checks, "per_world": rows}
     dest = REPO / "docs" / "acquisition_compositional_gate.json"
     dest.write_text(json.dumps(engine_stamp.stamp(out), indent=2), encoding="utf-8")
-    print(f"\n  wrote {dest.relative_to(REPO)}")
+    print(f"\n  wrote {dest.relative_to(REPO).as_posix()}")
     allok = all(checks.values())
     print(f"  ALL CHECKS: {'PASS' if allok else 'FAIL — the study does not run'}")
     return 0 if allok else 1

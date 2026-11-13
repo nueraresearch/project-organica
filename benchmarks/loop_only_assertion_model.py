@@ -424,10 +424,10 @@ def render(art: dict) -> str:
         "# Loop-only assertion model — confirmatory",
         "",
         "Generated from `%s` by `python -m benchmarks.loop_only_assertion_model --write`. "
-        "Do not edit by hand." % ARTIFACT.relative_to(ROOT),
+        "Do not edit by hand." % ARTIFACT.relative_to(ROOT).as_posix(),
         "",
         "**Verdict: `%s`.** The design was frozen in `%s` before the fresh block ran."
-        % (summary["verdict"], PREREG.relative_to(ROOT)),
+        % (summary["verdict"], PREREG.relative_to(ROOT).as_posix()),
         "",
         "## Design",
         "",
@@ -569,7 +569,7 @@ def freeze() -> int:
         return 2
     PREREG.write_text(json.dumps(engine_stamp.stamp(build_prereg()), indent=1) + "\n",
                       encoding="utf-8")
-    print("froze %s" % PREREG.relative_to(ROOT))
+    print("froze %s" % PREREG.relative_to(ROOT).as_posix())
     return 0
 
 

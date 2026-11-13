@@ -36,7 +36,7 @@ SCHEMA_CACHE = REPO / ".scratch" / "zenodo_legacyrecord.json"
 #: metadata it exists to validate -- a check that is red for the wrong reason
 #: is a check nobody reads.
 METADATA_FILES = [".zenodo.json"] + sorted(
-    str(path.relative_to(REPO)) for path in (REPO / "zenodo").glob("*.json"))
+    str(path.relative_to(REPO).as_posix()) for path in (REPO / "zenodo").glob("*.json"))
 
 
 def fetch_schema() -> dict:

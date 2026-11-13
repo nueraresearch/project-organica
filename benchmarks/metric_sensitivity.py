@@ -324,7 +324,7 @@ def main() -> None:
               f"({downstream[1]['downstream_mean_relative_distance']}).")
 
     try:
-        matrix_ref = str(path.relative_to(REPO))
+        matrix_ref = str(path.relative_to(REPO).as_posix())
     except ValueError:
         matrix_ref = str(path)
 

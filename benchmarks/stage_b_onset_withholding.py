@@ -1233,7 +1233,7 @@ def main() -> int:
 
             print(f"  {label}: {row}")
 
-        print("wrote", OUT.relative_to(ROOT))
+        print("wrote", OUT.relative_to(ROOT).as_posix())
 
         return 0
 

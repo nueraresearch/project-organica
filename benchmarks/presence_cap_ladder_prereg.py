@@ -341,7 +341,7 @@ def render(doc: dict) -> str:
         "# PRESENCE-CAP-LADDER-1 — multi-seed transition-budget ladder",
         "",
         "**Status.** %s. Generated from `%s`; never edited by hand."
-        % (doc["status"], RECORD.relative_to(ROOT)),
+        % (doc["status"], RECORD.relative_to(ROOT).as_posix()),
         "",
         "| Field | Value |",
         "| --- | --- |",
@@ -547,7 +547,7 @@ def freeze() -> int:
     doc = engine_stamp.stamp(build())
     RECORD.write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
     PAGE.write_text(render(doc), encoding="utf-8")
-    print("froze %s and %s" % (RECORD.relative_to(ROOT), PAGE.relative_to(ROOT)))
+    print("froze %s and %s" % (RECORD.relative_to(ROOT).as_posix(), PAGE.relative_to(ROOT).as_posix()))
     return 0
 
 

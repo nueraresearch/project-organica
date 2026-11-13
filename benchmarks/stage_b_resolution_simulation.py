@@ -239,7 +239,7 @@ def main() -> None:
     }
     OUT.write_text(json.dumps(engine_stamp.stamp(artifact), indent=2) + "\n", encoding="utf-8")
 
-    print(f"wrote {OUT.relative_to(ROOT)}  sims={args.sims} reps={args.reps}")
+    print(f"wrote {OUT.relative_to(ROOT).as_posix()}  sims={args.sims} reps={args.reps}")
     for label, row in artifact["size_sensitivity_at_planning_effect"].items():
         print(f"  size {label:>3}  rho {row['observed_effect_spearman']:.6f}  "
               f"fisher-z {row['fisher_z_says']:.4f}  "

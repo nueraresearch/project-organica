@@ -142,7 +142,7 @@ def main(argv=None) -> int:
         per_tag = prov.counts(body)
         print("wrote %d map rows, %d label rows and %d provenance tags into %s"
               % (len(body["rows"]), len(body["label_meanings"]), sum(per_tag.values()),
-                 DOC.relative_to(ROOT)))
+                 DOC.relative_to(ROOT).as_posix()))
         return 0
     if args.check:
         if fresh != text:
