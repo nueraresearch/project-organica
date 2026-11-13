@@ -79,6 +79,4 @@ def test_the_page_is_current_and_the_seeds_are_fresh():
     assert replication.PAGE.read_text(encoding="utf-8") == replication.render(art)
     from benchmarks.presence_cap_experiment import seed_collisions
     assert seed_collisions(
-        replication.SEEDS,
-        allow=(replication.PREREG, replication.ARTIFACT,
-               replication.ROOT / "docs" / "research_question_registry.json")) == {}
+        replication.SEEDS, allow=replication.COLLISION_ALLOW) == {}

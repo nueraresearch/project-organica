@@ -73,7 +73,14 @@ ORIGINAL = ROOT / "docs" / "never_served_assertion_model.json"
 PROV_RESULT = ROOT / "docs" / "assertion_provenance_replication.json"
 PROV_PREREG = ROOT / "docs" / "assertion_provenance_replication_prereg.json"
 REGISTRY = ROOT / "docs" / "research_question_registry.json"
-COLLISION_ALLOW = (PREREG, ARTIFACT, PROV_PREREG, PROV_RESULT, REGISTRY)
+COLLISION_ALLOW = (
+    PREREG,
+    ARTIFACT,
+    PROV_PREREG,
+    PROV_RESULT,
+    REGISTRY,
+    ROOT / "docs" / "source_diversified_top20.json",
+)
 PREDICTORS = ("loop", "rank_log2_z", "count_z")
 VERDICTS = ("REPLICATED", "DIRECTIONAL ONLY", "NOT REPLICATED", "VOID")
 

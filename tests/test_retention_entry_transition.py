@@ -1,5 +1,5 @@
 """The entry-transition runner captures full appearance cycles and refuses unrun."""
-LAYER = "static"
+LAYER = "synthetic"
 
 import json
 
@@ -279,12 +279,45 @@ def test_load_parts_rejects_an_empty_planned_seed_block(monkeypatch, tmp_path):
     assert not runner.ARTIFACT.exists()
 
 
+def test_empty_planned_seed_guard_fires_even_when_a_part_exists(
+        monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "PARTS", tmp_path)
+    seed = block.SEEDS[0]
+    part = _part_with_appearances([1, 120])
+    runner.part_path(seed).write_text(json.dumps(part), encoding="utf-8")
+
+    monkeypatch.setattr(runner, "planned", lambda: [seed])
+    assert runner._load_parts() == [part]
+
+    monkeypatch.setattr(runner, "planned", lambda: [])
+    with pytest.raises(SystemExit, match="planned seed block is empty"):
+        runner._load_parts()
+    assert runner.part_path(seed).exists()
+    assert not runner.ARTIFACT.exists()
+
+
 def test_load_parts_rejects_duplicate_planned_seeds(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "PARTS", tmp_path)
     monkeypatch.setattr(runner, "planned",
                         lambda: [block.SEEDS[0], block.SEEDS[0]])
     part = _part_with_appearances([1, 120])
     runner.part_path(block.SEEDS[0]).write_text(json.dumps(part), encoding="utf-8")
+    with pytest.raises(SystemExit, match="duplicate planned seeds"):
+        runner._load_parts()
+    assert not runner.ARTIFACT.exists()
+
+
+def test_duplicate_planned_seed_guard_fails_with_a_clean_part_on_disk(
+        monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "PARTS", tmp_path)
+    seed = block.SEEDS[0]
+    part = _part_with_appearances([1, 120])
+    runner.part_path(seed).write_text(json.dumps(part), encoding="utf-8")
+
+    monkeypatch.setattr(runner, "planned", lambda: [seed])
+    assert runner._load_parts() == [part]
+
+    monkeypatch.setattr(runner, "planned", lambda: [seed, seed])
     with pytest.raises(SystemExit, match="duplicate planned seeds"):
         runner._load_parts()
     assert not runner.ARTIFACT.exists()

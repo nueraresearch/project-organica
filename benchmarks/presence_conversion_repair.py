@@ -160,6 +160,12 @@ def validate(body: dict | None = None) -> list[str]:
 
     allow = [PREREG, DOC, N3_ARTIFACT, UNEXPLAINED_ARTIFACT, ASSERTION_ARTIFACT,
              CARRIER_ARTIFACT, PROBE_ARTIFACT, TURNOVER_ARTIFACT,
+             ROOT / "docs/never_served_assertion_model.json",
+             ROOT / "docs/never_served_assertion_model_prereg.json",
+             ROOT / "docs/matched_carrier_replication_2.json",
+             ROOT / "docs/matched_carrier_replication_2_prereg.json",
+             ROOT / "docs/schema_priority_gate.json",
+             ROOT / "docs/stored_field_tiebreak.json",
              ROOT / "docs/presence_band_rank_prereg.json",
              ROOT / "docs/PRESENCE-BAND-RANK-PREREGISTRATION.md",
              ROOT / "docs/presence_band_rank_run.json",

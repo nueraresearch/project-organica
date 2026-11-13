@@ -36,6 +36,8 @@ PREREGS = ROOT / "docs"
 # Tables that state the decision each outcome branch enables.
 JUDGED = {
     "presence_cap_prereg.json",
+    "presence_cap_ladder_prereg.json",
+    "core_band_admission_prereg.json",
     "density_interaction_prereg.json",
     "density_interaction_a2_prereg.json",
     "density_padding_prereg.json",

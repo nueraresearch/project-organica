@@ -64,6 +64,14 @@ ORIGINAL_EDGES = 26
 ORIGINAL_SHARE = ORIGINAL_IDENTITY / ORIGINAL_EDGES
 Z_95 = 1.959963984540054
 VERDICTS = ("REPLICATED", "DIRECTIONAL ONLY", "NOT REPLICATED", "VOID")
+COLLISION_ALLOW = (
+    PREREG,
+    ARTIFACT,
+    ROOT / "docs" / "research_question_registry.json",
+    ROOT / "docs" / "never_served_assertion_model_replication.json",
+    ROOT / "docs" / "never_served_assertion_model_replication_prereg.json",
+    ROOT / "docs" / "source_diversified_top20.json",
+)
 
 
 def _load(path: Path) -> dict:
@@ -204,8 +212,7 @@ def build() -> dict:
     prereg = _load(PREREG)
     problems = _validate_prereg(prereg)
     from benchmarks.presence_cap_experiment import seed_collisions
-    collisions = seed_collisions(
-        SEEDS, allow=(PREREG, ARTIFACT, ROOT / "docs" / "research_question_registry.json"))
+    collisions = seed_collisions(SEEDS, allow=COLLISION_ALLOW)
     if collisions:
         problems.append("seed collision: %r" % (collisions,))
     if problems:
@@ -391,9 +398,7 @@ def problems(art: dict | None = None) -> list[str]:
            for trace in art.get("seeds") or []):
         found.append("seed row count")
     from benchmarks.presence_cap_experiment import seed_collisions
-    if seed_collisions(
-            SEEDS, allow=(PREREG, ARTIFACT,
-                          ROOT / "docs" / "research_question_registry.json")):
+    if seed_collisions(SEEDS, allow=COLLISION_ALLOW):
         found.append("seed collision")
     if PAGE.exists() and PAGE.read_text(encoding="utf-8") != render(art):
         found.append("page stale")
