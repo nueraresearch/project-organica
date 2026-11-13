@@ -18,7 +18,7 @@ mechanism determines which internally developed structures become behaviorally a
 
 The repository's first commit is **`15149cb`**, dated **2026-10-20 09:04 -06:00** ("initial commit
 of Project Organica developmental stack (Gen 0 - Gen 8)"). As of **2026-11-13**, the recorded
-repository history is **24 days old**, with **502 commits** and **seven tags**.
+repository history is **24 days old**, with **503 commits through `d2ab04a`** and **seven tags**.
 
 | Date | Day | Record |
 | --- | ---: | --- |
@@ -37,6 +37,25 @@ is measured here is the age of the **recorded repository history**, not the age 
 The same distinction applies to the "90-day" longitudinal study. It is a designed horizon and a
 cycle count, not 90 days of wall-clock elapsed time. The live study reached **5,396 sleep cycles**
 before it was paused; the last daemon session completed **1,032 continuous-run cycles**.
+
+### Multiple clocks
+
+Calendar age, repository activity and experimental exposure measure different things. They must
+not be added together into a single "developmental age."
+
+| Clock | Measured value | What it counts | What it does not mean |
+| --- | ---: | --- | --- |
+| Calendar age | **24 days** (2026-10-20 to 2026-11-13) | Elapsed recorded repository history | The age of the ideas or the architecture |
+| Commit clock | **503 commits** through `d2ab04a` | Recorded changes to the repository | Independent experiments or replications |
+| Test clock | **2,274 passed, 19 skipped, 0 failed of 2,293** | Suite assertions on 2026-11-13 | Scientific confirmation of the claims under test |
+| Live developmental clock | **5,396 sleep cycles** | One paused longitudinal run against one preserved database | Aggregate experience across all colonies or worlds |
+| Tier-1 campaign clock | **18,000 colony-cycles** | Six colonies × 3,000 cycles in the matrix | One organism's continuous lifetime |
+
+The live cycles and the campaign cycles are both real exposure, but they are **separate runs on
+separate substrates**. The correct aggregate statement is "thousands of experimental cycles across
+multiple campaigns," not "one system has lived for thousands of cycles." That distinction matters
+when the negative results are interpreted: the project has more experimental exposure than its
+calendar age suggests, but less continuous developmental history than the raw cycle total suggests.
 
 Experimental exposure is therefore substantial even though the calendar is short:
 
@@ -78,6 +97,14 @@ they would in a slower program.
   **[96, 100]**.
 - The 26 asserted-but-never-served edges are construction-present and excluded at admission, not
   lost at construction or by a recording gap.
+- **A0 stage analysis (2026-11-13, a re-reading rather than a new measurement): no single upstream
+  selection stage is identified.** Admission excludes the direct edge — **672** present, **671**
+  constructed, **179** never served, **26** asserted but never served, **0** of the 26 inside the
+  served transition budget — while loop construction creates the carrier: **26/26** rows, cycles
+  **37–117**, median first formation **76**. The carrier exists at or before the best recorded rank
+  in **17** rows and after it in **9**. The two are parallel paths to assertion, so the 2×2
+  discrimination design is **`NOT IDENTIFIED`** as written. This blocks A1; it does not show that no
+  selection process exists.
 - Loops are strongly enriched among asserted never-served edges: **26/26** cases against **13/26**
   matched controls on the original block; **29/29** against **11/29** on the fresh matched block.
 - Count is not an independent positive signal once retention and strength are measured.
@@ -96,7 +123,41 @@ they would in a slower program.
 - That the entry-transition retention block has a result; it is **`FROZEN, NOT RUN`**, with no grant.
 - Generality beyond the tested world family, or independent replication by another laboratory.
 
-## 5. Integrity state
+## 5. Conservative current-status restatement
+
+**This is a status boundary, not an empirical finding.** It restates the scope of the evidence in
+one place and adds no measurement. It is deliberately separate from the established findings above.
+
+> Developmental structure formation is supported within the tested scope. Persistence effects are
+> supported. Admission anomalies are supported. Carrier enrichment is supported. Carrier causation
+> is untested. Positive transfer and external advantage remain unestablished. Audit consistency has
+> improved through explicit treatment of downstream seed reuse, but the underlying scientific claims
+> rest on the same experimental evidence as before.
+
+The repair changes what the record can say about itself, not what the experiments established:
+
+| Question | After the repair |
+| --- | --- |
+| Did any verdict change? | No |
+| Was any cell rerun? | No |
+| Did any artifact outcome change? | No |
+| Did the seed reuse become explicit? | Yes — intentional downstream reuse is now registered |
+| Did the suite become green? | Yes — **2,274 passed, 19 skipped, 0 failed** |
+| Did this validate the underlying replication independently? | No |
+
+The remaining uncertainty is concentrated in three layers, which should not be collapsed into one
+question:
+
+1. **Selection:** what determines which internally developed structures become behaviorally active?
+2. **Carrier role:** is carrier enrichment causal, a common cause, or a readout of selection that has
+   already happened elsewhere?
+3. **External link:** can any of this be connected to a measurable external advantage, rather than
+   only to internal assertion?
+
+This is a conservative statement because it keeps the audit repair and the empirical claims in
+different categories. The repair improved the record; it did not improve the result.
+
+## 6. Integrity state
 
 - The full suite is green after the 2026-11-13 repair: **2,274 passed, 19 skipped, 0 failed**.
 - The seed-freshness scans now distinguish intentionally reused downstream analyses from new
@@ -107,7 +168,7 @@ they would in a slower program.
   `CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1` have no grant and no cells.
 - The live study remains paused.
 
-## 6. Roadmap options
+## 7. Roadmap options
 
 | Option | Question | Cost | Main risk |
 | --- | --- | ---: | --- |
@@ -120,15 +181,21 @@ they would in a slower program.
 | **F. V2 engineering** | Can a targeted redesign fix the weakness? | High | Repeating a guessed-mechanism cycle |
 
 **Recommended sequence:** finish provenance repair and publication in parallel; characterize
-carrier formation; then run one carrier intervention. Treat A and B as one program: A says where to
-intervene, B says whether the intervention matters. Do not start V2 until that result exists.
+carrier formation; then revise the discrimination design, because A0 found no single upstream
+selection stage. A1 is blocked as written. Treat A and B as one program: A says where to intervene,
+B says whether the intervention matters. Do not start V2 until that result exists.
 
-## 7. Evidence index
+The decision-gated version of this sequence is [`ROADMAP.md`](../ROADMAP.md), which states each
+exit gate, what each outcome licenses, and which items are deferred. This table is the report's
+synthesis, not a second plan.
+
+## 8. Evidence index
 
 - Persistence: `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`
 - Assertion anomaly: `docs/never_served_assertion_model.json`, `docs/NEVER-SERVED-ASSERTION-MODEL-RESULT.md`
 - Provenance and carriers: `docs/assertion_provenance.json`, `docs/assertion_carrier_trace.json`,
   `docs/matched_carrier_replication_2.json`
+- Carrier A0: `docs/carrier_formation_a0.json`, `docs/CARRIER-FORMATION-A0.md`
 - Retention: `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`,
   `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`
 - Acquisition: `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`

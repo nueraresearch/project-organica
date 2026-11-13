@@ -1,0 +1,723 @@
+{
+ "kind": "carrier_formation_a0",
+ "not_a_result": true,
+ "date": "2026-11-13",
+ "question": "Can a single upstream selection stage be named for the carrier-selection discrimination design?",
+ "definition": "A read-only join of the 26 asserted-never-served carrier rows, their provenance ranks, the Q4 stage table and the 26 unexplained edges.",
+ "sources": {
+  "carrier": "docs/assertion_carrier_trace.json",
+  "provenance": "docs/assertion_provenance.json",
+  "unexplained": "docs/presence_unexplained_edges.json",
+  "stage": "docs/presence_conversion_repair_run.json"
+ },
+ "verdict": "NO SINGLE UPSTREAM SELECTION STAGE IDENTIFIED",
+ "reading": "Admission is the stage that excludes the direct edge from service; candidate formation is the stage that creates the loop carrier. The records place them on parallel paths to assertion, not in one upstream chain. The design's S cannot be named from the existing records without a new stage-level intervention.",
+ "summary": {
+  "edges": 26,
+  "loop_carrier_rows": 26,
+  "categories": {
+   "alternate_assertion_path": 8,
+   "identity_mismatch": 18
+  },
+  "formation_cycle_min": 37,
+  "formation_cycle_max": 117,
+  "formation_cycle_median": 76.0,
+  "direct_temporal_min": 23,
+  "direct_temporal_max": 47,
+  "in_cap": 10,
+  "within_served_transition_budget": 0,
+  "prediction_sources": 0,
+  "carrier_before_best_rank": 17,
+  "carrier_after_best_rank": 9,
+  "stage_totals": {
+   "present": 672,
+   "constructed": 671,
+   "below_minimum": 1,
+   "served_ever": 492,
+   "never_served": 179,
+   "never_served_within_transition_budget": 0,
+   "asserted_final": 247,
+   "unexplained": 26
+  }
+ },
+ "stage_map": [
+  {
+   "stage": "candidate_formation",
+   "observable": true,
+   "observable_evidence": "carrier formation cycles 37-117; 61 loop carriers",
+   "independently_manipulable": true,
+   "leaves_carrier_intact": false,
+   "upstream_of_carrier": true,
+   "eligible_as_s": false,
+   "why": "it creates C; manipulation changes C, so it is upstream but not independent"
+  },
+  {
+   "stage": "admission",
+   "observable": true,
+   "observable_evidence": "179 present edges never served; 26 asserted edges never served; 0 of the 26 inside the served transition budget",
+   "independently_manipulable": true,
+   "leaves_carrier_intact": true,
+   "upstream_of_carrier": false,
+   "eligible_as_s": false,
+   "why": "served-window allocation can be varied and the carrier forms without it, but it is parallel to the carrier path, not upstream of it"
+  },
+  {
+   "stage": "service",
+   "observable": true,
+   "observable_evidence": "the served window is the engine's own cap-40 list in all 720 cycles; the 26 never enter it",
+   "independently_manipulable": false,
+   "leaves_carrier_intact": true,
+   "upstream_of_carrier": false,
+   "eligible_as_s": false,
+   "why": "the current records do not separate service from admission; both are the served-window path"
+  },
+  {
+   "stage": "assertion",
+   "observable": true,
+   "observable_evidence": "247 asserted world edges, including the 26 never-served rows",
+   "independently_manipulable": true,
+   "leaves_carrier_intact": true,
+   "upstream_of_carrier": false,
+   "eligible_as_s": false,
+   "why": "assertion can be blocked by the ordering arm, but it is downstream of both paths; it cannot be the upstream S"
+  }
+ ],
+ "rows": [
+  {
+   "seed": 20611601,
+   "edge": "olive>umber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 43,
+   "reverse_temporal_count": 25,
+   "rank": 31,
+   "best_cycle": 15,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    62
+   ],
+   "first_formation_cycle": 62,
+   "last_formation_cycle": 62,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611601,
+   "edge": "olive>willow",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 38,
+   "reverse_temporal_count": 23,
+   "rank": 39,
+   "best_cycle": 104,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    104
+   ],
+   "first_formation_cycle": 104,
+   "last_formation_cycle": 104,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>olive",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 23,
+   "reverse_temporal_count": 38,
+   "rank": 127,
+   "best_cycle": 116,
+   "in_cap": false,
+   "band": "113+",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    104
+   ],
+   "first_formation_cycle": 104,
+   "last_formation_cycle": 104,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611601,
+   "edge": "willow>teal",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 36,
+   "reverse_temporal_count": 32,
+   "rank": 124,
+   "best_cycle": 116,
+   "in_cap": false,
+   "band": "113+",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    109,
+    62,
+    104,
+    62,
+    62
+   ],
+   "first_formation_cycle": 62,
+   "last_formation_cycle": 109,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 5.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611602,
+   "edge": "amber>umber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 34,
+   "reverse_temporal_count": 27,
+   "rank": 61,
+   "best_cycle": 81,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    50
+   ],
+   "first_formation_cycle": 50,
+   "last_formation_cycle": 50,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611602,
+   "edge": "indigo>umber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 28,
+   "reverse_temporal_count": 36,
+   "rank": 52,
+   "best_cycle": 31,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    110,
+    114,
+    112
+   ],
+   "first_formation_cycle": 110,
+   "last_formation_cycle": 114,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611602,
+   "edge": "sable>slate",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 43,
+   "reverse_temporal_count": 32,
+   "rank": 26,
+   "best_cycle": 119,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    49
+   ],
+   "first_formation_cycle": 49,
+   "last_formation_cycle": 49,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611602,
+   "edge": "willow>umber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 33,
+   "reverse_temporal_count": 42,
+   "rank": 54,
+   "best_cycle": 119,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    84,
+    49,
+    68,
+    112,
+    51,
+    37,
+    37,
+    56
+   ],
+   "first_formation_cycle": 37,
+   "last_formation_cycle": 112,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "dream": 1.0,
+    "loop_candidate": 7.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "sable>yarrow",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 39,
+   "reverse_temporal_count": 35,
+   "rank": 111,
+   "best_cycle": 110,
+   "in_cap": false,
+   "band": "81-112",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    76
+   ],
+   "first_formation_cycle": 76,
+   "last_formation_cycle": 76,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>umber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 40,
+   "reverse_temporal_count": 37,
+   "rank": 27,
+   "best_cycle": 106,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    66
+   ],
+   "first_formation_cycle": 66,
+   "last_formation_cycle": 66,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "slate>yarrow",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 42,
+   "reverse_temporal_count": 32,
+   "rank": 26,
+   "best_cycle": 86,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    67
+   ],
+   "first_formation_cycle": 67,
+   "last_formation_cycle": 67,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "umber>teal",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 30,
+   "reverse_temporal_count": 33,
+   "rank": 28,
+   "best_cycle": 68,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    117,
+    66,
+    66
+   ],
+   "first_formation_cycle": 66,
+   "last_formation_cycle": 117,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "willow>verdant",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 32,
+   "reverse_temporal_count": 43,
+   "rank": 41,
+   "best_cycle": 84,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    69
+   ],
+   "first_formation_cycle": 69,
+   "last_formation_cycle": 69,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>indigo",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 30,
+   "reverse_temporal_count": 42,
+   "rank": 80,
+   "best_cycle": 107,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    76,
+    117
+   ],
+   "first_formation_cycle": 76,
+   "last_formation_cycle": 117,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 2.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>sable",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 35,
+   "reverse_temporal_count": 39,
+   "rank": 79,
+   "best_cycle": 107,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    76
+   ],
+   "first_formation_cycle": 76,
+   "last_formation_cycle": 76,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>slate",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 32,
+   "reverse_temporal_count": 42,
+   "rank": 81,
+   "best_cycle": 107,
+   "in_cap": false,
+   "band": "81-112",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    67
+   ],
+   "first_formation_cycle": 67,
+   "last_formation_cycle": 67,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611603,
+   "edge": "yarrow>verdant",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 38,
+   "reverse_temporal_count": 42,
+   "rank": 77,
+   "best_cycle": 107,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    96,
+    76,
+    76,
+    76,
+    76,
+    69,
+    69,
+    66
+   ],
+   "first_formation_cycle": 66,
+   "last_formation_cycle": 96,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 9.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611604,
+   "edge": "amber>maple",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 36,
+   "reverse_temporal_count": 27,
+   "rank": 35,
+   "best_cycle": 16,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    79
+   ],
+   "first_formation_cycle": 79,
+   "last_formation_cycle": 79,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611604,
+   "edge": "maple>amber",
+   "category": "alternate_assertion_path",
+   "direct_temporal_count": 27,
+   "reverse_temporal_count": 36,
+   "rank": 41,
+   "best_cycle": 81,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    79
+   ],
+   "first_formation_cycle": 79,
+   "last_formation_cycle": 79,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611605,
+   "edge": "amber>birch",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 23,
+   "reverse_temporal_count": 34,
+   "rank": 22,
+   "best_cycle": 31,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    100,
+    111,
+    102
+   ],
+   "first_formation_cycle": 100,
+   "last_formation_cycle": 111,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 3.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>birch",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 33,
+   "reverse_temporal_count": 39,
+   "rank": 31,
+   "best_cycle": 12,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    111,
+    85,
+    102,
+    111,
+    111,
+    102
+   ],
+   "first_formation_cycle": 85,
+   "last_formation_cycle": 111,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 7.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611605,
+   "edge": "sable>teal",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 31,
+   "reverse_temporal_count": 37,
+   "rank": 81,
+   "best_cycle": 19,
+   "in_cap": false,
+   "band": "81-112",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    85,
+    112,
+    73,
+    110
+   ],
+   "first_formation_cycle": 73,
+   "last_formation_cycle": 112,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 5.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611606,
+   "edge": "crimson>teal",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 47,
+   "reverse_temporal_count": 45,
+   "rank": 27,
+   "best_cycle": 31,
+   "in_cap": true,
+   "band": "21-40",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    78
+   ],
+   "first_formation_cycle": 78,
+   "last_formation_cycle": 78,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611606,
+   "edge": "ochre>amber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 27,
+   "reverse_temporal_count": 32,
+   "rank": 82,
+   "best_cycle": 120,
+   "in_cap": false,
+   "band": "81-112",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    114
+   ],
+   "first_formation_cycle": 114,
+   "last_formation_cycle": 114,
+   "carrier_before_best_rank": true,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>amber",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 31,
+   "reverse_temporal_count": 39,
+   "rank": 51,
+   "best_cycle": 28,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    77,
+    99,
+    97,
+    85
+   ],
+   "first_formation_cycle": 77,
+   "last_formation_cycle": 99,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 4.0
+   },
+   "prediction_source": false
+  },
+  {
+   "seed": 20611606,
+   "edge": "teal>willow",
+   "category": "identity_mismatch",
+   "direct_temporal_count": 39,
+   "reverse_temporal_count": 37,
+   "rank": 50,
+   "best_cycle": 28,
+   "in_cap": false,
+   "band": "41-80",
+   "served_transitions_in_best_cycle": 20,
+   "within_served_transition_budget": false,
+   "formation_cycles": [
+    97
+   ],
+   "first_formation_cycle": 97,
+   "last_formation_cycle": 97,
+   "carrier_before_best_rank": false,
+   "assertion_sources": {
+    "loop_candidate": 1.0
+   },
+   "prediction_source": false
+  }
+ ],
+ "not_evidence": "An analysis of six committed Q4 seeds in one synthetic world family at one build and one cap. It runs no cell and establishes no causal, capability, retention or transfer claim. The absence of a single upstream stage is a limit of this design, not evidence that no selection process exists."
+}
