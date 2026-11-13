@@ -103,8 +103,10 @@ they would in a slower program.
   served transition budget — while loop construction creates the carrier: **26/26** rows, cycles
   **37–117**, median first formation **76**. The carrier exists at or before the best recorded rank
   in **17** rows and after it in **9**. The two are parallel paths to assertion, so the 2×2
-  discrimination design is **`NOT IDENTIFIED`** as written. This blocks A1; it does not show that no
-  selection process exists.
+  discrimination design is **`NOT IDENTIFIED`** as written. The replacement is a registered two-path
+  design — admission × carrier availability, with an assertion-blockade arm and a double-block
+  positive control — but it is design-only, with no seeds, runner or grant. This blocks A1 as
+  written; it does not show that no selection process exists.
 - Loops are strongly enriched among asserted never-served edges: **26/26** cases against **13/26**
   matched controls on the original block; **29/29** against **11/29** on the fresh matched block.
 - Count is not an independent positive signal once retention and strength are measured.
@@ -181,9 +183,10 @@ different categories. The repair improved the record; it did not improve the res
 | **F. V2 engineering** | Can a targeted redesign fix the weakness? | High | Repeating a guessed-mechanism cycle |
 
 **Recommended sequence:** finish provenance repair and publication in parallel; characterize
-carrier formation; then revise the discrimination design, because A0 found no single upstream
-selection stage. A1 is blocked as written. Treat A and B as one program: A says where to intervene,
-B says whether the intervention matters. Do not start V2 until that result exists.
+carrier formation; then implement and preregister the registered two-path design, because A0 found
+no single upstream selection stage. A1 remains design-only until it has a granted, runnable block.
+Treat A and B as one program: A says where to intervene, B says whether the intervention matters.
+Do not start V2 until that result exists.
 
 The decision-gated version of this sequence is [`ROADMAP.md`](../ROADMAP.md), which states each
 exit gate, what each outcome licenses, and which items are deferred. This table is the report's
@@ -196,6 +199,7 @@ synthesis, not a second plan.
 - Provenance and carriers: `docs/assertion_provenance.json`, `docs/assertion_carrier_trace.json`,
   `docs/matched_carrier_replication_2.json`
 - Carrier A0: `docs/carrier_formation_a0.json`, `docs/CARRIER-FORMATION-A0.md`
+- Two-path design: `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`
 - Retention: `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`,
   `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md`
 - Acquisition: `docs/ACQUISITION-ENDPOINT-AUDIT.md`, `docs/ACQUISITION-EXPERIMENT-PREREGISTRATION.md`

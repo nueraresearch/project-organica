@@ -84,43 +84,44 @@ and it does not by itself justify V2.
 
 ### A1. Carrier intervention — central discrimination test
 
-**Status: BLOCKED BY A0 (2026-11-13).** The current 2×2 needs a single upstream selection stage
-that is independently manipulable. A0 found two parallel stages instead: admission excludes the
-direct edge, and candidate formation creates the carrier. A1 does not run until a two-path design or
-a new stage-level lever is registered.
+**Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.** A0 blocked the single-stage 2×2;
+the replacement is
+[`docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`](docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md). It treats
+admission and carrier availability as parallel factors, adds an assertion-blockade ordering arm and
+uses `A−K−` as a positive control. It assigns no seeds, implements no runner and authorises no cell.
 
-**Question.** Is carrier enrichment causal, a common cause of assertion, or a readout of selection
-that has already happened elsewhere?
+**Question.** Do admission and carrier availability each contribute to assertion independently, and
+is the carrier–assertion association causal, a shared-cause association, an admission-only
+association, or a readout of assertion?
 
-**Design requirements.** The current design is
-[`docs/CARRIER-SELECTION-DISCRIMINATION-DESIGN.md`](docs/CARRIER-SELECTION-DISCRIMINATION-DESIGN.md);
-it is **design only**, with no seeds, runner or grant.
+**Design requirements.** The registered design is two-path, not a single-stage 2×2.
 
-- State the three models as explicit causal graphs, including the named candidate common cause and
-  the exact selection stage being manipulated.
-- Include at least two levers: one that changes the upstream selection stage while carrier
-  availability is held or blocked, and one that changes carrier availability while selection is
-  fixed. A carrier-only manipulation cannot separate common-cause from readout-only.
+- Four cells: admission allowed/blocked × carrier available/blocked (`A± K±`). `A−K−` is a positive
+  control: assertion surviving both blocks is `THIRD ROUTE PRESENT`.
+- `A−` blocks served-window availability; `K−` blocks carrier-to-readout availability; each must
+  leave the other path intact. `Y−` blocks assertion and measures carrier survival.
+- `U` — pre-treatment temporal count, reverse count and strength — is measured and used for
+  stratification, not as a post-treatment covariate.
 - Precommit the prediction table before running. Separate observer-side reconstruction from
   subject-side manipulation. Use matched controls and fresh seeds.
-- Treat an ambiguous result as a failed discrimination, not as support for the most convenient
-  model.
 
 **What the outcomes mean.**
 
-- **Causal carrier:** carrier availability changes assertion with the selection stage held fixed,
-  and the upstream selection effect is attenuated when carrier formation is blocked.
-- **Common cause:** carrier-only manipulation does not change assertion, while the upstream
-  selection manipulation still moves assertion when carrier formation is blocked.
-- **Readout only:** carrier-only manipulation does not change assertion, and carrier movement
-  follows the selection event rather than preceding it.
+- **`CARRIER CAUSAL`:** carrier availability contributes to assertion at `A−`, the association
+  survives within `U`, and assertion blockade does not remove the carrier.
+- **`ADMISSION ONLY`:** the carrier effect is null and the association vanishes given admission.
+- **`SHARED CAUSE`:** the carrier effect is null and the association vanishes within `U`.
+- **`READOUT`:** the carrier effect is null and assertion blockade reduces the carrier.
+- **`THIRD ROUTE PRESENT` / `SHARED CAUSE / READOUT NOT SEPARATED` / `MIXED`:** no model is selected;
+  the named structural failure is the result.
 
-**Exit gate.** At least one model is eliminated by the precommitted predictions, or the result is
-recorded as `VOID` / ambiguous with no causal claim.
+**Exit gate.** At least one model is eliminated by the precommitted predictions, or a structural
+verdict (`THIRD ROUTE PRESENT`, `SHARED CAUSE / READOUT NOT SEPARATED`, `MIXED`, `VOID`) is recorded
+with no causal claim.
 
-**What it licenses.** A causal result licenses A3 and a mechanism-targeted V2 discussion. A
-common-cause or readout-only result closes the carrier line as a causal explanation and returns the
-question to selection. An ambiguous result licenses no claim and no V2 design.
+**What it licenses.** A causal carrier result licenses a carrier-targeted A3 and V2 discussion; an
+admission-only result targets admission; a shared-cause result targets `U`; a readout result demotes
+the carrier. A structural failure licenses no A3 and no V2 design.
 
 ### M1. Mechanism branch — after A1
 
@@ -131,15 +132,16 @@ denying it causal status.
 
 | Branch | A1 signature | M1 status | A3 target | V2 implication |
 | --- | --- | --- | --- | --- |
-| **M1-C — Causal carrier** | Carrier availability changes assertion at fixed selection; the `S+` effect is attenuated under carrier blockade; carrier precedes assertion; assertion blockade does not prevent carrier | **PASS — carrier mechanism** | Carrier → external | Carrier-targeted V2 eligible |
-| **M1-CC — Common cause** | No carrier effect at fixed selection; the `S+` effect persists under carrier blockade; carrier and assertion co-move after selection; assertion blockade does not prevent carrier | **PASS — selection mechanism** | Named selection stage → external | Selection-targeted V2 eligible; no carrier-targeted V2 |
-| **M1-RO — Readout only** | No carrier effect at fixed selection; the `S+` effect persists; assertion precedes carrier or assertion blockade reduces carrier | **PASS — selection/assertion mechanism; carrier demoted** | Assertion or selection → external, never carrier | No carrier-targeted V2 |
-| **M1-X — Not identified** | Signatures conflict across seeds or estimands, or the ordering arm cannot separate common cause from readout | **FAIL — no mechanism branch** | None | None; redesign only with a named defect |
+| **M1-C — Causal carrier** | Carrier effect at `A−`; association survives within `U`; carrier precedes assertion; `Y−` does not remove carrier | **PASS — carrier mechanism** | Carrier → external | Carrier-targeted V2 eligible |
+| **M1-A — Admission only** | No carrier effect at `A−`; association vanishes given admission; admission effect positive | **PASS — admission mechanism** | Admission → external | Admission-targeted V2 eligible; no carrier V2 |
+| **M1-CC — Shared cause** | No carrier effect; association persists given admission but vanishes within `U`; `Y−` does not remove carrier | **PASS — shared-cause target** | `U` → external | Shared-cause V2 eligible; no carrier V2 |
+| **M1-RO — Readout only** | No carrier effect; `Y−` reduces carrier; assertion precedes carrier | **PASS — readout target; carrier demoted** | Assertion or admission → external, never carrier | No carrier-targeted V2 |
+| **M1-X — Not identified** | Signatures conflict, `THIRD ROUTE PRESENT`, or shared cause and readout are not separated | **FAIL — no mechanism branch** | None | None; redesign only with a named defect |
 | **M1-V — Void** | A manipulation, independence, pairing or determinism gate fails | **VOID** | None until the instrument is fixed | None |
 
 M1 does **not** mean “the carrier is causal.” It means “the surviving mechanism is named.” Under
-M1-CC and M1-RO the carrier is not the target, and an A3 study that manipulates the carrier would
-be testing the wrong object.
+M1-A, M1-CC and M1-RO the carrier is not the target, and an A3 study that manipulates the carrier
+would be testing the wrong object.
 
 ### A2. Entry-transition retention — conditional
 
@@ -163,9 +165,9 @@ intervention and does not establish external advantage.
 only to internal assertion?
 
 **Status.** Not designed for execution. It becomes actionable only after M1 routes a
-mechanism-bearing branch. The target is fixed by that branch: carrier under M1-C, the named
-selection stage under M1-CC, and assertion or selection under M1-RO. A3 never targets the carrier
-under M1-CC or M1-RO. A2 is orthogonal and does not route A3 on its own.
+mechanism-bearing branch. The target is fixed by that branch: carrier under M1-C, admission under
+M1-A, `U` under M1-CC, and assertion or admission under M1-RO. A3 never targets the carrier under
+M1-A, M1-CC or M1-RO. A2 is orthogonal and does not route A3 on its own.
 
 **Design requirement.** The endpoint must be external to the internal assertion record, specified
 in advance, and compared against the appropriate baseline. Internal coverage, rank or assertion
@@ -231,7 +233,7 @@ These items are real, but none is authorized to start from the current position.
 | Short-group topology | A named architectural decision that both a positive and a negative result would license. Without it, defer. |
 | Cap ladder | A dated owner grant. Currently `FROZEN, NOT RUN`; no cells. |
 | BAND-2 governance | Keep as record bookkeeping. It is not a scientific priority and does not validate BAND-1. |
-| V2 engineering | Only after M1 routes a mechanism branch: M1-C targets the carrier, M1-CC and M1-RO target selection or assertion. M1-X and M1-V license no V2. Do not design V2 against a guessed mechanism. |
+| V2 engineering | Only after M1 routes a mechanism branch: M1-C targets the carrier, M1-A targets admission, M1-CC targets `U`, and M1-RO targets assertion or admission. M1-X and M1-V license no V2. Do not design V2 against a guessed mechanism. |
 | Long-duration soak testing | Not active while the live study is paused. Requires an explicit restart decision. |
 | Generation 9 self-modeling | Remains locked and unimplemented. Not a current roadmap item. |
 
@@ -242,7 +244,7 @@ These items are real, but none is authorized to start from the current position.
 | Gate | Passes when | If it does not pass |
 | --- | --- | --- |
 | **G0 — Record** | Cap-112 provenance has a disposition and the suite is green | No new confirmatory claim; publication can still proceed |
-| **G1 — Formation** | A0 identifies a stage upstream of the carrier and independently manipulable, and produces a pre-registered fresh design if needed | A1 stays blocked; register a two-path design or a new stage-level lever |
+| **G1 — Paths** | A0 is complete and the design uses admission and carrier as separately manipulable paths, with cross-path checks | A1 stays blocked; a design that cannot block either path returns `NOT IDENTIFIED` |
 | **G2 — Discrimination** | A1 eliminates at least one of causal / common-cause / readout | No carrier claim; do not start V2 |
 | **M1 — Mechanism branch** | A1's signature routes to M1-C, M1-CC or M1-RO | M1-X or M1-V: no A3, no V2; redesign only with a named defect |
 | **G3 — External link** | A3 measures an endpoint against the M1-selected target | External advantage remains unestablished |
@@ -253,8 +255,8 @@ These items are real, but none is authorized to start from the current position.
 
 1. **Now, in parallel:** B0 (cap-112 disposition), A0 (carrier formation), and B1/B2 (deposit and
    publish the existing record).
-2. **After A0:** A1 is blocked as written. Register a revised two-path design or a new stage-level
-   lever before preregistering any carrier intervention.
+2. **After A0:** the two-path design is registered. Implement and preregister its four cells, `Y−`
+   arm and `U` strata before running any carrier intervention; an owner grant is still required.
 3. **If granted:** run A2 in parallel or after A1; accept `VOID` as closure.
 4. **After M1:** design A3 around the routed target. M1-CC and M1-RO never target the carrier.
 5. **Only after M1 and G4:** discuss V2 engineering, with the same target discipline.

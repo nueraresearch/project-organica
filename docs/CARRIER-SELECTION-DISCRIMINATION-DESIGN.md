@@ -1,11 +1,11 @@
 # Carrier selection discrimination — design
 
-**Status: DESIGN ONLY — A0 RETURNED `NOT IDENTIFIED`. NOT FROZEN, NOT RUN, NO GRANT.** This
-document specifies a discrimination design. A0 filled the stage map and found no single upstream
-selection stage, so the 2×2 does not become runnable as specified. It assigns no seeds, implements
-no runner and authorises no cell. A runnable block would require a revised design, a seed block, a
-materiality bar and an owner grant. Nothing here changes the engine, a verdict, a seed allocation or
-an artifact.
+**Status: SUPERSEDED FOR DESIGN — retained as the blocked single-stage record. NOT RUN, NO GRANT.**
+A0 returned `NOT IDENTIFIED`: the 2×2 required a single upstream selection stage and the records
+contain two parallel stages instead. The replacement is
+[`TWO-PATH-ADMISSION-CARRIER-DESIGN.md`](TWO-PATH-ADMISSION-CARRIER-DESIGN.md), which is also
+design-only and unrun. This document is kept because the failed identification is part of the record;
+it assigns no seed and authorises no cell.
 
 ## Question
 
