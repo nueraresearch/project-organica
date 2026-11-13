@@ -1,19 +1,19 @@
 # C6 assertion-timing instrumentation
 
-**Status: OBSERVER BUILT — ONE-SEED OFF/ON PREFLIGHT PASSES N1/N3; ORDER VARIATION PRESENT; SEED BLOCK NOT RUN, NO GRANT.**
+**Status: OBSERVER BUILT AND SIX-SEED BLOCK RUN — `C6 ORDER VARIATION CONFIRMED`; N1–N7 PASS.**
 
 This document specifies the measurement needed to clear `C6_temporal_resolution`. The observer and
 its neutrality/mutation harness are implemented in `benchmarks/c6_timing_observer.py`. A one-seed
-preflight has been run; no C6 seed block has been made, no cell has been assigned and no engine file
-has changed.
+preflight and a fresh six-seed block have been run; the block is recorded in
+[`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md). No engine file has changed.
 
 ## 1. What C6 needs
 
 `C6` requires that `K` and `Y` be ordered at the same cycle resolution. The existing records do not
 carry an assertion cycle: `docs/assertion_carrier_trace.json` records carrier formation
 (`formation_cycle`) but not when the edge was asserted. The preflight therefore classified `C6` as
-`REQUIRES INSTRUMENTATION`; the observer now exists, but `C6` is not cleared until the timing run is
-made.
+`REQUIRES INSTRUMENTATION`; the observer now exists, and the six-seed block below clears that
+timing requirement.
 
 A timestamp alone is not enough. The readout must avoid a circular definition of `Y`.
 
@@ -180,12 +180,15 @@ MEASURABLE`**.
 
 ## 9. Sample definition
 
-The primary sample is **all asserted world edges in the run**, fixed before the outcome is read. The
-26 Q4 never-served edges are a prespecified diagnostic subset, not the primary sample. Selecting the
-sample on never-served status would condition on the anomaly and make the timing question circular.
+The primary sample is **every world edge that enters `Y_full` at any cycle in the run**, fixed
+before the outcome is read. The final live-set intersection is reported separately and is not the
+timing denominator. The 26 Q4 never-served edges are a prespecified diagnostic subset, not the
+primary sample. Selecting the sample on never-served status would condition on the anomaly and make
+the timing question circular.
 
-The design does not assign a seed block. One preflight seed, **20611601**, has been run; a C6 timing
-block still needs a preregistration and the owner's grant.
+The block is **20621101–20621106**, frozen in `docs/c6_timing_prereg.json` and granted in
+`docs/AUTHORISATION-C6-TIMING.md`. The preflight seed **20611601** is excluded. The block is six
+fresh seeds, two arms, 120 cycles and cap 40.
 
 ## 9.1 One-seed preflight (2026-11-13)
 
@@ -205,22 +208,33 @@ The off/on preflight on seed **20611601**, **120** cycles and cap **40** found:
 | `NO_Y_IND` | 14 |
 
 `Y_ind` exists, both orders occur, and the real off/on arms pass `N1` neutrality and `N3`
-final-readout parity. C6 is **not** cleared: one seed is not a seed block and no minimum
-per-order count has been precommitted. See
+final-readout parity. This is a preflight only; it does not clear C6. See
 [`C6-ONE-SEED-PREFLIGHT.md`](C6-ONE-SEED-PREFLIGHT.md).
+
+## 9.2 Six-seed block (2026-11-13)
+
+The frozen block used seeds **20621101–20621106**, **120** cycles and cap **40**, with observer
+off and on on every seed. Across the block, 653 world-edge rows entered `Y_full`; 586 had `Y_ind`
+and 602 had `K`. The order counts were **183** `K_BEFORE_Y_IND`, **294** `Y_IND_BEFORE_K`, **58**
+`SAME_CYCLE`, **51** `NO_K` and **67** `NO_Y_IND`.
+
+The smallest per-seed counts were **22** `K_BEFORE_Y_IND` and **35** `Y_IND_BEFORE_K`; all six
+seeds met the preregistered floor of 10 per order, and both orders occurred on all six. `N1`–`N7`
+pass, including a fresh-process determinism rerun of seed 20621101. The final live-set intersection
+was 442 of 672 world edges; the timing counts are over edge rows that appeared in the observer, not
+only those still asserted at the final cycle.
+
+**Outcome: `C6 ORDER VARIATION CONFIRMED`.** This clears the C6 temporal-resolution requirement. It
+does not clear the two-path admission-by-carrier design, which still has `A−`, `K−` and `Y−` unbuilt
+and unrun, and it is not a causal or capability result. See
+[`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md).
 
 ## 10. Stop condition
 
-**Build status: the observer, edge extractor and neutrality/mutation harness are implemented; the
-self-test passes `N1`–`N3`; one off/on preflight seed has been run and passes `N1`/`N3`.**
-The remaining bounded steps are:
-
-- Run the first seed of the preregistered block.
-- If no edge has `Y_ind`, stop: C6 is not measurable in this engine, and the readout branch must be
-  dropped or the observable changed.
-- If `Y_ind` exists but only one order occurs, stop: C6 is not separated, and more seeds will not
-  create order variation.
-- Only if both orders occur, expand to the preregistered seed block.
+**Build status: complete.** The observer, edge extractor and neutrality/mutation harness are
+implemented; the self-test passes `N1`–`N3`; the preflight passes `N1`/`N3`; the frozen six-seed
+block passes `N1`–`N7` and returns `C6 ORDER VARIATION CONFIRMED`. The block stopped at its
+preregistered six seeds; no optional seeds were added after the outcome.
 
 No feature may be added after the build closes. A new requirement goes to the wish-list.
 
@@ -230,19 +244,17 @@ No feature may be added after the build closes. A new requirement goes to the wi
 - No frozen result artifact is rewritten.
 - No live `memory.db` is opened for writing.
 - No intervention (`A−`, `K−`, `Y−`) is implemented or run.
-- No C6 seed block, grant or scientific verdict is assigned; the self-test uses one synthetic stream
-  and a fixed seed only for reproducibility.
+- The C6 block is run and recorded; the self-test still uses one synthetic stream and a fixed seed
+  only for reproducibility.
 
-## 12. Open decisions
+## 12. Decisions fixed in the preregistration
 
-These must be fixed in the preregistration, not in this design:
+These were fixed before the block ran and were not changed after the outcome:
 
-1. The minimum number of edges per order class.
-2. Whether `Y_ind` is accepted as the C6 readout, or whether a different non-carrier observable is
-   required.
-3. The seed block and run length.
-4. Whether same-cycle edges are reported only, or used in a separate within-cycle analysis.
-5. The exact carrier definition: loop and dream only, or every structure type designated a carrier.
+1. **Minimum per order:** 10 edges per order on each seed, with both orders on at least 5 of 6 seeds.
+2. **Readout:** `Y_ind` is the C6 readout; `Y_full` is parity only.
+3. **Seed block and length:** seeds 20621101–20621106, 120 cycles, cap 40, observer off and on.
+4. **Same-cycle edges:** reported separately as `SAME_CYCLE`; never folded into a direction.
+5. **Carrier definition:** loop and dream candidates only.
 
-Until those are fixed, the observer exists and the one-seed preflight has run, but the C6 seed block
-is not runnable.
+No seed was replaced and no optional seed was added.

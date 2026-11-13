@@ -1,8 +1,14 @@
 # C1–C9 preflight admissibility audit
 
 **Date:** 2026-11-13  
-**Status:** `NOT ADMISSIBLE — 0 SATISFIED, 9 REQUIRING INSTRUMENTATION, 0 UNSATISFIABLE`  
+**Status at preflight:** `NOT ADMISSIBLE — 0 SATISFIED, 9 REQUIRING INSTRUMENTATION, 0 UNSATISFIABLE`
+
 **This is not an experimental result.** No cell, seed, intervention or engine change was made.
+
+**Update 2026-11-13:** the `C6_temporal_resolution` row is a preflight snapshot. The separate
+`C6-TIMING-1` block has since satisfied C6 on six fresh seeds; `C1`–`C5` and `C7`–`C9` remain
+uncleared. The table below is retained as the preflight record, not as a current 0/9 count. See
+[`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md).
 
 ## Question
 
@@ -20,7 +26,9 @@ scientifically worthwhile.
 | Requiring instrumentation | 9 |
 | Unsatisfiable | 0 |
 
-No condition is impossible. None is cleared. The design is blocked by missing instrumentation, not by a demonstrated impossibility.
+At preflight, no condition was impossible and none was cleared. The design was blocked by missing
+instrumentation, not by a demonstrated impossibility. C6 has since been cleared; the remaining
+eight conditions still block admissibility.
 
 ## Evidence in hand
 

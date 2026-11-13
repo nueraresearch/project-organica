@@ -1,6 +1,10 @@
 # C6-TIMING-1 — fresh six-seed timing block
 
-**Status: FROZEN. Frozen 2026-11-13 before any seed in this block was run.**
+**Status: FROZEN, RUN. Frozen 2026-11-13 before any seed in this block was run; run 2026-11-13.**
+
+The completed block returned `C6 ORDER VARIATION CONFIRMED`; see
+[`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md) and `docs/c6_timing_block.json`. The criteria below were
+not changed after the outcome.
 
 This is the preregistration for the C6 timing block. It is not a result and it authorises no
 intervention.
@@ -60,6 +64,10 @@ The preflight seed is excluded because its order counts were already seen. This 
 
 There are no optional seeds and no seed replacement. The first six seeds are the block.
 
+The committed block is checked by `benchmarks/c6_timing_guard.py`, which recomputes these
+floors and gates before accepting the `C6 ORDER VARIATION CONFIRMED` outcome. The guard does not
+change any rule above; it only refuses a label the committed evidence does not support.
+
 ## 6. Outcomes
 
 | Outcome | Rule |
@@ -90,3 +98,4 @@ work.
 - Authorisation: `docs/AUTHORISATION-C6-TIMING.md`
 - Design: `docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`
 - Runner: `benchmarks.c6_timing_observer.run_one_seed`
+- Result: `docs/C6-TIMING-BLOCK.md`, `docs/c6_timing_block.json`

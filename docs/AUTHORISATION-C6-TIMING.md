@@ -1,6 +1,6 @@
 # Authorisation — `C6-TIMING-1`
 
-**Status: GRANTED, 2026-11-13. The block is frozen and the grant covers only the twelve listed runs.**
+**Status: GRANTED AND RUN, 2026-11-13. The block is frozen and the grant covers only the twelve listed runs.**
 
 The owner's words, given on 2026-11-13 in the instruction that requested this block:
 

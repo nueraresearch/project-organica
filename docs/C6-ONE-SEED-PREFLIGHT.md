@@ -1,6 +1,6 @@
 # C6 one-seed preflight
 
-**Status: PREFLIGHT — ONE SEED, NOT A RESULT, NO GRANT.**
+**Status: PREFLIGHT — ONE SEED, NOT A RESULT; SUPERSEDED BY THE SIX-SEED C6-TIMING-1 BLOCK.**
 
 This is the first real-world off/on run of the passive C6 observer. It uses the
 Q4 world family on seed **20611601**, **120** cycles, cap **40**, and the same

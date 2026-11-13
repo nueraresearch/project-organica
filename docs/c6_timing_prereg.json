@@ -1,8 +1,10 @@
 {
   "kind": "c6_timing_prereg",
   "id": "C6-TIMING-1",
-  "status": "FROZEN",
+  "status": "FROZEN, RUN",
   "frozen_on": "2026-11-13",
+  "run_on": "2026-11-13",
+  "result": "docs/c6_timing_block.json",
   "question": "Across a fresh six-seed block, does the non-carrier assertion readout Y_ind exist and does the K/Y_ind order vary in both directions?",
   "design": {
     "seeds": [
