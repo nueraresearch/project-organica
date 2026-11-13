@@ -1,6 +1,15 @@
 {
   "kind": "c1_c9_preflight",
   "not_a_result": true,
+  "historical_snapshot": true,
+  "snapshot_status": "HISTORICAL PREFLIGHT SNAPSHOT \u2014 not current admissibility status",
+  "snapshot_scope": "The C1-C9 classification and verdict below are the 2026-11-13 preflight record. They are retained, not re-scored.",
+  "later_update": {
+    "date": "2026-11-13",
+    "c6": "C6-TIMING-1 satisfies C6_temporal_resolution on six fresh seeds.",
+    "remaining": "C1-C5 and C7-C9 remain uncleared; the design remains not admissible.",
+    "record": "docs/C6-TIMING-BLOCK.md"
+  },
   "date": "2026-11-13",
   "question": "Can the registered two-path design be admitted with the records in hand?",
   "definition": "A read-only audit of C1-C9 against the A0, provenance and carrier-trace artifacts. It runs no cell and chooses no intervention.",

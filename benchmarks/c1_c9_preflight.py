@@ -290,6 +290,18 @@ def build() -> dict:
     return {
         "kind": "c1_c9_preflight",
         "not_a_result": True,
+        "historical_snapshot": True,
+        "snapshot_status": "HISTORICAL PREFLIGHT SNAPSHOT — not current admissibility status",
+        "snapshot_scope": (
+            "The C1-C9 classification and verdict below are the 2026-11-13 preflight record. "
+            "They are retained, not re-scored."
+        ),
+        "later_update": {
+            "date": "2026-11-13",
+            "c6": "C6-TIMING-1 satisfies C6_temporal_resolution on six fresh seeds.",
+            "remaining": "C1-C5 and C7-C9 remain uncleared; the design remains not admissible.",
+            "record": "docs/C6-TIMING-BLOCK.md",
+        },
         "date": DATE,
         "question": (
             "Can the registered two-path design be admitted with the records in hand?"
@@ -337,8 +349,14 @@ def render(payload: dict) -> str:
         "# C1–C9 preflight admissibility audit",
         "",
         "**Date:** %s  " % payload["date"],
-        "**Status:** `%s`  " % payload["verdict"],
+        "**Status at preflight:** `%s`" % payload["verdict"],
+        "",
         "**This is not an experimental result.** No cell, seed, intervention or engine change was made.",
+        "",
+        "**Update 2026-11-13:** the `C6_temporal_resolution` row is a preflight snapshot. The separate",
+        "`C6-TIMING-1` block has since satisfied C6 on six fresh seeds; `C1`–`C5` and `C7`–`C9` remain",
+        "uncleared. The table below is retained as the preflight record, not as a current 0/9 count. See",
+        "[`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md).",
         "",
         "## Question",
         "",
@@ -356,7 +374,9 @@ def render(payload: dict) -> str:
         "| Requiring instrumentation | %d |" % payload["counts"]["requires_instrumentation"],
         "| Unsatisfiable | %d |" % payload["counts"]["unsatisfiable"],
         "",
-        payload["reading"],
+        "At preflight, no condition was impossible and none was cleared. The design was blocked by missing",
+        "instrumentation, not by a demonstrated impossibility. C6 has since been cleared; the remaining",
+        "eight conditions still block admissibility.",
         "",
         "## Evidence in hand",
         "",
