@@ -1,16 +1,18 @@
 # C6 assertion-timing instrumentation
 
-**Status: REGISTERED INSTRUMENTATION DESIGN — NOT BUILT, NOT RUN, NO GRANT.**
+**Status: OBSERVER BUILT — NEUTRALITY SELF-TEST PASSES; C6 NOT RUN, NO GRANT.**
 
-This document designs the measurement needed to clear `C6_temporal_resolution`. It does not
-implement it, run a cell, assign seeds or change the engine.
+This document specifies the measurement needed to clear `C6_temporal_resolution`. The observer and
+its neutrality/mutation harness are implemented in `benchmarks/c6_timing_observer.py`. No C6 seed
+run has been made, no cell has been assigned and no engine file has changed.
 
 ## 1. What C6 needs
 
 `C6` requires that `K` and `Y` be ordered at the same cycle resolution. The existing records do not
 carry an assertion cycle: `docs/assertion_carrier_trace.json` records carrier formation
-(`formation_cycle`) but not when the edge was asserted. The preflight therefore classifies `C6` as
-`REQUIRES INSTRUMENTATION`.
+(`formation_cycle`) but not when the edge was asserted. The preflight therefore classified `C6` as
+`REQUIRES INSTRUMENTATION`; the observer now exists, but `C6` is not cleared until the timing run is
+made.
 
 A timestamp alone is not enough. The readout must avoid a circular definition of `Y`.
 
@@ -49,23 +51,35 @@ replacement for the engine's output.
 An edge with `Y_full = 1` but `Y_ind = 0` is **carrier-only**. It cannot contribute to C6. This is a
 substantive category, not a missing value.
 
-## 4. Observer design
+## 4. Observer implementation
 
 The observer is a benchmark-only subclass of `SleepService`. It does not edit a frozen engine file,
 does not monkeypatch a frozen function, and is not used by the live study.
 
 ```python
 class TimingObservedSleepService(SleepService):
-    def __init__(self, memory, sink):
+    def __init__(self, memory, observer, *, mutate_report=False):
         super().__init__(memory)
-        self._sink = sink
+        self.observer = observer
+        self.mutate_report = mutate_report
 
     def run_sleep_cycle(self):
         report = super().run_sleep_cycle()
-        snapshot = report_candidates_as_dicts(report)
-        self._sink.record(report.cycle, snapshot)
+        if self.mutate_report:
+            self.mutation_applied = _mutate_report(report)
+        self.observer.record(report.cycle, report_candidates_as_dicts(report))
         return report
 ```
+
+The implementation is `benchmarks/c6_timing_observer.py`. Its self-test is:
+
+```bash
+python -m benchmarks.c6_timing_observer --self-test
+```
+
+It runs the stock and observed services on the same deterministic synthetic stream. `N1`, `N2` and
+`N3` pass. The synthetic stream has no order variation, so the harness reports
+`C6 NOT SEPARATED`; that is a property of the harness scenario, not a C6 result.
 
 `report_candidates_as_dicts` serializes the candidate lists already returned in the `SleepReport`.
 It reads no database and mutates no candidate. The parent call is made exactly once, with the same
@@ -169,9 +183,9 @@ owner's grant.
 
 ## 10. Stop condition
 
-The instrumentation build is bounded:
+**Build status: the observer, edge extractor and neutrality/mutation harness are implemented; the
+self-test passes `N1`–`N3`; no C6 seed has been run.** The remaining bounded steps are:
 
-- Build the observer, the edge extractor and the neutrality/mutation harness.
 - Run one seed.
 - If no edge has `Y_ind`, stop: C6 is not measurable in this engine, and the readout branch must be
   dropped or the observable changed.
@@ -187,7 +201,8 @@ No feature may be added after the build closes. A new requirement goes to the wi
 - No frozen result artifact is rewritten.
 - No live `memory.db` is opened for writing.
 - No intervention (`A−`, `K−`, `Y−`) is implemented or run.
-- No seed, grant or verdict is assigned.
+- No C6 seed block, grant or scientific verdict is assigned; the self-test uses one synthetic stream
+  and a fixed seed only for reproducibility.
 
 ## 12. Open decisions
 
@@ -200,4 +215,4 @@ These must be fixed in the preregistration, not in this design:
 4. Whether same-cycle edges are reported only, or used in a separate within-cycle analysis.
 5. The exact carrier definition: loop and dream only, or every structure type designated a carrier.
 
-Until those are fixed, this remains a design, not a runnable protocol.
+Until those are fixed, the observer exists but the C6 protocol is not runnable.

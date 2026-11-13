@@ -99,9 +99,11 @@ unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) finds the 
 missing instrumentation, not by a demonstrated impossibility. The 26-row A0 slice is entirely `A−K+`,
 so it cannot establish positivity; no artifact records an assertion cycle, so `C6` cannot be read.
 
-**C6 design:** [`docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`](docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md)
-is registered but not built. It reads `Y_ind` — assertion from non-carrier structures — because the
-full readout `Y_full` is simultaneous with a loop carrier by construction.
+**C6 observer:** [`docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`](docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md)
+is built, and the self-test passes neutrality, mutation and parity. It reads `Y_ind` — assertion from
+non-carrier structures — because the full readout `Y_full` is simultaneous with a loop carrier by construction.
+C6 has not been run; the synthetic self-test has no order variation and reports `C6 NOT SEPARATED`, which is
+not a timing result.
 
 **C6 stop condition.** Build only the observer, the edge extractor and the neutrality/mutation
 harness. Run one seed. Stop and record `C6 NOT MEASURABLE` if no edge has `Y_ind`; stop and record
