@@ -72,6 +72,7 @@ PREDICTION_CAP_C1_PATH = DOCS / "a1_prediction_cap_c1.json"
 PREDICTION_CAP_112_PATH = DOCS / "a1_prediction_cap_112.json"
 PREDICTION_CAP112_DECOMPOSE_PATH = DOCS / "a1_prediction_cap112_decompose.json"
 PREDICTION_CAP80_OVERLAP_PATH = DOCS / "a1_prediction_cap80_overlap.json"
+PREDICTION_CAP80_SELECTION_PATH = DOCS / "a1_prediction_cap80_selection.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -399,7 +400,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,
                  K_CARRIER_SUPPLY_PATH, K_LOOP_CAP_PATH, C1_CAP120_PATH,
                  PREDICTION_CAP_C1_PATH, PREDICTION_CAP_112_PATH,
-                 PREDICTION_CAP112_DECOMPOSE_PATH, PREDICTION_CAP80_OVERLAP_PATH)
+                 PREDICTION_CAP112_DECOMPOSE_PATH, PREDICTION_CAP80_OVERLAP_PATH,
+                 PREDICTION_CAP80_SELECTION_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:

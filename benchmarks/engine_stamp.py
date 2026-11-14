@@ -96,6 +96,7 @@ DERIVED = {
     "a1_prediction_cap_112.py",  # shipped-cap prediction test; no A1 cell
     "a1_prediction_cap112_decompose.py",  # cap-112 16-tag rank/support/family decomposition
     "a1_prediction_cap80_overlap.py",  # larger-28 A\K / K\A overlap decomposition
+    "a1_prediction_cap80_selection.py",  # cap-80 larger-28 selection-rule trace
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing
