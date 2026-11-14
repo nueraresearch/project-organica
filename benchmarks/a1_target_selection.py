@@ -108,8 +108,9 @@ def select_edges(seed: int, candidates: list[tuple[str, str]],
         selected.append(edge)
         used.update(edge)
         if len(selected) == n:
-            break
-    return selected, eligible
+            return selected, eligible
+    # The protocol permits exactly n targets or none; never a partial set.
+    return [], eligible
 
 
 def _u_row(temporal: dict[str, dict[str, int]],
@@ -131,15 +132,18 @@ def _temporal(memory) -> dict[str, dict[str, int]]:
     return temporal
 
 
-def run_seed(seed: int) -> dict:
-    """Stream to the engine's cycle 36 and return its selection record.
+def run_seed(seed: int, world: dict | None = None) -> dict:
+    """Stream through acquisition cycle 36 and return its selection record.
 
-    The candidate universe is built from the events stored before the
-    cycle-36 consolidation, not from the full 120-cycle world.  Early
-    engine cycles can lag the event index, so the pass stops on
-    ``report.cycle == 36`` rather than on an event count.
+    The candidate universe is built from the first 36 acquisition cycles,
+    not from the full 120-cycle world.  The engine's sleep counter can lag
+    the acquisition index, so the boundary is the acquisition cycle; no
+    SleepReport field is read.  ``world`` is injectable so the
+    future-blindness audit can compare a 36-cycle world with the first 36
+    cycles of a 120-cycle world.
     """
-    world = generate_compositional_world(seed=seed, cycles=CYCLES)
+    if world is None:
+        world = generate_compositional_world(seed=seed, cycles=CYCLES)
     acq_lo, acq_hi = PHASE_ACQUISITION
     event_lo, event_hi = acq_lo * EVENTS_PER_CYCLE, acq_hi * EVENTS_PER_CYCLE
     db_path = _make_scratch_db("a1_target_selection")
@@ -158,11 +162,12 @@ def run_seed(seed: int) -> dict:
             memory.store(text, event_type="observe",
                          source="env_acq" if in_acq else "env")
             if (i + 1) % EVENTS_PER_CYCLE == 0:
-                pending = _temporal(memory)
-                report = service.run_sleep_cycle()
-                if int(report.cycle) == U_CYCLE:
-                    temporal_at_u = pending
+                cycle = (i + 1) // EVENTS_PER_CYCLE
+                if cycle == U_CYCLE:
+                    temporal_at_u = _temporal(memory)
                     stop = i + 1
+                service.run_sleep_cycle()
+                if cycle == U_CYCLE:
                     break
     finally:
         memory.close()
@@ -184,7 +189,7 @@ def run_seed(seed: int) -> dict:
     payload = {
         "seed": seed,
         "status": status,
-        "cycles": CYCLES,
+        "cycles": len(world["events"]) // EVENTS_PER_CYCLE,
         "event_cycles": (stop + EVENTS_PER_CYCLE - 1) // EVENTS_PER_CYCLE,
         "u_cycle": U_CYCLE,
         "n_per_seed": N_PER_SEED,

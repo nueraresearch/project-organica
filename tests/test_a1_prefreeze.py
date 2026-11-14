@@ -56,7 +56,7 @@ def test_selection_refuses_to_reduce_below_n():
     members = selection.cycle_members(temporal, candidates)
     u = {edge: selection._u_row(temporal, edge, 36) for edge in candidates}
     selected, _ = selection.select_edges(7, candidates, u, members)
-    assert len(selected) == 3
+    assert selected == []
 
 
 def test_target_set_problems_accepts_four_disjoint_world_edges():
@@ -99,3 +99,11 @@ def test_selection_artifact_is_internally_consistent():
     doc = json.loads(selection.OUT_PATH.read_text(encoding="utf-8"))
     assert selection.problems(doc) == []
     assert sum(len(row["selected"]) for row in doc["per_seed"].values()) == 24
+
+
+def test_adversarial_audit_artifact_is_current():
+    import json
+    from benchmarks import a1_adversarial_audit as audit
+    doc = json.loads(audit.OUT_PATH.read_text(encoding="utf-8"))
+    assert audit.problems(doc) == []
+    assert audit.PAGE_PATH.read_text(encoding="utf-8") == audit.render(doc)

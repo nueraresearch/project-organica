@@ -1,0 +1,494 @@
+{
+  "kind": "A1-ADVERSARIAL-AUDIT-1",
+  "id": "A1-ADVERSARIAL-AUDIT-1",
+  "date": "2026-11-14",
+  "status": "P0 PASS \u2014 SIX-SEED FEASIBILITY AND BLINDNESS",
+  "engine": "0.15.0",
+  "u_cycle": 36,
+  "n_per_seed": 4,
+  "p0_pass": true,
+  "p0": {
+    "u_sampled_before_cycle_36_sleep": {
+      "pass": true,
+      "sample_before_sleep_call": true
+    },
+    "pre37_candidate_universe": {
+      "pass": true
+    },
+    "future_blindness": {
+      "pass": true
+    },
+    "report_blindness": {
+      "pass": true,
+      "forbidden_tokens_found": [],
+      "allowed_report_fields": []
+    },
+    "sleep_blindness": {
+      "pass": true,
+      "target": "alpha>beta",
+      "before": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 36
+      },
+      "after": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 36
+      }
+    },
+    "determinism": {
+      "pass": true
+    }
+  },
+  "all_pass": true,
+  "per_seed": {
+    "20630101": {
+      "seed": 20630101,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ],
+        "long_selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ],
+        "long_selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ],
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "selected": [
+          "verdant>sable",
+          "olive>cedar",
+          "fern>willow",
+          "yarrow>amber"
+        ],
+        "event_cycles": 36
+      }
+    },
+    "20630102": {
+      "seed": 20630102,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ],
+        "long_selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ],
+        "long_selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ],
+        "candidate_count": 63,
+        "eligible_count": 63,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 63,
+        "eligible_count": 63,
+        "selected": [
+          "umber>ochre",
+          "verdant>teal",
+          "indigo>sable",
+          "slate>birch"
+        ],
+        "event_cycles": 36
+      }
+    },
+    "20630103": {
+      "seed": 20630103,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ],
+        "long_selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ],
+        "long_selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ],
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "selected": [
+          "teal>willow",
+          "amber>verdant",
+          "fern>maple",
+          "olive>indigo"
+        ],
+        "event_cycles": 36
+      }
+    },
+    "20630104": {
+      "seed": 20630104,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ],
+        "long_selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ],
+        "long_selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ],
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "selected": [
+          "indigo>ochre",
+          "teal>fern",
+          "willow>olive",
+          "birch>verdant"
+        ],
+        "event_cycles": 36
+      }
+    },
+    "20630105": {
+      "seed": 20630105,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ],
+        "long_selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ],
+        "long_selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ],
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 64,
+        "eligible_count": 64,
+        "selected": [
+          "cedar>olive",
+          "indigo>teal",
+          "verdant>maple",
+          "ochre>fern"
+        ],
+        "event_cycles": 36
+      }
+    },
+    "20630106": {
+      "seed": 20630106,
+      "future_blindness": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ],
+        "long_selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ],
+        "same_world_prefix": true
+      },
+      "determinism": {
+        "pass": true,
+        "same_event_count": true,
+        "same_selected": true,
+        "same_u": true,
+        "same_cycle_member": true,
+        "same_digest": true,
+        "short_selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ],
+        "long_selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ]
+      },
+      "feasibility": {
+        "pass": true,
+        "status": "TARGET SET FORMED",
+        "selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ],
+        "candidate_count": 63,
+        "eligible_count": 63,
+        "disjoint": true,
+        "positive_u": true,
+        "cycle_member": true
+      },
+      "long": {
+        "candidate_count": 63,
+        "eligible_count": 63,
+        "selected": [
+          "sable>maple",
+          "teal>umber",
+          "cedar>olive",
+          "amber>crimson"
+        ],
+        "event_cycles": 36
+      }
+    }
+  },
+  "checks": {
+    "report_blindness": {
+      "pass": true,
+      "forbidden_tokens_found": [],
+      "allowed_report_fields": []
+    },
+    "sleep_blindness": {
+      "pass": true,
+      "target": "alpha>beta",
+      "before": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 36
+      },
+      "after": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 36
+      }
+    },
+    "selector_self_test": []
+  },
+  "not_evidence": "A no-arm feasibility and adversarial audit. It selects draft targets but freezes no manifest, authorises no cell and records no A1 result."
+}

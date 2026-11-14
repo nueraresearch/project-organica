@@ -145,10 +145,11 @@ proposes candidate seeds **20630101–20630106** but freezes and reserves none. 
 are implemented in `benchmarks/a1_arms.py`, but the target edges are unresolved, the manifest is not
 frozen and no cell is authorised. **Target-selection protocol (implemented, 2026-11-14):**
 [`docs/A1-TARGET-SELECTION-PROTOCOL.md`](docs/A1-TARGET-SELECTION-PROTOCOL.md) fixes the
-per-seed selection rule and the cycle-36 `U` sampling point. The corrected sampler captures `U`
-before `run_sleep_cycle()` and retains it only when the report cycle is 36. The no-arm pass
-formed four disjoint targets for all six provisional seeds in
-[`docs/a1_target_selection.json`](docs/a1_target_selection.json). The targets are not entered in
+per-seed selection rule and the cycle-36 `U` sampling point. The corrected sampler captures `U` after acquisition cycle 36 and before that
+cycle's sleep call; the no-arm pass formed four disjoint targets for all six provisional
+seeds in [`docs/a1_target_selection.json`](docs/a1_target_selection.json). The six-seed
+[`A1-ADVERSARIAL-AUDIT.md`](docs/A1-ADVERSARIAL-AUDIT.md) passes future-blindness,
+determinism, feasibility, report-blindness and sleep-blindness. The targets are not entered in
 the manifest, no seed is reserved, nothing is frozen and no cell is authorised; blindness checks,
 the power review and C4 non-target rows remain open.
 

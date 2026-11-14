@@ -243,13 +243,14 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
             memory.store(text, event_type="observe",
                          source=ACQ_SOURCE if in_acq else "env")
             if (i + 1) % EVENTS_PER_CYCLE == 0:
-                # Capture before consolidation every time; keep the sample
-                # only when this consolidation is the engine's cycle 36.
-                # The engine's cycle counter can lag the event index when
-                # early cycles produce no candidates.
-                pending_u = sample_u(memory, targets, u_cycle)
+                cycle = (i + 1) // EVENTS_PER_CYCLE
+                # Pre-outcome: cycle-36 observations are stored, but the
+                # cycle-36 consolidation has not run yet.  The boundary is
+                # the acquisition cycle, not the engine's sleep counter,
+                # which can lag when early cycles produce no candidates.
+                if cycle == u_cycle:
+                    pending_u = sample_u(memory, targets, cycle)
                 report = service.run_sleep_cycle()
-                cycle = int(report.cycle)
                 if cycle == u_cycle:
                     u.update(pending_u)
                 predictions = {(p.source, p.target) for p in report.predictions}
