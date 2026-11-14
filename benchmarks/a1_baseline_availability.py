@@ -84,9 +84,14 @@ def _targets() -> tuple[dict[int, set[tuple[str, str]]], dict[int, set[tuple[str
     return current, n20
 
 
-def _run_seed(seed: int) -> dict:
-    """Replay one registered world with no treatment and record all cell edges."""
-    world = generate_compositional_world(seed=seed, cycles=CYCLES)
+def _run_seed(seed: int, world: dict | None = None) -> dict:
+    """Replay one world with no treatment and record all cell edges.
+
+    ``world`` is injectable for a separately declared successor universe; the
+    registered six-seed audit passes no world and is unchanged.
+    """
+    if world is None:
+        world = generate_compositional_world(seed=seed, cycles=CYCLES)
     universe = _world_compositional_edges(world)
     counts = {
         edge: {"A": 0, "K": 0, "Y": 0,

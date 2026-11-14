@@ -1,0 +1,269 @@
+{
+  "kind": "a1_successor_preflight",
+  "id": "A1-SUCCESSOR-PREFLIGHT-1",
+  "date": "2026-11-14",
+  "status": "FAIL \u2014 SUCCESSOR CANDIDATE BELOW GATE",
+  "gate": {
+    "c1_floor": 60,
+    "target_rows": 20,
+    "max_endpoint_degree": 3,
+    "min_seeds": 6,
+    "independent_stream": true,
+    "targets_in_scope": "declared per candidate",
+    "no_arm": true,
+    "freeze": false,
+    "grant": false,
+    "run": false
+  },
+  "current_control": {
+    "id": "current-six-seed-control",
+    "status": "FAIL",
+    "problems": [],
+    "per_seed": [
+      {
+        "seed": 20630101,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 44,
+        "K_available": 44,
+        "C1_ceiling": 44,
+        "gap_to_60": 16,
+        "K_gap_to_60": 16,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 32,
+        "target_matching": 32,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20630102,
+        "edges": 63,
+        "independent_edges": 63,
+        "A_available": 44,
+        "K_available": 31,
+        "C1_ceiling": 31,
+        "gap_to_60": 29,
+        "K_gap_to_60": 29,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 23,
+        "target_matching": 23,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20630103,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 52,
+        "K_available": 39,
+        "C1_ceiling": 39,
+        "gap_to_60": 21,
+        "K_gap_to_60": 21,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 36,
+        "target_matching": 36,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20630104,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 43,
+        "K_available": 35,
+        "C1_ceiling": 35,
+        "gap_to_60": 25,
+        "K_gap_to_60": 25,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 27,
+        "target_matching": 27,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20630105,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 49,
+        "K_available": 43,
+        "C1_ceiling": 43,
+        "gap_to_60": 17,
+        "K_gap_to_60": 17,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 35,
+        "target_matching": 35,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20630106,
+        "edges": 63,
+        "independent_edges": 63,
+        "A_available": 49,
+        "K_available": 36,
+        "C1_ceiling": 36,
+        "gap_to_60": 24,
+        "K_gap_to_60": 24,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 33,
+        "target_matching": 33,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      }
+    ],
+    "seeds_passed": 0,
+    "seeds_total": 6
+  },
+  "successor": {
+    "id": "A1-LARGER-UNIVERSE-CANDIDATE-1",
+    "status": "FAIL",
+    "problems": [],
+    "per_seed": [
+      {
+        "seed": 20660101,
+        "edges": 169,
+        "independent_edges": 169,
+        "A_available": 59,
+        "K_available": 23,
+        "C1_ceiling": 23,
+        "gap_to_60": 37,
+        "K_gap_to_60": 37,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 18,
+        "target_matching": 18,
+        "reasons": [
+          "C1_BELOW_60",
+          "TARGET_POOL_BELOW_20"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20660102,
+        "edges": 167,
+        "independent_edges": 167,
+        "A_available": 50,
+        "K_available": 40,
+        "C1_ceiling": 40,
+        "gap_to_60": 20,
+        "K_gap_to_60": 20,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 15,
+        "target_matching": 15,
+        "reasons": [
+          "C1_BELOW_60",
+          "TARGET_POOL_BELOW_20"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20660103,
+        "edges": 172,
+        "independent_edges": 172,
+        "A_available": 57,
+        "K_available": 42,
+        "C1_ceiling": 42,
+        "gap_to_60": 18,
+        "K_gap_to_60": 18,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 16,
+        "target_matching": 16,
+        "reasons": [
+          "C1_BELOW_60",
+          "TARGET_POOL_BELOW_20"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20660104,
+        "edges": 165,
+        "independent_edges": 165,
+        "A_available": 67,
+        "K_available": 55,
+        "C1_ceiling": 55,
+        "gap_to_60": 5,
+        "K_gap_to_60": 5,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 26,
+        "target_matching": 26,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20660105,
+        "edges": 169,
+        "independent_edges": 169,
+        "A_available": 66,
+        "K_available": 47,
+        "C1_ceiling": 47,
+        "gap_to_60": 13,
+        "K_gap_to_60": 13,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 26,
+        "target_matching": 26,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20660106,
+        "edges": 158,
+        "independent_edges": 158,
+        "A_available": 54,
+        "K_available": 37,
+        "C1_ceiling": 37,
+        "gap_to_60": 23,
+        "K_gap_to_60": 23,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 18,
+        "target_matching": 18,
+        "reasons": [
+          "C1_BELOW_60",
+          "TARGET_POOL_BELOW_20"
+        ],
+        "pass": false
+      }
+    ],
+    "seeds_passed": 0,
+    "seeds_total": 6
+  },
+  "not_evidence": "A no-arm preflight. It evaluates supplied baseline rows, selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. The current six-seed universe is a negative control, not a successor candidate."
+}

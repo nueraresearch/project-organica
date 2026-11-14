@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Addendum — A1 larger-universe candidate fails through K dilution (2026-11-14)
+
+- **A larger universe is not automatically a viable one.** `A1-LARGER-UNIVERSE-CANDIDATE-1` predeclares a **28-tag**, 7-tags-per-cell world, chosen by structural edge count after 24 tags yielded only 127–136 independent edges. The 28-tag candidate has **158–172** independent edges, but K falls to **23–55** and C1 to **23, 40, 42, 55, 47, 37**; the 20-row matching is **18, 15, 16, 26, 26, 18**. This construction fails **0/6**. It does not prove every larger world fails, but it removes “just add tags” as an assumed repair. No target is selected, frozen or run. `benchmarks/a1_larger_universe.py`, `tests/test_a1_larger_universe.py`, `docs/A1-LARGER-UNIVERSE-CANDIDATE.md`, `docs/a1_larger_universe_candidate.json`, `docs/A1-LARGER-UNIVERSE-PREFLIGHT.md`, `docs/a1_larger_universe_preflight.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
 ### Addendum — A1 successor candidate schema and validator (2026-11-14)
 
 - **The refusal list is now machine-checkable.** `docs/a1_successor_candidate.schema.json` is the external contract for a candidate package; `benchmarks/a1_successor_schema.py` adds the cross-row and governance checks JSON Schema cannot express: fresh seeds, K-screening and prior-exposure disclosure, duplicate/reverse-duplicate/self-loop rejection, target-selection claims, universe consistency, preflight requirement, and freeze/grant/run claims. It then runs the existing no-arm preflight as a separate gate. The live candidate is **schema-clean** but **gate-fail** at C1 **40, 37, 46, 42, 31, 38**; `--check` accepts the structural record while `--validate` is strict. No target is selected, frozen or run. `benchmarks/a1_successor_schema.py`, `tests/test_a1_successor_schema.py`, `docs/a1_successor_candidate.schema.json`, `docs/A1-SUCCESSOR-SCHEMA.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.

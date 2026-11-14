@@ -60,16 +60,17 @@ Any one of these is a `FAIL`, not a reason to retry:
 - `NO_PREFLIGHT_PASS` — a proposal proceeds without a passing preflight.
 - `PASS_TREATED_AS_GRANT` — a PASS is used to freeze, reserve or run.
 
-A candidate that needs a lower floor, a different estimator, a favourable seed subset, or reverse-orientation rows is **not a successor under this checklist**.
+A candidate that needs a lower floor, a different estimator, a favourable seed subset, or reverse-orientation rows is **not a successor under this checklist**. The 28-tag candidate also shows that a larger universe can fail by **dilution**: more independent edges does not preserve the K rate.
 
 ## 5. Current evidence
 
-| Candidate | C1 ceiling by seed | Result |
-| --- | --- | --- |
-| Current six-seed control | 44, 31, 39, 35, 43, 36 | FAIL 0/6 |
-| Fresh block `20650101–20650106` | 40, 37, 46, 42, 31, 38 | FAIL 0/6 |
+| Candidate | Independent edges | C1 ceiling by seed | 20-row matching | Result |
+| --- | ---: | --- | --- | --- |
+| Current six-seed control | 63–64 | 44, 31, 39, 35, 43, 36 | 32, 23, 36, 27, 35, 33 | FAIL 0/6 |
+| Fresh block `20650101–20650106` | 63–64 | 40, 37, 46, 42, 31, 38 | 33, 30, 46, 36, 20, 32 | FAIL 0/6 |
+| 28-tag larger universe `20660101–20660106` | 158–172 | 23, 40, 42, 55, 47, 37 | 18, 15, 16, 26, 26, 18 | FAIL 0/6 |
 
-The fresh block had **64, 64, 64, 64, 63, 64** independent edges and a 20-row matching on **6/6**; its best seed was still **14 rows short**. K was lower on five seeds, A on `20650105`. The same-world fresh-seed route is therefore tested and does not clear the floor. A genuinely larger independent universe remains **untested**; this page does not claim it is impossible.
+The fresh block had **64, 64, 64, 64, 63, 64** independent edges and a 20-row matching on **6/6**; its best seed was still **14 rows short**. The 28-tag candidate cleared the structural **144-edge** target but K collapsed to **23–55** and matching failed on four seeds. The larger-universe route is therefore **tested and failed at this construction**; it does not prove every possible larger world fails, but it removes “just add tags” as a presumed fix.
 
 ## 6. Order of operations
 
