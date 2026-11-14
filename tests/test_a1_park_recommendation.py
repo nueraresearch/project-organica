@@ -41,6 +41,7 @@ def test_reopen_conditions_are_explicit():
         "20-row",
         "one edge universe",
         "new protocol, freeze, seed reservation and dated grant",
-        "explain why it does not repeat the dilution failure",
+        "specifically explain and overcome the measured K dilution",
+        "a larger edge count alone is not enough",
     ):
         assert phrase in TEXT, phrase

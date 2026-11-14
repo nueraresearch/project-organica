@@ -20,14 +20,16 @@ This is a recommendation, not the owner's decision and not a treatment claim.
 
 The fresh block had a 20-row A+K matching on **6/6**, so target capacity was not its blocker; its best C1 was still **14 rows short**. K was lower on five seeds and A on `20650105`.
 
-The larger universe cleared the structural edge target, but K fell to **23–55** rows and the 20-row matching to **18, 15, 16, 26, 26, 18**. Its best C1 was **55**, still five short. More edges did not preserve availability; the added vocabulary diluted it.
+The larger universe cleared the structural edge target, but K fell to **23–55** rows and the 20-row matching to **18, 15, 16, 26, 26, 18**. Its best C1 was **55**, still five short. More edges did not preserve availability; support per possible pair diluted it, including within the old vocabulary.
+
+The dilution is now measured. Candidate edges rose **383 → 1000**, but K-available rows rose only **242 → 244**; A rose **279 → 353**, also sublinearly. The old-old family was not protected: its K density fell **63.2% → 18.9%**, while new-involving edges were not worse. By transition type, flip-P K rows stayed at **145 → 146** and flip-Q at **97 → 98** while their edge counts roughly doubled. The constraint is **K supply**, not edge count.
 
 The size choice was structural, not a K screen: 24 tags gave only **127–136** independent edges, while 28 tags gave **158–172**.
 
 ## 2. Why park rather than try another block
 
 - No tested universe clears the adopted **60-row C1 floor**.
-- A fresh block in the same world fails, and a predeclared larger world fails through dilution.
+- A fresh block in the same world fails, and a predeclared larger world fails through measured K dilution: **+617** edges bought **+2** K rows.
 - Target changes do not address C1: N20 and the competent-target rule are conditional C2/C8 work, and reverse-orientation rows are rejected as duplication.
 - Selecting another seed block, another tag count or another edge subset after seeing K would select on the same no-arm baseline that judges the candidate. That is not a repair.
 - Changing the 60-row floor or the 0.95 rule is a different study, not an A1 successor.
@@ -54,7 +56,7 @@ A future owner decision may reopen only with:
 4. one edge universe shared by selector, runner and scorer;
 5. a new protocol, freeze, seed reservation and dated grant.
 
-A genuinely different construction is allowed to be tried. It must explain why it does not repeat the dilution failure, and it must be fixed before its K is measured.
+A genuinely different construction is allowed to be tried. It must **specifically explain and overcome the measured K dilution**; a larger edge count alone is not enough. It must be fixed before its K is measured.
 
 ## 5. Decision
 
@@ -78,6 +80,7 @@ This is not a freeze, grant, run or treatment result. It selects no target, rese
 - [Successor requirements](A1-REDESIGN-REQUIREMENTS.md)
 - [Fresh-seed candidate](A1-SUCCESSOR-CANDIDATE.md)
 - [Larger-universe candidate](A1-LARGER-UNIVERSE-CANDIDATE.md)
+- [K dilution report](A1-K-DILUTION.md)
 - [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
 - [C1/C4 VOID gate](A1-C1-C4-VOID-GATE.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)

@@ -1,0 +1,449 @@
+{
+  "kind": "a1_k_dilution",
+  "id": "A1-K-DILUTION-1",
+  "date": "2026-11-14",
+  "status": "DESCRIPTIVE \u2014 K DILUTION ACROSS TWO DECLARED WORLDS; NO ARM, NO THRESHOLD, NO REDESIGN",
+  "scope": "Two declared no-arm candidate universes: the fresh 16-tag block and the 28-tag larger-universe block. Candidate edges are the first-36-cycle, one-orientation streams. A and K are the 120-cycle no-arm A+K+ baseline flags. U is the cycle-36 directed strength. No treatment was applied.",
+  "definition": {
+    "candidate_edges": "one-orientation candidate edges per seed",
+    "A": "prediction path available at least once in the 120-cycle no-arm baseline",
+    "K": "carrier path available at least once in the 120-cycle no-arm baseline",
+    "K_density": "K-available candidate edges / candidate edges",
+    "K_supply": "sum of K-available candidate-edge flags across the block",
+    "U_quartile": "within-seed rank of cycle-36 U strength; Q1 lowest, Q4 highest"
+  },
+  "inputs": {
+    "16-tag": {
+      "path": "docs/a1_successor_candidate.json",
+      "sha256": "bac176dd297d965ad4b131ae55971c6243ef5afdaa045befd3a75d78fb713ce0"
+    },
+    "28-tag": {
+      "path": "docs/a1_larger_universe_candidate.json",
+      "sha256": "a1bd6118c1211b927f5acbe91a11f9aa4f3ff91418fe7c23c27c77bf6a602dee"
+    }
+  },
+  "worlds": {
+    "16-tag": {
+      "label": "16-tag",
+      "tags": 16,
+      "seed_block": [
+        20650101,
+        20650102,
+        20650103,
+        20650104,
+        20650105,
+        20650106
+      ],
+      "candidate_id": "A1-SUCCESSOR-CANDIDATE-1",
+      "candidate_digest": "bac176dd297d965ad4b131ae55971c6243ef5afdaa045befd3a75d78fb713ce0",
+      "total": {
+        "candidate_edges": 383,
+        "A_available": 279,
+        "K_available": 242,
+        "A_and_K": 197,
+        "A_density": 0.72846,
+        "K_density": 0.631854,
+        "A_and_K_density": 0.51436
+      },
+      "per_seed": [
+        {
+          "label": 20650101,
+          "candidate_edges": 64,
+          "A_available": 49,
+          "K_available": 40,
+          "A_and_K": 33,
+          "A_density": 0.765625,
+          "K_density": 0.625,
+          "A_and_K_density": 0.515625,
+          "K_density_needed_for_60": 0.9375,
+          "gap_to_60": 20
+        },
+        {
+          "label": 20650102,
+          "candidate_edges": 64,
+          "A_available": 46,
+          "K_available": 37,
+          "A_and_K": 30,
+          "A_density": 0.71875,
+          "K_density": 0.578125,
+          "A_and_K_density": 0.46875,
+          "K_density_needed_for_60": 0.9375,
+          "gap_to_60": 23
+        },
+        {
+          "label": 20650103,
+          "candidate_edges": 64,
+          "A_available": 54,
+          "K_available": 46,
+          "A_and_K": 46,
+          "A_density": 0.84375,
+          "K_density": 0.71875,
+          "A_and_K_density": 0.71875,
+          "K_density_needed_for_60": 0.9375,
+          "gap_to_60": 14
+        },
+        {
+          "label": 20650104,
+          "candidate_edges": 64,
+          "A_available": 53,
+          "K_available": 42,
+          "A_and_K": 36,
+          "A_density": 0.828125,
+          "K_density": 0.65625,
+          "A_and_K_density": 0.5625,
+          "K_density_needed_for_60": 0.9375,
+          "gap_to_60": 18
+        },
+        {
+          "label": 20650105,
+          "candidate_edges": 63,
+          "A_available": 31,
+          "K_available": 39,
+          "A_and_K": 20,
+          "A_density": 0.492063,
+          "K_density": 0.619048,
+          "A_and_K_density": 0.31746,
+          "K_density_needed_for_60": 0.952381,
+          "gap_to_60": 21
+        },
+        {
+          "label": 20650106,
+          "candidate_edges": 64,
+          "A_available": 46,
+          "K_available": 38,
+          "A_and_K": 32,
+          "A_density": 0.71875,
+          "K_density": 0.59375,
+          "A_and_K_density": 0.5,
+          "K_density_needed_for_60": 0.9375,
+          "gap_to_60": 22
+        }
+      ],
+      "by_family": [
+        {
+          "label": "old-old",
+          "candidate_edges": 383,
+          "A_available": 279,
+          "K_available": 242,
+          "A_and_K": 197,
+          "A_density": 0.72846,
+          "K_density": 0.631854,
+          "A_and_K_density": 0.51436
+        }
+      ],
+      "by_transition": [
+        {
+          "label": "flip_p",
+          "candidate_edges": 191,
+          "A_available": 170,
+          "K_available": 145,
+          "A_and_K": 131,
+          "A_density": 0.890052,
+          "K_density": 0.759162,
+          "A_and_K_density": 0.685864
+        },
+        {
+          "label": "flip_q",
+          "candidate_edges": 192,
+          "A_available": 109,
+          "K_available": 97,
+          "A_and_K": 66,
+          "A_density": 0.567708,
+          "K_density": 0.505208,
+          "A_and_K_density": 0.34375
+        }
+      ],
+      "by_U_quartile": [
+        {
+          "label": "Q1",
+          "candidate_edges": 96,
+          "A_available": 45,
+          "K_available": 21,
+          "A_and_K": 11,
+          "A_density": 0.46875,
+          "K_density": 0.21875,
+          "A_and_K_density": 0.114583,
+          "min_U_strength": 5,
+          "max_U_strength": 14
+        },
+        {
+          "label": "Q2",
+          "candidate_edges": 96,
+          "A_available": 67,
+          "K_available": 51,
+          "A_and_K": 36,
+          "A_density": 0.697917,
+          "K_density": 0.53125,
+          "A_and_K_density": 0.375,
+          "min_U_strength": 11,
+          "max_U_strength": 17
+        },
+        {
+          "label": "Q3",
+          "candidate_edges": 96,
+          "A_available": 82,
+          "K_available": 83,
+          "A_and_K": 72,
+          "A_density": 0.854167,
+          "K_density": 0.864583,
+          "A_and_K_density": 0.75,
+          "min_U_strength": 15,
+          "max_U_strength": 20
+        },
+        {
+          "label": "Q4",
+          "candidate_edges": 95,
+          "A_available": 85,
+          "K_available": 87,
+          "A_and_K": 78,
+          "A_density": 0.894737,
+          "K_density": 0.915789,
+          "A_and_K_density": 0.821053,
+          "min_U_strength": 19,
+          "max_U_strength": 27
+        }
+      ]
+    },
+    "28-tag": {
+      "label": "28-tag",
+      "tags": 28,
+      "seed_block": [
+        20660101,
+        20660102,
+        20660103,
+        20660104,
+        20660105,
+        20660106
+      ],
+      "candidate_id": "A1-LARGER-UNIVERSE-CANDIDATE-1",
+      "candidate_digest": "a1bd6118c1211b927f5acbe91a11f9aa4f3ff91418fe7c23c27c77bf6a602dee",
+      "total": {
+        "candidate_edges": 1000,
+        "A_available": 353,
+        "K_available": 244,
+        "A_and_K": 119,
+        "A_density": 0.353,
+        "K_density": 0.244,
+        "A_and_K_density": 0.119
+      },
+      "per_seed": [
+        {
+          "label": 20660101,
+          "candidate_edges": 169,
+          "A_available": 59,
+          "K_available": 23,
+          "A_and_K": 18,
+          "A_density": 0.349112,
+          "K_density": 0.136095,
+          "A_and_K_density": 0.106509,
+          "K_density_needed_for_60": 0.35503,
+          "gap_to_60": 37
+        },
+        {
+          "label": 20660102,
+          "candidate_edges": 167,
+          "A_available": 50,
+          "K_available": 40,
+          "A_and_K": 15,
+          "A_density": 0.299401,
+          "K_density": 0.239521,
+          "A_and_K_density": 0.08982,
+          "K_density_needed_for_60": 0.359281,
+          "gap_to_60": 20
+        },
+        {
+          "label": 20660103,
+          "candidate_edges": 172,
+          "A_available": 57,
+          "K_available": 42,
+          "A_and_K": 16,
+          "A_density": 0.331395,
+          "K_density": 0.244186,
+          "A_and_K_density": 0.093023,
+          "K_density_needed_for_60": 0.348837,
+          "gap_to_60": 18
+        },
+        {
+          "label": 20660104,
+          "candidate_edges": 165,
+          "A_available": 67,
+          "K_available": 55,
+          "A_and_K": 26,
+          "A_density": 0.406061,
+          "K_density": 0.333333,
+          "A_and_K_density": 0.157576,
+          "K_density_needed_for_60": 0.363636,
+          "gap_to_60": 5
+        },
+        {
+          "label": 20660105,
+          "candidate_edges": 169,
+          "A_available": 66,
+          "K_available": 47,
+          "A_and_K": 26,
+          "A_density": 0.390533,
+          "K_density": 0.278107,
+          "A_and_K_density": 0.153846,
+          "K_density_needed_for_60": 0.35503,
+          "gap_to_60": 13
+        },
+        {
+          "label": 20660106,
+          "candidate_edges": 158,
+          "A_available": 54,
+          "K_available": 37,
+          "A_and_K": 18,
+          "A_density": 0.341772,
+          "K_density": 0.234177,
+          "A_and_K_density": 0.113924,
+          "K_density_needed_for_60": 0.379747,
+          "gap_to_60": 23
+        }
+      ],
+      "by_family": [
+        {
+          "label": "old-old",
+          "candidate_edges": 296,
+          "A_available": 88,
+          "K_available": 56,
+          "A_and_K": 29,
+          "A_density": 0.297297,
+          "K_density": 0.189189,
+          "A_and_K_density": 0.097973
+        },
+        {
+          "label": "old-new",
+          "candidate_edges": 531,
+          "A_available": 207,
+          "K_available": 140,
+          "A_and_K": 75,
+          "A_density": 0.389831,
+          "K_density": 0.263653,
+          "A_and_K_density": 0.141243
+        },
+        {
+          "label": "new-new",
+          "candidate_edges": 173,
+          "A_available": 58,
+          "K_available": 48,
+          "A_and_K": 15,
+          "A_density": 0.33526,
+          "K_density": 0.277457,
+          "A_and_K_density": 0.086705
+        }
+      ],
+      "by_transition": [
+        {
+          "label": "flip_p",
+          "candidate_edges": 517,
+          "A_available": 253,
+          "K_available": 146,
+          "A_and_K": 89,
+          "A_density": 0.489362,
+          "K_density": 0.282398,
+          "A_and_K_density": 0.172147
+        },
+        {
+          "label": "flip_q",
+          "candidate_edges": 483,
+          "A_available": 100,
+          "K_available": 98,
+          "A_and_K": 30,
+          "A_density": 0.207039,
+          "K_density": 0.202899,
+          "A_and_K_density": 0.062112
+        }
+      ],
+      "by_U_quartile": [
+        {
+          "label": "Q1",
+          "candidate_edges": 253,
+          "A_available": 46,
+          "K_available": 28,
+          "A_and_K": 3,
+          "A_density": 0.181818,
+          "K_density": 0.110672,
+          "A_and_K_density": 0.011858,
+          "min_U_strength": 0,
+          "max_U_strength": 4
+        },
+        {
+          "label": "Q2",
+          "candidate_edges": 249,
+          "A_available": 75,
+          "K_available": 37,
+          "A_and_K": 12,
+          "A_density": 0.301205,
+          "K_density": 0.148594,
+          "A_and_K_density": 0.048193,
+          "min_U_strength": 3,
+          "max_U_strength": 6
+        },
+        {
+          "label": "Q3",
+          "candidate_edges": 250,
+          "A_available": 93,
+          "K_available": 58,
+          "A_and_K": 28,
+          "A_density": 0.372,
+          "K_density": 0.232,
+          "A_and_K_density": 0.112,
+          "min_U_strength": 5,
+          "max_U_strength": 8
+        },
+        {
+          "label": "Q4",
+          "candidate_edges": 248,
+          "A_available": 139,
+          "K_available": 121,
+          "A_and_K": 76,
+          "A_density": 0.560484,
+          "K_density": 0.487903,
+          "A_and_K_density": 0.306452,
+          "min_U_strength": 7,
+          "max_U_strength": 18
+        }
+      ]
+    }
+  },
+  "dilution": {
+    "edges_before": 383,
+    "edges_after": 1000,
+    "edges_added": 617,
+    "edges_growth": 1.610966,
+    "A_before": 279,
+    "A_after": 353,
+    "A_added": 74,
+    "A_growth": 0.265233,
+    "K_before": 242,
+    "K_after": 244,
+    "K_added": 2,
+    "K_growth": 0.008264,
+    "K_density_before": 0.631854,
+    "K_density_after": 0.244,
+    "K_density_change": -0.387854,
+    "headline": "Candidate edges rose 383 -> 1000 (+161.1%), A-available rows rose 279 -> 353 (+26.5%), but K-available rows rose only 242 -> 244 (+0.8%). K density fell from 63.2% to 24.4%."
+  },
+  "findings": [
+    "Candidate edges rose 383 -> 1000 (+161.1%), A-available rows rose 279 -> 353 (+26.5%), but K-available rows rose only 242 -> 244 (+0.8%). K density fell from 63.2% to 24.4%.",
+    "The K supply is nearly constant by transition type as well: flip-P K rows 145 -> 146 while flip-P candidate edges 191 -> 517; flip-Q K rows 97 -> 98 while flip-Q candidate edges 192 -> 483.",
+    "The old-old edge family also dilutes: 383 -> 296 edges, but K-available rows 242 -> 56 and K density 63.2% -> 18.9%. Old-new is 26.4% and new-new is 27.7% K in the 28-tag world, so the new tags are not the weak family by themselves; support per possible pair is what fell.",
+    "The U gradient survives but does not rescue the numerator: Q4 K density is 91.6% in the 16-tag world and 48.8% in the 28-tag world, while Q1 is 21.9% and 11.1%. High-U edges are still the best K carriers, but Q4 supplies about 20 K rows per seed (121/6), not 60 per seed. Selecting Q4 after seeing K would also be selection on the preflight quantity.",
+    "The 28-tag block's best seed has 55 K rows out of 165 edges (33.3%), needing 36.4% for 60 and therefore missing by 5 rows. Even its best seed does not reach the floor."
+  ],
+  "limits": [
+    "K is a no-arm availability flag over 120 cycles, not a treatment measurement or a K-cycle rate.",
+    "U is measured at cycle 36; the K-U association has no identified direction.",
+    "The two worlds differ in tag count and tag mapping; six seeds per world do not isolate tag count from mapping or cell composition.",
+    "U quartiles are within-seed ranks, not absolute strength thresholds; the labels are not comparable across seeds as cut points.",
+    "The near-constant K total is descriptive for these two blocks, not a conservation law.",
+    "No target was selected, no threshold changed, no freeze or grant exists and no A1 cell ran."
+  ],
+  "not_evidence": "A descriptive comparison of existing no-arm candidate rows. It does not identify a cause, select a target, set a threshold, choose a redesign or park A1.",
+  "governance": {
+    "freeze": false,
+    "grant": false,
+    "run": false,
+    "authorization": "none"
+  }
+}

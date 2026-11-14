@@ -27,7 +27,7 @@ from benchmarks import a1_baseline_availability
 from benchmarks import a1_successor_preflight
 from benchmarks import a1_successor_schema
 from benchmarks import a1_target_selection
-from benchmarks.acquisition_compositional import CELLS, TAG_POOL
+from benchmarks.acquisition_compositional import CELLS, TAG_POOL, cell_name
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
@@ -114,6 +114,10 @@ def generate_world(seed: int, cycles: int = CYCLES,
         "regimes": regimes,
         "trainable": trainable,
         "withheld": withheld,
+        "cell_tags": {cell_name(c): sorted(v) for c, v in cell_tags.items()},
+        "tag_to_cell": {t: cell_name(c) for c, v in cell_tags.items() for t in v},
+        "held_cell": cell_name(held),
+        "held_cell_flip_p": cell_name(held_flip_p),
         "tag_pool": sorted(tags),
         "tags_per_cell": per_cell,
         "world_family": "larger compositional %d-tag" % len(tags),
