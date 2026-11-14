@@ -180,7 +180,7 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 - It does not freeze the selected four edges into the manifest; the artifact records them, but the manifest target block remains unresolved.
 - It does not reserve seeds `20630101–20630106`, freeze the manifest or authorise any cell.
 - It does not issue an owner grant, change an engine file, clear C1–C9 or create a result.
-- It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates, and `attach_neighbor_deltas` joins it to the A+K+ control; no cell has run, so C4 is not cleared.
+- It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates; `attach_neighbor_deltas` joins it to the A+K+ control, and `c1_rows` includes baseline-available non-target edges in the C1 denominator. No cell has run, so C4 is not cleared.
 - It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**.
 
 ## 10. Pre-freeze checklist
@@ -191,7 +191,7 @@ The formal compliance record is [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL
 1. **Done.** The cycle-36 `U` sample is captured after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; the pre-sleep ordering is tested.
 2. **Done.** `benchmarks/a1_target_selection.py` implements the no-arm pass, artifact schema, digest and self-test. The pass reads the temporal graph and no report field.
 3. **Done.** `a1_two_path.preflight` checks four-per-seed, disjoint endpoints, universe membership, artifact equality and the artifact's selection digest. The manifest is still unresolved.
-4. **Implemented — not run.** A1 cell output emits a separate `neighbor_rows` stream for every non-target edge, with A/K/Y availability rates; `attach_neighbor_deltas` joins it to the seed’s A+K+ control. No cell has run, so C4 is not cleared and must not be claimed.
+4. **Implemented — not run.** A1 cell output emits a separate `neighbor_rows` stream for every non-target edge, with A/K/Y availability rates; `attach_neighbor_deltas` joins it to the seed’s A+K+ control, and `c1_rows` includes baseline-available non-target edges in the C1 denominator. No cell has run, so C4 is not cleared and must not be claimed.
 5. **Done.** Determinism, magnitude-blindness, feasibility, no-all-or-none, future-blindness, report-blindness and sleep-blindness pass in [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md).
 6. **Done — freeze still open.** [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) finds that four target rows make the 0.95 C1 floor effectively 100%; C4 non-target rows are now instrumented, but C1 and C4 still require a run. The targets must not be frozen.
 7. **Not done.** Freezing the target sets/manifest and the dated owner grant remain separate acts. The manifest gate still refuses.

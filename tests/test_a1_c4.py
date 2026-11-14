@@ -66,3 +66,39 @@ def test_attach_neighbor_deltas_leaves_rows_without_a_control_unmeasured():
     a1_arms.attach_neighbor_deltas([treated])
     assert treated["neighbor_rows"][0]["delta_status"] == "AWAITING_PAIRED_CONTROL"
     assert "neighbor_delta" not in treated["neighbor_rows"][0]
+
+
+def test_c1_rows_use_the_non_target_denominator():
+    from benchmarks.a1_gate_readiness import gate_c1
+
+    def c1_row(cell, edge, a, k):
+        return {"seed": 1, "cell": cell, "edge": edge, "target": False,
+                "A": a, "K": k, "object_fingerprint": "fp"}
+
+    baseline = {
+        "seed": 1,
+        "cell": "A+K+",
+        "rows": [],
+        "neighbor_rows": [c1_row("A+K+", "e%d" % i, True, True) for i in range(20)],
+    }
+    a_minus = {
+        "seed": 1,
+        "cell": "A-K+",
+        "rows": [],
+        "neighbor_rows": [
+            c1_row("A-K+", "e%d" % i, False, i != 0) for i in range(20)
+        ],
+    }
+    k_minus = {
+        "seed": 1,
+        "cell": "A+K-",
+        "rows": [],
+        "neighbor_rows": [
+            c1_row("A+K-", "e%d" % i, True, False) for i in range(20)
+        ],
+    }
+    rows = a1_arms.c1_rows([baseline, a_minus, k_minus])
+    assert len(rows) == 60
+    assert sum(1 for row in rows if row["control_K"]) == 20
+    assert sum(1 for row in rows if row["control_A"]) == 20
+    assert gate_c1(rows, 0.95) is True

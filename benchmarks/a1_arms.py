@@ -237,6 +237,37 @@ def c4_neighbor_rows(payloads: list[dict]) -> list[dict]:
     return [row for payload in payloads for row in payload.get("neighbor_rows", [])]
 
 
+def c1_rows(payloads: list[dict]) -> list[dict]:
+    """Build the C1 rows with the non-target edges included in the denominator.
+
+    C1's denominator is the paired control's available edges.  Target rows are
+    joined to the same seed's A+K+ row; non-target rows are joined the same way.
+    Only edges available in the paired control enter the denominator, so a
+    missing control edge is not counted as a preservation failure.
+    """
+    baseline: dict[tuple[int, str], dict] = {}
+    for payload in payloads:
+        if payload.get("cell") != "A+K+":
+            continue
+        for row in payload.get("rows", []) + payload.get("neighbor_rows", []):
+            baseline[(int(payload["seed"]), row["edge"])] = row
+    rows: list[dict] = []
+    for payload in payloads:
+        for row in payload.get("rows", []) + payload.get("neighbor_rows", []):
+            base = baseline.get((int(payload["seed"]), row["edge"]))
+            if base is None:
+                continue
+            copied = dict(row)
+            copied["control_K"] = (
+                payload.get("cell") == "A-K+" and bool(base.get("K"))
+            )
+            copied["control_A"] = (
+                payload.get("cell") == "A+K-" and bool(base.get("A"))
+            )
+            rows.append(copied)
+    return rows
+
+
 def _fingerprint(seed: int, cycles: int, cap: int, universe: set[tuple[str, str]],
                  u: dict[tuple[str, str], dict], targets: set[tuple[str, str]]) -> str:
     payload = {
