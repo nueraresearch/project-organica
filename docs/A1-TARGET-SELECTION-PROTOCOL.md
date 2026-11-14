@@ -181,7 +181,7 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 - It does not reserve seeds `20630101–20630106`, freeze the manifest or authorise any cell.
 - It does not issue an owner grant, change an engine file, clear C1–C9 or create a result.
 - It does not by itself establish C4. The A1 cell output currently emits target rows only; C4 needs non-target neighbour rows and remains a separate implementation requirement.
-- It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation.
+- It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**.
 
 ## 10. Pre-freeze checklist
 

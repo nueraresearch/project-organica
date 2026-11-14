@@ -29,6 +29,21 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 - If yes: Freeze the representative eligible-edge design after the manifest review.
 - If no: Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.
 
+## Freeze decision
+
+**DO NOT FREEZE (2026-11-14).** Answer: **NO — NOT AS CURRENTLY EMITTED**.
+
+**Scope:** the current six-seed target artifact and the current four-target A1 cell output.
+
+**Basis:**
+- The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.
+- The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).
+- All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.
+
+**Revisit when:**
+- C4 non-target rows enlarge the C1 denominator and this review is rerun.
+- A larger target block or a redesigned selector is registered before freeze.
+
 ## Decision
 
 **FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY**

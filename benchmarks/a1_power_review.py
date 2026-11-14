@@ -19,6 +19,7 @@ PAGE_PATH = DOCS / "A1-POWER-REVIEW.md"
 KIND = "A1-POWER-REVIEW-1"
 DATE = "2026-11-14"
 C1_FLOOR = 0.95
+FREEZE_ANSWER = "NO — NOT AS CURRENTLY EMITTED"
 N_PER_SEED = 4
 
 
@@ -171,7 +172,7 @@ def build() -> dict:
                 "Does a random eligible-edge design have enough expected measurable "
                 "structure to justify freeze?"
             ),
-            "answer": "NO — NOT AS CURRENTLY EMITTED",
+            "answer": FREEZE_ANSWER,
             "basis": (
                 "K and Y_ind prevalence are high enough that missing structure is "
                 "not the blocker. The blocker is C1: four rows make the 0.95 floor "
@@ -224,6 +225,24 @@ def build() -> dict:
             "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
             "a0": "docs/carrier_formation_a0.json",
         },
+        "freeze_decision": {
+            "date": DATE,
+            "decision": "DO NOT FREEZE",
+            "answer": FREEZE_ANSWER,
+            "scope": (
+                "the current six-seed target artifact and the current four-target "
+                "A1 cell output"
+            ),
+            "basis": [
+                "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
+                "The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).",
+                "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.",
+            ],
+            "revisit_when": [
+                "C4 non-target rows enlarge the C1 denominator and this review is rerun.",
+                "A larger target block or a redesigned selector is registered before freeze.",
+            ],
+        },
         "inputs": {
             "target_observations": total_targets,
             "unique_target_edges": len(targets),
@@ -253,8 +272,11 @@ def problems(doc: dict) -> list[str]:
         found.append("power review decision changed")
     if not (doc.get("decision") or {}).get("freeze_question"):
         found.append("power review has no freeze question")
-    elif doc["decision"]["freeze_question"].get("answer") != "NO — NOT AS CURRENTLY EMITTED":
+    elif doc["decision"]["freeze_question"].get("answer") != FREEZE_ANSWER:
         found.append("power review freeze answer changed")
+    freeze = doc.get("freeze_decision") or {}
+    if freeze.get("decision") != "DO NOT FREEZE" or freeze.get("answer") != FREEZE_ANSWER:
+        found.append("freeze decision changed")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
     elif doc["representativeness"].get("estimand") != (
@@ -301,6 +323,22 @@ def render(doc: dict) -> str:
         "",
         "- If yes: %s" % doc["decision"]["freeze_question"]["if_yes"],
         "- If no: %s" % doc["decision"]["freeze_question"]["if_no"],
+        "",
+        "## Freeze decision",
+        "",
+        "**%s (%s).** Answer: **%s**." % (
+            doc["freeze_decision"]["decision"],
+            doc["freeze_decision"]["date"],
+            doc["freeze_decision"]["answer"],
+        ),
+        "",
+        "**Scope:** %s." % doc["freeze_decision"]["scope"],
+        "",
+        "**Basis:**",
+    ] + ["- %s" % item for item in doc["freeze_decision"]["basis"]] + [
+        "",
+        "**Revisit when:**",
+    ] + ["- %s" % item for item in doc["freeze_decision"]["revisit_when"]] + [
         "",
         "## Decision",
         "",

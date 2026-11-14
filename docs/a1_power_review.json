@@ -27,6 +27,21 @@
     "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
     "a0": "docs/carrier_formation_a0.json"
   },
+  "freeze_decision": {
+    "date": "2026-11-14",
+    "decision": "DO NOT FREEZE",
+    "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
+    "scope": "the current six-seed target artifact and the current four-target A1 cell output",
+    "basis": [
+      "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
+      "The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).",
+      "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered."
+    ],
+    "revisit_when": [
+      "C4 non-target rows enlarge the C1 denominator and this review is rerun.",
+      "A larger target block or a redesigned selector is registered before freeze."
+    ]
+  },
   "inputs": {
     "target_observations": 24,
     "unique_target_edges": 23,

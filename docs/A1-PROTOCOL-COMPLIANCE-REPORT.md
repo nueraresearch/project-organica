@@ -33,7 +33,7 @@ A1 Run                   NOT STARTED
 
 P0 and feasibility are demonstrated. Freeze readiness is not: the power review found
 that four target rows make C1 effectively a 100% preservation rule, and C4 non-target
-rows are needed to give C1 a denominator larger than four. The grant decision and run remain separate acts.
+rows are needed to give C1 a denominator larger than four. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
 
 ## Compliance table
 
