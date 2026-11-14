@@ -35,7 +35,7 @@
   "run": false,
   "authorization": "none"
  },
- "reading": "All 69 A-missing candidate edges across the ten failing seeds appear at diagnostic cap 1000, at ranks 65-189. They are support-eligible and all 69 are transition candidates; none is a cooccurrence. 62/69 are flip_q. The cap-112 run excludes them, but cap 1000 also changes which predictions are reinforced across cycles, so the rank range is diagnostic, not a fixed cutoff. The stable discriminator is the edge family: flip_q transitions are ranked out of the 112-row prediction window.",
+ "reading": "All 69 A-missing candidate edges across the ten failing seeds appear at diagnostic cap 1000, at ranks 65-189. They are support-eligible and all 69 are transition candidates; none is a cooccurrence. 62/69 are flip_q. The cap-112 run excludes them, but cap 1000 also changes which predictions are reinforced across cycles, so the rank range is diagnostic, not a fixed cutoff. The stable discriminator is the edge family: flip_q transitions are ranked out of the 112-row prediction window. The gap survives at matched support 16+: flip_p is 311/318 (97.8%) A against flip_q 149/182 (81.9%).",
  "failing_seeds": [
   20630101,
   20630102,
@@ -353,6 +353,40 @@
    "A112_cooccurrence": 0,
    "support_min": 6,
    "support_max": 34
+  }
+ ],
+ "family_support": [
+  {
+   "family": "flip_p",
+   "support_bin": "8-15",
+   "candidate_edges": 1,
+   "A112": 1,
+   "A112_rate": 1.0,
+   "missing": 0
+  },
+  {
+   "family": "flip_p",
+   "support_bin": "16+",
+   "candidate_edges": 318,
+   "A112": 311,
+   "A112_rate": 0.977987,
+   "missing": 7
+  },
+  {
+   "family": "flip_q",
+   "support_bin": "8-15",
+   "candidate_edges": 133,
+   "A112": 105,
+   "A112_rate": 0.789474,
+   "missing": 28
+  },
+  {
+   "family": "flip_q",
+   "support_bin": "16+",
+   "candidate_edges": 182,
+   "A112": 149,
+   "A112_rate": 0.818681,
+   "missing": 33
   }
  ],
  "kinds": [

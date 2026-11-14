@@ -43,6 +43,20 @@ def test_flip_q_is_the_stable_family_split():
     assert families["flip_q"]["missing_never"] == 0
 
 
+def test_family_gap_survives_matched_support():
+    rows = {(row["family"], row["support_bin"]): row
+            for row in DOC["family_support"]}
+    assert (rows[("flip_p", "16+")]["candidate_edges"],
+            rows[("flip_p", "16+")]["A112"],
+            rows[("flip_p", "16+")]["missing"]) == (318, 311, 7)
+    assert (rows[("flip_q", "16+")]["candidate_edges"],
+            rows[("flip_q", "16+")]["A112"],
+            rows[("flip_q", "16+")]["missing"]) == (182, 149, 33)
+    assert (rows[("flip_q", "8-15")]["candidate_edges"],
+            rows[("flip_q", "8-15")]["A112"],
+            rows[("flip_q", "8-15")]["missing"]) == (133, 105, 28)
+
+
 def test_support_is_not_the_floor():
     support = {row["label"]: row for row in DOC["support_bins"]}
     assert (support["4-7"]["candidate_edges"],

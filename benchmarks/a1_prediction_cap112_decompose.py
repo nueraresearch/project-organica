@@ -324,6 +324,22 @@ def build() -> dict:
         failing_rows, "support_bin",
         tuple(label for label, _, _ in SUPPORT_BINS))
     families = _bucket(failing_rows, "cell_relation", FAMILIES)
+    family_support = []
+    for family in ("flip_p", "flip_q"):
+        for support in ("8-15", "16+"):
+            group = [row for row in failing_rows
+                     if row["cell_relation"] == family
+                     and row["support_bin"] == support]
+            if group:
+                a112 = sum(row["A112"] for row in group)
+                family_support.append({
+                    "family": family,
+                    "support_bin": support,
+                    "candidate_edges": len(group),
+                    "A112": a112,
+                    "A112_rate": round(a112 / len(group), 6),
+                    "missing": sum(row["missing"] for row in group),
+                })
     kinds = []
     for label, flag in (("transition", False), ("cooccurrence", True)):
         group = [row for row in failing_rows if row["cooccurrence"] == flag]
@@ -358,7 +374,9 @@ def build() -> dict:
             "run excludes them, but cap 1000 also changes which predictions "
             "are reinforced across cycles, so the rank range is diagnostic, "
             "not a fixed cutoff. The stable discriminator is the edge family: "
-            "flip_q transitions are ranked out of the 112-row prediction window."
+            "flip_q transitions are ranked out of the 112-row prediction window. "
+            "The gap survives at matched support 16+: flip_p is 311/318 "
+            "(97.8%) A against flip_q 149/182 (81.9%)."
         )
     elif cap_bound:
         reading = (
@@ -414,6 +432,7 @@ def build() -> dict:
         "seed_rows": seed_rows,
         "support_bins": support_bins,
         "families": families,
+        "family_support": family_support,
         "kinds": kinds,
         "rank_bands": rank_bands,
         "missing_rank_bands": missing_rank_bands,
@@ -494,6 +513,17 @@ def render(doc: dict) -> str:
             row["label"], row["candidate_edges"], row["A112"],
             100.0 * row["A112_rate"], row["missing"],
             row["missing_cap_bound"], row["missing_never"]))
+    lines += [
+        "",
+        "## Family at matched support",
+        "",
+        "| Family | Support | Candidates | A112 | A112 rate | Missing |",
+        "| --- | --- | ---: | ---: | ---: | ---: |",
+    ]
+    for row in doc["family_support"]:
+        lines.append("| %s | %s | %d | %d | %.1f%% | %d |" % (
+            row["family"], row["support_bin"], row["candidate_edges"],
+            row["A112"], 100.0 * row["A112_rate"], row["missing"]))
     lines += [
         "",
         "## Prediction kind",

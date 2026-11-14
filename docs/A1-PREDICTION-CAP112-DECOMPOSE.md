@@ -6,7 +6,7 @@ Generated from `docs/a1_prediction_cap112_decompose.json` by `python -m benchmar
 
 ## Result
 
-All 69 A-missing candidate edges across the ten failing seeds appear at diagnostic cap 1000, at ranks 65-189. They are support-eligible and all 69 are transition candidates; none is a cooccurrence. 62/69 are flip_q. The cap-112 run excludes them, but cap 1000 also changes which predictions are reinforced across cycles, so the rank range is diagnostic, not a fixed cutoff. The stable discriminator is the edge family: flip_q transitions are ranked out of the 112-row prediction window.
+All 69 A-missing candidate edges across the ten failing seeds appear at diagnostic cap 1000, at ranks 65-189. They are support-eligible and all 69 are transition candidates; none is a cooccurrence. 62/69 are flip_q. The cap-112 run excludes them, but cap 1000 also changes which predictions are reinforced across cycles, so the rank range is diagnostic, not a fixed cutoff. The stable discriminator is the edge family: flip_q transitions are ranked out of the 112-row prediction window. The gap survives at matched support 16+: flip_p is 311/318 (97.8%) A against flip_q 149/182 (81.9%).
 
 | Missing edges | Support >=5 | Cap-1000 bound | Never A | Cooccurrence | Cap-1000 rank range |
 | ---: | ---: | ---: | ---: | ---: | --- |
@@ -41,6 +41,15 @@ All 69 A-missing candidate edges across the ten failing seeds appear at diagnost
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | flip_p | 319 | 312 | 97.8% | 7 | 7 | 0 |
 | flip_q | 318 | 256 | 80.5% | 62 | 62 | 0 |
+
+## Family at matched support
+
+| Family | Support | Candidates | A112 | A112 rate | Missing |
+| --- | --- | ---: | ---: | ---: | ---: |
+| flip_p | 8-15 | 1 | 1 | 100.0% | 0 |
+| flip_p | 16+ | 318 | 311 | 97.8% | 7 |
+| flip_q | 8-15 | 133 | 105 | 78.9% | 28 |
+| flip_q | 16+ | 182 | 149 | 81.9% | 33 |
 
 ## Prediction kind
 
