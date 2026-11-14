@@ -2,8 +2,53 @@
   "kind": "a1_denominator_resolution_audit",
   "id": "a1_denominator_resolution_audit",
   "date": "2026-11-14",
-  "status": "FLAGGED \u2014 6 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR",
-  "rule": "For a proportion over n rows, the smallest nonzero change is 1/n. For a floor threshold t, the margin is 1-t; for a ceiling threshold t, the margin is t. A gate is FLAGGED when 1/n is greater than its margin; equality is not finer.",
+  "status": "FLAGGED \u2014 4 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR",
+  "rule": "For a proportion over n rows, the smallest nonzero change is 1/n. For a floor threshold t, the margin is 1-t; for a ceiling threshold t, the margin is t. A gate is FLAGGED when 1/n is greater than its margin; equality is not finer. C8 uses each seed's own A-K- rows. C7's 0.05 margin is an A/K rate difference over the 120 cycles on each paired target edge, not over the 2N Y- rows.",
+  "denominator_unit": {
+    "status": "ADOPTED \u2014 BINDING FOR A1",
+    "record": "docs/A1-C7-C8-DENOMINATOR.md",
+    "C7_assertion_block": "PER SEED",
+    "C8_third_route": "PER SEED",
+    "units": {
+      "C7_assertion_block": "PER SEED, PER EDGE RATE",
+      "C8_third_route": "PER SEED, PER TARGET ROW"
+    },
+    "rule": "C7 and C8 are evaluated on each seed's own rows. Rows are not pooled across seeds; no averaging or best-seed reading is permitted. C7's 0.05 margin is an A/K rate over 120 cycles per edge, not a proportion over the 2N Y- rows.",
+    "per_seed_rows": {
+      "C7_N4": 8,
+      "C8_N4": 4,
+      "C7_N8": 16,
+      "C8_N8": 8
+    },
+    "row_role": {
+      "C7": "The 2N Y- rows establish cell completeness and the assertion-order check; they are not the 0.05 A/K rate denominator.",
+      "C8": "The N A-K- target rows are the assertion-rate denominator."
+    },
+    "c7_rate_denominator_cycles": 120,
+    "c7_rate_step": 0.008333,
+    "c8_per_seed_steps": {
+      "C8_N4": 0.25,
+      "C8_N8": 0.125
+    },
+    "minimum_targets_for_one_step_resolution": {
+      "C7": 1,
+      "C8": 20
+    },
+    "resolved": {
+      "C7_N4": true,
+      "C7_N8": true,
+      "C8_N4": false,
+      "C8_N8": false
+    },
+    "pooled_reading": "REJECTED \u2014 not an A1 denominator for C7 or C8",
+    "pooled_rows_if_it_were_used": {
+      "C7_N4": 48,
+      "C8_N4": 24,
+      "C7_N8": 96,
+      "C8_N8": 48
+    },
+    "reason": "Pooling would let one seed's 1/4 A-K- assertion rate pass as 1/24, hiding exactly the per-seed third route C8 is meant to detect. Pooling C7 also averages a failing seed's per-edge A/K rate into a passing one."
+  },
   "sources": {
     "selection": "docs/a1_target_selection.json",
     "thresholds": "docs/a1_precommitted_thresholds.json"
@@ -41,8 +86,6 @@
     "flagged": [
       "C1_path_separation \u2014 target-only fallback",
       "C1_path_separation \u2014 N=8 maximum-feasibility target-only",
-      "C7_assertion_block \u2014 Y- blocked rows",
-      "C7_assertion_block \u2014 N=8 maximum-feasibility Y- blocked rows",
       "C8_third_route \u2014 A-K- blocked rows",
       "C8_third_route \u2014 N=8 maximum-feasibility A-K- blocked rows"
     ],
@@ -50,7 +93,9 @@
       "C1_path_separation \u2014 expanded C4 denominator",
       "C1_path_separation \u2014 N=8 maximum-feasibility expanded denominator",
       "C4_no_interference \u2014 all cells",
-      "C4_no_interference \u2014 N=8 maximum-feasibility all cells"
+      "C4_no_interference \u2014 N=8 maximum-feasibility all cells",
+      "C7_assertion_block \u2014 Y- blocked rows",
+      "C7_assertion_block \u2014 N=8 maximum-feasibility Y- blocked rows"
     ],
     "not_applicable": [
       "C2_treatment_consistency \u2014 per manipulated arm",
@@ -154,32 +199,32 @@
     {
       "gate": "C7_assertion_block",
       "scenario": "Y- blocked rows",
-      "quantity": "A/K delta",
+      "quantity": "A/K rate delta",
       "threshold": 0.05,
       "threshold_kind": "ceiling",
-      "denominator": 8,
-      "denominator_max": 8,
-      "denominator_basis": "two Y- cells x four targets",
-      "smallest_step": 0.125,
+      "denominator": 120,
+      "denominator_max": 120,
+      "denominator_basis": "120 cycles on each paired target edge; eight Y- rows are completeness/order evidence",
+      "smallest_step": 0.008333,
       "margin": 0.05,
-      "finer_than_denominator": true,
-      "status": "FLAGGED",
-      "consequence": "One row changes the blocked rate by 1/8 = 0.125, above the 0.05 margin."
+      "finer_than_denominator": false,
+      "status": "PASS",
+      "consequence": "1/120 = 0.008333, below the 0.05 margin; C7 is resolved at N=4. The eight rows are not the rate denominator."
     },
     {
       "gate": "C7_assertion_block",
       "scenario": "N=8 maximum-feasibility Y- blocked rows",
-      "quantity": "A/K delta",
+      "quantity": "A/K rate delta",
       "threshold": 0.05,
       "threshold_kind": "ceiling",
-      "denominator": 16,
-      "denominator_max": 16,
-      "denominator_basis": "two Y- cells x eight targets",
-      "smallest_step": 0.0625,
+      "denominator": 120,
+      "denominator_max": 120,
+      "denominator_basis": "120 cycles on each paired target edge; sixteen Y- rows are completeness/order evidence",
+      "smallest_step": 0.008333,
       "margin": 0.05,
-      "finer_than_denominator": true,
-      "status": "FLAGGED",
-      "consequence": "1/16 = 0.0625; still above 0.05. C7 needs at least 20 rows (N>=10) for a one-step resolution."
+      "finer_than_denominator": false,
+      "status": "PASS",
+      "consequence": "The rate step stays 1/120 = 0.008333; N does not change C7 rate resolution, so C7 is resolved at N=8."
     },
     {
       "gate": "C8_third_route",

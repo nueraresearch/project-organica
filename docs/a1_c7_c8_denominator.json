@@ -1,0 +1,79 @@
+{
+  "kind": "a1_denominator_unit_decision",
+  "id": "A1-C7-C8-DENOMINATOR-1",
+  "date": "2026-11-14",
+  "status": "ADOPTED — BINDING FOR A1; C8 UNDER-RESOLVED AT N=4",
+  "not_a_result": true,
+  "thresholds": {
+    "C7_A_delta_max": 0.05,
+    "C7_K_delta_max": 0.05,
+    "C8_third_route_assertion_max": 0.05,
+    "changed": false
+  },
+  "unit": {
+    "C7_assertion_block": "PER SEED, PER EDGE RATE OVER 120 CYCLES",
+    "C8_third_route": "PER SEED, PER TARGET ROW",
+    "pooling_across_seeds": "REJECTED",
+    "averaging_across_seeds": "REJECTED",
+    "best_seed_reading": "REJECTED",
+    "post_hoc_denominator_expansion": "REJECTED"
+  },
+  "definitions": {
+    "C7": "On every seed, both Y- cells and the paired A+K+ control must exist; Y- lowers assertion; every Y- edge's absolute A and K formation-rate difference from its paired A+K+ edge is at most 0.05 over the 120-cycle rate denominator. The 2N Y- rows are for cell completeness and the assertion-order check, not the 0.05 rate denominator. A missing cell, edge or rate is NOT MEASURABLE, not a pass.",
+    "C8": "On every seed, the A-K- assertion rate over its N target rows is at most 0.05. Any seed above the ceiling is THIRD ROUTE PRESENT for that seed."
+  },
+  "planned_denominators": {
+    "N4": {
+      "C7_rows_per_seed": 8,
+      "C7_row_role": "completeness and assertion-order evidence, not the 0.05 rate denominator",
+      "C7_cycles_per_edge": 120,
+      "C7_rate_step": 0.008333,
+      "C8_rows_per_seed": 4,
+      "C8_step": 0.25,
+      "C7_status": "RESOLVED",
+      "C8_status": "FLAGGED"
+    },
+    "N8_maximum": {
+      "C7_rows_per_seed": 16,
+      "C7_row_role": "completeness and assertion-order evidence, not the 0.05 rate denominator",
+      "C7_cycles_per_edge": 120,
+      "C7_rate_step": 0.008333,
+      "C8_rows_per_seed": 8,
+      "C8_step": 0.125,
+      "C7_status": "RESOLVED",
+      "C8_status": "FLAGGED"
+    }
+  },
+  "minimum_targets_for_one_step_resolution": {
+    "C7": 1,
+    "C8": 20
+  },
+  "maximum_disjoint_targets_from_16_tag_vertices": 8,
+  "current_design": "C7 RESOLVED BY DESIGN; C8 UNDER-RESOLVED — C8 cannot be adjudicated per seed at 0.05 with N<=8",
+  "pooled_reference_only": {
+    "status": "REJECTED — NOT AN A1 DENOMINATOR",
+    "N4": {"C7_rows": 48, "C7_row_role": "not a rate denominator", "C8_rows": 24, "C8_step": 0.041667},
+    "N8": {"C7_rows": 96, "C7_row_role": "not a rate denominator", "C8_rows": 48, "C8_step": 0.020833},
+    "example_failure": "A single seed at 1/4 = 0.25 A-K- assertion would pool to 1/24 = 0.041667 and appear to pass, hiding the per-seed third route."
+  },
+  "consequence": {
+    "target_freeze": "NOT AUTHORISED",
+    "manifest": "NOT FROZEN",
+    "targets": "DRAFT — UNRESOLVED IN THE MANIFEST",
+    "seeds": "PROVISIONAL — NOT RESERVED",
+    "grant": "NOT ISSUED",
+    "cells_run": 0,
+    "C7_C8_measured": false,
+    "C1_C4_changed": false
+  },
+  "required_before_freeze": "Either register a design with at least 20 C8 rows per seed, or record C8 as not adjudicated by design before the freeze. C7 is rate-resolved at N=4 but remains unrun. A threshold change or post-outcome pooling is not permitted.",
+  "related": {
+    "audit": "docs/A1-DENOMINATOR-RESOLUTION.md",
+    "readiness": "docs/A1-GATE-READINESS.md",
+    "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+    "checklist": "docs/A1-PRE-FREEZE-CHECKLIST.md",
+    "compliance": "docs/A1-PROTOCOL-COMPLIANCE-REPORT.md",
+    "c1_c4": "docs/A1-C1-C4-VOID-GATE.md"
+  },
+  "not_evidence": "A denominator-unit decision and design-feasibility statement. No cell has run, no target is frozen, no seed is reserved and no C7/C8 measurement exists."
+}

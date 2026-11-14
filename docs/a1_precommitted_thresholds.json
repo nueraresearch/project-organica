@@ -35,19 +35,19 @@
       "gate": "C7_assertion_block",
       "quantity": "A delta under Y-",
       "value": 0.05,
-      "definition": "Absolute A formation-rate difference between Y- and the paired no-Y- control."
+      "definition": "Absolute A formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge."
     },
     {
       "gate": "C7_assertion_block",
       "quantity": "K delta under Y-",
       "value": 0.05,
-      "definition": "Absolute K formation-rate difference between Y- and the paired no-Y- control."
+      "definition": "Absolute K formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge."
     },
     {
       "gate": "C8_third_route",
       "quantity": "A-K- assertion ceiling",
       "value": 0.05,
-      "definition": "Assertion rate in A-K-; above the ceiling is THIRD ROUTE PRESENT."
+      "definition": "Assertion rate in A-K- per seed over its N target rows; above the ceiling is THIRD ROUTE PRESENT on that seed."
     }
   ],
   "source": "Design convention fixed 2026-11-14 before any A1 cell. No A0 row, seed or run result was used to choose a value.",

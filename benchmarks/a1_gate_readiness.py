@@ -39,6 +39,10 @@ C1_MIN = 0.95
 C4_MAX = 0.05
 C7_MAX = 0.05
 C8_MAX = 0.05
+C7_RATE_DENOMINATOR_CYCLES = 120
+C7_RATE_STEP = round(1.0 / C7_RATE_DENOMINATOR_CYCLES, 6)
+C7_C8_DENOMINATOR_UNIT = "PER SEED"
+C7_C8_DENOMINATOR_RECORD = "docs/A1-C7-C8-DENOMINATOR.md"
 THRESHOLDS = {
     "C1_A_minus_carrier_preservation_min": C1_MIN,
     "C1_K_minus_served_preservation_min": C1_MIN,
@@ -55,11 +59,11 @@ THRESHOLD_ROWS = (
     ("C4_no_interference", "neighbour delta", C4_MAX,
      "Maximum absolute A, K or Y availability-rate difference on non-target edges against the paired control."),
     ("C7_assertion_block", "A delta under Y-", C7_MAX,
-     "Absolute A formation-rate difference between Y- and the paired no-Y- control."),
+     "Absolute A formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge."),
     ("C7_assertion_block", "K delta under Y-", C7_MAX,
-     "Absolute K formation-rate difference between Y- and the paired no-Y- control."),
+     "Absolute K formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge."),
     ("C8_third_route", "A-K- assertion ceiling", C8_MAX,
-     "Assertion rate in A-K-; above the ceiling is THIRD ROUTE PRESENT."),
+     "Assertion rate in A-K- per seed over its N target rows; above the ceiling is THIRD ROUTE PRESENT on that seed."),
 )
 THRESHOLDS_PATH = DOCS / "a1_precommitted_thresholds.json"
 THRESHOLDS_PAGE = DOCS / "A1-PRECOMMITTED-THRESHOLDS.md"
@@ -109,14 +113,14 @@ BOUNDS = {
     "C7_assertion_block": {
         "attempts": 1,
         "attempt": "Implement Y- once and read assertion and A/K formation at A+K+ and A-K+.",
-        "success": "The C7 contract passes at both Y- cells.",
+        "success": "The C7 contract passes on every seed and at both Y- cells.",
         "on_failure": "SHARED CAUSE / READOUT NOT SEPARATED.",
         "on_unmeasurable": "UNSATISFIABLE: no Y- cell has a paired control.",
     },
     "C8_third_route": {
         "attempts": 1,
         "attempt": "Implement the A-K- double block once and read assertion.",
-        "success": "A-K- assertion is at or below the precommitted 0.05 ceiling.",
+        "success": "A-K- assertion is at or below the precommitted 0.05 ceiling on every seed.",
         "on_failure": "THIRD ROUTE PRESENT: the two-path model is incomplete.",
         "on_unmeasurable": "UNSATISFIABLE: A-K- has no denominator.",
     },
@@ -241,29 +245,74 @@ def gate_c5(rows: list[dict], tolerance: float | None = None) -> bool:
     return True
 
 
+def _by_seed(rows: list[dict]) -> dict[int, list[dict]]:
+    grouped: dict[int, list[dict]] = {}
+    for row in rows:
+        grouped.setdefault(int(row["seed"]), []).append(row)
+    return grouped
+
+
 def gate_c7(rows: list[dict], tolerance: float | None) -> bool:
-    """Y- reduces assertion while A and K stay within tolerance."""
+    """On every seed, Y- lowers assertion while A and K stay within tolerance.
+
+    C7 is a per-seed manipulation/readout check.  Pooling Y- rows across seeds
+    would let a seed that is missing a Y- cell borrow another seed's rows, and
+    would let a small per-seed delta be averaged into a pooled pass.
+    """
     if tolerance is None:
         return False
-    baseline = [row for row in rows if row["cell"] == "A+K+"]
-    blocked = [row for row in rows if row["cell"] in Y_CELLS]
-    if not baseline or not blocked:
+    by_seed = _by_seed(rows)
+    if not by_seed:
         return False
-    reduced = _fraction(blocked, "Y") < _fraction(baseline, "Y")
-    for row in blocked:
-        delta = row.get("delta_from_baseline") or {}
-        if any(path not in delta or float(delta[path]) > tolerance
-               for path in ("A", "K")):
+    for group in by_seed.values():
+        baseline = [row for row in group if row["cell"] == "A+K+"]
+        blocked = [row for row in group if row["cell"] in Y_CELLS]
+        if not baseline or not blocked:
             return False
-    return reduced
+        if {str(row["cell"]) for row in blocked} != set(Y_CELLS):
+            return False
+        if _fraction(blocked, "Y") >= _fraction(baseline, "Y"):
+            return False
+        by_edge = {str(row["edge"]): row for row in baseline if row.get("edge") is not None}
+        for row in blocked:
+            delta = row.get("delta_from_baseline")
+            if delta is None:
+                base = by_edge.get(str(row.get("edge")))
+                if base is None:
+                    return False
+                fields = ("A_rate", "K_rate")
+                if any(row.get(field) is None or base.get(field) is None
+                       for field in fields):
+                    return False
+                delta = {
+                    path: abs(float(row[path + "_rate"]) - float(base[path + "_rate"]))
+                    for path in ("A", "K")
+                }
+            if any(path not in delta or float(delta[path]) > tolerance
+                   for path in ("A", "K")):
+                return False
+    return True
 
 
 def gate_c8(rows: list[dict], ceiling: float | None) -> bool:
-    """The A-K- positive control is at or below its precommitted ceiling."""
+    """On every seed, the A-K- positive control is at or below its ceiling.
+
+    C8 is an existence check for a third route.  Pooling A-K- rows across seeds
+    would let one seed with a 1/4 assertion rate pass as 1/24; that is exactly
+    the per-seed failure the control exists to detect.
+    """
     if ceiling is None:
         return False
-    both_blocked = [row for row in rows if row["cell"] == "A-K-"]
-    return bool(both_blocked) and _fraction(both_blocked, "Y") <= ceiling
+    by_seed = _by_seed(rows)
+    if not by_seed:
+        return False
+    for group in by_seed.values():
+        both_blocked = [row for row in group if row["cell"] == "A-K-"]
+        if not both_blocked:
+            return False
+        if _fraction(both_blocked, "Y") > ceiling:
+            return False
+    return True
 
 
 def gate_c9(rows: list[dict], tolerance: float | None = None) -> bool:
@@ -503,9 +552,13 @@ def audit() -> dict:
             "status": "CONTRACT BUILT; THRESHOLD PRECOMMITTED, NOT RUN",
             "current_evidence": (
                 "No Y- assertion blockade exists; A and K have not been held fixed under Y-. "
-                "Threshold: absolute A/K formation delta no greater than 0.05."
+                "Threshold: absolute A/K formation delta no greater than 0.05. C7 is "
+                "evaluated per seed and per edge; the margin is a rate over 120 cycles "
+                "(one cycle = 0.008333), so it is resolvable at N=4. The eight Y- rows "
+                "are for cell completeness and the assertion-order check, not the 0.05 "
+                "rate denominator. Target rows now emit A/K/Y rates."
             ),
-            "contract": "gate_c7(rows, tolerance): Y- lowers assertion while A and K formation stay within tolerance.",
+            "contract": "gate_c7(rows, tolerance): on every seed, both Y- cells lower assertion while A and K formation stay within tolerance.",
             "remaining": "Implement Y- and run it at A+K+ and A-K+; the threshold is already fixed.",
         },
         {
@@ -513,9 +566,10 @@ def audit() -> dict:
             "status": "CONTRACT BUILT; CEILING PRECOMMITTED, NOT RUN",
             "current_evidence": (
                 "No A-K- double block exists. The T8 ceiling is precommitted at 0.05, so a "
-                "double-block assertion rate above 5% would read THIRD ROUTE PRESENT."
+                "double-block assertion rate above 5% on any seed reads THIRD ROUTE PRESENT. "
+                "C8 is evaluated per seed; at N=4 that is four rows and a 0.25 step."
             ),
-            "contract": "gate_c8(rows, ceiling): A-K- assertion is at or below the precommitted ceiling.",
+            "contract": "gate_c8(rows, ceiling): on every seed, A-K- assertion is at or below the precommitted ceiling.",
             "remaining": "Implement the double block and run it; the ceiling is already fixed.",
         },
         {
@@ -569,6 +623,31 @@ def audit() -> dict:
             "record": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
         },
         "gate_order": GATE_ORDER,
+        "denominator_unit": {
+            "status": "ADOPTED — BINDING FOR A1",
+            "record": C7_C8_DENOMINATOR_RECORD,
+            "C7_assertion_block": C7_C8_DENOMINATOR_UNIT,
+            "C8_third_route": C7_C8_DENOMINATOR_UNIT,
+            "rule": (
+                "Every seed must pass C7 and C8 on its own rows. Rows are not "
+                "pooled across seeds and there is no averaging or best-seed reading. "
+                "C7's 0.05 margin is a per-edge A/K rate over 120 cycles; C8's 0.05 "
+                "ceiling is a per-target-edge assertion rate."
+            ),
+            "units": {
+                "C7_assertion_block": "PER SEED, PER EDGE RATE",
+                "C8_third_route": "PER SEED, PER TARGET ROW",
+            },
+            "rows": {
+                "C7_N4": 8, "C8_N4": 4, "C7_N8": 16, "C8_N8": 8,
+            },
+            "c7_rate_denominator_cycles": C7_RATE_DENOMINATOR_CYCLES,
+            "c7_rate_step": C7_RATE_STEP,
+            "c8_steps": {"C8_N4": 0.25, "C8_N8": 0.125},
+            "minimum_targets_for_one_step_resolution": {"C7": 1, "C8": 20},
+            "resolved": {"C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False},
+            "current_design": "C7 RESOLVED; C8 UNDER-RESOLVED — N=4 and the N=8 maximum are both above the 0.05 ceiling",
+        },
         "evidence": {
             "a0_rows": len(a0_rows),
             "a0_slice_cells": cells,
@@ -641,9 +720,10 @@ def render_thresholds(payload: dict) -> str:
         "## Reading",
         "",
         "`C1` needs at least 95% preservation of the other path on every seed; the denominator is",
-        "the paired control's available edges, not the whole candidate universe. `C4` and `C7` use a",
-        "0.05 absolute-rate margin. `C8` reads `THIRD ROUTE PRESENT` above a 0.05 assertion rate in",
-        "`A-K-`.",
+        "the paired control's available edges, not the whole candidate universe. `C4` uses a 0.05",
+        "absolute-rate margin. `C7` is read per seed at both Y- cells with a 0.05 A/K formation",
+        "margin. `C8` reads `THIRD ROUTE PRESENT` when any seed's `A-K-` assertion rate is above",
+        "0.05; rows are not pooled across seeds.",
         "",
         "%s" % payload["missing_denominator"],
         "",
@@ -723,6 +803,19 @@ def render(payload: dict) -> str:
         "**C1:** %s" % GATE_ORDER["C1_path_separation"]["void_condition"],
         "",
         "**C4:** %s" % GATE_ORDER["C4_no_interference"]["void_condition"],
+        "",
+        "## C7/C8 denominator unit",
+        "",
+        "**ADOPTED — BINDING FOR A1 (2026-11-14).** C7 and C8 are evaluated **per seed**; "
+        "rows are not pooled across seeds. Every seed must pass on its own rows. See "
+        "[`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md).",
+        "",
+        "At N=4 C7 has **8** Y- rows for cell completeness and the assertion-order check, but its "
+        "0.05 A/K margin is a **per-edge rate over 120 cycles** (`1/120 = 0.008333`), so C7 is "
+        "**RESOLVED** at N=4. C8 has **4** A-K- target rows (`1/4 = 0.25`); at the N=8 maximum "
+        "it has **8** (`1/8 = 0.125`). C8 needs at least 20 rows (N>=20) for one-step resolution, "
+        "above the 16-vertex, eight-target maximum. The current design is therefore "
+        "**UNDER-RESOLVED for C8 only**; that is a design blocker, not a threshold change.",
         "",
         "## Gates",
         "",

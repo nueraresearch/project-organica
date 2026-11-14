@@ -56,15 +56,15 @@
     {
       "id": "C7_assertion_block",
       "status": "CONTRACT BUILT; THRESHOLD PRECOMMITTED, NOT RUN",
-      "current_evidence": "No Y- assertion blockade exists; A and K have not been held fixed under Y-. Threshold: absolute A/K formation delta no greater than 0.05.",
-      "contract": "gate_c7(rows, tolerance): Y- lowers assertion while A and K formation stay within tolerance.",
+      "current_evidence": "No Y- assertion blockade exists; A and K have not been held fixed under Y-. Threshold: absolute A/K formation delta no greater than 0.05. C7 is evaluated per seed and per edge; the margin is a rate over 120 cycles (one cycle = 0.008333), so it is resolvable at N=4. The eight Y- rows are for cell completeness and the assertion-order check, not the 0.05 rate denominator. Target rows now emit A/K/Y rates.",
+      "contract": "gate_c7(rows, tolerance): on every seed, both Y- cells lower assertion while A and K formation stay within tolerance.",
       "remaining": "Implement Y- and run it at A+K+ and A-K+; the threshold is already fixed."
     },
     {
       "id": "C8_third_route",
       "status": "CONTRACT BUILT; CEILING PRECOMMITTED, NOT RUN",
-      "current_evidence": "No A-K- double block exists. The T8 ceiling is precommitted at 0.05, so a double-block assertion rate above 5% would read THIRD ROUTE PRESENT.",
-      "contract": "gate_c8(rows, ceiling): A-K- assertion is at or below the precommitted ceiling.",
+      "current_evidence": "No A-K- double block exists. The T8 ceiling is precommitted at 0.05, so a double-block assertion rate above 5% on any seed reads THIRD ROUTE PRESENT. C8 is evaluated per seed; at N=4 that is four rows and a 0.25 step.",
+      "contract": "gate_c8(rows, ceiling): on every seed, A-K- assertion is at or below the precommitted ceiling.",
       "remaining": "Implement the double block and run it; the ceiling is already fixed."
     },
     {
@@ -117,14 +117,14 @@
       "C7_assertion_block": {
         "attempts": 1,
         "attempt": "Implement Y- once and read assertion and A/K formation at A+K+ and A-K+.",
-        "success": "The C7 contract passes at both Y- cells.",
+        "success": "The C7 contract passes on every seed and at both Y- cells.",
         "on_failure": "SHARED CAUSE / READOUT NOT SEPARATED.",
         "on_unmeasurable": "UNSATISFIABLE: no Y- cell has a paired control."
       },
       "C8_third_route": {
         "attempts": 1,
         "attempt": "Implement the A-K- double block once and read assertion.",
-        "success": "A-K- assertion is at or below the precommitted 0.05 ceiling.",
+        "success": "A-K- assertion is at or below the precommitted 0.05 ceiling on every seed.",
         "on_failure": "THIRD ROUTE PRESENT: the two-path model is incomplete.",
         "on_unmeasurable": "UNSATISFIABLE: A-K- has no denominator."
       },
@@ -168,6 +168,40 @@
       "void_condition": "A missing or below-60 paired-control denominator, or a C1 preservation failure on any seed or path, makes the A1 run VOID.",
       "note": "C1 and C4 are one adopted validity decision; C1 is scored in the same post-freeze assembly and uses the C4 denominator."
     }
+  },
+  "denominator_unit": {
+    "status": "ADOPTED \u2014 BINDING FOR A1",
+    "record": "docs/A1-C7-C8-DENOMINATOR.md",
+    "C7_assertion_block": "PER SEED",
+    "C8_third_route": "PER SEED",
+    "rule": "Every seed must pass C7 and C8 on its own rows. Rows are not pooled across seeds and there is no averaging or best-seed reading. C7's 0.05 margin is a per-edge A/K rate over 120 cycles; C8's 0.05 ceiling is a per-target-edge assertion rate.",
+    "units": {
+      "C7_assertion_block": "PER SEED, PER EDGE RATE",
+      "C8_third_route": "PER SEED, PER TARGET ROW"
+    },
+    "rows": {
+      "C7_N4": 8,
+      "C8_N4": 4,
+      "C7_N8": 16,
+      "C8_N8": 8
+    },
+    "c7_rate_denominator_cycles": 120,
+    "c7_rate_step": 0.008333,
+    "c8_steps": {
+      "C8_N4": 0.25,
+      "C8_N8": 0.125
+    },
+    "minimum_targets_for_one_step_resolution": {
+      "C7": 1,
+      "C8": 20
+    },
+    "resolved": {
+      "C7_N4": true,
+      "C7_N8": true,
+      "C8_N4": false,
+      "C8_N8": false
+    },
+    "current_design": "C7 RESOLVED; C8 UNDER-RESOLVED \u2014 N=4 and the N=8 maximum are both above the 0.05 ceiling"
   },
   "evidence": {
     "a0_rows": 26,

@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act",
   "id": "A1-TARGET-FREEZE-1",
   "date": "2026-11-14",
-  "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+  "status": "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -91,18 +91,33 @@
   "unique_target_edges": 23,
   "manifest_target_status_after_signature": "FIXED BEFORE FREEZE",
   "manifest_frozen_after_signature": true,
-  "seed_block_status_after_signature": "RESERVED \u2014 FROZEN",
+  "seed_block_status_after_signature": "RESERVED — FROZEN",
   "grant_after_signature": "NOT ISSUED",
   "run_after_signature": "NOT STARTED",
   "observation_after_signature": "NO C1/C4 DENOMINATOR; NO CELL",
   "current_manifest_frozen": false,
-  "current_manifest_target_status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+  "current_manifest_target_status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
   "checks": {
     "target_set_problems": [],
     "six_sets": true,
     "four_per_seed": true,
     "unique_edges": 23,
     "no_cell_run": true
+  },
+  "c7_c8_denominator": {
+    "status": "ADOPTED — C7 PER-EDGE RATE; C8 PER-TARGET ROW; C8 UNDER-RESOLVED",
+    "record": "docs/A1-C7-C8-DENOMINATOR.md",
+    "C7_rows_per_seed": 8,
+    "C8_rows_per_seed": 4,
+    "C7_step": 0.008333,
+    "C8_step": 0.25,
+    "pooled_rows_rejected": true,
+    "if_signed_limitation": "C8: NOT ADJUDICATED BY DESIGN",
+    "C7_row_role": "completeness and assertion-order evidence; not the 0.05 rate denominator",
+    "C7_cycles_per_edge": 120,
+    "C7_rate_step": 0.008333,
+    "C7_status": "RESOLVED",
+    "C8_status": "FLAGGED"
   },
   "effect_if_signed": [
     "Freeze the Path A target identity for the registered attempt.",
@@ -116,7 +131,8 @@
     "It does not run a cell.",
     "It does not create a result or observe C1/C4.",
     "It does not sign the owner memo or the provisional-freeze wrapper; the C1/C4 gate is already adopted.",
-    "It does not regenerate targets or permit post-outcome re-selection."
+    "It does not regenerate targets or permit post-outcome re-selection.",
+    "It does not change the C7/C8 thresholds, pool their rows or make C8 adjudicable at N=4."
   ],
   "not_evidence": "A prepared freeze act. No target is frozen in the live manifest, no grant exists and no cell has run."
 }

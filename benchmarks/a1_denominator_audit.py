@@ -16,6 +16,11 @@ import argparse
 import json
 from pathlib import Path
 
+from benchmarks.a1_gate_readiness import (
+    C7_C8_DENOMINATOR_RECORD,
+    C7_C8_DENOMINATOR_UNIT,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 SELECTION_PATH = DOCS / "a1_target_selection.json"
@@ -47,6 +52,45 @@ def _greedy_disjoint_count(edges, limit: int) -> int:
         if count == limit:
             break
     return count
+
+
+def _denominator_unit() -> dict:
+    """The adopted C7/C8 evaluation unit, recorded beside every denominator table."""
+    return {
+        "status": "ADOPTED — BINDING FOR A1",
+        "record": C7_C8_DENOMINATOR_RECORD,
+        "C7_assertion_block": C7_C8_DENOMINATOR_UNIT,
+        "C8_third_route": C7_C8_DENOMINATOR_UNIT,
+        "units": {
+            "C7_assertion_block": "PER SEED, PER EDGE RATE",
+            "C8_third_route": "PER SEED, PER TARGET ROW",
+        },
+        "rule": (
+            "C7 and C8 are evaluated on each seed's own rows. Rows are not pooled "
+            "across seeds; no averaging or best-seed reading is permitted. C7's 0.05 "
+            "margin is an A/K rate over 120 cycles per edge, not a proportion over "
+            "the 2N Y- rows."
+        ),
+        "per_seed_rows": {"C7_N4": 8, "C8_N4": 4, "C7_N8": 16, "C8_N8": 8},
+        "row_role": {
+            "C7": "The 2N Y- rows establish cell completeness and the assertion-order check; they are not the 0.05 A/K rate denominator.",
+            "C8": "The N A-K- target rows are the assertion-rate denominator.",
+        },
+        "c7_rate_denominator_cycles": 120,
+        "c7_rate_step": 0.008333,
+        "c8_per_seed_steps": {"C8_N4": 0.25, "C8_N8": 0.125},
+        "minimum_targets_for_one_step_resolution": {"C7": 1, "C8": 20},
+        "resolved": {"C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False},
+        "pooled_reading": "REJECTED — not an A1 denominator for C7 or C8",
+        "pooled_rows_if_it_were_used": {
+            "C7_N4": 48, "C8_N4": 24, "C7_N8": 96, "C8_N8": 48,
+        },
+        "reason": (
+            "Pooling would let one seed's 1/4 A-K- assertion rate pass as 1/24, "
+            "hiding exactly the per-seed third route C8 is meant to detect. Pooling "
+            "C7 also averages a failing seed's per-edge A/K rate into a passing one."
+        ),
+    }
 
 
 def _row(gate: str, scenario: str, quantity: str, threshold: float | None,
@@ -150,16 +194,16 @@ def build() -> dict:
             "1/55 = 0.018182; the denominator shrinks but still resolves the 0.05 margin.",
         ),
         _row(
-            "C7_assertion_block", "Y- blocked rows", "A/K delta",
-            c7, "ceiling", 8, 8,
-            "two Y- cells x four targets",
-            "One row changes the blocked rate by 1/8 = 0.125, above the 0.05 margin.",
+            "C7_assertion_block", "Y- blocked rows", "A/K rate delta",
+            c7, "ceiling", 120, 120,
+            "120 cycles on each paired target edge; eight Y- rows are completeness/order evidence",
+            "1/120 = 0.008333, below the 0.05 margin; C7 is resolved at N=4. The eight rows are not the rate denominator.",
         ),
         _row(
             "C7_assertion_block", "N=8 maximum-feasibility Y- blocked rows",
-            "A/K delta", c7, "ceiling", 2 * n8, 2 * n8,
-            "two Y- cells x eight targets",
-            "1/16 = 0.0625; still above 0.05. C7 needs at least 20 rows (N>=10) for a one-step resolution.",
+            "A/K rate delta", c7, "ceiling", 120, 120,
+            "120 cycles on each paired target edge; sixteen Y- rows are completeness/order evidence",
+            "The rate step stays 1/120 = 0.008333; N does not change C7 rate resolution, so C7 is resolved at N=8.",
         ),
         _row(
             "C8_third_route", "A-K- blocked rows", "assertion rate",
@@ -223,8 +267,11 @@ def build() -> dict:
             "For a proportion over n rows, the smallest nonzero change is 1/n. "
             "For a floor threshold t, the margin is 1-t; for a ceiling threshold "
             "t, the margin is t. A gate is FLAGGED when 1/n is greater than its "
-            "margin; equality is not finer."
+            "margin; equality is not finer. C8 uses each seed's own A-K- rows. "
+            "C7's 0.05 margin is an A/K rate difference over the 120 cycles on "
+            "each paired target edge, not over the 2N Y- rows."
         ),
+        "denominator_unit": _denominator_unit(),
         "sources": {
             "selection": "docs/a1_target_selection.json",
             "thresholds": "docs/a1_precommitted_thresholds.json",
@@ -324,7 +371,7 @@ def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
     c4_counts = [len(edges) for edges in c4_by_seed.values() if edges]
     c4_min, c4_max = _observed_range(c4_counts)
 
-    c7_by_seed = {seed: 0 for seed in seeds}
+    c7_by_seed: dict[str, list[int]] = {seed: [] for seed in seeds}
     c8_by_seed = {seed: 0 for seed in seeds}
     for payload in payloads:
         seed = str(int(payload["seed"]))
@@ -333,10 +380,12 @@ def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
             if not row.get("target"):
                 continue
             if cell in Y_CELLS:
-                c7_by_seed[seed] += 1
+                cycles = (row.get("A_cycles"), row.get("K_cycles"))
+                if all(isinstance(value, int) and value > 0 for value in cycles):
+                    c7_by_seed[seed].append(min(cycles))
             if cell == "A-K-":
                 c8_by_seed[seed] += 1
-    c7_values = [value for value in c7_by_seed.values() if value > 0]
+    c7_values = [min(values) for values in c7_by_seed.values() if values]
     c8_values = [value for value in c8_by_seed.values() if value > 0]
     c7_min, c7_max = _observed_range(c7_values)
     c8_min, c8_max = _observed_range(c8_values)
@@ -360,10 +409,10 @@ def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
             "Observed non-target edges; a missing delta is unmeasured, not a zero-row denominator.",
         ),
         _observed_row(
-            "C7_assertion_block", "observed Y- blocked rows",
-            "A/K delta", c7, "ceiling", c7_min, c7_max,
-            "minimum target rows across the two Y- cells per seed",
-            "Observed blocked target rows; this is a denominator statement, not a C7 verdict.",
+            "C7_assertion_block", "observed A/K cycle denominator",
+            "A/K rate delta", c7, "ceiling", c7_min, c7_max,
+            "minimum observed A/K cycle count on paired Y- target edges per seed",
+            "Observed per-edge cycle rates; a missing cycle count is unmeasured, not a row denominator.",
         ),
         _observed_row(
             "C8_third_route", "observed A-K- blocked rows",
@@ -400,8 +449,11 @@ def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
             "For a proportion over n observed rows, the smallest nonzero change "
             "is 1/n. For a floor threshold t the margin is 1-t; for a ceiling "
             "threshold t the margin is t. A gate is FLAGGED when 1/n is greater "
-            "than its margin; equality is not finer."
+            "than its margin; equality is not finer. C8 uses each seed's own "
+            "A-K- rows. C7 uses the observed A/K cycles on each paired Y- edge, "
+            "not a row count; pooled rows are not a denominator."
         ),
+        "denominator_unit": _denominator_unit(),
         "coverage": {
             "status": "PARTIAL" if missing else "COMPLETE",
             "parts": len(payloads),
@@ -423,7 +475,9 @@ def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
                                for seed, edges in c4_by_seed.items()},
                    "unmeasured": {seed: sorted(edges)
                                   for seed, edges in c4_unmeasured.items()}},
-            "c7": {"min": c7_min, "max": c7_max, "by_seed": c7_by_seed},
+            "c7": {"min": c7_min, "max": c7_max,
+                   "by_seed": {seed: (min(values) if values else None)
+                               for seed, values in c7_by_seed.items()}},
             "c8": {"min": c8_min, "max": c8_max, "by_seed": c8_by_seed},
         },
         "summary": {
@@ -454,6 +508,9 @@ def render_observed(doc: dict) -> str:
         "resolution test from supplied parts; no model, C7 or C8 verdict follows.",
         "",
         doc["rule"],
+        "",
+        "**Denominator unit:** C7 and C8 are per seed; pooled rows are rejected. "
+        "See [`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md).",
         "",
         "## Coverage",
         "",
@@ -529,6 +586,28 @@ def render(doc: dict) -> str:
         "",
         doc["rule"],
         "",
+        "## Denominator unit",
+        "",
+        "**ADOPTED — BINDING FOR A1 (2026-11-14): C7 and C8 are per seed.** See "
+        "[`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md). Rows are not pooled "
+        "across seeds; every seed must pass on its own rows. The pooled reading is "
+        "rejected, not an alternative interpretation.",
+        "",
+        "| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step |",
+        "| --- | --- | ---: | ---: | ---: | ---: |",
+        "| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) |",
+        "| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 |",
+        "",
+        "C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so "
+        "one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- "
+        "rows are for cell completeness and the assertion-order check, not the rate "
+        "denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives "
+        "0.125, both above 0.05, and C8 needs at least 20 rows per seed (N>=20) for "
+        "one-step resolution. The maximum disjoint target block is N=8, so the current "
+        "design is **UNDER-RESOLVED for C8 only**. The pooled counts at N=4 would be 48 "
+        "C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and "
+        "the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.",
+        "",
         "## Gates",
         "",
         "| Gate | Scenario | Threshold | Denominator | Step | Status |",
@@ -548,10 +627,10 @@ def render(doc: dict) -> str:
         "",
         "Eight disjoint targets use all 16 tag vertices, so N=8 is the maximum "
         "disjoint target block; eight disjoint edges are available in every seed. "
-        "At that maximum, C7 has 16 rows and C8 has 8. The smallest nonzero steps "
-        "are 1/16 = 0.0625 and 1/8 = 0.125, both above the 0.05 margin, so C7 and "
-        "C8 remain under-resolved. C7 would need at least 20 rows (N>=10) and C8 "
-        "at least 20 rows (N>=20) for a one-step resolution. C1 target-only at 8 "
+        "At that maximum, C7 has 16 Y- rows and C8 has 8 A-K- target rows. C7's rate "
+        "step remains 1/120 = 0.008333, below the 0.05 margin, so C7 stays resolved. "
+        "C8's step is 1/8 = 0.125, above 0.05, so C8 remains under-resolved and needs "
+        "at least 20 rows (N>=20) for one-step resolution. C1 target-only at 8 "
         "rows is also still flagged (7/8 = 0.875); expanded C1 at 63–64 rows and "
         "C4 at 55–56 rows remain resolved. This is a planned-denominator statement, "
         "not a C7/C8 measurement.",
@@ -597,11 +676,18 @@ def write() -> int:
 def problems(doc: dict | None = None) -> list[str]:
     doc = build() if doc is None else doc
     found: list[str] = []
+    unit = doc.get("denominator_unit") or {}
+    if unit.get("status") != "ADOPTED — BINDING FOR A1":
+        found.append("C7/C8 denominator unit is not the adopted per-seed unit")
+    if unit.get("C7_assertion_block") != C7_C8_DENOMINATOR_UNIT:
+        found.append("C7 denominator unit is not per seed")
+    if unit.get("C8_third_route") != C7_C8_DENOMINATOR_UNIT:
+        found.append("C8 denominator unit is not per seed")
+    if unit.get("pooled_reading") != "REJECTED — not an A1 denominator for C7 or C8":
+        found.append("the pooled C7/C8 reading is not recorded as rejected")
     expected = {
         "C1_path_separation — target-only fallback",
         "C1_path_separation — N=8 maximum-feasibility target-only",
-        "C7_assertion_block — Y- blocked rows",
-        "C7_assertion_block — N=8 maximum-feasibility Y- blocked rows",
         "C8_third_route — A-K- blocked rows",
         "C8_third_route — N=8 maximum-feasibility A-K- blocked rows",
     }
@@ -650,11 +736,15 @@ def self_test() -> list[str]:
     if len(doc["summary"]["not_applicable"]) != 5:
         found.append("structural gates are not classified as not applicable")
     flagged = set(doc["summary"]["flagged"])
-    for gate in ("C7_assertion_block", "C8_third_route"):
-        scenario = "N=8 maximum-feasibility " + (
-            "Y- blocked rows" if gate == "C7_assertion_block" else "A-K- blocked rows")
-        if gate + " — " + scenario not in flagged:
-            found.append("%s N=8 scenario is not flagged" % gate)
+    if doc["denominator_unit"]["minimum_targets_for_one_step_resolution"] != {
+            "C7": 1, "C8": 20}:
+        found.append("the C7/C8 one-step target minima changed")
+    if doc["denominator_unit"]["resolved"] != {
+            "C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False}:
+        found.append("the C7/C8 resolution flags changed")
+    scenario = "C8_third_route — N=8 maximum-feasibility A-K- blocked rows"
+    if scenario not in flagged:
+        found.append("C8 N=8 scenario is not flagged")
     return found
 
 

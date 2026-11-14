@@ -13,16 +13,17 @@ not predictions of the primary effect, and they are not estimated from A0 or any
 | `C1_path_separation` | A- carrier preservation | 0.95 | Proportion of paired-control carrier-available edges still carrier-available under A-, per seed. |
 | `C1_path_separation` | K- served preservation | 0.95 | Proportion of paired-control served edges still served under K-, per seed. |
 | `C4_no_interference` | neighbour delta | 0.05 | Maximum absolute A, K or Y availability-rate difference on non-target edges against the paired control. |
-| `C7_assertion_block` | A delta under Y- | 0.05 | Absolute A formation-rate difference between Y- and the paired no-Y- control. |
-| `C7_assertion_block` | K delta under Y- | 0.05 | Absolute K formation-rate difference between Y- and the paired no-Y- control. |
-| `C8_third_route` | A-K- assertion ceiling | 0.05 | Assertion rate in A-K-; above the ceiling is THIRD ROUTE PRESENT. |
+| `C7_assertion_block` | A delta under Y- | 0.05 | Absolute A formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge. |
+| `C7_assertion_block` | K delta under Y- | 0.05 | Absolute K formation-rate difference between Y- and the paired no-Y- control, per seed; the rate denominator is 120 cycles per edge. |
+| `C8_third_route` | A-K- assertion ceiling | 0.05 | Assertion rate in A-K- per seed over its N target rows; above the ceiling is THIRD ROUTE PRESENT on that seed. |
 
 ## Reading
 
 `C1` needs at least 95% preservation of the other path on every seed; the denominator is
-the paired control's available edges, not the whole candidate universe. `C4` and `C7` use a
-0.05 absolute-rate margin. `C8` reads `THIRD ROUTE PRESENT` above a 0.05 assertion rate in
-`A-K-`.
+the paired control's available edges, not the whole candidate universe. `C4` uses a 0.05
+absolute-rate margin. `C7` is read per seed at both Y- cells with a 0.05 A/K formation
+margin. `C8` reads `THIRD ROUTE PRESENT` when any seed's `A-K-` assertion rate is above
+0.05; rows are not pooled across seeds.
 
 A condition with no available edges is NOT MEASURABLE, not zero, and does not pass.
 

@@ -420,6 +420,7 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
     assertion_blocked = targets if cell["assertion"] == "blocked" else set()
     neighbor_edges = universe - targets
     neighbor_counts = {edge: {"A": 0, "K": 0, "Y": 0} for edge in neighbor_edges}
+    target_counts = {edge: {"A": 0, "K": 0, "Y": 0} for edge in targets}
     target_tags = {tag for edge in targets for tag in edge}
     db_path = _make_scratch_db("a1_two_path")
     memory = _CountingMemoryService(str(db_path))
@@ -457,10 +458,13 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
                 for edge in targets:
                     if edge in predictions:
                         served_first.setdefault(edge, cycle)
+                        target_counts[edge]["A"] += 1
                     if edge in carriers:
                         carrier_first.setdefault(edge, cycle)
-                    if edge in asserted:
+                        target_counts[edge]["K"] += 1
+                    if edge in asserted and assertion_visible(edge, assertion_blocked):
                         asserted_first.setdefault(edge, cycle)
+                        target_counts[edge]["Y"] += 1
                 for edge, count in neighbor_counts.items():
                     if edge in predictions:
                         count["A"] += 1
@@ -488,6 +492,7 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
         carrier_cycle = carrier_first.get(edge)
         asserted_cycle = asserted_first.get(edge)
         visible = assertion_visible(edge, assertion_blocked) if target else True
+        counts = target_counts[edge]
         rows.append({
             "seed": seed,
             "cell": cell_id,
@@ -496,6 +501,12 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
             "A": edge in served_first,
             "K": edge in carrier_first,
             "Y": edge in final_asserted and visible,
+            "A_cycles": counts["A"],
+            "K_cycles": counts["K"],
+            "Y_cycles": counts["Y"],
+            "A_rate": round(counts["A"] / cycles, 6),
+            "K_rate": round(counts["K"] / cycles, 6),
+            "Y_rate": round(counts["Y"] / cycles, 6),
             "carrier_cycle": carrier_cycle,
             "k_cycle": carrier_cycle,
             # Y- masks the readout, but the underlying assertion time is still

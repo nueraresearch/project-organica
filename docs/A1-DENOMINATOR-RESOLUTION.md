@@ -1,11 +1,22 @@
 # A1 denominator-resolution audit
 
 **Date:** 2026-11-14
-**Status:** `FLAGGED — 6 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR`
+**Status:** `FLAGGED — 4 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR`
 
 **This is not an A1 result.** No cell was run; the observed denominators are still unknown.
 
-For a proportion over n rows, the smallest nonzero change is 1/n. For a floor threshold t, the margin is 1-t; for a ceiling threshold t, the margin is t. A gate is FLAGGED when 1/n is greater than its margin; equality is not finer.
+For a proportion over n rows, the smallest nonzero change is 1/n. For a floor threshold t, the margin is 1-t; for a ceiling threshold t, the margin is t. A gate is FLAGGED when 1/n is greater than its margin; equality is not finer. C8 uses each seed's own A-K- rows. C7's 0.05 margin is an A/K rate difference over the 120 cycles on each paired target edge, not over the 2N Y- rows.
+
+## Denominator unit
+
+**ADOPTED — BINDING FOR A1 (2026-11-14): C7 and C8 are per seed.** See [`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md). Rows are not pooled across seeds; every seed must pass on its own rows. The pooled reading is rejected, not an alternative interpretation.
+
+| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) |
+| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 |
+
+C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- rows are for cell completeness and the assertion-order check, not the rate denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives 0.125, both above 0.05, and C8 needs at least 20 rows per seed (N>=20) for one-step resolution. The maximum disjoint target block is N=8, so the current design is **UNDER-RESOLVED for C8 only**. The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.
 
 ## Gates
 
@@ -17,8 +28,8 @@ For a proportion over n rows, the smallest nonzero change is 1/n. For a floor th
 | `C1_path_separation` | N=8 maximum-feasibility expanded denominator | 0.95 | 63–64 | 0.015873 | **PASS** |
 | `C4_no_interference` | all cells | 0.05 | 59–60 | 0.016949 | **PASS** |
 | `C4_no_interference` | N=8 maximum-feasibility all cells | 0.05 | 55–56 | 0.018182 | **PASS** |
-| `C7_assertion_block` | Y- blocked rows | 0.05 | 8 | 0.125000 | **FLAGGED** |
-| `C7_assertion_block` | N=8 maximum-feasibility Y- blocked rows | 0.05 | 16 | 0.062500 | **FLAGGED** |
+| `C7_assertion_block` | Y- blocked rows | 0.05 | 120 | 0.008333 | **PASS** |
+| `C7_assertion_block` | N=8 maximum-feasibility Y- blocked rows | 0.05 | 120 | 0.008333 | **PASS** |
 | `C8_third_route` | A-K- blocked rows | 0.05 | 4 | 0.250000 | **FLAGGED** |
 | `C8_third_route` | N=8 maximum-feasibility A-K- blocked rows | 0.05 | 8 | 0.125000 | **FLAGGED** |
 | `C2_treatment_consistency` | per manipulated arm | — | 4 | — | **NOT_APPLICABLE** |
@@ -29,14 +40,12 @@ For a proportion over n rows, the smallest nonzero change is 1/n. For a floor th
 
 ## N=8 maximum-feasibility reading
 
-Eight disjoint targets use all 16 tag vertices, so N=8 is the maximum disjoint target block; eight disjoint edges are available in every seed. At that maximum, C7 has 16 rows and C8 has 8. The smallest nonzero steps are 1/16 = 0.0625 and 1/8 = 0.125, both above the 0.05 margin, so C7 and C8 remain under-resolved. C7 would need at least 20 rows (N>=10) and C8 at least 20 rows (N>=20) for a one-step resolution. C1 target-only at 8 rows is also still flagged (7/8 = 0.875); expanded C1 at 63–64 rows and C4 at 55–56 rows remain resolved. This is a planned-denominator statement, not a C7/C8 measurement.
+Eight disjoint targets use all 16 tag vertices, so N=8 is the maximum disjoint target block; eight disjoint edges are available in every seed. At that maximum, C7 has 16 Y- rows and C8 has 8 A-K- target rows. C7's rate step remains 1/120 = 0.008333, below the 0.05 margin, so C7 stays resolved. C8's step is 1/8 = 0.125, above 0.05, so C8 remains under-resolved and needs at least 20 rows (N>=20) for one-step resolution. C1 target-only at 8 rows is also still flagged (7/8 = 0.875); expanded C1 at 63–64 rows and C4 at 55–56 rows remain resolved. This is a planned-denominator statement, not a C7/C8 measurement.
 
 ## Flags
 
 - `C1_path_separation — target-only fallback`
 - `C1_path_separation — N=8 maximum-feasibility target-only`
-- `C7_assertion_block — Y- blocked rows`
-- `C7_assertion_block — N=8 maximum-feasibility Y- blocked rows`
 - `C8_third_route — A-K- blocked rows`
 - `C8_third_route — N=8 maximum-feasibility A-K- blocked rows`
 

@@ -72,10 +72,13 @@ The act may be signed only while all of the following remain true:
 | Path A recorded as the estimand | **PASS** |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
 | C1/C4 gate order and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
+| C7/C8 denominator unit | **ADOPTED — C7 PER-EDGE RATE; C8 PER-TARGET ROW; C8 UNDER-RESOLVED** |
 | Grant | **NOT ISSUED** |
 | Run | **NOT STARTED** |
 
 The freeze does not wait for C1/C4. Those are post-freeze validity gates, already **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md). Signing this act does not resolve or re-open the C1/C4 ordering; it only fixes target identity. The provisional-freeze wrapper remains a separate draft.
+
+The C7/C8 unit is also already decided: both gates are **per seed**, and pooled rows are rejected in [`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md). C7 is rate-resolved at 1/120 = 0.008333 because its 0.05 margin is an A/K rate over 120 cycles per edge; C8 is a per-target row rate and the current N=4 block cannot resolve its 0.05 ceiling. This act therefore cannot claim that the frozen design can adjudicate C8; if it is signed, it must carry the explicit limitation **`C8: NOT ADJUDICATED BY DESIGN`**, and that limitation must appear before any result. C7 remains an unrun gate. It does not relax either gate, change either threshold or authorise a run.
 
 ## 5. What does not change
 
@@ -85,7 +88,7 @@ The freeze does not wait for C1/C4. Those are post-freeze validity gates, alread
 - No target is re-selected, regenerated or altered.
 - No cell is authorised.
 - The 60-row denominator floor and the C1/C4 post-freeze VOID gate are **ADOPTED — BINDING FOR A1**.
-- C7/C8 classification remains open.
+- C7/C8 classification remains unmeasured. C7 is rate-resolved but unrun; C8 is under-resolved by the current N=4 block. A signed freeze must record **`C8: NOT ADJUDICATED BY DESIGN`** unless a new design is registered first.
 
 ## 6. After signature
 

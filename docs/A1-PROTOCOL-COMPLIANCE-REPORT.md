@@ -33,7 +33,7 @@ A1 Run                   NOT STARTED
 
 P0 and feasibility are demonstrated. Freeze readiness cannot move to PASS: the power review found
 that four target rows make C1 effectively a 100% preservation rule; C4 non-target
-rows are now instrumented, but no cell has run and the C1/C4 denominators remain unmeasured. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
+rows are now instrumented, but no cell has run and the C1/C4 denominators remain unmeasured. Separately, C7 is per seed and per edge with a 0.05 A/K rate over 120 cycles, so it is rate-resolved at N=4; C8 is per seed and per target row, and the current N=4 block cannot resolve its 0.05 ceiling. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
 
 ## Compliance table
 
@@ -96,7 +96,8 @@ until the manifest is frozen by a separate act.
 | C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
 | C1 power-design target | **RECORDED — DESIGN CRITERION**; 80% all-six-seed power at 63 rows requires **q=0.984017** under the independent model (0.984271 at 64; 0.983204 at 60); not an observed retention or a second acceptance gate |
 | C1 power curve | **RECORDED — REFERENCE ONLY**; at assumed `q=.95, n=63`, all six seeds pass at **0.003**; at `q=.98` at **0.632**. Correlation sensitivity at the same point: path rho=.5 per-seed **0.454**; seed rho=.5 all-six **0.073**; both .5 all-six **0.113**. These are sensitivity assumptions, not estimated correlations ([review](A1-POWER-REVIEW.md)) |
-| Denominator-resolution audit | **FLAGGED — 6 SCENARIOS**; C1 target-only at 4 and N=8, C7 at 8 and N=8 (16 rows, 1/16 = 0.0625), C8 at 4 and N=8 (8 rows, 1/8 = 0.125); C7/C8 remain under-resolved at the N=8 maximum; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)); `--parts` recomputes these from actual cells once parts exist, with no parts yet |
+| C7/C8 denominator unit | **ADOPTED — C7 PER-EDGE RATE; C8 PER-TARGET ROW; C8 UNDER-RESOLVED**; both gates are per seed and pooled rows are rejected. C7 has 8 Y- rows at N=4 for completeness/order, but its 0.05 margin is an A/K rate over 120 cycles per edge (1/120 = 0.008333), so C7 is **RESOLVED** at N=4. C8 has 4 A-K- target rows (1/4 = 0.25); at the N=8 maximum, 8 (1/8 = 0.125). C8 needs N≥20 for one-step resolution, above the 16-vertex maximum; C8 is the pre-freeze design blocker ([record](A1-C7-C8-DENOMINATOR.md)) |
+| Denominator-resolution audit | **FLAGGED — 4 SCENARIOS**; C1 target-only at 4 and N=8, C8 at 4 and N=8 (8 rows, 1/8 = 0.125); C7 is rate-resolved at 1/120 = 0.008333 and is not flagged; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)); `--parts` recomputes these from actual cells once parts exist, with no parts yet |
 | C1/C4 gate order | **ADOPTED — ONE POST-FREEZE VOID GATE (2026-11-14)**; C1 or C4 failure/unmeasurability VOIDs the result; the 60-row floor is part of the same decision ([record](A1-C1-C4-VOID-GATE.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
