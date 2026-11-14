@@ -17,6 +17,23 @@ The registered boundary is the **36th acquisition cycle**, not the engine's slee
 counter. The sleep counter can lag the acquisition index; following it allowed event
 cycles 37–48 into the candidate universe during the first audit run.
 
+## Current state
+
+```text
+P0 Protocol Compliance   PASS
+        ↓
+Target Feasibility       PASS
+        ↓
+Freeze Readiness         OPEN
+        ↓
+Grant Decision           OPEN
+        ↓
+A1 Run                   NOT STARTED
+```
+
+P0 and feasibility are demonstrated. Freeze readiness is not; the power/prevalence
+review and C4 rows are still open. The grant decision and run remain separate acts.
+
 ## Compliance table
 
 | Requirement | Status | Evidence |

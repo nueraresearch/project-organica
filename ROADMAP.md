@@ -136,7 +136,11 @@ and it does not by itself justify V2.
 
 ### A1. Carrier intervention — central discrimination test
 
-**Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.** **Program disposition (2026-11-14): COMMITTED TO TARGET RESOLUTION — NO RUN AUTHORISED.** [`docs/DECISION-A1-DISPOSITION.md`](docs/DECISION-A1-DISPOSITION.md) commits A1 to a pre-outcome target-selection protocol, fixed per-seed targets, a freeze and a separate dated grant decision; it does not freeze the manifest, reserve the seeds or authorise a cell. If no target-selection protocol and dated grant decision are recorded by **2026-12-14**, the disposition lapses to **A1 PARKED**. A0 blocked the single-stage 2×2;
+**Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.**
+
+**Current stage chain (2026-11-14): P0 protocol compliance PASS → target feasibility PASS → freeze readiness OPEN → grant decision OPEN → A1 run NOT STARTED.** The [compliance report](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) records the P0 and feasibility passes; the power/prevalence review and C4 rows remain open, and no freeze or grant exists.
+
+ **Program disposition (2026-11-14): COMMITTED TO TARGET RESOLUTION — NO RUN AUTHORISED.** [`docs/DECISION-A1-DISPOSITION.md`](docs/DECISION-A1-DISPOSITION.md) commits A1 to a pre-outcome target-selection protocol, fixed per-seed targets, a freeze and a separate dated grant decision; it does not freeze the manifest, reserve the seeds or authorise a cell. If no target-selection protocol and dated grant decision are recorded by **2026-12-14**, the disposition lapses to **A1 PARKED**. A0 blocked the single-stage 2×2;
 the replacement is
 [`docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`](docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md). It treats
 admission and carrier availability as parallel factors, adds an assertion-blockade ordering arm and
