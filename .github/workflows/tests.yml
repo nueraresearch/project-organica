@@ -46,5 +46,15 @@ jobs:
           python -m benchmarks.c6_timing_guard --self-test
           python -m benchmarks.c6_timing_guard --check
 
+      - name: G9 validator CI guard
+        run: |
+          python -m benchmarks.g9_ci_guard --check
+          python -m benchmarks.g9_ci_guard --self-test
+
+      - name: G9 stage-ledger validator and six-class self-test
+        run: |
+          python -m benchmarks.g9_stage_ledger --check
+          python -m benchmarks.g9_stage_ledger --self-test
+
       - name: Test suite
         run: python -m pytest -q
