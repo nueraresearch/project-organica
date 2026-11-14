@@ -243,13 +243,32 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
 
     tolerance = C1_MIN if tolerance is None else tolerance
     rows = c1_rows(payloads)
+    def fraction(group: list[dict], path: str) -> float:
+        return (sum(1 for row in group if row[path]) / len(group)) if group else 0.0
+
     a_rows = [row for row in rows
               if row["cell"] == "A-K+" and row.get("control_K")]
     k_rows = [row for row in rows
               if row["cell"] == "A+K-" and row.get("control_A")]
-
-    def fraction(group: list[dict], path: str) -> float:
-        return (sum(1 for row in group if row[path]) / len(group)) if group else 0.0
+    seeds: dict[str, dict] = {}
+    for seed in sorted({int(row["seed"]) for row in rows}):
+        group = [row for row in rows if int(row["seed"]) == seed]
+        a_seed = [row for row in group
+                  if row["cell"] == "A-K+" and row.get("control_K")]
+        k_seed = [row for row in group
+                  if row["cell"] == "A+K-" and row.get("control_A")]
+        a_fraction = fraction(a_seed, "K")
+        k_fraction = fraction(k_seed, "A")
+        seeds[str(seed)] = {
+            "a_minus_denominator": len(a_seed),
+            "a_minus_available": sum(1 for row in a_seed if row["K"]),
+            "a_minus_fraction": round(a_fraction, 6),
+            "k_minus_denominator": len(k_seed),
+            "k_minus_available": sum(1 for row in k_seed if row["A"]),
+            "k_minus_fraction": round(k_fraction, 6),
+            "pass": bool(a_seed and k_seed
+                         and a_fraction >= tolerance and k_fraction >= tolerance),
+        }
 
     return {
         "pass": gate_c1(rows, tolerance),
@@ -265,6 +284,7 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
             "available": sum(1 for row in k_rows if row["A"]),
             "fraction": round(fraction(k_rows, "A"), 6),
         },
+        "seeds": seeds,
     }
 
 
@@ -276,11 +296,36 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
     attach_neighbor_deltas(payloads)
     rows = c4_neighbor_rows(payloads)
     measured = [row for row in rows if "neighbor_delta" in row]
+    max_delta = {"A": 0.0, "K": 0.0, "Y": 0.0}
+    violations: list[dict] = []
+    unmeasured: list[dict] = []
+    for row in rows:
+        delta = row.get("neighbor_delta")
+        if delta is None:
+            unmeasured.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                               "edge": row.get("edge")})
+            continue
+        for path in ("A", "K", "Y"):
+            value = delta.get(path)
+            if value is None:
+                violations.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                                   "edge": row.get("edge"), "path": path,
+                                   "delta": None})
+                continue
+            value = float(value)
+            max_delta[path] = max(max_delta[path], value)
+            if value > tolerance:
+                violations.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                                   "edge": row.get("edge"), "path": path,
+                                   "delta": value})
     return {
         "pass": gate_c4(rows, tolerance),
         "tolerance": tolerance,
         "rows": len(rows),
         "measured": len(measured),
+        "max_delta": {path: round(value, 6) for path, value in max_delta.items()},
+        "violations": violations,
+        "unmeasured": unmeasured,
     }
 
 

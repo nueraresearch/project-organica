@@ -109,3 +109,37 @@ def test_c1_rows_use_the_non_target_denominator():
     assert result["pass"] is True
     assert result["a_minus"] == {"denominator": 20, "available": 19, "fraction": 0.95}
     assert result["k_minus"] == {"denominator": 20, "available": 20, "fraction": 1.0}
+
+
+def test_result_assembly_reports_c1_and_c4_pass():
+    from benchmarks import a1_result
+
+    report = a1_result.assemble(a1_result.synthetic_parts())
+    assert report["status"] == "PASS"
+    assert report["c1"]["a_minus"] == {
+        "denominator": 20, "available": 19, "fraction": 0.95,
+    }
+    assert report["c1"]["k_minus"] == {
+        "denominator": 20, "available": 20, "fraction": 1.0,
+    }
+    assert report["c1"]["seeds"]["1"]["pass"] is True
+    assert report["c4"]["measured"] == 48
+    assert report["c4"]["max_delta"] == {"A": 0.01, "K": 0.01, "Y": 0.04}
+    assert report["gates"] == {
+        "C1_path_separation": True,
+        "C4_no_interference": True,
+    }
+
+
+def test_result_assembly_fails_c4_without_changing_c1():
+    from benchmarks import a1_result
+
+    report = a1_result.assemble(a1_result.synthetic_parts(0.06))
+    assert report["status"] == "FAIL"
+    assert report["c1"]["pass"] is True
+    assert report["c4"]["pass"] is False
+    assert report["c4"]["max_delta"]["Y"] == 0.06
+    assert report["c4"]["violations"] == [{
+        "seed": 1, "cell": "A-K+", "edge": "n0>m0",
+        "path": "Y", "delta": 0.06,
+    }]
