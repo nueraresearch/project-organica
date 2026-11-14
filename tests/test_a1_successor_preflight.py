@@ -13,16 +13,22 @@ def _artifact():
     )
 
 
-def test_preflight_is_not_run_and_control_fails():
+def test_preflight_records_a_tested_candidate_and_no_successor_fixture():
     doc = _artifact()
     assert preflight.problems(doc) == []
-    assert doc["status"] == "NOT RUN — NO SUCCESSOR UNIVERSE; CURRENT CONTROL FAILS"
-    assert doc["successor"]["status"] == "NOT RUN"
-    assert "NO_SUCCESSOR_UNIVERSE" in doc["successor"]["problems"]
+    assert doc["status"] == "FAIL — SUCCESSOR CANDIDATE BELOW GATE"
+    assert doc["successor"]["status"] == "FAIL"
+    assert doc["successor"]["problems"] == []
     assert doc["current_control"]["status"] == "FAIL"
     assert doc["gate"]["freeze"] is False
     assert doc["gate"]["grant"] is False
     assert doc["gate"]["run"] is False
+
+    # The no-candidate path is still a distinct, fail-closed result.
+    absent = preflight.build(None)
+    assert absent["status"] == "NOT RUN — NO SUCCESSOR UNIVERSE; CURRENT CONTROL FAILS"
+    assert absent["successor"]["status"] == "NOT RUN"
+    assert "NO_SUCCESSOR_UNIVERSE" in absent["successor"]["problems"]
 
 
 def test_current_control_is_the_known_c1_failure():
@@ -95,7 +101,7 @@ def test_page_is_current_and_does_not_claim_a_run():
     doc = _artifact()
     page = Path("docs/A1-SUCCESSOR-PREFLIGHT.md").read_text(encoding="utf-8")
     assert page == preflight.render(doc) + "\n"
-    assert "NOT RUN" in page
-    assert "CURRENT CONTROL FAILS" in page
+    assert "FAIL — SUCCESSOR CANDIDATE BELOW GATE" in page
     assert "does **not** freeze" in page
+    assert "20650101" in page
     assert preflight.self_test() == []

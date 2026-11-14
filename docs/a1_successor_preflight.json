@@ -2,7 +2,7 @@
   "kind": "a1_successor_preflight",
   "id": "A1-SUCCESSOR-PREFLIGHT-1",
   "date": "2026-11-14",
-  "status": "NOT RUN \u2014 NO SUCCESSOR UNIVERSE; CURRENT CONTROL FAILS",
+  "status": "FAIL \u2014 SUCCESSOR CANDIDATE BELOW GATE",
   "gate": {
     "c1_floor": 60,
     "target_rows": 20,
@@ -139,13 +139,127 @@
     "seeds_total": 6
   },
   "successor": {
-    "status": "NOT RUN",
-    "problems": [
-      "NO_SUCCESSOR_UNIVERSE"
+    "id": "A1-SUCCESSOR-CANDIDATE-1",
+    "status": "FAIL",
+    "problems": [],
+    "per_seed": [
+      {
+        "seed": 20650101,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 49,
+        "K_available": 40,
+        "C1_ceiling": 40,
+        "gap_to_60": 20,
+        "K_gap_to_60": 20,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 33,
+        "target_matching": 33,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20650102,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 46,
+        "K_available": 37,
+        "C1_ceiling": 37,
+        "gap_to_60": 23,
+        "K_gap_to_60": 23,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 30,
+        "target_matching": 30,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20650103,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 54,
+        "K_available": 46,
+        "C1_ceiling": 46,
+        "gap_to_60": 14,
+        "K_gap_to_60": 14,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 46,
+        "target_matching": 46,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20650104,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 53,
+        "K_available": 42,
+        "C1_ceiling": 42,
+        "gap_to_60": 18,
+        "K_gap_to_60": 18,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 36,
+        "target_matching": 36,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20650105,
+        "edges": 63,
+        "independent_edges": 63,
+        "A_available": 31,
+        "K_available": 39,
+        "C1_ceiling": 31,
+        "gap_to_60": 29,
+        "K_gap_to_60": 21,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 20,
+        "target_matching": 20,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      },
+      {
+        "seed": 20650106,
+        "edges": 64,
+        "independent_edges": 64,
+        "A_available": 46,
+        "K_available": 38,
+        "C1_ceiling": 38,
+        "gap_to_60": 22,
+        "K_gap_to_60": 22,
+        "directed_duplicates": 0,
+        "reverse_duplicates": 0,
+        "self_loops": 0,
+        "target_pool": 32,
+        "target_matching": 32,
+        "reasons": [
+          "C1_BELOW_60"
+        ],
+        "pass": false
+      }
     ],
-    "per_seed": [],
     "seeds_passed": 0,
-    "seeds_total": 0
+    "seeds_total": 6
   },
   "not_evidence": "A no-arm preflight. It evaluates supplied baseline rows, selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. The current six-seed universe is a negative control, not a successor candidate."
 }

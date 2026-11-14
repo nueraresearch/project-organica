@@ -1,0 +1,2018 @@
+{
+  "kind": "a1_successor_candidate",
+  "id": "A1-SUCCESSOR-CANDIDATE-1",
+  "date": "2026-11-14",
+  "status": "CANDIDATE SPEC \u2014 NO ARM, NO TARGET, NOT FROZEN, NOT RUN",
+  "seed_block": [
+    20650101,
+    20650102,
+    20650103,
+    20650104,
+    20650105,
+    20650106
+  ],
+  "targets_in_scope": true,
+  "selection": {
+    "source": "A1-TARGET-SELECTION-1",
+    "u_cycle": 36,
+    "cycles": 120,
+    "one_orientation_per_pair": true,
+    "boundary_safe": true,
+    "boundary_note": "candidate uses the opt-in cycle-boundary correction; the registered selector remains legacy",
+    "screen": "none \u2014 the block was fixed before K was measured",
+    "targets_selected": 0
+  },
+  "baseline": {
+    "source": "A1-BASELINE-AVAILABILITY-1",
+    "cycles": 120,
+    "treatment": "none",
+    "A": "prediction path available at least once",
+    "K": "carrier path available at least once"
+  },
+  "per_seed": {
+    "20650101": [
+      {
+        "edge": "amber>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "amber>sable",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "birch>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>olive",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>sable",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>sable",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>cedar",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "crimson>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>teal",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "fern>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>cedar",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "fern>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>slate",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "fern>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>willow",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "indigo>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>cedar",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>willow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "maple>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>umber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "ochre>maple",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "ochre>olive",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>cedar",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>crimson",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "slate>sable",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "teal>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "teal>sable",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "umber>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>sable",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>verdant",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "umber>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "verdant>amber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>ochre",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "verdant>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>olive",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>verdant",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "yarrow>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>birch",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "yarrow>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "yarrow>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>willow",
+        "A": true,
+        "K": false
+      }
+    ],
+    "20650102": [
+      {
+        "edge": "amber>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "amber>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>birch",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "cedar>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "cedar>slate",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>sable",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "crimson>teal",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "crimson>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>birch",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>verdant",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "maple>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "maple>olive",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "maple>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "ochre>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "ochre>olive",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "ochre>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>birch",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "olive>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>verdant",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "sable>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "slate>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>ochre",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "teal>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>verdant",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>birch",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "umber>slate",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>willow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "verdant>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>birch",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "willow>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>birch",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "yarrow>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>ochre",
+        "A": true,
+        "K": true
+      }
+    ],
+    "20650103": [
+      {
+        "edge": "amber>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "amber>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "amber>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>olive",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>sable",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "fern>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>fern",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>umber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "ochre>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "ochre>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>cedar",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "olive>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>cedar",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "sable>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "sable>umber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>fern",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "teal>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>birch",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>maple",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "umber>willow",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "willow>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>willow",
+        "A": true,
+        "K": true
+      }
+    ],
+    "20650104": [
+      {
+        "edge": "amber>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "amber>fern",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "amber>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "amber>verdant",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "cedar>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "crimson>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>indigo",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "crimson>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>olive",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>olive",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "fern>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>umber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "ochre>umber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "olive>slate",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "olive>teal",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "olive>verdant",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>yarrow",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "slate>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "slate>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "teal>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>sable",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>birch",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>maple",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>sable",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "willow>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "willow>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>olive",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>amber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "yarrow>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "yarrow>ochre",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "yarrow>sable",
+        "A": true,
+        "K": true
+      }
+    ],
+    "20650105": [
+      {
+        "edge": "amber>crimson",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "amber>maple",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "amber>slate",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "amber>willow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>cedar",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "cedar>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "cedar>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "fern>indigo",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "indigo>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "indigo>ochre",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "indigo>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>crimson",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "ochre>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>verdant",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>birch",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "olive>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>indigo",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "olive>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>slate",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "sable>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>crimson",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>indigo",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>umber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>willow",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "slate>fern",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "slate>ochre",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "slate>yarrow",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "teal>birch",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "teal>crimson",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>indigo",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "teal>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "teal>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>amber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>fern",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>olive",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "umber>teal",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "umber>yarrow",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>cedar",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>fern",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>olive",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "verdant>sable",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>teal",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "willow>cedar",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "willow>fern",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "willow>ochre",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>olive",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "willow>teal",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "willow>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>birch",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>maple",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "yarrow>verdant",
+        "A": false,
+        "K": true
+      }
+    ],
+    "20650106": [
+      {
+        "edge": "amber>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "birch>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>teal",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "birch>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "birch>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>ochre",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "cedar>slate",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "cedar>teal",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "crimson>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "crimson>yarrow",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "fern>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "fern>verdant",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "indigo>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "maple>indigo",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "maple>umber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "maple>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "ochre>birch",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "ochre>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "ochre>olive",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "ochre>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>slate",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "olive>teal",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "olive>umber",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "olive>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "sable>amber",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "sable>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>teal",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>umber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "sable>yarrow",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>maple",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>sable",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "slate>verdant",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "teal>crimson",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "teal>maple",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "teal>willow",
+        "A": false,
+        "K": true
+      },
+      {
+        "edge": "umber>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "umber>willow",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "verdant>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "verdant>teal",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "verdant>umber",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "verdant>yarrow",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "willow>amber",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>fern",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>indigo",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "willow>ochre",
+        "A": false,
+        "K": false
+      },
+      {
+        "edge": "willow>slate",
+        "A": true,
+        "K": false
+      },
+      {
+        "edge": "yarrow>cedar",
+        "A": true,
+        "K": true
+      },
+      {
+        "edge": "yarrow>willow",
+        "A": false,
+        "K": false
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "seed": 20650101,
+      "candidate_edges": 64,
+      "independent_edges": 64,
+      "A_available": 49,
+      "K_available": 40,
+      "A_and_K": 33,
+      "selection_status": "TARGET SET FORMED"
+    },
+    {
+      "seed": 20650102,
+      "candidate_edges": 64,
+      "independent_edges": 64,
+      "A_available": 46,
+      "K_available": 37,
+      "A_and_K": 30,
+      "selection_status": "TARGET SET FORMED"
+    },
+    {
+      "seed": 20650103,
+      "candidate_edges": 64,
+      "independent_edges": 64,
+      "A_available": 54,
+      "K_available": 46,
+      "A_and_K": 46,
+      "selection_status": "TARGET SET FORMED"
+    },
+    {
+      "seed": 20650104,
+      "candidate_edges": 64,
+      "independent_edges": 64,
+      "A_available": 53,
+      "K_available": 42,
+      "A_and_K": 36,
+      "selection_status": "TARGET SET FORMED"
+    },
+    {
+      "seed": 20650105,
+      "candidate_edges": 63,
+      "independent_edges": 63,
+      "A_available": 31,
+      "K_available": 39,
+      "A_and_K": 20,
+      "selection_status": "TARGET SET FORMED"
+    },
+    {
+      "seed": 20650106,
+      "candidate_edges": 64,
+      "independent_edges": 64,
+      "A_available": 46,
+      "K_available": 38,
+      "A_and_K": 32,
+      "selection_status": "TARGET SET FORMED"
+    }
+  ],
+  "not_evidence": "A no-arm candidate specification and its raw A/K rows. It selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. Passing the preflight would not authorise a run."
+}

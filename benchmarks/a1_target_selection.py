@@ -144,7 +144,8 @@ def _temporal(memory) -> dict[str, dict[str, int]]:
 
 def run_seed(seed: int, world: dict | None = None, n: int = N_PER_SEED,
              disjoint: bool = True,
-             max_endpoint_degree: int | None = None) -> dict:
+             max_endpoint_degree: int | None = None,
+             boundary_safe: bool = False) -> dict:
     """Stream through acquisition cycle 36 and return its selection record.
 
     The candidate universe is built from the first 36 acquisition cycles,
@@ -155,6 +156,11 @@ def run_seed(seed: int, world: dict | None = None, n: int = N_PER_SEED,
     cycles of a 120-cycle world.  The default is the registered four-target
     disjoint protocol; the C8 expansion calls it with ``n=20`` and a degree
     cap.
+
+    ``boundary_safe`` is an opt-in candidate-protocol correction: a withheld
+    acquisition event still belongs to a cycle boundary, so it must not skip
+    the sleep call.  The default remains the registered behavior so existing
+    target artifacts are not silently re-selected.
     """
     if world is None:
         world = generate_compositional_world(seed=seed, cycles=CYCLES)
@@ -169,12 +175,13 @@ def run_seed(seed: int, world: dict | None = None, n: int = N_PER_SEED,
     try:
         for i, (text, trainable) in enumerate(zip(world["events"], world["trainable"])):
             in_acq = event_lo <= i < event_hi
-            if in_acq and not trainable:
+            if not boundary_safe and in_acq and not trainable:
                 continue
             if i % EVENTS_PER_CYCLE == 0:
                 memory.current_cycle = i // EVENTS_PER_CYCLE
-            memory.store(text, event_type="observe",
-                         source="env_acq" if in_acq else "env")
+            if not (in_acq and not trainable):
+                memory.store(text, event_type="observe",
+                             source="env_acq" if in_acq else "env")
             if (i + 1) % EVENTS_PER_CYCLE == 0:
                 cycle = (i + 1) // EVENTS_PER_CYCLE
                 if cycle == U_CYCLE:

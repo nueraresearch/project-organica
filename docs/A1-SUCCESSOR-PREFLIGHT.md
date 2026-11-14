@@ -1,7 +1,7 @@
 # A1 successor preflight — no-arm C1/K gate
 
 **ID:** `A1-SUCCESSOR-PREFLIGHT-1`
-**Status:** `NOT RUN — NO SUCCESSOR UNIVERSE; CURRENT CONTROL FAILS`
+**Status:** `FAIL — SUCCESSOR CANDIDATE BELOW GATE`
 
 **No target is selected, frozen or run.** This checks whether a supplied successor universe clears the **≥60 independent K/A rows per seed** gate before any target freeze. Without a candidate, the result is **NOT RUN**.
 
@@ -31,9 +31,16 @@ This is a negative control, not a successor candidate.
 
 ## Successor candidate
 
-**NOT RUN.** No successor universe or fresh seed block has been supplied. The current universe is not eligible: its C1 ceiling is **31–44**, below 60.
+| Seed | Independent | A | K | C1 ceiling | Gap to 60 | Target pool | Matching | Result |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `20650101` | 64 | 49 | 40 | 40 | 20 | 33 | 33 | FAIL |
+| `20650102` | 64 | 46 | 37 | 37 | 23 | 30 | 30 | FAIL |
+| `20650103` | 64 | 54 | 46 | 46 | 14 | 46 | 46 | FAIL |
+| `20650104` | 64 | 53 | 42 | 42 | 18 | 36 | 36 | FAIL |
+| `20650105` | 63 | 31 | 39 | 31 | 29 | 20 | 20 | FAIL |
+| `20650106` | 64 | 46 | 38 | 38 | 22 | 32 | 32 | FAIL |
 
-Supply a `--spec` JSON with one orientation per undirected pair and no-arm A/K rows per edge; the preflight will return `PASS` or `FAIL` before any target freeze.
+**Candidate result:** `FAIL` — 0/6 seeds pass.
 
 ## Disposition
 
