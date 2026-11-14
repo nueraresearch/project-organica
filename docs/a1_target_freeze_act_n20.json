@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-14",
-  "status": "DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
+  "status": "DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -404,8 +404,7 @@
   "grant_after_signature": "NOT ISSUED",
   "run_after_signature": "NOT STARTED",
   "blocking_preconditions": [
-    "C5_TARGET_TIMING",
-    "N20_MANIFEST_VALIDATOR"
+    "C5_TARGET_TIMING"
   ],
   "preconditions": [
     {
@@ -440,8 +439,8 @@
     },
     {
       "id": "N20_manifest_validator",
-      "state": "NOT IMPLEMENTED — a1_two_path currently requires N=4 disjoint targets",
-      "blocking": true
+      "state": "PASS — a1_two_path accepts the N=20 degree-3 target set",
+      "blocking": false
     },
     {
       "id": "C8_denominator",
@@ -483,7 +482,7 @@
     "It does not open a database or run a cell.",
     "It does not produce a C1 or C4 denominator or a C8 measurement.",
     "It does not resolve C5; the current target timing remains a blocking precondition.",
-    "It does not make the current a1_two_path validator accept N=20 targets.",
+    "It does not apply the N=20 target block to the live manifest before signature.",
     "It does not regenerate targets, re-run the selector or permit post-outcome selection.",
     "It does not change the C7 or C8 thresholds.",
     "It does not alter the frozen engine.",
@@ -494,7 +493,7 @@
     "a1_target_selection_check": "CLEAN",
     "current_targets_are_subset": true,
     "twenty_per_seed": true,
-    "target_set_problems": "NOT RUN — N=20 manifest validator not implemented; see blocking_preconditions",
+    "target_set_problems": "PASS — a1_two_path validates the N=20 degree-3 target set against the C8 selection artifact",
     "no_cell_run": true
   },
   "not_evidence": "A prepared N=20 target-freeze act. No target is frozen in the live manifest, no grant exists, no cell has run, C8 is not measured and C5 remains unresolved."

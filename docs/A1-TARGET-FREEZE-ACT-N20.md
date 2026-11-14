@@ -4,13 +4,13 @@
 
 **Date:** 2026-11-14
 
-**Status:** `DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
+**Status:** `DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
 **Signature and date:** ____________________
 
-**This is a prepared act, not an executed freeze.** The live manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, its target block remains `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`, and no seed is reserved. This act is also **not signable yet**: C5 is unresolved for the current targets, and the live manifest validator still accepts only the N=4 disjoint design. Signing after those two blockers are cleared would perform the freeze described below; it would not issue a grant, run a cell or observe C8.
+**This is a prepared act, not an executed freeze.** The live manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, its target block remains `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`, and no seed is reserved. This act is also **not signable yet**: C5 is unresolved for the current targets. The manifest validator now has an N=20 target profile, and the act's 20-row block validates under it. Signing after C5 is cleared would perform the freeze described below; it would not issue a grant, run a cell or observe C8.
 
 ## 1. What would be frozen
 
@@ -106,13 +106,13 @@ The act does **not**:
 - open a database or run a cell;
 - produce a C1 or C4 denominator or a C8 measurement;
 - resolve the C5 target-timing blocker;
-- make the current `a1_two_path` validator accept N=20 targets;
+- apply the N=20 target block to the live manifest before signature;
 - regenerate targets or permit post-outcome re-selection;
 - change the 0.05 C8 ceiling, the 0.05 C7 A/K margin, or the C1/C4 gate.
 
 ## 4. Preconditions
 
-The act may be signed only after both blocking rows are cleared. The table records the state at the draft date; it is not a claim that they are already cleared.
+The act may be signed only after C5 is cleared; the N=20 validator row is already satisfied. The table records the state at the draft date.
 
 | Precondition | State |
 | --- | --- |
@@ -122,7 +122,7 @@ The act may be signed only after both blocking rows are cleared. The table recor
 | Four current targets retained | **PASS** — 4/4 in every seed |
 | Selection artifact internally consistent | **PASS** |
 | C5: cycle-36 `U` before carrier, K and Y | **UNRESOLVED — BLOCKING** — a no-arm 36-cycle audit found 15/24 current target observations with a carrier before cycle 36 |
-| N=20 manifest validator | **NOT IMPLEMENTED — BLOCKING** — `a1_two_path` still requires N=4 disjoint targets and rejects the N=20 degree-3 design |
+| N=20 target validation | **PASS** — `a1_two_path` accepts 20 unique targets per seed with permitted overlap and endpoint degree at most 3 |
 | C8 denominator | **PASS** — 20 rows per seed; `1/20 = 0.05`; ceiling unchanged |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
 | C1/C4 gate order and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
@@ -131,7 +131,7 @@ The act may be signed only after both blocking rows are cleared. The table recor
 
 **C5 is not made true by adopting N=20.** The four retained targets carry the existing timing problem, and the 16 new rows are not exempt. The no-arm audit is a design check, not an A1 cell: it replayed the same world and sleep schedule through cycle 36 and found carriers before the cycle-36 `U` sample on 15 of 24 current target observations. A freeze that preserves those targets must first clear this precondition, either by a registered target screen/regeneration or by a separately registered earlier-`U` protocol. This act does not choose between those remedies.
 
-**The N=20 validator is also a real blocker, not a documentation detail.** The current `benchmarks.a1_two_path` manifest fixes `TARGET_N = 4`, requires four disjoint targets per seed and rejects the 20-row, overlap-permitted design. Signing this act without updating that validator would create a freeze record that the execution gate cannot honour.
+**The N=20 validator is implemented, not merely documented.** `benchmarks.a1_two_path` selects the target profile from `targets.n_per_seed`: N=4 still requires four disjoint targets, while N=20 requires 20 unique targets, permits endpoint overlap, caps each endpoint at degree 3 and validates the block against [`a1_c8_target_selection.json`](a1_c8_target_selection.json). The block recorded in this act passes that check. This does not apply it to the live manifest; that still waits for signature.
 
 C1/C4 remain post-freeze validity gates. This act does not wait for them, and it does not re-open their adopted gate order. C7 remains a per-edge A/K rate over 120 cycles and is unchanged. C1 target-only remains 20 rows, still below the 60-row floor; the C1 total upper bound remains 63–64 with 43–44 non-target rows. The act therefore does not make C1 admissible by itself.
 
@@ -148,10 +148,9 @@ C1/C4 remain post-freeze validity gates. This act does not wait for them, and it
 ## 6. After the blockers and signature
 
 1. **Clear C5:** complete a registered target screen/regeneration, or a separately registered earlier-`U` protocol, and record the result.
-2. **Update the manifest validator:** make `a1_two_path` accept the N=20 degree-3 target set without changing the C8 ceiling or the target artifact.
-3. **Sign this act:** record the owner signature and effective date, freeze the exact 20 sets and reserve the seed block.
-4. **Grant:** record the separate dated run-authorising grant in the manifest.
-5. **Run and measure:** execute the planned cells and assemble C1/C4 and the remaining gate records.
+2. **Sign this act:** record the owner signature and effective date, freeze the exact 20 sets and reserve the seed block.
+3. **Grant:** record the separate dated run-authorising grant in the manifest.
+4. **Run and measure:** execute the planned cells and assemble C1/C4 and the remaining gate records.
 
 Until the grant, the execution gate must refuse. Until the run, there are no cell parts, no C1/C4 denominator and no C8 measurement.
 
@@ -163,6 +162,6 @@ Until the grant, the execution gate must refuse. Until the run, there are no cel
 - `python -m benchmarks.a1_two_path --check`
 - `python -m benchmarks.a1_two_path --self-test`
 
-The N=20 selection check and self-test are clean. The current N=4 target-set validator intentionally rejects this design; that rejection is recorded as a blocking precondition rather than hidden. No cell or database was opened.
+The N=20 selection check and self-test are clean, and the N=20 target block validates under `a1_two_path`'s target-set check. No cell or database was opened.
 
 **Not evidence:** A prepared N=20 freeze act. It freezes nothing until signed, issues no grant, runs no cell, makes no C8 measurement and does not clear the C5 blocker.

@@ -22,7 +22,7 @@ It freezes the six existing target sets in [`a1_target_selection.json`](a1_targe
 
 The act also fixes the manifest target block and the six-seed block as the object of the attempt. It leaves `authorisation.granted` false: the execution gate still refuses before a database is opened.
 
-**Separate C8 expansion design.** [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md) registers `A1-C8-EXPANSION-1`, a 20-target-per-seed design with a 0.05 C8 step. This act does **not** freeze or adopt it, does not replace the four-target table below and cannot use its rows. Signing this act would still leave C8 under-resolved by the frozen N=4 block, so the executed act must carry `C8: NOT ADJUDICATED BY DESIGN`. Adopting the N=20 design requires a separate target-freeze act naming it; the prepared draft is [`A1-TARGET-FREEZE-N20-1`](A1-TARGET-FREEZE-ACT-N20.md), which is not signable while C5 target timing and the N=20 manifest validator remain unresolved.
+**Separate C8 expansion design.** [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md) registers `A1-C8-EXPANSION-1`, a 20-target-per-seed design with a 0.05 C8 step. This act does **not** freeze or adopt it, does not replace the four-target table below and cannot use its rows. Signing this act would still leave C8 under-resolved by the frozen N=4 block, so the executed act must carry `C8: NOT ADJUDICATED BY DESIGN`. Adopting the N=20 design requires a separate target-freeze act naming it; the prepared draft is [`A1-TARGET-FREEZE-N20-1`](A1-TARGET-FREEZE-ACT-N20.md), which is not signable while C5 target timing remains unresolved.
 
 ## 2. Exact target sets
 

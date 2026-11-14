@@ -49,6 +49,9 @@ EXPECTED_CELLS = {cell["id"] for cell in CELLS}
 PLANNED = {(seed, cell["id"]) for seed in SEEDS for cell in CELLS}
 TARGET_N = 4
 TARGET_PROTOCOL = "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+C8_TARGET_N = 20
+C8_TARGET_PROTOCOL = "docs/A1-C8-EXPANSION.md"
+C8_MAX_ENDPOINT_DEGREE = 3
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -191,31 +194,59 @@ def _seed_universe(seed: int) -> set[tuple[str, str]]:
     return _world_compositional_edges(generate_compositional_world(seed=seed, cycles=CYCLES))
 
 
-def _artifact_targets(seed: int) -> list[str]:
+def _selected_targets(path: Path, seed: int) -> list[str]:
     """The selected target strings recorded for a seed, or an empty list."""
-    if not TARGET_SELECTION_PATH.exists():
+    if not path.exists():
         return []
-    doc = json.loads(TARGET_SELECTION_PATH.read_text(encoding="utf-8"))
+    doc = json.loads(path.read_text(encoding="utf-8"))
     row = (doc.get("per_seed") or {}).get(str(seed)) or {}
     return list(row.get("selected") or [])
 
 
+def _artifact_targets(seed: int) -> list[str]:
+    return _selected_targets(TARGET_SELECTION_PATH, seed)
+
+
+def _c8_artifact_targets(seed: int) -> list[str]:
+    return _selected_targets(C8_TARGET_SELECTION_PATH, seed)
+
+
 def target_set_problems(doc: dict) -> list[str]:
-    """Validate the fixed target sets before a freeze can be accepted."""
+    """Validate a fixed N=4 or N=20 target set before a freeze is accepted."""
     found: list[str] = []
     targets = doc.get("targets") or {}
     by_seed = targets.get("by_seed") or {}
-    if targets.get("protocol") != TARGET_PROTOCOL:
+    n = targets.get("n_per_seed")
+    if n == TARGET_N:
+        protocol = TARGET_PROTOCOL
+        disjoint = True
+        max_endpoint_degree = None
+        from benchmarks import a1_target_selection as selection
+    elif n == C8_TARGET_N:
+        protocol = C8_TARGET_PROTOCOL
+        disjoint = False
+        max_endpoint_degree = C8_MAX_ENDPOINT_DEGREE
+        from benchmarks import a1_c8_target_selection as selection
+    else:
+        found.append("the target-set size is neither %d nor %d" % (TARGET_N, C8_TARGET_N))
+        return found
+    if targets.get("protocol") != protocol:
         found.append("the target protocol is not recorded")
-    if targets.get("n_per_seed") != TARGET_N:
-        found.append("the target-set size is not %d" % TARGET_N)
+    if disjoint:
+        if targets.get("disjoint") not in (None, True):
+            found.append("the N=4 target set must be disjoint")
+    else:
+        if targets.get("disjoint") is not False:
+            found.append("the N=20 target set must record permitted endpoint overlap")
+        if targets.get("max_endpoint_degree") != max_endpoint_degree:
+            found.append("the N=20 endpoint-degree cap is not %d" % max_endpoint_degree)
     expected = {str(seed) for seed in SEEDS}
     if set(by_seed) != expected:
         found.append("the target sets do not cover exactly the six seeds")
     for seed in SEEDS:
         raw = by_seed.get(str(seed), by_seed.get(seed))
-        if not isinstance(raw, list) or len(raw) != TARGET_N:
-            found.append("seed %d does not have %d targets" % (seed, TARGET_N))
+        if not isinstance(raw, list) or len(raw) != n:
+            found.append("seed %d does not have %d targets" % (seed, n))
             continue
         parsed: list[tuple[str, str]] = []
         for value in raw:
@@ -227,13 +258,23 @@ def target_set_problems(doc: dict) -> list[str]:
                 found.append("seed %d has an empty or self target edge" % seed)
                 continue
             parsed.append((a, b))
-        if len(parsed) != TARGET_N:
+        if len(parsed) != n:
             continue
-        used: set[str] = set()
-        for a, b in parsed:
-            if a in used or b in used:
-                found.append("seed %d targets do not have disjoint endpoints" % seed)
-            used.update((a, b))
+        if disjoint:
+            used: set[str] = set()
+            for a, b in parsed:
+                if a in used or b in used:
+                    found.append("seed %d targets do not have disjoint endpoints" % seed)
+                used.update((a, b))
+        else:
+            if len(set(parsed)) != n:
+                found.append("seed %d repeats a target edge" % seed)
+            degree: dict[str, int] = {}
+            for a, b in parsed:
+                degree[a] = degree.get(a, 0) + 1
+                degree[b] = degree.get(b, 0) + 1
+            if any(value > max_endpoint_degree for value in degree.values()):
+                found.append("seed %d exceeds the endpoint-degree cap" % seed)
         unknown = set(parsed) - _seed_universe(seed)
         if unknown:
             found.append("seed %d targets are outside the world universe" % seed)
@@ -247,7 +288,6 @@ def target_set_problems(doc: dict) -> list[str]:
     except (OSError, ValueError) as exc:
         found.append("the target selection artifact is unreadable: %s" % exc)
         return found
-    from benchmarks import a1_target_selection as selection
     found.extend("selection: %s" % problem for problem in selection.problems(selection_doc))
     for seed in SEEDS:
         row = (selection_doc.get("per_seed") or {}).get(str(seed)) or {}
@@ -515,6 +555,18 @@ def self_test() -> list[str]:
     reasons = preflight(good_grant)
     if reasons:
         found.append("a complete run grant is rejected: %r" % reasons)
+    n20_grant = copy.deepcopy(good_grant)
+    n20_grant["targets"].update({
+        "protocol": C8_TARGET_PROTOCOL,
+        "n_per_seed": C8_TARGET_N,
+        "disjoint": False,
+        "max_endpoint_degree": C8_MAX_ENDPOINT_DEGREE,
+        "selection_artifact": C8_TARGET_SELECTION_PATH.relative_to(ROOT).as_posix(),
+        "by_seed": {str(seed): _c8_artifact_targets(seed) for seed in SEEDS},
+    })
+    reasons = preflight(n20_grant)
+    if reasons:
+        found.append("a complete N=20 run grant is rejected: %r" % reasons)
     not_frozen = copy.deepcopy(good_grant)
     not_frozen["frozen"] = False
     if not any("not frozen" in reason for reason in preflight(not_frozen)):

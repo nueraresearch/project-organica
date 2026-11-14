@@ -75,7 +75,7 @@ Adopting this design would therefore preserve the current Path A target identity
 - It does not change the 0.05 C8 ceiling, the 0.05 C7 A/K margin or the C1/C4 gate.
 - It does not measure C8; no A−K− cell has run.
 
-Adopting this design requires a separate target-freeze act that names `A1-C8-EXPANSION-1`, replaces the N=4 target set in the manifest and records the selection artifact. The prepared N=20 act is [`A1-TARGET-FREEZE-N20-1`](A1-TARGET-FREEZE-ACT-N20.md); it is **DRAFT — NOT SIGNABLE** while C5 target timing and the N=20 manifest validator remain unresolved. If the owner does not adopt it, the current freeze must carry the explicit limitation `C8: NOT ADJUDICATED BY DESIGN`.
+Adopting this design requires a separate target-freeze act that names `A1-C8-EXPANSION-1`, replaces the N=4 target set in the manifest and records the selection artifact. The prepared N=20 act is [`A1-TARGET-FREEZE-N20-1`](A1-TARGET-FREEZE-ACT-N20.md); it is **DRAFT — NOT SIGNABLE** while C5 target timing remains unresolved. Its 20-row block now validates under the `a1_two_path` N=20 target profile. If the owner does not adopt it, the current freeze must carry the explicit limitation `C8: NOT ADJUDICATED BY DESIGN`.
 
 ## 5. Integrity checks
 
@@ -98,7 +98,7 @@ No check in this record scores C8. The artifact is a target-design record, not a
 | [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) | Current four-target Path A protocol; unchanged |
 | [`A1-TWO-PATH-MANIFEST.md`](A1-TWO-PATH-MANIFEST.md) | Current manifest; still N=4, unresolved and unfrozen |
 | [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) | C1 denominator-feasibility risk and the per-seed 60-row availability budget |
-| [`A1-TARGET-FREEZE-ACT-N20.md`](A1-TARGET-FREEZE-ACT-N20.md) | Prepared N=20 target-freeze act; preserves the four current targets; not signable until C5 and the N=20 validator are cleared |
+| [`A1-TARGET-FREEZE-ACT-N20.md`](A1-TARGET-FREEZE-ACT-N20.md) | Prepared N=20 target-freeze act; preserves the four current targets; validated by the N=20 target profile; not signable until C5 is cleared |
 | [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) | Records the N=20 design as registered but not adopted |
 | [`A1-DENOMINATOR-RESOLUTION.md`](A1-DENOMINATOR-RESOLUTION.md) | Shows the current C8 flags and the registered N=20 pass |
 

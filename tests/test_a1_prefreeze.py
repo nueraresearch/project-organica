@@ -92,6 +92,42 @@ def test_target_set_problems_rejects_short_and_overlapping_sets():
     assert any("disjoint" in problem for problem in problems)
 
 
+def _n20_target_doc():
+    import json
+    act = json.loads(Path("docs/a1_target_freeze_act_n20.json").read_text(encoding="utf-8"))
+    doc = a1_two_path.manifest()
+    doc["targets"].update({
+        "status": "FIXED BEFORE FREEZE",
+        "protocol": a1_two_path.C8_TARGET_PROTOCOL,
+        "n_per_seed": a1_two_path.C8_TARGET_N,
+        "disjoint": False,
+        "max_endpoint_degree": a1_two_path.C8_MAX_ENDPOINT_DEGREE,
+        "selection_artifact": a1_two_path.C8_TARGET_SELECTION_PATH.relative_to(
+            a1_two_path.ROOT).as_posix(),
+        "by_seed": act["targets_by_seed"],
+    })
+    return doc
+
+
+def test_target_set_problems_accepts_n20_degree_three_world_edges():
+    doc = _n20_target_doc()
+    assert a1_two_path.target_set_problems(doc) == []
+
+
+def test_target_set_problems_rejects_n20_degree_and_duplicate_targets():
+    doc = _n20_target_doc()
+    doc["targets"]["max_endpoint_degree"] = 2
+    problems = a1_two_path.target_set_problems(doc)
+    assert any("endpoint-degree cap" in problem for problem in problems)
+
+    doc = _n20_target_doc()
+    first_seed = str(a1_two_path.SEEDS[0])
+    edges = doc["targets"]["by_seed"][first_seed]
+    edges[-1] = edges[0]
+    problems = a1_two_path.target_set_problems(doc)
+    assert any("repeats a target edge" in problem for problem in problems)
+
+
 def test_selection_self_test():
     assert selection.self_test() == []
 
@@ -266,11 +302,10 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["c8_resolution"]["adjudicable_after_signature"] is True
     assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
     assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
-    assert act["blocking_preconditions"] == [
-        "C5_TARGET_TIMING", "N20_MANIFEST_VALIDATOR"
-    ]
+    assert act["blocking_preconditions"] == ["C5_TARGET_TIMING"]
     blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
-    assert blockers == {"C5_cycle_36_U_before_carrier", "N20_manifest_validator"}
+    assert blockers == {"C5_cycle_36_U_before_carrier"}
+    assert act["checks"]["target_set_problems"].startswith("PASS")
     assert act["current_manifest"]["frozen"] is False
     assert act["current_manifest"]["n_per_seed"] == 4
     assert act["manifest_frozen_after_signature"] is True
@@ -282,7 +317,11 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert "A1-C8-EXPANSION-1" in page
     assert "C5 TARGET-TIMING PRECONDITION UNRESOLVED" in page
     assert "1/20 = 0.05" in page
-    assert "N=20 manifest validator" in page
+    assert "N=20 target validation" in page
+
+
+def test_n20_target_freeze_act_applies_to_manifest_validator():
+    assert a1_two_path.target_set_problems(_n20_target_doc()) == []
 
 
 def test_provisional_freeze_gate_order_is_draft_only():
