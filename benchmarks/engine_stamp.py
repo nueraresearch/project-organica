@@ -86,6 +86,7 @@ DERIVED = {
     "a1_design_viability.py",  # read-only C1/C2 design-viability join; runs no engine
     "a1_n20_competent_selection.py",  # pre-registered rule draft; selects and runs nothing
     "a1_k_decomposition.py",  # descriptive no-arm K decomposition; runs nothing
+    "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_two_path.py",  # dry-run manifest and grant gate; opens no database
     "g9_stage_ledger.py",  # validator fixtures/page; runs no engine and writes no ledger
     "carrier_formation_a0.py",  # read-only join of carrier and provenance rows; runs no engine

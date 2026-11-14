@@ -60,7 +60,7 @@ Park is defensible if any of the following holds:
 
 ## 6. What would settle it
 
-The decisive artifact is a **no-arm preflight over a candidate successor universe or fresh seed block**: independent edges, K-available count and C1 ceiling per seed, whether 20 competent targets can be matched if C2/C8 are in scope, and the exact universe used by the runner and result layer. If it clears 60 without post-hoc seed selection, redesign is actionable; if not, park is the honest disposition.
+The decisive artifact is the **no-arm successor preflight**, now built but reporting **NOT RUN** until a candidate universe or fresh seed block is supplied: independent edges, K-available count and C1 ceiling per seed, whether 20 competent targets can be matched if C2/C8 are in scope, and the exact universe used by the runner and result layer. If it clears 60 without post-hoc seed selection, redesign is actionable; if not, park is the honest disposition.
 
 **Not evidence:** a decision memo. It runs no cell, freezes no target, reserves no seed, issues no grant and makes no treatment claim.
 
@@ -71,4 +71,5 @@ The decisive artifact is a **no-arm preflight over a candidate successor univers
 - [N20 competent-selection rule](A1-N20-COMPETENT-SELECTION.md)
 - [Baseline availability](A1-BASELINE-AVAILABILITY.md)
 - [Target viability](A1-TARGET-VIABILITY.md)
+- [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)
