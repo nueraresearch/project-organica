@@ -84,14 +84,20 @@ def _targets() -> tuple[dict[int, set[tuple[str, str]]], dict[int, set[tuple[str
     return current, n20
 
 
-def _run_seed(seed: int, world: dict | None = None) -> dict:
+def _run_seed(seed: int, world: dict | None = None,
+              cap: int | None = None) -> dict:
     """Replay one world with no treatment and record all cell edges.
 
     ``world`` is injectable for a separately declared successor universe; the
-    registered six-seed audit passes no world and is unchanged.
+    registered six-seed audit passes no world and is unchanged.  ``cap`` is
+    injectable for a no-arm capacity diagnostic; it defaults to the registered
+    ``CAP`` so the audit's behavior is unchanged.
     """
     if world is None:
         world = generate_compositional_world(seed=seed, cycles=CYCLES)
+    limit = CAP if cap is None else int(cap)
+    if limit < 1:
+        raise ValueError("cap must be positive")
     universe = _world_compositional_edges(world)
     counts = {
         edge: {"A": 0, "K": 0, "Y": 0,
@@ -101,7 +107,7 @@ def _run_seed(seed: int, world: dict | None = None) -> dict:
     db_path = _make_scratch_db("a1_baseline_availability")
     memory = _CountingMemoryService(str(db_path))
     service = a1_arms.A1ArmSleepService(memory)
-    service.MAX_PREDICTIONS = CAP
+    service.MAX_PREDICTIONS = limit
     acq_lo, acq_hi = PHASE_ACQUISITION
     event_lo, event_hi = acq_lo * EVENTS_PER_CYCLE, acq_hi * EVENTS_PER_CYCLE
     try:
