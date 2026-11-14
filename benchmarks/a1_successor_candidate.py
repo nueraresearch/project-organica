@@ -23,6 +23,7 @@ from pathlib import Path
 
 from benchmarks import a1_baseline_availability
 from benchmarks import a1_successor_preflight
+from benchmarks import a1_successor_schema
 from benchmarks import a1_target_selection
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -72,7 +73,7 @@ def build() -> dict:
             "A_and_K": sum(row["A"] and row["K"] for row in rows),
             "selection_status": selection["status"],
         })
-    return {
+    doc = {
         "kind": KIND,
         "id": ID,
         "date": DATE,
@@ -88,6 +89,8 @@ def build() -> dict:
             "boundary_note": "candidate uses the opt-in cycle-boundary correction; the registered selector remains legacy",
             "screen": "none — the block was fixed without K screening; a one-seed timing probe did not alter it",
             "targets_selected": 0,
+            "k_screened": False,
+            "prior_k_exposure": "one-seed timing probe on 20650101; the block was unchanged",
         },
         "baseline": {
             "source": "A1-BASELINE-AVAILABILITY-1",
@@ -98,12 +101,27 @@ def build() -> dict:
         },
         "per_seed": per_seed,
         "summaries": summaries,
+        "governance": {
+            "preflight_required": True,
+            "freeze": False,
+            "grant": False,
+            "run": False,
+            "authorization": "none",
+        },
         "not_evidence": (
             "A no-arm candidate specification and its raw A/K rows. It selects "
             "no target, freezes no target, reserves no seed, issues no grant and "
             "runs no A1 cell. Passing the preflight would not authorise a run."
         ),
     }
+    doc["universe"] = {
+        "id": ID + "-U1",
+        "digest": a1_successor_schema.universe_digest(doc),
+        "selector": "candidate-stream",
+        "runner": "candidate-stream",
+        "scorer": "candidate-stream",
+    }
+    return doc
 
 
 def problems(doc: dict) -> list[str]:
@@ -182,7 +200,7 @@ def render(doc: dict) -> str:
         "**ID:** `%s`" % doc["id"],
         "**Status:** `%s`" % doc["status"],
         "",
-        "**No target is selected, frozen or run.** This is a fresh six-seed candidate for the no-arm preflight, not a successor design adopted by the project. It uses the opt-in cycle-boundary correction for candidate formation; the registered selector remains unchanged.",
+        "**No target is selected, frozen or run.** This is a fresh six-seed candidate for the no-arm preflight, not a successor design adopted by the project. It uses the opt-in cycle-boundary correction for candidate formation; the registered selector remains unchanged. The machine-readable schema is [`A1-SUCCESSOR-SCHEMA.md`](A1-SUCCESSOR-SCHEMA.md).",
         "",
         "## Why this block",
         "",
@@ -229,6 +247,7 @@ def render(doc: dict) -> str:
         "python -m benchmarks.a1_successor_candidate --check",
         "python -m benchmarks.a1_successor_candidate --self-test",
         "python -m benchmarks.a1_successor_candidate --write",
+        "python -m benchmarks.a1_successor_schema --check",
         "python -m benchmarks.a1_successor_preflight --spec docs/a1_successor_candidate.json --write",
         "```",
         "",

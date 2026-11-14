@@ -3,7 +3,7 @@
 **ID:** `A1-SUCCESSOR-CANDIDATE-1`
 **Status:** `CANDIDATE SPEC — NO ARM, NO TARGET, NOT FROZEN, NOT RUN`
 
-**No target is selected, frozen or run.** This is a fresh six-seed candidate for the no-arm preflight, not a successor design adopted by the project. It uses the opt-in cycle-boundary correction for candidate formation; the registered selector remains unchanged.
+**No target is selected, frozen or run.** This is a fresh six-seed candidate for the no-arm preflight, not a successor design adopted by the project. It uses the opt-in cycle-boundary correction for candidate formation; the registered selector remains unchanged. The machine-readable schema is [`A1-SUCCESSOR-SCHEMA.md`](A1-SUCCESSOR-SCHEMA.md).
 
 ## Why this block
 
@@ -43,5 +43,6 @@ K is the lower path on five seeds; A is lower on `20650105` (31 vs 39). The gate
 python -m benchmarks.a1_successor_candidate --check
 python -m benchmarks.a1_successor_candidate --self-test
 python -m benchmarks.a1_successor_candidate --write
+python -m benchmarks.a1_successor_schema --check
 python -m benchmarks.a1_successor_preflight --spec docs/a1_successor_candidate.json --write
 ```

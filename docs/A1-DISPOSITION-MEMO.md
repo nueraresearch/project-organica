@@ -74,4 +74,5 @@ The decisive artifact is the **no-arm successor preflight**, now exercised on a 
 - [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
 - [Fresh-seed candidate](A1-SUCCESSOR-CANDIDATE.md)
 - [Successor requirements](A1-REDESIGN-REQUIREMENTS.md)
+- [Candidate schema](A1-SUCCESSOR-SCHEMA.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)

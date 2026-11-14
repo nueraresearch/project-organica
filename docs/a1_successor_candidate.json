@@ -20,7 +20,9 @@
     "boundary_safe": true,
     "boundary_note": "candidate uses the opt-in cycle-boundary correction; the registered selector remains legacy",
     "screen": "none \u2014 the block was fixed without K screening; a one-seed timing probe did not alter it",
-    "targets_selected": 0
+    "targets_selected": 0,
+    "k_screened": false,
+    "prior_k_exposure": "one-seed timing probe on 20650101; the block was unchanged"
   },
   "baseline": {
     "source": "A1-BASELINE-AVAILABILITY-1",
@@ -2014,5 +2016,19 @@
       "selection_status": "TARGET SET FORMED"
     }
   ],
-  "not_evidence": "A no-arm candidate specification and its raw A/K rows. It selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. Passing the preflight would not authorise a run."
+  "not_evidence": "A no-arm candidate specification and its raw A/K rows. It selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. Passing the preflight would not authorise a run.",
+  "governance": {
+    "preflight_required": true,
+    "freeze": false,
+    "grant": false,
+    "run": false,
+    "authorization": "none"
+  },
+  "universe": {
+    "id": "A1-SUCCESSOR-CANDIDATE-1-U1",
+    "digest": "59b7255c31690b74dcbe7784e43cb70b15f960d70b725e99289a162ffd121463",
+    "selector": "candidate-stream",
+    "runner": "candidate-stream",
+    "scorer": "candidate-stream"
+  }
 }

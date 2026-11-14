@@ -88,6 +88,7 @@ DERIVED = {
     "a1_k_decomposition.py",  # descriptive no-arm K decomposition; runs nothing
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
+    "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing
     "a1_two_path.py",  # dry-run manifest and grant gate; opens no database
     "g9_stage_ledger.py",  # validator fixtures/page; runs no engine and writes no ledger
     "carrier_formation_a0.py",  # read-only join of carrier and provenance rows; runs no engine

@@ -20,7 +20,19 @@ A candidate is a JSON spec with these fields:
 
 The candidate universe must be **one orientation per undirected pair**. Each row is a raw A/K boolean, not a treatment result.
 
-## 2. PASS conditions
+## 2. Machine-readable contract
+
+The schema is [`a1_successor_candidate.schema.json`](a1_successor_candidate.schema.json); the standard-library validator is [`A1-SUCCESSOR-SCHEMA.md`](A1-SUCCESSOR-SCHEMA.md). It checks the candidate package, the seed and universe declarations, the target-selection declaration, and the governance flags, then runs the existing preflight as a separate gate.
+
+```bash
+python -m benchmarks.a1_successor_schema --check
+python -m benchmarks.a1_successor_schema --validate docs/a1_successor_candidate.json
+python -m benchmarks.a1_successor_schema --self-test
+```
+
+`--check` verifies the committed schema and page and that the live candidate is structurally valid even when its gate fails. `--validate` is strict: any refusal, including a failing C1 gate, returns non-zero.
+
+## 3. PASS conditions
 
 A candidate passes only if **all** of these hold:
 
@@ -32,7 +44,7 @@ A candidate passes only if **all** of these hold:
 - **One universe:** the runner, selector and result layer declare and use the same edge universe. The N4/N20 target profile and the 112-row directed cell stream must not silently substitute for the candidate stream.
 - **Preflight before freeze:** `A1-SUCCESSOR-PREFLIGHT-1` returns `PASS` **before** any target freeze, seed reservation, grant or run.
 
-## 3. Refusal conditions
+## 4. Refusal conditions
 
 Any one of these is a `FAIL`, not a reason to retry:
 
@@ -50,7 +62,7 @@ Any one of these is a `FAIL`, not a reason to retry:
 
 A candidate that needs a lower floor, a different estimator, a favourable seed subset, or reverse-orientation rows is **not a successor under this checklist**.
 
-## 4. Current evidence
+## 5. Current evidence
 
 | Candidate | C1 ceiling by seed | Result |
 | --- | --- | --- |
@@ -59,7 +71,7 @@ A candidate that needs a lower floor, a different estimator, a favourable seed s
 
 The fresh block had **64, 64, 64, 64, 63, 64** independent edges and a 20-row matching on **6/6**; its best seed was still **14 rows short**. K was lower on five seeds, A on `20650105`. The same-world fresh-seed route is therefore tested and does not clear the floor. A genuinely larger independent universe remains **untested**; this page does not claim it is impossible.
 
-## 5. Order of operations
+## 6. Order of operations
 
 ```text
 candidate spec (no target)
@@ -73,7 +85,7 @@ successor preflight
 
 A FAIL does **not** license target-selection tricks, a lower floor, a new estimator or a rerun. Those are different studies, not repairs.
 
-## 6. What this is not
+## 7. What this is not
 
 This is not a redesign, a target selection, a freeze, a grant or a run. It selects no target, reserves no seed and makes no C2/C8 or treatment claim.
 
@@ -87,6 +99,7 @@ python -m benchmarks.a1_successor_candidate --check
 ## References
 
 - [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
+- [Candidate schema](A1-SUCCESSOR-SCHEMA.md)
 - [Fresh-seed candidate](A1-SUCCESSOR-CANDIDATE.md)
 - [Disposition memo](A1-DISPOSITION-MEMO.md)
 - [C1/C4 VOID gate](A1-C1-C4-VOID-GATE.md)

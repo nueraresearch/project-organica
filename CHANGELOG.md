@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Addendum — A1 successor candidate schema and validator (2026-11-14)
+
+- **The refusal list is now machine-checkable.** `docs/a1_successor_candidate.schema.json` is the external contract for a candidate package; `benchmarks/a1_successor_schema.py` adds the cross-row and governance checks JSON Schema cannot express: fresh seeds, K-screening and prior-exposure disclosure, duplicate/reverse-duplicate/self-loop rejection, target-selection claims, universe consistency, preflight requirement, and freeze/grant/run claims. It then runs the existing no-arm preflight as a separate gate. The live candidate is **schema-clean** but **gate-fail** at C1 **40, 37, 46, 42, 31, 38**; `--check` accepts the structural record while `--validate` is strict. No target is selected, frozen or run. `benchmarks/a1_successor_schema.py`, `tests/test_a1_successor_schema.py`, `docs/a1_successor_candidate.schema.json`, `docs/A1-SUCCESSOR-SCHEMA.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
 ### Addendum — A1 successor requirements checklist (2026-11-14)
 
 - **The front door for a second candidate is now one page of hard constraints.** `A1-REDESIGN-REQUIREMENTS-1` fixes the candidate-spec fields, the **≥60 independent/C1** gate, duplicate and reverse-duplicate rejection, the **20-row** A+K matching condition when C2/C8 are in scope, one-universe consistency, preflight-before-freeze and the explicit refusal list. It records the fresh block's **0/6** failure at C1 **40, 37, 46, 42, 31, 38** and identifies a larger independent universe as the only untested redesign route. It is a reference page only: no target, seed, freeze, grant or run. `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
