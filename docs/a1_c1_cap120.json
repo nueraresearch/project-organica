@@ -22,16 +22,20 @@
   "run": false,
   "authorization": "none"
  },
- "reading": "At cap 120, A is the C1 binding path on every seed. Widening the loop window removes K as the blocker; the remaining C1 ceiling is the prediction path.",
+ "reading": "At cap 120, A is the C1 binding path on every seed. Widening the loop window removes K as the marginal blocker; the remaining C1 ceiling is the prediction path. The marginal ceiling passes 2/18, but the joint A\u2229K ceiling passes 0/18: the two marginal passes overlap only 58 and 52 rows.",
  "summaries": [
   {
    "cap": 15,
    "seeds": 18,
    "A_total": 913,
    "K_total": 714,
+   "A_and_K_total": 502,
    "C1_ceiling_min": 23,
    "C1_ceiling_max": 55,
+   "C1_joint_min": 15,
+   "C1_joint_max": 46,
    "C1_pass": 0,
+   "C1_joint_pass": 0,
    "binding_A": 1,
    "binding_K": 16,
    "binding_both": 1
@@ -41,9 +45,13 @@
    "seeds": 18,
    "A_total": 913,
    "K_total": 1498,
+   "A_and_K_total": 842,
    "C1_ceiling_min": 31,
    "C1_ceiling_max": 67,
+   "C1_joint_min": 31,
+   "C1_joint_max": 58,
    "C1_pass": 2,
+   "C1_joint_pass": 0,
    "binding_A": 18,
    "binding_K": 0,
    "binding_both": 0
@@ -57,9 +65,11 @@
     "candidate_edges": 382,
     "A": 281,
     "K": 228,
+    "A_and_K": 186,
     "C1_ceiling_min": 31,
     "C1_ceiling_max": 44,
     "C1_pass": 0,
+    "C1_joint_pass": 0,
     "binding_A": 0,
     "binding_K": 5
    },
@@ -67,9 +77,11 @@
     "candidate_edges": 382,
     "A": 281,
     "K": 382,
+    "A_and_K": 281,
     "C1_ceiling_min": 43,
     "C1_ceiling_max": 52,
     "C1_pass": 0,
+    "C1_joint_pass": 0,
     "binding_A": 6,
     "binding_K": 0
    }
@@ -81,9 +93,11 @@
     "candidate_edges": 383,
     "A": 279,
     "K": 242,
+    "A_and_K": 197,
     "C1_ceiling_min": 31,
     "C1_ceiling_max": 46,
     "C1_pass": 0,
+    "C1_joint_pass": 0,
     "binding_A": 1,
     "binding_K": 5
    },
@@ -91,9 +105,11 @@
     "candidate_edges": 383,
     "A": 279,
     "K": 383,
+    "A_and_K": 279,
     "C1_ceiling_min": 31,
     "C1_ceiling_max": 54,
     "C1_pass": 0,
+    "C1_joint_pass": 0,
     "binding_A": 6,
     "binding_K": 0
    }
@@ -105,9 +121,11 @@
     "candidate_edges": 1000,
     "A": 353,
     "K": 244,
+    "A_and_K": 119,
     "C1_ceiling_min": 23,
     "C1_ceiling_max": 55,
     "C1_pass": 0,
+    "C1_joint_pass": 0,
     "binding_A": 0,
     "binding_K": 6
    },
@@ -115,9 +133,11 @@
     "candidate_edges": 1000,
     "A": 353,
     "K": 733,
+    "A_and_K": 282,
     "C1_ceiling_min": 50,
     "C1_ceiling_max": 67,
     "C1_pass": 2,
+    "C1_joint_pass": 0,
     "binding_A": 6,
     "binding_K": 0
    }

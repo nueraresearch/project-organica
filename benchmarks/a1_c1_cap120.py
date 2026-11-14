@@ -213,9 +213,13 @@ def build() -> dict:
             "seeds": len(group),
             "A_total": sum(row["A"] for row in group),
             "K_total": sum(row["K"] for row in group),
+            "A_and_K_total": sum(row["A_and_K"] for row in group),
             "C1_ceiling_min": min(row["C1_ceiling"] for row in group),
             "C1_ceiling_max": max(row["C1_ceiling"] for row in group),
+            "C1_joint_min": min(row["A_and_K"] for row in group),
+            "C1_joint_max": max(row["A_and_K"] for row in group),
             "C1_pass": sum(row["C1_floor_pass"] for row in group),
+            "C1_joint_pass": sum(row["A_and_K"] >= C1_FLOOR for row in group),
             "binding_A": sum(row["binding"] == "A" for row in group),
             "binding_K": sum(row["binding"] == "K" for row in group),
             "binding_both": sum(row["binding"] == "both" for row in group),
@@ -230,9 +234,11 @@ def build() -> dict:
                 "candidate_edges": sum(row["candidate_edges"] for row in group),
                 "A": sum(row["A"] for row in group),
                 "K": sum(row["K"] for row in group),
+                "A_and_K": sum(row["A_and_K"] for row in group),
                 "C1_ceiling_min": min(row["C1_ceiling"] for row in group),
                 "C1_ceiling_max": max(row["C1_ceiling"] for row in group),
                 "C1_pass": sum(row["C1_floor_pass"] for row in group),
+                "C1_joint_pass": sum(row["A_and_K"] >= C1_FLOOR for row in group),
                 "binding_A": sum(row["binding"] == "A" for row in group),
                 "binding_K": sum(row["binding"] == "K" for row in group),
             }
@@ -241,8 +247,10 @@ def build() -> dict:
     if summary_120["binding_A"] == summary_120["seeds"]:
         reading = (
             "At cap 120, A is the C1 binding path on every seed. Widening the "
-            "loop window removes K as the blocker; the remaining C1 ceiling is "
-            "the prediction path."
+            "loop window removes K as the marginal blocker; the remaining C1 "
+            "ceiling is the prediction path. The marginal ceiling passes 2/18, "
+            "but the joint A∩K ceiling passes 0/18: the two marginal passes "
+            "overlap only 58 and 52 rows."
         )
     elif summary_120["binding_A"] > summary_120["binding_K"]:
         reading = (
@@ -322,15 +330,17 @@ def render(doc: dict) -> str:
         "",
         doc["reading"],
         "",
-        "| Loop cap | A total | K total | C1 ceiling range | Pass 60 | Binding A | Binding K | Tie |",
-        "| ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: |",
+        "| Loop cap | A total | K total | A∩K | C1 min range | C1 joint range | Pass min | Pass joint | Binding A/K/tie |",
+        "| ---: | ---: | ---: | ---: | --- | --- | ---: | ---: | --- |",
     ]
     for cap in (15, 120):
         row = summaries[cap]
-        lines.append("| %d | %d | %d | %d-%d | %d/18 | %d | %d | %d |" % (
-            cap, row["A_total"], row["K_total"], row["C1_ceiling_min"],
-            row["C1_ceiling_max"], row["C1_pass"], row["binding_A"],
-            row["binding_K"], row["binding_both"]))
+        lines.append("| %d | %d | %d | %d | %d-%d | %d-%d | %d/18 | %d/18 | %d/%d/%d |" % (
+            cap, row["A_total"], row["K_total"], row["A_and_K_total"],
+            row["C1_ceiling_min"], row["C1_ceiling_max"],
+            row["C1_joint_min"], row["C1_joint_max"], row["C1_pass"],
+            row["C1_joint_pass"], row["binding_A"], row["binding_K"],
+            row["binding_both"]))
     lines += [
         "",
         "The cap-15 control reproduces the committed A/K counts; cap-120 K "
@@ -340,30 +350,32 @@ def render(doc: dict) -> str:
         "",
         "## Per block",
         "",
-        "| Block | Candidates | A at 15 | K at 15 | C1 at 15 | A at 120 | K at 120 | C1 at 120 | Pass at 120 |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Block | Candidates | A at 15 | K at 15 | C1 at 15 | A at 120 | K at 120 | A∩K at 120 | C1 at 120 | Pass min | Pass joint |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: | ---: |",
     ]
     for block in doc["by_block"]:
         low = block["15"]
         high = block["120"]
-        lines.append("| %s | %d | %d | %d | %d-%d | %d | %d | %d-%d | %d/6 |" % (
+        lines.append("| %s | %d | %d | %d | %d-%d | %d | %d | %d | %d-%d | %d/6 | %d/6 |" % (
             block["label"], low["candidate_edges"], low["A"], low["K"],
             low["C1_ceiling_min"], low["C1_ceiling_max"], high["A"], high["K"],
-            high["C1_ceiling_min"], high["C1_ceiling_max"], high["C1_pass"]))
+            high["A_and_K"], high["C1_ceiling_min"], high["C1_ceiling_max"],
+            high["C1_pass"], high["C1_joint_pass"]))
     lines += [
         "",
         "## Per-seed rows at cap 120",
         "",
-        "| Block | Seed | Candidates | A | K | A∩K | C1 ceiling | Gap to 60 | Binding | Pass |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+        "| Block | Seed | Candidates | A | K | A∩K | C1 ceiling | Gap to 60 | Binding | Pass min | Pass joint |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- |",
     ]
     for row in doc["rows"]:
         if row["cap"] != 120:
             continue
-        lines.append("| %s | %d | %d | %d | %d | %d | %d | %d | %s | %s |" % (
+        lines.append("| %s | %d | %d | %d | %d | %d | %d | %d | %s | %s | %s |" % (
             row["block"], row["seed"], row["candidate_edges"], row["A"], row["K"],
             row["A_and_K"], row["C1_ceiling"], row["gap_to_60"], row["binding"],
-            "yes" if row["C1_floor_pass"] else "no"))
+            "yes" if row["C1_floor_pass"] else "no",
+            "yes" if row["A_and_K"] >= C1_FLOOR else "no"))
     lines += [
         "",
         "## Reading",
@@ -405,6 +417,9 @@ def problems(doc: dict | None = None) -> list[str]:
         if row.get("gap_to_60") != C1_FLOOR - row.get("C1_ceiling", -1):
             found.append("gap at %r" % ((row.get("block"), row.get("seed"),
                                          row.get("cap")),))
+        if not 0 <= row.get("A_and_K", -1) <= min(row.get("A", -1), row.get("K", -1)):
+            found.append("A∩K at %r" % ((row.get("block"), row.get("seed"),
+                                         row.get("cap")),))
         expected = ("A" if row.get("A", 0) < row.get("K", 0)
                     else "K" if row.get("K", 0) < row.get("A", 0)
                     else "both")
@@ -419,6 +434,11 @@ def problems(doc: dict | None = None) -> list[str]:
             found.append("K total at cap %s" % summary.get("cap"))
         if summary.get("C1_pass") != sum(row["C1_floor_pass"] for row in group):
             found.append("C1 pass count at cap %s" % summary.get("cap"))
+        if summary.get("A_and_K_total") != sum(row["A_and_K"] for row in group):
+            found.append("A∩K total at cap %s" % summary.get("cap"))
+        if summary.get("C1_joint_pass") != sum(
+                row["A_and_K"] >= C1_FLOOR for row in group):
+            found.append("joint pass count at cap %s" % summary.get("cap"))
     if PAGE_PATH.exists() and PAGE_PATH.read_text(encoding="utf-8") != render(doc):
         found.append("the page is stale")
     return found

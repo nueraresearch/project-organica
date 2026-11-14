@@ -28,6 +28,8 @@ def test_cap_120_moves_the_binding_path_from_k_to_a():
         913, 1498, 2)
     assert (rows[120]["binding_A"], rows[120]["binding_K"],
             rows[120]["binding_both"]) == (18, 0, 0)
+    assert (rows[120]["A_and_K_total"], rows[120]["C1_joint_pass"]) == (842, 0)
+    assert (rows[120]["C1_joint_min"], rows[120]["C1_joint_max"]) == (31, 58)
 
 
 def test_blocks_show_a_becoming_the_floor():
@@ -83,4 +85,6 @@ def test_page_is_current():
     text = c1.PAGE_PATH.read_text(encoding="utf-8")
     assert "A is the C1 binding path on every seed" in text
     assert "2/18" in text
+    assert "0/18" in text
     assert "31-67" in text
+    assert "31-58" in text

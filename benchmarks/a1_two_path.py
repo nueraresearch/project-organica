@@ -68,6 +68,7 @@ K_TOTAL_PREDICTORS_PATH = DOCS / "a1_k_total_predictors.json"
 K_CARRIER_SUPPLY_PATH = DOCS / "a1_k_carrier_supply.json"
 K_LOOP_CAP_PATH = DOCS / "a1_loop_cap_counterfactual.json"
 C1_CAP120_PATH = DOCS / "a1_c1_cap120.json"
+PREDICTION_CAP_C1_PATH = DOCS / "a1_prediction_cap_c1.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -393,7 +394,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,
-                 K_CARRIER_SUPPLY_PATH, K_LOOP_CAP_PATH, C1_CAP120_PATH)
+                 K_CARRIER_SUPPLY_PATH, K_LOOP_CAP_PATH, C1_CAP120_PATH,
+                 PREDICTION_CAP_C1_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
