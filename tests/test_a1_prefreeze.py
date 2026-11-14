@@ -256,7 +256,8 @@ def test_target_freeze_act_is_prepared_not_executed():
              a1_two_path.K_CARRIER_SUPPLY_PATH,
              a1_two_path.K_LOOP_CAP_PATH,
              a1_two_path.C1_CAP120_PATH,
-             a1_two_path.PREDICTION_CAP_C1_PATH)
+             a1_two_path.PREDICTION_CAP_C1_PATH,
+             a1_two_path.PREDICTION_CAP_112_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
