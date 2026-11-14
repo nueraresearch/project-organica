@@ -165,6 +165,78 @@ def sample_u(memory, targets: set[tuple[str, str]], cycle: int) -> dict:
     return {edge: _u_row(temporal, edge, cycle) for edge in targets}
 
 
+def neighbor_rows(seed: int, cell_id: str, edges: set[tuple[str, str]],
+                  counts: dict[tuple[str, str], dict[str, int]], cycles: int,
+                  fingerprint: str, target_tags: set[str]) -> list[dict]:
+    """Build non-target rows for C4, kept separate from the target rows.
+
+    The stream covers every non-target edge in the candidate universe, not
+    only one-hop neighbours: C4's contract is about other edges, and a one-hop
+    restriction would leave indirect spillover unmeasured.  Mixing these into
+    ``rows`` would make C2 see non-target edges in the manipulated cells and
+    would make C3 require every non-target edge to have all four treatment
+    cells.  C4 reads this stream instead.
+    """
+    rows = []
+    for edge in sorted(edges):
+        count = counts[edge]
+        rows.append({
+            "seed": seed,
+            "cell": cell_id,
+            "edge": "%s>%s" % edge,
+            "target": False,
+            "relation": "non_target",
+            "shares_target_endpoint": bool(set(edge) & target_tags),
+            "A": count["A"] > 0,
+            "K": count["K"] > 0,
+            "Y": count["Y"] > 0,
+            "A_cycles": count["A"],
+            "K_cycles": count["K"],
+            "Y_cycles": count["Y"],
+            "cycles": cycles,
+            "A_rate": round(count["A"] / cycles, 6),
+            "K_rate": round(count["K"] / cycles, 6),
+            "Y_rate": round(count["Y"] / cycles, 6),
+            "delta_status": "AWAITING_PAIRED_CONTROL",
+            "control_A": False,
+            "control_K": False,
+            "object_fingerprint": fingerprint,
+        })
+    return rows
+
+
+def attach_neighbor_deltas(payloads: list[dict]) -> list[dict]:
+    """Attach C4 deltas against the same seed's untreated A+K+ cell.
+
+    The cell output records raw availability rates.  This join is deliberately
+    separate: a treated cell can be written before its paired control exists.
+    """
+    baseline: dict[tuple[int, str], dict] = {}
+    for payload in payloads:
+        if payload.get("cell") != "A+K+":
+            continue
+        for row in payload.get("neighbor_rows", []):
+            baseline[(int(payload["seed"]), row["edge"])] = row
+    for payload in payloads:
+        for row in payload.get("neighbor_rows", []):
+            base = baseline.get((int(payload["seed"]), row["edge"]))
+            if base is None:
+                row.setdefault("delta_status", "AWAITING_PAIRED_CONTROL")
+                continue
+            row["neighbor_delta"] = {
+                path: round(abs(float(row[path + "_rate"]) - float(base[path + "_rate"])), 6)
+                for path in ("A", "K", "Y")
+            }
+            row["paired_control"] = "%d/A+K+" % int(payload["seed"])
+            row["delta_status"] = "MEASURED"
+    return payloads
+
+
+def c4_neighbor_rows(payloads: list[dict]) -> list[dict]:
+    """Flatten the C4 stream after ``attach_neighbor_deltas`` has run."""
+    return [row for payload in payloads for row in payload.get("neighbor_rows", [])]
+
+
 def _fingerprint(seed: int, cycles: int, cap: int, universe: set[tuple[str, str]],
                  u: dict[tuple[str, str], dict], targets: set[tuple[str, str]]) -> str:
     payload = {
@@ -223,6 +295,9 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
     admission_blocked = targets if cell["admission"] == "blocked" else set()
     carrier_blocked = targets if cell["carrier"] == "blocked" else set()
     assertion_blocked = targets if cell["assertion"] == "blocked" else set()
+    neighbor_edges = universe - targets
+    neighbor_counts = {edge: {"A": 0, "K": 0, "Y": 0} for edge in neighbor_edges}
+    target_tags = {tag for edge in targets for tag in edge}
     db_path = _make_scratch_db("a1_two_path")
     memory = _CountingMemoryService(str(db_path))
     service = A1ArmSleepService(memory, admission_blocked, carrier_blocked)
@@ -263,6 +338,13 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
                         carrier_first.setdefault(edge, cycle)
                     if edge in asserted:
                         asserted_first.setdefault(edge, cycle)
+                for edge, count in neighbor_counts.items():
+                    if edge in predictions:
+                        count["A"] += 1
+                    if edge in carriers:
+                        count["K"] += 1
+                    if edge in asserted:
+                        count["Y"] += 1
         final_asserted = {(a, b) for a, targets_ in
                           structure_edges(service._load_prior_candidates()).items()
                           for b in targets_}
@@ -302,6 +384,9 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
                               "strength": None, "measured_cycle": None}),
             "object_fingerprint": fingerprint,
         })
+    neighbor_payload = neighbor_rows(
+        seed, cell_id, neighbor_edges, neighbor_counts, cycles, fingerprint, target_tags
+    )
     payload = {
         "kind": KIND,
         "id": doc["id"],
@@ -313,6 +398,8 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
         "u_cycle": u_cycle,
         "targets": sorted("%s>%s" % edge for edge in targets),
         "rows": rows,
+        "neighbor_rows": neighbor_payload,
+        "neighbor_count": len(neighbor_payload),
         "not_evidence": (
             "One A1 cell output. It is not a verdict until every gate is scored; "
             "it makes no causal, capability or transfer claim."

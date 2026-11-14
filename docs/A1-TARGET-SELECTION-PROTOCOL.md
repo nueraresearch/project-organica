@@ -116,7 +116,7 @@ Every cell of a seed must produce the same `U` and the same object fingerprint a
 
 ## 6. Adversarial checks
 
-**P0 — Protocol compliance (2026-11-14): PASS.** Before treating target generation as usable, the implementation must execute the registered boundary. [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md) records all six P0 conditions as passing: `U` sampled before the cycle-36 sleep call, candidate universe restricted to the first 36 acquisition cycles, future-blindness, report-blindness, sleep-blindness and determinism. This is a compliance gate, not a result; the manifest remains unfrozen, the [power review](A1-POWER-REVIEW.md) records C1 denominator fragility and C4 rows remain outstanding.
+**P0 — Protocol compliance (2026-11-14): PASS.** Before treating target generation as usable, the implementation must execute the registered boundary. [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md) records all six P0 conditions as passing: `U` sampled before the cycle-36 sleep call, candidate universe restricted to the first 36 acquisition cycles, future-blindness, report-blindness, sleep-blindness and determinism. This is a compliance gate, not a result; the manifest remains unfrozen, the [power review](A1-POWER-REVIEW.md) records C1 denominator fragility; C4 non-target rows are implemented but no cell has run.
 
 The selection rule must survive these checks before it can be frozen. They are design checks, not A1
 cells; none opens a database for an arm or records a result.
@@ -136,7 +136,7 @@ The future-blindness check is the one that answers the review question directly:
 selectable from information available before cycle 37.** A rule that needs a cycle-50 world edge, a
 sleep report, a carrier or an assertion is not an A1 target rule.
 
-**Implementation status (2026-11-14).** P0 passes in the six-seed audit: the selector self-test covers determinism, magnitude-blindness, the four-disjoint rule, the no-all-or-none rule and the cycle/U definitions; the six-seed pass formed four targets for every seed. [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md) records future-blindness, determinism, feasibility, report-blindness and sleep-blindness; all pass. The target sets are implemented and audited but not frozen; the power review is recorded and C4 non-target rows remain outstanding.
+**Implementation status (2026-11-14).** P0 passes in the six-seed audit: the selector self-test covers determinism, magnitude-blindness, the four-disjoint rule, the no-all-or-none rule and the cycle/U definitions; the six-seed pass formed four targets for every seed. [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md) records future-blindness, determinism, feasibility, report-blindness and sleep-blindness; all pass. The target sets are implemented and audited but not frozen; the power review is recorded and C4 non-target rows are implemented but not run.
 
 Cycle membership is a pre-treatment eligibility criterion, not an outcome. It nevertheless narrows
 the A1 estimand to target edges lying on a cycle-36 temporal cycle with a positive pre-37 count.
@@ -180,20 +180,20 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 - It does not freeze the selected four edges into the manifest; the artifact records them, but the manifest target block remains unresolved.
 - It does not reserve seeds `20630101–20630106`, freeze the manifest or authorise any cell.
 - It does not issue an owner grant, change an engine file, clear C1–C9 or create a result.
-- It does not by itself establish C4. The A1 cell output currently emits target rows only; C4 needs non-target neighbour rows and remains a separate implementation requirement.
+- It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates, and `attach_neighbor_deltas` joins it to the A+K+ control; no cell has run, so C4 is not cleared.
 - It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**.
 
 ## 10. Pre-freeze checklist
 
-The formal compliance record is [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md); [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) is the working checklist. It separates the P0 conditions that gate target freeze from C4 rows, freeze and grant that remain open; the power review is recorded.
+The formal compliance record is [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md); [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) is the working checklist. It separates the P0 conditions that gate target freeze from the unrun C4/C1 measurements, freeze and grant; the power review is recorded.
 
 0. **Done — P0 PASS.** The cycle-36 `U` sample is captured after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; the pre-sleep ordering is tested. The pre-37 universe, future-, report- and sleep-blindness and determinism checks all pass in [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md).
 1. **Done.** The cycle-36 `U` sample is captured after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; the pre-sleep ordering is tested.
 2. **Done.** `benchmarks/a1_target_selection.py` implements the no-arm pass, artifact schema, digest and self-test. The pass reads the temporal graph and no report field.
 3. **Done.** `a1_two_path.preflight` checks four-per-seed, disjoint endpoints, universe membership, artifact equality and the artifact's selection digest. The manifest is still unresolved.
-4. **Not done — recorded as unimplemented.** A1 cell output still emits target rows only; C4 non-target neighbour rows are absent, so C4 is not cleared and must not be claimed.
+4. **Implemented — not run.** A1 cell output emits a separate `neighbor_rows` stream for every non-target edge, with A/K/Y availability rates; `attach_neighbor_deltas` joins it to the seed’s A+K+ control. No cell has run, so C4 is not cleared and must not be claimed.
 5. **Done.** Determinism, magnitude-blindness, feasibility, no-all-or-none, future-blindness, report-blindness and sleep-blindness pass in [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md).
-6. **Done — freeze still open.** [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) finds that four target rows make the 0.95 C1 floor effectively 100%; C4 non-target rows are needed to enlarge the denominator. The targets must not be frozen.
+6. **Done — freeze still open.** [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) finds that four target rows make the 0.95 C1 floor effectively 100%; C4 non-target rows are now instrumented, but C1 and C4 still require a run. The targets must not be frozen.
 7. **Not done.** Freezing the target sets/manifest and the dated owner grant remain separate acts. The manifest gate still refuses.
 
 **Not evidence:** A selection rule, a sampling contract, a P0 compliance audit and a draft six-seed target artifact. The targets are not frozen, no seed is reserved, no A1 cell is authorised and no result exists.

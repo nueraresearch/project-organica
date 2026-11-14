@@ -56,9 +56,9 @@ machine checks for the artifact and its page.
 | Item | State | Consequence |
 | --- | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — FREEZE READINESS OPEN** | [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) finds C1 denominator fragility: four target rows make the 0.95 floor effectively 100%. |
-| C4 non-target neighbour rows | **NOT DONE — REQUIRED FOR C1 DENOMINATOR** | A1 cell output emits target rows only; C4 is not cleared and the C1 denominator remains at most four. |
+| C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN** | A1 cell output now emits `neighbor_rows` for every non-target edge, with A/K/Y availability rates; `attach_neighbor_deltas` joins them to the seed’s A+K+ control. No cell has run, so C4 is not cleared and C1/C4 are not measured. |
 | Freeze decision | **DO NOT FREEZE (2026-11-14)** | The dated record in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) answers the freeze question **NO — NOT AS CURRENTLY EMITTED**; this is not an owner grant. |
-| Target sets worth freezing? | **NO — HOLD AS DRAFT UNTIL C4** | The selected edges are compliant and representative; the blocker is the four-row C1 denominator, not the edges. Regenerate targets only if Path B is chosen. |
+| Target sets worth freezing? | **NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED** | The selected edges are compliant and representative and C4 rows are instrumented, but no cell has run; the C1/C4 denominators remain unmeasured. Regenerate targets only if Path B is chosen. |
 | Manifest freeze | **NOT DONE** | The target block remains `UNRESOLVED`; `a1_two_path --check` still refuses. |
 | Dated owner grant | **NOT DONE** | No cell may open a database. |
 

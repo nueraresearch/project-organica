@@ -11,7 +11,7 @@ No A1 cell has run; no seed is reserved; no target is fixed in the manifest.
 
 This report answers one question: **does the implementation execute the registered
 pre-cycle-37 target-selection boundary?** It does not answer whether the target rule
-is scientifically optimal, whether `N = 4` is powered, or whether C4 is implementable.
+is scientifically optimal, whether `N = 4` is powered, or whether C4 measures acceptable spillover.
 
 The registered boundary is the **36th acquisition cycle**, not the engine's sleep-cycle
 counter. The sleep counter can lag the acquisition index; following it allowed event
@@ -32,8 +32,8 @@ A1 Run                   NOT STARTED
 ```
 
 P0 and feasibility are demonstrated. Freeze readiness is not: the power review found
-that four target rows make C1 effectively a 100% preservation rule, and C4 non-target
-rows are needed to give C1 a denominator larger than four. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
+that four target rows make C1 effectively a 100% preservation rule; C4 non-target
+rows are now instrumented, but no cell has run and the C1/C4 denominators remain unmeasured. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
 
 ## Compliance table
 
@@ -91,7 +91,7 @@ until the manifest is frozen by a separate act.
 | Gate | State |
 | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY** ([review](A1-POWER-REVIEW.md)) |
-| C4 non-target neighbour rows | **NOT DONE — REQUIRED FOR C1 DENOMINATOR** |
+| C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN** |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |
 | A1 run | **NOT AUTHORISED** |

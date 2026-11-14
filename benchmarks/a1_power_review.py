@@ -184,9 +184,9 @@ def build() -> dict:
             "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.",
         },
         "next": [
-            "If Path A (representative eligible-edge effect) is retained: implement C4 non-target rows and enlarge the C1 denominator.",
+            "If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.",
             "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
-            "Re-run this review against the larger denominator before any freeze decision.",
+            "Re-run this review after C1/C4 are measured; do not freeze before that.",
         ],
     }
 
@@ -229,11 +229,11 @@ def build() -> dict:
             "date": DATE,
             "decision": "DO NOT FREEZE",
             "answer": FREEZE_ANSWER,
-            "worth_freezing": "NO — HOLD AS DRAFT UNTIL C4",
+            "worth_freezing": "NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED",
             "worth_freezing_reason": (
-                "The target sets are compliant and representative; the blocker is the "
-                "four-row C1 denominator, not the selected edges. Do not regenerate "
-                "targets unless Path B is chosen."
+                "The target sets are compliant and representative, but no cell has "
+                "run with the new C4 neighbour stream, so the C1 and C4 denominators "
+                "remain unmeasured. Do not regenerate targets unless Path B is chosen."
             ),
             "scope": (
                 "the current six-seed target artifact and the current four-target "
@@ -245,7 +245,7 @@ def build() -> dict:
                 "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.",
             ],
             "revisit_when": [
-                "C4 non-target rows enlarge the C1 denominator and this review is rerun.",
+                "The planned cells run with the C4 neighbour stream and C1/C4 are scored.",
                 "A larger target block or a redesigned selector is registered before freeze.",
             ],
         },
@@ -283,7 +283,7 @@ def problems(doc: dict) -> list[str]:
     freeze = doc.get("freeze_decision") or {}
     if freeze.get("decision") != "DO NOT FREEZE" or freeze.get("answer") != FREEZE_ANSWER:
         found.append("freeze decision changed")
-    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT UNTIL C4":
+    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED":
         found.append("worth-freezing decision changed")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
