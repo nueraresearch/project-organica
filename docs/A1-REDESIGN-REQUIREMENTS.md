@@ -103,6 +103,7 @@ python -m benchmarks.a1_successor_candidate --check
 - [Candidate schema](A1-SUCCESSOR-SCHEMA.md)
 - [Fresh-seed candidate](A1-SUCCESSOR-CANDIDATE.md)
 - [Disposition memo](A1-DISPOSITION-MEMO.md)
+- [Park recommendation](A1-PARK-RECOMMENDATION.md)
 - [C1/C4 VOID gate](A1-C1-C4-VOID-GATE.md)
 - [N20 competent rule](A1-N20-COMPETENT-SELECTION.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)

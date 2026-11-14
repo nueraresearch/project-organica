@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Addendum — A1 park recommendation (2026-11-14)
+
+- **The evidence now supports parking the current A1 design, subject to the owner's decision.** `A1-PARK-RECOMMENDATION-1` records the current control, the fresh block and the 28-tag larger universe all failing C1 **0/6**. The larger universe reaches **158–172** independent edges but K dilutes to **23–55**; its best C1 is **55**. The recommendation preserves A1 as **not run / not identified under the current design**, freezes no target, reserves no seed, grants nothing and runs nothing. It is not a treatment result and does not close the question in principle; reopening requires a new predeclared construction that clears the preflight without selecting on K. `docs/A1-PARK-RECOMMENDATION.md`, `tests/test_a1_park_recommendation.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
 ### Addendum — A1 larger-universe candidate fails through K dilution (2026-11-14)
 
 - **A larger universe is not automatically a viable one.** `A1-LARGER-UNIVERSE-CANDIDATE-1` predeclares a **28-tag**, 7-tags-per-cell world, chosen by structural edge count after 24 tags yielded only 127–136 independent edges. The 28-tag candidate has **158–172** independent edges, but K falls to **23–55** and C1 to **23, 40, 42, 55, 47, 37**; the 20-row matching is **18, 15, 16, 26, 26, 18**. This construction fails **0/6**. It does not prove every larger world fails, but it removes “just add tags” as an assumed repair. No target is selected, frozen or run. `benchmarks/a1_larger_universe.py`, `tests/test_a1_larger_universe.py`, `docs/A1-LARGER-UNIVERSE-CANDIDATE.md`, `docs/a1_larger_universe_candidate.json`, `docs/A1-LARGER-UNIVERSE-PREFLIGHT.md`, `docs/a1_larger_universe_preflight.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-DISPOSITION-MEMO.md`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
