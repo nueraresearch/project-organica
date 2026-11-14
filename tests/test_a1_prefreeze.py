@@ -205,13 +205,84 @@ def test_target_freeze_act_is_prepared_not_executed():
     allow = (a1_two_path.MANIFEST_PATH, a1_two_path.TARGET_SELECTION_PATH,
              a1_two_path.C8_TARGET_SELECTION_PATH, a1_two_path.C8_EXPANSION_PATH,
              a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
-             a1_two_path.TARGET_FREEZE_ACT_PATH)
+             a1_two_path.TARGET_FREEZE_ACT_PATH,
+             a1_two_path.N20_TARGET_FREEZE_ACT_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
     assert "**Signature and date:**" in page
     assert "NO GRANT, NO RUN" in page
     assert "FIXED BEFORE FREEZE" in page
+
+
+def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
+    import hashlib
+    import json
+    from pathlib import Path
+
+    act = json.loads(Path("docs/a1_target_freeze_act_n20.json").read_text(encoding="utf-8"))
+    c20 = json.loads(Path("docs/a1_c8_target_selection.json").read_text(encoding="utf-8"))
+    c4 = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
+    by_seed = {seed: row["selected"] for seed, row in c20["per_seed"].items()}
+    current = {seed: row["selected"] for seed, row in c4["per_seed"].items()}
+
+    assert act["kind"] == "a1_target_freeze_act_n20"
+    assert act["id"] == "A1-TARGET-FREEZE-N20-1"
+    assert act["status"].startswith("DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE")
+    assert act["signed"] is False
+    assert act["path"] == "A"
+    assert act["n_per_seed"] == 20
+    assert act["disjoint"] is False
+    assert act["max_endpoint_degree"] == 3
+    assert act["threshold"] == 0.05
+    assert act["threshold_changed"] is False
+    assert act["targets_by_seed"] == by_seed
+    assert act["target_count"] == 120
+    assert act["unique_target_edges"] == 104
+    assert act["current_target_count"] == 24
+    assert act["current_unique_target_edges"] == 23
+    assert act["current_targets_retained"] is True
+    assert act["superset_of_current_targets"] is True
+    for seed, selected in by_seed.items():
+        assert len(selected) == 20
+        assert len(set(selected)) == 20
+        assert set(current[seed]) <= set(selected)
+        assert act["per_seed"][seed]["retained_count"] == 4
+        assert act["per_seed"][seed]["new_count"] == 16
+        assert act["per_seed"][seed]["max_endpoint_degree"] == 3
+        assert act["per_seed"][seed]["selection_digest"] == c20["per_seed"][seed]["selection_digest"]
+        assert act["new_targets_by_seed"][seed] == [
+            edge for edge in selected if edge not in current[seed]
+        ]
+
+    digest = hashlib.sha256(Path("docs/a1_c8_target_selection.json").read_bytes()).hexdigest()
+    assert act["selection_artifact_digest"] == digest
+    assert act["design"]["selection_artifact_digest"] == digest
+    assert act["c8_resolution"]["status"] == "RESOLVED BY THIS ACT IF SIGNED"
+    assert act["c8_resolution"]["rows_per_seed"] == 20
+    assert act["c8_resolution"]["step"] == 0.05
+    assert act["c8_resolution"]["threshold"] == 0.05
+    assert act["c8_resolution"]["threshold_changed"] is False
+    assert act["c8_resolution"]["adjudicable_after_signature"] is True
+    assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
+    assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
+    assert act["blocking_preconditions"] == [
+        "C5_TARGET_TIMING", "N20_MANIFEST_VALIDATOR"
+    ]
+    blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
+    assert blockers == {"C5_cycle_36_U_before_carrier", "N20_manifest_validator"}
+    assert act["current_manifest"]["frozen"] is False
+    assert act["current_manifest"]["n_per_seed"] == 4
+    assert act["manifest_frozen_after_signature"] is True
+    assert act["grant_after_signature"] == "NOT ISSUED"
+    assert act["run_after_signature"] == "NOT STARTED"
+
+    page = Path("docs/A1-TARGET-FREEZE-ACT-N20.md").read_text(encoding="utf-8")
+    assert "**Signature and date:**" in page
+    assert "A1-C8-EXPANSION-1" in page
+    assert "C5 TARGET-TIMING PRECONDITION UNRESOLVED" in page
+    assert "1/20 = 0.05" in page
+    assert "N=20 manifest validator" in page
 
 
 def test_provisional_freeze_gate_order_is_draft_only():

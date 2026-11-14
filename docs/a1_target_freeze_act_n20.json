@@ -1,0 +1,501 @@
+{
+  "kind": "a1_target_freeze_act_n20",
+  "id": "A1-TARGET-FREEZE-N20-1",
+  "date": "2026-11-14",
+  "status": "DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
+  "signed": false,
+  "owner_signature": null,
+  "effective_date": null,
+  "path": "A",
+  "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+  "parent_act": {
+    "id": "A1-TARGET-FREEZE-1",
+    "record": "docs/A1-TARGET-FREEZE-ACT.md",
+    "status": "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+    "relationship": "This N=20 act supersedes the N=4 act if signed; the N=4 act remains unsigned and unexecuted."
+  },
+  "design": {
+    "id": "A1-C8-EXPANSION-1",
+    "record": "docs/A1-C8-EXPANSION.md",
+    "selection_artifact": "docs/a1_c8_target_selection.json",
+    "selection_artifact_digest": "daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76"
+  },
+  "n_per_seed": 20,
+  "disjoint": false,
+  "max_endpoint_degree": 3,
+  "threshold": 0.05,
+  "threshold_changed": false,
+  "selection_artifact": "docs/a1_c8_target_selection.json",
+  "selection_artifact_digest": "daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76",
+  "targets_by_seed": {
+    "20630101": [
+      "verdant>sable",
+      "olive>cedar",
+      "fern>willow",
+      "amber>olive",
+      "ochre>cedar",
+      "yarrow>amber",
+      "fern>maple",
+      "umber>fern",
+      "ochre>birch",
+      "crimson>birch",
+      "maple>olive",
+      "sable>indigo",
+      "teal>birch",
+      "sable>umber",
+      "indigo>yarrow",
+      "yarrow>cedar",
+      "willow>slate",
+      "slate>umber",
+      "crimson>amber",
+      "ochre>indigo"
+    ],
+    "20630102": [
+      "umber>ochre",
+      "verdant>teal",
+      "ochre>amber",
+      "verdant>olive",
+      "verdant>crimson",
+      "willow>teal",
+      "indigo>sable",
+      "ochre>indigo",
+      "cedar>umber",
+      "slate>birch",
+      "yarrow>amber",
+      "teal>cedar",
+      "willow>crimson",
+      "fern>olive",
+      "cedar>birch",
+      "yarrow>indigo",
+      "sable>amber",
+      "fern>crimson",
+      "willow>maple",
+      "maple>sable"
+    ],
+    "20630103": [
+      "teal>willow",
+      "amber>verdant",
+      "fern>maple",
+      "teal>verdant",
+      "amber>indigo",
+      "willow>umber",
+      "olive>indigo",
+      "slate>cedar",
+      "sable>yarrow",
+      "verdant>crimson",
+      "crimson>indigo",
+      "willow>crimson",
+      "amber>ochre",
+      "maple>umber",
+      "yarrow>maple",
+      "sable>olive",
+      "fern>ochre",
+      "slate>birch",
+      "ochre>yarrow",
+      "birch>teal"
+    ],
+    "20630104": [
+      "indigo>ochre",
+      "teal>fern",
+      "willow>olive",
+      "birch>verdant",
+      "birch>fern",
+      "maple>amber",
+      "cedar>indigo",
+      "amber>willow",
+      "birch>slate",
+      "amber>yarrow",
+      "crimson>indigo",
+      "slate>willow",
+      "teal>ochre",
+      "maple>crimson",
+      "slate>maple",
+      "fern>umber",
+      "teal>crimson",
+      "umber>olive",
+      "cedar>yarrow",
+      "sable>cedar"
+    ],
+    "20630105": [
+      "cedar>olive",
+      "indigo>teal",
+      "verdant>maple",
+      "ochre>fern",
+      "cedar>sable",
+      "umber>birch",
+      "slate>olive",
+      "cedar>birch",
+      "amber>crimson",
+      "amber>birch",
+      "umber>fern",
+      "crimson>verdant",
+      "fern>slate",
+      "teal>crimson",
+      "slate>yarrow",
+      "yarrow>verdant",
+      "yarrow>umber",
+      "ochre>olive",
+      "amber>indigo",
+      "willow>maple"
+    ],
+    "20630106": [
+      "sable>maple",
+      "teal>umber",
+      "cedar>olive",
+      "willow>cedar",
+      "amber>crimson",
+      "teal>willow",
+      "crimson>yarrow",
+      "birch>willow",
+      "amber>maple",
+      "sable>slate",
+      "fern>indigo",
+      "yarrow>slate",
+      "cedar>maple",
+      "birch>indigo",
+      "teal>olive",
+      "fern>umber",
+      "yarrow>olive",
+      "umber>verdant",
+      "sable>crimson",
+      "amber>slate"
+    ]
+  },
+  "current_targets_by_seed": {
+    "20630101": [
+      "verdant>sable",
+      "olive>cedar",
+      "fern>willow",
+      "yarrow>amber"
+    ],
+    "20630102": [
+      "umber>ochre",
+      "verdant>teal",
+      "indigo>sable",
+      "slate>birch"
+    ],
+    "20630103": [
+      "teal>willow",
+      "amber>verdant",
+      "fern>maple",
+      "olive>indigo"
+    ],
+    "20630104": [
+      "indigo>ochre",
+      "teal>fern",
+      "willow>olive",
+      "birch>verdant"
+    ],
+    "20630105": [
+      "cedar>olive",
+      "indigo>teal",
+      "verdant>maple",
+      "ochre>fern"
+    ],
+    "20630106": [
+      "sable>maple",
+      "teal>umber",
+      "cedar>olive",
+      "amber>crimson"
+    ]
+  },
+  "new_targets_by_seed": {
+    "20630101": [
+      "amber>olive",
+      "ochre>cedar",
+      "fern>maple",
+      "umber>fern",
+      "ochre>birch",
+      "crimson>birch",
+      "maple>olive",
+      "sable>indigo",
+      "teal>birch",
+      "sable>umber",
+      "indigo>yarrow",
+      "yarrow>cedar",
+      "willow>slate",
+      "slate>umber",
+      "crimson>amber",
+      "ochre>indigo"
+    ],
+    "20630102": [
+      "ochre>amber",
+      "verdant>olive",
+      "verdant>crimson",
+      "willow>teal",
+      "ochre>indigo",
+      "cedar>umber",
+      "yarrow>amber",
+      "teal>cedar",
+      "willow>crimson",
+      "fern>olive",
+      "cedar>birch",
+      "yarrow>indigo",
+      "sable>amber",
+      "fern>crimson",
+      "willow>maple",
+      "maple>sable"
+    ],
+    "20630103": [
+      "teal>verdant",
+      "amber>indigo",
+      "willow>umber",
+      "slate>cedar",
+      "sable>yarrow",
+      "verdant>crimson",
+      "crimson>indigo",
+      "willow>crimson",
+      "amber>ochre",
+      "maple>umber",
+      "yarrow>maple",
+      "sable>olive",
+      "fern>ochre",
+      "slate>birch",
+      "ochre>yarrow",
+      "birch>teal"
+    ],
+    "20630104": [
+      "birch>fern",
+      "maple>amber",
+      "cedar>indigo",
+      "amber>willow",
+      "birch>slate",
+      "amber>yarrow",
+      "crimson>indigo",
+      "slate>willow",
+      "teal>ochre",
+      "maple>crimson",
+      "slate>maple",
+      "fern>umber",
+      "teal>crimson",
+      "umber>olive",
+      "cedar>yarrow",
+      "sable>cedar"
+    ],
+    "20630105": [
+      "cedar>sable",
+      "umber>birch",
+      "slate>olive",
+      "cedar>birch",
+      "amber>crimson",
+      "amber>birch",
+      "umber>fern",
+      "crimson>verdant",
+      "fern>slate",
+      "teal>crimson",
+      "slate>yarrow",
+      "yarrow>verdant",
+      "yarrow>umber",
+      "ochre>olive",
+      "amber>indigo",
+      "willow>maple"
+    ],
+    "20630106": [
+      "willow>cedar",
+      "teal>willow",
+      "crimson>yarrow",
+      "birch>willow",
+      "amber>maple",
+      "sable>slate",
+      "fern>indigo",
+      "yarrow>slate",
+      "cedar>maple",
+      "birch>indigo",
+      "teal>olive",
+      "fern>umber",
+      "yarrow>olive",
+      "umber>verdant",
+      "sable>crimson",
+      "amber>slate"
+    ]
+  },
+  "per_seed": {
+    "20630101": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "029749776f555743"
+    },
+    "20630102": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "132ba4ab73b30b60"
+    },
+    "20630103": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "e43ee50632fc2ab3"
+    },
+    "20630104": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "431394460a400a49"
+    },
+    "20630105": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "64f888517920177b"
+    },
+    "20630106": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "selected_count": 20,
+      "retained_count": 4,
+      "new_count": 16,
+      "max_endpoint_degree": 3,
+      "selection_digest": "5f84322410f92c41"
+    }
+  },
+  "target_count": 120,
+  "unique_target_edges": 104,
+  "current_target_count": 24,
+  "current_unique_target_edges": 23,
+  "current_targets_retained": true,
+  "superset_of_current_targets": true,
+  "c8_resolution": {
+    "status": "RESOLVED BY THIS ACT IF SIGNED",
+    "rows_per_seed": 20,
+    "step": 0.05,
+    "threshold": 0.05,
+    "threshold_changed": false,
+    "adjudicable_after_signature": true,
+    "unit": "PER SEED, PER TARGET ROW",
+    "note": "The C8 ceiling remains 0.05. Twenty target rows make one assertion 1/20 = 0.05; the act changes the target denominator, not the threshold."
+  },
+  "c7_c1_c4_effect": {
+    "C7_status": "UNCHANGED — PER-EDGE A/K RATE OVER 120 CYCLES; RATE-RESOLVED, UNRUN",
+    "C7_Y_rows_per_seed": 40,
+    "C7_rate_step": 0.008333,
+    "C1_target_only_rows": 20,
+    "C1_target_only_status": "STILL BELOW THE 60-ROW FLOOR",
+    "C1_total_upper_bound": "63-64",
+    "C4_non_target_rows": "43-44",
+    "C1_C4_status": "POST-FREEZE VOID GATES; ADOPTED — BINDING FOR A1"
+  },
+  "current_manifest": {
+    "frozen": false,
+    "n_per_seed": 4,
+    "target_status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
+    "seed_block_status": "PROVISIONAL CANDIDATE — NOT RESERVED, NOT FROZEN",
+    "granted": false
+  },
+  "manifest_target_status_after_signature": "FIXED BEFORE FREEZE",
+  "manifest_frozen_after_signature": true,
+  "seed_block_status_after_signature": "RESERVED — FROZEN",
+  "grant_after_signature": "NOT ISSUED",
+  "run_after_signature": "NOT STARTED",
+  "blocking_preconditions": [
+    "C5_TARGET_TIMING",
+    "N20_MANIFEST_VALIDATOR"
+  ],
+  "preconditions": [
+    {
+      "id": "P0_protocol_compliance",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "six_target_sets_formed",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "twenty_targets_per_seed",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "four_current_targets_retained",
+      "state": "PASS — all six seeds",
+      "blocking": false
+    },
+    {
+      "id": "selection_artifact_consistent",
+      "state": "PASS",
+      "blocking": false
+    },
+    {
+      "id": "C5_cycle_36_U_before_carrier",
+      "state": "UNRESOLVED — 15/24 current target observations have a carrier before cycle 36",
+      "blocking": true
+    },
+    {
+      "id": "N20_manifest_validator",
+      "state": "NOT IMPLEMENTED — a1_two_path currently requires N=4 disjoint targets",
+      "blocking": true
+    },
+    {
+      "id": "C8_denominator",
+      "state": "PASS — 20 rows per seed, 1/20 = 0.05, threshold unchanged",
+      "blocking": false
+    },
+    {
+      "id": "C1_acceptance_rule",
+      "state": "RECORDED — BINDING FOR A1",
+      "blocking": false
+    },
+    {
+      "id": "C1_C4_gate_order",
+      "state": "ADOPTED — BINDING FOR A1 (2026-11-14)",
+      "blocking": false
+    },
+    {
+      "id": "grant",
+      "state": "NOT ISSUED",
+      "blocking": false
+    },
+    {
+      "id": "run",
+      "state": "NOT STARTED",
+      "blocking": false
+    }
+  ],
+  "effect_if_signed": [
+    "Adopt A1-C8-EXPANSION-1 and replace the N=4 target block with the exact 20-target sets recorded here.",
+    "Preserve the four current Path A targets in every seed and add the 16 expansion rows per seed.",
+    "Set the manifest target block to FIXED BEFORE FREEZE, n_per_seed to 20, and frozen to true.",
+    "Reserve the six candidate seeds as the fixed seed block.",
+    "Make C8 evaluable at a 1/20 = 0.05 step without changing the 0.05 ceiling.",
+    "Leave authorisation.granted false; the execution gate still refuses.",
+    "Leave C1/C4 as post-freeze void gates and C7 unchanged."
+  ],
+  "not_effect": [
+    "It does not issue a grant.",
+    "It does not open a database or run a cell.",
+    "It does not produce a C1 or C4 denominator or a C8 measurement.",
+    "It does not resolve C5; the current target timing remains a blocking precondition.",
+    "It does not make the current a1_two_path validator accept N=20 targets.",
+    "It does not regenerate targets, re-run the selector or permit post-outcome selection.",
+    "It does not change the C7 or C8 thresholds.",
+    "It does not alter the frozen engine.",
+    "It does not execute the N=4 act; that act remains unsigned and is superseded only if this act is signed."
+  ],
+  "checks": {
+    "a1_c8_target_selection_check": "CLEAN",
+    "a1_target_selection_check": "CLEAN",
+    "current_targets_are_subset": true,
+    "twenty_per_seed": true,
+    "target_set_problems": "NOT RUN — N=20 manifest validator not implemented; see blocking_preconditions",
+    "no_cell_run": true
+  },
+  "not_evidence": "A prepared N=20 target-freeze act. No target is frozen in the live manifest, no grant exists, no cell has run, C8 is not measured and C5 remains unresolved."
+}

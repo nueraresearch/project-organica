@@ -55,6 +55,7 @@ C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
 ADVERSARIAL_AUDIT_PATH = DOCS / "a1_adversarial_audit.json"
 POWER_REVIEW_PATH = DOCS / "a1_power_review.json"
 TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act.json"
+N20_TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act_n20.json"
 
 
 def manifest() -> dict:
@@ -320,7 +321,7 @@ def preflight(doc: dict | None = None) -> list[str]:
         from benchmarks.presence_cap_experiment import seed_collisions
         allow = (MANIFEST_PATH, TARGET_SELECTION_PATH, C8_TARGET_SELECTION_PATH,
                  C8_EXPANSION_PATH, ADVERSARIAL_AUDIT_PATH, POWER_REVIEW_PATH,
-                 TARGET_FREEZE_ACT_PATH)
+                 TARGET_FREEZE_ACT_PATH, N20_TARGET_FREEZE_ACT_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
