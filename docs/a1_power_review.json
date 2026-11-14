@@ -27,6 +27,18 @@
     "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
     "a0": "docs/carrier_formation_a0.json"
   },
+  "freeze_readiness": {
+    "status": "OPEN",
+    "pass": false,
+    "can_move_now": false,
+    "blocking_gate": "C1_path_separation",
+    "reason": "Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C4 non-target rows are instrumented but no cell has run, so C4 and the enlarged C1 denominator are unmeasured.",
+    "to_pass": [
+      "Run the planned cells with the C4 neighbour stream.",
+      "Attach paired neighbour deltas and score C1/C4.",
+      "Show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05."
+    ]
+  },
   "freeze_decision": {
     "date": "2026-11-14",
     "decision": "DO NOT FREEZE",

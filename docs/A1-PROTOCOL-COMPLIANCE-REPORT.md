@@ -2,7 +2,7 @@
 
 **ID:** `A1-PROTOCOL-COMPLIANCE-1`  
 **Date:** 2026-11-14  
-**Status:** `P0 PASS — FREEZE READINESS OPEN; PROTOCOL COMPLIANCE; RUN NOT AUTHORISED`
+**Status:** `P0 PASS — FREEZE READINESS OPEN (PASS: NO); PROTOCOL COMPLIANCE; RUN NOT AUTHORISED`
 
 **This is a compliance report, not a target freeze, a grant or an experimental result.**
 No A1 cell has run; no seed is reserved; no target is fixed in the manifest.
@@ -24,14 +24,14 @@ P0 Protocol Compliance   PASS
         ↓
 Target Feasibility       PASS
         ↓
-Freeze Readiness         OPEN
+Freeze Readiness         OPEN (PASS: NO)
         ↓
 Grant Decision           OPEN
         ↓
 A1 Run                   NOT STARTED
 ```
 
-P0 and feasibility are demonstrated. Freeze readiness is not: the power review found
+P0 and feasibility are demonstrated. Freeze readiness cannot move to PASS: the power review found
 that four target rows make C1 effectively a 100% preservation rule; C4 non-target
 rows are now instrumented, but no cell has run and the C1/C4 denominators remain unmeasured. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
 

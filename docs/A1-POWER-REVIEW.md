@@ -29,6 +29,17 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 - If yes: Freeze the representative eligible-edge design after the manifest review.
 - If no: Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.
 
+## Freeze readiness
+
+**Status: OPEN. Can it move to PASS now? NO.**
+
+Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C4 non-target rows are instrumented but no cell has run, so C4 and the enlarged C1 denominator are unmeasured.
+
+**To reach PASS:**
+- Run the planned cells with the C4 neighbour stream.
+- Attach paired neighbour deltas and score C1/C4.
+- Show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05.
+
 ## Freeze decision
 
 **DO NOT FREEZE (2026-11-14).** Answer: **NO — NOT AS CURRENTLY EMITTED**.

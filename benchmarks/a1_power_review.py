@@ -225,6 +225,22 @@ def build() -> dict:
             "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
             "a0": "docs/carrier_formation_a0.json",
         },
+        "freeze_readiness": {
+            "status": "OPEN",
+            "pass": False,
+            "can_move_now": False,
+            "blocking_gate": "C1_path_separation",
+            "reason": (
+                "Four target rows make the precommitted 0.95 C1 floor a 100% rule "
+                "(3/4 = 0.75). C4 non-target rows are instrumented but no cell has "
+                "run, so C4 and the enlarged C1 denominator are unmeasured."
+            ),
+            "to_pass": [
+                "Run the planned cells with the C4 neighbour stream.",
+                "Attach paired neighbour deltas and score C1/C4.",
+                "Show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05.",
+            ],
+        },
         "freeze_decision": {
             "date": DATE,
             "decision": "DO NOT FREEZE",
@@ -285,6 +301,11 @@ def problems(doc: dict) -> list[str]:
         found.append("freeze decision changed")
     if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED":
         found.append("worth-freezing decision changed")
+    readiness = doc.get("freeze_readiness") or {}
+    if readiness.get("status") != "OPEN" or readiness.get("pass") is not False:
+        found.append("freeze readiness changed")
+    if readiness.get("can_move_now") is not False:
+        found.append("freeze readiness improperly moved to pass")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
     elif doc["representativeness"].get("estimand") != (
@@ -331,6 +352,18 @@ def render(doc: dict) -> str:
         "",
         "- If yes: %s" % doc["decision"]["freeze_question"]["if_yes"],
         "- If no: %s" % doc["decision"]["freeze_question"]["if_no"],
+        "",
+        "## Freeze readiness",
+        "",
+        "**Status: %s. Can it move to PASS now? %s.**" % (
+            doc["freeze_readiness"]["status"],
+            "YES" if doc["freeze_readiness"]["can_move_now"] else "NO",
+        ),
+        "",
+        doc["freeze_readiness"]["reason"],
+        "",
+        "**To reach PASS:**",
+        "- %s" % "\n- ".join(doc["freeze_readiness"]["to_pass"]),
         "",
         "## Freeze decision",
         "",
