@@ -94,6 +94,7 @@ DERIVED = {
     "a1_c1_cap120.py",  # availability-only C1 ceiling at the widened loop cap
     "a1_prediction_cap_c1.py",  # prediction-cap dose response; no A1 cell
     "a1_prediction_cap_112.py",  # shipped-cap prediction test; no A1 cell
+    "a1_prediction_cap112_decompose.py",  # cap-112 16-tag rank/support/family decomposition
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing
