@@ -204,11 +204,13 @@ def test_parts_command_reports_not_run_without_cells(tmp_path, capsys):
     assert "No observed denominator exists" in out
 
 
-def test_result_assembly_fails_c4_without_changing_c1():
+def test_result_assembly_voids_c4_without_changing_c1():
     from benchmarks import a1_result
 
     report = a1_result.assemble(a1_result.synthetic_parts(0.06))
-    assert report["status"] == "FAIL"
+    assert report["status"] == "VOID"
+    assert report["void_gates"] == ["C4_no_interference"]
+    assert report["reason_codes"] == ["C4_DELTA"]
     assert report["c1"]["pass"] is True
     assert report["c4"]["pass"] is False
     assert report["c4"]["max_delta"]["Y"] == 0.06
@@ -216,6 +218,28 @@ def test_result_assembly_fails_c4_without_changing_c1():
         "seed": 1, "cell": "A-K+", "edge": "n0>m0",
         "path": "Y", "delta": 0.06,
     }]
+
+
+def test_result_assembly_maps_c1_failures_to_void_reasons():
+    from benchmarks import a1_result
+
+    payloads = [{"kind": "a1_two_path_cell"}]
+    c4 = {"pass": True, "rows": 1, "measured": 1, "unmeasured": [], "violations": []}
+    below = {"pass": False, "seeds": {"1": {
+        "a_minus_denominator": 59, "k_minus_denominator": 63,
+    }}}
+    threshold = {"pass": False, "seeds": {"1": {
+        "a_minus_denominator": 60, "k_minus_denominator": 63,
+    }}}
+    missing = {"pass": False, "seeds": {"1": {
+        "a_minus_denominator": 0, "k_minus_denominator": 63,
+    }}}
+    assert a1_result._void_reasons(payloads, below, c4) == [
+        "C1_DENOMINATOR_BELOW_FLOOR"]
+    assert a1_result._void_reasons(payloads, threshold, c4) == ["C1_THRESHOLD"]
+    assert a1_result._void_reasons(payloads, missing, c4) == [
+        "C1_NO_DENOMINATOR"]
+    assert a1_result.assemble([])["reason_codes"] == ["C1_C4_INCOMPLETE"]
 
 
 def test_c4_gate_order_is_recorded_as_post_freeze_void():
@@ -229,15 +253,25 @@ def test_c4_gate_order_is_recorded_as_post_freeze_void():
     assert "target freeze" in doc["freeze_effect"]
 
 
-def test_c1_c4_void_gate_draft_names_both_gates_and_void_meaning():
+def test_c1_c4_void_gate_is_adopted_with_the_denominator_floor():
     import json
     from pathlib import Path
 
     doc = json.loads(Path("docs/a1_c1_c4_void_gate.json").read_text(encoding="utf-8"))
     assert doc["id"] == "A1-C1-C4-VOID-GATE-1"
-    assert doc["status"] == "DRAFT — NOT DECIDED"
+    assert doc["status"] == "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"
+    assert doc["adoption"]["date"] == "2026-11-14"
+    assert "60-row denominator floor" in doc["adoption"]["adopted_together"]
     codes = {row["reason_code"] for row in doc["void_conditions"]}
     assert {"C1_NO_DENOMINATOR", "C1_DENOMINATOR_BELOW_FLOOR",
             "C1_THRESHOLD", "C4_UNMEASURABLE", "C4_DELTA"} <= codes
     assert any("not a negative result" in line for line in doc["void_meaning"])
     assert doc["pre_freeze_admissibility"] is False
+    assert doc["denominator_rule"]["status"] == "ADOPTED — BINDING FOR A1"
+    assert doc["denominator_rule"]["minimum_denominator"] == 60
+    assert doc["denominator_rule"]["adopted_by_this_decision"] is True
+
+    page = Path("docs/A1-C1-C4-VOID-GATE.md").read_text(encoding="utf-8")
+    assert "ADOPTED — BINDING FOR A1" in page
+    assert "60-row denominator floor" in page
+    assert "C1/C4 post-freeze VOID gate" in page

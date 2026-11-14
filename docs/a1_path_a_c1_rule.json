@@ -4,6 +4,12 @@
   "date": "2026-11-14",
   "status": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
   "decision_source": "owner direction, 2026-11-14",
+  "adopted_together": {
+    "record": "docs/A1-C1-C4-VOID-GATE.md",
+    "date": "2026-11-14",
+    "status": "ADOPTED — BINDING FOR A1",
+    "scope": "60-row denominator floor and C1/C4 post-freeze VOID gate"
+  },
   "path_a": {
     "selected": "A",
     "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
@@ -76,6 +82,8 @@
     "path_a": "RECORDED",
     "path_b": "NOT SELECTED",
     "c1_rule": "RECORDED — BINDING FOR A1",
+    "c1_c4_gate": "ADOPTED — BINDING FOR A1 (2026-11-14)",
+    "denominator_floor": "ADOPTED — BINDING FOR A1 (2026-11-14)",
     "c1_power_design_target": "80% all-six at 63 rows; required q=0.984017",
     "target_sets": "DRAFT — NOT FROZEN",
     "freeze_decision": "DO NOT FREEZE (2026-11-14)",
@@ -87,7 +95,7 @@
   },
   "not_effect": [
     "It does not freeze the Path A targets or manifest.",
-    "It does not sign the owner gate-order memo.",
+    "It does not sign the provisional-freeze wrapper; the C1/C4 gate is adopted separately.",
     "It does not issue a grant, reserve seeds or run a cell.",
     "It does not observe C1 or C4.",
     "It does not classify C7/C8.",

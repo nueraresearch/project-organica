@@ -65,8 +65,9 @@ THRESHOLDS_PATH = DOCS / "a1_precommitted_thresholds.json"
 THRESHOLDS_PAGE = DOCS / "A1-PRECOMMITTED-THRESHOLDS.md"
 
 BOUND_RULE = (
-    "One implementation and one registered run per gate. A failed or unmeasurable gate is "
-    "UNSATISFIABLE for A1 and terminal: no A1 patch, threshold change, extra cell or rerun. "
+    "One implementation and one registered run per gate. A failed or unmeasurable C1 or "
+    "C4 is VOID under the adopted C1/C4 gate; other gate dispositions are recorded in "
+    "their own rows. All are terminal: no A1 patch, threshold change, extra cell or rerun. "
     "A new registered design is required to try again."
 )
 BOUNDS = {
@@ -74,8 +75,8 @@ BOUNDS = {
         "attempts": 1,
         "attempt": "Implement A- and K- once and run the registered 2x2 cells.",
         "success": "The C1 contract passes on every seed.",
-        "on_failure": "NOT IDENTIFIED: the two-path model is not testable.",
-        "on_unmeasurable": "UNSATISFIABLE: no paired-control denominator after one attempt.",
+        "on_failure": "VOID: C1 path separation failed; the A1 run is not admissible.",
+        "on_unmeasurable": "VOID: no paired-control denominator; the A1 run is not measurable.",
     },
     "C2_treatment_consistency": {
         "attempts": 1,
@@ -96,7 +97,7 @@ BOUNDS = {
         "attempt": "Freeze the targets, grant the run, and measure non-target spillover once.",
         "success": "The C4 contract passes on every non-target edge.",
         "on_failure": "VOID: a non-target A, K or Y delta exceeds 0.05; the A1 run is invalid.",
-        "on_unmeasurable": "UNSATISFIABLE: no non-target edge has a measurable delta.",
+        "on_unmeasurable": "VOID: no non-target edge has a measurable delta; the A1 run is not measurable.",
     },
     "C5_common_cause": {
         "attempts": 1,
@@ -144,9 +145,16 @@ GATE_ORDER = {
         ),
     },
     "C1_path_separation": {
-        "decision": "POST-FREEZE RESULT GATE",
+        "decision": "POST-FREEZE VOID GATE",
         "date": DATE,
-        "note": "C1 is scored in the same post-freeze assembly and uses the C4 denominator.",
+        "pre_freeze_admissibility": False,
+        "record": "docs/A1-C1-C4-VOID-GATE.md",
+        "void_condition": (
+            "A missing or below-60 paired-control denominator, or a C1 preservation "
+            "failure on any seed or path, makes the A1 run VOID."
+        ),
+        "note": "C1 and C4 are one adopted validity decision; C1 is scored in the same "
+                "post-freeze assembly and uses the C4 denominator.",
     },
 }
 
@@ -539,11 +547,12 @@ def audit() -> dict:
         "reading": (
             "C6 is satisfied by the committed C6-TIMING-1 block. The other eight gates have "
             "executable contracts and synthetic controls; C1/C4/C7 thresholds and the C8 ceiling "
-            "are precommitted. Each open gate has one attempt and a terminal failure disposition: "
-            "a failed or unmeasurable gate is UNSATISFIABLE for A1 and requires a new design, not "
-            "another instrumentation round. None can be cleared from the observational records because "
-            "each needs an A-, K-, Y- or A-K- cell that has not run. The design remains not "
-            "admissible and no causal model is read."
+            "are precommitted. C1 and C4 are one adopted post-freeze VOID gate; a failed or "
+            "unmeasurable C1 or C4 makes the run VOID. Other open gates retain their own "
+            "terminal dispositions. Each open gate has one attempt: no A1 patch, threshold change, "
+            "extra cell or rerun; a new registered design is required to try again. None can be "
+            "cleared from the observational records because each needs an A-, K-, Y- or A-K- cell "
+            "that has not run. The design remains not admissible and no causal model is read."
         ),
         "counts": counts,
         "conditions": conditions,
@@ -705,13 +714,15 @@ def render(payload: dict) -> str:
         "",
         "## Gate order",
         "",
-        "**C4 is a POST-FREEZE VOID GATE**, not a pre-freeze admissibility condition. "
-        "C4 cannot be observed before cells exist. Freeze the targets, grant the run, "
-        "then assemble C1/C4; a C4 failure makes the run VOID. C4 is no longer a "
-        "pre-freeze blocker. The targets remain draft because no separate owner freeze "
-        "act has been recorded.",
+        "**C1 and C4 are one POST-FREEZE VOID GATE**, not pre-freeze admissibility "
+        "conditions. Neither can be observed before cells exist. Freeze the targets, "
+        "grant the run, then assemble C1/C4; a C1 or C4 failure, or either being "
+        "unmeasurable, makes the run VOID. The targets remain draft because no separate "
+        "owner freeze act has been recorded.",
         "",
-        "%s" % GATE_ORDER["C4_no_interference"]["void_condition"],
+        "**C1:** %s" % GATE_ORDER["C1_path_separation"]["void_condition"],
+        "",
+        "**C4:** %s" % GATE_ORDER["C4_no_interference"]["void_condition"],
         "",
         "## Gates",
         "",

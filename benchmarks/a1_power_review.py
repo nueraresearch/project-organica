@@ -344,8 +344,10 @@ def _c1_power_curve() -> dict:
         "not_a_second_acceptance_gate": True,
     }
     floor_rule = {
-        "status": "RECORDED — BINDING FOR A1",
+        "status": "ADOPTED — BINDING FOR A1",
         "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "adoption_record": "docs/A1-C1-C4-VOID-GATE.md",
+        "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate",
         "binding": True,
         "floor": 60,
         "minimum_denominator": 60,
@@ -764,21 +766,21 @@ def build() -> dict:
                 "grant or authorise a cell."
             ),
             "provisional_freeze_draft": {
-                "status": "DRAFT — NOT DECIDED",
+                "status": "DRAFT — PROVISIONAL FREEZE ONLY",
                 "record": "docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md",
                 "effect": (
-                    "Would provisionally freeze the Path A targets and make "
-                    "C1/C4 a post-freeze VOID gate; no freeze is recorded "
-                    "until the owner adopts it."
+                    "Would provisionally freeze the Path A targets; the C1/C4 "
+                    "VOID gate is already adopted separately. No freeze is "
+                    "recorded until the owner adopts the wrapper."
                 ),
             },
             "owner_decision_memo_draft": {
-                "status": "DRAFT — AWAITING OWNER SIGNATURE",
+                "status": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE",
                 "record": "docs/DECISION-A1-PATH-A-C1-C4.md",
                 "effect": (
-                    "Consolidates Path A and the post-freeze C1/C4 ordering "
-                    "into one unsigned owner memo; it does not freeze, grant "
-                    "or authorise a run."
+                    "Remains draft for the remaining Path A confirmation and "
+                    "provisional freeze; the C1/C4 gate and 60-row floor are "
+                    "adopted separately. It does not freeze, grant or authorise."
                 ),
             },
             "target_freeze_act_draft": {
@@ -952,8 +954,8 @@ def problems(doc: dict) -> list[str]:
     if len(corr.get("joint_rows") or []) != len(C1_CORRELATION_RETENTIONS) * 3:
         found.append("C1 joint-correlation sensitivity is incomplete")
     floor_rule = curve.get("denominator_floor_rule") or {}
-    if floor_rule.get("status") != "RECORDED — BINDING FOR A1":
-        found.append("C1 denominator floor rule is not recorded as binding")
+    if floor_rule.get("status") != "ADOPTED — BINDING FOR A1":
+        found.append("C1 denominator floor rule is not recorded as adopted")
     if floor_rule.get("floor") != 60:
         found.append("C1 denominator floor changed")
     if len(floor_rule.get("table") or []) != 5:
@@ -1180,7 +1182,7 @@ def render(doc: dict) -> str:
     floor = curve["denominator_floor_rule"]
     rows += [
         "",
-        "**Status: %s.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). The rule is binding for A1." % floor["status"],
+        "**Status: %s.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). **Adopted together with the C1/C4 VOID gate:** [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md)." % floor["status"],
         "",
         "**Floor:** %d paired-control available rows, measured as the minimum "
         "across all six seeds and both `A−` and `K−` paths. The planned range is "

@@ -118,8 +118,8 @@ def test_power_review_artifact_is_current():
     assert doc["path_selection"]["selected"] == "A"
     assert doc["path_selection"]["target_sets"] == "DRAFT — NOT FROZEN"
     assert doc["freeze_decision"]["path"] == "A"
-    assert doc["freeze_decision"]["provisional_freeze_draft"]["status"] == "DRAFT — NOT DECIDED"
-    assert doc["freeze_decision"]["owner_decision_memo_draft"]["status"] == "DRAFT — AWAITING OWNER SIGNATURE"
+    assert doc["freeze_decision"]["provisional_freeze_draft"]["status"] == "DRAFT — PROVISIONAL FREEZE ONLY"
+    assert doc["freeze_decision"]["owner_decision_memo_draft"]["status"] == "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE"
     assert doc["freeze_decision"]["target_freeze_act_draft"]["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN"
 
 
@@ -133,20 +133,27 @@ def test_path_a_is_recorded_in_protocol_and_freeze_log():
     assert "Path B is not selected" in review
 
 
-def test_owner_decision_memo_is_unsigned_and_records_both_decisions():
+def test_owner_decision_memo_is_unsigned_and_records_remaining_decisions():
     import json
     from pathlib import Path
 
     doc = json.loads(Path("docs/a1_owner_decision_memo.json").read_text(encoding="utf-8"))
-    assert doc["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NO FREEZE, NO GRANT, NO RUN"
+    assert doc["status"] == (
+        "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; "
+        "PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED"
+    )
     assert doc["signed"] is False
     assert doc["effective_date"] is None
     assert doc["path_a"]["selected"] == "A"
     assert doc["path_a"]["target_sets"] == "DRAFT — NOT FROZEN"
     assert doc["c1_c4"]["ordering"] == "POST-FREEZE VOID GATE"
     assert doc["c1_c4"]["not_ordering"] == "PRE-FREEZE ADMISSIBILITY GATE"
+    assert doc["c1_c4"]["status"] == "ADOPTED — BINDING FOR A1; RECORDED SEPARATELY"
+    assert doc["c1_c4_adopted_separately"]["record"] == "docs/A1-C1-C4-VOID-GATE.md"
+    assert doc["denominator_floor"]["adopted_by"] == "A1-C1-C4-VOID-GATE-1"
     assert doc["current_state"]["grant"] == "NOT ISSUED"
     assert doc["current_state"]["run"] == "NOT STARTED"
+    assert doc["current_state"]["c1_c4_ordering"] == "ADOPTED — A1-C1-C4-VOID-GATE-1"
     assert any(item["id"] == "c1_c4_ordering" for item in doc["decisions"])
     assert any(item["id"] == "path_a" for item in doc["decisions"])
 
@@ -272,7 +279,7 @@ def test_power_review_curve_states_retention_assumptions():
     assert power["required_retention_by_denominator"]["60"] == 0.983204
     assert power["not_a_second_acceptance_gate"] is True
     floor = curve["denominator_floor_rule"]
-    assert floor["status"] == "RECORDED — BINDING FOR A1"
+    assert floor["status"] == "ADOPTED — BINDING FOR A1"
     assert floor["floor"] == 60
     assert floor["minimum_denominator"] == 60
     assert floor["allowed_losses_at_60_64"] == 3
@@ -307,6 +314,12 @@ def test_path_a_and_c1_rule_are_recorded_without_a_run():
 
     doc = json.loads(Path("docs/a1_path_a_c1_rule.json").read_text(encoding="utf-8"))
     assert doc["status"] == "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"
+    assert doc["adopted_together"]["record"] == "docs/A1-C1-C4-VOID-GATE.md"
+    assert doc["adopted_together"]["date"] == "2026-11-14"
+    assert doc["adopted_together"]["status"] == "ADOPTED — BINDING FOR A1"
+    assert "60-row denominator floor" in doc["adopted_together"]["scope"]
+    assert doc["current_state"]["c1_c4_gate"].startswith("ADOPTED")
+    assert doc["current_state"]["denominator_floor"].startswith("ADOPTED")
     assert doc["path_a"]["selected"] == "A"
     assert doc["path_a"]["target_sets"] == "DRAFT — NOT FROZEN"
     rule = doc["c1_acceptance_rule"]

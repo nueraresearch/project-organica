@@ -8,7 +8,7 @@
 
 **Decision source:** owner direction, 2026-11-14.
 
-**Current authority:** this record fixes the estimand and the C1 acceptance rule. The target freeze, the C1/C4 gate-order memo, the grant and the run remain separate and unrecorded.
+**Current authority:** this record fixes the estimand and the C1 acceptance rule. The 60-row denominator floor is adopted together with the C1/C4 VOID gate in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) — **ADOPTED — BINDING FOR A1 (2026-11-14)**. The target freeze, grant and run remain separate and unrecorded.
 
 ## 1. Path A is the A1 estimand
 
@@ -64,7 +64,7 @@ If the observed minimum is **0**, the run is **`C1_NO_DENOMINATOR`**; a missing 
 
 If the observed minimum is **above 64**, the run is **`VOID — design inconsistency`**. Score only the preplanned rows; do not add rows after the fact.
 
-Under the proposed combined C1/C4 gate, the run-level status is **`A1 VOID — C1/C4`**, carrying the C1 reason code. The C1 rule itself is binding whether or not the combined gate memo is signed.
+Under the adopted combined C1/C4 gate, the run-level status is **`A1 VOID — C1/C4`**, carrying the C1 reason code. The C1 rule and the combined gate are both binding.
 
 ### 2.4 What VOID means here
 
@@ -99,13 +99,13 @@ These values are power-design calculations under the same independent Bernoulli 
 ## 3. What this record does not do
 
 - It does not freeze the Path A targets or manifest.
-- It does not sign the owner gate-order memo.
+- It does not sign the provisional-freeze wrapper; the C1/C4 gate is adopted separately.
 - It does not issue a grant, reserve seeds or run a cell.
 - It does not observe C1 or C4.
 - It does not classify C7/C8.
 - It does not change the 0.95 C1 threshold or the 0.05 C4 ceiling.
 
-The target-freeze act remains **DRAFT — AWAITING OWNER SIGNATURE**. The combined C1/C4 gate-order memo remains **DRAFT — AWAITING OWNER SIGNATURE**.
+The target-freeze act remains **DRAFT — AWAITING OWNER SIGNATURE**. The C1/C4 post-freeze VOID gate and the 60-row floor are **ADOPTED — BINDING FOR A1 (2026-11-14)** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md); the provisional-freeze wrapper remains a separate draft.
 
 ## 4. Current state
 
@@ -114,6 +114,7 @@ The target-freeze act remains **DRAFT — AWAITING OWNER SIGNATURE**. The combin
 | Path A estimand | **RECORDED** |
 | Path B | **NOT SELECTED** |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
+| C1/C4 post-freeze VOID gate and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
 | C1 power-design target | **80% all-six at 63 rows; required q=0.984017** |
 | Minimum C1 denominator | **60** |
 | Below-floor disposition | **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** |

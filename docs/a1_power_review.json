@@ -69,14 +69,14 @@
     "path_record": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
     "path_effect": "The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.",
     "provisional_freeze_draft": {
-      "status": "DRAFT \u2014 NOT DECIDED",
+      "status": "DRAFT \u2014 PROVISIONAL FREEZE ONLY",
       "record": "docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md",
-      "effect": "Would provisionally freeze the Path A targets and make C1/C4 a post-freeze VOID gate; no freeze is recorded until the owner adopts it."
+      "effect": "Would provisionally freeze the Path A targets; the C1/C4 VOID gate is already adopted separately. No freeze is recorded until the owner adopts the wrapper."
     },
     "owner_decision_memo_draft": {
-      "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE",
+      "status": "DRAFT \u2014 C1/C4 GATE ADOPTED ELSEWHERE",
       "record": "docs/DECISION-A1-PATH-A-C1-C4.md",
-      "effect": "Consolidates Path A and the post-freeze C1/C4 ordering into one unsigned owner memo; it does not freeze, grant or authorise a run."
+      "effect": "Remains draft for the remaining Path A confirmation and provisional freeze; the C1/C4 gate and 60-row floor are adopted separately. It does not freeze, grant or authorise."
     },
     "target_freeze_act_draft": {
       "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NOT FROZEN",
@@ -839,8 +839,10 @@
       "reading": "At n=63 and q=.95, independent paths and independent seeds give a per-seed pass probability of 0.375577 and an all-six probability of 0.002807. A path correlation of .5 raises the per-seed probability to 0.453562; a seed correlation of .5 raises the all-six probability to 0.073188; both at .5 give 0.113341. Positive correlation makes the six seeds share their fate: all-six can rise while the chance that none pass also rises. These are sensitivity scenarios, not correlation estimates."
     },
     "denominator_floor_rule": {
-      "status": "RECORDED \u2014 BINDING FOR A1",
+      "status": "ADOPTED \u2014 BINDING FOR A1",
       "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+      "adoption_record": "docs/A1-C1-C4-VOID-GATE.md",
+      "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate",
       "binding": true,
       "floor": 60,
       "minimum_denominator": 60,

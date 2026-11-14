@@ -5,7 +5,7 @@
 
 **This is not an experimental result.** No cell, seed, intervention or engine change was made.
 
-C6 is satisfied by the committed C6-TIMING-1 block. The other eight gates have executable contracts and synthetic controls; C1/C4/C7 thresholds and the C8 ceiling are precommitted. Each open gate has one attempt and a terminal failure disposition: a failed or unmeasurable gate is UNSATISFIABLE for A1 and requires a new design, not another instrumentation round. None can be cleared from the observational records because each needs an A-, K-, Y- or A-K- cell that has not run. The design remains not admissible and no causal model is read.
+C6 is satisfied by the committed C6-TIMING-1 block. The other eight gates have executable contracts and synthetic controls; C1/C4/C7 thresholds and the C8 ceiling are precommitted. C1 and C4 are one adopted post-freeze VOID gate; a failed or unmeasurable C1 or C4 makes the run VOID. Other open gates retain their own terminal dispositions. Each open gate has one attempt: no A1 patch, threshold change, extra cell or rerun; a new registered design is required to try again. None can be cleared from the observational records because each needs an A-, K-, Y- or A-K- cell that has not run. The design remains not admissible and no causal model is read.
 
 ## Counts
 
@@ -30,14 +30,14 @@ See [`A1-PRECOMMITTED-THRESHOLDS.md`](A1-PRECOMMITTED-THRESHOLDS.md) for definit
 
 ## Bounded paths
 
-One implementation and one registered run per gate. A failed or unmeasurable gate is UNSATISFIABLE for A1 and terminal: no A1 patch, threshold change, extra cell or rerun. A new registered design is required to try again.
+One implementation and one registered run per gate. A failed or unmeasurable C1 or C4 is VOID under the adopted C1/C4 gate; other gate dispositions are recorded in their own rows. All are terminal: no A1 patch, threshold change, extra cell or rerun. A new registered design is required to try again.
 
 | Gate | Attempts | Success | Failure | Unmeasurable |
 | --- | ---: | --- | --- | --- |
-| `C1_path_separation` | 1 | The C1 contract passes on every seed. | NOT IDENTIFIED: the two-path model is not testable. | UNSATISFIABLE: no paired-control denominator after one attempt. |
+| `C1_path_separation` | 1 | The C1 contract passes on every seed. | VOID: C1 path separation failed; the A1 run is not admissible. | VOID: no paired-control denominator; the A1 run is not measurable. |
 | `C2_treatment_consistency` | 1 | The C2 contract passes on every seed. | VOID: the intervention did not happen as specified. | UNSATISFIABLE: a required manipulation has no denominator. |
 | `C3_positivity` | 1 | The C3 contract passes on every seed and edge. | VOID: a required cell is empty. | UNSATISFIABLE: no eligible edge can populate the cells. |
-| `C4_no_interference` | 1 | The C4 contract passes on every non-target edge. | VOID: a non-target A, K or Y delta exceeds 0.05; the A1 run is invalid. | UNSATISFIABLE: no non-target edge has a measurable delta. |
+| `C4_no_interference` | 1 | The C4 contract passes on every non-target edge. | VOID: a non-target A, K or Y delta exceeds 0.05; the A1 run is invalid. | VOID: no non-target edge has a measurable delta; the A1 run is not measurable. |
 | `C5_common_cause` | 1 | The C5 contract passes on every row. | SHARED CAUSE / NO CARRIER RELATION NOT SEPARATED. | UNSATISFIABLE: U has no pre-outcome measurement on a required row. |
 | `C7_assertion_block` | 1 | The C7 contract passes at both Y- cells. | SHARED CAUSE / READOUT NOT SEPARATED. | UNSATISFIABLE: no Y- cell has a paired control. |
 | `C8_third_route` | 1 | A-K- assertion is at or below the precommitted 0.05 ceiling. | THIRD ROUTE PRESENT: the two-path model is incomplete. | UNSATISFIABLE: A-K- has no denominator. |
@@ -48,9 +48,11 @@ reason to patch A1, retune a threshold or add a cell.
 
 ## Gate order
 
-**C4 is a POST-FREEZE VOID GATE**, not a pre-freeze admissibility condition. C4 cannot be observed before cells exist. Freeze the targets, grant the run, then assemble C1/C4; a C4 failure makes the run VOID. C4 is no longer a pre-freeze blocker. The targets remain draft because no separate owner freeze act has been recorded.
+**C1 and C4 are one POST-FREEZE VOID GATE**, not pre-freeze admissibility conditions. Neither can be observed before cells exist. Freeze the targets, grant the run, then assemble C1/C4; a C1 or C4 failure, or either being unmeasurable, makes the run VOID. The targets remain draft because no separate owner freeze act has been recorded.
 
-Any measurable non-target A, K or Y neighbour delta above 0.05, or an unmeasurable non-target stream, makes the A1 run VOID.
+**C1:** A missing or below-60 paired-control denominator, or a C1 preservation failure on any seed or path, makes the A1 run VOID.
+
+**C4:** Any measurable non-target A, K or Y neighbour delta above 0.05, or an unmeasurable non-target stream, makes the A1 run VOID.
 
 ## Gates
 

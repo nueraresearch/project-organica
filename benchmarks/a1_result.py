@@ -20,6 +20,7 @@ from benchmarks import a1_arms
 from benchmarks.a1_gate_readiness import C1_MIN, C4_MAX
 
 KIND = "a1_result_assembly"
+C1_DENOMINATOR_FLOOR = 60
 
 
 def _observed_denominator(payloads: list[dict], c1: dict, c4: dict) -> dict:
@@ -56,15 +57,58 @@ def _observed_denominator(payloads: list[dict], c1: dict, c4: dict) -> dict:
     }
 
 
+def _c1_reason(c1: dict) -> str:
+    denominators = []
+    for row in c1.get("seeds", {}).values():
+        denominators.append(int(row.get("a_minus_denominator", 0)))
+        denominators.append(int(row.get("k_minus_denominator", 0)))
+    if not denominators or min(denominators) == 0:
+        return "C1_NO_DENOMINATOR"
+    if min(denominators) < C1_DENOMINATOR_FLOOR:
+        return "C1_DENOMINATOR_BELOW_FLOOR"
+    return "C1_THRESHOLD"
+
+
+def _void_reasons(payloads: list[dict], c1: dict, c4: dict) -> list[str]:
+    """Return the adopted C1/C4 VOID reason codes for a failed assembly."""
+    if not payloads:
+        return ["C1_C4_INCOMPLETE"]
+    reasons = []
+    if not c1.get("pass"):
+        reasons.append(_c1_reason(c1))
+    if not c4.get("pass"):
+        if c4.get("rows", 0) == 0 or c4.get("measured", 0) == 0 or c4.get("unmeasured"):
+            reasons.append("C4_UNMEASURABLE")
+        if c4.get("violations"):
+            reasons.append("C4_DELTA")
+    if not reasons:
+        reasons.append("C1_C4_INCOMPLETE")
+    return list(dict.fromkeys(reasons))
+
+
 def assemble(payloads: list[dict], c1_tolerance: float | None = None,
              c4_tolerance: float | None = None) -> dict:
-    """Score the assembled C1 and C4 streams from cell parts."""
+    """Score the assembled C1 and C4 streams from cell parts.
+
+    The adopted C1/C4 gate reports ``PASS`` or ``VOID``. A failed or
+    unmeasurable C1/C4 pair is never published as a scientific ``FAIL``.
+    """
     c1 = a1_arms.score_c1(payloads, c1_tolerance)
     c4 = a1_arms.score_c4(payloads, c4_tolerance)
     passed = bool(c1["pass"] and c4["pass"] and payloads)
+    reasons = [] if passed else _void_reasons(payloads, c1, c4)
+    void_gates = [] if passed else [
+        gate for gate, prefix in (
+            ("C1_path_separation", "C1_"),
+            ("C4_no_interference", "C4_"),
+        )
+        if (not payloads or any(reason.startswith(prefix) for reason in reasons))
+    ]
     return {
         "kind": KIND,
-        "status": "PASS" if passed else "FAIL",
+        "status": "PASS" if passed else "VOID",
+        "void_gates": void_gates,
+        "reason_codes": reasons,
         "parts": len(payloads),
         "c1": c1,
         "c4": c4,
@@ -74,9 +118,9 @@ def assemble(payloads: list[dict], c1_tolerance: float | None = None,
             "C4_no_interference": c4["pass"],
         },
         "not_evidence": (
-            "A result-assembly decision over supplied cell parts. The synthetic "
-            "fixture is a control; it is not an A1 result, causal estimate or "
-            "capability claim."
+            "A result-assembly decision over supplied cell parts. A VOID is not "
+            "a scientific verdict; the synthetic fixture is a control, not an A1 "
+            "result, causal estimate or capability claim."
         ),
     }
 
@@ -155,6 +199,13 @@ def render(report: dict) -> str:
     observed = report["observed_denominator"]
     lines = [
         "A1 result assembly: %s" % report["status"],
+    ]
+    if report["status"] == "VOID":
+        lines += [
+            "VOID gates: %s" % (", ".join(report["void_gates"]) or "none"),
+            "Reason codes: %s" % (", ".join(report["reason_codes"]) or "none"),
+        ]
+    lines += [
         "",
         "Observed denominator: %s; %d part(s), %d seed(s), cells %s" % (
             observed["status"], observed["parts"], len(observed["seeds"]),
@@ -223,6 +274,8 @@ def self_test() -> list[str]:
     passed = assemble(synthetic_parts(0.04))
     if passed["status"] != "PASS":
         found.append("the passing fixture does not assemble to PASS")
+    if passed["void_gates"] or passed["reason_codes"]:
+        found.append("the passing fixture carries VOID metadata")
     if passed["c1"]["a_minus"]["denominator"] != 20:
         found.append("C1 fixture denominator is not 20")
     if passed["c1"]["a_minus"]["available"] != 19:
@@ -237,12 +290,19 @@ def self_test() -> list[str]:
     if observed["c4"]["measured"] != 48:
         found.append("the fixture does not report its observed C4 denominator")
     failed = assemble(synthetic_parts(0.06))
-    if failed["status"] != "FAIL":
-        found.append("the failing C4 fixture does not assemble to FAIL")
+    if failed["status"] != "VOID":
+        found.append("the failing C4 fixture does not assemble to VOID")
+    if failed["void_gates"] != ["C4_no_interference"]:
+        found.append("the failing C4 fixture records the wrong VOID gate")
+    if failed["reason_codes"] != ["C4_DELTA"]:
+        found.append("the failing C4 fixture records the wrong reason code")
     if not failed["c4"]["violations"]:
         found.append("the failing C4 fixture records no violation")
     if failed["c1"]["pass"] is not True:
         found.append("C4 failure incorrectly changes C1")
+    incomplete = assemble([])
+    if incomplete["status"] != "VOID" or incomplete["reason_codes"] != ["C1_C4_INCOMPLETE"]:
+        found.append("the empty assembly does not record C1_C4_INCOMPLETE")
     return found
 
 

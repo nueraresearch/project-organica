@@ -121,7 +121,7 @@ The `q=.98` rows are retained in the artifact. Positive seed correlation raises 
 
 ### C1 denominator floor
 
-**Status: RECORDED — BINDING FOR A1.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). The rule is binding for A1.
+**Status: ADOPTED — BINDING FOR A1.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). **Adopted together with the C1/C4 VOID gate:** [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md).
 
 **Floor:** 60 paired-control available rows, measured as the minimum across all six seeds and both `A−` and `K−` paths. The planned range is 63–64.
 
@@ -202,9 +202,9 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 
 **Path effect:** The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.
 
-**Provisional-freeze draft:** [docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **DRAFT — NOT DECIDED**. Would provisionally freeze the Path A targets and make C1/C4 a post-freeze VOID gate; no freeze is recorded until the owner adopts it.
+**Provisional-freeze draft:** [docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **DRAFT — PROVISIONAL FREEZE ONLY**. Would provisionally freeze the Path A targets; the C1/C4 VOID gate is already adopted separately. No freeze is recorded until the owner adopts the wrapper.
 
-**Owner memo draft:** [docs/DECISION-A1-PATH-A-C1-C4.md](DECISION-A1-PATH-A-C1-C4.md) — **DRAFT — AWAITING OWNER SIGNATURE**. Consolidates Path A and the post-freeze C1/C4 ordering into one unsigned owner memo; it does not freeze, grant or authorise a run.
+**Owner memo draft:** [docs/DECISION-A1-PATH-A-C1-C4.md](DECISION-A1-PATH-A-C1-C4.md) — **DRAFT — C1/C4 GATE ADOPTED ELSEWHERE**. Remains draft for the remaining Path A confirmation and provisional freeze; the C1/C4 gate and 60-row floor are adopted separately. It does not freeze, grant or authorise.
 
 **Target-freeze act draft:** [docs/A1-TARGET-FREEZE-ACT.md](A1-TARGET-FREEZE-ACT.md) — **DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN**. Prepares the separate act that would freeze the six Path A target sets and the manifest/seed block; no grant or run is included.
 

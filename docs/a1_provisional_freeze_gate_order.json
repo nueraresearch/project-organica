@@ -5,7 +5,7 @@
   "status": "DRAFT \u2014 NOT DECIDED; NO FREEZE, NO GRANT, NO RUN",
   "current_authority": [
     "DO NOT FREEZE (2026-11-14)",
-    "docs/A1-C4-GATE-ORDER.md"
+    "docs/A1-C1-C4-VOID-GATE.md (C1/C4 gate and 60-row floor adopted; no freeze)"
   ],
   "companion": "docs/A1-C1-C4-VOID-GATE.md",
   "proposal": "Provisionally freeze the Path A target sets and manifest target block, then run the planned cells, then require both C1 and C4 to pass; either failing or being unmeasurable makes the run A1 VOID \u2014 C1/C4.",
@@ -43,13 +43,13 @@
     "C4_neighbor_delta_max": 0.05
   },
   "denominator_floor": {
-    "status": "RECORDED \u2014 BINDING FOR A1",
+    "status": "ADOPTED \u2014 BINDING FOR A1",
     "adopted_by_this_draft": false,
+    "adopted_by": "A1-C1-C4-VOID-GATE-1",
     "floor": 60,
     "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
-    "if_adopted": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59.",
-    "recorded_elsewhere": true,
-    "if_recorded": "A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60."
+    "adoption_record": "docs/A1-C1-C4-VOID-GATE.md",
+    "effect": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59. A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60."
   },
   "void_conditions": [
     {
@@ -60,7 +60,7 @@
     {
       "gate": "C1_path_separation",
       "reason_code": "C1_DENOMINATOR_BELOW_FLOOR",
-      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is recorded in DECISION-A1-PATH-A-C1-RULE.md."
+      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is adopted by A1-C1-C4-VOID-GATE-1 and recorded in DECISION-A1-PATH-A-C1-RULE.md."
     },
     {
       "gate": "C1_path_separation",
@@ -116,14 +116,14 @@
       "records": "No admissible comparison; no model read."
     },
     {
-      "status": "NOT IDENTIFIED",
-      "when": "The current C1 result-gate failure when the comparison exists but model separation is not achieved.",
-      "records": "A scientific result-gate outcome under the current disposition."
+      "status": "NOT IDENTIFIED (historical)",
+      "when": "The pre-adoption C1 disposition when the comparison existed but model separation was not achieved.",
+      "records": "Historical only. A1 now uses A1 VOID \u2014 C1/C4."
     },
     {
-      "status": "UNSATISFIABLE",
-      "when": "The current disposition for a gate that cannot be measured under the registered design.",
-      "records": "A design/measurement limit under the current disposition."
+      "status": "UNSATISFIABLE (historical)",
+      "when": "The pre-adoption disposition for a gate that could not be measured.",
+      "records": "Historical only. A1 now uses A1 VOID \u2014 C1/C4."
     }
   ],
   "no_rescue": [
@@ -160,13 +160,12 @@
     "not_evidence": "A gate decision, not a causal, capability or transfer result."
   },
   "adoption_effect": [
-    "Record a new dated provisional-freeze decision that distinguishes provisional evidentiary status from final target identity.",
-    "Freeze the Path A target sets and manifest target block; do not regenerate targets.",
-    "Update C1 failure and unmeasurable dispositions in benchmarks/a1_gate_readiness.py from NOT IDENTIFIED / UNSATISFIABLE to VOID, and regenerate the readiness artifact and page.",
-    "Add a cross-reference to this record in A1-C4-GATE-ORDER.md and a1_c4_gate_order.json without rewriting the historical C4-only decision.",
-    "Map a C1/C4 FAIL from a1_result.assemble to VOID in the assembly caller and carry the reason codes.",
-    "Update the manual, pre-freeze checklist and changelog in the same act."
+    "The C1/C4 gate, the 60-row floor and the VOID dispositions were adopted on 2026-11-14 in A1-C1-C4-VOID-GATE-1; a1_result.assemble returns PASS or VOID with reason codes.",
+    "The remaining act is a dated provisional-freeze decision that distinguishes provisional evidentiary status from final target identity.",
+    "That act would freeze the Path A target sets and manifest target block without regenerating targets.",
+    "Cross-references to the adopted C1/C4 record were added without rewriting the historical C4-only decision.",
+    "The manual, pre-freeze checklist and changelog were updated in the same adoption act."
   ],
-  "adoption": "Adoption is a separate dated owner decision. It does not reserve seeds, issue a grant, run a cell or create evidence, except where the owner explicitly records seed reservation in the same act.",
+  "adoption": "The C1/C4 gate and floor are already adopted; this wrapper still requires a separate dated owner decision for the provisional freeze. Neither act reserves seeds, issues a grant, runs a cell or creates evidence.",
   "not_evidence": "A proposed gate order and a definition of VOID. No cell has run; this is not an A1 result, freeze, grant or capability claim."
 }

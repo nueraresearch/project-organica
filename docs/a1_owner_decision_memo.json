@@ -2,14 +2,20 @@
   "kind": "a1_owner_decision_memo",
   "id": "A1-OWNER-DECISION-1",
   "date": "2026-11-14",
-  "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NO FREEZE, NO GRANT, NO RUN",
+  "status": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
   "current_authority": [
     "DO NOT FREEZE (2026-11-14)",
-    "docs/A1-C4-GATE-ORDER.md"
+    "docs/A1-C1-C4-VOID-GATE.md"
   ],
+  "c1_c4_adopted_separately": {
+    "record": "docs/A1-C1-C4-VOID-GATE.md",
+    "date": "2026-11-14",
+    "status": "ADOPTED — BINDING FOR A1",
+    "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate"
+  },
   "purpose": "Record Path A and resolve whether C1/C4 are pre-freeze admissibility gates or post-freeze VOID gates.",
   "decisions": [
     {
@@ -54,7 +60,7 @@
   "c1_c4": {
     "ordering": "POST-FREEZE VOID GATE",
     "not_ordering": "PRE-FREEZE ADMISSIBILITY GATE",
-    "status": "RESOLVED IN DRAFT; NOT ADOPTED",
+    "status": "ADOPTED — BINDING FOR A1; RECORDED SEPARATELY",
     "thresholds": {
       "C1_preservation_min": 0.95,
       "C4_neighbor_delta_max": 0.05
@@ -125,8 +131,9 @@
     }
   ],
   "denominator_floor": {
-    "status": "RECORDED \u2014 BINDING FOR A1",
+    "status": "ADOPTED — BINDING FOR A1",
     "adopted_by_this_memo": false,
+    "adopted_by": "A1-C1-C4-VOID-GATE-1",
     "floor": 60,
     "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
     "if_adopted": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59.",
@@ -179,7 +186,7 @@
   "current_state": {
     "path_a": "RECORDED IN PROTOCOL",
     "path_b": "NOT SELECTED",
-    "c1_c4_ordering": "RESOLVED IN DRAFT; NOT ADOPTED",
+    "c1_c4_ordering": "ADOPTED — A1-C1-C4-VOID-GATE-1",
     "target_sets": "DRAFT \u2014 NOT FROZEN",
     "freeze_decision": "DO NOT FREEZE (2026-11-14)",
     "seed_reservation": "NONE",
@@ -195,12 +202,10 @@
     "Authorisation policy for the run."
   ],
   "adoption_effect": [
-    "Record Path A in the owner decision record.",
-    "Resolve C1/C4 as post-freeze VOID gates, not pre-freeze admissibility gates.",
-    "Record the Path A target freeze and manifest target block in a separate dated act.",
-    "Update C1 failure and unmeasurable dispositions in benchmarks/a1_gate_readiness.py from NOT IDENTIFIED / UNSATISFIABLE to VOID, and regenerate the readiness artifact and page.",
-    "Map a C1/C4 FAIL from a1_result.assemble to VOID in the assembly caller and carry the reason codes.",
-    "Update the manual, pre-freeze checklist and changelog in the same act."
+    "This memo no longer adopts C1/C4; the gate and 60-row floor are adopted in A1-C1-C4-VOID-GATE-1.",
+    "Signing this memo would record the remaining Path A confirmation and provisional-freeze decisions.",
+    "It would not freeze targets, reserve seeds, issue the grant, run a cell or create evidence.",
+    "The target freeze, grant and run remain separate owner acts."
   ],
-  "not_evidence": "An unsigned owner decision memo and a definition of VOID. No cell has run; this is not an A1 result, freeze, grant or capability claim."
+  "not_evidence": "An unsigned memo for the remaining Path A confirmation and provisional-freeze decisions. The C1/C4 gate and 60-row floor are adopted separately. No cell has run; this is not an A1 result, freeze, grant or capability claim."
 }

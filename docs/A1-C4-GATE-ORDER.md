@@ -23,11 +23,11 @@ Both are worse than a post-freeze gate. The post-freeze route preserves the prec
 
 C1 is scored in the same post-freeze assembly and uses the C4-expanded denominator. C1 remains the primary preservation gate; C4 supplies the non-target denominator and an interference veto.
 
-**Draft extension:** [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) proposes making C1 a post-freeze VOID gate as well. It is **DRAFT — NOT DECIDED**; this C4-only record remains authoritative until it is adopted.
+**Adopted extension:** [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) is **ADOPTED — BINDING FOR A1 (2026-11-14)** and consolidates C1 and C4 into one post-freeze validity decision, together with the 60-row denominator floor. This C4-only record remains the historical C4 trigger; the C1/C4 pair is governed by the adopted record.
 
-**Owner memo draft:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) would record Path A and extend this post-freeze ordering to C1. It is **DRAFT — AWAITING OWNER SIGNATURE**; this C4-only record remains authoritative until it is signed.
+**Owner memo draft:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) remains draft for the remaining Path A confirmation and provisional freeze. Its C1/C4 disposition and the 60-row floor are **ADOPTED — BINDING FOR A1 (2026-11-14)** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md); the memo does not freeze targets or authorise a run.
 
-**Provisional-freeze wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) drafts the freeze-and-gate order that would use that C1/C4 validity test. It too is **DRAFT — NOT DECIDED** and does not freeze or authorise anything.
+**Provisional-freeze wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) remains **DRAFT — PROVISIONAL FREEZE ONLY**. Its C1/C4 validity test is already adopted separately; the wrapper does not freeze or authorise anything.
 
 ## VOID condition
 

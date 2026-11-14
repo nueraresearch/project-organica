@@ -92,18 +92,18 @@ until the manifest is frozen by a separate act.
 | Gate | State |
 | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY**; C4 contributes 59–60 non-target rows/seed, so planned C1 is 63–64, unmeasured ([review](A1-POWER-REVIEW.md)) |
-| C1 denominator floor | **RECORDED — BINDING FOR A1**; minimum 60 paired-control rows; 60–64 may be read with three losses; below 60 is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59 |
+| C1 denominator floor | **ADOPTED — BINDING FOR A1** with the C1/C4 VOID gate; minimum 60 paired-control rows; 60–64 may be read with three losses; below 60 is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59 |
 | C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
 | C1 power-design target | **RECORDED — DESIGN CRITERION**; 80% all-six-seed power at 63 rows requires **q=0.984017** under the independent model (0.984271 at 64; 0.983204 at 60); not an observed retention or a second acceptance gate |
 | C1 power curve | **RECORDED — REFERENCE ONLY**; at assumed `q=.95, n=63`, all six seeds pass at **0.003**; at `q=.98` at **0.632**. Correlation sensitivity at the same point: path rho=.5 per-seed **0.454**; seed rho=.5 all-six **0.073**; both .5 all-six **0.113**. These are sensitivity assumptions, not estimated correlations ([review](A1-POWER-REVIEW.md)) |
 | Denominator-resolution audit | **FLAGGED — 6 SCENARIOS**; C1 target-only at 4 and N=8, C7 at 8 and N=8 (16 rows, 1/16 = 0.0625), C8 at 4 and N=8 (8 rows, 1/8 = 0.125); C7/C8 remain under-resolved at the N=8 maximum; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)); `--parts` recomputes these from actual cells once parts exist, with no parts yet |
-| C4 gate order | **POST-FREEZE VOID GATE (2026-11-14)**; C4 is scored after the frozen cells run and a failure VOIDs the result ([record](A1-C4-GATE-ORDER.md)) |
+| C1/C4 gate order | **ADOPTED — ONE POST-FREEZE VOID GATE (2026-11-14)**; C1 or C4 failure/unmeasurability VOIDs the result; the 60-row floor is part of the same decision ([record](A1-C1-C4-VOID-GATE.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
-| C1/C4 VOID-gate draft | **DRAFT — NOT DECIDED**; proposes a single post-freeze validity test where either C1 or C4 failure/unmeasurability makes the run **VOID**; the C4-only record remains in force |
+| C1/C4 VOID gate | **ADOPTED — BINDING FOR A1**; a single post-freeze validity test where either C1 or C4 failure/unmeasurability makes the run **VOID**; the 60-row floor is adopted with it |
 | Target-freeze act | **DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN**; exact six target sets prepared for a separate freeze; no grant or run |
-| Owner decision memo | **DRAFT — AWAITING OWNER SIGNATURE**; records Path A and resolves C1/C4 as post-freeze VOID gates; no freeze, grant or run |
-| Provisional-freeze gate order | **DRAFT — NOT DECIDED**; drafts a provisional Path A target freeze followed by the post-freeze C1/C4 VOID gate; provisional means conditional evidentiary status, not revocable target identity; no freeze, grant or run |
+| Owner decision memo | **DRAFT — C1/C4 ADOPTED ELSEWHERE**; remains for remaining Path A confirmation and provisional freeze; C1/C4 gate and floor are adopted separately; no freeze, grant or run |
+| Provisional-freeze gate order | **DRAFT — PROVISIONAL FREEZE ONLY**; drafts a provisional Path A target freeze; the post-freeze C1/C4 VOID gate and 60-row floor are **ADOPTED — BINDING FOR A1**; provisional means conditional evidentiary status, not revocable target identity; no freeze, grant or run |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |
 | A1 run | **NOT AUTHORISED** |

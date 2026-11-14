@@ -4,23 +4,23 @@
 
 **Date:** 2026-11-14
 
-**Status:** `DRAFT — AWAITING OWNER SIGNATURE; NO FREEZE, NO GRANT, NO RUN`
+**Status:** `DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED`
 
 **Decision owner:** ____________________
 
 **Signature and date:** ____________________
 
-**This is a draft owner decision memo, not an adopted decision, a target freeze, a seed reservation, a grant or a result.** Until it is signed and dated by the owner, the current `DO NOT FREEZE (2026-11-14)` decision, the C4-only gate order and the draft target sets remain authoritative. Signing this memo would record the two decisions below; it would not itself freeze targets, reserve seeds, issue a grant, run a cell or create evidence.
+**This is a draft memo for the remaining Path A confirmation and provisional-freeze decisions.** The C1/C4 ordering below was adopted separately on 2026-11-14 in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), together with the 60-row denominator floor. This memo does not re-adopt that gate and does not itself freeze targets, reserve seeds, issue a grant, run a cell or create evidence.
 
 ## 1. Decisions for the owner
 
 | # | Decision | Proposed record |
 | --- | --- | --- |
 | 1 | **Path A is the A1 estimand.** A1 tests the representative eligible pre-37 cycle-membership directed-edge effect. Path B is a separate future experiment. | Recorded in the target-selection protocol; confirmed here. |
-| 2 | **C1/C4 are post-freeze validity gates, not pre-freeze admissibility gates.** The freeze, grant and run come first; C1/C4 then decide whether the executed comparison is admissible. | Resolved by this memo if signed. |
-| 3 | **The gate order is freeze → grant → run → measure C1/C4 → PASS or VOID.** | Resolved by this memo if signed. |
-| 4 | **“Provisional freeze” describes the result's evidentiary status, not revocable target identity.** The targets are fixed before outcomes; a VOID does not unfreeze them, permit re-selection or license a retry. | Resolved by this memo if signed. |
-| 5 | **A C1/C4 failure or unmeasurability makes the run `A1 VOID — C1/C4`.** No model is read. | Resolved by this memo if signed. |
+| 2 | **C1/C4 are post-freeze validity gates, not pre-freeze admissibility gates.** The freeze, grant and run come first; C1/C4 then decide whether the executed comparison is admissible. | **Adopted separately** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). |
+| 3 | **The gate order is freeze → grant → run → measure C1/C4 → PASS or VOID.** | **Adopted separately** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). |
+| 4 | **“Provisional freeze” describes the result's evidentiary status, not revocable target identity.** The targets are fixed before outcomes; a VOID does not unfreeze them, permit re-selection or license a retry. | Still draft; not adopted. |
+| 5 | **A C1/C4 failure or unmeasurability makes the run `A1 VOID — C1/C4`.** No model is read. | **Adopted separately** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). |
 
 This memo does **not** perform decision 3's freeze. It records the ordering. A separate dated owner act must freeze the Path A targets and manifest target block.
 
@@ -112,7 +112,7 @@ This memo does not reserve seeds. Seed reservation and the grant remain separate
 
 A run with any one of these conditions is **`A1 VOID — C1/C4`**. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor.** The 60-row floor is **RECORDED — BINDING FOR A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
+**Denominator floor.** The 60-row floor is **ADOPTED — BINDING FOR A1** together with the C1/C4 gate in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
 
 ## 7. What a VOID run means
 
@@ -153,7 +153,7 @@ A **pass** is also not a model verdict. C1/C4 passing means only that the compar
 | `NOT IDENTIFIED` | The current C1 result-gate failure when the comparison exists but model separation is not achieved. | A scientific result-gate outcome under the current disposition. |
 | `UNSATISFIABLE` | The current disposition for a gate that cannot be measured under the registered design. | A design/measurement limit under the current disposition. |
 
-If this memo is signed, C1 failure and C1 unmeasurability move from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**. C4 already uses VOID. The one-attempt rule is unchanged.
+Because C1/C4 has been adopted separately, C1 failure and unmeasurability are already **VOID**; C4 already uses VOID. This memo does not re-adopt them, and the one-attempt rule is unchanged.
 
 ## 10. No rescue rule
 
@@ -165,22 +165,12 @@ If this memo is signed, C1 failure and C1 unmeasurability move from `NOT IDENTIF
 
 ## 11. Effect of signing
 
-Signing and dating this memo would record Path A and resolve the C1/C4 ordering. It would also make the following adoption tasks due, in the same act or the stated separate act:
-
-- record the Path A target freeze and manifest target block in the separate [target-freeze act](A1-TARGET-FREEZE-ACT.md);
-- update the C1 `BOUNDS` failure and unmeasurable dispositions to `VOID`;
-- regenerate the readiness artifact and page;
-- map a C1/C4 `FAIL` from `a1_result.assemble` to `VOID` and carry reason codes;
-- cross-reference this memo from the C4-only gate order and the C1/C4 draft;
-- update the manual, checklist and changelog.
-
-Signing this memo does **not** reserve seeds, issue the grant, run a cell or create evidence. The freeze, grant and run remain separate owner acts.
+Signing and dating this memo would record the remaining Path A confirmation and provisional-freeze decisions. It would not re-adopt the C1/C4 gate, change the 60-row floor, freeze targets, reserve seeds, issue the grant, run a cell or create evidence. The target freeze, grant and run remain separate owner acts.
 
 ## 12. What remains open after this memo
 
 - The **target freeze act** (Path A targets and manifest block).
 - The **dated grant**.
-- The **60-row denominator floor**, which is recorded and binding for A1.
 - **C7/C8 classification** (structural versus quantitative rate).
 - **Authorisation policy** for the run.
 
@@ -192,7 +182,8 @@ The memo does not resolve those by implication.
 | --- | --- |
 | Path A | **RECORDED** in the protocol and freeze log |
 | Path B | **NOT SELECTED**; future experiment |
-| C1/C4 ordering | **RESOLVED IN THIS DRAFT AS POST-FREEZE VOID**; not adopted |
+| C1/C4 ordering | **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) |
+| 60-row denominator floor | **ADOPTED — BINDING FOR A1** with the C1/C4 gate |
 | Target sets | **DRAFT — NOT FROZEN** |
 | Freeze decision | **DO NOT FREEZE (2026-11-14)** |
 | Seed reservation | **NONE** |

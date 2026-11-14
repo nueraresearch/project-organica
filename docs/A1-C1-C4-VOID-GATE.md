@@ -1,18 +1,23 @@
-# A1 C1/C4 post-freeze VOID gate — draft decision
+# A1 60-row denominator floor and C1/C4 post-freeze VOID gate — adopted decision
 
 **ID:** `A1-C1-C4-VOID-GATE-1`
 
 **Date:** 2026-11-14
 
-**Status:** `DRAFT — NOT DECIDED; THE CURRENT C4-ONLY RECORD REMAINS IN FORCE`
+**Status:** `ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN`
 
-**This is a draft decision record, not an adopted decision, a target freeze, a grant or a result.** It proposes a narrower replacement for the C1 disposition in [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) and consolidates it with the already-recorded C4 gate in [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md). Until the owner records adoption, the current records remain authoritative.
+**Decision owner:** owner direction, 2026-11-14.
 
-**Recorded rule:** [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md) fixes the 60-row minimum and the below-floor VOID disposition. **Owner memo draft:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) consolidates Path A and this C1/C4 ordering into one unsigned owner decision. It is **DRAFT — AWAITING OWNER SIGNATURE** and does not change this proposal or the current records.
+**This is one dated owner decision.** It adopts together:
 
-**Gate-order wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) drafts the decision that would provisionally freeze the Path A targets and then apply this C1/C4 validity gate. That wrapper is also **DRAFT — NOT DECIDED**; it does not change this proposal or the current records.
+1. the **60-row paired-control denominator floor** recorded in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md); and
+2. the **C1/C4 post-freeze VOID gate** in this record.
 
-## 1. Proposed decision
+This decision does not freeze targets, reserve seeds, issue a grant, run a cell or create evidence. The target freeze and grant remain separate owner acts.
+
+**Related records:** [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md) records Path A and the C1 acceptance rule. [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md) remains the historical C4-only decision; this record consolidates the C1/C4 disposition without rewriting that history. [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) remains a separate draft wrapper for the provisional target freeze and is not adopted here.
+
+## 1. Adopted decision
 
 Treat **C1 path separation** and **C4 no interference** as one **post-freeze result-validity test**:
 
@@ -22,7 +27,7 @@ Treat **C1 path separation** and **C4 no interference** as one **post-freeze res
 4. **Both C1 and C4 must pass.** Either gate failing, or either being unmeasurable, makes the A1 run **VOID** before any model is read.
 5. Only after both pass may the remaining gates and the four model labels be considered.
 
-This is not a change to the thresholds. C1 remains at **0.95** preservation; C4 remains at a **0.05** absolute neighbour-delta ceiling. The proposal changes only the **disposition** of a failed or unmeasurable C1 from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**, and makes the C1/C4 pair a single validity decision.
+The thresholds are unchanged. C1 remains at **0.95** preservation; C4 remains at a **0.05** absolute neighbour-delta ceiling. This decision changes the **disposition** of a failed or unmeasurable C1 from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**, and makes the C1/C4 pair one validity decision.
 
 ## 2. Why the gate is post-freeze
 
@@ -52,7 +57,7 @@ either fails or is unmeasurable ──► A1 VOID
 
 A VOID stops the result. It does not trigger a second run, a repaired denominator, a threshold change or a model choice.
 
-## 4. VOID conditions
+## 4. VOID conditions and the adopted denominator floor
 
 | Gate | Condition | Reason code |
 | --- | --- | --- |
@@ -65,7 +70,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is `A1 VOID — C1/C4`. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor.** The 60-row floor is **recorded and binding for A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
+**60-row denominator floor — adopted with this decision.** The floor is also recorded in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
 
 ## 5. What a VOID run means
 
@@ -119,34 +124,31 @@ model: null when status is VOID
 not_evidence: "A gate decision, not a causal, capability or transfer result."
 ```
 
-`a1_result.assemble` currently returns `PASS` or `FAIL`. If this draft is adopted, the assembly caller maps a C1/C4 `FAIL` to `VOID`; it must not publish `FAIL` as a scientific verdict. The mapping and its tests are an adoption task, not part of this draft.
+`a1_result.assemble` now returns `PASS` or `VOID` and carries `void_gates` and `reason_codes`. A C1/C4 failure is never published as a scientific `FAIL`.
 
 ## 9. Relationship to the current records
 
-| Record | Current state | Effect if this draft is adopted |
+| Record | State | Effect |
 | --- | --- | --- |
-| [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md) | C4 is a post-freeze VOID gate; C1 is a post-freeze result gate | C4 trigger is unchanged; the C1 relationship is superseded by this consolidated gate |
-| [`a1_c4_gate_order.json`](a1_c4_gate_order.json) | Machine record of the C4-only decision | Add a cross-reference to this record; do not rewrite the historical C4 decision |
-| [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) | C1 failure is `NOT IDENTIFIED`; C1 unmeasurable is `UNSATISFIABLE` | C1 failure and unmeasurable become `VOID`; the one-attempt bound is unchanged |
-| `benchmarks/a1_gate_readiness.py` | `BOUNDS` carries the C1 result-gate disposition | Update C1 failure and unmeasurable dispositions to `VOID` and regenerate the readiness artifact |
-| `benchmarks/a1_result.py` | Returns `PASS` / `FAIL` | Caller maps a C1/C4 failure to `VOID`; the assembly object should carry the reason codes |
+| [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md) | C4 is a post-freeze VOID gate | The C4 trigger is unchanged; the C1/C4 pair is consolidated in this adopted record |
+| [`a1_c4_gate_order.json`](a1_c4_gate_order.json) | Machine record of the C4-only decision | Cross-references this adopted record; the historical C4 decision is not rewritten |
+| [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) | C1 failure was `NOT IDENTIFIED`; unmeasurable was `UNSATISFIABLE` | C1 failure and unmeasurable are now **VOID**; the one-attempt bound is unchanged |
+| `benchmarks/a1_gate_readiness.py` | `BOUNDS` carries the C1 result-gate disposition | C1 failure and unmeasurable dispositions are updated to **VOID**; the readiness artifact and page are regenerated |
+| `benchmarks/a1_result.py` | Returned `PASS` / `FAIL` | Returns `PASS` / `VOID`, carries the gate names and reason codes |
+| [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md) | Records the C1 floor | The floor is adopted together with this gate; the C1 acceptance thresholds are unchanged |
 
-Until adoption, none of these rows changes. The C4-only record continues to govern, and C1 remains a result gate.
+## 10. Adoption effects completed in this act
 
-## 10. Adoption check
+- C1 failure and unmeasurable dispositions are `VOID` in the readiness contract.
+- The readiness artifact and page are regenerated.
+- The C4-only record cross-references this adopted decision.
+- `a1_result.assemble` returns `PASS` / `VOID` with reason codes and tests.
+- The manual, checklist, compliance report and changelog are updated.
 
-Adoption requires a dated owner decision. It must update, in the same act:
+Adoption does **not** freeze targets, reserve seeds, issue a grant, run a cell or create evidence. The target freeze, seed reservation and grant remain separate owner acts.
 
-- the C1 `BOUNDS` failure and unmeasurable dispositions;
-- the readiness artifact and page;
-- the C1/C4 gate-order cross-references;
-- the result-assembly `VOID` mapping and its tests;
-- the manual, checklist and changelog.
-
-Adoption does not freeze targets, reserve seeds, issue a grant, run a cell or create evidence.
-
-## 11. What this draft is not
+## 11. What this decision is not
 
 This is not an A1 result, a grant, a freeze, a seed reservation, a threshold change or a claim that C1 or C4 failed. No cell has run. The observed denominator remains unknown, and the current `DO NOT FREEZE` state and the separate target-freeze blocker are unchanged.
 
-**Not evidence:** A proposed gate order and a definition of VOID. It makes no causal, capability, transfer or generalization claim.
+**Not evidence:** An adopted gate order and a definition of VOID. It makes no causal, capability, transfer or generalization claim.

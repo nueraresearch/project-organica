@@ -2,9 +2,21 @@
   "kind": "a1_c1_c4_void_gate",
   "id": "A1-C1-C4-VOID-GATE-1",
   "date": "2026-11-14",
-  "status": "DRAFT \u2014 NOT DECIDED",
-  "current_authority": "docs/A1-C4-GATE-ORDER.md",
-  "proposal": "Treat C1 path separation and C4 no interference as one post-freeze result-validity test; either failing or being unmeasurable makes the A1 run VOID.",
+  "status": "ADOPTED \u2014 BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+  "current_authority": "docs/A1-C1-C4-VOID-GATE.md",
+  "decision": "Treat C1 path separation and C4 no interference as one post-freeze result-validity test; either failing or being unmeasurable makes the A1 run VOID.",
+  "adoption": {
+    "date": "2026-11-14",
+    "decision_owner": "owner direction",
+    "adopted_together": "60-row denominator floor and C1/C4 post-freeze VOID gate",
+    "scope": "C1 acceptance disposition and C4 validity disposition",
+    "does_not_adopt": [
+      "target freeze",
+      "seed reservation",
+      "grant",
+      "run"
+    ]
+  },
   "pre_freeze_admissibility": false,
   "gate_order": [
     "The owner freezes the representative target manifest in a separate act.",
@@ -25,7 +37,7 @@
     {
       "gate": "C1_path_separation",
       "reason_code": "C1_DENOMINATOR_BELOW_FLOOR",
-      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is recorded in DECISION-A1-PATH-A-C1-RULE.md."
+      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is adopted by this decision and recorded in DECISION-A1-PATH-A-C1-RULE.md."
     },
     {
       "gate": "C1_path_separation",
@@ -101,15 +113,16 @@
     "not_evidence": "A gate decision, not a causal, capability or transfer result."
   },
   "adoption_effect": [
-    "Update C1 failure and unmeasurable dispositions in benchmarks/a1_gate_readiness.py from NOT IDENTIFIED / UNSATISFIABLE to VOID, and regenerate the readiness artifact and page.",
-    "Add a cross-reference to this record in A1-C4-GATE-ORDER.md and a1_c4_gate_order.json without rewriting the historical C4-only decision.",
-    "Map a C1/C4 FAIL from a1_result.assemble to VOID in the assembly caller and carry the reason codes.",
-    "Update the manual, pre-freeze checklist and changelog in the same act."
+    "C1 failure and unmeasurable dispositions in benchmarks/a1_gate_readiness.py are VOID; the readiness artifact and page are regenerated.",
+    "A1-C4-GATE-ORDER.md and a1_c4_gate_order.json cross-reference this adopted record without rewriting the historical C4-only decision.",
+    "a1_result.assemble returns PASS or VOID and carries void_gates and reason_codes.",
+    "The manual, pre-freeze checklist, compliance report and changelog are updated in the same act."
   ],
-  "adoption": "Adoption is a separate dated owner decision. It does not freeze targets, reserve seeds, issue a grant, run a cell or create evidence.",
-  "not_evidence": "A proposed gate order and a definition of VOID. No cell has run; this is not an A1 result, grant or capability claim.",
+  "adoption_note": "This decision adopts the floor and the C1/C4 gate together. It does not freeze targets, reserve seeds, issue a grant, run a cell or create evidence.",
+  "not_evidence": "An adopted gate order and a definition of VOID. No cell has run; this is not an A1 result, grant, freeze or capability claim.",
   "denominator_rule": {
-    "status": "RECORDED \u2014 BINDING FOR A1",
+    "status": "ADOPTED \u2014 BINDING FOR A1",
+    "adopted_by_this_decision": true,
     "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
     "minimum_denominator": 60,
     "allowed_losses_at_60_64": 3,

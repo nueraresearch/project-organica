@@ -71,11 +71,11 @@ The act may be signed only while all of the following remain true:
 | Selection artifact internally consistent | **PASS** |
 | Path A recorded as the estimand | **PASS** |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
-| C1/C4 gate order recorded | **NOT YET — owner memo unsigned** |
+| C1/C4 gate order and 60-row floor | **ADOPTED — BINDING FOR A1 (2026-11-14)** |
 | Grant | **NOT ISSUED** |
 | Run | **NOT STARTED** |
 
-The freeze does not wait for C1/C4. Those are post-freeze validity gates. Signing this act before the C1/C4 ordering is recorded would leave the result's admissibility rule unresolved; the ordering memo should be signed first or the two acts recorded together.
+The freeze does not wait for C1/C4. Those are post-freeze validity gates, already **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md). Signing this act does not resolve or re-open the C1/C4 ordering; it only fixes target identity. The provisional-freeze wrapper remains a separate draft.
 
 ## 5. What does not change
 
@@ -84,7 +84,7 @@ The freeze does not wait for C1/C4. Those are post-freeze validity gates. Signin
 - The six candidate seeds remain **PROVISIONAL CANDIDATES** until the act reserves them.
 - No target is re-selected, regenerated or altered.
 - No cell is authorised.
-- The 60-row denominator floor is **RECORDED — BINDING FOR A1**.
+- The 60-row denominator floor and the C1/C4 post-freeze VOID gate are **ADOPTED — BINDING FOR A1**.
 - C7/C8 classification remains open.
 
 ## 6. After signature

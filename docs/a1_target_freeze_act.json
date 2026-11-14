@@ -115,7 +115,7 @@
     "It does not issue a grant.",
     "It does not run a cell.",
     "It does not create a result or observe C1/C4.",
-    "It does not adopt the C1/C4 gate order or the owner memo.",
+    "It does not sign the owner memo or the provisional-freeze wrapper; the C1/C4 gate is already adopted.",
     "It does not regenerate targets or permit post-outcome re-selection."
   ],
   "not_evidence": "A prepared freeze act. No target is frozen in the live manifest, no grant exists and no cell has run."

@@ -10,9 +10,9 @@
 
 **Companion proposal:** [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md).
 
-**Owner-level instrument:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) consolidates this draft and the Path A record into one owner decision memo. It too is **DRAFT — AWAITING OWNER SIGNATURE** and records no freeze, grant or run.
+**C1/C4 gate status:** the C1/C4 post-freeze VOID gate and the 60-row denominator floor are **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). This wrapper remains draft only for the provisional target freeze. [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) remains a draft for the remaining Path A confirmation and provisional-freeze decisions; it records no freeze, grant or run.
 
-**This is a draft decision record, not an adopted decision, a target freeze, a seed reservation, a grant or a result.** Until the owner records adoption, the current `DO NOT FREEZE` state and the C4-only gate order remain authoritative. Adopting this draft would require a new dated owner act; it would not retroactively change the historical freeze decision.
+**This is a draft decision record for the provisional freeze, not an adopted freeze, a seed reservation, a grant or a result.** The C1/C4 gate is already adopted separately; the current `DO NOT FREEZE` state and the historical C4-only record remain in force. Adopting this wrapper would require a new dated owner act; it would not retroactively change the historical freeze decision.
 
 ## 1. Decision proposed
 
@@ -25,7 +25,7 @@ Adopt one gate order for the Path A attempt:
 5. `a1_result.assemble` reads the actual cell parts and reports the observed C1 denominators and C4 deltas.
 6. **Both C1 and C4 must pass.** Either gate failing, or either being unmeasurable, makes the run **`A1 VOID — C1/C4`** before any model is read. Only after both pass may C7/C8 and the remaining gates be considered.
 
-The C1 threshold remains **0.95** preservation and the C4 threshold remains a **0.05** absolute neighbour-delta ceiling. This draft changes the **disposition** of a failed or unmeasurable C1 from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**, and makes C1/C4 one post-freeze validity decision. It does not change a threshold.
+The C1 threshold remains **0.95** preservation and the C4 threshold remains a **0.05** absolute neighbour-delta ceiling. The adopted C1/C4 gate changes the **disposition** of a failed or unmeasurable C1 from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**, and makes C1/C4 one post-freeze validity decision. This wrapper does not change a threshold and does not re-adopt that gate.
 
 ## 2. What “provisional freeze” means
 
@@ -66,7 +66,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 | Gate | Condition | Reason code |
 | --- | --- | --- |
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
-| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The floor is recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
+| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The floor is adopted by [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) and recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
@@ -74,7 +74,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is **`A1 VOID — C1/C4`**. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor.** The 60-row floor is **RECORDED — BINDING FOR A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
+**Denominator floor.** The 60-row floor is **ADOPTED — BINDING FOR A1** in [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md), with the rule recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
 
 ## 5. What a VOID run means
 
@@ -99,10 +99,10 @@ For a VOID run:
 | --- | --- | --- |
 | `A1 PARKED — …` | The run did not execute: missing target set, missing rule, or no grant. | A preparation or authorisation stop, not an experimental outcome. |
 | `A1 VOID — C1/C4` | The planned run executed but the C1/C4 validity test failed or was unmeasurable. | No admissible comparison; no model read. |
-| `NOT IDENTIFIED` | The current C1 result-gate failure when the comparison exists but model separation is not achieved. | A scientific result-gate outcome under the current disposition. |
-| `UNSATISFIABLE` | The current disposition for a gate that cannot be measured under the registered design. | A design/measurement limit under the current disposition. |
+| `NOT IDENTIFIED` (historical) | The pre-adoption C1 result-gate failure when the comparison existed but model separation was not achieved. | Historical only; A1 now uses `A1 VOID — C1/C4`. |
+| `UNSATISFIABLE` (historical) | The pre-adoption disposition for a gate that could not be measured under the registered design. | Historical only; A1 now uses `A1 VOID — C1/C4`. |
 
-If this draft is adopted, C1 failure and C1 unmeasurability move from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**. C4 already uses VOID. The one-attempt rule is unchanged: a VOID is terminal for this registration, and a further attempt needs a new registered design, a fresh seed block and a new dated owner grant.
+The adopted C1/C4 gate already moves C1 failure and C1 unmeasurability from `NOT IDENTIFIED` / `UNSATISFIABLE` to **VOID**. C4 uses VOID. The one-attempt rule is unchanged: a VOID is terminal for this registration, and a further attempt needs a new registered design, a fresh seed block and a new dated owner grant.
 
 A **pass** is not a model verdict either. C1/C4 passing means only that the comparison is admissible; C2, C3, C5, C7, C8 and C9 still decide whether a model may be read.
 
@@ -129,7 +129,7 @@ model: null when status is VOID
 not_evidence: "A gate decision, not a causal, capability or transfer result."
 ```
 
-`a1_result.assemble` currently returns `PASS` or `FAIL`. If this draft is adopted, the assembly caller maps a C1/C4 `FAIL` to `VOID`; it must not publish `FAIL` as a scientific verdict. The mapping and its tests are an adoption task, not part of this draft.
+`a1_result.assemble` returns `PASS` or `VOID` under the adopted C1/C4 gate and carries `void_gates` and `reason_codes`. It does not publish a C1/C4 `FAIL` as a scientific verdict. This wrapper does not re-adopt that mapping.
 
 ## 9. Relationship to current records
 
@@ -138,12 +138,12 @@ not_evidence: "A gate decision, not a causal, capability or transfer result."
 | [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) | `DO NOT FREEZE (2026-11-14)`; Path A recorded; targets draft | A new dated provisional-freeze record supersedes the procedural freeze blocker for this attempt; the historical decision is not rewritten |
 | [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) | Path A recorded; six target sets draft | The Path A target sets and manifest target block are frozen in the adoption act; no target is regenerated |
 | [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md) | C4 is a post-freeze VOID gate; C1 is a post-freeze result gate | C4 trigger unchanged; C1 is consolidated into the C1/C4 validity gate |
-| [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | Detailed C1/C4 VOID proposal; `DRAFT — NOT DECIDED` | Becomes the companion detail for this gate order; adoption of this decision does not silently adopt every implementation task listed there |
-| [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) | C1 failure is `NOT IDENTIFIED`; C1 unmeasurable is `UNSATISFIABLE` | C1 failure and unmeasurable become `VOID`; the one-attempt bound is unchanged |
-| `benchmarks/a1_gate_readiness.py` | `BOUNDS` carries the C1 result-gate disposition | Update C1 failure and unmeasurable dispositions to `VOID` and regenerate the readiness artifact |
-| `benchmarks/a1_result.py` | Returns `PASS` / `FAIL` | Caller maps a C1/C4 failure to `VOID`; the assembly object carries the reason codes |
+| [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | **ADOPTED — BINDING FOR A1**; the 60-row floor and C1/C4 VOID gate are in force | The adopted detail governs the C1/C4 gate; this wrapper does not re-adopt it |
+| [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) | C1/C4 failure and unmeasurability are `VOID`; the one-attempt bound is unchanged | Already in force; this wrapper changes no gate disposition |
+| `benchmarks/a1_gate_readiness.py` | `BOUNDS` carries the adopted C1/C4 `VOID` dispositions | Already in force; no change from this wrapper |
+| `benchmarks/a1_result.py` | Returns `PASS` / `VOID`; carries gate names and reason codes | The adopted gate already implements this; this wrapper does not change it |
 
-Until adoption, none of these rows changes. The C4-only record continues to govern, C1 remains a result gate, and the targets remain draft.
+The C1/C4 rows are already in force. Until this wrapper is adopted, only the provisional freeze remains proposed; the C4-only record remains the historical C4 decision, and the targets remain draft.
 
 ## 10. Adoption check
 

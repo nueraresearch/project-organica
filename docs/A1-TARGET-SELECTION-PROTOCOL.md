@@ -38,7 +38,7 @@ The four targets must have **disjoint endpoints**. No two targets may share a ta
 
 **Target-freeze act (draft):** [`A1-TARGET-FREEZE-1`](A1-TARGET-FREEZE-ACT.md) prepares the separate act that would freeze these six target sets and the manifest/seed block. It is **DRAFT — AWAITING OWNER SIGNATURE**; nothing is frozen until it is signed.
 
-**Owner decision memo (draft):** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) records Path A and resolves C1/C4 as post-freeze VOID gates. It is **DRAFT — AWAITING OWNER SIGNATURE**; it does not freeze targets or authorise a run.
+**Owner decision memo (draft):** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) remains draft for the remaining Path A confirmation and provisional freeze. The C1/C4 post-freeze VOID gate and the 60-row floor are **ADOPTED — BINDING FOR A1 (2026-11-14)** in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md); the memo does not freeze targets or authorise a run.
 
 **Path A selected (2026-11-14).** The protocol is recorded as **Path A: the representative eligible pre-37 cycle-membership directed-edge effect**. This selects the estimand already implemented by the selector; it does **not** regenerate the target sets, freeze the manifest, reserve seeds, issue a grant or authorise a cell. The six existing target sets remain the Path A draft. **Path B** — the high-carrier-propensity, hard-edge or carrier-enriched effect — is **not selected**. It would require a new selector, a new target artifact and a new registered design; it is not a continuation of this protocol. The target sets remain draft either way.
 
@@ -174,7 +174,7 @@ When the checks pass, the manifest's target block changes from `UNRESOLVED — M
 | Fewer than four eligible disjoint targets for a seed | `A1 TARGET SET NOT FORMED`; A1 is not run. No substitute edge, lower N or extra seed. |
 | Selection pass and cell `U` disagree | `VOID` under C9; no run is interpreted. |
 | A target is missing from `E_s` or is not disjoint | No freeze; the selection is invalid. |
-| A target has no `K+` denominator after the run | The relevant C1/C2/T2 gate fails as `VOID` or `NOT IDENTIFIED`; no re-selection. |
+| A target has no `K+` denominator after the run | The relevant C1/C2/T2 gate fails as `VOID`; no re-selection. |
 | `U` is absent or measured after carrier/`K`/`Y` | C5 fails; no re-selection and no substitute measurement. |
 
 A1 has one registered attempt. A failed or unmeasurable gate is terminal, as recorded in [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md); a new target rule or new run requires a new registered design, not a quiet retry.
