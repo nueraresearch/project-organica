@@ -46,6 +46,7 @@ def build() -> dict:
     a0 = _load("carrier_formation_a0.json")
 
     targets = {edge for row in selection["per_seed"].values() for edge in row["selected"]}
+    total_targets = sum(len(row["selected"]) for row in selection["per_seed"].values())
     selected_flags: list[int] = []
     strengths: list[float] = []
     for row in selection["per_seed"].values():
@@ -159,15 +160,32 @@ def build() -> dict:
         "verdict": "FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY",
         "reading": (
             "P0 and feasibility pass, but four target rows per seed make the "
-            "precommitted 0.95 C1 floor a 100% preservation rule. The current "
-            "cell emits target rows only; C4 non-target rows are needed to give "
-            "C1 a denominator larger than four. Do not freeze on the current "
-            "target artifact."
+            "precommitted 0.95 C1 floor a 100% preservation rule. The prevalence "
+            "proxy is adequate; the denominator is not. The current cell emits "
+            "target rows only; C4 non-target rows are needed to give C1 a "
+            "denominator larger than four. Do not freeze on the current target "
+            "artifact."
         ),
+        "freeze_question": {
+            "question": (
+                "Does a random eligible-edge design have enough expected measurable "
+                "structure to justify freeze?"
+            ),
+            "answer": "NO — NOT AS CURRENTLY EMITTED",
+            "basis": (
+                "K and Y_ind prevalence are high enough that missing structure is "
+                "not the blocker. The blocker is C1: four rows make the 0.95 floor "
+                "a 100% rule, and the all-six all-four-K proxy is 6.9% under "
+                "independence. C4 rows or a larger N must change the denominator "
+                "before freeze."
+            ),
+            "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
+            "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.",
+        },
         "next": [
-            "Implement C4 non-target rows so C1 can use all paired-control available edges.",
-            "Re-run this review against that larger denominator.",
-            "Only then decide whether N = 4 is adequate or the target rule needs redesign.",
+            "If Path A (representative eligible-edge effect) is retained: implement C4 non-target rows and enlarge the C1 denominator.",
+            "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+            "Re-run this review against the larger denominator before any freeze decision.",
         ],
     }
 
@@ -176,6 +194,30 @@ def build() -> dict:
         "id": KIND,
         "date": DATE,
         "status": decision["verdict"],
+        "representativeness": {
+            "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+            "selector": (
+                "outcome-blind hash order over all eligible edges; U is not a ranking input"
+            ),
+            "evidence": {
+                "selected_observations": total_targets,
+                "unique_target_edges": len(targets),
+                "unselected_candidates": len(selected_flags) - total_targets,
+                "selected_mean_strength": round(statistics.mean(selected_strength), 3),
+                "unselected_mean_strength": round(statistics.mean(unselected_strength), 3),
+                "permutation_p": permutation_p,
+            },
+            "not_a_sample_of": [
+                "high-U edges",
+                "hard edges",
+                "carrier-enriched anomalies",
+            ],
+            "consequence": (
+                "A1 tests a representative eligible-edge effect. It does not test an "
+                "effect among high-propensity or anomalous edges; that would require a "
+                "different selector and a new target set before freeze."
+            ),
+        },
         "sources": {
             "selection": "docs/a1_target_selection.json",
             "c6": "docs/c6_timing_block.json",
@@ -183,11 +225,12 @@ def build() -> dict:
             "a0": "docs/carrier_formation_a0.json",
         },
         "inputs": {
-            "targets": len(targets),
+            "target_observations": total_targets,
+            "unique_target_edges": len(targets),
             "selected": sum(selected_flags),
             "candidates": len(selected_flags),
             "c6_seeds": len(c6["per_seed"]),
-            "a0_rows": len(a0["rows"]),
+            "a0_hard_edges": a0_hard,
         },
         "findings": findings,
         "decision": decision,
@@ -208,6 +251,18 @@ def problems(doc: dict) -> list[str]:
         found.append("power review has no findings")
     if (doc.get("decision") or {}).get("verdict") != "FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY":
         found.append("power review decision changed")
+    if not (doc.get("decision") or {}).get("freeze_question"):
+        found.append("power review has no freeze question")
+    elif doc["decision"]["freeze_question"].get("answer") != "NO — NOT AS CURRENTLY EMITTED":
+        found.append("power review freeze answer changed")
+    if not doc.get("representativeness"):
+        found.append("power review has no estimand record")
+    elif doc["representativeness"].get("estimand") != (
+            "representative eligible pre-37 cycle-membership directed-edge population"):
+        found.append("power review estimand changed")
+    inputs = doc.get("inputs") or {}
+    if inputs.get("target_observations") != 24 or inputs.get("unique_target_edges") != 23:
+        found.append("power review target counts changed")
     return found
 
 
@@ -226,6 +281,26 @@ def render(doc: dict) -> str:
         evidence = "; ".join("%s=%s" % (k, v) for k, v in finding["evidence"].items())
         rows.append("| **%s** — %s | %s |" % (finding["id"], finding["finding"], evidence))
     rows += [
+        "",
+        "## What population A1 tests",
+        "",
+        "**Estimand:** %s." % doc["representativeness"]["estimand"],
+        "",
+        doc["representativeness"]["consequence"],
+        "",
+        "It is **not** a sample of %s." % ", ".join(doc["representativeness"]["not_a_sample_of"]),
+        "",
+        "## Freeze question",
+        "",
+        "**%s**" % doc["decision"]["freeze_question"]["question"],
+        "",
+        "**Answer: %s.** %s" % (
+            doc["decision"]["freeze_question"]["answer"],
+            doc["decision"]["freeze_question"]["basis"],
+        ),
+        "",
+        "- If yes: %s" % doc["decision"]["freeze_question"]["if_yes"],
+        "- If no: %s" % doc["decision"]["freeze_question"]["if_no"],
         "",
         "## Decision",
         "",

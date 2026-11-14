@@ -12,15 +12,32 @@
 | **c1_denominator_fragility** — With four target rows, the 0.95 C1 floor is effectively 100% preservation; one lost row gives 0.75. | rows_per_seed=4; c1_floor=0.95; max_losses_at_4=0; effective_floor_at_4=1.0; illustration_3_of_4=0.75; max_losses_if_112_rows=5 |
 | **hard_edge_baseline** — A0's hard-edge prevalence is low, but a random 24-target sample has a material chance of containing one. | a0_hard_edges=26; a0_present_edges=672; hard_rate=0.0387; expected_hard_targets=0.93; prob_any_hard_independence=0.612 |
 
+## What population A1 tests
+
+**Estimand:** representative eligible pre-37 cycle-membership directed-edge population.
+
+A1 tests a representative eligible-edge effect. It does not test an effect among high-propensity or anomalous edges; that would require a different selector and a new target set before freeze.
+
+It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
+
+## Freeze question
+
+**Does a random eligible-edge design have enough expected measurable structure to justify freeze?**
+
+**Answer: NO — NOT AS CURRENTLY EMITTED.** K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows or a larger N must change the denominator before freeze.
+
+- If yes: Freeze the representative eligible-edge design after the manifest review.
+- If no: Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.
+
 ## Decision
 
 **FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY**
 
-P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The current cell emits target rows only; C4 non-target rows are needed to give C1 a denominator larger than four. Do not freeze on the current target artifact.
+P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. The current cell emits target rows only; C4 non-target rows are needed to give C1 a denominator larger than four. Do not freeze on the current target artifact.
 
 ### Next
-- Implement C4 non-target rows so C1 can use all paired-control available edges.
-- Re-run this review against that larger denominator.
-- Only then decide whether N = 4 is adequate or the target rule needs redesign.
+- If Path A (representative eligible-edge effect) is retained: implement C4 non-target rows and enlarge the C1 denominator.
+- If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.
+- Re-run this review against the larger denominator before any freeze decision.
 
 **Not evidence:** A read-only power/prevalence review over different-seed C6 and A0 records. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim.

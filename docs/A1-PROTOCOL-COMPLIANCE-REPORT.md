@@ -52,6 +52,10 @@ The audit artifact is [`a1_adversarial_audit.json`](a1_adversarial_audit.json), 
 as [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md). The selection artifact is
 [`a1_target_selection.json`](a1_target_selection.json).
 
+## Estimand record
+
+The selected targets are a **representative eligible pre-37 cycle-membership directed-edge sample**, not a high-`U`, hard-edge or carrier-enriched sample: 24 observations across 23 unique edges, all 382 candidates eligible, selected vs unselected cycle-36 strength p = 0.918. This is a design fact, not a P0 condition. If a high-propensity estimand is required, the selector must be redesigned before freeze; that is a different experiment.
+
 ## Sensitivity evidence
 
 The first audit run **failed** future-blindness for seeds `20630104` and `20630106`.

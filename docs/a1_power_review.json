@@ -3,6 +3,24 @@
   "id": "A1-POWER-REVIEW-1",
   "date": "2026-11-14",
   "status": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
+  "representativeness": {
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+    "selector": "outcome-blind hash order over all eligible edges; U is not a ranking input",
+    "evidence": {
+      "selected_observations": 24,
+      "unique_target_edges": 23,
+      "unselected_candidates": 358,
+      "selected_mean_strength": 15.333,
+      "unselected_mean_strength": 15.215,
+      "permutation_p": 0.91765
+    },
+    "not_a_sample_of": [
+      "high-U edges",
+      "hard edges",
+      "carrier-enriched anomalies"
+    ],
+    "consequence": "A1 tests a representative eligible-edge effect. It does not test an effect among high-propensity or anomalous edges; that would require a different selector and a new target set before freeze."
+  },
   "sources": {
     "selection": "docs/a1_target_selection.json",
     "c6": "docs/c6_timing_block.json",
@@ -10,11 +28,12 @@
     "a0": "docs/carrier_formation_a0.json"
   },
   "inputs": {
-    "targets": 23,
+    "target_observations": 24,
+    "unique_target_edges": 23,
     "selected": 24,
     "candidates": 382,
     "c6_seeds": 6,
-    "a0_rows": 26
+    "a0_hard_edges": 26
   },
   "findings": [
     {
@@ -103,11 +122,18 @@
   ],
   "decision": {
     "verdict": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
-    "reading": "P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The current cell emits target rows only; C4 non-target rows are needed to give C1 a denominator larger than four. Do not freeze on the current target artifact.",
+    "reading": "P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. The current cell emits target rows only; C4 non-target rows are needed to give C1 a denominator larger than four. Do not freeze on the current target artifact.",
+    "freeze_question": {
+      "question": "Does a random eligible-edge design have enough expected measurable structure to justify freeze?",
+      "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
+      "basis": "K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows or a larger N must change the denominator before freeze.",
+      "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
+      "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block."
+    },
     "next": [
-      "Implement C4 non-target rows so C1 can use all paired-control available edges.",
-      "Re-run this review against that larger denominator.",
-      "Only then decide whether N = 4 is adequate or the target rule needs redesign."
+      "If Path A (representative eligible-edge effect) is retained: implement C4 non-target rows and enlarge the C1 denominator.",
+      "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+      "Re-run this review against the larger denominator before any freeze decision."
     ]
   },
   "tag_counts": {
