@@ -374,6 +374,21 @@ def test_c1_denominator_feasibility_risk_is_recorded_as_an_upper_bound():
     assert risk["observed_baseline_available_rows"] is None
     assert risk["floor"] == 60
     assert risk["below_floor_disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
+    budget = risk["availability_budget"]
+    assert budget["floor"] == 60
+    expected_budget = {
+        "20630101": (64, 4),
+        "20630102": (63, 3),
+        "20630103": (64, 4),
+        "20630104": (64, 4),
+        "20630105": (64, 4),
+        "20630106": (63, 3),
+    }
+    for seed, (rows, unavailable) in expected_budget.items():
+        row = budget["by_seed"][seed]
+        assert row["candidate_rows"] == rows
+        assert row["max_unavailable_rows"] == unavailable
+        assert row["required_availability_fraction"] == round(60 / rows, 6)
     unrelated = risk["unrelated_observations"]
     assert unrelated["forbidden_use"] == "BASELINE-AVAILABILITY PROXY"
     c6 = next(finding for finding in doc["findings"]

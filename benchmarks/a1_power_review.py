@@ -19,6 +19,7 @@ PAGE_PATH = DOCS / "A1-POWER-REVIEW.md"
 KIND = "A1-POWER-REVIEW-1"
 DATE = "2026-11-14"
 C1_FLOOR = 0.95
+C1_FLOOR_ROWS = 60
 FREEZE_ANSWER = "NO — NOT AS CURRENTLY EMITTED"
 N_PER_SEED = 4
 C1_CURVE_DENOMINATORS = (4, 20, 56, 59, 60, 63, 64)
@@ -551,6 +552,29 @@ def build() -> dict:
     planned_max_losses_allowed = max(planned_max_losses.values())
     planned_total_rows = sum(planned_c1_rows.values())
     planned_non_target_total = sum(planned_non_target.values())
+    availability_budget = {
+        "floor": C1_FLOOR_ROWS,
+        "rule": (
+            "max_unavailable_rows = candidate_rows - floor; "
+            "required_availability_fraction = floor / candidate_rows"
+        ),
+        "by_seed": {
+            seed: {
+                "candidate_rows": rows,
+                "max_unavailable_rows": rows - C1_FLOOR_ROWS,
+                "required_availability_fraction": round(C1_FLOOR_ROWS / rows, 6),
+            }
+            for seed, rows in planned_c1_rows.items()
+        },
+        "note": (
+            "Denominator-floor arithmetic on the candidate-count upper bound; "
+            "not an observed or estimated baseline-availability rate."
+        ),
+        "retention_rule": (
+            "The separate 0.95 C1 retention rule allows three losses at 60-64; "
+            "availability is counted first and is not part of that allowance."
+        ),
+    }
 
     tag_counts = Counter(tag for edge in targets for tag in edge.split(">", 1))
     findings = [
@@ -666,8 +690,9 @@ def build() -> dict:
         ),
         "basis": "candidate_count; no paired-control availability measurement",
         "observed_baseline_available_rows": None,
-        "floor": 60,
+        "floor": C1_FLOOR_ROWS,
         "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+        "availability_budget": availability_budget,
         "why": (
             "The 63-64 rows are the candidate-universe counts, not a measurement "
             "of edges available in the paired A+K+ control. C1 counts only those "
@@ -960,6 +985,21 @@ def problems(doc: dict) -> list[str]:
         found.append("C1 denominator risk note claims an observed baseline-availability count")
     if risk.get("floor") != 60:
         found.append("C1 denominator risk floor changed")
+    budget = risk.get("availability_budget") or {}
+    if budget.get("floor") != 60:
+        found.append("C1 availability budget floor changed")
+    by_seed_budget = budget.get("by_seed") or {}
+    if len(by_seed_budget) != 6:
+        found.append("C1 availability budget does not cover six seeds")
+    for seed, row in by_seed_budget.items():
+        rows = row.get("candidate_rows")
+        if not isinstance(rows, int) or rows < 60:
+            found.append("seed %s has no valid C1 availability budget" % seed)
+            continue
+        if row.get("max_unavailable_rows") != rows - 60:
+            found.append("seed %s C1 unavailable-row budget is inconsistent" % seed)
+        if row.get("required_availability_fraction") != round(60 / rows, 6):
+            found.append("seed %s C1 availability fraction is inconsistent" % seed)
     unrelated = risk.get("unrelated_observations") or {}
     if unrelated.get("forbidden_use") != "BASELINE-AVAILABILITY PROXY":
         found.append("C1 risk note does not forbid unrelated percentages as proxies")
@@ -1082,6 +1122,27 @@ def render(doc: dict) -> str:
             "blocks, worlds and quantities; they must not be used to estimate, "
             "bound or certify the C1 denominator.",
             "",
+            "**Per-seed availability budget.** The floor is **%d** rows. "
+            "`max_unavailable_rows` is the number of candidate rows that can be "
+            "baseline-unavailable before the seed's denominator falls below the "
+            "floor; this is arithmetic on the upper bound, not an observed rate. "
+            "It is separate from the three-loss retention allowance, which "
+            "applies after the observed denominator is formed." % risk["floor"],
+            "",
+        ]
+        budget = risk.get("availability_budget") or {}
+        if budget:
+            rows += [
+                "| Seed | Candidate rows | Max unavailable | Required availability |",
+                "| ---: | ---: | ---: | ---: |",
+            ]
+            for seed, row in budget["by_seed"].items():
+                rows.append("| %s | %d | %d | %.2f%% |" % (
+                    seed, row["candidate_rows"], row["max_unavailable_rows"],
+                    row["required_availability_fraction"] * 100,
+                ))
+            rows.append("")
+        rows += [
             "**Risk disposition:** `%s`; no baseline-availability denominator "
             "has been measured." % risk["status"],
             "",

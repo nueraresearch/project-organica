@@ -57,6 +57,22 @@ def test_c8_expansion_design_record_matches_artifact_and_stays_unfrozen():
         assert row["selected_count"] == 20
         assert row["max_endpoint_degree"] <= 3
         assert row["selection_digest"] == artifact["per_seed"][seed]["selection_digest"]
+    current = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
+    superset = design["superset_of_current_targets"]
+    assert superset["all_six_subset"] is True
+    assert superset["effect"]["C8_step"] == 0.05
+    assert superset["effect"]["c1_total_upper_bound"] == "63-64"
+    assert superset["effect"]["c1_target_only_rows"] == 20
+    for seed, row in superset["by_seed"].items():
+        current_edges = set(current["per_seed"][seed]["selected"])
+        expansion_edges = set(artifact["per_seed"][seed]["selected"])
+        assert current_edges <= expansion_edges
+        assert row["retained"] == len(current_edges)
+        assert row["new"] == len(expansion_edges - current_edges)
+        assert row["subset"] is True
+    page = Path("docs/A1-C8-EXPANSION.md").read_text(encoding="utf-8")
+    assert "### 3.1 Superset check against the current Path A targets" in page
+    assert "all four current targets are retained in every seed" in page
 
 
 def test_c8_n20_allows_one_assertion_and_rejects_two():

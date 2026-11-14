@@ -21,6 +21,17 @@ The planned **63–64** C1 rows are an **upper bound**, not an observed or estim
 
 **Unrelated percentages are not baseline-availability proxies.** C6's K/Y_ind rates and A0's hard-edge rate come from different seed blocks, worlds and quantities; they must not be used to estimate, bound or certify the C1 denominator.
 
+**Per-seed availability budget.** The floor is **60** rows. `max_unavailable_rows` is the number of candidate rows that can be baseline-unavailable before the seed's denominator falls below the floor; this is arithmetic on the upper bound, not an observed rate. It is separate from the three-loss retention allowance, which applies after the observed denominator is formed.
+
+| Seed | Candidate rows | Max unavailable | Required availability |
+| ---: | ---: | ---: | ---: |
+| 20630101 | 64 | 4 | 93.75% |
+| 20630102 | 63 | 3 | 95.24% |
+| 20630103 | 64 | 4 | 93.75% |
+| 20630104 | 64 | 4 | 93.75% |
+| 20630105 | 64 | 4 | 93.75% |
+| 20630106 | 63 | 3 | 95.24% |
+
 **Risk disposition:** `RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND`; no baseline-availability denominator has been measured.
 
 

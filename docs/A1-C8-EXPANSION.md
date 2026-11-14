@@ -52,6 +52,21 @@ The N=20 design does **not** supply the C1 60-row floor by itself. C1 still need
 
 The N=20 design does **not** make target rows independent. Endpoint overlap means a target edge can share a tag — and potentially a carrier structure — with another target edge. C8 reads the assertion rate over the 20 rows and does not pool across seeds; it does not license an independence claim across rows.
 
+### 3.1 Superset check against the current Path A targets
+
+**VERIFIED — all four current targets are retained in every seed.** This is a read-only comparison of the committed [four-target artifact](a1_target_selection.json) and the [N=20 artifact](a1_c8_target_selection.json); it does not regenerate either set.
+
+| Seed | Current N=4 targets | N=20 targets | Retained | New rows | N=4 subset? |
+| ---: | ---: | ---: | ---: | ---: | --- |
+| `20630101` | 4 | 20 | 4 | 16 | yes |
+| `20630102` | 4 | 20 | 4 | 16 | yes |
+| `20630103` | 4 | 20 | 4 | 16 | yes |
+| `20630104` | 4 | 20 | 4 | 16 | yes |
+| `20630105` | 4 | 20 | 4 | 16 | yes |
+| `20630106` | 4 | 20 | 4 | 16 | yes |
+
+Adopting this design would therefore preserve the current Path A target identity and add 16 rows per seed; it would not require re-selecting the four existing targets. The cell matrix remains the same 36 cells, although each cell would carry 20 target rows instead of four, and that per-cell runtime cost has not been measured. The C4 non-target stream changes from **59–60** to **43–44** rows because 16 candidates move into the target block; the C1 total upper bound remains **63–64** because 20 + 43/44 equals the same candidate count. C1 target-only is still only **20** rows, below the separate **60-row floor**, so this design does not make C1 admissible by itself. The [power review](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note) records the per-seed availability budget for that floor.
+
 ## 4. What this registration does not do
 
 - It does not replace or regenerate the current four-target `A1-TARGET-SELECTION-1` artifact.
@@ -82,6 +97,7 @@ No check in this record scores C8. The artifact is a target-design record, not a
 | [`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md) | Adopts the per-seed unit; this design supplies the C8 rows |
 | [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) | Current four-target Path A protocol; unchanged |
 | [`A1-TWO-PATH-MANIFEST.md`](A1-TWO-PATH-MANIFEST.md) | Current manifest; still N=4, unresolved and unfrozen |
+| [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) | C1 denominator-feasibility risk and the per-seed 60-row availability budget |
 | [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) | Records the N=20 design as registered but not adopted |
 | [`A1-DENOMINATOR-RESOLUTION.md`](A1-DENOMINATOR-RESOLUTION.md) | Shows the current C8 flags and the registered N=20 pass |
 

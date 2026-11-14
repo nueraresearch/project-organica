@@ -932,6 +932,44 @@
     "observed_baseline_available_rows": null,
     "floor": 60,
     "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+    "availability_budget": {
+      "floor": 60,
+      "rule": "max_unavailable_rows = candidate_rows - floor; required_availability_fraction = floor / candidate_rows",
+      "by_seed": {
+        "20630101": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630102": {
+          "candidate_rows": 63,
+          "max_unavailable_rows": 3,
+          "required_availability_fraction": 0.952381
+        },
+        "20630103": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630104": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630105": {
+          "candidate_rows": 64,
+          "max_unavailable_rows": 4,
+          "required_availability_fraction": 0.9375
+        },
+        "20630106": {
+          "candidate_rows": 63,
+          "max_unavailable_rows": 3,
+          "required_availability_fraction": 0.952381
+        }
+      },
+      "note": "Denominator-floor arithmetic on the candidate-count upper bound; not an observed or estimated baseline-availability rate.",
+      "retention_rule": "The separate 0.95 C1 retention rule allows three losses at 60-64; availability is counted first and is not part of that allowance."
+    },
     "why": "The 63-64 rows are the candidate-universe counts, not a measurement of edges available in the paired A+K+ control. C1 counts only those available rows. The observed denominator can be lower than 63-64; if the minimum is below 60 on any seed or path, the run is VOID before any model is read.",
     "unrelated_observations": {
       "sources": [
