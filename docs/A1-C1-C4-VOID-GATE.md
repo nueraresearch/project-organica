@@ -8,7 +8,7 @@
 
 **This is a draft decision record, not an adopted decision, a target freeze, a grant or a result.** It proposes a narrower replacement for the C1 disposition in [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) and consolidates it with the already-recorded C4 gate in [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md). Until the owner records adoption, the current records remain authoritative.
 
-**Owner memo draft:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) consolidates Path A and this C1/C4 ordering into one unsigned owner decision. It is **DRAFT — AWAITING OWNER SIGNATURE** and does not change this proposal or the current records.
+**Recorded rule:** [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md) fixes the 60-row minimum and the below-floor VOID disposition. **Owner memo draft:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) consolidates Path A and this C1/C4 ordering into one unsigned owner decision. It is **DRAFT — AWAITING OWNER SIGNATURE** and does not change this proposal or the current records.
 
 **Gate-order wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) drafts the decision that would provisionally freeze the Path A targets and then apply this C1/C4 validity gate. That wrapper is also **DRAFT — NOT DECIDED**; it does not change this proposal or the current records.
 
@@ -65,7 +65,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is `A1 VOID — C1/C4`. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor.** The 60-row floor is proposed in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) and is not adopted by this draft. At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
+**Denominator floor.** The 60-row floor is **recorded and binding for A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
 
 ## 5. What a VOID run means
 

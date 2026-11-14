@@ -70,6 +70,7 @@ The act may be signed only while all of the following remain true:
 | Cycle-36 `U` measured before carrier, K and Y | **PASS** |
 | Selection artifact internally consistent | **PASS** |
 | Path A recorded as the estimand | **PASS** |
+| C1 acceptance rule | **RECORDED — BINDING FOR A1** |
 | C1/C4 gate order recorded | **NOT YET — owner memo unsigned** |
 | Grant | **NOT ISSUED** |
 | Run | **NOT STARTED** |
@@ -83,7 +84,7 @@ The freeze does not wait for C1/C4. Those are post-freeze validity gates. Signin
 - The six candidate seeds remain **PROVISIONAL CANDIDATES** until the act reserves them.
 - No target is re-selected, regenerated or altered.
 - No cell is authorised.
-- The 60-row denominator floor remains **PROPOSED — NOT ADOPTED**.
+- The 60-row denominator floor is **RECORDED — BINDING FOR A1**.
 - C7/C8 classification remains open.
 
 ## 6. After signature

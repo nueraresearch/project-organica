@@ -104,7 +104,7 @@ This memo does not reserve seeds. Seed reservation and the grant remain separate
 | Gate | Condition | Reason code |
 | --- | --- | --- |
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
-| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. Applies only if the separate 60-row floor proposal is adopted. | `C1_DENOMINATOR_BELOW_FLOOR` |
+| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The 60-row floor is recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
@@ -112,7 +112,7 @@ This memo does not reserve seeds. Seed reservation and the grant remain separate
 
 A run with any one of these conditions is **`A1 VOID — C1/C4`**. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor is separate.** The 60-row floor remains **PROPOSED — NOT ADOPTED** in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md). If this memo is signed without adopting the floor, the `C1_DENOMINATOR_BELOW_FLOOR` condition is omitted and C1 is read at 0.95 on the observed denominator; a 59/59 result would then pass. If the floor is adopted, a perfect 59/59 is VOID.
+**Denominator floor.** The 60-row floor is **RECORDED — BINDING FOR A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
 
 ## 7. What a VOID run means
 
@@ -180,7 +180,7 @@ Signing this memo does **not** reserve seeds, issue the grant, run a cell or cre
 
 - The **target freeze act** (Path A targets and manifest block).
 - The **dated grant**.
-- The **60-row denominator floor**, which remains a separate proposed rule.
+- The **60-row denominator floor**, which is recorded and binding for A1.
 - **C7/C8 classification** (structural versus quantitative rate).
 - **Authorisation policy** for the run.
 

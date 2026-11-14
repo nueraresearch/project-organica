@@ -259,8 +259,39 @@ def test_power_review_curve_states_retention_assumptions():
     assert [row["target_all_six"] for row in required] == [0.5, 0.8, 0.9, 0.95]
     assert required[1]["required_q_by_denominator"]["63"] == 0.984017
     floor = curve["denominator_floor_rule"]
-    assert floor["status"] == "PROPOSED — NOT ADOPTED"
+    assert floor["status"] == "RECORDED — BINDING FOR A1"
     assert floor["floor"] == 60
+    assert floor["minimum_denominator"] == 60
+    assert floor["allowed_losses_at_60_64"] == 3
+    assert floor["below_floor_disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
     assert floor["planned_range"] == [63, 64]
     assert any(row["disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
                for row in floor["table"])
+
+
+def test_path_a_and_c1_rule_are_recorded_without_a_run():
+    import json
+    from pathlib import Path
+
+    doc = json.loads(Path("docs/a1_path_a_c1_rule.json").read_text(encoding="utf-8"))
+    assert doc["status"] == "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"
+    assert doc["path_a"]["selected"] == "A"
+    assert doc["path_a"]["target_sets"] == "DRAFT — NOT FROZEN"
+    rule = doc["c1_acceptance_rule"]
+    assert rule["threshold"] == 0.95
+    assert rule["minimum_denominator"] == 60
+    assert rule["allowed_losses_at_60_64"] == 3
+    assert rule["below_floor_disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
+    assert rule["zero_denominator_disposition"] == "VOID — C1_NO_DENOMINATOR"
+    table = {row["observed_min"]: row for row in rule["table"]}
+    assert table["59" if "59" in table else "20-59"]["disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
+    assert table["60"]["required_retained"] == 57
+    assert table["64"]["required_retained"] == 61
+    assert doc["current_state"]["grant"] == "NOT ISSUED"
+    assert doc["current_state"]["run"] == "NOT STARTED"
+    assert doc["current_state"]["observed_c1"] == "NONE"
+
+    page = Path("docs/DECISION-A1-PATH-A-C1-RULE.md").read_text(encoding="utf-8")
+    assert "| Minimum denominator | **60 rows** |" in page
+    assert "VOID — C1_DENOMINATOR_BELOW_FLOOR" in page
+    assert "A perfect **59/59** is still VOID" in page

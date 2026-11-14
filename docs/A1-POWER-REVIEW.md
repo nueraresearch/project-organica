@@ -70,9 +70,9 @@ Each cell is the assumed `q` needed for the stated all-six-seed power under the 
 The required-retention table makes the cost explicit: at 63 rows, 80% all-six power needs `q=0.984017`; 50% needs `q=0.977154`. The target-only four-row design needs a still higher rate for the same power because it allows no losses.
 
 
-### Proposed C1 denominator floor
+### C1 denominator floor
 
-**Status: PROPOSED — NOT ADOPTED.** This is the pre-run rule the project still needs; it is not adopted by this review.
+**Status: RECORDED — BINDING FOR A1.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). The rule is binding for A1.
 
 **Floor:** 60 paired-control available rows, measured as the minimum across all six seeds and both `A−` and `K−` paths. The planned range is 63–64.
 
@@ -88,7 +88,7 @@ At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 an
 | 60–64 | 3 | C1 gate may be read |
 | >64 | n/a | VOID — design inconsistency |
 
-A perfect 59/59 is still VOID: the fraction cannot rescue a denominator below the proposed resolution floor.
+A perfect 59/59 is still VOID: the fraction cannot rescue a denominator below the resolution floor.
 
 PARKED is for a missing target set or grant. This is an executed run whose planned resolution was not reached, so it is VOID.
 
@@ -124,7 +124,7 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 **Answer: NO — NOT AS CURRENTLY EMITTED.** K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows plus targets would raise the planned denominator to 63-64 per seed, but no cell has run, so the observed denominator is still unmeasured.
 
 - If yes: Freeze the representative eligible-edge design after the manifest review.
-- If no: Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.
+- If no: Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator.
 
 ## Freeze readiness
 
@@ -179,7 +179,7 @@ P0 and feasibility pass, but four target rows per seed make the precommitted 0.9
 ### Next
 - Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.
 - Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.
-- Adopt or reject the proposed 60-row C1 denominator floor before target freeze.
-- Re-run this review after C1/C4 are measured; do not freeze before that.
+- The C1 acceptance rule is recorded; the target freeze remains a separate act.
+- Record the C1/C4 gate order and the separate target freeze before a grant; C1/C4 are measured only after the run.
 
 **Not evidence:** A read-only power/prevalence review over different-seed C6 and A0 records. Its C1 expansion is a planned count from the A1 candidate counts, not an observed denominator. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim.

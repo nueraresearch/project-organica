@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Recorded — Path A estimand and C1 acceptance rule (2026-11-14)
+
+- **Path A is the recorded A1 estimand and the C1 rule is now binding:** minimum **60** paired-control available rows across all six seeds and both A−/K− paths, **three allowed losses at 60–64**, and **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** at 1–59 rows, even at 59/59. Zero rows is `C1_NO_DENOMINATOR`; above 64 is a design inconsistency. The rule does not freeze targets, reserve seeds, grant a run or observe C1/C4. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/a1_path_a_c1_rule.json`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/a1_owner_decision_memo.json`, `docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md`, `docs/a1_provisional_freeze_gate_order.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+
 ### Prepared — Path A target-freeze act (2026-11-14)
 
 - **A separate unsigned target-freeze act now records the exact six Path A target sets without freezing the live manifest.** The act fixes 24 observations across 23 unique edges, the per-seed selection digests and the artifact SHA-256; on signature it would set the manifest target block to `FIXED BEFORE FREEZE`, freeze the manifest and reserve the six-seed block. It does not issue a grant, open a database or run a cell, and C1/C4 remain unobserved. The live manifest is unchanged: **NOT FROZEN**, targets **UNRESOLVED**, seeds **PROVISIONAL**, authorisation false. `benchmarks/a1_power_review.py`, `docs/A1-POWER-REVIEW.md`, `docs/a1_power_review.json`, `docs/A1-TARGET-FREEZE-ACT.md`, `docs/a1_target_freeze_act.json`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/DECISION-A1-PATH-A-C1-C4.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `tests/test_a1_prefreeze.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.

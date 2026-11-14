@@ -2,7 +2,7 @@
   "kind": "a1_c1_c4_void_gate",
   "id": "A1-C1-C4-VOID-GATE-1",
   "date": "2026-11-14",
-  "status": "DRAFT — NOT DECIDED",
+  "status": "DRAFT \u2014 NOT DECIDED",
   "current_authority": "docs/A1-C4-GATE-ORDER.md",
   "proposal": "Treat C1 path separation and C4 no interference as one post-freeze result-validity test; either failing or being unmeasurable makes the A1 run VOID.",
   "pre_freeze_admissibility": false,
@@ -25,7 +25,7 @@
     {
       "gate": "C1_path_separation",
       "reason_code": "C1_DENOMINATOR_BELOW_FLOOR",
-      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is proposed in A1-POWER-REVIEW and is not adopted by this draft."
+      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is recorded in DECISION-A1-PATH-A-C1-RULE.md."
     },
     {
       "gate": "C1_path_separation",
@@ -52,7 +52,7 @@
     "The experiment did not produce an admissible comparison.",
     "No causal model is selected: no M-K, M-N, M-S or M-R label.",
     "No M1 branch is assigned, and no V2, capability, transfer, external-advantage or generalization claim may be read.",
-    "C7 and C8 are not adjudicated; if not already evaluated, they are reported as NOT ADJUDICATED — RUN VOID.",
+    "C7 and C8 are not adjudicated; if not already evaluated, they are reported as NOT ADJUDICATED \u2014 RUN VOID.",
     "The run is not a negative result and is not evidence for or against any model.",
     "Observed C1 denominators and C4 row counts are retained for audit; a missing denominator is reported as missing, never as 0.0.",
     "The planned seeds and cells are consumed; no substitute seed, extra cell or post-hoc target may be added.",
@@ -77,10 +77,25 @@
   "report_shape": {
     "status": "PASS | VOID",
     "void_gates": [],
-    "reason_codes": ["C1_NO_DENOMINATOR", "C1_DENOMINATOR_BELOW_FLOOR", "C1_THRESHOLD", "C4_UNMEASURABLE", "C4_DELTA", "C1_C4_INCOMPLETE"],
+    "reason_codes": [
+      "C1_NO_DENOMINATOR",
+      "C1_DENOMINATOR_BELOW_FLOOR",
+      "C1_THRESHOLD",
+      "C4_UNMEASURABLE",
+      "C4_DELTA",
+      "C1_C4_INCOMPLETE"
+    ],
     "observed_denominator": {
-      "c1": ["a_minus", "k_minus", "by_seed"],
-      "c4": ["rows", "measured", "unmeasured"]
+      "c1": [
+        "a_minus",
+        "k_minus",
+        "by_seed"
+      ],
+      "c4": [
+        "rows",
+        "measured",
+        "unmeasured"
+      ]
     },
     "model": null,
     "not_evidence": "A gate decision, not a causal, capability or transfer result."
@@ -92,5 +107,12 @@
     "Update the manual, pre-freeze checklist and changelog in the same act."
   ],
   "adoption": "Adoption is a separate dated owner decision. It does not freeze targets, reserve seeds, issue a grant, run a cell or create evidence.",
-  "not_evidence": "A proposed gate order and a definition of VOID. No cell has run; this is not an A1 result, grant or capability claim."
+  "not_evidence": "A proposed gate order and a definition of VOID. No cell has run; this is not an A1 result, grant or capability claim.",
+  "denominator_rule": {
+    "status": "RECORDED \u2014 BINDING FOR A1",
+    "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+    "minimum_denominator": 60,
+    "allowed_losses_at_60_64": 3,
+    "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR"
+  }
 }

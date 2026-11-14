@@ -1,0 +1,82 @@
+{
+  "kind": "a1_path_a_c1_rule",
+  "id": "A1-PATH-A-C1-RULE-1",
+  "date": "2026-11-14",
+  "status": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+  "decision_source": "owner direction, 2026-11-14",
+  "path_a": {
+    "selected": "A",
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+    "status": "RECORDED",
+    "target_sets": "DRAFT — NOT FROZEN",
+    "path_b": {
+      "selected": false,
+      "description": "high-carrier-propensity, hard-edge or carrier-enriched effect",
+      "requires": "new selector, target artifact and registered design"
+    }
+  },
+  "c1_acceptance_rule": {
+    "status": "RECORDED — BINDING FOR A1",
+    "threshold": 0.95,
+    "minimum_denominator": 60,
+    "unit": "observed minimum paired-control available rows across all six seeds and both A- and K- paths",
+    "paths": ["A-", "K-"],
+    "all_seeds_required": true,
+    "allowed_losses_at_60_64": 3,
+    "planned_range": [63, 64],
+    "acceptance_condition": "Every required seed and both paths have at least 60 available rows and retained / denominator >= 0.95.",
+    "table": [
+      {"observed_min": "0", "required_retained": null, "allowed_losses": null, "disposition": "VOID — C1_NO_DENOMINATOR"},
+      {"observed_min": "1-19", "required_retained": "all available", "allowed_losses": 0, "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+      {"observed_min": "20-59", "required_retained": "1-2 fewer than available", "allowed_losses": "1-2", "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+      {"observed_min": "60", "required_retained": 57, "allowed_losses": 3, "disposition": "C1 may be read"},
+      {"observed_min": "61", "required_retained": 58, "allowed_losses": 3, "disposition": "C1 may be read"},
+      {"observed_min": "62", "required_retained": 59, "allowed_losses": 3, "disposition": "C1 may be read"},
+      {"observed_min": "63", "required_retained": 60, "allowed_losses": 3, "disposition": "C1 may be read"},
+      {"observed_min": "64", "required_retained": 61, "allowed_losses": 3, "disposition": "C1 may be read"},
+      {"observed_min": ">64", "required_retained": null, "allowed_losses": null, "disposition": "VOID — design inconsistency; score preplanned rows only"}
+    ],
+    "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+    "zero_denominator_disposition": "VOID — C1_NO_DENOMINATOR",
+    "above_planned_disposition": "VOID — design inconsistency; score preplanned rows only",
+    "perfect_59": "59/59 is still VOID; the fraction cannot rescue a denominator below 60.",
+    "missing_is_not_zero": true
+  },
+  "void_meaning": [
+    "The experiment did not produce an admissible comparison.",
+    "No causal model is selected and no M1 branch is assigned.",
+    "No capability, transfer, V2, external-advantage or generalization claim may be read.",
+    "C7 and C8 are NOT ADJUDICATED — RUN VOID, not pass or fail.",
+    "The run is not a negative result, null finding or failed replication.",
+    "Observed denominators are retained for audit; missing values are never reported as 0.0.",
+    "Seeds and cells are consumed; no substitute seed, extra cell or post-hoc denominator expansion.",
+    "No row is dropped, no threshold changed and no target re-selected.",
+    "A second attempt requires a new registered design, fresh seeds and a new dated grant."
+  ],
+  "not_statuses": [
+    "PARKED — the run did not execute.",
+    "NOT IDENTIFIED — a model result.",
+    "UNSATISFIABLE — the old unmeasurable-gate disposition."
+  ],
+  "current_state": {
+    "path_a": "RECORDED",
+    "path_b": "NOT SELECTED",
+    "c1_rule": "RECORDED — BINDING FOR A1",
+    "target_sets": "DRAFT — NOT FROZEN",
+    "freeze_decision": "DO NOT FREEZE (2026-11-14)",
+    "target_freeze": "NOT AUTHORIZED",
+    "grant": "NOT ISSUED",
+    "run": "NOT STARTED",
+    "observed_c1": "NONE",
+    "observed_c4": "NONE"
+  },
+  "not_effect": [
+    "It does not freeze the Path A targets or manifest.",
+    "It does not sign the owner gate-order memo.",
+    "It does not issue a grant, reserve seeds or run a cell.",
+    "It does not observe C1 or C4.",
+    "It does not classify C7/C8.",
+    "It does not change the 0.95 C1 threshold or the 0.05 C4 ceiling."
+  ],
+  "not_evidence": "A recorded estimand and acceptance rule. It freezes nothing, grants nothing, runs no cell and makes no causal, capability or transfer claim."
+}

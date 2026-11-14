@@ -114,8 +114,13 @@ def _c1_power_curve() -> dict:
         "assumption": "Required q under the same independent Bernoulli, six-independent-seed model.",
     }
     floor_rule = {
-        "status": "PROPOSED — NOT ADOPTED",
+        "status": "RECORDED — BINDING FOR A1",
+        "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "binding": True,
         "floor": 60,
+        "minimum_denominator": 60,
+        "allowed_losses_at_60_64": 3,
+        "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
         "planned_range": [63, 64],
         "unit": "minimum paired-control available rows across all six seeds and both A- and K- paths",
         "why": (
@@ -129,7 +134,7 @@ def _c1_power_curve() -> dict:
         ),
         "perfect_59": (
             "A perfect 59/59 is still VOID: the fraction cannot rescue a "
-            "denominator below the proposed resolution floor."
+            "denominator below the resolution floor."
         ),
         "not_parked": (
             "PARKED is for a missing target set or grant. This is an executed "
@@ -424,13 +429,13 @@ def build() -> dict:
                 "observed denominator is still unmeasured."
             ),
             "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
-            "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.",
+            "if_no": "Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator.",
         },
         "next": [
             "Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.",
             "Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.",
-            "Adopt or reject the proposed 60-row C1 denominator floor before target freeze.",
-            "Re-run this review after C1/C4 are measured; do not freeze before that.",
+            "The C1 acceptance rule is recorded; the target freeze remains a separate act.",
+            "Record the C1/C4 gate order and the separate target freeze before a grant; C1/C4 are measured only after the run.",
         ],
     }
 
@@ -679,8 +684,8 @@ def problems(doc: dict) -> list[str]:
     if len(required.get("rows") or []) != 4:
         found.append("C1 power curve has no required-retention scenarios")
     floor_rule = curve.get("denominator_floor_rule") or {}
-    if floor_rule.get("status") != "PROPOSED — NOT ADOPTED":
-        found.append("C1 denominator floor rule is not marked proposed")
+    if floor_rule.get("status") != "RECORDED — BINDING FOR A1":
+        found.append("C1 denominator floor rule is not recorded as binding")
     if floor_rule.get("floor") != 60:
         found.append("C1 denominator floor changed")
     if len(floor_rule.get("table") or []) != 5:
@@ -807,10 +812,9 @@ def render(doc: dict) -> str:
     floor = curve["denominator_floor_rule"]
     rows += [
         "",
-        "### Proposed C1 denominator floor",
+        "### C1 denominator floor",
         "",
-        "**Status: %s.** This is the pre-run rule the project still needs; it is "
-        "not adopted by this review." % floor["status"],
+        "**Status: %s.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). The rule is binding for A1." % floor["status"],
         "",
         "**Floor:** %d paired-control available rows, measured as the minimum "
         "across all six seeds and both `A−` and `K−` paths. The planned range is "

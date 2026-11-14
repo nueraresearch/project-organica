@@ -66,7 +66,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 | Gate | Condition | Reason code |
 | --- | --- | --- |
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
-| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. Applies only if the separate 60-row floor proposal is adopted. | `C1_DENOMINATOR_BELOW_FLOOR` |
+| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. The floor is recorded in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
@@ -74,7 +74,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is **`A1 VOID — C1/C4`**. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**Denominator floor is separate.** The 60-row floor is **PROPOSED — NOT ADOPTED** in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md). This draft does not adopt it. If the gate order is adopted without the floor, the `C1_DENOMINATOR_BELOW_FLOOR` row is omitted and C1 is read at 0.95 on the observed denominator; a 59/59 result would then pass. If the floor is adopted, a perfect 59/59 is VOID.
+**Denominator floor.** The 60-row floor is **RECORDED — BINDING FOR A1** in [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60.
 
 ## 5. What a VOID run means
 

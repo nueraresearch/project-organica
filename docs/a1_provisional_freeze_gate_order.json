@@ -2,23 +2,23 @@
   "kind": "a1_provisional_freeze_gate_order",
   "id": "A1-PROVISIONAL-FREEZE-GATE-ORDER-1",
   "date": "2026-11-14",
-  "status": "DRAFT — NOT DECIDED; NO FREEZE, NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 NOT DECIDED; NO FREEZE, NO GRANT, NO RUN",
   "current_authority": [
     "DO NOT FREEZE (2026-11-14)",
     "docs/A1-C4-GATE-ORDER.md"
   ],
   "companion": "docs/A1-C1-C4-VOID-GATE.md",
-  "proposal": "Provisionally freeze the Path A target sets and manifest target block, then run the planned cells, then require both C1 and C4 to pass; either failing or being unmeasurable makes the run A1 VOID — C1/C4.",
+  "proposal": "Provisionally freeze the Path A target sets and manifest target block, then run the planned cells, then require both C1 and C4 to pass; either failing or being unmeasurable makes the run A1 VOID \u2014 C1/C4.",
   "current_state": {
-    "path": "A — recorded",
-    "targets": "DRAFT — NOT FROZEN",
+    "path": "A \u2014 recorded",
+    "targets": "DRAFT \u2014 NOT FROZEN",
     "freeze_decision": "DO NOT FREEZE (2026-11-14)",
     "seed_reservation": "NONE",
     "grant": "NOT ISSUED",
     "run": "NOT STARTED"
   },
   "provisional_freeze": {
-    "status": "PROPOSED — NOT ADOPTED",
+    "status": "PROPOSED \u2014 NOT ADOPTED",
     "scope": "Path A target sets and manifest target block for one registered attempt",
     "evidentiary_status_only": true,
     "target_identity_final_after_freeze": true,
@@ -36,19 +36,20 @@
     "The owner records the dated grant; this remains a separate act.",
     "The planned A1 cells run.",
     "a1_result.assemble reads the actual cell parts and reports the observed C1 denominators and C4 deltas.",
-    "Both C1 and C4 must pass; either failing or being unmeasurable makes the run A1 VOID — C1/C4 before any model is read."
+    "Both C1 and C4 must pass; either failing or being unmeasurable makes the run A1 VOID \u2014 C1/C4 before any model is read."
   ],
   "thresholds": {
     "C1_preservation_min": 0.95,
     "C4_neighbor_delta_max": 0.05
   },
   "denominator_floor": {
-    "status": "PROPOSED — NOT ADOPTED",
+    "status": "RECORDED \u2014 BINDING FOR A1",
     "adopted_by_this_draft": false,
     "floor": 60,
-    "record": "docs/A1-POWER-REVIEW.md",
-    "if_not_adopted": "The C1_DENOMINATOR_BELOW_FLOOR condition is omitted and C1 is read at 0.95 on the observed denominator; a 59/59 result would pass.",
-    "if_adopted": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59."
+    "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+    "if_adopted": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59.",
+    "recorded_elsewhere": true,
+    "if_recorded": "A perfect 59/59 is VOID; the fraction cannot rescue a denominator below 60."
   },
   "void_conditions": [
     {
@@ -59,7 +60,7 @@
     {
       "gate": "C1_path_separation",
       "reason_code": "C1_DENOMINATOR_BELOW_FLOOR",
-      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. Applies only if the separate 60-row floor proposal is adopted."
+      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. The floor is recorded in DECISION-A1-PATH-A-C1-RULE.md."
     },
     {
       "gate": "C1_path_separation",
@@ -86,7 +87,7 @@
     "The experiment did not produce an admissible comparison.",
     "No causal model is selected: no M-K, M-N, M-S or M-R label.",
     "No M1 branch is assigned, and no V2, capability, transfer, external-advantage or generalization claim may be read.",
-    "C7 and C8 are not adjudicated; if not already evaluated, they are reported as NOT ADJUDICATED — RUN VOID.",
+    "C7 and C8 are not adjudicated; if not already evaluated, they are reported as NOT ADJUDICATED \u2014 RUN VOID.",
     "The run is not a negative result and is not evidence for or against any model; it is not a null finding or failed replication.",
     "Observed C1 denominators and C4 row counts are retained for audit; a missing denominator is reported as missing, never as 0.0.",
     "The planned seeds and cells are consumed; no substitute seed, extra cell or post-hoc target may be added.",
@@ -105,12 +106,12 @@
   ],
   "status_distinctions": [
     {
-      "status": "A1 PARKED — …",
+      "status": "A1 PARKED \u2014 \u2026",
       "when": "The run did not execute: missing target set, missing rule, or no grant.",
       "records": "A preparation or authorisation stop, not an experimental outcome."
     },
     {
-      "status": "A1 VOID — C1/C4",
+      "status": "A1 VOID \u2014 C1/C4",
       "when": "The planned run executed but the C1/C4 validity test failed or was unmeasurable.",
       "records": "No admissible comparison; no model read."
     },
@@ -144,8 +145,16 @@
       "C1_C4_INCOMPLETE"
     ],
     "observed_denominator": {
-      "c1": ["a_minus", "k_minus", "by_seed"],
-      "c4": ["rows", "measured", "unmeasured"]
+      "c1": [
+        "a_minus",
+        "k_minus",
+        "by_seed"
+      ],
+      "c4": [
+        "rows",
+        "measured",
+        "unmeasured"
+      ]
     },
     "model": null,
     "not_evidence": "A gate decision, not a causal, capability or transfer result."
