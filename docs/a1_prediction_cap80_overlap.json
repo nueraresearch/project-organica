@@ -1,0 +1,3245 @@
+{
+ "kind": "a1_prediction_cap80_overlap",
+ "id": "A1-PREDICTION-CAP80-OVERLAP-1",
+ "date": "2026-11-14",
+ "status": "DESCRIPTIVE \u2014 CAP-80 LARGER-28 OVERLAP DECOMPOSITION; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "At loop cap 120 / prediction cap 80, does K coverage explain the two larger-28 joint C1 failures?",
+ "definition": "Per-seed A, K, A\u2229K, A\\K and K\\A on the six larger-28 candidate streams at prediction cap 80, with C1 floor 60.  A\\K is the predicted-not-carried overlap loss; K\\A is the carried-not-predicted pool.",
+ "method": "One no-arm replay per seed at cap 80.  A, K and A\u2229K must reproduce the committed prediction-cap rows exactly.  Every candidate edge's A and K membership is recorded so the overlap is decomposed by seed, family and support.",
+ "constants": {
+  "block": "larger-28",
+  "seeds": [
+   20660101,
+   20660102,
+   20660103,
+   20660104,
+   20660105,
+   20660106
+  ],
+  "prediction_cap": 80,
+  "loop_cap": 120,
+  "c1_floor": 60
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "All six larger-28 seeds clear A marginally (A 75-91), so the two joint failures are not A shortages.  At cap 80, K covers 56/75 and 51/83 of the A edges on seeds 20660102 and 20660103, leaving 19 and 32 A edges uncarried; only 4 and 9 of those need to be covered to reach 60.  K volume is not scarce (K 124 and 105 against A 75 and 83), so the failure is selective K coverage: the joint ceiling loses 19 and 32 rows to A\\K.",
+ "summary": {
+  "seeds": 6,
+  "A_total": 498,
+  "K_total": 732,
+  "A_and_K_total": 394,
+  "A_only_total": 104,
+  "K_only_total": 338,
+  "C1_marginal_pass": 6,
+  "C1_joint_pass": 4,
+  "joint_failures": [
+   20660102,
+   20660103
+  ],
+  "joint_failure_A": [
+   75,
+   83
+  ],
+  "joint_failure_A_and_K": [
+   56,
+   51
+  ],
+  "joint_failure_A_only": [
+   19,
+   32
+  ],
+  "joint_failure_K_only": [
+   68,
+   54
+  ],
+  "joint_failure_min_K_repair": [
+   4,
+   9
+  ],
+  "joint_failure_K_coverage": [
+   0.746667,
+   0.614458
+  ],
+  "pass_min_K_coverage": 0.790698,
+  "all_A_marginal": true,
+  "all_joint_failures_A_marginal": true,
+  "A_only_by_support": [
+   {
+    "label": "0",
+    "edges": 0
+   },
+   {
+    "label": "1",
+    "edges": 0
+   },
+   {
+    "label": "2-3",
+    "edges": 7
+   },
+   {
+    "label": "4-7",
+    "edges": 35
+   },
+   {
+    "label": "8-15",
+    "edges": 59
+   },
+   {
+    "label": "16+",
+    "edges": 3
+   }
+  ],
+  "K_only_by_support": [
+   {
+    "label": "0",
+    "edges": 0
+   },
+   {
+    "label": "1",
+    "edges": 2
+   },
+   {
+    "label": "2-3",
+    "edges": 30
+   },
+   {
+    "label": "4-7",
+    "edges": 168
+   },
+   {
+    "label": "8-15",
+    "edges": 136
+   },
+   {
+    "label": "16+",
+    "edges": 2
+   }
+  ]
+ },
+ "seed_rows": [
+  {
+   "block": "larger-28",
+   "seed": 20660101,
+   "candidate_edges": 169,
+   "A": 86,
+   "K": 111,
+   "A_and_K": 68,
+   "A_only": 18,
+   "K_only": 43,
+   "K_coverage_of_A": 0.790698,
+   "C1_marginal": 86,
+   "C1_joint": 68,
+   "gap_to_60_marginal": -26,
+   "gap_to_60_joint": -8,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": true,
+   "A_needed_without_K": 0,
+   "min_K_repair": 0,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 86,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 0
+    },
+    {
+     "label": "4-7",
+     "edges": 8
+    },
+    {
+     "label": "8-15",
+     "edges": 10
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 1
+    },
+    {
+     "label": "4-7",
+     "edges": 15
+    },
+    {
+     "label": "8-15",
+     "edges": 27
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "ochre>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 35
+    },
+    {
+     "edge": "ochre>willow",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 5
+    },
+    {
+     "edge": "tagbb>taggg",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagcc>tagaa",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagcc>willow",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagee>birch",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 13
+    },
+    {
+     "edge": "tagee>indigo",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 18
+    },
+    {
+     "edge": "tagee>olive",
+     "support": 15,
+     "support_bin": "8-15",
+     "A_rank": 14
+    },
+    {
+     "edge": "tagee>tagaa",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 31
+    },
+    {
+     "edge": "tagff>indigo",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagff>maple",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 3
+    },
+    {
+     "edge": "tagff>teal",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagff>verdant",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagff>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 5
+    },
+    {
+     "edge": "taggg>tagkk",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 19
+    },
+    {
+     "edge": "tagii>birch",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 29
+    },
+    {
+     "edge": "tagii>olive",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 38
+    },
+    {
+     "edge": "tagii>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 28
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>sable",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>taghh",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>fern",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>birch",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>indigo",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>slate",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>yarrow",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>fern",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>sable",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagkk",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>umber",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>amber",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>slate",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>taggg",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>teal",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>yarrow",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>fern",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagbb",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>taghh",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>fern",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>indigo",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>taggg",
+     "support": 15,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>teal",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "slate>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>maple",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>willow",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>amber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>crimson",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>cedar",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>taghh",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>crimson",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>amber",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>indigo",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>maple",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>slate",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>taghh",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>slate",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>fern",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>taghh",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagcc",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    }
+   ]
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660102,
+   "candidate_edges": 167,
+   "A": 75,
+   "K": 124,
+   "A_and_K": 56,
+   "A_only": 19,
+   "K_only": 68,
+   "K_coverage_of_A": 0.746667,
+   "C1_marginal": 75,
+   "C1_joint": 56,
+   "gap_to_60_marginal": -15,
+   "gap_to_60_joint": 4,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": false,
+   "A_needed_without_K": 0,
+   "min_K_repair": 4,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 75,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 1
+    },
+    {
+     "label": "4-7",
+     "edges": 7
+    },
+    {
+     "label": "8-15",
+     "edges": 10
+    },
+    {
+     "label": "16+",
+     "edges": 1
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 3
+    },
+    {
+     "label": "4-7",
+     "edges": 37
+    },
+    {
+     "label": "8-15",
+     "edges": 28
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "amber>taggg",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 33
+    },
+    {
+     "edge": "birch>maple",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 19
+    },
+    {
+     "edge": "birch>taggg",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 21
+    },
+    {
+     "edge": "birch>teal",
+     "support": 17,
+     "support_bin": "16+",
+     "A_rank": 8
+    },
+    {
+     "edge": "cedar>tagii",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 1
+    },
+    {
+     "edge": "cedar>teal",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagbb>tagkk",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 39
+    },
+    {
+     "edge": "taghh>fern",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": 1
+    },
+    {
+     "edge": "taghh>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 1
+    },
+    {
+     "edge": "taghh>yarrow",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagll>maple",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 19
+    },
+    {
+     "edge": "tagll>taggg",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 20
+    },
+    {
+     "edge": "teal>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 6
+    },
+    {
+     "edge": "umber>taggg",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 14
+    },
+    {
+     "edge": "umber>tagjj",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 19
+    },
+    {
+     "edge": "verdant>teal",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 26
+    },
+    {
+     "edge": "willow>tagaa",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 36
+    },
+    {
+     "edge": "yarrow>amber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 3
+    },
+    {
+     "edge": "yarrow>tagll",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 30
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>fern",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>maple",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>sable",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>tagaa",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>tagff",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>tagii",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>tagjj",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>teal",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>crimson",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>amber",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>indigo",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagbb",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagll",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>verdant",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagbb",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>willow",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>slate",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagff",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagkk",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>olive",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>maple",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagaa",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagcc",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>teal",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>sable",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>indigo",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>tagbb",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>verdant",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>willow",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>indigo",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>tagee",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>maple",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>taggg",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagii",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagjj",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>maple",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>sable",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>slate",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>tagaa",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>tagcc",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>tagjj",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>crimson",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>sable",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>slate",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>tagii",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>tagjj",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>tagkk",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>olive",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagbb",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagdd",
+     "support": 15,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>olive",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>ochre",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>tagdd",
+     "support": 15,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>umber",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>amber",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>cedar",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>taghh",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>umber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagff",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagkk",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>crimson",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>tagff",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagdd",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagee",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    }
+   ]
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660103,
+   "candidate_edges": 172,
+   "A": 83,
+   "K": 105,
+   "A_and_K": 51,
+   "A_only": 32,
+   "K_only": 54,
+   "K_coverage_of_A": 0.614458,
+   "C1_marginal": 83,
+   "C1_joint": 51,
+   "gap_to_60_marginal": -23,
+   "gap_to_60_joint": 9,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": false,
+   "A_needed_without_K": 0,
+   "min_K_repair": 9,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 83,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 3
+    },
+    {
+     "label": "4-7",
+     "edges": 8
+    },
+    {
+     "label": "8-15",
+     "edges": 20
+    },
+    {
+     "label": "16+",
+     "edges": 1
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 1
+    },
+    {
+     "label": "2-3",
+     "edges": 4
+    },
+    {
+     "label": "4-7",
+     "edges": 24
+    },
+    {
+     "label": "8-15",
+     "edges": 25
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "fern>birch",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 8
+    },
+    {
+     "edge": "fern>crimson",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 15
+    },
+    {
+     "edge": "indigo>olive",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 21
+    },
+    {
+     "edge": "olive>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 38
+    },
+    {
+     "edge": "olive>crimson",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 39
+    },
+    {
+     "edge": "olive>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 34
+    },
+    {
+     "edge": "sable>taggg",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 7
+    },
+    {
+     "edge": "slate>crimson",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 4
+    },
+    {
+     "edge": "slate>maple",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 5
+    },
+    {
+     "edge": "slate>taghh",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 6
+    },
+    {
+     "edge": "tagaa>taggg",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagcc>indigo",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 4
+    },
+    {
+     "edge": "tagcc>maple",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 9
+    },
+    {
+     "edge": "tagcc>ochre",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 12
+    },
+    {
+     "edge": "tagcc>sable",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 4
+    },
+    {
+     "edge": "tagcc>tagdd",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 34
+    },
+    {
+     "edge": "tagcc>taghh",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": 26
+    },
+    {
+     "edge": "tagcc>tagll",
+     "support": 17,
+     "support_bin": "16+",
+     "A_rank": 20
+    },
+    {
+     "edge": "tagkk>birch",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 19
+    },
+    {
+     "edge": "tagkk>sable",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagkk>tagaa",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 28
+    },
+    {
+     "edge": "teal>fern",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 16
+    },
+    {
+     "edge": "verdant>ochre",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 21
+    },
+    {
+     "edge": "verdant>tagaa",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 25
+    },
+    {
+     "edge": "verdant>tagdd",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 22
+    },
+    {
+     "edge": "verdant>taghh",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 18
+    },
+    {
+     "edge": "yarrow>crimson",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 1
+    },
+    {
+     "edge": "yarrow>maple",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 21
+    },
+    {
+     "edge": "yarrow>ochre",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 22
+    },
+    {
+     "edge": "yarrow>tagdd",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 24
+    },
+    {
+     "edge": "yarrow>taghh",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 29
+    },
+    {
+     "edge": "yarrow>umber",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 26
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>teal",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>amber",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>slate",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>tagjj",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>yarrow",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagkk",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>verdant",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>amber",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>fern",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagkk",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>yarrow",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>amber",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>willow",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagee",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagff",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagjj",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>amber",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>cedar",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>indigo",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>maple",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagaa",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagdd",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagii",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>teal",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>tagjj",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>cedar",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>indigo",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>maple",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>birch",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>indigo",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagaa",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagdd",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagll",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>tagjj",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>olive",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>tagjj",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>indigo",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>sable",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>tagaa",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>ochre",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>amber",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagee",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagjj",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>tagee",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>amber",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>taggg",
+     "support": 1,
+     "support_bin": "1",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>cedar",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>indigo",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "willow>birch",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "willow>crimson",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "willow>indigo",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "willow>teal",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    }
+   ]
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660104,
+   "candidate_edges": 165,
+   "A": 88,
+   "K": 138,
+   "A_and_K": 77,
+   "A_only": 11,
+   "K_only": 61,
+   "K_coverage_of_A": 0.875,
+   "C1_marginal": 88,
+   "C1_joint": 77,
+   "gap_to_60_marginal": -28,
+   "gap_to_60_joint": -17,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": true,
+   "A_needed_without_K": 0,
+   "min_K_repair": 0,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 88,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 1
+    },
+    {
+     "label": "4-7",
+     "edges": 4
+    },
+    {
+     "label": "8-15",
+     "edges": 5
+    },
+    {
+     "label": "16+",
+     "edges": 1
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 7
+    },
+    {
+     "label": "4-7",
+     "edges": 38
+    },
+    {
+     "label": "8-15",
+     "edges": 16
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "cedar>indigo",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "cedar>taghh",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 2
+    },
+    {
+     "edge": "cedar>willow",
+     "support": 22,
+     "support_bin": "16+",
+     "A_rank": 1
+    },
+    {
+     "edge": "crimson>slate",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 33
+    },
+    {
+     "edge": "sable>taggg",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 6
+    },
+    {
+     "edge": "tagee>fern",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 33
+    },
+    {
+     "edge": "taggg>ochre",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 8
+    },
+    {
+     "edge": "taggg>slate",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": 15
+    },
+    {
+     "edge": "taggg>taghh",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 2
+    },
+    {
+     "edge": "umber>olive",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 5
+    },
+    {
+     "edge": "umber>willow",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 2
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>olive",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>amber",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>tagee",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>tagii",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>umber",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>fern",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>verdant",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagbb",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagll",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagaa",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagbb",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagdd",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagkk",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>slate",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>yarrow",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagaa",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>tagdd",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagaa",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagbb",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagll",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>maple",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>tagkk",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "slate>tagjj",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "slate>tagkk",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>fern",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>taghh",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>willow",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>birch",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>ochre",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagcc",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>teal",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagcc>tagjj",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>sable",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>taghh",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>teal",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>sable",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagee",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>tagkk",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>verdant",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>fern",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>indigo",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>sable",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>taghh",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>willow",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>fern",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>ochre",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>tagcc",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>tagff",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>indigo",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagcc",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>tagff",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>amber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>maple",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "verdant>umber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>amber",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>crimson",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagaa",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagii",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>tagkk",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>umber",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    }
+   ]
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660105,
+   "candidate_edges": 169,
+   "A": 91,
+   "K": 121,
+   "A_and_K": 72,
+   "A_only": 19,
+   "K_only": 49,
+   "K_coverage_of_A": 0.791209,
+   "C1_marginal": 91,
+   "C1_joint": 72,
+   "gap_to_60_marginal": -31,
+   "gap_to_60_joint": -12,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": true,
+   "A_needed_without_K": 0,
+   "min_K_repair": 0,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 91,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 1
+    },
+    {
+     "label": "4-7",
+     "edges": 7
+    },
+    {
+     "label": "8-15",
+     "edges": 11
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 1
+    },
+    {
+     "label": "2-3",
+     "edges": 5
+    },
+    {
+     "label": "4-7",
+     "edges": 28
+    },
+    {
+     "label": "8-15",
+     "edges": 14
+    },
+    {
+     "label": "16+",
+     "edges": 1
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "birch>slate",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "cedar>amber",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 7
+    },
+    {
+     "edge": "slate>sable",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 24
+    },
+    {
+     "edge": "tagaa>olive",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": 1
+    },
+    {
+     "edge": "tagbb>crimson",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": 24
+    },
+    {
+     "edge": "tagbb>ochre",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 9
+    },
+    {
+     "edge": "tagbb>tagcc",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 11
+    },
+    {
+     "edge": "tagcc>verdant",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 15
+    },
+    {
+     "edge": "tagdd>fern",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 24
+    },
+    {
+     "edge": "tagdd>ochre",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 26
+    },
+    {
+     "edge": "tagdd>taggg",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": 30
+    },
+    {
+     "edge": "tagee>olive",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagee>tagjj",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": 10
+    },
+    {
+     "edge": "willow>ochre",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 6
+    },
+    {
+     "edge": "willow>olive",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": 1
+    },
+    {
+     "edge": "willow>tagcc",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 8
+    },
+    {
+     "edge": "yarrow>olive",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 6
+    },
+    {
+     "edge": "yarrow>tagkk",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 10
+    },
+    {
+     "edge": "yarrow>teal",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": 8
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>maple",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>cedar",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>tagjj",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>verdant",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>indigo",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>sable",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagff",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>sable",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagbb",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagff",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagcc",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>taggg",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagkk",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>teal",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>birch",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>tagff",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>indigo",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>verdant",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>verdant",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>tagcc",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagaa>umber",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagcc>birch",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>ochre",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>tagcc",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>sable",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>birch",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>tagii",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>tagll",
+     "support": 17,
+     "support_bin": "16+",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>willow",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>yarrow",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>crimson",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>olive",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>tagcc",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>tagkk",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>willow",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>crimson",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>ochre",
+     "support": 1,
+     "support_bin": "1",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagjj",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>umber",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>sable",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>tagff",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>tagii",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>verdant",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>sable",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>tagff",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "willow>maple",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "yarrow>maple",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    }
+   ]
+  },
+  {
+   "block": "larger-28",
+   "seed": 20660106,
+   "candidate_edges": 158,
+   "A": 75,
+   "K": 133,
+   "A_and_K": 70,
+   "A_only": 5,
+   "K_only": 63,
+   "K_coverage_of_A": 0.933333,
+   "C1_marginal": 75,
+   "C1_joint": 70,
+   "gap_to_60_marginal": -15,
+   "gap_to_60_joint": -10,
+   "C1_marginal_pass": true,
+   "C1_joint_pass": true,
+   "A_needed_without_K": 0,
+   "min_K_repair": 0,
+   "K_volume_sufficient": true,
+   "full_K_coverage_joint": 75,
+   "A_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 1
+    },
+    {
+     "label": "4-7",
+     "edges": 1
+    },
+    {
+     "label": "8-15",
+     "edges": 3
+    },
+    {
+     "label": "16+",
+     "edges": 0
+    }
+   ],
+   "K_only_by_support": [
+    {
+     "label": "0",
+     "edges": 0
+    },
+    {
+     "label": "1",
+     "edges": 0
+    },
+    {
+     "label": "2-3",
+     "edges": 10
+    },
+    {
+     "label": "4-7",
+     "edges": 26
+    },
+    {
+     "label": "8-15",
+     "edges": 26
+    },
+    {
+     "label": "16+",
+     "edges": 1
+    }
+   ],
+   "A_only_edges": [
+    {
+     "edge": "amber>tagkk",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": 2
+    },
+    {
+     "edge": "tagaa>tagff",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": 4
+    },
+    {
+     "edge": "willow>slate",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": 8
+    },
+    {
+     "edge": "willow>tagjj",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": 10
+    },
+    {
+     "edge": "yarrow>indigo",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": 3
+    }
+   ],
+   "K_only_edges": [
+    {
+     "edge": "amber>tagff",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "amber>teal",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>olive",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "birch>tagff",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>olive",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>sable",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>tagff",
+     "support": 12,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>taghh",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "cedar>teal",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "crimson>tagbb",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>crimson",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>olive",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "fern>tagkk",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>tagee",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "indigo>umber",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>indigo",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>olive",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>sable",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>tagcc",
+     "support": 16,
+     "support_bin": "16+",
+     "A_rank": null
+    },
+    {
+     "edge": "maple>tagjj",
+     "support": 14,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>birch",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "ochre>maple",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagaa",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagbb",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "olive>tagll",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "sable>fern",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "slate>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "slate>tagll",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>ochre",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>tagcc",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagbb>teal",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagcc>cedar",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagcc>tagaa",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagcc>willow",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>birch",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagdd>tagll",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>tagdd",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagee>tagff",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagff>taggg",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>crimson",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>sable",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>slate",
+     "support": 8,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taggg>tagii",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>amber",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>fern",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "taghh>tagbb",
+     "support": 4,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>amber",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>tagll",
+     "support": 3,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagii>umber",
+     "support": 5,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>amber",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>birch",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "tagjj>tagaa",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>maple",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagkk>taggg",
+     "support": 2,
+     "support_bin": "2-3",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>indigo",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagff",
+     "support": 6,
+     "support_bin": "4-7",
+     "A_rank": null
+    },
+    {
+     "edge": "tagll>tagjj",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>birch",
+     "support": 10,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>tagll",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "teal>umber",
+     "support": 13,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>slate",
+     "support": 9,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>tagcc",
+     "support": 11,
+     "support_bin": "8-15",
+     "A_rank": null
+    },
+    {
+     "edge": "umber>tagdd",
+     "support": 7,
+     "support_bin": "4-7",
+     "A_rank": null
+    }
+   ]
+  }
+ ],
+ "not_evidence": "A descriptive overlap decomposition on six no-arm larger-28 seeds at one cap pair.  It measures A\\K and K\\A availability; it is not a treatment, a K-repair result, target viability or a successor.  Full K coverage is a counterfactual, not an engine change.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}
