@@ -2,7 +2,7 @@
   "kind": "a1_denominator_resolution_audit",
   "id": "a1_denominator_resolution_audit",
   "date": "2026-11-14",
-  "status": "FLAGGED \u2014 3 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR",
+  "status": "FLAGGED \u2014 6 GATE SCENARIO(S) FINER THAN PLANNED DENOMINATOR",
   "rule": "For a proportion over n rows, the smallest nonzero change is 1/n. For a floor threshold t, the margin is 1-t; for a ceiling threshold t, the margin is t. A gate is FLAGGED when 1/n is greater than its margin; equality is not finer.",
   "sources": {
     "selection": "docs/a1_target_selection.json",
@@ -20,17 +20,37 @@
     "planned_c1_min": 63,
     "planned_c1_max": 64,
     "planned_non_target_min": 59,
-    "planned_non_target_max": 60
+    "planned_non_target_max": 60,
+    "tag_vertices_per_seed": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+    ],
+    "maximum_feasibility": {
+      "n_targets": 8,
+      "max_disjoint_targets_from_tag_vertices": 8,
+      "feasible_seeds_with_eight_disjoint": 6,
+      "n8_non_target_min": 55,
+      "n8_non_target_max": 56
+    }
   },
   "summary": {
     "flagged": [
       "C1_path_separation \u2014 target-only fallback",
+      "C1_path_separation \u2014 N=8 maximum-feasibility target-only",
       "C7_assertion_block \u2014 Y- blocked rows",
-      "C8_third_route \u2014 A-K- blocked rows"
+      "C7_assertion_block \u2014 N=8 maximum-feasibility Y- blocked rows",
+      "C8_third_route \u2014 A-K- blocked rows",
+      "C8_third_route \u2014 N=8 maximum-feasibility A-K- blocked rows"
     ],
     "passed": [
       "C1_path_separation \u2014 expanded C4 denominator",
-      "C4_no_interference \u2014 all cells"
+      "C1_path_separation \u2014 N=8 maximum-feasibility expanded denominator",
+      "C4_no_interference \u2014 all cells",
+      "C4_no_interference \u2014 N=8 maximum-feasibility all cells"
     ],
     "not_applicable": [
       "C2_treatment_consistency \u2014 per manipulated arm",
@@ -58,6 +78,21 @@
     },
     {
       "gate": "C1_path_separation",
+      "scenario": "N=8 maximum-feasibility target-only",
+      "quantity": "A-/K- preservation",
+      "threshold": 0.95,
+      "threshold_kind": "floor",
+      "denominator": 8,
+      "denominator_max": 8,
+      "denominator_basis": "eight disjoint target rows, no C4 expansion",
+      "smallest_step": 0.125,
+      "margin": 0.05,
+      "finer_than_denominator": true,
+      "status": "FLAGGED",
+      "consequence": "7/8 = 0.875; one loss still fails the 0.95 floor."
+    },
+    {
+      "gate": "C1_path_separation",
       "scenario": "expanded C4 denominator",
       "quantity": "A-/K- preservation",
       "threshold": 0.95,
@@ -70,6 +105,21 @@
       "finer_than_denominator": false,
       "status": "PASS",
       "consequence": "The planned denominator clears the one-step resolution test; the observed denominator is still unknown."
+    },
+    {
+      "gate": "C1_path_separation",
+      "scenario": "N=8 maximum-feasibility expanded denominator",
+      "quantity": "A-/K- preservation",
+      "threshold": 0.95,
+      "threshold_kind": "floor",
+      "denominator": 63,
+      "denominator_max": 64,
+      "denominator_basis": "eight targets plus 55-56 baseline-available non-target rows",
+      "smallest_step": 0.015873,
+      "margin": 0.05,
+      "finer_than_denominator": false,
+      "status": "PASS",
+      "consequence": "The 63-64 total denominator still clears the resolution test; the observed denominator is still unknown."
     },
     {
       "gate": "C4_no_interference",
@@ -87,6 +137,21 @@
       "consequence": "The planned row count resolves a 0.05 rate margin; per-edge cycle rates are finer still."
     },
     {
+      "gate": "C4_no_interference",
+      "scenario": "N=8 maximum-feasibility all cells",
+      "quantity": "A/K/Y neighbour delta",
+      "threshold": 0.05,
+      "threshold_kind": "ceiling",
+      "denominator": 55,
+      "denominator_max": 56,
+      "denominator_basis": "55-56 non-target edges per seed",
+      "smallest_step": 0.018182,
+      "margin": 0.05,
+      "finer_than_denominator": false,
+      "status": "PASS",
+      "consequence": "1/55 = 0.018182; the denominator shrinks but still resolves the 0.05 margin."
+    },
+    {
       "gate": "C7_assertion_block",
       "scenario": "Y- blocked rows",
       "quantity": "A/K delta",
@@ -102,6 +167,21 @@
       "consequence": "One row changes the blocked rate by 1/8 = 0.125, above the 0.05 margin."
     },
     {
+      "gate": "C7_assertion_block",
+      "scenario": "N=8 maximum-feasibility Y- blocked rows",
+      "quantity": "A/K delta",
+      "threshold": 0.05,
+      "threshold_kind": "ceiling",
+      "denominator": 16,
+      "denominator_max": 16,
+      "denominator_basis": "two Y- cells x eight targets",
+      "smallest_step": 0.0625,
+      "margin": 0.05,
+      "finer_than_denominator": true,
+      "status": "FLAGGED",
+      "consequence": "1/16 = 0.0625; still above 0.05. C7 needs at least 20 rows (N>=10) for a one-step resolution."
+    },
+    {
       "gate": "C8_third_route",
       "scenario": "A-K- blocked rows",
       "quantity": "assertion rate",
@@ -115,6 +195,21 @@
       "finer_than_denominator": true,
       "status": "FLAGGED",
       "consequence": "One row changes the assertion rate by 1/4 = 0.25, above the 0.05 ceiling."
+    },
+    {
+      "gate": "C8_third_route",
+      "scenario": "N=8 maximum-feasibility A-K- blocked rows",
+      "quantity": "assertion rate",
+      "threshold": 0.05,
+      "threshold_kind": "ceiling",
+      "denominator": 8,
+      "denominator_max": 8,
+      "denominator_basis": "eight A-K- target rows",
+      "smallest_step": 0.125,
+      "margin": 0.05,
+      "finer_than_denominator": true,
+      "status": "FLAGGED",
+      "consequence": "1/8 = 0.125; still above 0.05. C8 needs at least 20 rows (N>=20) for a one-step resolution."
     },
     {
       "gate": "C2_treatment_consistency",

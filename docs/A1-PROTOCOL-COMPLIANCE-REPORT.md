@@ -95,7 +95,7 @@ until the manifest is frozen by a separate act.
 | C1 denominator floor | **RECORDED — BINDING FOR A1**; minimum 60 paired-control rows; 60–64 may be read with three losses; below 60 is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59 |
 | C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
 | C1 power curve | **RECORDED — REFERENCE ONLY**; at assumed `q=.95, n=63`, all six seeds pass at **0.003**; at `q=.98` at **0.632** ([review](A1-POWER-REVIEW.md)) |
-| Denominator-resolution audit | **FLAGGED — C1 fallback, C7, C8**; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)) |
+| Denominator-resolution audit | **FLAGGED — 6 SCENARIOS**; C1 target-only at 4 and N=8, C7 at 8 and N=8 (16 rows, 1/16 = 0.0625), C8 at 4 and N=8 (8 rows, 1/8 = 0.125); C7/C8 remain under-resolved at the N=8 maximum; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)) |
 | C4 gate order | **POST-FREEZE VOID GATE (2026-11-14)**; C4 is scored after the frozen cells run and a failure VOIDs the result ([record](A1-C4-GATE-ORDER.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
