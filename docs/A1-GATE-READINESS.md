@@ -80,6 +80,12 @@ At N=4 C7 has **8** Y- rows for cell completeness and the assertion-order check,
 targeted defect for every contract. Each gate must accept the fixture and reject its defect;
 a missing tolerance or ceiling must fail. The self-test runs no engine.
 
+Complete-coverage scoring for C2, C3, C5, C7 and C9 is implemented in
+`a1_arms.score_complete_gates`. Each score requires all six seeds, its required cells, and every
+expected target row; a missing cell or target is a coverage failure, not a pass. `a1_result.assemble`
+adds these scores when the cell parts carry target lists, using the registered N=20 target map by
+default. These are assembly checks, not measurements: no cell has run.
+
 **Not evidence:** A gate-contract audit on committed records. It runs no cell, assigns no seed and establishes no causal, capability or transfer claim.
 
 ## Reproduce

@@ -190,14 +190,32 @@ def gate_c1(rows: list[dict], tolerance: float | None) -> bool:
 
 
 def gate_c2(rows: list[dict], tolerance: float | None = None) -> bool:
-    """Each manipulation drives its named path to zero and leaves the other above zero."""
-    a_minus = [row for row in rows if row["cell"] == "A-K+"]
-    k_minus = [row for row in rows if row["cell"] == "A+K-"]
-    y_minus = [row for row in rows if row["cell"] in Y_CELLS]
-    return (bool(a_minus) and bool(k_minus) and bool(y_minus)
-            and all(not row["A"] and row["K"] for row in a_minus)
-            and all(row["A"] and not row["K"] for row in k_minus)
-            and all(not row["Y"] for row in y_minus))
+    """Per seed, each manipulation drives its named path to zero.
+
+    The Y- cells also check the unmanipulated A/K paths: Y_MINUS_A+K+ must
+    keep both A and K, and Y_MINUS_A-K+ must keep K while A is blocked.  A
+    pooled check would let one seed's correct rows hide another seed's bad
+    manipulation.
+    """
+    by_seed = _by_seed(rows)
+    if not by_seed:
+        return False
+    for group in by_seed.values():
+        a_minus = [row for row in group if row["cell"] == "A-K+"]
+        k_minus = [row for row in group if row["cell"] == "A+K-"]
+        y_plus = [row for row in group if row["cell"] == "Y_MINUS_A+K+"]
+        y_minus_a = [row for row in group if row["cell"] == "Y_MINUS_A-K+"]
+        if not a_minus or not k_minus or not y_plus or not y_minus_a:
+            return False
+        if not all(not row["A"] and row["K"] for row in a_minus):
+            return False
+        if not all(row["A"] and not row["K"] for row in k_minus):
+            return False
+        if not all(not row["Y"] and row["A"] and row["K"] for row in y_plus):
+            return False
+        if not all(not row["Y"] and not row["A"] and row["K"] for row in y_minus_a):
+            return False
+    return True
 
 
 def gate_c3(rows: list[dict], tolerance: float | None = None) -> bool:
@@ -237,10 +255,14 @@ def gate_c5(rows: list[dict], tolerance: float | None = None) -> bool:
         u = row.get("U") or {}
         if any(u.get(field) is None for field in required):
             return False
-        measured = int(u["measured_cycle"])
-        if not (measured <= int(row["carrier_cycle"])
-                and measured <= int(row["k_cycle"])
-                and measured <= int(row["y_cycle"])):
+        try:
+            measured = int(u["measured_cycle"])
+            carrier = int(row["carrier_cycle"])
+            k_cycle = int(row["k_cycle"])
+            y_cycle = int(row["y_cycle"])
+        except (KeyError, TypeError, ValueError):
+            return False
+        if not (measured <= carrier and measured <= k_cycle and measured <= y_cycle):
             return False
     return True
 
@@ -265,32 +287,51 @@ def gate_c7(rows: list[dict], tolerance: float | None) -> bool:
     if not by_seed:
         return False
     for group in by_seed.values():
-        baseline = [row for row in group if row["cell"] == "A+K+"]
+        controls = {
+            cell: [row for row in group if row["cell"] == cell]
+            for cell in ("A+K+", "A-K+")
+        }
         blocked = [row for row in group if row["cell"] in Y_CELLS]
-        if not baseline or not blocked:
+        if not controls["A+K+"] or not blocked:
             return False
         if {str(row["cell"]) for row in blocked} != set(Y_CELLS):
             return False
-        if _fraction(blocked, "Y") >= _fraction(baseline, "Y"):
-            return False
-        by_edge = {str(row["edge"]): row for row in baseline if row.get("edge") is not None}
-        for row in blocked:
-            delta = row.get("delta_from_baseline")
-            if delta is None:
-                base = by_edge.get(str(row.get("edge")))
-                if base is None:
-                    return False
-                fields = ("A_rate", "K_rate")
-                if any(row.get(field) is None or base.get(field) is None
-                       for field in fields):
-                    return False
-                delta = {
-                    path: abs(float(row[path + "_rate"]) - float(base[path + "_rate"]))
-                    for path in ("A", "K")
-                }
-            if any(path not in delta or float(delta[path]) > tolerance
-                   for path in ("A", "K")):
+        # Y_MINUS_A+K+ is paired with A+K+, and Y_MINUS_A-K+ with A-K+.
+        # Falling back to A+K+ for the second pair keeps older, coarser
+        # fixtures readable; complete scoring requires the A-K+ control.
+        pairing = {
+            "Y_MINUS_A+K+": controls["A+K+"],
+            "Y_MINUS_A-K+": controls["A-K+"] or controls["A+K+"],
+        }
+        for cell, control in pairing.items():
+            cell_rows = [row for row in blocked if row["cell"] == cell]
+            if not cell_rows or not control:
                 return False
+            control_edges = {str(row["edge"]) for row in control
+                             if row.get("edge") is not None}
+            if control_edges and {str(row.get("edge")) for row in cell_rows} != control_edges:
+                return False
+            if _fraction(cell_rows, "Y") >= _fraction(control, "Y"):
+                return False
+            by_edge = {str(row["edge"]): row for row in control
+                       if row.get("edge") is not None}
+            for row in cell_rows:
+                delta = row.get("delta_from_baseline")
+                if delta is None:
+                    base = by_edge.get(str(row.get("edge")))
+                    if base is None:
+                        return False
+                    fields = ("A_rate", "K_rate")
+                    if any(row.get(field) is None or base.get(field) is None
+                           for field in fields):
+                        return False
+                    delta = {
+                        path: abs(float(row[path + "_rate"]) - float(base[path + "_rate"]))
+                        for path in ("A", "K")
+                    }
+                if any(path not in delta or float(delta[path]) > tolerance
+                       for path in ("A", "K")):
+                    return False
     return True
 
 
@@ -316,15 +357,21 @@ def gate_c8(rows: list[dict], ceiling: float | None) -> bool:
 
 
 def gate_c9(rows: list[dict], tolerance: float | None = None) -> bool:
-    """Every cell of a seed names the same world, cycles, cap, universe and U object."""
+    """Every expected cell of a seed names the same world/cycles/U object."""
     by_seed: dict[int, set[str]] = {}
+    cells_by_seed: dict[int, set[str]] = {}
     for row in rows:
         fingerprint = row.get("object_fingerprint")
         if fingerprint is None:
             return False
-        by_seed.setdefault(int(row["seed"]), set()).add(str(fingerprint))
-    return bool(by_seed) and all(len(fingerprints) == 1
-                                 for fingerprints in by_seed.values())
+        seed = int(row["seed"])
+        by_seed.setdefault(seed, set()).add(str(fingerprint))
+        cells_by_seed.setdefault(seed, set()).add(str(row.get("cell")))
+    return (bool(by_seed)
+            and all(all(cell in cells_by_seed[seed] for cell in PRIMARY_CELLS + Y_CELLS)
+                    for seed in by_seed)
+            and all(len(fingerprints) == 1
+                    for fingerprints in by_seed.values()))
 
 
 CONTRACTS = {
@@ -448,6 +495,15 @@ def self_test() -> list[str]:
     for gate, broken in defects.items():
         if CONTRACTS[gate](broken, *args[gate]):
             found.append("%s does not reject its targeted defect" % gate)
+
+    if gate_c2(_mutate(rows, "Y_MINUS_A+K+", "A", 0)):
+        found.append("C2 does not reject a broken Y- A path")
+    missing_cycle = [dict(row, carrier_cycle=None) if row["cell"] == "A+K+" else row
+                     for row in rows]
+    if gate_c5(missing_cycle):
+        found.append("C5 accepts a missing carrier cycle")
+    if gate_c9(rows[:1]):
+        found.append("C9 accepts a single row")
 
     if gate_c1(rows, None):
         found.append("C1 accepts a missing tolerance")
@@ -848,6 +904,12 @@ def render(payload: dict) -> str:
         "`python -m benchmarks.a1_gate_readiness --self-test` builds a passing six-cell fixture and a",
         "targeted defect for every contract. Each gate must accept the fixture and reject its defect;",
         "a missing tolerance or ceiling must fail. The self-test runs no engine.",
+        "",
+        "Complete-coverage scoring for C2, C3, C5, C7 and C9 is implemented in",
+        "`a1_arms.score_complete_gates`. Each score requires all six seeds, its required cells, and every",
+        "expected target row; a missing cell or target is a coverage failure, not a pass. `a1_result.assemble`",
+        "adds these scores when the cell parts carry target lists, using the registered N=20 target map by",
+        "default. These are assembly checks, not measurements: no cell has run.",
         "",
         "**Not evidence:** %s" % payload["not_evidence"],
         "",

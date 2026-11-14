@@ -38,6 +38,9 @@ from organica.sleep import SleepService
 ROOT = Path(__file__).resolve().parents[1]
 PARTS = ROOT / ".scratch" / "a1_two_path" / "parts"
 KIND = "a1_two_path_cell"
+COMPLETE_CELLS = tuple(cell["id"] for cell in a1_two_path.CELLS)
+C2_CELLS = ("A+K-", "A-K+", "Y_MINUS_A+K+", "Y_MINUS_A-K+")
+C7_CELLS = ("A+K+", "A-K+", "Y_MINUS_A+K+", "Y_MINUS_A-K+")
 ACQ_SOURCE = "env_acq"
 
 
@@ -326,6 +329,172 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
         "max_delta": {path: round(value, 6) for path, value in max_delta.items()},
         "violations": violations,
         "unmeasured": unmeasured,
+    }
+
+
+def registered_target_map() -> dict[str, list[str]]:
+    """Return the registered N=20 per-seed targets, or an empty mapping."""
+    path = a1_two_path.C8_TARGET_SELECTION_PATH
+    if not path.exists():
+        return {}
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    if doc.get("n_per_seed") != 20:
+        return {}
+    return {str(seed): list((row or {}).get("selected") or [])
+            for seed, row in (doc.get("per_seed") or {}).items()}
+
+
+def _target_rows(payload: dict) -> list[dict]:
+    return [row for row in payload.get("rows", []) if row.get("target", True)]
+
+
+def _target_list(payload: dict) -> set[str]:
+    return {str(edge) for edge in (payload.get("targets") or [])}
+
+
+def target_coverage(payloads: list[dict], cells: tuple[str, ...],
+                    expected_targets: dict | None = None) -> dict:
+    """Check that every expected seed, cell and target row is present once.
+
+    A gate that sees one row must not pass merely because that row is
+    internally consistent.  The expected target map defaults to the union of
+    the cell payloads' own ``targets`` lists; a caller can pass the frozen
+    per-seed target map explicitly to reject a partial or differently selected
+    run.  The result assembler supplies the registered N=20 map by default.
+    """
+    expected_seeds = {str(seed) for seed in a1_two_path.SEEDS}
+    if expected_targets is None:
+        expected = {seed: set() for seed in expected_seeds}
+        for payload in payloads:
+            try:
+                seed = str(int(payload.get("seed")))
+            except (TypeError, ValueError):
+                continue
+            if seed in expected:
+                expected[seed].update(_target_list(payload))
+    else:
+        expected = {str(seed): {str(edge) for edge in edges}
+                    for seed, edges in expected_targets.items()}
+
+    by_key: dict[tuple[str, str], dict] = {}
+    problems: list[str] = []
+    observed_rows = 0
+    for payload in payloads:
+        try:
+            seed = str(int(payload.get("seed")))
+        except (TypeError, ValueError):
+            problems.append("a payload has no integer seed")
+            continue
+        cell = str(payload.get("cell"))
+        if (seed, cell) in by_key:
+            problems.append("duplicate payload for seed %s cell %s" % (seed, cell))
+            continue
+        by_key[(seed, cell)] = payload
+
+    for seed in sorted(expected_seeds):
+        wanted = expected.get(seed) or set()
+        if not wanted:
+            problems.append("seed %s has no expected target set" % seed)
+        for cell in cells:
+            payload = by_key.get((seed, cell))
+            if payload is None:
+                problems.append("missing seed %s cell %s" % (seed, cell))
+                continue
+            actual_targets = _target_list(payload)
+            if wanted and actual_targets != wanted:
+                problems.append("seed %s cell %s target list does not match" % (seed, cell))
+            rows = _target_rows(payload)
+            edges = [str(row.get("edge")) for row in rows]
+            observed_rows += len(rows)
+            if set(edges) != wanted:
+                problems.append("seed %s cell %s does not cover the target rows"
+                                % (seed, cell))
+            if len(edges) != len(set(edges)):
+                problems.append("seed %s cell %s repeats a target row" % (seed, cell))
+
+    expected_rows = sum(len(expected.get(seed) or set()) * len(cells)
+                        for seed in expected_seeds)
+    return {
+        "pass": bool(expected_rows and not problems),
+        "seeds_expected": len(expected_seeds),
+        "cells_per_seed": len(cells),
+        "rows_expected": expected_rows,
+        "rows_observed": observed_rows,
+        "targets_per_seed": {seed: len(expected.get(seed) or set())
+                             for seed in sorted(expected_seeds)},
+        "problems": problems,
+    }
+
+
+def _score_rows(payloads: list[dict], cells: tuple[str, ...],
+                expected_targets: dict | None, gate) -> dict:
+    coverage = target_coverage(payloads, cells, expected_targets)
+    rows = [row for payload in payloads if payload.get("cell") in cells
+            for row in _target_rows(payload)]
+    try:
+        gate_pass = bool(gate(rows))
+    except (KeyError, TypeError, ValueError):
+        gate_pass = False
+    return {
+        "pass": bool(coverage["pass"] and gate_pass),
+        "coverage": coverage,
+        "gate_pass": gate_pass,
+        "rows": len(rows),
+    }
+
+
+def score_c2(payloads: list[dict], expected_targets: dict | None = None) -> dict:
+    """Score C2 on every expected seed and target row, including Y- A/K."""
+    from benchmarks.a1_gate_readiness import gate_c2
+    return _score_rows(payloads, C2_CELLS, expected_targets, gate_c2)
+
+
+def score_c3(payloads: list[dict], expected_targets: dict | None = None) -> dict:
+    """Score C3 only when all six cells cover the expected target sets."""
+    from benchmarks.a1_gate_readiness import gate_c3
+    return _score_rows(payloads, COMPLETE_CELLS, expected_targets, gate_c3)
+
+
+def score_c5(payloads: list[dict], expected_targets: dict | None = None) -> dict:
+    """Score C5 on every expected target row in all six cells."""
+    from benchmarks.a1_gate_readiness import gate_c5
+    return _score_rows(payloads, COMPLETE_CELLS, expected_targets, gate_c5)
+
+
+def score_c7(payloads: list[dict], expected_targets: dict | None = None,
+             tolerance: float | None = None) -> dict:
+    """Score C7 on the paired baseline and both Y- cells per seed."""
+    from benchmarks.a1_gate_readiness import C7_MAX, gate_c7
+    reported = _score_rows(payloads, C7_CELLS, expected_targets,
+                           lambda rows: gate_c7(
+                               rows, C7_MAX if tolerance is None else tolerance))
+    reported["tolerance"] = C7_MAX if tolerance is None else tolerance
+    return reported
+
+
+def score_c9(payloads: list[dict], expected_targets: dict | None = None) -> dict:
+    """Score C9 only when every expected cell and target row exists."""
+    from benchmarks.a1_gate_readiness import gate_c9
+    return _score_rows(payloads, COMPLETE_CELLS, expected_targets, gate_c9)
+
+
+def score_complete_gates(payloads: list[dict],
+                         expected_targets: dict | None = None) -> dict:
+    """Score the five structural gates with complete seed/cell/target coverage."""
+    results = {
+        "C2_treatment_consistency": score_c2(payloads, expected_targets),
+        "C3_positivity": score_c3(payloads, expected_targets),
+        "C5_common_cause": score_c5(payloads, expected_targets),
+        "C7_assertion_block": score_c7(payloads, expected_targets),
+        "C9_same_object": score_c9(payloads, expected_targets),
+    }
+    return {
+        "pass": all(row["pass"] for row in results.values()),
+        "gates": results,
+        "failed": [name for name, row in results.items() if not row["pass"]],
     }
 
 

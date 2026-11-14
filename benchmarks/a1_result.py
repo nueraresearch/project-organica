@@ -1,4 +1,4 @@
-"""Assemble A1 cell parts into C1 and C4 decisions.
+"""Assemble A1 cell parts into C1/C4 and complete structural-gate decisions.
 
 This is the result-assembly layer between ``a1_arms`` cell output and the
 precommitted identity gates.  It never opens a database, assigns a seed or
@@ -87,14 +87,27 @@ def _void_reasons(payloads: list[dict], c1: dict, c4: dict) -> list[str]:
 
 
 def assemble(payloads: list[dict], c1_tolerance: float | None = None,
-             c4_tolerance: float | None = None) -> dict:
-    """Score the assembled C1 and C4 streams from cell parts.
+             c4_tolerance: float | None = None,
+             expected_targets: dict | None = None,
+             complete: bool | None = None) -> dict:
+    """Score the assembled C1 and C4 streams, plus complete structural gates.
 
     The adopted C1/C4 gate reports ``PASS`` or ``VOID``. A failed or
     unmeasurable C1/C4 pair is never published as a scientific ``FAIL``.
+    When the parts carry target lists (as every real cell does), C2/C3/C5/C7/C9
+    are scored over the expected six-seed, six-cell target coverage as well;
+    their failure does not rewrite the separate C1/C4 disposition.
     """
     c1 = a1_arms.score_c1(payloads, c1_tolerance)
     c4 = a1_arms.score_c4(payloads, c4_tolerance)
+    has_targets = any(isinstance(payload.get("targets"), list)
+                      and payload.get("targets") for payload in payloads)
+    if complete is None:
+        complete = bool(has_targets or expected_targets is not None)
+    if complete and expected_targets is None:
+        expected_targets = a1_arms.registered_target_map() or None
+    complete_report = (a1_arms.score_complete_gates(payloads, expected_targets)
+                       if complete else None)
     passed = bool(c1["pass"] and c4["pass"] and payloads)
     reasons = [] if passed else _void_reasons(payloads, c1, c4)
     void_gates = [] if passed else [
@@ -104,6 +117,13 @@ def assemble(payloads: list[dict], c1_tolerance: float | None = None,
         )
         if (not payloads or any(reason.startswith(prefix) for reason in reasons))
     ]
+    gates = {
+        "C1_path_separation": c1["pass"],
+        "C4_no_interference": c4["pass"],
+    }
+    if complete_report:
+        gates.update({name: row["pass"]
+                      for name, row in complete_report["gates"].items()})
     return {
         "kind": KIND,
         "status": "PASS" if passed else "VOID",
@@ -112,11 +132,15 @@ def assemble(payloads: list[dict], c1_tolerance: float | None = None,
         "parts": len(payloads),
         "c1": c1,
         "c4": c4,
+        "complete_coverage": complete_report,
+        "complete_status": (
+            "NOT SCORED — NO TARGET LISTS" if complete_report is None
+            else "PASS" if complete_report["pass"] else "FAIL"
+        ),
+        "all_gates_pass": bool(passed and (complete_report is None
+                                           or complete_report["pass"])),
         "observed_denominator": _observed_denominator(payloads, c1, c4),
-        "gates": {
-            "C1_path_separation": c1["pass"],
-            "C4_no_interference": c4["pass"],
-        },
+        "gates": gates,
         "not_evidence": (
             "A result-assembly decision over supplied cell parts. A VOID is not "
             "a scientific verdict; the synthetic fixture is a control, not an A1 "
@@ -257,6 +281,23 @@ def render(report: dict) -> str:
                 row["seed"], row["cell"], row["edge"],
             )
         )
+    complete = report.get("complete_coverage")
+    if complete:
+        lines += [
+            "",
+            "Complete-coverage gates: %s; %d failed" % (
+                "PASS" if complete["pass"] else "FAIL", len(complete["failed"]),
+            ),
+        ]
+        for name, row in complete["gates"].items():
+            coverage = row["coverage"]
+            lines.append(
+                "  %s: %s; rows %d/%d; coverage problems %d" % (
+                    name, "PASS" if row["pass"] else "FAIL",
+                    coverage["rows_observed"], coverage["rows_expected"],
+                    len(coverage["problems"]),
+                )
+            )
     return "\n".join(lines)
 
 
