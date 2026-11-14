@@ -183,6 +183,8 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 
 ## 10. Pre-freeze checklist
 
+The formal compliance record is [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md); [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) is the working checklist. It separates the P0 conditions that gate target freeze from the power review, C4 rows, freeze and grant that remain open.
+
 0. **Done — P0 PASS.** The cycle-36 `U` sample is captured after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; the pre-sleep ordering is tested. The pre-37 universe, future-, report- and sleep-blindness and determinism checks all pass in [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md).
 1. **Done.** The cycle-36 `U` sample is captured after the 36th acquisition cycle is stored and before `run_sleep_cycle()`; the pre-sleep ordering is tested.
 2. **Done.** `benchmarks/a1_target_selection.py` implements the no-arm pass, artifact schema, digest and self-test. The pass reads the temporal graph and no report field.

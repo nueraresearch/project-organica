@@ -1,0 +1,91 @@
+# A1 protocol compliance report
+
+**ID:** `A1-PROTOCOL-COMPLIANCE-1`  
+**Date:** 2026-11-14  
+**Status:** `P0 PASS — PROTOCOL COMPLIANCE; FREEZE AND RUN NOT AUTHORISED`
+
+**This is a compliance report, not a target freeze, a grant or an experimental result.**
+No A1 cell has run; no seed is reserved; no target is fixed in the manifest.
+
+## Scope
+
+This report answers one question: **does the implementation execute the registered
+pre-cycle-37 target-selection boundary?** It does not answer whether the target rule
+is scientifically optimal, whether `N = 4` is powered, or whether C4 is implementable.
+
+The registered boundary is the **36th acquisition cycle**, not the engine's sleep-cycle
+counter. The sleep counter can lag the acquisition index; following it allowed event
+cycles 37–48 into the candidate universe during the first audit run.
+
+## Compliance table
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| Pre-37 candidate universe | **PASS** | First 36 acquisition cycles; `run_seed` truncation; audit P0 |
+| Pre-sleep U sampling | **PASS** | `a1_arms.run_cell`; `test_cycle_36_u_is_sampled_before_consolidation`; audit P0 |
+| Future-blindness | **PASS** | 36-cycle vs 120-cycle world; identical targets, U and digest; audit |
+| Report-blindness | **PASS** | No `SleepReport` field read; audit forbidden-token check |
+| Sleep-blindness | **PASS** | Stored sleep payload leaves U unchanged; audit |
+| Determinism | **PASS** | Two independent passes; identical targets, U and digest; audit |
+| Four-target feasibility | **PASS** | Four disjoint targets for all six provisional seeds; audit |
+| Digest stability | **PASS** | Stored artifact digest checked against contents; independent pass matches |
+
+The audit artifact is [`a1_adversarial_audit.json`](a1_adversarial_audit.json), rendered
+as [`A1-ADVERSARIAL-AUDIT.md`](A1-ADVERSARIAL-AUDIT.md). The selection artifact is
+[`a1_target_selection.json`](a1_target_selection.json).
+
+## Sensitivity evidence
+
+The first audit run **failed** future-blindness for seeds `20630104` and `20630106`.
+The cause was not a target hash collision; it was the clock boundary. For seed 104,
+sleep cycle 36 arrived at acquisition cycle 48, so the selector could see event cycles
+37–48 while claiming to be a cycle-36 selector. Seed 104's selected edge `sable>olive`
+was absent from the first 36 acquisition cycles.
+
+After the boundary was corrected:
+
+- seed 104 changed from `sable>olive` to `willow>olive`;
+- all six seeds selected from exactly the first 36 acquisition cycles;
+- every seed reported `event_cycles = 36`;
+- the audit passed future-blindness and the remaining P0 checks.
+
+That failure and the resulting target change are evidence that the audit is sensitive
+to actual leakage, not merely confirming the implementation.
+
+## What this report does not establish
+
+- It does not validate target selection as a scientific result.
+- It does not establish power or prevalence for `N = 4`.
+- It does not clear C4; A1 cell output still emits target rows only, not non-target
+  neighbour rows.
+- It does not freeze the target sets or the manifest.
+- It does not authorise a grant, a cell or a database opening.
+
+The target sets are a feasibility artifact. They are not fixed experimental targets
+until the manifest is frozen by a separate act.
+
+## Remaining gates
+
+| Gate | State |
+| --- | --- |
+| Power/prevalence review for `N = 4` | **NOT DONE** |
+| C4 non-target neighbour rows | **NOT DONE** |
+| Manifest freeze | **NOT DONE** |
+| Dated owner grant | **NOT DONE** |
+| A1 run | **NOT AUTHORISED** |
+
+## Checks
+
+```bash
+python -m benchmarks.a1_target_selection --check
+python -m benchmarks.a1_adversarial_audit --check
+python -m benchmarks.a1_two_path --self-test
+python -m pytest -q tests/test_a1_prefreeze.py
+```
+
+All four checks pass on the working tree that produced this report. The A1 gate still
+refuses because the manifest is unfrozen, no grant exists and the target block is
+unresolved.
+
+**Not evidence:** A protocol-compliance report. It records that the implementation
+matches the registered boundary; it creates no target freeze, grant, cell or result.

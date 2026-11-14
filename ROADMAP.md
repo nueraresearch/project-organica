@@ -149,7 +149,10 @@ per-seed selection rule and the cycle-36 `U` sampling point. The corrected sampl
 cycle's sleep call; the no-arm pass formed four disjoint targets for all six provisional
 seeds in [`docs/a1_target_selection.json`](docs/a1_target_selection.json). The six-seed
 [`A1-ADVERSARIAL-AUDIT.md`](docs/A1-ADVERSARIAL-AUDIT.md) passes future-blindness,
-determinism, feasibility, report-blindness and sleep-blindness. The targets are not entered in
+determinism, feasibility, report-blindness and sleep-blindness. The pre-freeze
+[`A1-PRE-FREEZE-CHECKLIST.md`](docs/A1-PRE-FREEZE-CHECKLIST.md) and
+[`A1-PROTOCOL-COMPLIANCE-REPORT.md`](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) record those P0 conditions as passing while keeping the
+power review, C4 rows, freeze and grant open. The targets are not entered in
 the manifest, no seed is reserved, nothing is frozen and no cell is authorised; blindness checks,
 the power review and C4 non-target rows remain open.
 
