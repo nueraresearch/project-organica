@@ -427,8 +427,8 @@ def build() -> dict:
             "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.",
         },
         "next": [
-            "If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.",
-            "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+            "Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.",
+            "Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.",
             "Adopt or reject the proposed 60-row C1 denominator floor before target freeze.",
             "Re-run this review after C1/C4 are measured; do not freeze before that.",
         ],
@@ -439,6 +439,25 @@ def build() -> dict:
         "id": KIND,
         "date": DATE,
         "status": decision["verdict"],
+        "path_selection": {
+            "selected": "A",
+            "status": "RECORDED — PROTOCOL SELECTED; TARGET SETS STILL DRAFT",
+            "date": DATE,
+            "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+            "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+            "not_selected": "B",
+            "path_b": (
+                "High-carrier-propensity, hard-edge or carrier-enriched effect; "
+                "requires a new selector, target artifact and registered design."
+            ),
+            "target_sets": "DRAFT — NOT FROZEN",
+            "does_not_authorize": [
+                "target freeze",
+                "seed reservation",
+                "dated grant",
+                "cell execution",
+            ],
+        },
         "representativeness": {
             "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
             "selector": (
@@ -498,6 +517,14 @@ def build() -> dict:
         "freeze_decision": {
             "date": DATE,
             "decision": "DO NOT FREEZE",
+            "path": "A",
+            "path_status": "RECORDED — TARGET SETS STILL DRAFT",
+            "path_record": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+            "path_effect": (
+                "The current six target sets are the Path A draft. Selecting "
+                "Path A does not freeze the manifest, reserve a seed, issue a "
+                "grant or authorise a cell."
+            ),
             "gate_order_note": (
                 "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
                 "decision. C4 is now post-freeze VOID; this record remains the "
@@ -506,10 +533,11 @@ def build() -> dict:
             "answer": FREEZE_ANSWER,
             "worth_freezing": "NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED",
             "worth_freezing_reason": (
-                "The target sets are compliant and representative, but no separate "
-                "target freeze has been performed. C4 is now a post-freeze VOID gate, "
-                "so the C1/C4 measurement cannot be a pre-freeze condition. Do not "
-                "regenerate targets unless Path B is chosen."
+                "The Path A target sets are compliant and representative, but no "
+                "separate target freeze has been performed. C4 is now a post-freeze "
+                "VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. "
+                "Path B is not selected and would require a new selector and target "
+                "artifact."
             ),
             "scope": (
                 "the current six-seed target artifact and the current four-target "
@@ -575,6 +603,15 @@ def problems(doc: dict) -> list[str]:
         found.append("freeze readiness improperly moved to pass")
     if (doc.get("gate_order") or {}).get("decision") != "POST-FREEZE VOID GATE":
         found.append("C4 gate order changed")
+    path = doc.get("path_selection") or {}
+    if path.get("selected") != "A":
+        found.append("power review does not record Path A")
+    if path.get("status") != "RECORDED — PROTOCOL SELECTED; TARGET SETS STILL DRAFT":
+        found.append("Path A status changed")
+    if path.get("target_sets") != "DRAFT — NOT FROZEN":
+        found.append("Path A target sets are not marked draft")
+    if (doc.get("freeze_decision") or {}).get("path") != "A":
+        found.append("freeze decision does not record Path A")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
     elif doc["representativeness"].get("estimand") != (
@@ -785,6 +822,25 @@ def render(doc: dict) -> str:
         "",
         "It is **not** a sample of %s." % ", ".join(doc["representativeness"]["not_a_sample_of"]),
         "",
+        "## Path selection",
+        "",
+        "**Path A — recorded (%s).** The selected estimand is the %s." % (
+            doc["path_selection"]["date"],
+            doc["path_selection"]["estimand"],
+        ),
+        "",
+        "**Protocol:** [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md). **Status:** %s." % (
+            doc["path_selection"]["status"],
+        ),
+        "",
+        "**Target sets:** %s. Path A selects the estimand; it does not freeze the manifest, reserve a seed, issue a grant or authorise a cell." % (
+            doc["path_selection"]["target_sets"],
+        ),
+        "",
+        "**Path B:** %s It is not selected and is not a continuation of this protocol." % (
+            doc["path_selection"]["path_b"],
+        ),
+        "",
         "## Freeze question",
         "",
         "**%s**" % doc["decision"]["freeze_question"]["question"],
@@ -827,6 +883,13 @@ def render(doc: dict) -> str:
         ),
         "",
         "**Scope:** %s." % doc["freeze_decision"]["scope"],
+        "",
+        "**Path:** %s — %s. Record: [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md)." % (
+            doc["freeze_decision"]["path"],
+            doc["freeze_decision"]["path_status"],
+        ),
+        "",
+        "**Path effect:** %s" % doc["freeze_decision"]["path_effect"],
         "",
         "**Are the target sets worth freezing?** **%s.** %s" % (
             doc["freeze_decision"]["worth_freezing"],

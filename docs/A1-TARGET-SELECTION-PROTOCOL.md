@@ -2,7 +2,7 @@
 
 **ID:** `A1-TARGET-SELECTION-1`  
 **Date:** 2026-11-14  
-**Status:** `P0 PASS — SIX TARGET SETS FORMED, FREEZE READINESS OPEN, NO GRANT`
+**Status:** `P0 PASS — SIX TARGET SETS FORMED, PATH A RECORDED, FREEZE READINESS OPEN, NO GRANT`
 **Parent:** `A1-TWO-PATH-1`
 
 **This is a design and implementation record, not a result, a freeze or a grant.** It defines how the A1 per-seed target sets are chosen and where the cycle-36 `U` is sampled. The selection pass has now been implemented and run; it formed four disjoint targets for all six provisional seeds and wrote `docs/a1_target_selection.json`. It has not reserved the seeds, frozen the manifest, authorised a cell or produced an A1 result. The current manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, every executing path still refuses, and the selected targets are not yet entered as fixed manifest targets.
@@ -15,7 +15,7 @@ The two-path design requires three things that the current manifest leaves open:
 2. a `U` measurement taken before carrier, `K` and `Y` exist;
 3. a rule that prevents those choices from being revised after an outcome is seen.
 
-This protocol fixes the selection rule, the `U` sampling point and the integrity checks. The target values were produced by the selection pass on 2026-11-14 and are recorded in the artifact; they are not frozen until the manifest freeze and the separate grant decision.
+This protocol fixes the selection rule, the `U` sampling point and the integrity checks. It also records the **Path A estimand**: the representative eligible pre-37 cycle-membership directed-edge effect. The target values were produced by the selection pass on 2026-11-14 and are recorded in the artifact; they are not frozen until the manifest freeze and the separate grant decision.
 
 The object remains the one in [`A1-TWO-PATH-MANIFEST.md`](A1-TWO-PATH-MANIFEST.md): engine `0.15.0`, six provisional seeds `20630101–20630106`, 120 cycles, cap 40, the compositional world family and the fixed directed-edge universe. The seed block is **not** reserved by this draft.
 
@@ -35,6 +35,8 @@ The unit is a **seed**, not a cell. For each seed `s`, one set `T_s` is chosen a
 `T_s` contains **four directed edges**. Four is a design convention chosen before target selection, not a power estimate: it gives each seed a rate denominator while keeping the edge-level intervention sparse enough that target carriers are less likely to share structure. The final power and prevalence review before freeze may reject this protocol; it may not change the target set after an outcome is seen.
 
 The four targets must have **disjoint endpoints**. No two targets may share a tag. This limits cross-target interference and prevents one `K−` carrier filter from removing another target's carrier. If a seed cannot supply four eligible disjoint edges, it has no admissible target set and **A1 is not run**; no smaller set, substitute edge or extra seed is permitted.
+
+**Path A selected (2026-11-14).** The protocol is recorded as **Path A: the representative eligible pre-37 cycle-membership directed-edge effect**. This selects the estimand already implemented by the selector; it does **not** regenerate the target sets, freeze the manifest, reserve seeds, issue a grant or authorise a cell. The six existing target sets remain the Path A draft. **Path B** — the high-carrier-propensity, hard-edge or carrier-enriched effect — is **not selected**. It would require a new selector, a new target artifact and a new registered design; it is not a continuation of this protocol. The target sets remain draft either way.
 
 **Estimand record (2026-11-14).** As implemented, the selector samples the **representative eligible pre-37 cycle-membership directed-edge population**. The 24 selected target observations (23 unique edges across six seeds) are statistically indistinguishable from the 358 unselected candidates on cycle-36 strength (medians 16 vs 16, means 15.333 vs 15.215, permutation p = 0.918), and all 382 candidates are eligible. The estimand is therefore a representative eligible-edge effect. It is **not** a sample of high-`U` edges, hard edges or carrier-enriched anomalies. If the experiment requires high carrier propensity, the selector must be redesigned and the targets regenerated before freeze; that is a different experiment. This is a design fact, not a result; it does not resolve the C1 denominator problem recorded in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md).
 
@@ -177,11 +179,12 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 
 ## 9. What this protocol does not do
 
-- It does not freeze the selected four edges into the manifest; the artifact records them, but the manifest target block remains unresolved.
+- It does not freeze the selected four edges into the manifest; the artifact records them, but the manifest target block remains unresolved. Selecting Path A does not change that: the six target sets remain draft.
 - It does not reserve seeds `20630101–20630106`, freeze the manifest or authorise any cell.
 - It does not issue an owner grant, change an engine file, clear C1–C9 or create a result.
 - It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates; `attach_neighbor_deltas` joins it to the A+K+ control, `c1_rows` includes baseline-available non-target edges in the C1 denominator, `score_c1` recomputes C1 from the assembled parts, and `a1_result.assemble` reports C1 and C4 together. No cell has run, so C4 is not cleared.
 - It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**.
+- It does not select Path B. Path B is a different estimand and requires a new selector, target artifact and registered design; it is not produced by this protocol.
 
 ## 10. Pre-freeze checklist
 

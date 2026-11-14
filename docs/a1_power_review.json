@@ -3,6 +3,22 @@
   "id": "A1-POWER-REVIEW-1",
   "date": "2026-11-14",
   "status": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
+  "path_selection": {
+    "selected": "A",
+    "status": "RECORDED \u2014 PROTOCOL SELECTED; TARGET SETS STILL DRAFT",
+    "date": "2026-11-14",
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+    "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "not_selected": "B",
+    "path_b": "High-carrier-propensity, hard-edge or carrier-enriched effect; requires a new selector, target artifact and registered design.",
+    "target_sets": "DRAFT \u2014 NOT FROZEN",
+    "does_not_authorize": [
+      "target freeze",
+      "seed reservation",
+      "dated grant",
+      "cell execution"
+    ]
+  },
   "representativeness": {
     "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
     "selector": "outcome-blind hash order over all eligible edges; U is not a ranking input",
@@ -48,10 +64,14 @@
   "freeze_decision": {
     "date": "2026-11-14",
     "decision": "DO NOT FREEZE",
+    "path": "A",
+    "path_status": "RECORDED \u2014 TARGET SETS STILL DRAFT",
+    "path_record": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "path_effect": "The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.",
     "gate_order_note": "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order decision. C4 is now post-freeze VOID; this record remains the historical freeze decision and does not authorise a freeze.",
     "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
     "worth_freezing": "NO \u2014 HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED",
-    "worth_freezing_reason": "The target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Do not regenerate targets unless Path B is chosen.",
+    "worth_freezing_reason": "The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.",
     "scope": "the current six-seed target artifact and the current four-target A1 cell output",
     "basis": [
       "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
@@ -687,8 +707,8 @@
       "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block."
     },
     "next": [
-      "If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.",
-      "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+      "Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.",
+      "Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.",
       "Adopt or reject the proposed 60-row C1 denominator floor before target freeze.",
       "Re-run this review after C1/C4 are measured; do not freeze before that."
     ]

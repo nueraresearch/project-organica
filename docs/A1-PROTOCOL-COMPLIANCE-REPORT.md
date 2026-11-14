@@ -39,6 +39,7 @@ rows are now instrumented, but no cell has run and the C1/C4 denominators remain
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
+| A1 estimand path | **PATH A — RECORDED; TARGETS DRAFT** | [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md) records the representative eligible pre-37 cycle-membership directed-edge effect. Path B is not selected; it would require a new selector and target artifact. No target is frozen and no cell has run. |
 | Pre-37 candidate universe | **PASS** | First 36 acquisition cycles; `run_seed` truncation; audit P0 |
 | Pre-sleep U sampling | **PASS** | `a1_arms.run_cell`; `test_cycle_36_u_is_sampled_before_consolidation`; audit P0 |
 | Future-blindness | **PASS** | 36-cycle vs 120-cycle world; identical targets, U and digest; audit |

@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Recorded — Path A A1 estimand (2026-11-14)
+
+- **The A1 target-selection protocol and freeze-decision log now record Path A.** Path A is the representative eligible pre-37 cycle-membership directed-edge effect already implemented by the selector. Path B — the high-carrier-propensity, hard-edge or carrier-enriched effect — is not selected and would require a new selector, target artifact and registered design. Recording Path A does not regenerate targets, freeze the manifest, reserve a seed, issue a grant or authorise a cell; the six existing target sets remain **DRAFT — NOT FROZEN**, and the freeze decision remains **DO NOT FREEZE (2026-11-14)**. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
 ### Proposed — C1 60-row denominator floor (2026-11-14)
 
 - **The power review now turns the 59→60 cliff into a proposed pre-run decision rule.** The rule uses the minimum paired-control available denominator across all six seeds and both `A−` and `K−` paths. At 60–64 rows the C1 gate may be read with three allowed losses; at 20–59 rows the run is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even if every available row is retained; at 0 rows it is `C1_NO_DENOMINATOR`; and above 64 is a design inconsistency. The rule is **PROPOSED — NOT ADOPTED**: no target is frozen, no grant exists and no cell has run. It is linked to the C1/C4 VOID-gate draft and would need a dated owner adoption before target freeze. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.

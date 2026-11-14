@@ -115,6 +115,19 @@ def test_power_review_artifact_is_current():
     doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
     assert review.problems(doc) == []
     assert review.PAGE_PATH.read_text(encoding="utf-8") == review.render(doc)
+    assert doc["path_selection"]["selected"] == "A"
+    assert doc["path_selection"]["target_sets"] == "DRAFT — NOT FROZEN"
+    assert doc["freeze_decision"]["path"] == "A"
+
+
+def test_path_a_is_recorded_in_protocol_and_freeze_log():
+    from pathlib import Path
+    protocol = Path("docs/A1-TARGET-SELECTION-PROTOCOL.md").read_text(encoding="utf-8")
+    review = Path("docs/A1-POWER-REVIEW.md").read_text(encoding="utf-8")
+    assert "Path A selected (2026-11-14)" in protocol
+    assert "Path A — recorded (2026-11-14)" in review
+    assert "TARGET SETS STILL DRAFT" in review
+    assert "Path B is not selected" in review
 
 
 def test_power_review_curve_states_retention_assumptions():

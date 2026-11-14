@@ -107,6 +107,16 @@ A1 tests a representative eligible-edge effect. It does not test an effect among
 
 It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 
+## Path selection
+
+**Path A — recorded (2026-11-14).** The selected estimand is the representative eligible pre-37 cycle-membership directed-edge effect.
+
+**Protocol:** [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md). **Status:** RECORDED — PROTOCOL SELECTED; TARGET SETS STILL DRAFT.
+
+**Target sets:** DRAFT — NOT FROZEN. Path A selects the estimand; it does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.
+
+**Path B:** High-carrier-propensity, hard-edge or carrier-enriched effect; requires a new selector, target artifact and registered design. It is not selected and is not a continuation of this protocol.
+
 ## Freeze question
 
 **Does a random eligible-edge design have enough expected measurable structure to justify freeze?**
@@ -139,7 +149,11 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 
 **Scope:** the current six-seed target artifact and the current four-target A1 cell output.
 
-**Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Do not regenerate targets unless Path B is chosen.
+**Path:** A — RECORDED — TARGET SETS STILL DRAFT. Record: [`A1-TARGET-SELECTION-PROTOCOL.md`](A1-TARGET-SELECTION-PROTOCOL.md).
+
+**Path effect:** The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.
+
+**Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.
 
 **Basis:**
 - The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.
@@ -157,8 +171,8 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. C4 non-target rows are implemented and, with the four target rows, would raise the planned denominator to 63-64 per seed, allowing 3 losses, but no cell has run. C1 remains unmeasured; do not freeze on the current target artifact.
 
 ### Next
-- If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.
-- If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.
+- Path A is recorded: after target freeze and a dated grant, run the planned cells with the C4 neighbour stream and score C1/C4.
+- Path B is not selected; it would require a new selector, target artifact and registered design, not a regeneration of the Path A targets.
 - Adopt or reject the proposed 60-row C1 denominator floor before target freeze.
 - Re-run this review after C1/C4 are measured; do not freeze before that.
 
