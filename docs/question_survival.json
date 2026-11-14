@@ -5,10 +5,10 @@
   "pinned_version": "0.15.0",
   "populations": {
     "open": 31,
-    "future": 5,
+    "future": 6,
     "closed": 15,
     "retired": 2,
-    "reviewed": 36,
+    "reviewed": 37,
     "reopened_by_the_sweep": 12,
     "open_and_never_closed": 19,
     "reopened_in_prose": 17
@@ -27,7 +27,7 @@
   },
   "states": {
     "broken-evidence": 0,
-    "prerequisite": 5,
+    "prerequisite": 6,
     "governance-held": 4,
     "answered-older-build": 14,
     "answered-at-pin": 0,
@@ -780,7 +780,7 @@
         "0.15.0"
       ],
       "builds_include_pin": true,
-      "evidence": 28,
+      "evidence": 30,
       "json_evidence": 12,
       "named_build": 5,
       "missing": [],
@@ -800,6 +800,25 @@
           "resolved": "missing"
         }
       ]
+    },
+    {
+      "id": "Q056",
+      "status": "future",
+      "question": "What makes a developed, admitted or asserted structure behaviourally active, and does that activation produce an external advantage?",
+      "state": "prerequisite",
+      "builds": [],
+      "builds_include_pin": false,
+      "evidence": 6,
+      "json_evidence": 0,
+      "named_build": 0,
+      "missing": [],
+      "reopened_in_prose": false,
+      "answered": false,
+      "blocked_by": [
+        "Q054"
+      ],
+      "pending_decisions": [],
+      "preregistrations": []
     }
   ]
 }

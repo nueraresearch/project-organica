@@ -167,8 +167,9 @@ different categories. The repair improved the record; it did not improve the res
 - The full suite is green after the 2026-11-13 repair: **2,274 passed, 19 skipped, 0 failed**.
 - The seed-freshness scans now distinguish intentionally reused downstream analyses from new
   independent draws. No verdict, cell, seed allocation or artifact result was changed by that repair.
-- The two cap-112 run records still cite a preparation-only authorisation quote. Their numerical
-  results stand as recorded, but their run-authorisation provenance is unresolved.
+- The two cap-112 run records cite a preparation-only authorisation quote. Their numerical results
+  stand as recorded, but a 2026-11-14 disposition reclassifies the runs as **provisional and not
+  owner-authorised**; they are not confirmatory. See `docs/CAP-112-PROVENANCE-DISPOSITION.md`.
 - `PRESENCE-CONVERSION-2` is **`FROZEN, RUN`**; `PRESENCE-CAP-LADDER-1` and
   `CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1` have no grant and no cells.
 - The live study remains paused.
@@ -185,9 +186,9 @@ different categories. The repair improved the record; it did not improve the res
 | **E. Publication** | Can the audit method and negative results be made citable? | Low compute | None scientific; owner action |
 | **F. V2 engineering** | Can a targeted redesign fix the weakness? | High | Repeating a guessed-mechanism cycle |
 
-**Recommended sequence:** finish provenance repair and publication in parallel; characterize
-carrier formation; then implement and preregister the registered two-path design, because A0 found
-no single upstream selection stage. A1 remains design-only until it has a granted, runnable block.
+**Recommended sequence:** provenance repair is closed by the 2026-11-14 disposition and publication
+continues in parallel; carrier formation is characterized; then implement and preregister the
+registered two-path design, because A0 found no single upstream selection stage. A1 remains design-only until it has a granted, runnable block.
 Treat A and B as one program: A says where to intervene, B says whether the intervention matters.
 Do not start V2 until that result exists.
 

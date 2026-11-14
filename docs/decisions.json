@@ -131,7 +131,7 @@
         },
         {
           "alternative": "Drop Q028 from the licence (option C)",
-          "reason": "removes a claim that cannot be resolved — premature while B is untested and cheap"
+          "reason": "removes a claim that cannot be resolved \u2014 premature while B is untested and cheap"
         }
       ],
       "evidence": [
@@ -149,7 +149,7 @@
       "chosen": [
         "The gate precedes every scientific bucket.",
         "A void run is not an unrun experiment",
-        "one run, one certificate, one verdict — or none."
+        "one run, one certificate, one verdict \u2014 or none."
       ],
       "rejected": [
         {
@@ -316,11 +316,11 @@
       ],
       "rejected": [
         {
-          "alternative": "B — raise the cap to 80.",
+          "alternative": "B \u2014 raise the cap to 80.",
           "reason": "The midpoint is descriptive, not judged: its mean gain is 3.50 asserted edges and no interval was registered for it, so choosing 80 would trade the one pre-registered comparison for a smaller step with no passed criterion."
         },
         {
-          "alternative": "A — keep the cap at 40.",
+          "alternative": "A \u2014 keep the cap at 40.",
           "reason": "Keeping 40 would record the CAP LIMITING reading and then discard the only pre-registered comparison that cleared its bar, closing the budget route at this cap and world family."
         }
       ],
@@ -340,17 +340,17 @@
       "status": "PENDING",
       "status_quote": "Decided, not in force: the cap is still 40, no cap-112 runner exists, and the three cap-112 records are frozen and unrun. Nothing on disk in the engine changes. **Superseded later on 2026-11-11:** the level landed in 0.15.0 and the three runners are runnable; the decision and its acceptance condition are unchanged, and the amendment below records the build state.",
       "chosen": [
-        "Name the step: the loss is constructed but not admitted — 179 of 671 candidate world edges, 16–41 per seed, never entered a served window.",
+        "Name the step: the loss is constructed but not admitted \u2014 179 of 671 candidate world edges, 16\u201341 per seed, never entered a served window.",
         "Do not change the engine on this record: a stage measurement authorises no cap, allocation, ranking or threshold edit.",
         "Test the step with an allocation arm, not another description: the registered cap-112 records raise the guaranteed transition budget from 20 to 56; at 112 the band arm observed 64-69 transitions because unused cooccurrence slots were backfilled, and the arm is the designated counterfactual.",
-        "Accept the allocation explanation only if the 21–40 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.",
+        "Accept the allocation explanation only if the 21\u201340 transitions are served at 112 and the block's own gates pass; if they are not, the explanation is refuted and the next step is the admission rule.",
         "No capability, retention or transfer claim follows from this record; it locates a loss, it does not measure an ability.",
         "Record BAND-5 as a fresh-world confirmation of the allocation-law mechanism, not as a re-score of BAND-1 and not as acceptance of the named-Q4-edge condition."
       ],
       "rejected": [
         {
-          "alternative": "Treat the 62 rank-21–40 misses as a ranking defect and change the ranking.",
-          "reason": "The 62 rank-21–40 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."
+          "alternative": "Treat the 62 rank-21\u201340 misses as a ranking defect and change the ranking.",
+          "reason": "The 62 rank-21\u201340 misses are outside the 20-slot transition allocation, so changing the ranking would answer a defect the record did not find."
         },
         {
           "alternative": "Close the conversion route as assertion losing nothing.",
@@ -416,6 +416,27 @@
         "docs/PERSISTENCE-ZERO-SERVED-NOTE.md",
         "docs/persistence_mechanism_prereg.json",
         "docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-PROGRESSION-BEYOND-G8",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "PLANNING DECISION \u2014 GENERATION 9 REMAINS LOCKED",
+      "chosen": [
+        "Generation 9 \u2014 self-modeling \u2014 remains locked.",
+        "One A3 design and one registered run.",
+        "No G9 design is written before X1 passes."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/G9-ACTIVATION-DESIGN.md",
+        "docs/formation_utilization.md",
+        "docs/USE-PATH-DIAGNOSTIC-RESULTS.md",
+        "docs/C6-TIMING-BLOCK.md",
+        "docs/CARRIER-FORMATION-A0.md",
+        "docs/DECISION-PROGRESSION-BEYOND-G8.md"
       ],
       "superseded_by": null
     }

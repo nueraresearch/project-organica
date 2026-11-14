@@ -10,6 +10,14 @@
 uncleared. The table below is retained as the preflight record, not as a current 0/9 count. See
 [`C6-TIMING-BLOCK.md`](C6-TIMING-BLOCK.md).
 
+**Readiness 2026-11-14:** `benchmarks/a1_gate_readiness.py` gives each remaining gate an
+executable contract and a synthetic control. C6 is satisfied; the other eight are
+`CONTRACT BUILT, NOT RUN`. C1/C4/C7 thresholds and the C8 ceiling are precommitted before any
+cell, and each open gate has one attempt and a terminal failure disposition. None is cleared,
+so the design is still not admissible. See
+[`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) and
+[`A1-PRECOMMITTED-THRESHOLDS.md`](A1-PRECOMMITTED-THRESHOLDS.md).
+
 ## Question
 
 Can the registered two-path design be admitted with the records in hand?

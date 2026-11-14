@@ -116,7 +116,7 @@ The two classes can coexist in one run, but a result about one is not a result a
 - **"Core+band confirms the admission rule."** The block is `VOID`; its identical arms are descriptive only.
 - **"The cap ladder prices the bands."** It has no grant and no cells.
 - **"The retention landmark confirms pre-assertion retention."** It is `VOID`: the 60-cycle landmark leaves 103 eligible edges and 0 asserted events, so no coefficient is read.
-- **"The cap-112 runs are owner-authorised on their records."** `PRESENCE-COMPARATOR-112` and `PRESENCE-CAP-1-112` are `FROZEN, RUN`, but both cite a preparation-only quote ("Write the dated cap-112 authorisation document ..."). Their gates and numbers stand; the run authorisation itself is not recorded. See `docs/AUTHORISATION-PROVENANCE-AUDIT.md`.
+- **"The cap-112 runs are owner-authorised on their records."** `PRESENCE-COMPARATOR-112` and `PRESENCE-CAP-1-112` are `FROZEN, RUN`, but both cite a preparation-only quote ("Write the dated cap-112 authorisation document ..."). Their gates and numbers stand, but the 2026-11-14 disposition reclassifies both runs as **provisional and not owner-authorised**; they are not confirmatory. See `docs/CAP-112-PROVENANCE-DISPOSITION.md` and `docs/AUTHORISATION-PROVENANCE-AUDIT.md`.
 
 ## 8. Priority
 
@@ -146,7 +146,7 @@ No further count study is warranted except as a control. The count question has 
 - Retention entry-transition prereg: `docs/retention_entry_transition_prereg.json` / `docs/RETENTION-ENTRY-TRANSITION-PREREGISTRATION.md` (`FROZEN, NOT RUN`, runner built, no grant, no result)
 - Entry-transition runner: `benchmarks/retention_entry_transition.py` (full appearance-cycle capture, D1-D10 adjudication, grant-gated dry-run)
 - Reverse-model overlap audit: `docs/RETENTION-REVERSE-OVERLAP-AUDIT.md` (diagnostic of the recorded reverse model; no new cells)
-- Authorisation provenance: `docs/AUTHORISATION-PROVENANCE-AUDIT.md` (14 documents, 21 records; the cap-112 run records cite a preparation-only quote)
+- Authorisation provenance: `docs/AUTHORISATION-PROVENANCE-AUDIT.md` (14 documents, 21 records; the cap-112 run records cite a preparation-only quote) and `docs/CAP-112-PROVENANCE-DISPOSITION.md` (2026-11-14: the two runs are provisional and not owner-authorised)
 - Formation-anchored retention: `docs/retention_formation_anchored_prereg.json`, `docs/RETENTION-FORMATION-ANCHORED-PREREGISTRATION.md`, `docs/AUTHORISATION-RETENTION-FORMATION-ANCHORED-1.md`, `docs/retention_formation_anchored.json`, `docs/RETENTION-FORMATION-ANCHORED.md`; runner `benchmarks/retention_formation_anchored.py`
 - Registry: `docs/RESEARCH-FINDINGS.md`, `docs/research_question_registry.json`
 

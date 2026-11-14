@@ -33,11 +33,17 @@ def test_each_draft_is_frozen_unrun_and_granted():
                         if record["block"] == "comparator" else "docs/presence_cap_1_112_run.json")
             assert record["result"]["artifact"] == expected
             assert (draft.ROOT / record["result"]["artifact"]).exists()
+            disposition = record["provenance_disposition"]
+            assert disposition["status"] == draft.DISPOSITION_STATUS
+            assert disposition["date"] == draft.DISPOSITION_DATE
+            assert (draft.ROOT / disposition["document"]).exists()
+            assert "No cell has executed" not in record["not_evidence"]
         else:
             assert record["status"] == "FROZEN, NOT RUN"
             assert record["no_cells_run"] is True
             assert kinds == ["runner-built", "cap-landed"], kinds
             assert record["result"] is None
+            assert "provenance_disposition" not in record
         assert record["amendments"][-1]["date"] == draft.FROZEN_ON
         assert record["gates"] and record["gates_control"]
 

@@ -44,8 +44,21 @@ DOCS = ROOT / "docs"
 REGISTRY = ROOT / "docs" / "research_question_registry.json"
 
 STATUSES = ("ADOPTED", "WITHDRAWN", "PENDING")
-#: A question in one of these states will not change again in a direction a live decision needs.
-DEAD_QUESTION_STATUSES = ("retired", "future")
+#: A retired question is settled. A future question is deferred, not dead: it remains live
+#: while one of its named prerequisites is live, because the decision still governs the path to it.
+DEAD_QUESTION_STATUSES = ("retired",)
+
+
+def question_is_live(question_id, questions) -> bool:
+    """Whether a question can still change in a direction a live decision needs."""
+    question = questions.get(question_id, {})
+    if question.get("status") == "future":
+        prerequisites = question.get("prerequisites") or question.get("blocked_by") or []
+        return any(
+            questions.get(prerequisite, {}).get("status") not in DEAD_QUESTION_STATUSES
+            for prerequisite in prerequisites
+        )
+    return question.get("status") not in DEAD_QUESTION_STATUSES
 
 
 def normalise(text: str) -> str:
@@ -158,16 +171,17 @@ def drift(data, reg) -> list:
         tallied = tallying_questions(reg, d["decision_id"])
         if not tallied:
             continue
-        live = [qid for qid in tallied if questions.get(qid, {}).get("status") not in DEAD_QUESTION_STATUSES]
+        live = [qid for qid in tallied if question_is_live(qid, questions)]
         if not live:
             findings.append(
                 {
                     "code": "decision-orphaned",
                     "subject": d["decision_id"],
                     "message": (
-                        "%s is ADOPTED but every question that tallies it is retired or future "
-                        "(%s); either the decision governs no live work or the question it belongs "
-                        "to needs re-opening" % (d["decision_id"], ", ".join(tallied))
+                        "%s is ADOPTED but every question that tallies it is retired, or future "
+                        "with no live prerequisite (%s); either the decision governs no live work "
+                        "or the question it belongs to needs re-opening"
+                        % (d["decision_id"], ", ".join(tallied))
                     ),
                 }
             )

@@ -38,6 +38,10 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
 
+      - name: C6 guard tests present
+        run: |
+          python -c "from pathlib import Path; s = Path('tests/test_c6_timing_guard.py').read_text(encoding='utf-8'); assert 'def test_the_committed_block_passes_the_guard' in s and 'def test_the_guard_rejects_its_tamper_cases' in s, 'C6 guard tests missing'"
+
       - name: Engine pin
         run: python -m benchmarks.engine_pin --check
 
@@ -45,6 +49,16 @@ jobs:
         run: |
           python -m benchmarks.c6_timing_guard --self-test
           python -m benchmarks.c6_timing_guard --check
+
+      - name: A1 readiness CI guard
+        run: |
+          python -m benchmarks.a1_ci_guard --check
+          python -m benchmarks.a1_ci_guard --self-test
+
+      - name: A1 gate readiness and stop conditions
+        run: |
+          python -m benchmarks.a1_gate_readiness --check
+          python -m benchmarks.a1_gate_readiness --self-test
 
       - name: G9 validator CI guard
         run: |

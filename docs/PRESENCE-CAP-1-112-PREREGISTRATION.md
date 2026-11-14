@@ -1,6 +1,6 @@
 # PRESENCE-CAP-1-112 -- pre-registration at cap 112
 
-**Status: FROZEN, RUN, AUTHORISED.** Drafted 2026-11-11; the owner's cap-112 grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md`. The planned runs executed on 2026-11-11 and the result is below.
+**Status: FROZEN, RUN, PROVISIONAL, NOT OWNER-AUTHORISED.** Drafted 2026-11-11; the recorded grant authorises preparation only, and the run is provisional (see `docs/CAP-112-PROVENANCE-DISPOSITION.md`). The planned runs executed on 2026-11-11 and the result is below.
 
 ## Question
 
@@ -39,10 +39,14 @@ The decision table is the predecessor's, adopted unchanged: `docs/presence_cap_p
 
 **Verdict: `CAP LIMITING`.** Artifact `docs/presence_cap_1_112_run.json`; page `docs/PRESENCE-CAP-1-112-RESULT.md`. The design, seeds, gates and verdict rule above are unchanged.
 
+## Provenance disposition
+
+**Status: PROVISIONAL, NOT OWNER-AUTHORISED (2026-11-14).** The numerical result and gates stand as recorded; the run is not owner-authorised and may not be cited as a confirmatory cap-112 result. See `docs/CAP-112-PROVENANCE-DISPOSITION.md`.
+
 ## Controls
 
 the level list, the shipped cap and the witness cap are each checked against a mutated record that must be rejected; `K4` is checked against a row set whose 40 arm returns 41 rows.
 
 ## Not evidence
 
-A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.
+Executed without a recorded owner run authorisation. The numerical result and gates stand as recorded but are provisional; this is not an owner-authorised or confirmatory cap-112 result.

@@ -32,3 +32,13 @@ The cells each record fixes, once the cap those records name is landable and a h
 
 Granted 2026-11-11. `SleepService.MAX_PREDICTIONS` is still 40, the package is 0.14.0, no cap-112
 runner exists, and no cell has run. The grant authorises the campaign, not the build or the bump.
+
+## Provenance correction (2026-11-14)
+
+The quoted instruction authorises **preparation of this document**, not the execution of cells.
+The two cap-112 blocks that later ran (`PRESENCE-COMPARATOR-112`, 7 cells, and
+`PRESENCE-CAP-1-112`, 25 cells) are reclassified as **provisional and not owner-authorised** in
+[`docs/CAP-112-PROVENANCE-DISPOSITION.md`](CAP-112-PROVENANCE-DISPOSITION.md). Their numerical
+results and gates stand unchanged but are not confirmatory. `PRESENCE-CONSTRUCT-1-112` remains
+unrun and must not run under this quote. This correction does not reverse the separate cap-level
+decision or the 0.15.0 landing.

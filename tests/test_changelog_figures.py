@@ -1091,23 +1091,23 @@ def _check(entries: str) -> list[dict]:
     kept = _at(reg, "reopening", "kept_closed")
     reopened = _at(reg, "reopening", "reopened")
     questions = _at(reg, "questions")
-    add("53", "docs/research_question_registry.json .questions", len(questions),
-        len(questions) == 53)
+    add("54", "docs/research_question_registry.json .questions", len(questions),
+        len(questions) == 54)
     add("12", "docs/research_question_registry.json .reopening.reopened",
         len(reopened), len(reopened) == 12)
     add("17", "docs/research_question_registry.json .reopening.kept_closed",
         len(kept), len(kept) == 17)
     never = [q for q in questions
              if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
-    add("24", "docs/research_question_registry.json, questions in neither list",
-        len(never), len(never) == 24)
+    add("25", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 25)
     runnable = [q for q in never if q["status"] == "open"]
     add("19", "docs/research_question_registry.json, never-closed rows with status open",
         len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**211** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 211 and ("**%d** artifacts" % proved) in entries,
+    add("**212** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 212 and ("**%d** artifacts" % proved) in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught; "
         "the count moved 169 -> 173 when the three conversion blocks wrote their run "
         "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
@@ -1179,7 +1179,7 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**211** artifacts", "**180** artifacts")
+    stage_b_drift = entries.replace("**212** artifacts", "**180** artifacts")
     assert "**180** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
     assert stage_b_failures, "the control did not fire"

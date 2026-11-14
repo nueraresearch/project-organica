@@ -1,6 +1,6 @@
 # PRESENCE-CONSTRUCT-1-112 -- pre-registration at cap 112
 
-**Status: FROZEN, NOT RUN, AUTHORISED.** Drafted 2026-11-11; the owner's cap-112 grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md`. No cell has executed and no verdict is adjudicated.
+**Status: FROZEN, NOT RUN, GRANTED FOR PREPARATION.** Drafted 2026-11-11; the recorded instruction authorises preparation of `docs/AUTHORISATION-PRESENCE-CAP-112.md`, not a run. No cell has executed and no verdict is adjudicated.
 
 ## Question
 
@@ -39,7 +39,7 @@ The decision table is the predecessor's, adopted unchanged: `docs/presence_const
 ## Why it has not run yet
 
 - **The level.** `DECISION-CAP-LEVEL` C landed: `SleepService.MAX_PREDICTIONS` set to 112, version 0.15.0, pin re-recorded, canaries re-recorded and attributed
-- **Grant recorded.** the owner granted the cap-112 campaign on 2026-11-11; the grant is recorded in `docs/AUTHORISATION-PRESENCE-CAP-112.md` and quoted there. It does not land the cap and does not authorise a run under cap 40.
+- **Grant recorded.** the recorded 2026-11-11 instruction authorises preparation of `docs/AUTHORISATION-PRESENCE-CAP-112.md`, not the execution of cells. The two blocks that ran are reclassified provisional in `docs/CAP-112-PROVENANCE-DISPOSITION.md`; the instruction does not land the cap and does not authorise a run under cap 40.
 - **Runner built.** the three blocks are implemented against these frozen designs and their gates. On the landed build (0.15.0, cap 112) the preflight is satisfied, so `--measure` would open a cell; no cell has been started here
 
 ## Controls
@@ -48,4 +48,4 @@ The decision table is the predecessor's, adopted unchanged: `docs/presence_const
 
 ## Not evidence
 
-A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.
+A draft is not a run. No cell has executed, no verdict is adjudicated, and this record may not be cited as a cap-112 result.

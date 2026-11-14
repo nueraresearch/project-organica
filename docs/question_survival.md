@@ -13,12 +13,12 @@ exists*. This page separates those, and changes no status.
 
 | population | count |
 | --- | --- |
-| questions in the registry | 53 |
+| questions in the registry | 54 |
 | open | 31 |
-| future | 5 |
+| future | 6 |
 | closed | 15 |
 | retired | 2 |
-| **reviewed here (open + future)** | **36** |
+| **reviewed here (open + future)** | **37** |
 
 The dashboard's narrower population is 19: the open questions the 2026-11-08 sweep neither
 reopened nor kept closed. The other 12 were reopened by that sweep and are still open;
@@ -42,7 +42,7 @@ Pinned build: `0.15.0`.
 | state | count | meaning |
 | --- | --- | --- |
 | `broken-evidence` | 0 | a cited path does not exist, so the row cannot be read at all |
-| `prerequisite` | 5 | blocked_by names another question; that question is the debt |
+| `prerequisite` | 6 | blocked_by names another question; that question is the debt |
 | `governance-held` | 4 | a cited decision is PENDING; the block is a decision, not a measurement |
 | `answered-older-build` | 14 | the answer predates a later build by its own record, or names a build and none is the pin |
 | `answered-at-pin` | 0 | the answer was not reopened, and a cited artifact names the pinned build |
@@ -98,6 +98,7 @@ builds column reports what those artifacts name today, not the build behind the 
 | Q051 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q053 | open | `open-with-evidence` | 0.13.0 | 3 of 7 | no |
 | Q054 | open | `governance-held` | 0.14.0, 0.15.0 | 5 of 12 | no |
+| Q056 | future | `prerequisite` | none | 0 of 0 | no |
 
 ## What this page does not say
 

@@ -37,6 +37,9 @@ SEEDS = [20261100, 20261101, 20261102, 20261103, 20261104, 20261105]
 SEEDS_Q2 = [20611901, 20611902, 20611903, 20611904, 20611905, 20611906]
 BOOTSTRAP_Q2 = 20611907
 AUTHORISATION_DOC = DOCS / "AUTHORISATION-PRESENCE-CAP-112.md"
+DISPOSITION_DOC = "docs/CAP-112-PROVENANCE-DISPOSITION.md"
+DISPOSITION_DATE = "2026-11-14"
+DISPOSITION_STATUS = "PROVISIONAL, NOT OWNER-AUTHORISED"
 GRANT_DATE = "2026-11-11"
 GRANT_QUOTE = ("Write the dated cap-112 authorisation document for the comparator, Q1 and Q2, "
                "recording the owner's grant against the three frozen records.")
@@ -178,9 +181,11 @@ COMMON = {
         "quote": GRANT_QUOTE,
         "scope": ("the three cap-112 records: PRESENCE-COMPARATOR-112, PRESENCE-CONSTRUCT-1-112 "
                   "and PRESENCE-CAP-1-112, once the cap is landed and a harness exists"),
-        "why": ("the owner granted the cap-112 campaign on 2026-11-11; the grant is recorded in "
-                "`docs/AUTHORISATION-PRESENCE-CAP-112.md` and quoted there. It does not land the "
-                "cap and does not authorise a run under cap 40."),
+        "why": ("the recorded 2026-11-11 instruction authorises preparation of "
+                "`docs/AUTHORISATION-PRESENCE-CAP-112.md`, not the execution of cells. The two "
+                "blocks that ran are reclassified provisional in "
+                "`docs/CAP-112-PROVENANCE-DISPOSITION.md`; the instruction does not land the cap "
+                "and does not authorise a run under cap 40."),
     },
     "runner": {
         "status": "built",
@@ -217,14 +222,31 @@ COMMON = {
     }],
     "decision_table_source": None,
     "result": None,
-    "not_evidence": ("A draft is not a run. No cell has executed, no verdict is adjudicated, and none "
-                     "of these records may be cited as a cap-112 result."),
+    "not_evidence": ("A draft is not a run. No cell has executed, no verdict is adjudicated, and this "
+                     "record may not be cited as a cap-112 result."),
+}
+
+PROVISIONAL_NOT_EVIDENCE = (
+    "Executed without a recorded owner run authorisation. The numerical result and gates stand "
+    "as recorded but are provisional; this is not an owner-authorised or confirmatory cap-112 "
+    "result."
+)
+
+PROVENANCE_DISPOSITION = {
+    "date": DISPOSITION_DATE,
+    "kind": "explicit-reclassification",
+    "status": DISPOSITION_STATUS,
+    "document": DISPOSITION_DOC,
+    "effect": ("The numerical result and gates stand as recorded; the run is not owner-authorised "
+               "and may not be cited as a confirmatory cap-112 result."),
 }
 
 
 COMPARATOR_RUN = {
     "status": "FROZEN, RUN",
     "no_cells_run": False,
+    "provenance_disposition": dict(PROVENANCE_DISPOSITION),
+    "not_evidence": PROVISIONAL_NOT_EVIDENCE,
     "result": {
         "artifact": "docs/presence_comparator_112_run.json",
         "page": "docs/PRESENCE-COMPARATOR-112-RESULT.md",
@@ -235,6 +257,8 @@ COMPARATOR_RUN = {
 Q2_RUN = {
     "status": "FROZEN, RUN",
     "no_cells_run": False,
+    "provenance_disposition": dict(PROVENANCE_DISPOSITION),
+    "not_evidence": PROVISIONAL_NOT_EVIDENCE,
     "result": {
         "artifact": "docs/presence_cap_1_112_run.json",
         "page": "docs/PRESENCE-CAP-1-112-RESULT.md",
@@ -323,6 +347,13 @@ def problems(record: dict, allow=()) -> list[str]:
         found.append("%s: kind" % name)
     status = record.get("status")
     if status == "FROZEN, RUN":
+        disposition = record.get("provenance_disposition") or {}
+        if disposition.get("status") != DISPOSITION_STATUS:
+            found.append("%s: a run record carries no provisional provenance disposition" % name)
+        elif not (ROOT / (disposition.get("document") or "")).exists():
+            found.append("%s: the provenance disposition document does not exist" % name)
+        if "No cell has executed" in (record.get("not_evidence") or ""):
+            found.append("%s: a run record still says no cell has executed" % name)
         result = record.get("result") or {}
         artifact = result.get("artifact")
         if record.get("no_cells_run") is not False:
@@ -407,15 +438,21 @@ def render(records_map: dict[str, dict]) -> dict[str, str]:
     pages: dict[str, str] = {}
     for record in records_map.values():
         design = record["design"]
+        disposition = record.get("provenance_disposition")
+        auth_label = (disposition["status"] if disposition else
+                      "GRANTED FOR PREPARATION" if record["authorisation"]["granted"]
+                      else "NOT AUTHORISED")
+        grant_sentence = (
+            "the recorded grant authorises preparation only, and the run is provisional (see `%s`)."
+            % disposition["document"] if disposition else
+            "the recorded instruction authorises preparation of `%s`, not a run."
+            % record["authorisation"]["document"]
+            if record["authorisation"]["granted"] else "no grant is recorded.")
         lines = [
             "# %s -- pre-registration at cap 112" % record["prereg"],
             "",
             "**Status: %s, %s.** Drafted %s; %s %s" % (
-                record["status"],
-                "AUTHORISED" if record["authorisation"]["granted"] else "NOT AUTHORISED",
-                FROZEN_ON,
-                "the owner's cap-112 grant is recorded in `%s`." % record["authorisation"]["document"]
-                if record["authorisation"]["granted"] else "no grant is recorded.",
+                record["status"], auth_label, FROZEN_ON, grant_sentence,
                 ("The planned runs executed on 2026-11-11 and the result is below."
                  if record["status"] == "FROZEN, RUN" else
                  "No cell has executed and no verdict is adjudicated.")),
@@ -459,6 +496,10 @@ def render(records_map: dict[str, dict]) -> dict[str, str]:
                      ("- **Grant recorded.** %s" if record["authorisation"]["granted"]
                       else "- **No grant.** %s") % record["authorisation"]["why"],
                      "- **Runner built.** %s" % record["runner"]["why"], ""]),
+                  *(["## Provenance disposition", "",
+                     "**Status: %s (%s).** %s See `%s`." % (
+                         disposition["status"], disposition["date"], disposition["effect"],
+                         disposition["document"]), ""] if disposition else []),
                   "## Controls", "",
                   record["gates_control"], "",
                   "## Not evidence", "",
@@ -505,7 +546,8 @@ def main(argv=None) -> int:
         print("FAIL:", problem)
     if found:
         return 1
-    states = sorted({"authorised" if record["authorisation"]["granted"] else "unauthorised"
+    states = sorted({"provisional" if record.get("provenance_disposition") else
+                     "preparation-only" if record["authorisation"]["granted"] else "unauthorised"
                      for record in built.values()})
     ran = sum(1 for record in built.values() if record["status"] == "FROZEN, RUN")
     print("cap-112 drafts: %d records, %d frozen and unrun, %d frozen and run, %s, runner built"

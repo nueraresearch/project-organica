@@ -415,6 +415,7 @@ def finish(block: str) -> int:
                "checks": {gate: gate not in comparator_failures(rows, control)
                           for gate in ("A1_build", "A2_world", "A3_denominator", "A4_object",
                                        "A5_seed_axis", "A6_control")},
+               "provenance_disposition": record(block).get("provenance_disposition"),
                "not_evidence": record(block)["not_evidence"]}
         page = _render_comparator(art)
     elif block == "Q1":
@@ -462,6 +463,7 @@ def finish(block: str) -> int:
                "checks": {gate: gate not in q2_failures(design, cells, witness, reference)
                           for gate in ("K1_build", "K2_same_world", "K3_presence_invariant",
                                        "K4_cap_live", "K5_cap_only", "K6_denominator")},
+               "provenance_disposition": record(block).get("provenance_disposition"),
                "not_evidence": record(block)["not_evidence"]}
         page = _render_q2(art)
     art = engine_stamp.stamp(art)
@@ -478,6 +480,16 @@ def _gate_table(art: dict) -> list[str]:
     return lines
 
 
+def _disposition_lines(art: dict) -> list[str]:
+    disposition = art.get("provenance_disposition")
+    if not disposition:
+        return []
+    return ["## Provenance disposition", "",
+            "**Status: %s (%s).** %s See `%s`." % (
+                disposition["status"], disposition["date"], disposition["effect"],
+                disposition["document"]), ""]
+
+
 def _render_comparator(art: dict) -> str:
     lines = ["# PRESENCE-COMPARATOR-112 -- result", "",
              "**Verdict: `%s`** at the shipped cap **%d**." % (art["verdict"], art["cap"]), "",
@@ -488,7 +500,7 @@ def _render_comparator(art: dict) -> str:
             row["seed"], row["world_edges"], row["present_world_edges"],
             row["asserted_world_edges"], row["conversion"], row["asserted_fingerprint"]))
     return "\n".join(lines + ["", "## Gates", ""] + _gate_table(art) + [
-        "", art["not_evidence"], ""])
+        ""] + _disposition_lines(art) + [art["not_evidence"], ""])
 
 
 def _render_construct(art: dict) -> str:
@@ -530,7 +542,8 @@ def _render_q2(art: dict) -> str:
               "named Q4 edges. The decision's acceptance condition therefore remains "
               "**unadjudicated**, and the decision stays **PENDING**."]
     return "\n".join(lines + ["", "## Gates", ""] + _gate_table(art) + [
-        "", "Bar: **%d** asserted world edges." % art["bar"], "", art["not_evidence"], ""])
+        "", "Bar: **%d** asserted world edges." % art["bar"], ""] +
+        _disposition_lines(art) + [art["not_evidence"], ""])
 
 
 def _synthetic_comparator_rows() -> list[dict]:

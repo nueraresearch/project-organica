@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 9 | in force; the document records it as implemented or effective |
+| ADOPTED | 10 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 4 | decided and not in force; the document says so |
-| **total** | **14** | |
+| **total** | **15** | |
 
 ## The decisions
 
@@ -315,6 +315,26 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 **Evidence.** `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`, `docs/persistence_mechanism_prereg.json`, `docs/PERSISTENCE-MECHANISM-PREREGISTRATION.md`
 
 **Record.** `docs/DECISION-PERSISTENCE-INTERVENTION.md`
+
+### DECISION-PROGRESSION-BEYOND-G8 — Decision: progression beyond G8 is gated on activation, not on a G9 design
+
+**Status.** ADOPTED — *"PLANNING DECISION — GENERATION 9 REMAINS LOCKED"*
+
+**Decided.**
+
+- Generation 9 — self-modeling — remains locked.
+- One A3 design and one registered run.
+- No G9 design is written before X1 passes.
+
+**Rejected.** None recorded in the document. That is a gap in the record, not a
+statement that no alternative existed: a decision whose alternatives were never
+written down cannot be re-examined later.
+
+**Rests on.** Q056 (future)
+
+**Evidence.** `docs/G9-ACTIVATION-DESIGN.md`, `docs/formation_utilization.md`, `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`, `docs/C6-TIMING-BLOCK.md`, `docs/CARRIER-FORMATION-A0.md`, `docs/DECISION-PROGRESSION-BEYOND-G8.md`
+
+**Record.** `docs/DECISION-PROGRESSION-BEYOND-G8.md`
 
 ## What this graph is not
 

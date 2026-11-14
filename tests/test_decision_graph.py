@@ -134,6 +134,21 @@ def test_an_adopted_decision_tallied_only_by_a_retired_question_is_reported(reco
     assert findings[0]["subject"] == "DECISION-V2-SCOPE"
 
 
+def test_a_future_question_is_live_only_while_its_prerequisite_is_live(records):
+    data, _reg = records
+    reg = {
+        "questions": [
+            {"id": "Q054", "status": "open", "question": "a live prerequisite?", "decisions": []},
+            {"id": "Q056", "status": "future", "question": "a deferred question?",
+             "prerequisites": ["Q054"], "decisions": ["DECISION-PROGRESSION-BEYOND-G8.md"]},
+        ]
+    }
+    assert dg.drift(data, reg) == []
+    reg["questions"][0]["status"] = "retired"
+    findings = dg.drift(data, reg)
+    assert [f["subject"] for f in findings] == ["DECISION-PROGRESSION-BEYOND-G8"]
+
+
 def test_a_withdrawn_decision_is_never_reported_as_orphaned(records):
     data, _reg = records
     reg = {

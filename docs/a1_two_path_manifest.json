@@ -1,0 +1,115 @@
+{
+  "kind": "a1_two_path_manifest",
+  "id": "A1-TWO-PATH-1",
+  "date": "2026-11-14",
+  "status": "REGISTERED DESIGN \u2014 NOT FROZEN, NOT RUN, NO GRANT",
+  "frozen": false,
+  "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
+  "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+  "engine": "0.15.0",
+  "seed_block": {
+    "status": "PROVISIONAL CANDIDATE \u2014 NOT RESERVED, NOT FROZEN",
+    "seeds": [
+      20630101,
+      20630102,
+      20630103,
+      20630104,
+      20630105,
+      20630106
+    ],
+    "cycles": 120,
+    "cap": 40,
+    "freshness": "seed_collisions over docs JSON is empty at manifest time"
+  },
+  "world": "compositional world family",
+  "candidate_universe": "fixed compositional-world directed-edge universe",
+  "cells": [
+    {
+      "id": "A+K+",
+      "admission": "allowed",
+      "carrier": "available",
+      "assertion": "on"
+    },
+    {
+      "id": "A+K-",
+      "admission": "allowed",
+      "carrier": "blocked",
+      "assertion": "on"
+    },
+    {
+      "id": "A-K+",
+      "admission": "blocked",
+      "carrier": "available",
+      "assertion": "on"
+    },
+    {
+      "id": "A-K-",
+      "admission": "blocked",
+      "carrier": "blocked",
+      "assertion": "on"
+    },
+    {
+      "id": "Y_MINUS_A+K+",
+      "admission": "allowed",
+      "carrier": "available",
+      "assertion": "blocked"
+    },
+    {
+      "id": "Y_MINUS_A-K+",
+      "admission": "blocked",
+      "carrier": "available",
+      "assertion": "blocked"
+    }
+  ],
+  "cell_count": 36,
+  "planned_cells": 36,
+  "control": {
+    "seed": 20630101,
+    "cell": "A+K+",
+    "why": "fresh-process determinism rerun"
+  },
+  "object_fingerprint": {
+    "fields": [
+      "world",
+      "seed",
+      "cycles",
+      "cap",
+      "candidate_universe",
+      "U"
+    ],
+    "rule": "every cell of a seed must carry one fingerprint"
+  },
+  "targets": {
+    "status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+    "by_seed": {},
+    "u_cycle": 36,
+    "rule": "Directed world edges fixed per seed before any cell; one target set is applied in every cell of that seed; no post-outcome target selection. U is measured at cycle 36, before the earliest A0 carrier formation at cycle 37."
+  },
+  "U": {
+    "direct_count": "pre-carrier",
+    "reverse_count": "pre-carrier",
+    "strength": "pre-carrier",
+    "measured_cycle": 36,
+    "measured_before": [
+      "carrier",
+      "K",
+      "Y"
+    ]
+  },
+  "authorisation": {
+    "granted": false,
+    "granted_on": null,
+    "document": null,
+    "quote": null
+  },
+  "runner": {
+    "built": true,
+    "planned_module": "benchmarks.a1_two_path",
+    "note": "A-/K-/Y- treatments built; execution still requires frozen targets and a grant"
+  },
+  "result": {
+    "path": "docs/a1_two_path_result.json",
+    "exists": false
+  },
+  "not_evidence": "A dry-run manifest and grant gate. No cell, seed or database is used; this is not a result and does not authorise a run."
+}

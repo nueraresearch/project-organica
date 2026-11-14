@@ -10,11 +10,11 @@ by hand, and the row names say what is counted.
 
 | Metric | Value | Definition | Source |
 | --- | --- | --- | --- |
-| Questions registered | 53 | rows in the registry | `docs/research_question_registry.json` |
+| Questions registered | 54 | rows in the registry | `docs/research_question_registry.json` |
 | Questions closed | 15 | status is closed | `docs/research_question_registry.json` |
 | Questions open | 31 | status is open | `docs/research_question_registry.json` |
 | Questions retired | 2 | status is retired | `docs/research_question_registry.json` |
-| Questions deferred | 5 | status is future | `docs/research_question_registry.json` |
+| Questions deferred | 6 | status is future | `docs/research_question_registry.json` |
 | Findings supported | 11 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
 | Findings unsupported | 5 | closed or retired with outcome UNSUPPORTED | `docs/research_question_registry.json` |
 | Findings mixed | 1 | closed or retired with outcome MIXED | `docs/research_question_registry.json` |
@@ -30,7 +30,7 @@ by hand, and the row names say what is counted.
 | Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
 | Preregistered experiments | 38 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
-| Architectural changes adopted | 11 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
+| Architectural changes adopted | 12 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
 | Architectural changes withdrawn | 3 | decision records whose text contains WITHDRAWN | `docs/DECISION-*.md` |
 | Independent reviews | 1 | documents in docs/ whose filename begins INDEPENDENT- | `docs/INDEPENDENT-*.md` |
 

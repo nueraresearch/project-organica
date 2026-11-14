@@ -36,24 +36,24 @@ partition of its own; it splits one group.
 | Group | Count | Where it comes from |
 | --- | --- | --- |
 | Re-derivations | **12** | `reopening.reopened` |
-| First answers | **24** | open and future questions in neither `reopened` nor `kept_closed` |
-| First answers runnable now | **19** | of the 24, status `open` |
-| First answers gated | **5** | of the 23, status `future` |
+| First answers | **25** | open and future questions in neither `reopened` nor `kept_closed` |
+| First answers runnable now | **19** | of the 25, status `open` |
+| First answers gated | **6** | of the 25, status `future` |
 | Kept closed, outside the campaign | **17** | `reopening.kept_closed` |
-| Campaign questions | **36** | 12 + 24 |
-| Registry questions | **53** | 36 + 17 |
+| Campaign questions | **37** | 12 + 25 |
+| Registry questions | **54** | 37 + 17 |
 
 The reopening was made against `engine_version` 0.13.0, whose bytes are
 `ed0851d119470d2561900471f79f3302ea44184a278c0c622f49ae80e487c4c2` in the same record. That
 pin — not a date and not the word "HEAD" — is the campaign's fixed object.
 
 **Disclosure.** The request for this plan named 25 first answers. The registry supports
-**24**: 19 `open` and 5 `future`, with no question carrying a prior outcome, and
-14 + 24 + 14 was the 51 the partition test checks. **Q002 closed on 2026-11-09** — its presence
-measurement was re-made on 0.13.0 — so the table now reads 23 first answers, 18 runnable, 35
-campaign questions, with Q002 outside the campaign. The frozen 24/19 are the counts the campaign
-started from, not a licence to schedule a closed row. If a twenty-fifth question is meant, it has to arrive as a registry row with a status and a
-question, because a campaign slot with no row behind it cannot be preregistered.
+**25**: 19 `open` and 6 `future`, with no question carrying a prior outcome. **Q002 closed on
+2026-11-09** — its presence measurement was re-made on 0.13.0 — so the table now reads 25 first
+answers, 19 runnable and 37 campaign questions, with Q002 outside the campaign. The 25/19 are the
+counts the campaign starts from, not a licence to schedule a closed row. Q056 is the twenty-fifth
+row, registered as future and blocked by Q054; it is listed with the gated rows, not the runnable
+ones.
 
 ## 3. Half A — the 12 re-derivations, triaged
 
@@ -181,8 +181,8 @@ None of these has an outcome on record, so none has a comparator. Nineteen are `
 | **Q053** | Can competition be preserved or regenerated without globally reducing forgetting, and does that produce a capability gain over shipped 0.95? | `docs/Q053-MECHANISM-PREREGISTRATION.md` |
 | **Q054** | Where do world edges leave the path between raw presence and final assertion, once the observer provably does not change what the engine admits? | `docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md` |
 
-The five gated rows are not scheduled. They are valid only after their prerequisite, and
-**Q012 is the lock on four of them**:
+The six gated rows are not scheduled. They are valid only after their prerequisite, and
+**Q012 is the lock on five of them**; Q054 gates Q056:
 
 | ID | The question, as the registry records it | Gated by |
 | --- | --- | --- |
@@ -191,6 +191,7 @@ The five gated rows are not scheduled. They are valid only after their prerequis
 | **Q025** | What fraction of the transfer signal is role-specific rather than general priming? | `Q012` |
 | **Q026** | Does role-based transfer persist once the origin context is gone? | `Q012` |
 | **Q027** | Do transferred structures survive selection on their own? | `Q012` |
+| **Q056** | What makes a developed, admitted or asserted structure behaviourally active, and does that activation produce an external advantage? | `Q054` |
 
 Seven of the twenty-three name a preregistration; the other sixteen need one written. Two of
 them are live questions the record already constrains: Q018's space is closed by measurement
@@ -225,8 +226,8 @@ about to re-derive.
    guard, and its build is labelled separately (AGENTS.md rule 17d).
 6. **No first answer widens past its endpoint.** The claim is what the endpoint measured, on the
    population and axis it measured it on (AGENTS.md rule 24).
-7. **Q012 runs first among the open eighteen**, because four gated rows and one further
-   question wait on it. The gated five are scheduled only after their prerequisite is answered
+7. **Q012 runs first among the open nineteen**, because five gated rows and one further
+   question wait on it. The six gated rows are scheduled only after their prerequisite is answered
    in this build.
 
 ## 7. What is outside the campaign

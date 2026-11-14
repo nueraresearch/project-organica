@@ -183,6 +183,13 @@ check. The `A−K−` cell is the completeness check. The `U`-conditional row se
 
 `T1`–`T6` are void gates. `T7` and `T8` are structural gates with their own verdicts.
 
+**Thresholds fixed 2026-11-14, before any cell.** `C1` requires at least 95% preservation of the
+other path on every seed, measured against the paired control's available edges. `C4` and `C7` use a
+0.05 absolute-rate margin. `C8` reads `THIRD ROUTE PRESENT` above a 0.05 assertion rate in `A−K−`.
+These are design conventions, not estimates from A0 or any run; the definitions and fragility are
+recorded in [`A1-PRECOMMITTED-THRESHOLDS.md`](A1-PRECOMMITTED-THRESHOLDS.md). Fixing them does not
+authorise a run.
+
 ## Decision table
 
 | Condition | Verdict | Reading |
@@ -213,8 +220,8 @@ understood. The target is identified at the resolution of the manipulated path.
 
 ## What must be fixed before a runnable preregistration
 
-1. **Implement the four 2×2 arms and the `Y−` arm** without touching a frozen engine file.
-2. **Fix the `A−`, `K−` and `A−K−` tolerances and the `T8` ceiling** before any cell.
+1. **Implement the four 2×2 arms and the `Y−` arm** without touching a frozen engine file. *(Implemented 2026-11-14 in `benchmarks/a1_arms.py`; a target set is still unresolved and no cell has run.)*
+2. **Fix the `A−`, `K−` and `A−K−` tolerances and the `T8` ceiling** before any cell. *(Thresholds fixed 2026-11-14; see the record above.)*
 3. **Fix the `U` measurement** and its stratification rule; do not use a post-outcome rank.
 4. **Fix a fresh seed block, a materiality bar and a power calculation.** No seeds are assigned here.
 5. **Record an owner grant.** This design is not a grant and no cell may run under it.

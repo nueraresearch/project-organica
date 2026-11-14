@@ -80,6 +80,9 @@ DERIVED = {
     "research_registry.py",  # writes the question registry itself
     "test_count.py",  # records the suite's own counts
     "c1_c9_preflight.py",  # read-only audit of C1-C9; runs no engine
+    "a1_gate_readiness.py",  # read-only gate contract and readiness audit; runs no engine
+    "a1_two_path.py",  # dry-run manifest and grant gate; opens no database
+    "g9_stage_ledger.py",  # validator fixtures/page; runs no engine and writes no ledger
     "carrier_formation_a0.py",  # read-only join of carrier and provenance rows; runs no engine
 }
 

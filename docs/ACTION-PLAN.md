@@ -84,10 +84,10 @@ Q006 and Q021 have run and closed on 0.13.0; their records are historical. Q017 
 
 ## 4. The reviewed population, and the one correction
 
-- Reviewed: **31 open + 5 future = 36**.
+- Reviewed: **31 open + 6 future = 37**.
 - **14 carry an answer** whose own `why_open` says it predates a later build.
 - **4 are governance-held**: Q003 cites the PENDING `DECISION-CAP-LEVEL`, and Q004 and Q005 cite the PENDING `DECISION-DENSITY-EXCLUSION`.
-- **5 are prerequisite-gated**: the future questions behind Q012.
+- **6 are prerequisite-gated**: five future questions behind Q012, and Q056 behind Q054.
 - **13 are open with evidence** and no answer.
 - **0 are answered at the pin.**
 

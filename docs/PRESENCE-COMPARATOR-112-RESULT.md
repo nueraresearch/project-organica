@@ -22,4 +22,8 @@
 | `A5_seed_axis` | PASS |
 | `A6_control` | PASS |
 
-A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.
+## Provenance disposition
+
+**Status: PROVISIONAL, NOT OWNER-AUTHORISED (2026-11-14).** The numerical result and gates stand as recorded; the run is not owner-authorised and may not be cited as a confirmatory cap-112 result. See `docs/CAP-112-PROVENANCE-DISPOSITION.md`.
+
+Executed without a recorded owner run authorisation. The numerical result and gates stand as recorded but are provisional; this is not an owner-authorised or confirmatory cap-112 result.

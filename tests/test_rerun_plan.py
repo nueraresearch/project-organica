@@ -122,7 +122,7 @@ def test_the_plan_lists_exactly_the_campaign_questions() -> None:
     split = campaign(reg)
     assert sorted(page_ids(text, "## 3. Half A")) == sorted(split["reopened"])
     assert sorted(page_ids(text, "## 5. Half B")) == sorted(split["first"])
-    assert len(split["runnable"]) == 19 and len(split["gated"]) == 5
+    assert len(split["runnable"]) == 19 and len(split["gated"]) == 6
     assert not set(split["reopened"]) & set(split["first"]), "a question cannot be in both halves"
 
 
@@ -135,8 +135,8 @@ def test_the_gated_questions_are_the_future_rows_and_name_their_lock() -> None:
     for qid in split["gated"]:
         row = next(line for line in text.splitlines() if line.startswith("| **%s**" % qid))
         assert row.rstrip().endswith("|"), row
-        assert "Q012" in row or "Q022" in row, row
-    assert "**Q012 is the lock on four of them**" in text
+        assert "Q012" in row or "Q022" in row or "Q054" in row, row
+    assert "**Q012 is the lock on five of them**" in text
 
 
 def test_no_kept_closed_question_is_scheduled_as_a_cell() -> None:

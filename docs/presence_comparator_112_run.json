@@ -495,9 +495,16 @@
   "A5_seed_axis": true,
   "A6_control": true
  },
- "not_evidence": "A draft is not a run. No cell has executed, no verdict is adjudicated, and none of these records may be cited as a cap-112 result.",
+ "not_evidence": "Executed without a recorded owner run authorisation. The numerical result and gates stand as recorded but are provisional; this is not an owner-authorised or confirmatory cap-112 result.",
  "engine_version": "0.15.0",
  "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
  "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
- "runner": "__main__"
+ "runner": "__main__",
+ "provenance_disposition": {
+  "date": "2026-11-14",
+  "kind": "explicit-reclassification",
+  "status": "PROVISIONAL, NOT OWNER-AUTHORISED",
+  "document": "docs/CAP-112-PROVENANCE-DISPOSITION.md",
+  "effect": "The numerical result and gates stand as recorded; the run is not owner-authorised and may not be cited as a confirmatory cap-112 result."
+ }
 }

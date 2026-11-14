@@ -1,0 +1,76 @@
+# A1 gate readiness
+
+**Date:** 2026-11-14  
+**Verdict:** `NOT ADMISSIBLE — 1 SATISFIED, 8 CONTRACT-BUILT BUT UNRUN, 0 UNSATISFIABLE`
+
+**This is not an experimental result.** No cell, seed, intervention or engine change was made.
+
+C6 is satisfied by the committed C6-TIMING-1 block. The other eight gates have executable contracts and synthetic controls; C1/C4/C7 thresholds and the C8 ceiling are precommitted. Each open gate has one attempt and a terminal failure disposition: a failed or unmeasurable gate is UNSATISFIABLE for A1 and requires a new design, not another instrumentation round. None can be cleared from the observational records because each needs an A-, K-, Y- or A-K- cell that has not run. The design remains not admissible and no causal model is read.
+
+## Counts
+
+| Classification | Count |
+| --- | ---: |
+| Satisfied | 1 |
+| Contract built, not run | 8 |
+| Unsatisfiable | 0 |
+
+## Precommitted thresholds
+
+| Gate | Quantity | Value |
+| --- | --- | ---: |
+| `C1_path_separation` | A- carrier preservation | 0.95 |
+| `C1_path_separation` | K- served preservation | 0.95 |
+| `C4_no_interference` | neighbour delta | 0.05 |
+| `C7_assertion_block` | A delta under Y- | 0.05 |
+| `C7_assertion_block` | K delta under Y- | 0.05 |
+| `C8_third_route` | A-K- assertion ceiling | 0.05 |
+
+See [`A1-PRECOMMITTED-THRESHOLDS.md`](A1-PRECOMMITTED-THRESHOLDS.md) for definitions and fragility.
+
+## Bounded paths
+
+One implementation and one registered run per gate. A failed or unmeasurable gate is UNSATISFIABLE for A1 and terminal: no A1 patch, threshold change, extra cell or rerun. A new registered design is required to try again.
+
+| Gate | Attempts | Success | Failure | Unmeasurable |
+| --- | ---: | --- | --- | --- |
+| `C1_path_separation` | 1 | The C1 contract passes on every seed. | NOT IDENTIFIED: the two-path model is not testable. | UNSATISFIABLE: no paired-control denominator after one attempt. |
+| `C2_treatment_consistency` | 1 | The C2 contract passes on every seed. | VOID: the intervention did not happen as specified. | UNSATISFIABLE: a required manipulation has no denominator. |
+| `C3_positivity` | 1 | The C3 contract passes on every seed and edge. | VOID: a required cell is empty. | UNSATISFIABLE: no eligible edge can populate the cells. |
+| `C4_no_interference` | 1 | The C4 contract passes on every non-target edge. | NOT IDENTIFIED: the edge-level estimand is undefined. | UNSATISFIABLE: no non-target edge has a measurable delta. |
+| `C5_common_cause` | 1 | The C5 contract passes on every row. | SHARED CAUSE / NO CARRIER RELATION NOT SEPARATED. | UNSATISFIABLE: U has no pre-outcome measurement on a required row. |
+| `C7_assertion_block` | 1 | The C7 contract passes at both Y- cells. | SHARED CAUSE / READOUT NOT SEPARATED. | UNSATISFIABLE: no Y- cell has a paired control. |
+| `C8_third_route` | 1 | A-K- assertion is at or below the precommitted 0.05 ceiling. | THIRD ROUTE PRESENT: the two-path model is incomplete. | UNSATISFIABLE: A-K- has no denominator. |
+| `C9_same_object` | 1 | The C9 contract passes for every seed. | VOID: the comparison is not paired. | UNSATISFIABLE: a paired cell has no object fingerprint. |
+
+C6 is satisfied and closed; it needs no stop condition. A terminal failure is not a
+reason to patch A1, retune a threshold or add a cell.
+
+## Gates
+
+| ID | Status | Current evidence | Contract | Remaining |
+| --- | --- | --- | --- | --- |
+| `C1_path_separation` | `CONTRACT BUILT; THRESHOLD PRECOMMITTED, NOT RUN` | A0 supports the parallel-path premise: 26/26 rows form a carrier with zero direct service, and admission leaves the carrier intact. No A- or K- arm has been executed, so cross-path separation has not been observed. Threshold: at least 95% preservation of the other path, per seed. | gate_c1(rows, tolerance): among paired-control available edges, A- keeps K and K- keeps A at or above the tolerance on every seed. | Implement A-/K- and run the arms; the threshold is already fixed. |
+| `C2_treatment_consistency` | `CONTRACT BUILT; NO ARM RUN` | No A-, K- or Y- execution exists; the A0 records are observational joins. | gate_c2(rows): A- drives A to zero, K- drives K to zero, Y- drives Y to zero while the other path stays above zero. | Run each manipulation and verify its named path moved. |
+| `C3_positivity` | `CONTRACT BUILT; ONE CELL ONLY` | The A0 slice contributes only A-K+ (26 rows); A+K+, A+K- and A-K- have no denominators, and the Y- cells do not exist. | gate_c3(rows): every eligible edge has all four A x K cells and every seed has both Y- cells. | Join every eligible edge to both factors and observe all six cells. |
+| `C4_no_interference` | `CONTRACT BUILT; THRESHOLD PRECOMMITTED, NOT RUN` | No edge-level intervention was run, so there is no neighbour delta to compare. Threshold: absolute A/K/Y delta no greater than 0.05 on non-target edges. | gate_c4(rows, tolerance): every non-target edge's A, K and Y neighbour delta stays within tolerance. | Implement the edge-level arms and measure spillover; the threshold is already fixed. |
+| `C5_common_cause` | `CONTRACT BUILT; U NOT JOINED` | Direct and reverse counts exist for all 26 A0 rows; an edge-level strength field is present on 0 rows, and U is not joined to all four cells or either Y- cell. | gate_c5(rows): direct count, reverse count and strength are present and measured before the carrier, K and Y on every row. | Measure edge strength for every eligible edge and join U to all cells before the outcome. |
+| `C6_temporal_resolution` | `SATISFIED` | C6-TIMING-1 returned `C6 ORDER VARIATION CONFIRMED` on six fresh seeds; N1-N7 pass. | The C6 block's N1-N7 and per-order floors are the gate. | None for C6. |
+| `C7_assertion_block` | `CONTRACT BUILT; THRESHOLD PRECOMMITTED, NOT RUN` | No Y- assertion blockade exists; A and K have not been held fixed under Y-. Threshold: absolute A/K formation delta no greater than 0.05. | gate_c7(rows, tolerance): Y- lowers assertion while A and K formation stay within tolerance. | Implement Y- and run it at A+K+ and A-K+; the threshold is already fixed. |
+| `C8_third_route` | `CONTRACT BUILT; CEILING PRECOMMITTED, NOT RUN` | No A-K- double block exists. The T8 ceiling is precommitted at 0.05, so a double-block assertion rate above 5% would read THIRD ROUTE PRESENT. | gate_c8(rows, ceiling): A-K- assertion is at or below the precommitted ceiling. | Implement the double block and run it; the ceiling is already fixed. |
+| `C9_same_object` | `CONTRACT BUILT; NO PAIRED CELLS` | A0 fixes six committed seeds, 120 cycles and cap 40; the design fixes A+K+, A+K-, A-K+, A-K- and Y- at A+K+/A-K+, but no cell exists to pair. | gate_c9(rows): every cell of a seed carries one world/cycles/cap/candidate-universe/U fingerprint. | Run the paired cells and refuse any cell whose object fingerprint differs. |
+
+## Controls
+
+`python -m benchmarks.a1_gate_readiness --self-test` builds a passing six-cell fixture and a
+targeted defect for every contract. Each gate must accept the fixture and reject its defect;
+a missing tolerance or ceiling must fail. The self-test runs no engine.
+
+**Not evidence:** A gate-contract audit on committed records. It runs no cell, assigns no seed and establishes no causal, capability or transfer claim.
+
+## Reproduce
+
+```bash
+python -m benchmarks.a1_gate_readiness --check
+python -m benchmarks.a1_gate_readiness --self-test
+```

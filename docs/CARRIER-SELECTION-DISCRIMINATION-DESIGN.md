@@ -107,10 +107,10 @@ any requirement cannot be the `S` of the 2×2.
 
 | Stage | Observable? | Manipulable? | Independent of carrier? | Upstream of carrier? | Eligible as `S`? |
 | --- | --- | --- | --- | --- | --- |
-| Candidate formation | Yes — 26/26 carriers, cycles 37–117 | Yes in principle — loop threshold or source set (not built) | No — it creates `C` | Yes | No — not independent |
-| Admission | Yes — 179 never served; 26 asserted never served; 0 inside the transition budget | Yes in principle — served-window allocation (not built) | Yes — the carrier forms without service | No — parallel path | No — not upstream |
+| Candidate formation | Yes — 26/26 carriers, cycles 37–117 | Yes in principle — loop threshold or source set (A1 `K−` built; not run) | No — it creates `C` | Yes | No — not independent |
+| Admission | Yes — 179 never served; 26 asserted never served; 0 inside the transition budget | Yes in principle — served-window allocation (A1 `A−` built; not run) | Yes — the carrier forms without service | No — parallel path | No — not upstream |
 | Service | Yes, as the served window; not separately from admission | No — not separated from admission | Yes | No | No |
-| Assertion | Yes — 247 asserted world edges | Yes in principle — the `A−` ordering arm (not built) | Yes | No — downstream | No |
+| Assertion | Yes — 247 asserted world edges | Yes in principle — the A1 `A−` ordering arm (built; not run) | Yes | No — downstream | No |
 
 A stage is a valid `S` only if it is observable, manipulable, independent of `C`, and upstream of
 `C`; `I3_independence` must also be checkable. **No stage satisfies all four.** Candidate formation

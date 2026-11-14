@@ -68,10 +68,24 @@ The cap-40 conversion documents are a presentation caveat, not a preparation-onl
 
 Records with no grant and `cells_run` 0 are out of scope: `PERSISTENCE-MECHANISM-1`, `PRESENCE-BAND-2`, `PRESENCE-BAND-4`, `PRESENCE-CAP-LADDER-1`, and `CONFIRMATORY-RETENTION-ENTRY-TRANSITION-1`.
 
+## Disposition — 2026-11-14
+
+No run-authorising owner quote is recorded in the repository. The two executed runs are therefore
+reclassified as **provisional and not owner-authorised** in
+[`docs/CAP-112-PROVENANCE-DISPOSITION.md`](CAP-112-PROVENANCE-DISPOSITION.md). Their numerical
+results, gates, statuses, seeds and artifacts are unchanged; they are not confirmatory. The stale
+`not_evidence` text in both run records and their result pages has been replaced, and the shared
+grant document carries a dated provenance correction. `PRESENCE-CONSTRUCT-1-112` remains unrun
+under the preparation-only quote.
+
+The authorisation guard continues to report both records. That is intentional: B0 closes through
+the roadmap's explicit-disposition branch, not by making a preparation-only quote pass as a run
+grant.
+
 ## Recommended actions
 
-1. **Locate the owner's actual cap-112 run authorisation.** If it exists, record it as `authorisation.quote` in the two run records and in the shared document. If it does not, record the runs as **not owner-authorised** and treat their results as provisional; do not invent a quote.
-2. **Fix the stale `not_evidence` text** in `PRESENCE-COMPARATOR-112` and `PRESENCE-CAP-1-112` only after deciding what the provenance finding is called.
+1. **The cap-112 disposition is recorded (2026-11-14).** No run-authorising quote was found, so the runs are recorded as **not owner-authorised** and their results as provisional; no quote was invented. A later genuine owner quote would supersede the disposition.
+2. **The stale `not_evidence` text is fixed (2026-11-14)** in `PRESENCE-COMPARATOR-112`, `PRESENCE-CAP-1-112` and their result pages; the replacement names the provisional status rather than claiming no cell ran.
 3. **Do not run `PRESENCE-BAND-3`** under its preparation-only quote. Add a dated run quote first, or leave `cells_run` at 0.
 4. **Add a preflight guard:** a record with status `FROZEN, RUN` or `cells_run > 0` whose quote matches preparation-only language (`without running`, `record its grant before running`, `write the dated authorisation document`) must fail until a run quote is recorded. **Implemented 2026-11-13:** `benchmarks/authorisation_guard.py` classifies preparation-only quotes and is wired into the retention formation, entry-transition and incremental preflights. `tests/test_authorisation_guard.py` proves the guard rejects the cap-112 quote and accepts the recorded run quote, and `authorisation_guard.scan()` flags the two known cap-112 records without changing them, and `python -m benchmarks.authorisation_guard --check` exits 1 on those violations.
 

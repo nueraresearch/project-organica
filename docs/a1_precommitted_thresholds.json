@@ -1,0 +1,57 @@
+{
+  "kind": "a1_precommitted_thresholds",
+  "not_a_result": true,
+  "date": "2026-11-14",
+  "status": "PRECOMMITTED BEFORE ANY A1 CELL",
+  "design": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
+  "values": {
+    "C1_A_minus_carrier_preservation_min": 0.95,
+    "C1_K_minus_served_preservation_min": 0.95,
+    "C4_neighbor_delta_max": 0.05,
+    "C7_A_delta_max": 0.05,
+    "C7_K_delta_max": 0.05,
+    "C8_third_route_assertion_max": 0.05
+  },
+  "rows": [
+    {
+      "gate": "C1_path_separation",
+      "quantity": "A- carrier preservation",
+      "value": 0.95,
+      "definition": "Proportion of paired-control carrier-available edges still carrier-available under A-, per seed."
+    },
+    {
+      "gate": "C1_path_separation",
+      "quantity": "K- served preservation",
+      "value": 0.95,
+      "definition": "Proportion of paired-control served edges still served under K-, per seed."
+    },
+    {
+      "gate": "C4_no_interference",
+      "quantity": "neighbour delta",
+      "value": 0.05,
+      "definition": "Maximum absolute A, K or Y availability-rate difference on non-target edges against the paired control."
+    },
+    {
+      "gate": "C7_assertion_block",
+      "quantity": "A delta under Y-",
+      "value": 0.05,
+      "definition": "Absolute A formation-rate difference between Y- and the paired no-Y- control."
+    },
+    {
+      "gate": "C7_assertion_block",
+      "quantity": "K delta under Y-",
+      "value": 0.05,
+      "definition": "Absolute K formation-rate difference between Y- and the paired no-Y- control."
+    },
+    {
+      "gate": "C8_third_route",
+      "quantity": "A-K- assertion ceiling",
+      "value": 0.05,
+      "definition": "Assertion rate in A-K-; above the ceiling is THIRD ROUTE PRESENT."
+    }
+  ],
+  "source": "Design convention fixed 2026-11-14 before any A1 cell. No A0 row, seed or run result was used to choose a value.",
+  "fragility": "At 26 paired carrier rows, a 0.95 preservation floor allows one edge to differ and fails at two; at larger denominators it allows proportionally more. A descriptive sensitivity at 0 and 0.10 is reported beside the result but cannot change the precommitted gate.",
+  "missing_denominator": "A condition with no available edges is NOT MEASURABLE, not zero, and does not pass.",
+  "not_evidence": "Thresholds and definitions only. No cell has run; this is not a grant and makes no causal, capability or transfer claim."
+}
