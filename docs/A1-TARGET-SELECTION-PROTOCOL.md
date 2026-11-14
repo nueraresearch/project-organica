@@ -36,6 +36,8 @@ The unit is a **seed**, not a cell. For each seed `s`, one set `T_s` is chosen a
 
 The four targets must have **disjoint endpoints**. No two targets may share a tag. This limits cross-target interference and prevents one `K−` carrier filter from removing another target's carrier. If a seed cannot supply four eligible disjoint edges, it has no admissible target set and **A1 is not run**; no smaller set, substitute edge or extra seed is permitted.
 
+**Target-freeze act (draft):** [`A1-TARGET-FREEZE-1`](A1-TARGET-FREEZE-ACT.md) prepares the separate act that would freeze these six target sets and the manifest/seed block. It is **DRAFT — AWAITING OWNER SIGNATURE**; nothing is frozen until it is signed.
+
 **Owner decision memo (draft):** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) records Path A and resolves C1/C4 as post-freeze VOID gates. It is **DRAFT — AWAITING OWNER SIGNATURE**; it does not freeze targets or authorise a run.
 
 **Path A selected (2026-11-14).** The protocol is recorded as **Path A: the representative eligible pre-37 cycle-membership directed-edge effect**. This selects the estimand already implemented by the selector; it does **not** regenerate the target sets, freeze the manifest, reserve seeds, issue a grant or authorise a cell. The six existing target sets remain the Path A draft. **Path B** — the high-carrier-propensity, hard-edge or carrier-enriched effect — is **not selected**. It would require a new selector, a new target artifact and a new registered design; it is not a continuation of this protocol. The target sets remain draft either way.

@@ -1,0 +1,122 @@
+{
+  "kind": "a1_target_freeze_act",
+  "id": "A1-TARGET-FREEZE-1",
+  "date": "2026-11-14",
+  "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+  "signed": false,
+  "owner_signature": null,
+  "effective_date": null,
+  "path": "A",
+  "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
+  "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+  "selection_artifact": "docs/a1_target_selection.json",
+  "selection_artifact_digest": "c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a",
+  "targets_by_seed": {
+    "20630101": [
+      "verdant>sable",
+      "olive>cedar",
+      "fern>willow",
+      "yarrow>amber"
+    ],
+    "20630102": [
+      "umber>ochre",
+      "verdant>teal",
+      "indigo>sable",
+      "slate>birch"
+    ],
+    "20630103": [
+      "teal>willow",
+      "amber>verdant",
+      "fern>maple",
+      "olive>indigo"
+    ],
+    "20630104": [
+      "indigo>ochre",
+      "teal>fern",
+      "willow>olive",
+      "birch>verdant"
+    ],
+    "20630105": [
+      "cedar>olive",
+      "indigo>teal",
+      "verdant>maple",
+      "ochre>fern"
+    ],
+    "20630106": [
+      "sable>maple",
+      "teal>umber",
+      "cedar>olive",
+      "amber>crimson"
+    ]
+  },
+  "per_seed": {
+    "20630101": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "universe_digest": "ef530bde31c8e81b",
+      "selection_digest": "a5961be73fd6609e"
+    },
+    "20630102": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "universe_digest": "bdc6283ba4447072",
+      "selection_digest": "f1ac206b15439743"
+    },
+    "20630103": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "universe_digest": "7ded2cbb7b78ccbd",
+      "selection_digest": "e820c5ed006f1a74"
+    },
+    "20630104": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "universe_digest": "113afb95a4fca877",
+      "selection_digest": "09f071131ba3c16e"
+    },
+    "20630105": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "universe_digest": "c2aef39165237b8e",
+      "selection_digest": "8636d029063c254d"
+    },
+    "20630106": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "universe_digest": "a436a506795a8945",
+      "selection_digest": "179290a10fc74203"
+    }
+  },
+  "target_count": 24,
+  "unique_target_edges": 23,
+  "manifest_target_status_after_signature": "FIXED BEFORE FREEZE",
+  "manifest_frozen_after_signature": true,
+  "seed_block_status_after_signature": "RESERVED \u2014 FROZEN",
+  "grant_after_signature": "NOT ISSUED",
+  "run_after_signature": "NOT STARTED",
+  "observation_after_signature": "NO C1/C4 DENOMINATOR; NO CELL",
+  "current_manifest_frozen": false,
+  "current_manifest_target_status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+  "checks": {
+    "target_set_problems": [],
+    "six_sets": true,
+    "four_per_seed": true,
+    "unique_edges": 23,
+    "no_cell_run": true
+  },
+  "effect_if_signed": [
+    "Freeze the Path A target identity for the registered attempt.",
+    "Set the manifest target block to FIXED BEFORE FREEZE with the exact by_seed mapping.",
+    "Set the manifest frozen flag to true and reserve the six-seed block.",
+    "Leave authorisation.granted false; the execution gate still refuses.",
+    "Do not run a cell or observe C1/C4."
+  ],
+  "not_effect": [
+    "It does not issue a grant.",
+    "It does not run a cell.",
+    "It does not create a result or observe C1/C4.",
+    "It does not adopt the C1/C4 gate order or the owner memo.",
+    "It does not regenerate targets or permit post-outcome re-selection."
+  ],
+  "not_evidence": "A prepared freeze act. No target is frozen in the live manifest, no grant exists and no cell has run."
+}

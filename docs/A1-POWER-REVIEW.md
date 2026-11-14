@@ -157,6 +157,8 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 
 **Owner memo draft:** [docs/DECISION-A1-PATH-A-C1-C4.md](DECISION-A1-PATH-A-C1-C4.md) — **DRAFT — AWAITING OWNER SIGNATURE**. Consolidates Path A and the post-freeze C1/C4 ordering into one unsigned owner memo; it does not freeze, grant or authorise a run.
 
+**Target-freeze act draft:** [docs/A1-TARGET-FREEZE-ACT.md](A1-TARGET-FREEZE-ACT.md) — **DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN**. Prepares the separate act that would freeze the six Path A target sets and the manifest/seed block; no grant or run is included.
+
 **Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.
 
 **Basis:**

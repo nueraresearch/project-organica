@@ -51,6 +51,8 @@ TARGET_N = 4
 TARGET_PROTOCOL = "docs/A1-TARGET-SELECTION-PROTOCOL.md"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 ADVERSARIAL_AUDIT_PATH = DOCS / "a1_adversarial_audit.json"
+POWER_REVIEW_PATH = DOCS / "a1_power_review.json"
+TARGET_FREEZE_ACT_PATH = DOCS / "a1_target_freeze_act.json"
 
 
 def manifest() -> dict:
@@ -314,7 +316,8 @@ def preflight(doc: dict | None = None) -> list[str]:
         found.append("the manifest already names a result")
     try:
         from benchmarks.presence_cap_experiment import seed_collisions
-        allow = (MANIFEST_PATH, TARGET_SELECTION_PATH, ADVERSARIAL_AUDIT_PATH)
+        allow = (MANIFEST_PATH, TARGET_SELECTION_PATH, ADVERSARIAL_AUDIT_PATH,
+                 POWER_REVIEW_PATH, TARGET_FREEZE_ACT_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:

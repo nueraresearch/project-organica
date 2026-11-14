@@ -120,6 +120,7 @@ def test_power_review_artifact_is_current():
     assert doc["freeze_decision"]["path"] == "A"
     assert doc["freeze_decision"]["provisional_freeze_draft"]["status"] == "DRAFT — NOT DECIDED"
     assert doc["freeze_decision"]["owner_decision_memo_draft"]["status"] == "DRAFT — AWAITING OWNER SIGNATURE"
+    assert doc["freeze_decision"]["target_freeze_act_draft"]["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN"
 
 
 def test_path_a_is_recorded_in_protocol_and_freeze_log():
@@ -154,6 +155,53 @@ def test_owner_decision_memo_is_unsigned_and_records_both_decisions():
     assert "freeze → grant → run → measure C1/C4 → PASS or VOID" in page
     assert "**Signature and date:**" in page
     assert "A1 VOID — C1/C4" in page
+
+
+def test_target_freeze_act_is_prepared_not_executed():
+    import json
+    from pathlib import Path
+
+    act = json.loads(Path("docs/a1_target_freeze_act.json").read_text(encoding="utf-8"))
+    artifact = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
+    by_seed = {seed: row["selected"] for seed, row in artifact["per_seed"].items()}
+
+    assert act["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN"
+    assert act["signed"] is False
+    assert act["path"] == "A"
+    assert act["targets_by_seed"] == by_seed
+    assert act["target_count"] == 24
+    assert act["unique_target_edges"] == 23
+    assert act["checks"]["target_set_problems"] == []
+    import hashlib
+    artifact_bytes = Path("docs/a1_target_selection.json").read_bytes()
+    assert act["selection_artifact_digest"] == hashlib.sha256(artifact_bytes).hexdigest()
+    assert act["manifest_frozen_after_signature"] is True
+    assert act["grant_after_signature"] == "NOT ISSUED"
+    assert act["run_after_signature"] == "NOT STARTED"
+    assert act["current_manifest_frozen"] is False
+
+    manifest = json.loads(Path("docs/a1_two_path_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["frozen"] is False
+    assert manifest["targets"]["status"].startswith("UNRESOLVED")
+    assert manifest["seed_block"]["status"].startswith("PROVISIONAL")
+    assert manifest["authorisation"]["granted"] is False
+
+    from benchmarks import a1_two_path
+    check = a1_two_path.manifest()
+    check["targets"]["status"] = "FIXED BEFORE FREEZE"
+    check["targets"]["by_seed"] = by_seed
+    assert a1_two_path.target_set_problems(check) == []
+
+    from benchmarks.presence_cap_experiment import seed_collisions
+    allow = (a1_two_path.MANIFEST_PATH, a1_two_path.TARGET_SELECTION_PATH,
+             a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
+             a1_two_path.TARGET_FREEZE_ACT_PATH)
+    assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
+
+    page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
+    assert "**Signature and date:**" in page
+    assert "NO GRANT, NO RUN" in page
+    assert "FIXED BEFORE FREEZE" in page
 
 
 def test_provisional_freeze_gate_order_is_draft_only():

@@ -167,7 +167,7 @@ If this memo is signed, C1 failure and C1 unmeasurability move from `NOT IDENTIF
 
 Signing and dating this memo would record Path A and resolve the C1/C4 ordering. It would also make the following adoption tasks due, in the same act or the stated separate act:
 
-- record the Path A target freeze and manifest target block in a separate dated freeze act;
+- record the Path A target freeze and manifest target block in the separate [target-freeze act](A1-TARGET-FREEZE-ACT.md);
 - update the C1 `BOUNDS` failure and unmeasurable dispositions to `VOID`;
 - regenerate the readiness artifact and page;
 - map a C1/C4 `FAIL` from `a1_result.assemble` to `VOID` and carry reason codes;

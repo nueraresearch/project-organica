@@ -543,6 +543,15 @@ def build() -> dict:
                     "or authorise a run."
                 ),
             },
+            "target_freeze_act_draft": {
+                "status": "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN",
+                "record": "docs/A1-TARGET-FREEZE-ACT.md",
+                "effect": (
+                    "Prepares the separate act that would freeze the six "
+                    "Path A target sets and the manifest/seed block; no grant "
+                    "or run is included."
+                ),
+            },
             "gate_order_note": (
                 "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
                 "decision. C4 is now post-freeze VOID; this record remains the "
@@ -919,6 +928,12 @@ def render(doc: dict) -> str:
             doc["freeze_decision"]["owner_decision_memo_draft"]["record"],
             doc["freeze_decision"]["owner_decision_memo_draft"]["status"],
             doc["freeze_decision"]["owner_decision_memo_draft"]["effect"],
+        ),
+        "",
+        "**Target-freeze act draft:** [%s](A1-TARGET-FREEZE-ACT.md) — **%s**. %s" % (
+            doc["freeze_decision"]["target_freeze_act_draft"]["record"],
+            doc["freeze_decision"]["target_freeze_act_draft"]["status"],
+            doc["freeze_decision"]["target_freeze_act_draft"]["effect"],
         ),
         "",
         "**Are the target sets worth freezing?** **%s.** %s" % (
