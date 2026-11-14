@@ -5,7 +5,8 @@
   "status": "FLAGGED \u2014 C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL",
   "source_artifacts": {
     "baseline_availability": "docs/a1_baseline_availability.json",
-    "target_viability": "docs/a1_target_viability.json"
+    "target_viability": "docs/a1_target_viability.json",
+    "target_selection": "docs/a1_target_selection.json"
   },
   "c1_ceiling": {
     "floor": 60,
@@ -174,7 +175,92 @@
         112,
         112
       ],
-      "conclusion": "The 112-edge cell stream reaches 60 on four seeds but not on seeds 20630102 and 20630104. Switching to it does not make C1 attainable and changes the C4 stream to 108/92 non-target rows."
+      "conclusion": "The 112-row cell stream reaches 60 on four seeds, but that is reverse-orientation duplication rather than a wider independent universe. On unique undirected edges the C1 ceiling remains 31-44, below 60 on every seed. Switching to it also changes the C4 stream to 108/92 directed rows, or 59-60/43-44 unique non-target rows."
+    },
+    "stream_composition": {
+      "per_seed": [
+        {
+          "seed": 20630101,
+          "candidate_edges": 64,
+          "reverse_orientations": 48,
+          "extra_orientations": 0,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 44,
+          "cell_max_c1": 70,
+          "inflation": 26
+        },
+        {
+          "seed": 20630102,
+          "candidate_edges": 63,
+          "reverse_orientations": 47,
+          "extra_orientations": 2,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 31,
+          "cell_max_c1": 59,
+          "inflation": 28
+        },
+        {
+          "seed": 20630103,
+          "candidate_edges": 64,
+          "reverse_orientations": 48,
+          "extra_orientations": 0,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 39,
+          "cell_max_c1": 69,
+          "inflation": 30
+        },
+        {
+          "seed": 20630104,
+          "candidate_edges": 64,
+          "reverse_orientations": 48,
+          "extra_orientations": 0,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 35,
+          "cell_max_c1": 58,
+          "inflation": 23
+        },
+        {
+          "seed": 20630105,
+          "candidate_edges": 64,
+          "reverse_orientations": 48,
+          "extra_orientations": 0,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 43,
+          "cell_max_c1": 72,
+          "inflation": 29
+        },
+        {
+          "seed": 20630106,
+          "candidate_edges": 63,
+          "reverse_orientations": 47,
+          "extra_orientations": 2,
+          "cell_rows": 112,
+          "unique_undirected": 64,
+          "all_candidate_edges_present": true,
+          "candidate_max_c1": 36,
+          "cell_max_c1": 72,
+          "inflation": 36
+        }
+      ],
+      "candidate_rows": 382,
+      "reverse_orientations": 286,
+      "extra_orientations": 4,
+      "cell_rows": 672,
+      "unique_undirected": 384,
+      "all_candidate_edges_present": true,
+      "unique_c1_min": 31,
+      "unique_c1_max": 44,
+      "conclusion": "The 112-row cell stream is the candidate stream plus reverse orientations, not a wider independent universe. The four-seed apparent C1 pass is reverse-orientation duplication; on unique undirected edges the ceiling is still the candidate 31-44, below the 60-row floor on every seed."
     },
     "conclusion": "The current registered design is not C1-capable under either reported stream. Target selection cannot repair the candidate stream; a new universe, a different seed block with better baseline availability, or a changed C1 estimator is required.",
     "what_it_does_not_mean": "This does not establish that A1 is impossible in principle. A different universe, seed block or C1 estimator could satisfy the floor. It establishes that the current stream and floor cannot be reconciled by selecting a different target block."
@@ -288,7 +374,70 @@
         "seeds_needing_more_clean_rows": 6
       }
     },
-    "conclusion": "Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure."
+    "target_pool": {
+      "per_seed": [
+        {
+          "seed": 20630101,
+          "candidate_edges": 64,
+          "A_available": 44,
+          "K_available": 44,
+          "A_and_K_available": 32,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        },
+        {
+          "seed": 20630102,
+          "candidate_edges": 63,
+          "A_available": 44,
+          "K_available": 31,
+          "A_and_K_available": 23,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        },
+        {
+          "seed": 20630103,
+          "candidate_edges": 64,
+          "A_available": 52,
+          "K_available": 39,
+          "A_and_K_available": 36,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        },
+        {
+          "seed": 20630104,
+          "candidate_edges": 64,
+          "A_available": 43,
+          "K_available": 35,
+          "A_and_K_available": 27,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        },
+        {
+          "seed": 20630105,
+          "candidate_edges": 64,
+          "A_available": 49,
+          "K_available": 43,
+          "A_and_K_available": 35,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        },
+        {
+          "seed": 20630106,
+          "candidate_edges": 63,
+          "A_available": 49,
+          "K_available": 36,
+          "A_and_K_available": 33,
+          "c8_rows_required": 20,
+          "pool_sufficient": true
+        }
+      ],
+      "c8_rows_required": 20,
+      "min_A_and_K_available": 23,
+      "max_A_and_K_available": 36,
+      "seeds_sufficient": 6,
+      "conclusion": "The candidate pool contains 23-36 A&K-available edges per seed, enough to construct a 20-row competent block on all six seeds. The current N20 selection has only 5-12 clean rows, so the current C2/C8 problem is a selection problem, not a supply problem. C1 is still not repaired: its full-stream K availability is 31-44."
+    },
+    "conclusion": "Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. The candidate pool has 23-36 A&K-available edges, so a 20-row competent block is constructible by a new selection rule; the current N20 selection, not the supply, is the C2/C8 problem. C1 remains unresolved. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure."
   },
   "disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
   "not_evidence": "A read-only design-viability report over committed no-arm artifacts. It runs no A1 cell, freezes no target, changes no threshold and measures no treatment effect. The C2/C8 section is conditional on baseline target competence, not a C2 or C8 verdict."

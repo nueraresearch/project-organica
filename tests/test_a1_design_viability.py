@@ -42,6 +42,34 @@ def test_cell_stream_still_falls_short_on_two_seeds():
     ]
 
 
+def test_cell_stream_is_candidate_plus_reverse_orientations():
+    comp = _artifact()["c1_ceiling"]["stream_composition"]
+    assert comp["candidate_rows"] == 382
+    assert comp["reverse_orientations"] == 286
+    assert comp["extra_orientations"] == 4
+    assert comp["cell_rows"] == 672
+    assert comp["unique_undirected"] == 384
+    assert comp["unique_c1_min"] == 31
+    assert comp["unique_c1_max"] == 44
+    assert [row["unique_undirected"] for row in comp["per_seed"]] == [64] * 6
+    assert [row["extra_orientations"] for row in comp["per_seed"]] == [
+        0, 2, 0, 0, 0, 2,
+    ]
+    assert all(row["all_candidate_edges_present"] for row in comp["per_seed"])
+
+
+def test_candidate_pool_can_supply_a_twenty_row_competent_block():
+    pool = _artifact()["c2_c8_competence"]["target_pool"]
+    assert pool["c8_rows_required"] == 20
+    assert pool["min_A_and_K_available"] == 23
+    assert pool["max_A_and_K_available"] == 36
+    assert pool["seeds_sufficient"] == 6
+    assert [row["A_and_K_available"] for row in pool["per_seed"]] == [
+        32, 23, 36, 27, 35, 33,
+    ]
+    assert all(row["pool_sufficient"] for row in pool["per_seed"])
+
+
 def test_c2_c8_competence_is_conditional_and_short():
     comp = _artifact()["c2_c8_competence"]
     assert "not a proof" in comp["status"].lower()
@@ -76,4 +104,6 @@ def test_page_is_rendered_from_the_artifact():
     assert page == viability.render(doc) + "\n"
     assert "C1 ceiling — proof for the current stream" in page
     assert "CONDITIONAL — NOT A PROOF OF C2 OR C8 FAILURE" in page
+    assert "Cell-stream composition and dedupe" in page
+    assert "Competent target pool" in page
     assert "0/6" in page

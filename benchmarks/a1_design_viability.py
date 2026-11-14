@@ -34,6 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 BASELINE_PATH = DOCS / "a1_baseline_availability.json"
 TARGET_VIABILITY_PATH = DOCS / "a1_target_viability.json"
+TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 OUT_PATH = DOCS / "a1_design_viability.json"
 PAGE_PATH = DOCS / "A1-DESIGN-VIABILITY.md"
 ID = "A1-DESIGN-VIABILITY-1"
@@ -77,6 +78,87 @@ def _stream(per_seed: list[dict]) -> dict:
     }
 
 
+def _reverse(edge: str) -> str:
+    left, right = edge.split(">", 1)
+    return "%s>%s" % (right, left)
+
+
+def _composition_row(seed: int, candidate: set[str], cell_edges: set[str],
+                     cell_row: dict, candidate_row: dict) -> dict:
+    reverse = {_reverse(edge) for edge in candidate}
+    in_candidate = cell_edges & candidate
+    in_reverse = cell_edges & reverse
+    extra = cell_edges - candidate - reverse
+    unique = {frozenset(edge.split(">", 1)) for edge in cell_edges}
+    return {
+        "seed": seed,
+        "candidate_edges": len(candidate),
+        "reverse_orientations": len(in_reverse),
+        "extra_orientations": len(extra),
+        "cell_rows": len(cell_edges),
+        "unique_undirected": len(unique),
+        "all_candidate_edges_present": candidate <= cell_edges,
+        "candidate_max_c1": candidate_row["max_attainable"],
+        "cell_max_c1": cell_row["max_attainable"],
+        "inflation": cell_row["max_attainable"] - candidate_row["max_attainable"],
+    }
+
+
+def _composition(per_seed: list[dict]) -> dict:
+    return {
+        "per_seed": per_seed,
+        "candidate_rows": sum(row["candidate_edges"] for row in per_seed),
+        "reverse_orientations": sum(row["reverse_orientations"] for row in per_seed),
+        "extra_orientations": sum(row["extra_orientations"] for row in per_seed),
+        "cell_rows": sum(row["cell_rows"] for row in per_seed),
+        "unique_undirected": sum(row["unique_undirected"] for row in per_seed),
+        "all_candidate_edges_present": all(
+            row["all_candidate_edges_present"] for row in per_seed),
+        "unique_c1_min": min(row["candidate_max_c1"] for row in per_seed),
+        "unique_c1_max": max(row["candidate_max_c1"] for row in per_seed),
+        "conclusion": (
+            "The 112-row cell stream is the candidate stream plus reverse "
+            "orientations, not a wider independent universe. The four-seed "
+            "apparent C1 pass is reverse-orientation duplication; on unique "
+            "undirected edges the ceiling is still the candidate 31-44, below "
+            "the 60-row floor on every seed."
+        ),
+    }
+
+
+def _pool_row(seed: int, candidate: set[str], rows: dict[str, dict]) -> dict:
+    a = sum(1 for edge in candidate if rows[edge]["A"])
+    k = sum(1 for edge in candidate if rows[edge]["K"])
+    both = sum(1 for edge in candidate if rows[edge]["A"] and rows[edge]["K"])
+    required = C8_ROWS["N20"]
+    return {
+        "seed": seed,
+        "candidate_edges": len(candidate),
+        "A_available": a,
+        "K_available": k,
+        "A_and_K_available": both,
+        "c8_rows_required": required,
+        "pool_sufficient": both >= required,
+    }
+
+
+def _target_pool(per_seed: list[dict]) -> dict:
+    return {
+        "per_seed": per_seed,
+        "c8_rows_required": C8_ROWS["N20"],
+        "min_A_and_K_available": min(row["A_and_K_available"] for row in per_seed),
+        "max_A_and_K_available": max(row["A_and_K_available"] for row in per_seed),
+        "seeds_sufficient": sum(1 for row in per_seed if row["pool_sufficient"]),
+        "conclusion": (
+            "The candidate pool contains 23-36 A&K-available edges per seed, "
+            "enough to construct a 20-row competent block on all six seeds. "
+            "The current N20 selection has only 5-12 clean rows, so the current "
+            "C2/C8 problem is a selection problem, not a supply problem. C1 is "
+            "still not repaired: its full-stream K availability is 31-44."
+        ),
+    }
+
+
 def _competence_row(seed: int, source: dict, key: str) -> dict:
     clean = int(source["fully_c2_viable"])
     required = C8_ROWS[key]
@@ -107,16 +189,35 @@ def _competence_design(key: str, per_seed: list[dict]) -> dict:
 def build() -> dict:
     baseline = _load(BASELINE_PATH)
     viability = _load(TARGET_VIABILITY_PATH)
+    target = _load(TARGET_SELECTION_PATH)
     by_seed = {int(row["seed"]): row for row in baseline.get("per_seed") or []}
-    if set(by_seed) != set(SEEDS):
-        raise ValueError("baseline seed block is not the registered six seeds")
+    target_by_seed = {int(seed): row for seed, row in (target.get("per_seed") or {}).items()}
+    if set(by_seed) != set(SEEDS) or set(target_by_seed) != set(SEEDS):
+        raise ValueError("source artifacts are not on the registered six seeds")
 
+    candidate_sets = {seed: set(target_by_seed[seed]["u"]) for seed in SEEDS}
     candidate = _stream([
         _ceiling_row(seed, by_seed[seed]["protocol"]) for seed in SEEDS
     ])
     cell = _stream([
         _ceiling_row(seed, by_seed[seed]) for seed in SEEDS
     ])
+    composition_rows = []
+    pool_rows = []
+    for index, seed in enumerate(SEEDS):
+        cell_edges = {row["edge"] for row in by_seed[seed]["rows"]}
+        composition_rows.append(_composition_row(
+            seed, candidate_sets[seed], cell_edges,
+            cell["per_seed"][index], candidate["per_seed"][index],
+        ))
+        pool_rows.append(_pool_row(
+            seed, candidate_sets[seed],
+            {row["edge"]: row for row in by_seed[seed]["rows"]},
+        ))
+    composition = _composition(composition_rows)
+    target_pool = _target_pool(pool_rows)
+    if not composition["all_candidate_edges_present"]:
+        raise ValueError("the cell stream drops a candidate edge")
     designs = viability.get("designs") or {}
     if set(designs) != set(C8_ROWS):
         raise ValueError("target-viability report does not contain N4 and N20")
@@ -146,6 +247,7 @@ def build() -> dict:
         "source_artifacts": {
             "baseline_availability": BASELINE_PATH.relative_to(ROOT).as_posix(),
             "target_viability": TARGET_VIABILITY_PATH.relative_to(ROOT).as_posix(),
+            "target_selection": TARGET_SELECTION_PATH.relative_to(ROOT).as_posix(),
         },
         "c1_ceiling": {
             "floor": C1_FLOOR,
@@ -170,12 +272,15 @@ def build() -> dict:
                 **cell,
                 "edge_count": [row["rows"] for row in cell["per_seed"]],
                 "conclusion": (
-                    "The 112-edge cell stream reaches 60 on four seeds but not "
-                    "on seeds 20630102 and 20630104. Switching to it does not "
-                    "make C1 attainable and changes the C4 stream to 108/92 "
-                    "non-target rows."
+                    "The 112-row cell stream reaches 60 on four seeds, but that "
+                    "is reverse-orientation duplication rather than a wider "
+                    "independent universe. On unique undirected edges the C1 "
+                    "ceiling remains 31-44, below 60 on every seed. Switching to "
+                    "it also changes the C4 stream to 108/92 directed rows, or "
+                    "59-60/43-44 unique non-target rows."
                 ),
             },
+            "stream_composition": composition,
             "conclusion": (
                 "The current registered design is not C1-capable under either "
                 "reported stream. Target selection cannot repair the candidate "
@@ -212,13 +317,17 @@ def build() -> dict:
                 "explicit and does not treat it as proof of treatment failure."
             ),
             "designs": competence,
+            "target_pool": target_pool,
             "conclusion": (
                 "Under the stated competence reading, N4 has at most 3 clean "
                 "rows per seed for a 4-row block and N20 has at most 12 for a "
                 "20-row block. Neither current target set supplies a clean C8 "
-                "block. Exact C2/C8 adjudication still requires cells or a "
-                "pre-registered competence filter; the current data do not "
-                "prove treatment failure."
+                "block. The candidate pool has 23-36 A&K-available edges, so a "
+                "20-row competent block is constructible by a new selection "
+                "rule; the current N20 selection, not the supply, is the "
+                "C2/C8 problem. C1 remains unresolved. Exact C2/C8 adjudication "
+                "still requires cells or a pre-registered competence filter; "
+                "the current data do not prove treatment failure."
             ),
         },
         "disposition": (
@@ -276,6 +385,36 @@ def problems(doc: dict) -> list[str]:
         if stream.get("seeds_reaching_floor") != sum(
                 1 for row in rows if row.get("reaches_floor")):
             found.append("%s floor count is inconsistent" % key)
+    composition = c1.get("stream_composition") or {}
+    composition_rows = composition.get("per_seed") or []
+    if [row.get("seed") for row in composition_rows] != list(SEEDS):
+        found.append("stream-composition seed block changed")
+    else:
+        for row in composition_rows:
+            parts = (row.get("candidate_edges", 0)
+                     + row.get("reverse_orientations", 0)
+                     + row.get("extra_orientations", 0))
+            if row.get("cell_rows") != parts:
+                found.append("seed %s stream composition is inconsistent"
+                             % row.get("seed"))
+            if not row.get("all_candidate_edges_present"):
+                found.append("seed %s drops a candidate edge" % row.get("seed"))
+            if row.get("unique_undirected", 0) < row.get("candidate_edges", 0):
+                found.append("seed %s unique count is below candidates"
+                             % row.get("seed"))
+            if row.get("inflation") != (
+                    row.get("cell_max_c1", 0) - row.get("candidate_max_c1", 0)):
+                found.append("seed %s C1 inflation is inconsistent"
+                             % row.get("seed"))
+        for total_key, row_key in (
+                ("candidate_rows", "candidate_edges"),
+                ("reverse_orientations", "reverse_orientations"),
+                ("extra_orientations", "extra_orientations"),
+                ("cell_rows", "cell_rows"),
+                ("unique_undirected", "unique_undirected")):
+            if composition.get(total_key) != sum(
+                    row.get(row_key, 0) for row in composition_rows):
+                found.append("stream-composition total %s is inconsistent" % total_key)
     competence = doc.get("c2_c8_competence") or {}
     if not str(competence.get("status") or "").startswith("CONDITIONAL"):
         found.append("C2/C8 status is not conditional")
@@ -309,6 +448,28 @@ def problems(doc: dict) -> list[str]:
         if block.get("seeds_clean_block_possible") != sum(
                 1 for row in rows if row.get("clean_c8_block_possible")):
             found.append("%s clean-block seed count is inconsistent" % key)
+    pool = competence.get("target_pool") or {}
+    pool_rows = pool.get("per_seed") or []
+    if [row.get("seed") for row in pool_rows] != list(SEEDS):
+        found.append("competent-pool seed block changed")
+    else:
+        required = C8_ROWS["N20"]
+        for row in pool_rows:
+            if row.get("c8_rows_required") != required:
+                found.append("seed %s pool C8 requirement changed" % row.get("seed"))
+            if row.get("pool_sufficient") != (
+                    row.get("A_and_K_available", 0) >= required):
+                found.append("seed %s pool sufficiency is inconsistent"
+                             % row.get("seed"))
+        if pool.get("min_A_and_K_available") != min(
+                row.get("A_and_K_available", 0) for row in pool_rows):
+            found.append("pool minimum is inconsistent")
+        if pool.get("max_A_and_K_available") != max(
+                row.get("A_and_K_available", 0) for row in pool_rows):
+            found.append("pool maximum is inconsistent")
+        if pool.get("seeds_sufficient") != sum(
+                1 for row in pool_rows if row.get("pool_sufficient")):
+            found.append("pool sufficient-seed count is inconsistent")
     return found
 
 
@@ -326,6 +487,16 @@ def self_test() -> list[str]:
     row = _competence_row(1, {"fully_c2_viable": 20}, "N20")
     if row["shortfall"] != 0 or not row["clean_c8_block_possible"]:
         found.append("clean competence fixture is wrong")
+    row = _composition_row(
+        1, {"a>b"}, {"a>b", "b>a"},
+        {"max_attainable": 2}, {"max_attainable": 1})
+    if row["reverse_orientations"] != 1 or row["cell_rows"] != 2:
+        found.append("stream-composition fixture is wrong")
+    if row["unique_undirected"] != 1 or row["inflation"] != 1:
+        found.append("stream-dedupe fixture is wrong")
+    row = _pool_row(1, {"a>b"}, {"a>b": {"A": True, "K": True}})
+    if row["A_and_K_available"] != 1 or row["pool_sufficient"]:
+        found.append("competent-pool fixture is wrong")
     return found
 
 
@@ -350,6 +521,53 @@ def _c1_table(doc: dict, key: str) -> list[str]:
             stream["min_attainable"],
         ),
     ]
+    return lines
+
+
+def _composition_table(doc: dict) -> list[str]:
+    comp = doc["c1_ceiling"]["stream_composition"]
+    lines = [
+        "| Seed | Candidate edges | Reverse orientations | Extra orientations | Cell rows | Unique undirected | Cell C1 max | Candidate C1 max | Inflation |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in comp["per_seed"]:
+        lines.append(
+            "| `%d` | %d | %d | %d | %d | %d | %d | %d | %d |" % (
+                row["seed"], row["candidate_edges"], row["reverse_orientations"],
+                row["extra_orientations"], row["cell_rows"],
+                row["unique_undirected"], row["cell_max_c1"],
+                row["candidate_max_c1"], row["inflation"],
+            )
+        )
+    lines += [
+        "",
+        "**Totals:** %d candidate rows, %d reverse orientations, %d extra "
+        "orientations, %d cell rows, %d unique undirected edges. The unique-edge "
+        "C1 ceiling is **%d-%d**, still below 60." % (
+            comp["candidate_rows"], comp["reverse_orientations"],
+            comp["extra_orientations"], comp["cell_rows"],
+            comp["unique_undirected"], comp["unique_c1_min"],
+            comp["unique_c1_max"],
+        ),
+    ]
+    return lines
+
+
+def _pool_table(doc: dict) -> list[str]:
+    pool = doc["c2_c8_competence"]["target_pool"]
+    lines = [
+        "| Seed | Candidate edges | A available | K available | A&K available | C8 rows needed | Pool sufficient? |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+    ]
+    for row in pool["per_seed"]:
+        lines.append(
+            "| `%d` | %d | %d | %d | %d | %d | %s |" % (
+                row["seed"], row["candidate_edges"], row["A_available"],
+                row["K_available"], row["A_and_K_available"],
+                row["c8_rows_required"],
+                "YES" if row["pool_sufficient"] else "NO",
+            )
+        )
     return lines
 
 
@@ -405,6 +623,14 @@ def render(doc: dict) -> str:
         "",
         c1["cell_stream"]["conclusion"],
         "",
+        "### Cell-stream composition and dedupe",
+        "",
+    ]
+    lines += _composition_table(doc)
+    lines += [
+        "",
+        c1["stream_composition"]["conclusion"],
+        "",
         "### What the ceiling means",
         "",
         c1["conclusion"],
@@ -435,6 +661,14 @@ def render(doc: dict) -> str:
     lines += ["", "### Per-seed competence", ""]
     lines += _competence_table(doc)
     lines += [
+        "",
+        "### Competent target pool",
+        "",
+    ]
+    lines += _pool_table(doc)
+    lines += [
+        "",
+        comp["target_pool"]["conclusion"],
         "",
         comp["conclusion"],
         "",
@@ -481,13 +715,15 @@ def check() -> int:
             print("FAIL:", problem)
         return 1
     designs = doc["c2_c8_competence"]["designs"]
+    pool = doc["c2_c8_competence"]["target_pool"]
     print(
         "A1 design viability: clean; candidate C1 ceilings %d-%d < %d; "
-        "C2/C8 max clean rows N4 %d/4, N20 %d/20"
+        "C2/C8 max clean rows N4 %d/4, N20 %d/20; competent pool %d-%d"
         % (doc["c1_ceiling"]["candidate_stream"]["min_attainable"],
            doc["c1_ceiling"]["candidate_stream"]["max_attainable"],
            C1_FLOOR, designs["N4"]["max_clean_rows"],
-           designs["N20"]["max_clean_rows"])
+           designs["N20"]["max_clean_rows"],
+           pool["min_A_and_K_available"], pool["max_A_and_K_available"])
     )
     return 0
 

@@ -37,7 +37,22 @@ Every seed's maximum is below the 60-row floor. The current candidate stream is 
 
 **Seeds reaching the floor:** **4/6**; maximum attainable **72**, minimum **58**.
 
-The 112-edge cell stream reaches 60 on four seeds but not on seeds 20630102 and 20630104. Switching to it does not make C1 attainable and changes the C4 stream to 108/92 non-target rows.
+The 112-row cell stream reaches 60 on four seeds, but that is reverse-orientation duplication rather than a wider independent universe. On unique undirected edges the C1 ceiling remains 31-44, below 60 on every seed. Switching to it also changes the C4 stream to 108/92 directed rows, or 59-60/43-44 unique non-target rows.
+
+### Cell-stream composition and dedupe
+
+| Seed | Candidate edges | Reverse orientations | Extra orientations | Cell rows | Unique undirected | Cell C1 max | Candidate C1 max | Inflation |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `20630101` | 64 | 48 | 0 | 112 | 64 | 70 | 44 | 26 |
+| `20630102` | 63 | 47 | 2 | 112 | 64 | 59 | 31 | 28 |
+| `20630103` | 64 | 48 | 0 | 112 | 64 | 69 | 39 | 30 |
+| `20630104` | 64 | 48 | 0 | 112 | 64 | 58 | 35 | 23 |
+| `20630105` | 64 | 48 | 0 | 112 | 64 | 72 | 43 | 29 |
+| `20630106` | 63 | 47 | 2 | 112 | 64 | 72 | 36 | 36 |
+
+**Totals:** 382 candidate rows, 286 reverse orientations, 4 extra orientations, 672 cell rows, 384 unique undirected edges. The unique-edge C1 ceiling is **31-44**, still below 60.
+
+The 112-row cell stream is the candidate stream plus reverse orientations, not a wider independent universe. The four-seed apparent C1 pass is reverse-orientation duplication; on unique undirected edges the ceiling is still the candidate 31-44, below the 60-row floor on every seed.
 
 ### What the ceiling means
 
@@ -71,7 +86,20 @@ A1-TARGET-VIABILITY-1 reports carrier-missing exposure under the same baseline A
 | `20630105` | 2 | 4 | NO | 10 | 20 | NO |
 | `20630106` | 1 | 4 | NO | 10 | 20 | NO |
 
-Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure.
+### Competent target pool
+
+| Seed | Candidate edges | A available | K available | A&K available | C8 rows needed | Pool sufficient? |
+| ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `20630101` | 64 | 44 | 44 | 32 | 20 | YES |
+| `20630102` | 63 | 44 | 31 | 23 | 20 | YES |
+| `20630103` | 64 | 52 | 39 | 36 | 20 | YES |
+| `20630104` | 64 | 43 | 35 | 27 | 20 | YES |
+| `20630105` | 64 | 49 | 43 | 35 | 20 | YES |
+| `20630106` | 63 | 49 | 36 | 33 | 20 | YES |
+
+The candidate pool contains 23-36 A&K-available edges per seed, enough to construct a 20-row competent block on all six seeds. The current N20 selection has only 5-12 clean rows, so the current C2/C8 problem is a selection problem, not a supply problem. C1 is still not repaired: its full-stream K availability is 31-44.
+
+Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. The candidate pool has 23-36 A&K-available edges, so a 20-row competent block is constructible by a new selection rule; the current N20 selection, not the supply, is the C2/C8 problem. C1 remains unresolved. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure.
 
 ## Disposition
 
