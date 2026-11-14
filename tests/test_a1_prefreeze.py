@@ -1,5 +1,7 @@
 """The A1 pre-freeze machinery: U ordering, target selection and target-set checks."""
 import inspect
+import re
+from pathlib import Path
 
 from benchmarks import a1_arms
 from benchmarks import a1_target_selection as selection
@@ -383,69 +385,94 @@ def test_c1_denominator_feasibility_risk_is_recorded_as_an_upper_bound():
     assert "not baseline-availability proxies" in page
 
 
-def test_current_a1_docs_do_not_call_c6_or_a0_percentages_baseline_proxies():
-    """Guard the current A1 record against reviving the old proxy wording.
+_PROXY_WORD = re.compile(r"\bprox(?:y|ies)\b", re.IGNORECASE)
+_PROXY_SUBJECT = re.compile(r"\bC6\b|\bA0\b|\bprevalence\b", re.IGNORECASE)
+_PROXY_DENIAL = re.compile(r"\b(?:not|no|never|without|forbidden)\b", re.IGNORECASE)
+_UNRELEASED_MARKER = "## [0.15.0] — (unreleased)"
 
-    Historical revision rows in USER-MANUAL.md and historical CHANGELOG entries
-    are intentionally excluded: they preserve earlier claims and are not current
-    state. Every current A1-*.md record, ROADMAP.md, the manual's current state
-    and the current unreleased CHANGELOG section are scanned.
+
+def _positive_proxy_claims(text):
+    claims = []
+    for lineno, line in enumerate(text.splitlines(), 1):
+        if (_PROXY_WORD.search(line) and _PROXY_SUBJECT.search(line)
+                and not _PROXY_DENIAL.search(line)):
+            claims.append((lineno, line.strip()))
+    return claims
+
+
+def scan_current_a1_proxy_claims(changelog_path=None, root=Path(".")):
+    """Return positive C6/A0 proxy claims from current A1 documentation.
+
+    Historical manual revision rows and historical changelog sections are not
+    scanned. The current manual state and the unreleased 0.15.0 section are.
     """
-    import re
-    from pathlib import Path
-
-    proxy_word = re.compile(r"\bprox(?:y|ies)\b", re.IGNORECASE)
-    subject = re.compile(r"\bC6\b|\bA0\b|\bprevalence\b", re.IGNORECASE)
-    denial = re.compile(
-        r"\b(?:not|no|never|without|forbidden)\b",
-        re.IGNORECASE,
-    )
-
-    def positive_proxy_claims(text):
-        claims = []
-        for lineno, line in enumerate(text.splitlines(), 1):
-            if (proxy_word.search(line) and subject.search(line)
-                    and not denial.search(line)):
-                claims.append((lineno, line.strip()))
-        return claims
-
-    # Prove the detector fires on the wording this guard exists to reject.
-    assert positive_proxy_claims(
-        "C6 supplies a high K/Y_ind denominator; this is a proxy."
-    )
-    assert positive_proxy_claims(
-        "A0's hard-edge percentage is a baseline-availability proxy."
-    )
-    # And prove it does not flag the corrected negative wording.
-    assert not positive_proxy_claims(
-        "C6 K/Y_ind rates are not baseline-availability proxies."
-    )
-
-    manual = Path("docs/USER-MANUAL.md").read_text(encoding="utf-8")
+    root = Path(root)
+    manual_path = root / "docs/USER-MANUAL.md"
+    manual = manual_path.read_text(encoding="utf-8")
     assert "**Revision log:**" in manual
     manual_current = manual.split("**Revision log:**", 1)[0]
-    changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
-    marker = "## [0.15.0] — (unreleased)"
-    assert marker in changelog
-    unreleased = changelog.split(marker, 1)[1]
+
+    if changelog_path is None:
+        changelog_path = root / "CHANGELOG.md"
+    else:
+        changelog_path = Path(changelog_path)
+    changelog = changelog_path.read_text(encoding="utf-8")
+    assert _UNRELEASED_MARKER in changelog
+    unreleased = changelog.split(_UNRELEASED_MARKER, 1)[1]
     next_version = unreleased.find(chr(10) + "## [")
     assert next_version != -1
     unreleased = unreleased[:next_version]
     assert unreleased.strip()
-    roadmap = Path("ROADMAP.md")
-    current_docs = [(roadmap, roadmap.read_text(encoding="utf-8"))]
-    current_docs += [(path, path.read_text(encoding="utf-8"))
-                     for path in sorted(Path("docs").glob("A1-*.md"))]
-    # The manual's current state and the unreleased changelog are current;
-    # their dated/historical sections are not.
-    current_docs.append((Path("docs/USER-MANUAL.md"), manual_current))
-    current_docs.append((Path("CHANGELOG.md"), unreleased))
+
+    roadmap = root / "ROADMAP.md"
+    documents = [(roadmap, roadmap.read_text(encoding="utf-8"))]
+    documents += [(path, path.read_text(encoding="utf-8"))
+                  for path in sorted((root / "docs").glob("A1-*.md"))]
+    documents.append((manual_path, manual_current))
+    documents.append((changelog_path, unreleased))
+
     offenders = []
-    for path, text in current_docs:
-        for lineno, line in positive_proxy_claims(text):
+    for path, text in documents:
+        for lineno, line in _positive_proxy_claims(text):
             offenders.append(f"{path}:{lineno}: {line}")
+    return offenders
+
+
+def test_current_a1_docs_do_not_call_c6_or_a0_percentages_baseline_proxies():
+    """Guard the current A1 record against reviving the old proxy wording."""
+    # Prove the detector fires on the wording this guard exists to reject.
+    assert _positive_proxy_claims(
+        "C6 supplies a high K/Y_ind denominator; this is a proxy."
+    )
+    assert _positive_proxy_claims(
+        "A0's hard-edge percentage is a baseline-availability proxy."
+    )
+    # And prove it does not flag the corrected negative wording.
+    assert not _positive_proxy_claims(
+        "C6 K/Y_ind rates are not baseline-availability proxies."
+    )
+
+    offenders = scan_current_a1_proxy_claims()
     assert not offenders, (
         "current A1 documentation presents C6/A0 percentages as "
         "baseline-availability proxies; use a negative, different-world "
         "characterization instead:\n" + "\n".join(offenders)
     )
+
+
+def test_proxy_guard_fails_on_an_injected_positive_sentence(tmp_path):
+    """The real scan, not only the helper, must reject a bad current changelog."""
+    source = Path("CHANGELOG.md").read_text(encoding="utf-8")
+    injected = source.replace(
+        _UNRELEASED_MARKER,
+        _UNRELEASED_MARKER
+        + "\n\nC6 prevalence is a baseline-availability proxy for C1.\n",
+        1,
+    )
+    assert injected != source
+    temporary = tmp_path / "CHANGELOG.md"
+    temporary.write_text(injected, encoding="utf-8")
+
+    offenders = scan_current_a1_proxy_claims(changelog_path=temporary)
+    assert any(str(temporary) in offender and "C6 prevalence" in offender
+               for offender in offenders), offenders
