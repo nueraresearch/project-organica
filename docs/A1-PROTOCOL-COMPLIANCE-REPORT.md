@@ -31,9 +31,7 @@ Grant Decision           OPEN
 A1 Run                   NOT STARTED
 ```
 
-P0 and feasibility are demonstrated. Freeze readiness cannot move to PASS: the power review found
-that four target rows make C1 effectively a 100% preservation rule; C4 non-target
-rows are now instrumented, but no cell has run and the C1/C4 denominators remain unmeasured. Separately, C7 is per seed and per edge with a 0.05 A/K rate over 120 cycles, so it is rate-resolved at N=4; C8 is per seed and per target row, and the current N=4 block cannot resolve its 0.05 ceiling. A separate N=20 C8 expansion design is registered with 20 A-K- rows per seed and a 0.05 step; it is not frozen and is not the live manifest. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
+P0 and feasibility are demonstrated. Freeze readiness cannot move to PASS: the no-arm baseline audit now measures the C1 denominator and finds it **below the 60-row floor** on all six candidate-protocol seeds (minimum **31–52**) and on two current cell-stream seeds (minimum **58**). The current cell stream is also wider than the candidate plan: C4 would emit **108** N=4 and **92** N=20 non-target rows per seed, not **59–60** and **43–44**, because `a1_arms.run_cell` uses the full 120-cycle directed universe. C4 treatment deltas remain unmeasured. Separately, C7 is per seed and per edge with a 0.05 A/K rate over 120 cycles, so it is rate-resolved at N=4; C8 is per seed and per target row, and the current N=4 block cannot resolve its 0.05 ceiling. A separate N=20 C8 expansion design is registered with 20 A-K- rows per seed and a 0.05 step; it is not frozen and is not the live manifest. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**. The grant decision and run remain separate acts.
 
 ## Compliance table
 
@@ -93,7 +91,8 @@ until the manifest is frozen by a separate act.
 | Gate | State |
 | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY**; C4 contributes at most 59–60 non-target rows/seed, so C1 is at most 63–64 — an upper bound, not an observed baseline-availability denominator ([risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note)) |
-| C1 denominator-feasibility risk | **RECORDED — UNMEASURED; 63–64 IS AN UPPER BOUND**; the observed denominator may be lower and may fall below the 60-row floor; C6 K/Y_ind and A0 hard-edge percentages are not baseline-availability proxies |
+| C1 denominator-feasibility risk | **HISTORICAL — NOW OBSERVED BELOW FLOOR**; the 63–64 upper bound was not reached, so the run would be **VOID — `C1_DENOMINATOR_BELOW_FLOOR`** before any model is read; C6 K/Y_ind and A0 hard-edge percentages are not baseline-availability proxies |
+| C1 baseline availability | **FLAGGED — BELOW FLOOR IN BOTH REPORTED STREAMS**; the candidate stream gives a per-seed minimum of **31–52**, and the current cell stream **58** with two seeds below 60; C4 candidate rows are 59–60/43–44 while the current cell stream is 108/92. The two streams differ by 290 directed edges; see [the audit](A1-BASELINE-AVAILABILITY.md). |
 | C1 denominator floor | **ADOPTED — BINDING FOR A1** with the C1/C4 VOID gate; minimum 60 paired-control rows; 60–64 may be read with three losses; below 60 is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59 |
 | C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
 | C1 power-design target | **RECORDED — DESIGN CRITERION**; 80% all-six-seed power at the upper-bound 63-row scenario requires **q=0.984017** under the independent model (0.984271 at 64; 0.983204 at 60); not an observed retention or a second acceptance gate |
