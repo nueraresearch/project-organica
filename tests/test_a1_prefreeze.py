@@ -119,6 +119,7 @@ def test_power_review_artifact_is_current():
     assert doc["path_selection"]["target_sets"] == "DRAFT — NOT FROZEN"
     assert doc["freeze_decision"]["path"] == "A"
     assert doc["freeze_decision"]["provisional_freeze_draft"]["status"] == "DRAFT — NOT DECIDED"
+    assert doc["freeze_decision"]["owner_decision_memo_draft"]["status"] == "DRAFT — AWAITING OWNER SIGNATURE"
 
 
 def test_path_a_is_recorded_in_protocol_and_freeze_log():
@@ -129,6 +130,30 @@ def test_path_a_is_recorded_in_protocol_and_freeze_log():
     assert "Path A — recorded (2026-11-14)" in review
     assert "TARGET SETS STILL DRAFT" in review
     assert "Path B is not selected" in review
+
+
+def test_owner_decision_memo_is_unsigned_and_records_both_decisions():
+    import json
+    from pathlib import Path
+
+    doc = json.loads(Path("docs/a1_owner_decision_memo.json").read_text(encoding="utf-8"))
+    assert doc["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NO FREEZE, NO GRANT, NO RUN"
+    assert doc["signed"] is False
+    assert doc["effective_date"] is None
+    assert doc["path_a"]["selected"] == "A"
+    assert doc["path_a"]["target_sets"] == "DRAFT — NOT FROZEN"
+    assert doc["c1_c4"]["ordering"] == "POST-FREEZE VOID GATE"
+    assert doc["c1_c4"]["not_ordering"] == "PRE-FREEZE ADMISSIBILITY GATE"
+    assert doc["current_state"]["grant"] == "NOT ISSUED"
+    assert doc["current_state"]["run"] == "NOT STARTED"
+    assert any(item["id"] == "c1_c4_ordering" for item in doc["decisions"])
+    assert any(item["id"] == "path_a" for item in doc["decisions"])
+
+    page = Path("docs/DECISION-A1-PATH-A-C1-C4.md").read_text(encoding="utf-8")
+    assert "C1/C4 are post-freeze validity gates, not pre-freeze admissibility gates" in page
+    assert "freeze → grant → run → measure C1/C4 → PASS or VOID" in page
+    assert "**Signature and date:**" in page
+    assert "A1 VOID — C1/C4" in page
 
 
 def test_provisional_freeze_gate_order_is_draft_only():

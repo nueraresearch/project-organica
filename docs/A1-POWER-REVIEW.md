@@ -155,6 +155,8 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 
 **Provisional-freeze draft:** [docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **DRAFT — NOT DECIDED**. Would provisionally freeze the Path A targets and make C1/C4 a post-freeze VOID gate; no freeze is recorded until the owner adopts it.
 
+**Owner memo draft:** [docs/DECISION-A1-PATH-A-C1-C4.md](DECISION-A1-PATH-A-C1-C4.md) — **DRAFT — AWAITING OWNER SIGNATURE**. Consolidates Path A and the post-freeze C1/C4 ordering into one unsigned owner memo; it does not freeze, grant or authorise a run.
+
 **Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.
 
 **Basis:**

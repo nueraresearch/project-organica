@@ -10,6 +10,8 @@
 
 **Companion proposal:** [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md).
 
+**Owner-level instrument:** [`A1-OWNER-DECISION-1`](DECISION-A1-PATH-A-C1-C4.md) consolidates this draft and the Path A record into one owner decision memo. It too is **DRAFT — AWAITING OWNER SIGNATURE** and records no freeze, grant or run.
+
 **This is a draft decision record, not an adopted decision, a target freeze, a seed reservation, a grant or a result.** Until the owner records adoption, the current `DO NOT FREEZE` state and the C4-only gate order remain authoritative. Adopting this draft would require a new dated owner act; it would not retroactively change the historical freeze decision.
 
 ## 1. Decision proposed

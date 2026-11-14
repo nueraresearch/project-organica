@@ -534,6 +534,15 @@ def build() -> dict:
                     "until the owner adopts it."
                 ),
             },
+            "owner_decision_memo_draft": {
+                "status": "DRAFT — AWAITING OWNER SIGNATURE",
+                "record": "docs/DECISION-A1-PATH-A-C1-C4.md",
+                "effect": (
+                    "Consolidates Path A and the post-freeze C1/C4 ordering "
+                    "into one unsigned owner memo; it does not freeze, grant "
+                    "or authorise a run."
+                ),
+            },
             "gate_order_note": (
                 "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
                 "decision. C4 is now post-freeze VOID; this record remains the "
@@ -904,6 +913,12 @@ def render(doc: dict) -> str:
             doc["freeze_decision"]["provisional_freeze_draft"]["record"],
             doc["freeze_decision"]["provisional_freeze_draft"]["status"],
             doc["freeze_decision"]["provisional_freeze_draft"]["effect"],
+        ),
+        "",
+        "**Owner memo draft:** [%s](DECISION-A1-PATH-A-C1-C4.md) — **%s**. %s" % (
+            doc["freeze_decision"]["owner_decision_memo_draft"]["record"],
+            doc["freeze_decision"]["owner_decision_memo_draft"]["status"],
+            doc["freeze_decision"]["owner_decision_memo_draft"]["effect"],
         ),
         "",
         "**Are the target sets worth freezing?** **%s.** %s" % (

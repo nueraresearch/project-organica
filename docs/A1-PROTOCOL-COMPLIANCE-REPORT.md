@@ -100,6 +100,7 @@ until the manifest is frozen by a separate act.
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
 | C1/C4 VOID-gate draft | **DRAFT — NOT DECIDED**; proposes a single post-freeze validity test where either C1 or C4 failure/unmeasurability makes the run **VOID**; the C4-only record remains in force |
+| Owner decision memo | **DRAFT — AWAITING OWNER SIGNATURE**; records Path A and resolves C1/C4 as post-freeze VOID gates; no freeze, grant or run |
 | Provisional-freeze gate order | **DRAFT — NOT DECIDED**; drafts a provisional Path A target freeze followed by the post-freeze C1/C4 VOID gate; provisional means conditional evidentiary status, not revocable target identity; no freeze, grant or run |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |
