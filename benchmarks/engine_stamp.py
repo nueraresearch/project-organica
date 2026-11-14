@@ -98,6 +98,7 @@ DERIVED = {
     "a1_prediction_cap80_overlap.py",  # larger-28 A\K / K\A overlap decomposition
     "a1_prediction_cap80_selection.py",  # cap-80 larger-28 selection-rule trace
     "a1_k_completeness.py",  # K completeness across prediction caps
+    "a1_cap_response_curve.py",  # normalized A-coverage cap response fit
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing

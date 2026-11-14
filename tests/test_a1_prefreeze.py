@@ -261,7 +261,8 @@ def test_target_freeze_act_is_prepared_not_executed():
              a1_two_path.PREDICTION_CAP112_DECOMPOSE_PATH,
              a1_two_path.PREDICTION_CAP80_OVERLAP_PATH,
              a1_two_path.PREDICTION_CAP80_SELECTION_PATH,
-             a1_two_path.K_COMPLETENESS_PATH)
+             a1_two_path.K_COMPLETENESS_PATH,
+             a1_two_path.CAP_RESPONSE_CURVE_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
