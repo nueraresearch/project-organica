@@ -612,10 +612,10 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
                          source=ACQ_SOURCE if in_acq else "env")
             if (i + 1) % EVENTS_PER_CYCLE == 0:
                 cycle = (i + 1) // EVENTS_PER_CYCLE
-                # Pre-outcome: cycle-36 observations are stored, but the
-                # cycle-36 consolidation has not run yet.  The boundary is
-                # the acquisition cycle, not the engine's sleep counter,
-                # which can lag when early cycles produce no candidates.
+                # Pre-outcome: the U-cycle observations are stored, but that
+                # cycle's consolidation has not run yet.  The boundary is the
+                # acquisition cycle, not the engine's sleep counter, which can
+                # lag when early cycles produce no candidates.
                 if cycle == u_cycle:
                     pending_u = sample_u(memory, targets, cycle)
                 report = service.run_sleep_cycle()

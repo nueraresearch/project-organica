@@ -115,15 +115,17 @@ def test_c2_checks_y_minus_a_and_k_paths():
     assert result["pass"] is False
 
 
-def test_c5_rejects_a_missing_cycle_instead_of_crashing():
+def test_c5_rejects_a_malformed_cycle_and_allows_an_absent_carrier():
     rows = [_row(1, "A+K+", "alpha>beta")]
     assert gate_c5(rows) is True
-    rows[0]["carrier_cycle"] = None
+    rows[0]["carrier_cycle"] = "not-a-cycle"
     assert gate_c5(rows) is False
+    rows[0]["carrier_cycle"] = None
+    assert gate_c5(rows) is True
     payloads = _payloads()
     for payload in payloads:
         if payload["seed"] == a1_two_path.SEEDS[0] and payload["cell"] == "A+K+":
-            payload["rows"][0]["carrier_cycle"] = None
+            payload["rows"][0]["carrier_cycle"] = "not-a-cycle"
     result = a1_arms.score_c5(payloads, _expected())
     assert result["coverage"]["pass"] is True
     assert result["gate_pass"] is False

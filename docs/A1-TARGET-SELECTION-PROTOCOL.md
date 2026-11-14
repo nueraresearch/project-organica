@@ -2,7 +2,7 @@
 
 **ID:** `A1-TARGET-SELECTION-1`  
 **Date:** 2026-11-14  
-**Status:** `P0 PASS — SIX TARGET SETS FORMED, PATH A RECORDED, FREEZE READINESS OPEN, NO GRANT`
+**Status:** `P0 PASS — SIX TARGET SETS FORMED, PATH A RECORDED, C5 TIMING CLEARED BY EARLIER-U, FREEZE READINESS OPEN, NO GRANT`
 **Parent:** `A1-TWO-PATH-1`
 
 **This is a design and implementation record, not a result, a freeze or a grant.** It defines how the A1 per-seed target sets are chosen and where the cycle-36 `U` is sampled. The selection pass has now been implemented and run; it formed four disjoint targets for all six provisional seeds and wrote `docs/a1_target_selection.json`.
@@ -121,6 +121,8 @@ The boundary is acquisition cycle 36. The engine's sleep counter is not used to 
 Every cell of a seed must produce the same `U` and the same object fingerprint as the other cells of that seed. A mismatch is `VOID` under C9. A missing `U` field fails C5; it is **not** replaced with zero or with a later measurement.
 
 **Runner correction implemented.** `benchmarks/a1_arms.py` captures `pending_u` after acquisition cycle 36 is stored and before `run_sleep_cycle()`; `tests/test_a1_prefreeze.py` pins the pre-sleep ordering. The selection pass uses the same acquisition-cycle boundary. No A1 cell has been run.
+
+**C5 timing revision (2026-11-14).** The cycle-36 sample above remains the target-selection diagnostic: it is where the four-target and N=20 eligibility artifacts were formed. It is not the C5 baseline, because the no-arm audit found target carriers beginning at cycle 5. C5 now uses a separately registered earlier-`U` sample at **cycle 4**, after cycle-4 observations and before the cycle-4 sleep call; it preserves every selected target. See [`A1-C5-TARGET-TIMING.md`](A1-C5-TARGET-TIMING.md). In a cell, C5 still fails if the measured U is later than a carrier, K or Y that exists; an absent carrier is not a timing violation.
 
 ## 6. Adversarial checks
 

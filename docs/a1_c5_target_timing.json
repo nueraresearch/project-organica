@@ -1,0 +1,3891 @@
+{
+  "kind": "a1_c5_target_timing",
+  "id": "A1-C5-TARGET-TIMING-1",
+  "date": "2026-11-14",
+  "status": "PASS \u2014 FIXED EARLIER-U AT CYCLE 4; ALL CURRENT TARGETS PRESERVED",
+  "u_cycle": 4,
+  "selection_u_cycle": 36,
+  "replay_cycles": 120,
+  "rule": "C5 U is sampled after the cycle-4 observations are stored and before the cycle-4 sleep call. The cycle-36 sample remains the target-selection diagnostic and is not the C5 baseline.",
+  "preserved": true,
+  "current_target_observations": 24,
+  "n20_target_observations": 120,
+  "current_observed_carriers": 14,
+  "current_missing_carriers": 10,
+  "current_carriers_before_u": 0,
+  "earliest_observed_carrier_cycle": 5,
+  "earliest_current_carrier_cycle": 5,
+  "u_before_earliest_carrier": true,
+  "problems": [],
+  "per_seed": [
+    {
+      "seed": 20630101,
+      "rows": [
+        {
+          "seed": 20630101,
+          "edge": "amber>olive",
+          "carrier_cycle": 98,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "crimson>amber",
+          "carrier_cycle": 9,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 4,
+            "strength": 8,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "crimson>birch",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "fern>maple",
+          "carrier_cycle": 56,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "fern>willow",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "indigo>yarrow",
+          "carrier_cycle": 65,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "maple>olive",
+          "carrier_cycle": 47,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "ochre>birch",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "ochre>cedar",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 0,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "ochre>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 2,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "olive>cedar",
+          "carrier_cycle": 38,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "sable>indigo",
+          "carrier_cycle": 16,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 2,
+            "strength": 6,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "sable>umber",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "slate>umber",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "teal>birch",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "umber>fern",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "verdant>sable",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "willow>slate",
+          "carrier_cycle": 100,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "yarrow>amber",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "yarrow>cedar",
+          "carrier_cycle": 9,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630101,
+          "edge": "fern>willow",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "olive>cedar",
+          "carrier_cycle": 38,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "verdant>sable",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "yarrow>amber",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 15,
+      "missing_carriers": 5,
+      "preserved": [
+        "fern>willow",
+        "olive>cedar",
+        "verdant>sable",
+        "yarrow>amber"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630101,
+          "edge": "fern>willow",
+          "carrier_cycle": 27,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "olive>cedar",
+          "carrier_cycle": 38,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "verdant>sable",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630101,
+          "edge": "yarrow>amber",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    },
+    {
+      "seed": 20630102,
+      "rows": [
+        {
+          "seed": 20630102,
+          "edge": "cedar>birch",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "cedar>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "fern>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 2,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "fern>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "indigo>sable",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "maple>sable",
+          "carrier_cycle": 20,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "ochre>amber",
+          "carrier_cycle": 63,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "ochre>indigo",
+          "carrier_cycle": 63,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "sable>amber",
+          "carrier_cycle": 49,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "slate>birch",
+          "carrier_cycle": 10,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "teal>cedar",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "umber>ochre",
+          "carrier_cycle": 39,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 3,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "verdant>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "verdant>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "verdant>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "willow>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "willow>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "willow>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "yarrow>amber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "yarrow>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630102,
+          "edge": "indigo>sable",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "slate>birch",
+          "carrier_cycle": 10,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "umber>ochre",
+          "carrier_cycle": 39,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 3,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "verdant>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 8,
+      "missing_carriers": 12,
+      "preserved": [
+        "indigo>sable",
+        "slate>birch",
+        "umber>ochre",
+        "verdant>teal"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630102,
+          "edge": "indigo>sable",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "slate>birch",
+          "carrier_cycle": 10,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "umber>ochre",
+          "carrier_cycle": 39,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 3,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630102,
+          "edge": "verdant>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    },
+    {
+      "seed": 20630103,
+      "rows": [
+        {
+          "seed": 20630103,
+          "edge": "amber>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "amber>ochre",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "amber>verdant",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "birch>teal",
+          "carrier_cycle": 30,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 2,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "crimson>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "fern>maple",
+          "carrier_cycle": 47,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "fern>ochre",
+          "carrier_cycle": 9,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "maple>umber",
+          "carrier_cycle": 62,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "ochre>yarrow",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "olive>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "sable>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "sable>yarrow",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "slate>birch",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 3,
+            "strength": 6,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "slate>cedar",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 2,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "teal>verdant",
+          "carrier_cycle": 37,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "teal>willow",
+          "carrier_cycle": 14,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 3,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "verdant>crimson",
+          "carrier_cycle": 37,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "willow>crimson",
+          "carrier_cycle": 14,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "willow>umber",
+          "carrier_cycle": 9,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 3,
+            "strength": 7,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "yarrow>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630103,
+          "edge": "amber>verdant",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "fern>maple",
+          "carrier_cycle": 47,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "olive>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "teal>willow",
+          "carrier_cycle": 14,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 3,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 12,
+      "missing_carriers": 8,
+      "preserved": [
+        "amber>verdant",
+        "fern>maple",
+        "olive>indigo",
+        "teal>willow"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630103,
+          "edge": "amber>verdant",
+          "carrier_cycle": 18,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "fern>maple",
+          "carrier_cycle": 47,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "olive>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630103,
+          "edge": "teal>willow",
+          "carrier_cycle": 14,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 3,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    },
+    {
+      "seed": 20630104,
+      "rows": [
+        {
+          "seed": 20630104,
+          "edge": "amber>willow",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 2,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "amber>yarrow",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 0,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "birch>fern",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "birch>slate",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "birch>verdant",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "cedar>indigo",
+          "carrier_cycle": 29,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "cedar>yarrow",
+          "carrier_cycle": 51,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "crimson>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "fern>umber",
+          "carrier_cycle": 119,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "indigo>ochre",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 3,
+            "strength": 7,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "maple>amber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "maple>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "sable>cedar",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "slate>maple",
+          "carrier_cycle": 57,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "slate>willow",
+          "carrier_cycle": 31,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "teal>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "teal>fern",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "teal>ochre",
+          "carrier_cycle": 9,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "umber>olive",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 2,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "willow>olive",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630104,
+          "edge": "birch>verdant",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "indigo>ochre",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 3,
+            "strength": 7,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "teal>fern",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "willow>olive",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 9,
+      "missing_carriers": 11,
+      "preserved": [
+        "birch>verdant",
+        "indigo>ochre",
+        "teal>fern",
+        "willow>olive"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630104,
+          "edge": "birch>verdant",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "indigo>ochre",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 3,
+            "strength": 7,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "teal>fern",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630104,
+          "edge": "willow>olive",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    },
+    {
+      "seed": 20630105,
+      "rows": [
+        {
+          "seed": 20630105,
+          "edge": "amber>birch",
+          "carrier_cycle": 11,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 0,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "amber>crimson",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "amber>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 0,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "cedar>birch",
+          "carrier_cycle": 7,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 3,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "cedar>sable",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "crimson>verdant",
+          "carrier_cycle": 20,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "fern>slate",
+          "carrier_cycle": 21,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 2,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "indigo>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "ochre>fern",
+          "carrier_cycle": 42,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 1,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "ochre>olive",
+          "carrier_cycle": 31,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "slate>olive",
+          "carrier_cycle": 34,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "slate>yarrow",
+          "carrier_cycle": 20,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "teal>crimson",
+          "carrier_cycle": 35,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "umber>birch",
+          "carrier_cycle": 6,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 2,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "umber>fern",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 2,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "verdant>maple",
+          "carrier_cycle": 26,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "willow>maple",
+          "carrier_cycle": 10,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 2,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "yarrow>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 2,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "yarrow>verdant",
+          "carrier_cycle": 20,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630105,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "indigo>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "ochre>fern",
+          "carrier_cycle": 42,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 1,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "verdant>maple",
+          "carrier_cycle": 26,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 13,
+      "missing_carriers": 7,
+      "preserved": [
+        "cedar>olive",
+        "indigo>teal",
+        "ochre>fern",
+        "verdant>maple"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630105,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 1,
+            "strength": 3,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "indigo>teal",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "ochre>fern",
+          "carrier_cycle": 42,
+          "u": {
+            "direct_count": 3,
+            "reverse_count": 1,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630105,
+          "edge": "verdant>maple",
+          "carrier_cycle": 26,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    },
+    {
+      "seed": 20630106,
+      "rows": [
+        {
+          "seed": 20630106,
+          "edge": "amber>crimson",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "amber>maple",
+          "carrier_cycle": 5,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "amber>slate",
+          "carrier_cycle": 11,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "birch>indigo",
+          "carrier_cycle": 56,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "birch>willow",
+          "carrier_cycle": 7,
+          "u": {
+            "direct_count": 4,
+            "reverse_count": 6,
+            "strength": 10,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "cedar>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 3,
+            "strength": 5,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "crimson>yarrow",
+          "carrier_cycle": 29,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "fern>indigo",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "fern>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "sable>crimson",
+          "carrier_cycle": 45,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "sable>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "sable>slate",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 0,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "teal>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "teal>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "teal>willow",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "umber>verdant",
+          "carrier_cycle": 45,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "willow>cedar",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 1,
+            "strength": 1,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "yarrow>olive",
+          "carrier_cycle": 44,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "yarrow>slate",
+          "carrier_cycle": 12,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "current_rows": [
+        {
+          "seed": 20630106,
+          "edge": "amber>crimson",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "sable>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "teal>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "observed_carriers": 11,
+      "missing_carriers": 9,
+      "preserved": [
+        "amber>crimson",
+        "cedar>olive",
+        "sable>maple",
+        "teal>umber"
+      ],
+      "preserved_count": 4,
+      "preserved_rows": [
+        {
+          "seed": 20630106,
+          "edge": "amber>crimson",
+          "carrier_cycle": 15,
+          "u": {
+            "direct_count": 2,
+            "reverse_count": 2,
+            "strength": 4,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "cedar>olive",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "sable>maple",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 1,
+            "reverse_count": 1,
+            "strength": 2,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        },
+        {
+          "seed": 20630106,
+          "edge": "teal>umber",
+          "carrier_cycle": null,
+          "u": {
+            "direct_count": 0,
+            "reverse_count": 0,
+            "strength": 0,
+            "measured_cycle": 4
+          },
+          "u_before_carrier": true
+        }
+      ],
+      "n20_count": 20,
+      "all_current_retained": true
+    }
+  ],
+  "current_rows": [
+    {
+      "seed": 20630101,
+      "edge": "fern>willow",
+      "carrier_cycle": 27,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "olive>cedar",
+      "carrier_cycle": 38,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "verdant>sable",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "yarrow>amber",
+      "carrier_cycle": 15,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "indigo>sable",
+      "carrier_cycle": 18,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "slate>birch",
+      "carrier_cycle": 10,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "umber>ochre",
+      "carrier_cycle": 39,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 3,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "verdant>teal",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "amber>verdant",
+      "carrier_cycle": 18,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "fern>maple",
+      "carrier_cycle": 47,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "olive>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "teal>willow",
+      "carrier_cycle": 14,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 3,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "birch>verdant",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "indigo>ochre",
+      "carrier_cycle": 5,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 3,
+        "strength": 7,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "teal>fern",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "willow>olive",
+      "carrier_cycle": 12,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "cedar>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "indigo>teal",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "ochre>fern",
+      "carrier_cycle": 42,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 1,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "verdant>maple",
+      "carrier_cycle": 26,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "amber>crimson",
+      "carrier_cycle": 15,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "cedar>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "sable>maple",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "teal>umber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    }
+  ],
+  "n20_rows": [
+    {
+      "seed": 20630101,
+      "edge": "amber>olive",
+      "carrier_cycle": 98,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "crimson>amber",
+      "carrier_cycle": 9,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 4,
+        "strength": 8,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "crimson>birch",
+      "carrier_cycle": 27,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "fern>maple",
+      "carrier_cycle": 56,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "fern>willow",
+      "carrier_cycle": 27,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "indigo>yarrow",
+      "carrier_cycle": 65,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "maple>olive",
+      "carrier_cycle": 47,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "ochre>birch",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "ochre>cedar",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 0,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "ochre>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 2,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "olive>cedar",
+      "carrier_cycle": 38,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "sable>indigo",
+      "carrier_cycle": 16,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 2,
+        "strength": 6,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "sable>umber",
+      "carrier_cycle": 12,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "slate>umber",
+      "carrier_cycle": 27,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "teal>birch",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "umber>fern",
+      "carrier_cycle": 27,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "verdant>sable",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "willow>slate",
+      "carrier_cycle": 100,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "yarrow>amber",
+      "carrier_cycle": 15,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630101,
+      "edge": "yarrow>cedar",
+      "carrier_cycle": 9,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "cedar>birch",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "cedar>umber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "fern>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 2,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "fern>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "indigo>sable",
+      "carrier_cycle": 18,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "maple>sable",
+      "carrier_cycle": 20,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "ochre>amber",
+      "carrier_cycle": 63,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "ochre>indigo",
+      "carrier_cycle": 63,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "sable>amber",
+      "carrier_cycle": 49,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "slate>birch",
+      "carrier_cycle": 10,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "teal>cedar",
+      "carrier_cycle": 5,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "umber>ochre",
+      "carrier_cycle": 39,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 3,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "verdant>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "verdant>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "verdant>teal",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "willow>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "willow>maple",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "willow>teal",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "yarrow>amber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630102,
+      "edge": "yarrow>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "amber>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "amber>ochre",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "amber>verdant",
+      "carrier_cycle": 18,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "birch>teal",
+      "carrier_cycle": 30,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 2,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "crimson>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "fern>maple",
+      "carrier_cycle": 47,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "fern>ochre",
+      "carrier_cycle": 9,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "maple>umber",
+      "carrier_cycle": 62,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "ochre>yarrow",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "olive>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "sable>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "sable>yarrow",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "slate>birch",
+      "carrier_cycle": 5,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 3,
+        "strength": 6,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "slate>cedar",
+      "carrier_cycle": 18,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 2,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "teal>verdant",
+      "carrier_cycle": 37,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "teal>willow",
+      "carrier_cycle": 14,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 3,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "verdant>crimson",
+      "carrier_cycle": 37,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "willow>crimson",
+      "carrier_cycle": 14,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "willow>umber",
+      "carrier_cycle": 9,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 3,
+        "strength": 7,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630103,
+      "edge": "yarrow>maple",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "amber>willow",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 2,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "amber>yarrow",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 0,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "birch>fern",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "birch>slate",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "birch>verdant",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "cedar>indigo",
+      "carrier_cycle": 29,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "cedar>yarrow",
+      "carrier_cycle": 51,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "crimson>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "fern>umber",
+      "carrier_cycle": 119,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "indigo>ochre",
+      "carrier_cycle": 5,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 3,
+        "strength": 7,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "maple>amber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "maple>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "sable>cedar",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "slate>maple",
+      "carrier_cycle": 57,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "slate>willow",
+      "carrier_cycle": 31,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "teal>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "teal>fern",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "teal>ochre",
+      "carrier_cycle": 9,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "umber>olive",
+      "carrier_cycle": 12,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 2,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630104,
+      "edge": "willow>olive",
+      "carrier_cycle": 12,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "amber>birch",
+      "carrier_cycle": 11,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 0,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "amber>crimson",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "amber>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 0,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "cedar>birch",
+      "carrier_cycle": 7,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 3,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "cedar>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 1,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "cedar>sable",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "crimson>verdant",
+      "carrier_cycle": 20,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "fern>slate",
+      "carrier_cycle": 21,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 2,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "indigo>teal",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "ochre>fern",
+      "carrier_cycle": 42,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 1,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "ochre>olive",
+      "carrier_cycle": 31,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "slate>olive",
+      "carrier_cycle": 34,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "slate>yarrow",
+      "carrier_cycle": 20,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "teal>crimson",
+      "carrier_cycle": 35,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "umber>birch",
+      "carrier_cycle": 6,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 2,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "umber>fern",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 2,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "verdant>maple",
+      "carrier_cycle": 26,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "willow>maple",
+      "carrier_cycle": 10,
+      "u": {
+        "direct_count": 3,
+        "reverse_count": 2,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "yarrow>umber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 2,
+        "strength": 3,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630105,
+      "edge": "yarrow>verdant",
+      "carrier_cycle": 20,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "amber>crimson",
+      "carrier_cycle": 15,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 2,
+        "strength": 4,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "amber>maple",
+      "carrier_cycle": 5,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "amber>slate",
+      "carrier_cycle": 11,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "birch>indigo",
+      "carrier_cycle": 56,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "birch>willow",
+      "carrier_cycle": 7,
+      "u": {
+        "direct_count": 4,
+        "reverse_count": 6,
+        "strength": 10,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "cedar>maple",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 2,
+        "reverse_count": 3,
+        "strength": 5,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "cedar>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "crimson>yarrow",
+      "carrier_cycle": 29,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "fern>indigo",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "fern>umber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "sable>crimson",
+      "carrier_cycle": 45,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "sable>maple",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "sable>slate",
+      "carrier_cycle": 15,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 0,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "teal>olive",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "teal>umber",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "teal>willow",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "umber>verdant",
+      "carrier_cycle": 45,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "willow>cedar",
+      "carrier_cycle": null,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 1,
+        "strength": 1,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "yarrow>olive",
+      "carrier_cycle": 44,
+      "u": {
+        "direct_count": 0,
+        "reverse_count": 0,
+        "strength": 0,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    },
+    {
+      "seed": 20630106,
+      "edge": "yarrow>slate",
+      "carrier_cycle": 12,
+      "u": {
+        "direct_count": 1,
+        "reverse_count": 1,
+        "strength": 2,
+        "measured_cycle": 4
+      },
+      "u_before_carrier": true
+    }
+  ],
+  "not_evidence": "A no-arm target-timing audit. It runs no A1 cell, freezes no target and makes no causal, capability or transfer claim. C5 remains unrun until a granted cell produces its own U and carrier rows."
+}

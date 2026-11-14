@@ -4,13 +4,13 @@
 
 **Date:** 2026-11-14
 
-**Status:** `DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
+**Status:** `DRAFT — C5 TARGET TIMING CLEARED BY EARLIER-U; READY FOR OWNER SIGNATURE; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
 **Signature and date:** ____________________
 
-**This is a prepared act, not an executed freeze.** The live manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, its target block remains `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`, and no seed is reserved. This act is also **not signable yet**: C5 is unresolved for the current targets. The manifest validator now has an N=20 target profile, and the act's 20-row block validates under it. Signing after C5 is cleared would perform the freeze described below; it would not issue a grant, run a cell or observe C8.
+**This is a prepared act, not an executed freeze.** The live manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, its target block remains `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`, and no seed is reserved. The C5 target-timing blocker is cleared by the separately registered earlier-`U` protocol at cycle 4; the cycle-36 sample remains the target-selection diagnostic. The manifest validator now has an N=20 target profile, and the act's 20-row block validates under it. Signing would perform the freeze described below; it would not issue a grant, run a cell or observe C8.
 
 ## 1. What would be frozen
 
@@ -22,7 +22,7 @@ It adopts [`A1-C8-EXPANSION-1`](A1-C8-EXPANSION.md) and freezes the exact 20 tar
 
 This act **supersedes** the unsigned N=4 act [`A1-TARGET-FREEZE-1`](A1-TARGET-FREEZE-ACT.md) if it is signed. The N=4 act is not executed by this draft, and the live manifest is unchanged until signature.
 
-**C8 is the reason for the act.** Twenty target rows per seed make the per-seed C8 step `1/20 = 0.05`, equal to the unchanged 0.05 ceiling. This resolves the C8 denominator; it does not measure C8, and it does not resolve C5, C1 or C4.
+**C8 is the reason for the act.** Twenty target rows per seed make the per-seed C8 step `1/20 = 0.05`, equal to the unchanged 0.05 ceiling. This resolves the C8 denominator; it does not measure C8. C5 target timing is cleared separately by the earlier-`U` protocol; C1 and C4 remain post-freeze gates.
 
 ## 2. Exact target sets
 
@@ -105,14 +105,13 @@ The act does **not**:
 - issue a grant;
 - open a database or run a cell;
 - produce a C1 or C4 denominator or a C8 measurement;
-- resolve the C5 target-timing blocker;
 - apply the N=20 target block to the live manifest before signature;
 - regenerate targets or permit post-outcome re-selection;
 - change the 0.05 C8 ceiling, the 0.05 C7 A/K margin, or the C1/C4 gate.
 
 ## 4. Preconditions
 
-The act may be signed only after C5 is cleared; the N=20 validator row is already satisfied. The table records the state at the draft date.
+C5 target timing and the N=20 validator are now satisfied. The table records the state at the draft date; the act remains unsigned.
 
 | Precondition | State |
 | --- | --- |
@@ -121,7 +120,7 @@ The act may be signed only after C5 is cleared; the N=20 validator row is alread
 | Twenty targets per seed | **PASS** — 20 rows on all six seeds |
 | Four current targets retained | **PASS** — 4/4 in every seed |
 | Selection artifact internally consistent | **PASS** |
-| C5: cycle-36 `U` before carrier, K and Y | **UNRESOLVED — BLOCKING** — a no-arm 36-cycle audit found 15/24 current target observations with a carrier before cycle 36 |
+| C5: earlier `U` before carrier, K and Y | **PASS** — fixed cycle-4 `U`; no current target carrier before cycle 4; earliest current carrier cycle 5; four current targets preserved ([audit](A1-C5-TARGET-TIMING.md)) |
 | N=20 target validation | **PASS** — `a1_two_path` accepts 20 unique targets per seed with permitted overlap and endpoint degree at most 3 |
 | C8 denominator | **PASS** — 20 rows per seed; `1/20 = 0.05`; ceiling unchanged |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
@@ -129,7 +128,7 @@ The act may be signed only after C5 is cleared; the N=20 validator row is alread
 | Grant | **NOT ISSUED** |
 | Run | **NOT STARTED** |
 
-**C5 is not made true by adopting N=20.** The four retained targets carry the existing timing problem, and the 16 new rows are not exempt. The no-arm audit is a design check, not an A1 cell: it replayed the same world and sleep schedule through cycle 36 and found carriers before the cycle-36 `U` sample on 15 of 24 current target observations. A freeze that preserves those targets must first clear this precondition, either by a registered target screen/regeneration or by a separately registered earlier-`U` protocol. This act does not choose between those remedies.
+**C5 is cleared for these targets without re-selecting any of them.** The earlier-`U` protocol fixes the C5 sample at cycle 4, after the cycle-4 observations are stored and before the cycle-4 sleep call. The no-arm replay records the earliest current carrier at cycle 5 and no current target carrier before cycle 4; the cycle-36 sample remains the target-selection diagnostic only. The four retained targets are therefore preserved, and the 16 expansion rows are not exempt: the same cycle-4 rule applies to every row. The replay also records **10 of 24 current observations with no carrier by cycle 120**; an absent carrier is not a timing violation, and those rows remain subject to the structural gates that require carrier availability at run time. This is a design check, not an A1 cell, and it does not weaken C5: a cell still fails if its U is later than a carrier, K or Y that exists.
 
 **The N=20 validator is implemented, not merely documented.** `benchmarks.a1_two_path` selects the target profile from `targets.n_per_seed`: N=4 still requires four disjoint targets, while N=20 requires 20 unique targets, permits endpoint overlap, caps each endpoint at degree 3 and validates the block against [`a1_c8_target_selection.json`](a1_c8_target_selection.json). The block recorded in this act passes that check. This does not apply it to the live manifest; that still waits for signature.
 
@@ -145,9 +144,9 @@ C1/C4 remain post-freeze validity gates. This act does not wait for them, and it
 - The 60-row C1 floor and the C1/C4 post-freeze VOID gate remain **ADOPTED — BINDING FOR A1**.
 - C8 remains **UNMEASURED**; this act only makes its denominator adjudicable after a valid run.
 
-## 6. After the blockers and signature
+## 6. After signature
 
-1. **Clear C5:** complete a registered target screen/regeneration, or a separately registered earlier-`U` protocol, and record the result.
+1. **C5 timing:** cleared by the registered earlier-`U` protocol at cycle 4; see [`A1-C5-TARGET-TIMING.md`](A1-C5-TARGET-TIMING.md).
 2. **Sign this act:** record the owner signature and effective date, freeze the exact 20 sets and reserve the seed block.
 3. **Grant:** record the separate dated run-authorising grant in the manifest.
 4. **Run and measure:** execute the planned cells and assemble C1/C4 and the remaining gate records.
@@ -159,9 +158,10 @@ Until the grant, the execution gate must refuse. Until the run, there are no cel
 - `python -m benchmarks.a1_c8_target_selection --check`
 - `python -m benchmarks.a1_target_selection --check`
 - `python -m benchmarks.a1_adversarial_audit --check`
+- `python -m benchmarks.a1_c5_target_timing --check`
 - `python -m benchmarks.a1_two_path --check`
 - `python -m benchmarks.a1_two_path --self-test`
 
-The N=20 selection check and self-test are clean, and the N=20 target block validates under `a1_two_path`'s target-set check. No cell or database was opened.
+The N=20 selection check and self-test are clean, the C5 timing audit is clean, and the N=20 target block validates under `a1_two_path`'s target-set check. No A1 cell was opened.
 
-**Not evidence:** A prepared N=20 freeze act. It freezes nothing until signed, issues no grant, runs no cell, makes no C8 measurement and does not clear the C5 blocker.
+**Not evidence:** A prepared N=20 freeze act. It freezes nothing until signed, issues no grant, runs no cell and makes no C8 measurement. C5 target timing is cleared by a separate no-arm audit, not by this act.

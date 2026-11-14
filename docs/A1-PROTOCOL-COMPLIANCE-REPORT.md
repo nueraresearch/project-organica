@@ -103,7 +103,8 @@ until the manifest is frozen by a separate act.
 | C1/C4 gate order | **ADOPTED — ONE POST-FREEZE VOID GATE (2026-11-14)**; C1 or C4 failure/unmeasurability VOIDs the result; the 60-row floor is part of the same decision ([record](A1-C1-C4-VOID-GATE.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
-| C2/C3/C5/C7/C9 complete-coverage scoring | **IMPLEMENTED — NOT RUN**; `a1_arms.score_complete_gates` requires all six seeds, required cells and expected target rows; C2 is per seed and checks Y− A/K, C5 handles missing cycles, C7 checks each Y− cell against its paired control, and C9 requires all six cells; `a1_result.assemble` includes the scores for real parts |
+| C2/C3/C5/C7/C9 complete-coverage scoring | **IMPLEMENTED — NOT RUN**; `a1_arms.score_complete_gates` requires all six seeds, required cells and expected target rows; C2 is per seed and checks Y− A/K, C5 treats an absent carrier as no timing violation while rejecting malformed cycles, C7 checks each Y− cell against its paired control, and C9 requires all six cells; `a1_result.assemble` includes the scores for real parts |
+| C5 target timing | **PASS — FIXED EARLIER-U; NOT RUN**; `A1-C5-TARGET-TIMING-1` fixes the C5 sample at cycle 4, before the earliest current target carrier at cycle 5, and preserves all four current targets; the cycle-36 sample remains the target-selection diagnostic. C5 remains unrun until a granted cell produces its own U and carrier rows; 10 of 24 current observations have no carrier by cycle 120, which is left to the structural carrier gates rather than counted as a timing failure ([audit](A1-C5-TARGET-TIMING.md)) |
 | C1/C4 VOID gate | **ADOPTED — BINDING FOR A1**; a single post-freeze validity test where either C1 or C4 failure/unmeasurability makes the run **VOID**; the 60-row floor is adopted with it |
 | Target-freeze act | **DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN**; exact six target sets prepared for a separate freeze; no grant or run |
 | Owner decision memo | **DRAFT — C1/C4 ADOPTED ELSEWHERE**; remains for remaining Path A confirmation and provisional freeze; C1/C4 gate and floor are adopted separately; no freeze, grant or run |
@@ -118,11 +119,12 @@ until the manifest is frozen by a separate act.
 python -m benchmarks.a1_target_selection --check
 python -m benchmarks.a1_c8_target_selection --check
 python -m benchmarks.a1_adversarial_audit --check
+python -m benchmarks.a1_c5_target_timing --check
 python -m benchmarks.a1_two_path --self-test
-python -m pytest -q tests/test_a1_prefreeze.py tests/test_a1_c8_target_selection.py
+python -m pytest -q tests/test_a1_prefreeze.py tests/test_a1_c8_target_selection.py tests/test_a1_c5_target_timing.py
 ```
 
-All five checks pass on the working tree that produced this report. The A1 gate still
+All six checks pass on the working tree that produced this report. The A1 gate still
 refuses because the manifest is unfrozen, no grant exists and the target block is
 unresolved.
 

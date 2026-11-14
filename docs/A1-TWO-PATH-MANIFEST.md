@@ -18,14 +18,16 @@ The treatments are implemented; it does not authorise a run.
 | Cycles | 120 |
 | Cap | 40 |
 | Frozen | no |
-| U cycle | 36 |
+| C5 U cycle | 4 |
+| Target-selection U cycle | 36 |
 | Target edges | UNRESOLVED — MUST BE FIXED BEFORE FREEZE |
 | Cells | 36 |
 | Determinism control | seed 20630101, `A+K+` |
 
-The seeds are **provisional candidates**, not reserved or frozen. `U` is fixed before
-carrier, K and Y, and every cell of a seed must carry one object fingerprint. The target
-edges are **unresolved** and must be fixed before freeze: `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`.
+The seeds are **provisional candidates**, not reserved or frozen. The C5 `U` is fixed before
+carrier, K and Y, and every cell of a seed must carry one object fingerprint. The cycle-36
+sample remains the target-selection diagnostic. The target edges are **unresolved** and must
+be fixed before freeze: `UNRESOLVED — MUST BE FIXED BEFORE FREEZE`.
 
 ## Cells
 
@@ -55,6 +57,7 @@ refuses every cell. The A-/K-/Y- treatments are implemented; only the gate is cl
 python -m benchmarks.a1_two_path --dry-run
 python -m benchmarks.a1_two_path --check
 python -m benchmarks.a1_two_path --self-test
+python -m benchmarks.a1_c5_target_timing --check
 python -m benchmarks.a1_two_path --cell A+K+ --seed 20630101
 python -m benchmarks.a1_two_path --measure
 ```

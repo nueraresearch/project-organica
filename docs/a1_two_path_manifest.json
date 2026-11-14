@@ -85,19 +85,22 @@
     "n_per_seed": 4,
     "selection_artifact": "docs/a1_target_selection.json",
     "by_seed": {},
-    "u_cycle": 36,
-    "rule": "Directed world edges fixed per seed before any cell; one target set is applied in every cell of that seed; no post-outcome target selection. U is measured at cycle 36, before the earliest A0 carrier formation at cycle 37."
+    "u_cycle": 4,
+    "selection_u_cycle": 36,
+    "c5_timing_audit": "docs/a1_c5_target_timing.json",
+    "rule": "Directed world edges fixed per seed before any cell; one target set is applied in every cell of that seed; no post-outcome target selection. C5 U is measured at cycle 4, before the earliest observed target carrier at cycle 5; the cycle-36 sample remains the target-selection diagnostic."
   },
   "U": {
     "direct_count": "pre-carrier",
     "reverse_count": "pre-carrier",
     "strength": "pre-carrier",
-    "measured_cycle": 36,
+    "measured_cycle": 4,
     "measured_before": [
       "carrier",
       "K",
       "Y"
-    ]
+    ],
+    "sampling": "after cycle-4 observations, before the cycle-4 sleep call"
   },
   "authorisation": {
     "granted": false,

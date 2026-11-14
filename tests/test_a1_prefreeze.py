@@ -240,9 +240,9 @@ def test_target_freeze_act_is_prepared_not_executed():
     from benchmarks.presence_cap_experiment import seed_collisions
     allow = (a1_two_path.MANIFEST_PATH, a1_two_path.TARGET_SELECTION_PATH,
              a1_two_path.C8_TARGET_SELECTION_PATH, a1_two_path.C8_EXPANSION_PATH,
-             a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
-             a1_two_path.TARGET_FREEZE_ACT_PATH,
-             a1_two_path.N20_TARGET_FREEZE_ACT_PATH)
+                              a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
+                 a1_two_path.C5_TIMING_PATH, a1_two_path.TARGET_FREEZE_ACT_PATH,
+                 a1_two_path.N20_TARGET_FREEZE_ACT_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
@@ -264,7 +264,7 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
 
     assert act["kind"] == "a1_target_freeze_act_n20"
     assert act["id"] == "A1-TARGET-FREEZE-N20-1"
-    assert act["status"].startswith("DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE")
+    assert act["status"].startswith("DRAFT — C5 TARGET TIMING CLEARED BY EARLIER-U")
     assert act["signed"] is False
     assert act["path"] == "A"
     assert act["n_per_seed"] == 20
@@ -302,9 +302,14 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["c8_resolution"]["adjudicable_after_signature"] is True
     assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
     assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
-    assert act["blocking_preconditions"] == ["C5_TARGET_TIMING"]
+    assert act["blocking_preconditions"] == []
     blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
-    assert blockers == {"C5_cycle_36_U_before_carrier"}
+    assert blockers == set()
+    assert act["c5_timing"]["status"].startswith("PASS")
+    assert act["c5_timing"]["u_cycle"] == 4
+    assert act["c5_timing"]["earliest_current_carrier_cycle"] == 5
+    assert act["c5_timing"]["current_carriers_before_u"] == 0
+    assert act["c5_timing"]["current_targets_preserved"] is True
     assert act["checks"]["target_set_problems"].startswith("PASS")
     assert act["current_manifest"]["frozen"] is False
     assert act["current_manifest"]["n_per_seed"] == 4
@@ -315,7 +320,8 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     page = Path("docs/A1-TARGET-FREEZE-ACT-N20.md").read_text(encoding="utf-8")
     assert "**Signature and date:**" in page
     assert "A1-C8-EXPANSION-1" in page
-    assert "C5 TARGET-TIMING PRECONDITION UNRESOLVED" in page
+    assert "C5 TARGET TIMING CLEARED BY EARLIER-U" in page
+    assert "C5: earlier `U` before carrier, K and Y" in page
     assert "1/20 = 0.05" in page
     assert "N=20 target validation" in page
 

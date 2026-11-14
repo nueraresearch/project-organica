@@ -247,7 +247,12 @@ def gate_c4(rows: list[dict], tolerance: float | None) -> bool:
 
 
 def gate_c5(rows: list[dict], tolerance: float | None = None) -> bool:
-    """U is measured before the carrier and either outcome, and is not post-hoc rank."""
+    """U is measured before every carrier, K and Y that exists on the row.
+
+    An absent carrier/outcome is not a timing violation; carrier absence is a
+    different structural failure.  A present cycle that is malformed or that
+    precedes U is a C5 failure.
+    """
     required = ("direct_count", "reverse_count", "strength", "measured_cycle")
     if not rows:
         return False
@@ -257,13 +262,18 @@ def gate_c5(rows: list[dict], tolerance: float | None = None) -> bool:
             return False
         try:
             measured = int(u["measured_cycle"])
-            carrier = int(row["carrier_cycle"])
-            k_cycle = int(row["k_cycle"])
-            y_cycle = int(row["y_cycle"])
         except (KeyError, TypeError, ValueError):
             return False
-        if not (measured <= carrier and measured <= k_cycle and measured <= y_cycle):
-            return False
+        for field in ("carrier_cycle", "k_cycle", "y_cycle"):
+            cycle = row.get(field)
+            if cycle is None:
+                continue
+            try:
+                cycle = int(cycle)
+            except (TypeError, ValueError):
+                return False
+            if measured > cycle:
+                return False
     return True
 
 
@@ -498,10 +508,14 @@ def self_test() -> list[str]:
 
     if gate_c2(_mutate(rows, "Y_MINUS_A+K+", "A", 0)):
         found.append("C2 does not reject a broken Y- A path")
-    missing_cycle = [dict(row, carrier_cycle=None) if row["cell"] == "A+K+" else row
-                     for row in rows]
-    if gate_c5(missing_cycle):
-        found.append("C5 accepts a missing carrier cycle")
+    absent_carrier = [dict(row, carrier_cycle=None) if row["cell"] == "A+K+" else row
+                      for row in rows]
+    if not gate_c5(absent_carrier):
+        found.append("C5 rejects an absent carrier instead of treating timing as vacuous")
+    bad_cycle = [dict(row, carrier_cycle="not-a-cycle") if row["cell"] == "A+K+" else row
+                 for row in rows]
+    if gate_c5(bad_cycle):
+        found.append("C5 accepts a malformed carrier cycle")
     if gate_c9(rows[:1]):
         found.append("C9 accepts a single row")
 

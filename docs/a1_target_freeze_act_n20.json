@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-14",
-  "status": "DRAFT — C8 RESOLUTION PREPARED; NOT SIGNABLE: C5 TARGET-TIMING PRECONDITION UNRESOLVED; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 C5 TARGET TIMING CLEARED BY EARLIER-U; READY FOR OWNER SIGNATURE; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -11,7 +11,7 @@
   "parent_act": {
     "id": "A1-TARGET-FREEZE-1",
     "record": "docs/A1-TARGET-FREEZE-ACT.md",
-    "status": "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+    "status": "DRAFT \u2014 AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
     "relationship": "This N=20 act supersedes the N=4 act if signed; the N=4 act remains unsigned and unexecuted."
   },
   "design": {
@@ -382,30 +382,28 @@
     "note": "The C8 ceiling remains 0.05. Twenty target rows make one assertion 1/20 = 0.05; the act changes the target denominator, not the threshold."
   },
   "c7_c1_c4_effect": {
-    "C7_status": "UNCHANGED — PER-EDGE A/K RATE OVER 120 CYCLES; RATE-RESOLVED, UNRUN",
+    "C7_status": "UNCHANGED \u2014 PER-EDGE A/K RATE OVER 120 CYCLES; RATE-RESOLVED, UNRUN",
     "C7_Y_rows_per_seed": 40,
     "C7_rate_step": 0.008333,
     "C1_target_only_rows": 20,
     "C1_target_only_status": "STILL BELOW THE 60-ROW FLOOR",
     "C1_total_upper_bound": "63-64",
     "C4_non_target_rows": "43-44",
-    "C1_C4_status": "POST-FREEZE VOID GATES; ADOPTED — BINDING FOR A1"
+    "C1_C4_status": "POST-FREEZE VOID GATES; ADOPTED \u2014 BINDING FOR A1"
   },
   "current_manifest": {
     "frozen": false,
     "n_per_seed": 4,
-    "target_status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
-    "seed_block_status": "PROVISIONAL CANDIDATE — NOT RESERVED, NOT FROZEN",
+    "target_status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+    "seed_block_status": "PROVISIONAL CANDIDATE \u2014 NOT RESERVED, NOT FROZEN",
     "granted": false
   },
   "manifest_target_status_after_signature": "FIXED BEFORE FREEZE",
   "manifest_frozen_after_signature": true,
-  "seed_block_status_after_signature": "RESERVED — FROZEN",
+  "seed_block_status_after_signature": "RESERVED \u2014 FROZEN",
   "grant_after_signature": "NOT ISSUED",
   "run_after_signature": "NOT STARTED",
-  "blocking_preconditions": [
-    "C5_TARGET_TIMING"
-  ],
+  "blocking_preconditions": [],
   "preconditions": [
     {
       "id": "P0_protocol_compliance",
@@ -424,7 +422,7 @@
     },
     {
       "id": "four_current_targets_retained",
-      "state": "PASS — all six seeds",
+      "state": "PASS \u2014 all six seeds",
       "blocking": false
     },
     {
@@ -433,28 +431,31 @@
       "blocking": false
     },
     {
-      "id": "C5_cycle_36_U_before_carrier",
-      "state": "UNRESOLVED — 15/24 current target observations have a carrier before cycle 36",
-      "blocking": true
+      "id": "C5_earlier_U_before_carrier",
+      "state": "PASS \u2014 fixed cycle-4 U; no current target carrier before cycle 4; earliest current carrier cycle 5; four current targets preserved",
+      "blocking": false,
+      "u_cycle": 4,
+      "selection_u_cycle": 36,
+      "audit": "docs/a1_c5_target_timing.json"
     },
     {
       "id": "N20_manifest_validator",
-      "state": "PASS — a1_two_path accepts the N=20 degree-3 target set",
+      "state": "PASS \u2014 a1_two_path accepts the N=20 degree-3 target set",
       "blocking": false
     },
     {
       "id": "C8_denominator",
-      "state": "PASS — 20 rows per seed, 1/20 = 0.05, threshold unchanged",
+      "state": "PASS \u2014 20 rows per seed, 1/20 = 0.05, threshold unchanged",
       "blocking": false
     },
     {
       "id": "C1_acceptance_rule",
-      "state": "RECORDED — BINDING FOR A1",
+      "state": "RECORDED \u2014 BINDING FOR A1",
       "blocking": false
     },
     {
       "id": "C1_C4_gate_order",
-      "state": "ADOPTED — BINDING FOR A1 (2026-11-14)",
+      "state": "ADOPTED \u2014 BINDING FOR A1 (2026-11-14)",
       "blocking": false
     },
     {
@@ -481,7 +482,7 @@
     "It does not issue a grant.",
     "It does not open a database or run a cell.",
     "It does not produce a C1 or C4 denominator or a C8 measurement.",
-    "It does not resolve C5; the current target timing remains a blocking precondition.",
+    "It does not measure C5; the cycle-4 earlier-U protocol only clears target timing before any granted cell.",
     "It does not apply the N=20 target block to the live manifest before signature.",
     "It does not regenerate targets, re-run the selector or permit post-outcome selection.",
     "It does not change the C7 or C8 thresholds.",
@@ -493,8 +494,22 @@
     "a1_target_selection_check": "CLEAN",
     "current_targets_are_subset": true,
     "twenty_per_seed": true,
-    "target_set_problems": "PASS — a1_two_path validates the N=20 degree-3 target set against the C8 selection artifact",
-    "no_cell_run": true
+    "target_set_problems": "PASS \u2014 a1_two_path validates the N=20 degree-3 target set against the C8 selection artifact",
+    "no_cell_run": true,
+    "a1_c5_target_timing_check": "CLEAN \u2014 cycle-4 U precedes the earliest current carrier at cycle 5; four current targets preserved"
   },
-  "not_evidence": "A prepared N=20 target-freeze act. No target is frozen in the live manifest, no grant exists, no cell has run, C8 is not measured and C5 remains unresolved."
+  "not_evidence": "A prepared N=20 target-freeze act. C5 target timing is cleared by the registered earlier-U protocol, but no target is frozen in the live manifest, no grant exists, no cell has run and C8 is not measured.",
+  "c5_timing": {
+    "id": "A1-C5-TARGET-TIMING-1",
+    "status": "PASS \u2014 FIXED EARLIER-U AT CYCLE 4",
+    "u_cycle": 4,
+    "selection_u_cycle": 36,
+    "audit": "docs/a1_c5_target_timing.json",
+    "earliest_current_carrier_cycle": 5,
+    "current_carriers_before_u": 0,
+    "current_targets_preserved": true,
+    "note": "Cycle-36 remains the target-selection diagnostic; C5 uses the earlier sample. Missing carriers are left to the structural gates, not counted as timing failures.",
+    "current_observed_carriers": 14,
+    "current_missing_carriers": 10
+  }
 }

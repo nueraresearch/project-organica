@@ -52,6 +52,9 @@ TARGET_PROTOCOL = "docs/A1-TARGET-SELECTION-PROTOCOL.md"
 C8_TARGET_N = 20
 C8_TARGET_PROTOCOL = "docs/A1-C8-EXPANSION.md"
 C8_MAX_ENDPOINT_DEGREE = 3
+C5_U_CYCLE = 4
+C5_SELECTION_U_CYCLE = 36
+C5_TIMING_PATH = DOCS / "a1_c5_target_timing.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -94,19 +97,23 @@ def manifest() -> dict:
             "n_per_seed": TARGET_N,
             "selection_artifact": TARGET_SELECTION_PATH.relative_to(ROOT).as_posix(),
             "by_seed": {},
-            "u_cycle": 36,
+            "u_cycle": C5_U_CYCLE,
+            "selection_u_cycle": C5_SELECTION_U_CYCLE,
+            "c5_timing_audit": C5_TIMING_PATH.relative_to(ROOT).as_posix(),
             "rule": (
                 "Directed world edges fixed per seed before any cell; one target set "
                 "is applied in every cell of that seed; no post-outcome target selection. "
-                "U is measured at cycle 36, before the earliest A0 carrier formation at cycle 37."
+                "C5 U is measured at cycle 4, before the earliest observed target carrier "
+                "at cycle 5; the cycle-36 sample remains the target-selection diagnostic."
             ),
         },
         "U": {
             "direct_count": "pre-carrier",
             "reverse_count": "pre-carrier",
             "strength": "pre-carrier",
-            "measured_cycle": 36,
+            "measured_cycle": C5_U_CYCLE,
             "measured_before": ["carrier", "K", "Y"],
+            "sampling": "after cycle-4 observations, before the cycle-4 sleep call",
         },
         "authorisation": {
             "granted": False,
@@ -167,6 +174,12 @@ def manifest_problems(doc: dict | None = None) -> list[str]:
         found.append("the target block is not a per-seed mapping")
     u_cycle = targets.get("u_cycle")
     cycle_limit = (doc.get("seed_block") or {}).get("cycles")
+    if u_cycle != C5_U_CYCLE:
+        found.append("the C5 U cycle is not the fixed earlier cycle")
+    if targets.get("selection_u_cycle") != C5_SELECTION_U_CYCLE:
+        found.append("the target-selection U cycle is not recorded")
+    if not (ROOT / str(targets.get("c5_timing_audit") or "")).exists():
+        found.append("the C5 timing audit is missing")
     if (not isinstance(u_cycle, int) or not isinstance(cycle_limit, int)
             or not 1 <= u_cycle <= cycle_limit):
         found.append("the U cycle is not an integer in the run")
@@ -361,7 +374,7 @@ def preflight(doc: dict | None = None) -> list[str]:
         from benchmarks.presence_cap_experiment import seed_collisions
         allow = (MANIFEST_PATH, TARGET_SELECTION_PATH, C8_TARGET_SELECTION_PATH,
                  C8_EXPANSION_PATH, ADVERSARIAL_AUDIT_PATH, POWER_REVIEW_PATH,
-                 TARGET_FREEZE_ACT_PATH, N20_TARGET_FREEZE_ACT_PATH)
+                 C5_TIMING_PATH, TARGET_FREEZE_ACT_PATH, N20_TARGET_FREEZE_ACT_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
@@ -429,15 +442,17 @@ def render(doc: dict) -> str:
         "| Cycles | %d |" % doc["seed_block"]["cycles"],
         "| Cap | %d |" % doc["seed_block"]["cap"],
         "| Frozen | %s |" % ("yes" if doc["frozen"] else "no"),
-        "| U cycle | %d |" % doc["targets"]["u_cycle"],
+        "| C5 U cycle | %d |" % doc["targets"]["u_cycle"],
+        "| Target-selection U cycle | %d |" % doc["targets"]["selection_u_cycle"],
         "| Target edges | %s |" % doc["targets"]["status"],
         "| Cells | %d |" % doc["cell_count"],
         "| Determinism control | seed %d, `%s` |" % (
             doc["control"]["seed"], doc["control"]["cell"]),
         "",
-        "The seeds are **provisional candidates**, not reserved or frozen. `U` is fixed before",
-        "carrier, K and Y, and every cell of a seed must carry one object fingerprint. The target",
-        "edges are **unresolved** and must be fixed before freeze: `%s`." % doc["targets"]["status"],
+        "The seeds are **provisional candidates**, not reserved or frozen. The C5 `U` is fixed before",
+        "carrier, K and Y, and every cell of a seed must carry one object fingerprint. The cycle-36",
+        "sample remains the target-selection diagnostic. The target edges are **unresolved** and must",
+        "be fixed before freeze: `%s`." % doc["targets"]["status"],
         "",
         "## Cells",
         "",
@@ -468,6 +483,7 @@ def render(doc: dict) -> str:
         "python -m benchmarks.a1_two_path --dry-run",
         "python -m benchmarks.a1_two_path --check",
         "python -m benchmarks.a1_two_path --self-test",
+        "python -m benchmarks.a1_c5_target_timing --check",
         "python -m benchmarks.a1_two_path --cell A+K+ --seed 20630101",
         "python -m benchmarks.a1_two_path --measure",
         "```",
