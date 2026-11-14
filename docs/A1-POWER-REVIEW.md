@@ -13,6 +13,29 @@
 | **c1_denominator_expansion** — C4 plus the four target rows would raise the planned C1 denominator from four to 63-64 rows per seed, allowing 3 losses at 0.95; the observed denominator is still unmeasured. | planned_c1_rows_by_seed={'20630101': 64, '20630102': 63, '20630103': 64, '20630104': 64, '20630105': 64, '20630106': 63}; planned_non_target_rows_by_seed={'20630101': 60, '20630102': 59, '20630103': 60, '20630104': 60, '20630105': 60, '20630106': 59}; planned_min_rows=63; planned_max_rows=64; planned_total_rows=382; planned_non_target_total=358; allowed_losses_min=3; allowed_losses_max=3; max_losses_with_planned_c4={'20630101': 3, '20630102': 3, '20630103': 3, '20630104': 3, '20630105': 3, '20630106': 3}; status=UNMEASURED — no A1 cell has run; baseline_caveat=C1 counts only edges available in the paired A+K+ control, so the observed denominator will be at most 63-64. |
 | **hard_edge_baseline** — A0's hard-edge prevalence is low, but a random 24-target sample has a material chance of containing one. | a0_hard_edges=26; a0_present_edges=672; hard_rate=0.0387; expected_hard_targets=0.93; prob_any_hard_independence=0.612 |
 
+## C1 power curve
+
+At a true retention of 0.95, the 63-row denominator gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.
+
+**Model:** Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds.
+
+**Retention rate assumption:** each column names the assumed `q`; these are reference probabilities, not A1 measurements.
+
+| Denominator | Required | Allowed losses | q=.95 arm | q=.95 seed | q=.95 all six | q=.98 arm | q=.98 seed | q=.98 all six |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 4 | 4 | 0 | 0.814506 | 0.663420 | 0.085258 | 0.922368 | 0.850763 | 0.379185 |
+| 20 | 19 | 1 | 0.735840 | 0.541460 | 0.025200 | 0.940101 | 0.883790 | 0.476534 |
+| 56 | 54 | 2 | 0.464557 | 0.215814 | 0.000101 | 0.898193 | 0.806750 | 0.275698 |
+| 59 | 57 | 2 | 0.428928 | 0.183979 | 0.000039 | 0.885585 | 0.784261 | 0.232683 |
+| 60 | 57 | 3 | 0.647281 | 0.418973 | 0.005409 | 0.967806 | 0.936648 | 0.675241 |
+| 63 | 60 | 3 | 0.612844 | 0.375577 | 0.002807 | 0.962453 | 0.926317 | 0.631767 |
+| 64 | 61 | 3 | 0.601409 | 0.361693 | 0.002239 | 0.960563 | 0.922681 | 0.617035 |
+
+The curve also records `q=.97` and `q=1.00` in the artifact. The `all six` columns are the product of six independent per-seed probabilities, because C1 must pass on every seed.
+
+At `.95` and 63 rows, one arm passes with probability **0.612844**, both arms on one seed with **0.375577**, and all six seeds with **0.002807**. At `.98`, the all-six probability is **0.631767**. The target-only four-row fallback is the first row; 20 rows is the smallest listed denominator that can still pass with one loss.
+
+
 ## What population A1 tests
 
 **Estimand:** representative eligible pre-37 cycle-membership directed-edge population.

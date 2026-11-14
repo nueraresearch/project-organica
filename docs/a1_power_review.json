@@ -63,6 +63,303 @@
       "A larger target block or a redesigned selector is registered before freeze."
     ]
   },
+  "c1_power_curve": {
+    "model": "Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds.",
+    "assumptions": [
+      "The retention rate is an assumption, not an A1 measurement.",
+      "Rows are independent and identically distributed within an arm.",
+      "A- and K- have the same assumed retention rate and are independent.",
+      "The six seeds are independent; the all-six column is the product of six per-seed probabilities.",
+      "The gate is evaluated per seed; no pooling across seeds is used."
+    ],
+    "floor": 0.95,
+    "denominators": [
+      4,
+      20,
+      56,
+      59,
+      60,
+      63,
+      64
+    ],
+    "assumed_retention_rates": [
+      0.95,
+      0.97,
+      0.98,
+      1.0
+    ],
+    "minimum_denominator_for_one_loss": 20,
+    "rows": [
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.95,
+        "per_arm": 0.814506,
+        "per_seed": 0.66342,
+        "all_six_seeds": 0.085258
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.97,
+        "per_arm": 0.885293,
+        "per_seed": 0.783743,
+        "all_six_seeds": 0.231763
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 0.98,
+        "per_arm": 0.922368,
+        "per_seed": 0.850763,
+        "all_six_seeds": 0.379185
+      },
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.95,
+        "per_arm": 0.73584,
+        "per_seed": 0.54146,
+        "all_six_seeds": 0.0252
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.97,
+        "per_arm": 0.880162,
+        "per_seed": 0.774685,
+        "all_six_seeds": 0.216148
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 0.98,
+        "per_arm": 0.940101,
+        "per_seed": 0.88379,
+        "all_six_seeds": 0.476534
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.95,
+        "per_arm": 0.464557,
+        "per_seed": 0.215814,
+        "all_six_seeds": 0.000101
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.97,
+        "per_arm": 0.763809,
+        "per_seed": 0.583404,
+        "all_six_seeds": 0.039429
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 0.98,
+        "per_arm": 0.898193,
+        "per_seed": 0.80675,
+        "all_six_seeds": 0.275698
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.95,
+        "per_arm": 0.428928,
+        "per_seed": 0.183979,
+        "all_six_seeds": 3.9e-05
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.97,
+        "per_arm": 0.739606,
+        "per_seed": 0.547017,
+        "all_six_seeds": 0.026792
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 0.98,
+        "per_arm": 0.885585,
+        "per_seed": 0.784261,
+        "all_six_seeds": 0.232683
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.647281,
+        "per_seed": 0.418973,
+        "all_six_seeds": 0.005409
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.894258,
+        "per_seed": 0.799697,
+        "all_six_seeds": 0.261549
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.967806,
+        "per_seed": 0.936648,
+        "all_six_seeds": 0.675241
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.612844,
+        "per_seed": 0.375577,
+        "all_six_seeds": 0.002807
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.879313,
+        "per_seed": 0.773192,
+        "all_six_seeds": 0.21366
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.962453,
+        "per_seed": 0.926317,
+        "all_six_seeds": 0.631767
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.95,
+        "per_arm": 0.601409,
+        "per_seed": 0.361693,
+        "all_six_seeds": 0.002239
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.97,
+        "per_arm": 0.874141,
+        "per_seed": 0.764122,
+        "all_six_seeds": 0.199057
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 0.98,
+        "per_arm": 0.960563,
+        "per_seed": 0.922681,
+        "all_six_seeds": 0.617035
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "assumed_retention": 1.0,
+        "per_arm": 1.0,
+        "per_seed": 1.0,
+        "all_six_seeds": 1.0
+      }
+    ],
+    "baseline_example": {
+      "denominator": 63,
+      "assumed_retention": 0.95,
+      "per_arm": 0.612844,
+      "per_seed": 0.375577,
+      "all_six_seeds": 0.002807
+    },
+    "sensitivity_example": {
+      "denominator": 63,
+      "assumed_retention": 0.98,
+      "per_arm": 0.962453,
+      "per_seed": 0.926317,
+      "all_six_seeds": 0.631767
+    },
+    "reading": "At a true retention of 0.95, the 63-row denominator gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.",
+    "status": "REFERENCE CURVE \u2014 NOT AN OBSERVED DENOMINATOR OR RESULT"
+  },
   "inputs": {
     "target_observations": 24,
     "unique_target_edges": 23,

@@ -21,10 +21,99 @@ DATE = "2026-11-14"
 C1_FLOOR = 0.95
 FREEZE_ANSWER = "NO — NOT AS CURRENTLY EMITTED"
 N_PER_SEED = 4
+C1_CURVE_DENOMINATORS = (4, 20, 56, 59, 60, 63, 64)
+C1_CURVE_RETENTIONS = (0.95, 0.97, 0.98, 1.0)
 
 
 def _load(name: str) -> dict:
     return json.loads((DOCS / name).read_text(encoding="utf-8"))
+
+
+def _binomial_tail(n: int, q: float, need: int) -> float:
+    """Probability that at least ``need`` of ``n`` independent rows survive."""
+    if need <= 0:
+        return 1.0
+    if need > n:
+        return 0.0
+    return sum(
+        math.comb(n, k) * (q ** k) * ((1.0 - q) ** (n - k))
+        for k in range(need, n + 1)
+    )
+
+
+def _c1_power_curve() -> dict:
+    """Reference C1 pass probabilities for the planned and fallback denominators.
+
+    The curve assumes a common, independent Bernoulli retention rate ``q`` for
+    every row on both paths. A seed passes only when both the A- and K- arms
+    meet 0.95; the all-six column additionally assumes independent seeds. These
+    are assumptions for a sensitivity curve, not estimates from A1.
+    """
+    rows = []
+    for n in C1_CURVE_DENOMINATORS:
+        need = math.ceil(n * C1_FLOOR)
+        for q in C1_CURVE_RETENTIONS:
+            per_arm = _binomial_tail(n, q, need)
+            per_seed = per_arm ** 2
+            rows.append({
+                "denominator": n,
+                "required_retained": need,
+                "allowed_losses": n - need,
+                "assumed_retention": q,
+                "per_arm": round(per_arm, 6),
+                "per_seed": round(per_seed, 6),
+                "all_six_seeds": round(per_seed ** 6, 6),
+            })
+    baseline = next(row for row in rows
+                    if row["denominator"] == 63 and row["assumed_retention"] == 0.95)
+    sensitivity = next(row for row in rows
+                       if row["denominator"] == 63 and row["assumed_retention"] == 0.98)
+    return {
+        "model": (
+            "Independent Bernoulli retention on each row; the stated retention "
+            "rate q is common to A- and K-; a seed passes only when both arms "
+            "meet 0.95; all-six assumes independent seeds."
+        ),
+        "assumptions": [
+            "The retention rate is an assumption, not an A1 measurement.",
+            "Rows are independent and identically distributed within an arm.",
+            "A- and K- have the same assumed retention rate and are independent.",
+            "The six seeds are independent; the all-six column is the product of six per-seed probabilities.",
+            "The gate is evaluated per seed; no pooling across seeds is used.",
+        ],
+        "floor": C1_FLOOR,
+        "denominators": list(C1_CURVE_DENOMINATORS),
+        "assumed_retention_rates": list(C1_CURVE_RETENTIONS),
+        "minimum_denominator_for_one_loss": min(
+            n for n in C1_CURVE_DENOMINATORS
+            if n - math.ceil(n * C1_FLOOR) >= 1
+        ),
+        "rows": rows,
+        "baseline_example": {
+            "denominator": 63,
+            "assumed_retention": 0.95,
+            "per_arm": baseline["per_arm"],
+            "per_seed": baseline["per_seed"],
+            "all_six_seeds": baseline["all_six_seeds"],
+        },
+        "sensitivity_example": {
+            "denominator": 63,
+            "assumed_retention": 0.98,
+            "per_arm": sensitivity["per_arm"],
+            "per_seed": sensitivity["per_seed"],
+            "all_six_seeds": sensitivity["all_six_seeds"],
+        },
+        "reading": (
+            "At a true retention of 0.95, the 63-row denominator gives a "
+            "%.1f%% chance for one arm, %.1f%% for both arms on one seed, and "
+            "%.1f%% across all six seeds. At 0.98, the corresponding all-six "
+            "chance is %.1f%%. A denominator of 20 is the smallest listed value "
+            "that can still pass with one lost row."
+            % (baseline["per_arm"] * 100, baseline["per_seed"] * 100,
+               baseline["all_six_seeds"] * 100, sensitivity["all_six_seeds"] * 100)
+        ),
+        "status": "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT",
+    }
 
 
 def _permutation(selected: list[int], values: list[float]) -> float:
@@ -328,6 +417,7 @@ def build() -> dict:
                 "A larger target block or a redesigned selector is registered before freeze.",
             ],
         },
+        "c1_power_curve": _c1_power_curve(),
         "inputs": {
             "target_observations": total_targets,
             "unique_target_edges": len(targets),
@@ -396,6 +486,18 @@ def problems(doc: dict) -> list[str]:
         found.append("power review has no C1 expansion finding")
     elif expansion.get("evidence", {}).get("status", "").split(" ")[0] != "UNMEASURED":
         found.append("C1 expansion is not marked unmeasured")
+    curve = doc.get("c1_power_curve") or {}
+    if curve.get("status") != "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT":
+        found.append("C1 power curve is not marked as a reference")
+    if curve.get("floor") != C1_FLOOR:
+        found.append("C1 power curve floor changed")
+    if curve.get("assumed_retention_rates") != list(C1_CURVE_RETENTIONS):
+        found.append("C1 power curve retention assumptions changed")
+    expected = {(n, q) for n in C1_CURVE_DENOMINATORS for q in C1_CURVE_RETENTIONS}
+    rows = {(row.get("denominator"), row.get("assumed_retention"))
+            for row in curve.get("rows", [])}
+    if rows != expected:
+        found.append("C1 power curve rows do not cover every denominator and retention rate")
     return found
 
 
@@ -413,6 +515,47 @@ def render(doc: dict) -> str:
     for finding in doc["findings"]:
         evidence = "; ".join("%s=%s" % (k, v) for k, v in finding["evidence"].items())
         rows.append("| **%s** — %s | %s |" % (finding["id"], finding["finding"], evidence))
+    curve = doc["c1_power_curve"]
+    cells = {(row["denominator"], row["assumed_retention"]): row
+             for row in curve["rows"]}
+    rows += [
+        "",
+        "## C1 power curve",
+        "",
+        curve["reading"],
+        "",
+        "**Model:** %s" % curve["model"],
+        "",
+        "**Retention rate assumption:** each column names the assumed `q`; "
+        "these are reference probabilities, not A1 measurements.",
+        "",
+        "| Denominator | Required | Allowed losses | q=.95 arm | q=.95 seed | q=.95 all six | q=.98 arm | q=.98 seed | q=.98 all six |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for n in curve["denominators"]:
+        base = cells[(n, 0.95)]
+        sens = cells[(n, 0.98)]
+        rows.append(
+            "| %d | %d | %d | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f |"
+            % (n, base["required_retained"], base["allowed_losses"],
+               base["per_arm"], base["per_seed"], base["all_six_seeds"],
+               sens["per_arm"], sens["per_seed"], sens["all_six_seeds"]))
+    rows += [
+        "",
+        "The curve also records `q=.97` and `q=1.00` in the artifact. "
+        "The `all six` columns are the product of six independent per-seed "
+        "probabilities, because C1 must pass on every seed.",
+        "",
+        "At `.95` and 63 rows, one arm passes with probability **%.6f**, both "
+        "arms on one seed with **%.6f**, and all six seeds with **%.6f**. "
+        "At `.98`, the all-six probability is **%.6f**. The target-only "
+        "four-row fallback is the first row; 20 rows is the smallest listed "
+        "denominator that can still pass with one loss."
+        % (cells[(63, 0.95)]["per_arm"], cells[(63, 0.95)]["per_seed"],
+           cells[(63, 0.95)]["all_six_seeds"],
+           cells[(63, 0.98)]["all_six_seeds"]),
+        "",
+    ]
     rows += [
         "",
         "## What population A1 tests",

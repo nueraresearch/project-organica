@@ -115,3 +115,23 @@ def test_power_review_artifact_is_current():
     doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
     assert review.problems(doc) == []
     assert review.PAGE_PATH.read_text(encoding="utf-8") == review.render(doc)
+
+
+def test_power_review_curve_states_retention_assumptions():
+    import json
+    from benchmarks import a1_power_review as review
+
+    doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
+    curve = doc["c1_power_curve"]
+    assert curve["status"] == "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT"
+    assert curve["assumed_retention_rates"] == [0.95, 0.97, 0.98, 1.0]
+    assert curve["denominators"] == [4, 20, 56, 59, 60, 63, 64]
+    assert curve["minimum_denominator_for_one_loss"] == 20
+    rows = {(row["denominator"], row["assumed_retention"]): row
+            for row in curve["rows"]}
+    assert len(rows) == 28
+    for row in rows.values():
+        assert abs(row["per_seed"] - row["per_arm"] ** 2) <= 1e-5
+        assert abs(row["all_six_seeds"] - row["per_seed"] ** 6) <= 1e-5
+    assert rows[(63, 0.95)]["all_six_seeds"] == 0.002807
+    assert rows[(63, 0.98)]["all_six_seeds"] == 0.631767
