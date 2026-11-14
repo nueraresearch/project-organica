@@ -217,6 +217,8 @@ def render(doc: dict) -> str:
         )
     lines += [
         "",
+        "K is the lower path on five seeds; A is lower on `20650105` (31 vs 39). The gate is C1 availability, not target capacity.",
+        "",
         "**This is a candidate result, not a freeze or a run.** A PASS would only mean the no-arm universe clears the 60-row C1/K gate; a new protocol, freeze, seed reservation and grant remain separate acts.",
         "",
         "**Not evidence:** %s" % doc["not_evidence"],

@@ -31,6 +31,8 @@ The block is **20650101–20650106**, fixed without K screening: six contiguous 
 | `20650105` | 31 | 29 | 20 | FAIL |
 | `20650106` | 38 | 22 | 32 | FAIL |
 
+K is the lower path on five seeds; A is lower on `20650105` (31 vs 39). The gate is C1 availability, not target capacity.
+
 **This is a candidate result, not a freeze or a run.** A PASS would only mean the no-arm universe clears the 60-row C1/K gate; a new protocol, freeze, seed reservation and grant remain separate acts.
 
 **Not evidence:** A no-arm candidate specification and its raw A/K rows. It selects no target, freezes no target, reserves no seed, issues no grant and runs no A1 cell. Passing the preflight would not authorise a run.
