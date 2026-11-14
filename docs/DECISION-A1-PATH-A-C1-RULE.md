@@ -81,6 +81,21 @@ Under the proposed combined C1/C4 gate, the run-level status is **`A1 VOID — C
 
 It is **not** `PARKED` (no run), `NOT IDENTIFIED` (a model result) or `UNSATISFIABLE` (the old unmeasurable-gate disposition).
 
+### 2.5 Power-design criterion
+
+**80% all-six-seed power target.** The C1 design is sized for at least an **80%** probability that all six seeds pass at the planned **63-row** denominator.
+
+| Field | Criterion |
+| --- | --- |
+| Target all-six-seed power | **80%** |
+| Reference denominator | **63 rows** (planned range 63–64) |
+| Required retention at 63 | **0.984017** |
+| Required retention at 64 | **0.984271** |
+| Required retention at the 60-row floor | **0.983204** |
+| Status | **RECORDED — C1 DESIGN CRITERION** |
+
+These values are power-design calculations under the same independent Bernoulli retention and independent-seed model as the required-retention table. They are **not observed retention rates** and are **not a second post-run acceptance gate**. The criterion sizes the planned design; the observed-run acceptance rule in §2.1–2.3 remains the **0.95 preservation threshold**, with the 60-row floor and its VOID disposition unchanged.
+
 ## 3. What this record does not do
 
 - It does not freeze the Path A targets or manifest.
@@ -99,6 +114,7 @@ The target-freeze act remains **DRAFT — AWAITING OWNER SIGNATURE**. The combin
 | Path A estimand | **RECORDED** |
 | Path B | **NOT SELECTED** |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
+| C1 power-design target | **80% all-six at 63 rows; required q=0.984017** |
 | Minimum C1 denominator | **60** |
 | Below-floor disposition | **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** |
 | Target sets | **DRAFT — NOT FROZEN** |

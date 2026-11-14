@@ -601,6 +601,20 @@
       ],
       "assumption": "Required q under the same independent Bernoulli, six-independent-seed model."
     },
+    "power_design_criterion": {
+      "status": "RECORDED \u2014 C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE",
+      "target_all_six_power": 0.8,
+      "reference_denominator": 63,
+      "required_retention": 0.984017,
+      "required_retention_by_denominator": {
+        "60": 0.983204,
+        "63": 0.984017,
+        "64": 0.984271
+      },
+      "model": "Independent Bernoulli retention on each row, with the six seeds independent, as in the required-retention table.",
+      "meaning": "At the planned 63-row denominator, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
+      "not_a_second_acceptance_gate": true
+    },
     "correlation_sensitivity": {
       "status": "SENSITIVITY \u2014 NOT AN OBSERVED CORRELATION OR RESULT",
       "model": "Gaussian copulas on the pass/fail indicators. Within a seed, the A- and K- pass indicators have correlation rho_paths; across seeds, the per-seed pass indicators have equicorrelation rho_seeds through one shared factor. Per-arm marginals remain the independent Bernoulli probabilities. The copulas are applied sequentially; no path-specific cross-seed correlation is added beyond the seed factor.",

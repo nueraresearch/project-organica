@@ -260,6 +260,17 @@ def test_power_review_curve_states_retention_assumptions():
     required = curve["required_retention"]["rows"]
     assert [row["target_all_six"] for row in required] == [0.5, 0.8, 0.9, 0.95]
     assert required[1]["required_q_by_denominator"]["63"] == 0.984017
+    power = curve["power_design_criterion"]
+    assert power["status"] == (
+        "RECORDED — C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION "
+        "AND NOT A SECOND ACCEPTANCE GATE"
+    )
+    assert power["target_all_six_power"] == 0.8
+    assert power["reference_denominator"] == 63
+    assert power["required_retention"] == required[1]["required_q_by_denominator"]["63"]
+    assert power["required_retention_by_denominator"]["64"] == 0.984271
+    assert power["required_retention_by_denominator"]["60"] == 0.983204
+    assert power["not_a_second_acceptance_gate"] is True
     floor = curve["denominator_floor_rule"]
     assert floor["status"] == "RECORDED — BINDING FOR A1"
     assert floor["floor"] == 60
@@ -286,6 +297,8 @@ def test_power_review_curve_states_retention_assumptions():
     page = Path("docs/A1-POWER-REVIEW.md").read_text(encoding="utf-8")
     assert "### Correlation sensitivity" in page
     assert "rho_paths" in page and "rho_seeds" in page
+    assert "C1 power-design criterion" in page
+    assert "80%" in page and "q=0.984017" in page
 
 
 def test_path_a_and_c1_rule_are_recorded_without_a_run():
@@ -302,6 +315,16 @@ def test_path_a_and_c1_rule_are_recorded_without_a_run():
     assert rule["allowed_losses_at_60_64"] == 3
     assert rule["below_floor_disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
     assert rule["zero_denominator_disposition"] == "VOID — C1_NO_DENOMINATOR"
+    power = rule["power_design_criterion"]
+    assert power["status"] == (
+        "RECORDED — C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION "
+        "AND NOT A SECOND ACCEPTANCE GATE"
+    )
+    assert power["target_all_six_power"] == 0.8
+    assert power["reference_denominator"] == 63
+    assert power["required_retention"] == 0.984017
+    assert power["required_retention_by_denominator"]["64"] == 0.984271
+    assert power["not_a_second_acceptance_gate"] is True
     table = {row["observed_min"]: row for row in rule["table"]}
     assert table["59" if "59" in table else "20-59"]["disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
     assert table["60"]["required_retained"] == 57
@@ -314,3 +337,5 @@ def test_path_a_and_c1_rule_are_recorded_without_a_run():
     assert "| Minimum denominator | **60 rows** |" in page
     assert "VOID — C1_DENOMINATOR_BELOW_FLOOR" in page
     assert "A perfect **59/59** is still VOID" in page
+    assert "80% all-six-seed power target" in page
+    assert "**0.984017**" in page

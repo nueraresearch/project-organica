@@ -26,6 +26,11 @@ C1_CURVE_RETENTIONS = (0.95, 0.97, 0.98, 1.0)
 C1_CORRELATION_RHOS = (0.0, 0.25, 0.5, 0.75, 0.95)
 C1_CORRELATION_DENOMINATOR = 63
 C1_CORRELATION_RETENTIONS = (0.95, 0.98)
+C1_POWER_TARGET = 0.8
+C1_POWER_TARGET_DENOMINATOR = 63
+C1_POWER_DESIGN_STATUS = (
+    "RECORDED — C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE"
+)
 
 
 def _load(name: str) -> dict:
@@ -303,6 +308,41 @@ def _c1_power_curve() -> dict:
         ],
         "assumption": "Required q under the same independent Bernoulli, six-independent-seed model.",
     }
+    power_row = next(
+        row for row in required_retention["rows"]
+        if row["target_all_six"] == C1_POWER_TARGET
+    )
+    power_q = power_row["required_q_by_denominator"]
+    power_design_criterion = {
+        "status": C1_POWER_DESIGN_STATUS,
+        "target_all_six_power": C1_POWER_TARGET,
+        "reference_denominator": C1_POWER_TARGET_DENOMINATOR,
+        "required_retention": power_q[str(C1_POWER_TARGET_DENOMINATOR)],
+        "required_retention_by_denominator": {
+            str(n): power_q[str(n)] for n in (60, 63, 64)
+        },
+        "model": (
+            "Independent Bernoulli retention on each row, with the six seeds "
+            "independent, as in the required-retention table."
+        ),
+        "meaning": (
+            "At the planned %d-row denominator, reaching %d%% all-six-seed "
+            "power requires a common retention of at least %.6f. The "
+            "corresponding values are %.6f at 64 rows and %.6f at the "
+            "60-row floor. This sizes the planned design; it is not an "
+            "observed retention and is not a second post-run acceptance gate. "
+            "The observed-run acceptance rule remains the 0.95 preservation "
+            "threshold."
+            % (
+                C1_POWER_TARGET_DENOMINATOR,
+                round(C1_POWER_TARGET * 100),
+                power_q[str(C1_POWER_TARGET_DENOMINATOR)],
+                power_q["64"],
+                power_q["60"],
+            )
+        ),
+        "not_a_second_acceptance_gate": True,
+    }
     floor_rule = {
         "status": "RECORDED — BINDING FOR A1",
         "record": "docs/DECISION-A1-PATH-A-C1-RULE.md",
@@ -391,6 +431,7 @@ def _c1_power_curve() -> dict:
             ),
         },
         "required_retention": required_retention,
+        "power_design_criterion": power_design_criterion,
         "correlation_sensitivity": _correlation_sensitivity(),
         "denominator_floor_rule": floor_rule,
         "baseline_example": {
@@ -875,6 +916,28 @@ def problems(doc: dict) -> list[str]:
     required = curve.get("required_retention") or {}
     if len(required.get("rows") or []) != 4:
         found.append("C1 power curve has no required-retention scenarios")
+    power = curve.get("power_design_criterion") or {}
+    if power.get("status") != C1_POWER_DESIGN_STATUS:
+        found.append("C1 power-design criterion is not marked as a design criterion")
+    if power.get("target_all_six_power") != C1_POWER_TARGET:
+        found.append("C1 all-six power target changed")
+    if power.get("reference_denominator") != C1_POWER_TARGET_DENOMINATOR:
+        found.append("C1 power-target reference denominator changed")
+    required_row = next(
+        (row for row in required.get("rows") or []
+         if row.get("target_all_six") == C1_POWER_TARGET),
+        None,
+    )
+    if required_row is None:
+        found.append("C1 power target has no required-retention row")
+    else:
+        required_q = required_row.get("required_q_by_denominator") or {}
+        expected_q = required_q.get(str(C1_POWER_TARGET_DENOMINATOR))
+        if power.get("required_retention") != expected_q:
+            found.append("C1 power-design required retention disagrees with the table")
+        for n in (60, 63, 64):
+            if (power.get("required_retention_by_denominator") or {}).get(str(n)) != required_q.get(str(n)):
+                found.append("C1 power-design denominator values disagree with the table")
     corr = curve.get("correlation_sensitivity") or {}
     if corr.get("status") != "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT":
         found.append("C1 correlation sensitivity is not marked as a sensitivity")
@@ -1011,6 +1074,21 @@ def render(doc: dict) -> str:
         % (
             curve["required_retention"]["rows"][1]["required_q_by_denominator"]["63"],
             curve["required_retention"]["rows"][0]["required_q_by_denominator"]["63"],
+        ),
+        "",
+        "**C1 power-design criterion:** the C1 design is sized for **%d%%** "
+        "all-six-seed power at the planned **%d-row** denominator. Under the "
+        "independent model this requires a common retention of **q=%.6f**; "
+        "at 64 rows it is **q=%.6f**, and at the 60-row floor **q=%.6f**. "
+        "This is a design criterion for the planned design, not an observed "
+        "retention rate and not a second acceptance gate; the 0.95 preservation "
+        "rule above remains the observed-run acceptance rule."
+        % (
+            round(curve["power_design_criterion"]["target_all_six_power"] * 100),
+            curve["power_design_criterion"]["reference_denominator"],
+            curve["power_design_criterion"]["required_retention"],
+            curve["power_design_criterion"]["required_retention_by_denominator"]["64"],
+            curve["power_design_criterion"]["required_retention_by_denominator"]["60"],
         ),
         "",
     ]

@@ -69,6 +69,8 @@ Each cell is the assumed `q` needed for the stated all-six-seed power under the 
 
 The required-retention table makes the cost explicit: at 63 rows, 80% all-six power needs `q=0.984017`; 50% needs `q=0.977154`. The target-only four-row design needs a still higher rate for the same power because it allows no losses.
 
+**C1 power-design criterion:** the C1 design is sized for **80%** all-six-seed power at the planned **63-row** denominator. Under the independent model this requires a common retention of **q=0.984017**; at 64 rows it is **q=0.984271**, and at the 60-row floor **q=0.983204**. This is a design criterion for the planned design, not an observed retention rate and not a second acceptance gate; the 0.95 preservation rule above remains the observed-run acceptance rule.
+
 
 ### Correlation sensitivity
 

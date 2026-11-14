@@ -18,6 +18,20 @@
   "c1_acceptance_rule": {
     "status": "RECORDED — BINDING FOR A1",
     "threshold": 0.95,
+    "power_design_criterion": {
+      "status": "RECORDED — C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE",
+      "target_all_six_power": 0.8,
+      "reference_denominator": 63,
+      "required_retention": 0.984017,
+      "required_retention_by_denominator": {
+        "60": 0.983204,
+        "63": 0.984017,
+        "64": 0.984271
+      },
+      "model": "Independent Bernoulli retention on each row, with the six seeds independent, as in the power review's required-retention table.",
+      "meaning": "At the planned 63-row denominator, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
+      "not_a_second_acceptance_gate": true
+    },
     "minimum_denominator": 60,
     "unit": "observed minimum paired-control available rows across all six seeds and both A- and K- paths",
     "paths": ["A-", "K-"],
@@ -62,6 +76,7 @@
     "path_a": "RECORDED",
     "path_b": "NOT SELECTED",
     "c1_rule": "RECORDED — BINDING FOR A1",
+    "c1_power_design_target": "80% all-six at 63 rows; required q=0.984017",
     "target_sets": "DRAFT — NOT FROZEN",
     "freeze_decision": "DO NOT FREEZE (2026-11-14)",
     "target_freeze": "NOT AUTHORIZED",
