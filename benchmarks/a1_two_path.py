@@ -58,6 +58,7 @@ C5_TIMING_PATH = DOCS / "a1_c5_target_timing.json"
 BASELINE_AVAILABILITY_PATH = DOCS / "a1_baseline_availability.json"
 TARGET_VIABILITY_PATH = DOCS / "a1_target_viability.json"
 DESIGN_VIABILITY_PATH = DOCS / "a1_design_viability.json"
+N20_COMPETENT_PREREG_PATH = DOCS / "a1_n20_competent_selection_prereg.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -379,7 +380,7 @@ def preflight(doc: dict | None = None) -> list[str]:
                  C8_EXPANSION_PATH, ADVERSARIAL_AUDIT_PATH, POWER_REVIEW_PATH,
                  C5_TIMING_PATH, TARGET_FREEZE_ACT_PATH, N20_TARGET_FREEZE_ACT_PATH,
                  BASELINE_AVAILABILITY_PATH, TARGET_VIABILITY_PATH,
-                 DESIGN_VIABILITY_PATH)
+                 DESIGN_VIABILITY_PATH, N20_COMPETENT_PREREG_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:

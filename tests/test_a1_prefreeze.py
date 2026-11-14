@@ -245,7 +245,8 @@ def test_target_freeze_act_is_prepared_not_executed():
              a1_two_path.N20_TARGET_FREEZE_ACT_PATH,
              a1_two_path.BASELINE_AVAILABILITY_PATH,
              a1_two_path.TARGET_VIABILITY_PATH,
-             a1_two_path.DESIGN_VIABILITY_PATH)
+             a1_two_path.DESIGN_VIABILITY_PATH,
+             a1_two_path.N20_COMPETENT_PREREG_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
