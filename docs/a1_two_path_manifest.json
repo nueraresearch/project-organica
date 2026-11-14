@@ -81,6 +81,9 @@
   },
   "targets": {
     "status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+    "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+    "n_per_seed": 4,
+    "selection_artifact": "docs/a1_target_selection.json",
     "by_seed": {},
     "u_cycle": 36,
     "rule": "Directed world edges fixed per seed before any cell; one target set is applied in every cell of that seed; no post-outcome target selection. U is measured at cycle 36, before the earliest A0 carrier formation at cycle 37."

@@ -30,7 +30,7 @@ by hand, and the row names say what is counted.
 | Claims citing a document instead of a result | 7 | no cited evidence path is a JSON artifact | `docs/claim_ledger.json` |
 | Preregistered experiments | 38 | documents in docs/ whose filename contains prereg; counted by name | `docs/*prereg*` |
 | Completed experiments | 18 | documents in docs/ whose filename contains result; one per file, not per cell | `docs/*result*` |
-| Architectural changes adopted | 12 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
+| Architectural changes adopted | 14 | decision records whose text does not contain WITHDRAWN | `docs/DECISION-*.md` |
 | Architectural changes withdrawn | 3 | decision records whose text contains WITHDRAWN | `docs/DECISION-*.md` |
 | Independent reviews | 1 | documents in docs/ whose filename begins INDEPENDENT- | `docs/INDEPENDENT-*.md` |
 

@@ -152,6 +152,19 @@ def _u_row(temporal: dict, edge: tuple[str, str], cycle: int) -> dict:
     }
 
 
+def sample_u(memory, targets: set[tuple[str, str]], cycle: int) -> dict:
+    """Read pre-sleep U for the targets at the start of ``cycle``.
+
+    This helper is deliberately separate from ``run_sleep_cycle`` so the
+    caller's ordering is explicit and testable: cycle observations must be
+    stored, U must be read, and only then may consolidation run.
+    """
+    temporal = defaultdict(dict)
+    for a, b, count in memory.temporal_edges(min_count=1):
+        temporal[a][b] = count
+    return {edge: _u_row(temporal, edge, cycle) for edge in targets}
+
+
 def _fingerprint(seed: int, cycles: int, cap: int, universe: set[tuple[str, str]],
                  u: dict[tuple[str, str], dict], targets: set[tuple[str, str]]) -> str:
     payload = {
@@ -230,8 +243,15 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
             memory.store(text, event_type="observe",
                          source=ACQ_SOURCE if in_acq else "env")
             if (i + 1) % EVENTS_PER_CYCLE == 0:
+                # Capture before consolidation every time; keep the sample
+                # only when this consolidation is the engine's cycle 36.
+                # The engine's cycle counter can lag the event index when
+                # early cycles produce no candidates.
+                pending_u = sample_u(memory, targets, u_cycle)
                 report = service.run_sleep_cycle()
                 cycle = int(report.cycle)
+                if cycle == u_cycle:
+                    u.update(pending_u)
                 predictions = {(p.source, p.target) for p in report.predictions}
                 carriers = _carrier_edges(report)
                 asserted = _report_edges(report)
@@ -242,12 +262,6 @@ def run_cell(seed: int, cell_id: str, control: bool = False) -> int:
                         carrier_first.setdefault(edge, cycle)
                     if edge in asserted:
                         asserted_first.setdefault(edge, cycle)
-                if cycle == u_cycle:
-                    temporal = defaultdict(dict)
-                    for a, b, count in memory.temporal_edges(min_count=1):
-                        temporal[a][b] = count
-                    for edge in targets:
-                        u[edge] = _u_row(temporal, edge, cycle)
         final_asserted = {(a, b) for a, targets_ in
                           structure_edges(service._load_prior_candidates()).items()
                           for b in targets_}

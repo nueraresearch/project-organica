@@ -54,6 +54,17 @@ Package **0.15.0** remains the current 0.x build.
 - **Treat the next 0.x capability increment as V2 by relabelling it.** Rejected: a version label is
   not a mechanism, and relabelling would make the record claim a redesign it did not perform.
 
+## 0.x engineering charter (adopted 2026-11-14)
+
+**Status:** ADOPTED — IN FORCE (2026-11-14). See [`docs/DECISION-0X-ENGINEERING-CHARTER.md`](docs/DECISION-0X-ENGINEERING-CHARTER.md).
+
+[`docs/0X-ENGINEERING-CHARTER.md`](docs/0X-ENGINEERING-CHARTER.md) fixes the allowed 0.x change
+categories (record, test/CI, instrumentation, engine behavior, packaging, publication), the version
+boundary and the stop conditions. It keeps A1 target selection and grant as separate experimental
+acts, forbids V2 and G9 work, refuses post-outcome retuning, and does not pre-allocate 0.16–0.20.
+It creates no version, engine change, seed, cell, grant or claim; it is now in force as an engineering
+boundary and does not authorise any A1 act.
+
 ## Current position
 
 - Development, history dependence, persistence effects, admission anomalies and carrier enrichment
@@ -125,14 +136,21 @@ and it does not by itself justify V2.
 
 ### A1. Carrier intervention — central discrimination test
 
-**Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.** A0 blocked the single-stage 2×2;
+**Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.** **Program disposition (2026-11-14): COMMITTED TO TARGET RESOLUTION — NO RUN AUTHORISED.** [`docs/DECISION-A1-DISPOSITION.md`](docs/DECISION-A1-DISPOSITION.md) commits A1 to a pre-outcome target-selection protocol, fixed per-seed targets, a freeze and a separate dated grant decision; it does not freeze the manifest, reserve the seeds or authorise a cell. If no target-selection protocol and dated grant decision are recorded by **2026-12-14**, the disposition lapses to **A1 PARKED**. A0 blocked the single-stage 2×2;
 the replacement is
 [`docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`](docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md). It treats
 admission and carrier availability as parallel factors, adds an assertion-blockade ordering arm and
 uses `A−K−` as a positive control. The design assigns no seeds; the separate dry-run manifest
 proposes candidate seeds **20630101–20630106** but freezes and reserves none. The A−/K−/Y− treatments
 are implemented in `benchmarks/a1_arms.py`, but the target edges are unresolved, the manifest is not
-frozen and no cell is authorised.
+frozen and no cell is authorised. **Target-selection protocol (implemented, 2026-11-14):**
+[`docs/A1-TARGET-SELECTION-PROTOCOL.md`](docs/A1-TARGET-SELECTION-PROTOCOL.md) fixes the
+per-seed selection rule and the cycle-36 `U` sampling point. The corrected sampler captures `U`
+before `run_sleep_cycle()` and retains it only when the report cycle is 36. The no-arm pass
+formed four disjoint targets for all six provisional seeds in
+[`docs/a1_target_selection.json`](docs/a1_target_selection.json). The targets are not entered in
+the manifest, no seed is reserved, nothing is frozen and no cell is authorised; blindness checks,
+the power review and C4 non-target rows remain open.
 
 **Preflight (2026-11-13): `NOT ADMISSIBLE` — 0/9 satisfied, 9 requiring instrumentation, 0
 unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) found the design blocked by

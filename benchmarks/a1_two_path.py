@@ -17,6 +17,7 @@ import copy
 import json
 import sys
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 
 from benchmarks import authorisation_guard
@@ -46,6 +47,9 @@ UNIVERSE = "fixed compositional-world directed-edge universe"
 CONTROL = {"seed": SEEDS[0], "cell": "A+K+", "why": "fresh-process determinism rerun"}
 EXPECTED_CELLS = {cell["id"] for cell in CELLS}
 PLANNED = {(seed, cell["id"]) for seed in SEEDS for cell in CELLS}
+TARGET_N = 4
+TARGET_PROTOCOL = "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 
 
 def manifest() -> dict:
@@ -77,6 +81,9 @@ def manifest() -> dict:
         },
         "targets": {
             "status": "UNRESOLVED — MUST BE FIXED BEFORE FREEZE",
+            "protocol": TARGET_PROTOCOL,
+            "n_per_seed": TARGET_N,
+            "selection_artifact": TARGET_SELECTION_PATH.relative_to(ROOT).as_posix(),
             "by_seed": {},
             "u_cycle": 36,
             "rule": (
@@ -170,6 +177,79 @@ def is_planned(seed: int, cell: str, control: bool = False) -> bool:
     return (seed, cell) in PLANNED
 
 
+@lru_cache(maxsize=None)
+def _seed_universe(seed: int) -> set[tuple[str, str]]:
+    """The full 120-cycle world universe; engine-free and cached for preflight."""
+    from benchmarks.acquisition_compositional import generate_compositional_world
+    from benchmarks.acquisition_runner import _world_compositional_edges
+    return _world_compositional_edges(generate_compositional_world(seed=seed, cycles=CYCLES))
+
+
+def _artifact_targets(seed: int) -> list[str]:
+    """The selected target strings recorded for a seed, or an empty list."""
+    if not TARGET_SELECTION_PATH.exists():
+        return []
+    doc = json.loads(TARGET_SELECTION_PATH.read_text(encoding="utf-8"))
+    row = (doc.get("per_seed") or {}).get(str(seed)) or {}
+    return list(row.get("selected") or [])
+
+
+def target_set_problems(doc: dict) -> list[str]:
+    """Validate the fixed target sets before a freeze can be accepted."""
+    found: list[str] = []
+    targets = doc.get("targets") or {}
+    by_seed = targets.get("by_seed") or {}
+    if targets.get("protocol") != TARGET_PROTOCOL:
+        found.append("the target protocol is not recorded")
+    if targets.get("n_per_seed") != TARGET_N:
+        found.append("the target-set size is not %d" % TARGET_N)
+    expected = {str(seed) for seed in SEEDS}
+    if set(by_seed) != expected:
+        found.append("the target sets do not cover exactly the six seeds")
+    for seed in SEEDS:
+        raw = by_seed.get(str(seed), by_seed.get(seed))
+        if not isinstance(raw, list) or len(raw) != TARGET_N:
+            found.append("seed %d does not have %d targets" % (seed, TARGET_N))
+            continue
+        parsed: list[tuple[str, str]] = []
+        for value in raw:
+            if not isinstance(value, str) or value.count(">") != 1:
+                found.append("seed %d has an invalid target edge" % seed)
+                continue
+            a, b = value.split(">", 1)
+            if not a or not b or a == b:
+                found.append("seed %d has an empty or self target edge" % seed)
+                continue
+            parsed.append((a, b))
+        if len(parsed) != TARGET_N:
+            continue
+        used: set[str] = set()
+        for a, b in parsed:
+            if a in used or b in used:
+                found.append("seed %d targets do not have disjoint endpoints" % seed)
+            used.update((a, b))
+        unknown = set(parsed) - _seed_universe(seed)
+        if unknown:
+            found.append("seed %d targets are outside the world universe" % seed)
+
+    artifact = targets.get("selection_artifact")
+    if not artifact or not (ROOT / str(artifact)).exists():
+        found.append("the target selection artifact is missing")
+        return found
+    try:
+        selection_doc = json.loads((ROOT / str(artifact)).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        found.append("the target selection artifact is unreadable: %s" % exc)
+        return found
+    from benchmarks import a1_target_selection as selection
+    found.extend("selection: %s" % problem for problem in selection.problems(selection_doc))
+    for seed in SEEDS:
+        row = (selection_doc.get("per_seed") or {}).get(str(seed)) or {}
+        if row.get("selected") != by_seed.get(str(seed), by_seed.get(seed)):
+            found.append("seed %d targets do not match the selection artifact" % seed)
+    return found
+
+
 def _grant_problems(doc: dict) -> list[str]:
     found: list[str] = []
     auth = doc.get("authorisation") or {}
@@ -226,13 +306,16 @@ def preflight(doc: dict | None = None) -> list[str]:
             continue
         if not isinstance(edges, list) or not edges:
             found.append("seed %s has no target edge" % seed)
+    if by_seed and not str(targets.get("status", "")).upper().startswith("UNRESOLVED"):
+        found.extend(target_set_problems(doc))
     result = doc.get("result") or {}
     if result.get("path") and (ROOT / str(result["path"])).exists():
         found.append("the manifest already names a result")
     try:
         from benchmarks.presence_cap_experiment import seed_collisions
+        allow = (MANIFEST_PATH, TARGET_SELECTION_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
-                                     allow=(MANIFEST_PATH,))
+                                     allow=allow)
         if collisions:
             found.append("candidate seeds collide with committed artifacts: %r" % collisions)
     except Exception as exc:  # pragma: no cover - a failed scan is a refusal reason
@@ -414,7 +497,7 @@ def self_test() -> list[str]:
     good_grant["frozen"] = True
     good_grant["runner"]["built"] = True
     good_grant["targets"]["status"] = "FIXED BEFORE FREEZE"
-    good_grant["targets"]["by_seed"] = {str(seed): ["a>b"] for seed in SEEDS}
+    good_grant["targets"]["by_seed"] = {str(seed): _artifact_targets(seed) for seed in SEEDS}
     good_grant["authorisation"] = {
         "granted": True, "granted_on": "2026-11-14",
         "document": "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",

@@ -1102,7 +1102,8 @@
         "docs/c6_timing_block.json",
         "docs/C6-TIMING-BLOCK.md",
         "docs/A1-GATE-READINESS.md",
-        "docs/A1-PRECOMMITTED-THRESHOLDS.md"
+        "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
       ],
       "preregistrations": [
         "PRESENCE-CONVERSION-2",
@@ -1110,7 +1111,9 @@
       ],
       "supersedes": [],
       "decisions": [
-        "DECISION-ADMISSION-STEP.md"
+        "DECISION-ADMISSION-STEP.md",
+        "DECISION-A1-DISPOSITION.md",
+        "DECISION-0X-ENGINEERING-CHARTER.md"
       ]
     },
     {

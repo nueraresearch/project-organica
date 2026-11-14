@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 10 | in force; the document records it as implemented or effective |
+| ADOPTED | 12 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 4 | decided and not in force; the document says so |
-| **total** | **15** | |
+| **total** | **17** | |
 
 ## The decisions
 
@@ -335,6 +335,49 @@ written down cannot be re-examined later.
 **Evidence.** `docs/G9-ACTIVATION-DESIGN.md`, `docs/formation_utilization.md`, `docs/USE-PATH-DIAGNOSTIC-RESULTS.md`, `docs/C6-TIMING-BLOCK.md`, `docs/CARRIER-FORMATION-A0.md`, `docs/DECISION-PROGRESSION-BEYOND-G8.md`
 
 **Record.** `docs/DECISION-PROGRESSION-BEYOND-G8.md`
+
+### DECISION-A1-DISPOSITION — Decision: A1 is committed to target resolution, not left unfrozen
+
+**Status.** ADOPTED — *"ADOPTED — COMMITTED TO TARGET RESOLUTION; NO RUN AUTHORISED"*
+
+**Decided.**
+
+- A1 is **committed to target resolution**.
+- This is a commitment to the preparation path, not to a run.
+- No cell is authorised by this decision.
+
+**Rejected.**
+
+- *Park A1 now.* — because *"the remaining blockers are concrete and bounded; parking before attempting target selection would close the question without using the built gate and arms."*
+- *Freeze and run A1 without fixed targets.* — because *"a frozen manifest with an empty target set cannot discriminate the two paths and would spend the registered attempt on an uninterpretable run."*
+- *Move directly to A3 or V2 while A1 stays unfrozen.* — because *"A3/X1 is downstream of A1/M1 routing; V2 is reserved for a mechanism-driven redesign after M1 and G4."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-TWO-PATH-MANIFEST.md`, `docs/A1-GATE-READINESS.md`, `docs/A1-PRECOMMITTED-THRESHOLDS.md`, `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`, `ROADMAP.md`
+
+**Record.** `docs/DECISION-A1-DISPOSITION.md`
+
+### DECISION-0X-ENGINEERING-CHARTER — Decision: Adopt the 0.x engineering charter
+
+**Status.** ADOPTED — *"ADOPTED — IN FORCE"*
+
+**Decided.**
+
+- The 0.x engineering charter is adopted as the dated engineering boundary for the 0.x line.
+- This adoption is a planning and engineering decision, not a scientific result.
+
+**Rejected.**
+
+- *Adopt a fixed 0.16–0.20 version schedule.* — because *"version numbers should describe actual changes, not anticipated milestones"*
+- *Treat this charter as a scientific decision or an A1 authorisation.* — because *"it bounds engineering work; it does not select targets, freeze a manifest, issue a grant or produce evidence."*
+- *Leave the charter as a permanent draft.* — because *"the owner has adopted it, and a draft cannot bind the work it is meant to bound."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/0X-ENGINEERING-CHARTER.md`, `ROADMAP.md`, `CHANGELOG.md`
+
+**Record.** `docs/DECISION-0X-ENGINEERING-CHARTER.md`
 
 ## What this graph is not
 

@@ -439,6 +439,69 @@
         "docs/DECISION-PROGRESSION-BEYOND-G8.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-DISPOSITION",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED \u2014 COMMITTED TO TARGET RESOLUTION; NO RUN AUTHORISED",
+      "chosen": [
+        "A1 is **committed to target resolution**.",
+        "This is a commitment to the preparation path, not to a run.",
+        "No cell is authorised by this decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Park A1 now.",
+          "reason": "the remaining blockers are concrete and bounded; parking before attempting target selection would close the question without using the built gate and arms."
+        },
+        {
+          "alternative": "Freeze and run A1 without fixed targets.",
+          "reason": "a frozen manifest with an empty target set cannot discriminate the two paths and would spend the registered attempt on an uninterpretable run."
+        },
+        {
+          "alternative": "Move directly to A3 or V2 while A1 stays unfrozen.",
+          "reason": "A3/X1 is downstream of A1/M1 routing; V2 is reserved for a mechanism-driven redesign after M1 and G4."
+        }
+      ],
+      "evidence": [
+        "docs/A1-TWO-PATH-MANIFEST.md",
+        "docs/A1-GATE-READINESS.md",
+        "docs/A1-PRECOMMITTED-THRESHOLDS.md",
+        "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
+        "ROADMAP.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-0X-ENGINEERING-CHARTER",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED \u2014 IN FORCE",
+      "chosen": [
+        "The 0.x engineering charter is adopted as the dated engineering boundary for the 0.x line.",
+        "This adoption is a planning and engineering decision, not a scientific result."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt a fixed 0.16\u20130.20 version schedule.",
+          "reason": "version numbers should describe actual changes, not anticipated milestones"
+        },
+        {
+          "alternative": "Treat this charter as a scientific decision or an A1 authorisation.",
+          "reason": "it bounds engineering work; it does not select targets, freeze a manifest, issue a grant or produce evidence."
+        },
+        {
+          "alternative": "Leave the charter as a permanent draft.",
+          "reason": "the owner has adopted it, and a draft cannot bind the work it is meant to bound."
+        }
+      ],
+      "evidence": [
+        "docs/0X-ENGINEERING-CHARTER.md",
+        "ROADMAP.md",
+        "CHANGELOG.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

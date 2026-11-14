@@ -1,0 +1,2829 @@
+{
+  "kind": "a1_target_selection",
+  "id": "A1-TARGET-SELECTION-1",
+  "date": "2026-11-14",
+  "status": "TARGET SETS FORMED \u2014 DRAFT, NOT FROZEN, NOT A RESULT",
+  "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+  "engine": "0.15.0",
+  "cycles": 120,
+  "u_cycle": 36,
+  "n_per_seed": 4,
+  "salt": "A1-TARGET-1",
+  "orientation_salt": "A1-TARGET-ORIENTATION-1",
+  "per_seed": {
+    "20630101": {
+      "seed": 20630101,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 36,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected": [
+        "verdant>sable",
+        "olive>cedar",
+        "fern>willow",
+        "yarrow>amber"
+      ],
+      "u": {
+        "amber>ochre": {
+          "direct_count": 4,
+          "reverse_count": 3,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "amber>olive": {
+          "direct_count": 7,
+          "reverse_count": 2,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "amber>sable": {
+          "direct_count": 10,
+          "reverse_count": 1,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "amber>slate": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "amber>teal": {
+          "direct_count": 3,
+          "reverse_count": 0,
+          "strength": 3,
+          "measured_cycle": 36
+        },
+        "birch>fern": {
+          "direct_count": 8,
+          "reverse_count": 3,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "birch>yarrow": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "cedar>crimson": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "cedar>fern": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "cedar>sable": {
+          "direct_count": 8,
+          "reverse_count": 4,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "cedar>teal": {
+          "direct_count": 7,
+          "reverse_count": 4,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "crimson>amber": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "crimson>birch": {
+          "direct_count": 3,
+          "reverse_count": 9,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "crimson>indigo": {
+          "direct_count": 4,
+          "reverse_count": 8,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "crimson>maple": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "crimson>umber": {
+          "direct_count": 6,
+          "reverse_count": 2,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "fern>amber": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "fern>maple": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "fern>verdant": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "fern>willow": {
+          "direct_count": 7,
+          "reverse_count": 4,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "indigo>fern": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "indigo>slate": {
+          "direct_count": 10,
+          "reverse_count": 4,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "indigo>yarrow": {
+          "direct_count": 11,
+          "reverse_count": 5,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "maple>olive": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "ochre>birch": {
+          "direct_count": 7,
+          "reverse_count": 8,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "ochre>cedar": {
+          "direct_count": 3,
+          "reverse_count": 2,
+          "strength": 5,
+          "measured_cycle": 36
+        },
+        "ochre>indigo": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "ochre>maple": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "ochre>umber": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "ochre>willow": {
+          "direct_count": 8,
+          "reverse_count": 8,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "olive>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "olive>cedar": {
+          "direct_count": 3,
+          "reverse_count": 7,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "olive>indigo": {
+          "direct_count": 11,
+          "reverse_count": 8,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "olive>umber": {
+          "direct_count": 10,
+          "reverse_count": 6,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "olive>verdant": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "olive>willow": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "sable>birch": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "sable>indigo": {
+          "direct_count": 11,
+          "reverse_count": 5,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "sable>maple": {
+          "direct_count": 3,
+          "reverse_count": 7,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "sable>umber": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "sable>willow": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "slate>birch": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "slate>cedar": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "slate>maple": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "slate>umber": {
+          "direct_count": 3,
+          "reverse_count": 7,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "teal>birch": {
+          "direct_count": 6,
+          "reverse_count": 3,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "teal>indigo": {
+          "direct_count": 9,
+          "reverse_count": 5,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "teal>maple": {
+          "direct_count": 6,
+          "reverse_count": 7,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "teal>umber": {
+          "direct_count": 7,
+          "reverse_count": 3,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "teal>willow": {
+          "direct_count": 4,
+          "reverse_count": 5,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "umber>fern": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "verdant>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "verdant>ochre": {
+          "direct_count": 6,
+          "reverse_count": 5,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "verdant>sable": {
+          "direct_count": 7,
+          "reverse_count": 2,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "verdant>slate": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "verdant>teal": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "willow>crimson": {
+          "direct_count": 9,
+          "reverse_count": 3,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "willow>slate": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "willow>yarrow": {
+          "direct_count": 8,
+          "reverse_count": 4,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "yarrow>amber": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "yarrow>cedar": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "yarrow>maple": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>umber": {
+          "direct_count": 4,
+          "reverse_count": 4,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "yarrow>verdant": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>ochre": true,
+        "amber>olive": true,
+        "amber>sable": true,
+        "amber>slate": true,
+        "amber>teal": true,
+        "birch>fern": true,
+        "birch>yarrow": true,
+        "cedar>crimson": true,
+        "cedar>fern": true,
+        "cedar>sable": true,
+        "cedar>teal": true,
+        "crimson>amber": true,
+        "crimson>birch": true,
+        "crimson>indigo": true,
+        "crimson>maple": true,
+        "crimson>umber": true,
+        "fern>amber": true,
+        "fern>maple": true,
+        "fern>verdant": true,
+        "fern>willow": true,
+        "indigo>fern": true,
+        "indigo>slate": true,
+        "indigo>yarrow": true,
+        "maple>olive": true,
+        "ochre>birch": true,
+        "ochre>cedar": true,
+        "ochre>indigo": true,
+        "ochre>maple": true,
+        "ochre>umber": true,
+        "ochre>willow": true,
+        "olive>birch": true,
+        "olive>cedar": true,
+        "olive>indigo": true,
+        "olive>umber": true,
+        "olive>verdant": true,
+        "olive>willow": true,
+        "sable>birch": true,
+        "sable>indigo": true,
+        "sable>maple": true,
+        "sable>umber": true,
+        "sable>willow": true,
+        "slate>birch": true,
+        "slate>cedar": true,
+        "slate>maple": true,
+        "slate>umber": true,
+        "teal>birch": true,
+        "teal>indigo": true,
+        "teal>maple": true,
+        "teal>umber": true,
+        "teal>willow": true,
+        "umber>fern": true,
+        "verdant>crimson": true,
+        "verdant>ochre": true,
+        "verdant>sable": true,
+        "verdant>slate": true,
+        "verdant>teal": true,
+        "willow>crimson": true,
+        "willow>slate": true,
+        "willow>yarrow": true,
+        "yarrow>amber": true,
+        "yarrow>cedar": true,
+        "yarrow>maple": true,
+        "yarrow>umber": true,
+        "yarrow>verdant": true
+      },
+      "universe_digest": "ef530bde31c8e81b",
+      "selection_digest": "a5961be73fd6609e"
+    },
+    "20630102": {
+      "seed": 20630102,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 36,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "selected": [
+        "umber>ochre",
+        "verdant>teal",
+        "indigo>sable",
+        "slate>birch"
+      ],
+      "u": {
+        "amber>slate": {
+          "direct_count": 7,
+          "reverse_count": 7,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "birch>ochre": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "birch>verdant": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "birch>willow": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "cedar>amber": {
+          "direct_count": 7,
+          "reverse_count": 8,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "cedar>birch": {
+          "direct_count": 4,
+          "reverse_count": 5,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "cedar>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "cedar>indigo": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "cedar>maple": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "cedar>olive": {
+          "direct_count": 8,
+          "reverse_count": 7,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "cedar>umber": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "crimson>sable": {
+          "direct_count": 10,
+          "reverse_count": 6,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "crimson>slate": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "crimson>yarrow": {
+          "direct_count": 5,
+          "reverse_count": 8,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "fern>amber": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "fern>birch": {
+          "direct_count": 3,
+          "reverse_count": 8,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "fern>crimson": {
+          "direct_count": 6,
+          "reverse_count": 6,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "fern>indigo": {
+          "direct_count": 9,
+          "reverse_count": 6,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "fern>maple": {
+          "direct_count": 8,
+          "reverse_count": 3,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "fern>olive": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "fern>umber": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "indigo>sable": {
+          "direct_count": 7,
+          "reverse_count": 4,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "maple>sable": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "maple>slate": {
+          "direct_count": 4,
+          "reverse_count": 5,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "ochre>amber": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>indigo": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>maple": {
+          "direct_count": 4,
+          "reverse_count": 10,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "ochre>olive": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "olive>sable": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "olive>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "sable>amber": {
+          "direct_count": 7,
+          "reverse_count": 7,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "sable>birch": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "sable>umber": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "slate>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "slate>indigo": {
+          "direct_count": 7,
+          "reverse_count": 7,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "slate>olive": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "slate>teal": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "slate>umber": {
+          "direct_count": 8,
+          "reverse_count": 10,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "teal>cedar": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "teal>fern": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "teal>ochre": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "teal>sable": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "teal>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "umber>ochre": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "umber>willow": {
+          "direct_count": 6,
+          "reverse_count": 3,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "verdant>amber": {
+          "direct_count": 11,
+          "reverse_count": 8,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "verdant>crimson": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "verdant>indigo": {
+          "direct_count": 11,
+          "reverse_count": 9,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "verdant>maple": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "verdant>olive": {
+          "direct_count": 7,
+          "reverse_count": 10,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "verdant>teal": {
+          "direct_count": 5,
+          "reverse_count": 7,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "verdant>umber": {
+          "direct_count": 3,
+          "reverse_count": 5,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "willow>amber": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "willow>crimson": {
+          "direct_count": 5,
+          "reverse_count": 3,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "willow>indigo": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "willow>maple": {
+          "direct_count": 6,
+          "reverse_count": 5,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "willow>olive": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "willow>teal": {
+          "direct_count": 3,
+          "reverse_count": 4,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "yarrow>amber": {
+          "direct_count": 6,
+          "reverse_count": 4,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "yarrow>birch": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "yarrow>indigo": {
+          "direct_count": 8,
+          "reverse_count": 8,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "yarrow>umber": {
+          "direct_count": 8,
+          "reverse_count": 9,
+          "strength": 17,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>slate": true,
+        "birch>ochre": true,
+        "birch>verdant": true,
+        "birch>willow": true,
+        "cedar>amber": true,
+        "cedar>birch": true,
+        "cedar>crimson": true,
+        "cedar>indigo": true,
+        "cedar>maple": true,
+        "cedar>olive": true,
+        "cedar>umber": true,
+        "crimson>sable": true,
+        "crimson>slate": true,
+        "crimson>yarrow": true,
+        "fern>amber": true,
+        "fern>birch": true,
+        "fern>crimson": true,
+        "fern>indigo": true,
+        "fern>maple": true,
+        "fern>olive": true,
+        "fern>umber": true,
+        "indigo>sable": true,
+        "maple>sable": true,
+        "maple>slate": true,
+        "ochre>amber": true,
+        "ochre>crimson": true,
+        "ochre>indigo": true,
+        "ochre>maple": true,
+        "ochre>olive": true,
+        "olive>sable": true,
+        "olive>yarrow": true,
+        "sable>amber": true,
+        "sable>birch": true,
+        "sable>umber": true,
+        "slate>birch": true,
+        "slate>indigo": true,
+        "slate>olive": true,
+        "slate>teal": true,
+        "slate>umber": true,
+        "teal>cedar": true,
+        "teal>fern": true,
+        "teal>ochre": true,
+        "teal>sable": true,
+        "teal>yarrow": true,
+        "umber>ochre": true,
+        "umber>willow": true,
+        "verdant>amber": true,
+        "verdant>crimson": true,
+        "verdant>indigo": true,
+        "verdant>maple": true,
+        "verdant>olive": true,
+        "verdant>teal": true,
+        "verdant>umber": true,
+        "willow>amber": true,
+        "willow>crimson": true,
+        "willow>indigo": true,
+        "willow>maple": true,
+        "willow>olive": true,
+        "willow>teal": true,
+        "yarrow>amber": true,
+        "yarrow>birch": true,
+        "yarrow>indigo": true,
+        "yarrow>umber": true
+      },
+      "universe_digest": "bdc6283ba4447072",
+      "selection_digest": "f1ac206b15439743"
+    },
+    "20630103": {
+      "seed": 20630103,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 36,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected": [
+        "teal>willow",
+        "amber>verdant",
+        "fern>maple",
+        "olive>indigo"
+      ],
+      "u": {
+        "amber>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "amber>cedar": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "amber>indigo": {
+          "direct_count": 5,
+          "reverse_count": 7,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "amber>maple": {
+          "direct_count": 8,
+          "reverse_count": 4,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "amber>ochre": {
+          "direct_count": 5,
+          "reverse_count": 8,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "amber>verdant": {
+          "direct_count": 7,
+          "reverse_count": 9,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "birch>crimson": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "birch>teal": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "birch>umber": {
+          "direct_count": 8,
+          "reverse_count": 10,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "cedar>teal": {
+          "direct_count": 12,
+          "reverse_count": 11,
+          "strength": 23,
+          "measured_cycle": 36
+        },
+        "cedar>umber": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "crimson>cedar": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "crimson>indigo": {
+          "direct_count": 8,
+          "reverse_count": 10,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "crimson>ochre": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "crimson>sable": {
+          "direct_count": 9,
+          "reverse_count": 9,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "fern>birch": {
+          "direct_count": 12,
+          "reverse_count": 12,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "fern>cedar": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "fern>indigo": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "fern>maple": {
+          "direct_count": 12,
+          "reverse_count": 11,
+          "strength": 23,
+          "measured_cycle": 36
+        },
+        "fern>ochre": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "fern>verdant": {
+          "direct_count": 9,
+          "reverse_count": 8,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "indigo>teal": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "maple>crimson": {
+          "direct_count": 7,
+          "reverse_count": 5,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "maple>teal": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "maple>umber": {
+          "direct_count": 6,
+          "reverse_count": 4,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "ochre>slate": {
+          "direct_count": 3,
+          "reverse_count": 1,
+          "strength": 4,
+          "measured_cycle": 36
+        },
+        "ochre>umber": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "ochre>yarrow": {
+          "direct_count": 3,
+          "reverse_count": 4,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "olive>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "olive>cedar": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "olive>indigo": {
+          "direct_count": 2,
+          "reverse_count": 5,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "olive>maple": {
+          "direct_count": 8,
+          "reverse_count": 7,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "olive>ochre": {
+          "direct_count": 4,
+          "reverse_count": 6,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "olive>verdant": {
+          "direct_count": 9,
+          "reverse_count": 9,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "sable>amber": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "sable>fern": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "sable>olive": {
+          "direct_count": 4,
+          "reverse_count": 6,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "sable>slate": {
+          "direct_count": 2,
+          "reverse_count": 0,
+          "strength": 2,
+          "measured_cycle": 36
+        },
+        "sable>teal": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "sable>umber": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "sable>yarrow": {
+          "direct_count": 4,
+          "reverse_count": 4,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "slate>birch": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "slate>cedar": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "slate>indigo": {
+          "direct_count": 1,
+          "reverse_count": 3,
+          "strength": 4,
+          "measured_cycle": 36
+        },
+        "slate>maple": {
+          "direct_count": 3,
+          "reverse_count": 5,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "slate>verdant": {
+          "direct_count": 6,
+          "reverse_count": 4,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "slate>willow": {
+          "direct_count": 0,
+          "reverse_count": 2,
+          "strength": 2,
+          "measured_cycle": 36
+        },
+        "teal>ochre": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "teal>verdant": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "teal>willow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "umber>indigo": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "umber>verdant": {
+          "direct_count": 4,
+          "reverse_count": 7,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "verdant>crimson": {
+          "direct_count": 5,
+          "reverse_count": 10,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "willow>amber": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "willow>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "willow>fern": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "willow>olive": {
+          "direct_count": 3,
+          "reverse_count": 2,
+          "strength": 5,
+          "measured_cycle": 36
+        },
+        "willow>umber": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>birch": {
+          "direct_count": 8,
+          "reverse_count": 9,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "yarrow>cedar": {
+          "direct_count": 3,
+          "reverse_count": 5,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "yarrow>indigo": {
+          "direct_count": 4,
+          "reverse_count": 3,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "yarrow>maple": {
+          "direct_count": 3,
+          "reverse_count": 2,
+          "strength": 5,
+          "measured_cycle": 36
+        },
+        "yarrow>verdant": {
+          "direct_count": 4,
+          "reverse_count": 6,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "yarrow>willow": {
+          "direct_count": 4,
+          "reverse_count": 2,
+          "strength": 6,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>birch": true,
+        "amber>cedar": true,
+        "amber>indigo": true,
+        "amber>maple": true,
+        "amber>ochre": true,
+        "amber>verdant": true,
+        "birch>crimson": true,
+        "birch>teal": true,
+        "birch>umber": true,
+        "cedar>teal": true,
+        "cedar>umber": true,
+        "crimson>cedar": true,
+        "crimson>indigo": true,
+        "crimson>ochre": true,
+        "crimson>sable": true,
+        "fern>birch": true,
+        "fern>cedar": true,
+        "fern>indigo": true,
+        "fern>maple": true,
+        "fern>ochre": true,
+        "fern>verdant": true,
+        "indigo>teal": true,
+        "maple>crimson": true,
+        "maple>teal": true,
+        "maple>umber": true,
+        "ochre>slate": true,
+        "ochre>umber": true,
+        "ochre>yarrow": true,
+        "olive>birch": true,
+        "olive>cedar": true,
+        "olive>indigo": true,
+        "olive>maple": true,
+        "olive>ochre": true,
+        "olive>verdant": true,
+        "sable>amber": true,
+        "sable>fern": true,
+        "sable>olive": true,
+        "sable>slate": true,
+        "sable>teal": true,
+        "sable>umber": true,
+        "sable>yarrow": true,
+        "slate>birch": true,
+        "slate>cedar": true,
+        "slate>indigo": true,
+        "slate>maple": true,
+        "slate>verdant": true,
+        "slate>willow": true,
+        "teal>ochre": true,
+        "teal>verdant": true,
+        "teal>willow": true,
+        "umber>indigo": true,
+        "umber>verdant": true,
+        "verdant>crimson": true,
+        "willow>amber": true,
+        "willow>crimson": true,
+        "willow>fern": true,
+        "willow>olive": true,
+        "willow>umber": true,
+        "yarrow>birch": true,
+        "yarrow>cedar": true,
+        "yarrow>indigo": true,
+        "yarrow>maple": true,
+        "yarrow>verdant": true,
+        "yarrow>willow": true
+      },
+      "universe_digest": "7ded2cbb7b78ccbd",
+      "selection_digest": "e820c5ed006f1a74"
+    },
+    "20630104": {
+      "seed": 20630104,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 48,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected": [
+        "indigo>ochre",
+        "sable>olive",
+        "teal>fern",
+        "birch>verdant"
+      ],
+      "u": {
+        "amber>teal": {
+          "direct_count": 7,
+          "reverse_count": 3,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "amber>umber": {
+          "direct_count": 11,
+          "reverse_count": 3,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "amber>willow": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "amber>yarrow": {
+          "direct_count": 7,
+          "reverse_count": 10,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "birch>amber": {
+          "direct_count": 3,
+          "reverse_count": 7,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "birch>cedar": {
+          "direct_count": 3,
+          "reverse_count": 6,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "birch>fern": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "birch>ochre": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "birch>olive": {
+          "direct_count": 9,
+          "reverse_count": 5,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "birch>slate": {
+          "direct_count": 11,
+          "reverse_count": 6,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "birch>verdant": {
+          "direct_count": 8,
+          "reverse_count": 3,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "cedar>indigo": {
+          "direct_count": 11,
+          "reverse_count": 3,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "cedar>maple": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "cedar>umber": {
+          "direct_count": 9,
+          "reverse_count": 4,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "cedar>willow": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "cedar>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "crimson>birch": {
+          "direct_count": 5,
+          "reverse_count": 5,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "crimson>indigo": {
+          "direct_count": 9,
+          "reverse_count": 5,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "crimson>willow": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "fern>indigo": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "fern>sable": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "fern>umber": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "indigo>amber": {
+          "direct_count": 1,
+          "reverse_count": 11,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "indigo>ochre": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "indigo>olive": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "indigo>slate": {
+          "direct_count": 11,
+          "reverse_count": 4,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "indigo>verdant": {
+          "direct_count": 11,
+          "reverse_count": 5,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "maple>amber": {
+          "direct_count": 11,
+          "reverse_count": 9,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "maple>crimson": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "maple>fern": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>maple": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "ochre>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "olive>maple": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "sable>amber": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "sable>cedar": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "sable>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "sable>ochre": {
+          "direct_count": 14,
+          "reverse_count": 13,
+          "strength": 27,
+          "measured_cycle": 36
+        },
+        "sable>olive": {
+          "direct_count": 8,
+          "reverse_count": 13,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "sable>slate": {
+          "direct_count": 12,
+          "reverse_count": 12,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "sable>verdant": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "slate>maple": {
+          "direct_count": 13,
+          "reverse_count": 11,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "slate>willow": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "teal>cedar": {
+          "direct_count": 6,
+          "reverse_count": 6,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "teal>crimson": {
+          "direct_count": 6,
+          "reverse_count": 9,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "teal>fern": {
+          "direct_count": 7,
+          "reverse_count": 10,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "teal>ochre": {
+          "direct_count": 8,
+          "reverse_count": 10,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "teal>olive": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "teal>slate": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "teal>verdant": {
+          "direct_count": 10,
+          "reverse_count": 6,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "umber>crimson": {
+          "direct_count": 4,
+          "reverse_count": 5,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "umber>ochre": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "umber>olive": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "umber>slate": {
+          "direct_count": 12,
+          "reverse_count": 8,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "umber>verdant": {
+          "direct_count": 12,
+          "reverse_count": 4,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "verdant>maple": {
+          "direct_count": 12,
+          "reverse_count": 6,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "verdant>willow": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "verdant>yarrow": {
+          "direct_count": 11,
+          "reverse_count": 8,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "willow>fern": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "willow>ochre": {
+          "direct_count": 11,
+          "reverse_count": 13,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "willow>olive": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "yarrow>crimson": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "yarrow>fern": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>olive": {
+          "direct_count": 9,
+          "reverse_count": 12,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "yarrow>slate": {
+          "direct_count": 5,
+          "reverse_count": 11,
+          "strength": 16,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>teal": true,
+        "amber>umber": true,
+        "amber>willow": true,
+        "amber>yarrow": true,
+        "birch>amber": true,
+        "birch>cedar": true,
+        "birch>fern": true,
+        "birch>ochre": true,
+        "birch>olive": true,
+        "birch>slate": true,
+        "birch>verdant": true,
+        "cedar>indigo": true,
+        "cedar>maple": true,
+        "cedar>umber": true,
+        "cedar>willow": true,
+        "cedar>yarrow": true,
+        "crimson>birch": true,
+        "crimson>indigo": true,
+        "crimson>willow": true,
+        "fern>indigo": true,
+        "fern>sable": true,
+        "fern>umber": true,
+        "indigo>amber": true,
+        "indigo>ochre": true,
+        "indigo>olive": true,
+        "indigo>slate": true,
+        "indigo>verdant": true,
+        "maple>amber": true,
+        "maple>crimson": true,
+        "maple>fern": true,
+        "ochre>maple": true,
+        "ochre>yarrow": true,
+        "olive>maple": true,
+        "sable>amber": true,
+        "sable>cedar": true,
+        "sable>crimson": true,
+        "sable>ochre": true,
+        "sable>olive": true,
+        "sable>slate": true,
+        "sable>verdant": true,
+        "slate>maple": true,
+        "slate>willow": true,
+        "teal>cedar": true,
+        "teal>crimson": true,
+        "teal>fern": true,
+        "teal>ochre": true,
+        "teal>olive": true,
+        "teal>slate": true,
+        "teal>verdant": true,
+        "umber>crimson": true,
+        "umber>ochre": true,
+        "umber>olive": true,
+        "umber>slate": true,
+        "umber>verdant": true,
+        "verdant>maple": true,
+        "verdant>willow": true,
+        "verdant>yarrow": true,
+        "willow>fern": true,
+        "willow>ochre": true,
+        "willow>olive": true,
+        "yarrow>crimson": true,
+        "yarrow>fern": true,
+        "yarrow>olive": true,
+        "yarrow>slate": true
+      },
+      "universe_digest": "b371da8777967843",
+      "selection_digest": "d4d8a859d3525838"
+    },
+    "20630105": {
+      "seed": 20630105,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 36,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected": [
+        "cedar>olive",
+        "indigo>teal",
+        "verdant>maple",
+        "ochre>fern"
+      ],
+      "u": {
+        "amber>birch": {
+          "direct_count": 9,
+          "reverse_count": 2,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "amber>crimson": {
+          "direct_count": 7,
+          "reverse_count": 5,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "amber>indigo": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "amber>maple": {
+          "direct_count": 7,
+          "reverse_count": 5,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "amber>olive": {
+          "direct_count": 7,
+          "reverse_count": 7,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "amber>yarrow": {
+          "direct_count": 6,
+          "reverse_count": 9,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "birch>teal": {
+          "direct_count": 5,
+          "reverse_count": 2,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "birch>verdant": {
+          "direct_count": 8,
+          "reverse_count": 7,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "cedar>birch": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "cedar>fern": {
+          "direct_count": 6,
+          "reverse_count": 8,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "cedar>indigo": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "cedar>maple": {
+          "direct_count": 9,
+          "reverse_count": 4,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "cedar>olive": {
+          "direct_count": 6,
+          "reverse_count": 7,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "cedar>sable": {
+          "direct_count": 4,
+          "reverse_count": 4,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "crimson>cedar": {
+          "direct_count": 6,
+          "reverse_count": 7,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "crimson>verdant": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "fern>amber": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "fern>slate": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "fern>willow": {
+          "direct_count": 9,
+          "reverse_count": 7,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "indigo>ochre": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "indigo>slate": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "indigo>teal": {
+          "direct_count": 9,
+          "reverse_count": 2,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "indigo>verdant": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "maple>teal": {
+          "direct_count": 7,
+          "reverse_count": 3,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "ochre>birch": {
+          "direct_count": 3,
+          "reverse_count": 6,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "ochre>crimson": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "ochre>fern": {
+          "direct_count": 11,
+          "reverse_count": 8,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "ochre>maple": {
+          "direct_count": 7,
+          "reverse_count": 9,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "ochre>olive": {
+          "direct_count": 9,
+          "reverse_count": 9,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "ochre>sable": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "ochre>yarrow": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "olive>verdant": {
+          "direct_count": 8,
+          "reverse_count": 9,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "sable>amber": {
+          "direct_count": 7,
+          "reverse_count": 6,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "sable>willow": {
+          "direct_count": 3,
+          "reverse_count": 3,
+          "strength": 6,
+          "measured_cycle": 36
+        },
+        "slate>birch": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "slate>crimson": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "slate>maple": {
+          "direct_count": 9,
+          "reverse_count": 6,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "slate>olive": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "slate>sable": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "slate>yarrow": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "teal>crimson": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "teal>fern": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "teal>olive": {
+          "direct_count": 5,
+          "reverse_count": 5,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "teal>sable": {
+          "direct_count": 11,
+          "reverse_count": 7,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "umber>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "umber>crimson": {
+          "direct_count": 7,
+          "reverse_count": 9,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "umber>fern": {
+          "direct_count": 8,
+          "reverse_count": 8,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "umber>indigo": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "umber>maple": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "umber>olive": {
+          "direct_count": 8,
+          "reverse_count": 7,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "umber>sable": {
+          "direct_count": 3,
+          "reverse_count": 4,
+          "strength": 7,
+          "measured_cycle": 36
+        },
+        "verdant>fern": {
+          "direct_count": 12,
+          "reverse_count": 11,
+          "strength": 23,
+          "measured_cycle": 36
+        },
+        "verdant>maple": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "verdant>sable": {
+          "direct_count": 12,
+          "reverse_count": 12,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "willow>birch": {
+          "direct_count": 9,
+          "reverse_count": 10,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "willow>crimson": {
+          "direct_count": 5,
+          "reverse_count": 6,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "willow>indigo": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "willow>maple": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "willow>olive": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "yarrow>cedar": {
+          "direct_count": 6,
+          "reverse_count": 5,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "yarrow>teal": {
+          "direct_count": 8,
+          "reverse_count": 12,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>umber": {
+          "direct_count": 7,
+          "reverse_count": 4,
+          "strength": 11,
+          "measured_cycle": 36
+        },
+        "yarrow>verdant": {
+          "direct_count": 12,
+          "reverse_count": 12,
+          "strength": 24,
+          "measured_cycle": 36
+        },
+        "yarrow>willow": {
+          "direct_count": 6,
+          "reverse_count": 3,
+          "strength": 9,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>birch": true,
+        "amber>crimson": true,
+        "amber>indigo": true,
+        "amber>maple": true,
+        "amber>olive": true,
+        "amber>yarrow": true,
+        "birch>teal": true,
+        "birch>verdant": true,
+        "cedar>birch": true,
+        "cedar>fern": true,
+        "cedar>indigo": true,
+        "cedar>maple": true,
+        "cedar>olive": true,
+        "cedar>sable": true,
+        "crimson>cedar": true,
+        "crimson>verdant": true,
+        "fern>amber": true,
+        "fern>slate": true,
+        "fern>willow": true,
+        "indigo>ochre": true,
+        "indigo>slate": true,
+        "indigo>teal": true,
+        "indigo>verdant": true,
+        "maple>teal": true,
+        "ochre>birch": true,
+        "ochre>crimson": true,
+        "ochre>fern": true,
+        "ochre>maple": true,
+        "ochre>olive": true,
+        "ochre>sable": true,
+        "ochre>yarrow": true,
+        "olive>verdant": true,
+        "sable>amber": true,
+        "sable>willow": true,
+        "slate>birch": true,
+        "slate>crimson": true,
+        "slate>maple": true,
+        "slate>olive": true,
+        "slate>sable": true,
+        "slate>yarrow": true,
+        "teal>crimson": true,
+        "teal>fern": true,
+        "teal>olive": true,
+        "teal>sable": true,
+        "umber>birch": true,
+        "umber>crimson": true,
+        "umber>fern": true,
+        "umber>indigo": true,
+        "umber>maple": true,
+        "umber>olive": true,
+        "umber>sable": true,
+        "verdant>fern": true,
+        "verdant>maple": true,
+        "verdant>sable": true,
+        "willow>birch": true,
+        "willow>crimson": true,
+        "willow>indigo": true,
+        "willow>maple": true,
+        "willow>olive": true,
+        "yarrow>cedar": true,
+        "yarrow>teal": true,
+        "yarrow>umber": true,
+        "yarrow>verdant": true,
+        "yarrow>willow": true
+      },
+      "universe_digest": "c2aef39165237b8e",
+      "selection_digest": "8636d029063c254d"
+    },
+    "20630106": {
+      "seed": 20630106,
+      "status": "TARGET SET FORMED",
+      "cycles": 120,
+      "event_cycles": 46,
+      "u_cycle": 36,
+      "n_per_seed": 4,
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected": [
+        "sable>maple",
+        "teal>umber",
+        "cedar>olive",
+        "amber>crimson"
+      ],
+      "u": {
+        "amber>crimson": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "amber>indigo": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "amber>maple": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "amber>olive": {
+          "direct_count": 6,
+          "reverse_count": 10,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "amber>slate": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "birch>indigo": {
+          "direct_count": 7,
+          "reverse_count": 10,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "birch>maple": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "birch>olive": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "birch>slate": {
+          "direct_count": 10,
+          "reverse_count": 12,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "birch>willow": {
+          "direct_count": 12,
+          "reverse_count": 10,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "cedar>crimson": {
+          "direct_count": 7,
+          "reverse_count": 7,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "cedar>indigo": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "cedar>maple": {
+          "direct_count": 11,
+          "reverse_count": 9,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "cedar>ochre": {
+          "direct_count": 8,
+          "reverse_count": 9,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "cedar>olive": {
+          "direct_count": 10,
+          "reverse_count": 4,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "cedar>umber": {
+          "direct_count": 10,
+          "reverse_count": 8,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "crimson>birch": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "crimson>fern": {
+          "direct_count": 9,
+          "reverse_count": 3,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "crimson>teal": {
+          "direct_count": 5,
+          "reverse_count": 5,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "crimson>verdant": {
+          "direct_count": 11,
+          "reverse_count": 9,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "crimson>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "fern>indigo": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "fern>maple": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "fern>ochre": {
+          "direct_count": 2,
+          "reverse_count": 8,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "fern>olive": {
+          "direct_count": 10,
+          "reverse_count": 3,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "fern>umber": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "fern>willow": {
+          "direct_count": 6,
+          "reverse_count": 4,
+          "strength": 10,
+          "measured_cycle": 36
+        },
+        "indigo>verdant": {
+          "direct_count": 6,
+          "reverse_count": 10,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "indigo>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 7,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "ochre>amber": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>birch": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>sable": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "ochre>teal": {
+          "direct_count": 8,
+          "reverse_count": 6,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "ochre>yarrow": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "olive>verdant": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "sable>crimson": {
+          "direct_count": 5,
+          "reverse_count": 9,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "sable>indigo": {
+          "direct_count": 8,
+          "reverse_count": 4,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "sable>maple": {
+          "direct_count": 11,
+          "reverse_count": 7,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "sable>olive": {
+          "direct_count": 10,
+          "reverse_count": 6,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "sable>slate": {
+          "direct_count": 9,
+          "reverse_count": 11,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "sable>umber": {
+          "direct_count": 11,
+          "reverse_count": 7,
+          "strength": 18,
+          "measured_cycle": 36
+        },
+        "sable>willow": {
+          "direct_count": 6,
+          "reverse_count": 11,
+          "strength": 17,
+          "measured_cycle": 36
+        },
+        "slate>cedar": {
+          "direct_count": 10,
+          "reverse_count": 4,
+          "strength": 14,
+          "measured_cycle": 36
+        },
+        "slate>fern": {
+          "direct_count": 5,
+          "reverse_count": 7,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "slate>verdant": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "teal>indigo": {
+          "direct_count": 6,
+          "reverse_count": 2,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "teal>maple": {
+          "direct_count": 7,
+          "reverse_count": 8,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "teal>olive": {
+          "direct_count": 10,
+          "reverse_count": 9,
+          "strength": 19,
+          "measured_cycle": 36
+        },
+        "teal>slate": {
+          "direct_count": 6,
+          "reverse_count": 6,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "teal>umber": {
+          "direct_count": 7,
+          "reverse_count": 5,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "teal>willow": {
+          "direct_count": 3,
+          "reverse_count": 5,
+          "strength": 8,
+          "measured_cycle": 36
+        },
+        "umber>amber": {
+          "direct_count": 5,
+          "reverse_count": 4,
+          "strength": 9,
+          "measured_cycle": 36
+        },
+        "umber>birch": {
+          "direct_count": 8,
+          "reverse_count": 4,
+          "strength": 12,
+          "measured_cycle": 36
+        },
+        "umber>verdant": {
+          "direct_count": 7,
+          "reverse_count": 9,
+          "strength": 16,
+          "measured_cycle": 36
+        },
+        "umber>yarrow": {
+          "direct_count": 8,
+          "reverse_count": 5,
+          "strength": 13,
+          "measured_cycle": 36
+        },
+        "verdant>maple": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "verdant>ochre": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "verdant>willow": {
+          "direct_count": 11,
+          "reverse_count": 11,
+          "strength": 22,
+          "measured_cycle": 36
+        },
+        "willow>amber": {
+          "direct_count": 11,
+          "reverse_count": 12,
+          "strength": 23,
+          "measured_cycle": 36
+        },
+        "willow>cedar": {
+          "direct_count": 10,
+          "reverse_count": 5,
+          "strength": 15,
+          "measured_cycle": 36
+        },
+        "yarrow>maple": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>olive": {
+          "direct_count": 10,
+          "reverse_count": 10,
+          "strength": 20,
+          "measured_cycle": 36
+        },
+        "yarrow>slate": {
+          "direct_count": 10,
+          "reverse_count": 11,
+          "strength": 21,
+          "measured_cycle": 36
+        },
+        "yarrow>willow": {
+          "direct_count": 11,
+          "reverse_count": 10,
+          "strength": 21,
+          "measured_cycle": 36
+        }
+      },
+      "cycle_member": {
+        "amber>crimson": true,
+        "amber>indigo": true,
+        "amber>maple": true,
+        "amber>olive": true,
+        "amber>slate": true,
+        "birch>indigo": true,
+        "birch>maple": true,
+        "birch>olive": true,
+        "birch>slate": true,
+        "birch>willow": true,
+        "cedar>crimson": true,
+        "cedar>indigo": true,
+        "cedar>maple": true,
+        "cedar>ochre": true,
+        "cedar>olive": true,
+        "cedar>umber": true,
+        "crimson>birch": true,
+        "crimson>fern": true,
+        "crimson>teal": true,
+        "crimson>verdant": true,
+        "crimson>yarrow": true,
+        "fern>indigo": true,
+        "fern>maple": true,
+        "fern>ochre": true,
+        "fern>olive": true,
+        "fern>umber": true,
+        "fern>willow": true,
+        "indigo>verdant": true,
+        "indigo>yarrow": true,
+        "ochre>amber": true,
+        "ochre>birch": true,
+        "ochre>sable": true,
+        "ochre>teal": true,
+        "ochre>yarrow": true,
+        "olive>verdant": true,
+        "sable>crimson": true,
+        "sable>indigo": true,
+        "sable>maple": true,
+        "sable>olive": true,
+        "sable>slate": true,
+        "sable>umber": true,
+        "sable>willow": true,
+        "slate>cedar": true,
+        "slate>fern": true,
+        "slate>verdant": true,
+        "teal>indigo": true,
+        "teal>maple": true,
+        "teal>olive": true,
+        "teal>slate": true,
+        "teal>umber": true,
+        "teal>willow": true,
+        "umber>amber": true,
+        "umber>birch": true,
+        "umber>verdant": true,
+        "umber>yarrow": true,
+        "verdant>maple": true,
+        "verdant>ochre": true,
+        "verdant>willow": true,
+        "willow>amber": true,
+        "willow>cedar": true,
+        "yarrow>maple": true,
+        "yarrow>olive": true,
+        "yarrow>slate": true,
+        "yarrow>willow": true
+      },
+      "universe_digest": "eba6a3e9fcaa1d5e",
+      "selection_digest": "1b39048f48635bbd"
+    }
+  },
+  "not_evidence": "A no-arm, 36-cycle target-selection pass. It chooses targets but freezes no manifest, authorises no cell and records no result."
+}
