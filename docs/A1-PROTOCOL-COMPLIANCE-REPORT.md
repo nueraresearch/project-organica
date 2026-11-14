@@ -91,6 +91,7 @@ until the manifest is frozen by a separate act.
 | Gate | State |
 | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY**; C4 contributes 59–60 non-target rows/seed, so planned C1 is 63–64, unmeasured ([review](A1-POWER-REVIEW.md)) |
+| C4 gate order | **POST-FREEZE VOID GATE (2026-11-14)**; C4 is scored after the frozen cells run and a failure VOIDs the result ([record](A1-C4-GATE-ORDER.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |

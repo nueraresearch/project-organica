@@ -143,3 +143,14 @@ def test_result_assembly_fails_c4_without_changing_c1():
         "seed": 1, "cell": "A-K+", "edge": "n0>m0",
         "path": "Y", "delta": 0.06,
     }]
+
+
+def test_c4_gate_order_is_recorded_as_post_freeze_void():
+    import json
+    from pathlib import Path
+
+    doc = json.loads(Path("docs/a1_c4_gate_order.json").read_text(encoding="utf-8"))
+    assert doc["decision"] == "POST-FREEZE VOID GATE"
+    assert doc["pre_freeze_admissibility"] is False
+    assert "target freeze" in doc["does_not_authorize"]
+    assert "target freeze" in doc["freeze_effect"]

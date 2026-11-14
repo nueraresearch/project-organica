@@ -37,7 +37,7 @@ One implementation and one registered run per gate. A failed or unmeasurable gat
 | `C1_path_separation` | 1 | The C1 contract passes on every seed. | NOT IDENTIFIED: the two-path model is not testable. | UNSATISFIABLE: no paired-control denominator after one attempt. |
 | `C2_treatment_consistency` | 1 | The C2 contract passes on every seed. | VOID: the intervention did not happen as specified. | UNSATISFIABLE: a required manipulation has no denominator. |
 | `C3_positivity` | 1 | The C3 contract passes on every seed and edge. | VOID: a required cell is empty. | UNSATISFIABLE: no eligible edge can populate the cells. |
-| `C4_no_interference` | 1 | The C4 contract passes on every non-target edge. | NOT IDENTIFIED: the edge-level estimand is undefined. | UNSATISFIABLE: no non-target edge has a measurable delta. |
+| `C4_no_interference` | 1 | The C4 contract passes on every non-target edge. | VOID: a non-target A, K or Y delta exceeds 0.05; the A1 run is invalid. | UNSATISFIABLE: no non-target edge has a measurable delta. |
 | `C5_common_cause` | 1 | The C5 contract passes on every row. | SHARED CAUSE / NO CARRIER RELATION NOT SEPARATED. | UNSATISFIABLE: U has no pre-outcome measurement on a required row. |
 | `C7_assertion_block` | 1 | The C7 contract passes at both Y- cells. | SHARED CAUSE / READOUT NOT SEPARATED. | UNSATISFIABLE: no Y- cell has a paired control. |
 | `C8_third_route` | 1 | A-K- assertion is at or below the precommitted 0.05 ceiling. | THIRD ROUTE PRESENT: the two-path model is incomplete. | UNSATISFIABLE: A-K- has no denominator. |
@@ -45,6 +45,12 @@ One implementation and one registered run per gate. A failed or unmeasurable gat
 
 C6 is satisfied and closed; it needs no stop condition. A terminal failure is not a
 reason to patch A1, retune a threshold or add a cell.
+
+## Gate order
+
+**C4 is a POST-FREEZE VOID GATE**, not a pre-freeze admissibility condition. C4 cannot be observed before cells exist. Freeze the targets, grant the run, then assemble C1/C4; a C4 failure makes the run VOID. C4 is no longer a pre-freeze blocker. The targets remain draft because no separate owner freeze act has been recorded.
+
+Any measurable non-target A, K or Y neighbour delta above 0.05, or an unmeasurable non-target stream, makes the A1 run VOID.
 
 ## Gates
 

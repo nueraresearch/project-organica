@@ -93,9 +93,9 @@ BOUNDS = {
     },
     "C4_no_interference": {
         "attempts": 1,
-        "attempt": "Implement the edge-level arms once and measure non-target spillover.",
+        "attempt": "Freeze the targets, grant the run, and measure non-target spillover once.",
         "success": "The C4 contract passes on every non-target edge.",
-        "on_failure": "NOT IDENTIFIED: the edge-level estimand is undefined.",
+        "on_failure": "VOID: a non-target A, K or Y delta exceeds 0.05; the A1 run is invalid.",
         "on_unmeasurable": "UNSATISFIABLE: no non-target edge has a measurable delta.",
     },
     "C5_common_cause": {
@@ -125,6 +125,28 @@ BOUNDS = {
         "success": "The C9 contract passes for every seed.",
         "on_failure": "VOID: the comparison is not paired.",
         "on_unmeasurable": "UNSATISFIABLE: a paired cell has no object fingerprint.",
+    },
+}
+
+GATE_ORDER = {
+    "C4_no_interference": {
+        "decision": "POST-FREEZE VOID GATE",
+        "date": DATE,
+        "pre_freeze_admissibility": False,
+        "record": "docs/A1-C4-GATE-ORDER.md",
+        "void_condition": (
+            "Any measurable non-target A, K or Y neighbour delta above 0.05, "
+            "or an unmeasurable non-target stream, makes the A1 run VOID."
+        ),
+        "freeze_effect": (
+            "C4 is not a pre-freeze blocker. The targets remain draft and the "
+            "manifest remains unfrozen because no separate owner freeze act exists."
+        ),
+    },
+    "C1_path_separation": {
+        "decision": "POST-FREEZE RESULT GATE",
+        "date": DATE,
+        "note": "C1 is scored in the same post-freeze assembly and uses the C4 denominator.",
     },
 }
 
@@ -537,6 +559,7 @@ def audit() -> dict:
             "values": THRESHOLDS,
             "record": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
         },
+        "gate_order": GATE_ORDER,
         "evidence": {
             "a0_rows": len(a0_rows),
             "a0_slice_cells": cells,
@@ -679,6 +702,16 @@ def render(payload: dict) -> str:
         "",
         "C6 is satisfied and closed; it needs no stop condition. A terminal failure is not a\n"
         "reason to patch A1, retune a threshold or add a cell.",
+        "",
+        "## Gate order",
+        "",
+        "**C4 is a POST-FREEZE VOID GATE**, not a pre-freeze admissibility condition. "
+        "C4 cannot be observed before cells exist. Freeze the targets, grant the run, "
+        "then assemble C1/C4; a C4 failure makes the run VOID. C4 is no longer a "
+        "pre-freeze blocker. The targets remain draft because no separate owner freeze "
+        "act has been recorded.",
+        "",
+        "%s" % GATE_ORDER["C4_no_interference"]["void_condition"],
         "",
         "## Gates",
         "",

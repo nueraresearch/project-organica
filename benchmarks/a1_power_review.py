@@ -272,33 +272,47 @@ def build() -> dict:
             "c6_parts": "docs/c6_timing_parts/20621101..20621106.json",
             "a0": "docs/carrier_formation_a0.json",
         },
+        "gate_order": {
+            "decision": "POST-FREEZE VOID GATE",
+            "date": DATE,
+            "record": "docs/A1-C4-GATE-ORDER.md",
+            "effect": (
+                "C4 is not a pre-freeze blocker. C1 and C4 are scored in the "
+                "same post-freeze result assembly; a C4 failure VOIDs the run."
+            ),
+        },
         "freeze_readiness": {
             "status": "OPEN",
             "pass": False,
             "can_move_now": False,
-            "blocking_gate": "C1_path_separation",
+            "blocking_gate": "target_freeze_not_authorized",
             "reason": (
-                "Four target rows make the precommitted 0.95 C1 floor a 100% rule "
-                "(3/4 = 0.75). C4 non-target rows are instrumented and, with the "
-                "target rows, would give 63-64 planned rows per seed (3 allowed "
-                "losses), but no cell has run, so C4 and the actual C1 denominator "
-                "are unmeasured."
+                "C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze "
+                "measurement blockers. The targets remain draft and the manifest "
+                "remains unfrozen because no separate owner freeze act has been "
+                "recorded; no grant or run exists."
             ),
             "to_pass": [
-                "Run the planned cells with the C4 neighbour stream.",
-                "Attach paired neighbour deltas and score C1/C4.",
-                "Show C1 at or above 0.95 with a denominator larger than four (the planned C1 denominator is 63-64 per seed) and C4 at or below 0.05.",
+                "Freeze the representative target manifest in a separate owner act.",
+                "Record the dated grant and run the planned cells.",
+                "Assemble C1/C4; a failed C4 VOIDs the result.",
             ],
         },
         "freeze_decision": {
             "date": DATE,
             "decision": "DO NOT FREEZE",
+            "gate_order_note": (
+                "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
+                "decision. C4 is now post-freeze VOID; this record remains the "
+                "historical freeze decision and does not authorise a freeze."
+            ),
             "answer": FREEZE_ANSWER,
-            "worth_freezing": "NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED",
+            "worth_freezing": "NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED",
             "worth_freezing_reason": (
-                "The target sets are compliant and representative, but no cell has "
-                "run with the new C4 neighbour stream, so the C1 and C4 denominators "
-                "remain unmeasured. Do not regenerate targets unless Path B is chosen."
+                "The target sets are compliant and representative, but no separate "
+                "target freeze has been performed. C4 is now a post-freeze VOID gate, "
+                "so the C1/C4 measurement cannot be a pre-freeze condition. Do not "
+                "regenerate targets unless Path B is chosen."
             ),
             "scope": (
                 "the current six-seed target artifact and the current four-target "
@@ -354,13 +368,15 @@ def problems(doc: dict) -> list[str]:
     freeze = doc.get("freeze_decision") or {}
     if freeze.get("decision") != "DO NOT FREEZE" or freeze.get("answer") != FREEZE_ANSWER:
         found.append("freeze decision changed")
-    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED":
+    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED":
         found.append("worth-freezing decision changed")
     readiness = doc.get("freeze_readiness") or {}
     if readiness.get("status") != "OPEN" or readiness.get("pass") is not False:
         found.append("freeze readiness changed")
     if readiness.get("can_move_now") is not False:
         found.append("freeze readiness improperly moved to pass")
+    if (doc.get("gate_order") or {}).get("decision") != "POST-FREEZE VOID GATE":
+        found.append("C4 gate order changed")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
     elif doc["representativeness"].get("estimand") != (
@@ -430,6 +446,15 @@ def render(doc: dict) -> str:
         "",
         "**To reach PASS:**",
         "- %s" % "\n- ".join(doc["freeze_readiness"]["to_pass"]),
+        "",
+        "## Gate order",
+        "",
+        "**C4 decision: %s.** %s" % (
+            doc["gate_order"]["decision"],
+            doc["gate_order"]["effect"],
+        ),
+        "",
+        "**Record:** [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md).",
         "",
         "## Freeze decision",
         "",

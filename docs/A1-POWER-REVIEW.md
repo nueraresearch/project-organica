@@ -34,12 +34,18 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 
 **Status: OPEN. Can it move to PASS now? NO.**
 
-Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C4 non-target rows are instrumented and, with the target rows, would give 63-64 planned rows per seed (3 allowed losses), but no cell has run, so C4 and the actual C1 denominator are unmeasured.
+C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blockers. The targets remain draft and the manifest remains unfrozen because no separate owner freeze act has been recorded; no grant or run exists.
 
 **To reach PASS:**
-- Run the planned cells with the C4 neighbour stream.
-- Attach paired neighbour deltas and score C1/C4.
-- Show C1 at or above 0.95 with a denominator larger than four (the planned C1 denominator is 63-64 per seed) and C4 at or below 0.05.
+- Freeze the representative target manifest in a separate owner act.
+- Record the dated grant and run the planned cells.
+- Assemble C1/C4; a failed C4 VOIDs the result.
+
+## Gate order
+
+**C4 decision: POST-FREEZE VOID GATE.** C4 is not a pre-freeze blocker. C1 and C4 are scored in the same post-freeze result assembly; a C4 failure VOIDs the run.
+
+**Record:** [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md).
 
 ## Freeze decision
 
@@ -47,7 +53,7 @@ Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C
 
 **Scope:** the current six-seed target artifact and the current four-target A1 cell output.
 
-**Are the target sets worth freezing?** **NO — HOLD AS DRAFT UNTIL C1/C4 ARE MEASURED.** The target sets are compliant and representative, but no cell has run with the new C4 neighbour stream, so the C1 and C4 denominators remain unmeasured. Do not regenerate targets unless Path B is chosen.
+**Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Do not regenerate targets unless Path B is chosen.
 
 **Basis:**
 - The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.

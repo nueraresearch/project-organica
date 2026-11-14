@@ -1,0 +1,31 @@
+{
+  "kind": "a1_c4_gate_order",
+  "id": "A1-C4-GATE-ORDER-1",
+  "date": "2026-11-14",
+  "status": "DECIDED — POST-FREEZE VOID GATE",
+  "decision": "POST-FREEZE VOID GATE",
+  "pre_freeze_admissibility": false,
+  "rationale": [
+    "C4 is an interference check on the executed edge-level arms, not a property of the target set.",
+    "C4 cannot be observed before cells exist; making it a pre-freeze admissibility gate would require either a circular freeze or an unregistered diagnostic run.",
+    "A post-freeze gate preserves the precommitted thresholds and blindness: the result is assembled only after the frozen cells run.",
+    "C1 uses the same C4-expanded denominator and is scored in the same post-freeze result assembly."
+  ],
+  "sequence": [
+    "The owner freezes the representative target manifest in a separate act.",
+    "The owner issues the dated grant; the planned cells run.",
+    "a1_result.assemble scores C1 and C4 from the cell parts.",
+    "A failed C4 or unmeasurable C4 invalidates the A1 result before any claim is read."
+  ],
+  "void_condition": "C4_no_interference fails if any measurable non-target A, K or Y neighbour delta exceeds 0.05, or if the non-target stream is unmeasurable. The A1 run is VOID; no causal, capability or transfer claim may be read from it.",
+  "c1_relationship": "C1 and C4 are both post-freeze result gates. C1 remains the primary preservation gate; C4 supplies the non-target denominator and an interference veto.",
+  "does_not_authorize": [
+    "target freeze",
+    "seed reservation",
+    "dated grant",
+    "cell execution",
+    "any A1 result or causal claim"
+  ],
+  "freeze_effect": "This decision removes C4 from the pre-freeze blocker set. The targets remain draft and the manifest remains unfrozen because no separate owner target freeze act has been recorded.",
+  "not_evidence": "A gate-order decision only. No cell has run; this is not an A1 result, grant or capability claim."
+}
