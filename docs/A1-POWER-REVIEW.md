@@ -36,6 +36,40 @@ The curve also records `q=.97` and `q=1.00` in the artifact. The `all six` colum
 At `.95` and 63 rows, one arm passes with probability **0.612844**, both arms on one seed with **0.375577**, and all six seeds with **0.002807**. At `.98`, the all-six probability is **0.631767**. The target-only four-row fallback is the first row; 20 rows is the smallest listed denominator that can still pass with one loss.
 
 
+### Denominator impact at q=.95
+
+The `all six` column is the probability that C1 passes on every seed under the stated independent-retention model. `Change` is relative to the previous listed denominator, not an empirical effect.
+
+| Denominator | Required | Allowed losses | Effective floor | q=.95 all six | Change |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 4 | 4 | 0 | 1.0000 | 0.085258 | — |
+| 20 | 19 | 1 | 0.9500 | 0.025200 | -0.060058 |
+| 56 | 54 | 2 | 0.9643 | 0.000101 | -0.025099 |
+| 59 | 57 | 2 | 0.9661 | 0.000039 | -0.000062 |
+| 60 | 57 | 3 | 0.9500 | 0.005409 | +0.005370 |
+| 63 | 60 | 3 | 0.9524 | 0.002807 | -0.002602 |
+| 64 | 61 | 3 | 0.9531 | 0.002239 | -0.000568 |
+
+### The 60-row cliff
+
+At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. The extra row crosses a loss boundary in the gate arithmetic, not an empirical effect.
+
+At `q=.95`, the all-six probability moves from **0.000039** at 59 rows to **0.005409** at 60 rows, a **138.69x** step. This is a loss-boundary effect: the extra row is not a new measurement, and the cliff is not evidence that 60 rows are scientifically special.
+
+### Required retention for all-six power
+
+Each cell is the assumed `q` needed for the stated all-six-seed power under the same independent model. These are scenarios, not observed retention rates.
+
+| Target all-six | n=4 | n=20 | n=56 | n=59 | n=60 | n=63 | n=64 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 50% | 0.985663 | 0.980723 | 0.984518 | 0.985313 | 0.975996 | 0.977154 | 0.977515 |
+| 80% | 0.995362 | 0.989516 | 0.990057 | 0.990569 | 0.983204 | 0.984017 | 0.984271 |
+| 90% | 0.997807 | 0.992924 | 0.992486 | 0.992874 | 0.986566 | 0.987217 | 0.987420 |
+| 95% | 0.998932 | 0.995121 | 0.994217 | 0.994515 | 0.989079 | 0.989609 | 0.989775 |
+
+The required-retention table makes the cost explicit: at 63 rows, 80% all-six power needs `q=0.984017`; 50% needs `q=0.977154`. The target-only four-row design needs a still higher rate for the same power because it allows no losses.
+
+
 ## What population A1 tests
 
 **Estimand:** representative eligible pre-37 cycle-membership directed-edge population.

@@ -135,3 +135,14 @@ def test_power_review_curve_states_retention_assumptions():
         assert abs(row["all_six_seeds"] - row["per_seed"] ** 6) <= 1e-5
     assert rows[(63, 0.95)]["all_six_seeds"] == 0.002807
     assert rows[(63, 0.98)]["all_six_seeds"] == 0.631767
+    impact = {row["denominator"]: row for row in curve["denominator_impact"]}
+    assert set(impact) == set(curve["denominators"])
+    assert impact[59]["allowed_losses"] == 2
+    assert impact[60]["allowed_losses"] == 3
+    assert impact[60]["effective_floor"] == 0.95
+    assert curve["cliff_60"]["from"] == 59
+    assert curve["cliff_60"]["to"] == 60
+    assert curve["cliff_60"]["all_six_ratio"] == 138.69
+    required = curve["required_retention"]["rows"]
+    assert [row["target_all_six"] for row in required] == [0.5, 0.8, 0.9, 0.95]
+    assert required[1]["required_q_by_denominator"]["63"] == 0.984017

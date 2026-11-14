@@ -41,6 +41,23 @@ def _binomial_tail(n: int, q: float, need: int) -> float:
     )
 
 
+def _all_six_probability(n: int, q: float) -> float:
+    need = math.ceil(n * C1_FLOOR)
+    per_arm = _binomial_tail(n, q, need)
+    return per_arm ** 12
+
+
+def _required_retention(n: int, target: float) -> float:
+    lo, hi = 0.0, 1.0
+    for _ in range(80):
+        mid = (lo + hi) / 2.0
+        if _all_six_probability(n, mid) >= target:
+            hi = mid
+        else:
+            lo = mid
+    return hi
+
+
 def _c1_power_curve() -> dict:
     """Reference C1 pass probabilities for the planned and fallback denominators.
 
@@ -64,6 +81,38 @@ def _c1_power_curve() -> dict:
                 "per_seed": round(per_seed, 6),
                 "all_six_seeds": round(per_seed ** 6, 6),
             })
+    impact = []
+    previous = None
+    for n in C1_CURVE_DENOMINATORS:
+        row = next(item for item in rows
+                   if item["denominator"] == n and item["assumed_retention"] == 0.95)
+        change = None if previous is None else round(row["all_six_seeds"] - previous, 6)
+        impact.append({
+            "denominator": n,
+            "required_retained": row["required_retained"],
+            "allowed_losses": row["allowed_losses"],
+            "effective_floor": round(row["required_retained"] / n, 6),
+            "all_six_at_095": row["all_six_seeds"],
+            "change_from_previous": change,
+        })
+        previous = row["all_six_seeds"]
+    cliff_low = next(item for item in impact if item["denominator"] == 59)
+    cliff_high = next(item for item in impact if item["denominator"] == 60)
+    required_targets = (0.5, 0.8, 0.9, 0.95)
+    required_retention = {
+        "targets": list(required_targets),
+        "rows": [
+            {
+                "target_all_six": target,
+                "required_q_by_denominator": {
+                    str(n): round(_required_retention(n, target), 6)
+                    for n in C1_CURVE_DENOMINATORS
+                },
+            }
+            for target in required_targets
+        ],
+        "assumption": "Required q under the same independent Bernoulli, six-independent-seed model.",
+    }
     baseline = next(row for row in rows
                     if row["denominator"] == 63 and row["assumed_retention"] == 0.95)
     sensitivity = next(row for row in rows
@@ -89,6 +138,22 @@ def _c1_power_curve() -> dict:
             if n - math.ceil(n * C1_FLOOR) >= 1
         ),
         "rows": rows,
+        "denominator_impact": impact,
+        "cliff_60": {
+            "from": 59,
+            "to": 60,
+            "at_59": cliff_low,
+            "at_60": cliff_high,
+            "all_six_ratio": round(
+                cliff_high["all_six_at_095"] / cliff_low["all_six_at_095"], 2
+            ),
+            "explanation": (
+                "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, "
+                "57/60 = 0.95 and three losses pass. The extra row crosses a loss "
+                "boundary in the gate arithmetic, not an empirical effect."
+            ),
+        },
+        "required_retention": required_retention,
         "baseline_example": {
             "denominator": 63,
             "assumed_retention": 0.95,
@@ -498,6 +563,14 @@ def problems(doc: dict) -> list[str]:
             for row in curve.get("rows", [])}
     if rows != expected:
         found.append("C1 power curve rows do not cover every denominator and retention rate")
+    if len(curve.get("denominator_impact") or []) != len(C1_CURVE_DENOMINATORS):
+        found.append("C1 power curve has no full denominator-impact table")
+    cliff = curve.get("cliff_60") or {}
+    if cliff.get("from") != 59 or cliff.get("to") != 60:
+        found.append("C1 power curve does not record the 60-row cliff")
+    required = curve.get("required_retention") or {}
+    if len(required.get("rows") or []) != 4:
+        found.append("C1 power curve has no required-retention scenarios")
     return found
 
 
@@ -554,6 +627,67 @@ def render(doc: dict) -> str:
         % (cells[(63, 0.95)]["per_arm"], cells[(63, 0.95)]["per_seed"],
            cells[(63, 0.95)]["all_six_seeds"],
            cells[(63, 0.98)]["all_six_seeds"]),
+        "",
+    ]
+    impact = curve["denominator_impact"]
+    rows += [
+        "",
+        "### Denominator impact at q=.95",
+        "",
+        "The `all six` column is the probability that C1 passes on every seed "
+        "under the stated independent-retention model. `Change` is relative to "
+        "the previous listed denominator, not an empirical effect.",
+        "",
+        "| Denominator | Required | Allowed losses | Effective floor | q=.95 all six | Change |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in impact:
+        change = "—" if item["change_from_previous"] is None else "%+.6f" % item["change_from_previous"]
+        rows.append(
+            "| %d | %d | %d | %.4f | %.6f | %s |"
+            % (item["denominator"], item["required_retained"],
+               item["allowed_losses"], item["effective_floor"],
+               item["all_six_at_095"], change))
+    cliff = curve["cliff_60"]
+    rows += [
+        "",
+        "### The 60-row cliff",
+        "",
+        cliff["explanation"],
+        "",
+        "At `q=.95`, the all-six probability moves from **%.6f** at 59 rows "
+        "to **%.6f** at 60 rows, a **%.2fx** step. This is a loss-boundary "
+        "effect: the extra row is not a new measurement, and the cliff is not "
+        "evidence that 60 rows are scientifically special."
+        % (cliff["at_59"]["all_six_at_095"],
+           cliff["at_60"]["all_six_at_095"], cliff["all_six_ratio"]),
+        "",
+        "### Required retention for all-six power",
+        "",
+        "Each cell is the assumed `q` needed for the stated all-six-seed power "
+        "under the same independent model. These are scenarios, not observed "
+        "retention rates.",
+        "",
+        "| Target all-six | n=4 | n=20 | n=56 | n=59 | n=60 | n=63 | n=64 |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in curve["required_retention"]["rows"]:
+        required = item["required_q_by_denominator"]
+        rows.append(
+            "| %d%% | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f | %.6f |"
+            % (round(item["target_all_six"] * 100), required["4"], required["20"],
+               required["56"], required["59"], required["60"], required["63"],
+               required["64"]))
+    rows += [
+        "",
+        "The required-retention table makes the cost explicit: at 63 rows, "
+        "80%% all-six power needs `q=%.6f`; 50%% needs `q=%.6f`. The "
+        "target-only four-row design needs a still higher rate for the same "
+        "power because it allows no losses."
+        % (
+            curve["required_retention"]["rows"][1]["required_q_by_denominator"]["63"],
+            curve["required_retention"]["rows"][0]["required_q_by_denominator"]["63"],
+        ),
         "",
     ]
     rows += [

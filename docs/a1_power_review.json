@@ -343,6 +343,145 @@
         "all_six_seeds": 1.0
       }
     ],
+    "denominator_impact": [
+      {
+        "denominator": 4,
+        "required_retained": 4,
+        "allowed_losses": 0,
+        "effective_floor": 1.0,
+        "all_six_at_095": 0.085258,
+        "change_from_previous": null
+      },
+      {
+        "denominator": 20,
+        "required_retained": 19,
+        "allowed_losses": 1,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.0252,
+        "change_from_previous": -0.060058
+      },
+      {
+        "denominator": 56,
+        "required_retained": 54,
+        "allowed_losses": 2,
+        "effective_floor": 0.964286,
+        "all_six_at_095": 0.000101,
+        "change_from_previous": -0.025099
+      },
+      {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "effective_floor": 0.966102,
+        "all_six_at_095": 3.9e-05,
+        "change_from_previous": -6.2e-05
+      },
+      {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.005409,
+        "change_from_previous": 0.00537
+      },
+      {
+        "denominator": 63,
+        "required_retained": 60,
+        "allowed_losses": 3,
+        "effective_floor": 0.952381,
+        "all_six_at_095": 0.002807,
+        "change_from_previous": -0.002602
+      },
+      {
+        "denominator": 64,
+        "required_retained": 61,
+        "allowed_losses": 3,
+        "effective_floor": 0.953125,
+        "all_six_at_095": 0.002239,
+        "change_from_previous": -0.000568
+      }
+    ],
+    "cliff_60": {
+      "from": 59,
+      "to": 60,
+      "at_59": {
+        "denominator": 59,
+        "required_retained": 57,
+        "allowed_losses": 2,
+        "effective_floor": 0.966102,
+        "all_six_at_095": 3.9e-05,
+        "change_from_previous": -6.2e-05
+      },
+      "at_60": {
+        "denominator": 60,
+        "required_retained": 57,
+        "allowed_losses": 3,
+        "effective_floor": 0.95,
+        "all_six_at_095": 0.005409,
+        "change_from_previous": 0.00537
+      },
+      "all_six_ratio": 138.69,
+      "explanation": "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. The extra row crosses a loss boundary in the gate arithmetic, not an empirical effect."
+    },
+    "required_retention": {
+      "targets": [
+        0.5,
+        0.8,
+        0.9,
+        0.95
+      ],
+      "rows": [
+        {
+          "target_all_six": 0.5,
+          "required_q_by_denominator": {
+            "4": 0.985663,
+            "20": 0.980723,
+            "56": 0.984518,
+            "59": 0.985313,
+            "60": 0.975996,
+            "63": 0.977154,
+            "64": 0.977515
+          }
+        },
+        {
+          "target_all_six": 0.8,
+          "required_q_by_denominator": {
+            "4": 0.995362,
+            "20": 0.989516,
+            "56": 0.990057,
+            "59": 0.990569,
+            "60": 0.983204,
+            "63": 0.984017,
+            "64": 0.984271
+          }
+        },
+        {
+          "target_all_six": 0.9,
+          "required_q_by_denominator": {
+            "4": 0.997807,
+            "20": 0.992924,
+            "56": 0.992486,
+            "59": 0.992874,
+            "60": 0.986566,
+            "63": 0.987217,
+            "64": 0.98742
+          }
+        },
+        {
+          "target_all_six": 0.95,
+          "required_q_by_denominator": {
+            "4": 0.998932,
+            "20": 0.995121,
+            "56": 0.994217,
+            "59": 0.994515,
+            "60": 0.989079,
+            "63": 0.989609,
+            "64": 0.989775
+          }
+        }
+      ],
+      "assumption": "Required q under the same independent Bernoulli, six-independent-seed model."
+    },
     "baseline_example": {
       "denominator": 63,
       "assumed_retention": 0.95,
