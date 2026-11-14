@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Proposed — C1 60-row denominator floor (2026-11-14)
+
+- **The power review now turns the 59→60 cliff into a proposed pre-run decision rule.** The rule uses the minimum paired-control available denominator across all six seeds and both `A−` and `K−` paths. At 60–64 rows the C1 gate may be read with three allowed losses; at 20–59 rows the run is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even if every available row is retained; at 0 rows it is `C1_NO_DENOMINATOR`; and above 64 is a design inconsistency. The rule is **PROPOSED — NOT ADOPTED**: no target is frozen, no grant exists and no cell has run. It is linked to the C1/C4 VOID-gate draft and would need a dated owner adoption before target freeze. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/a1_c1_c4_void_gate.json`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
 ### Added — C1 denominator impact and required-retention scenarios (2026-11-14)
 
 - **The C1 power review now shows the denominator-impact table, the 60-row cliff and the retention required for stated all-six-seed power.** At `q=.95`, the all-six probability is **0.000039** at 59 rows and **0.005409** at 60 rows, a **138.69x** step. The step comes from the loss boundary: 59 rows allow 2 losses at an effective floor of 0.9661, while 60 rows allow 3 losses at 0.95. The table also shows that 63 and 64 rows give 0.002807 and 0.002239 at `q=.95`. Required-retention scenarios for all-six power of 50%, 80%, 90% and 95% are recorded for every denominator; at 63 rows, 80% power needs `q=.984017` and 50% needs `q=.977154`. These are reference calculations under independent Bernoulli retention, not observed rates. No cell has run and the freeze decision is unchanged. `benchmarks/a1_power_review.py`, `docs/a1_power_review.json`, `docs/A1-POWER-REVIEW.md`, `tests/test_a1_prefreeze.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.

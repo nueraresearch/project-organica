@@ -91,6 +91,7 @@ until the manifest is frozen by a separate act.
 | Gate | State |
 | --- | --- |
 | Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY**; C4 contributes 59–60 non-target rows/seed, so planned C1 is 63–64, unmeasured ([review](A1-POWER-REVIEW.md)) |
+| C1 denominator floor | **PROPOSED — NOT ADOPTED**; observed minimum below 60 on any seed/path is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`**, even at 59/59; 60–64 may be read |
 | C1 denominator impact | **RECORDED — REFERENCE ONLY**; 59→60 rows at `q=.95` is **0.000039 → 0.005409**, a loss-boundary step; required-retention scenarios cover 50–95% power |
 | C1 power curve | **RECORDED — REFERENCE ONLY**; at assumed `q=.95, n=63`, all six seeds pass at **0.003**; at `q=.98` at **0.632** ([review](A1-POWER-REVIEW.md)) |
 | Denominator-resolution audit | **FLAGGED — C1 fallback, C7, C8**; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)) |

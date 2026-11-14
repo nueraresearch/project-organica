@@ -146,3 +146,9 @@ def test_power_review_curve_states_retention_assumptions():
     required = curve["required_retention"]["rows"]
     assert [row["target_all_six"] for row in required] == [0.5, 0.8, 0.9, 0.95]
     assert required[1]["required_q_by_denominator"]["63"] == 0.984017
+    floor = curve["denominator_floor_rule"]
+    assert floor["status"] == "PROPOSED — NOT ADOPTED"
+    assert floor["floor"] == 60
+    assert floor["planned_range"] == [63, 64]
+    assert any(row["disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
+               for row in floor["table"])

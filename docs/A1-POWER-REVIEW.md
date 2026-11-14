@@ -70,6 +70,35 @@ Each cell is the assumed `q` needed for the stated all-six-seed power under the 
 The required-retention table makes the cost explicit: at 63 rows, 80% all-six power needs `q=0.984017`; 50% needs `q=0.977154`. The target-only four-row design needs a still higher rate for the same power because it allows no losses.
 
 
+### Proposed C1 denominator floor
+
+**Status: PROPOSED — NOT ADOPTED.** This is the pre-run rule the project still needs; it is not adopted by this review.
+
+**Floor:** 60 paired-control available rows, measured as the minimum across all six seeds and both `A−` and `K−` paths. The planned range is 63–64.
+
+If the observed minimum is below 60 on any seed or path, the A1 run is VOID — C1_DENOMINATOR_BELOW_FLOOR, before any model is read.
+
+At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. 60 is the first denominator with the planned three-loss tolerance.
+
+| Observed minimum | Allowed losses | Disposition |
+| ---: | ---: | --- |
+| 0 | 0 | VOID — C1_NO_DENOMINATOR |
+| 1–19 | 0 | VOID — C1_DENOMINATOR_BELOW_FLOOR |
+| 20–59 | 1–2 | VOID — C1_DENOMINATOR_BELOW_FLOOR |
+| 60–64 | 3 | C1 gate may be read |
+| >64 | n/a | VOID — design inconsistency |
+
+A perfect 59/59 is still VOID: the fraction cannot rescue a denominator below the proposed resolution floor.
+
+PARKED is for a missing target set or grant. This is an executed run whose planned resolution was not reached, so it is VOID.
+
+No model verdict is read. VOID is not NOT IDENTIFIED.
+
+Below 20 rows even one loss fails; the denominator is too small to express the 0.95 criterion and the same VOID applies.
+
+A denominator above 64 is a design inconsistency: score only the preplanned rows and do not add rows after the fact.
+
+
 ## What population A1 tests
 
 **Estimand:** representative eligible pre-37 cycle-membership directed-edge population.
@@ -130,6 +159,7 @@ P0 and feasibility pass, but four target rows per seed make the precommitted 0.9
 ### Next
 - If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.
 - If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.
+- Adopt or reject the proposed 60-row C1 denominator floor before target freeze.
 - Re-run this review after C1/C4 are measured; do not freeze before that.
 
 **Not evidence:** A read-only power/prevalence review over different-seed C6 and A0 records. Its C1 expansion is a planned count from the A1 candidate counts, not an observed denominator. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim.

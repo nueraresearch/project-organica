@@ -53,12 +53,15 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 | Gate | Condition | Reason code |
 | --- | --- | --- |
 | C1 | No paired-control denominator is available for a required seed or required row. A missing denominator is not zero. | `C1_NO_DENOMINATOR` |
+| C1 | The observed minimum paired-control denominator is below **60** on any seed or path, even if every available row is retained. | `C1_DENOMINATOR_BELOW_FLOOR` |
 | C1 | On any seed, `A−` carrier preservation is below 0.95, or `K−` served preservation is below 0.95. | `C1_THRESHOLD` |
 | C4 | The non-target stream is absent, incomplete, or has no measurable paired delta. | `C4_UNMEASURABLE` |
 | C4 | Any measurable non-target A, K or Y neighbour delta exceeds 0.05. | `C4_DELTA` |
 | Assembly | Required cell parts are missing, duplicated, or cannot be paired for C1/C4. The gate is unmeasurable; it is not a zero-row pass. | `C1_C4_INCOMPLETE` |
 
 A run with any one of these conditions is `A1 VOID — C1/C4`. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
+
+**Denominator floor.** The 60-row floor is proposed in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) and is not adopted by this draft. At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
 
 ## 5. What a VOID run means
 
@@ -104,7 +107,7 @@ A result-assembly record for this gate must carry at least:
 ```text
 status: PASS | VOID
 void_gates: [] | [C1_PATH_SEPARATION, C4_NO_INTERFERENCE]
-reason_codes: [] | [C1_NO_DENOMINATOR, C1_THRESHOLD, C4_UNMEASURABLE, C4_DELTA, C1_C4_INCOMPLETE]
+reason_codes: [] | [C1_NO_DENOMINATOR, C1_DENOMINATOR_BELOW_FLOOR, C1_THRESHOLD, C4_UNMEASURABLE, C4_DELTA, C1_C4_INCOMPLETE]
 observed_denominator:
   c1: {a_minus, k_minus, by_seed}
   c4: {rows, measured, unmeasured}

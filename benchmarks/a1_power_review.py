@@ -113,6 +113,47 @@ def _c1_power_curve() -> dict:
         ],
         "assumption": "Required q under the same independent Bernoulli, six-independent-seed model.",
     }
+    floor_rule = {
+        "status": "PROPOSED — NOT ADOPTED",
+        "floor": 60,
+        "planned_range": [63, 64],
+        "unit": "minimum paired-control available rows across all six seeds and both A- and K- paths",
+        "why": (
+            "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, "
+            "57/60 = 0.95 and three losses pass. 60 is the first denominator "
+            "with the planned three-loss tolerance."
+        ),
+        "decision": (
+            "If the observed minimum is below 60 on any seed or path, the A1 "
+            "run is VOID — C1_DENOMINATOR_BELOW_FLOOR, before any model is read."
+        ),
+        "perfect_59": (
+            "A perfect 59/59 is still VOID: the fraction cannot rescue a "
+            "denominator below the proposed resolution floor."
+        ),
+        "not_parked": (
+            "PARKED is for a missing target set or grant. This is an executed "
+            "run whose planned resolution was not reached, so it is VOID."
+        ),
+        "not_identified": (
+            "No model verdict is read. VOID is not NOT IDENTIFIED."
+        ),
+        "below_20": (
+            "Below 20 rows even one loss fails; the denominator is too small "
+            "to express the 0.95 criterion and the same VOID applies."
+        ),
+        "above_planned": (
+            "A denominator above 64 is a design inconsistency: score only the "
+            "preplanned rows and do not add rows after the fact."
+        ),
+        "table": [
+            {"observed_min": "0", "allowed_losses": "0", "disposition": "VOID — C1_NO_DENOMINATOR"},
+            {"observed_min": "1–19", "allowed_losses": "0", "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+            {"observed_min": "20–59", "allowed_losses": "1–2", "disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR"},
+            {"observed_min": "60–64", "allowed_losses": "3", "disposition": "C1 gate may be read"},
+            {"observed_min": ">64", "allowed_losses": "n/a", "disposition": "VOID — design inconsistency"},
+        ],
+    }
     baseline = next(row for row in rows
                     if row["denominator"] == 63 and row["assumed_retention"] == 0.95)
     sensitivity = next(row for row in rows
@@ -154,6 +195,7 @@ def _c1_power_curve() -> dict:
             ),
         },
         "required_retention": required_retention,
+        "denominator_floor_rule": floor_rule,
         "baseline_example": {
             "denominator": 63,
             "assumed_retention": 0.95,
@@ -387,6 +429,7 @@ def build() -> dict:
         "next": [
             "If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.",
             "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+            "Adopt or reject the proposed 60-row C1 denominator floor before target freeze.",
             "Re-run this review after C1/C4 are measured; do not freeze before that.",
         ],
     }
@@ -571,6 +614,13 @@ def problems(doc: dict) -> list[str]:
     required = curve.get("required_retention") or {}
     if len(required.get("rows") or []) != 4:
         found.append("C1 power curve has no required-retention scenarios")
+    floor_rule = curve.get("denominator_floor_rule") or {}
+    if floor_rule.get("status") != "PROPOSED — NOT ADOPTED":
+        found.append("C1 denominator floor rule is not marked proposed")
+    if floor_rule.get("floor") != 60:
+        found.append("C1 denominator floor changed")
+    if len(floor_rule.get("table") or []) != 5:
+        found.append("C1 denominator floor rule has no complete decision table")
     return found
 
 
@@ -688,6 +738,41 @@ def render(doc: dict) -> str:
             curve["required_retention"]["rows"][1]["required_q_by_denominator"]["63"],
             curve["required_retention"]["rows"][0]["required_q_by_denominator"]["63"],
         ),
+        "",
+    ]
+    floor = curve["denominator_floor_rule"]
+    rows += [
+        "",
+        "### Proposed C1 denominator floor",
+        "",
+        "**Status: %s.** This is the pre-run rule the project still needs; it is "
+        "not adopted by this review." % floor["status"],
+        "",
+        "**Floor:** %d paired-control available rows, measured as the minimum "
+        "across all six seeds and both `A−` and `K−` paths. The planned range is "
+        "%d–%d." % (floor["floor"], floor["planned_range"][0], floor["planned_range"][1]),
+        "",
+        floor["decision"],
+        "",
+        floor["why"],
+        "",
+        "| Observed minimum | Allowed losses | Disposition |",
+        "| ---: | ---: | --- |",
+    ]
+    for item in floor["table"]:
+        rows.append("| %s | %s | %s |" % (
+            item["observed_min"], item["allowed_losses"], item["disposition"]))
+    rows += [
+        "",
+        floor["perfect_59"],
+        "",
+        floor["not_parked"],
+        "",
+        floor["not_identified"],
+        "",
+        floor["below_20"],
+        "",
+        floor["above_planned"],
         "",
     ]
     rows += [

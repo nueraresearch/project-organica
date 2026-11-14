@@ -482,6 +482,49 @@
       ],
       "assumption": "Required q under the same independent Bernoulli, six-independent-seed model."
     },
+    "denominator_floor_rule": {
+      "status": "PROPOSED \u2014 NOT ADOPTED",
+      "floor": 60,
+      "planned_range": [
+        63,
+        64
+      ],
+      "unit": "minimum paired-control available rows across all six seeds and both A- and K- paths",
+      "why": "At 59 rows, 57/59 = 0.9661 and only two losses pass; at 60 rows, 57/60 = 0.95 and three losses pass. 60 is the first denominator with the planned three-loss tolerance.",
+      "decision": "If the observed minimum is below 60 on any seed or path, the A1 run is VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR, before any model is read.",
+      "perfect_59": "A perfect 59/59 is still VOID: the fraction cannot rescue a denominator below the proposed resolution floor.",
+      "not_parked": "PARKED is for a missing target set or grant. This is an executed run whose planned resolution was not reached, so it is VOID.",
+      "not_identified": "No model verdict is read. VOID is not NOT IDENTIFIED.",
+      "below_20": "Below 20 rows even one loss fails; the denominator is too small to express the 0.95 criterion and the same VOID applies.",
+      "above_planned": "A denominator above 64 is a design inconsistency: score only the preplanned rows and do not add rows after the fact.",
+      "table": [
+        {
+          "observed_min": "0",
+          "allowed_losses": "0",
+          "disposition": "VOID \u2014 C1_NO_DENOMINATOR"
+        },
+        {
+          "observed_min": "1\u201319",
+          "allowed_losses": "0",
+          "disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR"
+        },
+        {
+          "observed_min": "20\u201359",
+          "allowed_losses": "1\u20132",
+          "disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR"
+        },
+        {
+          "observed_min": "60\u201364",
+          "allowed_losses": "3",
+          "disposition": "C1 gate may be read"
+        },
+        {
+          "observed_min": ">64",
+          "allowed_losses": "n/a",
+          "disposition": "VOID \u2014 design inconsistency"
+        }
+      ]
+    },
     "baseline_example": {
       "denominator": 63,
       "assumed_retention": 0.95,
@@ -646,6 +689,7 @@
     "next": [
       "If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.",
       "If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.",
+      "Adopt or reject the proposed 60-row C1 denominator floor before target freeze.",
       "Re-run this review after C1/C4 are measured; do not freeze before that."
     ]
   },
