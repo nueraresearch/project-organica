@@ -180,7 +180,7 @@ If the target set cannot be formed, the parked record must say so: **`A1 PARKED 
 - It does not freeze the selected four edges into the manifest; the artifact records them, but the manifest target block remains unresolved.
 - It does not reserve seeds `20630101–20630106`, freeze the manifest or authorise any cell.
 - It does not issue an owner grant, change an engine file, clear C1–C9 or create a result.
-- It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates; `attach_neighbor_deltas` joins it to the A+K+ control, and `c1_rows` includes baseline-available non-target edges in the C1 denominator. No cell has run, so C4 is not cleared.
+- It does not by itself establish C4. The A1 cell output now emits a separate `neighbor_rows` stream with raw A/K/Y rates; `attach_neighbor_deltas` joins it to the A+K+ control, `c1_rows` includes baseline-available non-target edges in the C1 denominator, and `score_c1` recomputes C1 from the assembled parts. No cell has run, so C4 is not cleared.
 - It does not complete the power/prevalence review. `N = 4` is a design convention, not a power calculation. The dated freeze decision is **DO NOT FREEZE (2026-11-14)**, answering the adequacy question **NO — NOT AS CURRENTLY EMITTED**.
 
 ## 10. Pre-freeze checklist

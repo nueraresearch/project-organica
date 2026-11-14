@@ -55,6 +55,9 @@ def test_attach_neighbor_deltas_pairs_against_a_plus_k_plus():
     rows = a1_arms.c4_neighbor_rows([baseline, treated])
     assert len(rows) == 2
     assert gate_c4(rows, 0.05) is False
+    result = a1_arms.score_c4([baseline, treated])
+    assert result["pass"] is False
+    assert result["measured"] == 2
 
 
 def test_attach_neighbor_deltas_leaves_rows_without_a_control_unmeasured():
@@ -102,3 +105,7 @@ def test_c1_rows_use_the_non_target_denominator():
     assert sum(1 for row in rows if row["control_K"]) == 20
     assert sum(1 for row in rows if row["control_A"]) == 20
     assert gate_c1(rows, 0.95) is True
+    result = a1_arms.score_c1([baseline, a_minus, k_minus])
+    assert result["pass"] is True
+    assert result["a_minus"] == {"denominator": 20, "available": 19, "fraction": 0.95}
+    assert result["k_minus"] == {"denominator": 20, "available": 20, "fraction": 1.0}

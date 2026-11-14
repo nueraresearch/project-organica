@@ -237,6 +237,53 @@ def c4_neighbor_rows(payloads: list[dict]) -> list[dict]:
     return [row for payload in payloads for row in payload.get("neighbor_rows", [])]
 
 
+def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
+    """Recompute C1 from cell payloads, including non-target edges."""
+    from benchmarks.a1_gate_readiness import C1_MIN, gate_c1
+
+    tolerance = C1_MIN if tolerance is None else tolerance
+    rows = c1_rows(payloads)
+    a_rows = [row for row in rows
+              if row["cell"] == "A-K+" and row.get("control_K")]
+    k_rows = [row for row in rows
+              if row["cell"] == "A+K-" and row.get("control_A")]
+
+    def fraction(group: list[dict], path: str) -> float:
+        return (sum(1 for row in group if row[path]) / len(group)) if group else 0.0
+
+    return {
+        "pass": gate_c1(rows, tolerance),
+        "tolerance": tolerance,
+        "rows": len(rows),
+        "a_minus": {
+            "denominator": len(a_rows),
+            "available": sum(1 for row in a_rows if row["K"]),
+            "fraction": round(fraction(a_rows, "K"), 6),
+        },
+        "k_minus": {
+            "denominator": len(k_rows),
+            "available": sum(1 for row in k_rows if row["A"]),
+            "fraction": round(fraction(k_rows, "A"), 6),
+        },
+    }
+
+
+def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
+    """Attach C4 deltas and score the non-target stream."""
+    from benchmarks.a1_gate_readiness import C4_MAX, gate_c4
+
+    tolerance = C4_MAX if tolerance is None else tolerance
+    attach_neighbor_deltas(payloads)
+    rows = c4_neighbor_rows(payloads)
+    measured = [row for row in rows if "neighbor_delta" in row]
+    return {
+        "pass": gate_c4(rows, tolerance),
+        "tolerance": tolerance,
+        "rows": len(rows),
+        "measured": len(measured),
+    }
+
+
 def c1_rows(payloads: list[dict]) -> list[dict]:
     """Build the C1 rows with the non-target edges included in the denominator.
 
