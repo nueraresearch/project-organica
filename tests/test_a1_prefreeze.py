@@ -231,6 +231,8 @@ def test_provisional_freeze_gate_order_is_draft_only():
 
 def test_power_review_curve_states_retention_assumptions():
     import json
+    from pathlib import Path
+
     from benchmarks import a1_power_review as review
 
     doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
@@ -267,6 +269,23 @@ def test_power_review_curve_states_retention_assumptions():
     assert floor["planned_range"] == [63, 64]
     assert any(row["disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
                for row in floor["table"])
+    corr = curve["correlation_sensitivity"]
+    assert corr["status"] == "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT"
+    assert corr["reference_denominator"] == 63
+    assert corr["rho_values"] == [0.0, 0.25, 0.5, 0.75, 0.95]
+    assert len(corr["path_rows"]) == 10
+    assert len(corr["seed_rows"]) == 10
+    assert len(corr["joint_rows"]) == 6
+    for row in corr["path_rows"] + corr["seed_rows"] + corr["joint_rows"]:
+        for key in ("per_seed", "all_six_seeds"):
+            assert 0.0 <= row[key] <= 1.0
+    headline = corr["headline"]["at_63_q095"]
+    assert headline["path_rho_0_5"]["per_seed"] > headline["independent"]["per_seed"]
+    assert headline["seed_rho_0_5"]["all_six_seeds"] > headline["independent"]["all_six_seeds"]
+    assert headline["joint_rho_0_5"]["all_six_seeds"] > headline["seed_rho_0_5"]["all_six_seeds"]
+    page = Path("docs/A1-POWER-REVIEW.md").read_text(encoding="utf-8")
+    assert "### Correlation sensitivity" in page
+    assert "rho_paths" in page and "rho_seeds" in page
 
 
 def test_path_a_and_c1_rule_are_recorded_without_a_run():

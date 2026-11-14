@@ -17,7 +17,7 @@
 
 At a true retention of 0.95, the 63-row denominator gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.
 
-**Model:** Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds.
+**Model:** Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds. The separate correlation_sensitivity block relaxes the path and seed independence.
 
 **Retention rate assumption:** each column names the assumed `q`; these are reference probabilities, not A1 measurements.
 
@@ -69,6 +69,53 @@ Each cell is the assumed `q` needed for the stated all-six-seed power under the 
 
 The required-retention table makes the cost explicit: at 63 rows, 80% all-six power needs `q=0.984017`; 50% needs `q=0.977154`. The target-only four-row design needs a still higher rate for the same power because it allows no losses.
 
+
+### Correlation sensitivity
+
+**Model:** Gaussian copulas on the pass/fail indicators. Within a seed, the A- and K- pass indicators have correlation rho_paths; across seeds, the per-seed pass indicators have equicorrelation rho_seeds through one shared factor. Per-arm marginals remain the independent Bernoulli probabilities. The copulas are applied sequentially; no path-specific cross-seed correlation is added beyond the seed factor.
+
+The correlation values are sensitivity settings, not estimates from A1. The independent curve above is the baseline; a positive correlation raises joint pass probabilities relative to the product of marginals.
+
+**At n=63, q=.95:** independent paths and seeds give per-seed **0.375577** and all-six **0.002807**. Path correlation `.5` gives per-seed **0.453562**; seed correlation `.5` gives all-six **0.073188**; both at `.5` give all-six **0.113341**.
+
+| Scenario at n=63, q=.95 | Per-seed | All-six |
+| --- | ---: | ---: |
+| independent | 0.375577 | 0.002807 |
+| A/K path rho=.5 | 0.453562 | 0.008706 |
+| seed rho=.5 | 0.375577 | 0.073188 |
+| both rho=.5 | 0.453562 | 0.113341 |
+
+**Path correlation at n=63, q=.95** (all-six assumes independent seeds):
+
+| rho_paths | Per-seed | All-six |
+| ---: | ---: | ---: |
+| 0.00 | 0.375577 | 0.002807 |
+| 0.25 | 0.412949 | 0.004959 |
+| 0.50 | 0.453562 | 0.008706 |
+| 0.75 | 0.502658 | 0.016130 |
+| 0.95 | 0.564355 | 0.032308 |
+
+**Seed correlation at n=63, q=.95** (independent paths):
+
+| rho_seeds | Per-seed | All-six |
+| ---: | ---: | ---: |
+| 0.00 | 0.375577 | 0.002807 |
+| 0.25 | 0.375577 | 0.025715 |
+| 0.50 | 0.375577 | 0.073188 |
+| 0.75 | 0.375577 | 0.151694 |
+| 0.95 | 0.375577 | 0.271151 |
+
+**Joint correlation at n=63:**
+
+| q | rho_paths | rho_seeds | Per-seed | All-six |
+| ---: | ---: | ---: | ---: | ---: |
+| 0.95 | 0.50 | 0.50 | 0.453562 | 0.113341 |
+| 0.95 | 0.75 | 0.75 | 0.502658 | 0.249079 |
+| 0.95 | 0.95 | 0.95 | 0.564355 | 0.451062 |
+
+At n=63 and q=.95, independent paths and independent seeds give a per-seed pass probability of 0.375577 and an all-six probability of 0.002807. A path correlation of .5 raises the per-seed probability to 0.453562; a seed correlation of .5 raises the all-six probability to 0.073188; both at .5 give 0.113341. Positive correlation makes the six seeds share their fate: all-six can rise while the chance that none pass also rises. These are sensitivity scenarios, not correlation estimates.
+
+The `q=.98` rows are retained in the artifact. Positive seed correlation raises all-six more than the independent product because the seeds share a fate; it also raises the chance that none pass. That is a property of the sensitivity model, not evidence that the seeds are correlated.
 
 ### C1 denominator floor
 

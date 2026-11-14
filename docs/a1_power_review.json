@@ -99,7 +99,7 @@
     ]
   },
   "c1_power_curve": {
-    "model": "Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds.",
+    "model": "Independent Bernoulli retention on each row; the stated retention rate q is common to A- and K-; a seed passes only when both arms meet 0.95; all-six assumes independent seeds. The separate correlation_sensitivity block relaxes the path and seed independence.",
     "assumptions": [
       "The retention rate is an assumption, not an A1 measurement.",
       "Rows are independent and identically distributed within an arm.",
@@ -132,7 +132,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.814506,
         "per_seed": 0.66342,
-        "all_six_seeds": 0.085258
+        "all_six_seeds": 0.085258,
+        "per_seed_path_rho_0_5": 0.707223,
+        "all_six_seed_rho_0_5": 0.288183,
+        "all_six_joint_rho_0_5": 0.340733
       },
       {
         "denominator": 4,
@@ -141,7 +144,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.885293,
         "per_seed": 0.783743,
-        "all_six_seeds": 0.231763
+        "all_six_seeds": 0.231763,
+        "per_seed_path_rho_0_5": 0.809954,
+        "all_six_seed_rho_0_5": 0.450742,
+        "all_six_joint_rho_0_5": 0.494778
       },
       {
         "denominator": 4,
@@ -150,7 +156,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.922368,
         "per_seed": 0.850763,
-        "all_six_seeds": 0.379185
+        "all_six_seeds": 0.379185,
+        "per_seed_path_rho_0_5": 0.867382,
+        "all_six_seed_rho_0_5": 0.571254,
+        "all_six_joint_rho_0_5": 0.605582
       },
       {
         "denominator": 4,
@@ -159,7 +168,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 20,
@@ -168,7 +180,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.73584,
         "per_seed": 0.54146,
-        "all_six_seeds": 0.0252
+        "all_six_seeds": 0.0252,
+        "per_seed_path_rho_0_5": 0.601957,
+        "all_six_seed_rho_0_5": 0.17319,
+        "all_six_joint_rho_0_5": 0.22501
       },
       {
         "denominator": 20,
@@ -177,7 +192,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.880162,
         "per_seed": 0.774685,
-        "all_six_seeds": 0.216148
+        "all_six_seeds": 0.216148,
+        "per_seed_path_rho_0_5": 0.802219,
+        "all_six_seed_rho_0_5": 0.436345,
+        "all_six_joint_rho_0_5": 0.481401
       },
       {
         "denominator": 20,
@@ -186,7 +204,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.940101,
         "per_seed": 0.88379,
-        "all_six_seeds": 0.476534
+        "all_six_seeds": 0.476534,
+        "per_seed_path_rho_0_5": 0.895915,
+        "all_six_seed_rho_0_5": 0.641559,
+        "all_six_joint_rho_0_5": 0.669616
       },
       {
         "denominator": 20,
@@ -195,7 +216,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 56,
@@ -204,7 +228,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.464557,
         "per_seed": 0.215814,
-        "all_six_seeds": 0.000101
+        "all_six_seeds": 0.000101,
+        "per_seed_path_rho_0_5": 0.298616,
+        "all_six_seed_rho_0_5": 0.021418,
+        "all_six_joint_rho_0_5": 0.043644
       },
       {
         "denominator": 56,
@@ -213,7 +240,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.763809,
         "per_seed": 0.583404,
-        "all_six_seeds": 0.039429
+        "all_six_seeds": 0.039429,
+        "per_seed_path_rho_0_5": 0.638398,
+        "all_six_seed_rho_0_5": 0.208099,
+        "all_six_joint_rho_0_5": 0.261072
       },
       {
         "denominator": 56,
@@ -222,7 +252,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.898193,
         "per_seed": 0.80675,
-        "all_six_seeds": 0.275698
+        "all_six_seeds": 0.275698,
+        "per_seed_path_rho_0_5": 0.82962,
+        "all_six_seed_rho_0_5": 0.489197,
+        "all_six_joint_rho_0_5": 0.530339
       },
       {
         "denominator": 56,
@@ -231,7 +264,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 59,
@@ -240,7 +276,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.428928,
         "per_seed": 0.183979,
-        "all_six_seeds": 3.9e-05
+        "all_six_seeds": 3.9e-05,
+        "per_seed_path_rho_0_5": 0.265183,
+        "all_six_seed_rho_0_5": 0.015198,
+        "all_six_joint_rho_0_5": 0.033561
       },
       {
         "denominator": 59,
@@ -249,7 +288,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.739606,
         "per_seed": 0.547017,
-        "all_six_seeds": 0.026792
+        "all_six_seeds": 0.026792,
+        "per_seed_path_rho_0_5": 0.606803,
+        "all_six_seed_rho_0_5": 0.177562,
+        "all_six_joint_rho_0_5": 0.229583
       },
       {
         "denominator": 59,
@@ -258,7 +300,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.885585,
         "per_seed": 0.784261,
-        "all_six_seeds": 0.232683
+        "all_six_seeds": 0.232683,
+        "per_seed_path_rho_0_5": 0.810397,
+        "all_six_seed_rho_0_5": 0.451577,
+        "all_six_joint_rho_0_5": 0.495554
       },
       {
         "denominator": 59,
@@ -267,7 +312,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 60,
@@ -276,7 +324,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.647281,
         "per_seed": 0.418973,
-        "all_six_seeds": 0.005409
+        "all_six_seeds": 0.005409,
+        "per_seed_path_rho_0_5": 0.493236,
+        "all_six_seed_rho_0_5": 0.094157,
+        "all_six_joint_rho_0_5": 0.138275
       },
       {
         "denominator": 60,
@@ -285,7 +336,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.894258,
         "per_seed": 0.799697,
-        "all_six_seeds": 0.261549
+        "all_six_seeds": 0.261549,
+        "per_seed_path_rho_0_5": 0.823588,
+        "all_six_seed_rho_0_5": 0.47711,
+        "all_six_joint_rho_0_5": 0.519186
       },
       {
         "denominator": 60,
@@ -294,7 +348,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.967806,
         "per_seed": 0.936648,
-        "all_six_seeds": 0.675241
+        "all_six_seeds": 0.675241,
+        "per_seed_path_rho_0_5": 0.942191,
+        "all_six_seed_rho_0_5": 0.774958,
+        "all_six_joint_rho_0_5": 0.790887
       },
       {
         "denominator": 60,
@@ -303,7 +360,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 63,
@@ -312,7 +372,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.612844,
         "per_seed": 0.375577,
-        "all_six_seeds": 0.002807
+        "all_six_seeds": 0.002807,
+        "per_seed_path_rho_0_5": 0.453562,
+        "all_six_seed_rho_0_5": 0.073188,
+        "all_six_joint_rho_0_5": 0.113341
       },
       {
         "denominator": 63,
@@ -321,7 +384,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.879313,
         "per_seed": 0.773192,
-        "all_six_seeds": 0.21366
+        "all_six_seeds": 0.21366,
+        "per_seed_path_rho_0_5": 0.800945,
+        "all_six_seed_rho_0_5": 0.43401,
+        "all_six_joint_rho_0_5": 0.479228
       },
       {
         "denominator": 63,
@@ -330,7 +396,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.962453,
         "per_seed": 0.926317,
-        "all_six_seeds": 0.631767
+        "all_six_seeds": 0.631767,
+        "per_seed_path_rho_0_5": 0.933065,
+        "all_six_seed_rho_0_5": 0.746401,
+        "all_six_joint_rho_0_5": 0.764894
       },
       {
         "denominator": 63,
@@ -339,7 +408,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       },
       {
         "denominator": 64,
@@ -348,7 +420,10 @@
         "assumed_retention": 0.95,
         "per_arm": 0.601409,
         "per_seed": 0.361693,
-        "all_six_seeds": 0.002239
+        "all_six_seeds": 0.002239,
+        "per_seed_path_rho_0_5": 0.440702,
+        "all_six_seed_rho_0_5": 0.067163,
+        "all_six_joint_rho_0_5": 0.105941
       },
       {
         "denominator": 64,
@@ -357,7 +432,10 @@
         "assumed_retention": 0.97,
         "per_arm": 0.874141,
         "per_seed": 0.764122,
-        "all_six_seeds": 0.199057
+        "all_six_seeds": 0.199057,
+        "per_seed_path_rho_0_5": 0.793204,
+        "all_six_seed_rho_0_5": 0.420057,
+        "all_six_joint_rho_0_5": 0.466218
       },
       {
         "denominator": 64,
@@ -366,7 +444,10 @@
         "assumed_retention": 0.98,
         "per_arm": 0.960563,
         "per_seed": 0.922681,
-        "all_six_seeds": 0.617035
+        "all_six_seeds": 0.617035,
+        "per_seed_path_rho_0_5": 0.929865,
+        "all_six_seed_rho_0_5": 0.736676,
+        "all_six_joint_rho_0_5": 0.756051
       },
       {
         "denominator": 64,
@@ -375,7 +456,10 @@
         "assumed_retention": 1.0,
         "per_arm": 1.0,
         "per_seed": 1.0,
-        "all_six_seeds": 1.0
+        "all_six_seeds": 1.0,
+        "per_seed_path_rho_0_5": 1.0,
+        "all_six_seed_rho_0_5": 1.0,
+        "all_six_joint_rho_0_5": 1.0
       }
     ],
     "denominator_impact": [
@@ -516,6 +600,229 @@
         }
       ],
       "assumption": "Required q under the same independent Bernoulli, six-independent-seed model."
+    },
+    "correlation_sensitivity": {
+      "status": "SENSITIVITY \u2014 NOT AN OBSERVED CORRELATION OR RESULT",
+      "model": "Gaussian copulas on the pass/fail indicators. Within a seed, the A- and K- pass indicators have correlation rho_paths; across seeds, the per-seed pass indicators have equicorrelation rho_seeds through one shared factor. Per-arm marginals remain the independent Bernoulli probabilities. The copulas are applied sequentially; no path-specific cross-seed correlation is added beyond the seed factor.",
+      "assumptions": [
+        "The retention rate q is common to A- and K- and is an assumption, not a measurement.",
+        "Within an arm, rows remain independent and identically distributed.",
+        "rho_paths is a positive Gaussian-copula correlation between the A- and K- pass indicators; it is not estimated from A1.",
+        "rho_seeds is a positive one-factor Gaussian-copula correlation across the six seed-pass indicators; it is not estimated from A1.",
+        "The seed copula is applied to the per-seed joint pass probability; it does not model a separate path-specific seed effect.",
+        "The gate remains per seed and all-six; correlation changes the joint probability, not the marginal gate rule."
+      ],
+      "reference_denominator": 63,
+      "reference_retentions": [
+        0.95,
+        0.98
+      ],
+      "rho_values": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        0.95
+      ],
+      "path_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.0,
+          "per_arm": 0.612844,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.002807
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.25,
+          "per_arm": 0.612844,
+          "per_seed": 0.412949,
+          "all_six_seeds": 0.004959
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.5,
+          "per_arm": 0.612844,
+          "per_seed": 0.453562,
+          "all_six_seeds": 0.008706
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.75,
+          "per_arm": 0.612844,
+          "per_seed": 0.502658,
+          "all_six_seeds": 0.01613
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.95,
+          "per_arm": 0.612844,
+          "per_seed": 0.564355,
+          "all_six_seeds": 0.032308
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.0,
+          "per_arm": 0.962453,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.631767
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.25,
+          "per_arm": 0.962453,
+          "per_seed": 0.928739,
+          "all_six_seeds": 0.641744
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.5,
+          "per_arm": 0.962453,
+          "per_seed": 0.933065,
+          "all_six_seeds": 0.659891
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.75,
+          "per_arm": 0.962453,
+          "per_seed": 0.940464,
+          "all_six_seeds": 0.691914
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.95,
+          "per_arm": 0.962453,
+          "per_seed": 0.952223,
+          "all_six_seeds": 0.745472
+        }
+      ],
+      "seed_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.0,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.002807
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.25,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.025715
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.5,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.073188
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.75,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.151694
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.375577,
+          "all_six_seeds": 0.271151
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.0,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.631767
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.25,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.687653
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.5,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.746401
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.75,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.811392
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_seeds": 0.95,
+          "per_seed": 0.926317,
+          "all_six_seeds": 0.881572
+        }
+      ],
+      "joint_rows": [
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.5,
+          "rho_seeds": 0.5,
+          "per_seed": 0.453562,
+          "all_six_seeds": 0.113341
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.75,
+          "rho_seeds": 0.75,
+          "per_seed": 0.502658,
+          "all_six_seeds": 0.249079
+        },
+        {
+          "assumed_retention": 0.95,
+          "rho_paths": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.564355,
+          "all_six_seeds": 0.451062
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.5,
+          "rho_seeds": 0.5,
+          "per_seed": 0.933065,
+          "all_six_seeds": 0.764894
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.75,
+          "rho_seeds": 0.75,
+          "per_seed": 0.940464,
+          "all_six_seeds": 0.841664
+        },
+        {
+          "assumed_retention": 0.98,
+          "rho_paths": 0.95,
+          "rho_seeds": 0.95,
+          "per_seed": 0.952223,
+          "all_six_seeds": 0.919831
+        }
+      ],
+      "headline": {
+        "at_63_q095": {
+          "independent": {
+            "per_seed": 0.375577,
+            "all_six_seeds": 0.002807
+          },
+          "path_rho_0_5": {
+            "per_seed": 0.453562,
+            "all_six_seeds": 0.008706
+          },
+          "seed_rho_0_5": {
+            "per_seed": 0.375577,
+            "all_six_seeds": 0.073188
+          },
+          "joint_rho_0_5": {
+            "per_seed": 0.453562,
+            "all_six_seeds": 0.113341
+          }
+        }
+      },
+      "reading": "At n=63 and q=.95, independent paths and independent seeds give a per-seed pass probability of 0.375577 and an all-six probability of 0.002807. A path correlation of .5 raises the per-seed probability to 0.453562; a seed correlation of .5 raises the all-six probability to 0.073188; both at .5 give 0.113341. Positive correlation makes the six seeds share their fate: all-six can rise while the chance that none pass also rises. These are sensitivity scenarios, not correlation estimates."
     },
     "denominator_floor_rule": {
       "status": "RECORDED \u2014 BINDING FOR A1",

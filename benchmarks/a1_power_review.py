@@ -23,6 +23,9 @@ FREEZE_ANSWER = "NO — NOT AS CURRENTLY EMITTED"
 N_PER_SEED = 4
 C1_CURVE_DENOMINATORS = (4, 20, 56, 59, 60, 63, 64)
 C1_CURVE_RETENTIONS = (0.95, 0.97, 0.98, 1.0)
+C1_CORRELATION_RHOS = (0.0, 0.25, 0.5, 0.75, 0.95)
+C1_CORRELATION_DENOMINATOR = 63
+C1_CORRELATION_RETENTIONS = (0.95, 0.98)
 
 
 def _load(name: str) -> dict:
@@ -39,6 +42,73 @@ def _binomial_tail(n: int, q: float, need: int) -> float:
         math.comb(n, k) * (q ** k) * ((1.0 - q) ** (n - k))
         for k in range(need, n + 1)
     )
+
+
+def _phi(x: float) -> float:
+    return math.exp(-0.5 * x * x) / math.sqrt(2.0 * math.pi)
+
+
+def _normal_cdf(x: float) -> float:
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+
+
+def _bivariate_normal_cdf(a: float, b: float, rho: float) -> float:
+    """P(X <= a, Y <= b) for a standard bivariate normal.
+
+    Fixed-step Simpson integration over the conditional normal CDF. The
+    correlation is a sensitivity setting, not an estimated quantity.
+    """
+    if rho <= -0.999999:
+        return max(0.0, _normal_cdf(a) + _normal_cdf(b) - 1.0)
+    if rho >= 0.999999:
+        return _normal_cdf(min(a, b))
+    if a <= -8.0 or b <= -8.0:
+        return 0.0
+    a = min(a, 8.0)
+    b = min(b, 8.0)
+    lo, steps = -8.0, 2000
+    h = (a - lo) / steps
+    total = 0.0
+    for index in range(steps + 1):
+        x = lo + index * h
+        conditional = _normal_cdf((b - rho * x) / math.sqrt(1.0 - rho * rho))
+        weight = 1 if index in (0, steps) else (4 if index % 2 else 2)
+        total += weight * _phi(x) * conditional
+    return max(0.0, min(1.0, total * h / 3.0))
+
+
+def _path_joint_pass(per_arm: float, rho: float) -> float:
+    """Both A- and K- pass on one seed under a Gaussian path copula."""
+    if per_arm <= 0.0:
+        return 0.0
+    if per_arm >= 1.0:
+        return 1.0
+    z = statistics.NormalDist().inv_cdf(per_arm)
+    return _bivariate_normal_cdf(z, z, rho)
+
+
+def _all_six_with_seed_correlation(per_seed: float, rho: float) -> float:
+    """All six seeds pass under a one-factor Gaussian seed copula."""
+    if per_seed <= 0.0:
+        return 0.0
+    if per_seed >= 1.0:
+        return 1.0
+    if rho <= 0.0:
+        return per_seed ** 6
+    if rho >= 1.0:
+        return per_seed
+    z = statistics.NormalDist().inv_cdf(per_seed)
+    lo, steps = -8.0, 2000
+    h = (8.0 - lo) / steps
+    total = 0.0
+    for index in range(steps + 1):
+        factor = lo + index * h
+        conditional = _normal_cdf(
+            (z - math.sqrt(rho) * factor) / math.sqrt(1.0 - rho)
+        )
+        weight = 1 if index in (0, steps) else (4 if index % 2 else 2)
+        total += weight * _phi(factor) * (conditional ** 6)
+    return max(0.0, min(1.0, total * h / 3.0))
 
 
 def _all_six_probability(n: int, q: float) -> float:
@@ -58,6 +128,120 @@ def _required_retention(n: int, target: float) -> float:
     return hi
 
 
+def _correlation_sensitivity() -> dict:
+    """Sensitivity of C1 pass probabilities to path and seed correlation.
+
+    The pass/fail indicators are joined with Gaussian copulas. The marginal
+    per-arm and per-seed probabilities remain those of the independent
+    Bernoulli curve; only the dependence between A/K paths and between seeds
+    changes. The correlation values are sensitivity settings, not estimates.
+    """
+    path_rows = []
+    seed_rows = []
+    joint_rows = []
+    for q in C1_CORRELATION_RETENTIONS:
+        per_arm = _binomial_tail(
+            C1_CORRELATION_DENOMINATOR, q,
+            math.ceil(C1_CORRELATION_DENOMINATOR * C1_FLOOR),
+        )
+        per_seed = per_arm ** 2
+        for rho in C1_CORRELATION_RHOS:
+            path_seed = _path_joint_pass(per_arm, rho)
+            path_rows.append({
+                "assumed_retention": q,
+                "rho_paths": rho,
+                "per_arm": round(per_arm, 6),
+                "per_seed": round(path_seed, 6),
+                "all_six_seeds": round(path_seed ** 6, 6),
+            })
+        for rho in C1_CORRELATION_RHOS:
+            seed_rows.append({
+                "assumed_retention": q,
+                "rho_seeds": rho,
+                "per_seed": round(per_seed, 6),
+                "all_six_seeds": round(
+                    _all_six_with_seed_correlation(per_seed, rho), 6),
+            })
+        for rho in (0.5, 0.75, 0.95):
+            path_seed = _path_joint_pass(per_arm, rho)
+            joint_rows.append({
+                "assumed_retention": q,
+                "rho_paths": rho,
+                "rho_seeds": rho,
+                "per_seed": round(path_seed, 6),
+                "all_six_seeds": round(
+                    _all_six_with_seed_correlation(path_seed, rho), 6),
+            })
+
+    baseline = next(row for row in path_rows
+                    if row["assumed_retention"] == 0.95 and row["rho_paths"] == 0.0)
+    path_05 = next(row for row in path_rows
+                   if row["assumed_retention"] == 0.95 and row["rho_paths"] == 0.5)
+    seed_05 = next(row for row in seed_rows
+                   if row["assumed_retention"] == 0.95 and row["rho_seeds"] == 0.5)
+    joint_05 = next(row for row in joint_rows
+                    if row["assumed_retention"] == 0.95
+                    and row["rho_paths"] == 0.5)
+    return {
+        "status": "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT",
+        "model": (
+            "Gaussian copulas on the pass/fail indicators. Within a seed, the "
+            "A- and K- pass indicators have correlation rho_paths; across "
+            "seeds, the per-seed pass indicators have equicorrelation rho_seeds "
+            "through one shared factor. Per-arm marginals remain the independent "
+            "Bernoulli probabilities. The copulas are applied sequentially; no "
+            "path-specific cross-seed correlation is added beyond the seed factor."
+        ),
+        "assumptions": [
+            "The retention rate q is common to A- and K- and is an assumption, not a measurement.",
+            "Within an arm, rows remain independent and identically distributed.",
+            "rho_paths is a positive Gaussian-copula correlation between the A- and K- pass indicators; it is not estimated from A1.",
+            "rho_seeds is a positive one-factor Gaussian-copula correlation across the six seed-pass indicators; it is not estimated from A1.",
+            "The seed copula is applied to the per-seed joint pass probability; it does not model a separate path-specific seed effect.",
+            "The gate remains per seed and all-six; correlation changes the joint probability, not the marginal gate rule.",
+        ],
+        "reference_denominator": C1_CORRELATION_DENOMINATOR,
+        "reference_retentions": list(C1_CORRELATION_RETENTIONS),
+        "rho_values": list(C1_CORRELATION_RHOS),
+        "path_rows": path_rows,
+        "seed_rows": seed_rows,
+        "joint_rows": joint_rows,
+        "headline": {
+            "at_63_q095": {
+                "independent": {
+                    "per_seed": baseline["per_seed"],
+                    "all_six_seeds": baseline["all_six_seeds"],
+                },
+                "path_rho_0_5": {
+                    "per_seed": path_05["per_seed"],
+                    "all_six_seeds": path_05["all_six_seeds"],
+                },
+                "seed_rho_0_5": {
+                    "per_seed": seed_05["per_seed"],
+                    "all_six_seeds": seed_05["all_six_seeds"],
+                },
+                "joint_rho_0_5": {
+                    "per_seed": joint_05["per_seed"],
+                    "all_six_seeds": joint_05["all_six_seeds"],
+                },
+            },
+        },
+        "reading": (
+            "At n=63 and q=.95, independent paths and independent seeds give "
+            "a per-seed pass probability of %.6f and an all-six probability of "
+            "%.6f. A path correlation of .5 raises the per-seed probability to "
+            "%.6f; a seed correlation of .5 raises the all-six probability to "
+            "%.6f; both at .5 give %.6f. Positive correlation makes the six "
+            "seeds share their fate: all-six can rise while the chance that "
+            "none pass also rises. These are sensitivity scenarios, not "
+            "correlation estimates."
+            % (baseline["per_seed"], baseline["all_six_seeds"],
+               path_05["per_seed"], seed_05["all_six_seeds"],
+               joint_05["all_six_seeds"])
+        ),
+    }
+
+
 def _c1_power_curve() -> dict:
     """Reference C1 pass probabilities for the planned and fallback denominators.
 
@@ -72,6 +256,7 @@ def _c1_power_curve() -> dict:
         for q in C1_CURVE_RETENTIONS:
             per_arm = _binomial_tail(n, q, need)
             per_seed = per_arm ** 2
+            path_rho_05 = _path_joint_pass(per_arm, 0.5)
             rows.append({
                 "denominator": n,
                 "required_retained": need,
@@ -80,6 +265,11 @@ def _c1_power_curve() -> dict:
                 "per_arm": round(per_arm, 6),
                 "per_seed": round(per_seed, 6),
                 "all_six_seeds": round(per_seed ** 6, 6),
+                "per_seed_path_rho_0_5": round(path_rho_05, 6),
+                "all_six_seed_rho_0_5": round(
+                    _all_six_with_seed_correlation(per_seed, 0.5), 6),
+                "all_six_joint_rho_0_5": round(
+                    _all_six_with_seed_correlation(path_rho_05, 0.5), 6),
             })
     impact = []
     previous = None
@@ -167,7 +357,8 @@ def _c1_power_curve() -> dict:
         "model": (
             "Independent Bernoulli retention on each row; the stated retention "
             "rate q is common to A- and K-; a seed passes only when both arms "
-            "meet 0.95; all-six assumes independent seeds."
+            "meet 0.95; all-six assumes independent seeds. The separate "
+            "correlation_sensitivity block relaxes the path and seed independence."
         ),
         "assumptions": [
             "The retention rate is an assumption, not an A1 measurement.",
@@ -200,6 +391,7 @@ def _c1_power_curve() -> dict:
             ),
         },
         "required_retention": required_retention,
+        "correlation_sensitivity": _correlation_sensitivity(),
         "denominator_floor_rule": floor_rule,
         "baseline_example": {
             "denominator": 63,
@@ -683,6 +875,19 @@ def problems(doc: dict) -> list[str]:
     required = curve.get("required_retention") or {}
     if len(required.get("rows") or []) != 4:
         found.append("C1 power curve has no required-retention scenarios")
+    corr = curve.get("correlation_sensitivity") or {}
+    if corr.get("status") != "SENSITIVITY — NOT AN OBSERVED CORRELATION OR RESULT":
+        found.append("C1 correlation sensitivity is not marked as a sensitivity")
+    if corr.get("reference_denominator") != C1_CORRELATION_DENOMINATOR:
+        found.append("C1 correlation sensitivity reference denominator changed")
+    if corr.get("rho_values") != list(C1_CORRELATION_RHOS):
+        found.append("C1 correlation sensitivity rho values changed")
+    if len(corr.get("path_rows") or []) != len(C1_CORRELATION_RETENTIONS) * len(C1_CORRELATION_RHOS):
+        found.append("C1 path-correlation sensitivity is incomplete")
+    if len(corr.get("seed_rows") or []) != len(C1_CORRELATION_RETENTIONS) * len(C1_CORRELATION_RHOS):
+        found.append("C1 seed-correlation sensitivity is incomplete")
+    if len(corr.get("joint_rows") or []) != len(C1_CORRELATION_RETENTIONS) * 3:
+        found.append("C1 joint-correlation sensitivity is incomplete")
     floor_rule = curve.get("denominator_floor_rule") or {}
     if floor_rule.get("status") != "RECORDED — BINDING FOR A1":
         found.append("C1 denominator floor rule is not recorded as binding")
@@ -809,10 +1014,93 @@ def render(doc: dict) -> str:
         ),
         "",
     ]
-    floor = curve["denominator_floor_rule"]
+    corr = curve["correlation_sensitivity"]
+    headline = corr["headline"]["at_63_q095"]
     rows += [
         "",
+        "### Correlation sensitivity",
+        "",
+        "**Model:** %s" % corr["model"],
+        "",
+        "The correlation values are sensitivity settings, not estimates from A1. "
+        "The independent curve above is the baseline; a positive correlation "
+        "raises joint pass probabilities relative to the product of marginals.",
+        "",
+        "**At n=63, q=.95:** independent paths and seeds give per-seed "
+        "**%.6f** and all-six **%.6f**. Path correlation `.5` gives per-seed "
+        "**%.6f**; seed correlation `.5` gives all-six **%.6f**; both at `.5` "
+        "give all-six **%.6f**." % (
+            headline["independent"]["per_seed"],
+            headline["independent"]["all_six_seeds"],
+            headline["path_rho_0_5"]["per_seed"],
+            headline["seed_rho_0_5"]["all_six_seeds"],
+            headline["joint_rho_0_5"]["all_six_seeds"],
+        ),
+        "",
+        "| Scenario at n=63, q=.95 | Per-seed | All-six |",
+        "| --- | ---: | ---: |",
+        "| independent | %.6f | %.6f |" % (
+            headline["independent"]["per_seed"],
+            headline["independent"]["all_six_seeds"]),
+        "| A/K path rho=.5 | %.6f | %.6f |" % (
+            headline["path_rho_0_5"]["per_seed"],
+            headline["path_rho_0_5"]["all_six_seeds"]),
+        "| seed rho=.5 | %.6f | %.6f |" % (
+            headline["seed_rho_0_5"]["per_seed"],
+            headline["seed_rho_0_5"]["all_six_seeds"]),
+        "| both rho=.5 | %.6f | %.6f |" % (
+            headline["joint_rho_0_5"]["per_seed"],
+            headline["joint_rho_0_5"]["all_six_seeds"]),
+        "",
+        "**Path correlation at n=63, q=.95** (all-six assumes independent seeds):",
+        "",
+        "| rho_paths | Per-seed | All-six |",
+        "| ---: | ---: | ---: |",
+    ]
+    for item in corr["path_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.6f | %.6f |" % (
+            item["rho_paths"], item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        "**Seed correlation at n=63, q=.95** (independent paths):",
+        "",
+        "| rho_seeds | Per-seed | All-six |",
+        "| ---: | ---: | ---: |",
+    ]
+    for item in corr["seed_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.6f | %.6f |" % (
+            item["rho_seeds"], item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        "**Joint correlation at n=63:**",
+        "",
+        "| q | rho_paths | rho_seeds | Per-seed | All-six |",
+        "| ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for item in corr["joint_rows"]:
+        if item["assumed_retention"] != 0.95:
+            continue
+        rows.append("| %.2f | %.2f | %.2f | %.6f | %.6f |" % (
+            item["assumed_retention"], item["rho_paths"], item["rho_seeds"],
+            item["per_seed"], item["all_six_seeds"]))
+    rows += [
+        "",
+        corr["reading"],
+        "",
+        "The `q=.98` rows are retained in the artifact. Positive seed "
+        "correlation raises all-six more than the independent product because "
+        "the seeds share a fate; it also raises the chance that none pass. "
+        "That is a property of the sensitivity model, not evidence that the "
+        "seeds are correlated.",
+        "",
         "### C1 denominator floor",
+    ]
+    floor = curve["denominator_floor_rule"]
+    rows += [
         "",
         "**Status: %s.** **Record:** [`DECISION-A1-PATH-A-C1-RULE.md`](DECISION-A1-PATH-A-C1-RULE.md). The rule is binding for A1." % floor["status"],
         "",
