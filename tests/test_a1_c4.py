@@ -148,6 +148,53 @@ def test_parts_command_reports_observed_denominator(tmp_path, capsys):
     assert "C4 observed denominator: 48 rows; 48 measured; 0 unmeasured" in out
 
 
+def test_parts_command_assembles_a_six_cell_directory_end_to_end(tmp_path, capsys):
+    import copy
+    import json
+
+    from benchmarks import a1_result
+
+    parts = a1_result.synthetic_parts()
+    by_cell = {payload["cell"]: payload for payload in parts}
+
+    def extra(cell, base_cell, a, k, y):
+        payload = copy.deepcopy(by_cell[base_cell])
+        payload["cell"] = cell
+        for row in payload["rows"]:
+            row["cell"] = cell
+            row["A"], row["K"], row["Y"] = a, k, y
+            row["control_A"] = cell == "A-K+"
+            row["control_K"] = cell == "A+K-"
+        for row in payload["neighbor_rows"]:
+            row["cell"] = cell
+        return payload
+
+    six_cells = [
+        by_cell["A+K+"],
+        by_cell["A+K-"],
+        by_cell["A-K+"],
+        extra("A-K-", "A+K+", False, False, False),
+        extra("Y_MINUS_A+K+", "A+K+", True, True, False),
+        extra("Y_MINUS_A-K+", "A-K+", False, True, False),
+    ]
+    assert {payload["cell"] for payload in six_cells} == {
+        "A+K+", "A+K-", "A-K+", "A-K-", "Y_MINUS_A+K+", "Y_MINUS_A-K+",
+    }
+    for index, payload in enumerate(six_cells):
+        (tmp_path / ("part-%d.json" % index)).write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+
+    assert len(a1_result.load_parts(tmp_path)) == 6
+    assert a1_result.main(["--parts", str(tmp_path)]) == 0
+    out = capsys.readouterr().out
+    assert "Observed denominator: OBSERVED; 6 part(s), 1 seed(s)" in out
+    assert "C1 observed denominator: A- 20 rows; K- 20 rows" in out
+    assert "C4 observed denominator: 96 rows; 96 measured; 0 unmeasured" in out
+    assert "C1 PASS: A- 19/20 = 0.950; K- 20/20 = 1.000" in out
+    assert "C4 PASS: 96 non-target rows, 96 measured" in out
+
+
 def test_parts_command_reports_not_run_without_cells(tmp_path, capsys):
     from benchmarks import a1_result
 
