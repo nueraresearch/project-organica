@@ -95,23 +95,25 @@ admission and carrier availability as parallel factors, adds an assertion-blocka
 uses `A−K−` as a positive control. It assigns no seeds, implements no runner and authorises no cell.
 
 **Preflight (2026-11-13): `NOT ADMISSIBLE` — 0/9 satisfied, 9 requiring instrumentation, 0
-unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) finds the design blocked by
+unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) found the design blocked by
 missing instrumentation, not by a demonstrated impossibility. The 26-row A0 slice is entirely `A−K+`,
-so it cannot establish positivity; no artifact records an assertion cycle, so `C6` cannot be read.
+so it cannot establish positivity. `C6` was the timing gap; the six-seed block below now satisfies
+it. C1–C5 and C7–C9 remain uncleared, so the design is still not admissible.
 
 **C6 observer:** [`docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`](docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md)
 is built, and the self-test passes neutrality, mutation and parity. It reads `Y_ind` — assertion from
 non-carrier structures — because the full readout `Y_full` is simultaneous with a loop carrier by construction.
-A one-seed preflight (20611601, 120 cycles, cap 40) found `Y_ind` on 92 of 106 asserted world edges and both
-orders (36 K-before, 32 Y-before; 12 same-cycle, 12 no-K, 14 no-Y-ind). Order variation is present and the real off/on arms pass
-`N1` neutrality and `N3` parity, but C6 is not cleared: no seed block or minimum per-order count has
-been run.
+A one-seed preflight (20611601) found both orders and passed `N1`/`N3`. A frozen fresh six-seed block
+(20621101–20621106, 120 cycles, cap 40) then confirmed **183 K-before, 294 Y-before, 58 same-cycle,
+51 no-K and 67 no-Y-ind** across 653 edge rows; the smallest per-seed counts were 22 and 35, all six
+seeds met the 10-per-order floor, and `N1`–`N7` pass. **`C6 ORDER VARIATION CONFIRMED`.** The C6
+timing requirement is cleared; the two-path admission-by-carrier design remains unrun, and no causal
+claim follows. See [`docs/C6-TIMING-BLOCK.md`](docs/C6-TIMING-BLOCK.md).
 
-**C6 stop condition.** Build only the observer, the edge extractor and the neutrality/mutation
-harness. Run one seed. Stop and record `C6 NOT MEASURABLE` if no edge has `Y_ind`; stop and record
-`C6 NOT SEPARATED` if only one timing order occurs. Expand to the preregistered seed block only if
-both orders occur. Do not add instrumentation after the build closes; a new requirement goes to the
-wish-list.
+**C6 stop condition.** The observer, edge extractor and neutrality/mutation harness are built. The
+one-seed preflight found both orders, so the frozen six-seed block was run and stopped at its
+preregistered size. No optional seeds were added after the outcome. Do not add instrumentation
+after the build closes; a new requirement goes to the wish-list.
 
 **Question.** Do admission and carrier availability each contribute to assertion independently, and
 is the carrier–assertion association causal, a shared-cause association, no carrier relation, or a

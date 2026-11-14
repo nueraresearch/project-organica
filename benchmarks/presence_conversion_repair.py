@@ -172,7 +172,14 @@ def validate(body: dict | None = None) -> list[str]:
              ROOT / "docs/PRESENCE-BAND-RANK-RESULT.md",
              ROOT / "docs/AUTHORISATION-PRESENCE-BAND-1.md",
              ROOT / "docs/presence_band_rank_2_prereg.json",
-             ROOT / "docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md"]
+             ROOT / "docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md",
+             # Downstream C6 records restate the Q4 preflight seed and A0 rows;
+             # they are analyses of the Q4 block, not a new allocation of it.
+             ROOT / "docs/c6_one_seed_preflight.json",
+             ROOT / "docs/c6_timing_prereg.json",
+             ROOT / "docs/c6_timing_block.json",
+             ROOT / "docs/carrier_formation_a0.json",
+             ROOT / "docs/research_question_registry.json"]
     result = body.get("result") or {}
     if ran and result.get("artifact"):
         allow.append(ROOT / result["artifact"])

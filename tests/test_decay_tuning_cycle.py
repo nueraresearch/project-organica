@@ -15,7 +15,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 ARTIFACT = ROOT / "docs" / "decay_tuning_cycle.json"
 DOC = ROOT / "docs" / "DECAY-TUNING-CYCLE.md"
-SELF = {str(ARTIFACT.relative_to(ROOT)), str(DOC.relative_to(ROOT)),
+SELF = {str(ARTIFACT.relative_to(ROOT).as_posix()), str(DOC.relative_to(ROOT).as_posix()),
         "tests/test_decay_tuning_cycle.py"}
 # A derived inventory: Stage B's audit lists every consumed block, so it necessarily
 # restates these seeds. That is registration, not reuse -- and it is asserted below.
@@ -37,7 +37,7 @@ def _seeds_elsewhere():
         for path in base.rglob("*"):
             if path.suffix not in {".md", ".json", ".py", ".txt", ".cff"}:
                 continue
-            rel = str(path.relative_to(ROOT))
+            rel = str(path.relative_to(ROOT).as_posix())
             if rel in SELF or rel == INVENTORY:
                 continue
             text = path.read_text(encoding="utf-8", errors="ignore")

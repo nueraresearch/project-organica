@@ -25,8 +25,9 @@ are compared on the same deterministic event stream.
 `Y_ind` exists on **92 of 106** asserted world edges. Both timing orders occur
 on this seed, so the preflight clears the narrow question "does order variation
 exist?" The real off/on arms also pass neutrality (`N1`) and final-readout parity
-(`N3`). It does **not** clear C6: one seed is not a seed block, and no minimum
-per-order count has been precommitted.
+(`N3`). That preflight alone did **not** clear C6: one seed is not a seed block,
+and no minimum per-order count had been precommitted. The later six-seed
+[`C6-TIMING-1`](C6-TIMING-BLOCK.md) block did.
 
 ## What this means
 
@@ -38,6 +39,7 @@ per-order count has been precommitted.
   different quantities; the timing rows describe the latter.
 - The earlier report-only snapshot had 101 edges while the live set had 196; the 95
   missing carried survivors are why the observer must not use the report alone.
+  See [`C6-N3-LIVE-SET-NOTE.md`](C6-N3-LIVE-SET-NOTE.md).
 
 ## What is not established
 

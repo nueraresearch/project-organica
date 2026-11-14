@@ -90,6 +90,7 @@ The report alone is insufficient. In the real one-seed preflight, the last `Slee
 **101** readout edges while the live set contained **196**; the missing **95** were carried
 survivors that were not re-emitted in the final cycle. `N3` caught this. A report-only observer is
 not a faithful reconstruction of the final assertion and must not be used for C6.
+The methods note is [`C6-N3-LIVE-SET-NOTE.md`](C6-N3-LIVE-SET-NOTE.md).
 
 A separate parity check compares the live-set `Y_full` with
 `structure_edges(_load_prior_candidates())` at the final cycle. If they differ, the observer is not
@@ -208,7 +209,7 @@ The off/on preflight on seed **20611601**, **120** cycles and cap **40** found:
 | `NO_Y_IND` | 14 |
 
 `Y_ind` exists, both orders occur, and the real off/on arms pass `N1` neutrality and `N3`
-final-readout parity. This is a preflight only; it does not clear C6. See
+final-readout parity. That preflight alone did not clear C6; the six-seed block below does. See
 [`C6-ONE-SEED-PREFLIGHT.md`](C6-ONE-SEED-PREFLIGHT.md).
 
 ## 9.2 Six-seed block (2026-11-13)

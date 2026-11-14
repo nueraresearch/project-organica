@@ -14,9 +14,9 @@
     "reopened_in_prose": 17
   },
   "evidence": {
-    "json_refs": 60,
+    "json_refs": 65,
     "named_build": 9,
-    "unnamed_build": 51,
+    "unnamed_build": 56,
     "missing_paths": [],
     "missing_path_count": 0,
     "distinct_builds": [
@@ -780,8 +780,8 @@
         "0.15.0"
       ],
       "builds_include_pin": true,
-      "evidence": 13,
-      "json_evidence": 7,
+      "evidence": 28,
+      "json_evidence": 12,
       "named_build": 5,
       "missing": [],
       "reopened_in_prose": false,
@@ -793,6 +793,10 @@
       "preregistrations": [
         {
           "ref": "PRESENCE-CONVERSION-2",
+          "resolved": "missing"
+        },
+        {
+          "ref": "C6-TIMING-1",
           "resolved": "missing"
         }
       ]

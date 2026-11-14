@@ -454,6 +454,23 @@
       "docs/audit_trace_probe_tie.json": [
         20261025
       ],
+      "docs/c6_timing_block.json": [
+        20621101,
+        20621102,
+        20621103,
+        20621104,
+        20621105,
+        20621106
+      ],
+      "docs/c6_timing_prereg.json": [
+        20611601,
+        20621101,
+        20621102,
+        20621103,
+        20621104,
+        20621105,
+        20621106
+      ],
       "docs/candidate_membership_audit.json": [
         20261101,
         20261118,
@@ -3432,7 +3449,7 @@
         20261130
       ]
     },
-    "consumed_total": 1644,
+    "consumed_total": 1650,
     "candidate_block": [
       700000001,
       700000724
@@ -3468,7 +3485,7 @@
     },
     "substitution_allowed": false,
     "overlap_with_consumed": [],
-    "disjoint_proved_against": 209,
+    "disjoint_proved_against": 211,
     "scan_scope": "every *.json directly under docs/, which is where every artifact lives; docs/ contains no subdirectory. A pre-run table marked not_a_result is skipped: it reserves its own block's design cells and has consumed no seed.",
     "self_artifact_excluded": "docs/stage_b_protocol.json, docs/stage_b_allocation.json and docs/stage_b_runner.json, because each records this block and would otherwise overlap it; plus docs/cross_context_reuse_benchmark_earned.json and docs/cross_context_reuse_priming_provenance.json, which re-measure the block already consumed by docs/cross_context_reuse_benchmark.json",
     "harvest_rule": "every integer under a key naming a seed, including integers held in lists; the earlier walker missed list-held seeds and undercounted the corpus",

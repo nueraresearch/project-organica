@@ -71,7 +71,12 @@ def test_the_seed_block_is_fresh_and_the_design_is_fixed():
                repair.ROOT / "docs/PRESENCE-BAND-RANK-RESULT.md",
                repair.ROOT / "docs/AUTHORISATION-PRESENCE-BAND-1.md",
                repair.ROOT / "docs/presence_band_rank_2_prereg.json",
-               repair.ROOT / "docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md"))
+               repair.ROOT / "docs/PRESENCE-BAND-RANK-2-PREREGISTRATION.md",
+               repair.ROOT / "docs/c6_one_seed_preflight.json",
+               repair.ROOT / "docs/c6_timing_prereg.json",
+               repair.ROOT / "docs/c6_timing_block.json",
+               repair.ROOT / "docs/carrier_formation_a0.json",
+               repair.ROOT / "docs/research_question_registry.json"))
     assert collisions == {}
 
 

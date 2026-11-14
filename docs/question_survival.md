@@ -29,9 +29,9 @@ predates a later build.
 
 | quantity | count |
 | --- | --- |
-| JSON artifacts cited by reviewed questions | 60 |
+| JSON artifacts cited by reviewed questions | 65 |
 | of those, naming a build | 9 |
-| of those, naming no build | 51 |
+| of those, naming no build | 56 |
 | cited paths that do not exist | 0 |
 
 Builds named anywhere in the reviewed evidence: `0.13.0`, `0.14.0`, `0.15.0`.
@@ -97,7 +97,7 @@ builds column reports what those artifacts name today, not the build behind the 
 | Q045 | open | `open-with-evidence` | none | 0 of 3 | no |
 | Q051 | open | `answered-older-build` | none | 0 of 2 | yes |
 | Q053 | open | `open-with-evidence` | 0.13.0 | 3 of 7 | no |
-| Q054 | open | `governance-held` | 0.14.0, 0.15.0 | 5 of 7 | no |
+| Q054 | open | `governance-held` | 0.14.0, 0.15.0 | 5 of 12 | no |
 
 ## What this page does not say
 
