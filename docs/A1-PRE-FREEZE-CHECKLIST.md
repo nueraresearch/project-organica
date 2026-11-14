@@ -2,9 +2,9 @@
 
 **ID:** `A1-PRE-FREEZE-CHECKLIST-1`  
 **Date:** 2026-11-14  
-**Status:** `P0 PASS — TARGET FREEZE NOT AUTHORISED; RUN NOT AUTHORISED`
+**Status:** `P0 PASS — FREEZE READINESS OPEN; TARGET FREEZE NOT AUTHORISED; RUN NOT AUTHORISED`
 
-**Formal compliance record:** [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md).
+**Formal compliance record:** [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md). Power/prevalence evidence: [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md).
 
 **This is a compliance record, not a target freeze, a grant or a result.** The six
 target sets are a feasibility artifact. They are not fixed experimental targets
@@ -32,8 +32,8 @@ machine checks for the artifact and its page.
 
 | Item | State | Consequence |
 | --- | --- | --- |
-| Power/prevalence review for `N = 4` | **NOT DONE** | The target sets must not be frozen before this review. |
-| C4 non-target neighbour rows | **NOT DONE** | A1 cell output emits target rows only; C4 is not cleared and must not be claimed. |
+| Power/prevalence review for `N = 4` | **DONE — FREEZE READINESS OPEN** | [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md) finds C1 denominator fragility: four target rows make the 0.95 floor effectively 100%. |
+| C4 non-target neighbour rows | **NOT DONE — REQUIRED FOR C1 DENOMINATOR** | A1 cell output emits target rows only; C4 is not cleared and the C1 denominator remains at most four. |
 | Manifest freeze | **NOT DONE** | The target block remains `UNRESOLVED`; `a1_two_path --check` still refuses. |
 | Dated owner grant | **NOT DONE** | No cell may open a database. |
 

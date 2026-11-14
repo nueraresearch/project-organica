@@ -1106,8 +1106,8 @@ def _check(entries: str) -> list[dict]:
         len(runnable), len(runnable) == 19)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
-    add("**212** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
-        proved == 212 and ("**%d** artifacts" % proved) in entries,
+    add("**214** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,
+        proved == 214 and ("**%d** artifacts" % proved) in entries,
         "the Stage B figure is quoted with its noun, so a drift in either is caught; "
         "the count moved 169 -> 173 when the three conversion blocks wrote their run "
         "artifacts, to 178 when the presence band arm was frozen, to 179 when the T1 run "
@@ -1179,7 +1179,7 @@ def test_the_figure_check_fires_when_a_quoted_number_drifts():
 
     # The control must reach the rows added with the 2026-11-09 entries too,
     # or a new block could be inert and nothing would say so.
-    stage_b_drift = entries.replace("**212** artifacts", "**180** artifacts")
+    stage_b_drift = entries.replace("**214** artifacts", "**180** artifacts")
     assert "**180** artifacts" in stage_b_drift, "the control's anchor moved"
     stage_b_failures = _failures(stage_b_drift)
     assert stage_b_failures, "the control did not fire"

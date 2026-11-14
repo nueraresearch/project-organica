@@ -2,7 +2,7 @@
 
 **ID:** `A1-PROTOCOL-COMPLIANCE-1`  
 **Date:** 2026-11-14  
-**Status:** `P0 PASS — PROTOCOL COMPLIANCE; FREEZE AND RUN NOT AUTHORISED`
+**Status:** `P0 PASS — FREEZE READINESS OPEN; PROTOCOL COMPLIANCE; RUN NOT AUTHORISED`
 
 **This is a compliance report, not a target freeze, a grant or an experimental result.**
 No A1 cell has run; no seed is reserved; no target is fixed in the manifest.
@@ -31,8 +31,9 @@ Grant Decision           OPEN
 A1 Run                   NOT STARTED
 ```
 
-P0 and feasibility are demonstrated. Freeze readiness is not; the power/prevalence
-review and C4 rows are still open. The grant decision and run remain separate acts.
+P0 and feasibility are demonstrated. Freeze readiness is not: the power review found
+that four target rows make C1 effectively a 100% preservation rule, and C4 non-target
+rows are needed to give C1 a denominator larger than four. The grant decision and run remain separate acts.
 
 ## Compliance table
 
@@ -72,7 +73,7 @@ to actual leakage, not merely confirming the implementation.
 ## What this report does not establish
 
 - It does not validate target selection as a scientific result.
-- It does not establish power or prevalence for `N = 4`.
+- It does not establish freeze readiness; the power review is in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md).
 - It does not clear C4; A1 cell output still emits target rows only, not non-target
   neighbour rows.
 - It does not freeze the target sets or the manifest.
@@ -85,8 +86,8 @@ until the manifest is frozen by a separate act.
 
 | Gate | State |
 | --- | --- |
-| Power/prevalence review for `N = 4` | **NOT DONE** |
-| C4 non-target neighbour rows | **NOT DONE** |
+| Power/prevalence review for `N = 4` | **DONE — C1 DENOMINATOR FRAGILITY** ([review](A1-POWER-REVIEW.md)) |
+| C4 non-target neighbour rows | **NOT DONE — REQUIRED FOR C1 DENOMINATOR** |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |
 | A1 run | **NOT AUTHORISED** |

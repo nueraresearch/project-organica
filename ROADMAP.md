@@ -138,7 +138,7 @@ and it does not by itself justify V2.
 
 **Status: REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT.**
 
-**Current stage chain (2026-11-14): P0 protocol compliance PASS → target feasibility PASS → freeze readiness OPEN → grant decision OPEN → A1 run NOT STARTED.** The [compliance report](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) records the P0 and feasibility passes; the power/prevalence review and C4 rows remain open, and no freeze or grant exists.
+**Current stage chain (2026-11-14): P0 protocol compliance PASS → target feasibility PASS → freeze readiness OPEN → grant decision OPEN → A1 run NOT STARTED.** The [compliance report](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) records the P0 and feasibility passes; the [power/prevalence review](docs/A1-POWER-REVIEW.md) records C1 denominator fragility, C4 rows remain required, and no freeze or grant exists.
 
  **Program disposition (2026-11-14): COMMITTED TO TARGET RESOLUTION — NO RUN AUTHORISED.** [`docs/DECISION-A1-DISPOSITION.md`](docs/DECISION-A1-DISPOSITION.md) commits A1 to a pre-outcome target-selection protocol, fixed per-seed targets, a freeze and a separate dated grant decision; it does not freeze the manifest, reserve the seeds or authorise a cell. If no target-selection protocol and dated grant decision are recorded by **2026-12-14**, the disposition lapses to **A1 PARKED**. A0 blocked the single-stage 2×2;
 the replacement is
@@ -156,9 +156,9 @@ seeds in [`docs/a1_target_selection.json`](docs/a1_target_selection.json). The s
 determinism, feasibility, report-blindness and sleep-blindness. The pre-freeze
 [`A1-PRE-FREEZE-CHECKLIST.md`](docs/A1-PRE-FREEZE-CHECKLIST.md) and
 [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](docs/A1-PROTOCOL-COMPLIANCE-REPORT.md) record those P0 conditions as passing while keeping the
-power review, C4 rows, freeze and grant open. The targets are not entered in
+power review records C1 denominator fragility; C4 rows are required to enlarge that denominator, and freeze and grant remain open. The targets are not entered in
 the manifest, no seed is reserved, nothing is frozen and no cell is authorised; blindness checks,
-the power review and C4 non-target rows remain open.
+the power review is recorded and C4 non-target rows remain open.
 
 **Preflight (2026-11-13): `NOT ADMISSIBLE` — 0/9 satisfied, 9 requiring instrumentation, 0
 unsatisfiable.** [`docs/C1-C9-PREFLIGHT.md`](docs/C1-C9-PREFLIGHT.md) found the design blocked by

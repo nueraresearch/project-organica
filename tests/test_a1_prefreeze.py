@@ -107,3 +107,11 @@ def test_adversarial_audit_artifact_is_current():
     doc = json.loads(audit.OUT_PATH.read_text(encoding="utf-8"))
     assert audit.problems(doc) == []
     assert audit.PAGE_PATH.read_text(encoding="utf-8") == audit.render(doc)
+
+
+def test_power_review_artifact_is_current():
+    import json
+    from benchmarks import a1_power_review as review
+    doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
+    assert review.problems(doc) == []
+    assert review.PAGE_PATH.read_text(encoding="utf-8") == review.render(doc)
