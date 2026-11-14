@@ -89,7 +89,27 @@ def build() -> dict:
 
     # At n rows, a 0.95 floor passes only when (n - losses) / n >= 0.95.
     max_losses_at_4 = math.floor(N_PER_SEED * (1.0 - C1_FLOOR))
-    max_losses_at_112 = math.floor(c6_world_edges / len(c6["per_seed"]) * (1.0 - C1_FLOOR))
+    # C4 emits every non-target edge in the A1 universe, so its row count is
+    # candidate_count minus the four targets.  C1 adds those rows to the four
+    # target rows; it is not 112, which is C6's larger proxy world.
+    # Baseline-unavailable edges reduce the observed denominator further.
+    planned_c1_rows = {
+        seed: int(row["candidate_count"])
+        for seed, row in selection["per_seed"].items()
+    }
+    planned_non_target = {
+        seed: rows - N_PER_SEED for seed, rows in planned_c1_rows.items()
+    }
+    planned_max_losses = {
+        seed: math.floor(rows * (1.0 - C1_FLOOR))
+        for seed, rows in planned_c1_rows.items()
+    }
+    planned_min_rows = min(planned_c1_rows.values())
+    planned_max_rows = max(planned_c1_rows.values())
+    planned_min_losses = min(planned_max_losses.values())
+    planned_max_losses_allowed = max(planned_max_losses.values())
+    planned_total_rows = sum(planned_c1_rows.values())
+    planned_non_target_total = sum(planned_non_target.values())
 
     tag_counts = Counter(tag for edge in targets for tag in edge.split(">", 1))
     findings = [
@@ -141,7 +161,32 @@ def build() -> dict:
                 "max_losses_at_4": max_losses_at_4,
                 "effective_floor_at_4": 1.0,
                 "illustration_3_of_4": 0.75,
-                "max_losses_if_112_rows": max_losses_at_112,
+            },
+        },
+        {
+            "id": "c1_denominator_expansion",
+            "finding": (
+                "C4 plus the four target rows would raise the planned C1 "
+                "denominator from four to %d-%d rows per seed, allowing %d losses "
+                "at 0.95; the observed denominator is still unmeasured."
+                % (planned_min_rows, planned_max_rows, planned_max_losses_allowed)
+            ),
+            "evidence": {
+                "planned_c1_rows_by_seed": planned_c1_rows,
+                "planned_non_target_rows_by_seed": planned_non_target,
+                "planned_min_rows": planned_min_rows,
+                "planned_max_rows": planned_max_rows,
+                "planned_total_rows": planned_total_rows,
+                "planned_non_target_total": planned_non_target_total,
+                "allowed_losses_min": planned_min_losses,
+                "allowed_losses_max": planned_max_losses_allowed,
+                "max_losses_with_planned_c4": planned_max_losses,
+                "status": "UNMEASURED — no A1 cell has run",
+                "baseline_caveat": (
+                    "C1 counts only edges available in the paired A+K+ control, "
+                    "so the observed denominator will be at most %d-%d."
+                    % (planned_min_rows, planned_max_rows)
+                ),
             },
         },
         {
@@ -162,9 +207,10 @@ def build() -> dict:
         "reading": (
             "P0 and feasibility pass, but four target rows per seed make the "
             "precommitted 0.95 C1 floor a 100% preservation rule. The prevalence "
-            "proxy is adequate; the denominator is not. The current cell emits "
-            "target rows only; C4 non-target rows are needed to give C1 a "
-            "denominator larger than four. Do not freeze on the current target "
+            "proxy is adequate; the denominator is not. C4 non-target rows are "
+            "implemented and, with the four target rows, would raise the planned "
+            "denominator to 63-64 per seed, allowing 3 losses, but no cell has "
+            "run. C1 remains unmeasured; do not freeze on the current target "
             "artifact."
         ),
         "freeze_question": {
@@ -177,8 +223,9 @@ def build() -> dict:
                 "K and Y_ind prevalence are high enough that missing structure is "
                 "not the blocker. The blocker is C1: four rows make the 0.95 floor "
                 "a 100% rule, and the all-six all-four-K proxy is 6.9% under "
-                "independence. C4 rows or a larger N must change the denominator "
-                "before freeze."
+                "independence. C4 rows plus targets would raise the planned "
+                "denominator to 63-64 per seed, but no cell has run, so the "
+                "observed denominator is still unmeasured."
             ),
             "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
             "if_no": "Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.",
@@ -232,13 +279,15 @@ def build() -> dict:
             "blocking_gate": "C1_path_separation",
             "reason": (
                 "Four target rows make the precommitted 0.95 C1 floor a 100% rule "
-                "(3/4 = 0.75). C4 non-target rows are instrumented but no cell has "
-                "run, so C4 and the enlarged C1 denominator are unmeasured."
+                "(3/4 = 0.75). C4 non-target rows are instrumented and, with the "
+                "target rows, would give 63-64 planned rows per seed (3 allowed "
+                "losses), but no cell has run, so C4 and the actual C1 denominator "
+                "are unmeasured."
             ),
             "to_pass": [
                 "Run the planned cells with the C4 neighbour stream.",
                 "Attach paired neighbour deltas and score C1/C4.",
-                "Show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05.",
+                "Show C1 at or above 0.95 with a denominator larger than four (the planned C1 denominator is 63-64 per seed) and C4 at or below 0.05.",
             ],
         },
         "freeze_decision": {
@@ -257,7 +306,7 @@ def build() -> dict:
             ),
             "basis": [
                 "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
-                "The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).",
+                "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75); C4 would add 59-60 planned non-target rows per seed, bringing the planned C1 denominator to 63-64, but none has been observed.",
                 "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.",
             ],
             "revisit_when": [
@@ -270,6 +319,10 @@ def build() -> dict:
             "unique_target_edges": len(targets),
             "selected": sum(selected_flags),
             "candidates": len(selected_flags),
+            "planned_c1_denominator_min": planned_min_rows,
+            "planned_c1_denominator_max": planned_max_rows,
+            "planned_total_rows": planned_total_rows,
+            "planned_non_target_rows": planned_non_target_total,
             "c6_seeds": len(c6["per_seed"]),
             "a0_hard_edges": a0_hard,
         },
@@ -278,8 +331,10 @@ def build() -> dict:
         "tag_counts": dict(sorted(tag_counts.items())),
         "not_evidence": (
             "A read-only power/prevalence review over different-seed C6 and A0 "
-            "records. It runs no A1 cell, assigns no seed, freezes no target and "
-            "establishes no causal, capability or transfer claim."
+            "records. Its C1 expansion is a planned count from the A1 candidate "
+            "counts, not an observed denominator. It runs no A1 cell, assigns no "
+            "seed, freezes no target and establishes no causal, capability or "
+            "transfer claim."
         ),
     }
 
@@ -314,6 +369,17 @@ def problems(doc: dict) -> list[str]:
     inputs = doc.get("inputs") or {}
     if inputs.get("target_observations") != 24 or inputs.get("unique_target_edges") != 23:
         found.append("power review target counts changed")
+    if (inputs.get("planned_c1_denominator_min") != 63
+            or inputs.get("planned_c1_denominator_max") != 64
+            or inputs.get("planned_total_rows") != 382
+            or inputs.get("planned_non_target_rows") != 358):
+        found.append("power review planned C1 denominator changed")
+    expansion = next((finding for finding in doc.get("findings", [])
+                      if finding.get("id") == "c1_denominator_expansion"), None)
+    if expansion is None:
+        found.append("power review has no C1 expansion finding")
+    elif expansion.get("evidence", {}).get("status", "").split(" ")[0] != "UNMEASURED":
+        found.append("C1 expansion is not marked unmeasured")
     return found
 
 

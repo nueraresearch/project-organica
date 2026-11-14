@@ -9,7 +9,8 @@
 | **selection_is_random_on_u** — The 24 targets are statistically indistinguishable from the 358 unselected candidates on cycle-36 strength. | selected_n=24; unselected_n=358; selected_median=16.0; unselected_median=16.0; selected_mean=15.333; unselected_mean=15.215; permutation_p=0.91765 |
 | **all_candidates_eligible** — Cycle membership and positive U do not narrow the candidate universe; every candidate is eligible. | candidate_counts={'20630101': 64, '20630102': 63, '20630103': 64, '20630104': 64, '20630105': 64, '20630106': 63}; eligible_counts={'20630101': 64, '20630102': 63, '20630103': 64, '20630104': 64, '20630105': 64, '20630106': 63} |
 | **c6_denominator_proxy** — C6 supplies a high K/Y_ind denominator in its own world; this is a proxy, not target validation. | c6_k=602; c6_world_edges=672; c6_y=586; c6_k_rate=0.896; c6_y_rate=0.872; per_seed_k_rate_min=0.848; per_seed_k_rate_max=0.991; per_seed_all_four_k=[0.636, 0.563, 0.965, 0.586, 0.661, 0.518]; all_six_all_four_k_independence=0.069; target_overlap_observations=53; target_overlap_k=50; target_overlap_y=46 |
-| **c1_denominator_fragility** — With four target rows, the 0.95 C1 floor is effectively 100% preservation; one lost row gives 0.75. | rows_per_seed=4; c1_floor=0.95; max_losses_at_4=0; effective_floor_at_4=1.0; illustration_3_of_4=0.75; max_losses_if_112_rows=5 |
+| **c1_denominator_fragility** — With four target rows, the 0.95 C1 floor is effectively 100% preservation; one lost row gives 0.75. | rows_per_seed=4; c1_floor=0.95; max_losses_at_4=0; effective_floor_at_4=1.0; illustration_3_of_4=0.75 |
+| **c1_denominator_expansion** — C4 plus the four target rows would raise the planned C1 denominator from four to 63-64 rows per seed, allowing 3 losses at 0.95; the observed denominator is still unmeasured. | planned_c1_rows_by_seed={'20630101': 64, '20630102': 63, '20630103': 64, '20630104': 64, '20630105': 64, '20630106': 63}; planned_non_target_rows_by_seed={'20630101': 60, '20630102': 59, '20630103': 60, '20630104': 60, '20630105': 60, '20630106': 59}; planned_min_rows=63; planned_max_rows=64; planned_total_rows=382; planned_non_target_total=358; allowed_losses_min=3; allowed_losses_max=3; max_losses_with_planned_c4={'20630101': 3, '20630102': 3, '20630103': 3, '20630104': 3, '20630105': 3, '20630106': 3}; status=UNMEASURED — no A1 cell has run; baseline_caveat=C1 counts only edges available in the paired A+K+ control, so the observed denominator will be at most 63-64. |
 | **hard_edge_baseline** — A0's hard-edge prevalence is low, but a random 24-target sample has a material chance of containing one. | a0_hard_edges=26; a0_present_edges=672; hard_rate=0.0387; expected_hard_targets=0.93; prob_any_hard_independence=0.612 |
 
 ## What population A1 tests
@@ -24,7 +25,7 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 
 **Does a random eligible-edge design have enough expected measurable structure to justify freeze?**
 
-**Answer: NO — NOT AS CURRENTLY EMITTED.** K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows or a larger N must change the denominator before freeze.
+**Answer: NO — NOT AS CURRENTLY EMITTED.** K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows plus targets would raise the planned denominator to 63-64 per seed, but no cell has run, so the observed denominator is still unmeasured.
 
 - If yes: Freeze the representative eligible-edge design after the manifest review.
 - If no: Do not freeze; enlarge the C1 denominator with C4 rows or redesign the target block.
@@ -33,12 +34,12 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 
 **Status: OPEN. Can it move to PASS now? NO.**
 
-Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C4 non-target rows are instrumented but no cell has run, so C4 and the enlarged C1 denominator are unmeasured.
+Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C4 non-target rows are instrumented and, with the target rows, would give 63-64 planned rows per seed (3 allowed losses), but no cell has run, so C4 and the actual C1 denominator are unmeasured.
 
 **To reach PASS:**
 - Run the planned cells with the C4 neighbour stream.
 - Attach paired neighbour deltas and score C1/C4.
-- Show C1 at or above 0.95 with a denominator larger than four and C4 at or below 0.05.
+- Show C1 at or above 0.95 with a denominator larger than four (the planned C1 denominator is 63-64 per seed) and C4 at or below 0.05.
 
 ## Freeze decision
 
@@ -50,7 +51,7 @@ Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C
 
 **Basis:**
 - The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.
-- The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).
+- The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75); C4 would add 59-60 planned non-target rows per seed, bringing the planned C1 denominator to 63-64, but none has been observed.
 - All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.
 
 **Revisit when:**
@@ -61,11 +62,11 @@ Four target rows make the precommitted 0.95 C1 floor a 100% rule (3/4 = 0.75). C
 
 **FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY**
 
-P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. The current cell emits target rows only; C4 non-target rows are needed to give C1 a denominator larger than four. Do not freeze on the current target artifact.
+P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. C4 non-target rows are implemented and, with the four target rows, would raise the planned denominator to 63-64 per seed, allowing 3 losses, but no cell has run. C1 remains unmeasured; do not freeze on the current target artifact.
 
 ### Next
 - If Path A (representative eligible-edge effect) is retained: run the planned cells with the C4 neighbour stream and score C1/C4.
 - If Path B (high-carrier-propensity effect) is required: redesign the selector and regenerate targets before freeze; that is a different experiment.
 - Re-run this review after C1/C4 are measured; do not freeze before that.
 
-**Not evidence:** A read-only power/prevalence review over different-seed C6 and A0 records. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim.
+**Not evidence:** A read-only power/prevalence review over different-seed C6 and A0 records. Its C1 expansion is a planned count from the A1 candidate counts, not an observed denominator. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim.
