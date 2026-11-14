@@ -229,6 +229,12 @@ def build() -> dict:
             "date": DATE,
             "decision": "DO NOT FREEZE",
             "answer": FREEZE_ANSWER,
+            "worth_freezing": "NO — HOLD AS DRAFT UNTIL C4",
+            "worth_freezing_reason": (
+                "The target sets are compliant and representative; the blocker is the "
+                "four-row C1 denominator, not the selected edges. Do not regenerate "
+                "targets unless Path B is chosen."
+            ),
             "scope": (
                 "the current six-seed target artifact and the current four-target "
                 "A1 cell output"
@@ -277,6 +283,8 @@ def problems(doc: dict) -> list[str]:
     freeze = doc.get("freeze_decision") or {}
     if freeze.get("decision") != "DO NOT FREEZE" or freeze.get("answer") != FREEZE_ANSWER:
         found.append("freeze decision changed")
+    if freeze.get("worth_freezing") != "NO — HOLD AS DRAFT UNTIL C4":
+        found.append("worth-freezing decision changed")
     if not doc.get("representativeness"):
         found.append("power review has no estimand record")
     elif doc["representativeness"].get("estimand") != (
@@ -333,6 +341,11 @@ def render(doc: dict) -> str:
         ),
         "",
         "**Scope:** %s." % doc["freeze_decision"]["scope"],
+        "",
+        "**Are the target sets worth freezing?** **%s.** %s" % (
+            doc["freeze_decision"]["worth_freezing"],
+            doc["freeze_decision"]["worth_freezing_reason"],
+        ),
         "",
         "**Basis:**",
     ] + ["- %s" % item for item in doc["freeze_decision"]["basis"]] + [

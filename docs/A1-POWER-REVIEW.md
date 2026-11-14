@@ -35,6 +35,8 @@ It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
 
 **Scope:** the current six-seed target artifact and the current four-target A1 cell output.
 
+**Are the target sets worth freezing?** **NO — HOLD AS DRAFT UNTIL C4.** The target sets are compliant and representative; the blocker is the four-row C1 denominator, not the selected edges. Do not regenerate targets unless Path B is chosen.
+
 **Basis:**
 - The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.
 - The C1 denominator is at most four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75).

@@ -31,6 +31,8 @@
     "date": "2026-11-14",
     "decision": "DO NOT FREEZE",
     "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
+    "worth_freezing": "NO \u2014 HOLD AS DRAFT UNTIL C4",
+    "worth_freezing_reason": "The target sets are compliant and representative; the blocker is the four-row C1 denominator, not the selected edges. Do not regenerate targets unless Path B is chosen.",
     "scope": "the current six-seed target artifact and the current four-target A1 cell output",
     "basis": [
       "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
