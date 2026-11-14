@@ -131,6 +131,32 @@ def test_result_assembly_reports_c1_and_c4_pass():
     }
 
 
+def test_parts_command_reports_observed_denominator(tmp_path, capsys):
+    import json
+
+    from benchmarks import a1_result
+
+    for index, payload in enumerate(a1_result.synthetic_parts()):
+        (tmp_path / ("part-%d.json" % index)).write_text(
+            json.dumps(payload), encoding="utf-8"
+        )
+
+    assert a1_result.main(["--parts", str(tmp_path)]) == 0
+    out = capsys.readouterr().out
+    assert "Observed denominator: OBSERVED; 3 part(s), 1 seed(s)" in out
+    assert "C1 observed denominator: A- 20 rows; K- 20 rows" in out
+    assert "C4 observed denominator: 48 rows; 48 measured; 0 unmeasured" in out
+
+
+def test_parts_command_reports_not_run_without_cells(tmp_path, capsys):
+    from benchmarks import a1_result
+
+    assert a1_result.main(["--parts", str(tmp_path)]) == 2
+    out = capsys.readouterr().out
+    assert "NOT RUN — no cell parts" in out
+    assert "No observed denominator exists" in out
+
+
 def test_result_assembly_fails_c4_without_changing_c1():
     from benchmarks import a1_result
 

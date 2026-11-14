@@ -78,8 +78,8 @@ to actual leakage, not merely confirming the implementation.
 
 - It does not validate target selection as a scientific result.
 - It does not establish freeze readiness; the power review is in [`A1-POWER-REVIEW.md`](A1-POWER-REVIEW.md).
-- It does not clear C4; A1 cell output still emits target rows only, not non-target
-  neighbour rows.
+- It does not clear C4; A1 cell output emits target rows and a separate
+  non-target neighbour stream, but no cell has run.
 - It does not freeze the target sets or the manifest.
 - It does not authorise a grant, a cell or a database opening.
 
@@ -94,6 +94,7 @@ until the manifest is frozen by a separate act.
 | Denominator-resolution audit | **FLAGGED — C1 fallback, C7, C8**; expanded C1 and C4 pass ([audit](A1-DENOMINATOR-RESOLUTION.md)) |
 | C4 gate order | **POST-FREEZE VOID GATE (2026-11-14)**; C4 is scored after the frozen cells run and a failure VOIDs the result ([record](A1-C4-GATE-ORDER.md)) |
 | C4 non-target neighbour rows | **IMPLEMENTED — NOT RUN**; `c1_rows`/`score_c1` can include baseline-available non-target edges in C1; `a1_result.assemble` reports C1 and C4 together |
+| C1/C4 observed assembly | **IMPLEMENTED — NOT RUN**; `python -m benchmarks.a1_result --parts` reads actual cell files and reports the observed denominators; an empty directory is **NOT RUN**, exit 2 |
 | Manifest freeze | **NOT DONE** |
 | Dated owner grant | **NOT DONE** |
 | A1 run | **NOT AUTHORISED** |

@@ -30,6 +30,10 @@ there is nothing to check out.
 
 ## [0.15.0] — (unreleased)
 
+### Added — observed C1/C4 denominator assembly (2026-11-14)
+
+- **`a1_result --parts` now reads actual A1 cell files and reports the denominator it actually observed.** The command loads every `a1_two_path_cell` part in the parts directory, excluding controls, and prints the observed C1 A- and K- row counts and the C4 row/measured counts before the PASS/FAIL detail. The assembly object gains `observed_denominator` with the part, seed and cell coverage plus per-seed C1 counts. An empty or missing parts directory now prints **NOT RUN — no cell parts** and exits 2 instead of rendering a zero-row PASS/FAIL; `--parts` with no path uses `a1_arms.PARTS`, and the synthetic fixture still reports its 20/20 C1 and 48-row C4 denominators. No cell has run, so the observed A1 denominator remains unknown; this is a read-only assembly command, not a result. `benchmarks/a1_result.py`, `tests/test_a1_c4.py`, `docs/A1-PRE-FREEZE-CHECKLIST.md`, `docs/A1-PROTOCOL-COMPLIANCE-REPORT.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.
+
 ### Adopted — the 0.x engineering charter is in force (2026-11-14)
 
 - **The owner adopted the bounded 0.x engineering charter as a dated decision.** `docs/DECISION-0X-ENGINEERING-CHARTER.md` records **ADOPTED — IN FORCE** and adopts `docs/0X-ENGINEERING-CHARTER.md`; its Category A–F changes, version rules, one-guard-per-failure budget, A1 boundary and stop conditions now apply to 0.x work. The decision does not bump 0.15.0, pre-allocate 0.16–0.20, change an engine file, select an A1 target, freeze the manifest, issue a grant or create a claim. A1 remains unrun and every experiment state is unchanged. `docs/DECISION-0X-ENGINEERING-CHARTER.md`, `docs/0X-ENGINEERING-CHARTER.md`, `docs/decisions.json`, `docs/DECISIONS.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `ROADMAP.md`, `docs/USER-MANUAL.md`, `CHANGELOG.md`.

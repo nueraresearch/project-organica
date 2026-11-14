@@ -7,6 +7,7 @@ not an A1 result.
 
     python -m benchmarks.a1_result --synthetic
     python -m benchmarks.a1_result --self-test
+    python -m benchmarks.a1_result --parts
     python -m benchmarks.a1_result --parts .scratch/a1_two_path/parts
 """
 from __future__ import annotations
@@ -21,6 +22,40 @@ from benchmarks.a1_gate_readiness import C1_MIN, C4_MAX
 KIND = "a1_result_assembly"
 
 
+def _observed_denominator(payloads: list[dict], c1: dict, c4: dict) -> dict:
+    """Summarise the denominators actually supplied by the cell parts.
+
+    These counts are observed rows, not the planned 63-64 C1 denominator.  A
+    missing cell or a non-target edge absent from the paired control reduces
+    the observed denominator, which is why the assembly reports it explicitly.
+    """
+    seeds = sorted({int(payload["seed"]) for payload in payloads})
+    cells = sorted({str(payload.get("cell")) for payload in payloads})
+    by_seed = {
+        seed: {
+            "a_minus": row["a_minus_denominator"],
+            "k_minus": row["k_minus_denominator"],
+        }
+        for seed, row in c1["seeds"].items()
+    }
+    return {
+        "status": "OBSERVED" if payloads else "NOT_RUN",
+        "parts": len(payloads),
+        "seeds": seeds,
+        "cells": cells,
+        "c1": {
+            "a_minus": c1["a_minus"]["denominator"],
+            "k_minus": c1["k_minus"]["denominator"],
+            "by_seed": by_seed,
+        },
+        "c4": {
+            "rows": c4["rows"],
+            "measured": c4["measured"],
+            "unmeasured": len(c4["unmeasured"]),
+        },
+    }
+
+
 def assemble(payloads: list[dict], c1_tolerance: float | None = None,
              c4_tolerance: float | None = None) -> dict:
     """Score the assembled C1 and C4 streams from cell parts."""
@@ -33,6 +68,7 @@ def assemble(payloads: list[dict], c1_tolerance: float | None = None,
         "parts": len(payloads),
         "c1": c1,
         "c4": c4,
+        "observed_denominator": _observed_denominator(payloads, c1, c4),
         "gates": {
             "C1_path_separation": c1["pass"],
             "C4_no_interference": c4["pass"],
@@ -116,8 +152,21 @@ def synthetic_parts(c4_delta: float = 0.04) -> list[dict]:
 def render(report: dict) -> str:
     c1 = report["c1"]
     c4 = report["c4"]
+    observed = report["observed_denominator"]
     lines = [
         "A1 result assembly: %s" % report["status"],
+        "",
+        "Observed denominator: %s; %d part(s), %d seed(s), cells %s" % (
+            observed["status"], observed["parts"], len(observed["seeds"]),
+            ", ".join(observed["cells"]) or "none",
+        ),
+        "  C1 observed denominator: A- %d rows; K- %d rows" % (
+            observed["c1"]["a_minus"], observed["c1"]["k_minus"],
+        ),
+        "  C4 observed denominator: %d rows; %d measured; %d unmeasured" % (
+            observed["c4"]["rows"], observed["c4"]["measured"],
+            observed["c4"]["unmeasured"],
+        ),
         "",
         "C1 %s: A- %d/%d = %.3f; K- %d/%d = %.3f; tolerance %.3f" % (
             "PASS" if c1["pass"] else "FAIL",
@@ -182,6 +231,11 @@ def self_test() -> list[str]:
         found.append("C1 fixture K- availability is not 20")
     if passed["c4"]["max_delta"]["Y"] != 0.04:
         found.append("C4 fixture Y delta is not 0.04")
+    observed = passed["observed_denominator"]
+    if observed["status"] != "OBSERVED" or observed["c1"]["a_minus"] != 20:
+        found.append("the fixture does not report its observed C1 A- denominator")
+    if observed["c4"]["measured"] != 48:
+        found.append("the fixture does not report its observed C4 denominator")
     failed = assemble(synthetic_parts(0.06))
     if failed["status"] != "FAIL":
         found.append("the failing C4 fixture does not assemble to FAIL")
@@ -196,7 +250,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--synthetic", action="store_true")
-    group.add_argument("--parts", type=Path)
+    group.add_argument("--parts", type=Path, nargs="?", const=a1_arms.PARTS)
     group.add_argument("--self-test", action="store_true")
     args = parser.parse_args(argv)
     if args.self_test:
@@ -206,7 +260,14 @@ def main(argv=None) -> int:
         if not found:
             print("A1 result assembly: self-test clean")
         return 1 if found else 0
-    payloads = synthetic_parts() if args.synthetic else load_parts(args.parts)
+    if args.synthetic:
+        payloads = synthetic_parts()
+    else:
+        payloads = load_parts(args.parts)
+        if not payloads:
+            print("A1 result assembly: NOT RUN — no cell parts in %s" % args.parts)
+            print("No observed denominator exists until a cell writes a part.")
+            return 2
     report = assemble(payloads)
     print(render(report))
     return 0 if report["status"] == "PASS" else 1
