@@ -1,0 +1,295 @@
+{
+  "kind": "a1_design_viability",
+  "id": "A1-DESIGN-VIABILITY-1",
+  "date": "2026-11-14",
+  "status": "FLAGGED \u2014 C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL",
+  "source_artifacts": {
+    "baseline_availability": "docs/a1_baseline_availability.json",
+    "target_viability": "docs/a1_target_viability.json"
+  },
+  "c1_ceiling": {
+    "floor": 60,
+    "proof": "C1's denominator is the count of paired-control available rows across every target and non-target row in the stream. Target selection only partitions those rows; it cannot add available rows. The largest denominator any target selection can produce is therefore min(A_available, K_available) for the stream.",
+    "candidate_stream": {
+      "per_seed": [
+        {
+          "seed": 20630101,
+          "rows": 64,
+          "A_available": 44,
+          "K_available": 44,
+          "max_attainable": 44,
+          "floor": 60,
+          "shortfall": 16,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630102,
+          "rows": 63,
+          "A_available": 44,
+          "K_available": 31,
+          "max_attainable": 31,
+          "floor": 60,
+          "shortfall": 29,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630103,
+          "rows": 64,
+          "A_available": 52,
+          "K_available": 39,
+          "max_attainable": 39,
+          "floor": 60,
+          "shortfall": 21,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630104,
+          "rows": 64,
+          "A_available": 43,
+          "K_available": 35,
+          "max_attainable": 35,
+          "floor": 60,
+          "shortfall": 25,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630105,
+          "rows": 64,
+          "A_available": 49,
+          "K_available": 43,
+          "max_attainable": 43,
+          "floor": 60,
+          "shortfall": 17,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630106,
+          "rows": 63,
+          "A_available": 49,
+          "K_available": 36,
+          "max_attainable": 36,
+          "floor": 60,
+          "shortfall": 24,
+          "surplus": 0,
+          "reaches_floor": false
+        }
+      ],
+      "min_attainable": 31,
+      "max_attainable": 44,
+      "seeds_reaching_floor": 0,
+      "seeds_below_floor": 6,
+      "edge_count": [
+        64,
+        63,
+        64,
+        64,
+        64,
+        63
+      ],
+      "conclusion": "Every seed's maximum is below the 60-row floor. The current candidate stream is not C1-capable, even if every candidate is selected and every available row is retained. This is a branch-closing result for target selection on this stream."
+    },
+    "cell_stream": {
+      "per_seed": [
+        {
+          "seed": 20630101,
+          "rows": 112,
+          "A_available": 70,
+          "K_available": 82,
+          "max_attainable": 70,
+          "floor": 60,
+          "shortfall": 0,
+          "surplus": 10,
+          "reaches_floor": true
+        },
+        {
+          "seed": 20630102,
+          "rows": 112,
+          "A_available": 72,
+          "K_available": 59,
+          "max_attainable": 59,
+          "floor": 60,
+          "shortfall": 1,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630103,
+          "rows": 112,
+          "A_available": 89,
+          "K_available": 69,
+          "max_attainable": 69,
+          "floor": 60,
+          "shortfall": 0,
+          "surplus": 9,
+          "reaches_floor": true
+        },
+        {
+          "seed": 20630104,
+          "rows": 112,
+          "A_available": 67,
+          "K_available": 58,
+          "max_attainable": 58,
+          "floor": 60,
+          "shortfall": 2,
+          "surplus": 0,
+          "reaches_floor": false
+        },
+        {
+          "seed": 20630105,
+          "rows": 112,
+          "A_available": 85,
+          "K_available": 72,
+          "max_attainable": 72,
+          "floor": 60,
+          "shortfall": 0,
+          "surplus": 12,
+          "reaches_floor": true
+        },
+        {
+          "seed": 20630106,
+          "rows": 112,
+          "A_available": 85,
+          "K_available": 72,
+          "max_attainable": 72,
+          "floor": 60,
+          "shortfall": 0,
+          "surplus": 12,
+          "reaches_floor": true
+        }
+      ],
+      "min_attainable": 58,
+      "max_attainable": 72,
+      "seeds_reaching_floor": 4,
+      "seeds_below_floor": 2,
+      "edge_count": [
+        112,
+        112,
+        112,
+        112,
+        112,
+        112
+      ],
+      "conclusion": "The 112-edge cell stream reaches 60 on four seeds but not on seeds 20630102 and 20630104. Switching to it does not make C1 attainable and changes the C4 stream to 108/92 non-target rows."
+    },
+    "conclusion": "The current registered design is not C1-capable under either reported stream. Target selection cannot repair the candidate stream; a new universe, a different seed block with better baseline availability, or a changed C1 estimator is required.",
+    "what_it_does_not_mean": "This does not establish that A1 is impossible in principle. A different universe, seed block or C1 estimator could satisfy the floor. It establishes that the current stream and floor cannot be reconciled by selecting a different target block."
+  },
+  "c2_c8_competence": {
+    "status": "CONDITIONAL \u2014 NOT A PROOF OF C2 OR C8 FAILURE",
+    "assumption": "This section treats baseline A and K availability as a precondition for a clean C2 row and a clean C8 double block. Under that target-competence reading, a row lacking baseline A or K cannot support all of C2's cells and cannot test a genuine A-K- double block.",
+    "induction_caveat": "C2 is a treatment gate, not a no-arm gate. The no-arm baseline cannot prove that a missing baseline path remains missing under A- or K+ treatment. If the unblocked arm can induce the absent path, exact C2 remains unmeasured. The counts are a conditional target-selection incompatibility, not a proof that C2 or C8 must fail.",
+    "relationship": "A1-TARGET-VIABILITY-1 reports carrier-missing exposure under the same baseline A/K reading. This report makes that reading explicit and does not treat it as proof of treatment failure.",
+    "designs": {
+      "N4": {
+        "c8_rows_required": 4,
+        "per_seed": [
+          {
+            "seed": 20630101,
+            "fully_c2_viable": 2,
+            "c8_rows_required": 4,
+            "shortfall": 2,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630102,
+            "fully_c2_viable": 3,
+            "c8_rows_required": 4,
+            "shortfall": 1,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630103,
+            "fully_c2_viable": 3,
+            "c8_rows_required": 4,
+            "shortfall": 1,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630104,
+            "fully_c2_viable": 1,
+            "c8_rows_required": 4,
+            "shortfall": 3,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630105,
+            "fully_c2_viable": 2,
+            "c8_rows_required": 4,
+            "shortfall": 2,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630106,
+            "fully_c2_viable": 1,
+            "c8_rows_required": 4,
+            "shortfall": 3,
+            "clean_c8_block_possible": false
+          }
+        ],
+        "max_clean_rows": 3,
+        "total_clean_rows": 12,
+        "seeds_clean_block_possible": 0,
+        "seeds_needing_more_clean_rows": 6
+      },
+      "N20": {
+        "c8_rows_required": 20,
+        "per_seed": [
+          {
+            "seed": 20630101,
+            "fully_c2_viable": 10,
+            "c8_rows_required": 20,
+            "shortfall": 10,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630102,
+            "fully_c2_viable": 5,
+            "c8_rows_required": 20,
+            "shortfall": 15,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630103,
+            "fully_c2_viable": 12,
+            "c8_rows_required": 20,
+            "shortfall": 8,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630104,
+            "fully_c2_viable": 7,
+            "c8_rows_required": 20,
+            "shortfall": 13,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630105,
+            "fully_c2_viable": 10,
+            "c8_rows_required": 20,
+            "shortfall": 10,
+            "clean_c8_block_possible": false
+          },
+          {
+            "seed": 20630106,
+            "fully_c2_viable": 10,
+            "c8_rows_required": 20,
+            "shortfall": 10,
+            "clean_c8_block_possible": false
+          }
+        ],
+        "max_clean_rows": 12,
+        "total_clean_rows": 54,
+        "seeds_clean_block_possible": 0,
+        "seeds_needing_more_clean_rows": 6
+      }
+    },
+    "conclusion": "Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure."
+  },
+  "disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
+  "not_evidence": "A read-only design-viability report over committed no-arm artifacts. It runs no A1 cell, freezes no target, changes no threshold and measures no treatment effect. The C2/C8 section is conditional on baseline target competence, not a C2 or C8 verdict."
+}
