@@ -89,6 +89,12 @@ def _denominator_unit() -> dict:
             "C8_step": 0.05,
             "status": "REGISTERED — NOT FROZEN, NOT RUN; NOT THE LIVE MANIFEST",
         },
+        "c1_denominator_note": (
+            "The expanded C1 denominator of 63-64 rows is an upper bound from "
+            "candidate counts. It assumes every candidate edge is baseline-available "
+            "in the paired A+K+ control; it is not an observed or estimated "
+            "baseline-availability denominator."
+        ),
         "pooled_reading": "REJECTED — not an A1 denominator for C7 or C8",
         "pooled_rows_if_it_were_used": {
             "C7_N4": 48, "C8_N4": 24, "C7_N8": 96, "C8_N8": 48,
@@ -625,6 +631,12 @@ def render(doc: dict) -> str:
         "rows; they are recorded only to show what was rejected, and the 24-row C8 "
         "pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.",
         "",
+        "**C1 denominator caveat.** The expanded C1 denominator of 63-64 rows is "
+        "an upper bound from candidate counts. It assumes every candidate edge is "
+        "baseline-available in the paired A+K+ control; it is not an observed or "
+        "estimated baseline-availability denominator. See the "
+        "[power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).",
+        "",
         "## Gates",
         "",
         "| Gate | Scenario | Threshold | Denominator | Step | Status |",
@@ -702,6 +714,8 @@ def problems(doc: dict | None = None) -> list[str]:
         found.append("C8 denominator unit is not per seed")
     if unit.get("pooled_reading") != "REJECTED — not an A1 denominator for C7 or C8":
         found.append("the pooled C7/C8 reading is not recorded as rejected")
+    if "upper bound" not in str(unit.get("c1_denominator_note", "")).lower():
+        found.append("the expanded C1 denominator is not marked as an upper bound")
     expected = {
         "C1_path_separation — target-only fallback",
         "C1_path_separation — N=8 maximum-feasibility target-only",

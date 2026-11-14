@@ -51,6 +51,7 @@
       "C8_step": 0.05,
       "status": "REGISTERED \u2014 NOT FROZEN, NOT RUN; NOT THE LIVE MANIFEST"
     },
+    "c1_denominator_note": "The expanded C1 denominator of 63-64 rows is an upper bound from candidate counts. It assumes every candidate edge is baseline-available in the paired A+K+ control; it is not an observed or estimated baseline-availability denominator.",
     "pooled_reading": "REJECTED \u2014 not an A1 denominator for C7 or C8",
     "pooled_rows_if_it_were_used": {
       "C7_N4": 48,

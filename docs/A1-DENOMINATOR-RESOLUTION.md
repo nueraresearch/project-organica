@@ -18,6 +18,8 @@ For a proportion over n rows, the smallest nonzero change is 1/n. For a floor th
 
 C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- rows are for cell completeness and the assertion-order check, not the rate denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives 0.125, both above 0.05, and the registered N=20 design gives 0.05; C8 needs at least 20 rows per seed (N>=20) for one-step resolution. The maximum disjoint target block is N=8, so the current design is **UNDER-RESOLVED for C8 only**. A separate registered N=20 C8 expansion design gives 20 A-K- rows per seed and a 0.05 step, so it resolves the C8 denominator **if adopted**; it is registered, not frozen, and is not the live manifest. The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.
 
+**C1 denominator caveat.** The expanded C1 denominator of 63-64 rows is an upper bound from candidate counts. It assumes every candidate edge is baseline-available in the paired A+K+ control; it is not an observed or estimated baseline-availability denominator. See the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
+
 ## Gates
 
 | Gate | Scenario | Threshold | Denominator | Step | Status |

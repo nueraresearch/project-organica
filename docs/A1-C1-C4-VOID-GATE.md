@@ -70,7 +70,7 @@ A VOID stops the result. It does not trigger a second run, a repaired denominato
 
 A run with any one of these conditions is `A1 VOID — C1/C4`. If both gates fail, both reason codes are recorded; one gate cannot be suppressed by the other.
 
-**60-row denominator floor — adopted with this decision.** The floor is also recorded in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution.
+**60-row denominator floor — adopted with this decision.** The floor is also recorded in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md). At 59 rows the effective floor is 57/59 = 0.9661 with two losses; at 60 rows it is 57/60 = 0.95 with three. If the observed minimum is below 60, a perfect 59/59 is still VOID — the fraction cannot rescue a denominator below the designed resolution. The 63–64 planning range in the power review is an upper bound from candidate counts, not an observed baseline-availability denominator; see the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
 
 ## 5. What a VOID run means
 

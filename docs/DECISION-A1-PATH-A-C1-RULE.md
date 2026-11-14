@@ -32,7 +32,7 @@ C1 passes only when **all six seeds and both the `A−` and `K−` paths** satis
 | Preservation threshold | **0.95** |
 | Minimum denominator | **60 rows** |
 | Allowed losses at 60–64 | **3** |
-| Planned range | 63–64 rows per seed |
+| Planned upper bound | 63–64 rows per seed (candidate count; not observed baseline availability) |
 | Missing denominator | Not zero; reported as missing and `C1_NO_DENOMINATOR` |
 | Observed minimum below 60 | **`VOID — C1_DENOMINATOR_BELOW_FLOOR`** |
 
@@ -83,16 +83,18 @@ It is **not** `PARKED` (no run), `NOT IDENTIFIED` (a model result) or `UNSATISFI
 
 ### 2.5 Power-design criterion
 
-**80% all-six-seed power target.** The C1 design is sized for at least an **80%** probability that all six seeds pass at the planned **63-row** denominator.
+**80% all-six-seed power target.** The C1 design is sized for at least an **80%** probability that all six seeds pass at the **upper-bound 63-row** scenario (candidate count; not observed baseline availability).
 
 | Field | Criterion |
 | --- | --- |
 | Target all-six-seed power | **80%** |
-| Reference denominator | **63 rows** (planned range 63–64) |
+| Reference denominator | **63-row upper-bound scenario** (planned range 63–64; not observed baseline availability) |
 | Required retention at 63 | **0.984017** |
 | Required retention at 64 | **0.984271** |
 | Required retention at the 60-row floor | **0.983204** |
 | Status | **RECORDED — C1 DESIGN CRITERION** |
+
+**Upper-bound caveat.** The 63–64 planned range is a candidate count, not an observed or estimated baseline-availability denominator. It assumes every candidate edge is available in the paired A+K+ control; the observed denominator can be lower, and if the minimum is below 60 on any seed or path the run is **VOID — `C1_DENOMINATOR_BELOW_FLOOR`** even at 59/59. C6 K/Y_ind and A0 hard-edge percentages come from different seed blocks, worlds and quantities and are **not** baseline-availability proxies. See the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
 
 These values are power-design calculations under the same independent Bernoulli retention and independent-seed model as the required-retention table. They are **not observed retention rates** and are **not a second post-run acceptance gate**. The criterion sizes the planned design; the observed-run acceptance rule in §2.1–2.3 remains the **0.95 preservation threshold**, with the 60-row floor and its VOID disposition unchanged.
 

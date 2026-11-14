@@ -73,7 +73,7 @@ The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows. The 48-row C7 count
 
 The target freeze remains **NOT AUTHORISED**. The current N=4 design cannot resolve C8 per seed, so it is not a complete A1 design for a two-path adjudication. The N=20 design is registered and would resolve C8 if adopted, but registration is not adoption: the existing target sets are still draft, the manifest is still unfrozen, the grant is still absent and the run has not started. C7 is resolvable by design but is still an unrun gate.
 
-The separate C1 denominator-feasibility question is unchanged: the planned 63–64 C1 rows are unobserved, and the existing C6/Q4 availability proxies are a pre-freeze warning, not an A1 denominator.
+The separate C1 denominator-feasibility question is unchanged: the 63–64 C1 rows are an upper bound, not an observed denominator, and C6/Q4 availability percentages are different-world observations, not C1 baseline-availability proxies. They remain a pre-freeze warning, not an A1 denominator; see the [power-review risk note](A1-POWER-REVIEW.md#c1-denominator-feasibility-risk-note).
 
 ## 6. Related records
 

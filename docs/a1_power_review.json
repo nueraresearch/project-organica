@@ -89,8 +89,8 @@
     "worth_freezing_reason": "The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.",
     "scope": "the current six-seed target artifact and the current four-target A1 cell output",
     "basis": [
-      "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
-      "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75); C4 would add 59-60 planned non-target rows per seed, bringing the planned C1 denominator to 63-64, but none has been observed.",
+      "C6's 602/672 K and 586/672 Y_ind rates are observations from a different seed block and are not baseline-availability proxies. They do not establish C1 feasibility.",
+      "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75). C4 would add at most 59-60 non-target rows per seed, giving an upper bound of 63-64 C1 rows; the observed denominator can be lower and may fall below the 60-row floor.",
       "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered."
     ],
     "revisit_when": [
@@ -605,6 +605,8 @@
       "status": "RECORDED \u2014 C1 DESIGN CRITERION; NOT AN OBSERVED RETENTION AND NOT A SECOND ACCEPTANCE GATE",
       "target_all_six_power": 0.8,
       "reference_denominator": 63,
+      "denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+      "observed_baseline_available_rows": null,
       "required_retention": 0.984017,
       "required_retention_by_denominator": {
         "60": 0.983204,
@@ -612,7 +614,7 @@
         "64": 0.984271
       },
       "model": "Independent Bernoulli retention on each row, with the six seeds independent, as in the required-retention table.",
-      "meaning": "At the planned 63-row denominator, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
+      "meaning": "At the upper-bound 63-row scenario, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
       "not_a_second_acceptance_gate": true
     },
     "correlation_sensitivity": {
@@ -902,7 +904,7 @@
       "per_seed": 0.926317,
       "all_six_seeds": 0.631767
     },
-    "reading": "At a true retention of 0.95, the 63-row denominator gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.",
+    "reading": "At a true retention of 0.95, the 63-row upper-bound scenario gives a 61.3% chance for one arm, 37.6% for both arms on one seed, and 0.3% across all six seeds. At 0.98, the corresponding all-six chance is 63.2%. A denominator of 20 is the smallest listed value that can still pass with one lost row.",
     "status": "REFERENCE CURVE \u2014 NOT AN OBSERVED DENOMINATOR OR RESULT"
   },
   "inputs": {
@@ -912,10 +914,34 @@
     "candidates": 382,
     "planned_c1_denominator_min": 63,
     "planned_c1_denominator_max": 64,
+    "planned_c1_denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+    "observed_baseline_available_rows": null,
     "planned_total_rows": 382,
     "planned_non_target_rows": 358,
     "c6_seeds": 6,
     "a0_hard_edges": 26
+  },
+  "c1_denominator_feasibility": {
+    "status": "RISK RECORDED \u2014 UNMEASURED; 63-64 IS AN UPPER BOUND",
+    "planned_range": [
+      63,
+      64
+    ],
+    "denominator_kind": "UPPER BOUND \u2014 ASSUMES EVERY CANDIDATE IS BASELINE-AVAILABLE",
+    "basis": "candidate_count; no paired-control availability measurement",
+    "observed_baseline_available_rows": null,
+    "floor": 60,
+    "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+    "why": "The 63-64 rows are the candidate-universe counts, not a measurement of edges available in the paired A+K+ control. C1 counts only those available rows. The observed denominator can be lower than 63-64; if the minimum is below 60 on any seed or path, the run is VOID before any model is read.",
+    "unrelated_observations": {
+      "sources": [
+        "C6 K/Y_ind rates",
+        "A0 hard-edge rate"
+      ],
+      "allowed_use": "CONTEXT ONLY",
+      "forbidden_use": "BASELINE-AVAILABILITY PROXY",
+      "reason": "These percentages come from different seed blocks, different world populations and different quantities. None measures paired-control availability in the A1 target universe, so none may be used to estimate, bound or certify the C1 denominator."
+    }
   },
   "findings": [
     {
@@ -954,8 +980,9 @@
       }
     },
     {
-      "id": "c6_denominator_proxy",
-      "finding": "C6 supplies a high K/Y_ind denominator in its own world; this is a proxy, not target validation.",
+      "id": "c6_prevalence_observation",
+      "finding": "C6 reports high K/Y_ind prevalence in its own seed block. This is a different-world observation, not a C1 baseline-availability measurement and not a target-validation proxy.",
+      "not_baseline_availability_proxy": true,
       "evidence": {
         "c6_k": 602,
         "c6_world_edges": 672,
@@ -991,7 +1018,7 @@
     },
     {
       "id": "c1_denominator_expansion",
-      "finding": "C4 plus the four target rows would raise the planned C1 denominator from four to 63-64 rows per seed, allowing 3 losses at 0.95; the observed denominator is still unmeasured.",
+      "finding": "Even if every candidate edge were baseline-available, C4 plus the four target rows would produce at most 63-64 C1 rows per seed. This is an upper bound, not an observed or estimated denominator; unavailable rows reduce it and can push the run below the 60-row floor.",
       "evidence": {
         "planned_c1_rows_by_seed": {
           "20630101": 64,
@@ -1024,7 +1051,11 @@
           "20630106": 3
         },
         "status": "UNMEASURED \u2014 no A1 cell has run",
-        "baseline_caveat": "C1 counts only edges available in the paired A+K+ control, so the observed denominator will be at most 63-64."
+        "denominator_kind": "UPPER BOUND \u2014 NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+        "observed_baseline_available_rows": null,
+        "floor": 60,
+        "below_floor_disposition": "VOID \u2014 C1_DENOMINATOR_BELOW_FLOOR",
+        "baseline_caveat": "C1 counts only edges available in the paired A+K+ control. The 63-64 figure assumes every candidate edge is available; the actual denominator can be lower and may fall below the 60-row floor. No baseline-availability estimate exists."
       }
     },
     {
@@ -1041,11 +1072,11 @@
   ],
   "decision": {
     "verdict": "FREEZE READINESS OPEN \u2014 C1 DENOMINATOR FRAGILITY",
-    "reading": "P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. The prevalence proxy is adequate; the denominator is not. C4 non-target rows are implemented and, with the four target rows, would raise the planned denominator to 63-64 per seed, allowing 3 losses, but no cell has run. C1 remains unmeasured; do not freeze on the current target artifact.",
+    "reading": "P0 and feasibility pass, but four target rows per seed make the precommitted 0.95 C1 floor a 100% preservation rule. C6's K/Y_ind prevalence is a different-seed observation and does not establish C1 baseline availability. The 63-64 C1 figure is an upper bound, not an estimate; the observed denominator can be lower and may fail the 60-row floor. C1 remains unmeasured; do not freeze on the current target artifact.",
     "freeze_question": {
       "question": "Does a random eligible-edge design have enough expected measurable structure to justify freeze?",
       "answer": "NO \u2014 NOT AS CURRENTLY EMITTED",
-      "basis": "K and Y_ind prevalence are high enough that missing structure is not the blocker. The blocker is C1: four rows make the 0.95 floor a 100% rule, and the all-six all-four-K proxy is 6.9% under independence. C4 rows plus targets would raise the planned denominator to 63-64 per seed, but no cell has run, so the observed denominator is still unmeasured.",
+      "basis": "C6 prevalence is a different-seed observation, not C1 baseline availability. The blocker is C1: four rows make the 0.95 floor a 100% rule. The 63-64 C4 expansion is an upper bound from candidate counts, not an estimate; the observed denominator can be lower and may fail the 60-row floor. No cell has run.",
       "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
       "if_no": "Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator."
     },
@@ -1074,5 +1105,5 @@
     "willow": 3,
     "yarrow": 1
   },
-  "not_evidence": "A read-only power/prevalence review over different-seed C6 and A0 records. Its C1 expansion is a planned count from the A1 candidate counts, not an observed denominator. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim."
+  "not_evidence": "A read-only power/prevalence review over different-seed C6 and A0 records. Its 63-64 C1 expansion is an upper bound derived from A1 candidate counts, not an observed or estimated baseline-availability denominator; C6 and A0 percentages are not C1 proxies. It runs no A1 cell, assigns no seed, freezes no target and establishes no causal, capability or transfer claim."
 }

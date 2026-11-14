@@ -35,8 +35,10 @@
         "64": 0.984271
       },
       "model": "Independent Bernoulli retention on each row, with the six seeds independent, as in the power review's required-retention table.",
-      "meaning": "At the planned 63-row denominator, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
-      "not_a_second_acceptance_gate": true
+      "meaning": "At the upper-bound 63-row scenario, reaching 80% all-six-seed power requires a common retention of at least 0.984017. The corresponding values are 0.984271 at 64 rows and 0.983204 at the 60-row floor. This sizes the planned design; it is not an observed retention and is not a second post-run acceptance gate. The observed-run acceptance rule remains the 0.95 preservation threshold.",
+      "not_a_second_acceptance_gate": true,
+      "denominator_kind": "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+      "observed_baseline_available_rows": null
     },
     "minimum_denominator": 60,
     "unit": "observed minimum paired-control available rows across all six seeds and both A- and K- paths",
@@ -101,5 +103,7 @@
     "It does not classify C7/C8.",
     "It does not change the 0.95 C1 threshold or the 0.05 C4 ceiling."
   ],
-  "not_evidence": "A recorded estimand and acceptance rule. It freezes nothing, grants nothing, runs no cell and makes no causal, capability or transfer claim."
+  "not_evidence": "A recorded estimand and acceptance rule. It freezes nothing, grants nothing, runs no cell and makes no causal, capability or transfer claim.",
+  "planned_range_kind": "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED BASELINE-AVAILABILITY DENOMINATOR",
+  "observed_baseline_available_rows": null
 }

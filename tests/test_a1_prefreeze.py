@@ -275,6 +275,8 @@ def test_power_review_curve_states_retention_assumptions():
     )
     assert power["target_all_six_power"] == 0.8
     assert power["reference_denominator"] == 63
+    assert power["denominator_kind"].startswith("UPPER BOUND")
+    assert power["observed_baseline_available_rows"] is None
     assert power["required_retention"] == required[1]["required_q_by_denominator"]["63"]
     assert power["required_retention_by_denominator"]["64"] == 0.984271
     assert power["required_retention_by_denominator"]["60"] == 0.983204
@@ -336,6 +338,9 @@ def test_path_a_and_c1_rule_are_recorded_without_a_run():
     )
     assert power["target_all_six_power"] == 0.8
     assert power["reference_denominator"] == 63
+    assert power["denominator_kind"].startswith("UPPER BOUND")
+    assert power["observed_baseline_available_rows"] is None
+    assert doc["planned_range_kind"].startswith("UPPER BOUND")
     assert power["required_retention"] == 0.984017
     assert power["required_retention_by_denominator"]["64"] == 0.984271
     assert power["not_a_second_acceptance_gate"] is True
@@ -353,3 +358,26 @@ def test_path_a_and_c1_rule_are_recorded_without_a_run():
     assert "A perfect **59/59** is still VOID" in page
     assert "80% all-six-seed power target" in page
     assert "**0.984017**" in page
+
+
+def test_c1_denominator_feasibility_risk_is_recorded_as_an_upper_bound():
+    import json
+    from benchmarks import a1_power_review as review
+
+    doc = json.loads(review.OUT_PATH.read_text(encoding="utf-8"))
+    risk = doc["c1_denominator_feasibility"]
+    assert risk["status"] == "RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND"
+    assert risk["planned_range"] == [63, 64]
+    assert risk["denominator_kind"].startswith("UPPER BOUND")
+    assert risk["observed_baseline_available_rows"] is None
+    assert risk["floor"] == 60
+    assert risk["below_floor_disposition"] == "VOID — C1_DENOMINATOR_BELOW_FLOOR"
+    unrelated = risk["unrelated_observations"]
+    assert unrelated["forbidden_use"] == "BASELINE-AVAILABILITY PROXY"
+    c6 = next(finding for finding in doc["findings"]
+              if finding["id"] == "c6_prevalence_observation")
+    assert c6["not_baseline_availability_proxy"] is True
+    page = review.PAGE_PATH.read_text(encoding="utf-8")
+    assert "C1 denominator-feasibility risk note" in page
+    assert "63–64" in page and "upper bound" in page
+    assert "not baseline-availability proxies" in page

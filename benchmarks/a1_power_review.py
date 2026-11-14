@@ -317,6 +317,11 @@ def _c1_power_curve() -> dict:
         "status": C1_POWER_DESIGN_STATUS,
         "target_all_six_power": C1_POWER_TARGET,
         "reference_denominator": C1_POWER_TARGET_DENOMINATOR,
+        "denominator_kind": (
+            "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+            "BASELINE-AVAILABILITY DENOMINATOR"
+        ),
+        "observed_baseline_available_rows": None,
         "required_retention": power_q[str(C1_POWER_TARGET_DENOMINATOR)],
         "required_retention_by_denominator": {
             str(n): power_q[str(n)] for n in (60, 63, 64)
@@ -326,7 +331,7 @@ def _c1_power_curve() -> dict:
             "independent, as in the required-retention table."
         ),
         "meaning": (
-            "At the planned %d-row denominator, reaching %d%% all-six-seed "
+            "At the upper-bound %d-row scenario, reaching %d%% all-six-seed "
             "power requires a common retention of at least %.6f. The "
             "corresponding values are %.6f at 64 rows and %.6f at the "
             "60-row floor. This sizes the planned design; it is not an "
@@ -451,7 +456,7 @@ def _c1_power_curve() -> dict:
             "all_six_seeds": sensitivity["all_six_seeds"],
         },
         "reading": (
-            "At a true retention of 0.95, the 63-row denominator gives a "
+            "At a true retention of 0.95, the 63-row upper-bound scenario gives a "
             "%.1f%% chance for one arm, %.1f%% for both arms on one seed, and "
             "%.1f%% across all six seeds. At 0.98, the corresponding all-six "
             "chance is %.1f%%. A denominator of 20 is the smallest listed value "
@@ -527,7 +532,7 @@ def build() -> dict:
     max_losses_at_4 = math.floor(N_PER_SEED * (1.0 - C1_FLOOR))
     # C4 emits every non-target edge in the A1 universe, so its row count is
     # candidate_count minus the four targets.  C1 adds those rows to the four
-    # target rows; it is not 112, which is C6's larger proxy world.
+    # target rows; it is not 112, which is C6's larger world.
     # Baseline-unavailable edges reduce the observed denominator further.
     planned_c1_rows = {
         seed: int(row["candidate_count"])
@@ -571,8 +576,13 @@ def build() -> dict:
             },
         },
         {
-            "id": "c6_denominator_proxy",
-            "finding": "C6 supplies a high K/Y_ind denominator in its own world; this is a proxy, not target validation.",
+            "id": "c6_prevalence_observation",
+            "finding": (
+                "C6 reports high K/Y_ind prevalence in its own seed block. "
+                "This is a different-world observation, not a C1 baseline-availability "
+                "measurement and not a target-validation proxy."
+            ),
+            "not_baseline_availability_proxy": True,
             "evidence": {
                 "c6_k": c6_k,
                 "c6_world_edges": c6_world_edges,
@@ -602,10 +612,11 @@ def build() -> dict:
         {
             "id": "c1_denominator_expansion",
             "finding": (
-                "C4 plus the four target rows would raise the planned C1 "
-                "denominator from four to %d-%d rows per seed, allowing %d losses "
-                "at 0.95; the observed denominator is still unmeasured."
-                % (planned_min_rows, planned_max_rows, planned_max_losses_allowed)
+                "Even if every candidate edge were baseline-available, C4 plus the "
+                "four target rows would produce at most %d-%d C1 rows per seed. "
+                "This is an upper bound, not an observed or estimated denominator; "
+                "unavailable rows reduce it and can push the run below the 60-row floor."
+                % (planned_min_rows, planned_max_rows)
             ),
             "evidence": {
                 "planned_c1_rows_by_seed": planned_c1_rows,
@@ -618,9 +629,18 @@ def build() -> dict:
                 "allowed_losses_max": planned_max_losses_allowed,
                 "max_losses_with_planned_c4": planned_max_losses,
                 "status": "UNMEASURED — no A1 cell has run",
+                "denominator_kind": (
+                    "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+                    "BASELINE-AVAILABILITY DENOMINATOR"
+                ),
+                "observed_baseline_available_rows": None,
+                "floor": 60,
+                "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
                 "baseline_caveat": (
-                    "C1 counts only edges available in the paired A+K+ control, "
-                    "so the observed denominator will be at most %d-%d."
+                    "C1 counts only edges available in the paired A+K+ control. "
+                    "The %d-%d figure assumes every candidate edge is available; "
+                    "the actual denominator can be lower and may fall below the "
+                    "60-row floor. No baseline-availability estimate exists."
                     % (planned_min_rows, planned_max_rows)
                 ),
             },
@@ -638,16 +658,46 @@ def build() -> dict:
         },
     ]
 
+    c1_denominator_feasibility = {
+        "status": "RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND",
+        "planned_range": [planned_min_rows, planned_max_rows],
+        "denominator_kind": (
+            "UPPER BOUND — ASSUMES EVERY CANDIDATE IS BASELINE-AVAILABLE"
+        ),
+        "basis": "candidate_count; no paired-control availability measurement",
+        "observed_baseline_available_rows": None,
+        "floor": 60,
+        "below_floor_disposition": "VOID — C1_DENOMINATOR_BELOW_FLOOR",
+        "why": (
+            "The 63-64 rows are the candidate-universe counts, not a measurement "
+            "of edges available in the paired A+K+ control. C1 counts only those "
+            "available rows. The observed denominator can be lower than 63-64; "
+            "if the minimum is below 60 on any seed or path, the run is VOID "
+            "before any model is read."
+        ),
+        "unrelated_observations": {
+            "sources": ["C6 K/Y_ind rates", "A0 hard-edge rate"],
+            "allowed_use": "CONTEXT ONLY",
+            "forbidden_use": "BASELINE-AVAILABILITY PROXY",
+            "reason": (
+                "These percentages come from different seed blocks, different "
+                "world populations and different quantities. None measures "
+                "paired-control availability in the A1 target universe, so none "
+                "may be used to estimate, bound or certify the C1 denominator."
+            ),
+        },
+    }
+
     decision = {
         "verdict": "FREEZE READINESS OPEN — C1 DENOMINATOR FRAGILITY",
         "reading": (
             "P0 and feasibility pass, but four target rows per seed make the "
-            "precommitted 0.95 C1 floor a 100% preservation rule. The prevalence "
-            "proxy is adequate; the denominator is not. C4 non-target rows are "
-            "implemented and, with the four target rows, would raise the planned "
-            "denominator to 63-64 per seed, allowing 3 losses, but no cell has "
-            "run. C1 remains unmeasured; do not freeze on the current target "
-            "artifact."
+            "precommitted 0.95 C1 floor a 100% preservation rule. C6's K/Y_ind "
+            "prevalence is a different-seed observation and does not establish "
+            "C1 baseline availability. The 63-64 C1 figure is an upper bound, "
+            "not an estimate; the observed denominator can be lower and may fail "
+            "the 60-row floor. C1 remains unmeasured; do not freeze on the current "
+            "target artifact."
         ),
         "freeze_question": {
             "question": (
@@ -656,12 +706,12 @@ def build() -> dict:
             ),
             "answer": FREEZE_ANSWER,
             "basis": (
-                "K and Y_ind prevalence are high enough that missing structure is "
-                "not the blocker. The blocker is C1: four rows make the 0.95 floor "
-                "a 100% rule, and the all-six all-four-K proxy is 6.9% under "
-                "independence. C4 rows plus targets would raise the planned "
-                "denominator to 63-64 per seed, but no cell has run, so the "
-                "observed denominator is still unmeasured."
+                "C6 prevalence is a different-seed observation, not C1 "
+                "baseline availability. The blocker is C1: four rows make the "
+                "0.95 floor a 100% rule. The 63-64 C4 expansion is an upper "
+                "bound from candidate counts, not an estimate; the observed "
+                "denominator can be lower and may fail the 60-row floor. No cell "
+                "has run."
             ),
             "if_yes": "Freeze the representative eligible-edge design after the manifest review.",
             "if_no": "Do not freeze until the post-freeze C1/C4 order and the separate target-freeze act are recorded; do not require a pre-freeze C1/C4 denominator.",
@@ -811,8 +861,8 @@ def build() -> dict:
                 "A1 cell output"
             ),
             "basis": [
-                "The C6 prevalence proxy is adequate: 602/672 K and 586/672 Y_ind.",
-                "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75); C4 would add 59-60 planned non-target rows per seed, bringing the planned C1 denominator to 63-64, but none has been observed.",
+                "C6's 602/672 K and 586/672 Y_ind rates are observations from a different seed block and are not baseline-availability proxies. They do not establish C1 feasibility.",
+                "The C1 denominator is four target rows, so the 0.95 floor is a 100% rule (3/4 = 0.75). C4 would add at most 59-60 non-target rows per seed, giving an upper bound of 63-64 C1 rows; the observed denominator can be lower and may fall below the 60-row floor.",
                 "All six seeds having all four K rows is 6.9% under independence; the design is fragile, not merely underpowered.",
             ],
             "revisit_when": [
@@ -828,20 +878,27 @@ def build() -> dict:
             "candidates": len(selected_flags),
             "planned_c1_denominator_min": planned_min_rows,
             "planned_c1_denominator_max": planned_max_rows,
+            "planned_c1_denominator_kind": (
+                "UPPER BOUND — NOT AN OBSERVED OR ESTIMATED "
+                "BASELINE-AVAILABILITY DENOMINATOR"
+            ),
+            "observed_baseline_available_rows": None,
             "planned_total_rows": planned_total_rows,
             "planned_non_target_rows": planned_non_target_total,
             "c6_seeds": len(c6["per_seed"]),
             "a0_hard_edges": a0_hard,
         },
+        "c1_denominator_feasibility": c1_denominator_feasibility,
         "findings": findings,
         "decision": decision,
         "tag_counts": dict(sorted(tag_counts.items())),
         "not_evidence": (
             "A read-only power/prevalence review over different-seed C6 and A0 "
-            "records. Its C1 expansion is a planned count from the A1 candidate "
-            "counts, not an observed denominator. It runs no A1 cell, assigns no "
-            "seed, freezes no target and establishes no causal, capability or "
-            "transfer claim."
+            "records. Its 63-64 C1 expansion is an upper bound derived from A1 "
+            "candidate counts, not an observed or estimated baseline-availability "
+            "denominator; C6 and A0 percentages are not C1 proxies. It runs no A1 "
+            "cell, assigns no seed, freezes no target and establishes no causal, "
+            "capability or transfer claim."
         ),
     }
 
@@ -892,12 +949,34 @@ def problems(doc: dict) -> list[str]:
             or inputs.get("planned_total_rows") != 382
             or inputs.get("planned_non_target_rows") != 358):
         found.append("power review planned C1 denominator changed")
+    risk = doc.get("c1_denominator_feasibility") or {}
+    if risk.get("status") != "RISK RECORDED — UNMEASURED; 63-64 IS AN UPPER BOUND":
+        found.append("C1 denominator-feasibility risk note is missing or changed")
+    if risk.get("planned_range") != [63, 64]:
+        found.append("C1 denominator-feasibility risk range changed")
+    if not str(risk.get("denominator_kind", "")).startswith("UPPER BOUND"):
+        found.append("C1 denominator is not marked as an upper bound")
+    if risk.get("observed_baseline_available_rows") is not None:
+        found.append("C1 denominator risk note claims an observed baseline-availability count")
+    if risk.get("floor") != 60:
+        found.append("C1 denominator risk floor changed")
+    unrelated = risk.get("unrelated_observations") or {}
+    if unrelated.get("forbidden_use") != "BASELINE-AVAILABILITY PROXY":
+        found.append("C1 risk note does not forbid unrelated percentages as proxies")
+    c6 = next((finding for finding in doc.get("findings", [])
+               if finding.get("id") == "c6_prevalence_observation"), None)
+    if c6 is None:
+        found.append("C6 prevalence observation is missing")
+    elif c6.get("not_baseline_availability_proxy") is not True:
+        found.append("C6 prevalence observation is presented as a baseline proxy")
     expansion = next((finding for finding in doc.get("findings", [])
                       if finding.get("id") == "c1_denominator_expansion"), None)
     if expansion is None:
         found.append("power review has no C1 expansion finding")
     elif expansion.get("evidence", {}).get("status", "").split(" ")[0] != "UNMEASURED":
         found.append("C1 expansion is not marked unmeasured")
+    elif expansion.get("evidence", {}).get("observed_baseline_available_rows") is not None:
+        found.append("C1 expansion claims an observed baseline-availability count")
     curve = doc.get("c1_power_curve") or {}
     if curve.get("status") != "REFERENCE CURVE — NOT AN OBSERVED DENOMINATOR OR RESULT":
         found.append("C1 power curve is not marked as a reference")
@@ -925,6 +1004,10 @@ def problems(doc: dict) -> list[str]:
         found.append("C1 all-six power target changed")
     if power.get("reference_denominator") != C1_POWER_TARGET_DENOMINATOR:
         found.append("C1 power-target reference denominator changed")
+    if not str(power.get("denominator_kind", "")).startswith("UPPER BOUND"):
+        found.append("C1 power-design criterion is not marked as an upper bound")
+    if power.get("observed_baseline_available_rows") is not None:
+        found.append("C1 power-design criterion claims an observed denominator")
     required_row = next(
         (row for row in required.get("rows") or []
          if row.get("target_all_six") == C1_POWER_TARGET),
@@ -977,6 +1060,32 @@ def render(doc: dict) -> str:
     for finding in doc["findings"]:
         evidence = "; ".join("%s=%s" % (k, v) for k, v in finding["evidence"].items())
         rows.append("| **%s** — %s | %s |" % (finding["id"], finding["finding"], evidence))
+    risk = doc.get("c1_denominator_feasibility") or {}
+    if risk:
+        rows += [
+            "",
+            "## C1 denominator-feasibility risk note",
+            "",
+            "**Status:** `%s`" % risk["status"],
+            "",
+            "The planned **%d–%d** C1 rows are an **upper bound**, not an "
+            "observed or estimated denominator. They equal the candidate-universe "
+            "counts and assume every candidate edge is available in the paired "
+            "A+K+ control. C1 counts only baseline-available rows; the observed "
+            "denominator can be lower, and if the minimum falls below **%d** on "
+            "any seed or path, the run is **%s** before any model is read."
+            % (risk["planned_range"][0], risk["planned_range"][1], risk["floor"],
+               risk["below_floor_disposition"]),
+            "",
+            "**Unrelated percentages are not baseline-availability proxies.** "
+            "C6's K/Y_ind rates and A0's hard-edge rate come from different seed "
+            "blocks, worlds and quantities; they must not be used to estimate, "
+            "bound or certify the C1 denominator.",
+            "",
+            "**Risk disposition:** `%s`; no baseline-availability denominator "
+            "has been measured." % risk["status"],
+            "",
+        ]
     curve = doc["c1_power_curve"]
     cells = {(row["denominator"], row["assumed_retention"]): row
              for row in curve["rows"]}
@@ -987,6 +1096,10 @@ def render(doc: dict) -> str:
         curve["reading"],
         "",
         "**Model:** %s" % curve["model"],
+        "",
+        "The denominators below are scenario sizes, not observed "
+        "baseline-available counts; the 63–64 scenarios are the C4 upper bound "
+        "recorded in the risk note above.",
         "",
         "**Retention rate assumption:** each column names the assumed `q`; "
         "these are reference probabilities, not A1 measurements.",
@@ -1079,7 +1192,7 @@ def render(doc: dict) -> str:
         ),
         "",
         "**C1 power-design criterion:** the C1 design is sized for **%d%%** "
-        "all-six-seed power at the planned **%d-row** denominator. Under the "
+        "all-six-seed power at the **upper-bound %d-row** scenario. Under the "
         "independent model this requires a common retention of **q=%.6f**; "
         "at 64 rows it is **q=%.6f**, and at the 60-row floor **q=%.6f**. "
         "This is a design criterion for the planned design, not an observed "
