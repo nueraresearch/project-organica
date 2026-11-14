@@ -1,0 +1,76 @@
+{
+  "kind": "a1_c8_expansion_design",
+  "id": "A1-C8-EXPANSION-1",
+  "date": "2026-11-14",
+  "status": "REGISTERED \u2014 NOT FROZEN, NOT RUN, NO GRANT; CURRENT MANIFEST REMAINS N=4",
+  "not_a_result": true,
+  "parent": "A1-TARGET-SELECTION-1",
+  "unit_record": "docs/A1-C7-C8-DENOMINATOR.md",
+  "threshold": 0.05,
+  "threshold_changed": false,
+  "n_per_seed": 20,
+  "disjoint": false,
+  "max_endpoint_degree": 3,
+  "selection_artifact": "docs/a1_c8_target_selection.json",
+  "current_manifest_targets": {
+    "id": "A1-TWO-PATH-1",
+    "n_per_seed": 4,
+    "status": "UNRESOLVED \u2014 MUST BE FIXED BEFORE FREEZE",
+    "changed": false
+  },
+  "resolution": {
+    "C8_rows_per_seed": 20,
+    "C8_step": 0.05,
+    "C8_status": "RESOLVED BY REGISTERED DESIGN IF ADOPTED",
+    "C7_rate_denominator_cycles": 120,
+    "C7_status": "ALREADY RESOLVED PER EDGE",
+    "C1_target_only_rows": 20,
+    "C1_target_only_status": "STILL BELOW THE 60-ROW FLOOR"
+  },
+  "per_seed": {
+    "20630101": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "029749776f555743"
+    },
+    "20630102": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "132ba4ab73b30b60"
+    },
+    "20630103": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "e43ee50632fc2ab3"
+    },
+    "20630104": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "431394460a400a49"
+    },
+    "20630105": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "64f888517920177b"
+    },
+    "20630106": {
+      "candidate_count": 63,
+      "eligible_count": 63,
+      "selected_count": 20,
+      "max_endpoint_degree": 3,
+      "selection_digest": "5f84322410f92c41"
+    }
+  },
+  "adoption_requirement": "A separate target-freeze act must name A1-C8-EXPANSION-1, replace the N=4 target set in the manifest and record the selection artifact. Without that act, the current freeze must record C8: NOT ADJUDICATED BY DESIGN.",
+  "not_evidence": "A registered target design and a no-arm selection artifact. No A1 cell has run; no C8 measurement, target freeze, seed reservation or grant exists."
+}

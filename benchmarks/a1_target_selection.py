@@ -91,8 +91,15 @@ def cycle_members(temporal: dict[str, dict[str, int]],
 def select_edges(seed: int, candidates: list[tuple[str, str]],
                  u: dict[tuple[str, str], dict],
                  members: dict[tuple[str, str], bool],
-                 n: int = N_PER_SEED) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
-    """Return (selected, eligible), both in deterministic selection order."""
+                 n: int = N_PER_SEED, disjoint: bool = True,
+                 max_endpoint_degree: int | None = None
+                 ) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """Return (selected, eligible), both in deterministic selection order.
+
+    The default is the registered four-target disjoint protocol.  The C8
+    expansion design calls this with ``disjoint=False`` and a small endpoint
+    degree cap, because 20 disjoint edges cannot fit on 16 tags.
+    """
     eligible = [
         edge for edge in candidates
         if int((u.get(edge) or {}).get("strength") or 0) > 0
@@ -101,12 +108,15 @@ def select_edges(seed: int, candidates: list[tuple[str, str]],
     eligible.sort(key=lambda edge: (_hash("%s|%d|%s>%s" % (SALT, seed, edge[0], edge[1])),
                                      "%s>%s" % edge))
     selected: list[tuple[str, str]] = []
-    used: set[str] = set()
+    degree: dict[str, int] = {}
+    limit = 1 if disjoint else max_endpoint_degree
     for edge in eligible:
-        if edge[0] in used or edge[1] in used:
+        if limit is not None and (
+                degree.get(edge[0], 0) >= limit or degree.get(edge[1], 0) >= limit):
             continue
         selected.append(edge)
-        used.update(edge)
+        degree[edge[0]] = degree.get(edge[0], 0) + 1
+        degree[edge[1]] = degree.get(edge[1], 0) + 1
         if len(selected) == n:
             return selected, eligible
     # The protocol permits exactly n targets or none; never a partial set.
@@ -132,7 +142,9 @@ def _temporal(memory) -> dict[str, dict[str, int]]:
     return temporal
 
 
-def run_seed(seed: int, world: dict | None = None) -> dict:
+def run_seed(seed: int, world: dict | None = None, n: int = N_PER_SEED,
+             disjoint: bool = True,
+             max_endpoint_degree: int | None = None) -> dict:
     """Stream through acquisition cycle 36 and return its selection record.
 
     The candidate universe is built from the first 36 acquisition cycles,
@@ -140,7 +152,9 @@ def run_seed(seed: int, world: dict | None = None) -> dict:
     the acquisition index, so the boundary is the acquisition cycle; no
     SleepReport field is read.  ``world`` is injectable so the
     future-blindness audit can compare a 36-cycle world with the first 36
-    cycles of a 120-cycle world.
+    cycles of a 120-cycle world.  The default is the registered four-target
+    disjoint protocol; the C8 expansion calls it with ``n=20`` and a degree
+    cap.
     """
     if world is None:
         world = generate_compositional_world(seed=seed, cycles=CYCLES)
@@ -184,15 +198,18 @@ def run_seed(seed: int, world: dict | None = None) -> dict:
     temporal = temporal_at_u or {}
     u = {edge: _u_row(temporal, edge, U_CYCLE) for edge in candidates}
     members = cycle_members(temporal, candidates)
-    selected, eligible = select_edges(seed, candidates, u, members)
-    status = "TARGET SET FORMED" if len(selected) == N_PER_SEED else "TARGET SET NOT FORMED"
+    selected, eligible = select_edges(
+        seed, candidates, u, members, n=n, disjoint=disjoint,
+        max_endpoint_degree=max_endpoint_degree,
+    )
+    status = "TARGET SET FORMED" if len(selected) == n else "TARGET SET NOT FORMED"
     payload = {
         "seed": seed,
         "status": status,
         "cycles": len(world["events"]) // EVENTS_PER_CYCLE,
         "event_cycles": (stop + EVENTS_PER_CYCLE - 1) // EVENTS_PER_CYCLE,
         "u_cycle": U_CYCLE,
-        "n_per_seed": N_PER_SEED,
+        "n_per_seed": n,
         "candidate_count": len(candidates),
         "eligible_count": len(eligible),
         "selected": ["%s>%s" % edge for edge in selected],

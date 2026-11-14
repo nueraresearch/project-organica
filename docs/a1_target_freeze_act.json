@@ -105,7 +105,7 @@
     "no_cell_run": true
   },
   "c7_c8_denominator": {
-    "status": "ADOPTED — C7 PER-EDGE RATE; C8 PER-TARGET ROW; C8 UNDER-RESOLVED",
+    "status": "ADOPTED — C7 PER-EDGE RATE; C8 UNDER-RESOLVED BY THIS N=4 ACT; N=20 DESIGN REGISTERED BUT NOT ADOPTED",
     "record": "docs/A1-C7-C8-DENOMINATOR.md",
     "C7_rows_per_seed": 8,
     "C8_rows_per_seed": 4,
@@ -117,7 +117,15 @@
     "C7_cycles_per_edge": 120,
     "C7_rate_step": 0.008333,
     "C7_status": "RESOLVED",
-    "C8_status": "FLAGGED"
+    "C8_status": "FLAGGED",
+    "registered_c8_design": {
+      "id": "A1-C8-EXPANSION-1",
+      "record": "docs/A1-C8-EXPANSION.md",
+      "selection_artifact": "docs/a1_c8_target_selection.json",
+      "n_per_seed": 20,
+      "C8_step": 0.05,
+      "status": "REGISTERED — NOT FROZEN; NOT USED BY THIS ACT"
+    }
   },
   "effect_if_signed": [
     "Freeze the Path A target identity for the registered attempt.",
@@ -132,7 +140,8 @@
     "It does not create a result or observe C1/C4.",
     "It does not sign the owner memo or the provisional-freeze wrapper; the C1/C4 gate is already adopted.",
     "It does not regenerate targets or permit post-outcome re-selection.",
-    "It does not change the C7/C8 thresholds, pool their rows or make C8 adjudicable at N=4."
+    "It does not change the C7/C8 thresholds, pool their rows or make C8 adjudicable at N=4.",
+    "It does not adopt or freeze A1-C8-EXPANSION-1; the current N=4 act still records C8: NOT ADJUDICATED BY DESIGN."
   ],
   "not_evidence": "A prepared freeze act. No target is frozen in the live manifest, no grant exists and no cell has run."
 }

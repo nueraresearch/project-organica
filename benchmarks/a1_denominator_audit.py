@@ -71,16 +71,24 @@ def _denominator_unit() -> dict:
             "margin is an A/K rate over 120 cycles per edge, not a proportion over "
             "the 2N Y- rows."
         ),
-        "per_seed_rows": {"C7_N4": 8, "C8_N4": 4, "C7_N8": 16, "C8_N8": 8},
+        "per_seed_rows": {"C7_N4": 8, "C8_N4": 4, "C7_N8": 16, "C8_N8": 8, "C8_N20": 20},
         "row_role": {
             "C7": "The 2N Y- rows establish cell completeness and the assertion-order check; they are not the 0.05 A/K rate denominator.",
             "C8": "The N A-K- target rows are the assertion-rate denominator.",
         },
         "c7_rate_denominator_cycles": 120,
         "c7_rate_step": 0.008333,
-        "c8_per_seed_steps": {"C8_N4": 0.25, "C8_N8": 0.125},
+        "c8_per_seed_steps": {"C8_N4": 0.25, "C8_N8": 0.125, "C8_N20": 0.05},
         "minimum_targets_for_one_step_resolution": {"C7": 1, "C8": 20},
-        "resolved": {"C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False},
+        "resolved": {"C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False, "C8_N20": True},
+        "registered_design": {
+            "id": "A1-C8-EXPANSION-1",
+            "record": "docs/A1-C8-EXPANSION.md",
+            "selection_artifact": "docs/a1_c8_target_selection.json",
+            "n_per_seed": 20,
+            "C8_step": 0.05,
+            "status": "REGISTERED — NOT FROZEN, NOT RUN; NOT THE LIVE MANIFEST",
+        },
         "pooled_reading": "REJECTED — not an A1 denominator for C7 or C8",
         "pooled_rows_if_it_were_used": {
             "C7_N4": 48, "C8_N4": 24, "C7_N8": 96, "C8_N8": 48,
@@ -216,6 +224,12 @@ def build() -> dict:
             "assertion rate", c8, "ceiling", n8, n8,
             "eight A-K- target rows",
             "1/8 = 0.125; still above 0.05. C8 needs at least 20 rows (N>=20) for a one-step resolution.",
+        ),
+        _row(
+            "C8_third_route", "registered N=20 C8 expansion",
+            "assertion rate", c8, "ceiling", 20, 20,
+            "twenty A-K- target rows per seed; registered design, not the live manifest",
+            "1/20 = 0.05; equality is not finer than the ceiling, so the registered N=20 design resolves C8 if adopted.",
         ),
         _row(
             "C2_treatment_consistency", "per manipulated arm",
@@ -593,20 +607,23 @@ def render(doc: dict) -> str:
         "across seeds; every seed must pass on its own rows. The pooled reading is "
         "rejected, not an alternative interpretation.",
         "",
-        "| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step |",
-        "| --- | --- | ---: | ---: | ---: | ---: |",
-        "| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) |",
-        "| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 |",
+        "| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step | N=20 registered rows/seed | N=20 step |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) | 40 (completeness/order) | 0.008333 (120 cycles) |",
+        "| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 | 20 | 0.050000 |",
         "",
         "C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so "
         "one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- "
         "rows are for cell completeness and the assertion-order check, not the rate "
         "denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives "
-        "0.125, both above 0.05, and C8 needs at least 20 rows per seed (N>=20) for "
+        "0.125, both above 0.05, and the registered N=20 design gives 0.05; C8 needs at least 20 rows per seed (N>=20) for "
         "one-step resolution. The maximum disjoint target block is N=8, so the current "
-        "design is **UNDER-RESOLVED for C8 only**. The pooled counts at N=4 would be 48 "
-        "C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and "
-        "the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.",
+        "design is **UNDER-RESOLVED for C8 only**. A separate registered N=20 C8 "
+        "expansion design gives 20 A-K- rows per seed and a 0.05 step, so it resolves "
+        "the C8 denominator **if adopted**; it is registered, not frozen, and is not "
+        "the live manifest. The pooled counts at N=4 would be 48 C7 rows and 24 C8 "
+        "rows; they are recorded only to show what was rejected, and the 24-row C8 "
+        "pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.",
         "",
         "## Gates",
         "",
@@ -740,7 +757,8 @@ def self_test() -> list[str]:
             "C7": 1, "C8": 20}:
         found.append("the C7/C8 one-step target minima changed")
     if doc["denominator_unit"]["resolved"] != {
-            "C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False}:
+            "C7_N4": True, "C7_N8": True, "C8_N4": False,
+            "C8_N8": False, "C8_N20": True}:
         found.append("the C7/C8 resolution flags changed")
     scenario = "C8_third_route — N=8 maximum-feasibility A-K- blocked rows"
     if scenario not in flagged:

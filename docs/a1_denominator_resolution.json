@@ -18,7 +18,8 @@
       "C7_N4": 8,
       "C8_N4": 4,
       "C7_N8": 16,
-      "C8_N8": 8
+      "C8_N8": 8,
+      "C8_N20": 20
     },
     "row_role": {
       "C7": "The 2N Y- rows establish cell completeness and the assertion-order check; they are not the 0.05 A/K rate denominator.",
@@ -28,7 +29,8 @@
     "c7_rate_step": 0.008333,
     "c8_per_seed_steps": {
       "C8_N4": 0.25,
-      "C8_N8": 0.125
+      "C8_N8": 0.125,
+      "C8_N20": 0.05
     },
     "minimum_targets_for_one_step_resolution": {
       "C7": 1,
@@ -38,7 +40,16 @@
       "C7_N4": true,
       "C7_N8": true,
       "C8_N4": false,
-      "C8_N8": false
+      "C8_N8": false,
+      "C8_N20": true
+    },
+    "registered_design": {
+      "id": "A1-C8-EXPANSION-1",
+      "record": "docs/A1-C8-EXPANSION.md",
+      "selection_artifact": "docs/a1_c8_target_selection.json",
+      "n_per_seed": 20,
+      "C8_step": 0.05,
+      "status": "REGISTERED \u2014 NOT FROZEN, NOT RUN; NOT THE LIVE MANIFEST"
     },
     "pooled_reading": "REJECTED \u2014 not an A1 denominator for C7 or C8",
     "pooled_rows_if_it_were_used": {
@@ -95,7 +106,8 @@
       "C4_no_interference \u2014 all cells",
       "C4_no_interference \u2014 N=8 maximum-feasibility all cells",
       "C7_assertion_block \u2014 Y- blocked rows",
-      "C7_assertion_block \u2014 N=8 maximum-feasibility Y- blocked rows"
+      "C7_assertion_block \u2014 N=8 maximum-feasibility Y- blocked rows",
+      "C8_third_route \u2014 registered N=20 C8 expansion"
     ],
     "not_applicable": [
       "C2_treatment_consistency \u2014 per manipulated arm",
@@ -255,6 +267,21 @@
       "finer_than_denominator": true,
       "status": "FLAGGED",
       "consequence": "1/8 = 0.125; still above 0.05. C8 needs at least 20 rows (N>=20) for a one-step resolution."
+    },
+    {
+      "gate": "C8_third_route",
+      "scenario": "registered N=20 C8 expansion",
+      "quantity": "assertion rate",
+      "threshold": 0.05,
+      "threshold_kind": "ceiling",
+      "denominator": 20,
+      "denominator_max": 20,
+      "denominator_basis": "twenty A-K- target rows per seed; registered design, not the live manifest",
+      "smallest_step": 0.05,
+      "margin": 0.05,
+      "finer_than_denominator": false,
+      "status": "PASS",
+      "consequence": "1/20 = 0.05; equality is not finer than the ceiling, so the registered N=20 design resolves C8 if adopted."
     },
     {
       "gate": "C2_treatment_consistency",

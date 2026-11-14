@@ -23,7 +23,8 @@ def test_audit_flags_c1_fallback_and_c8():
     assert doc["denominator_unit"]["pooled_reading"].startswith("REJECTED")
     assert doc["denominator_unit"]["pooled_rows_if_it_were_used"]["C8_N4"] == 24
     assert doc["denominator_unit"]["resolved"] == {
-        "C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False}
+        "C7_N4": True, "C7_N8": True, "C8_N4": False,
+        "C8_N8": False, "C8_N20": True}
     maximum = doc["inputs"]["maximum_feasibility"]
     assert maximum["n_targets"] == 8
     assert maximum["max_disjoint_targets_from_tag_vertices"] == 8

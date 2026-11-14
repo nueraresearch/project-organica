@@ -2,7 +2,7 @@
   "kind": "a1_denominator_unit_decision",
   "id": "A1-C7-C8-DENOMINATOR-1",
   "date": "2026-11-14",
-  "status": "ADOPTED — BINDING FOR A1; C8 UNDER-RESOLVED AT N=4",
+  "status": "ADOPTED \u2014 BINDING FOR A1; C7 PER-EDGE RATE; C8 N=20 DESIGN REGISTERED, NOT FROZEN",
   "not_a_result": true,
   "thresholds": {
     "C7_A_delta_max": 0.05,
@@ -42,6 +42,18 @@
       "C8_step": 0.125,
       "C7_status": "RESOLVED",
       "C8_status": "FLAGGED"
+    },
+    "N20_registered": {
+      "status": "REGISTERED \u2014 NOT FROZEN, NOT THE LIVE MANIFEST",
+      "id": "A1-C8-EXPANSION-1",
+      "C7_rows_per_seed": 40,
+      "C7_row_role": "completeness and assertion-order evidence, not the 0.05 rate denominator",
+      "C7_cycles_per_edge": 120,
+      "C7_rate_step": 0.008333,
+      "C8_rows_per_seed": 20,
+      "C8_step": 0.05,
+      "C7_status": "RESOLVED",
+      "C8_status": "RESOLVED BY REGISTERED DESIGN IF ADOPTED"
     }
   },
   "minimum_targets_for_one_step_resolution": {
@@ -49,31 +61,55 @@
     "C8": 20
   },
   "maximum_disjoint_targets_from_16_tag_vertices": 8,
-  "current_design": "C7 RESOLVED BY DESIGN; C8 UNDER-RESOLVED — C8 cannot be adjudicated per seed at 0.05 with N<=8",
+  "current_design": "C7 RESOLVED BY DESIGN; C8 UNDER-RESOLVED AT N=4 \u2014 AN N=20 DESIGN IS REGISTERED BUT NOT FROZEN OR ADOPTED",
   "pooled_reference_only": {
-    "status": "REJECTED — NOT AN A1 DENOMINATOR",
-    "N4": {"C7_rows": 48, "C7_row_role": "not a rate denominator", "C8_rows": 24, "C8_step": 0.041667},
-    "N8": {"C7_rows": 96, "C7_row_role": "not a rate denominator", "C8_rows": 48, "C8_step": 0.020833},
+    "status": "REJECTED \u2014 NOT AN A1 DENOMINATOR",
+    "N4": {
+      "C7_rows": 48,
+      "C7_row_role": "not a rate denominator",
+      "C8_rows": 24,
+      "C8_step": 0.041667
+    },
+    "N8": {
+      "C7_rows": 96,
+      "C7_row_role": "not a rate denominator",
+      "C8_rows": 48,
+      "C8_step": 0.020833
+    },
     "example_failure": "A single seed at 1/4 = 0.25 A-K- assertion would pool to 1/24 = 0.041667 and appear to pass, hiding the per-seed third route."
   },
   "consequence": {
     "target_freeze": "NOT AUTHORISED",
     "manifest": "NOT FROZEN",
-    "targets": "DRAFT — UNRESOLVED IN THE MANIFEST",
-    "seeds": "PROVISIONAL — NOT RESERVED",
+    "targets": "DRAFT \u2014 UNRESOLVED IN THE MANIFEST",
+    "seeds": "PROVISIONAL \u2014 NOT RESERVED",
     "grant": "NOT ISSUED",
     "cells_run": 0,
     "C7_C8_measured": false,
     "C1_C4_changed": false
   },
-  "required_before_freeze": "Either register a design with at least 20 C8 rows per seed, or record C8 as not adjudicated by design before the freeze. C7 is rate-resolved at N=4 but remains unrun. A threshold change or post-outcome pooling is not permitted.",
+  "required_before_freeze": "Adopt and freeze A1-C8-EXPANSION-1 (20 C8 rows per seed, step 0.05), or record C8 as not adjudicated by design before the freeze. Registration alone is not adoption. C7 is rate-resolved at N=4 but remains unrun. A threshold change or post-outcome pooling is not permitted.",
   "related": {
     "audit": "docs/A1-DENOMINATOR-RESOLUTION.md",
     "readiness": "docs/A1-GATE-READINESS.md",
     "thresholds": "docs/A1-PRECOMMITTED-THRESHOLDS.md",
     "checklist": "docs/A1-PRE-FREEZE-CHECKLIST.md",
     "compliance": "docs/A1-PROTOCOL-COMPLIANCE-REPORT.md",
-    "c1_c4": "docs/A1-C1-C4-VOID-GATE.md"
+    "c1_c4": "docs/A1-C1-C4-VOID-GATE.md",
+    "expansion": "docs/A1-C8-EXPANSION.md",
+    "expansion_artifact": "docs/a1_c8_target_selection.json"
   },
-  "not_evidence": "A denominator-unit decision and design-feasibility statement. No cell has run, no target is frozen, no seed is reserved and no C7/C8 measurement exists."
+  "not_evidence": "A denominator-unit decision and design-feasibility statement. No cell has run, no target is frozen, no seed is reserved and no C7/C8 measurement exists.",
+  "registered_design": {
+    "id": "A1-C8-EXPANSION-1",
+    "record": "docs/A1-C8-EXPANSION.md",
+    "selection_artifact": "docs/a1_c8_target_selection.json",
+    "design_record": "docs/a1_c8_expansion.json",
+    "n_per_seed": 20,
+    "disjoint": false,
+    "max_endpoint_degree": 3,
+    "threshold": 0.05,
+    "threshold_changed": false,
+    "status": "REGISTERED \u2014 NOT FROZEN, NOT RUN, NO GRANT"
+  }
 }

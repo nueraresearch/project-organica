@@ -4,7 +4,7 @@
 
 **Date:** 2026-11-14
 
-**Status:** `ADOPTED — BINDING FOR A1; C8 UNDER-RESOLVED AT N=4`
+**Status:** `ADOPTED — BINDING FOR A1; C7 PER-EDGE RATE; C8 N=20 DESIGN REGISTERED, NOT FROZEN`
 
 **Decision owner:** owner direction, 2026-11-14.
 
@@ -50,7 +50,14 @@ At the maximum feasible disjoint block, **N = 8** (all 16 tag vertices):
 
 C7's rate margin is already resolved at one target edge per seed; the 120-cycle denominator, not `N`, sets its step. C8 needs at least **20 rows per seed** (N ≥ 20) for a one-step resolution at 0.05, above the 16-vertex, eight-disjoint-target maximum. The current design therefore **cannot adjudicate C8 at the precommitted margin on a per-seed basis**. C7 is resolvable by design but remains unrun.
 
-This is a design blocker for C8 only, not a reason to change the threshold after seeing an outcome. If C8 adjudication is required, the target block or positive-control design must be changed and registered **before** the A1 freeze. Otherwise the run may proceed only with C8 explicitly recorded as **not adjudicated by design**, and that limitation must appear before any result.
+A separate **N=20 C8 expansion design** is now registered in [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md). It permits limited endpoint overlap, caps each tag at three selected targets, and supplies 20 A−K− rows per seed. Its step is `1/20 = 0.05`, so it resolves C8 **if adopted and frozen**. It is not the live manifest and is not frozen.
+
+| Gate | Registered N=20 | Step | Resolution |
+| --- | ---: | ---: | --- |
+| `C8_third_route` | 20 A−K− rows per seed | 0.050000 | **RESOLVED BY REGISTERED DESIGN IF ADOPTED** |
+| `C7_assertion_block` | 40 Y− rows per seed; per-edge rate unchanged | 0.008333 | **RESOLVED PER EDGE** |
+
+This is a design blocker for the current N=4/N=8 block only, not a reason to change the threshold after seeing an outcome. The registered N=20 design is the resolution path if C8 adjudication is required; adopting it requires a separate target-freeze act. If the owner does not adopt it, the current run may proceed only with C8 explicitly recorded as **not adjudicated by design**, and that limitation must appear before any result.
 
 The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows. The 48-row C7 count is not a rate denominator at all; the 24-row C8 count is recorded only to identify the rejected reading. Neither is an A1 denominator, and neither can be used to pass a gate.
 
@@ -64,7 +71,7 @@ The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows. The 48-row C7 count
 
 ## 5. Effect on freeze readiness
 
-The target freeze remains **NOT AUTHORISED**. A design that cannot resolve C8 per seed is not a complete A1 design for a two-path adjudication. The existing target sets are still draft, the manifest is still unfrozen, the grant is still absent and the run has not started. C7 is resolvable by design but is still an unrun gate.
+The target freeze remains **NOT AUTHORISED**. The current N=4 design cannot resolve C8 per seed, so it is not a complete A1 design for a two-path adjudication. The N=20 design is registered and would resolve C8 if adopted, but registration is not adoption: the existing target sets are still draft, the manifest is still unfrozen, the grant is still absent and the run has not started. C7 is resolvable by design but is still an unrun gate.
 
 The separate C1 denominator-feasibility question is unchanged: the planned 63–64 C1 rows are unobserved, and the existing C6/Q4 availability proxies are a pre-freeze warning, not an A1 denominator.
 
@@ -77,6 +84,7 @@ The separate C1 denominator-feasibility question is unchanged: the planned 63–
 | [`A1-PRECOMMITTED-THRESHOLDS.md`](A1-PRECOMMITTED-THRESHOLDS.md) | Thresholds unchanged; C7/C8 definitions marked per seed |
 | [`A1-PRE-FREEZE-CHECKLIST.md`](A1-PRE-FREEZE-CHECKLIST.md) | Freeze readiness remains open; C8 under-resolved |
 | [`A1-PROTOCOL-COMPLIANCE-REPORT.md`](A1-PROTOCOL-COMPLIANCE-REPORT.md) | Reports the same blocker without changing P0 |
+| [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md) | Registered N=20 design that resolves C8 if adopted; not frozen |
 | [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | Separate C1/C4 validity gate; C7/C8 are not adjudicated when that gate voids |
 
 **Not evidence:** A denominator-unit decision and a design-feasibility statement. No cell has run, no target is frozen, no seed is reserved and no C7/C8 measurement exists.

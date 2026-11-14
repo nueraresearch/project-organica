@@ -11,12 +11,12 @@ For a proportion over n rows, the smallest nonzero change is 1/n. For a floor th
 
 **ADOPTED — BINDING FOR A1 (2026-11-14): C7 and C8 are per seed.** See [`A1-C7-C8-DENOMINATOR.md`](A1-C7-C8-DENOMINATOR.md). Rows are not pooled across seeds; every seed must pass on its own rows. The pooled reading is rejected, not an alternative interpretation.
 
-| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step |
-| --- | --- | ---: | ---: | ---: | ---: |
-| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) |
-| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 |
+| Gate | Unit | N=4 rows/seed | N=4 step | N=8 rows/seed | N=8 step | N=20 registered rows/seed | N=20 step |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `C7_assertion_block` | per seed, per edge rate | 8 (completeness/order) | 0.008333 (120 cycles) | 16 (completeness/order) | 0.008333 (120 cycles) | 40 (completeness/order) | 0.008333 (120 cycles) |
+| `C8_third_route` | per seed, per target row | 4 | 0.250000 | 8 | 0.125000 | 20 | 0.050000 |
 
-C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- rows are for cell completeness and the assertion-order check, not the rate denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives 0.125, both above 0.05, and C8 needs at least 20 rows per seed (N>=20) for one-step resolution. The maximum disjoint target block is N=8, so the current design is **UNDER-RESOLVED for C8 only**. The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.
+C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so one cycle is 1/120 = 0.008333 and **C7 is resolved at N=4 and N=8**. The 2N Y- rows are for cell completeness and the assertion-order check, not the rate denominator. C8 is a per-target assertion rate: N=4 gives 0.25 and N=8 gives 0.125, both above 0.05, and the registered N=20 design gives 0.05; C8 needs at least 20 rows per seed (N>=20) for one-step resolution. The maximum disjoint target block is N=8, so the current design is **UNDER-RESOLVED for C8 only**. A separate registered N=20 C8 expansion design gives 20 A-K- rows per seed and a 0.05 step, so it resolves the C8 denominator **if adopted**; it is registered, not frozen, and is not the live manifest. The pooled counts at N=4 would be 48 C7 rows and 24 C8 rows; they are recorded only to show what was rejected, and the 24-row C8 pooled count would turn 1/4 = 0.25 into 1/24 = 0.041667.
 
 ## Gates
 
@@ -32,6 +32,7 @@ C7's 0.05 margin is an A/K rate over 120 cycles on each paired target edge, so o
 | `C7_assertion_block` | N=8 maximum-feasibility Y- blocked rows | 0.05 | 120 | 0.008333 | **PASS** |
 | `C8_third_route` | A-K- blocked rows | 0.05 | 4 | 0.250000 | **FLAGGED** |
 | `C8_third_route` | N=8 maximum-feasibility A-K- blocked rows | 0.05 | 8 | 0.125000 | **FLAGGED** |
+| `C8_third_route` | registered N=20 C8 expansion | 0.05 | 20 | 0.050000 | **PASS** |
 | `C2_treatment_consistency` | per manipulated arm | — | 4 | — | **NOT_APPLICABLE** |
 | `C3_positivity` | per target edge | — | 4 | — | **NOT_APPLICABLE** |
 | `C5_common_cause` | target rows | — | 4 | — | **NOT_APPLICABLE** |

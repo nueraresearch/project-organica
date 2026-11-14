@@ -567,7 +567,9 @@ def audit() -> dict:
             "current_evidence": (
                 "No A-K- double block exists. The T8 ceiling is precommitted at 0.05, so a "
                 "double-block assertion rate above 5% on any seed reads THIRD ROUTE PRESENT. "
-                "C8 is evaluated per seed; at N=4 that is four rows and a 0.25 step."
+                "C8 is evaluated per seed; at N=4 that is four rows and a 0.25 step. "
+                "A separate N=20 expansion design is registered; it is not the live "
+                "manifest and is not frozen."
             ),
             "contract": "gate_c8(rows, ceiling): on every seed, A-K- assertion is at or below the precommitted ceiling.",
             "remaining": "Implement the double block and run it; the ceiling is already fixed.",
@@ -646,7 +648,15 @@ def audit() -> dict:
             "c8_steps": {"C8_N4": 0.25, "C8_N8": 0.125},
             "minimum_targets_for_one_step_resolution": {"C7": 1, "C8": 20},
             "resolved": {"C7_N4": True, "C7_N8": True, "C8_N4": False, "C8_N8": False},
-            "current_design": "C7 RESOLVED; C8 UNDER-RESOLVED — N=4 and the N=8 maximum are both above the 0.05 ceiling",
+            "registered_design": {
+                "id": "A1-C8-EXPANSION-1",
+                "record": "docs/A1-C8-EXPANSION.md",
+                "selection_artifact": "docs/a1_c8_target_selection.json",
+                "n_per_seed": 20,
+                "C8_step": 0.05,
+                "status": "REGISTERED — NOT FROZEN, NOT RUN; NOT THE LIVE MANIFEST",
+            },
+            "current_design": "C7 RESOLVED; C8 UNDER-RESOLVED — N=4 and the N=8 maximum are both above the 0.05 ceiling; an N=20 design is registered but not frozen",
         },
         "evidence": {
             "a0_rows": len(a0_rows),
@@ -814,7 +824,10 @@ def render(payload: dict) -> str:
         "0.05 A/K margin is a **per-edge rate over 120 cycles** (`1/120 = 0.008333`), so C7 is "
         "**RESOLVED** at N=4. C8 has **4** A-K- target rows (`1/4 = 0.25`); at the N=8 maximum "
         "it has **8** (`1/8 = 0.125`). C8 needs at least 20 rows (N>=20) for one-step resolution, "
-        "above the 16-vertex, eight-target maximum. The current design is therefore "
+        "above the 16-vertex, eight-target maximum. A separate **N=20 C8 expansion "
+        "design** is registered in [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md); it gives "
+        "20 A-K- rows per seed and a 0.05 step, resolving C8 **if adopted**, but it is "
+        "not the live manifest and is not frozen. The current design is therefore "
         "**UNDER-RESOLVED for C8 only**; that is a design blocker, not a threshold change.",
         "",
         "## Gates",

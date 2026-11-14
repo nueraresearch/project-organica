@@ -5,7 +5,9 @@
 **Status:** `P0 PASS — SIX TARGET SETS FORMED, PATH A RECORDED, FREEZE READINESS OPEN, NO GRANT`
 **Parent:** `A1-TWO-PATH-1`
 
-**This is a design and implementation record, not a result, a freeze or a grant.** It defines how the A1 per-seed target sets are chosen and where the cycle-36 `U` is sampled. The selection pass has now been implemented and run; it formed four disjoint targets for all six provisional seeds and wrote `docs/a1_target_selection.json`. It has not reserved the seeds, frozen the manifest, authorised a cell or produced an A1 result. The current manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, every executing path still refuses, and the selected targets are not yet entered as fixed manifest targets.
+**This is a design and implementation record, not a result, a freeze or a grant.** It defines how the A1 per-seed target sets are chosen and where the cycle-36 `U` is sampled. The selection pass has now been implemented and run; it formed four disjoint targets for all six provisional seeds and wrote `docs/a1_target_selection.json`.
+
+**C8 expansion is a separate registered design.** [`A1-C8-EXPANSION.md`](A1-C8-EXPANSION.md) registers `A1-C8-EXPANSION-1`, which selects 20 overlapping-capable targets per seed so C8 has 20 A−K− rows and a 0.05 step. It does not alter this four-disjoint protocol, is not the live manifest and is not frozen. Adopting it requires a separate target-freeze act. It has not reserved the seeds, frozen the manifest, authorised a cell or produced an A1 result. The current manifest remains `REGISTERED DESIGN — NOT FROZEN, NOT RUN, NO GRANT`, every executing path still refuses, and the selected targets are not yet entered as fixed manifest targets.
 
 ## 1. What this protocol fixes
 

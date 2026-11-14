@@ -201,6 +201,7 @@ def test_target_freeze_act_is_prepared_not_executed():
 
     from benchmarks.presence_cap_experiment import seed_collisions
     allow = (a1_two_path.MANIFEST_PATH, a1_two_path.TARGET_SELECTION_PATH,
+             a1_two_path.C8_TARGET_SELECTION_PATH, a1_two_path.C8_EXPANSION_PATH,
              a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
              a1_two_path.TARGET_FREEZE_ACT_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
