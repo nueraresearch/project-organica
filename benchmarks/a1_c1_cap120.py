@@ -380,11 +380,12 @@ def render(doc: dict) -> str:
         "",
         "## Reading",
         "",
-        "A widening loop window removes K as the C1 blocker in the 16-tag blocks "
-        "and in most of the 28-tag block. The remaining ceiling is the prediction "
-        "path A, which is unchanged by the loop cap. This is a reason to test the "
-        "prediction window next; it is not evidence that A can clear 60, and it is "
-        "not an A1 run.",
+        "A widening loop window removes K as the marginal C1 blocker on every "
+        "seed. The remaining ceiling is the prediction path A, which is unchanged "
+        "by the loop cap. The joint A∩K ceiling is stricter still: the two seeds "
+        "that pass marginally overlap only 58 and 52 rows. This is a reason to "
+        "test the prediction window next; it is not evidence that A can clear 60, "
+        "and it is not an A1 run.",
         "",
         "## What this does not claim",
         "",
