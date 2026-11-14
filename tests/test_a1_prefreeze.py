@@ -381,3 +381,61 @@ def test_c1_denominator_feasibility_risk_is_recorded_as_an_upper_bound():
     assert "C1 denominator-feasibility risk note" in page
     assert "63–64" in page and "upper bound" in page
     assert "not baseline-availability proxies" in page
+
+
+def test_current_a1_docs_do_not_call_c6_or_a0_percentages_baseline_proxies():
+    """Guard the current A1 record against reviving the old proxy wording.
+
+    Historical revision rows in USER-MANUAL.md and historical CHANGELOG entries
+    are intentionally excluded: they preserve earlier claims and are not current
+    state. Every current A1-*.md record, ROADMAP.md and the manual's current
+    state are scanned.
+    """
+    import re
+    from pathlib import Path
+
+    proxy_word = re.compile(r"\bprox(?:y|ies)\b", re.IGNORECASE)
+    subject = re.compile(r"\bC6\b|\bA0\b|\bprevalence\b", re.IGNORECASE)
+    denial = re.compile(
+        r"\b(?:not|no|never|without|forbidden)\b",
+        re.IGNORECASE,
+    )
+
+    def positive_proxy_claims(text):
+        claims = []
+        for lineno, line in enumerate(text.splitlines(), 1):
+            if (proxy_word.search(line) and subject.search(line)
+                    and not denial.search(line)):
+                claims.append((lineno, line.strip()))
+        return claims
+
+    # Prove the detector fires on the wording this guard exists to reject.
+    assert positive_proxy_claims(
+        "C6 supplies a high K/Y_ind denominator; this is a proxy."
+    )
+    assert positive_proxy_claims(
+        "A0's hard-edge percentage is a baseline-availability proxy."
+    )
+    # And prove it does not flag the corrected negative wording.
+    assert not positive_proxy_claims(
+        "C6 K/Y_ind rates are not baseline-availability proxies."
+    )
+
+    manual = Path("docs/USER-MANUAL.md").read_text(encoding="utf-8")
+    assert "**Revision log:**" in manual
+    manual_current = manual.split("**Revision log:**", 1)[0]
+    roadmap = Path("ROADMAP.md")
+    current_docs = [(roadmap, roadmap.read_text(encoding="utf-8"))]
+    current_docs += [(path, path.read_text(encoding="utf-8"))
+                     for path in sorted(Path("docs").glob("A1-*.md"))]
+    # The manual's current state is scanned; its dated revision log is historical.
+    current_docs.append((Path("docs/USER-MANUAL.md"), manual_current))
+    offenders = []
+    for path, text in current_docs:
+        for lineno, line in positive_proxy_claims(text):
+            offenders.append(f"{path}:{lineno}: {line}")
+    assert not offenders, (
+        "current A1 documentation presents C6/A0 percentages as "
+        "baseline-availability proxies; use a negative, different-world "
+        "characterization instead:\n" + "\n".join(offenders)
+    )
