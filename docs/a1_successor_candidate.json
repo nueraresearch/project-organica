@@ -19,7 +19,7 @@
     "one_orientation_per_pair": true,
     "boundary_safe": true,
     "boundary_note": "candidate uses the opt-in cycle-boundary correction; the registered selector remains legacy",
-    "screen": "none \u2014 the block was fixed before K was measured",
+    "screen": "none \u2014 the block was fixed without K screening; a one-seed timing probe did not alter it",
     "targets_selected": 0
   },
   "baseline": {

@@ -7,7 +7,7 @@
 
 ## Why this block
 
-The block is **20650101–20650106**, fixed before any K measurement: six contiguous fresh seeds on the same 16-tag compositional world family and the same first-36-cycle candidate universe. It is not screened for high K availability; screening on K would select on the quantity being tested.
+The block is **20650101–20650106**, fixed without K screening: six contiguous fresh seeds on the same 16-tag compositional world family and the same first-36-cycle candidate universe. It is not screened for high K availability; screening on K would select on the quantity being tested.
 
 | Seed | Candidate edges | Independent | A | K | A&K |
 | ---: | ---: | ---: | ---: | ---: | ---: |

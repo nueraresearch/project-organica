@@ -1,6 +1,6 @@
 """A fresh six-seed candidate for the A1 successor preflight.
 
-The block is fixed before any K measurement: six contiguous seeds,
+The block is fixed without K screening: six contiguous seeds,
 ``20650101``-``20650106``, on the same 16-tag compositional world family and the
 same first-36-cycle candidate universe.  It is deliberately **not** screened for
 high K availability; that would select on the quantity the preflight is meant to
@@ -86,7 +86,7 @@ def build() -> dict:
             "one_orientation_per_pair": True,
             "boundary_safe": True,
             "boundary_note": "candidate uses the opt-in cycle-boundary correction; the registered selector remains legacy",
-            "screen": "none — the block was fixed before K was measured",
+            "screen": "none — the block was fixed without K screening; a one-seed timing probe did not alter it",
             "targets_selected": 0,
         },
         "baseline": {
@@ -118,7 +118,7 @@ def problems(doc: dict) -> list[str]:
         found.append("candidate seed block")
     if doc.get("selection", {}).get("targets_selected") != 0:
         found.append("candidate selects targets")
-    if doc.get("selection", {}).get("screen") != "none — the block was fixed before K was measured":
+    if doc.get("selection", {}).get("screen") != "none — the block was fixed without K screening; a one-seed timing probe did not alter it":
         found.append("candidate K screen is not declared")
     per_seed = doc.get("per_seed") or {}
     if set(per_seed) != {str(seed) for seed in SEEDS}:
@@ -158,7 +158,7 @@ def self_test() -> list[str]:
         "seed_block": list(SEEDS),
         "selection": {
             "targets_selected": 0,
-            "screen": "none — the block was fixed before K was measured",
+            "screen": "none — the block was fixed without K screening; a one-seed timing probe did not alter it",
             "boundary_safe": True,
         },
         "per_seed": {
@@ -186,7 +186,7 @@ def render(doc: dict) -> str:
         "",
         "## Why this block",
         "",
-        "The block is **20650101–20650106**, fixed before any K measurement: six contiguous fresh seeds on the same 16-tag compositional world family and the same first-36-cycle candidate universe. It is not screened for high K availability; screening on K would select on the quantity being tested.",
+        "The block is **20650101–20650106**, fixed without K screening: six contiguous fresh seeds on the same 16-tag compositional world family and the same first-36-cycle candidate universe. It is not screened for high K availability; screening on K would select on the quantity being tested.",
         "",
         "| Seed | Candidate edges | Independent | A | K | A&K |",
         "| ---: | ---: | ---: | ---: | ---: | ---: |",

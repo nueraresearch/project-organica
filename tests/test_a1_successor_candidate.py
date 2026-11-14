@@ -21,7 +21,7 @@ def test_candidate_is_predeclared_and_not_screened_on_k():
     assert doc["seed_block"] == list(candidate.SEEDS)
     assert doc["selection"]["targets_selected"] == 0
     assert doc["selection"]["boundary_safe"] is True
-    assert "fixed before K was measured" in doc["selection"]["screen"]
+    assert "fixed without K screening" in doc["selection"]["screen"]
     assert doc["per_seed"].keys() == {str(seed) for seed in candidate.SEEDS}
 
 
