@@ -388,8 +388,8 @@ def test_current_a1_docs_do_not_call_c6_or_a0_percentages_baseline_proxies():
 
     Historical revision rows in USER-MANUAL.md and historical CHANGELOG entries
     are intentionally excluded: they preserve earlier claims and are not current
-    state. Every current A1-*.md record, ROADMAP.md and the manual's current
-    state are scanned.
+    state. Every current A1-*.md record, ROADMAP.md, the manual's current state
+    and the current unreleased CHANGELOG section are scanned.
     """
     import re
     from pathlib import Path
@@ -424,12 +424,22 @@ def test_current_a1_docs_do_not_call_c6_or_a0_percentages_baseline_proxies():
     manual = Path("docs/USER-MANUAL.md").read_text(encoding="utf-8")
     assert "**Revision log:**" in manual
     manual_current = manual.split("**Revision log:**", 1)[0]
+    changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+    marker = "## [0.15.0] — (unreleased)"
+    assert marker in changelog
+    unreleased = changelog.split(marker, 1)[1]
+    next_version = unreleased.find(chr(10) + "## [")
+    assert next_version != -1
+    unreleased = unreleased[:next_version]
+    assert unreleased.strip()
     roadmap = Path("ROADMAP.md")
     current_docs = [(roadmap, roadmap.read_text(encoding="utf-8"))]
     current_docs += [(path, path.read_text(encoding="utf-8"))
                      for path in sorted(Path("docs").glob("A1-*.md"))]
-    # The manual's current state is scanned; its dated revision log is historical.
+    # The manual's current state and the unreleased changelog are current;
+    # their dated/historical sections are not.
     current_docs.append((Path("docs/USER-MANUAL.md"), manual_current))
+    current_docs.append((Path("CHANGELOG.md"), unreleased))
     offenders = []
     for path, text in current_docs:
         for lineno, line in positive_proxy_claims(text):
