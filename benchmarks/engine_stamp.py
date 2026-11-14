@@ -82,6 +82,7 @@ DERIVED = {
     "c1_c9_preflight.py",  # read-only audit of C1-C9; runs no engine
     "a1_gate_readiness.py",  # read-only gate contract and readiness audit; runs no engine
     "a1_baseline_availability.py",  # no-arm denominator audit; runs no A1 cell
+    "a1_target_viability.py",  # read-only target/C2 viability join; runs no engine
     "a1_two_path.py",  # dry-run manifest and grant gate; opens no database
     "g9_stage_ledger.py",  # validator fixtures/page; runs no engine and writes no ledger
     "carrier_formation_a0.py",  # read-only join of carrier and provenance rows; runs no engine
