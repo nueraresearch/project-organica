@@ -8,6 +8,7 @@ target-selection counts; it opens no engine and runs no cell.
     python -m benchmarks.a1_denominator_audit --write
     python -m benchmarks.a1_denominator_audit --check
     python -m benchmarks.a1_denominator_audit --self-test
+    python -m benchmarks.a1_denominator_audit --parts [DIR]
 """
 from __future__ import annotations
 
@@ -21,7 +22,11 @@ SELECTION_PATH = DOCS / "a1_target_selection.json"
 THRESHOLDS_PATH = DOCS / "a1_precommitted_thresholds.json"
 OUT_PATH = DOCS / "a1_denominator_resolution.json"
 PAGE_PATH = DOCS / "A1-DENOMINATOR-RESOLUTION.md"
+OBSERVED_OUT_PATH = DOCS / "a1_denominator_resolution_observed.json"
+OBSERVED_PAGE_PATH = DOCS / "A1-DENOMINATOR-RESOLUTION-OBSERVED.md"
+DEFAULT_PARTS = ROOT / ".scratch" / "a1_two_path" / "parts"
 KIND = "a1_denominator_resolution_audit"
+OBSERVED_KIND = "a1_denominator_resolution_observed"
 DATE = "2026-11-14"
 
 
@@ -253,6 +258,266 @@ def build() -> dict:
     }
 
 
+def _observed_range(values: list[int]) -> tuple[int | None, int | None]:
+    return (min(values), max(values)) if values else (None, None)
+
+
+def _observed_row(gate: str, scenario: str, quantity: str, threshold: float,
+                  threshold_kind: str, denominator: int | None,
+                  denominator_max: int | None, basis: str,
+                  consequence: str) -> dict:
+    row = _row(gate, scenario, quantity, threshold, threshold_kind,
+               denominator, denominator_max, basis, consequence)
+    if denominator is None:
+        row["status"] = "UNMEASURED"
+        row["consequence"] = "No observed denominator is available for this gate."
+    return row
+
+
+def observed_build(payloads: list[dict], source: Path | None = None) -> dict:
+    """Recompute the resolution test from actual A1 cell parts.
+
+    The planned audit answers whether the design *would* be resolvable. This
+    observed update answers whether the parts that actually exist are. It uses
+    the minimum supplied denominator per gate, never fills a missing value
+    with zero, and writes a separate artifact from the planned audit.
+    """
+    from benchmarks import a1_result, a1_two_path
+    from benchmarks.a1_gate_readiness import Y_CELLS
+
+    assembly = a1_result.assemble(payloads)
+    seeds = sorted({str(int(payload["seed"])) for payload in payloads})
+    cells = sorted({str(payload.get("cell")) for payload in payloads})
+    expected_cells = [cell["id"] for cell in a1_two_path.CELLS]
+    expected_pairs = {
+        (str(seed), cell) for seed in a1_two_path.SEEDS for cell in expected_cells
+    }
+    present_pairs = {
+        (str(int(payload["seed"])), str(payload.get("cell")))
+        for payload in payloads
+    }
+    missing = sorted("%s/%s" % pair for pair in expected_pairs - present_pairs)
+
+    c1_by_seed = {
+        str(seed): {
+            "a_minus": int(row["a_minus_denominator"]),
+            "k_minus": int(row["k_minus_denominator"]),
+        }
+        for seed, row in assembly["c1"]["seeds"].items()
+    }
+    c1_values = [value for row in c1_by_seed.values()
+                 for value in (row["a_minus"], row["k_minus"]) if value > 0]
+    c1_min, c1_max = _observed_range(c1_values)
+
+    c4_by_seed: dict[str, set[str]] = {}
+    c4_unmeasured: dict[str, set[str]] = {}
+    for payload in payloads:
+        seed = str(int(payload["seed"]))
+        for row in payload.get("neighbor_rows", []):
+            if row.get("target"):
+                continue
+            edge = str(row["edge"])
+            if row.get("neighbor_delta") is not None:
+                c4_by_seed.setdefault(seed, set()).add(edge)
+            else:
+                c4_unmeasured.setdefault(seed, set()).add(edge)
+    c4_counts = [len(edges) for edges in c4_by_seed.values() if edges]
+    c4_min, c4_max = _observed_range(c4_counts)
+
+    c7_by_seed = {seed: 0 for seed in seeds}
+    c8_by_seed = {seed: 0 for seed in seeds}
+    for payload in payloads:
+        seed = str(int(payload["seed"]))
+        cell = str(payload.get("cell"))
+        for row in payload.get("rows", []):
+            if not row.get("target"):
+                continue
+            if cell in Y_CELLS:
+                c7_by_seed[seed] += 1
+            if cell == "A-K-":
+                c8_by_seed[seed] += 1
+    c7_values = [value for value in c7_by_seed.values() if value > 0]
+    c8_values = [value for value in c8_by_seed.values() if value > 0]
+    c7_min, c7_max = _observed_range(c7_values)
+    c8_min, c8_max = _observed_range(c8_values)
+
+    c1 = float(_load(THRESHOLDS_PATH)["values"]["C1_A_minus_carrier_preservation_min"])
+    c4 = float(_load(THRESHOLDS_PATH)["values"]["C4_neighbor_delta_max"])
+    c7 = float(_load(THRESHOLDS_PATH)["values"]["C7_A_delta_max"])
+    c8 = float(_load(THRESHOLDS_PATH)["values"]["C8_third_route_assertion_max"])
+
+    gates = [
+        _observed_row(
+            "C1_path_separation", "observed paired-control rows",
+            "A-/K- preservation", c1, "floor", c1_min, c1_max,
+            "minimum observed C1 paired-control rows across seeds and A-/K- paths",
+            "Resolution only. A PASS here does not satisfy C1's separate 60-row floor.",
+        ),
+        _observed_row(
+            "C4_no_interference", "observed non-target edges",
+            "A/K/Y neighbour delta", c4, "ceiling", c4_min, c4_max,
+            "minimum distinct non-target edges with paired-control deltas per seed",
+            "Observed non-target edges; a missing delta is unmeasured, not a zero-row denominator.",
+        ),
+        _observed_row(
+            "C7_assertion_block", "observed Y- blocked rows",
+            "A/K delta", c7, "ceiling", c7_min, c7_max,
+            "minimum target rows across the two Y- cells per seed",
+            "Observed blocked target rows; this is a denominator statement, not a C7 verdict.",
+        ),
+        _observed_row(
+            "C8_third_route", "observed A-K- blocked rows",
+            "assertion rate", c8, "ceiling", c8_min, c8_max,
+            "minimum target rows in the A-K- cell per seed",
+            "Observed positive-control rows; this is a denominator statement, not a C8 verdict.",
+        ),
+    ]
+    flagged = [row["gate"] + " — " + row["scenario"]
+               for row in gates if row["status"] == "FLAGGED"]
+    passed = [row["gate"] + " — " + row["scenario"]
+              for row in gates if row["status"] == "PASS"]
+    unmeasured = [row["gate"] + " — " + row["scenario"]
+                  for row in gates if row["status"] == "UNMEASURED"]
+    if flagged:
+        status = ("%d GATE(S) FINER THAN OBSERVED DENOMINATOR"
+                  % len(flagged))
+    elif unmeasured:
+        status = "%d GATE(S) UNMEASURED" % len(unmeasured)
+    else:
+        status = "ALL NUMERIC GATES RESOLVABLE"
+    if unmeasured and flagged:
+        status += "; %d UNMEASURED" % len(unmeasured)
+    status = "OBSERVED — " + status
+    if missing:
+        status = "OBSERVED — PARTIAL COVERAGE; " + status[len("OBSERVED — "):]
+    return {
+        "kind": OBSERVED_KIND,
+        "id": OBSERVED_KIND,
+        "date": DATE,
+        "status": status,
+        "source": str(source) if source is not None else None,
+        "rule": (
+            "For a proportion over n observed rows, the smallest nonzero change "
+            "is 1/n. For a floor threshold t the margin is 1-t; for a ceiling "
+            "threshold t the margin is t. A gate is FLAGGED when 1/n is greater "
+            "than its margin; equality is not finer."
+        ),
+        "coverage": {
+            "status": "PARTIAL" if missing else "COMPLETE",
+            "parts": len(payloads),
+            "seeds": seeds,
+            "cells": cells,
+            "expected_seeds": [str(seed) for seed in a1_two_path.SEEDS],
+            "expected_cells": expected_cells,
+            "expected_parts": len(expected_pairs),
+            "missing": missing,
+        },
+        "assembly": {
+            "status": assembly["status"],
+            "parts": assembly["parts"],
+        },
+        "observed": {
+            "c1": {"min": c1_min, "max": c1_max, "by_seed": c1_by_seed},
+            "c4": {"min": c4_min, "max": c4_max,
+                   "by_seed": {seed: sorted(edges)
+                               for seed, edges in c4_by_seed.items()},
+                   "unmeasured": {seed: sorted(edges)
+                                  for seed, edges in c4_unmeasured.items()}},
+            "c7": {"min": c7_min, "max": c7_max, "by_seed": c7_by_seed},
+            "c8": {"min": c8_min, "max": c8_max, "by_seed": c8_by_seed},
+        },
+        "summary": {
+            "flagged": flagged,
+            "passed": passed,
+            "unmeasured": unmeasured,
+        },
+        "gates": gates,
+        "not_evidence": (
+            "A post-run denominator record computed from supplied A1 cell parts. "
+            "It scores no gate, selects no model and makes no capability claim; "
+            "it only asks whether the observed denominators can resolve the "
+            "precommitted margins. C1's 60-row floor is a separate rule."
+        ),
+    }
+
+
+def render_observed(doc: dict) -> str:
+    coverage = doc["coverage"]
+    lines = [
+        "# A1 denominator-resolution audit — observed",
+        "",
+        "**Date:** %s" % doc["date"],
+        "**Status:** `%s`" % doc["status"],
+        "**Source:** `%s`" % (doc["source"] or "—"),
+        "",
+        "**This is not an A1 result or a gate PASS/FAIL.** It recomputes the "
+        "resolution test from supplied parts; no model, C7 or C8 verdict follows.",
+        "",
+        doc["rule"],
+        "",
+        "## Coverage",
+        "",
+        "**%s** — %d part(s), %d seed(s), cells %s." % (
+            coverage["status"], coverage["parts"], len(coverage["seeds"]),
+            ", ".join(coverage["cells"]) or "none",
+        ),
+    ]
+    if coverage["missing"]:
+        lines.append(
+            "Missing planned cells: **%d** of %d. Denominators below are the "
+            "minimum over supplied parts, not a complete six-seed result." % (
+                len(coverage["missing"]), coverage["expected_parts"],
+            )
+        )
+    lines += [
+        "",
+        "## Observed gates",
+        "",
+        "| Gate | Scenario | Threshold | Denominator | Step | Status |",
+        "| --- | --- | ---: | ---: | ---: | --- |",
+    ]
+    for row in doc["gates"]:
+        threshold = "%.2f" % row["threshold"]
+        denominator = ("%d" % row["denominator"]
+                       if row["denominator"] is not None else "—")
+        if (row["denominator_max"] is not None
+                and row["denominator_max"] != row["denominator"]):
+            denominator = "%d–%d" % (row["denominator"], row["denominator_max"])
+        step = "%.6f" % row["smallest_step"] if row["smallest_step"] is not None else "—"
+        lines.append("| `%s` | %s | %s | %s | %s | **%s** |" % (
+            row["gate"], row["scenario"], threshold, denominator, step,
+            row["status"]))
+    lines += [
+        "",
+        "## Flags",
+        "",
+    ]
+    lines += (["- `%s`" % item for item in doc["summary"]["flagged"]]
+              if doc["summary"]["flagged"] else ["- none"])
+    if doc["summary"]["unmeasured"]:
+        lines += ["", "## Unmeasured", ""]
+        lines += ["- `%s`" % item for item in doc["summary"]["unmeasured"]]
+    lines += [
+        "",
+        "**C1 note:** the observed C1 denominator is the minimum across seeds "
+        "and both paths. A resolution PASS does not satisfy C1's separate 60-row "
+        "floor; resolution and gate status are different questions.",
+        "",
+        "**Not evidence:** %s" % doc["not_evidence"],
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def write_observed(payloads: list[dict], source: Path | None = None) -> int:
+    doc = observed_build(payloads, source)
+    OBSERVED_OUT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    OBSERVED_PAGE_PATH.write_text(render_observed(doc), encoding="utf-8")
+    print("wrote %s and %s" % (OBSERVED_OUT_PATH, OBSERVED_PAGE_PATH))
+    print(doc["status"])
+    return 0
+
+
 def render(doc: dict) -> str:
     lines = [
         "# A1 denominator-resolution audit",
@@ -303,6 +568,16 @@ def render(doc: dict) -> str:
         "`C1` is listed for both target-only and expanded-denominator cases. The 4-row "
         "and 8-row target-only cases are flagged; the expanded 63–64 row cases pass the "
         "resolution test, but the observed baseline-available count is still unknown.",
+        "",
+        "## Post-run update",
+        "",
+        "When A1 cell parts exist, `python -m benchmarks.a1_denominator_audit --parts [DIR]` "
+        "recomputes the numeric denominators from those parts and writes a separate "
+        "`A1-DENOMINATOR-RESOLUTION-OBSERVED.md` and JSON record. It uses "
+        "the minimum observed denominator per gate, marks missing values **UNMEASURED** "
+        "rather than zero, and does not overwrite this planned audit. An empty directory "
+        "is **NOT RUN**. The observed record is a denominator statement, not a C7/C8 "
+        "verdict or an A1 PASS/FAIL.",
         "",
         "**Not evidence:** %s" % doc["not_evidence"],
         "",
@@ -389,7 +664,17 @@ def main(argv=None) -> int:
     group.add_argument("--write", action="store_true")
     group.add_argument("--check", action="store_true")
     group.add_argument("--self-test", action="store_true")
+    group.add_argument("--parts", type=Path, nargs="?", const=DEFAULT_PARTS)
     args = parser.parse_args(argv)
+    if args.parts is not None:
+        from benchmarks import a1_result
+        payloads = a1_result.load_parts(args.parts)
+        if not payloads:
+            print("A1 observed denominator audit: NOT RUN — no cell parts in %s"
+                  % args.parts)
+            print("No observed denominator exists until a cell writes a part.")
+            return 2
+        return write_observed(payloads, args.parts)
     if args.self_test:
         found = self_test()
         for problem in found:

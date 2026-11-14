@@ -42,4 +42,8 @@ Eight disjoint targets use all 16 tag vertices, so N=8 is the maximum disjoint t
 
 `C1` is listed for both target-only and expanded-denominator cases. The 4-row and 8-row target-only cases are flagged; the expanded 63–64 row cases pass the resolution test, but the observed baseline-available count is still unknown.
 
+## Post-run update
+
+When A1 cell parts exist, `python -m benchmarks.a1_denominator_audit --parts [DIR]` recomputes the numeric denominators from those parts and writes a separate `A1-DENOMINATOR-RESOLUTION-OBSERVED.md` and JSON record. It uses the minimum observed denominator per gate, marks missing values **UNMEASURED** rather than zero, and does not overwrite this planned audit. An empty directory is **NOT RUN**. The observed record is a denominator statement, not a C7/C8 verdict or an A1 PASS/FAIL.
+
 **Not evidence:** A resolution audit over planned denominators and precommitted thresholds. It runs no cell, assigns no seed, and does not measure C1, C4, C7 or C8.
