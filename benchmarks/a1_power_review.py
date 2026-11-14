@@ -525,6 +525,15 @@ def build() -> dict:
                 "Path A does not freeze the manifest, reserve a seed, issue a "
                 "grant or authorise a cell."
             ),
+            "provisional_freeze_draft": {
+                "status": "DRAFT — NOT DECIDED",
+                "record": "docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md",
+                "effect": (
+                    "Would provisionally freeze the Path A targets and make "
+                    "C1/C4 a post-freeze VOID gate; no freeze is recorded "
+                    "until the owner adopts it."
+                ),
+            },
             "gate_order_note": (
                 "The dated DO NOT FREEZE record predates the 2026-11-14 gate-order "
                 "decision. C4 is now post-freeze VOID; this record remains the "
@@ -890,6 +899,12 @@ def render(doc: dict) -> str:
         ),
         "",
         "**Path effect:** %s" % doc["freeze_decision"]["path_effect"],
+        "",
+        "**Provisional-freeze draft:** [%s](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **%s**. %s" % (
+            doc["freeze_decision"]["provisional_freeze_draft"]["record"],
+            doc["freeze_decision"]["provisional_freeze_draft"]["status"],
+            doc["freeze_decision"]["provisional_freeze_draft"]["effect"],
+        ),
         "",
         "**Are the target sets worth freezing?** **%s.** %s" % (
             doc["freeze_decision"]["worth_freezing"],

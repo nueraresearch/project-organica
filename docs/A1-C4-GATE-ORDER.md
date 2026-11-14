@@ -25,6 +25,8 @@ C1 is scored in the same post-freeze assembly and uses the C4-expanded denominat
 
 **Draft extension:** [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) proposes making C1 a post-freeze VOID gate as well. It is **DRAFT — NOT DECIDED**; this C4-only record remains authoritative until it is adopted.
 
+**Provisional-freeze wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) drafts the freeze-and-gate order that would use that C1/C4 validity test. It too is **DRAFT — NOT DECIDED** and does not freeze or authorise anything.
+
 ## VOID condition
 
 C4 fails if any measurable non-target A, K or Y neighbour delta exceeds **0.05**, or if the non-target stream is unmeasurable. The A1 run is then **VOID**. It is not evidence, cannot be cited as a failed replication, and cannot be patched into a passing result under the same design.

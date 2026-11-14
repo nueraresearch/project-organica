@@ -8,6 +8,8 @@
 
 **This is a draft decision record, not an adopted decision, a target freeze, a grant or a result.** It proposes a narrower replacement for the C1 disposition in [`A1-GATE-READINESS.md`](A1-GATE-READINESS.md) and consolidates it with the already-recorded C4 gate in [`A1-C4-GATE-ORDER.md`](A1-C4-GATE-ORDER.md). Until the owner records adoption, the current records remain authoritative.
 
+**Gate-order wrapper:** [`A1-PROVISIONAL-FREEZE-GATE-ORDER-1`](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) drafts the decision that would provisionally freeze the Path A targets and then apply this C1/C4 validity gate. That wrapper is also **DRAFT — NOT DECIDED**; it does not change this proposal or the current records.
+
 ## 1. Proposed decision
 
 Treat **C1 path separation** and **C4 no interference** as one **post-freeze result-validity test**:

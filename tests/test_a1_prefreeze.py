@@ -118,6 +118,7 @@ def test_power_review_artifact_is_current():
     assert doc["path_selection"]["selected"] == "A"
     assert doc["path_selection"]["target_sets"] == "DRAFT — NOT FROZEN"
     assert doc["freeze_decision"]["path"] == "A"
+    assert doc["freeze_decision"]["provisional_freeze_draft"]["status"] == "DRAFT — NOT DECIDED"
 
 
 def test_path_a_is_recorded_in_protocol_and_freeze_log():
@@ -128,6 +129,31 @@ def test_path_a_is_recorded_in_protocol_and_freeze_log():
     assert "Path A — recorded (2026-11-14)" in review
     assert "TARGET SETS STILL DRAFT" in review
     assert "Path B is not selected" in review
+
+
+def test_provisional_freeze_gate_order_is_draft_only():
+    import json
+    from pathlib import Path
+
+    doc = json.loads(Path("docs/a1_provisional_freeze_gate_order.json").read_text(encoding="utf-8"))
+    assert doc["status"] == "DRAFT — NOT DECIDED; NO FREEZE, NO GRANT, NO RUN"
+    freeze = doc["provisional_freeze"]
+    assert freeze["status"] == "PROPOSED — NOT ADOPTED"
+    assert freeze["evidentiary_status_only"] is True
+    assert freeze["target_identity_final_after_freeze"] is True
+    assert freeze["revocable_after_outcome"] is False
+    assert freeze["licenses_retry"] is False
+    assert freeze["reserves_seeds"] is False
+    assert len(doc["gate_order"]) == 6
+    assert "provisional freeze" in doc["gate_order"][1]
+    assert any(row["reason_code"] == "C4_DELTA" for row in doc["void_conditions"])
+    assert doc["report_shape"]["model"] is None
+
+    page = Path("docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md").read_text(encoding="utf-8")
+    assert "provisional in its evidentiary status, not in its target identity" in page
+    assert "does not unfreeze the targets" in page
+    assert "A1 VOID — C1/C4" in page
+    assert "NOT ADJUDICATED — RUN VOID" in page
 
 
 def test_power_review_curve_states_retention_assumptions():

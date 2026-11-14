@@ -1,0 +1,163 @@
+{
+  "kind": "a1_provisional_freeze_gate_order",
+  "id": "A1-PROVISIONAL-FREEZE-GATE-ORDER-1",
+  "date": "2026-11-14",
+  "status": "DRAFT — NOT DECIDED; NO FREEZE, NO GRANT, NO RUN",
+  "current_authority": [
+    "DO NOT FREEZE (2026-11-14)",
+    "docs/A1-C4-GATE-ORDER.md"
+  ],
+  "companion": "docs/A1-C1-C4-VOID-GATE.md",
+  "proposal": "Provisionally freeze the Path A target sets and manifest target block, then run the planned cells, then require both C1 and C4 to pass; either failing or being unmeasurable makes the run A1 VOID — C1/C4.",
+  "current_state": {
+    "path": "A — recorded",
+    "targets": "DRAFT — NOT FROZEN",
+    "freeze_decision": "DO NOT FREEZE (2026-11-14)",
+    "seed_reservation": "NONE",
+    "grant": "NOT ISSUED",
+    "run": "NOT STARTED"
+  },
+  "provisional_freeze": {
+    "status": "PROPOSED — NOT ADOPTED",
+    "scope": "Path A target sets and manifest target block for one registered attempt",
+    "evidentiary_status_only": true,
+    "target_identity_final_after_freeze": true,
+    "c1_c4_precondition": false,
+    "revocable_after_outcome": false,
+    "target_reselection_after_void": false,
+    "reserves_seeds": false,
+    "authorises_grant": false,
+    "licenses_retry": false,
+    "meaning": "The result is provisional until C1/C4 pass; the target identity is not provisional and a VOID does not unfreeze it."
+  },
+  "gate_order": [
+    "P0 compliance, target feasibility and the Path A estimand record stand.",
+    "The owner records a provisional freeze of the Path A target sets and manifest target block.",
+    "The owner records the dated grant; this remains a separate act.",
+    "The planned A1 cells run.",
+    "a1_result.assemble reads the actual cell parts and reports the observed C1 denominators and C4 deltas.",
+    "Both C1 and C4 must pass; either failing or being unmeasurable makes the run A1 VOID — C1/C4 before any model is read."
+  ],
+  "thresholds": {
+    "C1_preservation_min": 0.95,
+    "C4_neighbor_delta_max": 0.05
+  },
+  "denominator_floor": {
+    "status": "PROPOSED — NOT ADOPTED",
+    "adopted_by_this_draft": false,
+    "floor": 60,
+    "record": "docs/A1-POWER-REVIEW.md",
+    "if_not_adopted": "The C1_DENOMINATOR_BELOW_FLOOR condition is omitted and C1 is read at 0.95 on the observed denominator; a 59/59 result would pass.",
+    "if_adopted": "The observed minimum paired-control denominator below 60 on any seed or path makes the run VOID, even at 59/59."
+  },
+  "void_conditions": [
+    {
+      "gate": "C1_path_separation",
+      "reason_code": "C1_NO_DENOMINATOR",
+      "condition": "No paired-control denominator is available for a required seed or required row. A missing denominator is not zero."
+    },
+    {
+      "gate": "C1_path_separation",
+      "reason_code": "C1_DENOMINATOR_BELOW_FLOOR",
+      "condition": "The observed minimum paired-control denominator is below 60 on any seed or path, even if every available row is retained. Applies only if the separate 60-row floor proposal is adopted."
+    },
+    {
+      "gate": "C1_path_separation",
+      "reason_code": "C1_THRESHOLD",
+      "condition": "On any seed, A- carrier preservation is below 0.95, or K- served preservation is below 0.95."
+    },
+    {
+      "gate": "C4_no_interference",
+      "reason_code": "C4_UNMEASURABLE",
+      "condition": "The non-target stream is absent, incomplete, or has no measurable paired delta."
+    },
+    {
+      "gate": "C4_no_interference",
+      "reason_code": "C4_DELTA",
+      "condition": "Any measurable non-target A, K or Y neighbour delta exceeds 0.05."
+    },
+    {
+      "gate": "C1_C4_assembly",
+      "reason_code": "C1_C4_INCOMPLETE",
+      "condition": "Required cell parts are missing, duplicated, or cannot be paired for C1/C4. The gate is unmeasurable; it is not a zero-row pass."
+    }
+  ],
+  "void_meaning": [
+    "The experiment did not produce an admissible comparison.",
+    "No causal model is selected: no M-K, M-N, M-S or M-R label.",
+    "No M1 branch is assigned, and no V2, capability, transfer, external-advantage or generalization claim may be read.",
+    "C7 and C8 are not adjudicated; if not already evaluated, they are reported as NOT ADJUDICATED — RUN VOID.",
+    "The run is not a negative result and is not evidence for or against any model; it is not a null finding or failed replication.",
+    "Observed C1 denominators and C4 row counts are retained for audit; a missing denominator is reported as missing, never as 0.0.",
+    "The planned seeds and cells are consumed; no substitute seed, extra cell or post-hoc target may be added.",
+    "No row may be dropped, no threshold changed, no target re-selected and no denominator expanded after the failure is seen.",
+    "Parts and observed counts may support instrument diagnostics, but may not be re-labelled as an A1 result.",
+    "The target freeze remains recorded; a VOID does not return the attempt to an unfrozen state or authorise a second attempt under the same registration."
+  ],
+  "void_does_not_mean": [
+    "That the carrier model or the two-path model is false.",
+    "That C1 or C4 can never pass.",
+    "That the two-path model is untestable in principle.",
+    "That a new selector, new target count or new threshold is licensed under the same registration.",
+    "That a failed C1 may be re-read as a C4 problem, or a failed C4 as a C1 problem.",
+    "That the run may be reported as a near pass or a descriptively supportive result.",
+    "That a second attempt is authorised. A further attempt requires a new registered design, a fresh seed block and a new dated owner grant."
+  ],
+  "status_distinctions": [
+    {
+      "status": "A1 PARKED — …",
+      "when": "The run did not execute: missing target set, missing rule, or no grant.",
+      "records": "A preparation or authorisation stop, not an experimental outcome."
+    },
+    {
+      "status": "A1 VOID — C1/C4",
+      "when": "The planned run executed but the C1/C4 validity test failed or was unmeasurable.",
+      "records": "No admissible comparison; no model read."
+    },
+    {
+      "status": "NOT IDENTIFIED",
+      "when": "The current C1 result-gate failure when the comparison exists but model separation is not achieved.",
+      "records": "A scientific result-gate outcome under the current disposition."
+    },
+    {
+      "status": "UNSATISFIABLE",
+      "when": "The current disposition for a gate that cannot be measured under the registered design.",
+      "records": "A design/measurement limit under the current disposition."
+    }
+  ],
+  "no_rescue": [
+    "A passing C4 cannot rescue a failing C1.",
+    "A passing C1 cannot rescue a failing C4.",
+    "A passing C2, C3, C5, C7 or C8 cannot rescue a C1/C4 VOID.",
+    "A larger denominator discovered after the run cannot be used to re-score C1; the C4 non-target rows must be registered before the run.",
+    "A failed or unmeasurable gate is terminal for this registration under the one-attempt rule."
+  ],
+  "report_shape": {
+    "status": "PASS | VOID",
+    "void_gates": [],
+    "reason_codes": [
+      "C1_NO_DENOMINATOR",
+      "C1_DENOMINATOR_BELOW_FLOOR",
+      "C1_THRESHOLD",
+      "C4_UNMEASURABLE",
+      "C4_DELTA",
+      "C1_C4_INCOMPLETE"
+    ],
+    "observed_denominator": {
+      "c1": ["a_minus", "k_minus", "by_seed"],
+      "c4": ["rows", "measured", "unmeasured"]
+    },
+    "model": null,
+    "not_evidence": "A gate decision, not a causal, capability or transfer result."
+  },
+  "adoption_effect": [
+    "Record a new dated provisional-freeze decision that distinguishes provisional evidentiary status from final target identity.",
+    "Freeze the Path A target sets and manifest target block; do not regenerate targets.",
+    "Update C1 failure and unmeasurable dispositions in benchmarks/a1_gate_readiness.py from NOT IDENTIFIED / UNSATISFIABLE to VOID, and regenerate the readiness artifact and page.",
+    "Add a cross-reference to this record in A1-C4-GATE-ORDER.md and a1_c4_gate_order.json without rewriting the historical C4-only decision.",
+    "Map a C1/C4 FAIL from a1_result.assemble to VOID in the assembly caller and carry the reason codes.",
+    "Update the manual, pre-freeze checklist and changelog in the same act."
+  ],
+  "adoption": "Adoption is a separate dated owner decision. It does not reserve seeds, issue a grant, run a cell or create evidence, except where the owner explicitly records seed reservation in the same act.",
+  "not_evidence": "A proposed gate order and a definition of VOID. No cell has run; this is not an A1 result, freeze, grant or capability claim."
+}

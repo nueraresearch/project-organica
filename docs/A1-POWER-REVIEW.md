@@ -153,6 +153,8 @@ C4 is a post-freeze void gate, so C1/C4 are no longer pre-freeze measurement blo
 
 **Path effect:** The current six target sets are the Path A draft. Selecting Path A does not freeze the manifest, reserve a seed, issue a grant or authorise a cell.
 
+**Provisional-freeze draft:** [docs/A1-PROVISIONAL-FREEZE-GATE-ORDER.md](A1-PROVISIONAL-FREEZE-GATE-ORDER.md) — **DRAFT — NOT DECIDED**. Would provisionally freeze the Path A targets and make C1/C4 a post-freeze VOID gate; no freeze is recorded until the owner adopts it.
+
 **Are the target sets worth freezing?** **NO — HOLD AS DRAFT; TARGET FREEZE NOT AUTHORIZED.** The Path A target sets are compliant and representative, but no separate target freeze has been performed. C4 is now a post-freeze VOID gate, so the C1/C4 measurement cannot be a pre-freeze condition. Path B is not selected and would require a new selector and target artifact.
 
 **Basis:**
