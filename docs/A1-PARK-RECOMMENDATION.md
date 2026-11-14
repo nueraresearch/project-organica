@@ -26,7 +26,7 @@ The dilution is now measured. Candidate edges rose **383 → 1000**, but K-avail
 
 The K-supply discriminator narrows the next question. On the fixed 28-tag world, prediction caps **20/40/80** move A **271 → 353 → 498** but K stays **240 → 244 → 244**, so **prediction-cap is not the K bound**. Support K density rises **10.7% → 40.9%** across support bins, but at matched support the 16-tag world still has more K (8–15: **42.7% vs 28.3%**; 16+: **68.8% vs 40.9%**; weighted gap **25.0 pp**). The reading is **support-associated, not fully explanatory**. The next diagnostic should target the **carrier path** directly.
 
-The absolute-K predictor join is the caution on that next step: across **18** seeds, no pre-run feature beats the mean baseline out of world. The best model is `A_available` at **4.65** K rows, only **0.16** better than baseline, and it is a post-run output; the best pre-run feature is **0.64 rows worse**. `candidate_edges` fails out of world (MAE **177.21**) and has rho **0.03** inside the 28-tag block. Total K is **seed-specific** under these summaries.
+The absolute-K predictor join is the caution on that next step: across **18** seeds, no pre-run feature beats the mean baseline out of world. The best model is `A_available` at **4.65** K rows, only **0.16** better than baseline, and it is a post-run output; the best pre-run feature is **0.64 rows worse**. `candidate_edges` fails out of world (MAE **177.21**) and has rho **0.03** inside the 28-tag block. Total K is **seed-specific** under these summaries. The carrier-supply trace finds the window: **1,765** candidate edges produce **714** candidate K, while **1,004** loop-eligible candidates never become K; every loop-carried K ranks **1–15**, every eligible non-K **16+** (median **49**). The builder sees **1,421,231** possible 2-/3-cycles and returns **26,932** (**1.90%**), with the 15-loop cap binding on **81.2%** of cycles. Candidate K stays **228/242/244** across **382/383/1,000** candidates, while engine-wide directed K sums to **3,548** against **714** candidate K. That is a fixed output-window account, not an edge shortage; the trace raises no cap and is not causal.
 
 The size choice was structural, not a K screen: 24 tags gave only **127–136** independent edges, while 28 tags gave **158–172**.
 
@@ -60,7 +60,7 @@ A future owner decision may reopen only with:
 4. one edge universe shared by selector, runner and scorer;
 5. a new protocol, freeze, seed reservation and dated grant.
 
-A genuinely different construction is allowed to be tried. It must **specifically explain and overcome the measured K dilution**; a larger edge count alone is not enough. The discriminator rules out prediction-cap as the bound and leaves support only partial, so the account must name a **carrier-path** lever and predict its effect before K is measured. It must be fixed before its K is measured. A structural predictor join is not that account: no pre-run feature in the current data predicts absolute K across worlds.
+A genuinely different construction is allowed to be tried. It must **specifically explain and overcome the measured K dilution**; a larger edge count alone is not enough. The discriminator rules out prediction-cap as the bound and leaves support only partial, so the account must name a **carrier-path** lever and predict its effect before K is measured. It must be fixed before its K is measured. A structural predictor join is not that account: no pre-run feature in the current data predicts absolute K across worlds, and the carrier-supply trace shows why — the count is set by which loops enter the fixed 15-slot output window, not by how many structural edges exist.
 
 ## 5. Decision
 
@@ -87,6 +87,7 @@ This is not a freeze, grant, run or treatment result. It selects no target, rese
 - [K dilution report](A1-K-DILUTION.md)
 - [K-supply discriminator](A1-K-SUPPLY-DISCRIMINATOR.md)
 - [Absolute-K predictors](A1-K-TOTAL-PREDICTORS.md)
+- [Carrier-supply trace](A1-K-CARRIER-SUPPLY.md)
 - [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
 - [C1/C4 VOID gate](A1-C1-C4-VOID-GATE.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)
