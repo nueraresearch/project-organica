@@ -43,6 +43,38 @@
       "pass": true
     }
   },
+  "representativeness": {
+    "pass": true,
+    "source": "docs/a1_target_selection.json",
+    "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+    "measurement": {
+      "selected_observations": 24,
+      "unique_target_edges": 23,
+      "unselected_candidates": 358,
+      "candidates": 382,
+      "all_candidates_eligible": true,
+      "eligible_counts": {
+        "20630101": 64,
+        "20630102": 63,
+        "20630103": 64,
+        "20630104": 64,
+        "20630105": 64,
+        "20630106": 63
+      },
+      "selected_median_strength": 16.0,
+      "unselected_median_strength": 16.0,
+      "selected_mean_strength": 15.333,
+      "unselected_mean_strength": 15.215,
+      "permutation_p": 0.91765
+    },
+    "not_a_sample_of": [
+      "high-U edges",
+      "hard edges",
+      "carrier-enriched anomalies"
+    ],
+    "conclusion": "The selected targets are a representative eligible pre-37 sample; A1 does not estimate a high-U, hard-edge or carrier-enriched effect.",
+    "statistical_note": "The permutation p-value is descriptive. Failure to reject a difference is not an equivalence test and does not by itself establish representativeness; the design fact is that every candidate is eligible and the hash order ignores U."
+  },
   "all_pass": true,
   "per_seed": {
     "20630101": {
@@ -490,5 +522,5 @@
     },
     "selector_self_test": []
   },
-  "not_evidence": "A no-arm feasibility and adversarial audit. It selects draft targets but freezes no manifest, authorises no cell and records no A1 result."
+  "not_evidence": "A no-arm feasibility and adversarial audit. It selects draft targets, records a descriptive selection-representativeness measurement, but freezes no manifest, authorises no cell and records no A1 result."
 }

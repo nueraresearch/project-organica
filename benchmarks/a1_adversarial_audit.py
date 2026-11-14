@@ -8,6 +8,8 @@ blindness and sleep-blindness checks.
 import argparse
 import inspect
 import json
+import random
+import statistics
 import tempfile
 from pathlib import Path
 
@@ -68,6 +70,85 @@ def _feasibility(row: dict) -> dict:
         "disjoint": disjoint,
         "positive_u": positive,
         "cycle_member": cycle_member,
+    }
+
+
+def _permutation(selected: list[bool], values: list[float]) -> float:
+    observed = (statistics.mean(v for s, v in zip(selected, values) if s)
+                - statistics.mean(v for s, v in zip(selected, values) if not s))
+    rng = random.Random(0)
+    hits = 0
+    draws = 20000
+    for _ in range(draws):
+        rng.shuffle(selected)
+        diff = (statistics.mean(v for s, v in zip(selected, values) if s)
+                - statistics.mean(v for s, v in zip(selected, values) if not s))
+        hits += abs(diff) >= abs(observed)
+    return hits / draws
+
+
+def _representativeness() -> dict:
+    """Measure the selected target sample against all eligible candidates."""
+    doc = json.loads(selection.OUT_PATH.read_text(encoding="utf-8"))
+    flags: list[bool] = []
+    strengths: list[float] = []
+    selected_edges: list[str] = []
+    eligible_counts: dict[str, int] = {}
+    candidate_counts: dict[str, int] = {}
+    for seed, row in doc["per_seed"].items():
+        chosen = set(row["selected"])
+        selected_edges.extend(row["selected"])
+        eligible_counts[seed] = int(row["eligible_count"])
+        candidate_counts[seed] = int(row["candidate_count"])
+        for edge, u in row["u"].items():
+            flags.append(edge in chosen)
+            strengths.append(float(u["strength"]))
+
+    selected_strength = [v for s, v in zip(flags, strengths) if s]
+    unselected_strength = [v for s, v in zip(flags, strengths) if not s]
+    p_value = _permutation(flags[:], strengths)
+    selected_observations = len(selected_edges)
+    unique_edges = len(set(selected_edges))
+    all_eligible = all(eligible_counts[s] == candidate_counts[s] for s in eligible_counts)
+    passed = (
+        selected_observations == 24
+        and unique_edges == 23
+        and len(flags) == 382
+        and all_eligible
+        and len(unselected_strength) == 358
+    )
+    return {
+        "pass": passed,
+        "source": "docs/a1_target_selection.json",
+        "estimand": "representative eligible pre-37 cycle-membership directed-edge population",
+        "measurement": {
+            "selected_observations": selected_observations,
+            "unique_target_edges": unique_edges,
+            "unselected_candidates": len(unselected_strength),
+            "candidates": len(flags),
+            "all_candidates_eligible": all_eligible,
+            "eligible_counts": eligible_counts,
+            "selected_median_strength": statistics.median(selected_strength),
+            "unselected_median_strength": statistics.median(unselected_strength),
+            "selected_mean_strength": round(statistics.mean(selected_strength), 3),
+            "unselected_mean_strength": round(statistics.mean(unselected_strength), 3),
+            "permutation_p": round(p_value, 5),
+        },
+        "not_a_sample_of": [
+            "high-U edges",
+            "hard edges",
+            "carrier-enriched anomalies",
+        ],
+        "conclusion": (
+            "The selected targets are a representative eligible pre-37 sample; "
+            "A1 does not estimate a high-U, hard-edge or carrier-enriched effect."
+        ),
+        "statistical_note": (
+            "The permutation p-value is descriptive. Failure to reject a difference "
+            "is not an equivalence test and does not by itself establish "
+            "representativeness; the design fact is that every candidate is eligible "
+            "and the hash order ignores U."
+        ),
     }
 
 
@@ -174,10 +255,12 @@ def build() -> dict:
         and p0["sleep_blindness"]["pass"]
         and p0["determinism"]["pass"]
     )
+    representativeness = _representativeness()
     all_pass = (
         p0_pass
         and all(row["feasibility"]["pass"] for row in per_seed.values())
         and not self_test
+        and representativeness["pass"]
     )
     return {
         "kind": KIND,
@@ -193,6 +276,7 @@ def build() -> dict:
         "n_per_seed": N,
         "p0_pass": p0_pass,
         "p0": p0,
+        "representativeness": representativeness,
         "all_pass": all_pass,
         "per_seed": per_seed,
         "checks": {
@@ -202,8 +286,9 @@ def build() -> dict:
         },
         "not_evidence": (
             "A no-arm feasibility and adversarial audit. It selects draft "
-            "targets but freezes no manifest, authorises no cell and records "
-            "no A1 result."
+            "targets, records a descriptive selection-representativeness "
+            "measurement, but freezes no manifest, authorises no cell and "
+            "records no A1 result."
         ),
     }
 
@@ -242,6 +327,25 @@ def problems(doc: dict) -> list[str]:
         found.append("P0 overall is not a pass")
     if doc.get("all_pass") is not True:
         found.append("audit overall is not a pass")
+    rep = doc.get("representativeness") or {}
+    if not rep.get("pass"):
+        found.append("selection representativeness failed")
+    if rep.get("estimand") != "representative eligible pre-37 cycle-membership directed-edge population":
+        found.append("selection estimand changed")
+    measurement = rep.get("measurement") or {}
+    expected = {
+        "selected_observations": 24,
+        "unique_target_edges": 23,
+        "unselected_candidates": 358,
+        "candidates": 382,
+    }
+    for key, value in expected.items():
+        if measurement.get(key) != value:
+            found.append("selection measurement %s changed" % key)
+    if not measurement.get("all_candidates_eligible"):
+        found.append("not every candidate is eligible")
+    if abs(float(measurement.get("permutation_p", 0)) - 0.91765) > 0.001:
+        found.append("selection permutation p changed")
     return found
 
 
@@ -279,6 +383,35 @@ def render(doc: dict) -> str:
         "| Report-blindness | %s |" % ("PASS" if checks["report_blindness"]["pass"] else "FAIL"),
         "| Sleep-blindness | %s |" % ("PASS" if checks["sleep_blindness"]["pass"] else "FAIL"),
         "| Selector self-test | %s |" % ("PASS" if not checks["selector_self_test"] else "FAIL"),
+        "",
+        "## Selection representativeness",
+        "",
+        "**Source:** `%s`." % doc["representativeness"]["source"],
+        "",
+        "**Estimand:** %s." % doc["representativeness"]["estimand"],
+        "",
+        "| Measurement | Result |",
+        "| --- | ---: |",
+        "| Selected target observations | %d |" % doc["representativeness"]["measurement"]["selected_observations"],
+        "| Unique target edges | %d |" % doc["representativeness"]["measurement"]["unique_target_edges"],
+        "| Unselected candidates | %d |" % doc["representativeness"]["measurement"]["unselected_candidates"],
+        "| Candidates | %d |" % doc["representativeness"]["measurement"]["candidates"],
+        "| All candidates eligible | %s |" % ("yes" if doc["representativeness"]["measurement"]["all_candidates_eligible"] else "no"),
+        "| Selected mean / median strength | %s / %s |" % (
+            doc["representativeness"]["measurement"]["selected_mean_strength"],
+            doc["representativeness"]["measurement"]["selected_median_strength"],
+        ),
+        "| Unselected mean / median strength | %s / %s |" % (
+            doc["representativeness"]["measurement"]["unselected_mean_strength"],
+            doc["representativeness"]["measurement"]["unselected_median_strength"],
+        ),
+        "| Descriptive permutation p | %s |" % doc["representativeness"]["measurement"]["permutation_p"],
+        "",
+        "**Conclusion:** %s" % doc["representativeness"]["conclusion"],
+        "",
+        "It is **not** a sample of %s." % ", ".join(doc["representativeness"]["not_a_sample_of"]),
+        "",
+        "%s" % doc["representativeness"]["statistical_note"],
         "",
         "**Not evidence:** %s" % doc["not_evidence"],
         "",

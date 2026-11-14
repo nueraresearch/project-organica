@@ -24,9 +24,30 @@ until the manifest is frozen by a separate act.
 | Selection artifact generated | **PASS** | [artifact](a1_target_selection.json); 24 selected edges |
 | Selection digest stable | **PASS** | `selection_digest` checked against contents; independent determinism pass in the audit |
 
-The audit's P0 block records all six protocol-compliance conditions as passing.
+The audit's P0 block records all six protocol-compliance conditions as passing, and the audit now records the selection-representativeness measurement beside them.
 
-**Estimand record.** The selected targets are a **representative eligible pre-37 cycle-membership directed-edge sample**, not a high-`U`, hard-edge or carrier-enriched sample: 24 observations across 23 unique edges, all 382 candidates eligible, selected vs unselected cycle-36 strength p = 0.918. This is a design statement, not a result and not a P0 condition. If a high-propensity estimand is required, the selector must be redesigned before freeze.
+## Selection representativeness
+
+**Measurement (2026-11-14).**
+
+| Measurement | Result |
+| --- | ---: |
+| Selected target observations | **24** |
+| Unique target edges | **23** |
+| Unselected candidates | **358** |
+| Candidates | **382** |
+| All candidates eligible | **yes** |
+| Selected mean strength | **15.333** |
+| Unselected mean strength | **15.215** |
+| Selected median strength | **16** |
+| Unselected median strength | **16** |
+| Descriptive permutation p | **0.918** |
+
+**Estimand:** a **representative eligible pre-37 cycle-membership directed-edge population**.
+
+**Conclusion:** the selected targets are a representative eligible pre-37 sample; A1 does not estimate a high-`U`, hard-edge or carrier-enriched effect. The permutation p-value is descriptive; failure to reject a difference is not an equivalence test. The design fact is that every candidate is eligible and the hash order ignores `U`.
+
+If a high-propensity estimand is required, the selector must be redesigned before freeze. This is a design statement, not a result and not a P0 condition.
 `a1_target_selection --check` and `a1_adversarial_audit --check` are the
 machine checks for the artifact and its page.
 

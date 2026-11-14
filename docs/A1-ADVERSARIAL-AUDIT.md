@@ -24,4 +24,27 @@
 | Sleep-blindness | PASS |
 | Selector self-test | PASS |
 
-**Not evidence:** A no-arm feasibility and adversarial audit. It selects draft targets but freezes no manifest, authorises no cell and records no A1 result.
+## Selection representativeness
+
+**Source:** `docs/a1_target_selection.json`.
+
+**Estimand:** representative eligible pre-37 cycle-membership directed-edge population.
+
+| Measurement | Result |
+| --- | ---: |
+| Selected target observations | 24 |
+| Unique target edges | 23 |
+| Unselected candidates | 358 |
+| Candidates | 382 |
+| All candidates eligible | yes |
+| Selected mean / median strength | 15.333 / 16.0 |
+| Unselected mean / median strength | 15.215 / 16.0 |
+| Descriptive permutation p | 0.91765 |
+
+**Conclusion:** The selected targets are a representative eligible pre-37 sample; A1 does not estimate a high-U, hard-edge or carrier-enriched effect.
+
+It is **not** a sample of high-U edges, hard edges, carrier-enriched anomalies.
+
+The permutation p-value is descriptive. Failure to reject a difference is not an equivalence test and does not by itself establish representativeness; the design fact is that every candidate is eligible and the hash order ignores U.
+
+**Not evidence:** A no-arm feasibility and adversarial audit. It selects draft targets, records a descriptive selection-representativeness measurement, but freezes no manifest, authorises no cell and records no A1 result.
