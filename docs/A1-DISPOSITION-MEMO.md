@@ -21,16 +21,17 @@ Should A1 be **redesigned as a new protocol**, or **parked**? The current design
 
 ## 3. Redesign branch — requirements
 
-A successor is admissible only if **all** of the following hold before any target freeze:
+A successor is admissible only if **all** requirements are met before any target freeze. The table compares what each branch changes.
 
-| Requirement | Minimum |
-| --- | --- |
-| C1 supply | No-arm preflight shows **≥60 K-available independent rows per seed**. |
-| K rate / size | At 63–64 edges this needs **93.8–95.2% K**; a larger universe lowers the rate: 80 edges → **75%**, 96 → **62.5%**, 120 → **50%**. |
-| Targets | If C2/C8 remain in scope, **20 competent targets per seed** under a declared baseline A+K screen, with the estimand change recorded. |
-| Estimator and floor | The adopted estimator and 60-row floor remain unless separately reopened. |
-| Universe consistency | `run_cell`, selection, result assembly and manifest use **one edge universe**; the N20-default/N4-manifest mismatch is removed. |
-| Pre-registration | New protocol and fresh seed block or universe fixed **before** selection; seed selection may not condition on the judging baseline. New freeze, seed reservation and grant; current acts are not reused. |
+| Scope | Redesign | Park |
+| --- | --- | --- |
+| C1 stream | New independent universe or seed block; no-arm preflight shows **≥60 K-available independent rows per seed**. | Close the current **31–44** stream; do not retry target selection. |
+| K rate / size | At 63–64 edges, **93.8–95.2% K**; a larger universe lowers the rate: 80 edges → **75%**, 96 → **62.5%**, 120 → **50%**. | No K repair; park does not claim K is unavailable in principle. |
+| Targets | If C2/C8 remain in scope, **20 competent targets per seed** under a declared baseline A+K screen, with the estimand change recorded. | No new target selection; C2/C8 are **not adjudicated**. |
+| Estimator / floor | Keep the **0.95 / 60** rule unless separately reopened as a scientific change. | No change. |
+| Universe / scorer | `run_cell`, selection, result assembly and manifest use **one edge universe**; the N20/N4 mismatch is removed. | Fix independently if desired; not a condition of park. |
+| Governance | New protocol, freeze, seed reservation and dated grant; current acts are not reused. | **No freeze, no grant, no run.** |
+| Cost | Fund the preflight, then a new campaign only if it passes. | No new campaign; preserve the existing artifacts. |
 
 **Stop rule:** if the no-arm preflight cannot show 60 K-available rows on every seed, **do not freeze, do not grant and do not run**. Return to disposition; do not relax the floor, add non-competent rows, or select a more favourable seed subset after seeing the preflight.
 

@@ -41,6 +41,7 @@ def test_memo_carries_the_competitive_target_figures():
 
 def test_memo_has_both_branches_and_a_stop_rule():
     assert "## 3. Redesign branch — requirements" in TEXT
+    assert "| Scope | Redesign | Park |" in TEXT
     assert "## 4. Park branch — criteria" in TEXT
     assert "**Stop rule:**" in TEXT
     assert "do not freeze, do not grant and do not run" in TEXT
