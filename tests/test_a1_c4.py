@@ -180,3 +180,16 @@ def test_c4_gate_order_is_recorded_as_post_freeze_void():
     assert doc["pre_freeze_admissibility"] is False
     assert "target freeze" in doc["does_not_authorize"]
     assert "target freeze" in doc["freeze_effect"]
+
+
+def test_c1_c4_void_gate_draft_names_both_gates_and_void_meaning():
+    import json
+    from pathlib import Path
+
+    doc = json.loads(Path("docs/a1_c1_c4_void_gate.json").read_text(encoding="utf-8"))
+    assert doc["id"] == "A1-C1-C4-VOID-GATE-1"
+    assert doc["status"] == "DRAFT — NOT DECIDED"
+    codes = {row["reason_code"] for row in doc["void_conditions"]}
+    assert {"C1_NO_DENOMINATOR", "C1_THRESHOLD", "C4_UNMEASURABLE", "C4_DELTA"} <= codes
+    assert any("not a negative result" in line for line in doc["void_meaning"])
+    assert doc["pre_freeze_admissibility"] is False

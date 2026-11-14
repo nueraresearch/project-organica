@@ -19,6 +19,7 @@
   ],
   "void_condition": "C4_no_interference fails if any measurable non-target A, K or Y neighbour delta exceeds 0.05, or if the non-target stream is unmeasurable. The A1 run is VOID; no causal, capability or transfer claim may be read from it.",
   "c1_relationship": "C1 and C4 are both post-freeze result gates. C1 remains the primary preservation gate; C4 supplies the non-target denominator and an interference veto.",
+  "draft_extension": "docs/A1-C1-C4-VOID-GATE.md proposes making C1 a post-freeze VOID gate as well. It is DRAFT — NOT DECIDED; this C4-only record remains authoritative until adopted.",
   "does_not_authorize": [
     "target freeze",
     "seed reservation",
