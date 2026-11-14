@@ -15,5 +15,10 @@ dependencies = []   # Zero external dependencies — pure Python standard librar
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
 
+[tool.setuptools.packages.find]
+# The repository root also contains research and output directories; only the
+# importable engine is part of the distribution.
+include = ["organica*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
