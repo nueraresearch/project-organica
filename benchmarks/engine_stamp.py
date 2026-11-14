@@ -88,6 +88,7 @@ DERIVED = {
     "a1_k_decomposition.py",  # descriptive no-arm K decomposition; runs nothing
     "a1_k_dilution.py",  # descriptive cross-world K dilution; runs nothing
     "a1_k_supply_discriminator.py",  # no-arm cap/support diagnostic; runs no A1 cell
+    "a1_k_total_predictors.py",  # read-only join of absolute K predictors; runs nothing
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing

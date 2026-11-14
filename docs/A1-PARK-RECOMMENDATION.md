@@ -26,6 +26,8 @@ The dilution is now measured. Candidate edges rose **383 → 1000**, but K-avail
 
 The K-supply discriminator narrows the next question. On the fixed 28-tag world, prediction caps **20/40/80** move A **271 → 353 → 498** but K stays **240 → 244 → 244**, so **prediction-cap is not the K bound**. Support K density rises **10.7% → 40.9%** across support bins, but at matched support the 16-tag world still has more K (8–15: **42.7% vs 28.3%**; 16+: **68.8% vs 40.9%**; weighted gap **25.0 pp**). The reading is **support-associated, not fully explanatory**. The next diagnostic should target the **carrier path** directly.
 
+The absolute-K predictor join is the caution on that next step: across **18** seeds, no pre-run feature beats the mean baseline out of world. The best model is `A_available` at **4.65** K rows, only **0.16** better than baseline, and it is a post-run output; the best pre-run feature is **0.64 rows worse**. `candidate_edges` fails out of world (MAE **177.21**) and has rho **0.03** inside the 28-tag block. Total K is **seed-specific** under these summaries.
+
 The size choice was structural, not a K screen: 24 tags gave only **127–136** independent edges, while 28 tags gave **158–172**.
 
 ## 2. Why park rather than try another block
@@ -58,7 +60,7 @@ A future owner decision may reopen only with:
 4. one edge universe shared by selector, runner and scorer;
 5. a new protocol, freeze, seed reservation and dated grant.
 
-A genuinely different construction is allowed to be tried. It must **specifically explain and overcome the measured K dilution**; a larger edge count alone is not enough. The discriminator rules out prediction-cap as the bound and leaves support only partial, so the account must name a **carrier-path** lever and predict its effect before K is measured. It must be fixed before its K is measured.
+A genuinely different construction is allowed to be tried. It must **specifically explain and overcome the measured K dilution**; a larger edge count alone is not enough. The discriminator rules out prediction-cap as the bound and leaves support only partial, so the account must name a **carrier-path** lever and predict its effect before K is measured. It must be fixed before its K is measured. A structural predictor join is not that account: no pre-run feature in the current data predicts absolute K across worlds.
 
 ## 5. Decision
 
@@ -84,6 +86,7 @@ This is not a freeze, grant, run or treatment result. It selects no target, rese
 - [Larger-universe candidate](A1-LARGER-UNIVERSE-CANDIDATE.md)
 - [K dilution report](A1-K-DILUTION.md)
 - [K-supply discriminator](A1-K-SUPPLY-DISCRIMINATOR.md)
+- [Absolute-K predictors](A1-K-TOTAL-PREDICTORS.md)
 - [Successor preflight](A1-SUCCESSOR-PREFLIGHT.md)
 - [C1/C4 VOID gate](A1-C1-C4-VOID-GATE.md)
 - [Pre-freeze checklist](A1-PRE-FREEZE-CHECKLIST.md)
