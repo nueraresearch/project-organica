@@ -645,6 +645,31 @@
         "docs/DECISION-A1-PATH-A-C1-RULE.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C4-POSTURE",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "The multiplicity is declared, not corrected.",
+        "A failure names what fired.",
+        "The VOID probability is unmeasured.",
+        "A VOID is a result about the design.",
+        "Nothing is relaxed."
+      ],
+      "rejected": [
+        {
+          "alternative": "narrow the protected set",
+          "reason": "clause 5 must be amended and the row counts replaced, and C1's denominator shrinks with them"
+        }
+      ],
+      "evidence": [
+        "docs/A1-C4-RISK-POSTURE.md",
+        "docs/A1-C4-NOISE-FEASIBILITY.md",
+        "docs/DECISION-A1-C4-POSTURE.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 16 | in force; the document records it as implemented or effective |
+| ADOPTED | 17 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 5 | decided and not in force; the document says so |
-| **total** | **22** | |
+| **total** | **23** | |
 
 ## The decisions
 
@@ -491,6 +491,28 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`
 
 **Record.** `docs/DECISION-A1-PATH-A-C1-C4.md`
+
+### DECISION-A1-C4-POSTURE — C4 declaration — adopted 2026-11-15 (posture A)
+
+**Status.** ADOPTED — *"ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- The multiplicity is declared, not corrected.
+- A failure names what fired.
+- The VOID probability is unmeasured.
+- A VOID is a result about the design.
+- Nothing is relaxed.
+
+**Rejected.**
+
+- *narrow the protected set* — because *"clause 5 must be amended and the row counts replaced, and C1's denominator shrinks with them"*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C4-RISK-POSTURE.md`, `docs/A1-C4-NOISE-FEASIBILITY.md`, `docs/DECISION-A1-C4-POSTURE.md`
+
+**Record.** `docs/DECISION-A1-C4-POSTURE.md`
 
 ## What this graph is not
 

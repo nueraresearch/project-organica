@@ -53,6 +53,20 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C4's exposure accepted — the last first-order A1 question is closed
+
+The C4 declaration is signed and adopted as `A1-C4-POSTURE-1` (posture A), with its five clauses unchanged at
+signature: the multiplicity is declared and not corrected; a failure must name seed, cell, edge, quantity and
+delta, or the unmeasurable row; the VOID probability is declared unmeasured; a VOID is a result about the
+design; and nothing is relaxed — the 0.05 ceiling, the maximum, the 108/92-row protected set and the six-seed
+scope stay as they were. The veto remains a maximum over 324 deltas per seed and 1,944 per block.
+
+The document moved from `docs/A1-C4-DECLARATION.md` to `docs/DECISION-A1-C4-POSTURE.md` because the decision
+index binds a `DECISION-X` id to a `DECISION-X.md` body, and this record is now that body. It is indexed
+ADOPTED, tallied under Q054, and the page regenerated: 23 decisions, no errors, no drift. The checklist no
+longer describes an open owner choice; the freeze acts, the grant and the run are acts that follow, not
+questions that remain. Nothing is frozen, granted or run by this record.
+
 ## Addendum — 2026-11-15: the decision graph runs clean — 22 decisions, no drift
 
 Two Path A records sat on disk outside the index, so `decision_graph --check` reported three errors against
@@ -136,7 +150,7 @@ settle the prior before anything expensive is considered.
 
 ## Addendum — 2026-11-15: the C4 posture written as adoptable text
 
-`docs/A1-C4-DECLARATION.md` turns the accepted posture into five clauses the owner can sign without
+`docs/DECISION-A1-C4-POSTURE.md` turns the accepted posture into five clauses the owner can sign without
 changing anything else. It declares the multiplicity rather than correcting it (324 deltas per seed,
 1,944 per block, maximum by design), requires a failure to carry `C4_DELTA` with its seed, cell, edge,
 quantity and delta, records the VOID probability as **unquantified** with the reason it cannot be cheaply

@@ -8,7 +8,7 @@
 
 ## First: a premise I stated was wrong
 
-[`A1-C4-DECLARATION`](A1-C4-DECLARATION.md) clause 3 says the probability cannot be measured because "the engine is deterministic, so two no-arm replays are identical and their delta is exactly zero". **That is too strong, and the repository's own artifacts contradict it.**
+[`A1-C4-DECLARATION`](DECISION-A1-C4-POSTURE.md) clause 3 says the probability cannot be measured because "the engine is deterministic, so two no-arm replays are identical and their delta is exactly zero". **That is too strong, and the repository's own artifacts contradict it.**
 
 CPython randomises string hashing per process, so set and dict iteration order varies between runs; that is why `benchmarks/process_noise.py` exists and why it re-runs a cell under six `PYTHONHASHSEED` values and reports the spread of every field. Its recorded result: across six hash seeds, **16 of 17 measured fields have exactly zero spread**, and one field (`M5_development_velocity.new_per_100_cycles`) varies slightly (`docs/process_noise.json`).
 
@@ -72,4 +72,4 @@ A hash-seed replay of a **single no-arm cell** that shows the non-target availab
 
 ## What this document changes elsewhere
 
-It corrects the determinism premise in [`A1-C4-DECLARATION`](A1-C4-DECLARATION.md) clause 3 and the matching sentence on [`A1-C4-RISK-POSTURE`](A1-C4-RISK-POSTURE.md). The conclusion of both documents stands — the probability is unmeasured — but the reason is a narrow, measured near-invariance rather than an exact zero.
+It corrects the determinism premise in [`A1-C4-DECLARATION`](DECISION-A1-C4-POSTURE.md) clause 3 and the matching sentence on [`A1-C4-RISK-POSTURE`](A1-C4-RISK-POSTURE.md). The conclusion of both documents stands — the probability is unmeasured — but the reason is a narrow, measured near-invariance rather than an exact zero.

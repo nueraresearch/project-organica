@@ -1,8 +1,14 @@
-# C4 declaration — adoptable text, verbatim
+# C4 declaration — adopted 2026-11-15 (posture A)
+
+**ID:** `A1-C4-POSTURE-1`
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO CELL, NO FREEZE, NO GRANT`
+**Status:** `ADOPTED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN`
+
+**Decision owner:** owner direction, 2026-11-15.
+
+**Adopted text:** the five clauses in "The declaration, verbatim" below, unchanged at signature.
 
 **Scope:** the C4 posture text only. It changes no threshold, no row set, no gate and no code. Adoption is a signature and a date.
 
@@ -73,9 +79,18 @@ One optional addition, and only if the owner wants it: `score_c4` could record t
 
 This text is posture A. Under posture **B** (narrow the protected set) clause 5 must be amended and the row counts replaced, and C1's denominator shrinks with them — the trade recorded on the risk page. Under posture **C** (accept a possible VOID explicitly) clauses 1–3 survive and clause 4 becomes the centre of the posture. The three clauses are independent enough that any combination can be adopted by editing only the sentences they touch.
 
-## Adoption record, if signed
+## Adoption record
 
-Adopting this text means, in order: sign and date it here; record the decision as `DECISION-A1-C4-POSTURE-1` with this declaration as its body; then re-issue both freeze acts against it. Until the first of those happens this document is a draft, and the checklist keeps C4 as an open owner decision.
+**Adopted 2026-11-15, posture A, with the five clauses unchanged.** The decision source is the dated owner
+direction in the header; no clause was edited at signature, and the `nan`/`null` gate repair recorded above
+is part of the state of the code the declaration describes.
+
+What this satisfies is `C4_exposure_acceptance`, the last precondition the freeze acts were waiting on. What
+it does not do: freeze a target, reserve a seed, authorise a cell, change a threshold, narrow the protected
+set, or re-issue the freeze acts. Those remain separate owner acts.
+
+In order, what follows: draft the disposition against this posture, re-issue both freeze acts with fresh
+digests, then the grant, then the run.
 
 ## Reproduce
 
