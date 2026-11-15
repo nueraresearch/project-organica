@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 17 branches, 12 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 17 branches, 13 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -42,7 +42,7 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | The VOID is accepted, not rescored | **CLOSED — ADOPTED** | the block ran once, assembled to VOID on C4, and stays that way; the scorer repair applies to future runs only — [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
 | A2 sham matching | **CLOSED — ARTIFACT EXISTS** | a matched sham exists in aggregate but not per non-target edge, so the per-edge C4' is not constructible from this selection — [`A2-SHAM-FEASIBILITY.md`](A2-SHAM-FEASIBILITY.md) | [`tests/test_a2_sham_feasibility.py`](../tests/test_a2_sham_feasibility.py) |
 | V2 charter | **PENDING — NOT BLOCKING** | a draft that commissions a charter rather than a build; nothing is authorised until the owner signs it — [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) | [`tests/test_v2_charter_decision.py`](../tests/test_v2_charter_decision.py) |
-| A2 estimand | **PENDING — NOT BLOCKING** | records the edge-versus-carrier fork and chooses neither; no A2 branch is authorised to run — [`DECISION-A2-ESTIMAND`](DECISION-A2-ESTIMAND.md) | [`tests/test_a2_estimand_decision.py`](../tests/test_a2_estimand_decision.py) |
+| A2 estimand | **CLOSED — ADOPTED** | A2 is closed: the matchable control differs per edge, and the carrier unit makes the locality criterion unfalsifiable; no A2 arm runs — [`DECISION-A2-ESTIMAND`](DECISION-A2-ESTIMAND.md) | [`tests/test_a2_estimand_decision.py`](../tests/test_a2_estimand_decision.py) |
 <!-- a1-artifacts:end -->
 
 The inventory below is what the pinning layer is worth, counted rather than claimed: claims, the numbers
@@ -81,7 +81,7 @@ regenerates it.
 | [`DECISION-A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no target, authorises no cell, changes no engine file and records no result … |
 | [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | **ADOPTED** | `DECISION-A1-VOID-ACCEPTED` — the A1 block is VOID, and it is not rescored |
 
-_Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-A2-ESTIMAND`, `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`, `DECISION-V2-CHARTER`._
+_Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`, `DECISION-V2-CHARTER`._
 <!-- a1-board:end -->
 
 So the honest headline is **two owner choices remain open, and both are drafted and audited for signature** — not "no

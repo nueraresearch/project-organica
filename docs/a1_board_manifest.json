@@ -356,7 +356,7 @@
       "branch": "A2 estimand",
       "kind": "decision",
       "decision": "DECISION-A2-ESTIMAND",
-      "note": "records the edge-versus-carrier fork and chooses neither; no A2 branch is authorised to run",
+      "note": "A2 is closed: the matchable control differs per edge, and the carrier unit makes the locality criterion unfalsifiable; no A2 arm runs",
       "proved_by": [
         "tests/test_a2_estimand_decision.py"
       ]

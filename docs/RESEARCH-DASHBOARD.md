@@ -11,11 +11,11 @@ by hand, and the row names say what is counted.
 | Metric | Value | Definition | Source |
 | --- | --- | --- | --- |
 | Questions registered | 56 | rows in the registry | `docs/research_question_registry.json` |
-| Questions closed | 15 | status is closed | `docs/research_question_registry.json` |
-| Questions open | 33 | status is open | `docs/research_question_registry.json` |
+| Questions closed | 16 | status is closed | `docs/research_question_registry.json` |
+| Questions open | 32 | status is open | `docs/research_question_registry.json` |
 | Questions retired | 2 | status is retired | `docs/research_question_registry.json` |
 | Questions deferred | 6 | status is future | `docs/research_question_registry.json` |
-| Findings supported | 11 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
+| Findings supported | 12 | closed or retired with outcome SUPPORTED | `docs/research_question_registry.json` |
 | Findings unsupported | 5 | closed or retired with outcome UNSUPPORTED | `docs/research_question_registry.json` |
 | Findings mixed | 1 | closed or retired with outcome MIXED | `docs/research_question_registry.json` |
 | Findings inconclusive | 0 | closed or retired with outcome INCONCLUSIVE | `docs/research_question_registry.json` |

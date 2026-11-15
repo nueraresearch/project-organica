@@ -13,8 +13,8 @@ where the method is.
 
 | status | count | meaning |
 | --- | --- | --- |
-| closed | 15 | a result constrained the space; the answer is recorded with its scope |
-| open | 33 | evidence exists, no answer is settled |
+| closed | 16 | a result constrained the space; the answer is recorded with its scope |
+| open | 32 | evidence exists, no answer is settled |
 | retired | 2 | no longer worth resources; the reason is recorded |
 | future | 6 | valid only after a named prerequisite is met |
 | **total** | **56** | |
@@ -23,7 +23,7 @@ where the method is.
 
 A closed or retired answer was reopened when **no artifact it rests on names the build pinned now** (`engine_version` 0.13.0, whose fourteen files `python -m benchmarks.engine_pin --check` verifies against the current tree). An answer without that attribution stands as the result on the engine that produced it; it cannot be carried into this build. It was kept closed only where its evidence names the pinned release, or where the closure was a governance or design decision rather than a measurement. A release-level stamp is weaker than the byte-level `engine_sha256` the stamp now writes, so the kept-closed answers are the first candidates for a byte-level re-verification.
 
-**Reopened: Q004, Q005, Q017, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 17**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
+**Reopened: Q004, Q005, Q017, Q024, Q029, Q030, Q031, Q032, Q036, Q043, Q044, Q051.** **Kept closed: 18**, each with its reason below. The build the criterion names is `0.13.0` (`ed0851d119470d25`).
 
 - **Q009** -- the answer is about the scope of the charter (what 'no V2' forbids), not about an engine measurement
 - **Q010** -- the answer is about the Stage B authorisation route, a protocol decision with no engine in it
@@ -42,6 +42,7 @@ A closed or retired answer was reopened when **no artifact it rests on names the
 - **Q021** -- Closed 2026-11-09 by the pinned 40-cell re-derivation; it was reopened on 2026-11-08, and the result now names the pinned build.
 - **Q006** -- Closed 2026-11-09 by the pinned 16-cell re-derivation; the historical negative answer survived, so it is outside the campaign.
 - **Q055** -- Closed 2026-11-11 by T1b on the pinned 0.15.0 build; it was not part of the 2026-11-08 reopening sweep.
+- **Q058** -- opened and answered after the 2026-11-08 pass, by DECISION-A2-ESTIMAND; it was never in the pass's scope, so it is classified here as not reopened rather than reopened
 
 ## How this stays current
 
@@ -250,6 +251,20 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/t1b_persistence_off_prereg.json`, `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/t1_persistence_off_run.json`, `docs/T1-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`, `docs/ceiling_diagnostic.json`, `docs/CEILING-DIAGNOSTIC.md`, `docs/within_cycle_distribution.json`, `docs/WITHIN-CYCLE-DISTRIBUTION.md`
 
 **Decision record.** `docs/DECISION-PERSISTENCE-INTERVENTION.md`
+
+### Q058 — Does A2 keep the edge as its unit of inference, or change the unit to the carrier?
+
+*governance question.*
+
+**Outcome.** SUPPORTED
+
+**Answer.** Neither. A2 is closed: the per-edge estimand cannot be tested with this intervention because the only matchable control differs per edge, and the carrier-level unit makes the locality criterion unfalsifiable and changes the estimand. A carrier study, if wanted, is a separate charter.
+
+**Why it is open.** The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.
+
+**Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+
+**Decision record.** `docs/DECISION-A2-ESTIMAND.md`
 
 ## 2. Open — evidence in hand, no settled answer
 
@@ -670,16 +685,6 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
 
 **Decision record.** `docs/DECISION-V2-CHARTER.md`
-
-### Q058 — Does A2 keep the edge as its unit of inference, or change the unit to the carrier?
-
-*governance question.*
-
-**Why it is open.** The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.
-
-**Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
-
-**Decision record.** `docs/DECISION-A2-ESTIMAND.md`
 
 ## 3. Retired — no longer worth resources
 

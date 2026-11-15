@@ -339,9 +339,9 @@ def _check(entries: str) -> list[dict]:
     add("fourteen files", "docs/engine_pin.json .files", len(_at(pin, "files")),
         len(_at(pin, "files")) == 14)
     kept = _at(registry, "reopening", "kept_closed")
-    add("17", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 17,
-        "Q002, Q006 and Q021 closed on 2026-11-09 after their 0.13.0 re-measurements, and Q055 closed on 2026-11-11, so the record now holds 17")
+    add("18", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 18,
+        "Q002, Q006 and Q021 closed on 2026-11-09 after their 0.13.0 re-measurements, Q055 closed on 2026-11-11, and Q058 closed on 2026-11-15 with DECISION-A2-ESTIMAND, so the record now holds 18")
     named = sum(1 for e in kept if "records engine_version 0.13.0" in e["reason"])
     governance = sum(1 for e in kept
                      if "the answer is about" in e["reason"]
@@ -1095,15 +1095,15 @@ def _check(entries: str) -> list[dict]:
         len(questions) == 56)
     add("12", "docs/research_question_registry.json .reopening.reopened",
         len(reopened), len(reopened) == 12)
-    add("17", "docs/research_question_registry.json .reopening.kept_closed",
-        len(kept), len(kept) == 17)
+    add("18", "docs/research_question_registry.json .reopening.kept_closed",
+        len(kept), len(kept) == 18)
     never = [q for q in questions
              if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
-    add("27", "docs/research_question_registry.json, questions in neither list",
-        len(never), len(never) == 27)
+    add("26", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 26)
     runnable = [q for q in never if q["status"] == "open"]
-    add("21", "docs/research_question_registry.json, never-closed rows with status open",
-        len(runnable), len(runnable) == 21)
+    add("20", "docs/research_question_registry.json, never-closed rows with status open",
+        len(runnable), len(runnable) == 20)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
     add("**228** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,

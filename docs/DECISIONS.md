@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 23 | in force; the document records it as implemented or effective |
+| ADOPTED | 24 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 7 | decided and not in force; the document says so |
+| PENDING | 6 | decided and not in force; the document says so |
 | **total** | **31** | |
 
 ## The decisions
@@ -676,24 +676,27 @@ uncomputable, and the cause that fired first is the one worth reporting.
 
 **Record.** `docs/DECISION-V2-CHARTER.md`
 
-### DECISION-A2-ESTIMAND — `DECISION-A2-ESTIMAND` — what A2 must preserve
+### DECISION-A2-ESTIMAND — `DECISION-A2-ESTIMAND` — A2 is closed
 
-**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S ESTIMAND CHOICE"*
+**Status.** ADOPTED — *"ADOPTED — A2 IS CLOSED AND NO A2 ARM RUNS"*
 
 **Decided.**
 
-- A2 keeps the edge as its unit of inference and adopts an aggregate non-target criterion, or it changes the unit to the carrier and keeps a strict criterion; the record chooses neither until the owner states which claim the study must support.
-- Whichever branch is chosen, its criterion is pre-committed in its own charter, and the aggregate criterion is never described as A1's per-edge criterion succeeding.
-- Neither branch is authorised to run by this record: each needs its own charter, freeze and grant.
+- A2 is closed: the edge-level question A1 asked is not testable with this intervention, because the only control that can be matched differs from the treatment on the same per-edge quantity the estimand depends on.
+- The carrier-level alternative is not adopted as A2: its locality condition is satisfied by construction, so it cannot fail, and its estimand belongs to a different study.
+- A1 remains `VOID`, frozen and un-rescored, and this decision changes no verdict, no frozen file and no published artifact.
+- A future carrier-level study, if one is wanted, arrives as its own charter with its own estimand, target set and a criterion that can fail; nothing here authorises one.
 
 **Rejected.**
 
+- *Adopt A2c′ because the aggregate match exists* — because *"Because a matched total is not a matched distribution, and the per-edge estimand depends on the distribution."*
+- *Adopt A2b because it makes interference local* — because *"Because a criterion that cannot fail cannot license a result, and the unit change makes it a different study."*
+- *Keep the fork open and wait for a measurement to settle it* — because *"Because no measurement can settle an estimand question, and an open choice that nothing can close holds the line open without producing information."*
 - *Describe the aggregate criterion as the per-edge design succeeding* — because *"Because that is the pattern the record spent months eliminating: a failed condition, a new condition, and the new one described as if it were the old one."*
 - *Choose by implementation convenience* — because *"Because the two branches cost about the same to build, and the difference between them is what the study would mean."*
 - *Run more sham search to decide* — because *"Because a search cannot answer an estimand question; it can only report what a criterion admits, which is already known for both."*
-- *Keep A1's C4 unchanged and call A2 "A1 with a better placebo"* — because *"Because no placebo meets C4, so that description has no referent."*
 
-**Rests on.** Q058 (open)
+**Rests on.** Q058 (closed)
 
 **Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`
 

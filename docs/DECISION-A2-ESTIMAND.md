@@ -1,17 +1,13 @@
-# `DECISION-A2-ESTIMAND` — what A2 must preserve
+# `DECISION-A2-ESTIMAND` — A2 is closed
 
-**Status:** `DRAFT — AWAITING THE OWNER'S ESTIMAND CHOICE`
+**Status:** `ADOPTED — A2 IS CLOSED AND NO A2 ARM RUNS`
 
-**Decision ID:** `DECISION-A2-ESTIMAND-1` · **Date:** 2026-11-15
-
-**Decides:** whether an A2 study keeps the edge as its unit of inference and weakens the interference criterion, or
-changes the unit to the carrier and keeps the criterion strict.
-**Does not decide:** whether A2 runs. Either branch needs its own charter, criterion and grant, and neither is authorised
-here.
+**Decision ID:** `DECISION-A2-ESTIMAND-1` · **Date:** 2026-11-15 · **Tallied:** Q058
+**Instruction:** decide the estimand question and record the choice as adopted (owner, 2026-11-15).
 
 ## 1. What the evidence fixes
 
-Three things are no longer open.
+Four things are settled, and none of them selects a branch.
 
 1. **A1 is `VOID` and stays `VOID`.** The assembly is the study's outcome; nothing here rescinds it or re-scores it.
 2. **A per-edge placebo has no witnessed construction from this selection.** On three of six seeds fewer than 95% of
@@ -20,13 +16,10 @@ Three things are no longer open.
    regimes, not a proof: this does not establish that no such construction exists.
 3. **An aggregate placebo is constructible.** On all six seeds the mean absolute per-edge difference is at most 2.76
    cycles and the two arms' predicted total losses agree within 8.1%.
-
-Fixed, too, is the language: the aggregate check is **a different criterion, not a rescue criterion**. It was specified
-after the per-edge test failed, and no document may describe it as the per-edge design succeeding.
+4. **The aggregate criterion is a different criterion, not a rescue criterion.** It was specified after the per-edge test
+   failed, and no document may describe it as the per-edge design succeeding.
 
 ## 2. The fork
-
-The two survivors differ in what they ask, not in how well they are engineered.
 
 | | **A2c′** — aggregate criterion | **A2b** — carrier-level unit |
 |---|---|---|
@@ -37,32 +30,46 @@ The two survivors differ in what they ask, not in how well they are engineered.
 | **What it can claim** | an edge-level effect under a stated, weaker locality condition | a carrier-level effect, which A1's question was not about |
 | **What it cannot claim** | anything about per-edge locality | comparability with A1, or an edge-level effect |
 
-## 3. The question that decides it
+## 3. Why neither branch is adopted
 
-**Does the study's next claim need to be about edges, or about carriers?**
+**A2c′ controls the total, not the distribution.** The sham matches the mean and the total, but on the three failing seeds
+individual non-target edges still differ by 30, 51 and 78 cycles. The estimand is per edge, and a per-edge effect cannot
+be separated from a redistribution of interference across the edges that couple to the target. Matching a mean does not
+control a distribution, and adding more searches would not change that: the criterion admits the redistribution by
+construction. A study whose control differs from its treatment on the quantity the estimand depends on does not identify
+the effect, and A1 already failed once for precisely this reason.
 
-- If the claim is about edges — "this edge's removal changed behaviour" — choose **A2c′**, and write the aggregate
-  criterion into the charter as the weaker locality condition it is.
-- If the claim is about carriers — "this carrier's removal changed behaviour" — choose **A2b**, and state in the charter
-  that the estimand changed, so nothing later can be compared to A1 as if it had not.
+**A2b's criterion cannot fail.** With the carrier as the unit and carrier removal as the intervention, the locality
+condition is satisfied by definition, so it cannot fire as a check — and a gate that cannot fire is decoration (rule
+25(c)). Worse, the estimand changes: a carrier-level effect is not A1's question, and calling it A2 would put a different
+study's result where a reader expects this one's. That is a new study, and it would need its own target set, its own
+denominators and its own criterion.
 
-There is no fourth option in which the edge-level estimand keeps its per-edge criterion without a witnessed
-construction: item 2 above leaves that option unbuilt.
+**So the fork does not reduce to an estimand preference.** Both branches were coherent as designs; neither is a test of
+the question A1 asked. The choice is to close the line rather than to run a study that cannot answer it.
 
-### The record, in three sentences
+## 4. The decision
 
-A2 keeps the edge as its unit of inference and adopts an aggregate non-target criterion, or it changes the unit to the carrier and keeps a strict criterion; the record chooses neither until the owner states which claim the study must support.
-Whichever branch is chosen, its criterion is pre-committed in its own charter, and the aggregate criterion is never described as A1's per-edge criterion succeeding.
-Neither branch is authorised to run by this record: each needs its own charter, freeze and grant.
+A2 is closed: the edge-level question A1 asked is not testable with this intervention, because the only control that can be matched differs from the treatment on the same per-edge quantity the estimand depends on.
+The carrier-level alternative is not adopted as A2: its locality condition is satisfied by construction, so it cannot fail, and its estimand belongs to a different study.
+A1 remains `VOID`, frozen and un-rescored, and this decision changes no verdict, no frozen file and no published artifact.
+A future carrier-level study, if one is wanted, arrives as its own charter with its own estimand, target set and a criterion that can fail; nothing here authorises one.
 
-## 4. What either branch must carry
+## 5. What this does not do
 
-- Its own pre-committed criterion, fixed before a cell runs, in the charter's own words.
-- The disclosure sentence: *this criterion is not A1's, and the difference is the point*.
-- A statement of what the branch cannot claim, written before the result is known.
-- Its own freeze, pin and gate order, with `VOID` stopping interpretation before any effect is quoted.
+- It does **not** assert that no A2 design exists. It asserts that none found here tests this estimand with a control that
+  can carry it, and the record says so in those words.
+- It authorises **no code, no cells, no engine change and no spending**.
+- It does not reopen A1, alter the `VOID`, or touch the repaired scorer pin.
+- It does not decide the V2 charter, which is a separate pending decision ([`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md)).
 
-## 5. Rejected alternatives
+## 6. Rejected alternatives
+
+**Adopt A2c′ because the aggregate match exists.** Because a matched total is not a matched distribution, and the per-edge estimand depends on the distribution.
+
+**Adopt A2b because it makes interference local.** Because a criterion that cannot fail cannot license a result, and the unit change makes it a different study.
+
+**Keep the fork open and wait for a measurement to settle it.** Because no measurement can settle an estimand question, and an open choice that nothing can close holds the line open without producing information.
 
 **Describe the aggregate criterion as the per-edge design succeeding.** Because that is the pattern the record spent months eliminating: a failed condition, a new condition, and the new one described as if it were the old one.
 
@@ -70,18 +77,14 @@ Neither branch is authorised to run by this record: each needs its own charter, 
 
 **Run more sham search to decide.** Because a search cannot answer an estimand question; it can only report what a criterion admits, which is already known for both.
 
-**Keep A1's C4 unchanged and call A2 "A1 with a better placebo".** Because no placebo meets C4, so that description has no referent.
-
-## 6. Evidence
+## 7. Evidence
 
 - [`A2-SHAM-FEASIBILITY`](A2-SHAM-FEASIBILITY.md), `docs/a2_sham_feasibility.json`
 - [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md), [`A1-RUN`](A1-RUN.md)
 - `docs/a1_two_path_result.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`
 
-## 7. Signature
+## 8. Adoption
 
-**Choose:** `DECISION-A2-ESTIMAND — A2c′ (edge-level, aggregate criterion)` or
-`DECISION-A2-ESTIMAND — A2b (carrier-level unit)`, owner, date. **Or close the line:**
-`DECISION-A2-ESTIMAND — NEITHER`, owner, date.
-
-Until signed, this document records a fork and chooses nothing.
+**ADOPTED 2026-11-15** on the owner's instruction to decide the estimand question and record the choice. This is a
+delegated decision: the reasoning and its limits are above, and reversing it takes a new dated decision rather than an
+edit to this one.

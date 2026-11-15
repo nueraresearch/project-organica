@@ -119,6 +119,22 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: A2 is closed
+
+`DECISION-A2-ESTIMAND` is **ADOPTED**: A2 is closed and no A2 arm runs. Q058 is answered and closed.
+
+The decision rests on two design arguments, not on the pass/fail counts. **A2c′ controls the total, not the
+distribution** — the sham matches the mean and the sum, but individual non-target edges still differ by 30, 51 and 78
+cycles on the three failing seeds, so on a per-edge estimand the control differs from the treatment on the quantity the
+estimand depends on. **A2b's criterion cannot fail** — with the carrier as unit and carrier removal as intervention, locality
+is true by construction, which makes it decoration rather than a check (rule 25(c)), and the estimand changes to a
+different study's.
+
+A1 is untouched: `VOID`, frozen, un-rescored. The record does not assert that no A2 design exists — only that neither
+branch here tests the question with a control that can carry it — and it authorises no code, cells or engine change. A
+future carrier-level study must arrive as its own charter with its own targets, denominators and a criterion that can
+fail.
+
 ## Addendum — 2026-11-15: "not found" is not "not constructible"
 
 The A2 sham page and the estimand decision both said the per-edge placebo "is not constructible". That is wider than
@@ -1594,7 +1610,7 @@ there is nothing to check out.
 
 ### Recorded — Progression beyond G8 is gated on activation, not a G9 design (2026-11-14)
 
-- **The next objective is activation/use, not unlocking Generation 9.** `docs/DECISION-PROGRESSION-BEYOND-G8.md` separates formation, admission, service, assertion and activation/use; records that the formation-utilization campaign mapped the gap to the use path while the follow-up use-path diagnostic failed its D0 gate and cannot identify retrieval, activation or readout; and makes `X1 — External activation` the G8 → G9 gate. X1 requires A1/M1 routing, an A3 external endpoint, ablation that removes the advantage, and independent replication. A negative, `VOID` or non-ablating A3 reads `EXTERNAL ACTIVATION NOT ESTABLISHED` and closes the path; no G9 design, extra endpoint or instrumentation loop. Generation 9 remains locked. The roadmap date and suite count are corrected in the same edit. Q056 registers the activation question as future, blocked by Q054; the tally is now 15 closed, 33 open, 2 retired and 6 future from 56 questions. No seed, cell, engine file, verdict or result changed. `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+- **The next objective is activation/use, not unlocking Generation 9.** `docs/DECISION-PROGRESSION-BEYOND-G8.md` separates formation, admission, service, assertion and activation/use; records that the formation-utilization campaign mapped the gap to the use path while the follow-up use-path diagnostic failed its D0 gate and cannot identify retrieval, activation or readout; and makes `X1 — External activation` the G8 → G9 gate. X1 requires A1/M1 routing, an A3 external endpoint, ablation that removes the advantage, and independent replication. A negative, `VOID` or non-ablating A3 reads `EXTERNAL ACTIVATION NOT ESTABLISHED` and closes the path; no G9 design, extra endpoint or instrumentation loop. Generation 9 remains locked. The roadmap date and suite count are corrected in the same edit. Q056 registers the activation question as future, blocked by Q054; the tally is now 16 closed, 32 open, 2 retired and 6 future from 56 questions. No seed, cell, engine file, verdict or result changed. `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
 
 
 ### Recorded — Every open A1 gate has a one-attempt stop condition (2026-11-14)
@@ -1892,7 +1908,7 @@ there is nothing to check out.
   intervention; a direction, not an effect size — and the prior T1 context: T1 is VOID on G4
   because its frozen rule treated zero `S_ever` as unmeasurable, its computed mean is not
   adjudicated, and T1b changed only that reading before any cell. No verdict, gate, cap,
-  engine byte or seed moved. The registry held **53** questions at that point; it now holds **56**, with **27** in neither reopening list (21 open, 6 future) and 17 kept-closed rows.
+  engine byte or seed moved. The registry held **53** questions at that point; it now holds **56**, with **26** in neither reopening list (20 open, 6 future) and 18 kept-closed rows.
 - **T1b ran with a zero-admitting denominator gate and returned `PERSISTENCE CONTRIBUTES` (2026-11-11).**
   `docs/AUTHORISATION-T1B-PERSISTENCE-OFF.md` records the instruction; the twelve cells and the
   rerun on six fresh seeds produced `docs/t1b_persistence_off_run.json`. G4 now treats P as the
@@ -1961,9 +1977,9 @@ there is nothing to check out.
 
 ## [0.13.0] — (unreleased)
 
-**Registry size as of 2026-11-15:** 56 questions — 15 closed, 33 open, 2 retired, 6 future — of which 27 sit in
-neither reopening list and 21 of those are open. The counts stated inside the entries below are the values recorded
-on their own dates.
+**Registry size as of 2026-11-15:** 56 questions — 16 closed, 32 open, 2 retired, 6 future — of which 26 sit in
+neither reopening list and 20 of those are open. The reopening record classifies 18 kept-closed rows, each with its
+reason. The counts stated inside the entries below are the values recorded on their own dates.
 
 ### Changed — D3's persistence repair survives six distinct seed-varying worlds (2026-11-10)
 

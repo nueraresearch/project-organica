@@ -1208,7 +1208,7 @@
     {
       "id": "Q058",
       "kind": "governance",
-      "status": "open",
+      "status": "closed",
       "question": "Does A2 keep the edge as its unit of inference, or change the unit to the carrier?",
       "why_open": "The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.",
       "evidence": [
@@ -1220,7 +1220,9 @@
         "DECISION-A2-ESTIMAND.md"
       ],
       "preregistrations": [],
-      "supersedes": []
+      "supersedes": [],
+      "answer": "Neither. A2 is closed: the per-edge estimand cannot be tested with this intervention because the only matchable control differs per edge, and the carrier-level unit makes the locality criterion unfalsifiable and changes the estimand. A carrier study, if wanted, is a separate charter.",
+      "outcome": "SUPPORTED"
     }
   ],
   "schema": {
@@ -1328,6 +1330,10 @@
       {
         "id": "Q055",
         "reason": "Closed 2026-11-11 by T1b on the pinned 0.15.0 build; it was not part of the 2026-11-08 reopening sweep."
+      },
+      {
+        "id": "Q058",
+        "reason": "opened and answered after the 2026-11-08 pass, by DECISION-A2-ESTIMAND; it was never in the pass's scope, so it is classified here as not reopened rather than reopened"
       }
     ]
   }

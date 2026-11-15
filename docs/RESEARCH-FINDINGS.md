@@ -89,7 +89,7 @@ the finding: a result outside that scope is not established by it.
 
 **Evidence.** `docs/t1b_persistence_off_prereg.json`, `docs/t1b_persistence_off_run.json`, `docs/T1B-PERSISTENCE-OFF-RESULT.md`, `docs/t1_persistence_off_run.json`, `docs/T1-PERSISTENCE-OFF-RESULT.md`, `docs/persistence_zero_served_diagnostic.json`, `docs/PERSISTENCE-ZERO-SERVED-NOTE.md`, `docs/ceiling_diagnostic.json`, `docs/CEILING-DIAGNOSTIC.md`, `docs/within_cycle_distribution.json`, `docs/WITHIN-CYCLE-DISTRIBUTION.md`
 
-Closed governance questions are not findings and are not listed above: Q009, Q010. They are
+Closed governance questions are not findings and are not listed above: Q009, Q010, Q058. They are
 decisions, so they stay in the registry beside the decision records they close, and the
 dashboard counts them under questions rather than under findings.
 
@@ -359,12 +359,6 @@ as one.
 **Why it is open.** H2 forecloses V2 design, and the claim ledger discloses that the arm which would have tested it never ran. Three independent lines — Gate 13 ranking, the capacity-1,000 readout, and A1's C4 VOID — name the same missing capability, so the question is now whether to commission a charter rather than whether to run another diagnostic.
 
 **What is in hand.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
-
-### Q058 — Does A2 keep the edge as its unit of inference, or change the unit to the carrier?
-
-**Why it is open.** The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.
-
-**What is in hand.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
 
 ### Q022 — Can role representations transfer across domains?
 
