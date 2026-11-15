@@ -28,8 +28,9 @@ One substantive owner choice remains:
 is a declared dependence class reported once per relation on its own denominator, C4's protected set stays
 directed (108 / 92), and no threshold moved ([`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md)).
 
-Everything else follows from those two: the disposition settles against them, and freeze and grant are
-consequences of the disposition rather than independent questions.
+Everything else follows from that choice: the disposition settles against it, and freeze and grant are
+consequences of the disposition rather than independent questions. **No definitional decision
+remains open** — what is left is risk acceptance.
 
 ## Must pass before freeze
 
