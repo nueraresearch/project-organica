@@ -56,6 +56,19 @@ This supersedes answer 1 of [`A1-C2-C8-COMPETENCE-RULE`](A1-C2-C8-COMPETENCE-RUL
 
 **Run whatever block the search happens to find, without a floor.** Rejected because an unfloored block lets a small block pass trivially and turns the constructor into the estimand.
 
+## What this rule is not: "the largest block available"
+
+The rule prefers **exactly 20** wherever constructible and falls back to the largest block the declared
+constructor finds, not to the largest block that exists. The difference is measurable and would change
+the operative sizes: the maxima include 21, 23, 22 and 21 on four seeds, so a "largest admissible block"
+rule would score **21 / 17 / 23 / 22 / 18 / 21** rather than **20 / 17 / 20 / 20 / 18 / 20**. Tolerance
+is unchanged either way (`floor(0.05 × N)` is 1 from 20 upward), but the block sizes would vary more
+across seeds for no gain in resolution.
+
+"Largest admissible" is a coherent rule. It is a *different* one, and it should be chosen explicitly
+rather than inferred from this decision — the sentence to adopt is "exactly N where constructible",
+which is what is written above.
+
 ## What this does to the gate, arithmetically
 
 Tolerance is `floor(0.05 × N)`, so it does not fall as N falls — it rises as N rises:

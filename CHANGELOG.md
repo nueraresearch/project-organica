@@ -53,6 +53,22 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: "nominal twenty" pinned against "largest available", and the C8 condition discharged
+
+Two small precisions after the N_min decision, both narrowing what the record can be read to say.
+
+The rule prefers **exactly 20** and falls back to the largest block the declared constructor finds — it
+does not take the largest block that exists. Those differ: the maxima include 21, 23, 22 and 21, so a
+"largest admissible" rule would score 21 / 17 / 23 / 22 / 18 / 21 instead of 20 / 17 / 20 / 20 / 18 / 20.
+Tolerance is unchanged either way, and the extra variation buys no resolution, but the two sentences are
+different rules and only one is adopted.
+
+`A1-DISPOSITION-REREAD.md` had made continuing conditional on C8 being answered explicitly. It now is, so
+the continue branch carries no C8 carve-out and the branch question reduces to C4's posture alone. The
+owner table's held rows are refreshed to match: items 4, 5 and 6 are held on C4 only, and item 7's
+original refusal reason — no competence rule — is recorded as satisfied while the refusal stands on the
+unmet preconditions.
+
 ## Addendum — 2026-11-15: the C4 noise measurement is feasible only by amending blindness — and I had the premise wrong
 
 `docs/A1-C4-NOISE-FEASIBILITY.md` answers whether the VOID probability can be measured pre-freeze, and

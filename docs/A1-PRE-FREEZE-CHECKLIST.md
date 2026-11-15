@@ -170,10 +170,10 @@ because the ruling's numbering reused one number for two different decisions.
 
 | # | Decision | State | Why it is still open |
 | ---: | --- | --- | --- |
-| 4 | **Freeze N=4** | **HELD** | Not C1: C2/C8 competence has no rule, and C4's exposure is unsized by any measurement. |
-| 5 | **Freeze N=20** | **HELD** | Same, and the N=20 block has no clean C8 rows on any seed. |
-| 6 | **Path A confirmation** | **HELD** | The reason changed: competence and exposure, not C1 viability. |
-| 7 | **Grant / run authorisation** | **REFUSED** | Stated directly: no run before a competence rule exists. |
+| 4 | **Freeze N=4** | **HELD** | Not C1, and no longer competence: the rule is adopted (`DECISION-A1-C8-NMIN.md`). Held on **C4's posture** alone. |
+| 5 | **Freeze N=20** | **HELD** | Held on **C4's posture**. The old second reason is gone: C8 is adjudicable on 6/6 seeds at 20/17/20/20/18/20. |
+| 6 | **Path A confirmation** | **HELD** | The reason narrowed twice: not C1 viability, not competence — **C4's posture** only. |
+| 7 | **Grant / run authorisation** | **REFUSED** | The original reason (no competence rule) is now satisfied; the refusal stands on the two unmet preconditions: C4's posture and the freeze itself. |
 
 ### Bucket 3 — judgments still open
 
@@ -181,7 +181,7 @@ because the ruling's numbering reused one number for two different decisions.
 | ---: | --- | --- | --- |
 | 2 | **C2/C8 competence rule** | **DECIDED 2026-11-15 — at least N_min = 17, C8 adjudicable on 6/6 seeds** (`DECISION-A1-C8-NMIN.md`). | Nothing further; the remaining blocker is C4's posture. |
 | 3 | **C4 exposure** | **Risk acceptance.** 648 protected rows per block under the adopted denominator; no measurement can settle it before a run. | You accept the burden, narrow C4's row set, or accept VOID risk. |
-| 8 | **A1 disposition** | **To be re-read.** Its C1 premise no longer carries the recommendation. | Re-read against #2 and #3 alone, with C1 removed from the argument. |
+| 8 | **A1 disposition** | **Re-read, and its C8 condition is now met** (`A1-DISPOSITION-REREAD.md`): the continue branch is supported with no C8 carve-out. | Decide continue / redesign / park against #3 alone. |
 
 One record keeps its open status deliberately: `A1-DESIGN-VIABILITY-1` still reports that the
 protocol *text* does not disambiguate a directed row from an undirected relation. That statement is

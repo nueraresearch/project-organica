@@ -49,6 +49,19 @@ On that reading the **continue** branch is the one the evidence supports, condit
 
 **This is analysis, not the decision.** The disposition stays `ADOPTED — COMMITTED TO TARGET RESOLUTION`, its 2026-12-14 lapse clock keeps running, and the choice among the three branches is the owner's.
 
+## Update — 2026-11-15: the C8 condition this re-read named has been satisfied
+
+The finding above made continuing conditional on C8 being answered explicitly. It has been:
+[`DECISION-A1-C8-NMIN-1`](DECISION-A1-C8-NMIN.md) sets the floor at 17 competent rows and makes C8
+adjudicable on **all six seeds**, so the condition is met and the **continue** branch no longer carries a
+C8 carve-out.
+
+What remains of the branch question is therefore only C4's posture. The distinction the re-read drew
+still holds — C1's unreachability was about whether the *experiment* could work, C8's unavailability was
+about whether *one gate* could be scored — and the second has now been resolved in the design's favour
+rather than merely declared. The disposition itself is unchanged and still the owner's to amend; the
+lapse clock still runs.
+
 ## What the re-read does not do
 
 It does not amend the disposition, does not lift any blocker, does not re-date the lapse clock, does not claim C1 is satisfied (it is readable, which is different from measured), and does not resolve C8 or C4. It records that the disposition's stated basis is no longer true, and sets out what the owner would be choosing between.
