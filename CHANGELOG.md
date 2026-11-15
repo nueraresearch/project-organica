@@ -67,6 +67,30 @@ baseline and checked the size list against C8; it did not check the prose senten
 1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
 `min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
 fail — both directions were run.
+## Addendum — 2026-11-15: signature-readiness audit of the two pending A1 decisions
+
+Both drafts were read against the artifacts and records they cite. Four defects, all in the drafts and all fixed:
+
+**A citation to a record that does not exist.** The estimand rested part of its argument on `DECISION-A1-C4-POSTURE-1`.
+The C4 posture record's ID is `A1-C4-POSTURE-1`; the cited string appears in no document. The argument is unaffected —
+the clause it points at is real — but a signable record cannot cite an ID that resolves to nothing.
+
+**A claim about the tree that had become false.** The estimand said it did not "repair C4's completeness detection;
+both remain open". C4's completeness detection was repaired on 2026-11-15, so the sentence described a defect that no
+longer existed. It now records the repair and points at the amendment.
+
+**A restatement that was missing its pair.** The draft moved C4's multiplicity onto the competent row counts but left
+C1's denominator at the minima observed on the representative selection. Competent targets change which edges are
+targets, so the paired-control denominator has to be re-measured; the same re-derivation supplies the ceiling decision's
+preplanned universe. The dependency is now stated rather than implicit.
+
+**An unstated consequence for the freeze acts.** Neither draft said which act survives. `A1-TARGET-FREEZE-1` freezes
+four targets per seed, and four rows per seed can never reach C8's adopted `N_min = 17` — the act cannot support a C8
+adjudication at any retention, which is C8's consequence and not either draft's. Both drafts now name the N=20 act as the
+one that can carry a competent block, so the N=4 act should not be signed under any outcome.
+
+No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
+
 ## Addendum — 2026-11-15: C1's ceiling decision drafted, priced in both directions
 
 `A1-PATH-A-C1-RULE-1` voids any run whose observed minimum C1 denominator is above 64, and the adopted block's own

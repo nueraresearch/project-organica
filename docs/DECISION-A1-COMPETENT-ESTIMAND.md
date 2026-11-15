@@ -58,7 +58,7 @@ VOID.
 *representative* twenty per seed and does not satisfy this decision; signing an act against it would freeze exactly
 the rows the measurement found non-competent.
 
-**C4's clause 1 is restated to match the row counts.** `DECISION-A1-C4-POSTURE-1` declares the veto as the maximum
+**C4's clause 1 is restated to match the row counts.** `A1-C4-POSTURE-1` declares the veto as the maximum
 over 324 deltas per seed and 1,944 across the block. Those figures are 108 non-target rows × 3 paths × 6 seeds — the
 N=4 design. Under the operative sizes the non-target stream is 112 − N per seed:
 
@@ -71,6 +71,17 @@ N=4 design. Under the operative sizes the non-target stream is 112 − N per see
 The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across the block**. The acceptance itself is
 unchanged: fewer comparisons per seed is slightly *less* exposure than the 324 the owner accepted, and the posture's
 five clauses stand.
+
+**C1's denominator is re-measured, not carried.** The minima `A1-PATH-A-C1-RULE-1` was written against —
+79 / 64 / 79 / 74 / 72 / 74 — were observed on the *representative* selection. Competent targets change which edges are
+targets, so the paired-control denominators must be re-derived from the competent selection before the act is signed.
+That restated value is also what [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) calls the preplanned universe,
+so the same re-derivation supplies both records.
+
+**Which act survives this.** The sizes above are the N=20 block's, so adopting this fixes `A1-TARGET-FREEZE-N20-1`'s
+block and leaves `A1-TARGET-FREEZE-1` — four targets per seed — unable to support C8 at all, because four rows per seed
+can never reach `N_min = 17`. That incompatibility is created by C8's own adopted rule, not by this decision; it means
+the N=4 act should not be signed under any outcome of this one.
 
 **C8's tolerance changes with the size, and two seeds lose it entirely.** The adopted rule allows
 `floor(0.05 × N)` assertions: one at N=20, and **zero at N=18 and N=17**. So seeds `20740102` (17) and `20740105`
@@ -97,8 +108,10 @@ rather than a pre-treatment baseline, and it silently redefines the population a
 ## 4. What this does not do
 
 It does not freeze a target, reserve a seed, authorise a cell, issue a grant, or clear any gate. It does not resolve
-the C1 ceiling conflict ([`A1-C1-CEILING-CONFLICT`](A1-C1-CEILING-CONFLICT.md)) or repair C4's completeness detection;
-both remain open. It does not make C2 pass: baseline competence is necessary and not sufficient, and only a cell can
+the C1 ceiling conflict ([`A1-C1-CEILING-CONFLICT`](A1-C1-CEILING-CONFLICT.md)); a separate draft,
+[`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md), is PENDING for that. C4's completeness detection is no longer
+open — it was repaired on 2026-11-15 (see the amendment to [`A1-C1-C4-VOID-GATE`](A1-C1-C4-VOID-GATE.md)): an absent or
+short treated stream now VOIDs instead of passing on the control's own rows. It does not make C2 pass: baseline competence is necessary and not sufficient, and only a cell can
 score the gate.
 
 ## 5. Reproduce the counts

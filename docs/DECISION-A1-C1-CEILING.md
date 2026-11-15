@@ -123,6 +123,9 @@ record, and that footnote has been retracted; the clause needs a record of its o
 - It does not resolve the competent estimand ([`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md),
   PENDING). The two are independent: either can be adopted first, but the freeze act must carry a preplanned universe
   that matches the selection it freezes, so the restatement must follow the selection.
+- **Which act the universe is written into.** `A1-TARGET-FREEZE-1` freezes four targets per seed, and four rows per
+  seed can never reach C8's adopted `N_min = 17`; that incompatibility is C8's, not this decision's. On the current
+  state the act that can carry a competent block is `A1-TARGET-FREEZE-N20-1`, so the restated universe goes there.
 - It does not adopt the C1 branch, freeze a target, issue a grant or authorise a run.
 
 Adopting it, then restating the universe in the freeze act, leaves the C1 branch closed at both ends for the first time:
