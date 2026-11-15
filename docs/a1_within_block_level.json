@@ -26,11 +26,11 @@
   "run": false,
   "authorization": "none"
  },
- "reading": "No measured within-block quantity tracks the 16-tag level. The three equal-size blocks differ in fitted offset by at most **0.0385** (**0.4200** / **0.4065** / **0.3815**), which is **0.39** to **1.68** standard errors of the pairwise difference at six seeds each and no wider than the within-block seed spread (**0.043** / **0.073** / **0.036**). Their candidate-space quantities barely move: mean support **22.90** / **22.61** / **22.62**, support mass **1458** / **1443** / **1444**, support dispersion **7.88** / **7.77** / **8.14**, tag entropy **3.9060** / **3.9021** / **3.8955**, pair saturation **0.442** / **0.443** / **0.443**, and **9** cell pairs in all three. Three of eight quantities order the three block means the way the level does \u2014 median support (**22.33** / **22.00** / **21.50**), tag entropy and the share at support <= 10 (**0.045** / **0.034** / **0.029**) \u2014 which is what a chance ordering returns about one time in six, and none keeps a consistent sign at seed resolution: median support runs **-0.62** / **+0.38** / **-0.09**, tag entropy **-0.77** / **+0.14** / **-0.46**, and the floor share reverses the block ordering outright, **+0.14** / **-0.60** / **-0.82**. The sharpest single case against a support account is fresh-16's lowest seed, `20650105` at offset **+0.2589**, which has that block's **highest** mean support (**23.0**). The lowest block matches fresh-16 on every quantity measured, including candidate count (**63.8** against **63.8**) and K completeness (**1.000**), so the level is not carried by candidate support, support mass, support dispersion, entropy, cell-pair coverage or pair saturation: it varies more inside a block than between equal-size blocks, and the fitted block offset is a mean of draws rather than a property of the candidate space.",
+ "reading": "Neither acquisition-time pair support nor temporal-edge density explains the 16-tag level. The three equal-size blocks differ in fitted offset by at most **0.0385** (**0.4200** / **0.4065** / **0.3815**), which is **0.39** to **1.68** standard errors of the pairwise difference at six seeds each and no wider than the within-block seed spread (**0.043** / **0.073** / **0.036**). Pair support barely moves \u2014 mean **22.90** / **22.61** / **22.62**, median **22.33** / **22.00** / **21.50**, mass **1458** / **1443** / **1444**, dispersion **7.88** / **7.77** / **8.14**, share at support <= 10 **0.045** / **0.034** / **0.029** \u2014 and temporal-edge density does not move at all: **176.0** / **176.0** / **175.8** distinct temporal edges, **11.00** / **11.00** / **10.99** per tag, so a quantity the two-tags-per-event law pins at **11** edges per tag cannot carry a level that varies. Of **11** quantities, **4** order the three block means the way the level does \u2014 median support, tag entropy, the support <= 10 share and the temporal-edge share (**2.765** / **2.757** / **2.755**) \u2014 each a one-in-six chance ordering, and none keeps a consistent sign at seed resolution: median support runs **-0.62** / **+0.38** / **-0.09**, tag entropy **-0.77** / **+0.14** / **-0.46**, the floor share **+0.14** / **-0.60** / **-0.82** and the edge share **+0.21** / **-0.65** / **+0.69**. The sharpest single case against a support account is fresh-16's lowest seed, `20650105` at offset **+0.2589**, which has that block's **highest** mean support (**23.0**). The lowest block matches fresh-16 on candidate count (**63.8** against **63.8**), K completeness (**1.000**) and temporal-edge density (**11.00** against **10.99**), so the level is not carried by candidate support, support mass, support dispersion, entropy, cell-pair coverage, pair saturation or the size of the temporal graph: it varies more inside a block than between equal-size blocks, and the fitted block offset is a mean of draws rather than a property of the candidate space.",
  "found": {
   "blocks": 3,
   "seeds": 18,
-  "statistics": 8,
+  "statistics": 11,
   "level_spread": 0.038504,
   "level_blocks": [
    0.420022,
@@ -39,6 +39,7 @@
   ],
   "max_within_block_sd": 0.072798,
   "any_statistics_track": 0,
+  "any_orders_like_level": 4,
   "any_sign_consistent": 0
  },
  "blocks": [
@@ -316,6 +317,75 @@
    ],
    "sign_consistent": false,
    "tracks": false
+  },
+  {
+   "name": "temporal_edges",
+   "description": "distinct directed temporal edges in the acquisition stream",
+   "block_means": [
+    176.0,
+    176.0,
+    175.833333
+   ],
+   "relative_spread": 0.000947,
+   "orders_like_level": [
+    true,
+    false,
+    false
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    0.0,
+    0.0,
+    0.3985
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "temporal_edge_density",
+   "description": "distinct temporal edges / 16 tags",
+   "block_means": [
+    11.0,
+    11.0,
+    10.989583
+   ],
+   "relative_spread": 0.000947,
+   "orders_like_level": [
+    true,
+    false,
+    false
+   ],
+   "orders_like_level_all": false,
+   "within_block_spearman": [
+    0.0,
+    0.0,
+    0.3985
+   ],
+   "sign_consistent": false,
+   "tracks": false
+  },
+  {
+   "name": "temporal_edge_share",
+   "description": "distinct temporal edges / candidate edges",
+   "block_means": [
+    2.76455,
+    2.757275,
+    2.754671
+   ],
+   "relative_spread": 0.003581,
+   "orders_like_level": [
+    true,
+    true,
+    true
+   ],
+   "orders_like_level_all": true,
+   "within_block_spearman": [
+    0.207,
+    -0.6547,
+    0.686
+   ],
+   "sign_consistent": false,
+   "tracks": false
   }
  ],
  "rows": [
@@ -334,7 +404,10 @@
    "frac_le_10": 0.03125,
    "tag_entropy": 3.917173,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "current-16",
@@ -351,7 +424,10 @@
    "frac_le_10": 0.031746,
    "tag_entropy": 3.932529,
    "cell_pairs": 9,
-   "pair_saturation": 0.4375
+   "pair_saturation": 0.4375,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.793651
   },
   {
    "block": "current-16",
@@ -368,7 +444,10 @@
    "frac_le_10": 0.046875,
    "tag_entropy": 3.8795,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "current-16",
@@ -385,7 +464,10 @@
    "frac_le_10": 0.0625,
    "tag_entropy": 3.915283,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "current-16",
@@ -402,7 +484,10 @@
    "frac_le_10": 0.015625,
    "tag_entropy": 3.911482,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "current-16",
@@ -419,7 +504,10 @@
    "frac_le_10": 0.079365,
    "tag_entropy": 3.879947,
    "cell_pairs": 9,
-   "pair_saturation": 0.4375
+   "pair_saturation": 0.4375,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.793651
   },
   {
    "block": "fresh-16",
@@ -436,7 +524,10 @@
    "frac_le_10": 0.03125,
    "tag_entropy": 3.909373,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "fresh-16",
@@ -453,7 +544,10 @@
    "frac_le_10": 0.0625,
    "tag_entropy": 3.889596,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "fresh-16",
@@ -470,7 +564,10 @@
    "frac_le_10": 0.0,
    "tag_entropy": 3.911932,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "fresh-16",
@@ -487,7 +584,10 @@
    "frac_le_10": 0.015625,
    "tag_entropy": 3.888772,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "fresh-16",
@@ -504,7 +604,10 @@
    "frac_le_10": 0.015873,
    "tag_entropy": 3.896907,
    "cell_pairs": 9,
-   "pair_saturation": 0.4375
+   "pair_saturation": 0.4375,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.793651
   },
   {
    "block": "fresh-16",
@@ -521,7 +624,10 @@
    "frac_le_10": 0.078125,
    "tag_entropy": 3.915981,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "seed-2067",
@@ -538,7 +644,10 @@
    "frac_le_10": 0.0,
    "tag_entropy": 3.885262,
    "cell_pairs": 9,
-   "pair_saturation": 0.4375
+   "pair_saturation": 0.4375,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.793651
   },
   {
    "block": "seed-2067",
@@ -555,7 +664,10 @@
    "frac_le_10": 0.046875,
    "tag_entropy": 3.885722,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "seed-2067",
@@ -572,7 +684,10 @@
    "frac_le_10": 0.015625,
    "tag_entropy": 3.886159,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "seed-2067",
@@ -589,7 +704,10 @@
    "frac_le_10": 0.03125,
    "tag_entropy": 3.88979,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 175,
+   "temporal_edge_density": 10.9375,
+   "temporal_edge_share": 2.734375
   },
   {
    "block": "seed-2067",
@@ -606,7 +724,10 @@
    "frac_le_10": 0.03125,
    "tag_entropy": 3.923831,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   },
   {
    "block": "seed-2067",
@@ -623,7 +744,10 @@
    "frac_le_10": 0.046875,
    "tag_entropy": 3.90252,
    "cell_pairs": 9,
-   "pair_saturation": 0.444444
+   "pair_saturation": 0.444444,
+   "temporal_edges": 176,
+   "temporal_edge_density": 11.0,
+   "temporal_edge_share": 2.75
   }
  ],
  "limits": [

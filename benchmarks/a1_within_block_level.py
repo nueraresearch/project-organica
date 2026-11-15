@@ -71,6 +71,9 @@ STATISTICS = (
     ("tag_entropy", "Shannon entropy (bits) of acquisition tag frequency"),
     ("cell_pairs", "distinct (source cell, target cell) transitions exercised"),
     ("pair_saturation", "candidate edges / (cell pairs x 16)"),
+    ("temporal_edges", "distinct directed temporal edges in the acquisition stream"),
+    ("temporal_edge_density", "distinct temporal edges / 16 tags"),
+    ("temporal_edge_share", "distinct temporal edges / candidate edges"),
 )
 
 
@@ -143,13 +146,30 @@ def _stream(row: dict) -> dict:
                and trainable]
     tags: Counter = Counter()
     cells: Counter = Counter()
+    within: set[tuple[str, str]] = set()
+    across: set[tuple[str, str]] = set()
     previous = None
+    previous_tags: list[str] = []
     for index in indexes:
-        tags.update(world["events"][index].split())
+        current_tags = world["events"][index].split()
+        tags.update(current_tags)
         current = world["cells"][index]
         if previous is not None:
             cells[(previous, current)] += 1
         previous = current
+        # The engine's lookback includes the event being stored, so pairs
+        # inside one event are temporal edges too.
+        for source in current_tags:
+            for target in current_tags:
+                if source != target:
+                    within.add((source, target))
+        for source in previous_tags:
+            for target in current_tags:
+                if source != target:
+                    across.add((source, target))
+        previous_tags = current_tags
+    temporal = within | across
+    edge_occurrences = sum(1 for _ in indexes)
     total = sum(tags.values())
     entropy = -sum((count / total) * math.log2(count / total)
                    for count in tags.values())
@@ -166,6 +186,10 @@ def _stream(row: dict) -> dict:
         "tag_entropy": entropy,
         "cell_pairs": len(cells),
         "pair_saturation": len(candidates) / (len(cells) * 16),
+        "temporal_edges": len(temporal),
+        "temporal_edge_density": len(temporal) / 16,
+        "temporal_edge_share": len(temporal) / len(candidates),
+        "temporal_edge_occurrences": edge_occurrences,
     }
 
 
@@ -275,60 +299,56 @@ def build() -> dict:
         "level_blocks": levels,
         "max_within_block_sd": round(max(block["offset_sd"] for block in blocks), 6),
         "any_statistics_track": sum(row["tracks"] for row in statistics_rows),
+        "any_orders_like_level": sum(row["orders_like_level_all"]
+                                     for row in statistics_rows),
         "any_sign_consistent": sum(row["sign_consistent"] for row in statistics_rows),
     }
     by_name = {row["name"]: row for row in statistics_rows}
-    spread = found["level_spread"]
-    sds = [block["offset_sd"] for block in blocks]
-    ms = by_name["mean_support"]["block_means"]
-    mm = by_name["support_mass"]["block_means"]
-    sd = by_name["support_sd"]["block_means"]
-    fl = by_name["frac_le_10"]["block_means"]
-    te = by_name["tag_entropy"]["block_means"]
-    ps = by_name["pair_saturation"]["block_means"]
-    candidates = [block["candidates_mean"] for block in blocks]
-    by_name = {row["name"]: row for row in statistics_rows}
-    best = sorted(statistics_rows,
-                  key=lambda row: -max(abs(value)
-                                       for value in row["within_block_spearman"]))[0]
     med = by_name["median_support"]
     entropy_row = by_name["tag_entropy"]
     floor_row = by_name["frac_le_10"]
+    edge_row = by_name["temporal_edges"]
+    edge_density = by_name["temporal_edge_density"]
+    edge_share = by_name["temporal_edge_share"]
     weak = [row for row in rows if row["block"] == "fresh-16"]
     weakest = min(weak, key=lambda row: row["offset"])
     zs = [gap["z"] for gap in gaps if gap["z"] is not None]
     reading = (
-        "No measured within-block quantity tracks the 16-tag level. The three "
-        "equal-size blocks differ in fitted offset by at most "
-        "**%(spread).4f** (**%(l0).4f** / **%(l1).4f** / **%(l2).4f**), which "
-        "is **%(zmin).2f** to **%(zmax).2f** standard errors of the pairwise "
-        "difference at six seeds each and no wider than the within-block seed "
-        "spread (**%(sd0).3f** / **%(sd1).3f** / **%(sd2).3f**). Their "
-        "candidate-space quantities barely move: mean support "
-        "**%(ms0).2f** / **%(ms1).2f** / **%(ms2).2f**, support mass "
-        "**%(mm0).0f** / **%(mm1).0f** / **%(mm2).0f**, support dispersion "
-        "**%(sd0s).2f** / **%(sd1s).2f** / **%(sd2s).2f**, tag entropy "
-        "**%(te0).4f** / **%(te1).4f** / **%(te2).4f**, pair saturation "
-        "**%(ps0).3f** / **%(ps1).3f** / **%(ps2).3f**, and **9** cell pairs in "
-        "all three. Three of eight quantities order the three block means the "
-        "way the level does — median support (**%(med0).2f** / **%(med1).2f** / "
-        "**%(med2).2f**), tag entropy and the share at support <= 10 "
-        "(**%(fl0).3f** / **%(fl1).3f** / **%(fl2).3f**) — which is what a "
-        "chance ordering returns about one time in six, and none keeps a "
+        "Neither acquisition-time pair support nor temporal-edge density "
+        "explains the 16-tag level. The three equal-size blocks differ in "
+        "fitted offset by at most **%(spread).4f** (**%(l0).4f** / "
+        "**%(l1).4f** / **%(l2).4f**), which is **%(zmin).2f** to "
+        "**%(zmax).2f** standard errors of the pairwise difference at six "
+        "seeds each and no wider than the within-block seed spread "
+        "(**%(sd0).3f** / **%(sd1).3f** / **%(sd2).3f**). Pair support barely "
+        "moves — mean **%(ms0).2f** / **%(ms1).2f** / **%(ms2).2f**, median "
+        "**%(med0).2f** / **%(med1).2f** / **%(med2).2f**, mass **%(mm0).0f** "
+        "/ **%(mm1).0f** / **%(mm2).0f**, dispersion **%(sd0s).2f** / "
+        "**%(sd1s).2f** / **%(sd2s).2f**, share at support <= 10 "
+        "**%(fl0).3f** / **%(fl1).3f** / **%(fl2).3f** — and temporal-edge "
+        "density does not move at all: **%(e0).1f** / **%(e1).1f** / "
+        "**%(e2).1f** distinct temporal edges, **%(d0).2f** / **%(d1).2f** / "
+        "**%(d2).2f** per tag, so a quantity the two-tags-per-event law pins "
+        "at **11** edges per tag cannot carry a level that varies. Of "
+        "**%(nstat)d** quantities, **%(norder)d** order the three block means "
+        "the way the level does — median support, tag entropy, the support <= "
+        "10 share and the temporal-edge share (**%(s0).3f** / **%(s1).3f** / "
+        "**%(s2).3f**) — each a one-in-six chance ordering, and none keeps a "
         "consistent sign at seed resolution: median support runs "
         "**%(rm0)+.2f** / **%(rm1)+.2f** / **%(rm2)+.2f**, tag entropy "
-        "**%(re0)+.2f** / **%(re1)+.2f** / **%(re2)+.2f**, and the floor share "
-        "reverses the block ordering outright, **%(rf0)+.2f** / **%(rf1)+.2f** "
-        "/ **%(rf2)+.2f**. The sharpest single case against a support account "
-        "is fresh-16's lowest seed, `%(ws)d` at offset **%(wo)+.4f**, which has "
-        "that block's **highest** mean support (**%(wsu).1f**). The lowest "
-        "block matches fresh-16 on every quantity measured, including candidate "
-        "count (**%(c1).1f** against **%(c2).1f**) and K completeness "
-        "(**1.000**), so the level is not carried by candidate support, support "
-        "mass, support dispersion, entropy, cell-pair coverage or pair "
-        "saturation: it varies more inside a block than between equal-size "
-        "blocks, and the fitted block offset is a mean of draws rather than a "
-        "property of the candidate space."
+        "**%(re0)+.2f** / **%(re1)+.2f** / **%(re2)+.2f**, the floor share "
+        "**%(rf0)+.2f** / **%(rf1)+.2f** / **%(rf2)+.2f** and the edge share "
+        "**%(rs0)+.2f** / **%(rs1)+.2f** / **%(rs2)+.2f**. The sharpest single "
+        "case against a support account is fresh-16's lowest seed, "
+        "`%(ws)d` at offset **%(wo)+.4f**, which has that block's **highest** "
+        "mean support (**%(wsu).1f**). The lowest block matches fresh-16 on "
+        "candidate count (**%(c1).1f** against **%(c2).1f**), K completeness "
+        "(**1.000**) and temporal-edge density (**%(d1).2f** against "
+        "**%(d2).2f**), so the level is not carried by candidate support, "
+        "support mass, support dispersion, entropy, cell-pair coverage, pair "
+        "saturation or the size of the temporal graph: it varies more inside a "
+        "block than between equal-size blocks, and the fitted block offset is "
+        "a mean of draws rather than a property of the candidate space."
         % {
             "spread": found["level_spread"],
             "l0": blocks[0]["offset_mean"], "l1": blocks[1]["offset_mean"],
@@ -339,22 +359,25 @@ def build() -> dict:
             "ms0": by_name["mean_support"]["block_means"][0],
             "ms1": by_name["mean_support"]["block_means"][1],
             "ms2": by_name["mean_support"]["block_means"][2],
+            "med0": med["block_means"][0], "med1": med["block_means"][1],
+            "med2": med["block_means"][2],
             "mm0": by_name["support_mass"]["block_means"][0],
             "mm1": by_name["support_mass"]["block_means"][1],
             "mm2": by_name["support_mass"]["block_means"][2],
             "sd0s": by_name["support_sd"]["block_means"][0],
             "sd1s": by_name["support_sd"]["block_means"][1],
             "sd2s": by_name["support_sd"]["block_means"][2],
-            "te0": entropy_row["block_means"][0],
-            "te1": entropy_row["block_means"][1],
-            "te2": entropy_row["block_means"][2],
-            "ps0": by_name["pair_saturation"]["block_means"][0],
-            "ps1": by_name["pair_saturation"]["block_means"][1],
-            "ps2": by_name["pair_saturation"]["block_means"][2],
-            "med0": med["block_means"][0], "med1": med["block_means"][1],
-            "med2": med["block_means"][2],
             "fl0": floor_row["block_means"][0], "fl1": floor_row["block_means"][1],
             "fl2": floor_row["block_means"][2],
+            "e0": edge_row["block_means"][0], "e1": edge_row["block_means"][1],
+            "e2": edge_row["block_means"][2],
+            "d0": edge_density["block_means"][0],
+            "d1": edge_density["block_means"][1],
+            "d2": edge_density["block_means"][2],
+            "nstat": found["statistics"],
+            "norder": sum(row["orders_like_level_all"] for row in statistics_rows),
+            "s0": edge_share["block_means"][0], "s1": edge_share["block_means"][1],
+            "s2": edge_share["block_means"][2],
             "rm0": med["within_block_spearman"][0],
             "rm1": med["within_block_spearman"][1],
             "rm2": med["within_block_spearman"][2],
@@ -364,6 +387,9 @@ def build() -> dict:
             "rf0": floor_row["within_block_spearman"][0],
             "rf1": floor_row["within_block_spearman"][1],
             "rf2": floor_row["within_block_spearman"][2],
+            "rs0": edge_share["within_block_spearman"][0],
+            "rs1": edge_share["within_block_spearman"][1],
+            "rs2": edge_share["within_block_spearman"][2],
             "ws": weakest["seed"], "wo": weakest["offset"],
             "wsu": weakest["mean_support"],
             "c1": blocks[1]["candidates_mean"], "c2": blocks[2]["candidates_mean"],

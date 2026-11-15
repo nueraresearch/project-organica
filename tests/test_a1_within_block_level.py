@@ -40,13 +40,28 @@ def test_the_level_gap_is_within_seed_noise():
 
 
 def test_no_quantity_tracks_the_level():
+    assert DOC["found"]["statistics"] == 11
     assert DOC["found"]["any_statistics_track"] == 0
     assert DOC["found"]["any_sign_consistent"] == 0
+    assert DOC["found"]["any_orders_like_level"] == 4
     ordered = [row["name"] for row in DOC["statistics"]
                if row["orders_like_level_all"]]
-    assert set(ordered) == {"median_support", "tag_entropy", "frac_le_10"}
+    assert set(ordered) == {"median_support", "tag_entropy", "frac_le_10",
+                            "temporal_edge_share"}
     for row in DOC["statistics"]:
         assert not row["tracks"]
+
+
+def test_temporal_edge_density_is_invariant_across_blocks():
+    stats = {row["name"]: row for row in DOC["statistics"]}
+    assert stats["temporal_edges"]["block_means"] == [176.0, 176.0, 175.833333]
+    assert stats["temporal_edge_density"]["block_means"] == [11.0, 11.0, 10.989583]
+    assert stats["temporal_edge_density"]["relative_spread"] < 0.001
+    assert stats["temporal_edge_density"]["within_block_spearman"] == [
+        0.0, 0.0, 0.3985]
+    assert stats["temporal_edge_density"]["orders_like_level_all"] is False
+    rows = [row for row in DOC["rows"]]
+    assert min(row["temporal_edges"] for row in rows) >= 174
 
 
 def test_the_block_means_are_flat_where_the_level_is_not():
