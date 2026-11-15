@@ -34,7 +34,7 @@ Until signature, the 2026-11-14 disposition stands and its 2026-12-14 lapse cloc
 | C1 unit | undecided, so the denominator above had no defined row | directed edge is the unit; a relation is a declared dependence class reported once per relation, never pooled | `DECISION-A1-C1-UNIT-1` |
 | C8 adjudicability | VOID on the adopted block | floor is *at least* `N_min = 17`, certified by exhaustive enumeration on seed `20740102`; adjudicable on 6/6 seeds | `DECISION-A1-C8-NMIN-1` |
 | C4 exposure | undecided, presented as a risk choice | **posture A adopted**: veto stays a maximum at 0.05, multiplicity declared, failing edge named, VOID probability declared unmeasured | `DECISION-A1-C4-POSTURE-1` |
-| Gate measurability | not audited | an unmeasurable delta or flag fails the gate; repaired at four gates, the join and the C1 scorer | `A1-GATE-MEASURABILITY-AUDIT` |
+| Gate measurability | not audited | an unmeasurable delta or flag fails the gate, repaired at four gates, the join and the C1 scorer; and C1 reports `C1_UNMEASURABLE` rather than borrowing `C1_THRESHOLD` | `A1-GATE-MEASURABILITY-AUDIT`, `DECISION-A1-C1-UNMEASURABLE-1` |
 
 The checklist's own summary of this is one sentence: **no substantive owner choice remains open**
 ([`A1-PRE-FREEZE-CHECKLIST`](A1-PRE-FREEZE-CHECKLIST.md)).
