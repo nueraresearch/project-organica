@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-14",
-  "status": "DRAFT \u2014 C5 TARGET TIMING CLEARED BY EARLIER-U; READY FOR OWNER SIGNATURE; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN",
+  "status": "SUPERSEDED \u2014 PREDICATED A SEED BLOCK THAT IS NO LONGER THE CANDIDATE; RE-ISSUE REQUIRED BEFORE FREEZE",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -511,5 +511,29 @@
     "note": "Cycle-36 remains the target-selection diagnostic; C5 uses the earlier sample. Missing carriers are left to the structural gates, not counted as timing failures.",
     "current_observed_carriers": 14,
     "current_missing_carriers": 10
+  },
+  "supersession": {
+    "date": "2026-11-14",
+    "superseded_seed_block": [
+      20630101,
+      20630102,
+      20630103,
+      20630104,
+      20630105,
+      20630106
+    ],
+    "current_seed_block": [
+      20740101,
+      20740102,
+      20740103,
+      20740104,
+      20740105,
+      20740106
+    ],
+    "reason": "this act's per-seed target tables, counts and digest are bound to 20630101-20630106, which A1-BASELINE-AVAILABILITY-1 had already run; the manifest now carries 20740101-20740106",
+    "selection_artifact_digest": "daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76",
+    "what_survives": "the act's text, gates, thresholds and decision structure; only its per-seed target tables, counts and digest are bound to the superseded block",
+    "reissue_required": true,
+    "owner_decision": "re-issuing this act for the adopted block is the owner's signature step, not a tool's"
   }
 }

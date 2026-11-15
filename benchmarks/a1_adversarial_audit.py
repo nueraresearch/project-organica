@@ -87,6 +87,22 @@ def _permutation(selected: list[bool], values: list[float]) -> float:
     return hits / draws
 
 
+# The selection census recorded for this block, re-issued 2026-11-14 when the
+# two-path candidate moved to 20740101-20740106. These describe the block's
+# eligible population and the selector's output on it; the permutation p is the
+# descriptive p this audit measured, stamped with the block and the date rather
+# than pinned alone.
+RECORDED_CENSUS = {
+    "block": (20740101, 20740102, 20740103, 20740104, 20740105, 20740106),
+    "date": "2026-11-14",
+    "selected_observations": 24,
+    "unique_target_edges": 23,
+    "unselected_candidates": 358,
+    "candidates": 382,
+    "permutation_p": 0.11235,
+}
+
+
 def _representativeness() -> dict:
     """Measure the selected target sample against all eligible candidates."""
     doc = json.loads(selection.OUT_PATH.read_text(encoding="utf-8"))
@@ -111,11 +127,11 @@ def _representativeness() -> dict:
     unique_edges = len(set(selected_edges))
     all_eligible = all(eligible_counts[s] == candidate_counts[s] for s in eligible_counts)
     passed = (
-        selected_observations == 24
-        and unique_edges == 23
-        and len(flags) == 382
+        selected_observations == RECORDED_CENSUS["selected_observations"]
+        and unique_edges == RECORDED_CENSUS["unique_target_edges"]
+        and len(flags) == RECORDED_CENSUS["candidates"]
         and all_eligible
-        and len(unselected_strength) == 358
+        and len(unselected_strength) == RECORDED_CENSUS["unselected_candidates"]
     )
     return {
         "pass": passed,
@@ -334,17 +350,17 @@ def problems(doc: dict) -> list[str]:
         found.append("selection estimand changed")
     measurement = rep.get("measurement") or {}
     expected = {
-        "selected_observations": 24,
-        "unique_target_edges": 23,
-        "unselected_candidates": 358,
-        "candidates": 382,
+        key: RECORDED_CENSUS[key] for key in (
+            "selected_observations", "unique_target_edges",
+            "unselected_candidates", "candidates")
     }
     for key, value in expected.items():
         if measurement.get(key) != value:
             found.append("selection measurement %s changed" % key)
     if not measurement.get("all_candidates_eligible"):
         found.append("not every candidate is eligible")
-    if abs(float(measurement.get("permutation_p", 0)) - 0.91765) > 0.001:
+    if abs(float(measurement.get("permutation_p", 0))
+           - RECORDED_CENSUS["permutation_p"]) > 0.001:
         found.append("selection permutation p changed")
     return found
 

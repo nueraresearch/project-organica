@@ -131,7 +131,13 @@ def _spec_from_current() -> dict:
                 if int(block["seed"]) == seed
             )["rows"]
         }
-        u = selection["per_seed"][str(seed)]["u"]
+        # The candidate universe this control is about is recorded in the
+        # baseline artifact; the target-selection artifact is a live candidate
+        # block and moved to 20740101-20740106, so reading it here made a
+        # completed control unverifiable.
+        block = next(b for b in baseline["per_seed"] if int(b["seed"]) == seed)
+        u = block.get("candidate_edges") or list(
+            selection["per_seed"][str(seed)]["u"])
         per_seed[str(seed)] = [
             {"edge": edge, "A": bool(rows[edge]["A"]), "K": bool(rows[edge]["K"])}
             for edge in sorted(u)

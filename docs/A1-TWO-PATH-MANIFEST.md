@@ -14,7 +14,7 @@ The treatments are implemented; it does not authorise a run.
 | --- | --- |
 | World | compositional world family |
 | Candidate universe | fixed compositional-world directed-edge universe |
-| Seeds | 20630101, 20630102, 20630103, 20630104, 20630105, 20630106 |
+| Seeds | 20740101, 20740102, 20740103, 20740104, 20740105, 20740106 |
 | Cycles | 120 |
 | Cap | 40 |
 | Frozen | no |
@@ -22,7 +22,7 @@ The treatments are implemented; it does not authorise a run.
 | Target-selection U cycle | 36 |
 | Target edges | UNRESOLVED — MUST BE FIXED BEFORE FREEZE |
 | Cells | 36 |
-| Determinism control | seed 20630101, `A+K+` |
+| Determinism control | seed 20740101, `A+K+` |
 
 The seeds are **provisional candidates**, not reserved or frozen. The C5 `U` is fixed before
 carrier, K and Y, and every cell of a seed must carry one object fingerprint. The cycle-36

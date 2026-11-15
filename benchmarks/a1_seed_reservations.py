@@ -220,12 +220,16 @@ def reservation_problems(seeds, candidate: Path | str,
     holder = {_relative(Path(str(candidate)))}
     found: list[str] = []
     for row in reservations(doc):
-        if row["spent"]:
-            continue
         allowed = {_relative(Path(entry))
                    for entry in [row["owner"]] + row["restated_by"]}
         shared = sorted(set(int(seed) for seed in seeds) & set(row["seeds"]))
         if not shared or holder & allowed:
+            continue
+        if row["spent"]:
+            found.append(
+                "seed(s) %s were spent by %s (%s); a spent block may not be reused"
+                % (", ".join(str(seed) for seed in shared), row["owner"],
+                   row["label"]))
             continue
         found.append(
             "seed(s) %s are reserved by %s (%s) and unspent"
@@ -299,12 +303,15 @@ def self_test() -> list[str]:
         pass  # a foreign candidate must be refused
     else:
         failures.append("a foreign candidate listing a reserved seed was allowed")
-    if reservation_problems([20630101], Path("docs/a1_two_path_manifest.json")):
+    if reservation_problems([20880101], Path("docs/a1_two_path_manifest.json")):
         failures.append("a seed outside every reservation was refused")
     spent = dict(doc, reservations=[dict(block, spent=True, seeds=reserved)])
-    if reservation_problems(reserved, Path("docs/a1_two_path_manifest.json"),
-                            spent):
-        failures.append("a spent reservation still refuses a candidate")
+    spent_refusals = reservation_problems(
+        reserved, Path("docs/a1_two_path_manifest.json"), spent)
+    if not spent_refusals or "were spent by" not in spent_refusals[0]:
+        failures.append("a spent block does not refuse a foreign candidate")
+    if reservation_problems(reserved, Path(block["owner"]), spent):
+        failures.append("a spent block refuses the artifact that spent it")
     return failures
 
 

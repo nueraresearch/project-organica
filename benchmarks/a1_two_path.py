@@ -31,7 +31,7 @@ MODULE = "benchmarks.a1_two_path"
 ID = "A1-TWO-PATH-1"
 DATE = "2026-11-14"
 
-SEEDS = (20630101, 20630102, 20630103, 20630104, 20630105, 20630106)
+SEEDS = (20740101, 20740102, 20740103, 20740104, 20740105, 20740106)
 CELLS = (
     {"id": "A+K+", "admission": "allowed", "carrier": "available", "assertion": "on"},
     {"id": "A+K-", "admission": "allowed", "carrier": "blocked", "assertion": "on"},
@@ -114,7 +114,21 @@ def manifest() -> dict:
             "seeds": list(SEEDS),
             "cycles": CYCLES,
             "cap": CAP,
-            "freshness": "seed_collisions over docs JSON is empty at manifest time",
+            # The empty-collision claim this field used to make was computed with
+            # the scan's own allow list excluded, so it was vacuous; state the
+            # property that is actually enforced instead.
+            "freshness": ("held in docs/a1_seed_reservations.json; no artifact "
+                          "outside this manifest and its two target selections "
+                          "names these seeds"),
+            "note": ("adopted 2026-11-14: 20630101-20630106 was the "
+                     "A1-BASELINE-AVAILABILITY-1 block, already run at caps 112 and "
+                     "64, so it was spent and not fresh; 20740101-20740106 was "
+                     "screened against the pre-freeze set - both selections form "
+                     "(24 rows at N=4, 120 at N=20) and C5 clears (earliest carrier "
+                     "6 over the N=20 rows, 8 over the current rows, none at or "
+                     "before the fixed U of 4). 20710101-20710106 formed both and "
+                     "failed C5 at seed 20710101 (carrier at cycle 4); "
+                     "20720101-06, 20730101-06 and 20750101-06 form no selections"),
         },
         "world": WORLD,
         "candidate_universe": UNIVERSE,

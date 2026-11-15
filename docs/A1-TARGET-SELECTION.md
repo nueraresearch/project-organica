@@ -6,11 +6,11 @@
 
 | Seed | Status | Candidates | Eligible | Selected |
 | ---: | --- | ---: | ---: | --- |
-| 20630101 | TARGET SET FORMED | 64 | 64 | `verdant>sable`, `olive>cedar`, `fern>willow`, `yarrow>amber` |
-| 20630102 | TARGET SET FORMED | 63 | 63 | `umber>ochre`, `verdant>teal`, `indigo>sable`, `slate>birch` |
-| 20630103 | TARGET SET FORMED | 64 | 64 | `teal>willow`, `amber>verdant`, `fern>maple`, `olive>indigo` |
-| 20630104 | TARGET SET FORMED | 64 | 64 | `indigo>ochre`, `teal>fern`, `willow>olive`, `birch>verdant` |
-| 20630105 | TARGET SET FORMED | 64 | 64 | `cedar>olive`, `indigo>teal`, `verdant>maple`, `ochre>fern` |
-| 20630106 | TARGET SET FORMED | 63 | 63 | `sable>maple`, `teal>umber`, `cedar>olive`, `amber>crimson` |
+| 20740101 | TARGET SET FORMED | 64 | 64 | `indigo>fern`, `teal>slate`, `maple>cedar`, `verdant>umber` |
+| 20740102 | TARGET SET FORMED | 64 | 64 | `olive>umber`, `willow>yarrow`, `verdant>crimson`, `ochre>slate` |
+| 20740103 | TARGET SET FORMED | 64 | 64 | `yarrow>teal`, `amber>willow`, `birch>fern`, `verdant>sable` |
+| 20740104 | TARGET SET FORMED | 64 | 64 | `slate>indigo`, `umber>cedar`, `crimson>sable`, `willow>birch` |
+| 20740105 | TARGET SET FORMED | 64 | 64 | `ochre>crimson`, `verdant>willow`, `sable>yarrow`, `fern>olive` |
+| 20740106 | TARGET SET FORMED | 62 | 62 | `indigo>teal`, `birch>ochre`, `amber>yarrow`, `verdant>sable` |
 
 **Not evidence:** A no-arm, 36-cycle target-selection pass. It chooses targets but freezes no manifest, authorises no cell and records no result.

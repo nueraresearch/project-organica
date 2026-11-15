@@ -71,9 +71,18 @@ def _selected(path: Path, seed: int) -> list[str]:
 
 
 def _candidates(seed: int) -> set[str]:
-    """The one-orientation candidate universe recorded by target selection."""
-    row = (_load(CURRENT_PATH).get("per_seed") or {}).get(str(seed)) or {}
-    return set((row.get("u") or {}).keys())
+    """The one-orientation candidate universe this audit ran.
+
+    Read from this audit's own record first: the target-selection artifact is a
+    live candidate block and moved to 20740101-20740106 on 2026-11-14, which
+    previously made a completed run's candidate count unverifiable.
+    """
+    row = next((r for r in (_load(AUDIT_PATH).get("per_seed") or [])
+                if r.get("seed") == seed), {})
+    if row.get("candidate_edges"):
+        return set(row["candidate_edges"])
+    selected = (_load(CURRENT_PATH).get("per_seed") or {}).get(str(seed)) or {}
+    return set((selected.get("u") or {}).keys())
 
 
 def _targets() -> tuple[dict[int, set[tuple[str, str]]], dict[int, set[tuple[str, str]]]]:

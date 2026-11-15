@@ -1,5 +1,7 @@
 # A1 Path A target-freeze act — draft
 
+> **Superseded 2026-11-14.** This act's per-seed tables, counts and digest are bound to `20630101-20630106`; the manifest now carries `20740101-20740106`. Re-issuing the act for the adopted block is the owner's signature step, and nothing below is edited — the tables are the record of what was prepared for the superseded block.
+
 **ID:** `A1-TARGET-FREEZE-1`
 
 **Date:** 2026-11-14

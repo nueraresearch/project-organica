@@ -17,10 +17,14 @@ def test_timing_audit_is_clean_and_preserves_the_current_targets():
     assert doc["u_cycle"] == 4
     assert doc["selection_u_cycle"] == 36
     assert doc["current_target_observations"] == 24
-    assert doc["current_observed_carriers"] == 14
-    assert doc["current_missing_carriers"] == 10
+    assert doc["current_observed_carriers"] == timing.RECORDED["current_observed_carriers"]
+    assert doc["current_missing_carriers"] == timing.RECORDED["current_missing_carriers"]
     assert doc["current_carriers_before_u"] == 0
-    assert doc["earliest_current_carrier_cycle"] == 5
+    assert doc["earliest_current_carrier_cycle"] == timing.RECORDED["earliest_current_carrier_cycle"]
+    assert doc["earliest_observed_carrier_cycle"] == timing.RECORDED["earliest_observed_carrier_cycle"]
+    assert tuple(timing.SEEDS) == timing.RECORDED["block"]
+    assert timing.RECORDED["block"] == (
+        20740101, 20740102, 20740103, 20740104, 20740105, 20740106)
     assert doc["u_before_earliest_carrier"] is True
     current = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
     n20 = json.loads(Path("docs/a1_c8_target_selection.json").read_text(encoding="utf-8"))
@@ -34,7 +38,7 @@ def test_page_is_rendered_from_the_audit():
     page = Path("docs/A1-C5-TARGET-TIMING.md").read_text(encoding="utf-8")
     assert page == timing.render(doc) + "\n"
     assert "cycle 4" in page
-    assert "cycle 5" in page
+    assert "cycle %d" % timing.RECORDED["earliest_observed_carrier_cycle"] in page
 
 
 def test_manifest_uses_the_earlier_cycle_for_c5_and_keeps_selection_diagnostic():

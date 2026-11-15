@@ -104,7 +104,9 @@ def _n20_target_doc():
         "max_endpoint_degree": a1_two_path.C8_MAX_ENDPOINT_DEGREE,
         "selection_artifact": a1_two_path.C8_TARGET_SELECTION_PATH.relative_to(
             a1_two_path.ROOT).as_posix(),
-        "by_seed": act["targets_by_seed"],
+        "by_seed": {seed: row["selected"] for seed, row in json.loads(
+            a1_two_path.C8_TARGET_SELECTION_PATH.read_text(
+                encoding="utf-8"))["per_seed"].items()},
     })
     return doc
 
@@ -210,16 +212,25 @@ def test_target_freeze_act_is_prepared_not_executed():
     artifact = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
     by_seed = {seed: row["selected"] for seed, row in artifact["per_seed"].items()}
 
-    assert act["status"] == "DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN"
+    assert act["status"].startswith("SUPERSEDED")
+    assert act["supersession"]["reissue_required"] is True
+    assert act["supersession"]["superseded_seed_block"] == [
+        20630101, 20630102, 20630103, 20630104, 20630105, 20630106]
+    assert act["supersession"]["current_seed_block"] == [
+        20740101, 20740102, 20740103, 20740104, 20740105, 20740106]
     assert act["signed"] is False
     assert act["path"] == "A"
-    assert act["targets_by_seed"] == by_seed
+    assert set(act["targets_by_seed"]) == {
+        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
     assert act["target_count"] == 24
     assert act["unique_target_edges"] == 23
     assert act["checks"]["target_set_problems"] == []
     import hashlib
     artifact_bytes = Path("docs/a1_target_selection.json").read_bytes()
-    assert act["selection_artifact_digest"] == hashlib.sha256(artifact_bytes).hexdigest()
+    assert act["selection_artifact_digest"] == act["supersession"][
+        "selection_artifact_digest"]
+    assert act["selection_artifact_digest"] != hashlib.sha256(
+        artifact_bytes).hexdigest()
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
@@ -298,7 +309,8 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
 
     assert act["kind"] == "a1_target_freeze_act_n20"
     assert act["id"] == "A1-TARGET-FREEZE-N20-1"
-    assert act["status"].startswith("DRAFT — C5 TARGET TIMING CLEARED BY EARLIER-U")
+    assert act["status"].startswith("SUPERSEDED")
+    assert act["supersession"]["reissue_required"] is True
     assert act["signed"] is False
     assert act["path"] == "A"
     assert act["n_per_seed"] == 20
@@ -306,7 +318,8 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["max_endpoint_degree"] == 3
     assert act["threshold"] == 0.05
     assert act["threshold_changed"] is False
-    assert act["targets_by_seed"] == by_seed
+    assert set(act["targets_by_seed"]) == {
+        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
     assert act["target_count"] == 120
     assert act["unique_target_edges"] == 104
     assert act["current_target_count"] == 24
@@ -316,18 +329,22 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     for seed, selected in by_seed.items():
         assert len(selected) == 20
         assert len(set(selected)) == 20
-        assert set(current[seed]) <= set(selected)
+    recorded_current = act["current_targets_by_seed"]
+    for seed, current_edges in recorded_current.items():
         assert act["per_seed"][seed]["retained_count"] == 4
         assert act["per_seed"][seed]["new_count"] == 16
         assert act["per_seed"][seed]["max_endpoint_degree"] == 3
-        assert act["per_seed"][seed]["selection_digest"] == c20["per_seed"][seed]["selection_digest"]
+        assert set(current_edges) <= set(act["targets_by_seed"][seed])
         assert act["new_targets_by_seed"][seed] == [
-            edge for edge in selected if edge not in current[seed]
-        ]
+            edge for edge in act["targets_by_seed"][seed]
+            if edge not in current_edges]
+    assert set(recorded_current) == {
+        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
 
     digest = hashlib.sha256(Path("docs/a1_c8_target_selection.json").read_bytes()).hexdigest()
-    assert act["selection_artifact_digest"] == digest
-    assert act["design"]["selection_artifact_digest"] == digest
+    assert act["selection_artifact_digest"] == act["supersession"][
+        "selection_artifact_digest"]
+    assert act["selection_artifact_digest"] != digest
     assert act["c8_resolution"]["status"] == "RESOLVED BY THIS ACT IF SIGNED"
     assert act["c8_resolution"]["rows_per_seed"] == 20
     assert act["c8_resolution"]["step"] == 0.05

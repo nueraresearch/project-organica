@@ -9,12 +9,12 @@ The design selects **20 A-K- target rows per seed** with the same pre-36 eligibi
 
 | Seed | Status | Candidates | Eligible | A-K- rows | Max degree |
 | ---: | --- | ---: | ---: | ---: | ---: |
-| 20630101 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
-| 20630102 | TARGET SET FORMED | 63 | 63 | 20 | 3 |
-| 20630103 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
-| 20630104 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
-| 20630105 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
-| 20630106 | TARGET SET FORMED | 63 | 63 | 20 | 3 |
+| 20740101 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
+| 20740102 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
+| 20740103 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
+| 20740104 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
+| 20740105 | TARGET SET FORMED | 64 | 64 | 20 | 3 |
+| 20740106 | TARGET SET FORMED | 62 | 62 | 20 | 3 |
 
 **Registered, not frozen:** the live N=4 manifest is unchanged. Adopting this design requires a target-protocol/freeze act that replaces the current target set; this artifact authorises no run.
 

@@ -19,6 +19,42 @@
     20690106
    ],
    "spent": false
+  },
+  {
+   "label": "cap-112 baseline availability, already run",
+   "owner": "docs/a1_baseline_availability.json",
+   "restated_by": [],
+   "seeds": [
+    20630101,
+    20630102,
+    20630103,
+    20630104,
+    20630105,
+    20630106
+   ],
+   "spent": true
+  },
+  {
+   "label": "two-path candidate block, held for A1-TWO-PATH-1",
+   "owner": "docs/a1_two_path_manifest.json",
+   "restated_by": [
+    "docs/a1_target_selection.json",
+    "docs/a1_c8_target_selection.json",
+    "docs/a1_c5_target_timing.json",
+    "docs/a1_adversarial_audit.json",
+    "docs/a1_target_freeze_act.json",
+    "docs/a1_target_freeze_act_n20.json",
+    "docs/a1_c8_expansion.json"
+   ],
+   "seeds": [
+    20740101,
+    20740102,
+    20740103,
+    20740104,
+    20740105,
+    20740106
+   ],
+   "spent": false
   }
  ],
  "shared_blocks": [
@@ -40,26 +76,6 @@
    "basis": "the construct preregistration's gate C9_comparator_row requires each cell to reproduce the cap-112 comparator row for its seed, so the two designs must run the same six seeds; both artifacts declare the reuse in seed_reuse and pair it against the 0.14.0 audit",
    "provenance": "docs/presence_assertion_audit_0.14.0.json",
    "page": "docs/PRESENCE-CONSTRUCT-1-112-PREREGISTRATION.md"
-  },
-  {
-   "label": "the cap-112 baseline-availability block, adopted by the two-path manifest",
-   "seeds": [
-    20630101,
-    20630102,
-    20630103,
-    20630104,
-    20630105,
-    20630106
-   ],
-   "artifacts": [
-    "docs/a1_baseline_availability.json",
-    "docs/a1_two_path_manifest.json"
-   ],
-   "declared_by": "",
-   "basis": "A1-BASELINE-AVAILABILITY-1 ran these six seeds at caps 112 and 64 and its per-seed rows are recorded; A1-TWO-PATH-1 declares the same six at cap 40 as a PROVISIONAL CANDIDATE block, so the manifest is not a fresh block. The manifest's own freshness field reads 'seed_collisions over docs JSON is empty at manifest time', which is true only because the scan skips its own allow list, of which the baseline-availability artifact is one.",
-   "provenance": "docs/a1_baseline_availability.json",
-   "page": "docs/A1-BASELINE-AVAILABILITY.md",
-   "pending": "whether the two-path manifest keeps the spent baseline block or fixes a fresh one is the owner's decision, not a guard's; until it is made, this block is recorded as reused rather than fresh."
   }
  ]
 }

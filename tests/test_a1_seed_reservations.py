@@ -16,7 +16,8 @@ def test_registry_and_guard_are_clean():
 
 
 def test_the_pair_split_block_is_held_unspent():
-    rows = reservations.reservations()
+    rows = [row for row in reservations.reservations()
+            if row["owner"] == "docs/a1_offset_discriminator_spec.json"]
     assert len(rows) == 1
     block = rows[0]
     assert block["seeds"] == PAIR_SPLIT
@@ -36,10 +37,14 @@ def test_only_the_reserving_artifacts_may_list_the_block():
     assert "unspent" in refusals[0]
 
 
-def test_a_spent_reservation_stops_refusing():
+def test_a_spent_reservation_refuses_others_but_not_its_owner():
     doc = reservations.registry()
     doc["reservations"][0]["spent"] = True
-    assert reservations.reservation_problems(PAIR_SPLIT, MANIFEST, doc) == []
+    refusals = reservations.reservation_problems(PAIR_SPLIT, MANIFEST, doc)
+    assert len(refusals) == 1
+    assert "were spent by" in refusals[0]
+    owner = Path("docs/a1_offset_discriminator_spec.json")
+    assert reservations.reservation_problems(PAIR_SPLIT, owner, doc) == []
 
 
 def test_the_preflight_refuses_a_manifest_that_reuses_the_block():
@@ -123,7 +128,7 @@ def test_a_bare_list_candidate_is_refused():
     assert refusals[0].startswith("docs/a1_successor_candidate.json:")
     assert "reserved by" in refusals[0]
     assert reservations.candidate_problems(
-        [("docs/a1_successor_candidate.json", {"seed_block": [20630101]})]) == []
+        [("docs/a1_successor_candidate.json", {"seed_block": [20880101]})]) == []
 
 
 def test_the_reserving_artifact_is_not_refused_by_the_block_scan():
@@ -137,7 +142,7 @@ CAP112_AUDIT_SEEDS = [20261100, 20261101, 20261102, 20261103,
 
 def test_the_shared_cap112_block_is_declared_and_verified():
     rows = {row["label"]: row for row in reservations.shared_blocks()}
-    assert len(rows) == 2
+    assert len(rows) == 1
     entry = rows["the six historical audit seeds at cap 112"]
     assert entry["seeds"] == CAP112_AUDIT_SEEDS
     assert entry["declared_by"] == "seed_reuse"
@@ -152,15 +157,32 @@ def test_the_shared_cap112_block_is_declared_and_verified():
     assert reservations.shared_block_problems() == []
 
 
-def test_the_two_path_block_is_recorded_as_reused_not_fresh():
-    rows = {row["label"]: row for row in reservations.shared_blocks()}
-    entry = rows["the cap-112 baseline-availability block, adopted by the "
-                 "two-path manifest"]
-    assert entry["seeds"] == [20630101, 20630102, 20630103,
-                              20630104, 20630105, 20630106]
-    assert entry["declared_by"] == ""
-    assert entry["pending"]
-    assert "PROVISIONAL CANDIDATE" in entry["basis"]
+TWO_PATH_SEEDS = NEW_BLOCK = [
+    20740101, 20740102, 20740103, 20740104, 20740105, 20740106]
+BASELINE_SEEDS = [20630101, 20630102, 20630103,
+                  20630104, 20630105, 20630106]
+
+
+def test_the_two_path_block_is_adopted_and_held():
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    assert manifest["seed_block"]["seeds"] == TWO_PATH_SEEDS
+    assert manifest["control"]["seed"] == TWO_PATH_SEEDS[0]
+    rows = {row["owner"]: row for row in reservations.reservations()}
+    held = rows["docs/a1_two_path_manifest.json"]
+    assert held["seeds"] == TWO_PATH_SEEDS
+    assert held["spent"] is False
+    assert "docs/a1_c5_target_timing.json" in held["restated_by"]
+    assert reservations.reservation_problems(TWO_PATH_SEEDS, MANIFEST) == []
+
+
+def test_the_baseline_block_is_recorded_as_spent():
+    rows = {row["owner"]: row for row in reservations.reservations()}
+    spent = rows["docs/a1_baseline_availability.json"]
+    assert spent["seeds"] == BASELINE_SEEDS
+    assert spent["spent"] is True
+    refusals = reservations.reservation_problems(BASELINE_SEEDS, MANIFEST)
+    assert len(refusals) == 1
+    assert "were spent by" in refusals[0]
 
 
 def test_undeclared_sharing_is_refused():

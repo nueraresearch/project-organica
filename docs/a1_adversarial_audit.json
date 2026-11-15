@@ -54,18 +54,18 @@
       "candidates": 382,
       "all_candidates_eligible": true,
       "eligible_counts": {
-        "20630101": 64,
-        "20630102": 63,
-        "20630103": 64,
-        "20630104": 64,
-        "20630105": 64,
-        "20630106": 63
+        "20740101": 64,
+        "20740102": 64,
+        "20740103": 64,
+        "20740104": 64,
+        "20740105": 64,
+        "20740106": 62
       },
-      "selected_median_strength": 16.0,
+      "selected_median_strength": 14.5,
       "unselected_median_strength": 16.0,
-      "selected_mean_strength": 15.333,
-      "unselected_mean_strength": 15.215,
-      "permutation_p": 0.91765
+      "selected_mean_strength": 13.958,
+      "unselected_mean_strength": 15.475,
+      "permutation_p": 0.11235
     },
     "not_a_sample_of": [
       "high-U edges",
@@ -77,8 +77,8 @@
   },
   "all_pass": true,
   "per_seed": {
-    "20630101": {
-      "seed": 20630101,
+    "20740101": {
+      "seed": 20740101,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -87,16 +87,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ],
         "long_selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ],
         "same_world_prefix": true
       },
@@ -108,26 +108,26 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ],
         "long_selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ],
         "candidate_count": 64,
         "eligible_count": 64,
@@ -139,16 +139,16 @@
         "candidate_count": 64,
         "eligible_count": 64,
         "selected": [
-          "verdant>sable",
-          "olive>cedar",
-          "fern>willow",
-          "yarrow>amber"
+          "indigo>fern",
+          "teal>slate",
+          "maple>cedar",
+          "verdant>umber"
         ],
         "event_cycles": 36
       }
     },
-    "20630102": {
-      "seed": 20630102,
+    "20740102": {
+      "seed": 20740102,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -157,16 +157,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ],
         "long_selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ],
         "same_world_prefix": true
       },
@@ -178,47 +178,47 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ],
         "long_selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ],
-        "candidate_count": 63,
-        "eligible_count": 63,
+        "candidate_count": 64,
+        "eligible_count": 64,
         "disjoint": true,
         "positive_u": true,
         "cycle_member": true
       },
       "long": {
-        "candidate_count": 63,
-        "eligible_count": 63,
+        "candidate_count": 64,
+        "eligible_count": 64,
         "selected": [
-          "umber>ochre",
-          "verdant>teal",
-          "indigo>sable",
-          "slate>birch"
+          "olive>umber",
+          "willow>yarrow",
+          "verdant>crimson",
+          "ochre>slate"
         ],
         "event_cycles": 36
       }
     },
-    "20630103": {
-      "seed": 20630103,
+    "20740103": {
+      "seed": 20740103,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -227,16 +227,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ],
         "long_selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ],
         "same_world_prefix": true
       },
@@ -248,26 +248,26 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ],
         "long_selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ],
         "candidate_count": 64,
         "eligible_count": 64,
@@ -279,16 +279,16 @@
         "candidate_count": 64,
         "eligible_count": 64,
         "selected": [
-          "teal>willow",
-          "amber>verdant",
-          "fern>maple",
-          "olive>indigo"
+          "yarrow>teal",
+          "amber>willow",
+          "birch>fern",
+          "verdant>sable"
         ],
         "event_cycles": 36
       }
     },
-    "20630104": {
-      "seed": 20630104,
+    "20740104": {
+      "seed": 20740104,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -297,16 +297,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ],
         "long_selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ],
         "same_world_prefix": true
       },
@@ -318,26 +318,26 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ],
         "long_selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ],
         "candidate_count": 64,
         "eligible_count": 64,
@@ -349,16 +349,16 @@
         "candidate_count": 64,
         "eligible_count": 64,
         "selected": [
-          "indigo>ochre",
-          "teal>fern",
-          "willow>olive",
-          "birch>verdant"
+          "slate>indigo",
+          "umber>cedar",
+          "crimson>sable",
+          "willow>birch"
         ],
         "event_cycles": 36
       }
     },
-    "20630105": {
-      "seed": 20630105,
+    "20740105": {
+      "seed": 20740105,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -367,16 +367,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ],
         "long_selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ],
         "same_world_prefix": true
       },
@@ -388,26 +388,26 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ],
         "long_selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ],
         "candidate_count": 64,
         "eligible_count": 64,
@@ -419,16 +419,16 @@
         "candidate_count": 64,
         "eligible_count": 64,
         "selected": [
-          "cedar>olive",
-          "indigo>teal",
-          "verdant>maple",
-          "ochre>fern"
+          "ochre>crimson",
+          "verdant>willow",
+          "sable>yarrow",
+          "fern>olive"
         ],
         "event_cycles": 36
       }
     },
-    "20630106": {
-      "seed": 20630106,
+    "20740106": {
+      "seed": 20740106,
       "future_blindness": {
         "pass": true,
         "same_event_count": true,
@@ -437,16 +437,16 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ],
         "long_selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ],
         "same_world_prefix": true
       },
@@ -458,41 +458,41 @@
         "same_cycle_member": true,
         "same_digest": true,
         "short_selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ],
         "long_selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ]
       },
       "feasibility": {
         "pass": true,
         "status": "TARGET SET FORMED",
         "selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ],
-        "candidate_count": 63,
-        "eligible_count": 63,
+        "candidate_count": 62,
+        "eligible_count": 62,
         "disjoint": true,
         "positive_u": true,
         "cycle_member": true
       },
       "long": {
-        "candidate_count": 63,
-        "eligible_count": 63,
+        "candidate_count": 62,
+        "eligible_count": 62,
         "selected": [
-          "sable>maple",
-          "teal>umber",
-          "cedar>olive",
-          "amber>crimson"
+          "indigo>teal",
+          "birch>ochre",
+          "amber>yarrow",
+          "verdant>sable"
         ],
         "event_cycles": 36
       }

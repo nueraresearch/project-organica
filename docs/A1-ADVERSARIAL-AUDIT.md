@@ -6,12 +6,12 @@
 
 | Seed | Feasibility | Future-blind | Determinism | Selected |
 | ---: | --- | --- | --- | --- |
-| 20630101 | PASS | PASS | PASS | `verdant>sable`, `olive>cedar`, `fern>willow`, `yarrow>amber` |
-| 20630102 | PASS | PASS | PASS | `umber>ochre`, `verdant>teal`, `indigo>sable`, `slate>birch` |
-| 20630103 | PASS | PASS | PASS | `teal>willow`, `amber>verdant`, `fern>maple`, `olive>indigo` |
-| 20630104 | PASS | PASS | PASS | `indigo>ochre`, `teal>fern`, `willow>olive`, `birch>verdant` |
-| 20630105 | PASS | PASS | PASS | `cedar>olive`, `indigo>teal`, `verdant>maple`, `ochre>fern` |
-| 20630106 | PASS | PASS | PASS | `sable>maple`, `teal>umber`, `cedar>olive`, `amber>crimson` |
+| 20740101 | PASS | PASS | PASS | `indigo>fern`, `teal>slate`, `maple>cedar`, `verdant>umber` |
+| 20740102 | PASS | PASS | PASS | `olive>umber`, `willow>yarrow`, `verdant>crimson`, `ochre>slate` |
+| 20740103 | PASS | PASS | PASS | `yarrow>teal`, `amber>willow`, `birch>fern`, `verdant>sable` |
+| 20740104 | PASS | PASS | PASS | `slate>indigo`, `umber>cedar`, `crimson>sable`, `willow>birch` |
+| 20740105 | PASS | PASS | PASS | `ochre>crimson`, `verdant>willow`, `sable>yarrow`, `fern>olive` |
+| 20740106 | PASS | PASS | PASS | `indigo>teal`, `birch>ochre`, `amber>yarrow`, `verdant>sable` |
 
 | Check | Result |
 | --- | --- |
@@ -37,9 +37,9 @@
 | Unselected candidates | 358 |
 | Candidates | 382 |
 | All candidates eligible | yes |
-| Selected mean / median strength | 15.333 / 16.0 |
-| Unselected mean / median strength | 15.215 / 16.0 |
-| Descriptive permutation p | 0.91765 |
+| Selected mean / median strength | 13.958 / 14.5 |
+| Unselected mean / median strength | 15.475 / 16.0 |
+| Descriptive permutation p | 0.11235 |
 
 **Conclusion:** The selected targets are a representative eligible pre-37 sample; A1 does not estimate a high-U, hard-edge or carrier-enriched effect.
 
