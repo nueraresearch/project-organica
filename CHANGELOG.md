@@ -53,6 +53,22 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the A1 disposition is drafted as continue, with its conditions named
+
+The branch question was re-opened because all four premises of the 2026-11-14 disposition had been replaced:
+C1's unreachability was a denominator-convention artefact, C1's unit is now the directed edge, C8 is adjudicable
+on 6/6 seeds at `N_min = 17`, and C4's exposure is adopted as posture A. `DECISION-A1-DISPOSITION-2` answers
+**continue** and restates the commitment as a sequence — freeze review, provisional target freeze, dated grant,
+one run, C1/C4, PASS or VOID — with nine conditions named as a table: D1–D6 met and recorded, D7–D9 (the two
+freeze acts, the grant, the single run) outstanding and the owner's.
+
+Continuing is stated with its costs rather than around them: the operative block `20/17/20/20/18/20` permits
+zero failed C8 assertions on two seeds, C4's VOID probability over 1,944 comparisons is unmeasured, C1 will
+either clear or void rather than be estimated, and the disposition is a bet on design adequacy, not on the
+mechanism. Redesign is rejected on measurement — the predeclared fresh block fails 0/6 and the 28-tag universe
+dilutes K to 23–55 — and park on the removal of its two stated reasons. The 2026-12-14 lapse clock is
+explicitly **not** extended by signature.
+
 ## Addendum — 2026-11-15: the join and the C1 scorer carried the same defect, one layer below the gates
 
 Repairing the gates raised the next question: what reaches them? Two functions do.

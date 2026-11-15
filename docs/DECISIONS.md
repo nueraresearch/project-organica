@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 17 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 5 | decided and not in force; the document says so |
-| **total** | **23** | |
+| PENDING | 6 | decided and not in force; the document says so |
+| **total** | **24** | |
 
 ## The decisions
 
@@ -513,6 +513,26 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-C4-RISK-POSTURE.md`, `docs/A1-C4-NOISE-FEASIBILITY.md`, `docs/DECISION-A1-C4-POSTURE.md`
 
 **Record.** `docs/DECISION-A1-C4-POSTURE.md`
+
+### DECISION-A1-DISPOSITION-2 — A1 disposition against the adopted C4 posture — draft for owner signature
+
+**Status.** PENDING — *"DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- Path A continues.
+- Continuing is conditional.
+
+**Rejected.**
+
+- *Redesign* — because *"Rejected on measurement, not on appetite"*
+- *Park* — because *"Rejected because the reason for parking has been removed twice"*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-DISPOSITION-REREAD.md`, `docs/DECISION-A1-C4-POSTURE.md`, `docs/A1-PRE-FREEZE-CHECKLIST.md`
+
+**Record.** `docs/DECISION-A1-DISPOSITION-2.md`
 
 ## What this graph is not
 
