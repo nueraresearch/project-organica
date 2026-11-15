@@ -732,7 +732,7 @@ runs only, and no effect estimate is quoted from these cells. C1 passed (A− 0.
 
 | # | Decision | Why it is yours | Where |
 |---|---|---|---|
-| GOV-1 | **Sign, narrow or withdraw the V2 charter draft** — it commissions a design document with one pre-committed question and one failure criterion, and authorises no code | The prohibition the draft narrows rests on an arm the ledger says never ran, and three independent measurements now name the same missing capability. I drafted the decision; adopting it is yours | [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) |
+| GOV-1 | **Sign, narrow or withdraw the V2 charter draft** — it commissions a design document with one pre-committed question and one failure criterion, requires a mutable-identity primitive, and requires that primitive to beat the pair-count baseline or fail, and authorises no code | The prohibition the draft narrows rests on an arm the ledger says never ran, and three independent measurements now name the same missing capability. I drafted the decision; adopting it is yours | [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) |
 
 **The row above is a draft, not a proposal I can adopt.** Until you sign it, `DECISION-V2-SCOPE` D1 stands
 exactly as recorded and nothing about V2 is authorised; declining costs one line, and the draft says where to write it.
@@ -4459,3 +4459,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **A2 closed by adopted decision.** `DECISION-A2-ESTIMAND` is `ADOPTED`: the aggregate sham matches totals but leaves per-edge differences of 30–78 cycles, so it cannot carry a per-edge estimand, and the carrier-level unit makes locality unfalsifiable. No A2 arm runs; Q058 answered. |
 | 2026-11-15 | **The two A1/A2 closures recorded as different kinds.** A1 closed because its control failed; A2 because its control can only be obtained by changing the question. The durable statement is scoped to this engine, world family and carrier-removal family, and A2b is recorded as rejected as A1's continuation, not as science. |
 | 2026-11-15 | **Structural model of V1 written from the code.** `V1-STRUCTURAL-MODEL` records the stored, retrieved and manipulated objects, derives the carrier spill from the representation, and states that V1 has no addressing primitive — with three falsifiers and a code-parsing test. No experiment was run for it. |
+| 2026-11-15 | **G3/G4 line and mutable identity added to the charter draft.** The draft now records that G0–G3 are expressible over pair counts while G4–G8 presuppose objects that persist through revision, requires a stored composite with identity independent of content and non-colliding mutation, and requires an earning test against the pair-count baseline. |

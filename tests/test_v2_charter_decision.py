@@ -34,6 +34,21 @@ def test_it_carries_the_untested_arm_and_the_three_lines() -> None:
     assert "G13-D" in text
 
 
+def test_the_dividing_line_and_the_mutable_identity_requirement_are_recorded() -> None:
+    text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
+    assert "Where the substrate stops: the G3/G4 line" in text
+    assert "G0–G3" in text and "G5–G8" in text
+    assert "it is *replaced*, not *revised*" in text
+    assert "softly at G4, hard from G5" in text
+    assert "nothing remains itself across a revision" in text
+    assert "A mutable-identity primitive, specified before anything is built" in text
+    assert "ownership or" in text and "copy-on-write" in text
+    assert "An id column over recomputed structures does not satisfy this" in text
+    assert "An earning test" in text
+    assert "a tie means the addresses are bookkeeping and the charter fails" in text
+    assert "does not claim that adding identifiers would reach G4" in text
+
+
 def test_it_leaves_the_frozen_engine_and_the_G13_D_authorisation_alone() -> None:
     text = (DOCS / "DECISION-V2-CHARTER.md").read_text(encoding="utf-8")
     assert "**Leaves untouched:** D2 of that decision" in text

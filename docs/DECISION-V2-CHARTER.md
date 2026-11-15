@@ -42,6 +42,27 @@ by frequency, readout does not turn structure into prediction, and carrier remov
 improved log-loss by about **0.03 nats** on five diagnostic seeds. It is a diagnostic, it is unpromoted, and it addresses
 capacity and provenance — not addressability.
 
+### Where the substrate stops: the G3/G4 line
+
+`CHALLENGE.md`'s nine targets divide where the code draws the line, though not with equal sharpness on both sides.
+
+**G0–G3** — pure experience, signal extraction, composites, workflows — are expressible over pair counts and recomputed
+paths, and that is where V1's evidence stops.
+
+**G4** is the first target the substrate strains. A directional hypothesis can be represented as a content-addressed row
+that is re-derived each cycle with fresh counters — but then it is *replaced*, not *revised*: nothing carries the same
+hypothesis across a contradiction and records that it survived one. Whether replacement is enough for G4 is an open
+question, not a settled no.
+
+**G5–G8** presuppose revision: a theory whose membership changes while it remains one theory (G5); inquiry ranked over
+questions that stay open while evidence accumulates (G7); an experiment that targets one unresolved tension and closes it
+(G8). V1 holds no such object. `V1-STRUCTURAL-MODEL` §5 finds no primitive that takes an identifier, and structures are
+recomputed on every consolidation, so nothing remains itself across a revision. Content addressing covers rows whose
+identity *is* their content; it stops where the object must change while staying the same object.
+
+So the line is not a scorecard on V1. It marks where the substrate's choice between replacement and revision starts to
+cost something — softly at G4, hard from G5 — and that is the object type a charter for those targets has to specify.
+
 ## 3. The decision
 
 ### The decision, in four sentences
@@ -63,6 +84,13 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
    in which a `VOID` stops interpretation before any effect is quoted.
 5. **A stop condition** in the sense of rule 23(c): the charter closes after its first experiment reports, pass or fail.
    Extending it, or adding a feature to it, needs a new decision.
+6. **A mutable-identity primitive, specified before anything is built**: a stored composite, an identifier assigned
+   independently of its content, and a mutation that cannot alter a shared part — with the collision rule (ownership or
+   copy-on-write) stated. An id column over recomputed structures does not satisfy this; that is the difference between a
+   label and an address.
+7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
+   or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
+   Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.
 
 ## 4. What this does not do
 
@@ -70,6 +98,7 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 - It does not withdraw, re-score or reinterpret H2, Phase K, Phase L, Gate 13 or any other verdict.
 - It does not turn `ORGANICA-V2-DESIGN-BRIEF.md` into a design; that brief stays a set of options.
 - It does not let a V1 result be cited as V2 evidence, or the reverse.
+- It does not claim that adding identifiers would reach G4. The requirement is a primitive that survives revision, and even that must earn its keep against the counts.
 - It does not touch the frozen engine files or `docs/engine_pin.json`.
 
 ## 5. Rejected alternatives
@@ -81,6 +110,8 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 **Rewrite the frozen engine in place.** Because it would break comparability with the published record and the pin that enforces it.
 
 **Commission a charter without a pre-committed failure criterion.** Because V1's record shows how easily an architecture programme becomes unfalsifiable.
+
+**Add an identifier column and call the substrate addressable.** Because a label on a structure that is recomputed every cycle is not an address: nothing can name it between cycles, so the test that would show it earns anything cannot even be run.
 
 ## 6. Evidence
 

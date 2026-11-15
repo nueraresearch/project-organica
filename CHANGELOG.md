@@ -119,6 +119,25 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the charter now names the G3/G4 line and the object it requires
+
+`DECISION-V2-CHARTER` gains the dividing line the structural model implies. **G0–G3** are expressible over pair counts
+and recomputed paths, which is where V1's evidence stops. **G4** strains the substrate rather than breaking it: a
+hypothesis can be a content-addressed row re-derived each cycle, but then it is replaced, not revised, and nothing records
+that it survived a contradiction — whether that is enough is left open. **G5–G8** presuppose revision: theories whose
+membership changes, questions that stay open while evidence accumulates, experiments that target one unresolved tension.
+V1 holds no such object, because structures are recomputed each consolidation and nothing remains itself across a
+revision.
+
+The charter must therefore specify **a mutable-identity primitive**: a stored composite, an identifier assigned
+independently of its content, and a mutation that cannot alter a shared part, with the collision rule (ownership or
+copy-on-write) stated. An id column over recomputed structures does not satisfy it.
+
+It must also specify an **earning test**: the first experiment compares the addressed object against the pair-count
+baseline, and the charter says in advance that a tie means the addresses are bookkeeping and the charter fails.
+Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
+primitive as the goal.
+
 ## Addendum — 2026-11-15: the structural model — identifiers exist, addresses do not
 
 `docs/V1-STRUCTURAL-MODEL.md` and `docs/v1_structural_model.json` describe what V1 actually stores, retrieves and
