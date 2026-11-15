@@ -41,6 +41,8 @@ def _load(path: Path) -> dict:
 
 
 def _relative(path: Path) -> str:
+    if not path.is_absolute():
+        return path.as_posix().lstrip("./")
     try:
         return path.resolve().relative_to(ROOT).as_posix()
     except ValueError:
@@ -70,6 +72,44 @@ def _seeds_of(node) -> set[int]:
 
     walk(node)
     return out
+
+
+def declared_seeds(doc: dict) -> list[int]:
+    """The seed block an artifact declares, in either committed shape.
+
+    Newer manifests store `seed_block` as an object with a `seeds` list; the
+    older candidates and the three cap-112 preregistrations store it as a bare
+    list. Both are declarations of a block, and the check reads both.
+    """
+    block = doc.get("seed_block") if isinstance(doc, dict) else None
+    if isinstance(block, dict):
+        block = block.get("seeds")
+    if not isinstance(block, list):
+        return []
+    return [int(seed) for seed in block
+            if isinstance(seed, int) and not isinstance(seed, bool)]
+
+
+def candidate_blocks(docs=None) -> list[tuple[str, list[int]]]:
+    """Every artifact in the tree that declares a seed block."""
+    if docs is not None:
+        return [(_relative(Path(path)), declared_seeds(doc))
+                for path, doc in docs]
+    out = []
+    for path in sorted(DOCS.glob("*.json")):
+        seeds = declared_seeds(_load(path))
+        if seeds:
+            out.append((_relative(path), seeds))
+    return out
+
+
+def candidate_problems(docs=None) -> list[str]:
+    """Refusals for every declared block in the tree, each on its own behalf."""
+    found: list[str] = []
+    for rel, seeds in candidate_blocks(docs):
+        for row in reservation_problems(seeds, rel):
+            found.append("%s: %s" % (rel, row))
+    return found
 
 
 def reservations(doc: dict | None = None) -> list[dict]:
@@ -184,11 +224,15 @@ def self_test() -> list[str]:
 def check() -> int:
     if not REGISTRY_PATH.exists():
         raise SystemExit("no seed-reservation registry")
-    found = problems()
+    found = problems() + candidate_problems()
     if found:
         raise SystemExit("FAIL: " + "; ".join(found))
     total = sum(len(row["seeds"]) for row in reservations() if not row["spent"])
-    print("seed reservations: clean (%d unspent seeds held)" % total)
+    blocks = candidate_blocks()
+    for rel, seeds in blocks:
+        print("  %-45s %d seed(s)" % (rel, len(seeds)))
+    print("seed reservations: clean (%d unspent seeds held, %d declared block(s) checked)"
+          % (total, len(blocks)))
     return 0
 
 

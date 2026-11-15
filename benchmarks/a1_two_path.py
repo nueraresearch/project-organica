@@ -427,8 +427,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  SPLIT_POWER_PATH, ENGINE_SIDE_JOIN_PATH,
                  BAND_FRONTIER_PATH, SELECTION_IDENTITY_PATH,
                  PAIR_SPLIT_RULE_PATH)
-        block = doc.get("seed_block") or {}
-        candidate = list(block.get("seeds") or []) if isinstance(block, dict) else []
+        from benchmarks.a1_seed_reservations import declared_seeds
+        candidate = declared_seeds(doc)
         collisions = seed_collisions(candidate, allow=allow)
         if collisions:
             found.append("candidate seeds collide with committed artifacts: %r" % collisions)

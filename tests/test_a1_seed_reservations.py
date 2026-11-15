@@ -86,3 +86,46 @@ def test_no_other_artifact_names_a_reserved_seed():
         if shared:
             offenders[path.as_posix()] = shared
     assert offenders == {}
+
+
+DECLARED_BLOCKS = {
+    "docs/a1_baseline_availability.json",
+    "docs/a1_larger_universe_candidate.json",
+    "docs/a1_successor_candidate.json",
+    "docs/a1_two_path_manifest.json",
+    "docs/presence_cap_1_112_prereg.json",
+    "docs/presence_comparator_112_prereg.json",
+    "docs/presence_construct_1_112_prereg.json",
+}
+
+
+def test_every_declared_block_is_checked():
+    blocks = dict(reservations.candidate_blocks())
+    assert set(blocks) == DECLARED_BLOCKS
+    assert all(len(seeds) == 6 for seeds in blocks.values())
+    assert reservations.candidate_problems() == []
+
+
+def test_both_committed_block_shapes_are_read():
+    assert reservations.declared_seeds({"seed_block": PAIR_SPLIT}) == PAIR_SPLIT
+    assert reservations.declared_seeds(
+        {"seed_block": {"seeds": PAIR_SPLIT, "status": "x"}}) == PAIR_SPLIT
+    assert reservations.declared_seeds({"seed_block": None}) == []
+    assert reservations.declared_seeds({"seed_block": "20690101"}) == []
+    assert reservations.declared_seeds({}) == []
+    assert reservations.declared_seeds([]) == []
+
+
+def test_a_bare_list_candidate_is_refused():
+    refusals = reservations.candidate_problems(
+        [("docs/a1_successor_candidate.json", {"seed_block": PAIR_SPLIT})])
+    assert len(refusals) == 1
+    assert refusals[0].startswith("docs/a1_successor_candidate.json:")
+    assert "reserved by" in refusals[0]
+    assert reservations.candidate_problems(
+        [("docs/a1_successor_candidate.json", {"seed_block": [20630101]})]) == []
+
+
+def test_the_reserving_artifact_is_not_refused_by_the_block_scan():
+    assert reservations.candidate_problems(
+        [("docs/a1_offset_discriminator_spec.json", {"seed_block": PAIR_SPLIT})]) == []
