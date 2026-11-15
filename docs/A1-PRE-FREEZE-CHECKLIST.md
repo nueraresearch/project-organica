@@ -81,7 +81,7 @@ regenerates it.
 | [`DECISION-A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no target, authorises no cell, changes no engine file and records no result … |
 | [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | **ADOPTED** | `DECISION-A1-VOID-ACCEPTED` — the A1 block is VOID, and it is not rescored |
 
-_Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`, `DECISION-V2-CHARTER`._
+_Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`, `DECISION-V2-CHARTER`, `DECISION-V2-PRIMITIVE-RESOLUTIONS`._
 <!-- a1-board:end -->
 
 So the honest headline is **two owner choices remain open, and both are drafted and audited for signature** — not "no

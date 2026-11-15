@@ -138,6 +138,20 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the primitive's storage cost, measured on a real world
+
+`benchmarks/v2_primitive_sizing.py` sizes the primitive's four tables against the store measured by the identity replay, and
+`docs/V2-PRIMITIVE-SIZING.md` reports it: **135,168 bytes** at admission `m>=2` (115 composites, 345 references over 24
+atoms), which is 2.54× the pair tables it annotates and 0.70% of the store.
+
+Two things the measurement corrects. **The whole-store ratio is misleading**: events are 99.6% of the store, so overhead
+quoted against it is really a statement about event text — the pair tables (53,248 bytes) are the honest comparator.
+**Per-object bytes are page-bound**: at 33 pages, 1,175 bytes per composite is an upper bound, not a marginal cost.
+
+The lever is admission, which the decision adopts without fixing `m`: the population runs from 115 composites at `m>=2` to
+20 at `m>=20`, a 5.75× swing, and the cost with it. Mutation adds no storage under binding-level copy-on-write; keeping
+history would cost 45,056 bytes more at this population and buys a history the specification does not need.
+
 ## Addendum — 2026-11-15: the four resolutions packaged as one signable decision
 
 `DECISION-V2-PRIMITIVE-RESOLUTIONS` (`PENDING`) turns the specification's four argued answers into a single decision

@@ -13,6 +13,8 @@ from __future__ import annotations
 import argparse
 import collections
 import json
+import os
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -25,7 +27,42 @@ SEED = 20740101
 OUT = "docs/v1_carrier_identity.json"
 
 
-def replay(seed: int = SEED) -> list[tuple[int, str, tuple[str, ...]]]:
+GRAPH_TABLES = ("events", "cooccurrences", "precedes", "tag_counts", "sleep_cycles")
+
+
+def _store_facts(db_path: Path) -> dict:
+    """Row counts and file size of the store the replay just built."""
+    con = sqlite3.connect("file:%s?mode=rw" % db_path, uri=True)
+    try:
+        con.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+    except sqlite3.DatabaseError:
+        pass
+    present = {row[0] for row in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    rows = {}
+    for table in GRAPH_TABLES:
+        rows[table] = (con.execute("SELECT COUNT(*) FROM %s" % table).fetchone()[0]
+                       if table in present else None)
+    try:
+        bytes_by_table = {name: size for name, size in con.execute(
+            "SELECT m.tbl_name, SUM(d.pgsize) FROM dbstat d "
+            "JOIN sqlite_master m ON m.name = d.name GROUP BY m.tbl_name")}
+        dbstat = True
+    except sqlite3.DatabaseError:
+        bytes_by_table, dbstat = {}, False
+    page_size = con.execute("PRAGMA page_size").fetchone()[0]
+    page_count = con.execute("PRAGMA page_count").fetchone()[0]
+    con.close()
+    return {"rows": rows, "bytes": bytes_by_table, "dbstat": dbstat,
+            "page_size": page_size, "pages": page_count,
+            "db_bytes": page_size * page_count,
+            "dbstat_bytes": sum(bytes_by_table.values()),
+            "unattributed_bytes": page_size * page_count - sum(bytes_by_table.values()),
+            "store_size_reproducible": False,
+            "store_size_note": ("the event table's overflow pages vary by a page or two between replays; row counts and "
+                                "the pair tables' pages are stable and are what --check asserts")}
+
+
+def replay(seed: int = SEED) -> tuple[list[tuple[int, str, tuple[str, ...]]], dict]:
     """Every (cycle, loop id, path) the engine returns, one entry per cycle."""
     world = generate_compositional_world(seed=seed, cycles=CYCLES)
     db_path = _make_scratch_db("v1_carrier_identity")
@@ -51,7 +88,9 @@ def replay(seed: int = SEED) -> list[tuple[int, str, tuple[str, ...]]]:
             path = tuple(getattr(loop, "path", []) or ())
             if len(path) >= 2:
                 found.append((i // timing.EVENTS_PER_CYCLE, str(getattr(loop, "id", "")), path))
-    return found
+    facts = _store_facts(db_path)
+    memory.close()
+    return found, facts
 
 
 def _canonical(path: tuple[str, ...]) -> tuple[str, ...]:
@@ -68,7 +107,7 @@ def _canonical(path: tuple[str, ...]) -> tuple[str, ...]:
     return best or ()
 
 
-def analyse(entries: list[tuple[int, str, tuple[str, ...]]]) -> dict:
+def analyse(entries: list[tuple[int, str, tuple[str, ...]]], graph: dict | None = None) -> dict:
     paths = collections.Counter(p for _, _, p in entries)
     ids = collections.Counter(i for _, i, _ in entries)
     id_to_paths: dict[str, set[tuple[str, ...]]] = collections.defaultdict(set)
@@ -89,6 +128,8 @@ def analyse(entries: list[tuple[int, str, tuple[str, ...]]]) -> dict:
     same_cycle = sum(1 for paths_ in multis.values()
                      if set.intersection(*[cycles_of[p] for p in paths_]))
     hist = collections.Counter(len(paths_) for paths_ in by_set.values())
+    key_appearances = collections.Counter(
+        sum(paths[p] for p in paths_) for paths_ in by_set.values())
     n_ids = len(ids)
     birthday = 1 - pow(1 - 1 / 2 ** 32, n_ids * (n_ids - 1) / 2)
     return {
@@ -103,6 +144,8 @@ def analyse(entries: list[tuple[int, str, tuple[str, ...]]]) -> dict:
                                              if len(p) == 4 and tuple(reversed(p)) in set(distinct)),
         "node_sets_with_two_directions": len(multis),
         "paths_per_node_set": {str(k): v for k, v in sorted(hist.items())},
+        "appearances_per_node_set": {str(k): v for k, v in sorted(key_appearances.items())},
+        "graph": graph,
         "directions_appear_in_different_cycles": len(flips),
         "node_sets_where_both_directions_share_a_cycle": same_cycle,
         "stable_identity_across_cycles": len(multis) == 0,
@@ -114,10 +157,31 @@ def analyse(entries: list[tuple[int, str, tuple[str, ...]]]) -> dict:
     }
 
 
+VOLATILE_GRAPH_KEYS = ("pages", "db_bytes", "dbstat_bytes", "events")
+
+
+def stable(doc: dict) -> dict:
+    """The projection --check compares: everything except the store's page allocation.
+
+    SQLite's large-table page allocation is not bit-reproducible across replays, so asserting the
+    store's byte total would make the check fail on a correct world. Row counts, page size and the
+    pair tables' pages are stable.
+    """
+    graph = dict(doc.get("graph") or {})
+    graph.pop("pages", None)
+    graph.pop("db_bytes", None)
+    graph.pop("dbstat_bytes", None)
+    if isinstance(graph.get("bytes"), dict):
+        graph["bytes"] = {k: v for k, v in graph["bytes"].items() if k != "events"}
+    out = dict(doc)
+    out["graph"] = graph
+    return out
+
+
 def build() -> dict:
-    first = replay()
-    second = replay()
-    doc = analyse(first)
+    first, facts = replay()
+    second, _ = replay()
+    doc = analyse(first, facts)
     doc["recomputed_deterministically"] = sorted(first) == sorted(second)
     doc["identical_including_cycle"] = first == second
     return doc
@@ -129,8 +193,8 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     if args.check:
-        stored = json.loads(Path(OUT).read_text(encoding="utf-8"))
-        fresh = build()
+        stored = stable(json.loads(Path(OUT).read_text(encoding="utf-8")))
+        fresh = stable(build())
         if stored != fresh:
             differing = sorted(k for k in set(stored) | set(fresh) if stored.get(k) != fresh.get(k))
             print("FAIL: the artifact drifted from a fresh replay: %r" % (differing,))
