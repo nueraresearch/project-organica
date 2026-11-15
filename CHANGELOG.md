@@ -53,7 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: the 17-row frontier is set by the endpoint cap, not by two agreeing arguments
+## Addendum — 2026-11-15: the C1 ceiling is an open conflict, not a closed reading
+
+Checking whether anything else sat upstream of the freeze turned up two adopted records that disagree. `A1-PATH-A-C1-RULE-1`
+(binding, 2026-11-14) voids a run whose observed C1 denominator is **above 64**. `DECISION-A1-C1-DENOMINATOR-1`
+(2026-11-15) makes the recorded cell row the operative denominator, and the adopted block observes **79, 64, 79, 74,
+72, 74** — five seeds above the band. Neither record names the other superseded, and the later one never mentions the
+ceiling.
+
+So the C1 branch is closed on the floor and silent about the ceiling. Read literally, five seeds are
+`VOID — design inconsistency` before retention is inspected; read narrowly, the clause governs the candidate-plan count
+and nothing changes. The text establishes neither. A checklist note written earlier today asserted the narrow reading as
+settled; that was a documentation edit standing in for a decision on a binding record, and it is retracted in favour of
+the conflict record.
+
+
 
 The convergence at 17 read as independent corroboration — tolerance arithmetic and feasibility certification landing
 on the same number. Sweeping the endpoint cap shows it is not: with a cap of 4, all six seeds take twenty rows; with a
