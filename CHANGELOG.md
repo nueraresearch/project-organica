@@ -119,6 +119,27 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the board prints what its pinning layer is worth
+
+The pinning layer had no inventory, so its coverage could only be asserted. The checklist now carries a third generated
+block — `<!-- a1-coverage:start/end -->` — that counts it from the manifest: six claims pin twenty-four numbers across
+five of eleven branches, drawn from two artifacts and three documents; five branches state no numbers; two branches quote
+numbers without a pin.
+
+Those two are the point. `Competence contract, N_min, capacity` quotes `0.05`, `3` and `17` with nothing behind them,
+and `C1 ceiling — preplanned-universe clause` quotes `64` — the constant its pending decision exists to narrow — outside
+the claim that pins its new universe. The block says so on the board instead of leaving it to a reader's memory.
+
+Two defects the probing found, both in the new code. **First, branch-level coverage over-reported:** pinning `17` alone
+in the contract row made that row read as fully pinned while `0.05` and `3` were still bare. Coverage is a property of a
+number, not of a row, so it is now measured per number, against the spans the claims actually cover. Probed again: after
+pinning `17`, the row lists `0.05` and `3` and nothing else. **Second, the per-number pass counted identifier digits** —
+`C1`, `C4`, `C8`, `the N=4 act` — so a branch could be reported as quoting unpinned numbers it never quoted. A token
+preceded by a letter, digit or underscore, or by `N=`, is a name and is excluded; a probe pins that rule.
+
+A claim added or dropped makes the block stale until it is regenerated, so the inventory cannot drift from the manifest
+that produces it — the same property the other two blocks have had since `873de67` and `4f53e81`.
+
 ## Addendum — 2026-11-15: the ceiling clause is armed before its decision is adopted
 
 `DECISION-A1-C1-CEILING` is pending. The temptation is to add its branch row when it is adopted; the row is worth more

@@ -193,6 +193,38 @@ def test_the_ceiling_note_is_pinned_to_the_baseline_universe() -> None:
     assert a1_board.claim_problems(drifted), "a ceiling note quoting another universe was accepted"
 
 
+def test_the_coverage_block_is_counted_not_typed() -> None:
+    """The inventory is derived, so pinning a branch must change it."""
+    data = a1_board.coverage()
+    assert data["claims"] == sum(len(b.get("note_claims") or []) for b in _branches())
+    assert data["number_free"] == sum(1 for b in _branches()
+                                      if not a1_board.TOKEN.search(b.get("note") or ""))
+    assert len(data["unpinned"]) == sum(1 for b in _branches() if a1_board._unpinned_numbers(b))
+    text = a1_board.CHECKLIST_PATH.read_text(encoding="utf-8")
+    assert a1_board.coverage_block(text) == a1_board.render_coverage()
+
+    pinning = json.loads(json.dumps(_branches()))
+    pinned = next(b for b in pinning if b["id"] == "competence-contract")
+    pinned["note_claims"] = [{"note_regex": "N_min = ([0-9]+)",
+                              "doc": "docs/DECISION-A1-C8-NMIN.md",
+                              "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"}]
+    after = a1_board.coverage(pinning)
+    assert after["claims"] == data["claims"] + 1
+    assert after["numbers"] == data["numbers"] + 1
+    # Pinning one number does not pin the row: the other two are still quoted bare.
+    still_bare = dict(after["unpinned"])
+    assert still_bare.get("Competence contract, N_min, capacity") == ["0.05", "3"]
+    assert a1_board.render_coverage(pinning) != a1_board.render_coverage()
+    assert any("coverage block is stale" in problem
+               for problem in a1_board.block_problems(text, _entries(), pinning))
+
+
+def test_a_record_name_is_not_a_quantity() -> None:
+    """C1, C4, C8 and "the N=4 act" contain digits that are names, not measurements."""
+    branch = {"id": "probe", "note": "C1 and C4 and C8; the N=4 act; 12 rows", "note_claims": []}
+    assert a1_board._unpinned_numbers(branch) == ["12"]
+
+
 def test_a_note_claim_must_name_exactly_one_source() -> None:
     branch = json.loads(json.dumps(
         next(item for item in _branches() if item["id"] == "competent-construction")))

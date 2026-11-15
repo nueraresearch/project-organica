@@ -16,9 +16,9 @@ separate registered design; it is not the current target set and is not frozen.
 **This section is the board.** It is the place to read the state instead of reconstructing it: every row below names the
 record that decides it, and a row is only `closed` when that record is adopted or the artifact exists.
 
-Both halves below are generated: the branch table from `docs/a1_board_manifest.json` (each row names the
-record, artifact or act that settles it, and the check that proves it), the decision table from
-`docs/decisions.json`. Regenerate with `python -m benchmarks.a1_board --write`; `--check` fails when either
+All three blocks below are generated: the branch table and the claim-coverage inventory from
+`docs/a1_board_manifest.json` (each row names the record, artifact or act that settles it, and the check that
+proves it), the decision table from `docs/decisions.json`. Regenerate with `python -m benchmarks.a1_board --write`; `--check` fails when either
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
@@ -38,6 +38,20 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | Freeze acts | **NOT SIGNED** | the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
 | Grant, run | **NOT ISSUED, NOT STARTED** | neither exists; the board would have to be re-read if one appeared | — |
 <!-- a1-artifacts:end -->
+
+The inventory below is what the pinning layer is worth, counted rather than claimed: claims, the numbers
+their sources actually state, and every branch that quotes a number without pinning it.
+
+<!-- a1-coverage:start -->
+**Claim coverage** — 6 claims pin 24 numbers across 5 of 11 branches, drawn from 2 artifacts and 3 documents. 5 branches state no numbers. 2 branches quote numbers without a pin.
+
+| Branch | Numbers quoted, no pin |
+| --- | --- |
+| C1 ceiling — preplanned-universe clause | `64` |
+| Competence contract, N_min, capacity | `0.05`, `17`, `3` |
+
+_Counted from `docs/a1_board_manifest.json`; a claim added or dropped makes this block stale until it is regenerated, so the inventory cannot drift from the manifest that produces it._
+<!-- a1-coverage:end -->
 
 The owner-decision half of the board is generated from `docs/decisions.json` and spliced here; it is
 not hand-maintained, so a status change makes it stale until `python -m benchmarks.a1_board --write`

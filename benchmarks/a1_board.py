@@ -35,6 +35,8 @@ MANIFEST_PATH = DOCS / "a1_board_manifest.json"
 CHECKLIST_PATH = DOCS / "A1-PRE-FREEZE-CHECKLIST.md"
 START = "<!-- a1-board:start -->"
 END = "<!-- a1-board:end -->"
+COV_START = "<!-- a1-coverage:start -->"
+COV_END = "<!-- a1-coverage:end -->"
 ART_START = "<!-- a1-artifacts:start -->"
 ART_END = "<!-- a1-artifacts:end -->"
 PREFIX = "DECISION-A1"
@@ -246,6 +248,102 @@ def render_branches(entries: list[dict] | None = None,
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------------------- coverage
+
+
+TOKEN = re.compile(r"[0-9]+(?:\.[0-9]+)?")
+
+
+def _unpinned_numbers(branch: dict) -> list[str]:
+    """Numbers the note quotes outside every span its claims cover.
+
+    Branch-level coverage was the first attempt and it over-reported: pinning one number in a
+    three-number row made the row read as fully pinned. Coverage is a property of each number, so
+    it is measured per number.
+    """
+    note = branch.get("note") or ""
+    spans = []
+    for claim in branch.get("note_claims") or []:
+        match = re.search(claim["note_regex"], note)
+        if match:
+            spans.append((match.start(), match.end()))
+    bare = []
+    for match in TOKEN.finditer(note):
+        if any(start <= match.start() < end for start, end in spans):
+            continue
+        before = note[:match.start()]
+        if before and (before[-1].isalnum() or before[-1] == "_"):
+            continue                      # C1, C4, C8: a record's name, not a quantity
+        if before.endswith("N="):
+            continue                      # "the N=4 act": an act's label, not a measurement
+        bare.append(match.group(0))
+    return sorted(set(bare))
+
+
+def coverage(branches: list[dict] | None = None) -> dict:
+    """The pinning layer's own inventory, counted from the manifest rather than typed.
+
+    Six claims over five branches sounds like six numbers and is not: a claim can cover a whole
+    six-seed vector. So the block reports claims and the numbers the sources actually state, and
+    names every number a note quotes outside the spans its claims cover.
+    """
+    branches = branches if branches is not None else _manifest()["branches"]
+    claims = numbers = number_free = 0
+    artifacts: list[str] = []
+    documents: list[str] = []
+    unpinned: list[tuple[str, list[str]]] = []
+    for branch in branches:
+        note = branch.get("note") or ""
+        bare = _unpinned_numbers(branch)
+        if bare:
+            unpinned.append((branch.get("branch") or branch.get("id") or "?", bare))
+        elif not TOKEN.search(note):
+            number_free += 1
+        covered = 0
+        for claim in branch.get("note_claims") or []:
+            covered += len(_expected_numbers(claim) or [])
+            source = claim.get("path") or claim.get("doc")
+            if source:
+                bucket = artifacts if source.endswith(".json") else documents
+                if source not in bucket:
+                    bucket.append(source)
+        claims += len(branch.get("note_claims") or [])
+        numbers += covered
+    return {"claims": claims, "numbers": numbers, "pinned": sum(
+                1 for branch in branches if branch.get("note_claims")),
+            "number_free": number_free, "artifacts": artifacts, "documents": documents,
+            "unpinned": unpinned, "branches": len(branches)}
+
+
+def _sources(count: int, singular: str, plural: str) -> str:
+    return "%d %s" % (count, singular if count == 1 else plural)
+
+
+def render_coverage(branches: list[dict] | None = None) -> str:
+    data = coverage(branches)
+    unpinned = data["unpinned"]
+    head = ("**Claim coverage** — %d claims pin %d numbers across %d of %d branches, drawn from %s and %s. "
+            "%d branches state no numbers. %s"
+            % (data["claims"], data["numbers"], data["pinned"], data["branches"],
+               _sources(len(data["artifacts"]), "artifact", "artifacts"),
+               _sources(len(data["documents"]), "document", "documents"),
+               data["number_free"],
+               "No branch quotes a number it does not pin." if not unpinned
+               else "%s %s %s without a pin." % (
+                   _sources(len(unpinned), "branch", "branches"),
+                   "quotes" if len(unpinned) == 1 else "quote",
+                   "a number" if sum(len(q) for _, q in unpinned) == 1 else "numbers")))
+    lines = [head, ""]
+    if unpinned:
+        lines += ["| Branch | Numbers quoted, no pin |", "| --- | --- |"]
+        for label, quoted in sorted(unpinned):
+            lines.append("| %s | %s |" % (label, ", ".join("`%s`" % value for value in quoted)))
+    lines.append("")
+    lines.append("_Counted from `docs/a1_board_manifest.json`; a claim added or dropped makes this block stale until "
+                 "it is regenerated, so the inventory cannot drift from the manifest that produces it._")
+    return "\n".join(lines)
+
+
 # ------------------------------------------------------------------------------------------ blocks
 
 
@@ -266,6 +364,11 @@ def block(text: str) -> str | None:
 
 def artifact_block(text: str) -> str | None:
     span = _span(text, ART_START, ART_END)
+    return None if span is None else text[span[0]:span[1]].strip("\n")
+
+
+def coverage_block(text: str) -> str | None:
+    span = _span(text, COV_START, COV_END)
     return None if span is None else text[span[0]:span[1]].strip("\n")
 
 
@@ -398,6 +501,10 @@ def block_problems(text: str, entries: list[dict] | None = None,
         found.append("the branch-block markers are missing, duplicated or out of order")
     elif artifact_block(text) != render_branches(entries, branches):
         found.append("the generated branch block is stale against docs/a1_board_manifest.json")
+    if _span(text, COV_START, COV_END) is None:
+        found.append("the coverage-block markers are missing, duplicated or out of order")
+    elif coverage_block(text) != render_coverage(branches):
+        found.append("the generated coverage block is stale against docs/a1_board_manifest.json")
     entries = entries if entries is not None else _index()["decisions"]
     current = block(text) or ""
     for entry in entries:
@@ -420,7 +527,8 @@ def block_problems(text: str, entries: list[dict] | None = None,
 def written_text() -> str:
     text = CHECKLIST_PATH.read_text(encoding="utf-8")
     text = splice(text, render())
-    return splice(text, render_branches(), ART_START, ART_END)
+    text = splice(text, render_branches(), ART_START, ART_END)
+    return splice(text, render_coverage(), COV_START, COV_END)
 
 
 def write() -> int:
@@ -430,9 +538,10 @@ def write() -> int:
         print("FAIL:", error)
         return 1
     CHECKLIST_PATH.write_text(updated, encoding="utf-8")
-    print("wrote both blocks into %s" % CHECKLIST_PATH.name)
+    print("wrote three blocks into %s" % CHECKLIST_PATH.name)
     print("  " + render().splitlines()[0])
     print("  " + render_branches().splitlines()[0])
+    print("  " + render_coverage().splitlines()[0])
     return 0
 
 
@@ -498,6 +607,15 @@ def self_test() -> list[str]:
             entry["status"] = "WITHDRAWN"
     if "WITHDRAWN" not in branch_state(contract, withdrawn):
         found.append("a withdrawn decision left its branch closed")
+    # Pinning a branch must move the coverage inventory, or the inventory is decoration.
+    pinning = json.loads(json.dumps(branches))
+    pinned_branch = next(branch for branch in pinning if branch["id"] == "competence-contract")
+    pinned_branch["note_claims"] = [{"note_regex": "N_min = ([0-9]+)",
+                                     "doc": "docs/DECISION-A1-C8-NMIN.md",
+                                     "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"}]
+    if not any("coverage block is stale" in problem
+               for problem in block_problems(text, entries, pinning)):
+        found.append("pinning a branch left the claim-coverage inventory unchanged")
     # A duplicated marker makes the block unlocatable.
     if not block_problems(text.replace(END, END + "\n" + END, 1), entries, branches):
         found.append("duplicated markers were accepted")
