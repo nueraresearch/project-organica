@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `AUDIT — FOUR GATES REPAIRED, THREE WERE ALREADY CLOSED, TWO HAVE NO SUCH INPUT`
+**Status:** `AUDIT — FOUR GATES REPAIRED, PLUS THE JOIN AND THE C1 SCORER; THE REASON-CODE VOCABULARY HAS ONE GAP`
 
 **Scope:** the eight gate functions in `benchmarks/a1_gate_readiness.py` plus C6, which is read from its
 committed block rather than computed. No threshold, row set, denominator or verdict on a measured stream
@@ -49,6 +49,36 @@ place; making it shared is what closed C7's identical `nan → PASS` and its `No
 C2 was the third case and is not a comparison at all: it asks whether a manipulated path is `False`, and
 `not None` answers `True`. It now requires a measurable flag before it reads one, on both the primary and the
 `Y-` branches.
+
+## Two layers under the gates
+
+Probing the gates only asks what happens when an unmeasurable value *reaches* them. Two functions sit
+upstream and downstream of the veto, and both carried the same defect.
+
+| Layer | Function | Probe | Before | After |
+| --- | --- | --- | --- | --- |
+| Join (producer) | `attach_neighbor_deltas` | a null or non-numeric `A_rate` on a paired row | **`TypeError` / `ValueError`** — the delta could not be represented, so assembly crashed | writes `"A": null` and `delta_status = "UNMEASURABLE"`, which C4 already classifies as `C4_UNMEASURABLE` |
+| Scorer (downstream) | `score_c1` | a `nan` flag among a seed's `A-` rows | **per-seed `pass: True`** and a `nan` in `a_minus_fraction`; the top-level verdict was safe only because it delegates to `gate_c1` | per-seed `pass: False`, fractions reported as `null`, never `nan` |
+
+The join is the more interesting one: a null rate did not produce a wrong number, it produced **an
+exception**, which is the gate being unable to express the state it exists to model. `score_c1` repeated the
+gate's own defect one layer down — its per-seed rows and reported fractions used a local
+`sum(1 for row if row[field])`, so a `nan` (truthy) was reported as retained. Both now use
+`measurable_fraction`, the single rule the gates use, which is why the repair is a rename rather than a third
+copy of the check.
+
+## Known gap: C1's reason code for an unmeasurable rate
+
+`_c1_reason` classifies a failed C1 by its **denominators** — no denominator, below floor, or otherwise
+`C1_THRESHOLD`. A seed whose denominator is fine but whose retention rate is unmeasurable therefore VOIDs with
+`C1_THRESHOLD`, which says *"retention fell below 0.95"* about a rate that was never computed. The disposition
+is right (VOID, not pass); the label is wrong.
+
+This is **not** repaired here, because the reason codes are adopted vocabulary in
+[`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md) and inventing `C1_UNMEASURABLE` would amend an owner decision
+in a bug fix. It is recorded as a question for the owner: either the vocabulary gains an unmeasurable code, or
+`C1_THRESHOLD` is redefined to cover "not measurable". Until then, a `C1_THRESHOLD` VOID must be read together
+with the reported `null` fractions.
 
 ## What this does not claim
 

@@ -209,6 +209,27 @@ def neighbor_rows(seed: int, cell_id: str, edges: set[tuple[str, str]],
     return rows
 
 
+def _rate_delta(rate: object, base_rate: object) -> float | None:
+    """Absolute difference of two rates, or ``None`` when either is unmeasurable.
+
+    A null or non-numeric rate used to raise inside the join, which crashed
+    assembly rather than producing the state C4 is meant to represent: a delta
+    that does not exist.  A non-finite difference is not measurable either.
+    """
+    values = []
+    for value in (rate, base_rate):
+        if value is None:
+            return None
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            return None
+        if not math.isfinite(value):
+            return None
+        values.append(value)
+    return round(abs(values[0] - values[1]), 6)
+
+
 def attach_neighbor_deltas(payloads: list[dict]) -> list[dict]:
     """Attach C4 deltas against the same seed's untreated A+K+ cell.
 
@@ -227,12 +248,12 @@ def attach_neighbor_deltas(payloads: list[dict]) -> list[dict]:
             if base is None:
                 row.setdefault("delta_status", "AWAITING_PAIRED_CONTROL")
                 continue
-            row["neighbor_delta"] = {
-                path: round(abs(float(row[path + "_rate"]) - float(base[path + "_rate"])), 6)
-                for path in ("A", "K", "Y")
-            }
+            deltas = {path: _rate_delta(row.get(path + "_rate"), base.get(path + "_rate"))
+                      for path in ("A", "K", "Y")}
+            row["neighbor_delta"] = deltas
             row["paired_control"] = "%d/A+K+" % int(payload["seed"])
-            row["delta_status"] = "MEASURED"
+            row["delta_status"] = ("MEASURED" if all(value is not None for value in deltas.values())
+                                   else "UNMEASURABLE")
     return payloads
 
 
@@ -243,12 +264,18 @@ def c4_neighbor_rows(payloads: list[dict]) -> list[dict]:
 
 def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
     """Recompute C1 from cell payloads, including non-target edges."""
-    from benchmarks.a1_gate_readiness import C1_MIN, gate_c1
+    from benchmarks.a1_gate_readiness import C1_MIN, gate_c1, measurable_fraction
 
     tolerance = C1_MIN if tolerance is None else tolerance
     rows = c1_rows(payloads)
-    def fraction(group: list[dict], path: str) -> float:
-        return (sum(1 for row in group if row[path]) / len(group)) if group else 0.0
+    fraction = measurable_fraction
+
+    def shown(value: float | None) -> float | None:
+        return None if value is None else round(value, 6)
+
+    def available(group: list[dict], path: str) -> int:
+        return sum(1 for row in group
+                   if row.get(path) is not None and row.get(path))
 
     a_rows = [row for row in rows
               if row["cell"] == "A-K+" and row.get("control_K")]
@@ -265,12 +292,14 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
         k_fraction = fraction(k_seed, "A")
         seeds[str(seed)] = {
             "a_minus_denominator": len(a_seed),
-            "a_minus_available": sum(1 for row in a_seed if row["K"]),
-            "a_minus_fraction": round(a_fraction, 6),
+            "a_minus_available": available(a_seed, "K"),
+            "a_minus_fraction": shown(a_fraction),
             "k_minus_denominator": len(k_seed),
-            "k_minus_available": sum(1 for row in k_seed if row["A"]),
-            "k_minus_fraction": round(k_fraction, 6),
-            "pass": bool(a_seed and k_seed
+            "k_minus_available": available(k_seed, "A"),
+            "k_minus_fraction": shown(k_fraction),
+            # An unmeasurable rate is not a pass and not a zero.
+            "pass": bool(a_seed and k_seed and a_fraction is not None
+                         and k_fraction is not None
                          and a_fraction >= tolerance and k_fraction >= tolerance),
         }
 
@@ -280,13 +309,13 @@ def score_c1(payloads: list[dict], tolerance: float | None = None) -> dict:
         "rows": len(rows),
         "a_minus": {
             "denominator": len(a_rows),
-            "available": sum(1 for row in a_rows if row["K"]),
-            "fraction": round(fraction(a_rows, "K"), 6),
+            "available": available(a_rows, "K"),
+            "fraction": shown(fraction(a_rows, "K")),
         },
         "k_minus": {
             "denominator": len(k_rows),
-            "available": sum(1 for row in k_rows if row["A"]),
-            "fraction": round(fraction(k_rows, "A"), 6),
+            "available": available(k_rows, "A"),
+            "fraction": shown(fraction(k_rows, "A")),
         },
         "seeds": seeds,
     }
@@ -299,7 +328,8 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
     tolerance = C4_MAX if tolerance is None else tolerance
     attach_neighbor_deltas(payloads)
     rows = c4_neighbor_rows(payloads)
-    measured = [row for row in rows if "neighbor_delta" in row]
+    measured = [row for row in rows
+                if row.get("delta_status", "MEASURED") == "MEASURED" and "neighbor_delta" in row]
     max_delta = {"A": 0.0, "K": 0.0, "Y": 0.0}
     violations: list[dict] = []
     unmeasured: list[dict] = []

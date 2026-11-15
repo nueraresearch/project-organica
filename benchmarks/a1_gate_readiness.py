@@ -177,7 +177,7 @@ def _measurable_flag(value: object) -> bool:
     return False
 
 
-def _fraction(rows: list[dict], field: str) -> float | None:
+def measurable_fraction(rows: list[dict], field: str) -> float | None:
     """Share of rows where ``field`` holds, or ``None`` when that share is unmeasurable.
 
     A null or non-finite flag is **not** ``False``.  Rule 13(b) says an unmeasurable
@@ -230,8 +230,8 @@ def gate_c1(rows: list[dict], tolerance: float | None) -> bool:
         k_minus = [row for row in group if row["cell"] == "A+K-" and row.get("control_A")]
         if not a_minus or not k_minus:
             return False
-        a_rate = _fraction(a_minus, "K")
-        k_rate = _fraction(k_minus, "A")
+        a_rate = measurable_fraction(a_minus, "K")
+        k_rate = measurable_fraction(k_minus, "A")
         if a_rate is None or k_rate is None:
             return False
         if a_rate < tolerance or k_rate < tolerance:
@@ -377,8 +377,8 @@ def gate_c7(rows: list[dict], tolerance: float | None) -> bool:
                              if row.get("edge") is not None}
             if control_edges and {str(row.get("edge")) for row in cell_rows} != control_edges:
                 return False
-            cell_rate = _fraction(cell_rows, "Y")
-            control_rate = _fraction(control, "Y")
+            cell_rate = measurable_fraction(cell_rows, "Y")
+            control_rate = measurable_fraction(control, "Y")
             if cell_rate is None or control_rate is None:
                 return False
             if cell_rate >= control_rate:
@@ -420,7 +420,7 @@ def gate_c8(rows: list[dict], ceiling: float | None) -> bool:
         both_blocked = [row for row in group if row["cell"] == "A-K-"]
         if not both_blocked:
             return False
-        rate = _fraction(both_blocked, "Y")
+        rate = measurable_fraction(both_blocked, "Y")
         if rate is None or rate > ceiling:
             return False
     return True

@@ -53,6 +53,22 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the join and the C1 scorer carried the same defect, one layer below the gates
+
+Repairing the gates raised the next question: what reaches them? Two functions do.
+`attach_neighbor_deltas` computed `abs(float(row[rate]) - float(base[rate]))`, so a null or non-numeric rate
+raised `TypeError`/`ValueError` inside the join — not a wrong number but an exception, the function unable to
+represent the state C4 exists to model. It now writes `null` for that path and `delta_status = "UNMEASURABLE"`,
+which the repaired C4 already classifies as `C4_UNMEASURABLE`. `score_c1` repeated the gate's own defect one
+layer down: its per-seed rows used `sum(1 for row if row[field])`, so a `nan` flag (truthy) was reported as
+*retained* and appeared as a `nan` fraction, even though the top-level verdict was safe by delegating to
+`gate_c1`. Both now use `measurable_fraction`, and a C1 fraction that cannot be computed is reported as `null`
+and never as a pass.
+
+One gap is recorded rather than patched: a failed C1 with a sound denominator and an unmeasurable rate VOIDs
+as `C1_THRESHOLD`, which misnames the cause. The reason codes are adopted vocabulary, so adding
+`C1_UNMEASURABLE` is an owner decision, not a bug fix.
+
 ## Addendum — 2026-11-15: the same unmeasurable-reads-as-pass defect was live in C1, C2, C7 and C8
 
 C4's `nan`-pass was audited across every A1 gate instead of being treated as a one-off. It was not one-off.
