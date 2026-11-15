@@ -53,6 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the same unmeasurable-reads-as-pass defect was live in C1, C2, C7 and C8
+
+C4's `nan`-pass was audited across every A1 gate instead of being treated as a one-off. It was not one-off.
+**C1** counted a `nan` flag as *retained* (`nan` is truthy), so a path that was never measured contributed to
+the 0.95 separation rate. **C2** accepted `A = null` as *"A driven to zero"* (`not None` is `True`), so a
+missing readout satisfied the manipulation check. **C7** carried C4's exact comparison, so a `nan` delta passed
+and a `null` delta crashed. **C8** counted `null` as *did not assert*, which is the best possible score for its
+positive control. C3, C5, C9 and C6 already failed closed or have no measured input.
+
+Two shared repairs rather than four patches: `_fraction` now returns `None` unless every flag is a real
+observation (C1, C7, C8 treat that as a failure), and `_delta_clean` — the helper written for C4 — is now used
+by C7 as well and refuses missing paths, nulls, non-numerics and non-finites. Nine tests pin the probe table;
+`--self-test` still shows every gate accepting its measured fixture. No threshold, row set or verdict on a
+measured stream changed.
+
 ## Addendum — 2026-11-15: C4's exposure accepted — the last first-order A1 question is closed
 
 The C4 declaration is signed and adopted as `A1-C4-POSTURE-1` (posture A), with its five clauses unchanged at

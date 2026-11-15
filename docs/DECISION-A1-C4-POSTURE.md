@@ -57,6 +57,12 @@ Consequence for clause 2: **every violation now carries a finite delta**, which 
 No threshold, row set or gate verdict for a measurable stream changed — only the treatment of rows that
 were never measurable.
 
+**Follow-up, same day:** the same class was audited across every A1 gate and found live in **C1, C2, C7 and
+C8** — see [`A1-GATE-MEASURABILITY-AUDIT`](A1-GATE-MEASURABILITY-AUDIT.md). The C4 repair became the shared
+`_delta_clean` helper that C7 now uses too, and `_fraction` no longer counts a `nan` as retained or a `null` as
+unasserted. Clause 2's promise that every violation carries a finite delta therefore holds across the
+assertion-block gate as well.
+
 ## The field map the clauses rely on
 
 | Clause | Field | Where it lives |

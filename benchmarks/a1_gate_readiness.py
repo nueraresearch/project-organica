@@ -168,8 +168,54 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _fraction(rows: list[dict], field: str) -> float:
-    return sum(1 for row in rows if row[field]) / len(rows) if rows else 0.0
+def _measurable_flag(value: object) -> bool:
+    """A rate's numerator must be an observation, not a hole."""
+    if isinstance(value, bool):
+        return True
+    if isinstance(value, (int, float)):
+        return math.isfinite(float(value))
+    return False
+
+
+def _fraction(rows: list[dict], field: str) -> float | None:
+    """Share of rows where ``field`` holds, or ``None`` when that share is unmeasurable.
+
+    A null or non-finite flag is **not** ``False``.  Rule 13(b) says an unmeasurable
+    quantity is not a zero, and both directions of that misreading were live here: a
+    ``nan`` is truthy, so C1 read it as *retained*, while a ``null`` is falsy, so C8
+    read it as *did not assert* and its positive control passed on rows that were never
+    measured.
+    """
+    if not rows:
+        return None
+    flags = [row.get(field) for row in rows]
+    if not all(_measurable_flag(flag) for flag in flags):
+        return None
+    return sum(1 for flag in flags if flag) / len(rows)
+
+
+def _delta_clean(delta: object, paths: tuple[str, ...], tolerance: float) -> bool:
+    """Every named delta is measurable and at or below the tolerance.
+
+    ``nan > tolerance`` is ``False``, so a bare comparison reads an unmeasurable delta
+    as clean; ``float(None)`` raises, so a null delta crashed the gate instead of
+    voiding it.  Both are refused here, for C4 and C7 alike.
+    """
+    if not isinstance(delta, dict):
+        return False
+    for path in paths:
+        if path not in delta:
+            return False
+        value = delta[path]
+        if value is None:
+            return False
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            return False
+        if not math.isfinite(value) or value > tolerance:
+            return False
+    return True
 
 
 def gate_c1(rows: list[dict], tolerance: float | None) -> bool:
@@ -184,8 +230,11 @@ def gate_c1(rows: list[dict], tolerance: float | None) -> bool:
         k_minus = [row for row in group if row["cell"] == "A+K-" and row.get("control_A")]
         if not a_minus or not k_minus:
             return False
-        if (_fraction(a_minus, "K") < tolerance
-                or _fraction(k_minus, "A") < tolerance):
+        a_rate = _fraction(a_minus, "K")
+        k_rate = _fraction(k_minus, "A")
+        if a_rate is None or k_rate is None:
+            return False
+        if a_rate < tolerance or k_rate < tolerance:
             return False
     return bool(by_seed)
 
@@ -207,6 +256,14 @@ def gate_c2(rows: list[dict], tolerance: float | None = None) -> bool:
         y_plus = [row for row in group if row["cell"] == "Y_MINUS_A+K+"]
         y_minus_a = [row for row in group if row["cell"] == "Y_MINUS_A-K+"]
         if not a_minus or not k_minus or not y_plus or not y_minus_a:
+            return False
+        # A null path is an unmeasured path, not a zeroed one: ``not None`` is
+        # ``True``, which would let the manipulation "pass" without a readout.
+        if any(not _measurable_flag(row.get(field))
+               for row in a_minus + k_minus for field in ("A", "K")):
+            return False
+        if any(not _measurable_flag(row.get(field))
+               for row in y_plus + y_minus_a for field in ("A", "K", "Y")):
             return False
         if not all(not row["A"] and row["K"] for row in a_minus):
             return False
@@ -240,22 +297,8 @@ def gate_c4(rows: list[dict], tolerance: float | None) -> bool:
         return False
     non_target = [row for row in rows if not row.get("target")]
     for row in non_target:
-        delta = row.get("neighbor_delta") or {}
-        for path in ("A", "K", "Y"):
-            if path not in delta:
-                return False
-            value = delta[path]
-            if value is None:
-                return False
-            try:
-                value = float(value)
-            except (TypeError, ValueError):
-                return False
-            # ``nan``/``inf`` are not measurable, and a bare ``value > tol``
-            # comparison is False for ``nan`` — which would read an
-            # unmeasurable row as clean.
-            if not math.isfinite(value) or value > tolerance:
-                return False
+        if not _delta_clean(row.get("neighbor_delta"), ("A", "K", "Y"), tolerance):
+            return False
     return bool(non_target)
 
 
@@ -334,7 +377,11 @@ def gate_c7(rows: list[dict], tolerance: float | None) -> bool:
                              if row.get("edge") is not None}
             if control_edges and {str(row.get("edge")) for row in cell_rows} != control_edges:
                 return False
-            if _fraction(cell_rows, "Y") >= _fraction(control, "Y"):
+            cell_rate = _fraction(cell_rows, "Y")
+            control_rate = _fraction(control, "Y")
+            if cell_rate is None or control_rate is None:
+                return False
+            if cell_rate >= control_rate:
                 return False
             by_edge = {str(row["edge"]): row for row in control
                        if row.get("edge") is not None}
@@ -352,8 +399,7 @@ def gate_c7(rows: list[dict], tolerance: float | None) -> bool:
                         path: abs(float(row[path + "_rate"]) - float(base[path + "_rate"]))
                         for path in ("A", "K")
                     }
-                if any(path not in delta or float(delta[path]) > tolerance
-                       for path in ("A", "K")):
+                if not _delta_clean(delta, ("A", "K"), tolerance):
                     return False
     return True
 
@@ -374,7 +420,8 @@ def gate_c8(rows: list[dict], ceiling: float | None) -> bool:
         both_blocked = [row for row in group if row["cell"] == "A-K-"]
         if not both_blocked:
             return False
-        if _fraction(both_blocked, "Y") > ceiling:
+        rate = _fraction(both_blocked, "Y")
+        if rate is None or rate > ceiling:
             return False
     return True
 
