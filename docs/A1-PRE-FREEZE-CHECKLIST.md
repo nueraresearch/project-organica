@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 12 branches, 7 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 13 branches, 8 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -31,6 +31,7 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | C1 unit of evidence | **CLOSED — ADOPTED** | the directed edge; the relation is a declared dependence class on its own denominator — [`DECISION-A1-C1-UNIT`](DECISION-A1-C1-UNIT.md) | [`A1-C1-UNIT-OF-EVIDENCE.md`](A1-C1-UNIT-OF-EVIDENCE.md) |
 | Competence contract, N_min, capacity | **CLOSED — ADOPTED** | unit, threshold 0.05, endpoint cap 3, N_min = 17 — [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
 | C8 selection procedure | **AWAITING SIGNATURE** | the pool, the record before the freeze, no fallback, no re-filtering, and disclosure — binding only once signed — [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) | [`tests/test_a1_competence_rule_page.py`](../tests/test_a1_competence_rule_page.py) |
+| S5 unfiltered-selection disclosure | **CLOSED — ARTIFACT EXISTS** | the unfiltered block beside the competent one, generated from both artifacts — [`A1-C8-SELECTION-DISCLOSURE.md`](A1-C8-SELECTION-DISCLOSURE.md) | [`tests/test_a1_c8_selection_disclosure.py`](../tests/test_a1_c8_selection_disclosure.py) |
 | Competent-selection construction | **CLOSED — ARTIFACT EXISTS** | 20/17/20/20/18/20; every larger size proved impossible on both short seeds — [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
 | C4 measurability semantics | **CLOSED — ARTIFACT EXISTS** | an unmeasurable quantity is VOID, never a pass or a crash — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_gate_measurability.py`](../tests/test_a1_gate_measurability.py) |
 | C4 completeness detection | **CLOSED — ARTIFACT EXISTS** | an absent or short treated stream VOIDs instead of passing on the control's own rows — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py) |
@@ -44,7 +45,7 @@ The inventory below is what the pinning layer is worth, counted rather than clai
 their sources actually state, and every branch that quotes a number without pinning it.
 
 <!-- a1-coverage:start -->
-**Claim coverage** — 9 claims pin 27 numbers across 6 of 12 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
+**Claim coverage** — 9 claims pin 27 numbers across 6 of 13 branches, drawn from 2 artifacts and 3 documents. 7 branches state no numbers. 1 branch quotes a number without a pin.
 
 | Branch | Numbers quoted, no pin |
 | --- | --- |

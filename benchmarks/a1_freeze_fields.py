@@ -31,7 +31,7 @@ START = "<!-- s2-fields:start -->"
 END = "<!-- s2-fields:end -->"
 
 # Fields this act can derive; anything else stays unrecorded and blocks the signature.
-DISCLOSURE = "no S5 disclosure document exists yet"
+DISCLOSURE = ROOT / "docs" / "A1-C8-SELECTION-DISCLOSURE.md"
 
 
 def _digest(text: str) -> str:
@@ -87,7 +87,8 @@ def fields(document: dict | None = None) -> list[tuple[str, str, str]]:
         ("Constructor output digest",
          "`%s`, sha256 `%s`" % (ARTIFACT.name, _file_digest(ARTIFACT)), "`RECORDED`"),
         ("Competence predicate", "`DECISION-A1-C8-NMIN`, its *Unit* row", "`FIXED BY RECORD`"),
-        ("Unfiltered selection", DISCLOSURE, "`NOT RECORDED`"),
+        ("Unfiltered selection",
+         "`%s`, sha256 `%s`" % (DISCLOSURE.name, _file_digest(DISCLOSURE)), "`RECORDED`"),
     ]
 
 

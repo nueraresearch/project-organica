@@ -119,6 +119,33 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the S5 disclosure is generated, and the table is not a subtraction
+
+`docs/A1-C8-SELECTION-DISCLOSURE.md` reports the unfiltered selection beside the competent one, and every number in it is
+generated from the two artifacts by `python -m benchmarks.a1_c8_selection_disclosure`. It carries two hand-written
+paragraphs: that the filter ran on the baseline before any cell, and that the table must not be read as a subtraction.
+
+That second paragraph is the finding. The two blocks are selected from **different candidate pools**, so the filtered
+block is not the unfiltered block minus rows:
+
+| | total over six seeds |
+| --- | ---: |
+| unfiltered block | 120 |
+| filtered block | 115 |
+| shared edges | **37** |
+| excluded, not competent | 62 |
+| excluded, competent but not chosen | **21** |
+| added, never in the unfiltered block | **78** |
+
+The filtered block shares 37 edges with the unfiltered one and contributes 78 the unfiltered rule never chose. Both
+categories of exclusion are non-zero in every seed — an edge can fail the predicate, or satisfy it and simply not be the
+block the constructor found. A single "dropped" column would have merged an exclusion with a substitution, and the
+addendum I wrote an hour earlier proposed exactly that table; the data refused it.
+
+With that row filled the N=20 act reads **ten of ten recorded, nothing blocking the signature**, and the board carries a
+thirteenth branch, `S5 unfiltered-selection disclosure`, closed as an artifact. The act's status line still reads
+`AWAITING THE OWNER'S SIGNATURE` — record-complete is not signed.
+
 ## Addendum — 2026-11-15: the constructor records the pool's members, and the pool digest fills
 
 The artifact recorded the competent pool's *size* and nothing about its members, so S2's pool digest could not be computed

@@ -74,15 +74,17 @@ def test_the_n20_act_is_generated_from_the_artifact() -> None:
     text = ACTS[1].read_text(encoding="utf-8")
     assert a1_freeze_fields.committed(text) == a1_freeze_fields.render()
     recorded = [name for name, _, state in a1_freeze_fields.fields() if state != "`NOT RECORDED`"]
-    assert len(recorded) == 9, recorded
+    assert len(recorded) == 10, recorded
 
 
-def test_the_unfilled_row_names_a_real_blocker() -> None:
-    """One row stays open, and it says why: there is no disclosure document to point at yet."""
+def test_every_row_is_now_recorded() -> None:
+    """S2 is record-complete: nothing is left for the owner to fill by hand before signing."""
     blocked = {name: value for name, value, state in a1_freeze_fields.fields()
                if state == "`NOT RECORDED`"}
-    assert set(blocked) == {"Unfiltered selection"}
-    assert "no S5 disclosure" in blocked["Unfiltered selection"]
+    assert blocked == {}
+    values = {name: value for name, value, _ in a1_freeze_fields.fields()}
+    assert "A1-C8-SELECTION-DISCLOSURE.md" in values["Unfiltered selection"]
+    assert a1_freeze_fields._file_digest(a1_freeze_fields.DISCLOSURE) in values["Unfiltered selection"]
 
 
 def test_the_pool_digest_describes_the_pool_not_the_block() -> None:

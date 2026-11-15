@@ -88,6 +88,25 @@
       ]
     },
     {
+      "id": "s5-disclosure",
+      "branch": "S5 unfiltered-selection disclosure",
+      "kind": "artifact",
+      "artifact": "docs/A1-C8-SELECTION-DISCLOSURE.md",
+      "contains": [
+        {
+          "path": "docs/A1-C8-SELECTION-DISCLOSURE.md",
+          "strings": [
+            "The filter ran before any cell",
+            "This is not a subtraction"
+          ]
+        }
+      ],
+      "note": "the unfiltered block beside the competent one, generated from both artifacts",
+      "proved_by": [
+        "tests/test_a1_c8_selection_disclosure.py"
+      ]
+    },
+    {
       "id": "competent-construction",
       "branch": "Competent-selection construction",
       "kind": "artifact",

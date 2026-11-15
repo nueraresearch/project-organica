@@ -123,7 +123,7 @@ blank. None of them can be filled after the run without the act having been viol
 | Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `d7e5359e47c307013bae00ebbee3d1f6f0ae4599f0b8dcd01c4f22c20f479287` | `RECORDED` |
 | Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde` | `RECORDED` |
 | Competence predicate | `DECISION-A1-C8-NMIN`, its *Unit* row | `FIXED BY RECORD` |
-| Unfiltered selection | no S5 disclosure document exists yet | `NOT RECORDED` |
+| Unfiltered selection | `A1-C8-SELECTION-DISCLOSURE.md`, sha256 `20b9780f9c4d2124f328bacb0e00a858fefe7335059207cb16c20b75aa028aec` | `RECORDED` |
 <!-- s2-fields:end -->
 
 **This act is not signable while any row above reads `NOT RECORDED`.** A blank row is a reason to withhold the signature,
