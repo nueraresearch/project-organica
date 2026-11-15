@@ -1091,19 +1091,19 @@ def _check(entries: str) -> list[dict]:
     kept = _at(reg, "reopening", "kept_closed")
     reopened = _at(reg, "reopening", "reopened")
     questions = _at(reg, "questions")
-    add("54", "docs/research_question_registry.json .questions", len(questions),
-        len(questions) == 54)
+    add("55", "docs/research_question_registry.json .questions", len(questions),
+        len(questions) == 55)
     add("12", "docs/research_question_registry.json .reopening.reopened",
         len(reopened), len(reopened) == 12)
     add("17", "docs/research_question_registry.json .reopening.kept_closed",
         len(kept), len(kept) == 17)
     never = [q for q in questions
              if q["id"] not in set(reopened) and q["id"] not in {k["id"] for k in kept}]
-    add("25", "docs/research_question_registry.json, questions in neither list",
-        len(never), len(never) == 25)
+    add("26", "docs/research_question_registry.json, questions in neither list",
+        len(never), len(never) == 26)
     runnable = [q for q in never if q["status"] == "open"]
-    add("19", "docs/research_question_registry.json, never-closed rows with status open",
-        len(runnable), len(runnable) == 19)
+    add("20", "docs/research_question_registry.json, never-closed rows with status open",
+        len(runnable), len(runnable) == 20)
     stage_b = _load("docs/stage_b_protocol.json")
     proved = _find_key(stage_b, "disjoint_proved_against")
     add("**228** artifacts", "docs/stage_b_protocol.json disjoint_proved_against", proved,

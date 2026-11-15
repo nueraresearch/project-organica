@@ -24,7 +24,7 @@ names something that exists.
 ## 1. Owner capacity and constraints
 
 What the project can afford is a scientific constraint, not a personal detail: it decides
-which of the 54 questions in `docs/RESEARCH-QUESTION-REGISTRY.md` (count as of 2026-11-15) is affordable at all.
+which of the 55 questions in `docs/RESEARCH-QUESTION-REGISTRY.md` (count as of 2026-11-15) is affordable at all.
 
 | Fact | What is recorded | Provenance | Why it matters |
 | --- | --- | --- | --- |

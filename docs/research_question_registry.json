@@ -1186,6 +1186,24 @@
         "DECISION-PROGRESSION-BEYOND-G8.md"
       ],
       "scope": "A named external task family, with an ablation that removes the selected structure; not a general-intelligence or transfer claim."
+    },
+    {
+      "id": "Q057",
+      "kind": "governance",
+      "status": "open",
+      "question": "Should the project commission a V2 charter, and under what pre-committed failure criterion?",
+      "why_open": "H2 forecloses V2 design, and the claim ledger discloses that the arm which would have tested it never ran. Three independent lines — Gate 13 ranking, the capacity-1,000 readout, and A1's C4 VOID — name the same missing capability, so the question is now whether to commission a charter rather than whether to run another diagnostic.",
+      "evidence": [
+        "docs/DECISION-V2-SCOPE.md",
+        "docs/claim_ledger.json",
+        "docs/BOTTLENECK-MAP.md",
+        "docs/A1-RUN.md"
+      ],
+      "decisions": [
+        "DECISION-V2-CHARTER.md"
+      ],
+      "preregistrations": [],
+      "supersedes": []
     }
   ],
   "schema": {

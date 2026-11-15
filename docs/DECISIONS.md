@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 23 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 5 | decided and not in force; the document says so |
-| **total** | **29** | |
+| PENDING | 6 | decided and not in force; the document says so |
+| **total** | **30** | |
 
 ## The decisions
 
@@ -651,6 +651,30 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/a1_scorer_pin.json`, `tests/test_a1_prefreeze.py`
 
 **Record.** `docs/DECISION-A1-VOID-ACCEPTED.md`
+
+### DECISION-V2-CHARTER — `DECISION-V2-CHARTER` — commission a V2 charter
+
+**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; A CHARTER, NOT A BUILD"*
+
+**Decided.**
+
+- A V2 charter is commissioned: a design document with one pre-committed question, one pre-committed failure criterion, and its own freeze, written before any V2 cell runs.
+- The charter's first experiment tests the converged diagnosis: that V1 has no addressable, intervention-relevant handle on what it stores, at selection, at readout and at manipulation.
+- V2 is a separate lineage: V1 stays frozen at its pin as the reference object, and no V1 result may be cited as V2 evidence.
+- No V2 cell, module or engine change is authorised by this decision; the charter returns to the owner for its own adoption.
+
+**Rejected.**
+
+- *Keep H2's prohibition in force and continue harness-only work* — because *"Because the prohibition rests on an arm that never ran, while three independent measurements now name the same missing capability."*
+- *Treat the charter as permission to build* — because *"Because a charter that arrives with an implementation is a design decision made by whoever wrote the code."*
+- *Rewrite the frozen engine in place* — because *"Because it would break comparability with the published record and the pin that enforces it."*
+- *Commission a charter without a pre-committed failure criterion* — because *"Because V1's record shows how easily an architecture programme becomes unfalsifiable."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/claim_ledger.json`, `docs/DECISION-V2-SCOPE.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/GATE13-RANKING-CRITERION.md`, `docs/BOTTLENECK-MAP.md`, `docs/functional_structure_confirmatory.json`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+
+**Record.** `docs/DECISION-V2-CHARTER.md`
 
 ## What this graph is not
 

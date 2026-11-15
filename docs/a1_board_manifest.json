@@ -340,6 +340,16 @@
       "proved_by": [
         "tests/test_a2_sham_feasibility.py"
       ]
+    },
+    {
+      "id": "v2-charter",
+      "branch": "V2 charter",
+      "kind": "decision",
+      "decision": "DECISION-V2-CHARTER",
+      "note": "a draft that commissions a charter rather than a build; nothing is authorised until the owner signs it",
+      "proved_by": [
+        "tests/test_v2_charter_decision.py"
+      ]
     }
   ],
   "bare_allowlist": {

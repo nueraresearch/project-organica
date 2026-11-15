@@ -723,7 +723,7 @@ python benchmarks/study_health.py
 
 Ordered by how much they cost you if you skip them.
 
-### 7.0 Waiting on you — one decision, as of 2026-11-15
+### 7.0 Waiting on you — two decisions, as of 2026-11-15
 
 **The A1 block is `VOID` on C4 and that outcome is accepted, not rescued.** `DECISION-A1-VOID-ACCEPTED` records it: the
 assembly stands, the completed run is not rescored, the scorer defect is repaired under a disclosed re-pin for future
@@ -733,6 +733,10 @@ runs only, and no effect estimate is quoted from these cells. C1 passed (A− 0.
 | # | Decision | Why it is yours | Where |
 |---|---|---|---|
 | A1-1 | **Park A1, or design A2** — and if A2, which of the two survivor designs: a placebo-controlled removal judged on the *mean* non-target perturbation, or a carrier-level unit | A1 answered its question: this intervention is not local enough for the protocol's causal assumptions. The sham check rules out the per-edge placebo form: no sham matches every non-target edge on three of six seeds (worst differences 30–78 cycles) | [`A2-SHAM-FEASIBILITY`](A2-SHAM-FEASIBILITY.md) · [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) |
+| GOV-1 | **Sign, narrow or withdraw the V2 charter draft** — it commissions a design document with one pre-committed question and one failure criterion, and authorises no code | The prohibition the draft narrows rests on an arm the ledger says never ran, and three independent measurements now name the same missing capability. I drafted the decision; adopting it is yours | [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) |
+
+**The second row is a draft, not a proposal I can adopt.** Until you sign it, `DECISION-V2-SCOPE` D1 stands
+exactly as recorded and nothing about V2 is authorised; declining costs one line, and the draft says where to write it.
 
 **Closed today:** the run, the acceptance, and the scorer repair. The manifest reads `GRANTED, RUN — VOID (C4_DELTA)`
 and refuses a second run; the repaired pin is `5ce958b7…` for `a1_arms` with `a1_result` unchanged. The readable record
@@ -4435,3 +4439,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **The block ran; assembly `VOID` on C4.** 36 cells plus a determinism control, 37 stamped parts, assembly through the pinned scorer: C1 PASS (A− 0.996, K− 1.000), C4 FAIL with 510 of 2,785 non-target rows over the 0.05 tolerance, all in `K`-blocked cells. Five structural gates also failed because the scorer's expected target list still came from the representative block; that is recorded as a defect awaiting a disclosed re-pin, not repaired inside the run. No effect estimate is quoted. |
 | 2026-11-15 | **VOID accepted; scorer repaired under a disclosed re-pin.** `DECISION-A1-VOID-ACCEPTED` records the assembly as the study's outcome, forbids rescoring the completed run, and authorises the target-list repair for future runs only. `registered_target_map()` now follows the artifact the frozen manifest names; the pin records both digests. Open: park A1 or design A2. |
 | 2026-11-15 | **Sham matching checked.** A pre-treatment check across six seeds finds a sham that matches the target block's predicted non-target carrier loss **in aggregate** (worst mean difference 2.76 cycles, totals within 10%) but **not per edge** (three seeds below 95%, worst differences 30–78 cycles; a max-first search did not improve it). Recorded as two different C4' designs, not one pass. |
+| 2026-11-15 | **V2 charter drafted.** `DECISION-V2-CHARTER` is `PENDING`: it narrows `DECISION-V2-SCOPE` D1 (the prohibition on designing a V2), leaves D2 and every frozen file alone, and authorises no code. It rests on the ledger's disclosure that the H2 arm never ran plus the three converging lines — Gate 13 ranking precision 0.3438, capacity-1,000 headroom 0.005647 nats, A1's C4 `VOID`. §7.0 now lists two owner decisions. |

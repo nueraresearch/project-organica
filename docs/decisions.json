@@ -865,6 +865,48 @@
         "tests/test_a1_prefreeze.py"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-CHARTER",
+      "date": "2026-11-15",
+      "status": "PENDING",
+      "status_quote": "DRAFT — AWAITING THE OWNER'S SIGNATURE; A CHARTER, NOT A BUILD",
+      "chosen": [
+        "A V2 charter is commissioned: a design document with one pre-committed question, one pre-committed failure criterion, and its own freeze, written before any V2 cell runs.",
+        "The charter's first experiment tests the converged diagnosis: that V1 has no addressable, intervention-relevant handle on what it stores, at selection, at readout and at manipulation.",
+        "V2 is a separate lineage: V1 stays frozen at its pin as the reference object, and no V1 result may be cited as V2 evidence.",
+        "No V2 cell, module or engine change is authorised by this decision; the charter returns to the owner for its own adoption."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep H2's prohibition in force and continue harness-only work",
+          "reason": "Because the prohibition rests on an arm that never ran, while three independent measurements now name the same missing capability."
+        },
+        {
+          "alternative": "Treat the charter as permission to build",
+          "reason": "Because a charter that arrives with an implementation is a design decision made by whoever wrote the code."
+        },
+        {
+          "alternative": "Rewrite the frozen engine in place",
+          "reason": "Because it would break comparability with the published record and the pin that enforces it."
+        },
+        {
+          "alternative": "Commission a charter without a pre-committed failure criterion",
+          "reason": "Because V1's record shows how easily an architecture programme becomes unfalsifiable."
+        }
+      ],
+      "evidence": [
+        "docs/claim_ledger.json",
+        "docs/DECISION-V2-SCOPE.md",
+        "docs/ORGANICA-V2-DESIGN-BRIEF.md",
+        "docs/GATE13-RANKING-CRITERION.md",
+        "docs/BOTTLENECK-MAP.md",
+        "docs/functional_structure_confirmatory.json",
+        "docs/A1-RUN.md",
+        "docs/a1_two_path_result.json",
+        "docs/DECISION-A1-VOID-ACCEPTED.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

@@ -119,6 +119,23 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: a V2 charter draft supersedes nothing until it is signed
+
+`docs/DECISION-V2-CHARTER.md` is drafted as `PENDING` and tallied to a new governance question (Q057), taking the
+registry to 55 questions. It narrows clause D1
+of `DECISION-V2-SCOPE` — the prohibition on designing a V2 — and leaves D2 (the G13-D diagnostic, which ran) and every
+frozen file alone.
+
+It rests on two things. The claim ledger discloses, under C006, that **"No admissible test of H2 was ever run: F2 fired
+before the arm that would have tested it"**, so the record supports *no task family was found*, not *none exists*. And
+three independent lines name the same missing capability: Gate 13's ranking precision ceiling of 0.3438 with coverage
+needing 240–244 asserted edges, the capacity-1,000 readout's interval crossing zero with 0.005647 nats of headroom, and
+A1's C4 `VOID` at 510 of 2,785 non-target rows.
+
+It authorises no code, no cells and no engine change; the charter it commissions must carry its own question, its own
+failure criterion fixed in advance, its own freeze and a stop condition. Signing is the owner's; until then the
+prohibition stands as written.
+
 ## Addendum — 2026-11-15: the A2 sham is matchable in aggregate, not per edge
 
 A placebo-controlled A2 needs a sham block whose carrier removal perturbs non-target edges like the real block's does.
@@ -1509,7 +1526,7 @@ there is nothing to check out.
 
 ### Repaired — the decision graph covers the progression decision and its registry counts are current (2026-11-14)
 
-- **The unindexed G8→G9 progression decision is now in the decision graph, and the registry's current 54/25 counts are pinned.** `docs/decisions.json` gains `DECISION-PROGRESSION-BEYOND-G8` as **ADOPTED**, quoting the document's own status, chosen actions and evidence. `benchmarks/decision_graph.py` now treats a `future` question as live while a named prerequisite is live, so a deferred question does not falsely orphan its decision; a retired-only decision still fails. The 0.13.0 changelog's 53/24 count is retained as the historical value and the current 54/25 count is stated beside it, with the guard re-pinned. The same repair rebuilt the derived registry views: `docs/question_survival.json` and its page, `docs/RESEARCH-DASHBOARD.md`, `docs/RERUN-CAMPAIGN-PLAN.md` (25 first answers, 6 gated, 54 registry questions), `docs/ACTION-PLAN.md` (37 reviewed, 6 prerequisite-gated), and the Stage B artifact and page (214 scanned artifacts). The full suite is re-recorded at **2,277 passed, 19 skipped, 0 failed of 2,296 collected (2026-11-14)**. No engine, cell, seed, grant, verdict or result changed. `docs/decisions.json`, `docs/DECISIONS.md`, `benchmarks/decision_graph.py`, `tests/test_decision_graph.py`, `tests/test_changelog_figures.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
+- **The unindexed G8→G9 progression decision is now in the decision graph, and the registry's current 54/25 counts are pinned.** `docs/decisions.json` gains `DECISION-PROGRESSION-BEYOND-G8` as **ADOPTED**, quoting the document's own status, chosen actions and evidence. `benchmarks/decision_graph.py` now treats a `future` question as live while a named prerequisite is live, so a deferred question does not falsely orphan its decision; a retired-only decision still fails. The 0.13.0 changelog's 53/24 count is retained as the historical value and the current 55/26 count is stated beside it, with the guard re-pinned. The same repair rebuilt the derived registry views: `docs/question_survival.json` and its page, `docs/RESEARCH-DASHBOARD.md`, `docs/RERUN-CAMPAIGN-PLAN.md` (25 first answers, 6 gated, 55 registry questions), `docs/ACTION-PLAN.md` (37 reviewed, 6 prerequisite-gated), and the Stage B artifact and page (214 scanned artifacts). The full suite is re-recorded at **2,277 passed, 19 skipped, 0 failed of 2,296 collected (2026-11-14)**. No engine, cell, seed, grant, verdict or result changed. `docs/decisions.json`, `docs/DECISIONS.md`, `benchmarks/decision_graph.py`, `tests/test_decision_graph.py`, `tests/test_changelog_figures.py`, `CHANGELOG.md`, `docs/USER-MANUAL.md`.
 
 ### Wired — G9 stage-ledger validator and six-class self-test run in CI (2026-11-14)
 
@@ -1547,7 +1564,7 @@ there is nothing to check out.
 
 ### Recorded — Progression beyond G8 is gated on activation, not a G9 design (2026-11-14)
 
-- **The next objective is activation/use, not unlocking Generation 9.** `docs/DECISION-PROGRESSION-BEYOND-G8.md` separates formation, admission, service, assertion and activation/use; records that the formation-utilization campaign mapped the gap to the use path while the follow-up use-path diagnostic failed its D0 gate and cannot identify retrieval, activation or readout; and makes `X1 — External activation` the G8 → G9 gate. X1 requires A1/M1 routing, an A3 external endpoint, ablation that removes the advantage, and independent replication. A negative, `VOID` or non-ablating A3 reads `EXTERNAL ACTIVATION NOT ESTABLISHED` and closes the path; no G9 design, extra endpoint or instrumentation loop. Generation 9 remains locked. The roadmap date and suite count are corrected in the same edit. Q056 registers the activation question as future, blocked by Q054; the tally is now 15 closed, 31 open, 2 retired and 6 future from 54 questions. No seed, cell, engine file, verdict or result changed. `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
+- **The next objective is activation/use, not unlocking Generation 9.** `docs/DECISION-PROGRESSION-BEYOND-G8.md` separates formation, admission, service, assertion and activation/use; records that the formation-utilization campaign mapped the gap to the use path while the follow-up use-path diagnostic failed its D0 gate and cannot identify retrieval, activation or readout; and makes `X1 — External activation` the G8 → G9 gate. X1 requires A1/M1 routing, an A3 external endpoint, ablation that removes the advantage, and independent replication. A negative, `VOID` or non-ablating A3 reads `EXTERNAL ACTIVATION NOT ESTABLISHED` and closes the path; no G9 design, extra endpoint or instrumentation loop. Generation 9 remains locked. The roadmap date and suite count are corrected in the same edit. Q056 registers the activation question as future, blocked by Q054; the tally is now 15 closed, 32 open, 2 retired and 6 future from 55 questions. No seed, cell, engine file, verdict or result changed. `docs/DECISION-PROGRESSION-BEYOND-G8.md`, `ROADMAP.md`, `docs/GATE-BOARD.md`, `docs/research_question_registry.json`, `docs/RESEARCH-QUESTION-REGISTRY.md`, `docs/USER-MANUAL.md`. No engine, cell, seed or verdict changed.
 
 
 ### Recorded — Every open A1 gate has a one-attempt stop condition (2026-11-14)
@@ -1845,7 +1862,7 @@ there is nothing to check out.
   intervention; a direction, not an effect size — and the prior T1 context: T1 is VOID on G4
   because its frozen rule treated zero `S_ever` as unmeasurable, its computed mean is not
   adjudicated, and T1b changed only that reading before any cell. No verdict, gate, cap,
-  engine byte or seed moved. The registry held **53** questions at that point; it now holds **54**, with **25** in neither reopening list (19 open, 6 future) and 17 kept-closed rows.
+  engine byte or seed moved. The registry held **53** questions at that point; it now holds **55**, with **26** in neither reopening list (20 open, 6 future) and 17 kept-closed rows.
 - **T1b ran with a zero-admitting denominator gate and returned `PERSISTENCE CONTRIBUTES` (2026-11-11).**
   `docs/AUTHORISATION-T1B-PERSISTENCE-OFF.md` records the instruction; the twelve cells and the
   rerun on six fresh seeds produced `docs/t1b_persistence_off_run.json`. G4 now treats P as the
@@ -1913,6 +1930,10 @@ there is nothing to check out.
   rebuilt.
 
 ## [0.13.0] — (unreleased)
+
+**Registry size as of 2026-11-15:** 55 questions — 15 closed, 32 open, 2 retired, 6 future — of which 26 sit in
+neither reopening list and 20 of those are open. The counts stated inside the entries below are the values recorded
+on their own dates.
 
 ### Changed — D3's persistence repair survives six distinct seed-varying worlds (2026-11-10)
 
