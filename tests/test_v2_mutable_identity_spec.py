@@ -41,6 +41,27 @@ def test_every_invariant_is_named_in_the_document() -> None:
     assert len(ids) == len(set(ids)) == 10
 
 
+def test_every_open_question_carries_an_argued_recommendation() -> None:
+    text = _text()
+    recs = SPEC["recommendations"]
+    assert len(recs) == 4
+    for rec in recs:
+        assert rec["chosen"] and rec["basis"] and rec["rejected"]
+        assert rec["doc_anchor"] in text, rec["question"]
+    assert "## 11. Recommendation summary" in text
+    assert "members are edges, not tags" in text
+    assert "recommendations for the charter" in text
+
+
+def test_the_cycle3_acceptance_test_matches_the_measured_artifact() -> None:
+    """The spec's acceptance criterion is arithmetic on the identity artifact, so check it there."""
+    doc = json.loads((ROOT / "docs" / "v1_carrier_identity.json").read_text(encoding="utf-8"))
+    mult = {int(k): v for k, v in doc["paths_per_node_set"].items()}
+    assert sum(mult.values()) == doc["distinct_node_sets"]
+    assert sum(k * v for k, v in mult.items()) == doc["distinct_paths"]
+    assert mult == {1: 139, 2: 19}
+
+
 def test_the_primitives_cannot_be_built_by_accident() -> None:
     """A planning note must not be wired into the engine or adopted as a decision."""
     spec_name = "V2-MUTABLE-IDENTITY-SPEC"

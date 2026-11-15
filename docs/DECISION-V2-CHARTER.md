@@ -92,7 +92,8 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 
    The specification is drafted as [`V2-MUTABLE-IDENTITY-SPEC`](V2-MUTABLE-IDENTITY-SPEC.md) — planning only,
    authorising no code: it fixes storage, identifier invariants, the registration/canonicalisation rule and the mutation
-   semantics, and states the earning test the primitive must pass.
+   semantics, and states the earning test the primitive must pass. Its four open questions are argued with
+   recommendations in §10 of that document; signing this charter adopts or rejects them explicitly.
 7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
    or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
    Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.

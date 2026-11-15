@@ -124,12 +124,97 @@ Requirement 7 of the charter, made concrete:
 No self-model, no Generation 9, no Phase A primitive change, no modification of the six design laws, no claim that this
 reaches G4–G8, and no authorisation to build. This document exists so that the charter can be argued about concretely.
 
-## 10. Open questions the charter must answer
+## 10. The open questions, argued
 
-1. Are members atoms (pairs) or carriers? Pairs keep the vocabulary frozen; carriers need the composite to hold another
-   composite.
-2. Is `canonical_key` direction-free for pairs only, or for longer paths too — and what normalisation makes two paths that
-   differ only in rotation collide deterministically?
-3. Reclamation: retired atoms and superseded references accumulate; what bounds the store, and does compaction ever change
-   a resolution?
-4. Does registration happen at every consolidation, and if so, is `register` cheap enough to run per detected structure?
+Each question gets a recommendation, the reason it beats the alternatives, and what would change it. These are
+*recommendations for the charter*, not decisions: nothing here is adopted until the charter is signed.
+
+### 10.1 Are members atoms or carriers?
+
+Three levels, not two. `0` = atom (a tag pair, immutable, shared). `1` = composite whose members are atoms — this is
+exactly a V1 carrier, now stored. `2` = composite whose members are composites — a theory candidate.
+
+**First, a precision the question hides: members are edges, not tags.** A 3-cycle over tags `{a, b, c}` is a composite of
+three *pair bindings*; the tag triple is the canonical key, not the member list. This matters because a set of three tags
+whose third edge is absent is not a carrier at all, and because the baseline the primitive must beat is a table of pair
+counts — the member is the unit whose count the baseline uses.
+
+| Option | Verdict |
+|---|---|
+| **A. Atoms only** | Simple, and it covers the first experiment. But it makes "a theory is a composite of composites" unrepresentable *by schema*, so the primitive would decide a substantive question by accident. |
+| **B. Carriers all the way up** | No base case. Level 1 needs stored anchors before anything can exist, so the first build stalls on an object it has not defined yet, and storage grows multiplicatively with depth. |
+| **C. Typed members, homogeneous per composite** | **Recommended.** A composite declares its member level; all members share it. Level 1 is the first build; level 2 is permitted by the schema but unbuilt. |
+
+**Argument.** The charter's first experiment needs an object whose intervention can be compared with V1's spill, and that is
+a level-1 composite: a V1 carrier is a set of pairs, and the spill is defined over pairs. Level 2 is the question the charter
+actually cares about — *is a theory a composite of composites?* — but building it first means paying for two unvalidated
+layers at once, and a failure at level 2 could not be attributed between them.
+
+**Homogeneity is not tidiness.** If a composite mixed atoms and composites, an intervention's effect could not be attributed
+to a level, and the earning test would lose its denominator. Homogeneity keeps every composite commensurable with its own
+level's baseline.
+
+**What would change it:** if the first experiment requires a composite whose parts are themselves composites (testing
+whether a theory predicts better than its constituent carriers), level 2 must be built before the test. The schema already
+allows it; only the order changes.
+
+### 10.2 What normalisation makes rotated paths collide deterministically?
+
+Canonicalisation must be declared **per structure kind**, never guessed:
+
+| Kind | Canonical key | Justification |
+|---|---|---|
+| `cycle3` | sorted tag triple | measured: 177 directed paths over 158 node sets, so 19 keys carry two directions and no key carries two different node sets |
+| `cycle_n` (n > 3) | lexicographically least of the `2n` rotations of the path and its reverse | rotation- and direction-invariant, O(n), collision-free up to exactly those two symmetries |
+| `path` (open) | least of the two orientations **only if the kind is declared undirected**; otherwise the ordered path itself | an open chain's direction can carry meaning, and merging it would silently delete information |
+
+**Invariant.** A canonicaliser may merge two detections into one object only when the merge is justified by the structure
+kind, and never across kinds. **Acceptance test, already satisfied by the measurement:** applying `cycle3` to the 177
+measured paths must yield exactly 158 keys with multiplicities `{1: 139, 2: 19}` — a key count equal to the node-set count,
+and no key mixing two different node sets.
+
+**What would change it:** a structure kind whose two orientations are semantically distinct (a causal chain, a sequence)
+must not use a direction-free key at all; it keeps its order, and `set_direction` does not apply to it.
+
+### 10.3 How is the store compacted without changing a resolution?
+
+**Argument.** Atoms are immutable *values*, so an atom unreferenced by any composite — live or retired — can be dropped and
+rebuilt identically from the pair graph on demand. Reclamation is safe in a way it would not be if atoms were editable:
+nothing is lost that cannot be recomputed, and no live resolution depends on the atom's row existing.
+
+**Recommendation.** Reference-count references, not atoms. Reclaim an atom at zero references across live *and* retired
+composites. **Never reclaim** a composite id, its canonical key, or its tombstone — that is the part of the store which is
+not reconstructible, and reclaiming it would let a later id alias an earlier object.
+
+**Invariant.** For every live composite, the resolved member set before and after compaction is identical. A compaction
+that changes one resolution is a bug, not a trade-off.
+
+**Open sub-question:** whether retired composites keep their member references. Recommendation: keep them — they are the
+evidence for the control arm, and a tombstone whose members were dropped can no longer prove what it was.
+
+### 10.4 Is registration cheap enough to run per detected structure?
+
+**Cost is not the problem.** V1 emits 1,299 carrier appearances over 120 cycles, 177 distinct: about eleven detections per
+consolidation against an indexed uniqueness check. The primitive could register everything at negligible cost.
+
+**The problem is semantic.** Registering on first detection makes the object population an artifact of detection thresholds:
+a structure seen once and never again becomes a permanently named object, and "how many composites exist" stops meaning
+anything.
+
+**Recommendation.** Admit on **total appearances** `m`, not on consecutive appearances — precisely because direction flips
+make consecutiveness brittle: a triangle alternating direction could never accumulate a streak while being perfectly stable
+as an object. Until admitted, a structure is a *candidate*, tracked by key but not given an id. The first experiment uses
+admitted objects only, so that "addressed" means something; candidates are recomputation, i.e. V1.
+
+**What would change it:** if admission by stability biases the population toward high-frequency structures in a way that
+favours the pair-count baseline, the threshold must be lowered, or the arm must be run over candidates too — and that
+choice must be declared before the build.
+
+## 11. Recommendation summary
+
+| Question | Recommendation | Rejected |
+|---|---|---|
+| Members | edges as members, tags as the key; homogeneous typed members; level 1 built first, level 2 permitted but unbuilt | atoms-only (decides a substantive question by schema); carriers-only (no base case); tags as members (a missing third edge would still look like a carrier) |
+| Canonicalisation | per-kind: sorted triple for `cycle3`, least rotation/reflection for `cycle_n`, preserve order for open paths | one global normalisation rule |
+| Reclamation | reference-count references; reclaim unreferenced atoms; never reclaim ids, keys or tombstones | never reclaim; reclaim ids |
+| Registration | admit on total appearances `m`; candidates carry no id | register on first detection; register per streak |

@@ -138,6 +138,23 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the primitive's open questions argued, with recommendations
+
+The specification's four open questions now each carry a recommendation, the alternatives rejected and what would change
+the answer, so the charter can be signed against positions rather than against a blank.
+
+The load-bearing one is membership, and the question as posed hides a distinction: **members are edges, not tags.** A
+3-cycle over three tags is a composite of three pair bindings; the tag triple is the canonical key, not the member list. A
+set of three tags whose third edge is absent is not a carrier, and the baseline the primitive must beat is a table of pair
+counts, so the member must be the unit the baseline counts. The recommendation is homogeneous typed members: level 1
+(edges) built first, level 2 (composites of composites) permitted by the schema but unbuilt, because building both at once
+would leave a failure at level 2 unattributable.
+
+The other three: canonicalisation declared per kind (sorted triple for `cycle3`, least rotation/reflection for `cycle_n`,
+order preserved for open paths), reclamation by reference count with ids, keys and tombstones never reclaimed, and
+registration admitted on **total** appearances rather than streaks — because direction flips make a streak rule reject an
+object that is perfectly stable.
+
 ## Addendum — 2026-11-15: a specification for the mutable-identity primitive (planning only)
 
 `docs/V2-MUTABLE-IDENTITY-SPEC.md` writes down what requirement 6 of the pending charter actually asks for, so it can be
