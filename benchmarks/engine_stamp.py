@@ -101,6 +101,7 @@ DERIVED = {
     "a1_cap_response_curve.py",  # normalized A-coverage cap response fit
     "a1_offset_predictors.py",  # candidate-size / K-completeness offset predictors
     "a1_cap_response_holdout.py",  # held-out cap and block validation of the curve
+    "a1_prediction_cap_turnover.py",  # cap-80/112 A-edge turnover and K membership
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing

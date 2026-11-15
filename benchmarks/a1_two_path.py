@@ -77,6 +77,7 @@ K_COMPLETENESS_PATH = DOCS / "a1_k_completeness.json"
 CAP_RESPONSE_CURVE_PATH = DOCS / "a1_cap_response_curve.json"
 OFFSET_PREDICTORS_PATH = DOCS / "a1_offset_predictors.json"
 CAP_RESPONSE_HOLDOUT_PATH = DOCS / "a1_cap_response_holdout.json"
+PREDICTION_CAP_TURNOVER_PATH = DOCS / "a1_prediction_cap_turnover.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -407,7 +408,7 @@ def preflight(doc: dict | None = None) -> list[str]:
                  PREDICTION_CAP112_DECOMPOSE_PATH, PREDICTION_CAP80_OVERLAP_PATH,
                  PREDICTION_CAP80_SELECTION_PATH, K_COMPLETENESS_PATH,
                  CAP_RESPONSE_CURVE_PATH, OFFSET_PREDICTORS_PATH,
-                 CAP_RESPONSE_HOLDOUT_PATH)
+                 CAP_RESPONSE_HOLDOUT_PATH, PREDICTION_CAP_TURNOVER_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
