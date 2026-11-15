@@ -53,6 +53,20 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+
+### What adopting it would amend
+
+`A1-PATH-A-C1-RULE-1` fixes the estimand *and* the C1 acceptance rule, and its §1 defines the estimand as the
+representative eligible effect. The draft therefore names its target: adoption replaces that one sentence, as a dated
+note rather than a deletion, and leaves the C1 rule, the 60-row floor and the record's other clauses binding. A partial
+supersession cannot be expressed by `superseded_by`, which names a whole record, so the amendment travels in that
+record's note, in the draft and on the checklist.
+
+The multiplicity figures also gained the pin they were missing. The existing test recomputed the C4 table from the
+baseline and checked the size list against C8; it did not check the prose sentence that states 276–285 per seed and
+1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
+`min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
+fail — both directions were run.
 ## Addendum — 2026-11-15: C4's completeness conditions now fire
 
 The C4 gate's own failure row names three conditions — absent stream, incomplete stream, no measurable paired delta —

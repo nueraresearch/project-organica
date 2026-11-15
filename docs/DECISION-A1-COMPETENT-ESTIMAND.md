@@ -42,6 +42,13 @@ of 3 edges per tag.
 on both paths being present in the no-arm baseline.* The unconditional, representative-eligible wording is retired
 from the freeze acts and from any record that restates it.
 
+**This amends one sentence of `A1-PATH-A-C1-RULE-1`, and nothing else in it.** That record fixes the estimand *and*
+the C1 acceptance rule; its §1 states the estimand as "the representative eligible pre-37 cycle-membership
+directed-edge effect". Adopting this decision replaces that sentence with the conditional wording above, as a dated
+amendment note in that record rather than a deletion, while its C1 acceptance rule, its 60-row floor and its other
+clauses remain binding. The index cannot express a partial supersession — `superseded_by` names a whole record — so
+the amendment is carried here, in that record's note, and on the checklist.
+
 **Operative sizes are the ones `DECISION-A1-C8-NMIN-1` already adopted.** Exactly 20 rows per seed where the declared
 construction finds them, otherwise the largest block it finds, provided it reaches `N_min = 17`: **20, 17, 20, 20,
 18, 20**. There is no fallback to non-competent rows. A seed that cannot reach 17 supplies no block, and the block is

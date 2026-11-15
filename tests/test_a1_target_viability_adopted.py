@@ -9,6 +9,7 @@ new claim about the world, and this one decides whether two freeze acts can be s
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 LAYER = "static"
@@ -188,6 +189,17 @@ def test_the_estimand_decision_restates_c4_multiplicity_correctly() -> None:
     # The sizes are C8's adopted operative block sizes, not a new choice made here.
     c8 = (DOCS / "DECISION-A1-C8-NMIN.md").read_text(encoding="utf-8")
     assert ", ".join(str(size) for size in sizes) in c8
+
+    # The prose carries the same two numbers the table does.  A restated count has
+    # drifted from its artifact twice in this corpus, so the sentence is pinned to
+    # the recomputation rather than trusted: change the baseline and this fails.
+    prose = re.search(
+        r"maximum over (\d+)–(\d+) deltas per seed, ([\d,]+) across the block", doc
+    )
+    assert prose, "the multiplicity sentence lost its numbers"
+    low, high, total = prose.groups()
+    assert (int(low), int(high)) == (min(deltas), max(deltas))
+    assert int(total.replace(",", "")) == sum(deltas)
 
 
 def test_the_frontier_moves_with_the_endpoint_cap() -> None:
