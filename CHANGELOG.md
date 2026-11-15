@@ -119,6 +119,22 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the ceiling clause is armed before its decision is adopted
+
+`DECISION-A1-C1-CEILING` is pending. The temptation is to add its branch row when it is adopted; the row is worth more
+now, because what it should check is knowable already. `C1 ceiling — preplanned-universe clause` is a conditional: while
+the decision is pending it asserts the record still reasons from the preplanned universe, and once adopted it requires
+`A1-PATH-A-C1-RULE-1` to state the clause (`preplanned universe`, and the decision's own identifier), because adopting
+the decision amends exactly one sentence of that rule.
+
+The property this buys: **adoption alone cannot turn the row green.** Probed by flipping the decision to `ADOPTED` in
+`docs/decisions.json` and regenerating — the row rendered `OPEN — RESTATEMENT MISSING`, not `CLOSED`, because the rule
+still lacks the clause. Restored, and it is back to `AWAITING THE CEILING DECISION`. A row derived from status alone
+would have gone green on the signature and left the amendment unbuilt.
+
+The note's universe `79 / 64 / 79 / 74 / 72 / 74` is pinned to the baseline availability artifact, so the branch quotes
+a third source besides the two the note-number addendum already covers.
+
 ## Addendum — 2026-11-15: the numbers a branch note quotes are pinned to their source
 
 A branch row can stay green while the count in its note drifts. The state is derived from what settles the branch — a

@@ -183,6 +183,43 @@
       ]
     },
     {
+      "id": "c1-ceiling-universe",
+      "branch": "C1 ceiling — preplanned-universe clause",
+      "kind": "conditional",
+      "when_pending": "DECISION-A1-C1-CEILING",
+      "contains": [
+        {
+          "path": "docs/DECISION-A1-C1-CEILING.md",
+          "strings": [
+            "The ceiling's function is carried by a comparison rather than a constant",
+            "preplanned universe"
+          ]
+        }
+      ],
+      "open_state": "AWAITING THE CEILING DECISION",
+      "closed_state": "CLOSED — UNIVERSE RESTATED",
+      "restated": [
+        {
+          "path": "docs/DECISION-A1-PATH-A-C1-RULE.md",
+          "strings": [
+            "preplanned universe",
+            "DECISION-A1-C1-CEILING"
+          ]
+        }
+      ],
+      "note": "the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74",
+      "note_claims": [
+        {
+          "note_regex": "preplanned universe, ([0-9]+ / [0-9]+ / [0-9]+ / [0-9]+ / [0-9]+ / [0-9]+)",
+          "path": "docs/a1_baseline_availability_adopted.json",
+          "field": "per_seed.*.c1_min_denominator"
+        }
+      ],
+      "proved_by": [
+        "tests/test_a1_c1_ceiling.py"
+      ]
+    },
+    {
       "id": "freeze-acts",
       "branch": "Freeze acts",
       "kind": "act",

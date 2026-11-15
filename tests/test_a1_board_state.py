@@ -140,7 +140,7 @@ def test_every_note_number_is_pinned_to_its_source() -> None:
     for branch in _branches():
         claims += len(branch.get("note_claims") or [])
         assert a1_board.claim_problems(branch) == [], branch["id"]
-    assert claims == 5
+    assert claims == 6
 
 
 def test_a_green_state_cannot_hide_a_drifted_count() -> None:
@@ -160,6 +160,37 @@ def test_a_green_state_cannot_hide_a_drifted_count() -> None:
     drifted_source = json.loads(json.dumps(branch))
     drifted_source["note_claims"][0]["field"] = "per_seed.*.n_selected"
     assert a1_board.claim_problems(drifted_source), "a source that states other numbers was accepted"
+
+
+def test_the_ceiling_clause_is_armed_and_cannot_close_without_the_rule() -> None:
+    """Adoption alone must not turn the row green.
+
+    The decision says adopting it amends one clause of `A1-PATH-A-C1-RULE-1`. If the owner adopts
+    the decision and the rule is not amended, the branch must report the missing restatement rather
+    than inherit the decision's status — which is what a purely status-derived row would do.
+    """
+    branch = next(item for item in _branches() if item["id"] == "c1-ceiling-universe")
+    assert a1_board.branch_state(branch, _entries()) == "**AWAITING THE CEILING DECISION**"
+
+    adopted = json.loads(json.dumps(_entries()))
+    entry = next(item for item in adopted if item["decision_id"] == "DECISION-A1-C1-CEILING")
+    entry["status"] = "ADOPTED"
+    entry["status_quote"] = "ADOPTED BY OWNER"
+    assert a1_board.branch_state(branch, adopted) == "**OPEN — RESTATEMENT MISSING**"
+
+    # With the rule stating the clause, the same adoption closes the row.
+    restated = json.loads(json.dumps(branch))
+    restated["restated"] = [{"path": "docs/DECISION-A1-C1-CEILING.md",
+                             "strings": ["preplanned universe", "DECISION-A1-C1-CEILING"]}]
+    assert a1_board.branch_state(restated, adopted) == "**CLOSED — UNIVERSE RESTATED**"
+
+
+def test_the_ceiling_note_is_pinned_to_the_baseline_universe() -> None:
+    branch = next(item for item in _branches() if item["id"] == "c1-ceiling-universe")
+    assert a1_board.claim_problems(branch) == []
+    drifted = json.loads(json.dumps(branch))
+    drifted["note"] = drifted["note"].replace("79 / 64", "78 / 64")
+    assert a1_board.claim_problems(drifted), "a ceiling note quoting another universe was accepted"
 
 
 def test_a_note_claim_must_name_exactly_one_source() -> None:
