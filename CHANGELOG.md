@@ -119,6 +119,25 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the last three bare numbers are pinned to the record that already stated them
+
+The brief was to write the record that states the competence rule's threshold, endpoint cap and N_min together. It
+exists: [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) has carried all three in one table since adoption — `N_min` 17
+rows per seed, `Threshold` 0.05 per seed, `Endpoint cap` 3 selected edges per tag. Writing a second record of the same
+three constants would have created exactly the second source of truth this board exists to remove, so nothing was
+written. Three claims now read that table instead, and the three allowlist entries retire.
+
+That needed one repair in the checker: the note claims compared integers, so `0.05` raised rather than compared. Number
+tokens now carry decimals, `0.05` stays `0.05`, and `1,944` still becomes `1944`.
+
+Probed in both failure directions against the adopted record. Moving its threshold to 0.06 failed with *the note quotes
+[0.05] but its source states [0.06]*; deleting the endpoint-cap row failed with *the source it pins does not state them*.
+Both restored.
+
+Coverage moves from 6 claims / 24 numbers to **9 claims / 27 numbers over 6 of 11 branches**, and the tolerated debt from
+four numbers to **one**: `64`, the constant the pending ceiling decision narrows, which will retire itself when the rule
+is amended.
+
 ## Addendum — 2026-11-15: bare numbers are an invariant, not a footnote
 
 The coverage block reported four bare numbers on a green board. A report is a statement, and a statement about debt

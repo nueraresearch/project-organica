@@ -140,7 +140,7 @@ def test_every_note_number_is_pinned_to_its_source() -> None:
     for branch in _branches():
         claims += len(branch.get("note_claims") or [])
         assert a1_board.claim_problems(branch) == [], branch["id"]
-    assert claims == 6
+    assert claims == 9
 
 
 def test_a_green_state_cannot_hide_a_drifted_count() -> None:
@@ -204,25 +204,27 @@ def test_the_coverage_block_is_counted_not_typed() -> None:
     assert a1_board.coverage_block(text) == a1_board.render_coverage()
 
     pinning = json.loads(json.dumps(_branches()))
-    pinned = next(b for b in pinning if b["id"] == "competence-contract")
-    pinned["note_claims"] = [{"note_regex": "N_min = ([0-9]+)",
-                              "doc": "docs/DECISION-A1-C8-NMIN.md",
-                              "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"}]
-    after = a1_board.coverage(pinning)
-    assert after["claims"] == data["claims"] + 1
-    assert after["numbers"] == data["numbers"] + 1
-    # Pinning one number does not pin the row: the other two are still quoted bare.
-    still_bare = dict(after["unpinned"])
-    assert still_bare.get("Competence contract, N_min, capacity") == ["0.05", "3"]
+    pinned = next(b for b in pinning if b["id"] == "c1-unit")
+    pinned["note_claims"] = [{"note_regex": "on its own denominator", "doc": "docs/A1-C1-UNIT-OF-EVIDENCE.md",
+                              "doc_regex": "([0-9]+)"}]
+    assert a1_board.coverage(pinning)["claims"] == data["claims"] + 1
     assert a1_board.render_coverage(pinning) != a1_board.render_coverage()
     assert any("coverage block is stale" in problem
                for problem in a1_board.block_problems(text, _entries(), pinning))
 
 
-def test_a_record_name_is_not_a_quantity() -> None:
-    """C1, C4, C8 and "the N=4 act" contain digits that are names, not measurements."""
-    branch = {"id": "probe", "note": "C1 and C4 and C8; the N=4 act; 12 rows", "note_claims": []}
-    assert a1_board._unpinned_numbers(branch) == ["12"]
+def test_pinning_one_number_leaves_the_rest_of_the_row_bare() -> None:
+    """Coverage is a property of a number, not of a row.
+
+    The first implementation measured it per branch, so pinning `17` made a three-number note read
+    as fully pinned while `0.05` and `3` stayed bare.
+    """
+    branch = {"id": "probe", "note": "threshold 0.05, and 17 rows per seed",
+              "note_claims": [{"note_regex": "threshold ([0-9.]+)",
+                               "doc": "docs/DECISION-A1-C8-NMIN.md",
+                               "doc_regex": "Threshold \\| \\*\\*([0-9.]+)\\*\\* per seed"}]}
+    assert a1_board._unpinned_numbers(branch) == ["17"]
+    assert not a1_board.claim_problems(branch)
 
 
 def test_a_bare_number_must_be_allowlisted() -> None:
@@ -238,12 +240,12 @@ def test_a_bare_number_must_be_allowlisted() -> None:
 def test_an_allowlist_entry_must_still_be_bare() -> None:
     """Pinning an excused number must retire its excuse, so the debt can only shrink."""
     pinning = json.loads(json.dumps(_branches()))
-    pinned = next(b for b in pinning if b["id"] == "competence-contract")
-    pinned["note_claims"] = [{"note_regex": "N_min = ([0-9]+)",
-                              "doc": "docs/DECISION-A1-C8-NMIN.md",
-                              "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"}]
+    pinned = next(b for b in pinning if b["id"] == "c1-ceiling-universe")
+    pinned["note_claims"] = (pinned.get("note_claims") or []) + [
+        {"note_regex": "the >([0-9]+) VOID", "doc": "docs/DECISION-A1-C1-CEILING.md",
+         "doc_regex": "([0-9]+)"}]
     found = a1_board.coverage_problems(pinning)
-    assert any("no longer quotes 17 bare" in problem for problem in found), found
+    assert any("no longer quotes 64 bare" in problem for problem in found), found
 
 
 def test_the_allowlist_names_real_branches_and_says_why() -> None:

@@ -378,10 +378,11 @@ def render_coverage(branches: list[dict] | None = None) -> str:
             lines.append("| %s | %s |" % (label, ", ".join("`%s`" % value for value in quoted)))
     debt = sum(len(entry.get("numbers") or []) for entry in allowlist().values())
     lines.append("")
-    lines.append("_%d of these are allowlisted debt in `bare_allowlist`; any other bare number fails `--check`, and an "
-                 "entry whose number gets pinned must be removed, so the list can only shrink. Counted from "
-                 "`docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is "
-                 "regenerated._" % debt)
+    lines.append(
+        f"_{debt} of these {'is' if debt == 1 else 'are'} allowlisted debt in `bare_allowlist`; any other bare number "
+        "fails `--check`, and an entry whose number gets pinned must be removed, so the list can only shrink. "
+        "Counted from `docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is "
+        "regenerated._")
     return "\n".join(lines)
 
 
@@ -420,7 +421,7 @@ def splice(text: str, body: str, start: str = START, end: str = END) -> str:
     return text[:span[0]] + "\n" + body + "\n" + text[span[1]:]
 
 
-NUMBER = re.compile(r"[0-9][0-9,]*")
+NUMBER = re.compile(r"[0-9][0-9,]*(?:\.[0-9]+)?")
 
 
 def _walk(node, parts: list[str]):
@@ -445,14 +446,20 @@ def _flat(value) -> list[int]:
     return [int(value)]
 
 
-def _note_numbers(note: str, claim: dict) -> list[int] | None:
+def _number(token: str):
+    """0.05 stays 0.05; 1,944 becomes 1944."""
+    token = token.replace(",", "")
+    return float(token) if "." in token else int(token)
+
+
+def _note_numbers(note: str, claim: dict) -> list[int | float] | None:
     match = re.search(claim["note_regex"], note)
     if not match:
         return None
-    return [int(token.replace(",", "")) for token in NUMBER.findall(match.group(0))]
+    return [_number(token) for token in NUMBER.findall(match.group(0))]
 
 
-def _expected_numbers(claim: dict) -> list[int] | None:
+def _expected_numbers(claim: dict) -> list[int | float] | None:
     if claim.get("field"):
         document = json.loads((ROOT / claim["path"]).read_text(encoding="utf-8"))
         try:
@@ -465,7 +472,7 @@ def _expected_numbers(claim: dict) -> list[int] | None:
     match = re.search(claim["doc_regex"], path.read_text(encoding="utf-8"))
     if not match:
         return None
-    return [int(token.replace(",", "")) for token in match.groups()]
+    return [_number(token) for token in match.groups()]
 
 
 def claim_problems(branch: dict) -> list[str]:
@@ -666,7 +673,12 @@ def self_test() -> list[str]:
                for problem in coverage_problems(leaking)):
         found.append("a bare number with no allowlist entry passed the coverage invariant")
     # Pinning an allowlisted number must make its entry stale.
-    if not any("no longer quotes" in problem for problem in coverage_problems(pinning)):
+    ceiling_probe = json.loads(json.dumps(branches))
+    ceiling_branch = next(branch for branch in ceiling_probe if branch["id"] == "c1-ceiling-universe")
+    ceiling_branch["note_claims"] = (ceiling_branch.get("note_claims") or []) + [
+        {"note_regex": "the >([0-9]+) VOID", "doc": "docs/DECISION-A1-C1-CEILING.md",
+         "doc_regex": "([0-9]+)"}]
+    if not any("no longer quotes" in problem for problem in coverage_problems(ceiling_probe)):
         found.append("an allowlist entry survived the number it excused being pinned")
     # A duplicated marker makes the block unlocatable.
     if not block_problems(text.replace(END, END + "\n" + END, 1), entries, branches):

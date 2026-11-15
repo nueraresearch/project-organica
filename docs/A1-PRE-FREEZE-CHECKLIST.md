@@ -43,14 +43,13 @@ The inventory below is what the pinning layer is worth, counted rather than clai
 their sources actually state, and every branch that quotes a number without pinning it.
 
 <!-- a1-coverage:start -->
-**Claim coverage** — 6 claims pin 24 numbers across 5 of 11 branches, drawn from 2 artifacts and 3 documents. 5 branches state no numbers. 2 branches quote numbers without a pin.
+**Claim coverage** — 9 claims pin 27 numbers across 6 of 11 branches, drawn from 2 artifacts and 3 documents. 5 branches state no numbers. 1 branch quotes a number without a pin.
 
 | Branch | Numbers quoted, no pin |
 | --- | --- |
 | C1 ceiling — preplanned-universe clause | `64` |
-| Competence contract, N_min, capacity | `0.05`, `17`, `3` |
 
-_4 of these are allowlisted debt in `bare_allowlist`; any other bare number fails `--check`, and an entry whose number gets pinned must be removed, so the list can only shrink. Counted from `docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is regenerated._
+_1 of these is allowlisted debt in `bare_allowlist`; any other bare number fails `--check`, and an entry whose number gets pinned must be removed, so the list can only shrink. Counted from `docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is regenerated._
 <!-- a1-coverage:end -->
 
 The owner-decision half of the board is generated from `docs/decisions.json` and spliced here; it is

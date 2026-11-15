@@ -58,6 +58,23 @@
       "note": "unit, threshold 0.05, endpoint cap 3, N_min = 17",
       "proved_by": [
         "tests/test_a1_target_viability_adopted.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "threshold ([0-9.]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*Threshold\\s*\\|\\s*\\*\\*([0-9.]+)\\*\\* per seed"
+        },
+        {
+          "note_regex": "endpoint cap ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*Endpoint cap\\s*\\|\\s*([0-9]+) selected edges"
+        },
+        {
+          "note_regex": "N_min = ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\|\\s*\\*\\*N_min\\*\\*\\s*\\|\\s*\\*\\*([0-9]+) rows per seed"
+        }
       ]
     },
     {
@@ -253,14 +270,6 @@
     }
   ],
   "bare_allowlist": {
-    "competence-contract": {
-      "numbers": [
-        "0.05",
-        "3",
-        "17"
-      ],
-      "why": "the competence rule's three constants; no single record states all three in one form yet"
-    },
     "c1-ceiling-universe": {
       "numbers": [
         "64"
