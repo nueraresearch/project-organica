@@ -82,6 +82,7 @@ DERIVED = {
     "c1_c9_preflight.py",  # read-only audit of C1-C9; runs no engine
     "a1_gate_readiness.py",  # read-only gate contract and readiness audit; runs no engine
     "a1_baseline_availability.py",  # no-arm denominator audit; runs no A1 cell
+    "a1_c5_carrier_divergence.py",  # no-arm carrier-cycle record; runs no A1 cell
     "a1_target_viability.py",  # read-only target/C2 viability join; runs no engine
     "a1_design_viability.py",  # read-only C1/C2 design-viability join; runs no engine
     "a1_n20_competent_selection.py",  # pre-registered rule draft; selects and runs nothing
