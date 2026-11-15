@@ -53,7 +53,20 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: the C1 ceiling is an open conflict, not a closed reading
+## Addendum — 2026-11-15: the C4 declared multiplicity is bound to the N=4 design
+
+Sweeping the adopted records for other numeric bands that the adopted block contradicts found none of the ceiling kind — the
+remaining thresholds (0.95, 0.05, 0.98) are evaluated on the run, not against committed counts. It did find a dependency
+rather than a conflict. `DECISION-A1-C4-POSTURE-1` declares the veto as "the maximum over **324** deltas per seed, **1,944**
+across the block"; those are **108 non-target rows × 3 paths × 6 seeds**, which is the **N=4** design on a 112-row stream.
+A competent act at 17 rows yields **285** per seed and **1,710** per block (20 gives 276 and 1,656).
+
+So the estimand decision carries a second obligation: whichever target count is frozen, clause 1 of the posture has to be
+restated to match it. The risk acceptance is unaffected — more target rows mean fewer comparisons, so a 17-row act is
+slightly *less* exposed than the number the owner accepted — but a declared multiplicity that no longer matches the design
+is the kind of silent drift this corpus keeps paying for.
+
+
 
 Checking whether anything else sat upstream of the freeze turned up two adopted records that disagree. `A1-PATH-A-C1-RULE-1`
 (binding, 2026-11-14) voids a run whose observed C1 denominator is **above 64**. `DECISION-A1-C1-DENOMINATOR-1`
