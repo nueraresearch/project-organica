@@ -56,7 +56,7 @@ This is the part the repository did not have: not *whether* competence occurred,
 | N=4 | **6 of 6** | adjudicable on every seed |
 | N=20 | **4 of 6** | two seeds not adjudicable (one impossible, one undecided) |
 
-So **as written, this contract would return C8 as VOID on the adopted block today** — not because any treatment fails, but because two seeds cannot field twenty competent rows under the endpoint cap. That is the state the rule exists to make visible before a run rather than after one.
+So this contract, read as exact-N, would return C8 as VOID on the adopted block — not because any treatment fails, but because two seeds cannot field twenty competent rows under the endpoint cap. **It no longer reads that way:** the adopted at-least-N_min rule sets the floor at 17 and makes all six seeds adjudicable, as recorded in [`DECISION-A1-C8-NMIN-1`](DECISION-A1-C8-NMIN.md). That is the state the rule exists to make visible before a run rather than after one.
 
 ## What is measured
 
@@ -90,24 +90,21 @@ The "run tomorrow" exercise surfaced five ambiguities. Each is answered below wi
 the answer commits to, and what would overturn it. They are recommendations for the owner to ratify
 or amend; none is in force.
 
-### 1. A short block: **VOID. Do not run a partial C8 block, and do not substitute a reduced N.**
+### 1. A short block: **SUPERSEDED — the owner chose at-least-N_min.**
 
-The gate reads **per seed**, and three reasons make VOID the only answer consistent with that.
+This was answered VOID here, on the reasoning that C8 reads per seed so seeds at different N would be
+held to different steps (`1/20` against `1/18`), and that because a short block is *stricter* per row,
+choosing it after finding only eighteen rows is choosing which gate to run. The owner rejected that
+reading on 2026-11-15: **competence is not created or destroyed by the difference between 17 and 20
+rows**, so a seed judged against the same 0.05 rate should not be inadmissible merely for being
+smaller — particularly when smaller is stricter rather than weaker.
 
-- **Uniformity.** C8 fails if *any* seed's rate exceeds the ceiling. If one seed runs 20 rows and
-  another 18, their steps are `1/20` and `1/18` — different bars, not the same gate at different
-  precision. "Any seed above the ceiling" would compare incomparable quantities.
-- **It is not a weaker test, it is a different one.** At 18 rows the step `0.0556` exceeds 0.05, so
-  zero asserting rows are tolerated, against one at twenty. A short block is *stricter* per row.
-  Choosing it after discovering that only 18 are available is choosing which gate to run with
-  knowledge of feasibility — the same class of freedom the pre-registration exists to remove.
-- **A reduced N is a new design, not a fallback.** It needs its own precommitment, its own step and
-  its own statement of what it estimates. Declaring it in advance is legitimate; discovering it at
-  selection time is not.
-
-**Commits to:** C8 VOID on any seed fielding fewer than twenty competent rows — which on the adopted
-block is two seeds today, so C8 is VOID unless the cap or the universe changes. **Overturns if:** the
-owner pre-declares a reduced-N ladder with its steps and tolerances before the block is fixed.
+The adopted rule is [`DECISION-A1-C8-NMIN-1`](DECISION-A1-C8-NMIN.md): **at least `N_min` = 17
+competent rows**, exact-20 preferred where constructible, the observed N reported per seed, and the
+0.05 ceiling unchanged. Tolerance is `floor(0.05 × N)`, so 17 and 18 rows demand a perfect block while
+20 tolerates one assertion — the asymmetry runs conservative, and no seed gains slack by being small.
+The paragraph above is kept because it records why the opposite answer looked right, not because it
+binds.
 
 ### 2. Where the filter applies: **a selection predicate, applied before the run, recorded in the freeze.**
 
@@ -169,17 +166,17 @@ The decision this document becomes, stated so it can be adopted verbatim:
 > K are present in the recorded no-arm A+K+ replay. C8 rows are drawn only from the competent pool by
 > the declared selection rule, before the run, and the pool, rule, block, digest and replacement
 > count are recorded in the freeze with the unfiltered selection reported beside them. C8 reads per
-> seed over exactly **N = 20** competent rows at the unchanged 0.05 ceiling — at most one asserting
-> row — and a seed fielding fewer than twenty is **not adjudicable**, never run short and never
-> re-filtered afterwards. Path A's four-row block is drawn under the same screen and reported
+> seed over **at least N_min = 17** competent rows — twenty where constructible — at the unchanged
+> 0.05 ceiling, so 17- and 18-row seeds tolerate **zero** asserting rows and a 20-row seed one; the
+> observed count is reported, and a block is never topped up with non-competent rows or re-filtered
+> afterwards. Path A's four-row block is drawn under the same screen and reported
 > separately. C2 is scored on competent rows and is **unmeasured**, not failed, on baseline-
 > incompetent rows.
 
-What that adoption would change, from the measured record: C8 is VOID on the adopted block as it
-stands (two seeds short of twenty), the four-row block becomes the filtered set (6 of 6 seeds, 14 of
-24 rows replaced, a new estimand), and C8 becomes adjudicable only if the endpoint cap or the tag
-count is changed — the two repairs whose cancellation is recorded in
-[`A1-INTERPRETATION`](A1-INTERPRETATION.md).
+What that adoption changes, from the measured record: the four-row block becomes the filtered set
+(6 of 6 seeds, 14 of 24 rows replaced, a new estimand), and **C8 becomes adjudicable on all six seeds
+at block sizes 20 / 17 / 20 / 20 / 18 / 20** — no cap change and no tag-count change required, because
+the floor is set by the seed that is proven rather than by the nominal twenty.
 
 ## What would change this
 

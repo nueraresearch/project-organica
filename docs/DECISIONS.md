@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 12 | in force; the document records it as implemented or effective |
+| ADOPTED | 14 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 4 | decided and not in force; the document says so |
-| **total** | **17** | |
+| **total** | **19** | |
 
 ## The decisions
 
@@ -378,6 +378,53 @@ written down cannot be re-examined later.
 **Evidence.** `docs/0X-ENGINEERING-CHARTER.md`, `ROADMAP.md`, `CHANGELOG.md`
 
 **Record.** `docs/DECISION-0X-ENGINEERING-CHARTER.md`
+
+### DECISION-A1-C1-DENOMINATOR — Decision: the protocol's C1 denominator is authoritative
+
+**Status.** ADOPTED — *"ADOPTED — THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED"*
+
+**Decided.**
+
+- The protocol's C1 denominator is authoritative: C1 counts the observed paired-control rows across the cell stream, including baseline-available non-target edges.
+- The 63–64 candidate-count figure is a planning quantity, not C1's denominator.
+- The operative row is the recorded cell row, which is what `c1_rows` counts and `score_c1` scores.
+- No cell is authorised by this decision.
+
+**Rejected.**
+
+- *Treat 63–64 as the C1 denominator.* — because *"the protocol defines the denominator and `c1_rows` implements it; the candidate count is a planning quantity that the downstream reading mistook for the definition."*
+- *Leave the definition open and let each record choose.* — because *"a denominator that can differ between records cannot be compared across runs, and C1's floor is only meaningful against one denominator."*
+- *Decide C1's reachability from the availability ceiling alone.* — because *"a ceiling is not an observation: no cell has run, so C1 remains unscored under the adopted definition."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/A1-C1-C4-VOID-GATE.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `docs/a1_baseline_availability_adopted.json`, `benchmarks/a1_arms.py`
+
+**Record.** `docs/DECISION-A1-C1-DENOMINATOR.md`
+
+### DECISION-A1-C8-NMIN — Decision: C8 is adjudicated on at least N_min competent rows, not exactly N
+
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — AT-LEAST-N_min REPLACES EXACT-N; N_min = 17 CERTIFIED; NOT FROZEN, NOT RUN"*
+
+**Decided.**
+
+- C8 is adjudicated on any block containing at least N_min competent directed target rows; exact-N construction is preferred but not required.
+- N_min is 17, certified as the largest block the binding adopted seed can reach.
+- The threshold stays 0.05 per seed, read as the assertion rate over that seed's competent rows.
+- The observed row count per seed is reported with the result, and any count below 20 is named as such.
+- No cell is authorised by this decision.
+
+**Rejected.**
+
+- *Keep exactly-N and treat a short block as VOID.* — because *"it makes an 18-row block inadmissible while judging it against a stricter criterion (zero assertions tolerated against one at twenty), which is not defensible as a rule."*
+- *Set N_min to 20.* — because *"seed 20740102 cannot field twenty competent rows under the cap: all 4,686,825 eighteen-row subsets were enumerated and none is feasible, so its maximum is 17."*
+- *Run whatever block the search happens to find, without a floor.* — because *"an unfloored block lets a small block pass trivially and turns the constructor into the estimand."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C2-C8-COMPETENCE-RULE.md`, `docs/A1-COMPETENCE-FILTER-DRAFT.md`, `docs/a1_competence_filter_draft.json`, `docs/A1-C4-RISK-POSTURE.md`
+
+**Record.** `docs/DECISION-A1-C8-NMIN.md`
 
 ## What this graph is not
 

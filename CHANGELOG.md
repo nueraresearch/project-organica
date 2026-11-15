@@ -53,6 +53,26 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C8 is adjudicated on at least N_min competent rows, and N_min = 17 is certified
+
+The owner rejected the exact-N reading on 2026-11-15 and the rule follows: **C8 reads on any block with
+at least `N_min` competent rows**, exact-20 preferred where constructible, the observed count reported,
+the 0.05 threshold untouched. The argument is the owner's and it holds: competence is not created or
+destroyed by the difference between 17 and 20 rows, so a seed judged against the same rate should not be
+inadmissible for being smaller — particularly when smaller is *stricter*, since tolerance is
+`floor(0.05 × N)`, giving zero assertions at 17 and 18 against one at 20.
+
+`N_min = 17` is not a preference; it is the largest value every adopted seed reaches, and it is
+**certified on the binding seed**. `20740102` pools 27 competent rows over 15 tags, and no eighteen of
+them satisfy the 3-per-tag cap — all `C(27,18) = 4,686,825` subsets were enumerated and none is feasible
+— while seventeen exist. Operative block sizes are **20 / 17 / 20 / 20 / 18 / 20**, with the last of
+those three lower bounds on their maxima rather than proofs.
+
+This removes C8 as a freeze blocker: it becomes adjudicable on all six seeds with no cap change and no
+tag-count change, which reverses the reading recorded two addenda ago. `C4_exposure_acceptance` is now
+the only unsatisfied precondition; the two freeze acts still read `HELD` and are re-issued by a separate
+owner act.
+
 ## Addendum — 2026-11-15: C4's exposure is a comparison count, and its VOID probability is unmeasured
 
 `docs/A1-C4-RISK-POSTURE.md` sets out the choice the C4 record has never put to the owner. C4 is a
