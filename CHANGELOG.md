@@ -138,6 +138,21 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the offline re-keying study — a small, real correction
+
+`benchmarks/v1_rekeying_study.py` replays one world, reads back the 4,303 `sleep:loop_candidate` rows it wrote, reproduces
+V1's selection rules offline, and re-runs them with a direction-free key over the same detections.
+
+Direction-free identity would have saved **19 identities** (177 → 158) and **20 retirements** (201 → 181), and turned **55
+orientation flips** from a restart into a reinforcement; mean live strength rises 0.8067 → 0.8191 and the top-5 appearance
+share 0.2032 → 0.2194. Real, and small: the largest merged case is `maple/sable/slate`, 60 appearances with 13 flips.
+
+Two honest limits. The simulation validates on identities (177 exactly) but not on retirements: it decays every identity
+forever, while the engine reads only the newest 4,000 sleep events and forgets some identities instead of retiring them, so
+186 retirement rows are a lower bound on disappearances — a carrier can vanish without a death record. And the study is
+bookkeeping, not behaviour: it confirms the specification's `cycle3` key rather than reopening it, and leaves the two real
+gaps — no consumer of composition, no membership mutation — exactly where the code reading put them.
+
 ## Addendum — 2026-11-15: the primitive's per-object cost does not fall with world size
 
 `benchmarks/v2_primitive_sizing_scaled.py` measured the same primitive on one seed at three sizes: the reference 120-cycle

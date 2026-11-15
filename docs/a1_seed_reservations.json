@@ -57,7 +57,8 @@
         "docs/a1_viability_levers.json",
         "docs/a1_two_path_result.json",
         "docs/a2_sham_feasibility.json",
-        "docs/v1_carrier_identity.json"
+        "docs/v1_carrier_identity.json",
+        "docs/v1_rekeying_study.json"
       ],
       "seeds": [
         20740101,

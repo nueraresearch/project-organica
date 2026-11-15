@@ -107,6 +107,7 @@ SCORER_PIN_PATH = DOCS / "a1_scorer_pin.json"
 RESULT_PATH = DOCS / "a1_two_path_result.json"
 A2_SHAM_PATH = DOCS / "a2_sham_feasibility.json"
 V1_IDENTITY_PATH = DOCS / "v1_carrier_identity.json"
+V1_REKEYING_PATH = DOCS / "v1_rekeying_study.json"
 DECISIONS_PATH = DOCS / "decisions.json"
 VIABILITY_LEVERS_PATH = DOCS / "a1_viability_levers.json"
 GRANT_PATH = DOCS / "A1-GRANT.md"
@@ -477,7 +478,7 @@ def preflight(doc: dict | None = None) -> list[str]:
                  N20_COMPETENT_PREREG_PATH,
                  C8_TARGET_SELECTION_COMPETENT_PATH, C5_TIMING_COMPETENT_PATH,
                  SCORER_PIN_PATH, DECISIONS_PATH, VIABILITY_LEVERS_PATH,
-                 RESULT_PATH, A2_SHAM_PATH, V1_IDENTITY_PATH,
+                 RESULT_PATH, A2_SHAM_PATH, V1_IDENTITY_PATH, V1_REKEYING_PATH,
                  K_DECOMPOSITION_PATH, SUCCESSOR_PREFLIGHT_PATH,
                  SUCCESSOR_CANDIDATE_PATH, LARGER_UNIVERSE_CANDIDATE_PATH,
                  LARGER_UNIVERSE_PREFLIGHT_PATH, K_TOTAL_PREDICTORS_PATH,
