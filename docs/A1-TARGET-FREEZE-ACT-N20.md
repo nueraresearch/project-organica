@@ -106,21 +106,24 @@ The following are the exact 20 strings in the committed selection order. **Curre
 
 [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) S2 requires the pool and the selected block to be written into
 this act, together with the identity of the constructor that produced the block, **before any cell runs**. These are the
-fields that clause needs. None of them can be filled after the run without the act having been violated.
+fields that clause needs. They are generated from
+[`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) by
+`python -m benchmarks.a1_freeze_fields --write`, and a row reading `NOT RECORDED` names a blocker rather than a
+blank. None of them can be filled after the run without the act having been violated.
 
 <!-- s2-fields:start -->
 | Field | What it must contain | State |
 | --- | --- | --- |
-| Act ID | this act's own identifier, as quoted in its status line | `NOT RECORDED` |
-| Competent pool per seed | every competent row per seed, in the constructor's order | `NOT RECORDED` |
-| Competent pool digest | SHA-256 over that pool as one canonical text | `NOT RECORDED` |
-| Selected block per seed | the edges this act freezes, per seed | `NOT RECORDED` |
-| Selected block digest | SHA-256 over the blocks as frozen | `NOT RECORDED` |
-| Row count per seed | competent rows available, and rows selected, per seed | `NOT RECORDED` |
-| Constructor identity | the module that produced the block, and its source digest | `NOT RECORDED` |
-| Constructor output digest | SHA-256 of the JSON artifact the constructor wrote | `NOT RECORDED` |
-| Competence predicate | the record that defines which rows are competent | `FIXED BY RECORD` |
-| Unfiltered selection | where the S5 disclosure is written | `NOT RECORDED` |
+| Act ID | `A1-TARGET-FREEZE-ACT-N20` | `RECORDED` |
+| Competent pool per seed | 38, 27, 37, 40, 32, 31 (205 rows in total) | `RECORDED` |
+| Competent pool digest | the artifact records the pool's size, not its members | `NOT RECORDED` |
+| Selected block per seed | 20, 17, 20, 20, 18, 20 | `RECORDED` |
+| Selected block digest | `3881af97974d430f21acea15238e88d68e8261ae93a154b68c5e2c97532b756e` | `RECORDED` |
+| Row count per seed | 38→20, 27→17, 37→20, 40→20, 32→18, 31→20 | `RECORDED` |
+| Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `97e66444f41ca9a59a92603a06a9e75af65c736069d10d19d3d40b6935174960` | `RECORDED` |
+| Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `dfdd5c25e01afac8eca66417aa7a3aaeb94c047404b778b2f6c6addb4050c1f5` | `RECORDED` |
+| Competence predicate | `DECISION-A1-C8-NMIN`, its *Unit* row | `FIXED BY RECORD` |
+| Unfiltered selection | no S5 disclosure document exists yet | `NOT RECORDED` |
 <!-- s2-fields:end -->
 
 **This act is not signable while any row above reads `NOT RECORDED`.** A blank row is a reason to withhold the signature,

@@ -8,10 +8,11 @@ own words while they are unsigned.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 import pytest
+
+from benchmarks import a1_freeze_fields
 
 ROOT = Path(__file__).resolve().parents[1]
 ACTS = [ROOT / "docs" / "A1-TARGET-FREEZE-ACT.md",
@@ -67,13 +68,40 @@ def test_the_two_acts_cannot_drift_apart() -> None:
     assert [name for name, _ in first] == [name for name, _ in second]
 
 
-def test_an_unsigned_act_records_nothing() -> None:
-    """Every row is unrecorded except the predicate, which is fixed by an adopted record."""
+def test_the_n20_act_is_generated_from_the_artifact() -> None:
+    """The act's record is a render, so it cannot disagree with the artifact it describes."""
+    assert a1_freeze_fields.problems() == []
+    text = ACTS[1].read_text(encoding="utf-8")
+    assert a1_freeze_fields.committed(text) == a1_freeze_fields.render()
+    recorded = [name for name, _, state in a1_freeze_fields.fields() if state != "`NOT RECORDED`"]
+    assert len(recorded) == 8, recorded
+
+
+def test_the_unfilled_rows_name_real_blockers() -> None:
+    """Two rows stay open, and each says why — the pool's members are simply not in the artifact."""
+    blocked = {name: value for name, value, state in a1_freeze_fields.fields()
+               if state == "`NOT RECORDED`"}
+    assert set(blocked) == {"Competent pool digest", "Unfiltered selection"}
+    assert "not its members" in blocked["Competent pool digest"]
+
+
+def test_the_n4_act_records_nothing() -> None:
+    """The N=4 block is not produced by the competence constructor, so nothing is derived for it."""
+    states = [state for _, state in rows(ACTS[0].read_text(encoding="utf-8"))]
+    assert states.count("`NOT RECORDED`") == len(states) - 1
+    assert "**not** generated here" in ACTS[0].read_text(encoding="utf-8")
+
+
+def test_a_stale_field_fails() -> None:
+    text = ACTS[1].read_text(encoding="utf-8")
+    doctored = text.replace("`3881af97", "`0000af97", 1)
+    assert doctored != text
+    assert a1_freeze_fields.problems(doctored), "a doctored digest passed the check"
+
+
+def test_the_acts_still_withhold_the_signature() -> None:
     for act in ACTS:
         text = act.read_text(encoding="utf-8")
-        states = [state for _, state in rows(text)]
-        assert set(states) <= STATES, act.name
-        assert states.count("`NOT RECORDED`") == len(states) - 1, act.name
         assert "AWAITING THE OWNER'S SIGNATURE" in text, act.name
         assert "not signable while any row above reads `NOT RECORDED`" in text, act.name
 

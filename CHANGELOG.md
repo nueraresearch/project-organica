@@ -119,6 +119,31 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the N20 act's fields are generated, and two of them cannot be filled
+
+`benchmarks/a1_freeze_fields.py` renders `§2a` of [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) from
+[`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) and the constructor's own bytes:
+pool sizes, block sizes, row counts per seed, the block digest over the selected edges, the constructor's source digest and
+the artifact's digest. `--check` fails when the act and its sources disagree. Hand-filling the act would have been a
+transcription, and transcription is how tables in this project have drifted before.
+
+**Two rows do not fill, and the reason matters.** The artifact records the competent pool's *size* per seed but not its
+*members* — its `competent` map is a per-edge flag over the selected block, not the pool. So a pool digest cannot be
+computed from what exists, and the generator reports it `NOT RECORDED` with that sentence rather than digesting the wrong
+list and calling it provenance. The other open row is S5's disclosure: no unfiltered-selection document exists yet. The
+act therefore reads **eight of ten recorded, two blocking the signature**, and it stays unsignable for a stated reason.
+
+The first draft of the generator had exactly the defect the correction guards against: it digested the `competent` map,
+which produced a "pool digest" identical to the block digest and pool counts of 20/17/20/20/18/20 — the selected sizes,
+not the pool's. It looked like provenance and was a second copy of the block.
+
+Probed in the two directions that matter: changing a pool count in the artifact failed with *the act's S2 fields are stale
+against the selection artifact*, and appending a comment to the constructor failed the same way because its source digest
+is in the act. Both restored.
+
+The N=4 act is deliberately not generated: its block comes from a different selection, so its rows stay unrecorded and the
+act says so in its own prose.
+
 ## Addendum — 2026-11-15: the freeze acts carry the fields S2 needs, and none of them is filled
 
 `DECISION-A1-C8-SELECTION` S2 asks a freeze act to record the pool, the selected block and the constructor's identity

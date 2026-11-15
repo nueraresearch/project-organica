@@ -56,7 +56,8 @@ The act also fixes the manifest target block and the six-seed block as the objec
 
 [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) S2 requires the pool and the selected block to be written into
 this act, together with the identity of the constructor that produced the block, **before any cell runs**. These are the
-fields that clause needs. None of them can be filled after the run without the act having been violated.
+fields that clause needs. They are **not** generated here: this act's block is not produced by the competence
+constructor, so each row is filled by hand or left as the blocker it is. None of them can be filled after the run without the act having been violated.
 
 <!-- s2-fields:start -->
 | Field | What it must contain | State |

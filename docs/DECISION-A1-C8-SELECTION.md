@@ -84,8 +84,10 @@ the procedure now means each act cites one record.
   output, not its internal search.
 - The freeze acts themselves, which remain unsigned and are the owner's separate act. They now carry the field list
   S2 needs, in `§2a` of [`A1-TARGET-FREEZE-ACT`](A1-TARGET-FREEZE-ACT.md) and
-  [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md), every row unrecorded and the act not signable until
-  they are filled.
+  [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md). The N=20 act's rows are generated from the selection
+  artifact, and two of the ten cannot be filled: **the artifact records the pool's size but not its members**, so no
+  pool digest exists, and no S5 disclosure document exists either. The N=4 act's rows are unrecorded because its block
+  is not produced by the competence constructor.
 - The C1 ceiling clause, [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md), still pending.
 
 ## 6. How this record is checked
