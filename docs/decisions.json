@@ -572,6 +572,45 @@
         "docs/A1-C4-RISK-POSTURE.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-UNIT",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED BY OWNER 2026-11-15 — DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY; NOT FROZEN, NOT RUN",
+      "chosen": [
+        "C1's unit of evidence is the directed edge. The undirected relation is a dependence class, not a competing denominator.",
+        "The estimate is directed.",
+        "The relation is reported, not pooled.",
+        "Neither reading rescues the other.",
+        "C4's protected set is the directed one.",
+        "No threshold moves."
+      ],
+      "rejected": [
+        {
+          "alternative": "Make the relation the unit outright.",
+          "reason": "C1's claim is about a directed carrier path: a relation-level proportion answers whether the coupling survives, not whether the path does, and adopting it would have the gate measuring a different quantity than the design asserts."
+        },
+        {
+          "alternative": "Count both orientations and treat them as independent.",
+          "reason": "K is 97.2% concordant across candidate/reverse pairs and the two orientations share one coupling; counting both inflates n with correlated members, and no correction for that dependence is declared anywhere in the C1 machinery."
+        },
+        {
+          "alternative": "Leave it to the implementation.",
+          "reason": "that is the current state: `c1_rows` counts directed rows while selection takes one orientation per pair, so the mixture exists by default rather than by decision, and a reader cannot tell which reading a later result was scored under."
+        },
+        {
+          "alternative": "Adopt the directed unit and drop the relation reading.",
+          "reason": "the orientations differ on 15–28 of 64 relations; without the relation-level proportion a reader cannot see how much of the directed result is two views of one coupling."
+        }
+      ],
+      "evidence": [
+        "docs/A1-C1-UNIT-OF-EVIDENCE.md",
+        "docs/A1-DESIGN-VIABILITY.md",
+        "docs/a1_design_viability.json",
+        "docs/DECISION-A1-C1-DENOMINATOR.md"
+      ],
+      "superseded_by": null
     }
   ]
 }

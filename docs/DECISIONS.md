@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 14 | in force; the document records it as implemented or effective |
+| ADOPTED | 15 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 4 | decided and not in force; the document says so |
-| **total** | **19** | |
+| **total** | **20** | |
 
 ## The decisions
 
@@ -425,6 +425,32 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-C2-C8-COMPETENCE-RULE.md`, `docs/A1-COMPETENCE-FILTER-DRAFT.md`, `docs/a1_competence_filter_draft.json`, `docs/A1-C4-RISK-POSTURE.md`
 
 **Record.** `docs/DECISION-A1-C8-NMIN.md`
+
+### DECISION-A1-C1-UNIT — Decision: C1's unit of evidence is the directed edge, with the relation as a declared dependence class
+
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY; NOT FROZEN, NOT RUN"*
+
+**Decided.**
+
+- C1's unit of evidence is the directed edge. The undirected relation is a dependence class, not a competing denominator.
+- The estimate is directed.
+- The relation is reported, not pooled.
+- Neither reading rescues the other.
+- C4's protected set is the directed one.
+- No threshold moves.
+
+**Rejected.**
+
+- *Make the relation the unit outright.* — because *"C1's claim is about a directed carrier path: a relation-level proportion answers whether the coupling survives, not whether the path does, and adopting it would have the gate measuring a different quantity than the design asserts."*
+- *Count both orientations and treat them as independent.* — because *"K is 97.2% concordant across candidate/reverse pairs and the two orientations share one coupling; counting both inflates n with correlated members, and no correction for that dependence is declared anywhere in the C1 machinery."*
+- *Leave it to the implementation.* — because *"that is the current state: `c1_rows` counts directed rows while selection takes one orientation per pair, so the mixture exists by default rather than by decision, and a reader cannot tell which reading a later result was scored under."*
+- *Adopt the directed unit and drop the relation reading.* — because *"the orientations differ on 15–28 of 64 relations; without the relation-level proportion a reader cannot see how much of the directed result is two views of one coupling."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-UNIT-OF-EVIDENCE.md`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `docs/DECISION-A1-C1-DENOMINATOR.md`
+
+**Record.** `docs/DECISION-A1-C1-UNIT.md`
 
 ## What this graph is not
 

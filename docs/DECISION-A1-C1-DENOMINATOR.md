@@ -33,7 +33,7 @@ fix what counts as one observation within that denominator: whether `a → b` an
 C1 rows or one relation counted once. The protocol does not say, the implementation reads
 directed edges, and target selection reads one orientation per unordered pair, so the repository
 currently uses both units in different places. That question is set out on one page in
-[`A1-C1-UNIT-OF-EVIDENCE`](A1-C1-UNIT-OF-EVIDENCE.md); it is an owner definition and remains open.
+[`A1-C1-UNIT-OF-EVIDENCE`](A1-C1-UNIT-OF-EVIDENCE.md) and was decided on 2026-11-15: the directed edge is the unit, with the relation reported as a declared sensitivity ([`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md)).
 
 ## What this does not settle
 

@@ -53,6 +53,24 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C1's unit of evidence decided — directed edge, relation as a declared sensitivity
+
+The last definitional question is closed. C1 counts **directed edges**; the undirected relation is a
+**dependence class**, reported once per relation on its own denominator and never pooled with the directed
+result. The estimand decided it: C1 asks whether a carrier *path* survives, the carrier is directional, and
+A availability differs across orientations on 15–28 of 64 relations — so a relation-level count answers a
+different question than the design asserts. The orientations are also not free observations, since K is
+97.2% concordant across candidate/reverse pairs (278/286), which is why the relation is reported rather
+than assumed away.
+
+Four alternatives are recorded as rejected: relation as the unit outright; counting both orientations as
+independent; leaving the choice to the implementation, which is the current state and the reason the
+mixture existed; and adopting the directed unit while dropping the relation reading. The decision moves no
+threshold, keeps C4's protected set at 108 / 92 directed rows, and changes no code — it fixes a convention
+the protocol leaves open, which `A1-DESIGN-VIABILITY-1` keeps reporting as open on purpose.
+
+The owner's remaining substantive choice is now **C4's exposure** alone.
+
 ## Addendum — 2026-11-15: "nominal twenty" pinned against "largest available", and the C8 condition discharged
 
 Two small precisions after the N_min decision, both narrowing what the record can be read to say.

@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `OWNER NOTE — DEFINITIONAL QUESTION; NOTHING DECIDED, NOTHING IN FORCE`
+**Status:** `DECIDED 2026-11-15 — DIRECTED EDGE IS THE UNIT; RELATION IS A DECLARED SENSITIVITY` — see [`DECISION-A1-C1-UNIT-1`](DECISION-A1-C1-UNIT.md). This note is the analysis the decision rests on.
 
 **The question, and only this:** for C1, is one observation a **directed edge**, or one **underlying relation** counted once however many orientations it has?
 
