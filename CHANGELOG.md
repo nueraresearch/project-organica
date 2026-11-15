@@ -67,6 +67,14 @@ baseline and checked the size list against C8; it did not check the prose senten
 1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
 `min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
 fail — both directions were run.
+### Follow-up, same day: the last undecided size was a budget limit, not a ceiling
+
+`20740105` was reported with 19 and 20 undecided at a four-million-node budget. Re-running at forty million exhausted
+both — 26,087,624 nodes for 19, 14,730,701 for 20 — so the block of **18** there is the largest that exists rather than
+the largest that was found. Every seed's block is now exhaustive on both sides, and the `UNDECIDED` verdict no longer
+appears in the artifact. The block did not change: sizes are still **20 / 17 / 20 / 20 / 18 / 20**, which is the point
+of the distinction — an undecided size was a statement about the search, and settling it moved no number.
+
 ## Addendum — 2026-11-15: the competent selection exists, and a correction to the audit above
 
 **The selection.** `benchmarks/a1_c8_target_selection_competent.py` produces

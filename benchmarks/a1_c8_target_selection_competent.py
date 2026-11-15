@@ -42,7 +42,10 @@ SEEDS = draft.SEEDS
 CAP = 3
 PREFERRED = 20
 N_MIN = 17
-NODE_BUDGET = 4_000_000
+# Large enough to exhaust every infeasible size on the adopted block: the heaviest is
+# 20740105 at 19 rows, proved at 26,087,624 nodes.  A smaller budget left 19 and 20
+# undecided there, which is a weaker statement than the one that is now available.
+NODE_BUDGET = 40_000_000
 
 
 def _hash(text: str) -> str:

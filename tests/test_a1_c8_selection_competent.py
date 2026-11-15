@@ -70,6 +70,26 @@ def test_the_endpoint_cap_and_uniqueness_hold() -> None:
         assert len(selected) >= 17, seed
 
 
+def test_no_size_above_a_block_is_left_undecided() -> None:
+    """Every block is the largest that exists, not the largest one was found.
+
+    `20740105` was reported as undecided at 19 and 20 under a four-million-node budget.  The
+    search was re-run with a budget large enough to finish (26.1M and 14.7M nodes), so the
+    whole block is now exhaustive and no seed carries a "not found" standing in for a ceiling.
+    """
+    doc = _doc()
+    for seed, block in doc["per_seed"].items():
+        assert block["undecided_sizes"] == [], seed
+        searched = {item["n"]: item for item in block["searches"]}
+        for need in range(len(block["selected"]) + 1, 21):
+            assert searched[need]["exhausted"] is True, (seed, need)
+            assert searched[need]["feasible"] is False, (seed, need)
+    assert doc["sizes"] == SIZES
+    pool = module._competent(module._eligible(*module._universe(20740105)),
+                             _baseline()[20740105])
+    assert module._witness(pool, 18)["feasible"] is True
+
+
 def test_the_small_block_is_small_because_eighteen_is_impossible() -> None:
     """Re-derives the frontier that the earlier measurement reported, from the pool."""
     flags = _baseline()

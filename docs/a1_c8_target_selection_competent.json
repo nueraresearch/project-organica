@@ -382,23 +382,20 @@
       "competent_pool": 32,
       "n_requested": 20,
       "n_selected": 18,
-      "verdict": "FORMED \u2014 EXACT WITNESS; LARGER SIZES UNDECIDED",
-      "undecided_sizes": [
-        20,
-        19
-      ],
+      "verdict": "FORMED \u2014 EXACT WITNESS",
+      "undecided_sizes": [],
       "searches": [
         {
           "n": 20,
-          "feasible": null,
-          "exhausted": false,
-          "nodes": 4000001
+          "feasible": false,
+          "exhausted": true,
+          "nodes": 14730701
         },
         {
           "n": 19,
-          "feasible": null,
-          "exhausted": false,
-          "nodes": 4000001
+          "feasible": false,
+          "exhausted": true,
+          "nodes": 26087624
         },
         {
           "n": 18,

@@ -14,7 +14,7 @@ The published 20-row rule, with one predicate added: the no-arm A+K+ replay must
 | 20740102 | 64 | 27 | **17** | 3 | 20, 19, 18, 17 | FORMED — EXACT WITNESS |
 | 20740103 | 64 | 37 | **20** | 3 | 20 | FORMED — EXACT WITNESS |
 | 20740104 | 64 | 40 | **20** | 3 | 20 | FORMED — EXACT WITNESS |
-| 20740105 | 64 | 32 | **18** | 3 | 20 (undecided), 19 (undecided), 18 | FORMED — EXACT WITNESS; LARGER SIZES UNDECIDED |
+| 20740105 | 64 | 32 | **18** | 3 | 20, 19, 18 | FORMED — EXACT WITNESS |
 | 20740106 | 62 | 31 | **20** | 3 | 20 | FORMED — EXACT WITNESS |
 
 Sizes: **20/17/20/20/18/20** — 115 target rows across the block. Sizes are decided by an exact search: a feasible size yields a witness, an infeasible one is proved by exhaustion, and a search that runs out of budget is reported `UNDECIDED` rather than as a ceiling.

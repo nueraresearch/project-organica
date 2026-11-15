@@ -58,8 +58,9 @@ VOID.
 *representative* twenty per seed and does not satisfy this decision; signing an act against it would freeze exactly
 the rows the measurement found non-competent. The re-derivation now exists:
 [`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) forms **20 / 17 / 20 / 20 / 18 / 20**
-under this rule, each block decided by exact search at the unchanged endpoint cap of three, and the freeze act must
-point at it rather than at the representative artifact.
+under this rule, with every block the largest that exists at the unchanged endpoint cap of three: 20, 19 and 18 are
+proved impossible on `20740102`, and 20 and 19 on `20740105`, by exhaustion rather than by a failed search. The freeze
+act must point at that artifact rather than at the representative one.
 
 **C4's clause 1 is restated to match the row counts.** `A1-C4-POSTURE-1` declares the veto as the maximum
 over 324 deltas per seed and 1,944 across the block. Those figures are 108 non-target rows × 3 paths × 6 seeds — the
