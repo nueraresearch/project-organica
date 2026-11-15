@@ -14,9 +14,9 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 18 | in force; the document records it as implemented or effective |
+| ADOPTED | 19 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
+| PENDING | 5 | decided and not in force; the document says so |
 | **total** | **25** | |
 
 ## The decisions
@@ -358,6 +358,8 @@ written down cannot be re-examined later.
 
 **Record.** `docs/DECISION-A1-DISPOSITION.md`
 
+**Superseded by.** DECISION-A1-DISPOSITION-2
+
 ### DECISION-0X-ENGINEERING-CHARTER — Decision: Adopt the 0.x engineering charter
 
 **Status.** ADOPTED — *"ADOPTED — IN FORCE"*
@@ -514,9 +516,9 @@ written down cannot be re-examined later.
 
 **Record.** `docs/DECISION-A1-C4-POSTURE.md`
 
-### DECISION-A1-DISPOSITION-2 — A1 disposition against the adopted C4 posture — draft for owner signature
+### DECISION-A1-DISPOSITION-2 — A1 disposition — Path A continues (adopted 2026-11-15)
 
-**Status.** PENDING — *"DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN"*
+**Status.** ADOPTED — *"ADOPTED — PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN"*
 
 **Decided.**
 

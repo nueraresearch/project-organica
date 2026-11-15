@@ -31,7 +31,7 @@ Live sources and their values on this date:
 
 | Source | Quantity | Value |
 | --- | --- | ---: |
-| `docs/decisions.json` | decisions (18 ADOPTED, 1 WITHDRAWN, 6 PENDING) | **25** |
+| `docs/decisions.json` | decisions (19 ADOPTED, 1 WITHDRAWN, 5 PENDING, after the 2026-11-15 disposition) | **25** |
 | `docs/research_question_registry.json` | questions (15 closed, 31 open, 2 retired, 6 future) | **54** |
 | `docs/stage_b_protocol.json` | `disjoint_proved_against` artifacts | **228** |
 | `docs/stage_b_protocol.json` | `consumed_total` seeds | **1,668** |

@@ -471,7 +471,7 @@
         "docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md",
         "ROADMAP.md"
       ],
-      "superseded_by": null
+      "superseded_by": "DECISION-A1-DISPOSITION-2"
     },
     {
       "decision_id": "DECISION-0X-ENGINEERING-CHARTER",
@@ -674,8 +674,8 @@
     {
       "decision_id": "DECISION-A1-DISPOSITION-2",
       "date": "2026-11-15",
-      "status": "PENDING",
-      "status_quote": "DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED — PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN",
       "chosen": [
         "Path A continues.",
         "Continuing is conditional."

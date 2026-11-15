@@ -53,6 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: the A1 disposition is adopted — Path A continues
+
+`DECISION-A1-DISPOSITION-2` is now `ADOPTED` by owner direction on 2026-11-15. It answers the branch question
+that the re-read re-opened: **Path A continues**, against nine named conditions, with D1–D6 met and D7–D9 left
+as acts no record can perform for the owner. Adoption supersedes the 2026-11-14 disposition and
+`A1-DISPOSITION-REREAD`; the 2026-12-14 lapse clock keeps running against the new record. The index moves to
+19 adopted, 1 withdrawn and 5 pending of 25.
+
+The act that follows immediately — the N=20 target-freeze act — is **not** free to sign, and its status line
+said so for a reason that has since expired. It read "held on C2/C8 competence and C4 exposure"; both are now
+decided (C8 competence at `N_min = 17`, C4 exposure at posture A), so neither holds it. What holds it is a
+measurement: the no-arm baseline observes **58** paired-control rows on the current cell stream against an
+adopted minimum of **60**, so a run assembled now would VOID on `C1_DENOMINATOR_BELOW_FLOOR` before any gate was
+read. The status line now names that observation instead. Signing a disposition does not move a denominator.
+
 ## Addendum — 2026-11-15: live counts in undated prose were stale in three documents
 
 The Stage B figure was one instance of a class, so the corpus was censused rather than spot-checked: every

@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `RE-READ — ANALYSIS FOR OWNER DECISION; DISPOSITION UNCHANGED; NO RUN AUTHORISED`
+**Status:** `SUPERSEDED 2026-11-15 — ANSWERED BY DECISION-A1-DISPOSITION-2 (CONTINUE); NO RUN AUTHORISED`
 
 **Scope:** this document re-reads an existing decision against a changed factual premise. It is not a new disposition, does not amend [`DECISION-A1-DISPOSITION`](DECISION-A1-DISPOSITION.md), assigns no seed, freezes nothing, authorises no cell and records no result. Its only claim is that the *reason* the disposition was adopted has changed, so the disposition should be re-decided rather than inherited.
 
@@ -61,6 +61,13 @@ still holds — C1's unreachability was about whether the *experiment* could wor
 about whether *one gate* could be scored — and the second has now been resolved in the design's favour
 rather than merely declared. The disposition itself is unchanged and still the owner's to amend; the
 lapse clock still runs.
+
+## Superseded 2026-11-15
+
+The branch question this document re-opened has been answered: **Path A continues**
+([`A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md)), adopted by owner direction on 2026-11-15 with nine
+conditions named. This re-read is kept for the record of what changed and why the disposition needed
+re-deciding; it is no longer live.
 
 ## What the re-read does not do
 

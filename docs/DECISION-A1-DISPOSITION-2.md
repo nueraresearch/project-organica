@@ -1,14 +1,15 @@
-# A1 disposition against the adopted C4 posture — draft for owner signature
+# A1 disposition — Path A continues (adopted 2026-11-15)
 
 **ID:** `A1-DISPOSITION-2`
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN`
+**Status:** `ADOPTED — PATH A CONTINUES; NO FREEZE, NO GRANT, NO RUN`
 
-**Decision owner:** ____________________
+**Decision owner:** owner direction, 2026-11-15.
 
-**Signature and date:** ____________________
+**Signature and date:** owner direction recorded 2026-11-15; no name is typed into this record by anyone
+other than the owner.
 
 **Scope:** program disposition only. This document assigns no seed, freezes no target, authorises no cell,
 changes no engine file and records no result. It replaces a disposition whose stated basis has changed; it
@@ -22,9 +23,10 @@ C8 was not adjudicable, C4's exposure was undecided, and the gates that judge al
 value as a pass. None of those four statements is true of the tree today.
 
 The branch question — **continue, redesign or park** — was therefore re-opened rather than inherited
-([`A1-DISPOSITION-REREAD`](A1-DISPOSITION-REREAD.md)). This record answers it. On signature it supersedes the
-2026-11-14 disposition and the re-read, and it re-states the commitment against what the tree now contains.
-Until signature, the 2026-11-14 disposition stands and its 2026-12-14 lapse clock keeps running.
+([`A1-DISPOSITION-REREAD`](A1-DISPOSITION-REREAD.md)). **This record answers it: Path A continues.**
+Adoption on 2026-11-15 supersedes the 2026-11-14 disposition and the re-read, and restates the commitment
+against what the tree now contains. The 2026-12-14 lapse clock carried by the earlier record continues to run
+against this one.
 
 ## 2. What changed, and where it is recorded
 
@@ -114,14 +116,15 @@ by **2026-12-14**, this disposition lapses to **A1 PARKED** by default, with rea
 recorded — the same default as the disposition it replaces. A deadline that moves when a disposition is
 re-issued is not a deadline.
 
-## 8. What signing this does and does not do
+## 8. What this adoption does and does not do
 
 **Does:** answers the branch question with **continue**; records that the four premises the previous disposition
 rested on have been replaced; names the conditions under which continuing is authorised and which of them remain
 owner acts; keeps the 2026-12-14 clock.
 
 **Does not:** freeze a target, reserve a seed, authorise a cell, issue a grant, clear any gate, change any
-threshold, or authorise a result to be read. D7, D8 and D9 remain outstanding after signature.
+threshold, or authorise a result to be read. D7, D8 and D9 remain outstanding after adoption, and D7 — the two
+provisional target freeze acts — is the next one due.
 
 ## 9. Reproduce the state this rests on
 
