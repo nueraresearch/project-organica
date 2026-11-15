@@ -53,7 +53,22 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: the C4 declared multiplicity is bound to the N=4 design
+## Addendum — 2026-11-15: competence estimand drafted, with the count and the C4 restatement it fixes
+
+`DECISION-A1-COMPETENT-ESTIMAND-1` is drafted and indexed as `PENDING`. It resolves the conflict between the freeze acts'
+"representative eligible" wording and `DECISION-A1-C8-NMIN-1`'s competent-row unit by moving the experiment to the
+competent population and making the estimand conditional on baseline availability — not by weakening C8.
+
+Three counts follow from that single choice and are the reason it is one record rather than three. Target rows are
+**20, 17, 20, 20, 18, 20** (C8's already-adopted operative sizes). The non-target stream becomes 112 − N per seed, so C4's
+declared multiplicity moves from **324 per seed / 1,944 per block** to **276–285 per seed / 1,671 per block** — the same
+acceptance, a smaller exposure. And C8's tolerance, `floor(0.05 × N)`, is one assertion at twenty rows but **zero at
+eighteen and at seventeen**, so two seeds admit no assertion at all.
+
+The record also states what it cannot do: the current `a1_c8_target_selection.json` is a *representative* selection and must
+be re-derived before any act is signed, and this decides nothing about the C1 ceiling conflict or C4's completeness defect.
+
+
 
 Sweeping the adopted records for other numeric bands that the adopted block contradicts found none of the ceiling kind — the
 remaining thresholds (0.95, 0.05, 0.98) are evaluated on the run, not against committed counts. It did find a dependency

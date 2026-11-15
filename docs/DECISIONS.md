@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 19 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 5 | decided and not in force; the document says so |
-| **total** | **25** | |
+| PENDING | 6 | decided and not in force; the document says so |
+| **total** | **26** | |
 
 ## The decisions
 
@@ -555,6 +555,29 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/A1-GATE-MEASURABILITY-AUDIT.md`, `docs/A1-C1-C4-VOID-GATE.md`
 
 **Record.** `docs/DECISION-A1-C1-UNMEASURABLE.md`
+
+### DECISION-A1-COMPETENT-ESTIMAND — Decision: Path A targets are drawn from the baseline-competent population
+
+**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- An edge is an admissible target only when the no-arm A+K+ replay records both an `A` carrier and a `K` path for it.
+- Path A estimates *the pre-37 cycle-membership directed-edge effect, conditional on both paths being present in the no-arm baseline.*
+- The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across the block**.
+
+**Rejected.**
+
+- *Keep the representative-eligible population* — because *"The measurement refuses it: 0 of 6 seeds is C2-viable at both designs, and under C8's adopted rule that is VOID on every seed before any treatment effect is read."*
+- *Use 17 rows uniformly* — because *"It is constructible everywhere, but it discards rows the construction can reach on four seeds, it puts C8 at zero tolerance on every seed rather than two, and it shrinks the non-target stream by three rows per seed for no gain."*
+- *Raise the endpoint cap to 4 so twenty rows exist everywhere* — because *"It works — at cap 4 all six seeds take twenty — but it changes the registered selection rule, and it concentrates more target edges on fewer tags."*
+- *Score only the competent rows of the current selection, post hoc* — because *"That conditions the analysis on a treated run rather than a pre-treatment baseline, and it silently redefines the population after the rows are known."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/a1_baseline_availability_adopted.json`, `docs/a1_competence_adopted.json`, `docs/A1-COMPETENCE-ADOPTED.md`, `docs/A1-TARGET-VIABILITY-ADOPTED.md`, `tests/test_a1_target_viability_adopted.py`
+
+**Record.** `docs/DECISION-A1-COMPETENT-ESTIMAND.md`
 
 ## What this graph is not
 

@@ -161,6 +161,35 @@ def test_a_competent_block_of_seventeen_exists_on_every_seed() -> None:
     assert not _feasible(narrow, 20), "20 was recorded as impossible on 20740102"
 
 
+def _decision_table_row(label: str, text: str) -> list[int]:
+    for line in text.splitlines():
+        if line.startswith("| %s |" % label):
+            return [int(cell.strip().strip("*").replace(",", ""))
+                    for cell in line.split("|")[2:-1]]
+    raise AssertionError("no row labelled %r" % label)
+
+
+def test_the_estimand_decision_restates_c4_multiplicity_correctly() -> None:
+    """The record's C4 table is arithmetic on the baseline; a drift here would restate an adopted clause."""
+    doc = (DOCS / "DECISION-A1-COMPETENT-ESTIMAND.md").read_text(encoding="utf-8")
+    baseline = json.loads(BASELINE.read_text(encoding="utf-8"))
+    rows = [record["candidate_rows"] for record in baseline["per_seed"]]
+
+    sizes = _decision_table_row("Target rows", doc)[:-1]
+    non_target = _decision_table_row("Non-target rows", doc)[:-1]
+    deltas = _decision_table_row("Deltas (×3 paths)", doc)[:-1]
+
+    assert non_target == [total - size for total, size in zip(rows, sizes)]
+    assert deltas == [value * 3 for value in non_target]
+    assert _decision_table_row("Target rows", doc)[-1] == sum(sizes)
+    assert _decision_table_row("Non-target rows", doc)[-1] == sum(non_target)
+    assert _decision_table_row("Deltas (×3 paths)", doc)[-1] == sum(deltas)
+
+    # The sizes are C8's adopted operative block sizes, not a new choice made here.
+    c8 = (DOCS / "DECISION-A1-C8-NMIN.md").read_text(encoding="utf-8")
+    assert ", ".join(str(size) for size in sizes) in c8
+
+
 def test_the_frontier_moves_with_the_endpoint_cap() -> None:
     """17 is not corroborated twice: the cap decides whether it binds."""
     narrow = _competent_pool(20740102)

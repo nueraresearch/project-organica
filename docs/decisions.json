@@ -717,6 +717,43 @@
         "docs/A1-C1-C4-VOID-GATE.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-COMPETENT-ESTIMAND",
+      "date": "2026-11-15",
+      "status": "PENDING",
+      "status_quote": "PENDING — FOR OWNER ADOPTION; NOT IN FORCE; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "An edge is an admissible target only when the no-arm A+K+ replay records both an `A` carrier and a `K` path for it.",
+        "Path A estimates *the pre-37 cycle-membership directed-edge effect, conditional on both paths being present in the no-arm baseline.*",
+        "The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across the block**."
+      ],
+      "rejected": [
+        {
+          "alternative": "Keep the representative-eligible population",
+          "reason": "The measurement refuses it: 0 of 6 seeds is C2-viable at both designs, and under C8's adopted rule that is VOID on every seed before any treatment effect is read."
+        },
+        {
+          "alternative": "Use 17 rows uniformly",
+          "reason": "It is constructible everywhere, but it discards rows the construction can reach on four seeds, it puts C8 at zero tolerance on every seed rather than two, and it shrinks the non-target stream by three rows per seed for no gain."
+        },
+        {
+          "alternative": "Raise the endpoint cap to 4 so twenty rows exist everywhere",
+          "reason": "It works — at cap 4 all six seeds take twenty — but it changes the registered selection rule, and it concentrates more target edges on fewer tags."
+        },
+        {
+          "alternative": "Score only the competent rows of the current selection, post hoc",
+          "reason": "That conditions the analysis on a treated run rather than a pre-treatment baseline, and it silently redefines the population after the rows are known."
+        }
+      ],
+      "evidence": [
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_competence_adopted.json",
+        "docs/A1-COMPETENCE-ADOPTED.md",
+        "docs/A1-TARGET-VIABILITY-ADOPTED.md",
+        "tests/test_a1_target_viability_adopted.py"
+      ],
+      "superseded_by": null
     }
   ]
 }
