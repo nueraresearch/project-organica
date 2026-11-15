@@ -1,83 +1,84 @@
 {
- "kind": "a1_seed_reservations",
- "id": "A1-SEED-RESERVATIONS-1",
- "date": "2026-11-14",
- "note": "Seed blocks declared by an artifact but never spent. The freshness scan skips the artifacts it is told to allow, so a block declared inside an allow-listed artifact is invisible to it; these reservations are checked separately by benchmarks.a1_seed_reservations and by the two-path preflight.",
- "reservations": [
-  {
-   "label": "pair-split offset-discriminator construction",
-   "owner": "docs/a1_offset_discriminator_spec.json",
-   "restated_by": [
-    "docs/a1_pair_split_rule_amended.json"
-   ],
-   "seeds": [
-    20690101,
-    20690102,
-    20690103,
-    20690104,
-    20690105,
-    20690106
-   ],
-   "spent": false
-  },
-  {
-   "label": "cap-112 baseline availability, already run",
-   "owner": "docs/a1_baseline_availability.json",
-   "restated_by": [],
-   "seeds": [
-    20630101,
-    20630102,
-    20630103,
-    20630104,
-    20630105,
-    20630106
-   ],
-   "spent": true
-  },
-  {
-   "label": "two-path candidate block, held for A1-TWO-PATH-1",
-   "owner": "docs/a1_two_path_manifest.json",
-   "restated_by": [
-    "docs/a1_target_selection.json",
-    "docs/a1_c8_target_selection.json",
-    "docs/a1_c5_target_timing.json",
-    "docs/a1_adversarial_audit.json",
-    "docs/a1_target_freeze_act.json",
-    "docs/a1_target_freeze_act_n20.json",
-    "docs/a1_c8_expansion.json",
-    "docs/a1_baseline_availability_adopted.json",
-    "docs/a1_c5_carrier_divergence.json"
-   ],
-   "seeds": [
-    20740101,
-    20740102,
-    20740103,
-    20740104,
-    20740105,
-    20740106
-   ],
-   "spent": false
-  }
- ],
- "shared_blocks": [
-  {
-   "label": "the six historical audit seeds at cap 112",
-   "seeds": [
-    20261100,
-    20261101,
-    20261102,
-    20261103,
-    20261104,
-    20261105
-   ],
-   "artifacts": [
-    "docs/presence_comparator_112_prereg.json",
-    "docs/presence_construct_1_112_prereg.json"
-   ],
-   "declared_by": "seed_reuse",
-   "basis": "the construct preregistration's gate C9_comparator_row requires each cell to reproduce the cap-112 comparator row for its seed, so the two designs must run the same six seeds; both artifacts declare the reuse in seed_reuse and pair it against the 0.14.0 audit",
-   "provenance": "docs/presence_assertion_audit_0.14.0.json",
-   "page": "docs/PRESENCE-CONSTRUCT-1-112-PREREGISTRATION.md"
-  }
- ]
+  "kind": "a1_seed_reservations",
+  "id": "A1-SEED-RESERVATIONS-1",
+  "date": "2026-11-14",
+  "note": "Seed blocks declared by an artifact but never spent. The freshness scan skips the artifacts it is told to allow, so a block declared inside an allow-listed artifact is invisible to it; these reservations are checked separately by benchmarks.a1_seed_reservations and by the two-path preflight.",
+  "reservations": [
+    {
+      "label": "pair-split offset-discriminator construction",
+      "owner": "docs/a1_offset_discriminator_spec.json",
+      "restated_by": [
+        "docs/a1_pair_split_rule_amended.json"
+      ],
+      "seeds": [
+        20690101,
+        20690102,
+        20690103,
+        20690104,
+        20690105,
+        20690106
+      ],
+      "spent": false
+    },
+    {
+      "label": "cap-112 baseline availability, already run",
+      "owner": "docs/a1_baseline_availability.json",
+      "restated_by": [],
+      "seeds": [
+        20630101,
+        20630102,
+        20630103,
+        20630104,
+        20630105,
+        20630106
+      ],
+      "spent": true
+    },
+    {
+      "label": "two-path candidate block, held for A1-TWO-PATH-1",
+      "owner": "docs/a1_two_path_manifest.json",
+      "restated_by": [
+        "docs/a1_target_selection.json",
+        "docs/a1_c8_target_selection.json",
+        "docs/a1_c5_target_timing.json",
+        "docs/a1_adversarial_audit.json",
+        "docs/a1_target_freeze_act.json",
+        "docs/a1_target_freeze_act_n20.json",
+        "docs/a1_c8_expansion.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "docs/a1_c5_carrier_divergence.json",
+        "docs/a1_design_viability.json"
+      ],
+      "seeds": [
+        20740101,
+        20740102,
+        20740103,
+        20740104,
+        20740105,
+        20740106
+      ],
+      "spent": false
+    }
+  ],
+  "shared_blocks": [
+    {
+      "label": "the six historical audit seeds at cap 112",
+      "seeds": [
+        20261100,
+        20261101,
+        20261102,
+        20261103,
+        20261104,
+        20261105
+      ],
+      "artifacts": [
+        "docs/presence_comparator_112_prereg.json",
+        "docs/presence_construct_1_112_prereg.json"
+      ],
+      "declared_by": "seed_reuse",
+      "basis": "the construct preregistration's gate C9_comparator_row requires each cell to reproduce the cap-112 comparator row for its seed, so the two designs must run the same six seeds; both artifacts declare the reuse in seed_reuse and pair it against the 0.14.0 audit",
+      "provenance": "docs/presence_assertion_audit_0.14.0.json",
+      "page": "docs/PRESENCE-CONSTRUCT-1-112-PREREGISTRATION.md"
+    }
+  ]
 }

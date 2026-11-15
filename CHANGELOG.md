@@ -5,6 +5,20 @@ All notable changes to Project Organica are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Addendum — 2026-11-15: the C1 denominator has a convention the protocol does not fix
+
+`A1-DESIGN-VIABILITY-1` is re-issued, and it is the last record that still read the 63–64
+planning quantity as C1's denominator. It now carries the reconciliation, keeps its original
+status and disposition verbatim under `original_reading`, and records what re-issuing it
+exposed: the protocol fixes *which* rows count but not *what a row is*. Counting each
+directed orientation as its own row gives ceilings of 79/64/79/74/72/74 on the adopted block
+and clears the 60-row floor on every seed; counting each undirected relation once gives
+35–51 (any orientation) or 31–38 (both) and clears it on none. The orientations are not
+copies — A availability differs across orientations on 15–28 of 64 relations per seed — so
+the choice changes the denominator and its independence structure. The 2063 block shows the
+same split (directed rows clear on four seeds, relations on none). No cell ran, nothing was
+scored, and the convention is an owner decision, not a measurement's.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.

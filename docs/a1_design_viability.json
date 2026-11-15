@@ -2,7 +2,15 @@
   "kind": "a1_design_viability",
   "id": "A1-DESIGN-VIABILITY-1",
   "date": "2026-11-14",
-  "status": "FLAGGED \u2014 C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL",
+  "status": "FLAGGED \u2014 C1 FLOOR REACHABILITY IS CONVENTION-DEPENDENT (DIRECTED ROW VS UNDIRECTED RELATION); C2/C8 COMPETENCE CONDITIONAL",
+  "seed_block": [
+    20740101,
+    20740102,
+    20740103,
+    20740104,
+    20740105,
+    20740106
+  ],
   "source_artifacts": {
     "baseline_availability": "docs/a1_baseline_availability.json",
     "target_viability": "docs/a1_target_viability.json",
@@ -260,10 +268,515 @@
       "all_candidate_edges_present": true,
       "unique_c1_min": 31,
       "unique_c1_max": 44,
-      "conclusion": "The 112-row cell stream is the candidate stream plus reverse orientations, not a wider independent universe. The four-seed apparent C1 pass is reverse-orientation duplication; on unique undirected edges the ceiling is still the candidate 31-44, below the 60-row floor on every seed."
+      "conclusion": "The 112-row cell stream is the candidate stream plus its reverse orientations, not a wider independent universe. Availability is orientation-specific, so those reverse rows are not copies of the candidate rows' availability, but whether two orientations of one relation are independent C1 observations is a convention the protocol does not fix. Counting each relation once leaves the ceiling below the floor on every seed (see denominator_reconciliation)."
     },
-    "conclusion": "The current registered design is not C1-capable under either reported stream. Target selection cannot repair the candidate stream; a new universe, a different seed block with better baseline availability, or a changed C1 estimator is required.",
+    "conclusion": "The current registered design is not C1-capable on the candidate stream under any reading. On the cell stream it clears the floor only if every directed orientation counts as its own row; counting undirected relations once does not clear it. That choice is recorded, not made, in denominator_reconciliation.",
     "what_it_does_not_mean": "This does not establish that A1 is impossible in principle. A different universe, seed block or C1 estimator could satisfy the floor. It establishes that the current stream and floor cannot be reconciled by selecting a different target block."
+  },
+  "denominator_reconciliation": {
+    "status": "OPEN \u2014 THE PROTOCOL DOES NOT DISAMBIGUATE A DIRECTED ROW FROM AN UNDIRECTED RELATION",
+    "recorded": "2026-11-15",
+    "defined_by": [
+      "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+      "docs/A1-C1-C4-VOID-GATE.md"
+    ],
+    "protocol_quote": "C1's denominator is the observed paired-control rows, including baseline-available non-target edges.",
+    "planning_quantity": {
+      "block": "2063",
+      "stream": "candidate",
+      "per_seed": [
+        44,
+        31,
+        39,
+        35,
+        43,
+        36
+      ],
+      "seeds_reaching_floor": 0,
+      "note": "The 63-64 figure the design was sized on. It is not the protocol's denominator under any reading."
+    },
+    "blocks": {
+      "2063": {
+        "per_seed": [
+          {
+            "seed": 20630101,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 70,
+              "K_available": 82,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 70,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 56,
+              "K_available": 46,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 46,
+              "shortfall": 14,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 28,
+              "K_available": 44,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 28,
+              "shortfall": 32,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 28,
+              "K_differs_across_orientations": 2
+            }
+          },
+          {
+            "seed": 20630102,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 72,
+              "K_available": 59,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 59,
+              "shortfall": 1,
+              "reaches_floor": false
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 52,
+              "K_available": 31,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 31,
+              "shortfall": 29,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 34,
+              "K_available": 30,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 30,
+              "shortfall": 30,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 18,
+              "K_differs_across_orientations": 1
+            }
+          },
+          {
+            "seed": 20630103,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 89,
+              "K_available": 69,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 69,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 56,
+              "K_available": 42,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 42,
+              "shortfall": 18,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 47,
+              "K_available": 38,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 38,
+              "shortfall": 22,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 9,
+              "K_differs_across_orientations": 4
+            }
+          },
+          {
+            "seed": 20630104,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 67,
+              "K_available": 58,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 58,
+              "shortfall": 2,
+              "reaches_floor": false
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 52,
+              "K_available": 35,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 35,
+              "shortfall": 25,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 29,
+              "K_available": 35,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 29,
+              "shortfall": 31,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 23,
+              "K_differs_across_orientations": 0
+            }
+          },
+          {
+            "seed": 20630105,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 85,
+              "K_available": 72,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 72,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 56,
+              "K_available": 43,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 43,
+              "shortfall": 17,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 43,
+              "K_available": 42,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 42,
+              "shortfall": 18,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 13,
+              "K_differs_across_orientations": 1
+            }
+          },
+          {
+            "seed": 20630106,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 85,
+              "K_available": 72,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 72,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 56,
+              "K_available": 37,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 37,
+              "shortfall": 23,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 42,
+              "K_available": 37,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 37,
+              "shortfall": 23,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 14,
+              "K_differs_across_orientations": 0
+            }
+          }
+        ],
+        "directed_row": {
+          "min_attainable": 58,
+          "max_attainable": 72,
+          "seeds_reaching_floor": 4
+        },
+        "relation_any_orientation": {
+          "min_attainable": 31,
+          "max_attainable": 46,
+          "seeds_reaching_floor": 0
+        },
+        "relation_both_orientations": {
+          "min_attainable": 28,
+          "max_attainable": 42,
+          "seeds_reaching_floor": 0
+        }
+      },
+      "2074": {
+        "per_seed": [
+          {
+            "seed": 20740101,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 79,
+              "K_available": 81,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 79,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 55,
+              "K_available": 48,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 48,
+              "shortfall": 12,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 37,
+              "K_available": 44,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 37,
+              "shortfall": 23,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 18,
+              "K_differs_across_orientations": 4
+            }
+          },
+          {
+            "seed": 20740102,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 81,
+              "K_available": 64,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 64,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 56,
+              "K_available": 35,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 35,
+              "shortfall": 25,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 41,
+              "K_available": 33,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 33,
+              "shortfall": 27,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 15,
+              "K_differs_across_orientations": 2
+            }
+          },
+          {
+            "seed": 20740103,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 79,
+              "K_available": 84,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 79,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 57,
+              "K_available": 51,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 51,
+              "shortfall": 9,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 37,
+              "K_available": 48,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 37,
+              "shortfall": 23,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 20,
+              "K_differs_across_orientations": 3
+            }
+          },
+          {
+            "seed": 20740104,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 74,
+              "K_available": 82,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 74,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 59,
+              "K_available": 49,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 49,
+              "shortfall": 11,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 31,
+              "K_available": 47,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 31,
+              "shortfall": 29,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 28,
+              "K_differs_across_orientations": 2
+            }
+          },
+          {
+            "seed": 20740105,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 83,
+              "K_available": 72,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 72,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 58,
+              "K_available": 38,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 38,
+              "shortfall": 22,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 39,
+              "K_available": 38,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 38,
+              "shortfall": 22,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 19,
+              "K_differs_across_orientations": 0
+            }
+          },
+          {
+            "seed": 20740106,
+            "directed_row": {
+              "rows": 112,
+              "A_available": 82,
+              "K_available": 74,
+              "definition": "Each directed orientation is its own C1 row, as the cell stream records it.",
+              "max_attainable": 74,
+              "shortfall": 0,
+              "reaches_floor": true
+            },
+            "relation_any_orientation": {
+              "rows": 64,
+              "A_available": 62,
+              "K_available": 42,
+              "definition": "One C1 row per undirected relation, available when either orientation carries the tag.",
+              "max_attainable": 42,
+              "shortfall": 18,
+              "reaches_floor": false
+            },
+            "relation_both_orientations": {
+              "rows": 64,
+              "A_available": 36,
+              "K_available": 39,
+              "definition": "One C1 row per undirected relation, available only when both orientations carry the tag.",
+              "max_attainable": 36,
+              "shortfall": 24,
+              "reaches_floor": false
+            },
+            "orientation_asymmetry": {
+              "relations": 64,
+              "relations_with_both_orientations_present": 48,
+              "A_differs_across_orientations": 26,
+              "K_differs_across_orientations": 3
+            }
+          }
+        ],
+        "directed_row": {
+          "min_attainable": 64,
+          "max_attainable": 79,
+          "seeds_reaching_floor": 6
+        },
+        "relation_any_orientation": {
+          "min_attainable": 35,
+          "max_attainable": 51,
+          "seeds_reaching_floor": 0
+        },
+        "relation_both_orientations": {
+          "min_attainable": 31,
+          "max_attainable": 38,
+          "seeds_reaching_floor": 0
+        }
+      }
+    },
+    "finding": "On 2074 the two readings of the same word separate: directed rows give ceilings 64-79 and clear the floor on 6 of 6 seeds; undirected relations give 35-51 (any orientation) or 31-38 (both orientations) and clear it on 0 of 6. The orientations are not copies \u2014 A availability differs across orientations on 15-28 of 64 relations per seed \u2014 so the choice changes both the denominator and how many independent observations stand behind it. On 2063 the same split already exists: directed rows clear the floor on 4 of 6 seeds (70/59/69/58/72/72) and both relation readings clear it on none (31-46 and 28-42).",
+    "original_reading": {
+      "label": "the recorded reading of 2026-11-14",
+      "status": "FLAGGED \u2014 C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL",
+      "disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
+      "basis": "the candidate stream's maximum attainable count, i.e. the 63-64 planning quantity",
+      "preserved_because": "It is the relation-level reading of C1's denominator, and this edition does not declare it wrong: it is the correct reading if a C1 row is one undirected relation. It is kept verbatim so the owner can see what was recorded before the convention question had a name.",
+      "still_stands": "The C2/C8 competence condition is untouched and remains scoped to the 2063 block."
+    },
+    "what_this_does_not_mean": "This does not make C1 pass or fail. Neither reading has been scored \u2014 no cell ran \u2014 and the floor applies to observed paired-control rows at run time. It does not revise the C2/C8 competence condition and does not decide which reading governs: that is an owner definition."
   },
   "c2_c8_competence": {
     "status": "CONDITIONAL \u2014 NOT A PROOF OF C2 OR C8 FAILURE",
@@ -439,6 +952,6 @@
     },
     "conclusion": "Under the stated competence reading, N4 has at most 3 clean rows per seed for a 4-row block and N20 has at most 12 for a 20-row block. Neither current target set supplies a clean C8 block. The candidate pool has 23-36 A&K-available edges, so a 20-row competent block is constructible by a new selection rule; the current N20 selection, not the supply, is the C2/C8 problem. C1 remains unresolved. Exact C2/C8 adjudication still requires cells or a pre-registered competence filter; the current data do not prove treatment failure."
   },
-  "disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
+  "disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised. C1 floor reachability is additionally convention-dependent: on 2074 directed rows clear the floor and undirected relations do not, and the protocol does not say which a C1 row is.",
   "not_evidence": "A read-only design-viability report over committed no-arm artifacts. It runs no A1 cell, freezes no target, changes no threshold and measures no treatment effect. The C2/C8 section is conditional on baseline target competence, not a C2 or C8 verdict."
 }

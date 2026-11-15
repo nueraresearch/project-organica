@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act_n20",
   "id": "A1-TARGET-FREEZE-N20-1",
   "date": "2026-11-15",
-  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 DENOMINATOR RECONCILED TO THE PROTOCOL (FLOOR REACHABLE AT MIN 64, NOT SCORED); C4 EXPOSURE AND C2/C8 COMPETENCE OUTSTANDING; AWAITING OWNER CONFIRMATION; NOT FROZEN, NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 DENOMINATOR RECONCILED TO THE PROTOCOL ON DIRECTED ROWS (FLOOR 64, NOT SCORED) BUT THE ROW-VS-RELATION CONVENTION IS UNRESOLVED; C4 EXPOSURE AND C2/C8 COMPETENCE OUTSTANDING; AWAITING OWNER CONFIRMATION; NOT FROZEN, NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -608,7 +608,7 @@
       }
     },
     "recorded_conclusion": "every seed's C1 ceiling is below the 60-row floor; target selection cannot add available rows, only partition them",
-    "recorded_disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
+    "recorded_disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised. C1 floor reachability is additionally convention-dependent: on 2074 directed rows clear the floor and undirected relations do not, and the protocol does not say which a C1 row is.",
     "applies_to_the_adopted_block": "MEASURED on 2026-11-15 \u2014 see measured_for_adopted_block; the adopted stream's own ceiling is below the floor",
     "what_signing_leaves_open": "whether the frozen stream can produce a 60-row C1 denominator at all. The only measurement in the repository says a sibling stream could not, and the disposition on that record is 'do not freeze'; this act does not repair that, re-measure it, or take a position on it",
     "is_a_signature_blocker": true,
@@ -703,7 +703,7 @@
       "stream_divergence": 290,
       "blocker_effect": "CONFIRMED, not inferred: the measurement that the acts were blocked for has now been made on the adopted block, and it fails the floor on the candidate stream"
     },
-    "blocker_state": "RECONCILED \u2014 THE EARLIER BLOCKER USED THE PLANNING QUANTITY; C1 FLOOR REACHABLE UNDER THE PROTOCOL DENOMINATOR (MIN 64 vs 60); AWAITING OWNER CONFIRMATION",
+    "blocker_state": "RECONCILED \u2014 THE EARLIER BLOCKER USED THE PLANNING QUANTITY; ON DIRECTED ROWS THE FLOOR IS REACHABLE (MIN 64 vs 60). 2026-11-15: THAT RECONCILIATION IS ITSELF CONVENTION-DEPENDENT \u2014 THE PROTOCOL DOES NOT SAY WHETHER A C1 ROW IS A DIRECTED ORIENTATION OR AN UNDIRECTED RELATION; ON UNDIRECTED RELATIONS THE ADOPTED BLOCK GIVES 31-51, BELOW THE FLOOR ON EVERY SEED. AWAITING OWNER CONFIRMATION OF BOTH THE SENTENCE AND THE CONVENTION",
     "cleared": false,
     "denominator_reconciliation": {
       "defined_by": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
@@ -744,7 +744,14 @@
         "c4_exposure": "the same non-target stream that widens C1's denominator is C4's row set, and C4 requires every measurable non-target delta within 0.05; the wider denominator therefore moves the binding constraint from C1's row count to C4's delta ceiling, which no pre-run measurement can settle",
         "viability_record": "docs/a1_design_viability.json reads C1 through the planning quantity, so its 'do not freeze' disposition is premised on the same reading; it is left intact and flagged here rather than rewritten"
       },
-      "owner_action": "confirm that the protocol sentence is authoritative and the planning quantity was a sizing premise; that confirmation is the owner's, and this act records the reconciliation rather than adopting it"
+      "owner_action": "confirm that the protocol sentence is authoritative and the planning quantity was a sizing premise; that confirmation is the owner's, and this act records the reconciliation rather than adopting it",
+      "convention_question": {
+        "status": "OPEN \u2014 THE PROTOCOL DOES NOT DISAMBIGUATE A DIRECTED ROW FROM AN UNDIRECTED RELATION",
+        "recorded": "2026-11-15",
+        "finding": "On 2074 the two readings of the same word separate: directed rows give ceilings 64-79 and clear the floor on 6 of 6 seeds; undirected relations give 35-51 (any orientation) or 31-38 (both orientations) and clear it on 0 of 6. The orientations are not copies \u2014 A availability differs across orientations on 15-28 of 64 relations per seed \u2014 so the choice changes both the denominator and how many independent observations stand behind it. On 2063 the same split already exists: directed rows clear the floor on 4 of 6 seeds (70/59/69/58/72/72) and both relation readings clear it on none (31-46 and 28-42).",
+        "record": "docs/A1-DESIGN-VIABILITY.md#denominator-reconciliation-2026-11-15",
+        "owner_action": "Confirm not only that C1 counts non-target rows but whether a row is a directed orientation or an undirected relation."
+      }
     }
   }
 }

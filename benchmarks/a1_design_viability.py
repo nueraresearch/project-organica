@@ -33,6 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 BASELINE_PATH = DOCS / "a1_baseline_availability.json"
+ADOPTED_PATH = DOCS / "a1_baseline_availability_adopted.json"
 TARGET_VIABILITY_PATH = DOCS / "a1_target_viability.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 OUT_PATH = DOCS / "a1_design_viability.json"
@@ -41,7 +42,16 @@ ID = "A1-DESIGN-VIABILITY-1"
 DATE = "2026-11-14"
 KIND = "a1_design_viability"
 SEEDS = (20630101, 20630102, 20630103, 20630104, 20630105, 20630106)
+ADOPTED_SEEDS = (20740101, 20740102, 20740103, 20740104, 20740105, 20740106)
 C1_FLOOR = 60
+ORIGINAL_STATUS = "FLAGGED — C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL"
+ORIGINAL_DISPOSITION = (
+    "Do not freeze or run the current A1 design on these records. C1 is not "
+    "target-selectable, and target competence requires an owner rule. A1 must "
+    "be redesigned with a C1-capable universe or seed block and a "
+    "pre-registered competence rule, or parked. No cell, target freeze, grant "
+    "or threshold change is authorised."
+)
 C8_ROWS = {"N4": 4, "N20": 20}
 STREAMS = ("candidate_stream", "cell_stream")
 
@@ -78,6 +88,86 @@ def _stream(per_seed: list[dict]) -> dict:
     }
 
 
+def _denominator_conventions(rows: list[dict]) -> dict:
+    """C1 ceilings under three readings of the protocol's word "row".
+
+    The protocol fixes the denominator as observed paired-control rows but does
+    not say whether a row is one directed orientation or one undirected
+    relation. This computes the ceiling under each reading from the recorded
+    per-edge availability flags, so the ambiguity is measured rather than
+    asserted.
+    """
+    pairs: dict[frozenset, list[tuple[bool, bool]]] = {}
+    for row in rows:
+        key = frozenset(str(row["edge"]).split(">", 1))
+        pairs.setdefault(key, []).append((bool(row["A"]), bool(row["K"])))
+    readings = {
+        "directed_row": {
+            "rows": len(rows),
+            "A_available": sum(1 for row in rows if row["A"]),
+            "K_available": sum(1 for row in rows if row["K"]),
+            "definition": (
+                "Each directed orientation is its own C1 row, as the cell "
+                "stream records it."
+            ),
+        },
+        "relation_any_orientation": {
+            "rows": len(pairs),
+            "A_available": sum(1 for v in pairs.values() if any(a for a, _ in v)),
+            "K_available": sum(1 for v in pairs.values() if any(k for _, k in v)),
+            "definition": (
+                "One C1 row per undirected relation, available when either "
+                "orientation carries the tag."
+            ),
+        },
+        "relation_both_orientations": {
+            "rows": len(pairs),
+            "A_available": sum(1 for v in pairs.values() if all(a for a, _ in v)),
+            "K_available": sum(1 for v in pairs.values() if all(k for _, k in v)),
+            "definition": (
+                "One C1 row per undirected relation, available only when both "
+                "orientations carry the tag."
+            ),
+        },
+    }
+    out: dict = {}
+    for name, block in readings.items():
+        ceiling = min(block["A_available"], block["K_available"])
+        out[name] = {
+            **block,
+            "max_attainable": ceiling,
+            "shortfall": max(0, C1_FLOOR - ceiling),
+            "reaches_floor": ceiling >= C1_FLOOR,
+        }
+    both_present = [v for v in pairs.values() if len(v) > 1]
+    out["orientation_asymmetry"] = {
+        "relations": len(pairs),
+        "relations_with_both_orientations_present": len(both_present),
+        "A_differs_across_orientations": sum(
+            1 for v in both_present if len({a for a, _ in v}) > 1),
+        "K_differs_across_orientations": sum(
+            1 for v in both_present if len({k for _, k in v}) > 1),
+    }
+    return out
+
+
+def _denominator_block(source_by_seed: dict, seeds: tuple[int, ...]) -> dict:
+    per_seed = [
+        {"seed": seed, **_denominator_conventions(source_by_seed[seed]["rows"])}
+        for seed in seeds
+    ]
+    out: dict = {"per_seed": per_seed}
+    for name in ("directed_row", "relation_any_orientation",
+                 "relation_both_orientations"):
+        ceilings = [row[name]["max_attainable"] for row in per_seed]
+        out[name] = {
+            "min_attainable": min(ceilings),
+            "max_attainable": max(ceilings),
+            "seeds_reaching_floor": sum(1 for c in ceilings if c >= C1_FLOOR),
+        }
+    return out
+
+
 def _reverse(edge: str) -> str:
     left, right = edge.split(">", 1)
     return "%s>%s" % (right, left)
@@ -105,6 +195,8 @@ def _composition_row(seed: int, candidate: set[str], cell_edges: set[str],
 
 
 def _composition(per_seed: list[dict]) -> dict:
+    # conclusion is number-free on purpose: the per-block asymmetry counts live
+    # in denominator_reconciliation, so neither can drift from the other.
     return {
         "per_seed": per_seed,
         "candidate_rows": sum(row["candidate_edges"] for row in per_seed),
@@ -117,11 +209,14 @@ def _composition(per_seed: list[dict]) -> dict:
         "unique_c1_min": min(row["candidate_max_c1"] for row in per_seed),
         "unique_c1_max": max(row["candidate_max_c1"] for row in per_seed),
         "conclusion": (
-            "The 112-row cell stream is the candidate stream plus reverse "
-            "orientations, not a wider independent universe. The four-seed "
-            "apparent C1 pass is reverse-orientation duplication; on unique "
-            "undirected edges the ceiling is still the candidate 31-44, below "
-            "the 60-row floor on every seed."
+            "The 112-row cell stream is the candidate stream plus its reverse "
+            "orientations, not a wider independent universe. Availability is "
+            "orientation-specific, so those reverse rows are not copies of the "
+            "candidate rows' availability, but whether two orientations of one "
+            "relation are independent C1 observations is a convention the "
+            "protocol does not fix. Counting each relation once leaves the "
+            "ceiling below the floor on every seed (see "
+            "denominator_reconciliation)."
         ),
     }
 
@@ -190,12 +285,19 @@ def build() -> dict:
     baseline = _load(BASELINE_PATH)
     viability = _load(TARGET_VIABILITY_PATH)
     target = _load(TARGET_SELECTION_PATH)
+    adopted = _load(ADOPTED_PATH)
     by_seed = {int(row["seed"]): row for row in baseline.get("per_seed") or []}
-    target_by_seed = {int(seed): row for seed, row in (target.get("per_seed") or {}).items()}
-    if set(by_seed) != set(SEEDS) or set(target_by_seed) != set(SEEDS):
-        raise ValueError("source artifacts are not on the registered six seeds")
+    adopted_by_seed = {
+        int(row["seed"]): row for row in adopted.get("per_seed") or []
+    }
+    if set(by_seed) != set(SEEDS) or set(adopted_by_seed) != set(ADOPTED_SEEDS):
+        raise ValueError("source artifacts are not on the registered seed blocks")
+    if any(not by_seed[seed].get("candidate_edges") for seed in SEEDS):
+        raise ValueError("baseline availability does not record the candidate stream")
 
-    candidate_sets = {seed: set(target_by_seed[seed]["u"]) for seed in SEEDS}
+    # candidate edges are read from the recorded 2063 artifact, not from the live
+    # selection file, which now describes the adopted block
+    candidate_sets = {seed: set(by_seed[seed]["candidate_edges"]) for seed in SEEDS}
     candidate = _stream([
         _ceiling_row(seed, by_seed[seed]["protocol"]) for seed in SEEDS
     ])
@@ -230,6 +332,105 @@ def build() -> dict:
             _competence_row(seed, rows[seed], key) for seed in SEEDS
         ])
 
+    blocks = {
+        "2063": _denominator_block(by_seed, SEEDS),
+        "2074": _denominator_block(adopted_by_seed, ADOPTED_SEEDS),
+    }
+    adopted_block = blocks["2074"]
+    directed = adopted_block["directed_row"]
+    relation_any = adopted_block["relation_any_orientation"]
+    relation_both = adopted_block["relation_both_orientations"]
+    if (directed["seeds_reaching_floor"] != 6
+            or relation_any["seeds_reaching_floor"] != 0):
+        raise ValueError("the two readings of the C1 row no longer separate on 2074")
+    for name in ("relation_any_orientation", "relation_both_orientations"):
+        if blocks["2063"][name]["seeds_reaching_floor"]:
+            raise ValueError("2063 clears the floor under a relation-level reading")
+    asymmetries = [
+        row["orientation_asymmetry"]["A_differs_across_orientations"]
+        for row in adopted_block["per_seed"]
+    ]
+    reconciliation = {
+        "status": (
+            "OPEN — THE PROTOCOL DOES NOT DISAMBIGUATE A DIRECTED ROW FROM "
+            "AN UNDIRECTED RELATION"
+        ),
+        "recorded": "2026-11-15",
+        "defined_by": [
+            "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+            "docs/A1-C1-C4-VOID-GATE.md",
+        ],
+        "protocol_quote": (
+            "C1's denominator is the observed paired-control rows, including "
+            "baseline-available non-target edges."
+        ),
+        "planning_quantity": {
+            "block": "2063",
+            "stream": "candidate",
+            "per_seed": [row["max_attainable"] for row in candidate["per_seed"]],
+            "seeds_reaching_floor": candidate["seeds_reaching_floor"],
+            "note": (
+                "The 63-64 figure the design was sized on. It is not the "
+                "protocol's denominator under any reading."
+            ),
+        },
+        "blocks": blocks,
+        "finding": (
+            "On 2074 the two readings of the same word separate: directed rows "
+            "give ceilings %d-%d and clear the floor on %d of 6 seeds; "
+            "undirected relations give %d-%d (any orientation) or %d-%d "
+            "(both orientations) and clear it on %d of 6. The orientations are "
+            "not copies — A availability differs across orientations on %d-%d "
+            "of %d relations per seed — so the choice changes both the "
+            "denominator and how many independent observations stand behind it. "
+            "On 2063 the same split already exists: directed rows clear the "
+            "floor on %d of 6 seeds (%s) and both relation readings clear it on "
+            "none (%d-%d and %d-%d)."
+        ) % (
+            directed["min_attainable"], directed["max_attainable"],
+            directed["seeds_reaching_floor"],
+            relation_any["min_attainable"], relation_any["max_attainable"],
+            relation_both["min_attainable"], relation_both["max_attainable"],
+            relation_any["seeds_reaching_floor"],
+            min(asymmetries), max(asymmetries),
+            adopted_block["per_seed"][0]["orientation_asymmetry"]["relations"],
+            blocks["2063"]["directed_row"]["seeds_reaching_floor"],
+            "/".join("%d" % row["directed_row"]["max_attainable"]
+                     for row in blocks["2063"]["per_seed"]),
+            blocks["2063"]["relation_any_orientation"]["min_attainable"],
+            blocks["2063"]["relation_any_orientation"]["max_attainable"],
+            blocks["2063"]["relation_both_orientations"]["min_attainable"],
+            blocks["2063"]["relation_both_orientations"]["max_attainable"],
+        ),
+        "original_reading": {
+            "label": "the recorded reading of 2026-11-14",
+            "status": ORIGINAL_STATUS,
+            "disposition": ORIGINAL_DISPOSITION,
+            "basis": (
+                "the candidate stream's maximum attainable count, i.e. the "
+                "63-64 planning quantity"
+            ),
+            "preserved_because": (
+                "It is the relation-level reading of C1's denominator, and this "
+                "edition does not declare it wrong: it is the correct reading if "
+                "a C1 row is one undirected relation. It is kept verbatim so the "
+                "owner can see what was recorded before the convention question "
+                "had a name."
+            ),
+            "still_stands": (
+                "The C2/C8 competence condition is untouched and remains scoped "
+                "to the 2063 block."
+            ),
+        },
+        "what_this_does_not_mean": (
+            "This does not make C1 pass or fail. Neither reading has been "
+            "scored — no cell ran — and the floor applies to observed "
+            "paired-control rows at run time. It does not revise the C2/C8 "
+            "competence condition and does not decide which reading governs: "
+            "that is an owner definition."
+        ),
+    }
+
     c1_ok = candidate["seeds_reaching_floor"] == 6
     cell_ok = cell["seeds_reaching_floor"] == 6
     clean_ok = all(
@@ -240,10 +441,14 @@ def build() -> dict:
         "id": ID,
         "date": DATE,
         "status": (
-            "FLAGGED — C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL"
+            "FLAGGED — C1 FLOOR REACHABILITY IS CONVENTION-DEPENDENT (DIRECTED "
+            "ROW VS UNDIRECTED RELATION); C2/C8 COMPETENCE CONDITIONAL"
             if not c1_ok and not clean_ok
             else "CHECK — DESIGN VIABILITY DIFFERS FROM THE RECORDED EXPECTATION"
         ),
+        # this report names the reserved 2074 block in its reconciliation; the
+        # declaration is what makes that deliberate rather than a stray seed name
+        "seed_block": list(ADOPTED_SEEDS),
         "source_artifacts": {
             "baseline_availability": BASELINE_PATH.relative_to(ROOT).as_posix(),
             "target_viability": TARGET_VIABILITY_PATH.relative_to(ROOT).as_posix(),
@@ -282,10 +487,12 @@ def build() -> dict:
             },
             "stream_composition": composition,
             "conclusion": (
-                "The current registered design is not C1-capable under either "
-                "reported stream. Target selection cannot repair the candidate "
-                "stream; a new universe, a different seed block with better "
-                "baseline availability, or a changed C1 estimator is required."
+                "The current registered design is not C1-capable on the "
+                "candidate stream under any reading. On the cell stream it "
+                "clears the floor only if every directed orientation counts as "
+                "its own row; counting undirected relations once does not "
+                "clear it. That choice is recorded, not made, in "
+                "denominator_reconciliation."
             ),
             "what_it_does_not_mean": (
                 "This does not establish that A1 is impossible in principle. A "
@@ -294,6 +501,7 @@ def build() -> dict:
                 "cannot be reconciled by selecting a different target block."
             ),
         },
+        "denominator_reconciliation": reconciliation,
         "c2_c8_competence": {
             "status": "CONDITIONAL — NOT A PROOF OF C2 OR C8 FAILURE",
             "assumption": (
@@ -335,7 +543,10 @@ def build() -> dict:
             "not target-selectable, and target competence requires an owner "
             "rule. A1 must be redesigned with a C1-capable universe or seed "
             "block and a pre-registered competence rule, or parked. No cell, "
-            "target freeze, grant or threshold change is authorised."
+            "target freeze, grant or threshold change is authorised. C1 floor "
+            "reachability is additionally convention-dependent: on 2074 directed "
+            "rows clear the floor and undirected relations do not, and the "
+            "protocol does not say which a C1 row is."
         ),
         "not_evidence": (
             "A read-only design-viability report over committed no-arm "
@@ -352,8 +563,29 @@ def problems(doc: dict) -> list[str]:
         found.append("report kind")
     if doc.get("id") != ID:
         found.append("report id")
-    if not str(doc.get("status") or "").startswith("FLAGGED — C1 CEILING"):
+    if not str(doc.get("status") or "").startswith("FLAGGED — C1"):
         found.append("report status")
+    rec = doc.get("denominator_reconciliation") or {}
+    if not str(rec.get("status") or "").startswith("OPEN"):
+        found.append("denominator reconciliation is not open")
+    original = rec.get("original_reading") or {}
+    if original.get("status") != ORIGINAL_STATUS:
+        found.append("original status was not preserved verbatim")
+    if original.get("disposition") != ORIGINAL_DISPOSITION:
+        found.append("original disposition was not preserved verbatim")
+    for block, body in (rec.get("blocks") or {}).items():
+        for row in body.get("per_seed") or []:
+            for name in ("directed_row", "relation_any_orientation",
+                         "relation_both_orientations"):
+                conv = row.get(name) or {}
+                expected = min(conv.get("A_available", -1),
+                               conv.get("K_available", -1))
+                if conv.get("max_attainable") != expected:
+                    found.append("%s seed %s %s ceiling is not min(A,K)"
+                                 % (block, row.get("seed"), name))
+                if conv.get("reaches_floor") != (expected >= C1_FLOOR):
+                    found.append("%s seed %s %s floor flag is inconsistent"
+                                 % (block, row.get("seed"), name))
     c1 = doc.get("c1_ceiling") or {}
     if c1.get("floor") != C1_FLOOR:
         found.append("C1 floor changed")
@@ -590,6 +822,43 @@ def _competence_table(doc: dict) -> list[str]:
     return lines
 
 
+def _reconciliation_lines(doc: dict) -> list[str]:
+    rec = doc["denominator_reconciliation"]
+    out = [
+        "**Status:** `%s`" % rec["status"],
+        "",
+        "> " + rec["protocol_quote"],
+        "",
+        "| Block | Seed | directed rows | relation, any orientation | relation, both orientations | A differs across orientations |",
+        "| --- | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for block, body in rec["blocks"].items():
+        for row in body["per_seed"]:
+            asym = row["orientation_asymmetry"]
+            out.append("| %s | %d | **%d** | %d | %d | %d of %d |" % (
+                block, row["seed"],
+                row["directed_row"]["max_attainable"],
+                row["relation_any_orientation"]["max_attainable"],
+                row["relation_both_orientations"]["max_attainable"],
+                asym["A_differs_across_orientations"], asym["relations"],
+            ))
+    out += ["", rec["finding"], ""]
+    original = rec["original_reading"]
+    out += [
+        "**The recorded reading, preserved verbatim** (`original_reading`): status `%s`"
+        % original["status"],
+        "",
+        "> " + original["disposition"],
+        "",
+        original["preserved_because"],
+        "",
+        original["still_stands"],
+        "",
+        rec["what_this_does_not_mean"],
+    ]
+    return out
+
+
 def render(doc: dict) -> str:
     c1 = doc["c1_ceiling"]
     comp = doc["c2_c8_competence"]
@@ -636,6 +905,12 @@ def render(doc: dict) -> str:
         c1["conclusion"],
         "",
         c1["what_it_does_not_mean"],
+        "",
+        "## Denominator reconciliation (2026-11-15)",
+        "",
+    ]
+    lines += _reconciliation_lines(doc)
+    lines += [
         "",
         "## C2/C8 target competence — conditional",
         "",

@@ -14,7 +14,7 @@ def _artifact():
 def test_report_is_clean_and_flags_the_design():
     doc = _artifact()
     assert viability.problems(doc) == []
-    assert doc["status"].startswith("FLAGGED — C1 CEILING")
+    assert doc["status"].startswith("FLAGGED — C1")
     assert doc["c1_ceiling"]["candidate_stream"]["seeds_reaching_floor"] == 0
     assert doc["c2_c8_competence"]["status"].startswith("CONDITIONAL")
 

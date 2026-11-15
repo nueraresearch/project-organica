@@ -1,7 +1,7 @@
 # A1 design viability — C1 ceiling and conditional C2/C8 target competence
 
 **ID:** `A1-DESIGN-VIABILITY-1`
-**Status:** `FLAGGED — C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL`
+**Status:** `FLAGGED — C1 FLOOR REACHABILITY IS CONVENTION-DEPENDENT (DIRECTED ROW VS UNDIRECTED RELATION); C2/C8 COMPETENCE CONDITIONAL`
 
 **This is not an A1 result.** It is a read-only report over committed no-arm artifacts; no cell was run, no target was frozen, no grant was issued and no threshold was changed.
 
@@ -52,13 +52,46 @@ The 112-row cell stream reaches 60 on four seeds, but that is reverse-orientatio
 
 **Totals:** 382 candidate rows, 286 reverse orientations, 4 extra orientations, 672 cell rows, 384 unique undirected edges. The unique-edge C1 ceiling is **31-44**, still below 60.
 
-The 112-row cell stream is the candidate stream plus reverse orientations, not a wider independent universe. The four-seed apparent C1 pass is reverse-orientation duplication; on unique undirected edges the ceiling is still the candidate 31-44, below the 60-row floor on every seed.
+The 112-row cell stream is the candidate stream plus its reverse orientations, not a wider independent universe. Availability is orientation-specific, so those reverse rows are not copies of the candidate rows' availability, but whether two orientations of one relation are independent C1 observations is a convention the protocol does not fix. Counting each relation once leaves the ceiling below the floor on every seed (see denominator_reconciliation).
 
 ### What the ceiling means
 
-The current registered design is not C1-capable under either reported stream. Target selection cannot repair the candidate stream; a new universe, a different seed block with better baseline availability, or a changed C1 estimator is required.
+The current registered design is not C1-capable on the candidate stream under any reading. On the cell stream it clears the floor only if every directed orientation counts as its own row; counting undirected relations once does not clear it. That choice is recorded, not made, in denominator_reconciliation.
 
 This does not establish that A1 is impossible in principle. A different universe, seed block or C1 estimator could satisfy the floor. It establishes that the current stream and floor cannot be reconciled by selecting a different target block.
+
+## Denominator reconciliation (2026-11-15)
+
+**Status:** `OPEN — THE PROTOCOL DOES NOT DISAMBIGUATE A DIRECTED ROW FROM AN UNDIRECTED RELATION`
+
+> C1's denominator is the observed paired-control rows, including baseline-available non-target edges.
+
+| Block | Seed | directed rows | relation, any orientation | relation, both orientations | A differs across orientations |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 2063 | 20630101 | **70** | 46 | 28 | 28 of 64 |
+| 2063 | 20630102 | **59** | 31 | 30 | 18 of 64 |
+| 2063 | 20630103 | **69** | 42 | 38 | 9 of 64 |
+| 2063 | 20630104 | **58** | 35 | 29 | 23 of 64 |
+| 2063 | 20630105 | **72** | 43 | 42 | 13 of 64 |
+| 2063 | 20630106 | **72** | 37 | 37 | 14 of 64 |
+| 2074 | 20740101 | **79** | 48 | 37 | 18 of 64 |
+| 2074 | 20740102 | **64** | 35 | 33 | 15 of 64 |
+| 2074 | 20740103 | **79** | 51 | 37 | 20 of 64 |
+| 2074 | 20740104 | **74** | 49 | 31 | 28 of 64 |
+| 2074 | 20740105 | **72** | 38 | 38 | 19 of 64 |
+| 2074 | 20740106 | **74** | 42 | 36 | 26 of 64 |
+
+On 2074 the two readings of the same word separate: directed rows give ceilings 64-79 and clear the floor on 6 of 6 seeds; undirected relations give 35-51 (any orientation) or 31-38 (both orientations) and clear it on 0 of 6. The orientations are not copies — A availability differs across orientations on 15-28 of 64 relations per seed — so the choice changes both the denominator and how many independent observations stand behind it. On 2063 the same split already exists: directed rows clear the floor on 4 of 6 seeds (70/59/69/58/72/72) and both relation readings clear it on none (31-46 and 28-42).
+
+**The recorded reading, preserved verbatim** (`original_reading`): status `FLAGGED — C1 CEILING BELOW FLOOR; C2/C8 TARGET COMPETENCE CONDITIONAL`
+
+> Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.
+
+It is the relation-level reading of C1's denominator, and this edition does not declare it wrong: it is the correct reading if a C1 row is one undirected relation. It is kept verbatim so the owner can see what was recorded before the convention question had a name.
+
+The C2/C8 competence condition is untouched and remains scoped to the 2063 block.
+
+This does not make C1 pass or fail. Neither reading has been scored — no cell ran — and the floor applies to observed paired-control rows at run time. It does not revise the C2/C8 competence condition and does not decide which reading governs: that is an owner definition.
 
 ## C2/C8 target competence — conditional
 
@@ -103,7 +136,7 @@ Under the stated competence reading, N4 has at most 3 clean rows per seed for a 
 
 ## Disposition
 
-Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.
+Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised. C1 floor reachability is additionally convention-dependent: on 2074 directed rows clear the floor and undirected relations do not, and the protocol does not say which a C1 row is.
 
 **Not evidence:** A read-only design-viability report over committed no-arm artifacts. It runs no A1 cell, freezes no target, changes no threshold and measures no treatment effect. The C2/C8 section is conditional on baseline target competence, not a C2 or C8 verdict.
 
