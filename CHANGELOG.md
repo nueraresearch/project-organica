@@ -119,6 +119,23 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: one sheet for the three pending decisions
+
+`docs/A1-SIGNATURE-SHEET.md` puts `DECISION-A1-C1-CEILING`, `DECISION-A1-C8-SELECTION` and
+`DECISION-A1-COMPETENT-ESTIMAND` on one page so they can be signed or withdrawn in a single pass. Each block states what
+signing commits the owner to, what it costs, what breaks if it is declined, and the exact status line to write.
+
+Assembling it made two relationships explicit that were only implicit before. **D3 depends on D2 in practice**: the
+competent filter is only binding if the procedure that selects with it is in force, so signing the estimand while the
+selection procedure stays a draft leaves the block governed by custom. **And D3 invalidates the current N=20 act's
+block**: the act freezes the *representative* twenty per seed, so adopting the conditional estimand means the act must be
+re-issued on the competent artifact before it can be signed. Neither point changes a number; both change the order in
+which the paperwork can be done.
+
+The sheet is also a standing check. `tests/test_a1_signature_sheet.py` asserts that it lists exactly the A1 records whose
+status is `PENDING` and that each block states its record's real status — so signing a record and forgetting the sheet
+fails the suite rather than leaving a stale invitation to decide something already decided.
+
 ## Addendum — 2026-11-15: the 0/6 C2-viability finding is priced, and two of its three exits are closed
 
 `docs/A1-VIABILITY-LEVERS.md` takes the 0/6 finding in `A1-TARGET-VIABILITY-ADOPTED` apart and asks what each way out
