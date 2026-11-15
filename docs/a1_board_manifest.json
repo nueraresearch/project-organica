@@ -251,5 +251,21 @@
       "note": "neither exists; the board would have to be re-read if one appeared",
       "proved_by": []
     }
-  ]
+  ],
+  "bare_allowlist": {
+    "competence-contract": {
+      "numbers": [
+        "0.05",
+        "3",
+        "17"
+      ],
+      "why": "the competence rule's three constants; no single record states all three in one form yet"
+    },
+    "c1-ceiling-universe": {
+      "numbers": [
+        "64"
+      ],
+      "why": "the constant the pending ceiling decision narrows"
+    }
+  }
 }

@@ -119,6 +119,24 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: bare numbers are an invariant, not a footnote
+
+The coverage block reported four bare numbers on a green board. A report is a statement, and a statement about debt
+does not stop the debt growing. `docs/a1_board_manifest.json` now carries a `bare_allowlist` — the four known numbers,
+each with the reason it is tolerated — and `--check` fails in both directions:
+
+- a bare number that is **not** on the list fails: *`c1-unit` quotes 543 with no pin and no allowlist entry*;
+- an allowlisted number that has since been **pinned** fails: *`competence-contract` no longer quotes 17 bare; remove it
+  from the allowlist*;
+- an entry naming a branch that does not exist, or giving no reason, fails.
+
+So the list can only shrink, and an excused number cannot outlive its excuse. Both directions were probed on disk and
+both failed as intended before the manifest was restored; the self-test holds the same two cases.
+
+What remains tolerated: `0.05`, `3` and `17` in the competence-contract note — no single record states all three in one
+form, so pinning them needs the record written, not a regex — and `64`, the constant the pending ceiling decision
+narrows.
+
 ## Addendum — 2026-11-15: the board prints what its pinning layer is worth
 
 The pinning layer had no inventory, so its coverage could only be asserted. The checklist now carries a third generated

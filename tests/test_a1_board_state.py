@@ -225,6 +225,35 @@ def test_a_record_name_is_not_a_quantity() -> None:
     assert a1_board._unpinned_numbers(branch) == ["12"]
 
 
+def test_a_bare_number_must_be_allowlisted() -> None:
+    """The report was a statement; this makes it an invariant that fails."""
+    assert a1_board.coverage_problems() == []
+    leaking = json.loads(json.dumps(_branches()))
+    leaky = next(b for b in leaking if b["id"] == "c1-unit")
+    leaky["note"] = leaky["note"] + ", measured on 543 rows"
+    found = a1_board.coverage_problems(leaking)
+    assert any("543 with no pin and no allowlist entry" in problem for problem in found), found
+
+
+def test_an_allowlist_entry_must_still_be_bare() -> None:
+    """Pinning an excused number must retire its excuse, so the debt can only shrink."""
+    pinning = json.loads(json.dumps(_branches()))
+    pinned = next(b for b in pinning if b["id"] == "competence-contract")
+    pinned["note_claims"] = [{"note_regex": "N_min = ([0-9]+)",
+                              "doc": "docs/DECISION-A1-C8-NMIN.md",
+                              "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"}]
+    found = a1_board.coverage_problems(pinning)
+    assert any("no longer quotes 17 bare" in problem for problem in found), found
+
+
+def test_the_allowlist_names_real_branches_and_says_why() -> None:
+    ids = {branch["id"] for branch in _branches()}
+    for label, entry in a1_board.allowlist().items():
+        assert label in ids, label
+        assert entry.get("why"), label
+        assert entry.get("numbers"), label
+
+
 def test_a_note_claim_must_name_exactly_one_source() -> None:
     branch = json.loads(json.dumps(
         next(item for item in _branches() if item["id"] == "competent-construction")))

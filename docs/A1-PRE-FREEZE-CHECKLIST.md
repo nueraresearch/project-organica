@@ -50,7 +50,7 @@ their sources actually state, and every branch that quotes a number without pinn
 | C1 ceiling — preplanned-universe clause | `64` |
 | Competence contract, N_min, capacity | `0.05`, `17`, `3` |
 
-_Counted from `docs/a1_board_manifest.json`; a claim added or dropped makes this block stale until it is regenerated, so the inventory cannot drift from the manifest that produces it._
+_4 of these are allowlisted debt in `bare_allowlist`; any other bare number fails `--check`, and an entry whose number gets pinned must be removed, so the list can only shrink. Counted from `docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is regenerated._
 <!-- a1-coverage:end -->
 
 The owner-decision half of the board is generated from `docs/decisions.json` and spliced here; it is

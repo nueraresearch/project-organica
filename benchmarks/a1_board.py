@@ -315,6 +315,44 @@ def coverage(branches: list[dict] | None = None) -> dict:
             "unpinned": unpinned, "branches": len(branches)}
 
 
+def allowlist() -> dict:
+    """Bare numbers the board tolerates, so the tolerance is visible and can only shrink."""
+    return _manifest().get("bare_allowlist") or {}
+
+
+def coverage_problems(branches: list[dict] | None = None) -> list[str]:
+    """Every bare number must be on the allowlist, and every allowlisted number is still bare.
+
+    The report alone would let a new bare number land quietly on a green board. This makes the
+    list an invariant in both directions: a new bare number fails, and an allowlist entry whose
+    number has since been pinned fails too — so the debt can only shrink, never hide.
+    """
+    branches = branches if branches is not None else _manifest()["branches"]
+    allowed = allowlist()
+    found: list[str] = []
+    by_id = {branch.get("id"): branch for branch in branches}
+    for branch in branches:
+        label = branch.get("id", "?")
+        entry = allowed.get(label) or {}
+        permitted = set(entry.get("numbers") or [])
+        fresh = [number for number in _unpinned_numbers(branch) if number not in permitted]
+        if fresh:
+            found.append("%s quotes %s with no pin and no allowlist entry"
+                         % (label, ", ".join(fresh)))
+    for label, entry in allowed.items():
+        if label not in by_id:
+            found.append("the allowlist names a branch that does not exist: %s" % label)
+            continue
+        bare = set(_unpinned_numbers(by_id[label]))
+        for number in entry.get("numbers") or []:
+            if number not in bare:
+                found.append("%s no longer quotes %s bare; remove it from the allowlist"
+                             % (label, number))
+        if not entry.get("why"):
+            found.append("%s is allowlisted without a reason" % label)
+    return found
+
+
 def _sources(count: int, singular: str, plural: str) -> str:
     return "%d %s" % (count, singular if count == 1 else plural)
 
@@ -338,9 +376,12 @@ def render_coverage(branches: list[dict] | None = None) -> str:
         lines += ["| Branch | Numbers quoted, no pin |", "| --- | --- |"]
         for label, quoted in sorted(unpinned):
             lines.append("| %s | %s |" % (label, ", ".join("`%s`" % value for value in quoted)))
+    debt = sum(len(entry.get("numbers") or []) for entry in allowlist().values())
     lines.append("")
-    lines.append("_Counted from `docs/a1_board_manifest.json`; a claim added or dropped makes this block stale until "
-                 "it is regenerated, so the inventory cannot drift from the manifest that produces it._")
+    lines.append("_%d of these are allowlisted debt in `bare_allowlist`; any other bare number fails `--check`, and an "
+                 "entry whose number gets pinned must be removed, so the list can only shrink. Counted from "
+                 "`docs/a1_board_manifest.json`, so a claim added or dropped makes this block stale until it is "
+                 "regenerated._" % debt)
     return "\n".join(lines)
 
 
@@ -487,6 +528,7 @@ def manifest_problems(branches: list[dict] | None = None,
             if source and not (ROOT / source).exists():
                 found.append("%s: a note claim names a missing source: %s" % (label, source))
         found += claim_problems(branch)
+    found += coverage_problems(branches)
     return found
 
 
@@ -616,6 +658,16 @@ def self_test() -> list[str]:
     if not any("coverage block is stale" in problem
                for problem in block_problems(text, entries, pinning)):
         found.append("pinning a branch left the claim-coverage inventory unchanged")
+    # A bare number that is not on the allowlist must fail.
+    leaking = json.loads(json.dumps(branches))
+    leaky_branch = next(branch for branch in leaking if branch["id"] == "c1-unit")
+    leaky_branch["note"] = leaky_branch["note"] + ", measured on 543 rows"
+    if not any("no allowlist entry" in problem
+               for problem in coverage_problems(leaking)):
+        found.append("a bare number with no allowlist entry passed the coverage invariant")
+    # Pinning an allowlisted number must make its entry stale.
+    if not any("no longer quotes" in problem for problem in coverage_problems(pinning)):
+        found.append("an allowlist entry survived the number it excused being pinned")
     # A duplicated marker makes the block unlocatable.
     if not block_problems(text.replace(END, END + "\n" + END, 1), entries, branches):
         found.append("duplicated markers were accepted")
