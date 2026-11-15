@@ -5,7 +5,7 @@
   "status": "PINNED \u2014 THE VERDICT-PRODUCING CODE IS FIXED BEFORE ANY CELL; RE-PINNING IS A REVIEWED COMMIT",
   "rule": "`a1_result.assemble` refuses to score when either module's content differs from the digest recorded here. Re-pinning is allowed and is a commit: the point is that the scorer cannot change without the change being visible in at least one reviewable place.",
   "modules": {
-    "benchmarks/a1_arms.py": "98a90732ce832aab27906ad2e4d31715caeab3957382f5965b5cb0c628bafc38",
+    "benchmarks/a1_arms.py": "5ce958b7839e09ebd10ce7787d1d5b3ab3023eb4b6d47a684b97edf8c6e5c86d",
     "benchmarks/a1_result.py": "ea42e376787cd4d0cc2d9d7ee4f6b3ea1876d45d8e9d3727183c1ec9d4e4e58e"
   }
 }

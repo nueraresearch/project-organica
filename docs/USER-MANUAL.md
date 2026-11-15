@@ -723,22 +723,21 @@ python benchmarks/study_health.py
 
 Ordered by how much they cost you if you skip them.
 
-### 7.0 Waiting on you — two decisions, as of 2026-11-15
+### 7.0 Waiting on you — one decision, as of 2026-11-15
 
-**The A1 block ran on 2026-11-15 and the assembly is `VOID` on `C4_no_interference` (`C4_DELTA`).** That is not a
-failure to notice later: blocking carrier removal for the 20 target edges changed non-target carrier rates in 510 of
-2,785 non-target rows — every one of them in a `K`-blocked cell — so the intervention is not local and the cells cannot
-adjudicate an effect. C1 passed (A− 0.996, K− 1.000). There is no effect estimate to read and none is quoted.
+**The A1 block is `VOID` on C4 and that outcome is accepted, not rescued.** `DECISION-A1-VOID-ACCEPTED` records it: the
+assembly stands, the completed run is not rescored, the scorer defect is repaired under a disclosed re-pin for future
+runs only, and no effect estimate is quoted from these cells. C1 passed (A− 0.996, K− 1.000); C4 failed with 510 of
+2,785 non-target rows over tolerance, all in `K`-blocked cells.
 
 | # | Decision | Why it is yours | Where |
 |---|---|---|---|
-| A1-1 | **Accept the `VOID`, or redefine the carrier intervention** | C4 is the gate that says whether the arms are local; changing it or its tolerance changes what the study can claim | [`A1-RUN`](A1-RUN.md) §2 |
-| A1-2 | **Authorise a scorer correction and re-pin** | five structural gates (C2, C3, C5, C7, C9) were scored against the *representative* target list; the fix changes five outcomes after the cells were seen, so it needs a disclosed re-pin | [`A1-RUN`](A1-RUN.md) §3 |
+| A1-1 | **Park A1, or design A2** — an intervention that removes target carriers without collapsing neighbouring carrier structure | A1 answered its question: this intervention is not local enough for the protocol's causal assumptions. What replaces it is a design choice, not an analysis step | [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) |
 
-**What is recorded and not in question:** the act, its signature, the grant, the pin and the 37 stamped parts. The
-manifest now reads `GRANTED, RUN — VOID (C4_DELTA)` and its gate refuses a second run. The machine result is
-`docs/a1_two_path_result.json`; the readable record is [`A1-RUN`](A1-RUN.md), and the signatures with what each
-one committed to are on [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md).
+**Closed today:** the run, the acceptance, and the scorer repair. The manifest reads `GRANTED, RUN — VOID (C4_DELTA)`
+and refuses a second run; the repaired pin is `5ce958b7…` for `a1_arms` with `a1_result` unchanged. The readable record
+is [`A1-RUN`](A1-RUN.md), the machine assembly `docs/a1_two_path_result.json`, and the signatures with what each one
+committed to are on [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md).
 
 ### 7.1 Do today
 
@@ -4434,3 +4433,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **D3 signed, act re-issued and signed, scorer pinned, C5 re-cleared.** The competent estimand was adopted; the N20 act was re-issued on the competent block (20/17/20/20/18/20), its target sets and scorer table generated, `a1_arms`/`a1_result` pinned with a hard refusal on mismatch, and C5 re-audited on the 115 frozen rows (0 carriers before the cycle-4 U). Two consequences recorded rather than hidden: the block keeps only 7 of 24 previous targets (0 of 4 on two seeds), and the two short seeds may spend no C8 assertion. Grant and run remain. |
 | 2026-11-15 | **Grant issued; manifest frozen on the competent block; the execution gate opens.** `A1-GRANT.md` records the dated authorisation, the manifest now reads `GRANTED, NOT RUN` with the act's block and its selection digest, and the seed registry counts the new artifacts as restatements of the same held block. `a1_two_path --check` says `gate clear`; a test proves the gate still refuses an ungranted, unfrozen or preparation-only record. No cell has run. |
 | 2026-11-15 | **The block ran; assembly `VOID` on C4.** 36 cells plus a determinism control, 37 stamped parts, assembly through the pinned scorer: C1 PASS (A− 0.996, K− 1.000), C4 FAIL with 510 of 2,785 non-target rows over the 0.05 tolerance, all in `K`-blocked cells. Five structural gates also failed because the scorer's expected target list still came from the representative block; that is recorded as a defect awaiting a disclosed re-pin, not repaired inside the run. No effect estimate is quoted. |
+| 2026-11-15 | **VOID accepted; scorer repaired under a disclosed re-pin.** `DECISION-A1-VOID-ACCEPTED` records the assembly as the study's outcome, forbids rescoring the completed run, and authorises the target-list repair for future runs only. `registered_target_map()` now follows the artifact the frozen manifest names; the pin records both digests. Open: park A1 or design A2. |

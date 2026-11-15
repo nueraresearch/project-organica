@@ -14,10 +14,10 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 | status | count | meaning |
 | --- | --- | --- |
-| ADOPTED | 22 | in force; the document records it as implemented or effective |
+| ADOPTED | 23 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
 | PENDING | 5 | decided and not in force; the document says so |
-| **total** | **28** | |
+| **total** | **29** | |
 
 ## The decisions
 
@@ -628,6 +628,29 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/A1-C2-C8-COMPETENCE-RULE.md`, `benchmarks/a1_c8_target_selection_competent.py`, `docs/A1-COMPETENCE-RULE-IN-FORCE.md`, `docs/A1-C8-TARGET-SELECTION-COMPETENT.md`, `docs/DECISION-A1-C8-NMIN.md`
 
 **Record.** `docs/DECISION-A1-C8-SELECTION.md`
+
+### DECISION-A1-VOID-ACCEPTED — `DECISION-A1-VOID-ACCEPTED` — the A1 block is VOID, and it is not rescored
+
+**Status.** ADOPTED — *"ADOPTED BY OWNER 2026-11-15 — THE A1 BLOCK IS VOID ON C4; NOT RESCORED; SCORER REPAIR AUTHORISED FOR FUTURE RUNS ONLY"*
+
+**Decided.**
+
+- The A1 assembly is accepted as the study's outcome: VOID on C4_no_interference, reason C4_DELTA.
+- The completed run is not rescored; the repaired scorer applies only to runs authorised after this decision.
+- The scorer repair is authorised under a disclosed re-pin, with the pre-repair digests preserved in the run record.
+- No effect estimate, C8 assertion or competence claim is reported from this block, and none is derived from it by re-assembly.
+
+**Rejected.**
+
+- *Fix the scorer and re-assemble the same cells* — because *"It would change five gate outcomes after the cells were seen, which is the adjustment the pin exists to prevent."*
+- *Relax the C4 tolerance or redefine the non-target denominator* — because *"The interference is 0.575 against 0.05 and sits entirely in the K-blocked cells; a tolerance that admits it would stop C4 detecting anything."*
+- *Report the C1 pass as a positive result* — because *"C1 passing is a precondition, not the estimand; with C4 VOID the block cannot adjudicate the effect C1 was protecting."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/a1_scorer_pin.json`, `tests/test_a1_prefreeze.py`
+
+**Record.** `docs/DECISION-A1-VOID-ACCEPTED.md`
 
 ## What this graph is not
 

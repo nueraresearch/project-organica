@@ -311,6 +311,16 @@
       "proved_by": [
         "tests/test_a1_prefreeze.py"
       ]
+    },
+    {
+      "id": "void-accepted",
+      "branch": "The VOID is accepted, not rescored",
+      "kind": "decision",
+      "decision": "DECISION-A1-VOID-ACCEPTED",
+      "note": "the block ran once, assembled to VOID on C4, and stays that way; the scorer repair applies to future runs only",
+      "proved_by": [
+        "tests/test_a1_prefreeze.py"
+      ]
     }
   ],
   "bare_allowlist": {

@@ -435,18 +435,37 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
 
 
 def registered_target_map() -> dict[str, list[str]]:
-    """Return the registered N=20 per-seed targets, or an empty mapping."""
-    path = a1_two_path.C8_TARGET_SELECTION_PATH
+    """Return the registered N=20 per-seed targets, or an empty mapping.
+
+    The authority is the artifact the frozen manifest's targets name, not a module-level default: the
+    competent block replaced the representative one, and reading the old path made every seed mismatch on a
+    block that was frozen correctly. This is the 2026-11-15 repair, and it applies to runs authorised after
+    that decision — the completed run keeps the assembly its own pin produced.
+
+    The competent artifact spells the nominal size `n_preferred` and the floor `n_min`, so both spellings are
+    read rather than assuming the older artifact's `n_per_seed`.
+    """
+    manifest = a1_two_path.manifest()
+    targets = manifest.get("targets") or {}
+    named = targets.get("selection_artifact")
+    path = a1_two_path.ROOT / str(named) if named else a1_two_path.C8_TARGET_SELECTION_PATH
     if not path.exists():
         return {}
     try:
         doc = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
-    if doc.get("n_per_seed") != 20:
+    nominal = targets.get("n_per_seed") or doc.get("n_per_seed") or doc.get("n_preferred")
+    if nominal != 20:
         return {}
-    return {str(seed): list((row or {}).get("selected") or [])
-            for seed, row in (doc.get("per_seed") or {}).items()}
+    floor = targets.get("n_min") or doc.get("n_min")
+    out: dict[str, list[str]] = {}
+    for seed, row in (doc.get("per_seed") or {}).items():
+        selected = list((row or {}).get("selected") or [])
+        if floor is not None and not (isinstance(floor, int) and floor <= len(selected) <= nominal):
+            continue
+        out[str(seed)] = selected
+    return out
 
 
 def _target_rows(payload: dict) -> list[dict]:

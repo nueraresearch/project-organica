@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 13 branches, 10 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 14 branches, 11 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -39,13 +39,14 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | C1 ceiling — preplanned-universe clause | **OPEN — RESTATEMENT MISSING** | the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74 | [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py) |
 | Freeze acts | **PARTIALLY SIGNED** | the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
 | Grant, run | **CLOSED — ARTIFACT EXISTS** | the block ran once under the grant and the assembly is VOID on C4; nothing here is an effect estimate — [`A1-RUN.md`](A1-RUN.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
+| The VOID is accepted, not rescored | **CLOSED — ADOPTED** | the block ran once, assembled to VOID on C4, and stays that way; the scorer repair applies to future runs only — [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
 <!-- a1-artifacts:end -->
 
 The inventory below is what the pinning layer is worth, counted rather than claimed: claims, the numbers
 their sources actually state, and every branch that quotes a number without pinning it.
 
 <!-- a1-coverage:start -->
-**Claim coverage** — 9 claims pin 27 numbers across 6 of 13 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
+**Claim coverage** — 9 claims pin 27 numbers across 6 of 14 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
 
 | Branch | Numbers quoted, no pin |
 | --- | --- |
@@ -59,7 +60,7 @@ not hand-maintained, so a status change makes it stale until `python -m benchmar
 regenerates it.
 
 <!-- a1-board:start -->
-**Owner decisions** — 12 A1 records in `docs/decisions.json`: 11 adopted, 0 withdrawn, 0 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
+**Owner decisions** — 13 A1 records in `docs/decisions.json`: 12 adopted, 0 withdrawn, 0 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
 
 | Decision | State | What it decides |
 | --- | --- | --- |
@@ -75,6 +76,7 @@ regenerates it.
 | [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) | **ADOPTED** | The procedure by which C8's rows are chosen, and what happens when it is violated. It changes no threshold, no denominator, no floor, no gate, no engine file and no seed … |
 | [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) | **ADOPTED** | The target population, the estimand's wording, and the C4 multiplicity restatement that follows from the row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing. |
 | [`DECISION-A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no target, authorises no cell, changes no engine file and records no result … |
+| [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | **ADOPTED** | `DECISION-A1-VOID-ACCEPTED` — the A1 block is VOID, and it is not rescored |
 
 _Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`._
 <!-- a1-board:end -->

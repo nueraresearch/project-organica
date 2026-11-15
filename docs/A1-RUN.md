@@ -70,7 +70,28 @@ about eight seconds each, the engine stamps every part, the determinism control 
 scorer's pin held. Those are properties of the harness, not findings about the organism — the same distinction the
 project already draws for its audit traces.
 
-## 5. Reproduce
+## 6. Scorer history
+
+`DECISION-A1-VOID-ACCEPTED` accepted this assembly and authorised a repair, so the pin has two states and both are
+recorded here rather than replaced silently.
+
+| Pin | `a1_arms.py` | `a1_result.py` | Used for |
+|---|---|---|---|
+| at this run | `98a90732ce832aab27906ad2e4d31715caeab3957382f5965b5cb0c628bafc38` | `ea42e376787cd4d0cc2d9d7ee4f6b3ea1876d45d8e9d3727183c1ec9d4e4e58e` | **this assembly**, including the five coverage failures |
+| after the authorised repair | `5ce958b7839e09ebd10ce7787d1d5b3ab3023eb4b6d47a684b97edf8c6e5c86d` | `ea42e376787cd4d0cc2d9d7ee4f6b3ea1876d45d8e9d3727183c1ec9d4e4e58e` | future runs only |
+
+**The repair is one line of authority, not a re-score.** `registered_target_map()` now reads the artifact the frozen
+manifest's targets name; before, it read a module-level default pointing at the representative block. No threshold,
+tolerance, formula or gate changed.
+
+**This run was not re-assembled with the repaired scorer, and must not be.** The committed
+`docs/a1_two_path_result.json` is the pre-repair assembly; running the repaired scorer over the same parts would move
+five gates from FAIL to a different answer after the cells were seen, which is exactly what
+`DECISION-A1-VOID-ACCEPTED` refuses. The C4 `VOID` is identical under either pin, because C4 never reads the expected
+target list.
+
+
+## 7. Reproduce
 
 ```bash
 python -m benchmarks.a1_two_path --measure              # 36 cells + control, ~5 minutes

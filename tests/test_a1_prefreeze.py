@@ -389,6 +389,23 @@ def test_n20_target_freeze_act_freezes_the_competent_block():
     assert a1_two_path.target_set_problems(_n20_target_doc()) == []
 
 
+def test_registered_target_map_reads_the_block_the_manifest_names():
+    """The scorer's expected targets must follow the frozen manifest, not a module-level default."""
+    import json
+
+    from benchmarks import a1_arms
+
+    act = json.loads(Path("docs/a1_target_freeze_act_n20.json").read_text(encoding="utf-8"))
+    mapped = a1_arms.registered_target_map()
+    assert mapped == act["targets_by_seed"]
+
+    # The defect this replaced: the representative artifact shares only 37 rows with the frozen block, so a
+    # map built from it would disagree on every seed.
+    representative = json.loads(Path("docs/a1_c8_target_selection.json").read_text(encoding="utf-8"))
+    for seed, edges in representative["per_seed"].items():
+        assert edges["selected"] != mapped[seed], seed
+
+
 def test_the_execution_gate_opens_under_the_grant_and_still_refuses_without_it():
     """A gate that cannot refuse is decoration; a gate that refuses a granted, frozen manifest is broken."""
     from benchmarks import a1_two_path

@@ -119,6 +119,25 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the VOID is accepted; the scorer repair is future-only
+
+`DECISION-A1-VOID-ACCEPTED` accepts the assembly as the study's outcome. The completed run is **not** rescored, no C4
+tolerance is relaxed, the C1 pass is not promoted into a result, and no effect estimate is quoted from these cells.
+
+**The scorer repair authorised by that decision is now applied, and it cannot reach the run it followed.**
+`registered_target_map()` reads the selection artifact the frozen manifest's targets name — `a1_c8_target_selection_
+competent.json` — instead of the module-level default that pointed at the representative block. It also reads the
+competent artifact's `n_preferred` / `n_min` spelling rather than assuming `n_per_seed`, which is the second half of the
+same defect: a map that finds no nominal size returns nothing and every cell reads as a coverage failure.
+
+**Two pins are recorded, not one.** `docs/A1-RUN.md` §6 lists the digests the run was assembled under
+(`a1_arms` `98a90732…`) and the digests in force after the repair (`5ce958b7…`, `a1_result` unchanged). The committed
+result artifact is the pre-repair assembly; the repaired scorer applies to runs authorised after the decision. Because
+C4 never reads the expected target list, the `VOID` is the same under either pin — the five coverage gates would not be.
+
+**Open, and deliberately not decided here:** whether A1 is parked as failed under its declared protocol, or A2 is
+designed with a carrier intervention that does not collapse neighbouring structure.
+
 ## Addendum — 2026-11-15: the A1 block ran; the assembly is VOID
 
 36 cells plus the determinism control ran against the frozen competent block, in about five minutes, each stamped
