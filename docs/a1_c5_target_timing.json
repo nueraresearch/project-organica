@@ -15,7 +15,15 @@
   "current_carriers_before_u": 0,
   "earliest_observed_carrier_cycle": 5,
   "earliest_current_carrier_cycle": 5,
+  "u_before_earliest_carrier_cycle": 5,
   "u_before_earliest_carrier": true,
+  "u_before_earliest_current_carrier": true,
+  "definitions": {
+    "earliest_observed_carrier_cycle": "earliest carrier over the 120 N=20 expansion rows",
+    "earliest_current_carrier_cycle": "earliest carrier over the 24 preserved current rows",
+    "u_before_earliest_carrier": "U_CYCLE < earliest_observed_carrier_cycle; this is the C5 condition and it is NOT a statement about the current rows",
+    "u_before_earliest_current_carrier": "U_CYCLE < earliest_current_carrier_cycle; reported beside the condition above because the two are different quantities"
+  },
   "problems": [],
   "per_seed": [
     {

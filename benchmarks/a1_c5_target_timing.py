@@ -213,7 +213,24 @@ def build() -> dict:
         "current_carriers_before_u": len(current_before),
         "earliest_observed_carrier_cycle": earliest,
         "earliest_current_carrier_cycle": current_earliest,
+        # The flag below is about the N=20 expansion rows, not the 24 preserved
+        # current rows: name the cycle it is computed from so the two cannot be
+        # read as one quantity. Both were 5 on the block this audit was written
+        # for, which is exactly why the trap was invisible until they diverged.
+        "u_before_earliest_carrier_cycle": earliest,
         "u_before_earliest_carrier": earliest is not None and U_CYCLE < earliest,
+        "u_before_earliest_current_carrier": (
+            current_earliest is not None and U_CYCLE < current_earliest),
+        "definitions": {
+            "earliest_observed_carrier_cycle": "earliest carrier over the 120 N=20 expansion rows",
+            "earliest_current_carrier_cycle": "earliest carrier over the 24 preserved current rows",
+            "u_before_earliest_carrier": (
+                "U_CYCLE < earliest_observed_carrier_cycle; this is the C5 "
+                "condition and it is NOT a statement about the current rows"),
+            "u_before_earliest_current_carrier": (
+                "U_CYCLE < earliest_current_carrier_cycle; reported beside the "
+                "condition above because the two are different quantities"),
+        },
         "problems": problems,
         "per_seed": per_seed,
         "current_rows": current_rows,
@@ -224,6 +241,39 @@ def build() -> dict:
             "unrun until a granted cell produces its own U and carrier rows."
         ),
     }
+
+
+def _flag_problems(doc: dict) -> list[str]:
+    """The flags must follow from their own cycles, and say so when they fail.
+
+    Two quantities are in play: the N=20 expansion's earliest carrier and the
+    24 preserved current rows' earliest carrier. The C5 condition is the first.
+    A reader who compares the flag against the second field reads a failure as
+    an instrument defect, so the flag carries its cycle and this checks that the
+    flag, its cycle and the problem text all agree.
+    """
+    found: list[str] = []
+    u = doc.get("u_cycle")
+    observed = doc.get("earliest_observed_carrier_cycle")
+    current = doc.get("earliest_current_carrier_cycle")
+    flag_cycle = doc.get("u_before_earliest_carrier_cycle")
+    flag = doc.get("u_before_earliest_carrier")
+    current_flag = doc.get("u_before_earliest_current_carrier")
+    if flag_cycle != observed:
+        found.append("the C5 flag's cycle is not the observed earliest carrier")
+    expected = u is not None and observed is not None and u < observed
+    if bool(flag) != bool(expected):
+        found.append("the C5 flag does not follow from its own cycle")
+    expected_current = u is not None and current is not None and u < current
+    if bool(current_flag) != bool(expected_current):
+        found.append("the current-target flag does not follow from its cycle")
+    problems = doc.get("problems") or []
+    says_no_carrier_after = any("no observed carrier is after" in row for row in problems)
+    if flag is False and not says_no_carrier_after:
+        found.append("the C5 flag is False and no problem row says why")
+    if flag is True and says_no_carrier_after:
+        found.append("the C5 flag is True and a problem row says otherwise")
+    return found
 
 
 def problems(doc: dict) -> list[str]:
@@ -252,6 +302,7 @@ def problems(doc: dict) -> list[str]:
         found.append("earliest current carrier cycle changed")
     if doc.get("u_before_earliest_carrier") is not True:
         found.append("U is not before the earliest carrier")
+    found.extend(_flag_problems(doc))
     found.extend(doc.get("problems") or [])
     current = _current_sets()
     rows = doc.get("current_rows") or []
@@ -294,6 +345,30 @@ def self_test() -> list[str]:
         found.append("an absent carrier is treated as a timing failure")
     if not _problems_for([missing], require_all_carriers=True):
         found.append("the all-carrier variant accepts an absent carrier")
+    agreement = {
+        "u_cycle": U_CYCLE,
+        "earliest_observed_carrier_cycle": 5,
+        "earliest_current_carrier_cycle": 5,
+        "u_before_earliest_carrier_cycle": 5,
+        "u_before_earliest_carrier": True,
+        "u_before_earliest_current_carrier": True,
+        "problems": [],
+    }
+    if _flag_problems(agreement):
+        found.append("an agreeing flag set is rejected")
+    diverged = dict(agreement, earliest_observed_carrier_cycle=4,
+                    earliest_current_carrier_cycle=10,
+                    u_before_earliest_carrier_cycle=4,
+                    u_before_earliest_carrier=False,
+                    problems=["no observed carrier is after the fixed U cycle"])
+    if _flag_problems(diverged):
+        found.append("the two-cycle shape is misdiagnosed")
+    contradictory = dict(agreement, u_before_earliest_carrier=False)
+    if not _flag_problems(contradictory):
+        found.append("a flag that contradicts its cycle is accepted")
+    silent = dict(diverged, problems=[])
+    if not _flag_problems(silent):
+        found.append("a failing flag with no problem row is accepted")
     no_u = dict(good, u={"direct_count": None, "reverse_count": None,
                          "strength": None, "measured_cycle": None})
     if not _problems_for([no_u]):

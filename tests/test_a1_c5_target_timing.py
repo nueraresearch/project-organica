@@ -64,3 +64,27 @@ def test_c5_accepts_an_absent_carrier_and_rejects_a_preceding_one():
 
 def test_timing_self_test_is_clean():
     assert timing.self_test() == []
+
+
+def test_the_c5_flag_names_the_cycle_it_tests():
+    """The C5 flag is about the N=20 rows; the current rows are a second quantity."""
+    doc = _artifact()
+    assert doc["u_before_earliest_carrier_cycle"] == doc["earliest_observed_carrier_cycle"]
+    assert doc["u_before_earliest_carrier"] is True
+    assert doc["u_before_earliest_current_carrier"] is True
+    assert set(doc["definitions"]) == {
+        "earliest_observed_carrier_cycle", "earliest_current_carrier_cycle",
+        "u_before_earliest_carrier", "u_before_earliest_current_carrier"}
+    assert timing._flag_problems(doc) == []
+
+
+def test_a_diverging_pair_of_cycles_is_diagnosed_not_called_a_defect():
+    doc = _artifact()
+    diverged = dict(doc, earliest_observed_carrier_cycle=4,
+                    earliest_current_carrier_cycle=10,
+                    u_before_earliest_carrier_cycle=4,
+                    u_before_earliest_carrier=False,
+                    problems=["no observed carrier is after the fixed U cycle"])
+    assert timing._flag_problems(diverged) == []
+    assert timing._flag_problems(dict(diverged, problems=[]))
+    assert timing._flag_problems(dict(diverged, u_before_earliest_carrier=True))
