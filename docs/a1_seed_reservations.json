@@ -1,0 +1,24 @@
+{
+ "kind": "a1_seed_reservations",
+ "id": "A1-SEED-RESERVATIONS-1",
+ "date": "2026-11-14",
+ "note": "Seed blocks declared by an artifact but never spent. The freshness scan skips the artifacts it is told to allow, so a block declared inside an allow-listed artifact is invisible to it; these reservations are checked separately by benchmarks.a1_seed_reservations and by the two-path preflight.",
+ "reservations": [
+  {
+   "label": "pair-split offset-discriminator construction",
+   "owner": "docs/a1_offset_discriminator_spec.json",
+   "restated_by": [
+    "docs/a1_pair_split_rule_amended.json"
+   ],
+   "seeds": [
+    20690101,
+    20690102,
+    20690103,
+    20690104,
+    20690105,
+    20690106
+   ],
+   "spent": false
+  }
+ ]
+}

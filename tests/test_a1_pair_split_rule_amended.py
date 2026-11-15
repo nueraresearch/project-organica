@@ -76,6 +76,7 @@ PAIR_SPLIT_SEEDS = (20690101, 20690102, 20690103, 20690104, 20690105, 20690106)
 PAIR_SPLIT_ARTIFACTS = {
     "docs/a1_offset_discriminator_spec.json",
     "docs/a1_pair_split_rule_amended.json",
+    "docs/a1_seed_reservations.json",
 }
 
 

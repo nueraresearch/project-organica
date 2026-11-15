@@ -1,0 +1,211 @@
+"""Reserved-but-unspent seed blocks, visible to the freshness guard.
+
+The freshness scan in `benchmarks.presence_cap_experiment.seed_collisions`
+answers one question: has any committed artifact already named this seed?  It
+skips an allow list of artifacts so that a candidate does not collide with
+itself, and that skip is exactly the hole here: a seed block declared in an
+allow-listed artifact (the pair-split construction, `20690101-20690106`) is
+invisible to the scan, so a future candidate could list the same seeds, find no
+collision and pass.
+
+This module gives reserved blocks their own declaration and their own check:
+
+* `docs/a1_seed_reservations.json` names each unspent block, the artifact that
+  reserves it, and any artifact that restates it,
+* `reservation_problems(seeds, candidate)` refuses a candidate that lists a
+  reserved seed unless it *is* the reserving artifact or one that restates it,
+* `problems()` validates the registry against the tree: owners and restatements
+  exist, every reserved seed is actually named by its owner, blocks do not
+  overlap, and no other artifact names a reserved seed.
+
+A reservation is a note that seeds are held, not a claim that they were spent.
+
+    python -m benchmarks.a1_seed_reservations --check
+    python -m benchmarks.a1_seed_reservations --self-test
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DOCS = ROOT / "docs"
+REGISTRY_PATH = DOCS / "a1_seed_reservations.json"
+ID = "A1-SEED-RESERVATIONS-1"
+KIND = "a1_seed_reservations"
+
+
+def _load(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _relative(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def registry(path: Path | None = None) -> dict:
+    return _load(REGISTRY_PATH if path is None else path)
+
+
+def _seeds_of(node) -> set[int]:
+    out: set[int] = set()
+
+    def walk(value):
+        if isinstance(value, dict):
+            for item in value.values():
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+        elif isinstance(value, bool):
+            return
+        elif isinstance(value, int):
+            out.add(value)
+        elif isinstance(value, float) and value.is_integer():
+            out.add(int(value))
+
+    walk(node)
+    return out
+
+
+def reservations(doc: dict | None = None) -> list[dict]:
+    """The reserved blocks, each with its seed set as integers."""
+    doc = registry() if doc is None else doc
+    out = []
+    for row in doc.get("reservations") or []:
+        out.append({
+            "label": row.get("label", ""),
+            "owner": row.get("owner", ""),
+            "restated_by": list(row.get("restated_by") or []),
+            "seeds": sorted({int(seed) for seed in row.get("seeds") or []}),
+            "spent": bool(row.get("spent", False)),
+        })
+    return out
+
+
+def reservation_problems(seeds, candidate: Path | str,
+                         doc: dict | None = None) -> list[str]:
+    """Refusals for a candidate that lists a reserved, unspent seed."""
+    holder = {_relative(Path(str(candidate)))}
+    found: list[str] = []
+    for row in reservations(doc):
+        if row["spent"]:
+            continue
+        allowed = {_relative(Path(entry))
+                   for entry in [row["owner"]] + row["restated_by"]}
+        shared = sorted(set(int(seed) for seed in seeds) & set(row["seeds"]))
+        if not shared or holder & allowed:
+            continue
+        found.append(
+            "seed(s) %s are reserved by %s (%s) and unspent"
+            % (", ".join(str(seed) for seed in shared), row["owner"],
+               row["label"]))
+    return found
+
+
+def problems(doc: dict | None = None) -> list[str]:
+    doc = registry() if doc is None else doc
+    found: list[str] = []
+    if doc.get("kind") != KIND:
+        found.append("registry kind")
+    rows = doc.get("reservations") or []
+    if not rows:
+        found.append("the registry reserves nothing")
+    seen: dict[int, str] = {}
+    for row in rows:
+        label = row.get("label") or "unnamed reservation"
+        owner = row.get("owner") or ""
+        owner_path = ROOT / owner
+        if not owner or not owner_path.exists():
+            found.append("%s: the reserving artifact is missing" % label)
+            continue
+        seeds = [int(seed) for seed in row.get("seeds") or []]
+        if not seeds:
+            found.append("%s: no seeds reserved" % label)
+        if len(seeds) != len(set(seeds)):
+            found.append("%s: duplicate seeds inside the block" % label)
+        for seed in seeds:
+            if seed in seen:
+                found.append("seed %d is reserved by two blocks" % seed)
+            seen[seed] = label
+        owner_seeds = _seeds_of(_load(owner_path))
+        missing = sorted(set(seeds) - owner_seeds)
+        if missing:
+            found.append("%s: the reserving artifact does not name %s"
+                         % (label, missing))
+        for entry in [row.get("owner")] + list(row.get("restated_by") or []):
+            if entry and not (ROOT / entry).exists():
+                found.append("%s: restating artifact %s is missing"
+                             % (label, entry))
+        allowed = {_relative(Path(entry))
+                   for entry in [owner] + list(row.get("restated_by") or [])}
+        if row.get("spent"):
+            continue
+        for path in sorted(DOCS.glob("*.json")):
+            rel = _relative(path)
+            if rel in allowed or rel == _relative(REGISTRY_PATH):
+                continue
+            shared = sorted(_seeds_of(_load(path)) & set(seeds))
+            if shared:
+                found.append("%s: %s names reserved seed(s) %s"
+                             % (label, rel, shared))
+    return found
+
+
+def self_test() -> list[str]:
+    failures: list[str] = []
+    doc = registry()
+    rows = reservations()
+    if not rows:
+        failures.append("no reservations to test")
+        return failures
+    block = rows[0]
+    reserved = block["seeds"][:1]
+    owner = Path(block["owner"])
+    if reservation_problems(reserved, owner):
+        failures.append("the reserving artifact collides with itself")
+    if reservation_problems(reserved, Path("docs/a1_two_path_manifest.json")):
+        pass  # a foreign candidate must be refused
+    else:
+        failures.append("a foreign candidate listing a reserved seed was allowed")
+    if reservation_problems([20630101], Path("docs/a1_two_path_manifest.json")):
+        failures.append("a seed outside every reservation was refused")
+    spent = dict(doc, reservations=[dict(block, spent=True, seeds=reserved)])
+    if reservation_problems(reserved, Path("docs/a1_two_path_manifest.json"),
+                            spent):
+        failures.append("a spent reservation still refuses a candidate")
+    return failures
+
+
+def check() -> int:
+    if not REGISTRY_PATH.exists():
+        raise SystemExit("no seed-reservation registry")
+    found = problems()
+    if found:
+        raise SystemExit("FAIL: " + "; ".join(found))
+    total = sum(len(row["seeds"]) for row in reservations() if not row["spent"])
+    print("seed reservations: clean (%d unspent seeds held)" % total)
+    return 0
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--check", action="store_true")
+    group.add_argument("--self-test", action="store_true")
+    args = parser.parse_args(argv)
+    if args.self_test:
+        found = self_test()
+        if found:
+            raise SystemExit("FAIL: " + "; ".join(found))
+        print("seed reservations: self-test clean")
+        return 0
+    return check()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

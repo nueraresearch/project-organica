@@ -89,6 +89,7 @@ ENGINE_SIDE_JOIN_PATH = DOCS / "a1_engine_side_join.json"
 BAND_FRONTIER_PATH = DOCS / "a1_band_frontier.json"
 SELECTION_IDENTITY_PATH = DOCS / "a1_selection_identity_spec.json"
 PAIR_SPLIT_RULE_PATH = DOCS / "a1_pair_split_rule_amended.json"
+SEED_RESERVATIONS_PATH = DOCS / "a1_seed_reservations.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -426,10 +427,16 @@ def preflight(doc: dict | None = None) -> list[str]:
                  SPLIT_POWER_PATH, ENGINE_SIDE_JOIN_PATH,
                  BAND_FRONTIER_PATH, SELECTION_IDENTITY_PATH,
                  PAIR_SPLIT_RULE_PATH)
-        collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
-                                     allow=allow)
+        block = doc.get("seed_block") or {}
+        candidate = list(block.get("seeds") or []) if isinstance(block, dict) else []
+        collisions = seed_collisions(candidate, allow=allow)
         if collisions:
             found.append("candidate seeds collide with committed artifacts: %r" % collisions)
+        # The collision scan skips the artifacts it is told to allow, which is
+        # how a block declared inside an allow-listed artifact stays invisible.
+        # Reserved blocks are therefore checked on their own terms.
+        from benchmarks.a1_seed_reservations import reservation_problems
+        found.extend(reservation_problems(candidate, MANIFEST_PATH))
     except Exception as exc:  # pragma: no cover - a failed scan is a refusal reason
         found.append("the seed-freshness scan failed: %s" % exc)
     return found

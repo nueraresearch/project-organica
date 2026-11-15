@@ -79,7 +79,8 @@ VERDICTS = (
 )
 # The registry artifact echoes the seeds of every docs artifact, so it cannot be read as
 # evidence that a seed was consumed before this record allocated it.
-REGISTRY_ECHOES = ("docs/stage_b_protocol.json",)
+REGISTRY_ECHOES = ("docs/stage_b_protocol.json",
+                   "docs/a1_seed_reservations.json")
 
 
 class CapOnlySleepService(SleepService):
