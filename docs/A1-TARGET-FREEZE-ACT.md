@@ -1,12 +1,12 @@
-# A1 Path A target-freeze act — draft
+# A1 Path A target-freeze act — re-issued draft
 
-> **Superseded 2026-11-14.** This act's per-seed tables, counts and digest are bound to `20630101-20630106`; the manifest now carries `20740101-20740106`. Re-issuing the act for the adopted block is the owner's signature step, and nothing below is edited — the tables are the record of what was prepared for the superseded block.
+> **Re-issued 2026-11-15 for `20740101-20740106`.** This edition replaces the 2026-11-14 draft bound to `20630101-20630106`, a block spent by `A1-BASELINE-AVAILABILITY-1`; that edition's tables remain in git history (`1b822af`) and are not restated here. Every table, count and digest below is bound to the adopted block. Nothing in this act is signed, frozen, granted or run.
 
 **ID:** `A1-TARGET-FREEZE-1`
 
-**Date:** 2026-11-14
+**Date:** 2026-11-15
 
-**Status:** `DRAFT — AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN`
+**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
@@ -30,16 +30,16 @@ The act also fixes the manifest target block and the six-seed block as the objec
 
 | Seed | Targets | Candidates | Eligible | Selection digest |
 | ---: | --- | ---: | ---: | --- |
-| `20630101` | `verdant>sable`, `olive>cedar`, `fern>willow`, `yarrow>amber` | 64 | 64 | `a5961be73fd6609e` |
-| `20630102` | `umber>ochre`, `verdant>teal`, `indigo>sable`, `slate>birch` | 63 | 63 | `f1ac206b15439743` |
-| `20630103` | `teal>willow`, `amber>verdant`, `fern>maple`, `olive>indigo` | 64 | 64 | `e820c5ed006f1a74` |
-| `20630104` | `indigo>ochre`, `teal>fern`, `willow>olive`, `birch>verdant` | 64 | 64 | `09f071131ba3c16e` |
-| `20630105` | `cedar>olive`, `indigo>teal`, `verdant>maple`, `ochre>fern` | 64 | 64 | `8636d029063c254d` |
-| `20630106` | `sable>maple`, `teal>umber`, `cedar>olive`, `amber>crimson` | 63 | 63 | `179290a10fc74203` |
+| `20740101` | `indigo>fern`, `teal>slate`, `maple>cedar`, `verdant>umber` | 64 | 64 | `71edd540444e5d4c` |
+| `20740102` | `olive>umber`, `willow>yarrow`, `verdant>crimson`, `ochre>slate` | 64 | 64 | `3cca78df8fc594b8` |
+| `20740103` | `yarrow>teal`, `amber>willow`, `birch>fern`, `verdant>sable` | 64 | 64 | `cdf3295c1e7f636b` |
+| `20740104` | `slate>indigo`, `umber>cedar`, `crimson>sable`, `willow>birch` | 64 | 64 | `7435763687d41db4` |
+| `20740105` | `ochre>crimson`, `verdant>willow`, `sable>yarrow`, `fern>olive` | 64 | 64 | `23c66aba1e00ccb4` |
+| `20740106` | `indigo>teal`, `birch>ochre`, `amber>yarrow`, `verdant>sable` | 62 | 62 | `77bb10af29b83c79` |
 
 **Target observations:** 24. **Unique target edges:** 23. The repeated edge is intentional; the unit of assignment is the seed, and each seed carries its own four-edge set.
 
-**Selection artifact digest (SHA-256):** `c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a`
+**Selection artifact digest (SHA-256):** `6c8ff41c669b3973597244f3991ad24015640632371123af69bba59845556695`
 
 ## 3. Effect of signature
 
@@ -71,7 +71,7 @@ The act may be signed only while all of the following remain true:
 | Six target sets formed | **PASS** |
 | Four disjoint targets per seed | **PASS** |
 | Target edges in the pre-37 universe | **PASS** |
-| Earlier `U` measured before carrier, K and Y | **PASS** — fixed cycle-4 `U`; earliest current carrier cycle 5 ([audit](A1-C5-TARGET-TIMING.md)) |
+| Earlier `U` measured before carrier, K and Y | **PASS** — fixed cycle-4 `U`; earliest current carrier cycle 8, earliest observed carrier cycle 6 ([audit](A1-C5-TARGET-TIMING.md)) |
 | Selection artifact internally consistent | **PASS** |
 | Path A recorded as the estimand | **PASS** |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |

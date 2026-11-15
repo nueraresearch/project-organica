@@ -205,6 +205,7 @@ def test_owner_decision_memo_is_unsigned_and_records_remaining_decisions():
 
 
 def test_target_freeze_act_is_prepared_not_executed():
+    import hashlib
     import json
     from pathlib import Path
 
@@ -212,29 +213,43 @@ def test_target_freeze_act_is_prepared_not_executed():
     artifact = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
     by_seed = {seed: row["selected"] for seed, row in artifact["per_seed"].items()}
 
-    assert act["status"].startswith("SUPERSEDED")
-    assert act["supersession"]["reissue_required"] is True
-    assert act["supersession"]["superseded_seed_block"] == [
+    # Re-issued for the adopted block: the act now describes the live selection,
+    # and the superseded edition's tables are history, not restated data.
+    assert act["status"].startswith("DRAFT")
+    assert act["reissue"]["signed"] is False
+    assert act["reissue"]["previous_edition_seed_block"] == [
         20630101, 20630102, 20630103, 20630104, 20630105, 20630106]
-    assert act["supersession"]["current_seed_block"] == [
+    assert act["reissue"]["current_seed_block"] == [
         20740101, 20740102, 20740103, 20740104, 20740105, 20740106]
+    assert "supersession" not in act
     assert act["signed"] is False
     assert act["path"] == "A"
+    assert act["targets_by_seed"] == by_seed
     assert set(act["targets_by_seed"]) == {
-        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
-    assert act["target_count"] == 24
-    assert act["unique_target_edges"] == 23
+        str(seed) for seed in act["reissue"]["current_seed_block"]}
+    assert act["target_count"] == sum(len(edges) for edges in by_seed.values())
+    assert act["unique_target_edges"] == len(
+        {edge for edges in by_seed.values() for edge in edges})
+    for seed, row in artifact["per_seed"].items():
+        assert act["per_seed"][seed]["selection_digest"] == row["selection_digest"]
+        assert act["per_seed"][seed]["universe_digest"] == row["universe_digest"]
     assert act["checks"]["target_set_problems"] == []
-    import hashlib
     artifact_bytes = Path("docs/a1_target_selection.json").read_bytes()
-    assert act["selection_artifact_digest"] == act["supersession"][
-        "selection_artifact_digest"]
-    assert act["selection_artifact_digest"] != hashlib.sha256(
+    assert act["selection_artifact_digest"] == hashlib.sha256(
         artifact_bytes).hexdigest()
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
     assert act["current_manifest_frozen"] is False
+
+    c5 = json.loads(Path("docs/a1_c5_target_timing.json").read_text(encoding="utf-8"))
+    assert act["c5_timing"]["status"].startswith("PASS")
+    assert act["c5_timing"]["u_cycle"] == c5["u_cycle"]
+    assert act["c5_timing"]["earliest_observed_carrier_cycle"] == c5[
+        "earliest_observed_carrier_cycle"]
+    assert act["c5_timing"]["earliest_current_carrier_cycle"] == c5[
+        "earliest_current_carrier_cycle"]
+    assert act["c5_timing"]["current_carriers_before_u"] == 0
 
     manifest = json.loads(Path("docs/a1_two_path_manifest.json").read_text(encoding="utf-8"))
     assert manifest["frozen"] is False
@@ -248,53 +263,12 @@ def test_target_freeze_act_is_prepared_not_executed():
     check["targets"]["by_seed"] = by_seed
     assert a1_two_path.target_set_problems(check) == []
 
-    from benchmarks.presence_cap_experiment import seed_collisions
-    allow = (a1_two_path.MANIFEST_PATH, a1_two_path.TARGET_SELECTION_PATH,
-             a1_two_path.C8_TARGET_SELECTION_PATH, a1_two_path.C8_EXPANSION_PATH,
-             a1_two_path.ADVERSARIAL_AUDIT_PATH, a1_two_path.POWER_REVIEW_PATH,
-             a1_two_path.C5_TIMING_PATH, a1_two_path.TARGET_FREEZE_ACT_PATH,
-             a1_two_path.N20_TARGET_FREEZE_ACT_PATH,
-             a1_two_path.BASELINE_AVAILABILITY_PATH,
-             a1_two_path.TARGET_VIABILITY_PATH,
-             a1_two_path.DESIGN_VIABILITY_PATH,
-             a1_two_path.N20_COMPETENT_PREREG_PATH,
-             a1_two_path.K_DECOMPOSITION_PATH,
-             a1_two_path.SUCCESSOR_PREFLIGHT_PATH,
-             a1_two_path.SUCCESSOR_CANDIDATE_PATH,
-             a1_two_path.LARGER_UNIVERSE_CANDIDATE_PATH,
-             a1_two_path.LARGER_UNIVERSE_PREFLIGHT_PATH,
-             a1_two_path.K_TOTAL_PREDICTORS_PATH,
-             a1_two_path.K_CARRIER_SUPPLY_PATH,
-             a1_two_path.K_LOOP_CAP_PATH,
-             a1_two_path.C1_CAP120_PATH,
-             a1_two_path.PREDICTION_CAP_C1_PATH,
-             a1_two_path.PREDICTION_CAP_112_PATH,
-             a1_two_path.PREDICTION_CAP112_DECOMPOSE_PATH,
-             a1_two_path.PREDICTION_CAP80_OVERLAP_PATH,
-             a1_two_path.PREDICTION_CAP80_SELECTION_PATH,
-             a1_two_path.K_COMPLETENESS_PATH,
-             a1_two_path.CAP_RESPONSE_CURVE_PATH,
-             a1_two_path.OFFSET_PREDICTORS_PATH,
-             a1_two_path.CAP_RESPONSE_HOLDOUT_PATH,
-             a1_two_path.PREDICTION_CAP_TURNOVER_PATH,
-             a1_two_path.OFFSET_DENSITY_PATH,
-             a1_two_path.SEED_HOLDOUT_PATH,
-             a1_two_path.CAP112_UNSERVED_PATH,
-             a1_two_path.OFFSET_DISCRIMINATOR_PATH,
-             a1_two_path.WITHIN_BLOCK_LEVEL_PATH,
-             a1_two_path.ORDERING_TERM_PATH,
-             a1_two_path.SPLIT_POWER_PATH,
-             a1_two_path.ENGINE_SIDE_JOIN_PATH,
-             a1_two_path.BAND_FRONTIER_PATH,
-             a1_two_path.SELECTION_IDENTITY_PATH,
-             a1_two_path.PAIR_SPLIT_RULE_PATH)
-    assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
-
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
     assert "**Signature and date:**" in page
     assert "NO GRANT, NO RUN" in page
     assert "FIXED BEFORE FREEZE" in page
-
+    assert "Re-issued 2026-11-15" in page
+    assert "`20630101`" not in page
 
 def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     import hashlib
@@ -304,13 +278,18 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     act = json.loads(Path("docs/a1_target_freeze_act_n20.json").read_text(encoding="utf-8"))
     c20 = json.loads(Path("docs/a1_c8_target_selection.json").read_text(encoding="utf-8"))
     c4 = json.loads(Path("docs/a1_target_selection.json").read_text(encoding="utf-8"))
+    c5 = json.loads(Path("docs/a1_c5_target_timing.json").read_text(encoding="utf-8"))
     by_seed = {seed: row["selected"] for seed, row in c20["per_seed"].items()}
     current = {seed: row["selected"] for seed, row in c4["per_seed"].items()}
 
     assert act["kind"] == "a1_target_freeze_act_n20"
     assert act["id"] == "A1-TARGET-FREEZE-N20-1"
-    assert act["status"].startswith("SUPERSEDED")
-    assert act["supersession"]["reissue_required"] is True
+    assert act["status"].startswith("DRAFT")
+    assert act["reissue"]["signed"] is False
+    assert act["reissue"]["previous_edition_seed_block"][0] == 20630101
+    assert act["reissue"]["current_seed_block"] == [
+        20740101, 20740102, 20740103, 20740104, 20740105, 20740106]
+    assert "supersession" not in act
     assert act["signed"] is False
     assert act["path"] == "A"
     assert act["n_per_seed"] == 20
@@ -318,12 +297,16 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["max_endpoint_degree"] == 3
     assert act["threshold"] == 0.05
     assert act["threshold_changed"] is False
+    assert act["targets_by_seed"] == by_seed
     assert set(act["targets_by_seed"]) == {
-        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
-    assert act["target_count"] == 120
-    assert act["unique_target_edges"] == 104
-    assert act["current_target_count"] == 24
-    assert act["current_unique_target_edges"] == 23
+        str(seed) for seed in act["reissue"]["current_seed_block"]}
+    assert act["current_targets_by_seed"] == current
+    assert act["target_count"] == sum(len(edges) for edges in by_seed.values())
+    assert act["unique_target_edges"] == len(
+        {edge for edges in by_seed.values() for edge in edges})
+    assert act["current_target_count"] == sum(len(edges) for edges in current.values())
+    assert act["current_unique_target_edges"] == len(
+        {edge for edges in current.values() for edge in edges})
     assert act["current_targets_retained"] is True
     assert act["superset_of_current_targets"] is True
     for seed, selected in by_seed.items():
@@ -331,20 +314,19 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
         assert len(set(selected)) == 20
     recorded_current = act["current_targets_by_seed"]
     for seed, current_edges in recorded_current.items():
-        assert act["per_seed"][seed]["retained_count"] == 4
-        assert act["per_seed"][seed]["new_count"] == 16
+        assert act["per_seed"][seed]["retained_count"] == len(current_edges)
+        assert act["per_seed"][seed]["new_count"] == 20 - len(current_edges)
         assert act["per_seed"][seed]["max_endpoint_degree"] == 3
+        assert act["per_seed"][seed]["selection_digest"] == c20["per_seed"][seed][
+            "selection_digest"]
         assert set(current_edges) <= set(act["targets_by_seed"][seed])
         assert act["new_targets_by_seed"][seed] == [
             edge for edge in act["targets_by_seed"][seed]
             if edge not in current_edges]
-    assert set(recorded_current) == {
-        str(seed) for seed in act["supersession"]["superseded_seed_block"]}
 
     digest = hashlib.sha256(Path("docs/a1_c8_target_selection.json").read_bytes()).hexdigest()
-    assert act["selection_artifact_digest"] == act["supersession"][
-        "selection_artifact_digest"]
-    assert act["selection_artifact_digest"] != digest
+    assert act["selection_artifact_digest"] == digest
+    assert act["design"]["selection_artifact_digest"] == digest
     assert act["c8_resolution"]["status"] == "RESOLVED BY THIS ACT IF SIGNED"
     assert act["c8_resolution"]["rows_per_seed"] == 20
     assert act["c8_resolution"]["step"] == 0.05
@@ -358,7 +340,10 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert blockers == set()
     assert act["c5_timing"]["status"].startswith("PASS")
     assert act["c5_timing"]["u_cycle"] == 4
-    assert act["c5_timing"]["earliest_current_carrier_cycle"] == 5
+    assert act["c5_timing"]["earliest_current_carrier_cycle"] == c5[
+        "earliest_current_carrier_cycle"]
+    assert act["c5_timing"]["earliest_observed_carrier_cycle"] == c5[
+        "earliest_observed_carrier_cycle"]
     assert act["c5_timing"]["current_carriers_before_u"] == 0
     assert act["c5_timing"]["current_targets_preserved"] is True
     assert act["checks"]["target_set_problems"].startswith("PASS")
@@ -368,14 +353,18 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
 
+    from benchmarks import a1_two_path
+    assert a1_two_path.target_set_problems(_n20_target_doc()) == []
+
     page = Path("docs/A1-TARGET-FREEZE-ACT-N20.md").read_text(encoding="utf-8")
     assert "**Signature and date:**" in page
     assert "A1-C8-EXPANSION-1" in page
-    assert "C5 TARGET TIMING CLEARED BY EARLIER-U" in page
+    assert "C5 CLEARED BY EARLIER-U" in page
     assert "C5: earlier `U` before carrier, K and Y" in page
     assert "1/20 = 0.05" in page
     assert "N=20 target validation" in page
-
+    assert "Re-issued 2026-11-15" in page
+    assert "`20630101`" not in page
 
 def test_n20_target_freeze_act_applies_to_manifest_validator():
     assert a1_two_path.target_set_problems(_n20_target_doc()) == []

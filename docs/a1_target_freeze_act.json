@@ -1,8 +1,8 @@
 {
   "kind": "a1_target_freeze_act",
   "id": "A1-TARGET-FREEZE-1",
-  "date": "2026-11-14",
-  "status": "SUPERSEDED \u2014 PREDICATED A SEED BLOCK THAT IS NO LONGER THE CANDIDATE; RE-ISSUE REQUIRED BEFORE FREEZE",
+  "date": "2026-11-15",
+  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -10,81 +10,81 @@
   "estimand": "representative eligible pre-37 cycle-membership directed-edge effect",
   "protocol": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
   "selection_artifact": "docs/a1_target_selection.json",
-  "selection_artifact_digest": "c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a",
+  "selection_artifact_digest": "6c8ff41c669b3973597244f3991ad24015640632371123af69bba59845556695",
   "targets_by_seed": {
-    "20630101": [
-      "verdant>sable",
-      "olive>cedar",
-      "fern>willow",
-      "yarrow>amber"
+    "20740101": [
+      "indigo>fern",
+      "teal>slate",
+      "maple>cedar",
+      "verdant>umber"
     ],
-    "20630102": [
-      "umber>ochre",
-      "verdant>teal",
-      "indigo>sable",
-      "slate>birch"
+    "20740102": [
+      "olive>umber",
+      "willow>yarrow",
+      "verdant>crimson",
+      "ochre>slate"
     ],
-    "20630103": [
-      "teal>willow",
-      "amber>verdant",
-      "fern>maple",
-      "olive>indigo"
+    "20740103": [
+      "yarrow>teal",
+      "amber>willow",
+      "birch>fern",
+      "verdant>sable"
     ],
-    "20630104": [
-      "indigo>ochre",
-      "teal>fern",
-      "willow>olive",
-      "birch>verdant"
+    "20740104": [
+      "slate>indigo",
+      "umber>cedar",
+      "crimson>sable",
+      "willow>birch"
     ],
-    "20630105": [
-      "cedar>olive",
+    "20740105": [
+      "ochre>crimson",
+      "verdant>willow",
+      "sable>yarrow",
+      "fern>olive"
+    ],
+    "20740106": [
       "indigo>teal",
-      "verdant>maple",
-      "ochre>fern"
-    ],
-    "20630106": [
-      "sable>maple",
-      "teal>umber",
-      "cedar>olive",
-      "amber>crimson"
+      "birch>ochre",
+      "amber>yarrow",
+      "verdant>sable"
     ]
   },
   "per_seed": {
-    "20630101": {
+    "20740101": {
       "candidate_count": 64,
       "eligible_count": 64,
-      "universe_digest": "ef530bde31c8e81b",
-      "selection_digest": "a5961be73fd6609e"
+      "universe_digest": "0bdc02737bd76d92",
+      "selection_digest": "71edd540444e5d4c"
     },
-    "20630102": {
-      "candidate_count": 63,
-      "eligible_count": 63,
-      "universe_digest": "bdc6283ba4447072",
-      "selection_digest": "f1ac206b15439743"
-    },
-    "20630103": {
+    "20740102": {
       "candidate_count": 64,
       "eligible_count": 64,
-      "universe_digest": "7ded2cbb7b78ccbd",
-      "selection_digest": "e820c5ed006f1a74"
+      "universe_digest": "79f94304e66e9e1d",
+      "selection_digest": "3cca78df8fc594b8"
     },
-    "20630104": {
+    "20740103": {
       "candidate_count": 64,
       "eligible_count": 64,
-      "universe_digest": "113afb95a4fca877",
-      "selection_digest": "09f071131ba3c16e"
+      "universe_digest": "d660927a7e932a9f",
+      "selection_digest": "cdf3295c1e7f636b"
     },
-    "20630105": {
+    "20740104": {
       "candidate_count": 64,
       "eligible_count": 64,
-      "universe_digest": "c2aef39165237b8e",
-      "selection_digest": "8636d029063c254d"
+      "universe_digest": "a3b98b32c7340668",
+      "selection_digest": "7435763687d41db4"
     },
-    "20630106": {
-      "candidate_count": 63,
-      "eligible_count": 63,
-      "universe_digest": "a436a506795a8945",
-      "selection_digest": "179290a10fc74203"
+    "20740105": {
+      "candidate_count": 64,
+      "eligible_count": 64,
+      "universe_digest": "921f82bfff3ed975",
+      "selection_digest": "23c66aba1e00ccb4"
+    },
+    "20740106": {
+      "candidate_count": 62,
+      "eligible_count": 62,
+      "universe_digest": "a910771b34a989e5",
+      "selection_digest": "77bb10af29b83c79"
     }
   },
   "target_count": 24,
@@ -150,16 +150,17 @@
     "u_cycle": 4,
     "selection_u_cycle": 36,
     "audit": "docs/a1_c5_target_timing.json",
-    "earliest_current_carrier_cycle": 5,
+    "earliest_observed_carrier_cycle": 6,
+    "earliest_current_carrier_cycle": 8,
+    "current_observed_carriers": 13,
+    "current_missing_carriers": 11,
     "current_carriers_before_u": 0,
     "current_targets_preserved": true,
-    "current_observed_carriers": 14,
-    "current_missing_carriers": 10,
     "note": "Cycle-36 remains the target-selection diagnostic; C5 uses the earlier sample. Missing carriers are left to the structural gates, not counted as timing failures."
   },
-  "supersession": {
-    "date": "2026-11-14",
-    "superseded_seed_block": [
+  "reissue": {
+    "date": "2026-11-15",
+    "previous_edition_seed_block": [
       20630101,
       20630102,
       20630103,
@@ -175,10 +176,14 @@
       20740105,
       20740106
     ],
-    "reason": "this act's per-seed target tables, counts and digest are bound to 20630101-20630106, which A1-BASELINE-AVAILABILITY-1 had already run; the manifest now carries 20740101-20740106",
-    "selection_artifact_digest": "c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a",
-    "what_survives": "the act's text, gates, thresholds and decision structure; only its per-seed target tables, counts and digest are bound to the superseded block",
-    "reissue_required": true,
-    "owner_decision": "re-issuing this act for the adopted block is the owner's signature step, not a tool's"
+    "reason": "the previous edition's per-seed tables, counts and digest were bound to 20630101-20630106, which A1-BASELINE-AVAILABILITY-1 spent; the two-path candidate block is now 20740101-20740106",
+    "previous_edition_selection_artifacts": {
+      "n4": "c8f96ff1888d5b9ae175950cb963e16b779a8caa5ebfa73e4b425fba7bec4f5a",
+      "n20": "daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76"
+    },
+    "preserved_in": "git history: the superseded edition's tables are at 1b822af and earlier; they are not restated here",
+    "signed": false,
+    "owner_decision": "signing and dating this re-issued act is the owner's act, not a tool's",
+    "what_changed": "per-seed target tables, counts, unique-edge counts, selection digests and the C5 cycle figures now describe the adopted block; the act's text, gates, thresholds and decision structure are unchanged"
   }
 }

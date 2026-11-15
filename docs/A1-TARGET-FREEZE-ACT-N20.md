@@ -1,12 +1,12 @@
-# A1 N=20 target-freeze act — draft
+# A1 N=20 target-freeze act — re-issued draft
 
-> **Superseded 2026-11-14.** This act's per-seed tables, counts and digest are bound to `20630101-20630106`; the manifest now carries `20740101-20740106`. Re-issuing the act for the adopted block is the owner's signature step, and nothing below is edited — the tables are the record of what was prepared for the superseded block.
+> **Re-issued 2026-11-15 for `20740101-20740106`.** This edition replaces the 2026-11-14 draft bound to `20630101-20630106`, a block spent by `A1-BASELINE-AVAILABILITY-1`; that edition's tables remain in git history (`1b822af`) and are not restated here. Every table, count and digest below is bound to the adopted block. Nothing in this act is signed, frozen, granted or run.
 
 **ID:** `A1-TARGET-FREEZE-N20-1`
 
-**Date:** 2026-11-14
+**Date:** 2026-11-15
 
-**Status:** `DRAFT — C5 TARGET TIMING CLEARED BY EARLIER-U; READY FOR OWNER SIGNATURE; N=20 VALIDATOR READY; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
+**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; C5 CLEARED BY EARLIER-U; READY FOR OWNER SIGNATURE; N=4 MANIFEST UNCHANGED; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
@@ -30,66 +30,66 @@ This act **supersedes** the unsigned N=4 act [`A1-TARGET-FREEZE-1`](A1-TARGET-FR
 
 The following are the exact 20 strings in the committed selection order. **Current four:** the existing Path A targets. **New 16:** the expansion rows added by this act.
 
-### Seed `20630101`
+### Seed `20740101`
 
-**Current four (retained):** `verdant>sable`, `olive>cedar`, `fern>willow`, `yarrow>amber`
+**Current four (retained):** `indigo>fern`, `teal>slate`, `maple>cedar`, `verdant>umber`
 
-**New 16:** `amber>olive`, `ochre>cedar`, `fern>maple`, `umber>fern`, `ochre>birch`, `crimson>birch`, `maple>olive`, `sable>indigo`, `teal>birch`, `sable>umber`, `indigo>yarrow`, `yarrow>cedar`, `willow>slate`, `slate>umber`, `crimson>amber`, `ochre>indigo`
+**New 16:** `umber>cedar`, `slate>birch`, `fern>yarrow`, `crimson>sable`, `indigo>olive`, `indigo>maple`, `cedar>sable`, `verdant>olive`, `sable>verdant`, `umber>birch`, `amber>olive`, `birch>fern`, `crimson>maple`, `yarrow>slate`, `teal>willow`, `ochre>crimson`
 
-**All 20:** `verdant>sable`, `olive>cedar`, `fern>willow`, `amber>olive`, `ochre>cedar`, `yarrow>amber`, `fern>maple`, `umber>fern`, `ochre>birch`, `crimson>birch`, `maple>olive`, `sable>indigo`, `teal>birch`, `sable>umber`, `indigo>yarrow`, `yarrow>cedar`, `willow>slate`, `slate>umber`, `crimson>amber`, `ochre>indigo`
+**All 20:** `indigo>fern`, `teal>slate`, `maple>cedar`, `umber>cedar`, `slate>birch`, `verdant>umber`, `fern>yarrow`, `crimson>sable`, `indigo>olive`, `indigo>maple`, `cedar>sable`, `verdant>olive`, `sable>verdant`, `umber>birch`, `amber>olive`, `birch>fern`, `crimson>maple`, `yarrow>slate`, `teal>willow`, `ochre>crimson`
 
-### Seed `20630102`
+### Seed `20740102`
 
-**Current four (retained):** `umber>ochre`, `verdant>teal`, `indigo>sable`, `slate>birch`
+**Current four (retained):** `olive>umber`, `willow>yarrow`, `verdant>crimson`, `ochre>slate`
 
-**New 16:** `ochre>amber`, `verdant>olive`, `verdant>crimson`, `willow>teal`, `ochre>indigo`, `cedar>umber`, `yarrow>amber`, `teal>cedar`, `willow>crimson`, `fern>olive`, `cedar>birch`, `yarrow>indigo`, `sable>amber`, `fern>crimson`, `willow>maple`, `maple>sable`
+**New 16:** `verdant>ochre`, `verdant>willow`, `yarrow>ochre`, `umber>slate`, `amber>sable`, `sable>maple`, `sable>willow`, `crimson>indigo`, `olive>maple`, `yarrow>crimson`, `amber>birch`, `maple>birch`, `fern>teal`, `teal>birch`, `indigo>umber`, `slate>amber`
 
-**All 20:** `umber>ochre`, `verdant>teal`, `ochre>amber`, `verdant>olive`, `verdant>crimson`, `willow>teal`, `indigo>sable`, `ochre>indigo`, `cedar>umber`, `slate>birch`, `yarrow>amber`, `teal>cedar`, `willow>crimson`, `fern>olive`, `cedar>birch`, `yarrow>indigo`, `sable>amber`, `fern>crimson`, `willow>maple`, `maple>sable`
+**All 20:** `olive>umber`, `willow>yarrow`, `verdant>crimson`, `verdant>ochre`, `ochre>slate`, `verdant>willow`, `yarrow>ochre`, `umber>slate`, `amber>sable`, `sable>maple`, `sable>willow`, `crimson>indigo`, `olive>maple`, `yarrow>crimson`, `amber>birch`, `maple>birch`, `fern>teal`, `teal>birch`, `indigo>umber`, `slate>amber`
 
-### Seed `20630103`
+### Seed `20740103`
 
-**Current four (retained):** `teal>willow`, `amber>verdant`, `fern>maple`, `olive>indigo`
+**Current four (retained):** `yarrow>teal`, `amber>willow`, `birch>fern`, `verdant>sable`
 
-**New 16:** `teal>verdant`, `amber>indigo`, `willow>umber`, `slate>cedar`, `sable>yarrow`, `verdant>crimson`, `crimson>indigo`, `willow>crimson`, `amber>ochre`, `maple>umber`, `yarrow>maple`, `sable>olive`, `fern>ochre`, `slate>birch`, `ochre>yarrow`, `birch>teal`
+**New 16:** `willow>yarrow`, `cedar>teal`, `sable>teal`, `olive>sable`, `maple>cedar`, `cedar>olive`, `fern>ochre`, `ochre>olive`, `amber>verdant`, `ochre>willow`, `amber>slate`, `umber>verdant`, `crimson>maple`, `yarrow>indigo`, `fern>umber`, `slate>umber`
 
-**All 20:** `teal>willow`, `amber>verdant`, `fern>maple`, `teal>verdant`, `amber>indigo`, `willow>umber`, `olive>indigo`, `slate>cedar`, `sable>yarrow`, `verdant>crimson`, `crimson>indigo`, `willow>crimson`, `amber>ochre`, `maple>umber`, `yarrow>maple`, `sable>olive`, `fern>ochre`, `slate>birch`, `ochre>yarrow`, `birch>teal`
+**All 20:** `yarrow>teal`, `willow>yarrow`, `cedar>teal`, `amber>willow`, `sable>teal`, `birch>fern`, `verdant>sable`, `olive>sable`, `maple>cedar`, `cedar>olive`, `fern>ochre`, `ochre>olive`, `amber>verdant`, `ochre>willow`, `amber>slate`, `umber>verdant`, `crimson>maple`, `yarrow>indigo`, `fern>umber`, `slate>umber`
 
-### Seed `20630104`
+### Seed `20740104`
 
-**Current four (retained):** `indigo>ochre`, `teal>fern`, `willow>olive`, `birch>verdant`
+**Current four (retained):** `slate>indigo`, `umber>cedar`, `crimson>sable`, `willow>birch`
 
-**New 16:** `birch>fern`, `maple>amber`, `cedar>indigo`, `amber>willow`, `birch>slate`, `amber>yarrow`, `crimson>indigo`, `slate>willow`, `teal>ochre`, `maple>crimson`, `slate>maple`, `fern>umber`, `teal>crimson`, `umber>olive`, `cedar>yarrow`, `sable>cedar`
+**New 16:** `olive>indigo`, `slate>maple`, `cedar>verdant`, `amber>maple`, `teal>slate`, `maple>sable`, `indigo>amber`, `umber>olive`, `verdant>olive`, `teal>yarrow`, `verdant>yarrow`, `teal>cedar`, `ochre>amber`, `crimson>yarrow`, `birch>umber`, `crimson>fern`
 
-**All 20:** `indigo>ochre`, `teal>fern`, `willow>olive`, `birch>verdant`, `birch>fern`, `maple>amber`, `cedar>indigo`, `amber>willow`, `birch>slate`, `amber>yarrow`, `crimson>indigo`, `slate>willow`, `teal>ochre`, `maple>crimson`, `slate>maple`, `fern>umber`, `teal>crimson`, `umber>olive`, `cedar>yarrow`, `sable>cedar`
+**All 20:** `slate>indigo`, `umber>cedar`, `crimson>sable`, `olive>indigo`, `slate>maple`, `willow>birch`, `cedar>verdant`, `amber>maple`, `teal>slate`, `maple>sable`, `indigo>amber`, `umber>olive`, `verdant>olive`, `teal>yarrow`, `verdant>yarrow`, `teal>cedar`, `ochre>amber`, `crimson>yarrow`, `birch>umber`, `crimson>fern`
 
-### Seed `20630105`
+### Seed `20740105`
 
-**Current four (retained):** `cedar>olive`, `indigo>teal`, `verdant>maple`, `ochre>fern`
+**Current four (retained):** `ochre>crimson`, `verdant>willow`, `sable>yarrow`, `fern>olive`
 
-**New 16:** `cedar>sable`, `umber>birch`, `slate>olive`, `cedar>birch`, `amber>crimson`, `amber>birch`, `umber>fern`, `crimson>verdant`, `fern>slate`, `teal>crimson`, `slate>yarrow`, `yarrow>verdant`, `yarrow>umber`, `ochre>olive`, `amber>indigo`, `willow>maple`
+**New 16:** `fern>ochre`, `olive>willow`, `willow>amber`, `teal>slate`, `sable>teal`, `teal>umber`, `fern>umber`, `cedar>slate`, `crimson>slate`, `amber>maple`, `verdant>cedar`, `cedar>amber`, `olive>crimson`, `umber>maple`, `birch>indigo`, `verdant>maple`
 
-**All 20:** `cedar>olive`, `indigo>teal`, `verdant>maple`, `ochre>fern`, `cedar>sable`, `umber>birch`, `slate>olive`, `cedar>birch`, `amber>crimson`, `amber>birch`, `umber>fern`, `crimson>verdant`, `fern>slate`, `teal>crimson`, `slate>yarrow`, `yarrow>verdant`, `yarrow>umber`, `ochre>olive`, `amber>indigo`, `willow>maple`
+**All 20:** `ochre>crimson`, `verdant>willow`, `sable>yarrow`, `fern>ochre`, `olive>willow`, `fern>olive`, `willow>amber`, `teal>slate`, `sable>teal`, `teal>umber`, `fern>umber`, `cedar>slate`, `crimson>slate`, `amber>maple`, `verdant>cedar`, `cedar>amber`, `olive>crimson`, `umber>maple`, `birch>indigo`, `verdant>maple`
 
-### Seed `20630106`
+### Seed `20740106`
 
-**Current four (retained):** `sable>maple`, `teal>umber`, `cedar>olive`, `amber>crimson`
+**Current four (retained):** `indigo>teal`, `birch>ochre`, `amber>yarrow`, `verdant>sable`
 
-**New 16:** `willow>cedar`, `teal>willow`, `crimson>yarrow`, `birch>willow`, `amber>maple`, `sable>slate`, `fern>indigo`, `yarrow>slate`, `cedar>maple`, `birch>indigo`, `teal>olive`, `fern>umber`, `yarrow>olive`, `umber>verdant`, `sable>crimson`, `amber>slate`
+**New 16:** `verdant>teal`, `ochre>fern`, `verdant>yarrow`, `yarrow>willow`, `birch>crimson`, `maple>ochre`, `crimson>cedar`, `umber>teal`, `amber>maple`, `fern>willow`, `slate>willow`, `olive>fern`, `maple>indigo`, `indigo>birch`, `amber>slate`, `umber>cedar`
 
-**All 20:** `sable>maple`, `teal>umber`, `cedar>olive`, `willow>cedar`, `amber>crimson`, `teal>willow`, `crimson>yarrow`, `birch>willow`, `amber>maple`, `sable>slate`, `fern>indigo`, `yarrow>slate`, `cedar>maple`, `birch>indigo`, `teal>olive`, `fern>umber`, `yarrow>olive`, `umber>verdant`, `sable>crimson`, `amber>slate`
+**All 20:** `indigo>teal`, `verdant>teal`, `birch>ochre`, `amber>yarrow`, `ochre>fern`, `verdant>yarrow`, `yarrow>willow`, `verdant>sable`, `birch>crimson`, `maple>ochre`, `crimson>cedar`, `umber>teal`, `amber>maple`, `fern>willow`, `slate>willow`, `olive>fern`, `maple>indigo`, `indigo>birch`, `amber>slate`, `umber>cedar`
 
 | Seed | Candidates | Eligible | A−K− rows | Retained | New | Max degree | Selection digest |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `20630101` | 64 | 64 | 20 | 4 | 16 | 3 | `029749776f555743` |
-| `20630102` | 63 | 63 | 20 | 4 | 16 | 3 | `132ba4ab73b30b60` |
-| `20630103` | 64 | 64 | 20 | 4 | 16 | 3 | `e43ee50632fc2ab3` |
-| `20630104` | 64 | 64 | 20 | 4 | 16 | 3 | `431394460a400a49` |
-| `20630105` | 64 | 64 | 20 | 4 | 16 | 3 | `64f888517920177b` |
-| `20630106` | 63 | 63 | 20 | 4 | 16 | 3 | `5f84322410f92c41` |
+| `20740101` | 64 | 64 | 20 | 4 | 16 | 3 | `f440a99296934789` |
+| `20740102` | 64 | 64 | 20 | 4 | 16 | 3 | `002057a0ceb76a63` |
+| `20740103` | 64 | 64 | 20 | 4 | 16 | 3 | `684a4ff4d58e4f86` |
+| `20740104` | 64 | 64 | 20 | 4 | 16 | 3 | `60344feeb208447a` |
+| `20740105` | 64 | 64 | 20 | 4 | 16 | 3 | `7c1c094b6bf2a663` |
+| `20740106` | 62 | 62 | 20 | 4 | 16 | 3 | `8a223c4bc586c756` |
 
-**Target observations:** 120. **Unique target edges:** 104. **Retained current targets:** 24/24 observations (four per seed). **New rows:** 96 (16 per seed).
+**Target observations:** 120. **Unique target edges:** 100. **Retained current targets:** 24/24 observations (four per seed). **New rows:** 96 (16 per seed).
 
-**Selection artifact digest (SHA-256):** `daa207f2a6b0644081677691cebc54131d36151406e0121cbe364df005c5cc76`
+**Selection artifact digest (SHA-256):** `2af0a2e0f4d8464b8c8e9fcaeefeb0268b896551fb2046491962b6465c73d54b`
 
 ## 3. Effect of signature
 
@@ -113,7 +113,7 @@ The act does **not**:
 
 ## 4. Preconditions
 
-C5 target timing and the N=20 validator are now satisfied. The table records the state at the draft date; the act remains unsigned.
+C5 target timing and the N=20 validator are satisfied. The table records the state at the re-issue date; the act remains unsigned.
 
 | Precondition | State |
 | --- | --- |
@@ -122,7 +122,7 @@ C5 target timing and the N=20 validator are now satisfied. The table records the
 | Twenty targets per seed | **PASS** — 20 rows on all six seeds |
 | Four current targets retained | **PASS** — 4/4 in every seed |
 | Selection artifact internally consistent | **PASS** |
-| C5: earlier `U` before carrier, K and Y | **PASS** — fixed cycle-4 `U`; no current target carrier before cycle 4; earliest current carrier cycle 5; four current targets preserved ([audit](A1-C5-TARGET-TIMING.md)) |
+| C5: earlier `U` before carrier, K and Y | **PASS** — fixed cycle-4 `U`; no current target carrier before cycle 4; earliest current carrier cycle 8, earliest observed carrier cycle 6; four current targets preserved ([audit](A1-C5-TARGET-TIMING.md)) |
 | N=20 target validation | **PASS** — `a1_two_path` accepts 20 unique targets per seed with permitted overlap and endpoint degree at most 3 |
 | C8 denominator | **PASS** — 20 rows per seed; `1/20 = 0.05`; ceiling unchanged |
 | C1 acceptance rule | **RECORDED — BINDING FOR A1** |
@@ -130,7 +130,7 @@ C5 target timing and the N=20 validator are now satisfied. The table records the
 | Grant | **NOT ISSUED** |
 | Run | **NOT STARTED** |
 
-**C5 is cleared for these targets without re-selecting any of them.** The earlier-`U` protocol fixes the C5 sample at cycle 4, after the cycle-4 observations are stored and before the cycle-4 sleep call. The no-arm replay records the earliest current carrier at cycle 5 and no current target carrier before cycle 4; the cycle-36 sample remains the target-selection diagnostic only. The four retained targets are therefore preserved, and the 16 expansion rows are not exempt: the same cycle-4 rule applies to every row. The replay also records **10 of 24 current observations with no carrier by cycle 120**; an absent carrier is not a timing violation, and those rows remain subject to the structural gates that require carrier availability at run time. This is a design check, not an A1 cell, and it does not weaken C5: a cell still fails if its U is later than a carrier, K or Y that exists.
+**C5 is cleared for these targets without re-selecting any of them.** The earlier-`U` protocol fixes the C5 sample at cycle 4, after the cycle-4 observations are stored and before the cycle-4 sleep call. The no-arm replay records the earliest current carrier at cycle 8 and no current target carrier before cycle 4; the cycle-36 sample remains the target-selection diagnostic only. The four retained targets are therefore preserved, and the 16 expansion rows are not exempt: the same cycle-4 rule applies to every row. The replay also records **11 of 24 current observations with no carrier by 120**; an absent carrier is not a timing violation, and those rows remain subject to the structural gates that require carrier availability at run time. This is a design check, not an A1 cell, and it does not weaken C5: a cell still fails if its U is later than a carrier, K or Y that exists.
 
 **The N=20 validator is implemented, not merely documented.** `benchmarks.a1_two_path` selects the target profile from `targets.n_per_seed`: N=4 still requires four disjoint targets, while N=20 requires 20 unique targets, permits endpoint overlap, caps each endpoint at degree 3 and validates the block against [`a1_c8_target_selection.json`](a1_c8_target_selection.json). The block recorded in this act passes that check. This does not apply it to the live manifest; that still waits for signature.
 
