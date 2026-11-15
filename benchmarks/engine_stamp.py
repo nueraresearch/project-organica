@@ -112,6 +112,7 @@ DERIVED = {
     "a1_engine_side_join.py",  # per-seed join of engine-side quantities to the level
     "a1_band_frontier.py",  # decision-band position against seeds per split block
     "a1_selection_identity_spec.py",  # fixed-count exchange spec; runs no arm
+    "a1_pair_split_rule_amended.py",  # amended pair-split rule and seed budget
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing
