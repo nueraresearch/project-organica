@@ -55,7 +55,8 @@
         "docs/a1_scorer_pin.json",
         "docs/decisions.json",
         "docs/a1_viability_levers.json",
-        "docs/a1_two_path_result.json"
+        "docs/a1_two_path_result.json",
+        "docs/a2_sham_feasibility.json"
       ],
       "seeds": [
         20740101,

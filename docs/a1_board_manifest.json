@@ -321,6 +321,25 @@
       "proved_by": [
         "tests/test_a1_prefreeze.py"
       ]
+    },
+    {
+      "id": "a2-sham",
+      "branch": "A2 sham matching",
+      "kind": "artifact",
+      "artifact": "docs/A2-SHAM-FEASIBILITY.md",
+      "contains": [
+        {
+          "path": "docs/A2-SHAM-FEASIBILITY.md",
+          "strings": [
+            "Per edge: not constructible",
+            "different design"
+          ]
+        }
+      ],
+      "note": "a matched sham exists in aggregate but not per non-target edge, so the per-edge C4' is not constructible from this selection",
+      "proved_by": [
+        "tests/test_a2_sham_feasibility.py"
+      ]
     }
   ],
   "bare_allowlist": {

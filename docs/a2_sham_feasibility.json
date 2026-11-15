@@ -1,0 +1,345 @@
+{
+  "kind": "a2_sham_feasibility",
+  "id": "A2-SHAM-FEASIBILITY-1",
+  "date": "2026-11-15",
+  "status": "NOT FEASIBLE PER EDGE \u2014 NO SHAM MATCHES EVERY NON-TARGET EDGE; AGGREGATE FORM AVAILABLE",
+  "selection_artifact": "docs/a1_c8_target_selection_competent.json",
+  "selection_artifact_digest": "697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde",
+  "cycles": 120,
+  "endpoint_degree": 3,
+  "tolerance_cycles": 6,
+  "aggregate": {
+    "status": "FEASIBLE ON ALL SEEDS \u2014 a C4' defined on the mean non-target perturbation",
+    "note": "Specified after the per-edge test failed, and therefore not a rescue of it: this is a different C4'. It accepts that the sham redistributes perturbation across edges as long as the total and the mean match, which the table shows they do.",
+    "criterion": "mean absolute per-edge difference at most 6 cycles (0.05 x 120) and the two arms' total predicted loss within 10% of each other"
+  },
+  "criterion": "A sham is admissible when it is disjoint from the target block, respects the endpoint-degree cap of 3, and its predicted non-target carrier loss is within 6 cycles (0.05 x 120) of the target block's on at least 95% of non-target edges, with a mean absolute difference of at most 1 cycle.",
+  "totals": {
+    "seeds": 6,
+    "worst_share_within_tolerance": 0.8839,
+    "worst_mean_abs_difference_cycles": 2.759,
+    "worst_max_abs_difference_cycles": 78,
+    "aggregate": {
+      "worst_mean_abs_difference_cycles": 2.759,
+      "worst_total_gap_share": 0.0806,
+      "feasible": true
+    },
+    "target_carrier_appearances_removed": 3025
+  },
+  "rows": [
+    {
+      "seed": 20740101,
+      "targets": 20,
+      "carrier_appearances": 1962,
+      "target_profile": {
+        "size": 20,
+        "carrier_appearances_removed": 504,
+        "non_target_edges_touched": 52,
+        "mean_loss_cycles": 11.685,
+        "max_loss_cycles": 184,
+        "edges_over_tolerance": 26,
+        "total_loss_cycles": 1075
+      },
+      "sham_edges": [
+        "amber>slate",
+        "cedar>fern",
+        "cedar>maple",
+        "crimson>olive",
+        "crimson>willow",
+        "fern>birch",
+        "fern>indigo",
+        "ochre>birch",
+        "ochre>cedar",
+        "ochre>verdant",
+        "olive>birch",
+        "olive>indigo",
+        "sable>amber",
+        "slate>verdant",
+        "teal>maple",
+        "teal>sable",
+        "umber>verdant",
+        "willow>amber",
+        "yarrow>maple",
+        "yarrow>sable"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 1.973,
+        "max_abs_difference_cycles": 30,
+        "share_within_tolerance": 0.9018,
+        "l1_difference_cycles": 221
+      },
+      "profile": {
+        "size": 20,
+        "carrier_appearances_removed": 474,
+        "non_target_edges_touched": 56,
+        "mean_loss_cycles": 11.598,
+        "max_loss_cycles": 184,
+        "edges_over_tolerance": 30,
+        "total_loss_cycles": 1067
+      }
+    },
+    {
+      "seed": 20740102,
+      "targets": 17,
+      "carrier_appearances": 2611,
+      "target_profile": {
+        "size": 17,
+        "carrier_appearances_removed": 623,
+        "non_target_edges_touched": 41,
+        "mean_loss_cycles": 15.642,
+        "max_loss_cycles": 187,
+        "edges_over_tolerance": 29,
+        "total_loss_cycles": 1486
+      },
+      "sham_edges": [
+        "amber>yarrow",
+        "crimson>birch",
+        "indigo>amber",
+        "indigo>crimson",
+        "maple>sable",
+        "maple>verdant",
+        "ochre>birch",
+        "ochre>slate",
+        "olive>maple",
+        "olive>teal",
+        "olive>umber",
+        "sable>ochre",
+        "slate>cedar",
+        "slate>teal",
+        "teal>sable",
+        "umber>indigo",
+        "yarrow>umber"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 0.188,
+        "max_abs_difference_cycles": 5,
+        "share_within_tolerance": 1.0,
+        "l1_difference_cycles": 21
+      },
+      "profile": {
+        "size": 17,
+        "carrier_appearances_removed": 612,
+        "non_target_edges_touched": 43,
+        "mean_loss_cycles": 15.747,
+        "max_loss_cycles": 187,
+        "edges_over_tolerance": 30,
+        "total_loss_cycles": 1496
+      }
+    },
+    {
+      "seed": 20740103,
+      "targets": 20,
+      "carrier_appearances": 2571,
+      "target_profile": {
+        "size": 20,
+        "carrier_appearances_removed": 367,
+        "non_target_edges_touched": 47,
+        "mean_loss_cycles": 7.663,
+        "max_loss_cycles": 55,
+        "edges_over_tolerance": 28,
+        "total_loss_cycles": 705
+      },
+      "sham_edges": [
+        "amber>olive",
+        "amber>verdant",
+        "birch>indigo",
+        "birch>maple",
+        "birch>slate",
+        "cedar>slate",
+        "cedar>willow",
+        "crimson>verdant",
+        "crimson>willow",
+        "fern>amber",
+        "fern>cedar",
+        "indigo>sable",
+        "ochre>fern",
+        "ochre>maple",
+        "olive>crimson",
+        "olive>ochre",
+        "sable>willow",
+        "slate>sable",
+        "umber>maple",
+        "yarrow>indigo"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 2.58,
+        "max_abs_difference_cycles": 51,
+        "share_within_tolerance": 0.8839,
+        "l1_difference_cycles": 289
+      },
+      "profile": {
+        "size": 20,
+        "carrier_appearances_removed": 348,
+        "non_target_edges_touched": 44,
+        "mean_loss_cycles": 7.207,
+        "max_loss_cycles": 55,
+        "edges_over_tolerance": 29,
+        "total_loss_cycles": 663
+      }
+    },
+    {
+      "seed": 20740104,
+      "targets": 20,
+      "carrier_appearances": 2506,
+      "target_profile": {
+        "size": 20,
+        "carrier_appearances_removed": 533,
+        "non_target_edges_touched": 52,
+        "mean_loss_cycles": 11.054,
+        "max_loss_cycles": 124,
+        "edges_over_tolerance": 28,
+        "total_loss_cycles": 1017
+      },
+      "sham_edges": [
+        "amber>ochre",
+        "amber>teal",
+        "birch>ochre",
+        "crimson>cedar",
+        "crimson>sable",
+        "indigo>fern",
+        "indigo>olive",
+        "ochre>fern",
+        "olive>maple",
+        "sable>maple",
+        "sable>umber",
+        "teal>amber",
+        "teal>birch",
+        "umber>olive",
+        "umber>slate",
+        "verdant>cedar",
+        "verdant>yarrow",
+        "willow>birch",
+        "willow>cedar",
+        "willow>slate"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 2.759,
+        "max_abs_difference_cycles": 78,
+        "share_within_tolerance": 0.9286,
+        "l1_difference_cycles": 309
+      },
+      "profile": {
+        "size": 20,
+        "carrier_appearances_removed": 536,
+        "non_target_edges_touched": 48,
+        "mean_loss_cycles": 11.946,
+        "max_loss_cycles": 124,
+        "edges_over_tolerance": 33,
+        "total_loss_cycles": 1099
+      }
+    },
+    {
+      "seed": 20740105,
+      "targets": 18,
+      "carrier_appearances": 2562,
+      "target_profile": {
+        "size": 18,
+        "carrier_appearances_removed": 508,
+        "non_target_edges_touched": 50,
+        "mean_loss_cycles": 14.138,
+        "max_loss_cycles": 118,
+        "edges_over_tolerance": 39,
+        "total_loss_cycles": 1329
+      },
+      "sham_edges": [
+        "amber>cedar",
+        "amber>willow",
+        "birch>verdant",
+        "maple>ochre",
+        "maple>umber",
+        "ochre>cedar",
+        "ochre>fern",
+        "olive>teal",
+        "sable>crimson",
+        "sable>yarrow",
+        "slate>birch",
+        "slate>crimson",
+        "slate>fern",
+        "umber>birch",
+        "umber>fern",
+        "verdant>teal",
+        "willow>indigo",
+        "willow>verdant"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 0.304,
+        "max_abs_difference_cycles": 5,
+        "share_within_tolerance": 1.0,
+        "l1_difference_cycles": 34
+      },
+      "profile": {
+        "size": 18,
+        "carrier_appearances_removed": 497,
+        "non_target_edges_touched": 51,
+        "mean_loss_cycles": 14.021,
+        "max_loss_cycles": 118,
+        "edges_over_tolerance": 39,
+        "total_loss_cycles": 1318
+      }
+    },
+    {
+      "seed": 20740106,
+      "targets": 20,
+      "carrier_appearances": 2625,
+      "target_profile": {
+        "size": 20,
+        "carrier_appearances_removed": 490,
+        "non_target_edges_touched": 49,
+        "mean_loss_cycles": 12.891,
+        "max_loss_cycles": 121,
+        "edges_over_tolerance": 34,
+        "total_loss_cycles": 1186
+      },
+      "sham_edges": [
+        "amber>fern",
+        "amber>maple",
+        "amber>slate",
+        "birch>crimson",
+        "cedar>willow",
+        "crimson>maple",
+        "fern>crimson",
+        "fern>olive",
+        "indigo>yarrow",
+        "maple>olive",
+        "ochre>birch",
+        "ochre>cedar",
+        "olive>sable",
+        "slate>umber",
+        "umber>sable",
+        "umber>yarrow",
+        "verdant>birch",
+        "verdant>teal",
+        "willow>slate",
+        "willow>teal"
+      ],
+      "sham_degree_ok": true,
+      "sham_disjoint": true,
+      "distance": {
+        "mean_abs_difference_cycles": 0.589,
+        "max_abs_difference_cycles": 13,
+        "share_within_tolerance": 0.9643,
+        "l1_difference_cycles": 66
+      },
+      "profile": {
+        "size": 20,
+        "carrier_appearances_removed": 471,
+        "non_target_edges_touched": 52,
+        "mean_loss_cycles": 12.587,
+        "max_loss_cycles": 121,
+        "edges_over_tolerance": 33,
+        "total_loss_cycles": 1158
+      }
+    }
+  ],
+  "not_evidence": "A pre-treatment matching check, not a result. It predicts non-target carrier loss from the no-arm replay; it does not run an arm, and a feasible sham does not establish that the two arms perturb equally."
+}

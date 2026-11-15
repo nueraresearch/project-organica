@@ -119,6 +119,24 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the A2 sham is matchable in aggregate, not per edge
+
+A placebo-controlled A2 needs a sham block whose carrier removal perturbs non-target edges like the real block's does.
+`benchmarks/a2_sham_feasibility.py` checks that from pre-treatment data only: it replays each seed's 120-cycle world with
+no arm, counts carrier appearances, and searches for a same-size, same-degree-cap sham under the target block's size.
+
+**Per edge, it is not constructible.** Three of six seeds put fewer than 95% of non-target edges within the 6-cycle
+(0.05 × 120) tolerance of the target block, with worst differences of 30, 51 and 78 cycles. A max-first search over the
+same budget did not improve them (89.3%, 75.9%, 85.7%), which is what makes this look structural rather than a weak
+search.
+
+**In aggregate, it is.** On all six seeds the mean absolute per-edge difference is at most 2.76 cycles and the two arms'
+predicted total losses are within 10% of each other — the sham redistributes the interference rather than avoiding it.
+
+**These are two different C4' designs and the record says so.** The aggregate criterion was written after the per-edge
+one failed; it is a narrower claim (mean non-target perturbation), not a rescue of the per-edge claim. Which one A2 uses
+is part of the A2 decision, not an implementation detail.
+
 ## Addendum — 2026-11-15: the VOID is accepted; the scorer repair is future-only
 
 `DECISION-A1-VOID-ACCEPTED` accepts the assembly as the study's outcome. The completed run is **not** rescored, no C4

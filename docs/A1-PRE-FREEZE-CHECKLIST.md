@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 14 branches, 11 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 15 branches, 12 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -40,13 +40,14 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | Freeze acts | **PARTIALLY SIGNED** | the N=20 act is signed on the competent block, at the floor for two seeds and above it for one, with the scorer pinned; the N=4 act is below N_min = 17 and stays unsigned | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
 | Grant, run | **CLOSED — ARTIFACT EXISTS** | the block ran once under the grant and the assembly is VOID on C4; nothing here is an effect estimate — [`A1-RUN.md`](A1-RUN.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
 | The VOID is accepted, not rescored | **CLOSED — ADOPTED** | the block ran once, assembled to VOID on C4, and stays that way; the scorer repair applies to future runs only — [`DECISION-A1-VOID-ACCEPTED`](DECISION-A1-VOID-ACCEPTED.md) | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
+| A2 sham matching | **CLOSED — ARTIFACT EXISTS** | a matched sham exists in aggregate but not per non-target edge, so the per-edge C4' is not constructible from this selection — [`A2-SHAM-FEASIBILITY.md`](A2-SHAM-FEASIBILITY.md) | [`tests/test_a2_sham_feasibility.py`](../tests/test_a2_sham_feasibility.py) |
 <!-- a1-artifacts:end -->
 
 The inventory below is what the pinning layer is worth, counted rather than claimed: claims, the numbers
 their sources actually state, and every branch that quotes a number without pinning it.
 
 <!-- a1-coverage:start -->
-**Claim coverage** — 9 claims pin 27 numbers across 6 of 14 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
+**Claim coverage** — 9 claims pin 27 numbers across 6 of 15 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
 
 | Branch | Numbers quoted, no pin |
 | --- | --- |
