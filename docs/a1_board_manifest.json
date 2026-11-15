@@ -78,6 +78,16 @@
       ]
     },
     {
+      "id": "c8-selection-procedure",
+      "branch": "C8 selection procedure",
+      "kind": "decision",
+      "decision": "DECISION-A1-C8-SELECTION",
+      "note": "the pool, the record before the freeze, no fallback, no re-filtering, and disclosure — binding only once signed",
+      "proved_by": [
+        "tests/test_a1_competence_rule_page.py"
+      ]
+    },
+    {
       "id": "competent-construction",
       "branch": "Competent-selection construction",
       "kind": "artifact",

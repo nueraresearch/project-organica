@@ -32,8 +32,9 @@ records no result.
 - **The selection procedure.** Select only from the competent pool, record the pool before the freeze, add no fallback
   row, disclose the unfiltered selection — those clauses are drafted in
   [`A1-C2-C8-COMPETENCE-RULE`](A1-C2-C8-COMPETENCE-RULE.md), and that document carries `DRAFT — FOR OWNER DECISION; NOT IN
-  FORCE`. **No adopted record states them.** The implemented selector follows them; nothing in force requires it to, and
-  that is a gap the freeze acts would close or leave open.
+  FORCE`. **No adopted record states them.** They are now put forward for adoption in
+  [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md), which is pending; until it is signed the implemented selector
+  follows a draft, and nothing in force requires it to.
 - **The freeze.** Neither target-freeze act is signed, so no block is frozen and no pool is committed.
 - **The C1 ceiling clause.** [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) is drafted, not adopted; on the board
   its row reads `AWAITING THE CEILING DECISION`.

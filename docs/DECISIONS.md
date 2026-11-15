@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 19 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 7 | decided and not in force; the document says so |
-| **total** | **27** | |
+| PENDING | 8 | decided and not in force; the document says so |
+| **total** | **28** | |
 
 ## The decisions
 
@@ -601,6 +601,33 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/A1-C1-CEILING-CONFLICT.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/DECISION-A1-C1-DENOMINATOR.md`, `docs/a1_baseline_availability_adopted.json`, `tests/test_a1_c1_ceiling.py`
 
 **Record.** `docs/DECISION-A1-C1-CEILING.md`
+
+### DECISION-A1-C8-SELECTION — Decision: the selection procedure for C8 is binding, not drafted
+
+**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; PUTS THE SELECTION PROCEDURE IN FORCE; NOT IN FORCE, NOTHING FROZEN, NOTHING RUN"*
+
+**Decided.**
+
+- Every C8 row is drawn from the competent pool.
+- The pool and the selected block are written into the freeze act, together with the identity of the constructor that produced the block, before any cell runs.
+- A row that fails competence is never added to reach a size.
+- After a run, the pool, the block, the competence predicate or the constructor may not be re-derived to fit an observed outcome.
+- The unfiltered selection is reported beside the filtered block, so the filter's effect is visible rather than baked in.
+- A breach of S2, S3 or S4 voids the block for C8 and is recorded as VOID with the breach named.
+- This decision changes no engine file, threshold, floor, gate, seed or cell.
+
+**Rejected.**
+
+- *Leave it in the draft and cite the draft from the acts* — because *"A draft marked NOT IN FORCE cannot make anything binding; citing it gives the appearance of a rule without the effect"*
+- *Restate the clauses inside each freeze act* — because *"The acts would then define the procedure, and two acts could define it differently while both claiming to implement one rule."*
+- *Put the clauses into DECISION-A1-C8-NMIN by amendment* — because *"That record is signed and about what is adjudicated, not how rows are chosen; amending it makes its status quote describe less than the document contains."*
+- *Treat the implementation as the rule* — because *"Code is what runs, not what was agreed: a rule that lives only in code can be changed by a commit nobody reviewed as a decision."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C2-C8-COMPETENCE-RULE.md`, `benchmarks/a1_c8_target_selection_competent.py`, `docs/A1-COMPETENCE-RULE-IN-FORCE.md`, `docs/A1-C8-TARGET-SELECTION-COMPETENT.md`, `docs/DECISION-A1-C8-NMIN.md`
+
+**Record.** `docs/DECISION-A1-C8-SELECTION.md`
 
 ## What this graph is not
 

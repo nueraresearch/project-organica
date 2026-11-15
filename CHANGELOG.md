@@ -119,6 +119,30 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: a decision drafted to put the selection procedure in force
+
+The reading page named the gap: the selection procedure a C8 run would follow is implemented and drafted, and **nothing in
+force requires either**. [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) is the record that closes it, drafted
+and `PENDING — FOR OWNER ADOPTION`. It binds seven things and changes no number: the pool is the competent pool read at the
+recorded no-arm baseline; the pool and block are recorded in the freeze act with the constructor's identity before any
+cell runs; no fallback row; no re-filtering after a run; the unfiltered selection disclosed beside the filtered block; a
+breach of the middle three VOIDs the block with the breach named; and none of it touches an engine file, threshold, floor,
+gate, seed or cell. It deliberately does not restate the floor, threshold or cap — those stay in the adopted C8 record.
+
+Four alternatives are refused in the document: citing a `NOT IN FORCE` draft, restating the clauses inside each freeze act,
+amending the signed C8 record to carry a different subject, and treating the implementation as the rule.
+
+The index now holds twenty-eight decisions (nineteen adopted, one withdrawn, eight pending), Q054 tallies the new record,
+and the board carries a twelfth branch, `C8 selection procedure`, reading `AWAITING SIGNATURE` — so the gap is visible on
+the board rather than only in prose.
+
+Two things the tooling caught, both of them the point of the tooling. `decision_graph --check` requires every `chosen` line
+and every rejected *reason* in the index to be a **verbatim quote** from the document; two entries failed because the
+document wrote `` `VOID` `` where the index wrote `VOID`, and because S7 was summarised rather than quoted. The index now
+carries the document's sentences, and the document was edited to make them quoteable rather than the index loosened. And a
+board test asserted `len(a1) == 11`; the count is now derived from the index, because a hardcoded number only tests that
+someone edited the test.
+
 ## Addendum — 2026-11-15: the competence rule has a reading page that states no constants
 
 The rule is spread across a unit decision, a contract decision and a draft. `docs/A1-COMPETENCE-RULE-IN-FORCE.md` says

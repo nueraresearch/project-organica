@@ -22,7 +22,7 @@ proves it), the decision table from `docs/decisions.json`. Regenerate with `pyth
 block disagrees with its source, and `--verify` runs the checks the manifest points at.
 
 <!-- a1-artifacts:start -->
-**Branches and artifacts** — 11 branches, 7 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
+**Branches and artifacts** — 12 branches, 7 closed. Each state is derived from the record, artifact or act named in its row, via `docs/a1_board_manifest.json`; nothing in this table is typed, and a branch whose artifact is missing renders `OPEN — ARTIFACT NOT PROVEN`.
 
 | Branch | State | What the row rests on | Check |
 | --- | --- | --- | --- |
@@ -30,6 +30,7 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | C1 denominator invariance | **CLOSED — ARTIFACT EXISTS** | C1 counts every recorded row, so the target set cannot move it; the competent selection reproduces 79/64/79/74/72/74 — [`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
 | C1 unit of evidence | **CLOSED — ADOPTED** | the directed edge; the relation is a declared dependence class on its own denominator — [`DECISION-A1-C1-UNIT`](DECISION-A1-C1-UNIT.md) | [`A1-C1-UNIT-OF-EVIDENCE.md`](A1-C1-UNIT-OF-EVIDENCE.md) |
 | Competence contract, N_min, capacity | **CLOSED — ADOPTED** | unit, threshold 0.05, endpoint cap 3, N_min = 17 — [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
+| C8 selection procedure | **AWAITING SIGNATURE** | the pool, the record before the freeze, no fallback, no re-filtering, and disclosure — binding only once signed — [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) | [`tests/test_a1_competence_rule_page.py`](../tests/test_a1_competence_rule_page.py) |
 | Competent-selection construction | **CLOSED — ARTIFACT EXISTS** | 20/17/20/20/18/20; every larger size proved impossible on both short seeds — [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md) | [`tests/test_a1_c8_selection_competent.py`](../tests/test_a1_c8_selection_competent.py) |
 | C4 measurability semantics | **CLOSED — ARTIFACT EXISTS** | an unmeasurable quantity is VOID, never a pass or a crash — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_gate_measurability.py`](../tests/test_a1_gate_measurability.py) |
 | C4 completeness detection | **CLOSED — ARTIFACT EXISTS** | an absent or short treated stream VOIDs instead of passing on the control's own rows — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py) |
@@ -43,7 +44,7 @@ The inventory below is what the pinning layer is worth, counted rather than clai
 their sources actually state, and every branch that quotes a number without pinning it.
 
 <!-- a1-coverage:start -->
-**Claim coverage** — 9 claims pin 27 numbers across 6 of 11 branches, drawn from 2 artifacts and 3 documents. 5 branches state no numbers. 1 branch quotes a number without a pin.
+**Claim coverage** — 9 claims pin 27 numbers across 6 of 12 branches, drawn from 2 artifacts and 3 documents. 6 branches state no numbers. 1 branch quotes a number without a pin.
 
 | Branch | Numbers quoted, no pin |
 | --- | --- |
@@ -57,11 +58,12 @@ not hand-maintained, so a status change makes it stale until `python -m benchmar
 regenerates it.
 
 <!-- a1-board:start -->
-**Owner decisions** — 11 A1 records in `docs/decisions.json`: 8 adopted, 0 withdrawn, 2 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
+**Owner decisions** — 12 A1 records in `docs/decisions.json`: 8 adopted, 0 withdrawn, 3 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
 
 | Decision | State | What it decides |
 | --- | --- | --- |
 | [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) | **AWAITING SIGNATURE** | One clause of one binding record. It changes no preservation threshold, no denominator floor, no gate and no seed … |
+| [`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) | **AWAITING SIGNATURE** | The procedure by which C8's rows are chosen, and what happens when it is violated. It changes no threshold, no denominator, no floor, no gate, no engine file and no seed … |
 | [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) | **AWAITING SIGNATURE** | The target population, the estimand's wording, and the C4 multiplicity restatement that follows from the row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing. |
 | [`DECISION-A1-PATH-A-C1-C4`](DECISION-A1-PATH-A-C1-C4.md) | **PENDING — NOT BLOCKING** | Owner decision memo — A1 Path A and C1/C4 gate order |
 | [`DECISION-A1-DISPOSITION`](DECISION-A1-DISPOSITION.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no manifest, authorises no cell, changes no engine file and records no result. |
