@@ -67,6 +67,23 @@ baseline and checked the size list against C8; it did not check the prose senten
 1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
 `min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
 fail — both directions were run.
+## Addendum — 2026-11-15: C1's ceiling decision drafted, priced in both directions
+
+`A1-PATH-A-C1-RULE-1` voids any run whose observed minimum C1 denominator is above 64, and the adopted block's own
+baseline measures 79 / 64 / 79 / 74 / 72 / 74 on the operative row — five of six seeds. Read literally the block is
+`VOID — design inconsistency` before any retention is read. The denominator record adopted the day after the rule
+explicitly changed the unit ("Not the candidate count"), and left the ceiling on the old scale.
+
+The draft narrows that clause to the quantity it names and replaces the constant with a comparison: the scored
+denominator must equal the preplanned universe recorded in the freeze act, and a denominator larger than it is VOID.
+The argument is that the constant fails both ways — it voids 79 recorded against 79 planned, and it passes 64 recorded
+against 60 planned with four rows added after the baseline. A comparison against the recorded universe fires on every
+addition and on nothing that was planned.
+
+It amends §2.1's planned-bound row and §2.3's third paragraph, and says so in the record; 0.95, the 60-row floor, the
+three-loss band and the C4 ceiling are untouched. The per-seed minima and the index quotes are recomputed by
+`tests/test_a1_c1_ceiling.py`, so the record cannot drift from the baseline that produces it.
+
 ## Addendum — 2026-11-15: C4's completeness conditions now fire
 
 The C4 gate's own failure row names three conditions — absent stream, incomplete stream, no measurable paired delta —

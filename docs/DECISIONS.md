@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 19 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
-| **total** | **26** | |
+| PENDING | 7 | decided and not in force; the document says so |
+| **total** | **27** | |
 
 ## The decisions
 
@@ -578,6 +578,29 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/a1_baseline_availability_adopted.json`, `docs/a1_competence_adopted.json`, `docs/A1-COMPETENCE-ADOPTED.md`, `docs/A1-TARGET-VIABILITY-ADOPTED.md`, `tests/test_a1_target_viability_adopted.py`
 
 **Record.** `docs/DECISION-A1-COMPETENT-ESTIMAND.md`
+
+### DECISION-A1-C1-CEILING — Decision: the C1 ceiling is the preplanned universe, not the number 64
+
+**Status.** PENDING — *"PENDING — FOR OWNER ADOPTION; AMENDS ONE CLAUSE OF A1-PATH-A-C1-RULE-1; NOT IN FORCE"*
+
+**Decided.**
+
+- The `>64` clause is narrowed to the quantity it names — the 63–64 candidate-plan count — and does not govern the operative cell-row denominator that `DECISION-A1-C1-DENOMINATOR-1` adopted.
+- The ceiling's function is carried by a comparison rather than a constant: the scored denominator must equal the preplanned universe recorded in the freeze act, and any denominator larger than that universe is `VOID — design inconsistency`.
+- The preplanned universe is restated from the pre-treatment baseline artifact before either act is signed, and the restated value is written into the act it freezes.
+
+**Rejected.**
+
+- *Read the clause literally and accept five seeds as VOID* — because *"It voids the adopted block before any retention is read, for a denominator that is exactly the preplanned one; and it would still pass a 64-row run that added four rows after the baseline, so it fires where nothing is wrong and stays silent where the defect is."*
+- *Keep the ceiling and shrink the candidate universe to 64 rows or fewer* — because *"It changes the target population to satisfy a planning number, drops rows the baseline shows are available, shrinks the non-target stream C4 is computed over, and would be a design change made after the baseline was seen."*
+- *Delete the ceiling and rely on the instruction to score preplanned rows* — because *"A check that must be remembered is not a check: with no comparison against the recorded universe, a scored population larger than the planned one is invisible."*
+- *Treat the narrow reading as already settled by the checklist footnote* — because *"A documentation edit cannot decide a binding record, and that footnote has been retracted; the clause needs a record of its own."*
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-CEILING-CONFLICT.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`, `docs/DECISION-A1-C1-DENOMINATOR.md`, `docs/a1_baseline_availability_adopted.json`, `tests/test_a1_c1_ceiling.py`
+
+**Record.** `docs/DECISION-A1-C1-CEILING.md`
 
 ## What this graph is not
 
