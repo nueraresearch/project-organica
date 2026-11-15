@@ -251,9 +251,19 @@ def test_target_freeze_act_is_prepared_not_executed():
             "max_attainable"] == ceiling
     assert act["design_viability"]["floor"] == viability["c1_ceiling"]["floor"]
     assert act["design_viability"]["recorded_disposition"] == viability["disposition"]
-    assert act["design_viability"]["applies_to_the_adopted_block"].startswith("NOT MEASURED")
+    measured = act["design_viability"]["measured_for_adopted_block"]
+    avail = json.loads(Path("docs/a1_baseline_availability_adopted.json").read_text(
+        encoding="utf-8"))
+    assert measured["id"] == avail["id"]
+    for row in avail["per_seed"]:
+        recorded = measured["per_seed"][str(row["seed"])]
+        assert recorded["A_available"] == row["protocol"]["A_available"]
+        assert recorded["max_attainable"] == row["protocol"]["c1_min_denominator"]
+        assert recorded["reaches_floor"] is False
+    assert act["design_viability"]["cleared"] is False
+    assert act["design_viability"]["blocker_state"].startswith("CONFIRMED")
     assert act["design_viability"]["is_a_signature_blocker"] is True
-    assert "C1 VIABILITY UNVERIFIED" in act["status"]
+    assert "C1 VIABILITY CONFIRMED BELOW FLOOR" in act["status"]
 
     c5 = json.loads(Path("docs/a1_c5_target_timing.json").read_text(encoding="utf-8"))
     assert act["c5_timing"]["status"].startswith("PASS")
@@ -281,7 +291,8 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert "NO GRANT, NO RUN" in page
     assert "FIXED BEFORE FREEZE" in page
     assert "Re-issued 2026-11-15" in page
-    assert "C1 VIABILITY UNVERIFIED" in page
+    assert "C1 VIABILITY CONFIRMED BELOW FLOOR" in page
+    assert "45 / 34 / 47 / 48 / 38 / 41" in page
     assert "Do not freeze or run the current A1 design" in page
     assert "44 / 31 / 39 / 35 / 43 / 36" in page
     assert "`20630101`" not in page

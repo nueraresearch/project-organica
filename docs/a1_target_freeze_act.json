@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act",
   "id": "A1-TARGET-FREEZE-1",
   "date": "2026-11-15",
-  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY UNVERIFIED FOR THIS STREAM (BLOCKING); AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY CONFIRMED BELOW FLOOR ON THIS STREAM (BLOCKING); AWAITING AN OWNER DECISION ON THE C1 DENOMINATOR; NOT FROZEN; NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -252,11 +252,102 @@
     },
     "recorded_conclusion": "every seed's C1 ceiling is below the 60-row floor; target selection cannot add available rows, only partition them",
     "recorded_disposition": "Do not freeze or run the current A1 design on these records. C1 is not target-selectable, and target competence requires an owner rule. A1 must be redesigned with a C1-capable universe or seed block and a pre-registered competence rule, or parked. No cell, target freeze, grant or threshold change is authorised.",
-    "applies_to_the_adopted_block": "NOT MEASURED \u2014 the recorded ceiling is computed on the superseded 20630101-20630106 candidate stream (docs/a1_baseline_availability.json); no committed artifact computes A/K availability, and therefore a C1 ceiling, for the adopted 20740101-20740106 stream",
+    "applies_to_the_adopted_block": "MEASURED on 2026-11-15 \u2014 see measured_for_adopted_block; the adopted stream's own ceiling is below the floor",
     "what_signing_leaves_open": "whether the frozen stream can produce a 60-row C1 denominator at all. The only measurement in the repository says a sibling stream could not, and the disposition on that record is 'do not freeze'; this act does not repair that, re-measure it, or take a position on it",
     "is_a_signature_blocker": true,
     "blocker_id": "C1_viability_unverified",
-    "note": "The C1 ceiling is a property of the candidate stream, not of the target block: target selection partitions rows and cannot create them. So the recorded flag does not transfer to the adopted block as a measurement, and it does not lapse either \u2014 it says the one stream this design has in common with the record (its construction) failed the floor. Signing freezes targets on a stream whose ceiling is unknown."
+    "note": "The C1 ceiling is a property of the candidate stream, not of the target block: target selection partitions rows and cannot create them. So the recorded flag does not transfer to the adopted block as a measurement, and it does not lapse either \u2014 it says the one stream this design has in common with the record (its construction) failed the floor. Signing freezes targets on a stream whose ceiling is unknown.",
+    "measured_for_adopted_block": {
+      "artifact": "docs/a1_baseline_availability_adopted.json",
+      "id": "A1-BASELINE-AVAILABILITY-ADOPTED-1",
+      "date": "2026-11-15",
+      "artifact_digest": "4c01b4e9c2b1c058ae35c33079b004f03eb49c715fe689b81f4ee8ffc817fa5b",
+      "status": "FLAGGED \u2014 C1 FLOOR NOT REACHED IN THE CANDIDATE STREAM; C4 CELL STREAM IS WIDER THAN THE CANDIDATE PLAN",
+      "floor": 60,
+      "seed_block": [
+        20740101,
+        20740102,
+        20740103,
+        20740104,
+        20740105,
+        20740106
+      ],
+      "per_seed": {
+        "20740101": {
+          "A_available": 45,
+          "K_available": 46,
+          "max_attainable": 45,
+          "reaches_floor": false,
+          "cell_stream_min": 79
+        },
+        "20740102": {
+          "A_available": 51,
+          "K_available": 34,
+          "max_attainable": 34,
+          "reaches_floor": false,
+          "cell_stream_min": 64
+        },
+        "20740103": {
+          "A_available": 47,
+          "K_available": 48,
+          "max_attainable": 47,
+          "reaches_floor": false,
+          "cell_stream_min": 79
+        },
+        "20740104": {
+          "A_available": 50,
+          "K_available": 48,
+          "max_attainable": 48,
+          "reaches_floor": false,
+          "cell_stream_min": 74
+        },
+        "20740105": {
+          "A_available": 49,
+          "K_available": 38,
+          "max_attainable": 38,
+          "reaches_floor": false,
+          "cell_stream_min": 72
+        },
+        "20740106": {
+          "A_available": 48,
+          "K_available": 41,
+          "max_attainable": 41,
+          "reaches_floor": false,
+          "cell_stream_min": 74
+        }
+      },
+      "candidate_stream": {
+        "ceiling_by_seed": [
+          45,
+          34,
+          47,
+          48,
+          38,
+          41
+        ],
+        "min": 34,
+        "max": 48,
+        "seeds_reaching_floor": 0,
+        "conclusion": "every seed's candidate-stream C1 ceiling is below the 60-row floor: the adopted stream cannot produce the planned 60-row C1 denominator at any target selection"
+      },
+      "cell_stream": {
+        "min_by_seed": [
+          79,
+          64,
+          79,
+          74,
+          72,
+          74
+        ],
+        "min": 64,
+        "floor_pass": true,
+        "conclusion": "the full 120-cycle cell stream does reach the floor (min 64), so whether C1 is attainable depends on which stream its denominator is taken from"
+      },
+      "stream_divergence": 290,
+      "blocker_effect": "CONFIRMED, not inferred: the measurement that the acts were blocked for has now been made on the adopted block, and it fails the floor on the candidate stream"
+    },
+    "blocker_state": "CONFIRMED \u2014 C1 CEILING BELOW FLOOR ON THE ADOPTED STREAM",
+    "cleared": false
   },
   "blocking_preconditions": [
     "C1_viability_unverified"

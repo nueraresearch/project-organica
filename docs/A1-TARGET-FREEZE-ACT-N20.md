@@ -6,7 +6,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY UNVERIFIED FOR THIS STREAM (BLOCKING); AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN`
+**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY CONFIRMED BELOW FLOOR ON THIS STREAM (BLOCKING); AWAITING AN OWNER DECISION ON THE C1 DENOMINATOR; NOT FROZEN; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
@@ -111,7 +111,7 @@ The act does **not**:
 - regenerate targets or permit post-outcome re-selection;
 - change the 0.05 C8 ceiling, the 0.05 C7 A/K margin, or the C1/C4 gate.
 
-**Blocking precondition — C1 viability is unverified for this block.** `A1-DESIGN-VIABILITY-1` records that the candidate stream's maximum attainable C1 denominator is **44 / 31 / 39 / 35 / 43 / 36** against the **60-row floor** — 0 of 6 seeds reach it — and its disposition is *"Do not freeze or run the current A1 design on these records… A1 must be redesigned with a C1-capable universe or seed block"*. That ceiling was computed on the **superseded** `20630101-20630106` stream; **no committed artifact computes A/K availability, and therefore a C1 ceiling, for the adopted `20740101-20740106` stream.** A C1 ceiling is a property of the stream, not of the target block: target selection partitions rows and cannot create them. This act therefore freezes target identity while leaving open whether the frozen stream can produce a 60-row C1 denominator at all — and the only measurement the repository holds says a sibling stream could not. Signing does not repair, re-measure or take a position on that; it is a decision to freeze targets on a stream whose ceiling is unknown.
+**Blocking precondition — C1 viability is confirmed below the floor on this stream.** `A1-BASELINE-AVAILABILITY-ADOPTED-1` measured the adopted block with no treatment: the candidate-stream C1 ceiling is **45 / 34 / 47 / 48 / 38 / 41** against the **60-row floor** — **0 of 6** seeds reach it, and the best seed is 12 rows short. This is a measurement on **this** block, not the superseded `20630101-20630106` reading (**44 / 31 / 39 / 35 / 43 / 36**), and it confirms what that record warned about rather than clearing it — its disposition still reads *"Do not freeze or run the current A1 design on these records"*. **The one thing that complicates the verdict is which stream C1 counts.** The full 120-cycle cell stream reaches the floor on every seed (**79 / 64 / 79 / 74 / 72 / 74**, min 64), while the one-orientation candidate stream that the 63–64-row plan counts does not; the cell stream is wider by **290** rows. So C1 is unattainable under the planned denominator and attainable under the wider one, and **that choice is not this act's to make** — it is an owner decision about what C1 counts, recorded as open. Signature would freeze target identity on a stream that cannot reach the planned floor, with the wider denominator's admissibility undecided. What the act still does not do: re-measure C1, choose a denominator, or take a position on either.
 
 ## 4. Preconditions
 

@@ -44,7 +44,8 @@
     "docs/a1_adversarial_audit.json",
     "docs/a1_target_freeze_act.json",
     "docs/a1_target_freeze_act_n20.json",
-    "docs/a1_c8_expansion.json"
+    "docs/a1_c8_expansion.json",
+    "docs/a1_baseline_availability_adopted.json"
    ],
    "seeds": [
     20740101,

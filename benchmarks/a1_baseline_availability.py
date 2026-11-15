@@ -60,6 +60,15 @@ C4_MAX = 0.05
 # by editing another module's candidate.
 SEEDS = (20630101, 20630102, 20630103, 20630104, 20630105, 20630106)
 
+# The adopted two-path block gets its own record. The registered audit above is
+# bound to 20630101-20630106 and stays that way; A1's candidate block moved, and
+# a completed run's block is history. Measuring the adopted block is what makes
+# its C1 ceiling a measurement instead of an inference from a sibling stream.
+ADOPTED_PATH = DOCS / "a1_baseline_availability_adopted.json"
+ADOPTED_PAGE_PATH = DOCS / "A1-BASELINE-AVAILABILITY-ADOPTED.md"
+ADOPTED_ID = "A1-BASELINE-AVAILABILITY-ADOPTED-1"
+ADOPTED_DATE = "2026-11-15"
+
 
 def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -70,29 +79,31 @@ def _selected(path: Path, seed: int) -> list[str]:
     return list(row.get("selected") or [])
 
 
-def _candidates(seed: int) -> set[str]:
+def _candidates(seed: int, path: Path = AUDIT_PATH) -> set[str]:
     """The one-orientation candidate universe this audit ran.
 
     Read from this audit's own record first: the target-selection artifact is a
     live candidate block and moved to 20740101-20740106 on 2026-11-14, which
-    previously made a completed run's candidate count unverifiable.
+    previously made a completed run's candidate count unverifiable.  ``path`` is
+    the record to read, so the adopted block's run validates against its own.
     """
-    row = next((r for r in (_load(AUDIT_PATH).get("per_seed") or [])
-                if r.get("seed") == seed), {})
-    if row.get("candidate_edges"):
-        return set(row["candidate_edges"])
+    if path.exists():
+        row = next((r for r in (_load(path).get("per_seed") or [])
+                    if r.get("seed") == seed), {})
+        if row.get("candidate_edges"):
+            return set(row["candidate_edges"])
     selected = (_load(CURRENT_PATH).get("per_seed") or {}).get(str(seed)) or {}
     return set((selected.get("u") or {}).keys())
 
 
-def _targets() -> tuple[dict[int, set[tuple[str, str]]], dict[int, set[tuple[str, str]]]]:
+def _targets(seeds=SEEDS) -> tuple[dict[int, set[tuple[str, str]]], dict[int, set[tuple[str, str]]]]:
     current = {
         seed: {tuple(edge.split(">", 1)) for edge in _selected(CURRENT_PATH, seed)}
-        for seed in SEEDS
+        for seed in seeds
     }
     n20 = {
         seed: {tuple(edge.split(">", 1)) for edge in _selected(N20_PATH, seed)}
-        for seed in SEEDS
+        for seed in seeds
     }
     return current, n20
 
@@ -284,17 +295,18 @@ def _totals(per_seed: list[dict]) -> dict:
     }
 
 
-def build() -> dict:
-    current, n20 = _targets()
+def build(seeds=SEEDS, doc_id: str = ID, date: str = DATE,
+          candidates_path: Path = AUDIT_PATH) -> dict:
+    current, n20 = _targets(seeds)
     current_edges = {
-        seed: {"%s>%s" % edge for edge in current[seed]} for seed in SEEDS
+        seed: {"%s>%s" % edge for edge in current[seed]} for seed in seeds
     }
     n20_edges = {
-        seed: {"%s>%s" % edge for edge in n20[seed]} for seed in SEEDS
+        seed: {"%s>%s" % edge for edge in n20[seed]} for seed in seeds
     }
-    candidate_sets = {seed: _candidates(seed) for seed in SEEDS}
+    candidate_sets = {seed: _candidates(seed, candidates_path) for seed in seeds}
     per_seed = []
-    for seed in SEEDS:
+    for seed in seeds:
         replay = _run_seed(seed)
         row = _summary(seed, replay["rows"], current_edges[seed], n20_edges[seed],
                        candidate_sets[seed])
@@ -329,8 +341,8 @@ def build() -> dict:
         status += "; C4 CELL STREAM IS WIDER THAN THE CANDIDATE PLAN"
     return {
         "kind": KIND,
-        "id": ID,
-        "date": DATE,
+        "id": doc_id,
+        "date": date,
         "status": status,
         "cycles": CYCLES,
         "cap": CAP,
@@ -374,18 +386,19 @@ def build() -> dict:
     }
 
 
-def problems(doc: dict) -> list[str]:
+def problems(doc: dict, doc_id: str = ID, seeds=SEEDS,
+             candidates_path: Path = AUDIT_PATH) -> list[str]:
     found: list[str] = []
     if doc.get("kind") != KIND:
         found.append("audit kind")
-    if doc.get("id") != ID:
+    if doc.get("id") != doc_id:
         found.append("audit id")
     if doc.get("cycles") != CYCLES or doc.get("cap") != CAP:
         found.append("run object changed")
     if doc.get("c1_floor") != C1_FLOOR:
         found.append("C1 floor changed")
     per_seed = doc.get("per_seed") or []
-    if [row.get("seed") for row in per_seed] != list(SEEDS):
+    if [row.get("seed") for row in per_seed] != list(seeds):
         found.append("seed block changed")
     for row in per_seed:
         seed = row.get("seed")
@@ -418,7 +431,8 @@ def problems(doc: dict) -> list[str]:
                 protocol.get("c1_min_denominator", 0) >= C1_FLOOR):
             found.append("seed %s protocol floor status is inconsistent" % seed)
         if protocol.get("candidate_rows") != len(
-                [r for r in row.get("rows") or [] if r.get("edge") in _candidates(seed)]):
+                [r for r in row.get("rows") or []
+                 if r.get("edge") in _candidates(seed, candidates_path)]):
             found.append("seed %s protocol candidate count is inconsistent" % seed)
         if protocol.get("c4_non_target_rows_n4") != protocol.get("candidate_rows") - 4:
             found.append("seed %s protocol C4 N4 count is inconsistent" % seed)
@@ -593,26 +607,29 @@ def render(doc: dict) -> str:
     return "\n".join(lines).rstrip("\n")
 
 
-def write() -> int:
-    doc = build()
-    AUDIT_PATH.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
-    PAGE_PATH.write_text(render(doc) + "\n", encoding="utf-8")
-    found = problems(doc)
+def write(path: Path = AUDIT_PATH, page: Path = PAGE_PATH, seeds=SEEDS,
+          doc_id: str = ID, date: str = DATE,
+          candidates_path: Path = AUDIT_PATH) -> int:
+    doc = build(seeds, doc_id, date, candidates_path)
+    path.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+    page.write_text(render(doc) + "\n", encoding="utf-8")
+    found = problems(doc, doc_id, seeds, candidates_path)
     if found:
         for problem in found:
             print("FAIL:", problem)
         return 1
-    print("wrote %s and %s" % (AUDIT_PATH, PAGE_PATH))
+    print("wrote %s and %s" % (path, page))
     return 0
 
 
-def check() -> int:
-    if not AUDIT_PATH.exists():
-        print("FAIL: %s is missing" % AUDIT_PATH)
+def check(path: Path = AUDIT_PATH, page: Path = PAGE_PATH, seeds=SEEDS,
+          doc_id: str = ID, candidates_path: Path = AUDIT_PATH) -> int:
+    if not path.exists():
+        print("FAIL: %s is missing" % path)
         return 1
-    doc = _load(AUDIT_PATH)
-    found = problems(doc)
-    if PAGE_PATH.read_text(encoding="utf-8") != render(doc) + "\n":
+    doc = _load(path)
+    found = problems(doc, doc_id, seeds, candidates_path)
+    if page.read_text(encoding="utf-8") != render(doc) + "\n":
         found.append("the page is stale")
     if found:
         for problem in found:
@@ -632,6 +649,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--write-adopted", action="store_true",
+                        help="measure the adopted two-path block "
+                             "(A1-TWO-PATH-1's current seeds)")
+    parser.add_argument("--check-adopted", action="store_true")
     args = parser.parse_args(argv)
     if args.self_test:
         found = self_test()
@@ -643,6 +664,15 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.write:
         return write()
+    if args.write_adopted:
+        adopted = tuple(int(seed) for seed in a1_two_path.SEEDS)
+        return write(ADOPTED_PATH, ADOPTED_PAGE_PATH, adopted, ADOPTED_ID,
+                     ADOPTED_DATE, ADOPTED_PATH)
+    if args.check_adopted:
+        adopted = tuple(int(seed)
+                        for seed in _load(ADOPTED_PATH)["seed_block"])
+        return check(ADOPTED_PATH, ADOPTED_PAGE_PATH, adopted, ADOPTED_ID,
+                     ADOPTED_PATH)
     return check()
 
 
