@@ -138,6 +138,23 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the primitive's per-object cost does not fall with world size
+
+`benchmarks/v2_primitive_sizing_scaled.py` measured the same primitive on one seed at three sizes: the reference 120-cycle
+world (96 objects, 938.7 bytes each), four times the horizon (141 objects, 1,016.7) and twice the stimulus density (100
+objects, 983.0). **Nothing amortised.**
+
+The reason is saturation, not page cost: carrier appearances grow fourfold while admitted objects grow from 96 to 141,
+because the compositional generator draws from a fixed 16-tag universe and almost every triple that can clear `m>=2` already
+has after one horizon. Density raises counts, not structures — the denser world found 111 distinct node sets against the
+reference's 110. A longer or denser run of this world cannot test amortisation because it saturates the quantity that would
+have to grow.
+
+The base sizing's note that a bigger world "would give a much smaller bytes-per-object" was a conjecture and is now labelled
+untested; a wider tag universe, which `benchmarks/scale_streams.py` provides, is where that test belongs. The charter's cost
+answer is unchanged: at about a kilobyte per composite the primitive is tens of kilobytes against a store in the hundreds of
+megabytes.
+
 ## Addendum — 2026-11-15: the engine read as evidence, and three claims corrected
 
 `docs/CODE-AS-EVIDENCE.md` reads the frozen engine rather than running it, and the reading changes the record. A carrier is

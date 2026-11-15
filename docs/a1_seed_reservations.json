@@ -68,6 +68,15 @@
         20740106
       ],
       "spent": false
+    },
+    {
+      "label": "primitive sizing across world size",
+      "owner": "docs/v2_primitive_sizing_scaled.json",
+      "restated_by": [],
+      "seeds": [
+        20800101
+      ],
+      "spent": false
     }
   ],
   "shared_blocks": [

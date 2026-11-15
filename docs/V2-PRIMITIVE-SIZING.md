@@ -81,8 +81,10 @@ number of mutations. Keeping history instead — one row per version — costs
 - **Not built.** The primitive side is a schema with rows, not the engine's implementation; a real implementation could be
   smaller or larger depending on its indexes.
 - **One world.** 120 cycles, one seed (recorded in the source artifact, not here). No denser or longer world was sized.
-- **Page-bound.** At 33 pages the measurement is dominated by page granularity, so the per-composite figure is an upper
-  bound. A world with ten times the composites would give a much smaller bytes-per-object.
+- **Page-bound, and not amortised.** At 33 pages the measurement is dominated by page granularity, so the
+  per-composite figure is an upper bound. Whether a larger world amortises it is now **tested and not confirmed**: four
+  times the horizon and twice the density both stay at or above this figure, because the object population saturates
+  against a fixed tag universe. See [`V2-PRIMITIVE-SIZING-SCALED`](V2-PRIMITIVE-SIZING-SCALED.md).
 - **Store size moves.** The total is a page or two unstable between replays, so the store ratios carry that noise; the pair
   tables' pages and every row count are stable.
 - **`m` is unset.** The five rows above are five different primitives, not one estimate with error bars.
