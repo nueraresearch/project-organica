@@ -11,6 +11,25 @@ target sets are a feasibility artifact. They are not fixed experimental targets
 until the manifest is frozen by a separate act. The N=20 C8 expansion design is a
 separate registered design; it is not the current target set and is not frozen.
 
+## Where the tree stands — 2026-11-15
+
+The competence branch is **closed by decision and feasibility certification**: the unit, the threshold,
+the interpretation, the constructor and the floor are all fixed before any run, and `N_min = 17` was not
+chosen but bounded — `20740102` cannot field eighteen competent rows under the cap, proved by enumerating
+all 4,686,825 candidate subsets.
+
+Two substantive owner choices remain, and only two:
+
+1. **C1's unit of evidence** — directed edge or undirected relation. Definitional, not downstream: it
+   moves the floor's count form (60 of 63 against roughly 34 of 35), C4's protected set (108 rows against
+   59–60), and the estimand itself. [`A1-C1-UNIT-OF-EVIDENCE`](A1-C1-UNIT-OF-EVIDENCE.md).
+2. **C4's exposure acceptance** — the veto is a maximum over 324 deltas per seed and 1,944 per block
+   against a fixed 0.05, with the failure probability unmeasured. Adoptable text is drafted;
+   [`A1-C4-DECLARATION`](A1-C4-DECLARATION.md), [`A1-C4-RISK-POSTURE`](A1-C4-RISK-POSTURE.md).
+
+Everything else follows from those two: the disposition settles against them, and freeze and grant are
+consequences of the disposition rather than independent questions.
+
 ## Must pass before freeze
 
 | Check | Result | Evidence |
