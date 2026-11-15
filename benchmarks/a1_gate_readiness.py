@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -240,9 +241,21 @@ def gate_c4(rows: list[dict], tolerance: float | None) -> bool:
     non_target = [row for row in rows if not row.get("target")]
     for row in non_target:
         delta = row.get("neighbor_delta") or {}
-        if any(path not in delta or float(delta[path]) > tolerance
-               for path in ("A", "K", "Y")):
-            return False
+        for path in ("A", "K", "Y"):
+            if path not in delta:
+                return False
+            value = delta[path]
+            if value is None:
+                return False
+            try:
+                value = float(value)
+            except (TypeError, ValueError):
+                return False
+            # ``nan``/``inf`` are not measurable, and a bare ``value > tol``
+            # comparison is False for ``nan`` — which would read an
+            # unmeasurable row as clean.
+            if not math.isfinite(value) or value > tolerance:
+                return False
     return bool(non_target)
 
 

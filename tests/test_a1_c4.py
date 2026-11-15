@@ -275,3 +275,31 @@ def test_c1_c4_void_gate_is_adopted_with_the_denominator_floor():
     assert "ADOPTED — BINDING FOR A1" in page
     assert "60-row denominator floor" in page
     assert "C1/C4 post-freeze VOID gate" in page
+
+
+def test_an_unmeasurable_delta_fails_the_gate_rather_than_passing():
+    """``nan > tol`` is False, so a bare comparison reads nan as clean."""
+    for bad in (None, float("nan"), float("inf")):
+        row = _row("A-K+", "c>d", 0.5, 0.5, 0.5)
+        row["neighbor_delta"] = {"A": bad, "K": 0.0, "Y": 0.0}
+        assert gate_c4([row], 0.05) is False, bad
+
+
+def test_a_missing_path_in_the_delta_is_a_failure_not_a_pass():
+    row = _row("A-K+", "c>d", 0.5, 0.5, 0.5)
+    row["neighbor_delta"] = {"A": 0.0, "K": 0.0}
+    assert gate_c4([row], 0.05) is False
+
+
+def test_score_c4_records_a_non_finite_delta_as_unmeasured():
+    control = _row("A+K+", "c>d", 0.0, 0.0, 0.0)
+    treated = _row("A-K+", "c>d", float("nan"), 0.0, 0.0)
+    payloads = [
+        {"cell": "A+K+", "seed": 1, "neighbor_rows": [control]},
+        {"cell": "A-K+", "seed": 1, "neighbor_rows": [treated]},
+    ]
+    report = a1_arms.score_c4(payloads, 0.05)
+    assert report["pass"] is False
+    assert report["unmeasured"]
+    assert report["unmeasured"][0]["reason"] == "delta_not_finite"
+    assert all(value == value for value in report["max_delta"].values())

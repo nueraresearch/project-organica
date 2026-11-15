@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sys
 from collections import defaultdict
 from dataclasses import asdict
@@ -311,11 +312,25 @@ def score_c4(payloads: list[dict], tolerance: float | None = None) -> dict:
         for path in ("A", "K", "Y"):
             value = delta.get(path)
             if value is None:
-                violations.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                unmeasured.append({"seed": row.get("seed"), "cell": row.get("cell"),
                                    "edge": row.get("edge"), "path": path,
-                                   "delta": None})
+                                   "reason": "delta_missing"})
                 continue
-            value = float(value)
+            try:
+                value = float(value)
+            except (TypeError, ValueError):
+                unmeasured.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                                   "edge": row.get("edge"), "path": path,
+                                   "reason": "delta_not_a_number"})
+                continue
+            # A non-finite delta is not measurable, and must not enter
+            # ``max_delta`` (``max(0.0, nan)`` silently returns 0.0) or be read
+            # as a passing comparison (``nan > tol`` is False).
+            if not math.isfinite(value):
+                unmeasured.append({"seed": row.get("seed"), "cell": row.get("cell"),
+                                   "edge": row.get("edge"), "path": path,
+                                   "reason": "delta_not_finite"})
+                continue
             max_delta[path] = max(max_delta[path], value)
             if value > tolerance:
                 violations.append({"seed": row.get("seed"), "cell": row.get("cell"),

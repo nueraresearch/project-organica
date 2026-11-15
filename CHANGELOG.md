@@ -53,6 +53,19 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: an unmeasurable C4 delta was reading as a pass, and now fails the gate
+
+Found while drafting the C4 declaration, and fixed before it could be signed. `gate_c4` compared
+`float(delta[path]) > tolerance`, and `nan > tolerance` is `False` — so a non-finite delta, the case rule 13
+says must be reported as *not measurable*, passed the veto as clean. A `null` delta crashed assembly
+outright (`float(None)`), and a missing path was caught only incidentally.
+
+The gate now fails on a missing path, a `null`, a non-numeric or a non-finite value; `score_c4` records
+those rows under `unmeasured` with a `reason` (`delta_missing`, `delta_not_a_number`, `delta_not_finite`),
+so a VOID carries `C4_UNMEASURABLE` rather than a bare `C4_DELTA` with a null delta; and non-finite values
+no longer enter `max_delta`, where `max(0.0, nan)` silently returns `0.0`. Three tests pin the behaviour.
+No threshold, row set or verdict on a measurable stream changed.
+
 ## Addendum — 2026-11-15: C1's unit of evidence decided — directed edge, relation as a declared sensitivity
 
 The last definitional question is closed. C1 counts **directed edges**; the undirected relation is a

@@ -28,6 +28,29 @@
 >
 > **5. Nothing is relaxed.** The ceiling, the maximum, the 108/92-row non-target set, the six-seed scope and the `C4_UNMEASURABLE` condition are unchanged by this declaration. What is fixed here is only what the record must say.
 
+## A defect found while writing this text, and fixed
+
+Drafting clause 2 exposed a hole in the gate it describes, so it was repaired before this text could be
+signed: **an unmeasurable delta read as a pass.**
+
+`gate_c4` tested `float(delta[path]) > tolerance`. For `nan` that comparison is `False`, so a row whose
+delta was non-finite — the exact case rule 13 of the repository charter says must be reported as *not
+measurable* — passed the gate as clean. A `None` delta crashed assembly instead (`float(None)` raises), and
+a delta dict missing a path was likewise only caught by accident.
+
+Fixed on 2026-11-15 with three tests:
+
+- `gate_c4` now fails on a missing path, a `null`, a non-numeric or a non-finite value, so an unmeasurable
+  row is a **failure of the veto**, never a pass.
+- `score_c4` records such rows under `unmeasured` with a `reason` (`delta_missing`, `delta_not_a_number`,
+  `delta_not_finite`) instead of a violation carrying `delta: None`, so the VOID carries
+  `C4_UNMEASURABLE` rather than a bare `C4_DELTA`.
+- Non-finite values no longer enter `max_delta`, where `max(0.0, nan)` silently returns `0.0`.
+
+Consequence for clause 2: **every violation now carries a finite delta**, which is what the clause promises.
+No threshold, row set or gate verdict for a measurable stream changed — only the treatment of rows that
+were never measurable.
+
 ## The field map the clauses rely on
 
 | Clause | Field | Where it lives |
