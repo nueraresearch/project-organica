@@ -116,12 +116,12 @@ blank. None of them can be filled after the run without the act having been viol
 | --- | --- | --- |
 | Act ID | `A1-TARGET-FREEZE-ACT-N20` | `RECORDED` |
 | Competent pool per seed | 38, 27, 37, 40, 32, 31 (205 rows in total) | `RECORDED` |
-| Competent pool digest | the artifact records the pool's size, not its members | `NOT RECORDED` |
+| Competent pool digest | `6f8d81bafcc5971001714dca69acae47204625714f09f8166a141b04eb35424a` | `RECORDED` |
 | Selected block per seed | 20, 17, 20, 20, 18, 20 | `RECORDED` |
 | Selected block digest | `3881af97974d430f21acea15238e88d68e8261ae93a154b68c5e2c97532b756e` | `RECORDED` |
 | Row count per seed | 38→20, 27→17, 37→20, 40→20, 32→18, 31→20 | `RECORDED` |
-| Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `97e66444f41ca9a59a92603a06a9e75af65c736069d10d19d3d40b6935174960` | `RECORDED` |
-| Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `dfdd5c25e01afac8eca66417aa7a3aaeb94c047404b778b2f6c6addb4050c1f5` | `RECORDED` |
+| Constructor identity | `benchmarks/a1_c8_target_selection_competent.py`, source sha256 `d7e5359e47c307013bae00ebbee3d1f6f0ae4599f0b8dcd01c4f22c20f479287` | `RECORDED` |
+| Constructor output digest | `a1_c8_target_selection_competent.json`, sha256 `697dc9f95c606936a1d7b7bc8d59f4192f25db9e5b89a0a5b06a6a0a5d5dabde` | `RECORDED` |
 | Competence predicate | `DECISION-A1-C8-NMIN`, its *Unit* row | `FIXED BY RECORD` |
 | Unfiltered selection | no S5 disclosure document exists yet | `NOT RECORDED` |
 <!-- s2-fields:end -->

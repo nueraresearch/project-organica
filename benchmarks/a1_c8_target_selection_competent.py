@@ -182,6 +182,7 @@ def _seed_row(seed: int, flags: dict) -> dict:
         "seed": seed,
         "eligible": len(eligible),
         "competent_pool": len(pool),
+        "competent_edges": sorted(pool),
         "n_requested": PREFERRED,
         "n_selected": len(block),
         "verdict": verdict,
@@ -278,6 +279,14 @@ def problems(doc: dict) -> list[str]:
             found.append("seed %d endpoint degrees are stale" % seed)
         if row.get("c1") != _c1_counts(flags):
             found.append("seed %d C1 counts do not match the artifacts" % seed)
+        # The pool's members are what a freeze act must record (S2); a count alone cannot be
+        # digested, and a digest over the wrong list is provenance in appearance only.
+        u, members = _universe(seed)
+        expected_pool = sorted(_competent(_eligible(u, members), flags))
+        if row.get("competent_edges") != expected_pool:
+            found.append("seed %d pool members are missing or stale" % seed)
+        elif len(row["competent_edges"]) != row.get("competent_pool"):
+            found.append("seed %d pool size disagrees with its members" % seed)
         digest = _hash(json.dumps({"seed": seed, "selected": selected, "cap": CAP},
                                   sort_keys=True))[:16]
         if row.get("selection_digest") != digest:

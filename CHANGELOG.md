@@ -119,6 +119,24 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the constructor records the pool's members, and the pool digest fills
+
+The artifact recorded the competent pool's *size* and nothing about its members, so S2's pool digest could not be computed
+from it. `benchmarks/a1_c8_target_selection_competent.py` now writes `competent_edges` per seed — the pool in sorted order —
+and validates it on every check: a member added or dropped fails with *pool members are missing or stale*, and a count that
+disagrees with the members fails with *pool size disagrees with its members*.
+
+The artifact was regenerated (the selection is unchanged: 20/17/20/20/18/20, pool 38/27/37/40/32/31), the act was
+regenerated, and the pool digest now reads `6f8d81ba…` against the block digest `3881af97…`. They are different numbers
+describing different sets — which is the whole point, since the first generator's pool digest was silently the block's.
+
+**The act now reads nine of ten rows recorded, one blocking:** S5's disclosure, because no unfiltered-selection document
+exists. That is the last row between the act and a signature that would satisfy S2.
+
+Probed through the module rather than the CLI, so the guards are shown independently of a rebuild: dropping a pool edge
+fails the constructor's own check and changes the rendered pool digest; adding a non-pool edge fails it too; a count that
+disagrees with its members is caught separately.
+
 ## Addendum — 2026-11-15: the N20 act's fields are generated, and two of them cannot be filled
 
 `benchmarks/a1_freeze_fields.py` renders `§2a` of [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) from

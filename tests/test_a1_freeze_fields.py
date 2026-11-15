@@ -74,15 +74,24 @@ def test_the_n20_act_is_generated_from_the_artifact() -> None:
     text = ACTS[1].read_text(encoding="utf-8")
     assert a1_freeze_fields.committed(text) == a1_freeze_fields.render()
     recorded = [name for name, _, state in a1_freeze_fields.fields() if state != "`NOT RECORDED`"]
-    assert len(recorded) == 8, recorded
+    assert len(recorded) == 9, recorded
 
 
-def test_the_unfilled_rows_name_real_blockers() -> None:
-    """Two rows stay open, and each says why — the pool's members are simply not in the artifact."""
+def test_the_unfilled_row_names_a_real_blocker() -> None:
+    """One row stays open, and it says why: there is no disclosure document to point at yet."""
     blocked = {name: value for name, value, state in a1_freeze_fields.fields()
                if state == "`NOT RECORDED`"}
-    assert set(blocked) == {"Competent pool digest", "Unfiltered selection"}
-    assert "not its members" in blocked["Competent pool digest"]
+    assert set(blocked) == {"Unfiltered selection"}
+    assert "no S5 disclosure" in blocked["Unfiltered selection"]
+
+
+def test_the_pool_digest_describes_the_pool_not_the_block() -> None:
+    """The first version digested the block under the pool's name; equal digests would hide that."""
+    values = {name: value for name, value, _ in a1_freeze_fields.fields()}
+    assert values["Competent pool digest"] != values["Selected block digest"]
+    pools = a1_freeze_fields.pool(a1_freeze_fields.json.loads(
+        a1_freeze_fields.ARTIFACT.read_text(encoding="utf-8")))
+    assert [len(pools[seed]) for seed in sorted(pools)] == [38, 27, 37, 40, 32, 31]
 
 
 def test_the_n4_act_records_nothing() -> None:

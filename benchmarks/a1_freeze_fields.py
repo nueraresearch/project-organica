@@ -46,14 +46,14 @@ def _seeds(document: dict) -> list[str]:
     return sorted(document["per_seed"])
 
 
-def pool_sizes(document: dict) -> dict[str, int]:
-    """The pool's size per seed — all the artifact states.
+def pool(document: dict) -> dict[str, list[str]]:
+    """The competent pool per seed, as the edges the constructor recorded.
 
-    It records the count (`competent_pool`) but not the members: `competent` is a per-edge flag over
-    the selected block, not the pool. A digest over the wrong list would look like provenance and be
-    worthless, so the pool digest is reported as unrecorded, with that reason.
+    The artifact carries `competent_edges` since the constructor was taught to record them; before
+    that it had only a count, and a "digest" taken from its `competent` map duplicated the block
+    under another name instead of describing the pool.
     """
-    return {seed: document["per_seed"][seed]["competent_pool"] for seed in _seeds(document)}
+    return {seed: sorted(document["per_seed"][seed]["competent_edges"]) for seed in _seeds(document)}
 
 
 def block(document: dict) -> dict[str, list[str]]:
@@ -67,17 +67,16 @@ def _canonical(rows: dict[str, list[str]]) -> str:
 def fields(document: dict | None = None) -> list[tuple[str, str, str]]:
     """(field, what the act must contain, state) — the state is the second half of S2's answer."""
     document = document if document is not None else json.loads(ARTIFACT.read_text(encoding="utf-8"))
-    sizes_by_seed = pool_sizes(document)
+    pools = pool(document)
     blocks = block(document)
-    counts = [sizes_by_seed[seed] for seed in _seeds(document)]
+    counts = [len(pools[seed]) for seed in _seeds(document)]
     sizes = [len(blocks[seed]) for seed in _seeds(document)]
     total = sum(counts)
     return [
         ("Act ID", "`A1-TARGET-FREEZE-ACT-N20`", "`RECORDED`"),
         ("Competent pool per seed",
          "%s (%d rows in total)" % (", ".join(str(n) for n in counts), total), "`RECORDED`"),
-        ("Competent pool digest",
-         "the artifact records the pool's size, not its members", "`NOT RECORDED`"),
+        ("Competent pool digest", "`%s`" % _digest(_canonical(pools)), "`RECORDED`"),
         ("Selected block per seed", ", ".join(str(n) for n in sizes), "`RECORDED`"),
         ("Selected block digest", "`%s`" % _digest(_canonical(blocks)), "`RECORDED`"),
         ("Row count per seed",
