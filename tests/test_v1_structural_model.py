@@ -109,6 +109,18 @@ def test_the_identity_check_is_reproducible() -> None:
     assert doc["distinct_paths"] == 177
 
 
+def test_no_committed_artifact_retains_carrier_identity() -> None:
+    """If a carrier id ever lands in the archive, the model's persistence claim needs revisiting."""
+    pattern = re.compile(r"^loop_[0-9a-f]{8}$")
+    offenders = []
+    for path in DOCS.glob("*.json"):
+        if pattern.search(path.read_text(encoding="utf-8")):
+            offenders.append(path.name)
+    assert not offenders, offenders
+    assert _model()["record_scan"]["artifacts_with_loop_id"] == 0
+    assert "The record cannot name a carrier either" in _text()
+
+
 def test_the_falsifiers_are_named() -> None:
     falsifiers = _model()["falsifiers"]
     assert len(falsifiers) == 4

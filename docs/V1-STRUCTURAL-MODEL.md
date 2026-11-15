@@ -134,6 +134,22 @@ does not.
 A corollary worth stating plainly: **A1's `VOID` was derivable before the block ran**, from the carrier inventory alone,
 by computing *R(e)* for the target block. The run measured the size of the spill, not its occurrence.
 
+## 6a. The record cannot name a carrier either
+
+The identity check could not be run artifact-only, and the reason is itself a result. A scan of the committed archive
+finds no carrier identity anywhere: **no `docs/*.json` artifact and no A1 run part contains a single `loop_<hash>` id or a
+carrier-identity field.** Carriers appear only as edge sets, counts or supply statistics.
+
+That is what the substrate implies. If the composite does not exist in the store, the record built from the store has
+nothing to cite, so every carrier-level statement in the archive is a statement about a recomputation rather than about an
+object. It is also why A1's evidence is edge-indexed: C4 counts rows, not carriers, because carriers cannot be named in a
+pass file.
+
+So the identity result in `docs/v1_carrier_identity.json` is a measurement of what the engine can *produce*, not a lookup
+of what the project *kept*. Recovering a carrier's identity requires replaying the world, which makes identity
+reproducible but not archivable — a third form of missing persistence, distinct from the synchronic-only key in §5 and the
+absent local mutation in §6.
+
 ## 7. What this makes unsurprising
 
 - **The ranking ceiling.** Layer-1 strength is `count / max(source_freq, 1)` (`memory.py:282`–`290`), a function of pair

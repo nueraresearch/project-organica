@@ -138,6 +138,20 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the archive cannot name a carrier
+
+The identity check was meant to be artifact-only. It could not be, and the reason is a result: a scan of the committed
+archive finds **no carrier identity at all** — no `docs/*.json` artifact and no A1 run part contains a `loop_<hash>` id or
+a carrier-identity field. Carriers appear only as edge sets, counts or supply statistics.
+
+That follows from the substrate. If the composite is not stored, a record built from the store has nothing to cite, so
+every carrier-level statement is about a recomputation. It also explains why A1's C4 counts rows rather than carriers: the
+carriers cannot be named in a pass file.
+
+Identity is therefore reproducible but not archivable — a third form of missing persistence, alongside the synchronic-only
+key and the absent local mutation. `tests/test_v1_structural_model.py` fails if a carrier id ever lands in the archive, so
+the claim cannot quietly become false.
+
 ## Addendum — 2026-11-15: identity within a cycle, none across cycles
 
 The open question in the structural model was whether a state-derived key can isolate a carrier. `benchmarks/v1_carrier_identity.py`

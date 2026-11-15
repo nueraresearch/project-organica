@@ -130,6 +130,15 @@
       "evidence": [
         "docs/v1_carrier_identity.json"
       ]
+    },
+    {
+      "id": "record-cannot-name-a-carrier",
+      "label": "MEASURED",
+      "statement": "No committed artifact retains carrier identity: no docs/*.json file and no A1 run part contains a loop id or carrier-identity field. Carriers are recorded only as edge sets, counts or supply statistics, so identity is reproducible by replay but not archivable.",
+      "evidence": [
+        "docs/V1-STRUCTURAL-MODEL.md#6a-the-record-cannot-name-a-carrier-either",
+        "tests/test_v1_structural_model.py"
+      ]
     }
   ],
   "falsifiers": [
@@ -137,5 +146,11 @@
     "a carrier block whose carrier set is disjoint in pairs from every non-target edge",
     "a count-derived ordering that exceeds 0.3438 on the same world family",
     "a key computed from the stored state that isolates one composite, which refutes the functional reading of §5 while leaving the explicit claim and the mutation argument intact"
-  ]
+  ],
+  "record_scan": {
+    "dates": "2026-11-15",
+    "method": "scan docs/*.json and .scratch/a1_two_path/parts/*.json for ^loop_[0-9a-f]{8}$ and for carrier-identity fields",
+    "artifacts_with_loop_id": 0,
+    "parts_with_loop_id": 0
+  }
 }
