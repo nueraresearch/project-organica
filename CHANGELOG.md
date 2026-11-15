@@ -119,6 +119,23 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the decision half of the board is generated, not described
+
+The guard added an hour earlier checked one direction: every `PENDING` decision had to appear on the board. The reverse
+was unchecked, so a row marked `ADOPTED` or `AWAITING SIGNATURE` could outlive its record and every test would still
+pass — the same defect as the prose it replaced, one level down.
+
+`benchmarks/a1_board.py` now renders the owner-decision half of the board from `docs/decisions.json`, spliced between
+markers in the checklist. Nothing in a decision row is typed: the state is a function of `status` (an open entry is
+*AWAITING SIGNATURE* only when its own `status_quote` says it is for owner adoption), the link is the decision id, and
+the third column is the record's `**Scope:**` line or, where there is none, its title. `--check` compares the committed
+block against the render, so a status change on disk makes the board stale until `--write` reruns, in both directions.
+The non-A1 pending entries are listed in a generated sentence for the same reason.
+
+The three decision rows that had been hand-written (both drafts, and the umbrella) were removed from the hand-maintained
+table, which now carries only branches and artifacts. Eleven A1 records render: 8 adopted, 2 awaiting signature, 1
+pending and blocking nothing.
+
 ## Addendum — 2026-11-15: the checklist board is now the board, and a guard reads it
 
 The A1 state was being reconstructed in conversation while `A1-PRE-FREEZE-CHECKLIST.md` still opened with "no substantive

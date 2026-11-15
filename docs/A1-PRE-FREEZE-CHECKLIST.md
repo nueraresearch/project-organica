@@ -25,12 +25,33 @@ record that decides it, and a row is only `closed` when that record is adopted o
 | Competent-selection construction | **CLOSED — ARTIFACT EXISTS, EXHAUSTIVE** | [`A1-C8-TARGET-SELECTION-COMPETENT.md`](A1-C8-TARGET-SELECTION-COMPETENT.md): 20/17/20/20/18/20, every larger size proved impossible |
 | C4 measurability semantics | **CLOSED — IMPLEMENTED** | [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md): unmeasurable is VOID, never a pass or a crash |
 | C4 completeness detection | **CLOSED — REPAIRED 2026-11-15** | absent or short treated stream now VOIDs (`CONTROL_NOT_SCORED`, `AWAITING_TREATED_ROW`) |
-| A1 Path A / C1-C4 umbrella (`A1-PATH-A-C1-C4-1`) | **`PENDING` — NOT BLOCKING THE FREEZE; IN PART SUPERSEDED BY ITS OWN ADOPTED PARTS** | [`DECISION-A1-PATH-A-C1-C4`](DECISION-A1-PATH-A-C1-C4.md) proposed five items; the C1/C4 gate and the Path A estimand rule were each adopted in separate records, which is why this one is still `PENDING`. What it never adopted — a Path A *confirmation* beyond the estimand sentence and the provisional-freeze wrapper — is not needed for the freeze (the act is a separate signature), but the entry stays open rather than being quietly marked done. |
-| **Competent estimand** | **AWAITING SIGNATURE — `PENDING`** | [`DECISION-A1-COMPETENT-ESTIMAND-1`](DECISION-A1-COMPETENT-ESTIMAND.md): fixes 20/17/20/20/18/20, restates C4 to 276–285/1,671, amends one sentence of `A1-PATH-A-C1-RULE-1` |
-| **C1 denominator ceiling** | **AWAITING SIGNATURE — `PENDING`** | [`DECISION-A1-C1-CEILING-1`](DECISION-A1-C1-CEILING.md): the `>64` clause governs the candidate-plan count, not the cell row; the universe comparison carries its function |
 | C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | `A1-C4-POSTURE-1` still declares **324 / 1,944**, the N=4 figures; the operative block needs **276–285 / 1,671**. The estimand decision is the record that restates it |
 | Freeze acts | **NOT SIGNED — ONE UNSIGNABLE** | `A1-TARGET-FREEZE-1` freezes four targets per seed and can never reach `N_min = 17`; `A1-TARGET-FREEZE-N20-1` needs re-issuing against the competent digests |
 | Grant, run | **NOT ISSUED, NOT STARTED** | — |
+
+The owner-decision half of the board is generated from `docs/decisions.json` and spliced here; it is
+not hand-maintained, so a status change makes it stale until `python -m benchmarks.a1_board --write`
+regenerates it.
+
+<!-- a1-board:start -->
+**Owner decisions** — 11 A1 records in `docs/decisions.json`: 8 adopted, 0 withdrawn, 2 awaiting signature, 1 pending and blocking nothing. Generated from the index and each record's own scope line; a status change on disk makes this block stale until it is regenerated.
+
+| Decision | State | What it decides |
+| --- | --- | --- |
+| [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) | **AWAITING SIGNATURE** | One clause of one binding record. It changes no preservation threshold, no denominator floor, no gate and no seed … |
+| [`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md) | **AWAITING SIGNATURE** | The target population, the estimand's wording, and the C4 multiplicity restatement that follows from the row counts. Changes no threshold, no endpoint cap, no gate and no seed. Freezes nothing and runs nothing. |
+| [`DECISION-A1-PATH-A-C1-C4`](DECISION-A1-PATH-A-C1-C4.md) | **PENDING — NOT BLOCKING** | Owner decision memo — A1 Path A and C1/C4 gate order |
+| [`DECISION-A1-DISPOSITION`](DECISION-A1-DISPOSITION.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no manifest, authorises no cell, changes no engine file and records no result. |
+| [`DECISION-A1-PATH-A-C1-RULE`](DECISION-A1-PATH-A-C1-RULE.md) | **ADOPTED** | A1 Path A estimand and C1 acceptance rule |
+| [`DECISION-A1-C1-DENOMINATOR`](DECISION-A1-C1-DENOMINATOR.md) | **ADOPTED** | Definition only. This document freezes no manifest, assigns no seed, changes no threshold, authorises no cell and records no result. C1 remains unscored. |
+| [`DECISION-A1-C1-UNIT`](DECISION-A1-C1-UNIT.md) | **ADOPTED** | The unit of evidence for C1 only. This decision changes no threshold, freezes no manifest, reserves no seed, authorises no cell, and alters no code — the adopted unit is what the implementation already reads. |
+| [`DECISION-A1-C1-UNMEASURABLE`](DECISION-A1-C1-UNMEASURABLE.md) | **ADOPTED** | The C1 reason-code vocabulary in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md). It changes no threshold, no gate condition, no row set, no denominator and no disposition. |
+| [`DECISION-A1-C4-POSTURE`](DECISION-A1-C4-POSTURE.md) | **ADOPTED** | The C4 posture text only. It changes no threshold, no row set, no gate and no code. Adoption is a signature and a date. |
+| [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) | **ADOPTED** | The C8 competence rule only. This decision changes no threshold, freezes no manifest, reserves no seed, authorises no cell and measures no effect. |
+| [`DECISION-A1-DISPOSITION-2`](DECISION-A1-DISPOSITION-2.md) | **ADOPTED** | Program disposition only. This document assigns no seed, freezes no target, authorises no cell, changes no engine file and records no result … |
+
+_Also `PENDING` in the index, outside A1 (`PENDING` is not an open question; these are decided and not in force): `DECISION-ADMISSION-STEP`, `DECISION-CAP-LEVEL`, `DECISION-DENSITY-EXCLUSION`, `DECISION-PERSISTENCE-INTERVENTION`._
+<!-- a1-board:end -->
 
 So the honest headline is **two owner choices remain open, and both are drafted and audited for signature** — not "no
 substantive choice remains". An earlier version of this section said the latter, and it was written before the
