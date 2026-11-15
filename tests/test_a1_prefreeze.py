@@ -274,7 +274,8 @@ def test_target_freeze_act_is_prepared_not_executed():
              a1_two_path.ORDERING_TERM_PATH,
              a1_two_path.SPLIT_POWER_PATH,
              a1_two_path.ENGINE_SIDE_JOIN_PATH,
-             a1_two_path.BAND_FRONTIER_PATH)
+             a1_two_path.BAND_FRONTIER_PATH,
+             a1_two_path.SELECTION_IDENTITY_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
