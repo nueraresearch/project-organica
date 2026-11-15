@@ -53,7 +53,21 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
-## Addendum — 2026-11-15: both target-freeze acts re-issued with their digests checked
+## Addendum — 2026-11-15: the freeze blocker is target competence, not the C1 denominator
+
+Resolving why the acts were held turned up an error in this changelog's own earlier entries. The C1 floor is **met** on
+the adopted block: its baseline (`A1-BASELINE-AVAILABILITY-ADOPTED-1`, 2026-11-15) observes cell-stream minima of
+**79, 64, 79, 74, 72, 74** against the floor of 60. The **58** that three earlier entries treated as the blocker is the
+*previous* block's minimum, and the **34** is the candidate stream, which the adopted denominator decision excludes by
+name. The lesson is the one the project keeps re-learning: `58`, `64` and `79` were three different quantities wearing
+one word, and only the block and the stream in the sentence say which.
+
+The real blocker is target competence, measured for the first time on the adopted block rather than inherited from the
+spent one: N4 has 4 of 24 targets with no `A` carrier and 11 of 24 with no `K` served, N20 has 34 of 120 and 43 of 120,
+and **no seed in either design can satisfy `gate_c2`'s per-row requirement** — in `A+K-` a target without an `A` carrier
+cannot show `A=True`. So D7 waits on a competent target set, not on a count of rows.
+
+
 
 D7's two acts were re-issued together so they can be signed against one date: `A1-TARGET-FREEZE-1` (N=4) and
 `A1-TARGET-FREEZE-N20-1`. Each was checked against its selection artifact rather than merely re-stamped — the 6
@@ -66,10 +80,14 @@ Two defects were corrected in passing, both the same kind. Both acts still said 
 competence and C4 exposure"** — premises decided on 2026-11-15 (C8 competence at `N_min = 17`, C4 exposure at
 posture A) — so a signer would have concluded the freeze was waiting on a question that already had an answer.
 And both stated the C1 denominator as **"FLOOR 64"**, where `DECISION-A1-C1-DENOMINATOR-1` fixes the floor at
-**60** and 64 is the design block's size. The status lines now read floor 60 and name the observation that
-actually holds the acts: the no-arm baseline sees **58** paired-control rows against that floor, so a run
-assembled now would VOID on `C1_DENOMINATOR_BELOW_FLOOR` before any gate was read. The acts are signable; what
-they would authorise is a VOID until the denominator or the floor moves.
+**60** and 64 is the design block's size. The status lines now read floor 60.
+**Correction, same day.** The hold those lines named was wrong. The **58** is the cell-stream minimum of the *previous*
+block `20630101–20630106`, which that audit spent; the **adopted** block `20740101–20740106` was baselined the same day
+and observes **79, 64, 79, 74, 72, 74** on the operative cell row — the floor of 60 is met on every seed. Three quantities
+had been read as one: a spent block's observation, the candidate stream's minimum (45/34/47/48/38/41, below the floor but
+not the denominator under `DECISION-A1-C1-DENOMINATOR-1`), and the adopted block's ceiling. The acts are held instead on
+**target competence**: on the adopted block no seed is C2-viable at either design
+([`A1-TARGET-VIABILITY-ADOPTED`](A1-TARGET-VIABILITY-ADOPTED.md)).
 
 ## Addendum — 2026-11-15: the A1 disposition is adopted — Path A continues
 
@@ -82,9 +100,9 @@ as acts no record can perform for the owner. Adoption supersedes the 2026-11-14 
 The act that follows immediately — the N=20 target-freeze act — is **not** free to sign, and its status line
 said so for a reason that has since expired. It read "held on C2/C8 competence and C4 exposure"; both are now
 decided (C8 competence at `N_min = 17`, C4 exposure at posture A), so neither holds it. What holds it is a
-measurement: the no-arm baseline observes **58** paired-control rows on the current cell stream against an
-adopted minimum of **60**, so a run assembled now would VOID on `C1_DENOMINATOR_BELOW_FLOOR` before any gate was
-read. The status line now names that observation instead. Signing a disposition does not move a denominator.
+measurement: the **58** paired-control rows reported by the earlier baseline audit against an adopted minimum of **60**.
+**That reading was wrong as applied to these acts, and is corrected below.** Signing a disposition still does not move a
+denominator.
 
 ## Addendum — 2026-11-15: live counts in undated prose were stale in three documents
 

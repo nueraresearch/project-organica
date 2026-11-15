@@ -4,16 +4,20 @@
 >
 > **Digests re-verified 2026-11-15, not recomputed.** Every digest below was checked against its
 > source at re-issue: the 6 per-seed selection digests and the artifact SHA-256 against
-> `docs/a1_c8_target_selection.json`. All 7 match, and `python -m benchmarks.a1_target_selection --check` /
-> `a1_c8_target_selection --check` report the artifacts clean, so this edition changes no target and
-> reserves no new digest. A re-issue that recomputed identical values would be indistinguishable
-> from this one; what it records is that the check was made.
+> `docs/a1_c8_target_selection.json`. All 7 match, and `python -m benchmarks.a1_c8_target_selection --check` reports the artifact clean, so
+> this edition changes no target and reserves no new digest.
+>
+> **Corrected 2026-11-15.** An earlier status on this act said the C1 denominator held it at **58** rows.
+> That 58 is the *previous* block's cell-stream minimum (`20630101–20630106`, spent); the adopted block
+> `20740101–20740106` was baselined on the same day and observes a cell-stream minimum of **64** against
+> the floor of 60, meeting it on all six seeds. What holds this act is **target competence**, measured on
+> the adopted block in [`A1-TARGET-VIABILITY-ADOPTED`](A1-TARGET-VIABILITY-ADOPTED.md).
 
 **ID:** `A1-TARGET-FREEZE-N20-1`
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — RE-ISSUED 2026-11-15 AND DIGESTS RE-VERIFIED AGAINST THE SELECTION ARTIFACTS (6/6 PER-SEED AND 1/1 ARTIFACT SHA-256 MATCH; NOTHING RECOMPUTED BECAUSE NOTHING DRIFTED); C1 DENOMINATOR RECONCILED TO THE PROTOCOL AND OWNER-ADOPTED 2026-11-15 (DIRECTED CELL ROWS, FLOOR 60, NOT SCORED); C4 EXPOSURE ADOPTED 2026-11-15 (POSTURE A) AND C8 COMPETENCE DECIDED (N_min 17), SO NEITHER HOLDS THIS ACT; HELD ON THE C1 DENOMINATOR OBSERVATION — THE NO-ARM BASELINE SEES 58 PAIRED-CONTROL ROWS AGAINST AN ADOPTED FLOOR OF 60; AWAITING THE OWNER'S SIGNATURE; NOT FROZEN, NO GRANT, NO RUN`C1_DENOMINATOR_BELOW_FLOOR` BEFORE ANY GATE WAS READ; NO
+**Status:** `DRAFT — RE-ISSUED 2026-11-15; DIGESTS VERIFIED 7/7 AGAINST THE SELECTION ARTIFACT; C1 DENOMINATOR RECONCILED TO THE PROTOCOL AND MET ON THE ADOPTED BLOCK'S OPERATIVE CELL ROW (CELL-STREAM MINIMUM 64 AGAINST THE FLOOR OF 60, ALL SIX SEEDS); C4 EXPOSURE ADOPTED (POSTURE A) AND C8 COMPETENCE DECIDED (N_min 17); HELD ON TARGET COMPETENCE — 0/6 SEEDS ARE C2-VIABLE ON THE ADOPTED BLOCK FOR THIS DESIGN (A1-TARGET-VIABILITY-ADOPTED); AWAITING THE OWNER'S SIGNATURE; NOT FROZEN, NO GRANT, NO RUN`C1_DENOMINATOR_BELOW_FLOOR` BEFORE ANY GATE WAS READ; NO
 
 **Decision owner:** ____________________
 
