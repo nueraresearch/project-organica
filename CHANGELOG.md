@@ -53,6 +53,29 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: what would constitute competence, and the disposition re-read on a false premise
+
+The competence rule now answers the question a future run would actually need answered — not
+*whether* competence occurred, but **what observation would constitute it**. The rule document gains
+an adjudication contract: unit (one directed target row, per seed, never pooled), required count
+(N=20 for C8), threshold (0.05, quoted not changed), and three readings — pass, third route present,
+and **not adjudicable**. The last is the load-bearing one. At N=20 the step is `1/20`, so the bar is
+arithmetically *at most one asserting row*; below twenty rows no rate exists at the declared step.
+The contract also shows that a short block is not uniformly weaker: at eighteen rows the step is
+`0.0556`, which tolerates **zero** asserting rows, so "exactly N or VOID" is a choice about which
+test to run rather than a consequence of the threshold. Applied to the adopted block as though the
+run were tomorrow, the contract returns **C8 VOID** — two seeds cannot field twenty competent rows —
+which is the state it exists to make visible before a run rather than after one. Five ambiguities the
+exercise exposed are recorded for the owner rather than resolved by assumption.
+
+`docs/A1-DISPOSITION-REREAD.md` then re-reads the A1 disposition, which was adopted while C1 looked
+unreachable. Under the protocol denominator that premise is false: directed rows clear the floor
+(70/59/69/58/72/72 and 79/64/79/74/72/74 against 60 and 57) while relation-level reads do not. The
+re-read finds the **continue** branch supported on analysis — C1, C7 and C4 remain readable and C8's
+absence is a declared limitation rather than a failed manipulation — and names the one branch the
+evidence does not support: continuing while C8 stays unowned. It amends nothing; the disposition and
+its 2026-12-14 lapse clock stand until the owner chooses.
+
 ## Addendum — 2026-11-15: the competence filter is drafted, applied, and it does not cover every seed
 
 Option A of the C2/C8 competence draft asked for a rule and a measurement, and both now exist.
