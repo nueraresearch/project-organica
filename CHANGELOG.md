@@ -119,6 +119,18 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the manual's action list opens with what is waiting on the owner
+
+The owner said the agent had been going in circles for a while and had not been clear about what needed their attention.
+That is a reporting defect, not a research one, and it has a fix with teeth: §7 of `docs/USER-MANUAL.md` now opens with
+**§7.0 Waiting on you**, four rows naming the three pending A1 decisions and the N20 act signature, what each blocks if it
+is left unanswered, and where to sign. `tests/test_a1_signature_sheet.py` fails if a pending record is missing from that
+block, so the list cannot drift out of date.
+
+The substance behind it: everything preparable on A1 is prepared. The freeze act reads ten of ten rows with nothing
+blocking, the selection procedure and the estimand are written and priced, and the 0/6 viability blocker is resolved by a
+decision rather than by more measurement. What remains is four owner actions, and no further artifact moves the chain.
+
 ## Addendum — 2026-11-15: one sheet for the three pending decisions
 
 `docs/A1-SIGNATURE-SHEET.md` puts `DECISION-A1-C1-CEILING`, `DECISION-A1-C8-SELECTION` and

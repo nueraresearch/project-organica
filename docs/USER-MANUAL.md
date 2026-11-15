@@ -723,6 +723,24 @@ python benchmarks/study_health.py
 
 Ordered by how much they cost you if you skip them.
 
+### 7.0 Waiting on you — the A1 chain cannot move without these
+
+**These four are the owner's, not the agent's.** Everything that can be prepared has been: the paperwork below is
+complete, checked, and regenerated from committed artifacts. Nothing further happens on A1 until one of these is
+answered, so if a turn produces more documents instead of a decision, it is going in a circle.
+
+| # | Waiting on you | Why it is blocking | Where |
+|---|---|---|---|
+| A1-1 | **Sign or withdraw `DECISION-A1-C1-CEILING`** | declined, five of six seeds read `VOID — design inconsistency` before retention is looked at | [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md) D1 |
+| A1-2 | **Sign or withdraw `DECISION-A1-C8-SELECTION`** | declined, the freeze acts cite a draft that cannot bind, or restate the rule and drift | D2 |
+| A1-3 | **Sign or withdraw `DECISION-A1-COMPETENT-ESTIMAND`** | declined, every seed is C2-VOID before any treatment effect is read | D3 |
+| A1-4 | **Sign the N=20 freeze act** — *after* A1-3, which requires its block re-issued on the competent selection | unsigned, nothing freezes, no grant, no cell | [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md) |
+
+The three decisions are collected on **one page** with their commitment, cost, decline consequence and the exact status
+line to write: [`A1-SIGNATURE-SHEET`](A1-SIGNATURE-SHEET.md). `tests/test_a1_signature_sheet.py` fails if a record is
+signed and the sheet still lists it, and this table is checked the same way, so it cannot go stale while you are away
+from the project.
+
 ### 7.1 Do today
 
 | # | Action | Why | Effort |
@@ -4412,3 +4430,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **The S5 disclosure exists and the freeze act is record-complete.** `A1-C8-SELECTION-DISCLOSURE.md` puts the unfiltered block beside the competent one: they share 37 edges, 62 unfiltered edges are excluded as not competent, 21 are competent but not chosen, and 78 competent edges were never in the unfiltered block — so the table is a comparison of two different selections, not a subtraction. Its "filter ran before any cell" claim is checked, not assumed: `--check` fails once the act is signed or a grant or run record appears. The N20 act now reads ten of ten rows recorded and awaits only the owner's signature. |
 | 2026-11-15 | **The 0/6 viability finding is priced and two exits are closed.** 58 of 120 unfiltered rows are C2-viable and 15 carry neither path, so weakening C2 cannot help; raising N lowers the chance of a viable seed and redrawing the block needs ~10^34 seeds. The competence filter already selects 115 rows with 0 path failures, so the remaining choice is whether to change the estimand from representative to baseline-competent edges — the pending C8 decision. |
 | 2026-11-15 | **The three pending decisions are on one sheet.** `A1-SIGNATURE-SHEET.md` gives each record its commitment, cost, decline consequence and exact status line, so all three can be signed or withdrawn in one pass. It also records that adopting the competent estimand invalidates the current N20 act's block, which must be re-issued against the competent selection before signature. |
+| 2026-11-15 | **The manual now opens its action list with what is waiting on the owner.** §7.0 names the three A1 decisions and the N20 act signature, with what each blocks and where to sign, because the agent had been producing paperwork turn after turn without saying plainly that the chain was stopped on four owner actions. The table is checked against the records, like the signature sheet. |

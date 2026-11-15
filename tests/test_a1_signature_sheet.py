@@ -62,3 +62,13 @@ def test_a_signed_record_makes_the_sheet_stale(tmp_path: Path) -> None:
     stem = record_of(blocks()[0])
     assert file_status(stem) == "PENDING"
     assert sheet_status(blocks()[0]) != "ADOPTED"
+
+
+def test_the_manual_says_what_is_waiting_on_the_owner() -> None:
+    """The action list must name every pending A1 decision, so the block is visible where the owner looks."""
+    manual = (DOCS / "USER-MANUAL.md").read_text(encoding="utf-8")
+    start = manual.index("### 7.0 Waiting on you")
+    block = manual[start:manual.index("### 7.1 Do today")]
+    for stem in pending():
+        assert stem in block, stem
+    assert "A1-SIGNATURE-SHEET.md" in block
