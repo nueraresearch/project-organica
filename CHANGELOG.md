@@ -19,6 +19,17 @@ the choice changes the denominator and its independence structure. The 2063 bloc
 same split (directed rows clear on four seeds, relations on none). No cell ran, nothing was
 scored, and the convention is an owner decision, not a measurement's.
 
+## Addendum — 2026-11-15: the C2/C8 competence rule is drafted, and still the owner's to choose
+
+The pre-freeze checklist listed C2/C8 target competence as the only decision with no owner and no
+draft. `docs/A1-C2-C8-COMPETENCE-RULE.md` now states the rule — competent row, block-void rule,
+pre-registered selection, disclosure of the filter's effect — and the three options it leaves open.
+The measured consequence is the same on both seed blocks: under the current selection no seed
+supplies a clean C8 block (2063 at most 3 of 4 and 5–12 of 20; 2074 at most 3 of 4 and 7–13 of 20),
+while the competent pool is sufficient (23–36 and 27–40 against 20 required). Nothing is in force,
+no threshold moved, no target was frozen and no cell ran; the checklist row stays undecided until
+the owner picks an option.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.
