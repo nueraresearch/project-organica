@@ -108,6 +108,7 @@ DERIVED = {
     "a1_offset_discriminator_spec.py",  # pair-split construction spec; derives candidates only
     "a1_within_block_level.py",  # within-block quantities against committed coverage cells
     "a1_cap112_ordering_term.py",  # cap-112 transition ordering term attribution; no arms
+    "a1_split_power.py",  # split-block seed budget for the offset discriminator
     "a1_successor_preflight.py",  # no-arm gate harness; selects, freezes and runs nothing
     "a1_successor_candidate.py",  # no-arm candidate spec; selects, freezes and runs nothing
     "a1_successor_schema.py",  # schema/validator writer; selects, freezes and runs nothing

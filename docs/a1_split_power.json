@@ -1,0 +1,254 @@
+{
+ "kind": "a1_split_power",
+ "id": "A1-SPLIT-POWER-1",
+ "date": "2026-11-14",
+ "status": "DESIGN ESTIMATE \u2014 SEEDS PER SPLIT BLOCK FOR THE OFFSET DISCRIMINATOR; NO TARGET, FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "How many seeds per split block does the offset discriminator need to decide between the size and density summaries at a stated wrong-decision rate?",
+ "definition": "The seeds per block required for each branch of the committed band rule on the split-32 minus split-48 offset difference, as a function of the per-seed offset SD, with exact two-sample t power.",
+ "method": "Read the predictions, bands and frozen coefficients from the committed offset-discriminator spec, and the per-seed SDs from the committed within-block and offset-predictor artifacts. For each candidate n, integrate each branch probability over the pooled-SD chi density on 2n - 2 degrees of freedom. The branch is charged its own wrong-decision rate; no additional alpha is applied because the rule thresholds an estimate rather than testing a hypothesis.",
+ "constants": {
+  "floor": 0.05,
+  "ceiling": 0.09,
+  "wrong_decision_rates": [
+   0.2,
+   0.1,
+   0.05
+  ],
+  "sigma_grid": [
+   0.035742,
+   0.04341,
+   0.066656,
+   0.072798
+  ],
+  "primary_sigma": 0.066656,
+  "pairing_rho_grid": [
+   0.0,
+   0.3,
+   0.5
+  ],
+  "committed_seeds_per_block": 6,
+  "prediction_artifacts": [
+   "a1_offset_discriminator_spec.json",
+   "a1_within_block_level.json",
+   "a1_offset_predictors.json"
+  ]
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "The differential needs **9 seeds per split block** \u2014 **18** seeds in total \u2014 to decide either branch at a **20%** wrong-decision rate under the primary per-seed SD **0.0667** (candidate-size cell seed-level LOO RMSE). The branches are not equally cheap: the size branch needs **6** seeds and the density branch **9**, because the density evidence is the distance from the estimate to the **0.09** ceiling \u2014 only **0.0264** against a **0.1164** separation \u2014 while the size branch only has to land the estimate inside a **0.05** band around zero. Across the per-seed SDs the measured blocks supply (**0.0357**\u2013**0.0728**) the same rate asks for **2**\u2013**11** seeds per block, so **11** is the defensible design number and **9** the one implied by the frozen fit. The committed **6** seeds per block do not reach the convention: at **\u03c3 0.0667** the standard error of the difference is **0.0385**, which gives **0.818** power on the size branch but only **0.767** on the density branch, with a **0.013** chance of declaring density when the size summary is true, **0.043** of the reverse, **0.078** of landing in the undecided band when the size summary is true and **0.190** when the density summary is. A paired design on the same seeds in both blocks scales the requirement by **(1 \u2212 \u03c1)**; at **\u03c1 0.5** the number falls to **4** seeds per block. The cheaper alternative \u2014 measuring one block's level against the two predictions, which differ by **0.349** and **0.465** at equal candidate count \u2014 needs only **2** seeds per block at the primary SD, but that level estimate inherits the failure measured in `84ce329`, where a fresh block landed below its fitted value; the differential is robust to that shift, which is why it is the more expensive estimand.",
+ "found": {
+  "gap": -0.11638,
+  "size_gap": 0.0,
+  "primary_sigma": 0.066656,
+  "primary_sigma_source": "candidate-size cell seed-level LOO RMSE",
+  "seeds_both_at_primary": 9,
+  "seeds_density_at_primary": 9,
+  "seeds_size_at_primary": 6,
+  "range_across_sigma": [
+   2,
+   11
+  ],
+  "committed_seeds_per_block": 6,
+  "committed_se": 0.038484,
+  "committed_power_size": 0.8179,
+  "committed_power_density": 0.7672,
+  "committed_false_density": 0.0127,
+  "committed_false_size": 0.0426,
+  "committed_undecided_if_size": 0.0783,
+  "committed_undecided_if_density": 0.1902
+ },
+ "rows": [
+  {
+   "sigma": 0.035742,
+   "sigma_source": "seed-2067 within-block offset SD",
+   "wrong_decision_rate": 0.2,
+   "seeds_size_branch": 2,
+   "seeds_density_branch": 2,
+   "seeds_both_branches": 2,
+   "total_seeds": 4,
+   "se_at_that_n": 0.035742,
+   "power_size": 0.8617,
+   "power_density": 0.8239
+  },
+  {
+   "sigma": 0.035742,
+   "sigma_source": "seed-2067 within-block offset SD",
+   "wrong_decision_rate": 0.1,
+   "seeds_size_branch": 3,
+   "seeds_density_branch": 6,
+   "seeds_both_branches": 6,
+   "total_seeds": 12,
+   "se_at_that_n": 0.020636,
+   "power_size": 0.9787,
+   "power_density": 0.9057
+  },
+  {
+   "sigma": 0.035742,
+   "sigma_source": "seed-2067 within-block offset SD",
+   "wrong_decision_rate": 0.05,
+   "seeds_size_branch": 5,
+   "seeds_density_branch": 10,
+   "seeds_both_branches": 10,
+   "total_seeds": 20,
+   "se_at_that_n": 0.015984,
+   "power_size": 0.9966,
+   "power_density": 0.951
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block offset SD",
+   "wrong_decision_rate": 0.2,
+   "seeds_size_branch": 2,
+   "seeds_density_branch": 3,
+   "seeds_both_branches": 3,
+   "total_seeds": 6,
+   "se_at_that_n": 0.035444,
+   "power_size": 0.8565,
+   "power_density": 0.8032
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block offset SD",
+   "wrong_decision_rate": 0.1,
+   "seeds_size_branch": 5,
+   "seeds_density_branch": 9,
+   "seeds_both_branches": 9,
+   "total_seeds": 18,
+   "se_at_that_n": 0.020464,
+   "power_size": 0.9815,
+   "power_density": 0.9054
+  },
+  {
+   "sigma": 0.04341,
+   "sigma_source": "current-16 within-block offset SD",
+   "wrong_decision_rate": 0.05,
+   "seeds_size_branch": 7,
+   "seeds_density_branch": 15,
+   "seeds_both_branches": 15,
+   "total_seeds": 30,
+   "se_at_that_n": 0.015851,
+   "power_size": 0.9974,
+   "power_density": 0.9522
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "candidate-size cell seed-level LOO RMSE",
+   "wrong_decision_rate": 0.2,
+   "seeds_size_branch": 6,
+   "seeds_density_branch": 9,
+   "seeds_both_branches": 9,
+   "total_seeds": 18,
+   "se_at_that_n": 0.031422,
+   "power_size": 0.8903,
+   "power_density": 0.8077
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "candidate-size cell seed-level LOO RMSE",
+   "wrong_decision_rate": 0.1,
+   "seeds_size_branch": 10,
+   "seeds_density_branch": 21,
+   "seeds_both_branches": 21,
+   "total_seeds": 42,
+   "se_at_that_n": 0.02057,
+   "power_size": 0.9832,
+   "power_density": 0.902
+  },
+  {
+   "sigma": 0.066656,
+   "sigma_source": "candidate-size cell seed-level LOO RMSE",
+   "wrong_decision_rate": 0.05,
+   "seeds_size_branch": 14,
+   "seeds_density_branch": 35,
+   "seeds_both_branches": 35,
+   "total_seeds": 70,
+   "se_at_that_n": 0.015934,
+   "power_size": 0.9978,
+   "power_density": 0.9512
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block offset SD",
+   "wrong_decision_rate": 0.2,
+   "seeds_size_branch": 7,
+   "seeds_density_branch": 11,
+   "seeds_both_branches": 11,
+   "total_seeds": 22,
+   "se_at_that_n": 0.031041,
+   "power_size": 0.8941,
+   "power_density": 0.8089
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block offset SD",
+   "wrong_decision_rate": 0.1,
+   "seeds_size_branch": 12,
+   "seeds_density_branch": 25,
+   "seeds_both_branches": 25,
+   "total_seeds": 50,
+   "se_at_that_n": 0.02059,
+   "power_size": 0.9834,
+   "power_density": 0.9015
+  },
+  {
+   "sigma": 0.072798,
+   "sigma_source": "fresh-16 within-block offset SD",
+   "wrong_decision_rate": 0.05,
+   "seeds_size_branch": 17,
+   "seeds_density_branch": 42,
+   "seeds_both_branches": 42,
+   "total_seeds": 84,
+   "se_at_that_n": 0.015886,
+   "power_size": 0.998,
+   "power_density": 0.9517
+  }
+ ],
+ "pairing": [
+  {
+   "pairing_rho": 0.0,
+   "se_at_six": 0.038484,
+   "power_density_at_six": 0.7672,
+   "seeds_both_branches": 9
+  },
+  {
+   "pairing_rho": 0.3,
+   "se_at_six": 0.032198,
+   "power_density_at_six": 0.8068,
+   "seeds_both_branches": 6
+  },
+  {
+   "pairing_rho": 0.5,
+   "se_at_six": 0.027212,
+   "power_density_at_six": 0.8453,
+   "seeds_both_branches": 4
+  }
+ ],
+ "level_alternative": [
+  {
+   "block": "split-32",
+   "model_gap": 0.348712,
+   "seeds_at_half_gap": 2
+  },
+  {
+   "block": "split-48",
+   "model_gap": 0.465092,
+   "seeds_at_half_gap": 2
+  }
+ ],
+ "limits": [
+  "The per-seed SD is not measured in a split block; it is borrowed from 16-tag blocks and from the fitted seed-level LOO RMSE, and the answer moves by a factor of three across that grid.",
+  "The predictions are frozen-summary counterfactuals: no split block has been run, so a measured differential may not fall at either predicted value.",
+  "Power assumes independent seeds across the two blocks; a paired design on the same seeds is reported as a sensitivity, not as a recommendation.",
+  "The band rule is a design convention, not a hypothesis test; the reported rate is the probability of the wrong band, and it is not comparable to a p-value."
+ ],
+ "not_evidence": "A design estimate computed from committed artifacts. It runs no arm, measures no split block, and is not a treatment, target, freeze, grant or A1 cell.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}
