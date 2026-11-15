@@ -138,6 +138,17 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the four resolutions packaged as one signable decision
+
+`DECISION-V2-PRIMITIVE-RESOLUTIONS` (`PENDING`) turns the specification's four argued answers into a single decision
+sentence the owner can sign or reject, rather than four that could be accepted in incompatible combinations — a
+streak-based admission rule on a direction-free key would reject stable objects by construction, which is what adopting
+three of the four would produce.
+
+The record states what a rejection does: the charter can still be signed, but without a primitive it has defined. It
+authorises no build, is tallied by Q057 rather than inventing a new question, and the four rejected alternatives carry their
+reasons verbatim so the decision index can quote them. The decision count is now 32 (24 adopted, 1 withdrawn, 7 pending).
+
 ## Addendum — 2026-11-15: the primitive's open questions argued, with recommendations
 
 The specification's four open questions now each carry a recommendation, the alternatives rejected and what would change

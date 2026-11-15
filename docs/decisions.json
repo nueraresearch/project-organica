@@ -10,65 +10,46 @@
   },
   "decisions": [
     {
-      "decision_id": "DECISION-ADMISSION-RULE",
-      "date": "2026-11-07",
-      "status": "WITHDRAWN",
-      "status_quote": "The rule was adopted on this evidence and withdrawn the same day",
-      "chosen": [
-        "Diversity-first admission replaces count-ranked admission."
-      ],
-      "rejected": [
-        {
-          "alternative": "Mark the module deprecated while keeping it callable",
-          "reason": "Withdrawal is the removal of the code, so the package no longer offers the rule at all"
-        }
-      ],
-      "evidence": [
-        "docs/admission_two_arm_result.json",
-        "docs/admission_two_arm_run.json",
-        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
-      ],
-      "superseded_by": null
-    },
-    {
-      "decision_id": "DECISION-CANDIDATE-SUPERSESSION",
-      "date": "2026-11-06",
+      "decision_id": "DECISION-V2-SCOPE",
+      "date": "2026-10-30",
       "status": "ADOPTED",
-      "status_quote": "implemented; probe predictions recorded below **before** the run.",
+      "status_quote": "a scope decision and a bounded diagnostic authorization",
       "chosen": [
-        "An identity is read once, at its newest generation.",
-        "Death is recorded, not inferred from absence."
+        "H2 stands and binds V2 design.",
+        "H2 does not bind one diagnostic arm."
       ],
       "rejected": [
         {
-          "alternative": "Infer death from absence, with no tombstone",
-          "reason": "D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"
+          "alternative": "Design a V2 architecture from the Gate 13 diagnosis",
+          "reason": "No task family was supported; the Gate 13 diagnosis does not reverse that result."
         }
       ],
       "evidence": [
-        "docs/candidate_supersession_probe.json",
-        "docs/cross_context_reuse_benchmark_earned.json"
+        "docs/V2-CAPACITY-DESIGN-BRIEF.md",
+        "docs/G13-D-DIAGNOSTIC-PLAN.md"
       ],
       "superseded_by": null
     },
     {
-      "decision_id": "DECISION-DENSITY-EXCLUSION",
-      "date": "2026-11-07",
-      "status": "PENDING",
-      "status_quote": "The allocation change is licensed; it is **NOT IMPLEMENTED** by this record.",
+      "decision_id": "DECISION-STAGE-B-SEQUENCE",
+      "date": "2026-11-03",
+      "status": "ADOPTED",
+      "status_quote": "a sequencing decision by the owner",
       "chosen": [
-        "Intra-cell exclusion is adopted as an allocation change on the selection layer."
+        "a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit",
+        "an **authorisation decision** by the owner, dated, citing the pre-pass transcript"
       ],
       "rejected": [
         {
-          "alternative": "Adopt the verdict's growth-with-density clause as a mechanism claim",
-          "reason": "The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"
+          "alternative": "Wait for an eligible independent reviewer",
+          "reason": "no eligible reviewer has been found"
         }
       ],
       "evidence": [
-        "docs/density_interaction_a2_result.json",
-        "docs/density_interaction_a2_run.json",
-        "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md"
+        "docs/AI-REVIEW-2026-11-02.md",
+        "docs/AI-REVIEW-2026-11-03.md",
+        "docs/AI-REVIEW-2026-11-03-chatgpt.md",
+        "docs/STAGE-B-PROTOCOL.md"
       ],
       "superseded_by": null
     },
@@ -94,25 +75,65 @@
       "superseded_by": null
     },
     {
-      "decision_id": "DECISION-STAGE-B-SEQUENCE",
-      "date": "2026-11-03",
+      "decision_id": "DECISION-CANDIDATE-SUPERSESSION",
+      "date": "2026-11-06",
       "status": "ADOPTED",
-      "status_quote": "a sequencing decision by the owner",
+      "status_quote": "implemented; probe predictions recorded below **before** the run.",
       "chosen": [
-        "a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit",
-        "an **authorisation decision** by the owner, dated, citing the pre-pass transcript"
+        "An identity is read once, at its newest generation.",
+        "Death is recorded, not inferred from absence."
       ],
       "rejected": [
         {
-          "alternative": "Wait for an eligible independent reviewer",
-          "reason": "no eligible reviewer has been found"
+          "alternative": "Infer death from absence, with no tombstone",
+          "reason": "D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"
         }
       ],
       "evidence": [
-        "docs/AI-REVIEW-2026-11-02.md",
-        "docs/AI-REVIEW-2026-11-03.md",
-        "docs/AI-REVIEW-2026-11-03-chatgpt.md",
-        "docs/STAGE-B-PROTOCOL.md"
+        "docs/candidate_supersession_probe.json",
+        "docs/cross_context_reuse_benchmark_earned.json"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-ADMISSION-RULE",
+      "date": "2026-11-07",
+      "status": "WITHDRAWN",
+      "status_quote": "The rule was adopted on this evidence and withdrawn the same day",
+      "chosen": [
+        "Diversity-first admission replaces count-ranked admission."
+      ],
+      "rejected": [
+        {
+          "alternative": "Mark the module deprecated while keeping it callable",
+          "reason": "Withdrawal is the removal of the code, so the package no longer offers the rule at all"
+        }
+      ],
+      "evidence": [
+        "docs/admission_two_arm_result.json",
+        "docs/admission_two_arm_run.json",
+        "docs/ADMISSION-TWO-ARM-PREREGISTRATION.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-DENSITY-EXCLUSION",
+      "date": "2026-11-07",
+      "status": "PENDING",
+      "status_quote": "The allocation change is licensed; it is **NOT IMPLEMENTED** by this record.",
+      "chosen": [
+        "Intra-cell exclusion is adopted as an allocation change on the selection layer."
+      ],
+      "rejected": [
+        {
+          "alternative": "Adopt the verdict's growth-with-density clause as a mechanism claim",
+          "reason": "The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"
+        }
+      ],
+      "evidence": [
+        "docs/density_interaction_a2_result.json",
+        "docs/density_interaction_a2_run.json",
+        "docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md"
       ],
       "superseded_by": null
     },
@@ -172,27 +193,6 @@
         "docs/DECAY-FALSIFIER-RESULT.md",
         "tests/test_verdict_policy.py",
         "tests/test_decay_falsifier.py"
-      ],
-      "superseded_by": null
-    },
-    {
-      "decision_id": "DECISION-V2-SCOPE",
-      "date": "2026-10-30",
-      "status": "ADOPTED",
-      "status_quote": "a scope decision and a bounded diagnostic authorization",
-      "chosen": [
-        "H2 stands and binds V2 design.",
-        "H2 does not bind one diagnostic arm."
-      ],
-      "rejected": [
-        {
-          "alternative": "Design a V2 architecture from the Gate 13 diagnosis",
-          "reason": "No task family was supported; the Gate 13 diagnosis does not reverse that result."
-        }
-      ],
-      "evidence": [
-        "docs/V2-CAPACITY-DESIGN-BRIEF.md",
-        "docs/G13-D-DIAGNOSTIC-PLAN.md"
       ],
       "superseded_by": null
     },
@@ -504,6 +504,40 @@
       "superseded_by": null
     },
     {
+      "decision_id": "DECISION-A1-PATH-A-C1-RULE",
+      "date": "2026-11-14",
+      "status": "ADOPTED",
+      "status_quote": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
+      "chosen": [
+        "Path A is the A1 estimand",
+        "It does not freeze the targets, reserve seeds or authorise the run.",
+        "There is no averaging across seeds or paths.",
+        "The fraction cannot rescue a denominator below the designed resolution.",
+        "a missing denominator is not a zero-row pass."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+      ],
+      "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-PATH-A-C1-C4",
+      "date": "2026-11-14",
+      "status": "PENDING",
+      "status_quote": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
+      "chosen": [
+        "The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md)."
+      ],
+      "rejected": [],
+      "evidence": [
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md"
+      ],
+      "superseded_by": null
+    },
+    {
       "decision_id": "DECISION-A1-C1-DENOMINATOR",
       "date": "2026-11-15",
       "status": "ADOPTED",
@@ -609,40 +643,6 @@
         "docs/A1-DESIGN-VIABILITY.md",
         "docs/a1_design_viability.json",
         "docs/DECISION-A1-C1-DENOMINATOR.md"
-      ],
-      "superseded_by": null
-    },
-    {
-      "decision_id": "DECISION-A1-PATH-A-C1-RULE",
-      "date": "2026-11-14",
-      "status": "ADOPTED",
-      "status_quote": "RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN",
-      "chosen": [
-        "Path A is the A1 estimand",
-        "It does not freeze the targets, reserve seeds or authorise the run.",
-        "There is no averaging across seeds or paths.",
-        "The fraction cannot rescue a denominator below the designed resolution.",
-        "a missing denominator is not a zero-row pass."
-      ],
-      "rejected": [],
-      "evidence": [
-        "docs/A1-C1-C4-VOID-GATE.md",
-        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
-      ],
-      "superseded_by": null
-    },
-    {
-      "decision_id": "DECISION-A1-PATH-A-C1-C4",
-      "date": "2026-11-14",
-      "status": "PENDING",
-      "status_quote": "DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED",
-      "chosen": [
-        "The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md)."
-      ],
-      "rejected": [],
-      "evidence": [
-        "docs/A1-C1-C4-VOID-GATE.md",
-        "docs/DECISION-A1-PATH-A-C1-RULE.md"
       ],
       "superseded_by": null
     },
@@ -954,6 +954,38 @@
         "docs/A1-REDESIGN-REQUIREMENTS.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-V2-PRIMITIVE-RESOLUTIONS",
+      "date": "2026-11-15",
+      "status": "PENDING",
+      "status_quote": "DRAFT — AWAITING THE OWNER'S SIGNATURE; RECOMMENDATIONS, NOT A BUILD",
+      "chosen": [
+        "Adopt, as the content of the V2 charter's mutable-identity requirement, the four argued resolutions in V2-MUTABLE-IDENTITY-SPEC §10 — edges as members and tags as the key, homogeneous typed levels with level 1 built first and level 2 permitted but unbuilt, per-kind canonicalisation, reference-count reclamation that never frees an id, a key or a tombstone, and registration admitted on total appearances — with none of them in force until the charter is signed and a build is separately authorised, and none of them authorising a build by themselves."
+      ],
+      "rejected": [
+        {
+          "alternative": "Tags as members",
+          "reason": "A tag triple with a missing third edge would count as a carrier, and the baseline the primitive must beat counts pairs."
+        },
+        {
+          "alternative": "Atoms-only membership",
+          "reason": "It would make a theory-level composite unrepresentable by schema, deciding a substantive question by accident."
+        },
+        {
+          "alternative": "One global canonicalisation rule",
+          "reason": "Too coarse merges distinct cycles that share a node set; too fine never merges the two directions of one cycle."
+        },
+        {
+          "alternative": "Register on first detection or on consecutive streaks",
+          "reason": "First detection makes the object population an artifact of thresholds, and direction flips would make a streak rule reject a stable object."
+        }
+      ],
+      "evidence": [
+        "docs/V2-MUTABLE-IDENTITY-SPEC.md",
+        "docs/v2_mutable_identity_spec.json",
+        "docs/v1_carrier_identity.json"
+      ]
     }
   ]
 }

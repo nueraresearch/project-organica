@@ -16,65 +16,48 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 24 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
-| **total** | **31** | |
+| PENDING | 7 | decided and not in force; the document says so |
+| **total** | **32** | |
 
 ## The decisions
 
-### DECISION-ADMISSION-RULE — Decision: diversity-first admission, adopted then withdrawn
+### DECISION-V2-SCOPE — Decision — What “No V2” Binds, and What the Freeze Leaves Free
 
-**Status.** WITHDRAWN — *"The rule was adopted on this evidence and withdrawn the same day"*
-
-**Decided.**
-
-- Diversity-first admission replaces count-ranked admission.
-
-**Rejected.**
-
-- *Mark the module deprecated while keeping it callable* — because *"Withdrawal is the removal of the code, so the package no longer offers the rule at all"*
-
-**Rests on.** Q006 (closed), Q017 (open), Q024 (open)
-
-**Evidence.** `docs/admission_two_arm_result.json`, `docs/admission_two_arm_run.json`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
-
-**Record.** `docs/DECISION-ADMISSION-RULE.md`
-
-### DECISION-CANDIDATE-SUPERSESSION — Decision: candidate supersession — one live copy per identity
-
-**Status.** ADOPTED — *"implemented; probe predictions recorded below **before** the run."*
+**Status.** ADOPTED — *"a scope decision and a bounded diagnostic authorization"*
 
 **Decided.**
 
-- An identity is read once, at its newest generation.
-- Death is recorded, not inferred from absence.
+- H2 stands and binds V2 design.
+- H2 does not bind one diagnostic arm.
 
 **Rejected.**
 
-- *Infer death from absence, with no tombstone* — because *"D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"*
+- *Design a V2 architecture from the Gate 13 diagnosis* — because *"No task family was supported; the Gate 13 diagnosis does not reverse that result."*
 
-**Rests on.** Q013 (open)
+**Rests on.** Q009 (closed)
 
-**Evidence.** `docs/candidate_supersession_probe.json`, `docs/cross_context_reuse_benchmark_earned.json`
+**Evidence.** `docs/V2-CAPACITY-DESIGN-BRIEF.md`, `docs/G13-D-DIAGNOSTIC-PLAN.md`
 
-**Record.** `docs/DECISION-CANDIDATE-SUPERSESSION.md`
+**Record.** `docs/DECISION-V2-SCOPE.md`
 
-### DECISION-DENSITY-EXCLUSION — Decision — intra-cell exclusion is adopted as an allocation change
+### DECISION-STAGE-B-SEQUENCE — DECISION — the route to Stage B authorisation
 
-**Status.** PENDING — *"The allocation change is licensed; it is **NOT IMPLEMENTED** by this record."*
+**Status.** ADOPTED — *"a sequencing decision by the owner"*
 
 **Decided.**
 
-- Intra-cell exclusion is adopted as an allocation change on the selection layer.
+- a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit
+- an **authorisation decision** by the owner, dated, citing the pre-pass transcript
 
 **Rejected.**
 
-- *Adopt the verdict's growth-with-density clause as a mechanism claim* — because *"The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"*
+- *Wait for an eligible independent reviewer* — because *"no eligible reviewer has been found"*
 
-**Rests on.** Q004 (open), Q005 (open)
+**Rests on.** Q010 (closed)
 
-**Evidence.** `docs/density_interaction_a2_result.json`, `docs/density_interaction_a2_run.json`, `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`
+**Evidence.** `docs/AI-REVIEW-2026-11-02.md`, `docs/AI-REVIEW-2026-11-03.md`, `docs/AI-REVIEW-2026-11-03-chatgpt.md`, `docs/STAGE-B-PROTOCOL.md`
 
-**Record.** `docs/DECISION-DENSITY-EXCLUSION.md`
+**Record.** `docs/DECISION-STAGE-B-SEQUENCE.md`
 
 ### DECISION-EARNED-SCHEMA-PRIMING — Decision — Earned-evidence acquisition and content-sensitive schema priming
 
@@ -95,24 +78,60 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 
 **Record.** `docs/DECISION-EARNED-SCHEMA-PRIMING.md`
 
-### DECISION-STAGE-B-SEQUENCE — DECISION — the route to Stage B authorisation
+### DECISION-CANDIDATE-SUPERSESSION — Decision: candidate supersession — one live copy per identity
 
-**Status.** ADOPTED — *"a sequencing decision by the owner"*
+**Status.** ADOPTED — *"implemented; probe predictions recorded below **before** the run."*
 
 **Decided.**
 
-- a **machine pre-pass** on the frozen protocol, transcript saved and named for its model and commit
-- an **authorisation decision** by the owner, dated, citing the pre-pass transcript
+- An identity is read once, at its newest generation.
+- Death is recorded, not inferred from absence.
 
 **Rejected.**
 
-- *Wait for an eligible independent reviewer* — because *"no eligible reviewer has been found"*
+- *Infer death from absence, with no tombstone* — because *"D1 alone would freeze every pruned candidate at the last value above the threshold and re-decay it forever"*
 
-**Rests on.** Q010 (closed)
+**Rests on.** Q013 (open)
 
-**Evidence.** `docs/AI-REVIEW-2026-11-02.md`, `docs/AI-REVIEW-2026-11-03.md`, `docs/AI-REVIEW-2026-11-03-chatgpt.md`, `docs/STAGE-B-PROTOCOL.md`
+**Evidence.** `docs/candidate_supersession_probe.json`, `docs/cross_context_reuse_benchmark_earned.json`
 
-**Record.** `docs/DECISION-STAGE-B-SEQUENCE.md`
+**Record.** `docs/DECISION-CANDIDATE-SUPERSESSION.md`
+
+### DECISION-ADMISSION-RULE — Decision: diversity-first admission, adopted then withdrawn
+
+**Status.** WITHDRAWN — *"The rule was adopted on this evidence and withdrawn the same day"*
+
+**Decided.**
+
+- Diversity-first admission replaces count-ranked admission.
+
+**Rejected.**
+
+- *Mark the module deprecated while keeping it callable* — because *"Withdrawal is the removal of the code, so the package no longer offers the rule at all"*
+
+**Rests on.** Q006 (closed), Q017 (open), Q024 (open)
+
+**Evidence.** `docs/admission_two_arm_result.json`, `docs/admission_two_arm_run.json`, `docs/ADMISSION-TWO-ARM-PREREGISTRATION.md`
+
+**Record.** `docs/DECISION-ADMISSION-RULE.md`
+
+### DECISION-DENSITY-EXCLUSION — Decision — intra-cell exclusion is adopted as an allocation change
+
+**Status.** PENDING — *"The allocation change is licensed; it is **NOT IMPLEMENTED** by this record."*
+
+**Decided.**
+
+- Intra-cell exclusion is adopted as an allocation change on the selection layer.
+
+**Rejected.**
+
+- *Adopt the verdict's growth-with-density clause as a mechanism claim* — because *"The growth is a descriptive interval that lies above zero; the pre-registration did not judge it"*
+
+**Rests on.** Q004 (open), Q005 (open)
+
+**Evidence.** `docs/density_interaction_a2_result.json`, `docs/density_interaction_a2_run.json`, `docs/DENSITY-INTERACTION-A2-PREREGISTRATION.md`
+
+**Record.** `docs/DECISION-DENSITY-EXCLUSION.md`
 
 ### DECISION-STORE-TIME-ROLE-RECORD — Decision — record the licensing role at store time?
 
@@ -154,25 +173,6 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 **Evidence.** `benchmarks/verdict_policy.py`, `benchmarks/decay_falsifier.py`, `docs/decay_falsifier.json`, `docs/DECAY-FALSIFIER-RESULT.md`, `tests/test_verdict_policy.py`, `tests/test_decay_falsifier.py`
 
 **Record.** `docs/DECISION-UNCERTIFIED-RUN.md`
-
-### DECISION-V2-SCOPE — Decision — What “No V2” Binds, and What the Freeze Leaves Free
-
-**Status.** ADOPTED — *"a scope decision and a bounded diagnostic authorization"*
-
-**Decided.**
-
-- H2 stands and binds V2 design.
-- H2 does not bind one diagnostic arm.
-
-**Rejected.**
-
-- *Design a V2 architecture from the Gate 13 diagnosis* — because *"No task family was supported; the Gate 13 diagnosis does not reverse that result."*
-
-**Rests on.** Q009 (closed)
-
-**Evidence.** `docs/V2-CAPACITY-DESIGN-BRIEF.md`, `docs/G13-D-DIAGNOSTIC-PLAN.md`
-
-**Record.** `docs/DECISION-V2-SCOPE.md`
 
 ### DECISION-G1-WITNESS — Decision: the G1 reference-arm witness
 
@@ -381,6 +381,46 @@ written down cannot be re-examined later.
 
 **Record.** `docs/DECISION-0X-ENGINEERING-CHARTER.md`
 
+### DECISION-A1-PATH-A-C1-RULE — A1 Path A estimand and C1 acceptance rule — decision record
+
+**Status.** ADOPTED — *"RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"*
+
+**Decided.**
+
+- Path A is the A1 estimand
+- It does not freeze the targets, reserve seeds or authorise the run.
+- There is no averaging across seeds or paths.
+- The fraction cannot rescue a denominator below the designed resolution.
+- a missing denominator is not a zero-row pass.
+
+**Rejected.** None recorded in the document. That is a gap in the record, not a
+statement that no alternative existed: a decision whose alternatives were never
+written down cannot be re-examined later.
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`
+
+**Record.** `docs/DECISION-A1-PATH-A-C1-RULE.md`
+
+### DECISION-A1-PATH-A-C1-C4 — Owner decision memo — A1 Path A and C1/C4 gate order
+
+**Status.** PENDING — *"DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED"*
+
+**Decided.**
+
+- The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md).
+
+**Rejected.** None recorded in the document. That is a gap in the record, not a
+statement that no alternative existed: a decision whose alternatives were never
+written down cannot be re-examined later.
+
+**Rests on.** Q054 (open)
+
+**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`
+
+**Record.** `docs/DECISION-A1-PATH-A-C1-C4.md`
+
 ### DECISION-A1-C1-DENOMINATOR — Decision: the protocol's C1 denominator is authoritative
 
 **Status.** ADOPTED — *"ADOPTED — THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED"*
@@ -453,46 +493,6 @@ written down cannot be re-examined later.
 **Evidence.** `docs/A1-C1-UNIT-OF-EVIDENCE.md`, `docs/A1-DESIGN-VIABILITY.md`, `docs/a1_design_viability.json`, `docs/DECISION-A1-C1-DENOMINATOR.md`
 
 **Record.** `docs/DECISION-A1-C1-UNIT.md`
-
-### DECISION-A1-PATH-A-C1-RULE — A1 Path A estimand and C1 acceptance rule — decision record
-
-**Status.** ADOPTED — *"RECORDED — BINDING FOR A1; NO FREEZE, NO GRANT, NO RUN"*
-
-**Decided.**
-
-- Path A is the A1 estimand
-- It does not freeze the targets, reserve seeds or authorise the run.
-- There is no averaging across seeds or paths.
-- The fraction cannot rescue a denominator below the designed resolution.
-- a missing denominator is not a zero-row pass.
-
-**Rejected.** None recorded in the document. That is a gap in the record, not a
-statement that no alternative existed: a decision whose alternatives were never
-written down cannot be re-examined later.
-
-**Rests on.** Q054 (open)
-
-**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`
-
-**Record.** `docs/DECISION-A1-PATH-A-C1-RULE.md`
-
-### DECISION-A1-PATH-A-C1-C4 — Owner decision memo — A1 Path A and C1/C4 gate order
-
-**Status.** PENDING — *"DRAFT — C1/C4 GATE ADOPTED ELSEWHERE; PATH A CONFIRMATION AND PROVISIONAL FREEZE NOT ADOPTED"*
-
-**Decided.**
-
-- The five proposals above were each taken in a separate adopting record: the C1/C4 gate order and the VOID disposition in [`A1-C1-C4-VOID-GATE-1`](A1-C1-C4-VOID-GATE.md), and the Path A estimand and C1 acceptance rule in [`A1-PATH-A-C1-RULE-1`](DECISION-A1-PATH-A-C1-RULE.md).
-
-**Rejected.** None recorded in the document. That is a gap in the record, not a
-statement that no alternative existed: a decision whose alternatives were never
-written down cannot be re-examined later.
-
-**Rests on.** Q054 (open)
-
-**Evidence.** `docs/A1-C1-C4-VOID-GATE.md`, `docs/DECISION-A1-PATH-A-C1-RULE.md`
-
-**Record.** `docs/DECISION-A1-PATH-A-C1-C4.md`
 
 ### DECISION-A1-C4-POSTURE — C4 declaration — adopted 2026-11-15 (posture A)
 
@@ -701,6 +701,27 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`
 
 **Record.** `docs/DECISION-A2-ESTIMAND.md`
+
+### DECISION-V2-PRIMITIVE-RESOLUTIONS — `DECISION-V2-PRIMITIVE-RESOLUTIONS` — adopt the primitive's four resolutions
+
+**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S SIGNATURE; RECOMMENDATIONS, NOT A BUILD"*
+
+**Decided.**
+
+- Adopt, as the content of the V2 charter's mutable-identity requirement, the four argued resolutions in V2-MUTABLE-IDENTITY-SPEC §10 — edges as members and tags as the key, homogeneous typed levels with level 1 built first and level 2 permitted but unbuilt, per-kind canonicalisation, reference-count reclamation that never frees an id, a key or a tombstone, and registration admitted on total appearances — with none of them in force until the charter is signed and a build is separately authorised, and none of them authorising a build by themselves.
+
+**Rejected.**
+
+- *Tags as members* — because *"A tag triple with a missing third edge would count as a carrier, and the baseline the primitive must beat counts pairs."*
+- *Atoms-only membership* — because *"It would make a theory-level composite unrepresentable by schema, deciding a substantive question by accident."*
+- *One global canonicalisation rule* — because *"Too coarse merges distinct cycles that share a node set; too fine never merges the two directions of one cycle."*
+- *Register on first detection or on consecutive streaks* — because *"First detection makes the object population an artifact of thresholds, and direction flips would make a streak rule reject a stable object."*
+
+**Rests on.** Q057 (open)
+
+**Evidence.** `docs/V2-MUTABLE-IDENTITY-SPEC.md`, `docs/v2_mutable_identity_spec.json`, `docs/v1_carrier_identity.json`
+
+**Record.** `docs/DECISION-V2-PRIMITIVE-RESOLUTIONS.md`
 
 ## What this graph is not
 

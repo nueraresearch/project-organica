@@ -1200,7 +1200,8 @@
         "docs/A1-RUN.md"
       ],
       "decisions": [
-        "DECISION-V2-CHARTER.md"
+        "DECISION-V2-CHARTER.md",
+        "DECISION-V2-PRIMITIVE-RESOLUTIONS.md"
       ],
       "preregistrations": [],
       "supersedes": []
