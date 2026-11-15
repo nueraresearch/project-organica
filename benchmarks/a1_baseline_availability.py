@@ -54,7 +54,11 @@ CYCLES = a1_two_path.CYCLES
 CAP = a1_two_path.CAP
 C1_FLOOR = 60
 C4_MAX = 0.05
-SEEDS = a1_two_path.SEEDS
+# The block this audit ran, recorded rather than inherited. A1-TWO-PATH-1's
+# candidate block is a live constant that can move; a completed run's block
+# is history, and aliasing the two means editing this file's record happens
+# by editing another module's candidate.
+SEEDS = (20630101, 20630102, 20630103, 20630104, 20630105, 20630106)
 
 
 def _load(path: Path) -> dict:
