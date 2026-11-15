@@ -53,6 +53,24 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: both target-freeze acts re-issued with their digests checked
+
+D7's two acts were re-issued together so they can be signed against one date: `A1-TARGET-FREEZE-1` (N=4) and
+`A1-TARGET-FREEZE-N20-1`. Each was checked against its selection artifact rather than merely re-stamped — the 6
+per-seed selection digests and the artifact SHA-256 in each act, **14 of 14 across the pair** — and every value
+matched. Nothing was recomputed, because nothing had drifted: `a1_target_selection --check` and
+`a1_c8_target_selection --check` both report their artifacts clean. The re-issue therefore changes no target,
+reserves no digest and freezes nothing; what it adds is a dated record that the check was made.
+
+Two defects were corrected in passing, both the same kind. Both acts still said they were **"held on C2/C8
+competence and C4 exposure"** — premises decided on 2026-11-15 (C8 competence at `N_min = 17`, C4 exposure at
+posture A) — so a signer would have concluded the freeze was waiting on a question that already had an answer.
+And both stated the C1 denominator as **"FLOOR 64"**, where `DECISION-A1-C1-DENOMINATOR-1` fixes the floor at
+**60** and 64 is the design block's size. The status lines now read floor 60 and name the observation that
+actually holds the acts: the no-arm baseline sees **58** paired-control rows against that floor, so a run
+assembled now would VOID on `C1_DENOMINATOR_BELOW_FLOOR` before any gate was read. The acts are signable; what
+they would authorise is a VOID until the denominator or the floor moves.
+
 ## Addendum — 2026-11-15: the A1 disposition is adopted — Path A continues
 
 `DECISION-A1-DISPOSITION-2` is now `ADOPTED` by owner direction on 2026-11-15. It answers the branch question

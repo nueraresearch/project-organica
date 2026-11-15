@@ -1,12 +1,19 @@
 # A1 N=20 target-freeze act — re-issued draft
 
 > **Re-issued 2026-11-15 for `20740101-20740106`.** This edition replaces the 2026-11-14 draft bound to `20630101-20630106`, a block spent by `A1-BASELINE-AVAILABILITY-1`; that edition's tables remain in git history (`1b822af`) and are not restated here. Every table, count and digest below is bound to the adopted block. Nothing in this act is signed, frozen, granted or run.
+>
+> **Digests re-verified 2026-11-15, not recomputed.** Every digest below was checked against its
+> source at re-issue: the 6 per-seed selection digests and the artifact SHA-256 against
+> `docs/a1_c8_target_selection.json`. All 7 match, and `python -m benchmarks.a1_target_selection --check` /
+> `a1_c8_target_selection --check` report the artifacts clean, so this edition changes no target and
+> reserves no new digest. A re-issue that recomputed identical values would be indistinguishable
+> from this one; what it records is that the check was made.
 
 **ID:** `A1-TARGET-FREEZE-N20-1`
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — AWAITING THE OWNER'S SIGNATURE; C4 EXPOSURE ADOPTED 2026-11-15 (POSTURE A) AND C8 COMPETENCE DECIDED (N_min 17), SO NEITHER HOLDS THIS ACT; HELD ON THE C1 DENOMINATOR OBSERVATION — THE NO-ARM BASELINE SEES 58 PAIRED-CONTROL ROWS ON THE CURRENT CELL STREAM AGAINST AN ADOPTED MINIMUM OF 60, SO A RUN ASSEMBLED NOW WOULD VOID ON `C1_DENOMINATOR_BELOW_FLOOR` BEFORE ANY GATE WAS READ; NO
+**Status:** `DRAFT — RE-ISSUED 2026-11-15 AND DIGESTS RE-VERIFIED AGAINST THE SELECTION ARTIFACTS (6/6 PER-SEED AND 1/1 ARTIFACT SHA-256 MATCH; NOTHING RECOMPUTED BECAUSE NOTHING DRIFTED); C1 DENOMINATOR RECONCILED TO THE PROTOCOL AND OWNER-ADOPTED 2026-11-15 (DIRECTED CELL ROWS, FLOOR 60, NOT SCORED); C4 EXPOSURE ADOPTED 2026-11-15 (POSTURE A) AND C8 COMPETENCE DECIDED (N_min 17), SO NEITHER HOLDS THIS ACT; HELD ON THE C1 DENOMINATOR OBSERVATION — THE NO-ARM BASELINE SEES 58 PAIRED-CONTROL ROWS AGAINST AN ADOPTED FLOOR OF 60; AWAITING THE OWNER'S SIGNATURE; NOT FROZEN, NO GRANT, NO RUN`C1_DENOMINATOR_BELOW_FLOOR` BEFORE ANY GATE WAS READ; NO
 
 **Decision owner:** ____________________
 
