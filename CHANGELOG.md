@@ -53,6 +53,24 @@ availability record, so no row is silently called incompetent and the counts are
 no engine, selects no target, and carries the competence reading's own limit: C2 is a treatment gate,
 so these counts are a selection incompatibility, not a proof that C2 or C8 fails.
 
+## Addendum — 2026-11-15: C4's exposure is a comparison count, and its VOID probability is unmeasured
+
+`docs/A1-C4-RISK-POSTURE.md` sets out the choice the C4 record has never put to the owner. C4 is a
+post-freeze veto that fails the run if **any** measurable non-target A, K or Y neighbour delta exceeds
+0.05, so its exposure is not 108 rows but **324 deltas per seed and 1,944 per block** at N=4
+(276 / 1,656 at N=20), read as a maximum with no correction. The exposure is fixed by N and the
+stream, not by target identity, so no filtering, competence screen or estimand change buys relief.
+
+The page also states what the record has been silent about: the probability of a false VOID is
+**unmeasured**, and cannot be cheaply measured before the freeze, because the engine is deterministic
+— two no-arm replays are identical and their delta is exactly zero, which measures the harness rather
+than the intervention. The three postures are accept (with its 1,944 comparisons), narrow the
+protected set before the freeze, or accept a possible VOID explicitly. Narrowing is the trap: C1's
+denominator **is** the C4-expanded row set, and C1 clears the floor by three rows at the tightest
+seed, so a protected-set haircut spends the primary gate's margin to buy the veto's comfort. The
+recommendation, marked as one, is to accept the exposure and declare the multiplicity, the failing
+edge and the unmeasured probability in the act.
+
 ## Addendum — 2026-11-15: the competence rule answers its own five questions and becomes decidable
 
 The rule draft exposed five ambiguities and left them open. They are now answered as recommendations,
