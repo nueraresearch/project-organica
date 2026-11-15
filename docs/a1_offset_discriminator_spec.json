@@ -1,0 +1,506 @@
+{
+ "kind": "a1_offset_discriminator_spec",
+ "id": "A1-OFFSET-DISCRIMINATOR-SPEC-1",
+ "date": "2026-11-14",
+ "status": "CANDIDATE-SPACE SPEC \u2014 NO ARM, NO TARGET, NOT FROZEN, NOT RUN; NO FREEZE, GRANT OR A1 CELL",
+ "not_a_result": true,
+ "question": "Can a no-arm candidate construction make candidate count and alphabet density diverge, so the two frozen offset predictors make different predictions for the same blocks?",
+ "definition": "A candidate-space specification. Alphabet is the number of tags the construction exercises (4 per cell x cells). Candidate count is the number of A-candidate edges the committed fixed rule derives from the acquisition stream. Density is candidate edges / tags. The offset models are the frozen cell fits from docs/a1_offset_predictors.json (candidate size) and docs/a1_offset_density.json (candidate density), each with the shared sqrt(cap) slope.",
+ "method": "Derive candidate streams only, with a pair-split variant of the compositional law that divides each cell's tags into active-sized groups and lets the regime index pick the group. No engine replay, so no coverage, offset or A/K cell is produced.",
+ "construction": {
+  "law": "compositional (4 cells, flip_p/flip_q successor, 2 tags per event)",
+  "knob": "active subset size per regime",
+  "split_rule": "each cell's tags are cut into consecutive `active` groups; regime index selects groups[regime % groups]",
+  "blocks": [
+   {
+    "label": "split-32",
+    "per_cell": 8,
+    "active": 4,
+    "tags": 32
+   },
+   {
+    "label": "split-48",
+    "per_cell": 12,
+    "active": 4,
+    "tags": 48
+   }
+  ],
+  "seeds": [
+   20690101,
+   20690102,
+   20690103,
+   20690104,
+   20690105,
+   20690106
+  ],
+  "cycles": 120,
+  "events_per_cycle": 8,
+  "control": "active == per_cell reproduces the committed law (checked on four seeds)"
+ },
+ "constants": {
+  "active": 4,
+  "equal_m_tolerance": 0.05,
+  "decision_floor": 0.05,
+  "decision_ceiling": 0.09,
+  "frozen_coefficients": {
+   "size": [
+    1.90290201,
+    -0.35852459,
+    0.04698666
+   ],
+   "density": [
+    1.11062731,
+    -0.17502593,
+    0.04698668
+   ]
+  },
+  "sqrt_coefficient": 0.04698668,
+  "seed_rmse": 0.066656
+ },
+ "governance": {
+  "freeze": false,
+  "grant": false,
+  "run": false,
+  "authorization": "none"
+ },
+ "reading": "Within the committed compositional law the offset predictors cannot be separated: tags-per-cell **k** fixes the alphabet **4k** and the candidate count together, so measured blocks sit at **16/2.0**, **36/3.0**, **63.7/3.98** and **167/5.95** (candidates, density) \u2014 density is a function of candidate count, and no setting of **k** moves one without the other. The pair-split construction breaks that identity by fixing the per-regime pair width at **active=4** while letting the alphabet grow: **split-32** (32 tags) yields **63.8** candidates at density **1.995**, and **split-48** (48 tags) yields **63.8** at density **1.330**, both within **5.0%** of the 16-tag candidate count of **63.8**. The frozen size model therefore assigns them nearly the same offset (**0.413** against **0.413**, a gap of **0.000**), while the frozen density model assigns **0.761** and **0.878** \u2014 a predicted difference of **0.116** against the size model's **0.000**. The differential between the two split blocks is the test: it is **6\u00d7** the candidate-size cell LOO, and because both blocks come from the same split family, family-level shifts cancel in the difference.",
+ "found": {
+  "split_blocks": 2,
+  "seeds_per_block": 6,
+  "candidate_rows": 12,
+  "reference_blocks": 3,
+  "equal_m": [
+   {
+    "block": "split-32",
+    "candidates_mean": 63.833333,
+    "reference_candidates": 63.833333,
+    "log_gap": 0.0
+   },
+   {
+    "block": "split-48",
+    "candidates_mean": 63.833333,
+    "reference_candidates": 63.833333,
+    "log_gap": 0.0
+   }
+  ],
+  "references": {
+   "current-16": {
+    "candidates_mean": 63.666667,
+    "density": 3.979167
+   },
+   "fresh-16": {
+    "candidates_mean": 63.833333,
+    "density": 3.989583
+   },
+   "larger-28": {
+    "candidates_mean": 166.666667,
+    "density": 5.952381
+   }
+  }
+ },
+ "blocks": [
+  {
+   "label": "split-32",
+   "per_cell": 8,
+   "active": 4,
+   "tags": 32,
+   "seeds": [
+    20690101,
+    20690102,
+    20690103,
+    20690104,
+    20690105,
+    20690106
+   ],
+   "candidate_edges": [
+    63,
+    64,
+    64,
+    64,
+    64,
+    64
+   ],
+   "candidates_mean": 63.833333,
+   "log_candidates": 4.156276,
+   "density": 1.994792,
+   "tags_used": 32,
+   "source": "measured here"
+  },
+  {
+   "label": "split-48",
+   "per_cell": 12,
+   "active": 4,
+   "tags": 48,
+   "seeds": [
+    20690101,
+    20690102,
+    20690103,
+    20690104,
+    20690105,
+    20690106
+   ],
+   "candidate_edges": [
+    63,
+    64,
+    64,
+    64,
+    64,
+    64
+   ],
+   "candidates_mean": 63.833333,
+   "log_candidates": 4.156276,
+   "density": 1.329861,
+   "tags_used": 48,
+   "source": "measured here"
+  },
+  {
+   "label": "current-16",
+   "per_cell": 4,
+   "active": null,
+   "tags": 16,
+   "seeds": [
+    20630101,
+    20630102,
+    20630103,
+    20630104,
+    20630105,
+    20630106
+   ],
+   "candidate_edges": [
+    63,
+    63,
+    64,
+    64,
+    64,
+    64
+   ],
+   "candidates_mean": 63.666667,
+   "log_candidates": 4.153661,
+   "density": 3.979167,
+   "tags_used": 16,
+   "source": "docs/a1_k_carrier_supply.json"
+  },
+  {
+   "label": "fresh-16",
+   "per_cell": 4,
+   "active": null,
+   "tags": 16,
+   "seeds": [
+    20650101,
+    20650102,
+    20650103,
+    20650104,
+    20650105,
+    20650106
+   ],
+   "candidate_edges": [
+    63,
+    64,
+    64,
+    64,
+    64,
+    64
+   ],
+   "candidates_mean": 63.833333,
+   "log_candidates": 4.156276,
+   "density": 3.989583,
+   "tags_used": 16,
+   "source": "docs/a1_k_carrier_supply.json"
+  },
+  {
+   "label": "larger-28",
+   "per_cell": 7,
+   "active": null,
+   "tags": 28,
+   "seeds": [
+    20660101,
+    20660102,
+    20660103,
+    20660104,
+    20660105,
+    20660106
+   ],
+   "candidate_edges": [
+    158,
+    165,
+    167,
+    169,
+    169,
+    172
+   ],
+   "candidates_mean": 166.666667,
+   "log_candidates": 5.115996,
+   "density": 5.952381,
+   "tags_used": 28,
+   "source": "docs/a1_k_carrier_supply.json"
+  }
+ ],
+ "candidate_rows": [
+  {
+   "block": "split-32",
+   "seed": 20690101,
+   "tags": 32,
+   "candidate_edges": 63,
+   "log_candidates": 4.143135,
+   "density": 1.96875
+  },
+  {
+   "block": "split-32",
+   "seed": 20690102,
+   "tags": 32,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 2.0
+  },
+  {
+   "block": "split-32",
+   "seed": 20690103,
+   "tags": 32,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 2.0
+  },
+  {
+   "block": "split-32",
+   "seed": 20690104,
+   "tags": 32,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 2.0
+  },
+  {
+   "block": "split-32",
+   "seed": 20690105,
+   "tags": 32,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 2.0
+  },
+  {
+   "block": "split-32",
+   "seed": 20690106,
+   "tags": 32,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 2.0
+  },
+  {
+   "block": "split-48",
+   "seed": 20690101,
+   "tags": 48,
+   "candidate_edges": 63,
+   "log_candidates": 4.143135,
+   "density": 1.3125
+  },
+  {
+   "block": "split-48",
+   "seed": 20690102,
+   "tags": 48,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 1.333333
+  },
+  {
+   "block": "split-48",
+   "seed": 20690103,
+   "tags": 48,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 1.333333
+  },
+  {
+   "block": "split-48",
+   "seed": 20690104,
+   "tags": 48,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 1.333333
+  },
+  {
+   "block": "split-48",
+   "seed": 20690105,
+   "tags": 48,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 1.333333
+  },
+  {
+   "block": "split-48",
+   "seed": 20690106,
+   "tags": 48,
+   "candidate_edges": 64,
+   "log_candidates": 4.158883,
+   "density": 1.333333
+  }
+ ],
+ "predictions": [
+  {
+   "label": "split-32",
+   "log_candidates": 4.156276,
+   "density": 1.994792,
+   "size_offset": 0.412775,
+   "density_offset": 0.761487,
+   "gap": 0.348712
+  },
+  {
+   "label": "split-48",
+   "log_candidates": 4.156276,
+   "density": 1.329861,
+   "size_offset": 0.412775,
+   "density_offset": 0.877867,
+   "gap": 0.465092
+  },
+  {
+   "label": "current-16",
+   "log_candidates": 4.153661,
+   "density": 3.979167,
+   "size_offset": 0.413712,
+   "density_offset": 0.41417,
+   "gap": 0.000458
+  },
+  {
+   "label": "fresh-16",
+   "log_candidates": 4.156276,
+   "density": 3.989583,
+   "size_offset": 0.412775,
+   "density_offset": 0.412347,
+   "gap": -0.000428
+  },
+  {
+   "label": "larger-28",
+   "log_candidates": 5.115996,
+   "density": 5.952381,
+   "size_offset": 0.068692,
+   "density_offset": 0.068806,
+   "gap": 0.000115
+  }
+ ],
+ "differential": {
+  "blocks": [
+   "split-32",
+   "split-48"
+  ],
+  "log_candidates": [
+   4.156276,
+   4.156276
+  ],
+  "density": [
+   1.994792,
+   1.329861
+  ],
+  "size_predicted_difference": 0.0,
+  "density_predicted_difference": -0.11638,
+  "measured_difference": null,
+  "decision": "not measured \u2014 no arm, no run"
+ },
+ "identification": {
+  "blocks": [
+   "split-32",
+   "split-48",
+   "current-16",
+   "fresh-16",
+   "larger-28"
+  ],
+  "rows": 5,
+  "parameters": 3,
+  "inverse_diagonal": [
+   46.137362,
+   3.235101,
+   0.177533
+  ],
+  "coefficient_se": [
+   0.124791,
+   0.033045,
+   0.007741
+  ],
+  "sigma": 0.018372,
+  "sigma_source": "candidate-size cell LOO RMSE, docs/a1_offset_predictors.json",
+  "log_candidates_range": [
+   4.153661,
+   5.115996
+  ],
+  "density_range": [
+   1.329861,
+   5.952381
+  ],
+  "fitted_log_candidates_range": [
+   4.153634,
+   5.115638
+  ],
+  "fitted_density_range": [
+   3.979167,
+   5.952381
+  ]
+ },
+ "controls": [
+  {
+   "name": "the committed 16-tag law reproduces 20630101",
+   "expected": 64,
+   "observed": 64,
+   "ok": true
+  },
+  {
+   "name": "the committed 16-tag law reproduces 20630102",
+   "expected": 63,
+   "observed": 63,
+   "ok": true
+  },
+  {
+   "name": "the committed 16-tag law reproduces 20650101",
+   "expected": 64,
+   "observed": 64,
+   "ok": true
+  },
+  {
+   "name": "the committed 28-tag law reproduces 20660101",
+   "expected": 169,
+   "observed": 169,
+   "ok": true
+  },
+  {
+   "name": "split-32 uses every declared tag",
+   "expected": 32,
+   "observed": 32,
+   "ok": true
+  },
+  {
+   "name": "split-48 uses every declared tag",
+   "expected": 48,
+   "observed": 48,
+   "ok": true
+  },
+  {
+   "name": "split-32 matches the 16-tag candidate count",
+   "expected": "|log gap| <= 0.05",
+   "observed": 0.0,
+   "ok": true
+  },
+  {
+   "name": "split-48 matches the 16-tag candidate count",
+   "expected": "|log gap| <= 0.05",
+   "observed": 0.0,
+   "ok": true
+  }
+ ],
+ "decision_rule": {
+  "statistic": "measured offset difference, split-32 minus split-48",
+  "size_model": "near zero (predicted 0.000000)",
+  "density_model": "negative, about -0.116",
+  "if_abs_below": "0.05 -> candidate count tracks the level",
+  "if_abs_above": "0.09 with the density sign -> density tracks the level",
+  "otherwise": "neither summary is identified by this pair",
+  "power": "about 3 standard errors at six seeds per block under the fitted seed-level RMSE 0.067"
+ },
+ "limits": [
+  "The split blocks are a different world family from the three fitted blocks: their absolute level is not comparable to the fitted blocks except through the predictors.",
+  "The differential test cancels family-level shifts only because both split blocks share the split rule, the active width and the regime law.",
+  "Density 1.31-1.96 lies below the fitted density range 3.98-5.95, so the density model extrapolates downward while the size model interpolates.",
+  "Candidate count is fixed by the fixed candidate rule; a different rule would move both features together again.",
+  "No coverage, offset or A/K value is measured here; every predicted number is a projection from the frozen fits."
+ ],
+ "not_evidence": "A candidate-space specification with measured candidate counts. It is not a treatment, a target, a freeze, a grant, an A1 cell or evidence that either predictor is the mechanism. The predicted offsets are projections from frozen fits, not measurements.",
+ "engine_version": "0.15.0",
+ "engine_commit": "fb701f48b9d593256559f30395c5ccfad7f17cae",
+ "engine_sha256": "d4eeefcfabe6a947db7715d3c50b1053d6a4fa4f0eccfa8ad622dbfe13540711",
+ "runner": "__main__"
+}
