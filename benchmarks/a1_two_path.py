@@ -86,6 +86,7 @@ WITHIN_BLOCK_LEVEL_PATH = DOCS / "a1_within_block_level.json"
 ORDERING_TERM_PATH = DOCS / "a1_cap112_ordering_term.json"
 SPLIT_POWER_PATH = DOCS / "a1_split_power.json"
 ENGINE_SIDE_JOIN_PATH = DOCS / "a1_engine_side_join.json"
+BAND_FRONTIER_PATH = DOCS / "a1_band_frontier.json"
 TARGET_SELECTION_PATH = DOCS / "a1_target_selection.json"
 C8_TARGET_SELECTION_PATH = DOCS / "a1_c8_target_selection.json"
 C8_EXPANSION_PATH = DOCS / "a1_c8_expansion.json"
@@ -420,7 +421,8 @@ def preflight(doc: dict | None = None) -> list[str]:
                  OFFSET_DENSITY_PATH, SEED_HOLDOUT_PATH,
                  CAP112_UNSERVED_PATH, OFFSET_DISCRIMINATOR_PATH,
                  WITHIN_BLOCK_LEVEL_PATH, ORDERING_TERM_PATH,
-                 SPLIT_POWER_PATH, ENGINE_SIDE_JOIN_PATH)
+                 SPLIT_POWER_PATH, ENGINE_SIDE_JOIN_PATH,
+                 BAND_FRONTIER_PATH)
         collisions = seed_collisions(list(doc.get("seed_block", {}).get("seeds") or []),
                                      allow=allow)
         if collisions:
