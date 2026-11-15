@@ -6,7 +6,7 @@
 
 **Date:** 2026-11-15
 
-**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN`
+**Status:** `DRAFT — RE-ISSUED FOR THE ADOPTED BLOCK; C1 VIABILITY UNVERIFIED FOR THIS STREAM (BLOCKING); AWAITING OWNER SIGNATURE; NOT FROZEN; NO GRANT, NO RUN`
 
 **Decision owner:** ____________________
 
@@ -60,6 +60,8 @@ The act does **not**:
 - create a result, model label or claim;
 - adopt the owner memo or the C1/C4 gate order;
 - allow a second attempt or a target re-selection.
+
+**Blocking precondition — C1 viability is unverified for this block.** `A1-DESIGN-VIABILITY-1` records that the candidate stream's maximum attainable C1 denominator is **44 / 31 / 39 / 35 / 43 / 36** against the **60-row floor** — 0 of 6 seeds reach it — and its disposition is *"Do not freeze or run the current A1 design on these records… A1 must be redesigned with a C1-capable universe or seed block"*. That ceiling was computed on the **superseded** `20630101-20630106` stream; **no committed artifact computes A/K availability, and therefore a C1 ceiling, for the adopted `20740101-20740106` stream.** A C1 ceiling is a property of the stream, not of the target block: target selection partitions rows and cannot create them. This act therefore freezes target identity while leaving open whether the frozen stream can produce a 60-row C1 denominator at all — and the only measurement the repository holds says a sibling stream could not. Signing does not repair, re-measure or take a position on that; it is a decision to freeze targets on a stream whose ceiling is unknown.
 
 ## 4. Preconditions
 

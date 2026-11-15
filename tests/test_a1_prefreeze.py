@@ -240,7 +240,20 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
-    assert act["current_manifest_frozen"] is False
+    assert act["blocking_preconditions"] == ["C1_viability_unverified"]
+
+    viability = json.loads(Path("docs/a1_design_viability.json").read_text(encoding="utf-8"))
+    recorded = {str(row["seed"]): row["max_attainable"]
+                for row in viability["c1_ceiling"]["candidate_stream"]["per_seed"]}
+    assert act["design_viability"]["recorded_c1_ceiling_by_seed"].keys() == recorded.keys()
+    for seed, ceiling in recorded.items():
+        assert act["design_viability"]["recorded_c1_ceiling_by_seed"][seed][
+            "max_attainable"] == ceiling
+    assert act["design_viability"]["floor"] == viability["c1_ceiling"]["floor"]
+    assert act["design_viability"]["recorded_disposition"] == viability["disposition"]
+    assert act["design_viability"]["applies_to_the_adopted_block"].startswith("NOT MEASURED")
+    assert act["design_viability"]["is_a_signature_blocker"] is True
+    assert "C1 VIABILITY UNVERIFIED" in act["status"]
 
     c5 = json.loads(Path("docs/a1_c5_target_timing.json").read_text(encoding="utf-8"))
     assert act["c5_timing"]["status"].startswith("PASS")
@@ -268,6 +281,9 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert "NO GRANT, NO RUN" in page
     assert "FIXED BEFORE FREEZE" in page
     assert "Re-issued 2026-11-15" in page
+    assert "C1 VIABILITY UNVERIFIED" in page
+    assert "Do not freeze or run the current A1 design" in page
+    assert "44 / 31 / 39 / 35 / 43 / 36" in page
     assert "`20630101`" not in page
 
 def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
@@ -335,7 +351,7 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["c8_resolution"]["adjudicable_after_signature"] is True
     assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
     assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
-    assert act["blocking_preconditions"] == []
+    assert act["blocking_preconditions"] == ["C1_viability_unverified"]
     blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
     assert blockers == set()
     assert act["c5_timing"]["status"].startswith("PASS")
@@ -359,7 +375,7 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     page = Path("docs/A1-TARGET-FREEZE-ACT-N20.md").read_text(encoding="utf-8")
     assert "**Signature and date:**" in page
     assert "A1-C8-EXPANSION-1" in page
-    assert "C5 CLEARED BY EARLIER-U" in page
+    assert "cleared by the separately registered earlier-`U` protocol" in page
     assert "C5: earlier `U` before carrier, K and Y" in page
     assert "1/20 = 0.05" in page
     assert "N=20 target validation" in page
