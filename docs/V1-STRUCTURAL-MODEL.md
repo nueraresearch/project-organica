@@ -70,11 +70,22 @@ outputs — never a stored object.
 **4. Can those ever be distinct?** They are distinct as sets — what is stored is never what is retrieved as a structure —
 but they are not *addressable* as distinct objects: nothing names a stored structure and operates on it.
 
-**5. Does the architecture contain a true addressing primitive anywhere?** **No.** There are identifiers (a random uuid on
-events, a content hash on candidates) but no primitive that *takes* an identifier: no retrieval by id, no mutation by id,
-no reference to a stored composite from the graph. An address in the sense the A1 estimand needs — name a structure, then
-operate on that structure alone — does not exist here. This is the central structural fact of V1, and it is derivable
-from the code rather than from any run.
+**5. Does the architecture contain a true addressing primitive anywhere?** **No — no explicit one.** There are
+identifiers (a random uuid on events, a content hash on candidates) but no primitive that *takes* an identifier: no
+retrieval by id, no mutation by id, no reference to a stored composite from the graph. An address in the sense the A1
+estimand needs — name a structure, then operate on that structure alone — does not exist here. This is the central
+structural fact of V1, and it is derivable from the code rather than from any run.
+
+**What that "no" covers, and what it does not.** It establishes the absence of an **explicit** address. It is *not* a
+claim that no **functional** address exists: if some key computed from the stored state — an exact path signature, a
+subgraph hash, a feature vector unique to one carrier — reliably isolates a composite, then an address has effectively
+emerged without ever being stored. Whether such a key exists is **open**, and it is a different question from the one this
+document answers.
+
+The distinction matters because the two addresses buy different things. A derived key would buy *selection and
+retrieval*. It would not buy *non-colliding mutation*, because the mutation still acts on shared pairs, and every carrier
+that traverses them moves with it. The A1 estimand needs the second, so a derived address — even a perfect one — does not
+satisfy the charter's mutable-identity requirement.
 
 ## 6. The spill is a theorem, given the representation
 
@@ -116,6 +127,7 @@ by computing *R(e)* for the target block. The run measured the size of the spill
   operation it offers is keyed by time, type, content or count.
 - It does **not** convert the measured magnitudes into derivations.
 - It does **not** test any behavioural claim, and it licenses no result by itself.
+- It does **not** settle whether a functional (derived) address exists; §5 says what would follow if one did.
 
 ## 9. What would refute it
 
@@ -128,6 +140,9 @@ Three deliberate falsifiers, which is what makes this a model rather than a desc
    counterexample to §6's corollary; §6 predicts none exists while carriers are paths over a shared graph.
 3. **Precision exceeds the ceiling with a count-derived key.** If a count-based ordering clears 0.3438 on the same world
    family, §7's first bullet is wrong.
+4. **A derived address is found.** A key computed from the stored state that isolates one composite and nothing else
+   would refute the *functional* reading of §5, while leaving its explicit claim and the mutation argument intact — which
+   is why the two are stated separately.
 
 ## 10. What follows for the programme
 

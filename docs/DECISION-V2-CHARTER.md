@@ -87,7 +87,8 @@ No V2 cell, module or engine change is authorised by this decision; the charter 
 6. **A mutable-identity primitive, specified before anything is built**: a stored composite, an identifier assigned
    independently of its content, and a mutation that cannot alter a shared part — with the collision rule (ownership or
    copy-on-write) stated. An id column over recomputed structures does not satisfy this; that is the difference between a
-   label and an address.
+   label and an address. Nor does a derived key, even one that isolates a composite perfectly: selection without a
+   collision rule is retrieval, not identity.
 7. **An earning test**: the first experiment compares the addressed object against the pair-count baseline, on prediction
    or on control, and the charter states in advance that a tie means the addresses are bookkeeping and the charter fails.
    Addressability is necessary for G4 and beyond; it is not sufficient, and the charter has to be able to discover that.

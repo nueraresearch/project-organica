@@ -112,11 +112,20 @@
       "evidence": [
         "docs/functional_structure_confirmatory.json"
       ]
+    },
+    {
+      "id": "derived-address-open",
+      "label": "OPEN",
+      "statement": "Whether a key computed from the stored state can reliably isolate one composite is unsettled. If one exists it is a functional address: it buys selection and retrieval, not non-colliding mutation, because mutation still acts on shared pairs.",
+      "evidence": [
+        "docs/V1-STRUCTURAL-MODEL.md#5"
+      ]
     }
   ],
   "falsifiers": [
     "a stored composite with a stable identifier and a mutation that leaves shared parts untouched",
     "a carrier block whose carrier set is disjoint in pairs from every non-target edge",
-    "a count-derived ordering that exceeds 0.3438 on the same world family"
+    "a count-derived ordering that exceeds 0.3438 on the same world family",
+    "a key computed from the stored state that isolates one composite, which refutes the functional reading of §5 while leaving the explicit claim and the mutation argument intact"
   ]
 }

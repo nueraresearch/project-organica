@@ -138,6 +138,18 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: explicit addresses and functional addresses are different claims
+
+The structural model said "identifiers exist, addresses do not". That is an explicit-address claim, and the document now
+says so: it establishes that no primitive *takes* an identifier, not that no functional address exists. If a key computed
+from the stored state — a path signature, a subgraph hash, a feature vector unique to one carrier — reliably isolates a
+composite, an address has effectively emerged without being stored. Whether one exists is now recorded as **OPEN**.
+
+The distinction earns its place because the two buy different things. A derived key buys selection and retrieval; it does
+not buy non-colliding mutation, since mutation still acts on shared pairs and every carrier through them moves. The A1
+estimand needs the second, so a perfect derived address would not satisfy the charter's mutable-identity requirement — and
+a fourth falsifier records exactly what a derived address would and would not refute.
+
 ## Addendum — 2026-11-15: the structural model — identifiers exist, addresses do not
 
 `docs/V1-STRUCTURAL-MODEL.md` and `docs/v1_structural_model.json` describe what V1 actually stores, retrieves and

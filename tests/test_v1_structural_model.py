@@ -61,7 +61,11 @@ def test_the_document_states_its_scope_and_its_limits() -> None:
                     "What object is actually manipulated?", "Can those ever be distinct?",
                     "Does the architecture contain a true addressing primitive anywhere?"):
         assert heading in text, heading
-    assert "**No.**" in text
+    assert "**No — no explicit one.**" in text
+    assert "**explicit** address" in text
+    assert "**functional** address" in text
+    assert "Whether such a key exists is **open**" in text
+    assert "satisfy the charter's mutable-identity requirement" in text
     assert "It does **not** say nothing is stored" in text
     assert "does **not** convert the measured magnitudes into derivations" in text
     assert "void for that build" in text
@@ -75,11 +79,13 @@ def test_the_spill_is_labelled_a_derivation_and_its_numbers_as_measurements() ->
     assert labels["spill-is-a-theorem"] == "DERIVED"
     assert labels["spill-magnitude"] == "MEASURED"
     assert labels["readout-consistency"] == "ARGUMENT"
+    assert labels["derived-address-open"] == "OPEN"
 
 
 def test_the_falsifiers_are_named() -> None:
     falsifiers = _model()["falsifiers"]
-    assert len(falsifiers) == 3
+    assert len(falsifiers) == 4
+    assert any("derived" in item.lower() for item in falsifiers)
     assert any("stable identifier" in item for item in falsifiers)
     assert any("0.3438" in item for item in falsifiers)
     assert "What would refute it" in _text()
