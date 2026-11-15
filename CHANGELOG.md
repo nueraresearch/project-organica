@@ -119,6 +119,28 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the competence rule has a reading page that states no constants
+
+The rule is spread across a unit decision, a contract decision and a draft. `docs/A1-COMPETENCE-RULE-IN-FORCE.md` says
+which record makes each part bind, in one page, **naming no values** — the floor, the threshold and the endpoint cap stay
+in [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) under an owner signature, and are referred to here rather than copied.
+A page that repeated them would be a second place to keep them right, which is the failure this board has been removing.
+
+It also records what does **not** bind, and finding that out was the useful part. The selection-procedure clauses —
+select only from the competent pool, record the pool before the freeze, no fallback row, disclose the unfiltered
+selection — are drafted in `A1-C2-C8-COMPETENCE-RULE`, which carries `DRAFT — FOR OWNER DECISION; NOT IN FORCE`. **No
+adopted record states them.** The selector implements them and nothing in force requires it to.
+
+`tests/test_a1_competence_rule_page.py` keeps the page honest in both directions: every decision it calls binding must be
+`ADOPTED` in the index, every decision it calls not-yet-binding must not be, and no decision may appear on both sides.
+The constants are checked absent with a detector that is itself proved on a doctored page, since a guard that never fires
+is decoration.
+
+Two defects in the test were caught before it was committed: a parametrised check treated every citation as binding and
+failed on the two decisions the page correctly calls pending, and the "does not bind" slice ran to the next heading it
+found, sweeping in a legitimate re-reference to an adopted record. The test now splits the page into the binding half and
+the single section listing what does not bind.
+
 ## Addendum — 2026-11-15: the last three bare numbers are pinned to the record that already stated them
 
 The brief was to write the record that states the competence rule's threshold, endpoint cap and N_min together. It
