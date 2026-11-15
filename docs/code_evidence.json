@@ -1,0 +1,259 @@
+{
+  "kind": "code_evidence",
+  "date": "2026-11-15",
+  "engine_pin": "v0.9.0-frozen",
+  "note": "Claims about V1 read from the frozen engine. Each anchor is a regex that must still match the source, so a claim cannot outlive the code it was drawn from.",
+  "claims": [
+    {
+      "id": "carriers-are-reports",
+      "kind": "by-construction",
+      "statement": "A carrier is constructed each cycle from the temporal graph as a LoopCandidate with a path and a strength; it is never a stored object that cognition addresses.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "def _build_loops\\(self, temporal\\)"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "LoopCandidate\\("
+        }
+      ]
+    },
+    {
+      "id": "identity-is-content-derived",
+      "kind": "by-construction",
+      "statement": "A carrier's id is the first eight hex characters of a SHA-256 over its normalised path, so the id is a label computed from composition.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "lid = _make_id\\(\"loop\", \\*norm_path\\[:-1\\]\\)"
+        },
+        {
+          "path": "organica/candidates.py",
+          "regex": "short_hash = hashlib\\.sha256\\(key\\.encode\\(\\)\\)\\.hexdigest\\(\\)\\[:8\\]"
+        }
+      ]
+    },
+    {
+      "id": "identity-is-direction-bearing",
+      "kind": "by-construction",
+      "statement": "canonical_cycle rotates to the minimal start but never reflects, and the persistence key joins the path in order, so the two directions of one triangle are two identities that cannot share a reinforcement history.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "norm_path = canonical_cycle\\(\\[a, b, c\\]\\)"
+        },
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "return f\"loop:\\{'\\|'\\.join\\(path\\)\\}\" if path else \"\""
+        }
+      ]
+    },
+    {
+      "id": "one-direction-per-cycle",
+      "kind": "by-construction",
+      "statement": "Within one _build_loops call the dedupe key is the sorted tag triple with a local `seen` set, so a cycle emits one direction; the other direction can appear only in a later cycle.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "cycle = tuple\\(sorted\\(\\[a, b, c\\]\\)\\)"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "seen: set\\[tuple\\] = set\\(\\)"
+        }
+      ]
+    },
+    {
+      "id": "carriers-are-capped-and-entropy-ranked",
+      "kind": "by-construction",
+      "statement": "At most 15 carriers are returned, ordered by lowest path entropy first, so the carrier set is a structural selection rather than every cycle in the graph.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "return loops\\[:self\\.MAX_LOOPS\\]"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "l\\.evidence\\.get\\(\"path_min_entropy\", 0\\.0\\)"
+        },
+        {
+          "path": "organica/sleep.py",
+          "regex": "MAX_LOOPS\\s+= 15"
+        }
+      ]
+    },
+    {
+      "id": "carrier-rows-are-persisted",
+      "kind": "by-construction",
+      "statement": "Every cycle's carriers are written to the event store as sleep:loop_candidate payloads, so the live store carries a per-cycle record with an id, a path and a strength.",
+      "anchors": [
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "for l in report\\.loops:"
+        },
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "for l in report\\.loops:\\n            self\\._store_single_candidate"
+        }
+      ]
+    },
+    {
+      "id": "carriers-have-isolated-numeric-mutation",
+      "kind": "by-construction",
+      "statement": "A re-emerging carrier is reinforced by 0.05 and an absent one decays by 0.8 per cycle, pruned below 0.15 with a retired record; the update touches only that candidate's own row, so no shared part moves.",
+      "anchors": [
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "l\\.strength = min\\(1\\.0, l\\.strength \\+ boost\\)"
+        },
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "new_conf = prior_conf \\* 0\\.8"
+        },
+        {
+          "path": "organica/sleep.py",
+          "regex": "DEATH_THRESHOLD\\s+= 0\\.15"
+        },
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "record\\[\"retired\"\\] = True"
+        }
+      ]
+    },
+    {
+      "id": "no-membership-mutation-exists",
+      "kind": "absence",
+      "statement": "No code path assigns, appends to or removes from a carrier's path: the only reference to a stored path is an equality test during reinforcement. Composition cannot be edited, only replaced by re-derivation.",
+      "anchors": [
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "if l\\.path == path_key:"
+        }
+      ],
+      "absence_check": {
+        "pattern": "\\.path\\s*=(?!=)|path\\.append|path\\.remove|path\\.pop",
+        "scope": "organica/*.py",
+        "expect": "no mutating match",
+        "note": "a plain '=' assignment, not the '==' comparison in _reinforce_current"
+      }
+    },
+    {
+      "id": "only-tag-bag-readback",
+      "kind": "by-construction",
+      "statement": "The one consumer that reads a stored carrier reads only its tag set: meta-concepts fold every candidate's path into a bag of tag references, discarding the cycle and using the id only as a label.",
+      "anchors": [
+        {
+          "path": "organica/sleep_synthesis.py",
+          "regex": "if \"path\" in c and isinstance\\(c\\[\"path\"\\], list\\):"
+        },
+        {
+          "path": "organica/sleep_synthesis.py",
+          "regex": "tag_refs\\[tag\\]\\.append\\(\\(cid, ctype\\)\\)"
+        }
+      ]
+    },
+    {
+      "id": "processes-read-predictions-not-carriers",
+      "kind": "by-construction",
+      "statement": "Layer-2 processes are composed only from stored prediction candidates, so a carrier's composition reaches no layer of the ladder.",
+      "anchors": [
+        {
+          "path": "organica/sleep_synthesis.py",
+          "regex": "def _compose_processes\\(self, stable_prior"
+        },
+        {
+          "path": "organica/sleep_synthesis.py",
+          "regex": "if c\\.get\\(\"type\"\\) != \"prediction_candidate\":"
+        }
+      ]
+    },
+    {
+      "id": "prediction-space-is-count-gated-and-entropy-ranked",
+      "kind": "by-construction",
+      "statement": "A prediction candidate needs a temporal count of at least 5, and transitions are ordered by target entropy, then transition probability, then count; the ranking is a function of the graph's counts alone, which is why no frequency-based ranking can recover a signal the counts do not separate.",
+      "anchors": [
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "meets_direct = count >= self\\.PREDICTION_MIN_COUNT"
+        },
+        {
+          "path": "organica/sleep_extraction.py",
+          "regex": "transitions\\.sort\\(key=lambda p: \\("
+        },
+        {
+          "path": "organica/sleep.py",
+          "regex": "PREDICTION_MIN_COUNT\\s+= 5"
+        }
+      ]
+    },
+    {
+      "id": "graphs-are-world-only-and-lookback-local",
+      "kind": "by-construction",
+      "statement": "The temporal graph joins the previous three world events to the current one and excludes sleep payloads; tag counts use the same world scope, and the scope is recorded so it rebuilds once rather than mixing populations.",
+      "anchors": [
+        {
+          "path": "organica/memory.py",
+          "regex": "WHERE event_type != 'sleep' ORDER BY time DESC"
+        },
+        {
+          "path": "organica/memory.py",
+          "regex": "TAG_COUNTS_SCOPE = \"world\""
+        },
+        {
+          "path": "organica/memory.py",
+          "regex": "if event_type != \"sleep\":"
+        }
+      ]
+    },
+    {
+      "id": "retention-bounds-the-candidate-layer",
+      "kind": "by-construction",
+      "statement": "Cognition reads the newest 4,000 sleep events, and sleep-candidate rows are pruned beyond 20,000, so the candidate layer is bounded independently of the world's edge count.",
+      "anchors": [
+        {
+          "path": "organica/sleep_selection.py",
+          "regex": "events = self\\.memory\\.recent\\(n=4000, event_type=\"sleep\"\\)"
+        },
+        {
+          "path": "organica/memory.py",
+          "regex": "DEFAULT_SLEEP_RETENTION = 20000"
+        }
+      ]
+    },
+    {
+      "id": "the-engine-composite-means-generation-two-plus",
+      "kind": "by-construction",
+      "statement": "The engine's own composites_created counts Layer 2 and above only; loops, concepts, phrases and predictions are excluded, so the word composite in the telemetry does not mean a carrier.",
+      "anchors": [
+        {
+          "path": "organica/sleep.py",
+          "regex": "composites_created = \\(len\\(meta_concepts\\) \\+ len\\(processes\\)"
+        }
+      ]
+    }
+  ],
+  "corrections": [
+    {
+      "id": "X1",
+      "claim": "the composite is not stored",
+      "corrected": "a carrier report is stored every cycle; what is absent is a composite whose composition can be mutated and read"
+    },
+    {
+      "id": "X2",
+      "claim": "V1 has no mutable identity",
+      "corrected": "V1 has an id and a strength that are updated in place; the identity is content-derived, so it is not durable across a direction flip"
+    },
+    {
+      "id": "X3",
+      "claim": "the archive cannot name a carrier",
+      "corrected": "the published artifacts cannot; the live store can, because sleep:loop_candidate rows carry the id"
+    }
+  ],
+  "open": [
+    "whether a stored, addressed composite predicts better than the same atoms' pair counts",
+    "whether membership mutation stays local once it is implemented",
+    "whether adding a composition consumer changes selection or readout",
+    "which admission threshold m the charter wants"
+  ]
+}

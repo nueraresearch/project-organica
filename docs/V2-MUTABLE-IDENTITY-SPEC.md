@@ -4,6 +4,9 @@
 **Serves:** requirement 6 of [`DECISION-V2-CHARTER`](DECISION-V2-CHARTER.md) (draft, unsigned) — a stored composite, an
 identifier assigned independently of content, and a mutation that cannot alter a shared part.
 **Does not amend V1.** V1 stays frozen at its pin; nothing in this document changes `organica/` or any published artifact.
+**Scope, corrected by reading the engine:** V1 already stores per-cycle carrier reports with ids and updates their strength
+in place, so this specification is not "add storage". It is "add a content-free id, a membership mutation, and a consumer" —
+see [`CODE-AS-EVIDENCE`](CODE-AS-EVIDENCE.md) §6.
 
 ## 1. The problem this has to solve
 
@@ -11,7 +14,7 @@ Measured, not assumed ([`V1-STRUCTURAL-MODEL`](V1-STRUCTURAL-MODEL.md) §5–§6
 
 | V1 property | Measurement | What a primitive must supply |
 |---|---|---|
-| the composite is not stored | structures recomputed each consolidation | a table that holds it |
+| the composite is stored as a report, not as an object | structures recomputed, then written as sleep:loop_candidate payloads; composition is never edited or read as a cycle | a stored object whose composition can be mutated and consumed |
 | identity is content identity | 177 paths over 158 node sets; 19 node sets emitted in **both directions** across cycles | an identifier that survives a direction change |
 | the archive cannot name one | no `docs/*.json` and no A1 part contains a loop id | a key that can be recorded and cited |
 | mutation is path membership | spill is a theorem given shared pairs | a mutation that cannot touch a non-member |

@@ -134,10 +134,20 @@
     {
       "id": "record-cannot-name-a-carrier",
       "label": "MEASURED",
-      "statement": "No committed artifact retains carrier identity: no docs/*.json file and no A1 run part contains a loop id or carrier-identity field. Carriers are recorded only as edge sets, counts or supply statistics, so identity is reproducible by replay but not archivable.",
+      "statement": "The published archive cannot name a carrier: no docs/*.json artifact and no A1 run part contains a loop id or carrier-identity field. The live store can — sleep:loop_candidate rows carry the id — so the claim is about published artifacts, not about V1's storage.",
       "evidence": [
         "docs/V1-STRUCTURAL-MODEL.md#6a-the-record-cannot-name-a-carrier-either",
+        "docs/CODE-AS-EVIDENCE.md",
         "tests/test_v1_structural_model.py"
+      ]
+    },
+    {
+      "id": "carriers-are-stored-reports",
+      "label": "MEASURED",
+      "statement": "A carrier is stored every cycle as a sleep:loop_candidate payload with an id, a path and a strength, and reinforced or decayed in place; what is absent is a content-free id, a membership mutation and a consumer that reads the cycle.",
+      "evidence": [
+        "docs/CODE-AS-EVIDENCE.md",
+        "docs/code_evidence.json"
       ]
     }
   ],

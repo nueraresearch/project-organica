@@ -985,7 +985,8 @@
         "docs/V2-MUTABLE-IDENTITY-SPEC.md",
         "docs/v2_mutable_identity_spec.json",
         "docs/v1_carrier_identity.json",
-        "docs/V2-PRIMITIVE-SIZING.md"
+        "docs/V2-PRIMITIVE-SIZING.md",
+        "docs/CODE-AS-EVIDENCE.md"
       ]
     }
   ]

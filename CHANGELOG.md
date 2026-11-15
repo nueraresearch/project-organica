@@ -138,6 +138,27 @@ baseline, and the charter says in advance that a tie means the addresses are boo
 Addressability is necessary for G4 and beyond; it is not sufficient, and the draft now says so rather than treating the
 primitive as the goal.
 
+## Addendum — 2026-11-15: the engine read as evidence, and three claims corrected
+
+`docs/CODE-AS-EVIDENCE.md` reads the frozen engine rather than running it, and the reading changes the record. A carrier is
+not an unrepresented object: every cycle writes a `sleep:loop_candidate` payload with an id, a path and a strength, and
+reinforces it by 0.05 or decays it by 0.8 in place, pruning below 0.15 with a retired record. Three earlier statements were
+therefore wider than their checks: "the composite is not stored" (a report is stored), "V1 has no mutable identity" (an id
+and a strength are updated in place), and "the archive cannot name a carrier" (true of the published artifacts, false of the
+live store).
+
+What the code shows is missing is narrower and more useful: **no code path mutates a carrier's path**, and **no layer reads a
+carrier's cycle** — the one reader folds its tags into a bag for meta-concepts, and Layer 2 is composed from prediction
+candidates only. So the primitive's delta is a content-free id, a membership mutation and a consumer, not storage.
+
+The reading also explains two measurements without another run: the 19 both-direction node sets follow from a sorted-triple
+dedupe key with a call-local `seen` against a persistence key that joins the path in order, and the flat 0.3438 ranking
+precision follows from a candidate space gated at count 5 and ordered by target entropy, probability and count — a
+deterministic function of the same counts the baseline uses.
+
+Fourteen claims and 31 source anchors are guarded by `tests/test_code_evidence.py`, including an absence check that fails if
+any code path starts mutating a path. A future engine change breaks the guard before a document can keep quoting the claim.
+
 ## Addendum — 2026-11-15: the primitive's storage cost, measured on a real world
 
 `benchmarks/v2_primitive_sizing.py` sizes the primitive's four tables against the store measured by the identity replay, and

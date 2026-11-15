@@ -7,7 +7,9 @@ document is void for that build and the test beside it says so.
 
 ## In one paragraph
 
-V1 stores pairwise relations and counts. Higher-order structures are reconstructed rather than persisted. The public
+V1 stores pairwise relations and counts. Higher-order structures are reconstructed each cycle rather than maintained as
+objects, though each cycle's reconstruction is *written down* — see §6a, which separates what is stored from what is
+addressable. The public
 retrieval and manipulation surface contains no operation that directly targets a composite structure. Therefore the
 experimental spill is expected from the architecture alone, and A1's measurements bound its magnitude rather than
 establishing its existence. A composite is nonetheless uniquely recoverable from the state at the instant it is rebuilt —
@@ -140,10 +142,12 @@ The identity check could not be run artifact-only, and the reason is itself a re
 finds no carrier identity anywhere: **no `docs/*.json` artifact and no A1 run part contains a single `loop_<hash>` id or a
 carrier-identity field.** Carriers appear only as edge sets, counts or supply statistics.
 
-That is what the substrate implies. If the composite does not exist in the store, the record built from the store has
-nothing to cite, so every carrier-level statement in the archive is a statement about a recomputation rather than about an
-object. It is also why A1's evidence is edge-indexed: C4 counts rows, not carriers, because carriers cannot be named in a
-pass file.
+That is what the substrate implies, with one precision the code forces: a carrier *is* written down each cycle, as a
+`sleep:loop_candidate` payload carrying its id, path and strength, and those rows are reinforced or decayed in place. What
+does not exist is an object whose composition can be edited or which any layer reads as a cycle. So the precise statement is
+that V1 stores a recomputation's output, not an object of cognition — and the published archive cites carriers only through
+the edge sets those payloads are made of. It is also why A1's evidence is edge-indexed: C4 counts rows, not carriers,
+because the pass files never carry a loop id. See [`CODE-AS-EVIDENCE`](CODE-AS-EVIDENCE.md) X1–X3.
 
 So the identity result in `docs/v1_carrier_identity.json` is a measurement of what the engine can *produce*, not a lookup
 of what the project *kept*. Recovering a carrier's identity requires replaying the world, which makes identity
