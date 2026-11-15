@@ -276,6 +276,81 @@ def splice(text: str, body: str, start: str = START, end: str = END) -> str:
     return text[:span[0]] + "\n" + body + "\n" + text[span[1]:]
 
 
+NUMBER = re.compile(r"[0-9][0-9,]*")
+
+
+def _walk(node, parts: list[str]):
+    """Navigate a JSON document; `*` fans out over a dict's values or a list."""
+    if not parts:
+        return node
+    head, rest = parts[0], parts[1:]
+    if head == "*":
+        items = list(node.values()) if isinstance(node, dict) else list(node)
+        return [_walk(item, rest) for item in items]
+    if isinstance(node, list):
+        return [_walk(item, [head] + rest) for item in node]
+    return _walk(node[head], rest)
+
+
+def _flat(value) -> list[int]:
+    if isinstance(value, list):
+        out: list[int] = []
+        for item in value:
+            out.extend(_flat(item))
+        return out
+    return [int(value)]
+
+
+def _note_numbers(note: str, claim: dict) -> list[int] | None:
+    match = re.search(claim["note_regex"], note)
+    if not match:
+        return None
+    return [int(token.replace(",", "")) for token in NUMBER.findall(match.group(0))]
+
+
+def _expected_numbers(claim: dict) -> list[int] | None:
+    if claim.get("field"):
+        document = json.loads((ROOT / claim["path"]).read_text(encoding="utf-8"))
+        try:
+            return _flat(_walk(document, claim["field"].split(".")))
+        except (KeyError, IndexError, TypeError):
+            return None      # a claim pointing at a field the artifact lacks is reported, not raised
+    path = ROOT / claim["doc"]
+    if not path.exists():
+        return None
+    match = re.search(claim["doc_regex"], path.read_text(encoding="utf-8"))
+    if not match:
+        return None
+    return [int(token.replace(",", "")) for token in match.groups()]
+
+
+def claim_problems(branch: dict) -> list[str]:
+    """The numbers a branch's note quotes must be the numbers its source states.
+
+    A state can stay green while a restated count drifts: the note is prose the render copies
+    faithfully, and the render does not know what the numbers mean. These claims are the link
+    between the two.
+    """
+    found: list[str] = []
+    note = branch.get("note") or ""
+    for claim in branch.get("note_claims") or []:
+        label = branch.get("id", "?")
+        quoted = _note_numbers(note, claim)
+        if quoted is None:
+            found.append("%s: the note no longer states the numbers its claim pins (%s)"
+                         % (label, claim["note_regex"]))
+            continue
+        expected = _expected_numbers(claim)
+        if expected is None:
+            found.append("%s: the source it pins does not state them (%s)"
+                         % (label, claim.get("doc") or claim.get("field")))
+            continue
+        if quoted != expected:
+            found.append("%s: the note quotes %r but its source states %r"
+                         % (label, quoted, expected))
+    return found
+
+
 def manifest_problems(branches: list[dict] | None = None,
                       entries: list[dict] | None = None) -> list[str]:
     branches = branches if branches is not None else _manifest()["branches"]
@@ -300,6 +375,15 @@ def manifest_problems(branches: list[dict] | None = None,
         for spec in (branch.get("contains") or []) + (branch.get("restated") or []):
             if not (ROOT / spec["path"]).exists():
                 found.append("%s: names a missing artifact: %s" % (label, spec["path"]))
+        for claim in branch.get("note_claims") or []:
+            if not claim.get("note_regex"):
+                found.append("%s: a note claim has no note_regex" % label)
+            if bool(claim.get("field")) == bool(claim.get("doc_regex")):
+                found.append("%s: a note claim must name exactly one source" % label)
+            source = claim.get("path") or claim.get("doc")
+            if source and not (ROOT / source).exists():
+                found.append("%s: a note claim names a missing source: %s" % (label, source))
+        found += claim_problems(branch)
     return found
 
 

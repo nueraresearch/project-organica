@@ -134,6 +134,42 @@ def test_identifier_needles_must_match_whole() -> None:
     assert a1_board._present("sizes 20/17/20/20/18/20 here", "20/17/20/20/18/20")
 
 
+def test_every_note_number_is_pinned_to_its_source() -> None:
+    """A note quoting a counted figure is a restatement, and restatements drift."""
+    claims = 0
+    for branch in _branches():
+        claims += len(branch.get("note_claims") or [])
+        assert a1_board.claim_problems(branch) == [], branch["id"]
+    assert claims == 5
+
+
+def test_a_green_state_cannot_hide_a_drifted_count() -> None:
+    """The row stays CLOSED when the artifact it cites drifts; the claim is what fails.
+
+    This is the case the branch state cannot see: the file still exists and still contains the
+    strings the manifest asserts, so only the number comparison catches that the note and the
+    artifact no longer agree.
+    """
+    branch = next(item for item in _branches() if item["id"] == "c1-denominator-invariance")
+    assert "CLOSED" in a1_board.branch_state(branch, _entries())
+
+    drifted_note = json.loads(json.dumps(branch))
+    drifted_note["note"] = drifted_note["note"].replace("79/64/79/74/72/74", "78/64/79/74/72/74")
+    assert a1_board.claim_problems(drifted_note), "a note quoting a different count was accepted"
+
+    drifted_source = json.loads(json.dumps(branch))
+    drifted_source["note_claims"][0]["field"] = "per_seed.*.n_selected"
+    assert a1_board.claim_problems(drifted_source), "a source that states other numbers was accepted"
+
+
+def test_a_note_claim_must_name_exactly_one_source() -> None:
+    branch = json.loads(json.dumps(
+        next(item for item in _branches() if item["id"] == "competent-construction")))
+    branch["note_claims"][0]["doc_regex"] = "x"
+    found = a1_board.manifest_problems([branch])
+    assert any("exactly one source" in problem for problem in found), found
+
+
 def test_the_manifest_names_checks_that_exist() -> None:
     found = a1_board.manifest_problems()
     assert not found, found

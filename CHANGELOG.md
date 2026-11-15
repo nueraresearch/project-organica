@@ -119,6 +119,27 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the numbers a branch note quotes are pinned to their source
+
+A branch row can stay green while the count in its note drifts. The state is derived from what settles the branch — a
+file exists, contains certain strings, an act says `SIGNED` — and the note is prose the render copies faithfully; the
+render does not know what the numbers mean. So `C1 denominator invariance` could claim *reproduces 79/64/79/74/72/74*
+while the artifact had become 78/64/…, and every check would pass.
+
+A branch may now declare `note_claims`: the numbers its note quotes, and where they must be found — a JSON field path
+with `*` fan-out over the six seeds, or a regex into the document that states them. Five claims cover four branches: the
+C1 minima against the competent artifact, the block sizes against the same artifact, the posture's 324 / 1,944 against
+the posture record, the operative 276–285 / 1,671 against the estimand decision, and `N_min = 17` against the C8 record.
+
+Probed in the direction that matters. Changing one `c1_min_denominator` from 79 to 78 in the artifact left the branch's
+state `CLOSED` — the file still exists, the strings are still there — and `--check` failed with *the note quotes
+[79, 64, 79, 74, 72, 74] but its source states [78, 64, 79, 74, 72, 74]*. Restored, clean.
+
+Two smaller things the wiring turned up. A claim whose regex ran into the phrase `the N=4 figures` collected a third
+number (`4`) and failed; the pattern now stops at the comma. And a claim naming a field the artifact does not have
+raised instead of reporting, so a typo in the manifest would have crashed the check — it now fails with "the source it
+pins does not state them".
+
 ## Addendum — 2026-11-15: the branch half is generated from a manifest, and the mapping is verified
 
 The board's decision half was a render; the branch half was the last hand-written table left on it. Both are now

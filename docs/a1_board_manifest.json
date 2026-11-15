@@ -2,7 +2,7 @@
   "kind": "a1_board_manifest",
   "version": 1,
   "date": "2026-11-15",
-  "note": "Each branch names the record, artifact or act that settles it, and the check that proves it. The board renders the state from these sources; the state is never typed here. A branch whose artifact is missing renders OPEN rather than being quietly dropped.",
+  "note": "Each branch names the record, artifact or act that settles it, and the check that proves it. A branch may also declare note_claims: the numbers its note quotes, and where they must be found, so a restated count cannot drift while the row stays green.",
   "branches": [
     {
       "id": "c1-denominator-definition",
@@ -31,6 +31,13 @@
       "note": "C1 counts every recorded row, so the target set cannot move it; the competent selection reproduces 79/64/79/74/72/74",
       "proved_by": [
         "tests/test_a1_c8_selection_competent.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "reproduces ([0-9]+(?:/[0-9]+){5})",
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "field": "per_seed.*.c1.c1_min_denominator"
+        }
       ]
     },
     {
@@ -75,6 +82,13 @@
       "note": "20/17/20/20/18/20; every larger size proved impossible on both short seeds",
       "proved_by": [
         "tests/test_a1_c8_selection_competent.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "([0-9]+(?:/[0-9]+){5});",
+          "path": "docs/a1_c8_target_selection_competent.json",
+          "field": "sizes"
+        }
       ]
     },
     {
@@ -154,6 +168,18 @@
       "note": "the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671",
       "proved_by": [
         "tests/test_a1_target_viability_adopted.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "declares ([0-9]+ / [0-9,]+),",
+          "doc": "docs/DECISION-A1-C4-POSTURE.md",
+          "doc_regex": "The ([0-9]+) / ([0-9,]+) figures are multiplication"
+        },
+        {
+          "note_regex": "needs ([0-9]+)–([0-9]+) / ([0-9,]+)",
+          "doc": "docs/DECISION-A1-COMPETENT-ESTIMAND.md",
+          "doc_regex": "maximum over ([0-9]+)–([0-9]+) deltas per seed, ([0-9,]+) across the block"
+        }
       ]
     },
     {
@@ -167,6 +193,13 @@
       "note": "the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests",
       "proved_by": [
         "tests/test_a1_prefreeze.py"
+      ],
+      "note_claims": [
+        {
+          "note_regex": "N_min = ([0-9]+)",
+          "doc": "docs/DECISION-A1-C8-NMIN.md",
+          "doc_regex": "\\*\\*N_min\\*\\* \\| \\*\\*([0-9]+)"
+        }
       ]
     },
     {
