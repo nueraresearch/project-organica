@@ -56,7 +56,10 @@ VOID.
 
 **The selection artifact must be re-derived before any act is signed.** `a1_c8_target_selection.json` records a
 *representative* twenty per seed and does not satisfy this decision; signing an act against it would freeze exactly
-the rows the measurement found non-competent.
+the rows the measurement found non-competent. The re-derivation now exists:
+[`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) forms **20 / 17 / 20 / 20 / 18 / 20**
+under this rule, each block decided by exact search at the unchanged endpoint cap of three, and the freeze act must
+point at it rather than at the representative artifact.
 
 **C4's clause 1 is restated to match the row counts.** `A1-C4-POSTURE-1` declares the veto as the maximum
 over 324 deltas per seed and 1,944 across the block. Those figures are 108 non-target rows × 3 paths × 6 seeds — the
@@ -72,11 +75,12 @@ The veto is therefore **the maximum over 276–285 deltas per seed, 1,671 across
 unchanged: fewer comparisons per seed is slightly *less* exposure than the 324 the owner accepted, and the posture's
 five clauses stand.
 
-**C1's denominator is re-measured, not carried.** The minima `A1-PATH-A-C1-RULE-1` was written against —
-79 / 64 / 79 / 74 / 72 / 74 — were observed on the *representative* selection. Competent targets change which edges are
-targets, so the paired-control denominators must be re-derived from the competent selection before the act is signed.
-That restated value is also what [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) calls the preplanned universe,
-so the same re-derivation supplies both records.
+**C1's denominator does not move, and the artifact proves it.** C1 counts every recorded row of the cell stream,
+targets included, so its denominator is a property of the 112-row universe and not of which edges are targets. The
+competent selection reproduces **79 / 64 / 79 / 74 / 72 / 74** exactly — see the C1 table in
+[`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json) — so no re-measurement is required,
+and the preplanned universe in [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md) is the same number on either
+selection. Only C4's stream moves with the row count, and that is restated above.
 
 **Which act survives this.** The sizes above are the N=20 block's, so adopting this fixes `A1-TARGET-FREEZE-N20-1`'s
 block and leaves `A1-TARGET-FREEZE-1` — four targets per seed — unable to support C8 at all, because four rows per seed

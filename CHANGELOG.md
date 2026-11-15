@@ -67,6 +67,26 @@ baseline and checked the size list against C8; it did not check the prose senten
 1,671 across the block, which is the number a signed record would carry. That sentence is now parsed and compared with
 `min`, `max` and `sum` of the recomputed column. Changing either the total in prose or a cell in the table makes it
 fail — both directions were run.
+## Addendum — 2026-11-15: the competent selection exists, and a correction to the audit above
+
+**The selection.** `benchmarks/a1_c8_target_selection_competent.py` produces
+`docs/a1_c8_target_selection_competent.json`: the published 20-row rule with one predicate added — both baseline paths
+present — sizes falling from 20 and never below 17, and each block decided by an exact search at the unchanged endpoint
+cap of three. The sizes come out at **20 / 17 / 20 / 20 / 18 / 20**, which is the block the estimand draft fixes, now
+with an artifact behind it. `20740102` takes 17 with 20, 19 and 18 **proved infeasible by exhaustion** (316,699,
+631,121 and 1,139,785 nodes), so the frontier reported earlier holds independently. `20740105` takes 18 with 19 and 20
+left **undecided** at the node budget rather than claimed impossible — an unfinished search is not a ceiling. The four
+twenty-row seeds find a witness in 21 nodes, which is what a loose cap looks like.
+
+**The correction.** The audit addendum directly below says C1's denominator "has to be re-measured" once targets are
+competent rows, and the estimand record was edited to say the same. **That is wrong.** C1 counts every recorded row of
+the cell stream, targets included — `candidate_rows` is the full 112-row universe in the baseline artifact — so its
+denominator is a property of the universe, not of the target set. The competent selection reproduces
+**79 / 64 / 79 / 74 / 72 / 74** exactly, and the competent artifact carries that table. The claim is withdrawn in all
+three places it was written (the estimand, the checklist and the ceiling decision's ordering constraint); only C4's
+stream moves with the row count. `tests/test_a1_c8_selection_competent.py` now pins the invariance so the error cannot
+be reinstated silently.
+
 ## Addendum — 2026-11-15: signature-readiness audit of the two pending A1 decisions
 
 Both drafts were read against the artifacts and records they cite. Four defects, all in the drafts and all fixed:

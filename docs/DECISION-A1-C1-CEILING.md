@@ -121,8 +121,10 @@ record, and that footnote has been retracted; the clause needs a record of its o
 - It does not change the 0.95 threshold, the 60-row floor, the three-loss band or the C4 ceiling.
 - It does not re-score, re-read or void any result. The block it is measured against is a baseline; no cell ran.
 - It does not resolve the competent estimand ([`DECISION-A1-COMPETENT-ESTIMAND`](DECISION-A1-COMPETENT-ESTIMAND.md),
-  PENDING). The two are independent: either can be adopted first, but the freeze act must carry a preplanned universe
-  that matches the selection it freezes, so the restatement must follow the selection.
+  PENDING). The two are independent, and the order does not matter, because **the universe is selection-invariant**:
+  C1 counts every recorded row of the cell stream, targets included, so the minima 79 / 64 / 79 / 74 / 72 / 74 are a
+  property of the 112-row universe. The competent selection reproduces them exactly, so adopting that decision changes
+  C4's stream and not this number.
 - **Which act the universe is written into.** `A1-TARGET-FREEZE-1` freezes four targets per seed, and four rows per
   seed can never reach C8's adopted `N_min = 17`; that incompatibility is C8's, not this decision's. On the current
   state the act that can carry a competent block is `A1-TARGET-FREEZE-N20-1`, so the restated universe goes there.
