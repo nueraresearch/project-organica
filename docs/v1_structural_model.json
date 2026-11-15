@@ -1,0 +1,122 @@
+{
+  "kind": "v1_structural_model",
+  "engine_pin": "docs/engine_pin.json",
+  "scope": "Organica 1 at v0.9.0; void for any build whose frozen files change",
+  "tables": [
+    {
+      "name": "events",
+      "key": "id TEXT PRIMARY KEY (uuid4, not a content address)",
+      "source": "organica/memory.py:108"
+    },
+    {
+      "name": "cooccurrences",
+      "key": "PRIMARY KEY (tag_a, tag_b)",
+      "source": "organica/memory.py:118"
+    },
+    {
+      "name": "precedes",
+      "key": "PRIMARY KEY (tag_from, tag_to)",
+      "source": "organica/memory.py:126"
+    },
+    {
+      "name": "tag_counts",
+      "key": "PRIMARY KEY (tag)",
+      "source": "organica/memory.py:164"
+    },
+    {
+      "name": "meta",
+      "key": "PRIMARY KEY (key)",
+      "source": "organica/memory.py:152"
+    },
+    {
+      "name": "sleep_cycles",
+      "key": "PRIMARY KEY (cycle)",
+      "source": "organica/memory.py:176"
+    }
+  ],
+  "retrieval": [
+    {
+      "surface": "recent",
+      "key": "time DESC, rowid DESC",
+      "source": "organica/memory.py:432"
+    },
+    {
+      "surface": "search",
+      "key": "content LIKE / tags LIKE",
+      "source": "organica/memory.py:449"
+    },
+    {
+      "surface": "prior payloads",
+      "key": "type + confidence threshold, matched by fields",
+      "source": "organica/sleep.py:204"
+    }
+  ],
+  "structures_recomputed": {
+    "loops": {
+      "source": "organica/sleep_extraction.py:251",
+      "id": "content hash of the loop's own nodes (organica/candidates.py:20)",
+      "persisted": false
+    }
+  },
+  "manipulation": {
+    "carrier_block": {
+      "source": "benchmarks/a1_arms.py:76",
+      "rule": "keep carriers whose path does not contain a blocked edge",
+      "mutates_store": false
+    }
+  },
+  "claims": [
+    {
+      "id": "no-addressing-primitive",
+      "label": "DERIVED_FROM_CODE",
+      "statement": "Identifiers exist, but no retrieval or mutation primitive takes one; no stored composite is referenced by the graph, so an address in the A1 sense does not exist.",
+      "evidence": [
+        "organica/memory.py:108",
+        "organica/memory.py:432",
+        "organica/memory.py:449",
+        "organica/sleep.py:204",
+        "organica/candidates.py:20"
+      ]
+    },
+    {
+      "id": "spill-is-a-theorem",
+      "label": "DERIVED",
+      "statement": "Given carriers as paths over a shared pair graph and removal by path membership, the spill set is the union over carriers through the blocked edge of their pairs.",
+      "evidence": [
+        "benchmarks/a1_arms.py:76",
+        "organica/memory.py:126",
+        "organica/sleep_extraction.py:251"
+      ]
+    },
+    {
+      "id": "spill-magnitude",
+      "label": "MEASURED",
+      "statement": "510 of 2,785 non-target rows over tolerance; maximum K/Y delta 0.575 against 0.05.",
+      "evidence": [
+        "docs/A1-RUN.md",
+        "docs/a1_two_path_result.json"
+      ]
+    },
+    {
+      "id": "ranking-key",
+      "label": "DERIVED_FROM_CODE",
+      "statement": "Layer-1 strength is count / max(source_freq, 1); no ordering available to the engine expresses identity independently of frequency.",
+      "evidence": [
+        "organica/memory.py:282"
+      ]
+    },
+    {
+      "id": "readout-consistency",
+      "label": "ARGUMENT",
+      "statement": "Nothing stored relates a structure to a predicted edge beyond pair counts, so structure cannot out-predict the counts it is made of; the confirmatory result is consistent with this.",
+      "evidence": [
+        "docs/functional_structure_confirmatory.json"
+      ]
+    }
+  ],
+  "falsifiers": [
+    "a stored composite with a stable identifier and a mutation that leaves shared parts untouched",
+    "a carrier block whose carrier set is disjoint in pairs from every non-target edge",
+    "a count-derived ordering that exceeds 0.3438 on the same world family"
+  ]
+}

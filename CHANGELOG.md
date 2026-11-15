@@ -119,6 +119,27 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the structural model — identifiers exist, addresses do not
+
+`docs/V1-STRUCTURAL-MODEL.md` and `docs/v1_structural_model.json` describe what V1 actually stores, retrieves and
+manipulates, derived from the frozen code rather than from another run.
+
+The substrate is event rows plus three count aggregates keyed by tag pairs, plus a cycle counter and a key/value table.
+Retrieval is by recency, substring or typed prior payload; structures are **recomputed** each consolidation from the pair
+graph, with ids hashed from their own nodes. Nothing takes an identifier: there is no retrieval by id and no mutation by
+id. A1's carrier block is a filter on path content, not an edit to the store.
+
+Two consequences are derivations, not findings. **The spill is forced**: carriers are paths over a shared pair graph, and
+removal is defined by path membership, so removing edge *e*'s carriers removes support from every edge that shares a path
+with *e* by exactly the co-carrier count. A1's `VOID` was therefore derivable from the carrier inventory before the block
+ran; the run measured the magnitude (510 of 2,785 non-target rows, maximum delta 0.575). **The ranking key is count-only**:
+strength is `count / max(source_freq, 1)`, so no ordering the engine offers can express identity independently of
+frequency — consistent with the precision ceiling of 0.3438 and with a readout whose interval crosses zero.
+
+The document labels each claim DERIVED_FROM_CODE, DERIVED, MEASURED or ARGUMENT, states what it does not establish, and
+names three falsifiers. `tests/test_v1_structural_model.py` parses the schema and the retrieval surface, so adding an
+addressing primitive fails the suite rather than quietly invalidating the model.
+
 ## Addendum — 2026-11-15: the two closures are different kinds
 
 `DECISION-A2-ESTIMAND` now records what separates A1's closure from A2's. A1 ended because its **control failed** — the

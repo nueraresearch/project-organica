@@ -745,6 +745,13 @@ charter. The record also separates the two closures: A1 ended because its contro
 only be obtained by changing the question — the more informative of the two.
 [`A2-SHAM-FEASIBILITY`](A2-SHAM-FEASIBILITY.md) · [`DECISION-A2-ESTIMAND`](DECISION-A2-ESTIMAND.md)
 
+**The structural reading, which is new.** [`V1-STRUCTURAL-MODEL`](V1-STRUCTURAL-MODEL.md) describes V1's stored object
+from the code: event rows and pair counts, retrieval by recency or content, structures recomputed each consolidation, and
+no primitive that takes an identifier. Two things follow as derivations rather than measurements: the carrier spill is
+forced by defining carriers as paths and removal by path membership, and the ranking key is count-only. That is why A1's
+`VOID` was derivable before the block ran, and why the ranking precision stayed flat at 0.3438. The document's claims are
+labelled by kind, and a test fails if the engine ever gains an addressing primitive.
+
 **Closed today:** the run, the acceptance, and the scorer repair. The manifest reads `GRANTED, RUN — VOID (C4_DELTA)`
 and refuses a second run; the repaired pin is `5ce958b7…` for `a1_arms` with `a1_result` unchanged. The readable record
 is [`A1-RUN`](A1-RUN.md), the machine assembly `docs/a1_two_path_result.json`, and the signatures with what each one
@@ -4451,3 +4458,4 @@ Things that look like findings but are not, and things that look fine but are no
 | 2026-11-15 | **Wording repaired where it outran the check.** The A2 sham page and `DECISION-A2-ESTIMAND` now say the per-edge placebo has *no witnessed construction* rather than that it is *not constructible*, and state that two failed search regimes do not prove impossibility. A literal `95%%` printing defect on the same line was fixed and guarded. |
 | 2026-11-15 | **A2 closed by adopted decision.** `DECISION-A2-ESTIMAND` is `ADOPTED`: the aggregate sham matches totals but leaves per-edge differences of 30–78 cycles, so it cannot carry a per-edge estimand, and the carrier-level unit makes locality unfalsifiable. No A2 arm runs; Q058 answered. |
 | 2026-11-15 | **The two A1/A2 closures recorded as different kinds.** A1 closed because its control failed; A2 because its control can only be obtained by changing the question. The durable statement is scoped to this engine, world family and carrier-removal family, and A2b is recorded as rejected as A1's continuation, not as science. |
+| 2026-11-15 | **Structural model of V1 written from the code.** `V1-STRUCTURAL-MODEL` records the stored, retrieved and manipulated objects, derives the carrier spill from the representation, and states that V1 has no addressing primitive — with three falsifiers and a code-parsing test. No experiment was run for it. |
