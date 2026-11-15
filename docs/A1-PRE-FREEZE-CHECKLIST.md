@@ -36,7 +36,7 @@ block disagrees with its source, and `--verify` runs the checks the manifest poi
 | C4 completeness detection | **CLOSED — ARTIFACT EXISTS** | an absent or short treated stream VOIDs instead of passing on the control's own rows — [`A1-C1-C4-VOID-GATE.md`](A1-C1-C4-VOID-GATE.md) | [`tests/test_a1_c4_completeness.py`](../tests/test_a1_c4_completeness.py) |
 | C4 posture clause 1 (declared multiplicity) | **OPEN UNTIL THE ESTIMAND IS ADOPTED** | the posture still declares 324 / 1,944, the N=4 figures; the operative block needs 276–285 / 1,671 | [`tests/test_a1_target_viability_adopted.py`](../tests/test_a1_target_viability_adopted.py) |
 | C1 ceiling — preplanned-universe clause | **AWAITING THE CEILING DECISION** | the >64 VOID is narrowed to the candidate-plan count it was written against; its function is carried by the scored denominator equalling the preplanned universe, 79 / 64 / 79 / 74 / 72 / 74 | [`tests/test_a1_c1_ceiling.py`](../tests/test_a1_c1_ceiling.py) |
-| Freeze acts | **NOT SIGNED** | the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py) |
+| Freeze acts | **NOT SIGNED** | the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests | [`tests/test_a1_prefreeze.py`](../tests/test_a1_prefreeze.py), [`tests/test_a1_freeze_fields.py`](../tests/test_a1_freeze_fields.py) |
 | Grant, run | **NOT ISSUED, NOT STARTED** | neither exists; the board would have to be re-read if one appeared | — |
 <!-- a1-artifacts:end -->
 

@@ -52,6 +52,31 @@ The act also fixes the manifest target block and the six-seed block as the objec
 
 **Selection artifact digest (SHA-256):** `6c8ff41c669b3973597244f3991ad24015640632371123af69bba59845556695`
 
+## 2a. The selection record this act must carry
+
+[`DECISION-A1-C8-SELECTION`](DECISION-A1-C8-SELECTION.md) S2 requires the pool and the selected block to be written into
+this act, together with the identity of the constructor that produced the block, **before any cell runs**. These are the
+fields that clause needs. None of them can be filled after the run without the act having been violated.
+
+<!-- s2-fields:start -->
+| Field | What it must contain | State |
+| --- | --- | --- |
+| Act ID | this act's own identifier, as quoted in its status line | `NOT RECORDED` |
+| Competent pool per seed | every competent row per seed, in the constructor's order | `NOT RECORDED` |
+| Competent pool digest | SHA-256 over that pool as one canonical text | `NOT RECORDED` |
+| Selected block per seed | the edges this act freezes, per seed | `NOT RECORDED` |
+| Selected block digest | SHA-256 over the blocks as frozen | `NOT RECORDED` |
+| Row count per seed | competent rows available, and rows selected, per seed | `NOT RECORDED` |
+| Constructor identity | the module that produced the block, and its source digest | `NOT RECORDED` |
+| Constructor output digest | SHA-256 of the JSON artifact the constructor wrote | `NOT RECORDED` |
+| Competence predicate | the record that defines which rows are competent | `FIXED BY RECORD` |
+| Unfiltered selection | where the S5 disclosure is written | `NOT RECORDED` |
+<!-- s2-fields:end -->
+
+**This act is not signable while any row above reads `NOT RECORDED`.** A blank row is a reason to withhold the signature,
+not a gap to close after the run: an unfilled row means the pool was never recorded, and a pool recorded after the run is a
+pool chosen with the outcome in view.
+
 ## 3. Effect of signature
 
 Signing and dating this act would, in the freeze record:

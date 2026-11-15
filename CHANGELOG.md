@@ -119,6 +119,26 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the freeze acts carry the fields S2 needs, and none of them is filled
+
+`DECISION-A1-C8-SELECTION` S2 asks a freeze act to record the pool, the selected block and the constructor's identity
+before any cell runs. Neither act had a place to put them. Both now carry `§2a`, a ten-row field list between
+`<!-- s2-fields:start -->` markers: the act's own ID, the competent pool per seed and its digest, the selected block per
+seed and its digest, the row counts, the constructor's module and source digest, the constructor's output digest, the
+competence predicate, and where the S5 disclosure is written. Every row reads `NOT RECORDED` except the predicate, which
+reads `FIXED BY RECORD` because [`DECISION-A1-C8-NMIN`](DECISION-A1-C8-NMIN.md) already decides it.
+
+The acts now say what a blank means: **not signable while any row above reads `NOT RECORDED`**, and a row filled after a
+run is a pool chosen with the outcome in view. That sentence is the clause's teeth; without it the list would be a form.
+
+`tests/test_a1_freeze_fields.py` holds both acts to one shared list — a field dropped from either act fails, and the two
+acts may not drift apart — and holds an unsigned act to recording nothing. Both directions were probed: filling a single
+field in one act failed, and deleting `Unfiltered selection` from the N20 act failed two tests.
+
+One mishap worth recording: the probe was reverted with `git checkout` on a file whose §2a section was uncommitted, which
+discarded the section along with the probe. It was restored from the sibling act and the test re-run; the lesson is the
+one this repository keeps learning, that a broad undo is not a probe's inverse.
+
 ## Addendum — 2026-11-15: a decision drafted to put the selection procedure in force
 
 The reading page named the gap: the selection procedure a C8 run would follow is implemented and drafted, and **nothing in

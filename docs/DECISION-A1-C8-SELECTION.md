@@ -82,7 +82,10 @@ the procedure now means each act cites one record.
   recorded in [`A1-C8-TARGET-SELECTION-COMPETENT`](A1-C8-TARGET-SELECTION-COMPETENT.md) and pinned by
   [`a1_c8_target_selection_competent.json`](a1_c8_target_selection_competent.json); this decision binds the *use* of its
   output, not its internal search.
-- The freeze acts themselves, which remain unsigned and are the owner's separate act.
+- The freeze acts themselves, which remain unsigned and are the owner's separate act. They now carry the field list
+  S2 needs, in `§2a` of [`A1-TARGET-FREEZE-ACT`](A1-TARGET-FREEZE-ACT.md) and
+  [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md), every row unrecorded and the act not signable until
+  they are filled.
 - The C1 ceiling clause, [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md), still pending.
 
 ## 6. How this record is checked
@@ -90,6 +93,7 @@ the procedure now means each act cites one record.
 ```bash
 python -m benchmarks.a1_board --check          # its board row reads from this record's status line
 python -m benchmarks.decision_graph --check    # the index, the counts and DISCOVERY are generated
+python -m pytest tests/test_a1_freeze_fields.py -q   # S2's fields, held to one list across both acts
 ```
 
 Nothing else follows from it until it is signed. On adoption its status line changes, the board row closes, and the

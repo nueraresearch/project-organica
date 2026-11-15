@@ -256,7 +256,8 @@
       ],
       "note": "the N=4 act freezes four targets per seed and can never reach N_min = 17; the N=20 act needs re-issuing against the competent digests",
       "proved_by": [
-        "tests/test_a1_prefreeze.py"
+        "tests/test_a1_prefreeze.py",
+        "tests/test_a1_freeze_fields.py"
       ],
       "note_claims": [
         {
