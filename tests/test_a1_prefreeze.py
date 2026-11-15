@@ -266,7 +266,8 @@ def test_target_freeze_act_is_prepared_not_executed():
              a1_two_path.OFFSET_PREDICTORS_PATH,
              a1_two_path.CAP_RESPONSE_HOLDOUT_PATH,
              a1_two_path.PREDICTION_CAP_TURNOVER_PATH,
-             a1_two_path.OFFSET_DENSITY_PATH)
+             a1_two_path.OFFSET_DENSITY_PATH,
+             a1_two_path.SEED_HOLDOUT_PATH)
     assert seed_collisions(list(a1_two_path.SEEDS), allow=allow) == {}
 
     page = Path("docs/A1-TARGET-FREEZE-ACT.md").read_text(encoding="utf-8")
