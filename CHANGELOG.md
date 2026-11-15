@@ -30,6 +30,18 @@ while the competent pool is sufficient (23–36 and 27–40 against 20 required)
 no threshold moved, no target was frozen and no cell ran; the checklist row stays undecided until
 the owner picks an option.
 
+## Addendum — 2026-11-15: the owner closes the C1 denominator and holds everything downstream
+
+The owner ruled on the A1 decision list, and split it into confirmations the evidence had settled,
+consequences, and genuine judgments. `DECISION-A1-C1-DENOMINATOR.md` records the only item closed
+today: the protocol's C1 denominator is authoritative, 63–64 is a planning quantity, and the
+operative row is the recorded cell row (a directed orientation) — the row `c1_rows` counts and
+`score_c1` scores. Both freeze acts drop `C1_denominator_confirmation` and now block on
+`C2_C8_competence_rule` and `C4_exposure_acceptance`. The freezes, the Path A confirmation and the
+disposition stay held, the grant is refused, and C2/C8 competence moves to the top of the list.
+C1 itself remains unscored: the floor is reachable at 79/64/79/74/72/74 on the adopted block, and a
+ceiling is not an observation.
+
 ## Versioning in this repository — three separate namespaces
 
 The words "v1" and "v2" appear in this project in three different senses.

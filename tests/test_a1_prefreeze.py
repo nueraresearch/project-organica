@@ -240,7 +240,9 @@ def test_target_freeze_act_is_prepared_not_executed():
     assert act["manifest_frozen_after_signature"] is True
     assert act["grant_after_signature"] == "NOT ISSUED"
     assert act["run_after_signature"] == "NOT STARTED"
-    assert act["blocking_preconditions"] == ["C1_denominator_confirmation"]
+    assert act["blocking_preconditions"] == [
+        "C2_C8_competence_rule", "C4_exposure_acceptance",
+    ]
 
     viability = json.loads(Path("docs/a1_design_viability.json").read_text(encoding="utf-8"))
     recorded = {str(row["seed"]): row["max_attainable"]
@@ -373,7 +375,9 @@ def test_n20_target_freeze_act_preserves_targets_and_prepares_c8():
     assert act["c8_resolution"]["adjudicable_after_signature"] is True
     assert act["c7_c1_c4_effect"]["C7_status"].startswith("UNCHANGED")
     assert act["c7_c1_c4_effect"]["C1_target_only_status"].startswith("STILL BELOW")
-    assert act["blocking_preconditions"] == ["C1_denominator_confirmation"]
+    assert act["blocking_preconditions"] == [
+        "C2_C8_competence_rule", "C4_exposure_acceptance",
+    ]
     blockers = {row["id"] for row in act["preconditions"] if row["blocking"]}
     assert blockers == set()
     assert act["c5_timing"]["status"].startswith("PASS")

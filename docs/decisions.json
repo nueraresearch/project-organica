@@ -502,6 +502,42 @@
         "CHANGELOG.md"
       ],
       "superseded_by": null
+    },
+    {
+      "decision_id": "DECISION-A1-C1-DENOMINATOR",
+      "date": "2026-11-15",
+      "status": "ADOPTED",
+      "status_quote": "ADOPTED \u2014 THE PROTOCOL DENOMINATOR IS AUTHORITATIVE; NO RUN AUTHORISED",
+      "chosen": [
+        "The protocol's C1 denominator is authoritative: C1 counts the observed paired-control rows across the cell stream, including baseline-available non-target edges.",
+        "The 63\u201364 candidate-count figure is a planning quantity, not C1's denominator.",
+        "The operative row is the recorded cell row, which is what `c1_rows` counts and `score_c1` scores.",
+        "No cell is authorised by this decision."
+      ],
+      "rejected": [
+        {
+          "alternative": "Treat 63\u201364 as the C1 denominator.",
+          "reason": "the protocol defines the denominator and `c1_rows` implements it; the candidate count is a planning quantity that the downstream reading mistook for the definition."
+        },
+        {
+          "alternative": "Leave the definition open and let each record choose.",
+          "reason": "a denominator that can differ between records cannot be compared across runs, and C1's floor is only meaningful against one denominator."
+        },
+        {
+          "alternative": "Decide C1's reachability from the availability ceiling alone.",
+          "reason": "a ceiling is not an observation: no cell has run, so C1 remains unscored under the adopted definition."
+        }
+      ],
+      "evidence": [
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+        "docs/A1-C1-C4-VOID-GATE.md",
+        "docs/DECISION-A1-PATH-A-C1-RULE.md",
+        "docs/A1-DESIGN-VIABILITY.md",
+        "docs/a1_design_viability.json",
+        "docs/a1_baseline_availability_adopted.json",
+        "benchmarks/a1_arms.py"
+      ],
+      "superseded_by": null
     }
   ]
 }

@@ -2,7 +2,7 @@
   "kind": "a1_target_freeze_act",
   "id": "A1-TARGET-FREEZE-1",
   "date": "2026-11-15",
-  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 DENOMINATOR RECONCILED TO THE PROTOCOL ON DIRECTED ROWS (FLOOR 64, NOT SCORED) BUT THE ROW-VS-RELATION CONVENTION IS UNRESOLVED; C4 EXPOSURE AND C2/C8 COMPETENCE OUTSTANDING; AWAITING OWNER CONFIRMATION; NOT FROZEN, NO GRANT, NO RUN",
+  "status": "DRAFT \u2014 RE-ISSUED FOR THE ADOPTED BLOCK; C1 DENOMINATOR RECONCILED TO THE PROTOCOL AND OWNER-ADOPTED 2026-11-15 (DIRECTED CELL ROWS; FLOOR 64, NOT SCORED); HELD ON C2/C8 COMPETENCE AND C4 EXPOSURE; NOT FROZEN, NO GRANT, NO RUN",
   "signed": false,
   "owner_signature": null,
   "effective_date": null,
@@ -346,7 +346,7 @@
       "stream_divergence": 290,
       "blocker_effect": "CONFIRMED, not inferred: the measurement that the acts were blocked for has now been made on the adopted block, and it fails the floor on the candidate stream"
     },
-    "blocker_state": "RECONCILED \u2014 THE EARLIER BLOCKER USED THE PLANNING QUANTITY; ON DIRECTED ROWS THE FLOOR IS REACHABLE (MIN 64 vs 60). 2026-11-15: THAT RECONCILIATION IS ITSELF CONVENTION-DEPENDENT \u2014 THE PROTOCOL DOES NOT SAY WHETHER A C1 ROW IS A DIRECTED ORIENTATION OR AN UNDIRECTED RELATION; ON UNDIRECTED RELATIONS THE ADOPTED BLOCK GIVES 31-51, BELOW THE FLOOR ON EVERY SEED. AWAITING OWNER CONFIRMATION OF BOTH THE SENTENCE AND THE CONVENTION",
+    "blocker_state": "RECONCILED AND OWNER-ADOPTED 2026-11-15 \u2014 THE EARLIER BLOCKER USED THE PLANNING QUANTITY; THE PROTOCOL'S DENOMINATOR IS NOW AUTHORITATIVE (DIRECTED CELL ROWS, FLOOR 64 vs 60, NOT SCORED). WHAT REMAINS IS NOT C1: C2/C8 TARGET COMPETENCE HAS NO RULE AND C4'S 108 NON-TARGET ROWS PER SEED ARE UNSIZED BY ANY MEASUREMENT. SEE DECISION-A1-C1-DENOMINATOR.md.",
     "cleared": false,
     "denominator_reconciliation": {
       "defined_by": "docs/A1-TARGET-SELECTION-PROTOCOL.md",
@@ -393,11 +393,42 @@
         "recorded": "2026-11-15",
         "finding": "On 2074 the two readings of the same word separate: directed rows give ceilings 64-79 and clear the floor on 6 of 6 seeds; undirected relations give 35-51 (any orientation) or 31-38 (both orientations) and clear it on 0 of 6. The orientations are not copies \u2014 A availability differs across orientations on 15-28 of 64 relations per seed \u2014 so the choice changes both the denominator and how many independent observations stand behind it. On 2063 the same split already exists: directed rows clear the floor on 4 of 6 seeds (70/59/69/58/72/72) and both relation readings clear it on none (31-46 and 28-42).",
         "record": "docs/A1-DESIGN-VIABILITY.md#denominator-reconciliation-2026-11-15",
-        "owner_action": "Confirm not only that C1 counts non-target rows but whether a row is a directed orientation or an undirected relation."
+        "owner_action": "Confirm not only that C1 counts non-target rows but whether a row is a directed orientation or an undirected relation.",
+        "owner_resolution": {
+          "decision": "docs/DECISION-A1-C1-DENOMINATOR.md",
+          "date": "2026-11-15",
+          "reading": "a C1 row is the recorded cell row (a directed orientation)",
+          "effect": "the adopted block's ceiling is 79/64/79/74/72/74 and the floor is reachable; C1 remains unscored"
+        }
       }
     }
   },
   "blocking_preconditions": [
-    "C1_denominator_confirmation"
-  ]
+    "C2_C8_competence_rule",
+    "C4_exposure_acceptance"
+  ],
+  "owner_decision_2026_11_15": {
+    "date": "2026-11-15",
+    "c1_denominator": {
+      "outcome": "ADOPTED",
+      "record": "docs/DECISION-A1-C1-DENOMINATOR.md",
+      "note": "The protocol denominator is authoritative; the 63-64 figure is planning."
+    },
+    "freezes": {
+      "outcome": "HELD",
+      "reason": "C2/C8 competence and C4 exposure, not C1."
+    },
+    "path_a_confirmation": {
+      "outcome": "HELD",
+      "reason": "C2/C8 competence and C4 exposure, not C1."
+    },
+    "grant": {
+      "outcome": "REFUSED",
+      "reason": "No run is authorised before a competence rule exists."
+    },
+    "disposition": {
+      "outcome": "TO BE RE-READ",
+      "reason": "Its C1 premise no longer carries the recommendation."
+    }
+  }
 }

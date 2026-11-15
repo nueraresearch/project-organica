@@ -1103,7 +1103,9 @@
         "docs/C6-TIMING-BLOCK.md",
         "docs/A1-GATE-READINESS.md",
         "docs/A1-PRECOMMITTED-THRESHOLDS.md",
-        "docs/A1-TARGET-SELECTION-PROTOCOL.md"
+        "docs/A1-TARGET-SELECTION-PROTOCOL.md",
+        "docs/DECISION-A1-C1-DENOMINATOR.md",
+        "docs/a1_design_viability.json"
       ],
       "preregistrations": [
         "PRESENCE-CONVERSION-2",
@@ -1113,7 +1115,8 @@
       "decisions": [
         "DECISION-ADMISSION-STEP.md",
         "DECISION-A1-DISPOSITION.md",
-        "DECISION-0X-ENGINEERING-CHARTER.md"
+        "DECISION-0X-ENGINEERING-CHARTER.md",
+        "DECISION-A1-C1-DENOMINATOR.md"
       ]
     },
     {
