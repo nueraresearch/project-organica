@@ -119,6 +119,37 @@ one that can carry a competent block, so the N=4 act should not be signed under 
 
 No decision changed status: 27 decisions, 19 adopted, 1 withdrawn, 7 pending.
 
+## Addendum — 2026-11-15: the 0/6 C2-viability finding is priced, and two of its three exits are closed
+
+`docs/A1-VIABILITY-LEVERS.md` takes the 0/6 finding in `A1-TARGET-VIABILITY-ADOPTED` apart and asks what each way out
+costs. The answer is not the one the finding's shape suggested.
+
+**What 0/6 is made of.** Across the six adopted seeds, **58 of 120** selected rows carry both an `A` carrier and a `K`
+path, and **15** carry neither. The second number is the one the earlier record never computed, and it is decisive: a row
+with neither path is unscorable even if C2 is weakened to ask for a single direction.
+
+**Raise `N`** — closed by arithmetic. `N` is rows a seed must carry, so viability falls as `N` rises: a seed's chance
+that a whole draw is baseline-competent is 2.8%–14.4% at `k = 4`, and 10⁻⁶ or worse at `k = 20`. The six-seed
+requirement multiplies those together. Raising `N` is not expensive, it is impossible.
+
+**Change the block** — closed by the same draw. The six-seed joint chance is about **10⁻³⁴**, so a fresh block is not a
+search that takes long; it is one that does not exist. It would also be a search for a favourable draw dressed as
+outcome-independent screening.
+
+**Change `C2`** — only its strongest form works. Asking for one direction still fails on the 15 unscorable rows; a
+share-of-rows gate would have to fall to **35%** (the worst seed's scorable share is 7 of 20), which is a different gate
+wearing C2's name. What does work is selecting rows that already carry both paths — and that selection exists: the
+competent block scores **0 failures in 115 rows**.
+
+So the finding is not a wall in front of the experiment; it is a wall in front of *one target population*. The
+unfiltered block asks C2 a question about representative eligible edges and cannot answer it. The filtered block asks it
+about baseline-competent edges and can — at the cost of an estimand change, from representative to conditioned. That is
+exactly what `A1-C8-SELECTION` is pending on, and the record now states the trade in one place.
+
+Two limits are recorded rather than smoothed: the filtered block's 0 failures are a restatement of the filter's own
+definition, so what is informative is what it excludes (**177 of 382** eligible rows); and `Y` is not screened by the
+gate, though no filtered row happens to lack a baseline `Y` (**0 of 115**) — the gap is empty on this block, not closed.
+
 ## Addendum — 2026-11-15: the S5 disclosure is generated, and the table is not a subtraction
 
 `docs/A1-C8-SELECTION-DISCLOSURE.md` reports the unfiltered selection beside the competent one, and every number in it is

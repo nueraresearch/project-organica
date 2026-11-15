@@ -87,7 +87,14 @@ the procedure now means each act cites one record.
   [`A1-TARGET-FREEZE-ACT-N20`](A1-TARGET-FREEZE-ACT-N20.md). The N=20 act's rows are generated from the selection
   artifact, which records the pool's members as well as its size, and its S5 row points at
   [`A1-C8-SELECTION-DISCLOSURE`](A1-C8-SELECTION-DISCLOSURE.md), which reports the unfiltered block beside the
-  competent one. **All ten rows are recorded**, so the act is complete apart from the owner's signature. The N=4 act's
+  competent one. **All ten rows are recorded**, so the act is complete apart from the owner's signature.
+
+  **Note (measured 2026-11-15).** The C2-viability blocker (0/6 seeds on the unfiltered block) does not apply
+  to the block this decision selects: [`A1-VIABILITY-LEVERS`](A1-VIABILITY-LEVERS.md) screens it at **0 failures in
+  115 rows** against the same baseline, because the filter requires both an `A` carrier and a `K` path — which is what
+  C2 needs to observe. That is a restatement of the filter's definition, not independent corroboration, and what it
+  costs is the estimand: *representative eligible edges* become *baseline-competent edges*. Adopting this decision is
+  therefore also the act that dissolves the 0/6 blocker, at that price. The N=4 act's
   rows are unrecorded because its block is not produced by the competence constructor.
 - The C1 ceiling clause, [`DECISION-A1-C1-CEILING`](DECISION-A1-C1-CEILING.md), still pending.
 
