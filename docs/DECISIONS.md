@@ -16,8 +16,8 @@ whitespace-normalised text, so the index cannot paraphrase the record.
 | --- | --- | --- |
 | ADOPTED | 23 | in force; the document records it as implemented or effective |
 | WITHDRAWN | 1 | reversed by its own record; kept because a correction is part of the record |
-| PENDING | 6 | decided and not in force; the document says so |
-| **total** | **30** | |
+| PENDING | 7 | decided and not in force; the document says so |
+| **total** | **31** | |
 
 ## The decisions
 
@@ -675,6 +675,29 @@ uncomputable, and the cause that fired first is the one worth reporting.
 **Evidence.** `docs/claim_ledger.json`, `docs/DECISION-V2-SCOPE.md`, `docs/ORGANICA-V2-DESIGN-BRIEF.md`, `docs/GATE13-RANKING-CRITERION.md`, `docs/BOTTLENECK-MAP.md`, `docs/functional_structure_confirmatory.json`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
 
 **Record.** `docs/DECISION-V2-CHARTER.md`
+
+### DECISION-A2-ESTIMAND — `DECISION-A2-ESTIMAND` — what A2 must preserve
+
+**Status.** PENDING — *"DRAFT — AWAITING THE OWNER'S ESTIMAND CHOICE"*
+
+**Decided.**
+
+- A2 keeps the edge as its unit of inference and adopts an aggregate non-target criterion, or it changes the unit to the carrier and keeps a strict criterion; the record chooses neither until the owner states which claim the study must support.
+- Whichever branch is chosen, its criterion is pre-committed in its own charter, and the aggregate criterion is never described as A1's per-edge criterion succeeding.
+- Neither branch is authorised to run by this record: each needs its own charter, freeze and grant.
+
+**Rejected.**
+
+- *Describe the aggregate criterion as the per-edge design succeeding* — because *"Because that is the pattern the record spent months eliminating: a failed condition, a new condition, and the new one described as if it were the old one."*
+- *Choose by implementation convenience* — because *"Because the two branches cost about the same to build, and the difference between them is what the study would mean."*
+- *Run more sham search to decide* — because *"Because a search cannot answer an estimand question; it can only report what a criterion admits, which is already known for both."*
+- *Keep A1's C4 unchanged and call A2 "A1 with a better placebo"* — because *"Because no placebo meets C4, so that description has no referent."*
+
+**Rests on.** Q058 (open)
+
+**Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`, `docs/A1-RUN.md`, `docs/a1_two_path_result.json`, `docs/A1-REDESIGN-REQUIREMENTS.md`
+
+**Record.** `docs/DECISION-A2-ESTIMAND.md`
 
 ## What this graph is not
 

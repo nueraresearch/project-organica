@@ -14,10 +14,10 @@ where the method is.
 | status | count | meaning |
 | --- | --- | --- |
 | closed | 15 | a result constrained the space; the answer is recorded with its scope |
-| open | 32 | evidence exists, no answer is settled |
+| open | 33 | evidence exists, no answer is settled |
 | retired | 2 | no longer worth resources; the reason is recorded |
 | future | 6 | valid only after a named prerequisite is met |
-| **total** | **55** | |
+| **total** | **56** | |
 
 ## 0. Reopened on 2026-11-08
 
@@ -670,6 +670,16 @@ which is not on disk. Registering a decision is therefore part of making one.
 **Evidence.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
 
 **Decision record.** `docs/DECISION-V2-CHARTER.md`
+
+### Q058 — Does A2 keep the edge as its unit of inference, or change the unit to the carrier?
+
+*governance question.*
+
+**Why it is open.** The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.
+
+**Evidence.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+
+**Decision record.** `docs/DECISION-A2-ESTIMAND.md`
 
 ## 3. Retired — no longer worth resources
 

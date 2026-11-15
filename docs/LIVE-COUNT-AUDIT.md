@@ -32,7 +32,7 @@ Live sources and their values on this date:
 | Source | Quantity | Value |
 | --- | --- | ---: |
 | `docs/decisions.json` | decisions (19 ADOPTED, 1 WITHDRAWN, 5 PENDING, after the 2026-11-15 disposition) | **25** |
-| `docs/research_question_registry.json` | questions (15 closed, 32 open, 2 retired, 6 future) | **55** |
+| `docs/research_question_registry.json` | questions (15 closed, 33 open, 2 retired, 6 future) | **56** |
 | `docs/stage_b_protocol.json` | `disjoint_proved_against` artifacts | **228** |
 | `docs/stage_b_protocol.json` | `consumed_total` seeds | **1,668** |
 | `tests/test_*.py` | test modules | **247** |
@@ -43,7 +43,7 @@ Live sources and their values on this date:
 | Where | Quote | Live at writing | Now | Disposition |
 | --- | --- | ---: | ---: | --- |
 | `CHANGELOG.md`, 0.13.0 entry | "covers **228** artifacts" | 214 | 228 | **corrected 2026-11-15**, with the earlier value kept as superseded; guarded by `tests/test_changelog_figures.py` |
-| `docs/CONTEXT.md` | "which of the 55 questions in `docs/RESEARCH-QUESTION-REGISTRY.md` (count as of 2026-11-15)" | 23 | 55 | **corrected today**, with an as-of marker; guarded by `tests/test_live_counts.py` |
+| `docs/CONTEXT.md` | "which of the 56 questions in `docs/RESEARCH-QUESTION-REGISTRY.md` (count as of 2026-11-15)" | 23 | 56 | **corrected today**, with an as-of marker; guarded by `tests/test_live_counts.py` |
 | `docs/AUTHORISATION-PROVENANCE-AUDIT.md` | "**1644** consumed seeds across **209** artifacts *at this audit's date*" | 1,644 / 209 on 2026-11-13 | 1,668 / 228 | **superseded note added today**; the sentence stays as written because it was true then |
 | `docs/RESEARCH-HIERARCHY.md` | "14 documents and 21 records at that audit's 2026-11-13 date … the sets have since grown to 16 and 23" | 14 / 21 | 16 / 23 | **scope dated in place today** |
 

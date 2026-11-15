@@ -350,6 +350,16 @@
       "proved_by": [
         "tests/test_v2_charter_decision.py"
       ]
+    },
+    {
+      "id": "a2-estimand",
+      "branch": "A2 estimand",
+      "kind": "decision",
+      "decision": "DECISION-A2-ESTIMAND",
+      "note": "records the edge-versus-carrier fork and chooses neither; no A2 branch is authorised to run",
+      "proved_by": [
+        "tests/test_a2_estimand_decision.py"
+      ]
     }
   ],
   "bare_allowlist": {

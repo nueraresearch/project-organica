@@ -354,6 +354,18 @@ as one.
 
 **What is in hand.** `docs/presence_conversion_observer_run.json`, `docs/PRESENCE-CONVERSION-OBSERVER-RESULT.md`, `docs/presence_conversion_repair_prereg.json`, `docs/PRESENCE-CONVERSION-2-PREREGISTRATION.md`, `docs/AUTHORISATION-PRESENCE-CONVERSION-2.md`, `docs/presence_unexplained_edges.json`, `docs/assertion_provenance.json`, `docs/ASSERTION-PROVENANCE.md`, `docs/assertion_carrier_trace.json`, `docs/ASSERTION-CARRIER-TRACE.md`, `docs/assertion_provenance_replication_prereg.json`, `docs/assertion_provenance_replication.json`, `docs/ASSERTION-PROVENANCE-REPLICATION.md`, `docs/CARRIER-FORMATION-A0.md`, `docs/carrier_formation_a0.json`, `docs/CARRIER-SELECTION-DISCRIMINATION-DESIGN.md`, `docs/TWO-PATH-ADMISSION-CARRIER-DESIGN.md`, `docs/C1-C9-PREFLIGHT.md`, `docs/c1_c9_preflight.json`, `docs/C6-ASSERTION-TIMING-INSTRUMENTATION.md`, `benchmarks/c6_timing_observer.py`, `docs/C6-ONE-SEED-PREFLIGHT.md`, `docs/c6_one_seed_preflight.json`, `docs/c6_timing_prereg.json`, `docs/C6-TIMING-PREREGISTRATION.md`, `docs/AUTHORISATION-C6-TIMING.md`, `docs/c6_timing_block.json`, `docs/C6-TIMING-BLOCK.md`, `docs/A1-GATE-READINESS.md`, `docs/A1-PRECOMMITTED-THRESHOLDS.md`, `docs/A1-TARGET-SELECTION-PROTOCOL.md`, `docs/DECISION-A1-C1-DENOMINATOR.md`, `docs/a1_design_viability.json`
 
+### Q057 — Should the project commission a V2 charter, and under what pre-committed failure criterion?
+
+**Why it is open.** H2 forecloses V2 design, and the claim ledger discloses that the arm which would have tested it never ran. Three independent lines — Gate 13 ranking, the capacity-1,000 readout, and A1's C4 VOID — name the same missing capability, so the question is now whether to commission a charter rather than whether to run another diagnostic.
+
+**What is in hand.** `docs/DECISION-V2-SCOPE.md`, `docs/claim_ledger.json`, `docs/BOTTLENECK-MAP.md`, `docs/A1-RUN.md`
+
+### Q058 — Does A2 keep the edge as its unit of inference, or change the unit to the carrier?
+
+**Why it is open.** The sham check leaves two coherent A2 branches: an edge-level estimand with an aggregate interference criterion, or a carrier-level unit with a strict one. Which is right depends on the claim the study must support, not on any measurement still available.
+
+**What is in hand.** `docs/A2-SHAM-FEASIBILITY.md`, `docs/a2_sham_feasibility.json`, `docs/DECISION-A1-VOID-ACCEPTED.md`
+
 ### Q022 — Can role representations transfer across domains?
 
 **Prerequisite.** Q012
